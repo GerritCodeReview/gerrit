@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1488269382 +0100\nnonce AFJA6ofhFUq6mIC43ZcYyHtxcgjRDzo3eiyflJvxj1WjzRts/KJu+YaytpdtlI5gRmQvVJMT47Jk\n\n0000000000000000000000000000000000000000 2d238eb7564095c389d59b795cfdedf0bb67cc81 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYtTBGAAoJEFG1/Zeg0O9RDtAH/3/tvZinL5yNdYnLl53uJL15\n3/FLpWAyS+XcW76syfMS1Yn/Nn+j+TK2cb/nZ3M1bjmLWCuphSPLu+ANoq1tX7VO\ngZc2x7FbbtOHBpkpjnl1CqxHQNsoT5IWN2jw34YRuo/MUPNN0CZoXZU7vI5bUzlx\nKiiVDzjXZdMlFh7hEh7rr9GrBRPoab5WDqkdN2FRKtv45zluApsmTNAtXKr4tHuP\n5tv2OkL16aYb530tAQKITHkkHLtUazTOsPb6S1fCi0KwX9XQjR5wenIF4MFtM+NF\nL7vZMga5Dnm6nTMQ8C/4iYS4emMsHNSlPw+A+YRM2xPRdRVEZ5SbRW7/qM/A2hU\u003d\n\u003dFs4d\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "740e9500_2ff79cdd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-02T07:12:52Z",
+      "side": 1,
+      "message": "This broke gerrit-oauth-provider plugin, as it doesn\u0027t expose OAuthLoginProvider and this provider is required for ProjectOAuthFilter to work: [1].\n\n* [1] https://github.com/davido/gerrit-oauth-provider/issues/84",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 44
+      },
+      "revId": "84d830b5b350fdbae7c075473bceea9ec619b3c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

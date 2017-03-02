@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1b9817df_620cbb10",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-02T20:44:02Z",
+      "side": 1,
+      "message": "Fair enough. Not sure how much of a difference it makes, but seems there isn\u0027t a reason to not use on-tap instead.",
+      "parentUuid": "460cdbd0_bcc92cef",
+      "range": {
+        "startLine": 399,
+        "startChar": 4,
+        "endLine": 399,
+        "endChar": 20
+      },
+      "revId": "6604bd74d15ab09a8f0560d971e891e92491673d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ba84b96_176c3bd6",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2017-03-02T19:47:21Z",
       "side": 1,
       "message": "Just a thought... Do you think it would be more readable if we separated this block into multiple if statements? We follow this pattern in lots of other tap handlers.\n\n  if (e.metaKey || e.ctrlKey) { return; }\n  if (this._userPrefs \u0026\u0026 this._userPrefs.expand_inline_diffs) {\n    e.preventDefault();\n    this._handleHiddenChange(e);\n  }",
+      "range": {
+        "startLine": 402,
+        "startChar": 6,
+        "endLine": 403,
+        "endChar": 48
+      },
+      "revId": "6604bd74d15ab09a8f0560d971e891e92491673d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1350dde3_bb7de4af",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-02T20:44:02Z",
+      "side": 1,
+      "message": "Sure, looks good to me",
+      "parentUuid": "7ba84b96_176c3bd6",
       "range": {
         "startLine": 402,
         "startChar": 6,

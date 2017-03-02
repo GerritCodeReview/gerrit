@@ -1,4 +1,4 @@
-package(default_visibility = ["//visibility:public"])
+kage(default_visibility = ["//visibility:public"])
 
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")

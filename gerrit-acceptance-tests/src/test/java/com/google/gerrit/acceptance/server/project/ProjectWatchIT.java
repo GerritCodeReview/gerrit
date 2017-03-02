@@ -21,6 +21,9 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.git.NotifyConfig;
@@ -344,5 +347,48 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // assert email notification
     assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void watchProjectNotifyOnDraftChange() throws Exception {
+    String watchedProject = createProject("watchedProject").get();
+
+    // create group that can view all drafts
+    GroupInfo groupThatCanViewDrafts = gApi.groups().create("groupThatCanViewDrafts").get();
+    grant(
+        Permission.VIEW_DRAFTS,
+        new Project.NameKey(watchedProject),
+        "refs/*",
+        false,
+        new AccountGroup.UUID(groupThatCanViewDrafts.id));
+
+    // watch project as user that can't view drafts
+    setApiUser(user);
+    watch(watchedProject, null);
+
+    // watch project as user that can view all drafts
+    TestAccount userThatCanViewDrafts =
+        accounts.create("user2", "user2@test.com", "User2", groupThatCanViewDrafts.name);
+    setApiUser(userThatCanViewDrafts);
+    watch(watchedProject, null);
+
+    // push a draft change to watched project -> should trigger email notification for
+    // userThatCanViewDrafts, but not for user
+    setApiUser(admin);
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(new Project.NameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), watchedRepo, "TRIGGER", "a", "a1")
+            .to("refs/for/master%draft");
+    r.assertOkStatus();
+
+    // assert email notification
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(userThatCanViewDrafts.emailAddress);
+    assertThat(m.body()).contains("Change subject: TRIGGER\n");
+    assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }
 }

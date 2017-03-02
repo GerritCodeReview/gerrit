@@ -360,7 +360,7 @@
             i < splice.index + splice.addedCount;
             i++) {
           this.listen(this.diffs[i], 'render-start', '_handleDiffRenderStart');
-          this.listen(this.diffs[i], 'render', 'handleDiffUpdate');
+          this.listen(this.diffs[i], 'render-content', 'handleDiffUpdate');
         }
 
         for (i = 0;

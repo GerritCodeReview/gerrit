@@ -80,6 +80,12 @@ limitations under the License.
          * @event render
          */
 
+        /**
+         * Fired when the diff has rendered content, but not necessarily syntax.
+         *
+         * @event render-content
+         */
+
         properties: {
           diff: Object,
           viewMode: String,
@@ -142,6 +148,7 @@ limitations under the License.
             if (this.isImageDiff) {
               this._builder.renderDiffImages();
             }
+            this.fire('render-content');
 
             if (this._anyLineTooLong()) {
               this.$.syntaxLayer.enabled = false;

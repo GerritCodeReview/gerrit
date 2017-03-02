@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ba49bec7_b3650822",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-02T17:53:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ba7775a_6a3d4001",
+      "range": {
+        "startLine": 402,
+        "startChar": 10,
+        "endLine": 402,
+        "endChar": 36
+      },
+      "revId": "1e9f9b2bdc51729b4f73ab76995955336b950742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "775b9725_6244858a",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ed4471e4_5c4ba032",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-02T17:53:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "775b9725_6244858a",
+      "range": {
+        "startLine": 773,
+        "startChar": 17,
+        "endLine": 773,
+        "endChar": 18
+      },
+      "revId": "1e9f9b2bdc51729b4f73ab76995955336b950742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4383b2ad_d17f86f3",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 4
@@ -68,6 +116,30 @@
       "revId": "1e9f9b2bdc51729b4f73ab76995955336b950742",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ab2d1cb_89cf43b8",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-02T17:53:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4383b2ad_d17f86f3",
+      "range": {
+        "startLine": 782,
+        "startChar": 8,
+        "endLine": 782,
+        "endChar": 27
+      },
+      "revId": "1e9f9b2bdc51729b4f73ab76995955336b950742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

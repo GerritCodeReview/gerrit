@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ba7775a_6a3d4001",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-02T17:49:37Z",
+      "side": 1,
+      "message": "Nit: parens are not needed.",
+      "range": {
+        "startLine": 402,
+        "startChar": 10,
+        "endLine": 402,
+        "endChar": 36
+      },
+      "revId": "1e9f9b2bdc51729b4f73ab76995955336b950742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "775b9725_6244858a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-02T17:49:37Z",
+      "side": 1,
+      "message": "Nit: remove spaces inside object literal curlies. Also on ll.777,786,790",
+      "range": {
+        "startLine": 773,
+        "startChar": 17,
+        "endLine": 773,
+        "endChar": 18
+      },
+      "revId": "1e9f9b2bdc51729b4f73ab76995955336b950742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4383b2ad_d17f86f3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-02T17:49:37Z",
+      "side": 1,
+      "message": "For test performance, maybe consider setting\n\n  e[modifier] \u003d false;",
+      "range": {
+        "startLine": 782,
+        "startChar": 8,
+        "endLine": 782,
+        "endChar": 27
+      },
+      "revId": "1e9f9b2bdc51729b4f73ab76995955336b950742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

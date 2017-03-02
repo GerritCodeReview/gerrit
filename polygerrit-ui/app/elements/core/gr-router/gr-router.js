@@ -33,9 +33,35 @@
     getReporting().pageLoaded();
   };
 
+  page.base(baseUrl());
+
   window.addEventListener('WebComponentsReady', function() {
     getReporting().timeEnd('WebComponentsReady');
   });
+
+  function baseUrl() {
+    var pathArray = window.location.pathname.indexOf("/", 1);
+    var myLocation = window.location.pathname.substr(0,pathArray+1 );
+    var myLocation2 = window.location.pathname.substr(0,pathArray );
+    if (
+        myLocation.match(/^\/c\/?$/) ||
+        myLocation.match(/^\/q\/?$/) ||
+        myLocation.match(/^\/settings\/?$/) ||
+        myLocation.match(/^\/login\/?$/) ||
+        myLocation.match(/^\/settings\/?$/) ||
+        myLocation.match(/^\/register\/?$/) ||
+        myLocation.match(/^\/admin\/?$/) ||
+        myLocation.match(/^\/logout\/?$/) ||
+        myLocation.match(/^\/x\/?$/) ||
+        myLocation.match(/^\/projects\/?$/) ||
+        myLocation.match(/^\/accounts\/?$/) ||
+        myLocation.match(/^\/groups\/?$/)
+     ) {
+      return '';
+    } else {
+      return myLocation2;
+    }
+  };
 
   function startRouter() {
     var restAPI = document.createElement('gr-rest-api-interface');

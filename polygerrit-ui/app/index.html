@@ -20,10 +20,23 @@ limitations under the License.
 <meta name="description" content="Gerrit Code Review">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
+<script src="/polygerrit_baseurl.js"></script>
+
 <!--
 SourceCodePro fonts are used in styles/fonts.css
 @see https://github.com/w3c/preload/issues/32 regarding crossorigin
 -->
+
+<script>
+function baseUrl() {
+  if (typeof polygerrit_baseurl !== "undefined") {
+    return polygerrit_baseurl;
+  } else {
+    return '';
+  }
+}
+</script>
+
 <link rel="preload" href="/fonts/SourceCodePro-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/SourceCodePro-Regular.woff" as="font" type="font/woff" crossorigin>
 <link rel="stylesheet" href="/styles/fonts.css">

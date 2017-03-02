@@ -20,7 +20,6 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeCanBeNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
-import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -35,7 +34,7 @@ import org.eclipse.jgit.lib.ObjectId;
 public class PatchListKey implements Serializable {
   public static final long serialVersionUID = 24L;
 
-  public static final BiMap<Whitespace, Character> WHITESPACE_TYPES =
+  public static final ImmutableBiMap<Whitespace, Character> WHITESPACE_TYPES =
       ImmutableBiMap.of(
           Whitespace.IGNORE_NONE, 'N',
           Whitespace.IGNORE_TRAILING, 'E',

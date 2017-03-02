@@ -154,6 +154,15 @@
       }
 
       this.index = newIndex;
+
+      if (delta > 0) {
+        // Find the target after the next one so that we can figure out the
+        // bottom of the next target. This is only an issue if moving down the
+        // document.
+        var indexAfter = this._getNextindex(delta, opt_condition);
+        newTarget._targetAfter = this.stops[indexAfter];
+      }
+
       this.target = newTarget;
 
       if (this.focusOnMove) { this.target.focus(); }
@@ -251,7 +260,17 @@
       }
 
       var top = this._getTop(this.target);
-      if (this._targetIsVisible(top)) {
+
+      //set bottomVisible to true in case there is no next target.
+      var bottomVisible = true;
+
+      // Find the bottom of the target by finding the top of the next target.
+      if (this.target._targetAfter) {
+        var bottom = this._getTop(this.target._targetAfter);
+        bottomVisible = this._targetIsVisible(bottom);
+      }
+
+      if (this._targetIsVisible(top) && bottomVisible) {
         return;
       }
 
@@ -259,8 +278,14 @@
       // instead of half the inner height feels a bit better otherwise the
       // element appears to be below the center of the window even when it
       // isn't.
-      window.scrollTo(0, top - (window.innerHeight / 3) +
-          (this.target.offsetHeight / 2));
+
+      var toScrollTo = top - (window.innerHeight / 3) +
+          (this.target.offsetHeight / 2);
+
+      // if top is above the scrollTo target, do not scroll.
+      if (toScrollTo > top) {return}
+
+      window.scrollTo(0, toScrollTo);
     },
   });
 })();

@@ -47,30 +47,28 @@ public class CreateChangeSender extends NewChangeSender {
   protected void init() throws EmailException {
     super.init();
 
-    if (change.getStatus() == Change.Status.NEW) {
-      try {
-        // Try to mark interested owners with TO and CC or BCC line.
-        Watchers matching = getWatchers(NotifyType.NEW_CHANGES);
-        for (Account.Id user :
-            Iterables.concat(matching.to.accounts, matching.cc.accounts, matching.bcc.accounts)) {
-          if (isOwnerOfProjectOrBranch(user)) {
-            add(RecipientType.TO, user);
-          }
+    try {
+      // Try to mark interested owners with TO and CC or BCC line.
+      Watchers matching = getWatchers(NotifyType.NEW_CHANGES);
+      for (Account.Id user :
+          Iterables.concat(matching.to.accounts, matching.cc.accounts, matching.bcc.accounts)) {
+        if (isOwnerOfProjectOrBranch(user)) {
+          add(RecipientType.TO, user);
         }
-
-        // Add everyone else. Owners added above will not be duplicated.
-        add(RecipientType.TO, matching.to);
-        add(RecipientType.CC, matching.cc);
-        add(RecipientType.BCC, matching.bcc);
-      } catch (OrmException err) {
-        // Just don't CC everyone. Better to send a partial message to those
-        // we already have queued up then to fail deliver entirely to people
-        // who have a lower interest in the change.
-        log.warn("Cannot notify watchers for new change", err);
       }
 
-      includeWatchers(NotifyType.NEW_PATCHSETS);
+      // Add everyone else. Owners added above will not be duplicated.
+      add(RecipientType.TO, matching.to);
+      add(RecipientType.CC, matching.cc);
+      add(RecipientType.BCC, matching.bcc);
+    } catch (OrmException err) {
+      // Just don't CC everyone. Better to send a partial message to those
+      // we already have queued up then to fail deliver entirely to people
+      // who have a lower interest in the change.
+      log.warn("Cannot notify watchers for new change", err);
     }
+
+    includeWatchers(NotifyType.NEW_PATCHSETS);
   }
 
   private boolean isOwnerOfProjectOrBranch(Account.Id user) {

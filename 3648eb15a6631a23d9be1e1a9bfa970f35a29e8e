@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f89533b_19fa536d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-02T23:58:44Z",
+      "side": 1,
+      "message": "nit: \"an\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "3648eb15a6631a23d9be1e1a9bfa970f35a29e8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee5dcbf2_4dcf316c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-02T23:58:44Z",
+      "side": 1,
+      "message": "block",
+      "range": {
+        "startLine": 10,
+        "startChar": 64,
+        "endLine": 10,
+        "endChar": 72
+      },
+      "revId": "3648eb15a6631a23d9be1e1a9bfa970f35a29e8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b389691_4bd85098",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-02T23:58:44Z",
+      "side": 1,
+      "message": "\"follows\"",
+      "range": {
+        "startLine": 1023,
+        "startChar": 0,
+        "endLine": 1023,
+        "endChar": 9
+      },
+      "revId": "3648eb15a6631a23d9be1e1a9bfa970f35a29e8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56a057d9_21b4d20f",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-02T23:58:44Z",
+      "side": 1,
+      "message": "comma is not needed here",
+      "range": {
+        "startLine": 1046,
+        "startChar": 9,
+        "endLine": 1046,
+        "endChar": 10
+      },
+      "revId": "3648eb15a6631a23d9be1e1a9bfa970f35a29e8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7371f14d_b9856d58",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2433,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-02T23:58:44Z",
+      "side": 1,
+      "message": "Side note: It would be really nice if we could somehow have the prolog cookbook examples as individual files that get imported into both the documentation and the tests. That would ensure that they both stay in sync, and that what we show in the cookbook actually works.",
+      "range": {
+        "startLine": 2425,
+        "startChar": 12,
+        "endLine": 2433,
+        "endChar": 71
+      },
+      "revId": "3648eb15a6631a23d9be1e1a9bfa970f35a29e8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

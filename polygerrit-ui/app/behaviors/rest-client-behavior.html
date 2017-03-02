@@ -99,7 +99,7 @@ limitations under the License.
     },
 
     changeBaseURL: function(changeNum, patchNum) {
-      var v = '/changes/' + changeNum;
+      var v = this.baseUrl() + '/changes/' + changeNum;
       if (patchNum) {
         v += '/revisions/' + patchNum;
       }
@@ -107,7 +107,7 @@ limitations under the License.
     },
 
     changePath: function(changeNum) {
-      return '/c/' + changeNum;
+      return this.baseUrl() + '/c/' + changeNum;
     },
 
     changeIsOpen: function(status) {
@@ -130,6 +130,14 @@ limitations under the License.
         return 'Draft';
       }
       return '';
+    },
+
+    baseUrl: function() {
+      if (typeof polygerrit_baseurl !== "undefined") {
+        return polygerrit_baseurl;
+      } else {
+        return '';
+      }
     },
   };
 

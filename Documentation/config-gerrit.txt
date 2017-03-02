@@ -2025,6 +2025,20 @@ Example:
   installModule = com.example.abc.OurSpecialSauceModule
 ----
 
+[[gerrit.polyGerritBaseUrl]]gerrit.polyGerritBaseUrl::
++
+This sets the base url for polygerrit. You only need to set this
+if you want to prefix your url. For example if you want your url to look like
+gerrit.example.com/r.
++
+By default unset.
++
+Example:
+----
+[gerrit]
+  polyGerritBaseUrl = /r
+----
+
 [[gerrit.reportBugUrl]]gerrit.reportBugUrl::
 +
 URL to direct users to when they need to report a bug.

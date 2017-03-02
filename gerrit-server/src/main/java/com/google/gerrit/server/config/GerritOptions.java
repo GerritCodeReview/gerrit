@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.gerrit.extensions.client.UiType;
 import org.eclipse.jgit.lib.Config;
 
+import java.net.URI;
+
 public class GerritOptions {
   private final boolean headless;
   private final boolean slave;
@@ -27,6 +29,7 @@ public class GerritOptions {
   private final boolean enableGwtUi;
   private final boolean forcePolyGerritDev;
   private final UiType defaultUi;
+  private final String polyGerritBaseUrl;
 
   public GerritOptions(Config cfg, boolean headless, boolean slave, boolean forcePolyGerritDev) {
     this.slave = slave;
@@ -35,6 +38,7 @@ public class GerritOptions {
     this.enableGwtUi = cfg.getBoolean("gerrit", null, "enableGwtUi", true);
     this.forcePolyGerritDev = forcePolyGerritDev;
     this.headless = headless || (!enableGwtUi && !enablePolyGerrit);
+    this.polyGerritBaseUrl = URI(cfg.getString('canonicalWebUrl');
 
     UiType defaultUi = enablePolyGerrit && !enableGwtUi ? UiType.POLYGERRIT : UiType.GWT;
     String uiStr = firstNonNull(cfg.getString("gerrit", null, "ui"), defaultUi.name());
@@ -75,5 +79,9 @@ public class GerritOptions {
 
   public UiType defaultUi() {
     return defaultUi;
+  }
+
+  public String polyGerritBaseUrl() {
+    return polyGerritBaseUrl;
   }
 }

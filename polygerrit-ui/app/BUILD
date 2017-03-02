@@ -20,7 +20,6 @@ vulcanize(
         ],
         exclude = [
             "bower_components/**",
-            "index.html",
             "test/**",
             "**/*_test.html",
         ],
@@ -33,7 +32,6 @@ filegroup(
     name = "top_sources",
     srcs = [
         "favicon.ico",
-        "index.html",
     ],
 )
 

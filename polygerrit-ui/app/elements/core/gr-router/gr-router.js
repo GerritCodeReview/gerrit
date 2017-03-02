@@ -33,6 +33,10 @@
     getReporting().pageLoaded();
   };
 
+  if (typeof polygerrit_baseurl !== "undefined") {
+    page.base(polygerrit_baseurl);
+  }
+
   window.addEventListener('WebComponentsReady', function() {
     getReporting().timeEnd('WebComponentsReady');
   });

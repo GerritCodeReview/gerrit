@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "649a6e4d_158519ec",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-02T14:41:13Z",
+      "side": 1,
+      "message": "If we spell out the use of the different UI elements, we should probably introduce another document. Listing all of them here including descriptions for their use would disrupt the guideline. I think it would be a good idea to have such a document and to link to it from this paragraph. However, I would rather introduce it with another change as it will bring on further discussions. Maybe someone from the PolyGerrit team can help with its creation.\n\nRegarding the use of hyperlinks and buttons: I agree with you. I just didn\u0027t dare to restrict it like that because PolyGerrit wouldn\u0027t comply with it.",
+      "parentUuid": "d3dbca2e_5e9a6aac",
+      "range": {
+        "startLine": 57,
+        "startChar": 10,
+        "endLine": 58,
+        "endChar": 25
+      },
+      "revId": "c207881fcc4eb0045f721366518ecc66867f3971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "093265ca_f71489b8",
         "filename": "Documentation/dev-ux.txt",
         "patchSetId": 4

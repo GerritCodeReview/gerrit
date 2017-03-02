@@ -92,7 +92,7 @@
       });
     });
 
-    page('/dashboard/(.*)', loadUser, function(data) {
+    page('/r/dashboard/(.*)', loadUser, function(data) {
       restAPI.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
           data.params.view = 'gr-dashboard-view';
@@ -103,7 +103,7 @@
       });
     });
 
-    page('/admin/(.*)', loadUser, function(data) {
+    page('/r/admin/(.*)', loadUser, function(data) {
       restAPI.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
           data.params.view = 'gr-admin-view';
@@ -119,11 +119,11 @@
       app.params = data.params;
     }
 
-    page('/q/:query,:offset', queryHandler);
-    page('/q/:query', queryHandler);
+    page('/r/q/:query,:offset', queryHandler);
+    page('/r/q/:query', queryHandler);
 
-    page(/^\/(\d+)\/?/, function(ctx) {
-      page.redirect('/c/' + encodeURIComponent(ctx.params[0]));
+    page(/^\/r\/(\d+)\/?/, function(ctx) {
+      page.redirect('/r/c/' + encodeURIComponent(ctx.params[0]));
     });
 
     function normalizePatchRangeParams(params) {
@@ -134,7 +134,7 @@
     }
 
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>].
-    page(/^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?$/, function(ctx) {
+    page(/^\/r\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?$/, function(ctx) {
       // Parameter order is based on the regex group number matched.
       var params = {
         changeNum: ctx.params[0],
@@ -146,7 +146,7 @@
       // Don't allow diffing the same patch number against itself.
       if (params.basePatchNum != null &&
           params.basePatchNum === params.patchNum) {
-        page.redirect('/c/' +
+        page.redirect('/r/c/' +
             encodeURIComponent(params.changeNum) +
             '/' +
             encodeURIComponent(params.patchNum) +
@@ -158,7 +158,7 @@
     });
 
     // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
-    page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, function(ctx) {
+    page(/^\/r\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, function(ctx) {
       // Parameter order is based on the regex group number matched.
       var params = {
         changeNum: ctx.params[0],
@@ -177,7 +177,7 @@
         path = path.replace(/%252F/g, '/');
         path = path.replace(/%2520/g, '+');
 
-        page.redirect('/c/' +
+        page.redirect('/r/c/' +
             encodeURIComponent(params.changeNum) +
             '/' +
             encodeURIComponent(params.patchNum) +
@@ -198,7 +198,7 @@
       app.params = params;
     });
 
-    page(/^\/settings\/VE\/(\S+)/, function(data) {
+    page(/^\/r\/settings\/VE\/(\S+)/, function(data) {
       restAPI.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
           app.params = {
@@ -206,22 +206,22 @@
             emailToken: data.params[0],
           };
         } else {
-          page.show('/login/' + encodeURIComponent(data.canonicalPath));
+          page.show('/r/login/' + encodeURIComponent(data.canonicalPath));
         }
       });
     });
 
-    page(/^\/settings\/?/, function(data) {
+    page(/^\/r\/settings\/?/, function(data) {
       restAPI.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
           app.params = {view: 'gr-settings-view'};
         } else {
-          page.show('/login/' + encodeURIComponent(data.canonicalPath));
+          page.show('/r/login/' + encodeURIComponent(data.canonicalPath));
         }
       });
     });
 
-    page(/^\/register(\/.*)?/, function(ctx) {
+    page(/^\/r\/register(\/.*)?/, function(ctx) {
       app.params = {justRegistered: true};
       var path = ctx.params[0] || '/';
       page.show(path);

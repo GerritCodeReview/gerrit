@@ -179,22 +179,29 @@
     },
 
     getConfig: function() {
-      return this._fetchSharedCacheURL('/config/server/info');
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
+      return this._fetchSharedCacheURL(myLocation + 'config/server/info');
     },
 
     getProjectConfig: function(project) {
+      var myLocation = window.location.pathname;
       return this._fetchSharedCacheURL(
-          '/projects/' + encodeURIComponent(project) + '/config');
+          myLocation + '/projects/' + encodeURIComponent(project) + '/config');
     },
 
     getVersion: function() {
-      return this._fetchSharedCacheURL('/config/server/version');
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
+      return this._fetchSharedCacheURL(myLocation + 'config/server/version');
     },
 
     getDiffPreferences: function() {
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
       return this.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
-          return this._fetchSharedCacheURL('/accounts/self/preferences.diff');
+          return this._fetchSharedCacheURL(myLocation + 'accounts/self/preferences.diff');
         }
         // These defaults should match the defaults in
         // gerrit-extension-api/src/main/jcg/gerrit/extensions/client/DiffPreferencesInfo.java
@@ -220,33 +227,39 @@
     },
 
     savePreferences: function(prefs, opt_errFn, opt_ctx) {
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
       // Note (Issue 5142): normalize the download scheme with lower case before
       // saving.
       if (prefs.download_scheme) {
         prefs.download_scheme = prefs.download_scheme.toLowerCase();
       }
 
-      return this.send('PUT', '/accounts/self/preferences', prefs, opt_errFn,
+      return this.send('PUT', myLocation + 'accounts/self/preferences', prefs, opt_errFn,
           opt_ctx);
     },
 
     saveDiffPreferences: function(prefs, opt_errFn, opt_ctx) {
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
       // Invalidate the cache.
-      this._cache['/accounts/self/preferences.diff'] = undefined;
-      return this.send('PUT', '/accounts/self/preferences.diff', prefs,
+      this._cache[myLocation + 'accounts/self/preferences.diff'] = undefined;
+      return this.send('PUT', myLocation + 'accounts/self/preferences.diff', prefs,
           opt_errFn, opt_ctx);
     },
 
     getAccount: function() {
-      return this._fetchSharedCacheURL('/accounts/self/detail', function(resp) {
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
+      return this._fetchSharedCacheURL(myLocation + 'accounts/self/detail', function(resp) {
         if (resp.status === 403) {
-          this._cache['/accounts/self/detail'] = null;
+          this._cache[myLocation + 'accounts/self/detail'] = null;
         }
       }.bind(this));
     },
 
     getAccountEmails: function() {
-      return this._fetchSharedCacheURL('/accounts/self/emails');
+      return this._fetchSharedCacheURL('accounts/self/emails');
     },
 
     addAccountEmail: function(email, opt_errFn, opt_ctx) {
@@ -314,17 +327,21 @@
     },
 
     getAccountGroups: function() {
-      return this._fetchSharedCacheURL('/accounts/self/groups');
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
+      return this._fetchSharedCacheURL(myLocation + 'accounts/self/groups');
     },
 
     getAccountCapabilities: function(opt_params) {
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
       var queryString = '';
       if (opt_params) {
         queryString = '?q=' + opt_params
             .map(function(param) { return encodeURIComponent(param); })
             .join('&q=');
       }
-      return this._fetchSharedCacheURL('/accounts/self/capabilities' +
+      return this._fetchSharedCacheURL(myLocation + 'accounts/self/capabilities' +
           queryString);
     },
 
@@ -340,9 +357,11 @@
     },
 
     getPreferences: function() {
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
       return this.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
-          return this._fetchSharedCacheURL('/accounts/self/preferences').then(
+          return this._fetchSharedCacheURL(myLocation + 'accounts/self/preferences').then(
               function(res) {
             if (this._isNarrowScreen()) {
               res.default_diff_view = DiffViewMode.UNIFIED;
@@ -406,6 +425,8 @@
     },
 
     getChanges: function(changesPerPage, opt_query, opt_offset) {
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
       var options = this._listChangesOptionsToHex(
           ListChangesOption.LABELS,
           ListChangesOption.DETAILED_ACCOUNTS
@@ -422,10 +443,12 @@
       if (opt_query && opt_query.length > 0) {
         params.q = opt_query;
       }
-      return this.fetchJSON('/changes/', null, null, params);
+      return this.fetchJSON(myLocation + 'changes/', null, null, params);
     },
 
     getDashboardChanges: function() {
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
       var options = this._listChangesOptionsToHex(
           ListChangesOption.LABELS,
           ListChangesOption.DETAILED_ACCOUNTS,
@@ -440,7 +463,7 @@
             'limit:10',
         ],
       };
-      return this.fetchJSON('/changes/', null, null, params);
+      return this.fetchJSON(myLocation + 'changes/', null, null, params);
     },
 
     getChangeActionURL: function(changeNum, opt_patchNum, endpoint) {
@@ -595,6 +618,7 @@
     },
 
     getChangeConflicts: function(changeNum) {
+      var myLocation = window.location.pathname;
       var options = this._listChangesOptionsToHex(
           ListChangesOption.CURRENT_REVISION,
           ListChangesOption.CURRENT_COMMIT
@@ -603,10 +627,12 @@
         O: options,
         q: 'status:open is:mergeable conflicts:' + changeNum,
       };
-      return this.fetchJSON('/changes/', null, null, params);
+      return this.fetchJSON(myLocation + '/changes/', null, null, params);
     },
 
     getChangeCherryPicks: function(project, changeID, changeNum) {
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
       var options = this._listChangesOptionsToHex(
           ListChangesOption.CURRENT_REVISION,
           ListChangesOption.CURRENT_COMMIT
@@ -621,7 +647,7 @@
         O: options,
         q: query,
       };
-      return this.fetchJSON('/changes/', null, null, params);
+      return this.fetchJSON(myLocation + 'changes/', null, null, params);
     },
 
     getChangesWithSameTopic: function(topic) {
@@ -864,7 +890,9 @@
     },
 
     _changeBaseURL: function(changeNum, opt_patchNum) {
-      var v = '/changes/' + changeNum;
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
+      var v = myLocation + 'changes/' + changeNum;
       if (opt_patchNum) {
         v += '/revisions/' + opt_patchNum;
       }
@@ -897,8 +925,10 @@
     },
 
     getCommitInfo: function(project, commit) {
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
       return this.fetchJSON(
-          '/projects/' + encodeURIComponent(project) +
+          myLocation + 'projects/' + encodeURIComponent(project) +
           '/commits/' + encodeURIComponent(commit));
     },
 
@@ -977,7 +1007,9 @@
     },
 
     setChangeTopic: function(changeNum, topic) {
-      return this.send('PUT', '/changes/' + encodeURIComponent(changeNum) +
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
+      return this.send('PUT', myLocation + 'changes/' + encodeURIComponent(changeNum) +
           '/topic', {topic: topic});
     },
 
@@ -1014,7 +1046,8 @@
     },
 
     deleteVote: function(changeID, account, label) {
-      return this.send('DELETE', '/changes/' + changeID +
+      var myLocation = window.location.pathname;
+      return this.send('DELETE', myLocation + '/changes/' + changeID +
           '/reviewers/' + account + '/votes/' + encodeURIComponent(label));
     },
 

@@ -41,6 +41,7 @@ import com.google.inject.servlet.ServletModule;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import javax.servlet.Filter;
@@ -251,7 +252,7 @@ public class StaticModule extends ServletModule {
     @Named(POLYGERRIT_INDEX_SERVLET)
     HttpServlet getPolyGerritUiIndexServlet(@Named(CACHE) Cache<Path, Resource> cache) {
       return new SingleFileServlet(
-          cache, polyGerritBasePath().resolve("index.html"), getPaths().isDev(), false);
+          cache, polyGerritBasePath().resolve("app"), getPaths().isDev(), false);
     }
 
     @Provides
@@ -469,6 +470,63 @@ public class StaticModule extends ServletModule {
 
       if (isPolyGerritIndex(path)) {
         polyGerritIndex.service(reqWrapper, res);
+        PrintWriter out = res.getWriter();
+        out.println("<!DOCTYPE html>");
+        out.println(
+          "<!-- " +
+          "Copyright (C) 2015 The Android Open Source Project " +
+
+          "Licensed under the Apache License, Version 2.0 (the \"License\"); " +
+          "you may not use this file except in compliance with the License. " +
+          "You may obtain a copy of the License at\r\n" +
+
+          "http://www.apache.org/licenses/LICENSE-2.0 " +
+
+          "Unless required by applicable law or agreed to in writing, software " +
+          "distributed under the License is distributed on an \"AS IS\" BASIS, " +
+          "WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. " +
+          "See the License for the specific language governing permissions and " +
+          "limitations under the License. " +
+          "--> "
+        );
+
+        out.println("<html lang=\"en\">");
+
+        out.println("<meta charset=\"utf-8\">");
+        out.println("<meta name=\"description\" content=\"Gerrit Code Review\">");
+        out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0\">");
+
+        out.println("<!-- " +
+          "SourceCodePro fonts are used in styles/fonts.css " +
+          "@see https://github.com/w3c/preload/issues/32 regarding crossorigin " +
+          "--> "
+        );
+
+        String base_url;
+
+        if (options.polyGerritBaseUrl() != null) {
+          base_url = options.polyGerritBaseUrl();
+
+          out.println(
+           "<script>" +
+            "window.CONFIG_BASE_URL = '" + options.polyGerritBaseUrl() + "';" +
+           "</script>");
+        } else {
+          base_url = "";
+        }
+
+        out.println(
+          "<link rel=\"preload\" href=\"" + base_url + "/fonts/SourceCodePro-Regular.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>" +
+          "<link rel=\"preload\" href=\"" + base_url + "/fonts/SourceCodePro-Regular.woff\" as=\"font\" type=\"font/woff\" crossorigin>" +
+          "<link rel=\"stylesheet\" href=\"" + base_url + "/styles/fonts.css\">" +
+          "<link rel=\"stylesheet\" href=\"" + base_url + "/styles/main.css\">" +
+          "<script src=\"" + base_url + "/bower_components/webcomponentsjs/webcomponents-lite.js\"></script>" +
+          "<link rel=\"preload\" href=\"" + base_url + "/elements/gr-app.js\" as=\"script\" crossorigin=\"anonymous\">" +
+          "<link rel=\"import\" href=\"" + base_url + "/elements/gr-app.html\">"
+        );
+
+        out.println("<body unresolved>");
+        out.println("<gr-app id=\"app\"></gr-app>");
         return;
       }
       if (isPolyGerritAsset(path)) {

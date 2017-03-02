@@ -99,7 +99,7 @@ limitations under the License.
     },
 
     changeBaseURL: function(changeNum, patchNum) {
-      var v = '/changes/' + changeNum;
+      var v = this.getBaseUrl() + '/changes/' + changeNum;
       if (patchNum) {
         v += '/revisions/' + patchNum;
       }
@@ -107,7 +107,7 @@ limitations under the License.
     },
 
     changePath: function(changeNum) {
-      return '/c/' + changeNum;
+      return this.getBaseUrl() + '/c/' + changeNum;
     },
 
     changeIsOpen: function(status) {
@@ -129,6 +129,14 @@ limitations under the License.
       if (change.status === this.ChangeStatus.DRAFT) {
         return 'Draft';
       }
+      return '';
+    },
+
+    getBaseUrl: function() {
+      if (window.CONFIG_BASE_URL) {
+        return window.CONFIG_BASE_URL;
+      }
+
       return '';
     },
   };

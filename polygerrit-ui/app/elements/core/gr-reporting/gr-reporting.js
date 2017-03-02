@@ -35,6 +35,8 @@
     CATEGORY: 'exception',
   };
 
+  var INTERACTION_TYPE = 'interaction';
+
   var CHANGE_VIEW_REGEX = /^\/c\/\d+\/?\d*$/;
   var DIFF_VIEW_REGEX = /^\/c\/\d+\/\d+\/.+$/;
 
@@ -69,6 +71,8 @@
     is: 'gr-reporting',
 
     properties: {
+      category: String,
+
       _baselines: {
         type: Array,
         value: function() { return {}; },
@@ -100,7 +104,8 @@
       if (type === ERROR.TYPE) {
         console.error(eventValue.error || eventName);
       } else {
-        console.log(eventName + ': ' + eventValue);
+        console.log(eventName + (eventValue !== undefined ?
+            (': ' + eventValue) : ''));
       }
     },
 
@@ -185,6 +190,10 @@
       var time = this.now() - baseTime;
       this.reporter(TIMING.TYPE, TIMING.CATEGORY, name, time);
       delete this._baselines[name];
+    },
+
+    reportInteraction: function(eventName) {
+      this.reporter(INTERACTION_TYPE, this.category, eventName);
     },
   });
 

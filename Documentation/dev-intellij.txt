@@ -46,12 +46,39 @@ it, please complete the following steps:
 == Recommended settings
 
 === Code style
+
+==== google-java-format plugin
+Install the `google-java-format` plugin by following these steps:
+
+. Go to *File -> Settings -> Plugins*.
+. Click on *Browse Repositories*.
+. Search for the plugin `google-java-format`.
+. Install it.
+. Restart IntelliJ.
+
+Every time you start IntelliJ, make sure to use *Code -> Reformat with
+google-java-format* on an arbitrary line of code. This replaces the default
+CodeStyleManager with a custom one. Thus, uses of *Reformat Code* either via
+*Code -> Reformat Code*, keyboard shortcuts, or the commit dialog will use the
+custom style defined by the `google-java-format` plugin.
+
+==== Code style settings
+The `google-java-format` plugin is the preferred way to format the code. As it
+only kicks in on demand, it's also recommended to have code style settings
+which help to create properly formatted code as-you-go. Those settings can't
+completely mimic the format enforced by the `google-java-format` plugin but try
+to be as close as possible. So before submitting code, please make sure to run
+*Reformat Code*.
+
+. Download
+https://raw.githubusercontent.com/google/styleguide/gh-pages/intellij-java-google-style.xml[
+intellij-java-google-style.xml].
 . Go to *File -> Settings -> Editor -> Code Style*.
 . Click on *Manage*.
 . Click on *Import*.
 . Choose `IntelliJ IDEA Code Style XML`.
-. Select the file `$(gerrit_source_code)/tools/intellij/Gerrit_Code_Style.xml`.
-. Make sure that `Google Format (Gerrit)` is chosen as *Scheme*.
+. Select the previously downloaded file `intellij-java-google-style.xml`.
+. Make sure that `Google Style` is chosen as *Scheme*.
 
 In addition, the EditorConfig settings (which ensure a consistent style between
 Eclipse, IntelliJ, and other editors) should be applied on top of that. Those

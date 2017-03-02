@@ -16,10 +16,13 @@ package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
 
@@ -28,8 +31,9 @@ import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -52,6 +56,7 @@ import com.google.gerrit.server.account.externalids.ExternalIdsUpdate.RefsMetaEx
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gson.reflect.TypeToken;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -74,6 +79,9 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.eclipse.jgit.util.MutableInteger;
 import org.junit.Test;
 
@@ -89,15 +97,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   public void getExternalIds() throws Exception {
     Collection<ExternalId> expectedIds = accountCache.get(user.getId()).getExternalIds();
 
-    List<AccountExternalIdInfo> expectedIdInfos = new ArrayList<>();
-    for (ExternalId id : expectedIds) {
-      AccountExternalIdInfo info = new AccountExternalIdInfo();
-      info.identity = id.key().get();
-      info.emailAddress = id.email();
-      info.canDelete = !id.isScheme(SCHEME_USERNAME) ? true : null;
-      info.trusted = true;
-      expectedIdInfos.add(info);
-    }
+    List<AccountExternalIdInfo> expectedIdInfos = toExternalIdInfos(expectedIds);
 
     RestResponse response = userRestSession.get("/accounts/self/external.ids");
     response.assertOK();
@@ -196,15 +196,123 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void pushToExternalIdsBranch() throws Exception {
-    grant(Permission.READ, allUsers, RefNames.REFS_EXTERNAL_IDS);
-    grant(Permission.PUSH, allUsers, RefNames.REFS_EXTERNAL_IDS);
-
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
-    fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":externalIds");
-    allUsersRepo.reset("externalIds");
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
-    push.to(RefNames.REFS_EXTERNAL_IDS)
-        .assertErrorStatus("not allowed to update " + RefNames.REFS_EXTERNAL_IDS);
+    fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
+    allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
+
+    // different case email is allowed
+    ExternalId newExtId = createExternalIdWithOtherCaseEmail("foo:bar");
+    addExtId(allUsersRepo, newExtId);
+    allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
+
+    List<AccountExternalIdInfo> extIdsBefore = gApi.accounts().self().getExternalIds();
+
+    allowPushOfExternalIds();
+    PushResult r = pushHead(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
+    assertThat(r.getRemoteUpdate(RefNames.REFS_EXTERNAL_IDS).getStatus()).isEqualTo(Status.OK);
+
+    List<AccountExternalIdInfo> extIdsAfter = gApi.accounts().self().getExternalIds();
+    assertThat(extIdsAfter)
+        .containsExactlyElementsIn(
+            Iterables.concat(extIdsBefore, ImmutableSet.of(toExternalIdInfo(newExtId))));
+  }
+
+  @Test
+  public void pushToExternalIdsBranchRejectsExternalIdWithoutAccountId() throws Exception {
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
+    allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
+
+    insertExternalIdWithoutAccountId(
+        allUsersRepo.getRepository(), allUsersRepo.getRevWalk(), "foo:bar");
+    allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
+
+    allowPushOfExternalIds();
+    PushResult r = pushHead(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
+    assertRefUpdateFailure(r.getRemoteUpdate(RefNames.REFS_EXTERNAL_IDS), "invalid external IDs");
+  }
+
+  @Test
+  public void pushToExternalIdsBranchRejectsExternalIdWithKeyThatDoesntMatchTheNoteId()
+      throws Exception {
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
+    allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
+
+    insertExternalIdWithKeyThatDoesntMatchNoteId(
+        allUsersRepo.getRepository(), allUsersRepo.getRevWalk(), "foo:bar");
+    allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
+
+    allowPushOfExternalIds();
+    PushResult r = pushHead(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
+    assertRefUpdateFailure(r.getRemoteUpdate(RefNames.REFS_EXTERNAL_IDS), "invalid external IDs");
+  }
+
+  @Test
+  public void pushToExternalIdsBranchRejectsExternalIdWithInvalidConfig() throws Exception {
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
+    allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
+
+    insertExternalIdWithInvalidConfig(
+        allUsersRepo.getRepository(), allUsersRepo.getRevWalk(), "foo:bar");
+    allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
+
+    allowPushOfExternalIds();
+    PushResult r = pushHead(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
+    assertRefUpdateFailure(r.getRemoteUpdate(RefNames.REFS_EXTERNAL_IDS), "invalid external IDs");
+  }
+
+  @Test
+  public void pushToExternalIdsBranchRejectsExternalIdWithEmptyNote() throws Exception {
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
+    allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
+
+    insertExternalIdWithEmptyNote(
+        allUsersRepo.getRepository(), allUsersRepo.getRevWalk(), "foo:bar");
+    allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
+
+    allowPushOfExternalIds();
+    PushResult r = pushHead(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
+    assertRefUpdateFailure(r.getRemoteUpdate(RefNames.REFS_EXTERNAL_IDS), "invalid external IDs");
+  }
+
+  @Test
+  public void pushToExternalIdsBranchRejectsExternalIdForNonExistingAccount() throws Exception {
+    testPushToExternalIdsBranchRejectsInvalidExternalId(
+        createExternalIdForNonExistingAccount("foo:bar"));
+  }
+
+  @Test
+  public void pushToExternalIdsBranchRejectsExternalIdWithInvalidEmail() throws Exception {
+    testPushToExternalIdsBranchRejectsInvalidExternalId(
+        createExternalIdWithInvalidEmail("foo:bar"));
+  }
+
+  @Test
+  public void pushToExternalIdsBranchRejectsDuplicateEmails() throws Exception {
+    testPushToExternalIdsBranchRejectsInvalidExternalId(
+        createExternalIdWithDuplicateEmail("foo:bar"));
+  }
+
+  @Test
+  public void pushToExternalIdsBranchRejectsBadPassword() throws Exception {
+    testPushToExternalIdsBranchRejectsInvalidExternalId(createExternalIdWithBadPassword("foo"));
+  }
+
+  private void testPushToExternalIdsBranchRejectsInvalidExternalId(ExternalId invalidExtId)
+      throws Exception {
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
+    allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
+
+    addExtId(allUsersRepo, invalidExtId);
+    allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
+
+    allowPushOfExternalIds();
+    PushResult r = pushHead(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
+    assertRefUpdateFailure(r.getRemoteUpdate(RefNames.REFS_EXTERNAL_IDS), "invalid external IDs");
   }
 
   @Test
@@ -637,5 +745,55 @@ public class ExternalIdIT extends AbstractDaemonTest {
       ExternalIdsUpdate.commit(
           repo, rw, ins, rev, noteMap, "insert new ID", serverIdent.get(), serverIdent.get());
     }
+  }
+
+  private void addExtId(TestRepository<?> testRepo, ExternalId... extIds)
+      throws IOException, OrmDuplicateKeyException, ConfigInvalidException {
+    ObjectId rev = ExternalIdReader.readRevision(testRepo.getRepository());
+
+    try (ObjectInserter ins = testRepo.getRepository().newObjectInserter()) {
+      NoteMap noteMap = ExternalIdReader.readNoteMap(testRepo.getRevWalk(), rev);
+      for (ExternalId extId : extIds) {
+        ExternalIdsUpdate.insert(testRepo.getRevWalk(), ins, noteMap, extId);
+      }
+
+      ExternalIdsUpdate.commit(
+          testRepo.getRepository(),
+          testRepo.getRevWalk(),
+          ins,
+          rev,
+          noteMap,
+          "Add external ID",
+          admin.getIdent(),
+          admin.getIdent());
+    }
+  }
+
+  private List<AccountExternalIdInfo> toExternalIdInfos(Collection<ExternalId> extIds) {
+    return extIds.stream().map(this::toExternalIdInfo).collect(toList());
+  }
+
+  private AccountExternalIdInfo toExternalIdInfo(ExternalId extId) {
+    AccountExternalIdInfo info = new AccountExternalIdInfo();
+    info.identity = extId.key().get();
+    info.emailAddress = extId.email();
+    info.canDelete = !extId.isScheme(SCHEME_USERNAME) ? true : null;
+    info.trusted =
+        extId.isScheme(SCHEME_MAILTO)
+                || extId.isScheme(SCHEME_UUID)
+                || extId.isScheme(SCHEME_USERNAME)
+            ? true
+            : null;
+    return info;
+  }
+
+  private void allowPushOfExternalIds() throws IOException, ConfigInvalidException {
+    grant(Permission.READ, allUsers, RefNames.REFS_EXTERNAL_IDS);
+    grant(Permission.PUSH, allUsers, RefNames.REFS_EXTERNAL_IDS);
+  }
+
+  private void assertRefUpdateFailure(RemoteRefUpdate update, String msg) {
+    assertThat(update.getStatus()).isEqualTo(Status.REJECTED_OTHER_REASON);
+    assertThat(update.getMessage()).isEqualTo(msg);
   }
 }

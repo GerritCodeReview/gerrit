@@ -16,25 +16,25 @@
 
   var ADMIN_LINKS = [
     {
-      url: '/admin/groups',
+      url: this.baseUrl() + '/admin/groups',
       name: 'Groups',
     },
     {
-      url: '/admin/create-group',
+      url: this.baseUrl() + '/admin/create-group',
       name: 'Create Group',
       capability: 'createGroup'
     },
     {
-      url: '/admin/projects',
+      url: this.baseUrl() + '/admin/projects',
       name: 'Projects',
     },
     {
-      url: '/admin/create-project',
+      url: this.baseUrl() + '/admin/create-project',
       name: 'Create Project',
       capability: 'createProject',
     },
     {
-      url: '/admin/plugins',
+      url: this.baseUrl() + '/admin/plugins',
       name: 'Plugins',
       capability: 'viewPlugins',
     },
@@ -44,15 +44,15 @@
     title: 'Changes',
     links: [
       {
-        url: '/q/status:open',
+        url: this.baseUrl() + '/q/status:open',
         name: 'Open',
       },
       {
-        url: '/q/status:merged',
+        url: this.baseUrl() + '/q/status:merged',
         name: 'Merged',
       },
       {
-        url: '/q/status:abandoned',
+        url: this.baseUrl() + '/q/status:abandoned',
         name: 'Abandoned',
       },
     ],
@@ -88,7 +88,7 @@
       },
       _loginURL: {
         type: String,
-        value: '/login',
+        value: this.baseUrl() + '/login',
       },
       _userLinks: {
         type: Array,
@@ -114,14 +114,14 @@
     },
 
     _handleLocationChange: function(e) {
-      this._loginURL = '/login/' + encodeURIComponent(
+      this._loginURL = this.baseUrl() + '/login/' + encodeURIComponent(
           window.location.pathname +
           window.location.search +
           window.location.hash);
     },
 
     _computeRelativeURL: function(path) {
-      return '//' + window.location.host + path;
+      return '//' + window.location.host + this.baseUrl() + path;
     },
 
     _computeLinks: function(defaultLinks, userLinks, adminLinks) {
@@ -180,6 +180,14 @@
     _isSupportedLink: function(linkObj) {
       // Groups are not yet supported.
       return linkObj.url.indexOf('/groups') !== 0;
+    },
+
+    baseUrl: function() {
+      if (typeof polygerrit_baseurl !== "undefined") {
+        return polygerrit_baseurl;
+      } else {
+        return '';
+      }
     },
   });
 })();

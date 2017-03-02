@@ -17,18 +17,21 @@ package com.google.gerrit.server.git.validators;
 import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.server.git.ReceiveCommits.NEW_PATCHSET;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig;
+import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -72,6 +75,7 @@ public class CommitValidators {
     private final String canonicalWebUrl;
     private final DynamicSet<CommitValidationListener> pluginValidators;
     private final AllUsersName allUsers;
+    private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
     private final String installCommitMsgHookCommand;
 
     @Inject
@@ -80,11 +84,13 @@ public class CommitValidators {
         @CanonicalWebUrl @Nullable String canonicalWebUrl,
         @GerritServerConfig Config cfg,
         DynamicSet<CommitValidationListener> pluginValidators,
-        AllUsersName allUsers) {
+        AllUsersName allUsers,
+        ExternalIdsConsistencyChecker externalIdsConsistencyChecker) {
       this.gerritIdent = gerritIdent;
       this.canonicalWebUrl = canonicalWebUrl;
       this.pluginValidators = pluginValidators;
       this.allUsers = allUsers;
+      this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
       this.installCommitMsgHookCommand =
           cfg != null ? cfg.getString("gerrit", null, "installCommitMsgHookCommand") : null;
     }
@@ -104,7 +110,7 @@ public class CommitValidators {
               new ConfigValidator(refControl, rw, allUsers),
               new BannedCommitsValidator(rejectCommits),
               new PluginCommitValidationListener(pluginValidators),
-              new BlockExternalIdUpdateListener(allUsers)));
+              new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker)));
     }
 
     public CommitValidators forGerritCommits(RefControl refControl, SshInfo sshInfo, RevWalk rw) {
@@ -118,7 +124,7 @@ public class CommitValidators {
                   refControl, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
               new ConfigValidator(refControl, rw, allUsers),
               new PluginCommitValidationListener(pluginValidators),
-              new BlockExternalIdUpdateListener(allUsers)));
+              new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker)));
     }
 
     public CommitValidators forMergedCommits(RefControl refControl) {
@@ -582,11 +588,14 @@ public class CommitValidators {
     }
   }
 
-  /** Blocks any update to refs/meta/external-ids */
-  public static class BlockExternalIdUpdateListener implements CommitValidationListener {
+  /** Validates updates to refs/meta/external-ids. */
+  public static class ExternalIdUpdateListener implements CommitValidationListener {
     private final AllUsersName allUsers;
+    private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
 
-    public BlockExternalIdUpdateListener(AllUsersName allUsers) {
+    public ExternalIdUpdateListener(
+        AllUsersName allUsers, ExternalIdsConsistencyChecker externalIdsConsistencyChecker) {
+      this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
       this.allUsers = allUsers;
     }
 
@@ -595,7 +604,26 @@ public class CommitValidators {
         throws CommitValidationException {
       if (allUsers.equals(receiveEvent.project.getNameKey())
           && RefNames.REFS_EXTERNAL_IDS.equals(receiveEvent.refName)) {
-        throw new CommitValidationException("not allowed to update " + RefNames.REFS_EXTERNAL_IDS);
+        try {
+          List<ConsistencyProblemInfo> problems =
+              externalIdsConsistencyChecker.check(receiveEvent.commit);
+          List<CommitValidationMessage> msgs =
+              problems
+                  .stream()
+                  .map(
+                      p ->
+                          new CommitValidationMessage(
+                              p.message, p.status == ConsistencyProblemInfo.Status.ERROR))
+                  .collect(toList());
+          if (msgs.stream().anyMatch(m -> m.isError())) {
+            throw new CommitValidationException("invalid external IDs", msgs);
+          }
+          return msgs;
+        } catch (IOException e) {
+          String m = "error validating external IDs";
+          log.warn(m, e);
+          throw new CommitValidationException(m, e);
+        }
       }
       return Collections.emptyList();
     }

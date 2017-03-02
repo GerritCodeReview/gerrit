@@ -22,6 +22,224 @@
       "revId": "5dded8c0e0fc16754fb87d32435a612f4125c227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa70e344_48116da2",
+        "filename": "polygerrit-ui/plugins.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-02T04:21:07Z",
+      "side": 1,
+      "message": "I couldn\u0027t remember if we have ever suggested or encouraged loading /static/ under a plugin, where index.html might be assume to exist and be something other than the plugin\u0027s client side code entry point.\n\nA quick grep of the code for \u0027/static/\u0027 turned up only a relevant hit in HttpPluginServlet, which is what normally handles the /plugins/plug-name/ content serving, including both static and Documentation directories. It doesn\u0027t have any sort of auto-index behavior on static, but it does on Documentation. So static/index.html is quite likely unused by any current plugin.\n\nSo, I think we are OK to use your proposed naming of static/index.html as the load point.",
+      "range": {
+        "startLine": 71,
+        "startChar": 17,
+        "endLine": 71,
+        "endChar": 54
+      },
+      "revId": "5dded8c0e0fc16754fb87d32435a612f4125c227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d435582c_1eade44e",
+        "filename": "polygerrit-ui/plugins.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-02T04:21:07Z",
+      "side": 1,
+      "message": "I don\u0027t think my-plugin.config should appear inside the plugin directory structure/JAR. Its very annoying to explode a plugin JAR to edit its contained my-plugin.config, and having some plugins have a config here and others not is even worse.\n\nConfiguration should be under `gerrit-site-root/etc/my-plugin.config` or in `gerrit-site-root/etc/gerrit.config` using the `[plugin \"my-plugin\"]` subsection.",
+      "revId": "5dded8c0e0fc16754fb87d32435a612f4125c227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa5219a6_ccf15304",
+        "filename": "polygerrit-ui/plugins.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-02T04:21:07Z",
+      "side": 1,
+      "message": "In the GWT UI we made a conscious decision for plugins to block UI loading, and for the UI to error if a plugin fails to load. The reason was a site may install a plugin that is critical to the site functioning correctly, and if it fails to load, the site should break with an error rather than leave a user thinking its working as intended.\n\nChromium\u0027s chumpdetector is a good example of a plugin that should be loaded and working before it is possible for a user to reach for that incredibly tempting \"Submit\" button.\n\nOther plugins may just need to be loaded up front to minimize UI layouts and repaints later on when they begin to also add themselves to the DOM.\n\nI can understand why we might revisit this decision, but know that it was discussed before in the context of the plugins in the GWT UI and for reasons (maybe lost to time? I hope its in repo-discuss archives and/or on relevant code reviews in Gerrit!) we went with blocking loading, even though it slowed down initial page view.",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 144
+      },
+      "revId": "5dded8c0e0fc16754fb87d32435a612f4125c227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dc13f93_97f57cab",
+        "filename": "polygerrit-ui/plugins.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-02T04:21:07Z",
+      "side": 1,
+      "message": "Is this like a set of \"compile time defaults\" provided by the plugin author that would have otherwise been supplied in code?",
+      "revId": "5dded8c0e0fc16754fb87d32435a612f4125c227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faddc361_c8045c28",
+        "filename": "polygerrit-ui/plugins.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-02T04:21:07Z",
+      "side": 1,
+      "message": "All-Projects. It has a hyphen in the name. :)",
+      "range": {
+        "startLine": 180,
+        "startChar": 106,
+        "endLine": 180,
+        "endChar": 118
+      },
+      "revId": "5dded8c0e0fc16754fb87d32435a612f4125c227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11c9de4b_22b9bdb9",
+        "filename": "polygerrit-ui/plugins.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-02T04:21:07Z",
+      "side": 1,
+      "message": "I guess this is a good argument for the plugin config being in the plugin distribution as \"constants\" so they can be overridden by the admin in another configuration file. I really wonder how much that will happen.\n\nMost plugins are tied to a very specific server version, which will have a matching version of PolyGerrit. Moving a plugin to a newer or older server may not work at all due to server internal differences, and most plugins are hybrid, with some server code and some client UI code.",
+      "range": {
+        "startLine": 249,
+        "startChar": 0,
+        "endLine": 249,
+        "endChar": 203
+      },
+      "revId": "5dded8c0e0fc16754fb87d32435a612f4125c227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7522dbdd_43f3753b",
+        "filename": "polygerrit-ui/plugins.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-02T04:21:07Z",
+      "side": 1,
+      "message": "I guess I don\u0027t understand why this is a useful feature for plugin authors.",
+      "range": {
+        "startLine": 253,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 166
+      },
+      "revId": "5dded8c0e0fc16754fb87d32435a612f4125c227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0b27f98_7ee82a55",
+        "filename": "polygerrit-ui/plugins.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-02T04:21:07Z",
+      "side": 1,
+      "message": "How is URL specified? The REST API structure in Gerrit alternates between collection and resource-id, e.g.\n\n  /changes/{change-id}/revisions/{revision-id}/reviewers/{email}\n\nI can see a plugin author wanting to match on the collection/view names and not the resource-ids.",
+      "range": {
+        "startLine": 257,
+        "startChar": 36,
+        "endLine": 257,
+        "endChar": 39
+      },
+      "revId": "5dded8c0e0fc16754fb87d32435a612f4125c227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8704bc9f_8d30b4fc",
+        "filename": "polygerrit-ui/plugins.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-02T04:21:07Z",
+      "side": 1,
+      "message": "Is this common URL relative to the Gerrit server?",
+      "range": {
+        "startLine": 486,
+        "startChar": 82,
+        "endLine": 486,
+        "endChar": 0
+      },
+      "revId": "5dded8c0e0fc16754fb87d32435a612f4125c227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2050f89b_fb50ced4",
+        "filename": "polygerrit-ui/plugins.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-02T04:21:07Z",
+      "side": 1,
+      "message": "This will eventually need to be supported in PolyGerrit for newer style plugins. Plugins need to be able to add their own top level navigation to the site.",
+      "range": {
+        "startLine": 531,
+        "startChar": 4,
+        "endLine": 531,
+        "endChar": 36
+      },
+      "revId": "5dded8c0e0fc16754fb87d32435a612f4125c227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

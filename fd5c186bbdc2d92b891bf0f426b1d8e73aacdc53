@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d3dab61_83aa9212",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T14:57:28Z",
+      "side": 1,
+      "message": "Would it be better to pass address.getEmail() as second argument to SchemaUtil.getNameParts(...) below (instead of adding it directly to nameEmailParts)?",
+      "revId": "fd5c186bbdc2d92b891bf0f426b1d8e73aacdc53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

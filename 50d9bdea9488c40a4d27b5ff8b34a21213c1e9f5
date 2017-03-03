@@ -631,6 +631,30 @@
     },
     {
       "key": {
+        "uuid": "c4e1b9c4_6c577143",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1197,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-03T13:11:44Z",
+      "side": 1,
+      "message": "Yup, true. Sorry. Just remove the return then!",
+      "parentUuid": "62592f15_d78837a2",
+      "range": {
+        "startLine": 1197,
+        "startChar": 19,
+        "endLine": 1197,
+        "endChar": 25
+      },
+      "revId": "50d9bdea9488c40a4d27b5ff8b34a21213c1e9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6ca2b02_2f0fc8c0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 8

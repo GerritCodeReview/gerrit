@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3456d665_807b2d64",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-03T22:35:48Z",
+      "side": 1,
+      "message": "Would `SELF_QUERY` be an accurate name? Or is there another name that adds context to the constant name?",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 10
+      },
+      "revId": "bd7b8b69d2e9dd344d6b2c445e38a2fc16c157f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f306ff04_75e80c39",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 1

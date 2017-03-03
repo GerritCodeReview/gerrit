@@ -40,6 +40,24 @@
       "revId": "2de658b725a0dc5f9139d2f71cb762aeb01dc4d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c426e189_1b9d68eb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T07:53:47Z",
+      "side": 1,
+      "message": "This still works and is covered by watchProjectNotifyOnDraftChange().\n\nIn the notify section in project config you can only configure emails and we don\u0027t map them to accounts. So They can\u0027t have the View Drafts permission.",
+      "parentUuid": "a485b610_07c8be75",
+      "revId": "2de658b725a0dc5f9139d2f71cb762aeb01dc4d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

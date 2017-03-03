@@ -52,6 +52,24 @@
       "revId": "fd5c186bbdc2d92b891bf0f426b1d8e73aacdc53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f24512a_eb012760",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T15:09:05Z",
+      "side": 1,
+      "message": "Okay, this works because SchemaUtil.getNameParts is not only adding the parts of the email, but also the full email.",
+      "parentUuid": "1fcfd4cf_184facf5",
+      "revId": "fd5c186bbdc2d92b891bf0f426b1d8e73aacdc53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

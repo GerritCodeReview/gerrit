@@ -20,7 +20,10 @@
     is: 'gr-formatted-text',
 
     properties: {
-      content: String,
+      content: {
+        type: String,
+        observer: '_contentChanged',
+      },
       config: Object,
       noTrailingMargin: {
         type: Boolean,
@@ -51,6 +54,14 @@
       return this._blocksToText(this._computeBlocks(this.content));
     },
 
+    _contentChanged: function(content) {
+      // In the case where the config may not be set (perhaps due to the
+      // request for it still being in flight), set the content anyway to
+      // prevent waiting on the config to display the text.
+      if (this.config) { return; }
+      this.$.container.textContent = content;
+    },
+
     /**
      * Given a source string, update the DOM inside #container.
      */
@@ -63,7 +74,8 @@
       }
 
       // Add new content.
-      this._computeNodes(this._computeBlocks(content)).forEach(function(node) {
+      this._computeNodes(this._computeBlocks(content))
+          .forEach(function(node) {
         container.appendChild(node);
       });
     },

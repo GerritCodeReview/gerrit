@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a92fb09_c9297ff9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/RegexListSearcherTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-03T07:44:49Z",
+      "side": 1,
+      "message": "Is this necessary?\n\nTypically we use the abstract type in the variable declaration, and the concrete type at instantiation or assignment.\n\nIn this case it will be an ImmutableList anyway due to the assignment as ImmutableList.of()",
+      "range": {
+        "startLine": 27,
+        "startChar": 23,
+        "endLine": 27,
+        "endChar": 36
+      },
+      "revId": "996c0d7b34ddf8dd913a426a371a04f0d9fbb40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

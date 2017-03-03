@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd7bf4c8_8f156ee4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-03T22:03:18Z",
+      "side": 1,
+      "message": "This finds the next target that matches the condition, not necessarily the next target. In fact, finding the next target would be as simple as...\n\n this.index + 1\n\n... which makes me think maybe we don\u0027t need store the next target anyway.",
+      "range": {
+        "startLine": 162,
+        "startChar": 8,
+        "endLine": 162,
+        "endChar": 66
+      },
+      "revId": "fc6bde57bfd319ee7fbdfca9ca84a8dd3550d54e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4577f06d_37cd1e2e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-03T22:03:18Z",
+      "side": 1,
+      "message": "It seems wrong to set this on the target itself. I suspect this should be set on the element as a property instead.",
+      "range": {
+        "startLine": 163,
+        "startChar": 8,
+        "endLine": 163,
+        "endChar": 30
+      },
+      "revId": "fc6bde57bfd319ee7fbdfca9ca84a8dd3550d54e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8d2d5c6_e95c0694",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-03T22:03:18Z",
+      "side": 1,
+      "message": "Nit: add a space and capitalize.\n\n // Set",
+      "range": {
+        "startLine": 264,
+        "startChar": 6,
+        "endLine": 264,
+        "endChar": 11
+      },
+      "revId": "fc6bde57bfd319ee7fbdfca9ca84a8dd3550d54e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e762f7e_6feb38ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-03T22:03:18Z",
+      "side": 1,
+      "message": "The \"next\" target isn\u0027t necessarily adjacent to the current target. Thus, the top of the next target isn\u0027t the bottom of the current target in general.\n\nMoreover, why not just compute the height of the current target to find whether it\u0027s fully in view?",
+      "revId": "fc6bde57bfd319ee7fbdfca9ca84a8dd3550d54e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "210d7fdc_eaaf6455",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-03T22:03:18Z",
+      "side": 1,
+      "message": "Nit:\n\n s/if/If/",
+      "range": {
+        "startLine": 285,
+        "startChar": 9,
+        "endLine": 285,
+        "endChar": 11
+      },
+      "revId": "fc6bde57bfd319ee7fbdfca9ca84a8dd3550d54e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "701fe838_c4c4c459",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-03T22:03:18Z",
+      "side": 1,
+      "message": "Nit:\n\n s/{return}/{ return; }/",
+      "range": {
+        "startLine": 286,
+        "startChar": 29,
+        "endLine": 286,
+        "endChar": 35
+      },
+      "revId": "fc6bde57bfd319ee7fbdfca9ca84a8dd3550d54e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

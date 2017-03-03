@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a067a9a1_2aad8265",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-03T09:38:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ca01ac5_d3288783",
+      "range": {
+        "startLine": 15,
+        "startChar": 38,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "162acf1596690f7bfd36bd43b44af94d1c8b5565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7e1d8aa2_b73e879e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2017-03-02T13:18:56Z",
       "side": 1,
       "message": "predicates",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 33
+      },
+      "revId": "162acf1596690f7bfd36bd43b44af94d1c8b5565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c20f2aeb_4f830998",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-03T09:38:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e1d8aa2_b73e879e",
       "range": {
         "startLine": 16,
         "startChar": 22,
@@ -95,6 +143,24 @@
       "side": 1,
       "message": "Yes, but it\u0027s a FULL_TEXT field. The docs say: A string field searched using fuzzy-match semantics.\n\nSo searching only by name should give you the results you want.\n\nMaybe I wasn\u0027t explicit enough here, but I went into more details in the change message.\n\nI think we should have the following workflow:\n\n1) Try to parse \"Name \u003cemail\u003e\" using the Address class\n2a) If that succeeds, just search by email\n2b) If that fails, just search by the raw query",
       "parentUuid": "e549092b_3b33d53a",
+      "revId": "162acf1596690f7bfd36bd43b44af94d1c8b5565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d76e1f02_d199ebd2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-03T09:38:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfa24f67_eec275f3",
       "revId": "162acf1596690f7bfd36bd43b44af94d1c8b5565",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -80,6 +80,8 @@
     'tr',
   ];
 
+  var SELF_EXPRESSION = 'self';
+
   var MAX_AUTOCOMPLETE_RESULTS = 10;
 
   var TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
@@ -170,6 +172,12 @@
             return accounts.map(function(acct) {
               return predicate + ':"' + acct.name + ' <' + acct.email + '>"';
             });
+          }).then(function(accounts) {
+            // When the expression supplied is a beginning substring of 'self',
+            // add it as an autocomplete option.
+            return SELF_EXPRESSION.indexOf(expression) === 0 ?
+                accounts.concat([predicate + ':' + SELF_EXPRESSION]) :
+                accounts;
           });
     },
 

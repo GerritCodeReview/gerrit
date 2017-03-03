@@ -110,8 +110,7 @@ limitations under the License.
       assert.isTrue(selectAllSpy.called);
     });
 
-    suite('_getSearchSuggestions',
-        function() {
+    suite('_getSearchSuggestions', function() {
       setup(function() {
         sinon.stub(element.$.restAPI, 'getSuggestedAccounts', function() {
           return Promise.resolve([
@@ -145,6 +144,17 @@ limitations under the License.
         element._getSearchSuggestions('owner:fr').then(function(s) {
           assert.equal(s[0].value, 'owner:"fred <fred@goog.co>"');
           done();
+        });
+      });
+
+      test('Inserts self as option when valid', function(done) {
+        element._getSearchSuggestions('owner:s').then(function(s) {
+          assert.equal(s[0].value, 'owner:self');
+        }).then(function() {
+          element._getSearchSuggestions('owner:selfs').then(function(s) {
+            assert.notEqual(s[0].value, 'owner:self');
+            done();
+          });
         });
       });
 

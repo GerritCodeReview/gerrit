@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d469062_5bc016e4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-03T19:52:56Z",
+      "side": 1,
+      "message": "I recommend hiding this section when `email_format` doesn\u0027t appear in the preferences response.\n\n \u003csection hidden$\u003d\"[[!_localPrefs.email_format]]\"\u003e\n\nThat way, this PolyGerrit deployments won\u0027t have to wait for the preference to be supported in  a backend deployment.",
+      "range": {
+        "startLine": 177,
+        "startChar": 10,
+        "endLine": 177,
+        "endChar": 19
+      },
+      "revId": "424f8fdead55c65a1d0dd47bc9807f0e379e8de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

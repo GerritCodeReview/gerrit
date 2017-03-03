@@ -22,6 +22,30 @@
       "revId": "ad7a742a3643300da02a8f5749cc7f67ad103b7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8101fc8_53a7ab3f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 39
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T07:30:35Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "76ffccd3_6d94ace6",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 11
+      },
+      "revId": "ad7a742a3643300da02a8f5749cc7f67ad103b7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

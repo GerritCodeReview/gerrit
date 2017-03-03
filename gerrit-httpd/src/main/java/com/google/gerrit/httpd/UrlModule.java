@@ -68,6 +68,9 @@ class UrlModule extends ServletModule {
       serve("/Gerrit/*").with(legacyGerritScreen());
       // Forward PolyGerrit URLs to their respective GWT equivalents.
       serveRegex("^/(c|q|x|admin|dashboard|settings)/(.*)").with(gerritUrl());
+      if (options.enableLinkPreload()) {
+        install(new LinkPreloadFilter.Module());
+      }
     }
     serve("/cat/*").with(CatServlet.class);
 

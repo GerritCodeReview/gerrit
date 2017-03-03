@@ -1,0 +1,297 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63f68ed9_2a2fb46c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T14:49:33Z",
+      "side": 1,
+      "message": "\"remove a comment completely\".\n\nIf you say, deleting a comment permanently can be implemented in the next change, it sounds like the deletion that is implemented in this change is not permanent. But of course deleting a comment by replacing the comment\u0027s text is also permanent and cannot be undone.",
+      "range": {
+        "startLine": 17,
+        "startChar": 36,
+        "endLine": 17,
+        "endChar": 64
+      },
+      "revId": "d303fd0e0e6839f4e99ada29dee1d2043f9f98d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be001a54_f40daa37",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 5464,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T14:49:33Z",
+      "side": 1,
+      "message": "Better make this a second sentence.",
+      "range": {
+        "startLine": 5464,
+        "startChar": 51,
+        "endLine": 5464,
+        "endChar": 93
+      },
+      "revId": "d303fd0e0e6839f4e99ada29dee1d2043f9f98d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "acd9333a_b1eca852",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T14:49:33Z",
+      "side": 1,
+      "message": "Move this down. After exception.expect(...) only a single line should follow that triggers the exception.",
+      "range": {
+        "startLine": 749,
+        "startChar": 3,
+        "endLine": 750,
+        "endChar": 55
+      },
+      "revId": "d303fd0e0e6839f4e99ada29dee1d2043f9f98d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c99e01b_0a801d4b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T14:49:33Z",
+      "side": 1,
+      "message": "SUBJECT",
+      "range": {
+        "startLine": 763,
+        "startChar": 43,
+        "endLine": 763,
+        "endChar": 64
+      },
+      "revId": "d303fd0e0e6839f4e99ada29dee1d2043f9f98d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a9aa5e5_38557501",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T14:49:33Z",
+      "side": 1,
+      "message": "Move down",
+      "range": {
+        "startLine": 777,
+        "startChar": 4,
+        "endLine": 778,
+        "endChar": 61
+      },
+      "revId": "d303fd0e0e6839f4e99ada29dee1d2043f9f98d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9a2725c_b9be8a29",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T14:49:33Z",
+      "side": 1,
+      "message": "SUBJECT",
+      "range": {
+        "startLine": 793,
+        "startChar": 43,
+        "endLine": 793,
+        "endChar": 64
+      },
+      "revId": "d303fd0e0e6839f4e99ada29dee1d2043f9f98d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "822a5d5c_d1eedb7d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T14:49:33Z",
+      "side": 1,
+      "message": "encoding and encodingName are not really interesting. What about the commit message with all the footers?",
+      "range": {
+        "startLine": 941,
+        "startChar": 6,
+        "endLine": 942,
+        "endChar": 90
+      },
+      "revId": "d303fd0e0e6839f4e99ada29dee1d2043f9f98d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a90ba03_ececd3cd",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CommentApi.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T14:49:33Z",
+      "side": 1,
+      "message": "remove this (see my comment in commit message)",
+      "range": {
+        "startLine": 26,
+        "startChar": 68,
+        "endLine": 26,
+        "endChar": 79
+      },
+      "revId": "d303fd0e0e6839f4e99ada29dee1d2043f9f98d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74a3b717_7e486b87",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/DeleteCommentInput.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T14:49:33Z",
+      "side": 1,
+      "message": "Keep @DefaultInput here.",
+      "revId": "d303fd0e0e6839f4e99ada29dee1d2043f9f98d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24fb34f5_f60bdeb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T14:49:33Z",
+      "side": 1,
+      "message": "ResourceConflictException, 404 Not Found is only used if the resource that was specified in the URL was not found (see https://gerrit-review.googlesource.com/Documentation/rest-api.html#_404_not_found)",
+      "range": {
+        "startLine": 136,
+        "startChar": 18,
+        "endLine": 136,
+        "endChar": 43
+      },
+      "revId": "d303fd0e0e6839f4e99ada29dee1d2043f9f98d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e553e75a_4814a171",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T14:49:33Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 52,
+        "startChar": 59,
+        "endLine": 52,
+        "endChar": 70
+      },
+      "revId": "d303fd0e0e6839f4e99ada29dee1d2043f9f98d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aec19b0e_2261d427",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T14:49:33Z",
+      "side": 1,
+      "message": "better:\n\n\"Cannot delete comment %s on change %s because the first commit on the change meta branch unexpectedly contains comments.\"",
+      "range": {
+        "startLine": 102,
+        "startChar": 14,
+        "endLine": 102,
+        "endChar": 91
+      },
+      "revId": "d303fd0e0e6839f4e99ada29dee1d2043f9f98d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a859f06_2d4f4293",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T14:49:33Z",
+      "side": 1,
+      "message": "Include which comment could not be deleted and on which change.",
+      "range": {
+        "startLine": 123,
+        "startChar": 38,
+        "endLine": 123,
+        "endChar": 62
+      },
+      "revId": "d303fd0e0e6839f4e99ada29dee1d2043f9f98d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

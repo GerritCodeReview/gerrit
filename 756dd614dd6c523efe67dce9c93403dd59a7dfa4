@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df7bfe87_66faa04a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-03T19:37:01Z",
+      "side": 1,
+      "message": "Any reason for falsy equation here?",
+      "range": {
+        "startLine": 61,
+        "startChar": 10,
+        "endLine": 61,
+        "endChar": 29
+      },
+      "revId": "756dd614dd6c523efe67dce9c93403dd59a7dfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85c5b9b9_35081a36",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-03T19:37:01Z",
+      "side": 1,
+      "message": "Typo",
+      "range": {
+        "startLine": 46,
+        "startChar": 45,
+        "endLine": 46,
+        "endChar": 46
+      },
+      "revId": "756dd614dd6c523efe67dce9c93403dd59a7dfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

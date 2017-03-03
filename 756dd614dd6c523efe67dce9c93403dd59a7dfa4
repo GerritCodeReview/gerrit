@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7ce316cb_b2496f55",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-03T22:30:08Z",
+      "side": 1,
+      "message": "This may be intentional since this is supposed to return when the config is neither undefined nor null. Still, it\u0027s better to avoid non-strict equality:\n\n if (this.config) { return; }",
+      "parentUuid": "df7bfe87_66faa04a",
+      "range": {
+        "startLine": 61,
+        "startChar": 10,
+        "endLine": 61,
+        "endChar": 29
+      },
+      "revId": "756dd614dd6c523efe67dce9c93403dd59a7dfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85c5b9b9_35081a36",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.js",
         "patchSetId": 1

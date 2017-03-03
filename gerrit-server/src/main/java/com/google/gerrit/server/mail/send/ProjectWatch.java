@@ -65,7 +65,8 @@ public class ProjectWatch {
   }
 
   /** Returns all watchers that are relevant */
-  public final Watchers getWatchers(NotifyType type) throws OrmException {
+  public final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig)
+      throws OrmException {
     Watchers matching = new Watchers();
     Set<Account.Id> projectWatchers = new HashSet<>();
 
@@ -89,6 +90,10 @@ public class ProjectWatch {
           }
         }
       }
+    }
+
+    if (!includeWatchersFromNotifyConfig) {
+      return matching;
     }
 
     for (ProjectState state : projectState.tree()) {

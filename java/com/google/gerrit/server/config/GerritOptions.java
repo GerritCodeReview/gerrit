@@ -26,6 +26,7 @@ public class GerritOptions {
   private final boolean enablePolyGerrit;
   private final boolean enableGwtUi;
   private final boolean forcePolyGerritDev;
+  private final boolean enableLinkPreload;
   private final UiType defaultUi;
 
   public GerritOptions(Config cfg, boolean headless, boolean slave, boolean forcePolyGerritDev) {
@@ -35,6 +36,8 @@ public class GerritOptions {
     this.enableGwtUi = cfg.getBoolean("gerrit", null, "enableGwtUi", true);
     this.forcePolyGerritDev = forcePolyGerritDev;
     this.headless = headless || (!enableGwtUi && !enablePolyGerrit);
+    this.enableLinkPreload =
+        enablePolyGerrit && cfg.getBoolean("gerrit", null, "linkHeaderPreload", false);
 
     UiType defaultUi = enablePolyGerrit && !enableGwtUi ? UiType.POLYGERRIT : UiType.GWT;
     String uiStr = firstNonNull(cfg.getString("gerrit", null, "ui"), defaultUi.name());
@@ -75,5 +78,9 @@ public class GerritOptions {
 
   public UiType defaultUi() {
     return defaultUi;
+  }
+
+  public boolean enableLinkPreload() {
+    return !headless && enableLinkPreload;
   }
 }

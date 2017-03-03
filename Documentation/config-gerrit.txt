@@ -2158,6 +2158,13 @@ gerrit.ui is an enabled UI.
 Defaults to GWT (if GWT is enabled) or POLYGERRIT (if POLYGERRIT is
 enabled and GWT is disabled)
 
+[[gerrit.linkHeaderPreload]]gerrit.linkHeaderPreload::
++
+Add link:https://w3c.github.io/preload/[Link preload] headers for common REST API requests.
+Browsers, supporting those, will preload responses in parallel with assets.
++
+By default false.
+
 [[gitweb]]
 === Section gitweb
 

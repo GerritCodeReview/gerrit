@@ -20,7 +20,10 @@
     is: 'gr-formatted-text',
 
     properties: {
-      content: String,
+      content: {
+        type: String,
+        observer: '_contentChanged',
+      },
       config: Object,
       noTrailingMargin: {
         type: Boolean,
@@ -51,10 +54,18 @@
       return this._blocksToText(this._computeBlocks(this.content));
     },
 
+    _contentChanged: function(content) {
+      // In the case where the config may not be set (perhaps due to the
+      // request for it still being in flight), set the content anyway to
+      // prevent waiting on the config to display the text.
+      if (this.config != null) { return; }
+      this.$.container.textContent = content;
+    },
+
     /**
      * Given a source string, update the DOM inside #container.
      */
-    _contentOrConfigChanged: function(content) {
+    _contentOrConfigChanged: function(content, config) {
       var container = Polymer.dom(this.$.container);
 
       // Remove existing content.
@@ -63,7 +74,8 @@
       }
 
       // Add new content.
-      this._computeNodes(this._computeBlocks(content)).forEach(function(node) {
+      this._computeNodes(this._computeBlocks(content), config)
+          .forEach(function(node) {
         container.appendChild(node);
       });
     },
@@ -211,9 +223,9 @@
           p.indexOf('- ') === 0 || p.indexOf('* ') === 0;
     },
 
-    _makeLinkedText: function(content, isPre) {
+    _makeLinkedText: function(content, config, isPre) {
       var text = document.createElement('gr-linked-text');
-      text.config = this.config;
+      text.config = config;
       text.content = content;
       text.pre = true;
       if (isPre) {
@@ -227,31 +239,31 @@
      * @param  {!Array<!Object>} blocks
      * @return {!Array<!HTMLElement>}
      */
-    _computeNodes: function(blocks) {
+    _computeNodes: function(blocks, config) {
       return blocks.map(function(block) {
         if (block.type === 'paragraph') {
           var p = document.createElement('p');
-          p.appendChild(this._makeLinkedText(block.text));
+          p.appendChild(this._makeLinkedText(block.text, config));
           return p;
         }
 
         if (block.type === 'quote') {
           var bq = document.createElement('blockquote');
-          this._computeNodes(block.blocks).forEach(function(node) {
+          this._computeNodes(block.blocks, config).forEach(function(node) {
             bq.appendChild(node);
           });
           return bq;
         }
 
         if (block.type === 'pre') {
-          return this._makeLinkedText(block.text, true);
+          return this._makeLinkedText(block.text, config, true);
         }
 
         if (block.type === 'list') {
           var ul = document.createElement('ul');
           block.items.forEach(function(item) {
             var li = document.createElement('li');
-            li.appendChild(this._makeLinkedText(item));
+            li.appendChild(this._makeLinkedText(item, config));
             ul.appendChild(li);
           }.bind(this));
           return ul;

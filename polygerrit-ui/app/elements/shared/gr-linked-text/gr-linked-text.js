@@ -43,7 +43,7 @@
     _contentChanged: function(content) {
       // In the case where the config may not be set (perhaps due to the
       // request for it still being in flight), set the content anyway to
-      // prevent waiting on the config to display the text.
+      // prevent waiting on the config to diskplay the text.
       if (this.config != null) { return; }
       this.$.output.textContent = content;
     },

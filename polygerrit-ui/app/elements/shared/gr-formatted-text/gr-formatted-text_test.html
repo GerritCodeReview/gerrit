@@ -32,6 +32,7 @@ limitations under the License.
 <script>
   suite('gr-formatted-text tests', function() {
     var element;
+    var sandbox;
 
     function assertBlock(result, index, type, text) {
       assert.equal(result[index].type, type);
@@ -45,6 +46,11 @@ limitations under the License.
 
     setup(function() {
       element = fixture('basic');
+      sandbox = sinon.sandbox.create();
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('parse null undefined and empty', function() {
@@ -353,6 +359,23 @@ limitations under the License.
       var result = element.getTextContent();
       var expected = 'Paragraph\n\n  pre\n\nList\nOf\nItems\n\nQuote';
       assert.equal(result, expected);
+    });
+
+    test('_contentOrConfigChanged not called without config', function() {
+      var contentStub = sandbox.stub(element, '_contentChanged');
+      var contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
+      element.content = 'some text';
+      assert.isTrue(contentStub.called);
+      assert.isFalse(contentConfigStub.called);
+    });
+
+    test('_contentOrConfigChanged called with config', function() {
+      var contentStub = sandbox.stub(element, '_contentChanged');
+      var contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
+      element.content = 'some text';
+      element.config = {};
+      assert.isTrue(contentStub.called);
+      assert.isTrue(contentConfigStub.called);
     });
   });
 </script>

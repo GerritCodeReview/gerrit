@@ -16,6 +16,24 @@
       "revId": "fd5c186bbdc2d92b891bf0f426b1d8e73aacdc53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "066c9584_194ffe8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-03T15:00:38Z",
+      "side": 1,
+      "message": "I was thinking about that, but then the address will get split up (there is a splitter on \u0027@\u0027 in that code). I haven\u0027t found any other parts in the code where we would do this and thought matching on the whole address would make more sense as it is more narrow.",
+      "parentUuid": "3d3dab61_83aa9212",
+      "revId": "fd5c186bbdc2d92b891bf0f426b1d8e73aacdc53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

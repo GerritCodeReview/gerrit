@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "d2af16a1_503fc9d2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-03T22:30:43Z",
+      "side": 1,
+      "message": "Not a huge deal, but I think it\u0027s fine to omit the config parameter from this and _makeLinkedText methods and leave them using `this.config` as before.\n\nThe config parameter on `_contentOrConfigChanged` is just for the observer and it\u0027s not really expected to differ from `this.config`.",
+      "range": {
+        "startLine": 77,
+        "startChar": 55,
+        "endLine": 77,
+        "endChar": 61
+      },
+      "revId": "756dd614dd6c523efe67dce9c93403dd59a7dfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85c5b9b9_35081a36",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.js",
         "patchSetId": 1

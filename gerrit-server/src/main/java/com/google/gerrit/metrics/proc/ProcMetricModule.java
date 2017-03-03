@@ -25,8 +25,6 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
-import com.sun.management.OperatingSystemMXBean;
-import com.sun.management.UnixOperatingSystemMXBean;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
@@ -34,7 +32,6 @@ import java.lang.management.MemoryUsage;
 import java.lang.management.ThreadMXBean;
 import java.util.concurrent.TimeUnit;
 
-@SuppressWarnings("restriction")
 public class ProcMetricModule extends MetricModule {
   @Override
   protected void configure(MetricMaker metrics) {
@@ -72,9 +69,13 @@ public class ProcMetricModule extends MetricModule {
   }
 
   private void procCpuUsage(MetricMaker metrics) {
-    final OperatingSystemMXBean sys =
-        (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-    if (sys.getProcessCpuTime() != -1) {
+    final OperatingSystemMXBeanProvider provider = OperatingSystemMXBeanProvider.Factory.create();
+
+    if (provider == null) {
+      return;
+    }
+
+    if (provider.getProcessCpuTime() != -1) {
       metrics.newCallbackMetric(
           "proc/cpu/usage",
           Double.class,
@@ -82,24 +83,22 @@ public class ProcMetricModule extends MetricModule {
           new Supplier<Double>() {
             @Override
             public Double get() {
-              return sys.getProcessCpuTime() / 1e9;
+              return provider.getProcessCpuTime() / 1e9;
             }
           });
     }
-    if (sys instanceof UnixOperatingSystemMXBean) {
-      final UnixOperatingSystemMXBean unix = (UnixOperatingSystemMXBean) sys;
-      if (unix.getOpenFileDescriptorCount() != -1) {
-        metrics.newCallbackMetric(
-            "proc/num_open_fds",
-            Long.class,
-            new Description("Number of open file descriptors").setGauge().setUnit("fds"),
-            new Supplier<Long>() {
-              @Override
-              public Long get() {
-                return unix.getOpenFileDescriptorCount();
-              }
-            });
-      }
+
+    if (provider.getOpenFileDescriptorCount() != -1) {
+      metrics.newCallbackMetric(
+          "proc/num_open_fds",
+          Long.class,
+          new Description("Number of open file descriptors").setGauge().setUnit("fds"),
+          new Supplier<Long>() {
+            @Override
+            public Long get() {
+              return provider.getOpenFileDescriptorCount();
+            }
+          });
     }
   }
 

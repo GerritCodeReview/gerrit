@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a18cc44e_4d2c5eba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-03T10:28:15Z",
+      "side": 1,
+      "message": "just make this a string, your method either returns the email address extracted from the original query or null if it can\u0027t extract anything",
+      "range": {
+        "startLine": 1066,
+        "startChar": 4,
+        "endLine": 1066,
+        "endChar": 15
+      },
+      "revId": "50d9bdea9488c40a4d27b5ff8b34a21213c1e9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "befa33d7_c354d7b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1070,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-03T10:28:15Z",
+      "side": 1,
+      "message": "remove, but add a check to see if \u0027who\u0027  is non-empty (Strings.isNullOrEmpty(..))",
+      "range": {
+        "startLine": 1067,
+        "startChar": 0,
+        "endLine": 1070,
+        "endChar": 5
+      },
+      "revId": "50d9bdea9488c40a4d27b5ff8b34a21213c1e9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f53d38f9_9c204450",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-03T10:28:15Z",
+      "side": 1,
+      "message": "as said before, no need to an AND predicate; instead do:\n\nreturn new AuthorPredicate(email !\u003d null ? email, who)",
+      "range": {
+        "startLine": 1072,
+        "startChar": 1,
+        "endLine": 1074,
+        "endChar": 37
+      },
+      "revId": "50d9bdea9488c40a4d27b5ff8b34a21213c1e9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "395414b3_7a421e32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-03T10:28:15Z",
+      "side": 1,
+      "message": "same as above; this can all go, just construct the predicate from the string that you get back from your method",
+      "range": {
+        "startLine": 1079,
+        "startChar": 4,
+        "endLine": 1087,
+        "endChar": 37
+      },
+      "revId": "50d9bdea9488c40a4d27b5ff8b34a21213c1e9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6359097a_ea2310fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1184,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-03T10:28:15Z",
+      "side": 1,
+      "message": "tryExtractEmailAddress\nand add a JavaDoc to state what happens when an email address can\u0027t be extracted",
+      "range": {
+        "startLine": 1184,
+        "startChar": 22,
+        "endLine": 1184,
+        "endChar": 36
+      },
+      "revId": "50d9bdea9488c40a4d27b5ff8b34a21213c1e9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a3ebb51_0a303ac8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1186,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-03T10:28:15Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 1185,
+        "startChar": 3,
+        "endLine": 1186,
+        "endChar": 0
+      },
+      "revId": "50d9bdea9488c40a4d27b5ff8b34a21213c1e9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7a59d3e_beca89d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-03T10:28:15Z",
+      "side": 1,
+      "message": "return address.getEmail();",
+      "range": {
+        "startLine": 1190,
+        "startChar": 7,
+        "endLine": 1191,
+        "endChar": 30
+      },
+      "revId": "50d9bdea9488c40a4d27b5ff8b34a21213c1e9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6ca2b02_2f0fc8c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-03T10:28:15Z",
+      "side": 1,
+      "message": "return null;",
+      "range": {
+        "startLine": 1196,
+        "startChar": 0,
+        "endLine": 1198,
+        "endChar": 26
+      },
+      "revId": "50d9bdea9488c40a4d27b5ff8b34a21213c1e9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

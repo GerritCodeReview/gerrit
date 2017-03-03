@@ -34,6 +34,24 @@
       "revId": "fd5c186bbdc2d92b891bf0f426b1d8e73aacdc53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fcfd4cf_184facf5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T15:04:55Z",
+      "side": 1,
+      "message": "But does matching on the whole email address work?\n\nWhen the committer is stored in the repeatable COMMITTER field we use SchemaUtil.getPersonParts(...) which uses SchemaUtil.getNameParts with the email address, so in the index the email address is split in parts.",
+      "parentUuid": "066c9584_194ffe8d",
+      "revId": "fd5c186bbdc2d92b891bf0f426b1d8e73aacdc53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "996c0d7b34ddf8dd913a426a371a04f0d9fbb40e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8762c995_fe45e88c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/RegexListSearcherTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-03T07:47:20Z",
+      "side": 1,
+      "message": "I got a ticket assigned by our error prone tool saying:\n\nFor constant field declarations, you should use the immutable type (such as ImmutableList) instead of the general collection interface type (such as List). This communicates to your callers important semantic guarantees .\n\nI thought the change made sense (and still think so :) )",
+      "parentUuid": "9a92fb09_c9297ff9",
+      "range": {
+        "startLine": 27,
+        "startChar": 23,
+        "endLine": 27,
+        "endChar": 36
+      },
+      "revId": "996c0d7b34ddf8dd913a426a371a04f0d9fbb40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

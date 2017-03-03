@@ -46,6 +46,29 @@
       "revId": "ad7a742a3643300da02a8f5749cc7f67ad103b7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19ab790f_e36b5249",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 39
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-03T07:31:13Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be called just: viewPrivateChanges, without the \"Draft\" part?",
+      "range": {
+        "startLine": 177,
+        "startChar": 4,
+        "endLine": 177,
+        "endChar": 9
+      },
+      "revId": "ad7a742a3643300da02a8f5749cc7f67ad103b7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

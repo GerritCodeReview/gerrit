@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5abb1b47_3a308f35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-03T09:13:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd8d1c86_b63b9a28",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "ccd617cfb240d8b552e1eb2eb71169fe72d54aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bf2afcb_c0be0ed5",
         "filename": "Documentation/dev-intellij.txt",
         "patchSetId": 1
@@ -120,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "dde3a5d3_d5cee1e9",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-03T09:13:16Z",
+      "side": 1,
+      "message": "I added a respective warning to the section of the run configuration which isn\u0027t working at the moment.",
+      "parentUuid": "0a172d12_0cc4ea5f",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 16
+      },
+      "revId": "ccd617cfb240d8b552e1eb2eb71169fe72d54aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbfb2b62_6e637e9c",
         "filename": "Documentation/dev-intellij.txt",
         "patchSetId": 1
@@ -143,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "12c7bb61_3a980384",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-03T09:13:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbfb2b62_6e637e9c",
+      "range": {
+        "startLine": 150,
+        "startChar": 14,
+        "endLine": 150,
+        "endChar": 21
+      },
+      "revId": "ccd617cfb240d8b552e1eb2eb71169fe72d54aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d698663c_afaaf67a",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 1
@@ -163,6 +235,30 @@
       "revId": "ccd617cfb240d8b552e1eb2eb71169fe72d54aa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56b80125_017c2fe9",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-03T09:13:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d698663c_afaaf67a",
+      "range": {
+        "startLine": 170,
+        "startChar": 38,
+        "endLine": 170,
+        "endChar": 45
+      },
+      "revId": "ccd617cfb240d8b552e1eb2eb71169fe72d54aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

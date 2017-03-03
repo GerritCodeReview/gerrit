@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1488526635 +0100\nnonce AFJA6oeqDMlSwvPQRvrmbwC+pz87mdDCZBRuRJwdSsxHuo3Q6FnhuPs/L1NI2x/mM7qbC4X6BaKZ\n\n0000000000000000000000000000000000000000 2de658b725a0dc5f9139d2f71cb762aeb01dc4d3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYuR0rAAoJEFG1/Zeg0O9R9awIAISuriKMSB+1srbrguRXN4Gq\nm9nZcohSm2ToNVpGWiLr+k7solz2kOi2I8V/OgCHMroAEUJW72YgIQgaoGnxYFKT\nkyHQLHtO1nz1cy06WiUfWZ45LMJ04yt19CaM7zdJWzkdOd5i/TaMFh7FidbV8qQ3\nVm4iRxTNiIhXf0hYGWY0kwCnnhphHxFtrMighIdCGYhocsq/BVjHHQ5YSgdF+ySb\nLiLjYXSgjVYlhhz+x0Ts2HcBS57YGWGbynmXHh875LF6p6ALEq35n7qXALrXbxEH\nNhRvmEpwVh5m75Fgqx4a142PCPKbdsAC1lXRhUifKS4nLWjUnDKHwLsI66eHKGo\u003d\n\u003dA1Tx\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bddeab87_afff3c6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-03T07:47:32Z",
+      "side": 1,
+      "message": "nit: abbreviate at 10 characters so it gets hyperlinked.",
+      "range": {
+        "startLine": 12,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "2de658b725a0dc5f9139d2f71cb762aeb01dc4d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a485b610_07c8be75",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-03T07:47:32Z",
+      "side": 1,
+      "message": "What about the case where a watcher has View Drafts permission?",
+      "revId": "2de658b725a0dc5f9139d2f71cb762aeb01dc4d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

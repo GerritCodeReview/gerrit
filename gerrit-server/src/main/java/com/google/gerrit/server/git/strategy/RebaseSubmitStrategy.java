@@ -263,8 +263,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
           && !args.submoduleOp.hasSubscription(args.destBranch)) {
         mergeTip.moveTipTo(toMerge, toMerge);
       } else {
-        PersonIdent caller = ctx.getIdentifiedUser().newCommitterIdent(
-            ctx.getWhen(), ctx.getTimeZone());
+        PersonIdent caller =
+            ctx.getIdentifiedUser().newCommitterIdent(ctx.getWhen(), ctx.getTimeZone());
         CodeReviewCommit newTip =
             args.mergeUtil.mergeOneCommit(
                 caller,

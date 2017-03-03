@@ -23,6 +23,30 @@
       "revId": "bc439dd56a5f9cc1a3da2550335112327a3a0a8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30721568_70401f89",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-03T08:51:44Z",
+      "side": 1,
+      "message": "Well, that\u0027s what the formatter does...",
+      "parentUuid": "fdaedb1c_359a3498",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 8
+      },
+      "revId": "bc439dd56a5f9cc1a3da2550335112327a3a0a8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

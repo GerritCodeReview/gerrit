@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0ea11d0d_742d9623",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-03T22:44:36Z",
+      "side": 1,
+      "message": "he goal is to be able to find the bottom of that whole chunk, which does include multiple targets. \n\nI\u0027m now realizing that the end of one chunk !\u003d the beginning of the next one, but we definitely need more than the next index, which is just the next line.",
+      "parentUuid": "cd7bf4c8_8f156ee4",
+      "range": {
+        "startLine": 162,
+        "startChar": 8,
+        "endLine": 162,
+        "endChar": 66
+      },
+      "revId": "fc6bde57bfd319ee7fbdfca9ca84a8dd3550d54e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4577f06d_37cd1e2e",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
         "patchSetId": 1
@@ -82,6 +106,24 @@
       "writtenOn": "2017-03-03T22:03:18Z",
       "side": 1,
       "message": "The \"next\" target isn\u0027t necessarily adjacent to the current target. Thus, the top of the next target isn\u0027t the bottom of the current target in general.\n\nMoreover, why not just compute the height of the current target to find whether it\u0027s fully in view?",
+      "revId": "fc6bde57bfd319ee7fbdfca9ca84a8dd3550d54e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb4a81d1_fa8d39c0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-03T22:44:36Z",
+      "side": 1,
+      "message": "That was my initial thought, however the current target is not the entire chunk, merely a line.",
+      "parentUuid": "1e762f7e_6feb38ec",
       "revId": "fc6bde57bfd319ee7fbdfca9ca84a8dd3550d54e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

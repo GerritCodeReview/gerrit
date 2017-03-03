@@ -24,7 +24,7 @@ import java.util.List;
 import org.junit.Test;
 
 public class RegexListSearcherTest {
-  private static final List<String> EMPTY = ImmutableList.of();
+  private static final ImmutableList<String> EMPTY = ImmutableList.of();
 
   @Test
   public void emptyList() {

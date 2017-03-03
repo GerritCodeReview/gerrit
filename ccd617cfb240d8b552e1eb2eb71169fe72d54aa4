@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "b445a1f5_9f5357aa",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-03T09:18:43Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "dde3a5d3_d5cee1e9",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 16
+      },
+      "revId": "ccd617cfb240d8b552e1eb2eb71169fe72d54aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbfb2b62_6e637e9c",
         "filename": "Documentation/dev-intellij.txt",
         "patchSetId": 1

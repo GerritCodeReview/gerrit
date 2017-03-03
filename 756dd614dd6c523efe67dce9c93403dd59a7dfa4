@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "f59a9a1b_63e2d086",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-03T22:56:07Z",
+      "side": 1,
+      "message": "Yeah, in this form I think it\u0027s extra baggage to have on the method signatures. Especially considering how it isn\u0027t even really directly used by `_computeNodes`.",
+      "parentUuid": "419997d6_8f18c269",
+      "range": {
+        "startLine": 77,
+        "startChar": 55,
+        "endLine": 77,
+        "endChar": 61
+      },
+      "revId": "756dd614dd6c523efe67dce9c93403dd59a7dfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85c5b9b9_35081a36",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.js",
         "patchSetId": 1

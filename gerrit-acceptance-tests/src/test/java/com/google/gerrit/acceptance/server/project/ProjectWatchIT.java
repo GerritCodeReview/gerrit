@@ -81,6 +81,28 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void noNotificationForDraftChangesForWatchersInNotifyConfig() throws Exception {
+    Address addr = new Address("Watcher", "watcher@example.com");
+    NotifyConfig nc = new NotifyConfig();
+    nc.addEmail(addr);
+    nc.setName("team");
+    nc.setHeader(NotifyConfig.Header.TO);
+    nc.setTypes(EnumSet.of(NotifyType.NEW_CHANGES));
+
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    cfg.putNotifyConfig("team", nc);
+    saveProjectConfig(project, cfg);
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, "draft change", "a", "a1")
+            .to("refs/for/master%draft");
+    r.assertOkStatus();
+
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
   public void watchProject() throws Exception {
     // watch project
     String watchedProject = createProject("watchedProject").get();

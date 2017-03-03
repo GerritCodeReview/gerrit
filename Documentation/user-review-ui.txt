@@ -972,7 +972,7 @@ Vim-like commands can be used to navigate within a patch file:
 - `h` / `j` / `k` / `l` moves the cursor left / down / up / right
 - `0` / `$` moves the cursor to the start / end of the line
 - `gg` / `G` moves to cursor to the start / end of the file
-- `Ctrl-D` / `Ctrl-U` scolls downwards / upwards
+- `Ctrl-D` / `Ctrl-U` scrolls downwards / upwards
 
 Please check the link:http://www.vim.org/docs.php[Vim documentation]
 for further information.

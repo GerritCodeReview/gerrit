@@ -50,7 +50,7 @@ which will cause the merge to fail.
 
 
 Plugins implementing the `OnSubmitValidationListener` interface can
-perform additional validation checks against ref operations resuling
+perform additional validation checks against ref operations resulting
 from execution of submit operation before they are applied to any git
 repositories (there could be more than one in case of topic submits).
 

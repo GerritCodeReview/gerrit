@@ -115,7 +115,7 @@ Sample database section in $site_path/etc/secure.config:
 
 ----
 [database]
-        password = secret_pasword
+        password = secret_password
 ----
 
 [[createdb_maxdb]]
@@ -204,7 +204,7 @@ Sample database section in $site_path/etc/secure.config:
 
 ----
 [database]
-        password = secret_pasword
+        password = secret_password
 ----
 
 [[createdb_hana]]

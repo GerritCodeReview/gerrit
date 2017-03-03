@@ -2666,7 +2666,7 @@ Defaults to `localhost`.
 +
 Elasticsearch server port.
 +
-Defauls to `9200`.
+Defaults to `9200`.
 
 [[index.prefix]]index.prefix::
 +
@@ -3497,7 +3497,7 @@ Defaults to an empty string which means that receiving emails is disabled.
 
 [[receiveemail.port]]receiveemail.port::
 +
-The port the email server exposes for receving emails.
+The port the email server exposes for receiving emails.
 +
 Defaults to the industry standard for a given protocol and encryption:
 POP3: 110; POP3S: 995; IMAP: 143; IMAPS: 995.

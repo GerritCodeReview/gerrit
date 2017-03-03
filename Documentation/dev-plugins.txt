@@ -2518,7 +2518,7 @@ public class MyPlugin implements ReviewerSuggestion {
 Gerrit provides an extension point that enables Plugins to discard incoming
 messages and prevent further processing by Gerrit.
 
-This can be used to implement spam checks, signature validations or organisation
+This can be used to implement spam checks, signature validations or organization
 specific checks like IP filters.
 
 [source, java]

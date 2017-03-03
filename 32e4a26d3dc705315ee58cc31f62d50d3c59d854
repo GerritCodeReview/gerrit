@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "93fb72d2_1ebdb296",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-03T22:27:41Z",
+      "side": 1,
+      "message": "Added it back. It\u0027s used in other files.",
+      "parentUuid": "0167931a_d9878ab4",
+      "revId": "32e4a26d3dc705315ee58cc31f62d50d3c59d854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd14d402_b1567202",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
         "patchSetId": 2

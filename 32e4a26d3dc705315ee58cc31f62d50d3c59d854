@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ebfbd99_1b48836c",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-03T21:45:42Z",
+      "side": 1,
+      "message": "You probably can do this._messageExpandedChanged(message.expanded) and reduce duplication.",
+      "revId": "32e4a26d3dc705315ee58cc31f62d50d3c59d854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7737c11d_e87b83d4",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-03T21:45:42Z",
+      "side": 1,
+      "message": "Please add a comment here that this calculates default expanded value.",
+      "revId": "32e4a26d3dc705315ee58cc31f62d50d3c59d854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e3b7403_52f76853",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-03T21:45:42Z",
+      "side": 1,
+      "message": "At line 119 you check for this.message, can this be null here?",
+      "revId": "32e4a26d3dc705315ee58cc31f62d50d3c59d854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6709af3d_e001b43e",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-03T21:45:42Z",
+      "side": 1,
+      "message": "Please fix indentation.",
+      "revId": "32e4a26d3dc705315ee58cc31f62d50d3c59d854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f978164e_e1ebaaba",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-03T21:45:42Z",
+      "side": 1,
+      "message": "Looks like it\u0027s only being called from _handleExpandCollapseTap, does it make sense to inline it there?",
+      "revId": "32e4a26d3dc705315ee58cc31f62d50d3c59d854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd14d402_b1567202",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-03T21:45:42Z",
+      "side": 1,
+      "message": "Remove empty lines.",
+      "revId": "32e4a26d3dc705315ee58cc31f62d50d3c59d854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

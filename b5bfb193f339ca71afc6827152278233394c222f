@@ -89,6 +89,24 @@
       "revId": "b5bfb193f339ca71afc6827152278233394c222f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_300aa680",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-03-03T16:28:37Z",
+      "side": 1,
+      "message": "I think it would be hard to give a good definition of \"the last ps a user has seen\" with the data you have in gerrit.\nBUT!\nWhen I select base to see what has changed I practically always choose the last ps I graded. So f.i. if I gave ps 3 CR+1 then I would use that as a base. The second most common base I use is the last ps I commented on.\n\nPersonally I think using the last ps the user graded or commented on as base would still make this an awesome little feature that many users will appreciate.",
+      "parentUuid": "f03b47ab_90c51a37",
+      "revId": "b5bfb193f339ca71afc6827152278233394c222f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

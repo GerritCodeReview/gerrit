@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f306ff04_75e80c39",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-03T21:31:45Z",
+      "side": 1,
+      "message": "Add a comment declaring intent.",
+      "revId": "bd7b8b69d2e9dd344d6b2c445e38a2fc16c157f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69522a03_4099ae98",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-03T21:31:45Z",
+      "side": 1,
+      "message": "I presume this only covers the case where no suggestions were proposed by the server? Would be good to cover both cases.",
+      "revId": "bd7b8b69d2e9dd344d6b2c445e38a2fc16c157f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

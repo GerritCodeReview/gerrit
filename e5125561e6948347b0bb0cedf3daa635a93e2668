@@ -94,6 +94,30 @@
       "revId": "e5125561e6948347b0bb0cedf3daa635a93e2668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3a338a3_8c11ff12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-03T21:00:51Z",
+      "side": 1,
+      "message": "*Pretty sure* this was resolved offline.",
+      "parentUuid": "5a772a72_7deb8b0b",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "e5125561e6948347b0bb0cedf3daa635a93e2668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

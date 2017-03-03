@@ -607,6 +607,30 @@
     },
     {
       "key": {
+        "uuid": "62592f15_d78837a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1197,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-03T13:10:31Z",
+      "side": 1,
+      "message": "This class is shared by \u0027committer\u0027 and \u0027author\u0027 predicates. So We can\u0027t do this modification?",
+      "parentUuid": "24e4c45e_3e52f7e8",
+      "range": {
+        "startLine": 1197,
+        "startChar": 19,
+        "endLine": 1197,
+        "endChar": 25
+      },
+      "revId": "50d9bdea9488c40a4d27b5ff8b34a21213c1e9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6ca2b02_2f0fc8c0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 8

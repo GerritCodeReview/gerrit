@@ -114,6 +114,30 @@
       "revId": "3648eb15a6631a23d9be1e1a9bfa970f35a29e8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77eb8dc3_0967ad20",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2433,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-03T06:10:23Z",
+      "side": 1,
+      "message": "Sign. Currently, most of our examples in Prolog-Cookbook has no tests.\nBut I also think it\u0027s better for has to have all the examples as individual files. And we have tests for them in ChangeIT or PrologIT (?).",
+      "parentUuid": "7371f14d_b9856d58",
+      "range": {
+        "startLine": 2425,
+        "startChar": 12,
+        "endLine": 2433,
+        "endChar": 71
+      },
+      "revId": "3648eb15a6631a23d9be1e1a9bfa970f35a29e8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

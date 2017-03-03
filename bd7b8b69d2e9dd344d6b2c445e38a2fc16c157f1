@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "72344fcf_49db5364",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-03T22:44:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3456d665_807b2d64",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 10
+      },
+      "revId": "bd7b8b69d2e9dd344d6b2c445e38a2fc16c157f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f306ff04_75e80c39",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "f7fbbaaf_5b1e43d7",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-03T22:44:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f306ff04_75e80c39",
+      "revId": "bd7b8b69d2e9dd344d6b2c445e38a2fc16c157f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69522a03_4099ae98",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 1
@@ -56,6 +98,24 @@
       "revId": "bd7b8b69d2e9dd344d6b2c445e38a2fc16c157f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bc850db_52031c2d",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-03T22:44:05Z",
+      "side": 1,
+      "message": "(addressed offline)",
+      "parentUuid": "69522a03_4099ae98",
+      "revId": "bd7b8b69d2e9dd344d6b2c445e38a2fc16c157f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -38,7 +38,7 @@
                                       // monospace text.
     white-space: pre-wrap;
   {/let}
-  <pre style="{$preStyle}">{$content}</pre>
+  <pre style="{$preStyle}">{$content|changeNewlineToBr}</pre>
 {/template}
 
 /**

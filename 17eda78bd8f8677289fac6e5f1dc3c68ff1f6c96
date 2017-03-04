@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fa7466a5_c5142701",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-04T13:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ebc8936_48887069",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 5
+      },
+      "revId": "17eda78bd8f8677289fac6e5f1dc3c68ff1f6c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d16fea09_d61ef9da",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-03-01T08:32:01Z",
       "side": 1,
       "message": "Mention that the vote can be on any label?",
+      "range": {
+        "startLine": 130,
+        "startChar": 66,
+        "endLine": 130,
+        "endChar": 70
+      },
+      "revId": "17eda78bd8f8677289fac6e5f1dc3c68ff1f6c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebcd41d2_ab952a03",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-04T13:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d16fea09_d61ef9da",
       "range": {
         "startLine": 130,
         "startChar": 66,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "eccd3e89_637167f6",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-04T13:20:15Z",
+      "side": 1,
+      "message": "See previous change. This predicate is based on VOTED reviewer state.",
+      "parentUuid": "524c99bf_c072a09a",
+      "range": {
+        "startLine": 130,
+        "startChar": 71,
+        "endLine": 131,
+        "endChar": 24
+      },
+      "revId": "17eda78bd8f8677289fac6e5f1dc3c68ff1f6c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2107128_ed24cbd0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 2
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "88dfab78_cc63da80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-04T13:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2107128_ed24cbd0",
+      "revId": "17eda78bd8f8677289fac6e5f1dc3c68ff1f6c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cb95ba9_d90541b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 2
@@ -99,6 +189,30 @@
       "writtenOn": "2017-03-01T08:32:01Z",
       "side": 1,
       "message": "The documentation for this is missing. I would also rather call this operator \"has:vote\" instead of \"is:voted\".",
+      "range": {
+        "startLine": 571,
+        "startChar": 9,
+        "endLine": 571,
+        "endChar": 14
+      },
+      "revId": "17eda78bd8f8677289fac6e5f1dc3c68ff1f6c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53b9aa94_6a8a635d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-04T13:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cb95ba9_d90541b2",
       "range": {
         "startLine": 571,
         "startChar": 9,

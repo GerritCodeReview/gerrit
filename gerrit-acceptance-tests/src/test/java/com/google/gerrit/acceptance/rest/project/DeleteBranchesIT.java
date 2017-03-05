@@ -36,7 +36,7 @@ import org.junit.Test;
 
 @NoHttpd
 public class DeleteBranchesIT extends AbstractDaemonTest {
-  private static final List<String> BRANCHES =
+  private static final ImmutableList<String> BRANCHES =
       ImmutableList.of("refs/heads/test-1", "refs/heads/test-2", "refs/heads/test-3");
 
   @Before

@@ -24,7 +24,6 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 import com.google.common.base.MoreObjects;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
-import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -61,7 +60,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
 
   private static final String CACHE_NAME = "mergeability";
 
-  public static final BiMap<SubmitType, Character> SUBMIT_TYPES =
+  public static final ImmutableBiMap<SubmitType, Character> SUBMIT_TYPES =
       new ImmutableBiMap.Builder<SubmitType, Character>()
           .put(SubmitType.FAST_FORWARD_ONLY, 'F')
           .put(SubmitType.MERGE_IF_NECESSARY, 'M')

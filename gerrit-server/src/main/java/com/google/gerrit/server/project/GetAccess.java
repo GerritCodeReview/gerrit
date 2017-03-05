@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.AccessSection;
@@ -51,7 +50,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 @Singleton
 public class GetAccess implements RestReadView<ProjectResource> {
 
-  public static final BiMap<PermissionRule.Action, PermissionRuleInfo.Action> ACTION_TYPE =
+  public static final ImmutableBiMap<PermissionRule.Action, PermissionRuleInfo.Action> ACTION_TYPE =
       ImmutableBiMap.of(
           PermissionRule.Action.ALLOW,
           PermissionRuleInfo.Action.ALLOW,

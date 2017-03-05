@@ -60,7 +60,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class Schema_119 extends SchemaVersion {
-  private static final Map<String, String> LEGACY_DISPLAYNAME_MAP =
+  private static final ImmutableMap<String, String> LEGACY_DISPLAYNAME_MAP =
       ImmutableMap.<String, String>of(
           "ANON_GIT", ANON_GIT,
           "ANON_HTTP", ANON_HTTP,

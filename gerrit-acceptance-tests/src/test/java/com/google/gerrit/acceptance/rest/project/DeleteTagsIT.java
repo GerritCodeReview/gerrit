@@ -35,7 +35,7 @@ import org.junit.Test;
 
 @NoHttpd
 public class DeleteTagsIT extends AbstractDaemonTest {
-  private static final List<String> TAGS =
+  private static final ImmutableList<String> TAGS =
       ImmutableList.of("refs/tags/test-1", "refs/tags/test-2", "refs/tags/test-3");
 
   @Before

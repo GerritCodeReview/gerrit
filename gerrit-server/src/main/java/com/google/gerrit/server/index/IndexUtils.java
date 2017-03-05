@@ -25,12 +25,12 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.group.GroupField;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public final class IndexUtils {
-  public static final Map<String, String> CUSTOM_CHAR_MAPPING = ImmutableMap.of("_", " ", ".", " ");
+  public static final ImmutableMap<String, String> CUSTOM_CHAR_MAPPING =
+      ImmutableMap.of("_", " ", ".", " ");
 
   public static void setReady(SitePaths sitePaths, String name, int version, boolean ready)
       throws IOException {

@@ -18,6 +18,10 @@ import java.sql.Timestamp;
 
 /** Document field types supported by the secondary index system. */
 public class FieldType<T> {
+  // Implementation note: FieldDef assumes that T is never a subtype of Stream. With the current
+  // model that is a safe assumption, since T represents a single field value, and repeatability is
+  // represented at a higher level in FieldDef.
+
   /** A single integer-valued field. */
   public static final FieldType<Integer> INTEGER = new FieldType<>("INTEGER");
 

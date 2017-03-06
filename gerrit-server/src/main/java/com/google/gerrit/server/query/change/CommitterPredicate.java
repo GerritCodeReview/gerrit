@@ -29,7 +29,7 @@ public class CommitterPredicate extends ChangeIndexPredicate {
   @Override
   public boolean match(ChangeData object) throws OrmException {
     try {
-      return ChangeField.getCommitterParts(object).contains(getValue().toLowerCase());
+      return ChangeField.getCommitterParts(object).anyMatch(getValue()::equalsIgnoreCase);
     } catch (IOException e) {
       throw new OrmException(e);
     }

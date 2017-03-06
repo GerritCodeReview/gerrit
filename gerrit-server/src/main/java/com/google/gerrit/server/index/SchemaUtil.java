@@ -19,19 +19,17 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.Streams;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.PersonIdent;
 
 public class SchemaUtil {
@@ -84,34 +82,31 @@ public class SchemaUtil {
     return schema(ImmutableList.copyOf(fields));
   }
 
-  public static Set<String> getPersonParts(PersonIdent person) {
+  public static Stream<String> getPersonParts(PersonIdent person) {
     if (person == null) {
-      return ImmutableSet.of();
+      return Stream.of();
     }
-    return getNameParts(person.getName(), Collections.singleton(person.getEmailAddress()));
+    return getNameParts(person.getName(), Stream.of(person.getEmailAddress()));
   }
 
-  public static Set<String> getNameParts(String name) {
-    return getNameParts(name, Collections.emptySet());
+  public static Stream<String> getNameParts(String name) {
+    return getNameParts(name, Stream.of());
   }
 
-  public static Set<String> getNameParts(String name, Iterable<String> emails) {
+  public static Stream<String> getNameParts(String name, Stream<String> emails) {
     Splitter at = Splitter.on('@');
     Splitter s = Splitter.on(CharMatcher.anyOf("@.- /_")).omitEmptyStrings();
-    HashSet<String> parts = new HashSet<>();
-    for (String email : emails) {
-      if (email == null) {
-        continue;
-      }
-      String lowerEmail = email.toLowerCase(Locale.US);
-      parts.add(lowerEmail);
-      Iterables.addAll(parts, at.split(lowerEmail));
-      Iterables.addAll(parts, s.split(lowerEmail));
-    }
+    Stream<String> parts =
+        emails
+            .filter(Objects::nonNull)
+            .flatMap(
+                e ->
+                    Streams.concat(
+                        Stream.of(e), Streams.stream(at.split(e)), Streams.stream(s.split(e))));
     if (name != null) {
-      Iterables.addAll(parts, s.split(name.toLowerCase(Locale.US)));
+      parts = Stream.concat(parts, Streams.stream(s.split(name)));
     }
-    return parts;
+    return parts.map(e -> e.toLowerCase(Locale.US)).distinct();
   }
 
   private SchemaUtil() {}

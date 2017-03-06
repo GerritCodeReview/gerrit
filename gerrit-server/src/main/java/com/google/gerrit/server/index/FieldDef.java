@@ -25,6 +25,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -111,11 +112,11 @@ public final class FieldDef<I, T> {
       return new FieldDef<>(name, type, stored, false, getter);
     }
 
-    public <I> FieldDef<I, Iterable<T>> buildRepeatable(Getter<I, Iterable<T>> getter) {
+    public <I> FieldDef<I, Stream<T>> buildRepeatable(Getter<I, Stream<T>> getter) {
       return buildRepeatable((in, a) -> getter.get(in));
     }
 
-    public <I> FieldDef<I, Iterable<T>> buildRepeatable(GetterWithArgs<I, Iterable<T>> getter) {
+    public <I> FieldDef<I, Stream<T>> buildRepeatable(GetterWithArgs<I, Stream<T>> getter) {
       return new FieldDef<>(name, type, stored, true, getter);
     }
   }

@@ -53,7 +53,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.EnumSet;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -167,7 +166,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
         bu.execute();
       }
 
-      ChangeJson json = jsonFactory.create(EnumSet.of(ListChangesOption.CURRENT_REVISION));
+      ChangeJson json = jsonFactory.create(ListChangesOption.CURRENT_REVISION);
       return Response.ok(json.format(psInserter.getChange()));
     }
   }

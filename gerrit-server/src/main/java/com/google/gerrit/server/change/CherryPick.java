@@ -97,7 +97,7 @@ public class CherryPick
               refName,
               refControl,
               parent);
-      return json.create(ChangeJson.NO_OPTIONS).format(revision.getProject(), cherryPickedChangeId);
+      return json.noOptions().format(revision.getProject(), cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
     } catch (IntegrationException | NoSuchChangeException e) {

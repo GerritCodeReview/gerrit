@@ -78,7 +78,7 @@ public class Abandon
     Change change =
         abandon(
             control, input.message, input.notify, notifyUtil.resolveAccounts(input.notifyDetails));
-    return json.create(ChangeJson.NO_OPTIONS).format(change);
+    return json.noOptions().format(change);
   }
 
   public Change abandon(ChangeControl control) throws RestApiException, UpdateException {

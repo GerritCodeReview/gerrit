@@ -406,8 +406,8 @@ public class AccountManager {
 
         if (who.getEmailAddress() != null) {
           byEmailCache.evict(who.getEmailAddress());
-          byIdCache.evict(to);
         }
+        byIdCache.evict(to);
       }
 
       return new AuthResult(to, key, false);

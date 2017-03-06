@@ -85,6 +85,7 @@ limitations under the License.
         time_format: 'HHMM_12',
         diff_view: 'UNIFIED_DIFF',
         email_strategy: 'ENABLED',
+        email_format: 'HTML_PLAINTEXT',
 
         my: [
           {url: '/first/url', name: 'first name', target: '_blank'},
@@ -162,6 +163,8 @@ limitations under the License.
           .lastElementChild.bindValue, preferences.time_format);
       assert.equal(valueOf('Email Notifications', 'preferences')
           .firstElementChild.bindValue, preferences.email_strategy);
+      assert.equal(valueOf('Email Format', 'preferences')
+          .firstElementChild.bindValue, preferences.email_format);
       assert.equal(valueOf('Diff View', 'preferences')
           .firstElementChild.bindValue, preferences.diff_view);
       assert.equal(valueOf('Expand Inline Diffs', 'preferences')

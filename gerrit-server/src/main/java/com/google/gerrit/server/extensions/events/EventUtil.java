@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -43,6 +44,22 @@ import org.slf4j.LoggerFactory;
 public class EventUtil {
   private static final Logger log = LoggerFactory.getLogger(EventUtil.class);
 
+  private static final ImmutableSet<ListChangesOption> CHANGE_OPTIONS;
+
+  static {
+    EnumSet<ListChangesOption> opts = EnumSet.allOf(ListChangesOption.class);
+
+    // Some options, like actions, are expensive to compute because they potentially have to walk
+    // lots of history and inspect lots of other changes.
+    opts.remove(ListChangesOption.CHANGE_ACTIONS);
+    opts.remove(ListChangesOption.CURRENT_ACTIONS);
+
+    // CHECK suppresses some exceptions on corrupt changes, which is not appropriate for passing
+    // through the event system as we would rather let them propagate.
+    opts.remove(ListChangesOption.CHECK);
+    CHANGE_OPTIONS = ImmutableSet.copyOf(opts);
+  }
+
   private final ChangeData.Factory changeDataFactory;
   private final Provider<ReviewDb> db;
   private final ChangeJson changeJson;
@@ -54,9 +71,7 @@ public class EventUtil {
       Provider<ReviewDb> db) {
     this.changeDataFactory = changeDataFactory;
     this.db = db;
-    EnumSet<ListChangesOption> opts = EnumSet.allOf(ListChangesOption.class);
-    opts.remove(ListChangesOption.CHECK);
-    this.changeJson = changeJsonFactory.create(opts);
+    this.changeJson = changeJsonFactory.create(CHANGE_OPTIONS);
   }
 
   public ChangeInfo changeInfo(Change change) throws OrmException {

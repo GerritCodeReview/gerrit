@@ -269,7 +269,7 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
         bu.insertChange(ins);
         bu.execute();
       }
-      ChangeJson json = jsonFactory.create(ChangeJson.NO_OPTIONS);
+      ChangeJson json = jsonFactory.noOptions();
       return Response.created(json.format(ins.getChange()));
     } catch (IllegalArgumentException e) {
       throw new BadRequestException(e.getMessage());

@@ -22,7 +22,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
-import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -40,7 +39,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,7 +78,7 @@ public class ActionJson {
   }
 
   private ChangeJson changeJson() {
-    return changeJsonFactory.create(EnumSet.noneOf(ListChangesOption.class));
+    return changeJsonFactory.noOptions();
   }
 
   private ArrayList<ActionVisitor> visitors() {

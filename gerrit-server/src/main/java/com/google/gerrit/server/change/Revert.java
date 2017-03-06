@@ -136,7 +136,7 @@ public class Revert
     }
 
     Change.Id revertedChangeId = revert(req.getControl(), Strings.emptyToNull(input.message));
-    return json.create(ChangeJson.NO_OPTIONS).format(req.getProject(), revertedChangeId);
+    return json.noOptions().format(req.getProject(), revertedChangeId);
   }
 
   private Change.Id revert(ChangeControl ctl, String message)

@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import java.util.EnumSet;
 
 public class Check
     implements RestReadView<ChangeResource>, RestModifyView<ChangeResource, FixInput> {
@@ -54,6 +53,6 @@ public class Check
   }
 
   private ChangeJson newChangeJson() {
-    return jsonFactory.create(EnumSet.of(ListChangesOption.CHECK));
+    return jsonFactory.create(ListChangesOption.CHECK);
   }
 }

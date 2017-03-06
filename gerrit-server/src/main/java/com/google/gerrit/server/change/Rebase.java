@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
@@ -55,8 +56,9 @@ import org.slf4j.LoggerFactory;
 public class Rebase
     implements RestModifyView<RevisionResource, RebaseInput>, UiAction<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(Rebase.class);
-  private static final EnumSet<ListChangesOption> OPTIONS =
-      EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT);
+  private static final ImmutableSet<ListChangesOption> OPTIONS =
+      ImmutableSet.copyOf(
+          EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT));
 
   private final BatchUpdate.Factory updateFactory;
   private final GitRepositoryManager repoManager;

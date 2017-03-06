@@ -118,12 +118,15 @@ import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -155,13 +158,37 @@ public class ChangeJson {
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
       ChangeField.SUBMIT_RULE_OPTIONS_STRICT.toBuilder().fastEvalLabels(true).build();
 
-  public static final Set<ListChangesOption> NO_OPTIONS = Collections.emptySet();
-
   public static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
       ImmutableSet.of(ALL_REVISIONS, MESSAGES);
 
-  public interface Factory {
-    ChangeJson create(Set<ListChangesOption> options);
+  @Singleton
+  public static class Factory {
+    private final AssistedFactory factory;
+
+    @Inject
+    Factory(AssistedFactory factory) {
+      this.factory = factory;
+    }
+
+    public ChangeJson noOptions() {
+      return create(ImmutableSet.of());
+    }
+
+    public ChangeJson allOptions() {
+      return create(EnumSet.allOf(ListChangesOption.class));
+    }
+
+    public ChangeJson create(Iterable<ListChangesOption> options) {
+      return factory.create(options);
+    }
+
+    public ChangeJson create(ListChangesOption... options) {
+      return create(Sets.newEnumSet(Arrays.asList(options), ListChangesOption.class));
+    }
+  }
+
+  public interface AssistedFactory {
+    ChangeJson create(Iterable<ListChangesOption> options);
   }
 
   private final Provider<ReviewDb> db;
@@ -178,7 +205,7 @@ public class ChangeJson {
   private final DynamicMap<DownloadScheme> downloadSchemes;
   private final DynamicMap<DownloadCommand> downloadCommands;
   private final WebLinks webLinks;
-  private final EnumSet<ListChangesOption> options;
+  private final ImmutableSet<ListChangesOption> options;
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ConsistencyChecker> checkerProvider;
   private final ActionJson actionJson;
@@ -218,7 +245,7 @@ public class ChangeJson {
       ChangeKindCache changeKindCache,
       ChangeIndexCollection indexes,
       ApprovalsUtil approvalsUtil,
-      @Assisted Set<ListChangesOption> options) {
+      @Assisted Iterable<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
     this.userProvider = user;
@@ -242,8 +269,7 @@ public class ChangeJson {
     this.changeKindCache = changeKindCache;
     this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
-    this.options =
-        options.isEmpty() ? EnumSet.noneOf(ListChangesOption.class) : EnumSet.copyOf(options);
+    this.options = ImmutableSet.copyOf(options);
   }
 
   public ChangeJson lazyLoad(boolean load) {

@@ -243,7 +243,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(CapabilityCollection.Factory.class);
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);
-    factory(ChangeJson.Factory.class);
+    factory(ChangeJson.AssistedFactory.class);
     factory(CreateChangeSender.Factory.class);
     factory(GroupDetailFactory.Factory.class);
     factory(GroupMembers.Factory.class);

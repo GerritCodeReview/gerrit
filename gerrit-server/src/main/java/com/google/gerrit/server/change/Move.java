@@ -96,7 +96,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
       u.execute();
     }
 
-    return json.create(ChangeJson.NO_OPTIONS).format(req.getChange());
+    return json.noOptions().format(req.getChange());
   }
 
   private class Op extends BatchUpdate.Op {

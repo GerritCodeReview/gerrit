@@ -22,6 +22,30 @@
       "revId": "52ec33b1c91f593986f2b4139d5af88d80949eb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e39f17bc_cf44de62",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-06T14:34:06Z",
+      "side": 1,
+      "message": "Wrong push, let me go back to the right PS :-)",
+      "parentUuid": "835335e0_3a5a3cdd",
+      "range": {
+        "startLine": 471,
+        "startChar": 0,
+        "endLine": 471,
+        "endChar": 15
+      },
+      "revId": "52ec33b1c91f593986f2b4139d5af88d80949eb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

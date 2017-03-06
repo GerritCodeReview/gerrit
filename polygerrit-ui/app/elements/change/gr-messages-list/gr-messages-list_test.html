@@ -56,6 +56,7 @@ limitations under the License.
   suite('gr-messages-list tests', function() {
     var element;
     var messages;
+    var sandbox;
 
     var getMessages = function() {
       return Polymer.dom(element.root).querySelectorAll('gr-message');
@@ -66,10 +67,15 @@ limitations under the License.
         getConfig: function() { return Promise.resolve({}); },
         getLoggedIn: function() { return Promise.resolve(false); },
       });
+      sandbox = sinon.sandbox.create();
       element = fixture('basic');
       messages = _.times(3, randomMessage);
       element.messages = messages;
       flushAsynchronousOperations();
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('show some old messages', function() {
@@ -175,8 +181,8 @@ limitations under the License.
         allMessageEls[i].expanded = false;
       }
 
-      var scrollToStub = sinon.stub(window, 'scrollTo');
-      var highlightStub = sinon.stub(element, '_highlightEl');
+      var scrollToStub = sandbox.stub(window, 'scrollTo');
+      var highlightStub = sandbox.stub(element, '_highlightEl');
 
       element.scrollToMessage('invalid');
 
@@ -192,9 +198,24 @@ limitations under the License.
 
       assert.isTrue(scrollToStub.calledOnce);
       assert.isTrue(highlightStub.calledOnce);
+    });
 
-      scrollToStub.restore();
-      highlightStub.restore();
+    test('scroll to message offscreen', function() {
+      var scrollToStub = sandbox.stub(window, 'scrollTo');
+      var highlightStub = sandbox.stub(element, '_highlightEl');
+      element.messages = _.times(25, randomMessage);
+      flushAsynchronousOperations();
+      assert.isFalse(scrollToStub.called);
+      assert.isFalse(highlightStub.called);
+
+      var messageID = element.messages[1].id;
+      element.scrollToMessage(messageID);
+
+      assert.isTrue(scrollToStub.calledOnce);
+      assert.isTrue(highlightStub.calledOnce);
+      assert.equal(element._visibleMessages.length, 24);
+      assert.isTrue(
+          element.$$('[data-message-id="' + messageID + '"]').expanded);
     });
 
     test('messages', function() {

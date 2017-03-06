@@ -69,7 +69,20 @@
 
     scrollToMessage: function(messageID) {
       var el = this.$$('[data-message-id="' + messageID + '"]');
-      if (!el) { return; }
+      if (!el) {
+        var index = this._processedMessages.findIndex(function(message) {
+          return messageID === message.id;
+        });
+        if (index === -1) { return; }
+
+        var newMessages = this._processedMessages.slice(index,
+            -this._visibleMessages.length);
+        // Add newMessages to the beginning of _visibleMessages.
+        this.splice.apply(this, ['_visibleMessages', 0, 0].concat(newMessages));
+        // Allow the dom-repeat to stamp.
+        Polymer.dom.flush();
+        el = this.$$('[data-message-id="' + messageID + '"]');
+      }
 
       el.expanded = true;
       var top = el.offsetTop;

@@ -16,12 +16,12 @@ package com.google.gerrit.elasticsearch;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
+import static java.util.stream.Collectors.toList;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
@@ -194,11 +194,17 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
         // exactly one element. This is most likely not what was originally intended, but Java
         // varargs method resolution is sometimes non-obvious. Safest to keep it this way to avoid
         // requiring a rebuild of existing indexes.
-        builder.array(name, values.getValues());
+        builder.array(name, values.getValues().collect(toList()));
       } else {
-        Object element = Iterables.getOnlyElement(values.getValues(), "");
-        if (!(element instanceof String) || !((String) element).isEmpty()) {
-          builder.field(name, element);
+        List<?> list = values.getValues().collect(toList());
+        if (list.size() == 1) {
+          Object element = list.get(0);
+          if (!(element instanceof String) || !((String) element).isEmpty()) {
+            builder.field(name, element);
+          }
+        } else if (list.size() > 1) {
+          throw new IllegalArgumentException(
+              "expected 1 element in values for " + values.getField().getName() + ": " + list);
         }
       }
     }

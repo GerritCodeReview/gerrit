@@ -98,6 +98,7 @@ TESTUTIL_DEPS = [
     "//lib:gwtorm",
     "//lib:h2",
     "//lib:truth",
+    "//lib:truth-java8-extension",
     "//lib/guice:guice",
     "//lib/guice:guice-servlet",
     "//lib/jgit/org.eclipse.jgit:jgit",

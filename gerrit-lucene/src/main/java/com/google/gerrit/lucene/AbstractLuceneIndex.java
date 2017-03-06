@@ -45,6 +45,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.function.Function;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
@@ -325,33 +326,23 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     FieldType<?> type = values.getField().getType();
     Store store = store(values.getField());
 
+    Function<Object, Field> toField;
     if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
-      for (Object value : values.getValues()) {
-        doc.add(new IntField(name, (Integer) value, store));
-      }
+      toField = v -> new IntField(name, (Integer) v, store);
     } else if (type == FieldType.LONG) {
-      for (Object value : values.getValues()) {
-        doc.add(new LongField(name, (Long) value, store));
-      }
+      toField = v -> new LongField(name, (Long) v, store);
     } else if (type == FieldType.TIMESTAMP) {
-      for (Object value : values.getValues()) {
-        doc.add(new LongField(name, ((Timestamp) value).getTime(), store));
-      }
+      toField = v -> new LongField(name, ((Timestamp) v).getTime(), store);
     } else if (type == FieldType.EXACT || type == FieldType.PREFIX) {
-      for (Object value : values.getValues()) {
-        doc.add(new StringField(name, (String) value, store));
-      }
+      toField = v -> new StringField(name, (String) v, store);
     } else if (type == FieldType.FULL_TEXT) {
-      for (Object value : values.getValues()) {
-        doc.add(new TextField(name, (String) value, store));
-      }
+      toField = v -> new TextField(name, (String) v, store);
     } else if (type == FieldType.STORED_ONLY) {
-      for (Object value : values.getValues()) {
-        doc.add(new StoredField(name, (byte[]) value));
-      }
+      toField = v -> new StoredField(name, (byte[]) v);
     } else {
       throw FieldType.badFieldType(type);
     }
+    values.getValues().sequential().forEach(v -> doc.add(toField.apply(v)));
   }
 
   private static Field.Store store(FieldDef<?, ?> f) {

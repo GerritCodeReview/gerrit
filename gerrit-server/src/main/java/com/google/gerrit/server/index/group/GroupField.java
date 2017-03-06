@@ -22,6 +22,7 @@ import static com.google.gerrit.server.index.FieldDef.prefix;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.SchemaUtil;
+import java.util.stream.Stream;
 
 /** Secondary index schemas for groups. */
 public class GroupField {
@@ -42,7 +43,7 @@ public class GroupField {
       exact("name").build(AccountGroup::getName);
 
   /** Prefix match on group name parts. */
-  public static final FieldDef<AccountGroup, Iterable<String>> NAME_PART =
+  public static final FieldDef<AccountGroup, Stream<String>> NAME_PART =
       prefix("name_part").buildRepeatable(g -> SchemaUtil.getNameParts(g.getName()));
 
   /** Group description. */

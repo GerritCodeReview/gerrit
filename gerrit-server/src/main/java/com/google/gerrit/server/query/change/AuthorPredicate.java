@@ -29,7 +29,7 @@ public class AuthorPredicate extends ChangeIndexPredicate {
   @Override
   public boolean match(ChangeData object) throws OrmException {
     try {
-      return ChangeField.getAuthorParts(object).contains(getValue().toLowerCase());
+      return ChangeField.getAuthorParts(object).anyMatch(getValue()::equalsIgnoreCase);
     } catch (IOException e) {
       throw new OrmException(e);
     }

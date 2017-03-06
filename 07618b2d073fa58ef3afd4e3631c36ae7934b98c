@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bff6c844_e7ba3aaa",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-06T08:07:13Z",
+      "side": 1,
+      "message": "Why was this changed from \"isEqualsTo\" to \"contains\"?\n\nDoesn\u0027t this change the assertion for the existing tests?",
+      "range": {
+        "startLine": 1010,
+        "startChar": 36,
+        "endLine": 1010,
+        "endChar": 44
+      },
+      "revId": "07618b2d073fa58ef3afd4e3631c36ae7934b98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "896461b4_033d56e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-06T08:07:13Z",
+      "side": 1,
+      "message": "Can this be a local var in the send() method?",
+      "revId": "07618b2d073fa58ef3afd4e3631c36ae7934b98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c77047cf_16df0c33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-06T08:07:13Z",
+      "side": 1,
+      "message": "nit: unneeded final",
+      "range": {
+        "startLine": 175,
+        "startChar": 10,
+        "endLine": 175,
+        "endChar": 15
+      },
+      "revId": "07618b2d073fa58ef3afd4e3631c36ae7934b98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

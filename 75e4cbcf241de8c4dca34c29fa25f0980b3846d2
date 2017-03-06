@@ -22,6 +22,30 @@
       "revId": "75e4cbcf241de8c4dca34c29fa25f0980b3846d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fd5fe9d_c66a58c7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-06T13:46:41Z",
+      "side": 1,
+      "message": "Good point, possibly because IF auth policy isn\u0027t HTTP, it has to be OAUTH. IF we check the value, what would you suggest to do if HTTP_LDAP or LDAP is configured while auth\u003dOAUTH?",
+      "parentUuid": "6fcfc529_1037c0b3",
+      "range": {
+        "startLine": 47,
+        "startChar": 11,
+        "endLine": 47,
+        "endChar": 72
+      },
+      "revId": "75e4cbcf241de8c4dca34c29fa25f0980b3846d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

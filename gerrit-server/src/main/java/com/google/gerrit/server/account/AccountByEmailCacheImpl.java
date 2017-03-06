@@ -18,12 +18,9 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -77,23 +74,16 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
   }
 
   static class Loader extends CacheLoader<String, Set<Account.Id>> {
-    private final SchemaFactory<ReviewDb> schema;
     private final ExternalIds externalIds;
 
     @Inject
-    Loader(SchemaFactory<ReviewDb> schema, ExternalIds externalIds) {
-      this.schema = schema;
+    Loader(ExternalIds externalIds) {
       this.externalIds = externalIds;
     }
 
     @Override
     public Set<Account.Id> load(String email) throws Exception {
-      try (ReviewDb db = schema.open()) {
-        return Streams.concat(
-                Streams.stream(db.accounts().byPreferredEmail(email)).map(a -> a.getId()),
-                externalIds.byEmail(email).stream().map(e -> e.accountId()))
-            .collect(toImmutableSet());
-      }
+      return externalIds.byEmail(email).stream().map(e -> e.accountId()).collect(toImmutableSet());
     }
   }
 }

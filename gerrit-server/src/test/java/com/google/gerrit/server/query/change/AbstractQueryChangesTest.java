@@ -67,6 +67,8 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.ExternalIdsUpdate;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
@@ -151,6 +153,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected SchemaCreator schemaCreator;
   @Inject protected Sequences seq;
   @Inject protected ThreadLocalRequestContext requestContext;
+  @Inject protected ExternalIdsUpdate.Server externalIdsUpdate;
 
   protected Injector injector;
   protected LifecycleManager lifecycle;
@@ -178,7 +181,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     Account userAccount = db.accounts().get(userId);
-    userAccount.setPreferredEmail("user@example.com");
+    String email = "user@example.com";
+    externalIdsUpdate.create().insert(ExternalId.createEmail(userId, email));
+    userAccount.setPreferredEmail(email);
     db.accounts().update(ImmutableList.of(userAccount));
     user = userFactory.create(userId);
     requestContext.setContext(newRequestContext(userAccount.getId()));

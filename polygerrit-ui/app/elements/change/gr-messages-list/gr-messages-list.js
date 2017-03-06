@@ -69,7 +69,24 @@
 
     scrollToMessage: function(messageID) {
       var el = this.$$('[data-message-id="' + messageID + '"]');
-      if (!el) { return; }
+      // If the message is hidden, expand the hidden messages back to that
+      // point.
+      if (!el) {
+        for (var index = 0; index < this._processedMessages.length; index++) {
+          if (this._processedMessages[index].id === messageID) {
+            break;
+          }
+        }
+        if (index === this._processedMessages.length) { return; }
+
+        var newMessages = this._processedMessages.slice(index,
+            -this._visibleMessages.length);
+        // Add newMessages to the beginning of _visibleMessages.
+        this.splice.apply(this, ['_visibleMessages', 0, 0].concat(newMessages));
+        // Allow the dom-repeat to stamp.
+        Polymer.dom.flush();
+        el = this.$$('[data-message-id="' + messageID + '"]');
+      }
 
       el.expanded = true;
       var top = el.offsetTop;

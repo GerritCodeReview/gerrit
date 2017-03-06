@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99e675bd_566d96fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldDef.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-06T13:51:41Z",
+      "side": 0,
+      "message": "Sorry that I\u0027m asking again but I can\u0027t find this check in the new code. Don\u0027t we need it anymore?",
+      "range": {
+        "startLine": 52,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 99
+      },
+      "revId": "96b6a98a17fe7732a2ced43b94522316b72a8285",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

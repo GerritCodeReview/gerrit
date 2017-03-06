@@ -1,4 +1,120 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1487957034 -0500\nnonce AFJA6odu0o/VzhVPu7rYozZtwDOrz+XeKivroXp+vHPIPlWwaAHmga9BHH1kcYCsl1VHt+IMDJP0\n\n0000000000000000000000000000000000000000 3f4fd5d5c46ab91c40fc2385babe385690e445b9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYsGwqAAoJEF/XxZqaEoiMqKoP/iKF761vKPILzCtyAShTFYGJ\ngdQSXdu28xU2+SMIjxP6ucd6OrbzSSKFHBFRHvm7IAtKd2vS7MvHMOSVIJ+yx7um\nUdbv9aBkLdv7CX9nVFtinRsmfENyNZsb8iNe0x2gmXB2HQQKmeupct/MHOO46Hwv\nAkpWGT8ZMqExURJqhSKAy+fUimHTylGIVF/G4QMFVgn+PJVMiYYcfI8CZ3E/FXAj\niyGsk7m+iX3bRO+oVksYIAmUryTUdeVjvKggeV8GfOO4jk4D2FBQiLgncuxuHM2q\nqc0QrzvG2IesUvOpzT9TTIR/hh+LODdCW8uC0f7GiIzIz++hi0qObsTTNv6wMlUZ\npMKB5i5baprGRFu/1kmBF21UoeIFuckHL04zni1ZBtHN2dPswnU8G0jqnrByUUN1\ng6qqXHFFjrHNXY8HF6aNsU5xUTLoXjCQpgp3FIX9wjFrXpPQDqOhWWzbv38qw5e1\npAa/UqdzJ+bGE9k9ex78EJHh/ggjVIfNqvqWil14/P74zZWlPDAwYfm9alDXRrhv\nDMCtCmdMdtdQytTWpSe/tfXb+1D9H9TrRQpuix3HiUbj7fp/R3Dr2uxQ3lRdy55i\nlZ8hoaJ9zk3FrDPuu9KFcNraBIQEfRQ0puCfNY5bcdPDu4jWdyqwCvg+wZTnVnLU\nzZaC3oLvShS97h1kwvGu\n\u003d88Fb\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fc57a5e_44c1ea29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldDef.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-06T13:51:41Z",
+      "side": 1,
+      "message": "optional: We check type and name for null. Shouldn\u0027t we also check the getter for null?",
+      "range": {
+        "startLine": 106,
+        "startChar": 49,
+        "endLine": 106,
+        "endChar": 55
+      },
+      "revId": "3f4fd5d5c46ab91c40fc2385babe385690e445b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f6bac4c_32513fd2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-06T13:51:41Z",
+      "side": 1,
+      "message": "Why don\u0027t you use java.util.function.Function?",
+      "range": {
+        "startLine": 31,
+        "startChar": 7,
+        "endLine": 31,
+        "endChar": 39
+      },
+      "revId": "3f4fd5d5c46ab91c40fc2385babe385690e445b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "219041b5_5fa9877f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-06T13:51:41Z",
+      "side": 1,
+      "message": "optional: What about using\n\n  chain(ChangeData::change, Change::getKey, Change.Key::get)\n\nhere and introducing the two new methods\n\n  private static \u003cS, T\u003e FieldDef.Getter\u003cChangeData, T\u003e chain(\n      FieldDef.Getter\u003cChangeData, S\u003e getter, Function\u003cS, T\u003e func) {\n    return cd -\u003e getter.get(cd) !\u003d null ? func.apply(getter.get(cd)) : null;\n  }\n\n  private static \u003cS, U, T\u003e FieldDef.Getter\u003cChangeData, T\u003e chain(\n      FieldDef.Getter\u003cChangeData, S\u003e getter, Function\u003cS, U\u003e func, Function\u003cU, T\u003e func2) {\n    return chain(getter, func.andThen(func2));\n  }\n\nas a replacement for changeGetter()? I don\u0027t know whether it\u0027s really better. It was just an idea when I read the code and didn\u0027t immediately get the meaning of this line within looking at changeGetter().",
+      "range": {
+        "startLine": 101,
+        "startChar": 55,
+        "endLine": 101,
+        "endChar": 90
+      },
+      "revId": "3f4fd5d5c46ab91c40fc2385babe385690e445b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1956622_983af5c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-06T13:51:41Z",
+      "side": 1,
+      "message": "nit: Please move this private method to a location which complies with our style guide.",
+      "range": {
+        "startLine": 114,
+        "startChar": 52,
+        "endLine": 114,
+        "endChar": 64
+      },
+      "revId": "3f4fd5d5c46ab91c40fc2385babe385690e445b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f940f67_186db82c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-06T13:51:41Z",
+      "side": 1,
+      "message": "optional: Could be replaced with a method reference.",
+      "range": {
+        "startLine": 542,
+        "startChar": 45,
+        "endLine": 542,
+        "endChar": 79
+      },
+      "revId": "3f4fd5d5c46ab91c40fc2385babe385690e445b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

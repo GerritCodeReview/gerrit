@@ -46,6 +46,30 @@
       "revId": "75e4cbcf241de8c4dca34c29fa25f0980b3846d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfe8daf5_90e6c1b5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-06T14:13:04Z",
+      "side": 1,
+      "message": "I suggest to re-write the else branch entirely and check not for AuthType, but for GitBasicAuthPolicy:\n\n  if (authConfig.isTrustContainerAuth()) {\n      authFilter \u003d ContainerAuthFilter.class;\n  } else {\n    authFilter \u003d authConfig.getGitBasicAuthPolicy() \u003d\u003d GitBasicAuthPolicy.OAUTH\n        ? ProjectOAuthFilter.class\n        : ProjectBasicAuthFilter.class;\n  }",
+      "parentUuid": "0fd5fe9d_c66a58c7",
+      "range": {
+        "startLine": 47,
+        "startChar": 11,
+        "endLine": 47,
+        "endChar": 72
+      },
+      "revId": "75e4cbcf241de8c4dca34c29fa25f0980b3846d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

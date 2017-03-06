@@ -70,6 +70,30 @@
       "revId": "75e4cbcf241de8c4dca34c29fa25f0980b3846d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ccf65d73_d03b5f39",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-06T14:32:41Z",
+      "side": 1,
+      "message": "Good suggestion :-) Let me do that.",
+      "parentUuid": "bfe8daf5_90e6c1b5",
+      "range": {
+        "startLine": 47,
+        "startChar": 11,
+        "endLine": 47,
+        "endChar": 72
+      },
+      "revId": "75e4cbcf241de8c4dca34c29fa25f0980b3846d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -54,9 +54,11 @@ public class ReviewerSet {
             "multiple change IDs: %s, %s", first.getKey(), psa.getKey());
       }
       Account.Id id = psa.getAccountId();
-      reviewers.put(REVIEWER, id, psa.getGranted());
       if (psa.getValue() != 0) {
+        reviewers.put(REVIEWER, id, psa.getGranted());
         reviewers.remove(CC, id);
+      } else if (!reviewers.contains(REVIEWER, id)) {
+        reviewers.put(CC, id, psa.getGranted());
       }
     }
     return new ReviewerSet(reviewers);

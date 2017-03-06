@@ -29,7 +29,9 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.MailUtil;
+import com.google.gerrit.server.mail.receive.Protocol;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -50,6 +52,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,16 +107,23 @@ public class CommentSender extends ReplyToChangeSender {
   private String patchSetComment;
   private List<LabelVote> labels = Collections.emptyList();
   private final CommentsUtil commentsUtil;
+  private final boolean incomingEmailEnabled;
+  private final String replyToAddress;
 
   @Inject
   public CommentSender(
       EmailArguments ea,
       CommentsUtil commentsUtil,
+      @GerritServerConfig Config cfg,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id)
       throws OrmException {
     super(ea, "comment", newChangeData(ea, project, id));
     this.commentsUtil = commentsUtil;
+    this.incomingEmailEnabled =
+        cfg.getEnum("receiveemail", null, "protocol", Protocol.NONE).ordinal()
+            > Protocol.NONE.ordinal();
+    this.replyToAddress = cfg.getString("sendemail", null, "replyToAddress");
   }
 
   public void setComments(List<Comment> comments) throws OrmException {
@@ -151,6 +161,15 @@ public class CommentSender extends ReplyToChangeSender {
     // Add header that enables identifying comments on parsed email.
     // Grouping is currently done by timestamp.
     setHeader("X-Gerrit-Comment-Date", timestamp);
+
+    if (incomingEmailEnabled) {
+      if (replyToAddress == null) {
+        // Remove Reply-To and use outbound SMTP (default) instead.
+        removeHeader("Reply-To");
+      } else {
+        setHeader("Reply-To", replyToAddress);
+      }
+    }
   }
 
   @Override

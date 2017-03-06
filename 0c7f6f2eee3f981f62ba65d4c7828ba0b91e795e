@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ba32346_59571bb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-06T10:56:08Z",
+      "side": 1,
+      "message": "nit: \"a new\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "0c7f6f2eee3f981f62ba65d4c7828ba0b91e795e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50a740aa_a36ef68b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-06T10:56:08Z",
+      "side": 1,
+      "message": "nit: \"This Change\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 4
+      },
+      "revId": "0c7f6f2eee3f981f62ba65d4c7828ba0b91e795e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c6efd1c_a7ae6a83",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/NotificationMailFormatIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-06T10:56:08Z",
+      "side": 1,
+      "message": "nit: may use \"current()\" directly?",
+      "range": {
+        "startLine": 41,
+        "startChar": 7,
+        "endLine": 41,
+        "endChar": 39
+      },
+      "revId": "0c7f6f2eee3f981f62ba65d4c7828ba0b91e795e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e71bd070_f8e3e6d4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/NotificationMailFormatIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-06T10:56:08Z",
+      "side": 1,
+      "message": "nit: same above.",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 39
+      },
+      "revId": "0c7f6f2eee3f981f62ba65d4c7828ba0b91e795e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f35ecdef_ebbc6763",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-06T10:56:08Z",
+      "side": 1,
+      "message": "nit: not need to add a new line here.",
+      "revId": "0c7f6f2eee3f981f62ba65d4c7828ba0b91e795e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

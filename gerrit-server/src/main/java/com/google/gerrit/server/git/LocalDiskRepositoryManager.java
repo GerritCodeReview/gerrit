@@ -342,6 +342,12 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       return FileVisitResult.CONTINUE;
     }
 
+    @Override
+    public FileVisitResult visitFileFailed(Path file, IOException e) {
+      log.warn(e.getMessage());
+      return FileVisitResult.CONTINUE;
+    }
+
     private boolean isRepo(Path p) {
       String name = p.getFileName().toString();
       return !name.equals(Constants.DOT_GIT)

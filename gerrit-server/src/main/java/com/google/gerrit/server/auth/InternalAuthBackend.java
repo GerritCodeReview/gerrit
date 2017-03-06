@@ -38,7 +38,6 @@ public class InternalAuthBackend implements AuthBackend {
     return "gerrit";
   }
 
-  // TODO(gerritcodereview-team): This function has no coverage.
   @Override
   public AuthUser authenticate(AuthRequest req)
       throws MissingCredentialsException, InvalidCredentialsException, UnknownUserException,
@@ -64,9 +63,7 @@ public class InternalAuthBackend implements AuthBackend {
               + ": account inactive or not provisioned in Gerrit");
     }
 
-    if (!who.checkPassword(req.getPassword(), username)) {
-      throw new InvalidCredentialsException();
-    }
+    req.checkPassword(who.getPassword(username));
     return new AuthUser(AuthUser.UUID.create(username), username);
   }
 }

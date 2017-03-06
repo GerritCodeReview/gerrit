@@ -113,8 +113,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
     if (id == null) {
       throw new ResourceNotFoundException();
     }
-    id.setPassword(HashedPassword.fromPassword(newPassword).encode());
-
+    id.setPassword(newPassword);
     dbProvider.get().accountExternalIds().update(Collections.singleton(id));
     accountCache.evict(user.getAccountId());
 

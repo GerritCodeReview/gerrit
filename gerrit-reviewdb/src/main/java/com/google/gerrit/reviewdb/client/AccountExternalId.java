@@ -87,8 +87,6 @@ public final class AccountExternalId {
   @Column(id = 3, notNull = false)
   protected String emailAddress;
 
-  // Encoded version of the hashed and salted password, to be interpreted by the
-  // {@link HashedPassword} class.
   @Column(id = 4, notNull = false)
   protected String password;
 
@@ -142,12 +140,12 @@ public final class AccountExternalId {
     return null != scheme ? getExternalId().substring(scheme.length() + 1) : null;
   }
 
-  public void setPassword(String hashed) {
-    password = hashed;
-  }
-
   public String getPassword() {
     return password;
+  }
+
+  public void setPassword(String p) {
+    password = p;
   }
 
   public boolean isTrusted() {

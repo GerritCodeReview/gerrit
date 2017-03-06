@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e9b21f5d_66bdbae2",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-06T08:31:49Z",
+      "side": 1,
+      "message": "Yes, but we have changed the way we send emails (to be more specific whom we add reply-to). Now, we add all users that this email is sent to (in either HTML or PLAINTEXT) as Reply-To. To enable conversations even across the two different emails that were sent out. Hence changed from isEqualTo to contains.",
+      "parentUuid": "bff6c844_e7ba3aaa",
+      "range": {
+        "startLine": 1010,
+        "startChar": 36,
+        "endLine": 1010,
+        "endChar": 44
+      },
+      "revId": "07618b2d073fa58ef3afd4e3631c36ae7934b98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "896461b4_033d56e3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "cb671dfd_f34fb9e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-06T08:31:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "896461b4_033d56e3",
+      "revId": "07618b2d073fa58ef3afd4e3631c36ae7934b98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c77047cf_16df0c33",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2017-03-06T08:07:13Z",
       "side": 1,
       "message": "nit: unneeded final",
+      "range": {
+        "startLine": 175,
+        "startChar": 10,
+        "endLine": 175,
+        "endChar": 15
+      },
+      "revId": "07618b2d073fa58ef3afd4e3631c36ae7934b98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28a6663f_3208fb72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-06T08:31:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c77047cf_16df0c33",
       "range": {
         "startLine": 175,
         "startChar": 10,

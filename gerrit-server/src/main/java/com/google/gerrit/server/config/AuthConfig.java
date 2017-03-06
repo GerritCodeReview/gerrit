@@ -132,7 +132,9 @@ public class AuthConfig {
 
   private GitBasicAuthPolicy getBasicAuthPolicy(Config cfg) {
     GitBasicAuthPolicy defaultAuthPolicy =
-        isLdapAuthType() ? GitBasicAuthPolicy.LDAP : GitBasicAuthPolicy.HTTP;
+        isLdapAuthType()
+            ? GitBasicAuthPolicy.LDAP
+            : isOAuthType() ? GitBasicAuthPolicy.OAUTH : GitBasicAuthPolicy.HTTP;
     return cfg.getEnum("auth", null, "gitBasicAuthPolicy", defaultAuthPolicy);
   }
 
@@ -313,6 +315,10 @@ public class AuthConfig {
 
   public boolean isLdapAuthType() {
     return authType == AuthType.LDAP || authType == AuthType.LDAP_BIND;
+  }
+
+  public boolean isOAuthType() {
+    return authType == AuthType.OAUTH;
   }
 
   public boolean isAllowRegisterNewEmail() {

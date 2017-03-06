@@ -14,9 +14,9 @@
 
 package com.google.gerrit.httpd;
 
-import static com.google.gerrit.extensions.client.AuthType.OAUTH;
 import static com.google.gerrit.httpd.plugins.LfsPluginServlet.LFS_REST;
 
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.DownloadConfig;
@@ -42,10 +42,11 @@ public class GitOverHttpModule extends ServletModule {
     Class<? extends Filter> authFilter;
     if (authConfig.isTrustContainerAuth()) {
       authFilter = ContainerAuthFilter.class;
-    } else if (authConfig.getAuthType() == OAUTH) {
-      authFilter = ProjectOAuthFilter.class;
     } else {
-      authFilter = ProjectBasicAuthFilter.class;
+      authFilter =
+          authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.OAUTH
+              ? ProjectOAuthFilter.class
+              : ProjectBasicAuthFilter.class;
     }
 
     if (isHttpEnabled()) {

@@ -760,7 +760,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(m.rcpt()).containsExactly(user.emailAddress);
     assertThat(m.body()).contains(admin.fullName + " has uploaded this change for review");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
-    assertMailFrom(m, admin.email);
+    assertMailReplyTo(m, admin.email);
   }
 
   @Test
@@ -837,7 +837,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(m.body()).contains("Hello " + user.fullName + ",\n");
     assertThat(m.body()).contains("I'd like you to do a code review.");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
-    assertMailFrom(m, admin.email);
+    assertMailReplyTo(m, admin.email);
   }
 
   @Test
@@ -957,7 +957,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(m.body()).contains("Hello " + user.fullName + ",\n");
     assertThat(m.body()).contains("I'd like you to do a code review.");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
-    assertMailFrom(m, admin.email);
+    assertMailReplyTo(m, admin.email);
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
 
     // When NoteDb is enabled adding a reviewer records that user as reviewer

@@ -17,5 +17,6 @@ package com.google.gerrit.extensions.client;
 public enum GitBasicAuthPolicy {
   HTTP,
   LDAP,
-  HTTP_LDAP
+  HTTP_LDAP,
+  OAUTH
 }

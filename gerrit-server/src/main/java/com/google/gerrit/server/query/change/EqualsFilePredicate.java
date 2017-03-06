@@ -37,7 +37,7 @@ class EqualsFilePredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    return ChangeField.getFileParts(object).contains(value);
+    return ChangeField.getFileParts(object).anyMatch(value::equals);
   }
 
   @Override

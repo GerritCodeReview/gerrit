@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
@@ -31,6 +32,7 @@ import com.google.gerrit.testutil.TestTimeUtil;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,12 +57,12 @@ public class ChangeFieldTest extends GerritBaseTests {
     t.put(ReviewerStateInternal.CC, new Account.Id(2), t2);
     ReviewerSet reviewers = ReviewerSet.fromTable(t);
 
-    List<String> values = ChangeField.getReviewerFieldValues(reviewers);
+    Stream<String> values = ChangeField.getReviewerFieldValues(reviewers);
     assertThat(values)
         .containsExactly(
             "REVIEWER,1", "REVIEWER,1," + t1.getTime(), "CC,2", "CC,2," + t2.getTime());
 
-    assertThat(ChangeField.parseReviewerFieldValues(values)).isEqualTo(reviewers);
+    assertThat(ChangeField.parseReviewerFieldValues(values.collect(toList()))).isEqualTo(reviewers);
   }
 
   @Test
@@ -110,7 +112,6 @@ public class ChangeFieldTest extends GerritBaseTests {
     List<SubmitRecord> recordList = ImmutableList.copyOf(records);
     List<String> stored =
         ChangeField.storedSubmitRecords(recordList)
-            .stream()
             .map(s -> new String(s, UTF_8))
             .collect(toList());
     assertThat(ChangeField.parseSubmitRecords(stored))

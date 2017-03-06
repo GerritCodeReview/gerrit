@@ -19,42 +19,39 @@ import static com.google.gerrit.server.index.FieldDef.integer;
 import static com.google.gerrit.server.index.FieldDef.prefix;
 import static com.google.gerrit.server.index.FieldDef.timestamp;
 
-import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.SchemaUtil;
 import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.Locale;
-import java.util.Set;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 /** Secondary index schemas for accounts. */
 public class AccountField {
   public static final FieldDef<AccountState, Integer> ID =
       integer("id").stored().build(a -> a.getAccount().getId().get());
 
-  public static final FieldDef<AccountState, Iterable<String>> EXTERNAL_ID =
+  public static final FieldDef<AccountState, Stream<String>> EXTERNAL_ID =
       exact("external_id")
-          .buildRepeatable(a -> Iterables.transform(a.getExternalIds(), id -> id.key().get()));
+          .buildRepeatable(a -> a.getExternalIds().stream().map(id -> id.key().get()));
 
   /** Fuzzy prefix match on name and email parts. */
-  public static final FieldDef<AccountState, Iterable<String>> NAME_PART =
+  public static final FieldDef<AccountState, Stream<String>> NAME_PART =
       prefix("name")
           .buildRepeatable(
               a -> {
                 String fullName = a.getAccount().getFullName();
-                Set<String> parts =
+                Stream<String> parts =
                     SchemaUtil.getNameParts(
-                        fullName, Iterables.transform(a.getExternalIds(), ExternalId::email));
+                        fullName, a.getExternalIds().stream().map(ExternalId::email));
 
                 // Additional values not currently added by getPersonParts.
                 // TODO(dborowitz): Move to getPersonParts and remove this hack.
                 if (fullName != null) {
-                  parts.add(fullName.toLowerCase(Locale.US));
+                  parts = Stream.concat(parts, Stream.of(fullName.toLowerCase(Locale.US)));
                 }
                 return parts;
               });
@@ -65,16 +62,16 @@ public class AccountField {
   public static final FieldDef<AccountState, String> ACTIVE =
       exact("inactive").build(a -> a.getAccount().isActive() ? "1" : "0");
 
-  public static final FieldDef<AccountState, Iterable<String>> EMAIL =
+  public static final FieldDef<AccountState, Stream<String>> EMAIL =
       prefix("email")
           .buildRepeatable(
               a ->
-                  FluentIterable.from(a.getExternalIds())
-                      .transform(ExternalId::email)
-                      .append(Collections.singleton(a.getAccount().getPreferredEmail()))
-                      .filter(Predicates.notNull())
-                      .transform(String::toLowerCase)
-                      .toSet());
+                  Stream.concat(
+                          a.getExternalIds().stream().map(ExternalId::email),
+                          Stream.of(a.getAccount().getPreferredEmail()))
+                      .filter(Objects::nonNull)
+                      .map(String::toLowerCase)
+                      .distinct());
 
   public static final FieldDef<AccountState, Timestamp> REGISTERED =
       timestamp("registered").build(a -> a.getAccount().getRegisteredOn());
@@ -82,13 +79,10 @@ public class AccountField {
   public static final FieldDef<AccountState, String> USERNAME =
       exact("username").build(a -> Strings.nullToEmpty(a.getUserName()).toLowerCase());
 
-  public static final FieldDef<AccountState, Iterable<String>> WATCHED_PROJECT =
+  public static final FieldDef<AccountState, Stream<String>> WATCHED_PROJECT =
       exact("watchedproject")
           .buildRepeatable(
-              a ->
-                  FluentIterable.from(a.getProjectWatches().keySet())
-                      .transform(k -> k.project().get())
-                      .toSet());
+              a -> a.getProjectWatches().keySet().stream().map(k -> k.project().get()));
 
   private AccountField() {}
 }

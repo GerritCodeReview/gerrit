@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.server.index.SchemaUtil.getNameParts;
 import static com.google.gerrit.server.index.SchemaUtil.getPersonParts;
 import static com.google.gerrit.server.index.SchemaUtil.schema;

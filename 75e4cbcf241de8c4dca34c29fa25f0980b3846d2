@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fcfc529_1037c0b3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-06T13:18:59Z",
+      "side": 1,
+      "message": "Why don\u0027t we compare against introduced OAUTH enum value?\n\n  authConfig.getGitBasicAuthPolicy() \u003d\u003d GitBasicAuthPolicy.OAUTH",
+      "range": {
+        "startLine": 47,
+        "startChar": 11,
+        "endLine": 47,
+        "endChar": 72
+      },
+      "revId": "75e4cbcf241de8c4dca34c29fa25f0980b3846d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

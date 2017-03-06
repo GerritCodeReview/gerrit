@@ -964,7 +964,9 @@ public class ChangeIT extends AbstractDaemonTest {
     // in NoteDb. When NoteDb is disabled adding a reviewer results in a dummy 0
     // approval on the change which is treated as CC when the ChangeInfo is
     // created.
-    Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
+    Collection<AccountInfo> reviewers = NoteDbMode.readWrite()
+        ? c.reviewers.get(REVIEWER)
+        : c.reviewers.get(CC);
     assertThat(reviewers).isNotNull();
     assertThat(reviewers).hasSize(1);
     assertThat(reviewers.iterator().next()._accountId).isEqualTo(user.getId().get());
@@ -1015,8 +1017,12 @@ public class ChangeIT extends AbstractDaemonTest {
     // in NoteDb. When NoteDb is disabled adding a reviewer results in a dummy 0
     // approval on the change which is treated as CC when the ChangeInfo is
     // created.
-    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
-    Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    Collection<AccountInfo> reviewers = NoteDbMode.readWrite()
+        ? c.reviewers.get(REVIEWER)
+        : c.reviewers.get(CC);
     assertThat(reviewers).isNotNull();
     assertThat(reviewers).hasSize(1);
     assertThat(reviewers.iterator().next()._accountId).isEqualTo(user.getId().get());
@@ -1114,11 +1120,27 @@ public class ChangeIT extends AbstractDaemonTest {
 
     c = gApi.changes().id(r.getChangeId()).get();
     reviewers = c.reviewers.get(REVIEWER);
-    assertThat(reviewers).hasSize(2);
-    Iterator<AccountInfo> reviewerIt = reviewers.iterator();
-    assertThat(reviewerIt.next()._accountId).isEqualTo(admin.getId().get());
-    assertThat(reviewerIt.next()._accountId).isEqualTo(user.getId().get());
-    assertThat(c.reviewers).doesNotContainKey(CC);
+    if (NoteDbMode.readWrite()) {
+      // When NoteDb is enabled adding a reviewer records that user as reviewer
+      // in NoteDb.
+      assertThat(reviewers).hasSize(2);
+      Iterator<AccountInfo> reviewerIt = reviewers.iterator();
+      assertThat(reviewerIt.next()._accountId)
+          .isEqualTo(admin.getId().get());
+      assertThat(reviewerIt.next()._accountId)
+          .isEqualTo(user.getId().get());
+      assertThat(c.reviewers).doesNotContainKey(CC);
+    } else {
+      // When NoteDb is disabled adding a reviewer results in a dummy 0 approval
+      // on the change which is treated as CC when the ChangeInfo is created.
+      assertThat(reviewers).hasSize(1);
+      assertThat(reviewers.iterator().next()._accountId)
+          .isEqualTo(admin.getId().get());
+      Collection<AccountInfo> ccs = c.reviewers.get(CC);
+      assertThat(ccs).hasSize(1);
+      assertThat(ccs.iterator().next()._accountId)
+          .isEqualTo(user.getId().get());
+    }
   }
 
   @Test
@@ -1325,9 +1347,23 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ChangeMessageInfo message = Iterables.getLast(c.messages);
     assertThat(message.author._accountId).isEqualTo(admin.getId().get());
-    assertThat(message.message).isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
-    assertThat(getReviewers(c.reviewers.get(REVIEWER)))
-        .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+    assertThat(message.message).isEqualTo(
+        "Removed Code-Review+1 by User <user@example.com>\n");
+    if (NoteDbMode.readWrite()) {
+      // When NoteDb is enabled each reviewer is explicitly recorded in the
+      // NoteDb and this record stays even when all votes of that user have been
+      // deleted.
+      assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+          .containsExactlyElementsIn(
+              ImmutableSet.of(admin.getId(), user.getId()));
+    } else {
+      // When NoteDb is disabled users that have only dummy 0 approvals on the
+      // change are returned as CC and not as REVIEWER.
+      assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+          .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
+      assertThat(getReviewers(c.reviewers.get(CC)))
+          .containsExactlyElementsIn(ImmutableSet.of(user.getId()));
+    }
   }
 
   @Test
@@ -1431,8 +1467,16 @@ public class ChangeIT extends AbstractDaemonTest {
     in.reviewer = user.email;
     gApi.changes().id(changeId).addReviewer(in);
     c = gApi.changes().id(changeId).get();
-    assertThat(getReviewers(c.reviewers.get(REVIEWER)))
-        .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+    if (NoteDbMode.readWrite()) {
+      assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+          .containsExactlyElementsIn(ImmutableSet.of(
+              admin.getId(), user.getId()));
+    } else {
+      assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+          .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
+      assertThat(getReviewers(c.reviewers.get(CC)))
+          .containsExactlyElementsIn(ImmutableSet.of(user.getId()));
+    }
 
     // Approve the change as user, then remove the approval
     // (only to confirm that the user does have Code-Review+2 permission)
@@ -1446,8 +1490,16 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // User should still be on the change
     c = gApi.changes().id(changeId).get();
-    assertThat(getReviewers(c.reviewers.get(REVIEWER)))
-        .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+    if (NoteDbMode.readWrite()) {
+      assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+          .containsExactlyElementsIn(ImmutableSet.of(
+              admin.getId(), user.getId()));
+    } else {
+      assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+          .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
+      assertThat(getReviewers(c.reviewers.get(CC)))
+          .containsExactlyElementsIn(ImmutableSet.of(user.getId()));
+    }
   }
 
   @Test

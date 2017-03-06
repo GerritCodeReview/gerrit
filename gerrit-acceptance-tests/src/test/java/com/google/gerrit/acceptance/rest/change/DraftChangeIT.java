@@ -43,10 +43,12 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testutil.NoteDbMode;
 import com.google.inject.Inject;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
+
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
@@ -212,7 +214,9 @@ public class DraftChangeIT extends AbstractDaemonTest {
     assertThat(label.all.get(0)._accountId).isEqualTo(user.id.get());
     assertThat(label.all.get(0).value).isEqualTo(0);
 
-    Collection<AccountInfo> ccs = info.reviewers.get(ReviewerState.REVIEWER);
+    ReviewerState rs = NoteDbMode.readWrite()
+        ? ReviewerState.REVIEWER : ReviewerState.CC;
+    Collection<AccountInfo> ccs = info.reviewers.get(rs);
     assertThat(ccs).hasSize(1);
     assertThat(ccs.iterator().next()._accountId).isEqualTo(user.id.get());
 

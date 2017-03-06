@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1ffc07be_71982c84",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-06T17:37:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ce316cb_b2496f55",
+      "range": {
+        "startLine": 61,
+        "startChar": 10,
+        "endLine": 61,
+        "endChar": 29
+      },
+      "revId": "756dd614dd6c523efe67dce9c93403dd59a7dfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2af16a1_503fc9d2",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
         "patchSetId": 1
@@ -120,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "f089c39d_661bdfb1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-06T17:37:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f59a9a1b_63e2d086",
+      "range": {
+        "startLine": 77,
+        "startChar": 55,
+        "endLine": 77,
+        "endChar": 61
+      },
+      "revId": "756dd614dd6c523efe67dce9c93403dd59a7dfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85c5b9b9_35081a36",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.js",
         "patchSetId": 1
@@ -140,6 +188,30 @@
       "revId": "756dd614dd6c523efe67dce9c93403dd59a7dfa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8e5cb58_4bdb0d64",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-06T17:37:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85c5b9b9_35081a36",
+      "range": {
+        "startLine": 46,
+        "startChar": 45,
+        "endLine": 46,
+        "endChar": 46
+      },
+      "revId": "756dd614dd6c523efe67dce9c93403dd59a7dfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

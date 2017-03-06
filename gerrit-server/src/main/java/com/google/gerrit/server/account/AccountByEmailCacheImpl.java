@@ -91,9 +91,6 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     public Set<Account.Id> load(String email) throws Exception {
       try (ReviewDb db = schema.open()) {
         Set<Account.Id> r = new HashSet<>();
-        for (Account a : db.accounts().byPreferredEmail(email)) {
-          r.add(a.getId());
-        }
         r.addAll(
             externalIdCache.get().byEmail(email).stream().map(e -> e.accountId()).collect(toSet()));
         return ImmutableSet.copyOf(r);

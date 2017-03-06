@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0506a825_aa2e33a6",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-06T20:16:50Z",
+      "side": 1,
+      "message": "Array#findIndex isn\u0027t supported by IE. I\u0027d recommend using a for loop to find the index.",
+      "range": {
+        "startLine": 73,
+        "startChar": 44,
+        "endLine": 73,
+        "endChar": 53
+      },
+      "revId": "cd9c6ff2ce286545d2e3df96317ab6fab63763b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

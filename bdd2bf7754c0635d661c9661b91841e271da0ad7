@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6afc0ed0_0c32c3fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-07T16:49:06Z",
+      "side": 1,
+      "message": "Note that change owner can already today reindex her changes per REST.\n\nMoreover, we decided to work with delegation mechanism instead of giving administrator users the whole world power. This is needed for huge installation sites, where only very few users have admin privilege, but much more other users should have steward rights, but not admin. This capability is called maintainServer and users that were granted this capability can already today reindex other folks changes per REST:\n\n    if (!ctl.isOwner() \u0026\u0026 !ctl.getUser().getCapabilities().canMaintainServer()) {\n      throw new AuthException(\"Only change owner or server maintainer can reindex\");\n    } \n\nIsn\u0027t this sufficient?",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "bdd2bf7754c0635d661c9661b91841e271da0ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ed18071_f86926bd",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2017-03-07T08:25:18Z",
+      "side": 1,
+      "message": "this is probably fragile: what about a mount point like \nhttps://\u003cserver\u003e/service/review/...\n\nMyLocation will be service, right?",
+      "revId": "28d717bbd0c1257e36b17bdb533260ab5735c8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

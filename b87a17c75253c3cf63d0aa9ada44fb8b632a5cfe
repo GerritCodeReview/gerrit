@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "bde68fc1_48caead7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-07T14:46:13Z",
+      "side": 1,
+      "message": "Thanks for the explanation. I wasn\u0027t aware of the second point you mentioned.",
+      "parentUuid": "4bff043c_b8d12e5b",
+      "range": {
+        "startLine": 208,
+        "startChar": 16,
+        "endLine": 208,
+        "endChar": 28
+      },
+      "revId": "b87a17c75253c3cf63d0aa9ada44fb8b632a5cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1debc6b0_03d93c9c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1

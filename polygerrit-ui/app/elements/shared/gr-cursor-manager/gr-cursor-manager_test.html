@@ -125,6 +125,23 @@ limitations under the License.
       assert.equal(element.index, -1);
     });
 
+
+    test('_moveCursor', function() {
+      // Initialize the cursor with its stops.
+      element.stops = list.querySelectorAll('li');
+      // Select the first stop.
+      element.setCursor(list.children[0]);
+      var getTargetHeight = sinon.stub();
+
+      // Move the cursor without an optional get target height function.
+      element._moveCursor(1);
+      assert.isFalse(getTargetHeight.called);
+
+      // Move the cursor with an optional get target height function.
+      element._moveCursor(1, null, getTargetHeight);
+      assert.isTrue(getTargetHeight.called);
+    });
+
     test('opt_noScroll', function() {
       sandbox.stub(element, '_targetIsVisible', function() { return false; });
       var scrollStub = sandbox.stub(window, 'scrollTo');
@@ -181,6 +198,64 @@ limitations under the License.
       element.focusOnMove = true;
       element.next();
       assert.isTrue(element.target.focus.called);
+    });
+
+    suite('_scrollToTarget', function() {
+      var scrollStub;
+      setup(function() {
+        element.stops = list.querySelectorAll('li');
+        element.scrollBehavior = 'keep-visible';
+
+        // There is a target which has a targetNext
+        element.setCursor(list.children[0]);
+        element._moveCursor(1);
+        scrollStub = sandbox.stub(window, 'scrollTo');
+        window.innerHeight = 60;
+      });
+
+      test('Called when top and bottom not visible', function() {
+        sandbox.stub(element, '_targetIsVisible', function() {
+          return false;
+        });
+        element._scrollToTarget();
+        assert.isTrue(scrollStub.called);
+      });
+
+      test('Not called when top and bottom visible', function() {
+        sandbox.stub(element, '_targetIsVisible', function() {
+          return true;
+        });
+        element._scrollToTarget();
+        assert.isFalse(scrollStub.called);
+      });
+
+      test('Called when top is visible, bottom is not, and scroll is lower',
+          function() {
+        var visibleStub = sandbox.stub(element, '_targetIsVisible', function() {
+          return visibleStub.callCount == 2;
+        });
+        window.scrollY = 15;
+        sandbox.stub(element, '_calculateScrollToValue', function() {
+          return 20;
+        });
+        element._scrollToTarget();
+        assert.isTrue(scrollStub.called);
+        assert.equal(visibleStub.callCount, 2);
+      });
+
+      test('Called when top is visible, bottom is not, and scroll is higher',
+          function() {
+        var visibleStub = sandbox.stub(element, '_targetIsVisible', function() {
+          return visibleStub.callCount == 2;
+        });
+        window.scrollY = 25;
+        sandbox.stub(element, '_calculateScrollToValue', function() {
+          return 20;
+        });
+        element._scrollToTarget();
+        assert.isFalse(scrollStub.called);
+        assert.equal(visibleStub.callCount, 2);
+      });
     });
   });
 </script>

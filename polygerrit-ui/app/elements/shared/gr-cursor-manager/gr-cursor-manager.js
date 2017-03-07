@@ -35,6 +35,7 @@
         notify: true,
         observer: '_scrollToTarget',
       },
+      _targetHeight: Number,
 
       /**
        * The index of the current target (if any). -1 otherwise.
@@ -76,8 +77,8 @@
       this.unsetCursor();
     },
 
-    next: function(opt_condition) {
-      this._moveCursor(1, opt_condition);
+    next: function(opt_condition, opt_getTargetHeight) {
+      this._moveCursor(1, opt_condition, opt_getTargetHeight);
     },
 
     previous: function(opt_condition) {
@@ -109,6 +110,7 @@
       this._unDecorateTarget();
       this.index = -1;
       this.target = null;
+      this._targetHeight = null;
     },
 
     isAtStart: function() {
@@ -136,9 +138,12 @@
      * @param {Function} opt_condition Optional stop condition. If a condition
      *    is passed the cursor will continue to move in the specified direction
      *    until the condition is met.
+     * @param {Function} opt_getTargetHeight Optional function to calculate the
+     * height of the target's 'section'. The height of the target itself is
+     * sometimes different, used by the diff cursor.
      * @private
      */
-    _moveCursor: function(delta, opt_condition) {
+    _moveCursor: function(delta, opt_condition, opt_getTargetHeight) {
       if (!this.stops.length) {
         this.unsetCursor();
         return;
@@ -151,6 +156,12 @@
       var newTarget = null;
       if (newIndex != -1) {
         newTarget = this.stops[newIndex];
+      }
+
+      if (opt_getTargetHeight) {
+        this._targetHeight = opt_getTargetHeight(newTarget);
+      } else {
+        this._targetHeight = newTarget.scrollHeight;
       }
 
       this.index = newIndex;
@@ -245,22 +256,35 @@
           top < window.pageYOffset + window.innerHeight;
     },
 
+    _calculateScrollToValue: function(top, target) {
+      return top - (window.innerHeight / 3) + (target.offsetHeight / 2);
+    },
+
     _scrollToTarget: function() {
       if (!this.target || this.scrollBehavior === ScrollBehavior.NEVER) {
         return;
       }
 
       var top = this._getTop(this.target);
+      var bottomIsVisible = this._targetIsVisible(top + this._targetHeight);
+      var scrollToValue = this._calculateScrollToValue(top, this.target);
+
       if (this._targetIsVisible(top)) {
-        return;
+        // Don't scroll if either the bottom is visible or if the position that
+        // would get scrolled to is higher up than the current position. this
+        // woulld cause less of the target content to be displayed than is
+        // already.
+        if (bottomIsVisible ||
+            (!bottomIsVisible && scrollToValue < window.scrollY)) {
+          return;
+        }
       }
 
       // Scroll the element to the middle of the window. Dividing by a third
       // instead of half the inner height feels a bit better otherwise the
       // element appears to be below the center of the window even when it
       // isn't.
-      window.scrollTo(0, top - (window.innerHeight / 3) +
-          (this.target.offsetHeight / 2));
+      window.scrollTo(0, scrollToValue);
     },
   });
 })();

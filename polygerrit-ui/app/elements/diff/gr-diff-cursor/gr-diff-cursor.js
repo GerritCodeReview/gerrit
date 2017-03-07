@@ -127,7 +127,10 @@
     },
 
     moveToNextChunk: function() {
-      this.$.cursorManager.next(this._isFirstRowOfChunk.bind(this));
+      this.$.cursorManager.next(this._isFirstRowOfChunk.bind(this),
+          function(target) {
+            return target.parentNode.scrollHeight;
+          });
       this._fixSide();
     },
 

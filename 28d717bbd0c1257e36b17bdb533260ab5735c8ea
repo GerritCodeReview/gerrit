@@ -34,6 +34,24 @@
       "revId": "28d717bbd0c1257e36b17bdb533260ab5735c8ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "469b5e29_34901b4c",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-07T22:42:09Z",
+      "side": 1,
+      "message": "I have fixed your use case now :) you can now use as much prefix as you want /service/example/review /review /r /service/review/ as long as you use the rewrites in the commit msg.",
+      "parentUuid": "586eee04_384742ee",
+      "revId": "28d717bbd0c1257e36b17bdb533260ab5735c8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

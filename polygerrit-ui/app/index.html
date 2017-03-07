@@ -26,13 +26,23 @@ limitations under the License.
 SourceCodePro fonts are used in styles/fonts.css
 @see https://github.com/w3c/preload/issues/32 regarding crossorigin
 -->
-<link rel="preload" href="/fonts/SourceCodePro-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/SourceCodePro-Regular.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="/styles/fonts.css">
-<link rel="stylesheet" href="/styles/main.css">
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<link rel="preload" href="/elements/gr-app.js" as="script" crossorigin="anonymous">
-<link rel="import" href="/elements/gr-app.html">
+
+<script>
+if (typeof polygerrit_baseurl !== "undefined") {
+  var base_url = polygerrit_baseurl;
+} else {
+  var base_url = '';
+}
+
+document.write('<link rel="preload" href="'+base_url+'/fonts/SourceCodePro-Regular.woff2'+'" as="font" type="font/woff2" crossorigin>');
+document.write('<link rel="preload" href="'+base_url+'/fonts/SourceCodePro-Regular.woff'+'" as="font" type="font/woff" crossorigin>');
+document.write('<link rel="stylesheet" href="'+base_url+'/styles/fonts.css'+'">');
+document.write('<link rel="stylesheet" href="'+base_url+'/styles/main.css'+'">');
+
+document.write('<script src="'+base_url+'/bower_components/webcomponentsjs/webcomponents-lite.js'+'"></scr'+'ipt>');
+document.write('<link rel="preload" href="'+base_url+'/elements/gr-app.js'+'" as="script" crossorigin="anonymous">');
+document.write('<link rel="import" href="'+base_url+'/elements/gr-app.html'+'">');
+</script>
 
 <body unresolved>
 <gr-app id="app"></gr-app>

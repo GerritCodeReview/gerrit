@@ -22,6 +22,30 @@
       "revId": "3614e7f3e632c19fa845b21e40435d61c0c70fbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82dd07c9_fe385344",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-07T23:49:10Z",
+      "side": 1,
+      "message": "The issue is marked as fixed in 2.13.7 but is not set as released yet.  We can add \"fixed in 2.14\" later after it\u0027s fixed on master.",
+      "parentUuid": "2819bfe6_8f229bd8",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 23
+      },
+      "revId": "3614e7f3e632c19fa845b21e40435d61c0c70fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -91,7 +91,7 @@ public class Restore
             dbProvider.get(), req.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
       u.addOp(req.getId(), op).execute();
     }
-    return json.create(ChangeJson.NO_OPTIONS).format(op.change);
+    return json.noOptions().format(op.change);
   }
 
   private class Op extends BatchUpdate.Op {

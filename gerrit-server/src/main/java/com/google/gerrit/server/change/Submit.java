@@ -519,7 +519,7 @@ public class Submit
       }
 
       Output out = submit.apply(new RevisionResource(rsrc, ps), input);
-      return json.create(ChangeJson.NO_OPTIONS).format(out.change);
+      return json.noOptions().format(out.change);
     }
   }
 }

@@ -141,6 +141,30 @@
       "revId": "2b380d1053ebb6df44ece5721ac14513ed0c9665",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a36b6757_bae27283",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-07T15:16:32Z",
+      "side": 1,
+      "message": "I personally find the method variant more readable. Such a method could of course be called by other parts of the code but I don\u0027t think it\u0027s important to prevent that. Who knows how Java\u0027s compiler would optimize such code nowadays. I don\u0027t mind if you keep the static block.",
+      "parentUuid": "1f5bb769_d10bd7bc",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 47
+      },
+      "revId": "2b380d1053ebb6df44ece5721ac14513ed0c9665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

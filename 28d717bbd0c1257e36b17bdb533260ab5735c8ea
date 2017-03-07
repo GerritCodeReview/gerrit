@@ -16,6 +16,24 @@
       "revId": "28d717bbd0c1257e36b17bdb533260ab5735c8ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586eee04_384742ee",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-07T08:34:18Z",
+      "side": 1,
+      "message": "Oh do you would have it under /service/review/c/?\n\nThis solution is not perfect but fixes at least one prefix. I would have like to have put a config in gerrit that would allow us to define the prefix in polygerrit. But I wouldent have known how polygerrit could load the config as you could access java code in JavaScript but it needs to be in jsp and I have never done that either.\n\nWe could add the service use case if you want",
+      "parentUuid": "9ed18071_f86926bd",
+      "revId": "28d717bbd0c1257e36b17bdb533260ab5735c8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

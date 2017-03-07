@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "45ac8aa2_5bf4d0b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-07T14:28:01Z",
+      "side": 1,
+      "message": "I\u0027m fine with it either way, but I remembered the reason I did it this way: it avoids an unnecessary allocation of an EnumSet in the case where the caller passes in an ImmutableSet.",
+      "parentUuid": "a169d3eb_e66f18f0",
+      "range": {
+        "startLine": 272,
+        "startChar": 19,
+        "endLine": 272,
+        "endChar": 47
+      },
+      "revId": "b87a17c75253c3cf63d0aa9ada44fb8b632a5cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4396a20_439b1ac3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
         "patchSetId": 1

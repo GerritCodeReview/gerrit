@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "a874102a_b9b30a8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-07T14:24:42Z",
+      "side": 1,
+      "message": "Good point. As you can see from the other CL in this series, it\u0027s actually probably a bad idea. Removed.",
+      "parentUuid": "6866f102_6c589ff8",
+      "range": {
+        "startLine": 177,
+        "startChar": 4,
+        "endLine": 179,
+        "endChar": 5
+      },
+      "revId": "b87a17c75253c3cf63d0aa9ada44fb8b632a5cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8dfa795_bc4db763",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -46,6 +70,30 @@
       "revId": "b87a17c75253c3cf63d0aa9ada44fb8b632a5cfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c14a8f7_250696a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-07T14:24:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8dfa795_bc4db763",
+      "range": {
+        "startLine": 185,
+        "startChar": 22,
+        "endLine": 185,
+        "endChar": 58
+      },
+      "revId": "b87a17c75253c3cf63d0aa9ada44fb8b632a5cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "4bff043c_b8d12e5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-07T14:24:42Z",
+      "side": 1,
+      "message": "EJ doesn\u0027t know about Guava :)\n\nImmutableCollection subtypes are technically abstract classes but the ImmutableCollection javadoc says to treat them as \"interfaces\". Declaring a field or variable as an ImmutableFoo has several important benefits:\n\n* It conveys to the reader that this field is not intended to be modified.\n* Mutating methods are marked @Deprecated, so it is a compile-time warning if you call a mutating method, rather than just a runtime error, if the compiler knows that the instance is an ImmutableCollection. But the compiler can\u0027t know that if you don\u0027t declare it in the field type.",
+      "parentUuid": "0a89640b_79daeea0",
+      "range": {
+        "startLine": 208,
+        "startChar": 16,
+        "endLine": 208,
+        "endChar": 28
+      },
+      "revId": "b87a17c75253c3cf63d0aa9ada44fb8b632a5cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1debc6b0_03d93c9c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -95,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "a169d3eb_e66f18f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-07T14:24:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1debc6b0_03d93c9c",
+      "range": {
+        "startLine": 272,
+        "startChar": 19,
+        "endLine": 272,
+        "endChar": 47
+      },
+      "revId": "b87a17c75253c3cf63d0aa9ada44fb8b632a5cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4396a20_439b1ac3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
         "patchSetId": 1
@@ -115,6 +211,30 @@
       "revId": "b87a17c75253c3cf63d0aa9ada44fb8b632a5cfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15a0989c_b055bac2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-07T14:24:42Z",
+      "side": 1,
+      "message": "See other response.",
+      "parentUuid": "b4396a20_439b1ac3",
+      "range": {
+        "startLine": 59,
+        "startChar": 23,
+        "endLine": 59,
+        "endChar": 35
+      },
+      "revId": "b87a17c75253c3cf63d0aa9ada44fb8b632a5cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -153,6 +273,30 @@
       "side": 1,
       "message": "That method would return an instance of ChangeJson and is used below with this set of ListChangesOptions as parameter. You\u0027re right that this line of code looks a bit more complicated than it needs to be. Why not use Sets#immutableEnumSet?",
       "parentUuid": "e5ec1083_d5c3eb58",
+      "range": {
+        "startLine": 59,
+        "startChar": 23,
+        "endLine": 61,
+        "endChar": 92
+      },
+      "revId": "b87a17c75253c3cf63d0aa9ada44fb8b632a5cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b925d26_f6e4e26a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-07T14:24:42Z",
+      "side": 1,
+      "message": "\u003e Can\u0027t we use ChangeJson\u0027s static create(...) method for this initialization?\n\nWhat Alice said. Also note that ChangeJson instances are one-time-use (um, we should probably document that) so holding on to a reference in a class constant is not a good idea.\n\n\u003e Why not use Sets#immutableEnumSet?\n\nDone",
+      "parentUuid": "5fc26a96_212b5c8e",
       "range": {
         "startLine": 59,
         "startChar": 23,

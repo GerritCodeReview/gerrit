@@ -36,10 +36,7 @@ public class NotificationMailFormatIT extends AbstractDaemonTest {
     // Create change as admin and review as user
     PushOneCommit.Result r = createChange();
     setApiUser(user);
-    gApi.changes()
-        .id(r.getChangeId())
-        .current()
-        .review(ReviewInput.recommend());
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.recommend());
 
     // Check that admin has received only plaintext content
     assertThat(sender.getMessages()).hasSize(1);
@@ -60,10 +57,7 @@ public class NotificationMailFormatIT extends AbstractDaemonTest {
     // Create change as admin and review as user
     PushOneCommit.Result r = createChange();
     setApiUser(user);
-    gApi.changes()
-        .id(r.getChangeId())
-        .current()
-        .review(ReviewInput.recommend());
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.recommend());
 
     // Check that admin has received both HTML and plaintext content
     assertThat(sender.getMessages()).hasSize(1);

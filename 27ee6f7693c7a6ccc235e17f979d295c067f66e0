@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5ec6f82_f41620de",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-07T17:20:22Z",
+      "side": 1,
+      "message": "nit:\"e.g.\"",
+      "range": {
+        "startLine": 158,
+        "startChar": 71,
+        "endLine": 158,
+        "endChar": 74
+      },
+      "revId": "27ee6f7693c7a6ccc235e17f979d295c067f66e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

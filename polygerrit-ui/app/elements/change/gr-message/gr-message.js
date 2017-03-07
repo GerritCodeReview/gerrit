@@ -45,11 +45,6 @@
         observer: '_commentsChanged',
       },
       config: Object,
-      expanded: {
-        type: Boolean,
-        value: true,
-        reflectToAttribute: true,
-      },
       hideAutomated: {
         type: Boolean,
         value: false,
@@ -72,6 +67,11 @@
         computed: '_computeShowReplyButton(message, _loggedIn)',
       },
       projectConfig: Object,
+      // Computed property needed to trigger Polymer value observing.
+      _expanded: {
+        type: Object,
+        computed: '_computeExpanded(message.expanded)',
+      },
       _loggedIn: {
         type: Boolean,
         value: false,
@@ -99,19 +99,31 @@
       return !!message.message && loggedIn;
     },
 
+    _computeExpanded: function(expanded) {
+      return expanded;
+    },
+
+    /**
+     * If there is no value set on the message object as to whether _expanded
+     * should be true or not, then _expanded is set to true if there are
+     * inline comments (otherwise false).
+     */
     _commentsChanged: function(value) {
-      this.expanded = Object.keys(value || {}).length > 0;
+      if (this.message && this.message.expanded === undefined) {
+        this.set('message.expanded', Object.keys(value || {}).length > 0);
+      }
     },
 
     _handleTap: function(e) {
-      if (this.expanded) { return; }
-      this.expanded = true;
+      if (this.message.expanded) { return; }
+      e.stopPropagation();
+      this.set('message.expanded', true);
     },
 
     _handleNameTap: function(e) {
-      if (!this.expanded) { return; }
+      if (!this.message.expanded) { return; }
       e.stopPropagation();
-      this.expanded = false;
+      this.set('message.expanded', false);
     },
 
     _computeIsAutomated: function(message) {

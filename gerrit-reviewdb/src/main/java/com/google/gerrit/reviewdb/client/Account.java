@@ -155,7 +155,9 @@ public final class Account {
 
   // DELETED: id = 6 (generalPreferences)
 
-  /** Is this user inactive? */
+  /** Is this user inactive? This is used to avoid showing some users (eg. former employees)
+   * in auto-suggest.
+   */
   @Column(id = 7)
   protected boolean inactive;
 

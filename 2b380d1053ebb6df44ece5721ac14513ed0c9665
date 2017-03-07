@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "360e2346_8c922c2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-07T14:24:24Z",
+      "side": 1,
+      "message": "See other comments.",
+      "parentUuid": "569998b7_e9ea69e2",
+      "range": {
+        "startLine": 47,
+        "startChar": 23,
+        "endLine": 47,
+        "endChar": 35
+      },
+      "revId": "2b380d1053ebb6df44ece5721ac14513ed0c9665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43c50fdb_60b4bd95",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
         "patchSetId": 1
@@ -69,6 +93,54 @@
       "revId": "2b380d1053ebb6df44ece5721ac14513ed0c9665",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f5bb769_d10bd7bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-07T14:24:24Z",
+      "side": 1,
+      "message": "Why? Other than static blocks being ugly, what is the benefit of using a method?\n\nThe (small) downside of using a method: it means other callers within this class have to choose between using the constant (correct) and calling the method to create a new instance (incorrect). If there is no method, there is no choice to make, you can only do the correct thing.",
+      "parentUuid": "81b25b50_d59e1d9e",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 47
+      },
+      "revId": "2b380d1053ebb6df44ece5721ac14513ed0c9665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a64f9b0_33eac215",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-07T14:24:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43c50fdb_60b4bd95",
+      "range": {
+        "startLine": 60,
+        "startChar": 21,
+        "endLine": 60,
+        "endChar": 40
+      },
+      "revId": "2b380d1053ebb6df44ece5721ac14513ed0c9665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

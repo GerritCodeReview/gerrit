@@ -80,10 +80,14 @@ public class ChangeArgumentParser {
     List<ChangeControl> matched =
         useIndex ? changeFinder.find(id, currentUser) : changeFromNotesFactory(id, currentUser);
     List<ChangeControl> toAdd = new ArrayList<>(changes.size());
+    boolean isCurrentAdminUser =
+        currentUser.isIdentifiedUser()
+            && currentUser.asIdentifiedUser().getCapabilities()
+                .canMaintainServer();
     for (ChangeControl ctl : matched) {
       if (!changes.containsKey(ctl.getId())
           && inProject(projectControl, ctl.getProject())
-          && ctl.isVisible(db)) {
+          && (ctl.isVisible(db) || isCurrentAdminUser)) {
         toAdd.add(ctl);
       }
     }

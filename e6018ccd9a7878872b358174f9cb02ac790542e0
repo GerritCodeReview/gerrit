@@ -22,6 +22,30 @@
       "revId": "e6018ccd9a7878872b358174f9cb02ac790542e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7feb47fd_177820e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-07T22:45:19Z",
+      "side": 1,
+      "message": "Yeah, that makes sense. I wasn\u0027t really aware of the other ways that opt_condition was used. I assume then that _moveCursor would take (opt_condition, opt_getTargetHeight).",
+      "parentUuid": "a7edf1f9_a5e23af8",
+      "range": {
+        "startLine": 159,
+        "startChar": 6,
+        "endLine": 161,
+        "endChar": 7
+      },
+      "revId": "e6018ccd9a7878872b358174f9cb02ac790542e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

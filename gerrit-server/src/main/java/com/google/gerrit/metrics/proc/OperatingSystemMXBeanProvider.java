@@ -14,8 +14,6 @@
 
 package com.google.gerrit.metrics.proc;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.Method;
@@ -40,10 +38,13 @@ class OperatingSystemMXBeanProvider {
               "com.sun.management.UnixOperatingSystemMXBean",
               "com.ibm.lang.management.UnixOperatingSystemMXBean")) {
         try {
-          Class.forName(name);
-          return new OperatingSystemMXBeanProvider(sys, name);
+          Class<?> impl = Class.forName(name);
+          if (impl.isInstance(sys)) {
+            return new OperatingSystemMXBeanProvider(sys);
+          }
         } catch (ReflectiveOperationException e) {
-          log.debug("No implementation for " + name);
+          log.debug(String.format(
+              "No implementation for %s: %s", name, e.getMessage()));
         }
       }
       log.warn("No implementation of UnixOperatingSystemMXBean found");
@@ -51,9 +52,8 @@ class OperatingSystemMXBeanProvider {
     }
   }
 
-  private OperatingSystemMXBeanProvider(OperatingSystemMXBean sys, String name)
+  private OperatingSystemMXBeanProvider(OperatingSystemMXBean sys)
       throws ReflectiveOperationException {
-    checkState(Class.forName(name).isInstance(sys));
     this.sys = sys;
     getProcessCpuTime =
         sys.getClass().getMethod("getProcessCpuTime", new Class[] {});

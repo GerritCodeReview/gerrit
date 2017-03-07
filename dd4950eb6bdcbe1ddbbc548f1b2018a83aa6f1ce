@@ -22,6 +22,30 @@
       "revId": "dd4950eb6bdcbe1ddbbc548f1b2018a83aa6f1ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "649c15fc_0fe6f34f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexChangesCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-07T10:43:57Z",
+      "side": 1,
+      "message": "It is not.  We also need to backport this one:\n\nhttps://gerrit-review.googlesource.com/#/c/92734/\n\nThanks for catching this.  I completely forgot about it.",
+      "parentUuid": "98b4335d_bc98039c",
+      "range": {
+        "startLine": 49,
+        "startChar": 42,
+        "endLine": 49,
+        "endChar": 58
+      },
+      "revId": "dd4950eb6bdcbe1ddbbc548f1b2018a83aa6f1ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

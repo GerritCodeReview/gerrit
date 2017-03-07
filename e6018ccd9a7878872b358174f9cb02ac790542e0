@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7edf1f9_a5e23af8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-07T21:46:43Z",
+      "side": 1,
+      "message": "This is a nice way to do this. I just have a couple suggestions:\n\nAt the gr-cursor-manager level, it isn\u0027t specialized to diffs, so I think the word \"chunk\" isn\u0027t right here. Could change `_targetIsChunk` to `_targetHeight` and use that in the `bottom` calculation of `_scrollToTarget`.\n\nThat might make this into ...\n\nif (opt_condition) {\n  this._targetHeight \u003d newTarget.parentNode.scrollHeight;\n}\n\nFurthermore, it\u0027s the presence of an `opt_condition` doesn\u0027t necessarily mean that the target height is the height of its parent. I\u0027d suggest creating a new optional parameter called something like `opt_getTargetHeight` for this ...\n\nif (opt_getTargetHeight) {\n  this._targetHeight \u003d opt_getTargetHeight(newTarget);\n} else {\n  this._targetHeight \u003d newTarget.scrollHeight;\n}\n\nThen, when moving the cursor between chunks, could pass the following for `opt_getTargetHeight` ...\n\nfunction(target) {\n  return target.parentNode.scrollHeight;\n}\n\nHow does that seem to you? Do you think this is trying to be too flexible?",
+      "range": {
+        "startLine": 159,
+        "startChar": 6,
+        "endLine": 161,
+        "endChar": 7
+      },
+      "revId": "e6018ccd9a7878872b358174f9cb02ac790542e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

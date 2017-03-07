@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1488832124 -0500\nnonce AFJA6ofjQKEcB94OGC/0Fo4O3n0f0B+D5P/BsjpOtt4g5CBRe/0cahPr70s9qYniXzVVFUuFRQuo\n\n0000000000000000000000000000000000000000 2b380d1053ebb6df44ece5721ac14513ed0c9665 refs/for/master%r\u003dekempin,r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYvcZ8AAoJEF/XxZqaEoiMB2IP/RUQX8Kpb9YT0EGj0NCRrsr3\n6PCFOFOF8fmOyHYIDcB7FBsTZwbOby6qrdTB7CJMewlfwd5HIcsfQ/iAi36cUjah\nRrIABFrA6LyawL70TFZjDHlG17FMNwjLOxRqmwNDFGV0Q/pQqZ/Wz3jxupwqkI+r\nLWRjoorG6rlEjipy3e8evYdsy6pm3V682SEdpFSwNWSalWWvu/0xhdjWHEdhPJG7\neKB97a18jtxp1xpvRN9flZ22VZXsq0Q6BEa1H8g5VembU0vcqPEfCCGy0qZGXr9o\nM4F0MBpumVYnrSCBVrRnj/37ToW33M2fhI5ox2CunjFtYJOKlx2xgeev566jTrmR\nQs16O98XJYaCER0F8AbqAbqN6A0EXE1mYlZ1aRI2/zPvenRLuc3P7Sy5Av6Cjz/7\nYEdAxSArU00/9F/6MBvUcxXZeXasVj31y02aJkMh4qhG7pkgXG2DOLpQd+dCSI01\nd6SRxcs8Iqb/tChwXw628u/kNoWUQr37mLTJLAeV5OtWuy0/O1FEEiR3/PkDjdWJ\n8YX9YAL2QPPdZAxdtq1MWuJ+orRrVuQErzju8secNOKfW9tfOKe8ZCAG6IreYkWG\nifR4RD/fHfXvNCOHXJpmvdEhlaCvm2u6L8bX0rHhNsx5zK5qzY0BIfz6YoHnySdt\n2Cy0VWKMdXunL/fFHDld\n\u003doFWB\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5ec1083_d5c3eb58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-07T00:09:07Z",
+      "side": 1,
+      "message": "Can\u0027t we use ChangeJson\u0027s static create(...) method for this initialization?",
+      "range": {
+        "startLine": 59,
+        "startChar": 23,
+        "endLine": 61,
+        "endChar": 92
+      },
+      "revId": "b87a17c75253c3cf63d0aa9ada44fb8b632a5cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

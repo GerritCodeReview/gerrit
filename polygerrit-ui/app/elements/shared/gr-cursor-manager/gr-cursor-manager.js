@@ -35,6 +35,7 @@
         notify: true,
         observer: '_scrollToTarget',
       },
+      _targetIsChunk: Boolean,
 
       /**
        * The index of the current target (if any). -1 otherwise.
@@ -109,6 +110,7 @@
       this._unDecorateTarget();
       this.index = -1;
       this.target = null;
+      this._targetIsChunk = null;
     },
 
     isAtStart: function() {
@@ -153,6 +155,10 @@
         newTarget = this.stops[newIndex];
       }
 
+      // We care about the chunk height if there is an opt_condition.
+      if (opt_condition) {
+        this._targetIsChunk = true;
+      }
       this.index = newIndex;
       this.target = newTarget;
 
@@ -251,7 +257,22 @@
       }
 
       var top = this._getTop(this.target);
-      if (this._targetIsVisible(top)) {
+
+      if (this._targetIsChunk) {
+        var bottom = top +this.target.parentNode.scrollHeight;
+      }
+
+      var bottomIsVisible = bottom ? this._targetIsVisible(bottom) : true;
+
+      if (this._targetIsVisible(top) && bottomIsVisible) {
+        return;
+      }
+
+      var scrollToValue = top - (window.innerHeight / 3) +
+          (this.target.offsetHeight / 2);
+
+      // Don't scroll in the wrong direction, less content will be shown.
+      if (scrollToValue < top) {
         return;
       }
 
@@ -259,8 +280,7 @@
       // instead of half the inner height feels a bit better otherwise the
       // element appears to be below the center of the window even when it
       // isn't.
-      window.scrollTo(0, top - (window.innerHeight / 3) +
-          (this.target.offsetHeight / 2));
+      window.scrollTo(0, scrollToValue);
     },
   });
 })();

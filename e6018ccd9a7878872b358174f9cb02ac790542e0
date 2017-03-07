@@ -46,6 +46,30 @@
       "revId": "e6018ccd9a7878872b358174f9cb02ac790542e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f832620e_ea0782ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-07T22:50:39Z",
+      "side": 1,
+      "message": "I wasn\u0027t really aware of the other ways that opt_condition was used.\n\nCurrently, I think the condition is only used in two ways: to skip the cursor to the next chunk and to move the cursor to the next line with a thread. [1]\n\n\u003e I assume then that _moveCursor would take (opt_condition, opt_getTargetHeight).\n\nYeah. That\u0027s what I was thinking. `opt_getTargetHeight` should probably be last because it would be provided least-often I think.\n\n* [1] https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js#140",
+      "parentUuid": "7feb47fd_177820e6",
+      "range": {
+        "startLine": 159,
+        "startChar": 6,
+        "endLine": 161,
+        "endChar": 7
+      },
+      "revId": "e6018ccd9a7878872b358174f9cb02ac790542e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

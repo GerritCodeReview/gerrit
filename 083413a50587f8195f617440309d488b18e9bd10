@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51912a5a_351f4832",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-03-07T13:27:01Z",
+      "side": 1,
+      "message": "Is this an end of the sentence? If yes add a dot at the end of the line.",
+      "revId": "083413a50587f8195f617440309d488b18e9bd10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bf13587_d3c8655c",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-03-07T13:27:01Z",
+      "side": 1,
+      "message": "Unnecessary empty line, unless you are really starting a new paragraph, which doesn\u0027t seem to be the case.",
+      "revId": "083413a50587f8195f617440309d488b18e9bd10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36484d2d_ce25ba4c",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-03-07T13:27:01Z",
+      "side": 1,
+      "message": "If this is a new sentence start with uppercase.\n\nAdd an empty line below this line as it seem that, in this file, we always have an empty line above/below the ---- block.",
+      "revId": "083413a50587f8195f617440309d488b18e9bd10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10803adf_a5aa8dea",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-03-07T13:27:01Z",
+      "side": 1,
+      "message": "Under which section?",
+      "revId": "083413a50587f8195f617440309d488b18e9bd10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76466cdb_7d9a98fc",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-03-07T13:27:01Z",
+      "side": 1,
+      "message": "delete",
+      "range": {
+        "startLine": 87,
+        "startChar": 5,
+        "endLine": 87,
+        "endChar": 21
+      },
+      "revId": "083413a50587f8195f617440309d488b18e9bd10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d75969cd_110f561d",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-03-07T13:27:01Z",
+      "side": 1,
+      "message": "Why is this not merged into the previous ---- block?",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 4
+      },
+      "revId": "083413a50587f8195f617440309d488b18e9bd10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bea97823_6df9ee7d",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-03-07T13:27:01Z",
+      "side": 1,
+      "message": "This should be surrounded with single quotes or back-ticks. Look in other files for an example.",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 16
+      },
+      "revId": "083413a50587f8195f617440309d488b18e9bd10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

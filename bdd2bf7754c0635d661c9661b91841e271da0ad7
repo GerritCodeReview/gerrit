@@ -22,6 +22,31 @@
       "revId": "bdd2bf7754c0635d661c9661b91841e271da0ad7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "068f1a10_f0682f6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-07T18:15:26Z",
+      "side": 1,
+      "message": "Carving a REST API by hand isn\u0027t an easy task for a Gerrit user :-( Yes, but the problem is the argument parser: it does not find the change at all :-( because of the visibility check",
+      "parentUuid": "6afc0ed0_0c32c3fa",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "tag": "mailMessageId\u003d\u003c9DE4B870-B677-4BE3-BE06-9213A0B6971C@gmail.com\u003e",
+      "revId": "bdd2bf7754c0635d661c9661b91841e271da0ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

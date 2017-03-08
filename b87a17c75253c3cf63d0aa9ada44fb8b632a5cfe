@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "1ea87cc7_b4e3bd7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-08T06:32:18Z",
+      "side": 1,
+      "message": "\u003e EJ doesn\u0027t know about Guava :)\n\nEP\u0027s MutableConstantField bug pattern that enforce usage of immutable type (such as ImmutableList) instead of the general collection interface type, explicitly mentions, that this is consistent with EJ #52:\n\n  This is consistent with Effective Java Item 52, which says to refer to objects by their interfaces.\n  Guava’s immutable collection classes offer meaningful behavioral guarantees – they are not merely a specific implementation as in the case of, say, ArrayList.\n  They should be treated as interfaces in every important sense of the word.\n\nIOW, The EJ #52 rules says: use interface instead of implementation. Guava exposes immutable classes and EP\u0027s MutableConstantField bug pattern tells us that those classes are actually interfaces, so that the rule is still fine.",
+      "parentUuid": "4bff043c_b8d12e5b",
+      "range": {
+        "startLine": 208,
+        "startChar": 16,
+        "endLine": 208,
+        "endChar": 28
+      },
+      "revId": "b87a17c75253c3cf63d0aa9ada44fb8b632a5cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1debc6b0_03d93c9c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95878c8f_05506030",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-08T00:32:34Z",
+      "side": 1,
+      "message": "Maybe add a comment for this if:\n\n  // If the message is hidden, expand the hidden messages back to that point.",
+      "revId": "7e6a16d34a42007b15674e3b2d4890e2a375c606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e51e107_b6bfa623",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-08T00:32:34Z",
+      "side": 1,
+      "message": "Super optional, but you have a variable named `index` and a variable named `i`, which is short for `index`. Consider:\n\nfor (var index \u003d 0; index \u003c this._processedMessages.length; index++) {\n  if (this._processedMessages[index].id \u003d\u003d\u003d messageID) {\n    break;\n  }\n}\nif (index \u003d\u003d\u003d this._processedMessages.length) { return; }",
+      "range": {
+        "startLine": 73,
+        "startChar": 8,
+        "endLine": 80,
+        "endChar": 31
+      },
+      "revId": "7e6a16d34a42007b15674e3b2d4890e2a375c606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

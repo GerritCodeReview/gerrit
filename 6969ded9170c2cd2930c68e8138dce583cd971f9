@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "86a7fc5c_f24a50af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-08T20:13:11Z",
+      "side": 1,
+      "message": "tl;dr: so it can be easily turned off in case of problems and turned on for testing ahead of prod release.\n\nLink preload spec is new and not widely supported (http://caniuse.com/#feat\u003dlink-rel-preload), so I wouldn\u0027t be surprised if it may cause issues and some installation would prefer to opt-out.",
+      "parentUuid": "fb1b8608_0b814303",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e3ea5c9_acc4b9c3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c30164fe_5bf343a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-08T20:13:11Z",
+      "side": 1,
+      "message": "\u003e Can you explain briefly in the commit message why you\u0027re using a different mechanism here?\n\nMakes sense, done.\n\n\nFonts are preloaded, but not all .js files (webcomponents-lite, for example, and other Polymer dependencies). \n\nIn any case, the point was that this gives signal to browser for what should be loaded so it can be prioritized/preloaded.\n\n\u003e would it make sense to have JS/fonts preload using headers instead?\n\nI think yes, to keep all preloading logic in one place to make maintenance easier.\nHowever, I\u0027d prefer to roll out a small set of headers initially and experiment with determining the right amount in follow-up releases.",
+      "parentUuid": "8e3ea5c9_acc4b9c3",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 33
+      },
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "9dacc0c4_66e7478a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-08T20:13:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0b188a4_63ea381f",
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec0e3910_c22239f8",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
         "patchSetId": 3
@@ -120,6 +186,24 @@
       "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d866265_c1ea571d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-08T20:13:11Z",
+      "side": 1,
+      "message": "Dave\u0027s right - it\u0027s a set of matches, and all will be applied.\n\nThe list is clearly incomplete, but I think it would make sense to experiment and fine tune it once the preload is working end-to-end.\n\nI can imagine situation when preloading all REST APIs chokes the browser and in fact increases user-perceived latency (time to first draw).\n\nComment added.",
+      "parentUuid": "1eb5bdc4_455990e1",
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "0dc3e9eb_ffd57759",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-08T20:13:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6970f7d_c4a52539",
+      "range": {
+        "startLine": 79,
+        "startChar": 20,
+        "endLine": 79,
+        "endChar": 26
+      },
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7653602_7383a777",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
         "patchSetId": 3
@@ -183,6 +291,30 @@
       "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14d11df5_29cff028",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-08T20:13:11Z",
+      "side": 1,
+      "message": "Good point on context path.\n\nI couldn\u0027t figure out why getPathInfo() was returning null always, so added support for context path using getContextPath() and getServletPath() - since Module in this file installs filters in configureServets, it looked like a good match.\n\nLet me know if this looks better, this isn\u0027t something I\u0027m totally familiar with.",
+      "parentUuid": "f7653602_7383a777",
+      "range": {
+        "startLine": 81,
+        "startChar": 18,
+        "endLine": 81,
+        "endChar": 31
+      },
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

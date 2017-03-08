@@ -19,7 +19,6 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.config.ConfigUtil;
-import java.util.Map;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -28,7 +27,7 @@ import org.eclipse.jgit.lib.Config;
 
 /** Combination of Lucene {@link IndexWriterConfig} with additional Gerrit-specific options. */
 class GerritIndexWriterConfig {
-  private static final Map<String, String> CUSTOM_CHAR_MAPPING =
+  private static final ImmutableMap<String, String> CUSTOM_CHAR_MAPPING =
       ImmutableMap.of("_", " ", ".", " ");
 
   private final IndexWriterConfig luceneConfig;

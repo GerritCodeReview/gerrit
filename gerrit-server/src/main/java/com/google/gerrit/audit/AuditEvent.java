@@ -25,7 +25,7 @@ import com.google.gerrit.server.CurrentUser;
 public class AuditEvent {
 
   public static final String UNKNOWN_SESSION_ID = "000000000000000000000000000";
-  protected static final ListMultimap<String, ?> EMPTY_PARAMS = ImmutableListMultimap.of();
+  protected static final ImmutableListMultimap<String, ?> EMPTY_PARAMS = ImmutableListMultimap.of();
 
   public final String sessionId;
   public final CurrentUser who;

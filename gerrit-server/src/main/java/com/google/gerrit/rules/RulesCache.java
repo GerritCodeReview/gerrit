@@ -71,7 +71,8 @@ import org.eclipse.jgit.util.RawParseUtils;
  */
 @Singleton
 public class RulesCache {
-  private static final List<String> PACKAGE_LIST = ImmutableList.of(Prolog.BUILTIN, "gerrit");
+  private static final ImmutableList<String> PACKAGE_LIST =
+      ImmutableList.of(Prolog.BUILTIN, "gerrit");
 
   private static final class MachineRef extends WeakReference<PrologMachineCopy> {
     final ObjectId key;

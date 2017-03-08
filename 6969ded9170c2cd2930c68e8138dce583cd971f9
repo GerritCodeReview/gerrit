@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "fb1b8608_0b814303",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-08T02:20:10Z",
+      "side": 1,
+      "message": "Why do we need a config option? What is the harm in always sending them (when serving a top-level PG page)?",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e3ea5c9_acc4b9c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-08T02:20:10Z",
+      "side": 1,
+      "message": "JS and fonts are preloaded using \u003clink rel\u003d\"preload\"\u003e in the body of the HTML. Can you explain briefly in the commit message why you\u0027re using a different mechanism here? Is it just that it\u0027s easier to implement this way than it would be to support a dynamic list of preloads in the HTML template?\n\nOr would it make sense to have JS/fonts preload using headers instead?\n\nAre they supported by different sets of browsers?",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 33
+      },
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39bfad62_22da475f",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3
@@ -25,6 +71,23 @@
     },
     {
       "key": {
+        "uuid": "b0b188a4_63ea381f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-08T02:20:10Z",
+      "side": 1,
+      "message": "What about / and dashboard links?",
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec0e3910_c22239f8",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
         "patchSetId": 3
@@ -36,6 +99,87 @@
       "writtenOn": "2017-03-08T00:35:06Z",
       "side": 1,
       "message": "Does it make sense to include /accounts/self/detail, etc., in the preloads for this page as well?",
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eb5bdc4_455990e1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-08T02:20:10Z",
+      "side": 1,
+      "message": "Those are already implied by the previous one. Guice makes sure that *all* matching filters get called, so the ^/c/.* ones will run as well.\n\nI would think there are some more change-specific ones here, though. Like /comments and /related and stuff.",
+      "parentUuid": "ec0e3910_c22239f8",
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36f19e16_379ce689",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-08T02:20:10Z",
+      "side": 1,
+      "message": "It feels a little wasteful to add N filters when 1 will do. LinkPreloadFilter could take a List.",
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6970f7d_c4a52539",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-08T02:20:10Z",
+      "side": 1,
+      "message": "HttpHeaders.LINK",
+      "range": {
+        "startLine": 79,
+        "startChar": 20,
+        "endLine": 79,
+        "endChar": 26
+      },
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7653602_7383a777",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-08T02:20:10Z",
+      "side": 1,
+      "message": "I don\u0027t think this works with a nonempty context path; would getPathInfo() be a better fit perhaps?",
+      "range": {
+        "startLine": 81,
+        "startChar": 18,
+        "endLine": 81,
+        "endChar": 31
+      },
       "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

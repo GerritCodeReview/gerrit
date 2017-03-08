@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e35022f6_6573f6ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-08T10:25:56Z",
+      "side": 1,
+      "message": "Seems to be stale? Change to something like:\n\n  Allow users with granted maintain server capability find any change\n\nAnother question: should this change rather be done on stable-2.13 branch?",
+      "revId": "c419a60b746fdf64321619baa2d9cf2ce659feee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13ba88f3_7a1fc946",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-08T10:25:56Z",
+      "side": 1,
+      "message": "swap the order here, as canMaintainServer seems to be a cheaper check?",
+      "range": {
+        "startLine": 90,
+        "startChar": 14,
+        "endLine": 90,
+        "endChar": 52
+      },
+      "revId": "c419a60b746fdf64321619baa2d9cf2ce659feee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

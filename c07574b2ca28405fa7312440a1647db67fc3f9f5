@@ -22,6 +22,30 @@
       "revId": "c07574b2ca28405fa7312440a1647db67fc3f9f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "945f266a_1abead70",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-08T10:59:15Z",
+      "side": 1,
+      "message": "I believe so, let me re-format again ...",
+      "parentUuid": "1f41c3fd_9de95357",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 37
+      },
+      "revId": "c07574b2ca28405fa7312440a1647db67fc3f9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

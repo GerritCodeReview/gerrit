@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b09e8d7_2e3792cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-08T01:07:35Z",
+      "side": 1,
+      "message": "Is there a way you could do this without the flush()?\n\nhttps://www.polymer-project.org/1.0/docs/devguide/data-system#observable-changes",
+      "revId": "cd2fb842013600e379cbeecf8e6bfa0ae4e2a9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

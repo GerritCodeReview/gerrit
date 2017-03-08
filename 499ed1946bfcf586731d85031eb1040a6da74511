@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4984ad15_10184ffe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/AbandonedSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-08T23:32:32Z",
+      "side": 0,
+      "message": "Was this originally added because when a change is abandoned, a comment can be added?",
+      "range": {
+        "startLine": 46,
+        "startChar": 31,
+        "endLine": 46,
+        "endChar": 43
+      },
+      "revId": "499ed1946bfcf586731d85031eb1040a6da74511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -118,6 +118,30 @@
       "revId": "bdd2bf7754c0635d661c9661b91841e271da0ad7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dafa8527_2f6ab13d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-08T10:19:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f02f0eaf_4555c198",
+      "range": {
+        "startLine": 74,
+        "startChar": 14,
+        "endLine": 74,
+        "endChar": 23
+      },
+      "revId": "bdd2bf7754c0635d661c9661b91841e271da0ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

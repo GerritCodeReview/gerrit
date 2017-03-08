@@ -16,6 +16,24 @@
       "revId": "cd2fb842013600e379cbeecf8e6bfa0ae4e2a9e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab65b19b_4f8eb35f",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-08T01:12:50Z",
+      "side": 1,
+      "message": "Wyatt and I were just discussing this on patchset 1 -- I don\u0027t think there is a way that wouldn\u0027t require significant reworking of how message highlighting works (right now it\u0027s performed on the gr-message DOM element.\n\nI\u0027ve made a P3 tracking bug for this, with the plan of elevating it if users report this as an issue.\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d5732",
+      "parentUuid": "8b09e8d7_2e3792cb",
+      "revId": "cd2fb842013600e379cbeecf8e6bfa0ae4e2a9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

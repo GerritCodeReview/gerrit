@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "56504360_909e6225",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-08T19:17:29Z",
+      "side": 1,
+      "message": "I *think* it should be... I was being defensive in case I was wrong, but I think it makes more sense to not check since it should always be the case.",
+      "parentUuid": "64fb1b2c_e2fe3d74",
+      "range": {
+        "startLine": 270,
+        "startChar": 6,
+        "endLine": 270,
+        "endChar": 31
+      },
+      "revId": "8745a628cf3f7b3a1590c43729bbc0168f09637b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e274949a_a15b287d",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "8745a628cf3f7b3a1590c43729bbc0168f09637b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b637abf4_8c5f75c2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-08T19:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e274949a_a15b287d",
+      "range": {
+        "startLine": 270,
+        "startChar": 6,
+        "endLine": 274,
+        "endChar": 74
+      },
+      "revId": "8745a628cf3f7b3a1590c43729bbc0168f09637b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

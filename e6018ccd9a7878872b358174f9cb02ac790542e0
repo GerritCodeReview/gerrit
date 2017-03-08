@@ -70,6 +70,30 @@
       "revId": "e6018ccd9a7878872b358174f9cb02ac790542e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61dce2e0_1003ef39",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-08T19:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f832620e_ea0782ca",
+      "range": {
+        "startLine": 159,
+        "startChar": 6,
+        "endLine": 161,
+        "endChar": 7
+      },
+      "revId": "e6018ccd9a7878872b358174f9cb02ac790542e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

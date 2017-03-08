@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64fb1b2c_e2fe3d74",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-08T18:52:00Z",
+      "side": 1,
+      "message": "Aside: I wonder if `_targetHeight` should be set in all cases?",
+      "range": {
+        "startLine": 270,
+        "startChar": 6,
+        "endLine": 270,
+        "endChar": 31
+      },
+      "revId": "8745a628cf3f7b3a1590c43729bbc0168f09637b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e274949a_a15b287d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-08T18:52:00Z",
+      "side": 1,
+      "message": "IMO, it\u0027s better to avoid using a variable declared outside the `if` it\u0027s declared in. Possibly it would end up searching the surrounding closures for `bottom` if the `if` isn\u0027t taken. What about the following instead.\n\nvar bottomIsVisible \u003d this._targetHeight ?\n    this._targetIsVisible(top + this._targetHeight) :\n    true;",
+      "range": {
+        "startLine": 270,
+        "startChar": 6,
+        "endLine": 274,
+        "endChar": 74
+      },
+      "revId": "8745a628cf3f7b3a1590c43729bbc0168f09637b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

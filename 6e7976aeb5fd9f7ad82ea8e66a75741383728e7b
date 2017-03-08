@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd6f9208_6efc1351",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-08T23:24:49Z",
+      "side": 1,
+      "message": "Could be more technically clear. Perhaps \"to ALL_COMMENTS watchers\".",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "6e7976aeb5fd9f7ad82ea8e66a75741383728e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "499ed1946bfcf586731d85031eb1040a6da74511",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00e06a6a_47ca6885",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/AbandonedSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-08T23:40:40Z",
+      "side": 0,
+      "message": "I expect that it isn\u0027t related to the comment inside the abandoned message. Moreover, based on [1], it appears that sending abandoned emails to comments watchers predates the separate abandoned changes watch type. They had just been lumped together with comments emails before that.\n\n* [1] I910a3adf41e6e979400523eb923ff9780ca77853",
+      "parentUuid": "4984ad15_10184ffe",
+      "range": {
+        "startLine": 46,
+        "startChar": 31,
+        "endLine": 46,
+        "endChar": 43
+      },
+      "revId": "499ed1946bfcf586731d85031eb1040a6da74511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

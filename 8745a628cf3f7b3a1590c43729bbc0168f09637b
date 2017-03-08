@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "dbff3c9e_976c6710",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-08T19:22:32Z",
+      "side": 1,
+      "message": "Defensive is good. I believe it isn\u0027t set in all cases, for example, when using `setCursor` or similar methods. Without changing that, I think it\u0027s right to be defensive here.\n\nCould set it in all cases that the cursor might be set, but maybe a cleaner approach would be to *only* set it in `moveCursor` if the `opt_getTargetHeight` is provided and make sure it\u0027s null or undefined otherwise.\n\nThen this method could just use `this.target.scrollHeight` if it\u0027s not set.",
+      "parentUuid": "56504360_909e6225",
+      "range": {
+        "startLine": 270,
+        "startChar": 6,
+        "endLine": 270,
+        "endChar": 31
+      },
+      "revId": "8745a628cf3f7b3a1590c43729bbc0168f09637b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e274949a_a15b287d",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
         "patchSetId": 3

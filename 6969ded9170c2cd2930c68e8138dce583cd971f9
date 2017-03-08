@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39bfad62_22da475f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2058,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-08T00:35:06Z",
+      "side": 1,
+      "message": "Supporting browsers",
+      "range": {
+        "startLine": 2058,
+        "startChar": 0,
+        "endLine": 2058,
+        "endChar": 27
+      },
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec0e3910_c22239f8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-08T00:35:06Z",
+      "side": 1,
+      "message": "Does it make sense to include /accounts/self/detail, etc., in the preloads for this page as well?",
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

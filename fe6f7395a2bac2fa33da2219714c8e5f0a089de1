@@ -22,6 +22,30 @@
       "revId": "fe6f7395a2bac2fa33da2219714c8e5f0a089de1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b03cbec9_ba44d600",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-08T23:28:28Z",
+      "side": 1,
+      "message": "I know ... can it be a \"minor\" sin?",
+      "parentUuid": "19242f39_4f8350be",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 84
+      },
+      "revId": "fe6f7395a2bac2fa33da2219714c8e5f0a089de1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -47,6 +47,29 @@
       "revId": "bdd2bf7754c0635d661c9661b91841e271da0ad7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "017ed743_8cc24d0f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-08T07:28:48Z",
+      "side": 1,
+      "message": "@DavidO: this is the function that is needed to return any change if you can administer the server.\n\nAfter a release migration, the online reindexer may fail to complete OR just not complete on-time and you may need to define a completely different reindexing schedule. At GerritHub for instance we never reindex everything but just deltas from the last syncpoint.\n\nFailing to find private changes would impact the completeness of the index.",
+      "range": {
+        "startLine": 74,
+        "startChar": 14,
+        "endLine": 74,
+        "endChar": 23
+      },
+      "revId": "bdd2bf7754c0635d661c9661b91841e271da0ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

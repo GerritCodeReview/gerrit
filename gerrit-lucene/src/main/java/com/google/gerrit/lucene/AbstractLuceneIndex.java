@@ -14,6 +14,7 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.base.Joiner;
@@ -288,7 +289,8 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
             reopenThread.waitForGeneration(gen, 0);
             return new NrtFuture(gen);
           }
-        });
+        },
+        directExecutor());
   }
 
   @Override

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53ed5ef1_fa787db9",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-08T01:25:01Z",
+      "side": 1,
+      "message": "Should this be...\n\n  function() { return sandbox.stub(); }\n\n...?",
+      "range": {
+        "startLine": 40,
+        "startChar": 22,
+        "endLine": 40,
+        "endChar": 34
+      },
+      "revId": "767c95f7319fb749e32a02b224f85d8ecfa0fb27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf686d11_a60caf38",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-08T01:25:01Z",
+      "side": 1,
+      "message": "This will always be true if the prior test passes, right?",
+      "range": {
+        "startLine": 101,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 49
+      },
+      "revId": "767c95f7319fb749e32a02b224f85d8ecfa0fb27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

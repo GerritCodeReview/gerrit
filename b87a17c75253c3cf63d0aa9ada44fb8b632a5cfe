@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "2557b4c3_bd4a41cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-08T06:33:03Z",
+      "side": 1,
+      "message": "http://errorprone.info/bugpattern/MutableConstantField",
+      "parentUuid": "1ea87cc7_b4e3bd7a",
+      "range": {
+        "startLine": 208,
+        "startChar": 16,
+        "endLine": 208,
+        "endChar": 28
+      },
+      "revId": "b87a17c75253c3cf63d0aa9ada44fb8b632a5cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1debc6b0_03d93c9c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1

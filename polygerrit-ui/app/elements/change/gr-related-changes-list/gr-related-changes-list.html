@@ -28,7 +28,7 @@ limitations under the License.
         margin: .5em 0 0;
       }
       section {
-        margin-bottom: 1em;
+        margin-bottom: 1.4em; /* Same as line height for collapse purposes */
       }
       a {
         display: block;
@@ -45,8 +45,16 @@ limitations under the License.
       }
       .changeContainer.thisChange:before {
         content: '➔';
-        position: absolute;
-        transform: translateX(-1.2em);
+        width: 1.2em
+      }
+      h4,
+      section div {
+        display: flex
+      }
+      h4:before,
+      section div:before {
+        content: ' ';
+        width: 1.2em
       }
       .relatedChanges a {
         display: inline-block;
@@ -85,8 +93,8 @@ limitations under the License.
         }
       }
     </style>
-    <div hidden$="[[!_loading]]">Loading...</div>
-    <div hidden$="[[_loading]]">
+    <div hidden$="[[!loading]]">Loading...</div>
+    <div hidden$="[[loading]]">
       <hr class="mobile">
       <section class="relatedChanges" hidden$="[[!_relatedResponse.changes.length]]" hidden>
         <h4>Relation chain</h4>
@@ -94,7 +102,7 @@ limitations under the License.
             is="dom-repeat"
             items="[[_relatedResponse.changes]]"
             as="related">
-          <div class$="[[_computeChangeContainerClass(change, related)]]">
+          <div class$="rightIndent [[_computeChangeContainerClass(change, related)]]">
             <a href$="[[_computeChangeURL(related._change_number, related._revision_number)]]"
                 class$="[[_computeLinkClass(related)]]">
               [[related.commit.subject]]
@@ -108,37 +116,45 @@ limitations under the License.
       <section hidden$="[[!_submittedTogether.length]]" hidden>
         <h4>Submitted together</h4>
         <template is="dom-repeat" items="[[_submittedTogether]]" as="change">
-          <a href$="[[_computeChangeURL(change._number)]]"
-              class$="[[_computeLinkClass(change)]]">
-            [[change.project]]: [[change.branch]]: [[change.subject]]
-          </a>
+          <div>
+            <a href$="[[_computeChangeURL(change._number)]]"
+                class$="[[_computeLinkClass(change)]]">
+              [[change.project]]: [[change.branch]]: [[change.subject]]
+            </a>
+          </div>
         </template>
       </section>
       <section hidden$="[[!_sameTopic.length]]" hidden>
         <h4>Same topic</h4>
         <template is="dom-repeat" items="[[_sameTopic]]" as="change">
-          <a href$="[[_computeChangeURL(change._number)]]"
-              class$="[[_computeLinkClass(change)]]">
-            [[change.project]]: [[change.branch]]: [[change.subject]]
-          </a>
+          <div>
+            <a href$="[[_computeChangeURL(change._number)]]"
+                class$="[[_computeLinkClass(change)]]">
+              [[change.project]]: [[change.branch]]: [[change.subject]]
+            </a>
+          </div>
         </template>
       </section>
       <section hidden$="[[!_conflicts.length]]" hidden>
         <h4>Merge conflicts</h4>
         <template is="dom-repeat" items="[[_conflicts]]" as="change">
-          <a href$="[[_computeChangeURL(change._number)]]"
-              class$="[[_computeLinkClass(change)]]">
-            [[change.subject]]
-          </a>
+          <div>
+            <a href$="[[_computeChangeURL(change._number)]]"
+                class$="[[_computeLinkClass(change)]]">
+              [[change.subject]]
+            </a>
+          </div>
         </template>
       </section>
       <section hidden$="[[!_cherryPicks.length]]" hidden>
         <h4>Cherry picks</h4>
         <template is="dom-repeat" items="[[_cherryPicks]]" as="change">
-          <a href$="[[_computeChangeURL(change._number)]]"
-              class$="[[_computeLinkClass(change)]]">
-            [[change.branch]]: [[change.subject]]
-          </a>
+          <div>
+            <a href$="[[_computeChangeURL(change._number)]]"
+                class$="[[_computeLinkClass(change)]]">
+              [[change.branch]]: [[change.subject]]
+            </a>
+          </div>
         </template>
       </section>
     </div>

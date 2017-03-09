@@ -92,6 +92,7 @@
         type: String,
         value: '',
       },
+      _lineHeight: Number,
       _changeIdCommitMessageError: {
         type: String,
         computed:
@@ -100,6 +101,10 @@
       _patchRange: {
         type: Object,
         observer: '_updateSelected',
+      },
+      _relatedChangesLoading: {
+        type: Boolean,
+        value: true,
       },
       _currentRevisionActions: Object,
       _allPatchSets: {
@@ -137,6 +142,10 @@
         computed: '_computeChangeStatus(_change, _patchRange.patchNum)',
       },
       _commitCollapsed: {
+        type: Boolean,
+        value: true,
+      },
+      _relatedChangesCollapsed: {
         type: Boolean,
         value: true,
       },
@@ -874,6 +883,8 @@
                 } else {
                   this._latestCommitMessage = null;
                 }
+                var lineHeight = getComputedStyle(this).lineHeight;
+                this._lineHeight = lineHeight.slice(0, lineHeight.length - 2);
 
                 this._change = change;
                 if (!this._patchRange || !this._patchRange.patchNum ||
@@ -944,6 +955,7 @@
 
     _reload: function() {
       this._loading = true;
+      this._relatedChangesCollapsed = true;
 
       this._getLoggedIn().then(function(loggedIn) {
         if (!loggedIn) { return; }
@@ -1044,17 +1056,92 @@
       return collapsed ? 'collapsed' : '';
     },
 
-    _computeCollapseCommitText: function(collapsed) {
-      return collapsed ? 'Show more' : 'Show less';
+    _computeRelatedChangesClass: function(collapsed, loading) {
+      if (!loading && !this.customStyle['--relation-chain-max-height']) {
+        this._updateRelatedChangeMaxHeight();
+      }
+      return collapsed ? 'collapsed' : '';
+    },
+
+    _computeCollapseText: function(collapsed) {
+      // Symbols are up and down triangles.
+      return collapsed ? '\u25bc Show more' : '\u25b2 Show less';
     },
 
     _toggleCommitCollapsed: function() {
       this._commitCollapsed = !this._commitCollapsed;
+      if (this._commitCollapsed) {
+        window.scrollTo(0, 0);
+      }
+    },
+
+    _toggleRelatedChangesCollapsed: function() {
+      this._relatedChangesCollapsed = !this._relatedChangesCollapsed;
+      if (this._relatedChangesCollapsed) {
+        window.scrollTo(0, 0);
+      }
     },
 
     _computeCommitToggleHidden: function(commitMessage) {
       if (!commitMessage) { return true; }
       return commitMessage.split('\n').length < MIN_LINES_FOR_COMMIT_COLLAPSE;
+    },
+
+    _getOffsetHeight: function(element) {
+      return element.offsetHeight;
+    },
+
+    _getScrollHeight: function(element) {
+      return element.scrollHeight;
+    },
+
+    /**
+     * @desc get the line height of an element to the nearest integer.
+     * */
+    _getLineHeight: function(element) {
+      var lineHeightStr = getComputedStyle(element).lineHeight;
+      return Math.round(lineHeightStr.slice(0, lineHeightStr.length - 2));
+    },
+
+    /**
+     * @desc new max height for the related changes section, shorter than
+     * the existing change info height.
+     */
+    _updateRelatedChangeMaxHeight: function() {
+      // Takes into account approximate height for the expand button and
+      // bottom margin
+      var extraHeight = 24;
+      var maxExistingHeight;
+      var hasCommitToggle =
+          !this._computeCommitToggleHidden(this._latestCommitMessage);
+      if (hasCommitToggle) {
+        // Make sure the content is lined up if both areas have buttons. If the
+        // commit message is not collapsed, instead use the change info hight.
+        maxExistingHeight = this._getOffsetHeight(this.$.commitMessage);
+      } else {
+        maxExistingHeight = this._getOffsetHeight(this.$.mainChangeInfo) -
+            extraHeight;
+      }
+
+      // Get the line height of related changes, and convert it to the nearest
+      // integer.
+      var lineHeight = this._getLineHeight(this.$.relatedChanges);
+
+      // Figure out a new height that is divisible by the rounded line height.
+      var remainder = maxExistingHeight % lineHeight;
+      var newHeight = maxExistingHeight - remainder;
+
+      // Update the max-height of the relation chain to this new height;
+      this.customStyle['--relation-chain-max-height'] = newHeight + 'px';
+      if (hasCommitToggle) {
+        this.customStyle['--related-change-btn-top-padding'] = remainder + 'px';
+      }
+      this.updateStyles();
+    },
+
+    _computeRelatedChangesToggleHidden: function() {
+      return this._getScrollHeight(this.$.relatedChanges) <=
+          this._getOffsetHeight(this.$.relatedChanges);
     },
   });
 })();

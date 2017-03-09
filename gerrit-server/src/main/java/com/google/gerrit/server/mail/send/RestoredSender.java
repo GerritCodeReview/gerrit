@@ -43,6 +43,7 @@ public class RestoredSender extends ReplyToChangeSender {
     ccAllApprovals();
     bccStarredBy();
     includeWatchers(NotifyType.ALL_COMMENTS);
+    removeUsersThatIgnoredTheChange();
   }
 
   @Override

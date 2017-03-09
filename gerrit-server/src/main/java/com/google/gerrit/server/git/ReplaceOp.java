@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -280,6 +281,14 @@ public class ReplaceOp extends BatchUpdate.Op {
         info,
         recipients.getReviewers(),
         oldRecipients.getAll());
+
+    // Check if approvals are changing in with this update. If so, add current user to reviewers.
+    // Note that this is done separately as addReviewers is filtering out the change owner as
+    // reviewer which is needed in several other code paths.
+    if (magicBranch != null && !magicBranch.labels.isEmpty()) {
+      update.putReviewer(ctx.getAccountId(), REVIEWER);
+    }
+
     recipients.add(oldRecipients);
 
     String approvalMessage =

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92f2fea8_6637cd68",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-09T04:39:26Z",
+      "side": 1,
+      "message": "Super nit: I think this could fit on one line. I understand not wanting to do that for readability reasons, though.",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 13
+      },
+      "revId": "9f78f3a0fdd78bbb634b999e9b1a46beffa56f19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0c21f18_bb14b241",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-09T04:39:26Z",
+      "side": 1,
+      "message": "A quick single line comment for what this is would be pretty nice to have, I think.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 28
+      },
+      "revId": "9f78f3a0fdd78bbb634b999e9b1a46beffa56f19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

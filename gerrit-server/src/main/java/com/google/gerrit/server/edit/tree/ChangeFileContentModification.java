@@ -17,6 +17,7 @@ package com.google.gerrit.server.edit.tree;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.restapi.RawInput;
 import java.io.IOException;
@@ -51,6 +52,16 @@ public class ChangeFileContentModification implements TreeModification {
   public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository, RevCommit baseCommit) {
     DirCacheEditor.PathEdit changeContentEdit = new ChangeContent(filePath, newContent, repository);
     return Collections.singletonList(changeContentEdit);
+  }
+
+  @VisibleForTesting
+  String getFilePath() {
+    return filePath;
+  }
+
+  @VisibleForTesting
+  RawInput getNewContent() {
+    return newContent;
   }
 
   /** A {@code PathEdit} which changes the contents of a file. */

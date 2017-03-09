@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
@@ -85,6 +86,17 @@ public interface RevisionApi {
   List<CommentInfo> draftsAsList() throws RestApiException;
 
   List<RobotCommentInfo> robotCommentsAsList() throws RestApiException;
+
+  /**
+   * Applies the indicated fix by creating a new change edit or integrating the fix with the
+   * existing change edit. If no change edit exists before this call, the fix must refer to the
+   * current patch set. If a change edit exists, the fix must refer to the patch set on which the
+   * change edit is based.
+   *
+   * @param fixId the ID of the fix which should be applied
+   * @throws RestApiException if the fix couldn't be applied
+   */
+  EditInfo applyFix(String fixId) throws RestApiException;
 
   DraftApi createDraft(DraftInput in) throws RestApiException;
 
@@ -251,6 +263,11 @@ public interface RevisionApi {
 
     @Override
     public List<RobotCommentInfo> robotCommentsAsList() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public EditInfo applyFix(String fixId) {
       throw new NotImplementedException();
     }
 

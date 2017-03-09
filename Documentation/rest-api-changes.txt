@@ -5422,6 +5422,8 @@ Only set on the last change that is returned.
 |`problems`           |optional|
 A list of link:#problem-info[ProblemInfo] entities describing potential
 problems with this change. Only set if link:#check[CHECK] is set.
+|`work_in_progress`   |optional, not set if `false`|
+When present, change is marked as Work In Progress.
 |==================================
 
 [[change-input]]

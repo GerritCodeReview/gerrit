@@ -23,6 +23,30 @@
       "revId": "3249313b63bec65c58379261b0e068f4c1d28f36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7706d1ae_50043c2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-09T13:19:14Z",
+      "side": 1,
+      "message": "The automated tool we use (not written by our team) to copy changes from Piper to Gerrit is what chose the author here. I think if we remember to amend with --reset-author that might be cleaner, but I don\u0027t think it\u0027s especially worth worrying about if we forget.",
+      "parentUuid": "4b83be31_e8698628",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 62
+      },
+      "revId": "3249313b63bec65c58379261b0e068f4c1d28f36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c63c58dd_2219cf24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-09T22:16:14Z",
+      "side": 1,
+      "message": "No, there were no exceptions thrown. I\u0027m calling it a race because I realized that any time only one field was set, the change propagated perfectly. \n\nI\u0027d imagine the issue is in how PutStatus and PutName work, they don\u0027t check for any return value from setting the value in ReviewDB and purging the cache. I\u0027d also imagine that the reason this hasn\u0027t cropped up before is that, prior to me implementing status, there was only one easily mutable field in the account that was exposed to the user.",
+      "parentUuid": "544ed9fc_732830e7",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "12fdd0ee78707e902277a5f145d7c21b3989c66f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d80d697f_7c7fb199",
         "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "c29f15cd_1b933033",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-09T22:16:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d80d697f_7c7fb199",
+      "revId": "12fdd0ee78707e902277a5f145d7c21b3989c66f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1925926_b8d917ab",
         "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
         "patchSetId": 1
@@ -56,6 +98,24 @@
       "revId": "12fdd0ee78707e902277a5f145d7c21b3989c66f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb0c493d_ec6f6ff1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-09T22:16:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1925926_b8d917ab",
+      "revId": "12fdd0ee78707e902277a5f145d7c21b3989c66f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

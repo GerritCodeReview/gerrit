@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77c7ecc5_1bf68600",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4267,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-09T16:35:23Z",
+      "side": 1,
+      "message": "Clarify that an existing change edit is only updated when it belongs to the same patch set.",
+      "range": {
+        "startLine": 4266,
+        "startChar": 47,
+        "endLine": 4267,
+        "endChar": 31
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54cb9cfe_da99a78a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4274,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-09T16:35:23Z",
+      "side": 1,
+      "message": "Should this rather be 200 OK?\n\nWe use \u0027204 No Content\u0027 when a resource was successfully deleted.",
+      "range": {
+        "startLine": 4274,
+        "startChar": 52,
+        "endLine": 4274,
+        "endChar": 66
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aeb30caa_39b620cd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-09T16:35:23Z",
+      "side": 1,
+      "message": "I think this is not needed, it\u0027s already defined as \u0027exception\u0027 in the parent class.",
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d055b6d6_42396a26",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-09T16:35:23Z",
+      "side": 1,
+      "message": "[optional] move this below the amend",
+      "range": {
+        "startLine": 688,
+        "startChar": 4,
+        "endLine": 690,
+        "endChar": 55
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73e0d4fa_a40be403",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-09T16:35:23Z",
+      "side": 1,
+      "message": "[optional] You may add a test that tries to a apply a non-existing fix.",
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f63ad5f3_c7b9aa99",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-09T16:35:23Z",
+      "side": 1,
+      "message": "Clarify that the existing change edit must be on the same patch set.",
+      "range": {
+        "startLine": 91,
+        "startChar": 5,
+        "endLine": 91,
+        "endChar": 25
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "203ceb45_11733f72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-09T16:35:23Z",
+      "side": 1,
+      "message": "nit: Move this up after applyFix, so that the order is everywhere the same.",
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1ba36f5_6905a377",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-09T16:35:23Z",
+      "side": 1,
+      "message": "Don\u0027t import the Id class, but refer to it as PatchSet.Id.",
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dea2f575_2c148b8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-09T16:35:23Z",
+      "side": 1,
+      "message": "Should it be checked here that all fixReplacements have the same path?",
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

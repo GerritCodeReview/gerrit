@@ -41,6 +41,7 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.change.ApplyFix;
 import com.google.gerrit.server.change.CherryPick;
 import com.google.gerrit.server.change.Comments;
 import com.google.gerrit.server.change.CreateDraftComment;
@@ -48,6 +49,7 @@ import com.google.gerrit.server.change.DeleteDraftPatchSet;
 import com.google.gerrit.server.change.DraftComments;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.Files;
+import com.google.gerrit.server.change.Fixes;
 import com.google.gerrit.server.change.GetDescription;
 import com.google.gerrit.server.change.GetMergeList;
 import com.google.gerrit.server.change.GetPatch;
@@ -109,6 +111,8 @@ class RevisionApiImpl implements RevisionApi {
   private final FileApiImpl.Factory fileApi;
   private final ListRevisionComments listComments;
   private final ListRobotComments listRobotComments;
+  private final ApplyFix applyFix;
+  private final Fixes fixes;
   private final ListRevisionDrafts listDrafts;
   private final CreateDraftComment createDraft;
   private final DraftComments drafts;
@@ -147,6 +151,8 @@ class RevisionApiImpl implements RevisionApi {
       FileApiImpl.Factory fileApi,
       ListRevisionComments listComments,
       ListRobotComments listRobotComments,
+      ApplyFix applyFix,
+      Fixes fixes,
       ListRevisionDrafts listDrafts,
       CreateDraftComment createDraft,
       DraftComments drafts,
@@ -184,6 +190,7 @@ class RevisionApiImpl implements RevisionApi {
     this.listComments = listComments;
     this.robotComments = robotComments;
     this.listRobotComments = listRobotComments;
+    this.applyFix = applyFix;
     this.listDrafts = listDrafts;
     this.createDraft = createDraft;
     this.drafts = drafts;
@@ -198,6 +205,7 @@ class RevisionApiImpl implements RevisionApi {
     this.putDescription = putDescription;
     this.getDescription = getDescription;
     this.revision = r;
+    this.fixes = fixes;
   }
 
   @Override
@@ -423,6 +431,15 @@ class RevisionApiImpl implements RevisionApi {
       return listRobotComments.getComments(revision);
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve robot comments", e);
+    }
+  }
+
+  @Override
+  public void applyFix(String fixId) throws RestApiException {
+    try {
+      applyFix.apply(fixes.parse(revision, IdString.fromDecoded(fixId)), null);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot apply fix", e);
     }
   }
 

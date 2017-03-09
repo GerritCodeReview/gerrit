@@ -86,6 +86,15 @@ public interface RevisionApi {
 
   List<RobotCommentInfo> robotCommentsAsList() throws RestApiException;
 
+  /**
+   * Applies the indicated fix by creating a new change edit or integrating the fix with the
+   * existing change edit.
+   *
+   * @param fixId the ID of the fix which should be applied
+   * @throws RestApiException if the fix couldn't be applied
+   */
+  void applyFix(String fixId) throws RestApiException;
+
   DraftApi createDraft(DraftInput in) throws RestApiException;
 
   DraftApi draft(String id) throws RestApiException;
@@ -251,6 +260,11 @@ public interface RevisionApi {
 
     @Override
     public List<RobotCommentInfo> robotCommentsAsList() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void applyFix(String fixId) {
       throw new NotImplementedException();
     }
 

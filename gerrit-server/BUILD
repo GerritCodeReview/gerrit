@@ -138,6 +138,21 @@ java_library(
     ],
 )
 
+CUSTOM_TRUTH_SUBJECTS = glob([
+    "src/test/java/com/google/gerrit/server/**/*Subject.java",
+])
+
+java_library(
+    name = "custom-truth-subjects",
+    testonly = 1,
+    srcs = CUSTOM_TRUTH_SUBJECTS,
+    deps = [
+        ":server",
+        "//gerrit-extension-api:api",
+        "//lib:truth",
+    ],
+)
+
 PROLOG_TEST_CASE = [
     "src/test/java/com/google/gerrit/rules/PrologTestCase.java",
 ]
@@ -213,11 +228,12 @@ junit_tests(
     size = "large",
     srcs = glob(
         ["src/test/java/**/*.java"],
-        exclude = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS,
+        exclude = TESTUTIL + CUSTOM_TRUTH_SUBJECTS + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS,
     ),
     resources = glob(["src/test/resources/com/google/gerrit/server/**/*"]),
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
+        ":custom-truth-subjects",
         ":testutil",
         "//gerrit-antlr:query_exception",
         "//gerrit-patch-jgit:server",

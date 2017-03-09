@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -322,6 +323,53 @@ public class ChangeEditModifier {
     }
   }
 
+  /**
+   * Applies the indicated modification to the specified patch set. If a change edit exists and is
+   * based on the same patch set, the modified patch set tree is merged with the change edit. If the
+   * change edit doesn't exist, a new one will be created.
+   *
+   * @param repository the affected Git repository
+   * @param changeControl the {@code ChangeControl} of the change to which the patch set belongs
+   * @param patchSet the patch set which should be modified
+   * @param treeModification the modification which should be applied
+   * @throws AuthException if the user isn't authenticated or not allowed to use change edits
+   * @throws InvalidChangeOperationException if the existing change edit is based on another patch
+   *     set or no change edit exists but the specified patch set isn't the current one
+   * @throws MergeConflictException if the modified patch set tree can't be merged with an existing
+   *     change edit
+   */
+  public void combineWithModifiedPatchSetTree(
+      Repository repository,
+      ChangeControl changeControl,
+      PatchSet patchSet,
+      TreeModification treeModification)
+      throws AuthException, IOException, InvalidChangeOperationException, MergeConflictException,
+          OrmException {
+    ensureAuthenticatedAndPermitted(changeControl);
+
+    Optional<ChangeEdit> optionalChangeEdit = lookupChangeEdit(changeControl);
+    ensureAllowedPatchSet(changeControl, optionalChangeEdit, patchSet);
+
+    RevCommit patchSetCommit = lookupCommit(repository, patchSet);
+    ObjectId newTreeId = createNewTree(repository, patchSetCommit, treeModification);
+
+    if (optionalChangeEdit.isPresent()) {
+      newTreeId = merge(repository, optionalChangeEdit.get(), newTreeId);
+    }
+
+    String commitMessage =
+        optionalChangeEdit.map(ChangeEdit::getEditCommit).orElse(patchSetCommit).getFullMessage();
+    Timestamp nowTimestamp = TimeUtil.nowTs();
+    ObjectId newEditCommit =
+        createCommit(repository, patchSetCommit, newTreeId, commitMessage, nowTimestamp);
+
+    if (optionalChangeEdit.isPresent()) {
+      updateEditReference(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);
+    } else {
+      createEditReference(repository, changeControl, patchSet, newEditCommit, nowTimestamp);
+    }
+  }
+
   private void ensureAuthenticatedAndPermitted(ChangeControl changeControl)
       throws AuthException, OrmException {
     ensureAuthenticated();
@@ -340,7 +388,31 @@ public class ChangeEditModifier {
     }
   }
 
-  private String getWellFormedCommitMessage(String commitMessage) {
+  private static void ensureAllowedPatchSet(
+      ChangeControl changeControl, Optional<ChangeEdit> optionalChangeEdit, PatchSet patchSet)
+      throws InvalidChangeOperationException {
+    if (optionalChangeEdit.isPresent()) {
+      ChangeEdit changeEdit = optionalChangeEdit.get();
+      if (!isBasedOn(changeEdit, patchSet)) {
+        throw new InvalidChangeOperationException(
+            String.format(
+                "Only the patch set %s on which the existing change edit is based may be modified "
+                    + "(specified patch set: %s)",
+                changeEdit.getBasePatchSet().getId(), patchSet.getId()));
+      }
+    } else {
+      Id patchSetId = patchSet.getId();
+      Id currentPatchSetId = changeControl.getChange().currentPatchSetId();
+      if (!patchSetId.equals(currentPatchSetId)) {
+        throw new InvalidChangeOperationException(
+            String.format(
+                "A change edit may only be created for the current patch set %s (and not for %s)",
+                currentPatchSetId, patchSetId));
+      }
+    }
+  }
+
+  private static String getWellFormedCommitMessage(String commitMessage) {
     String wellFormedMessage = Strings.nullToEmpty(commitMessage).trim();
     checkState(!wellFormedMessage.isEmpty(), "Commit message cannot be null or empty");
     wellFormedMessage = wellFormedMessage + "\n";
@@ -390,7 +462,7 @@ public class ChangeEditModifier {
     return newTreeId;
   }
 
-  private ObjectId merge(Repository repository, ChangeEdit changeEdit, ObjectId newTreeId)
+  private static ObjectId merge(Repository repository, ChangeEdit changeEdit, ObjectId newTreeId)
       throws IOException, MergeConflictException {
     PatchSet basePatchSet = changeEdit.getBasePatchSet();
     ObjectId basePatchSetCommitId = getPatchSetCommitId(basePatchSet);

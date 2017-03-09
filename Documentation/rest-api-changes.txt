@@ -4256,6 +4256,42 @@ returned that describes the robot comment.
   }
 ----
 
+[[apply-fix]]
+=== Apply Fix
+--
+'PUT /changes/<<change-id,\{change-id\}>>/revisions/<<revision-id,\{revision-id\}>>/fixes/<<fix-id,\{fix-id\}>>/apply'
+--
+
+Applies a suggested fix by creating a change edit which includes the
+modifications indicated by the fix suggestion. If a change edit already exists,
+it will be updated accordingly.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/fixes/8f605a55_f6aa4ecc/apply HTTP/1.0
+----
+
+If the fix was successfully applied, the response "`204 No Content`" is
+returned.
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+If the application failed e.g. due to conflicts with an existing change edit,
+the response "`409 Conflict`" including an error message in the response body
+is returned.
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Disposition: attachment
+  Content-Type: text/plain; charset=UTF-8
+
+  The existing change edit could not be merged with another tree.
+----
+
 [[list-files]]
 === List Files
 --

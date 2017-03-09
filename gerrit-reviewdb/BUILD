@@ -16,6 +16,7 @@ gwt_module(
     visibility = ["//visibility:public"],
     deps = [
         "//gerrit-extension-api:client",
+        "//lib:guava",
         "//lib:gwtorm_client",
         "//lib:gwtorm_client_src",
     ],

@@ -19,6 +19,7 @@ import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
 import static com.google.gerrit.server.change.CommentResource.COMMENT_KIND;
 import static com.google.gerrit.server.change.DraftCommentResource.DRAFT_COMMENT_KIND;
 import static com.google.gerrit.server.change.FileResource.FILE_KIND;
+import static com.google.gerrit.server.change.FixResource.FIX_KIND;
 import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
 import static com.google.gerrit.server.change.RobotCommentResource.ROBOT_COMMENT_KIND;
@@ -40,12 +41,14 @@ public class Module extends RestApiModule {
     bind(DraftComments.class);
     bind(Comments.class);
     bind(RobotComments.class);
+    bind(Fixes.class);
     bind(Files.class);
     bind(Votes.class);
 
     DynamicMap.mapOf(binder(), CHANGE_KIND);
     DynamicMap.mapOf(binder(), COMMENT_KIND);
     DynamicMap.mapOf(binder(), ROBOT_COMMENT_KIND);
+    DynamicMap.mapOf(binder(), FIX_KIND);
     DynamicMap.mapOf(binder(), DRAFT_COMMENT_KIND);
     DynamicMap.mapOf(binder(), FILE_KIND);
     DynamicMap.mapOf(binder(), REVIEWER_KIND);
@@ -128,6 +131,8 @@ public class Module extends RestApiModule {
 
     child(REVISION_KIND, "robotcomments").to(RobotComments.class);
     get(ROBOT_COMMENT_KIND).to(GetRobotComment.class);
+    child(REVISION_KIND, "fixes").to(Fixes.class);
+    put(FIX_KIND, "apply").to(ApplyFix.class);
 
     child(REVISION_KIND, "files").to(Files.class);
     put(FILE_KIND, "reviewed").to(PutReviewed.class);

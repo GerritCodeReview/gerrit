@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.common.collect.ComparisonChain;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -130,7 +131,7 @@ public class Comment {
     }
   }
 
-  public static class Range {
+  public static class Range implements Comparable<Range> {
     public int startLine;
     public int startChar;
     public int endLine;
@@ -185,6 +186,16 @@ public class Comment {
           .append(endChar)
           .append('}')
           .toString();
+    }
+
+    @Override
+    public int compareTo(Range otherRange) {
+      return ComparisonChain.start()
+          .compare(startLine, otherRange.startLine)
+          .compare(startChar, otherRange.startChar)
+          .compare(endLine, otherRange.endLine)
+          .compare(endChar, otherRange.endChar)
+          .result();
     }
   }
 

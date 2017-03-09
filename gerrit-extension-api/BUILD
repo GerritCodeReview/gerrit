@@ -14,6 +14,7 @@ gwt_module(
     srcs = EXT_API_SRCS,
     gwt_xml = SRC + "Extensions.gwt.xml",
     visibility = ["//visibility:public"],
+    deps = ["//lib:guava"],
 )
 
 java_binary(

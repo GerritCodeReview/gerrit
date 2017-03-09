@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.client;
 
+import com.google.common.collect.ComparisonChain;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -36,7 +37,7 @@ public abstract class Comment {
   public String message;
   public Boolean unresolved;
 
-  public static class Range {
+  public static class Range implements Comparable<Range> {
     public int startLine;
     public int startCharacter;
     public int endLine;
@@ -80,6 +81,16 @@ public abstract class Comment {
           + ", endCharacter="
           + endCharacter
           + '}';
+    }
+
+    @Override
+    public int compareTo(Range otherRange) {
+      return ComparisonChain.start()
+          .compare(startLine, otherRange.startLine)
+          .compare(startCharacter, otherRange.startCharacter)
+          .compare(endLine, otherRange.endLine)
+          .compare(endCharacter, otherRange.endCharacter)
+          .result();
     }
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88a9eab3_e42e5e7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-09T07:42:31Z",
+      "side": 1,
+      "message": "Should this code also be executed if fromId \u003d\u003d null ?",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 166,
+        "endChar": 11
+      },
+      "revId": "b5e5869409c2e3c524855a2892596fd99181a5e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

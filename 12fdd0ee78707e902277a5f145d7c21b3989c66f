@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b9599221_6ff706b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-09T22:23:03Z",
+      "side": 1,
+      "message": "\u003e they don\u0027t check for any return value from setting the value in ReviewDB\n\nAh! Friggin\u0027 ReviewDb. This is a bug. They are doing read/modify/write outside of a transaction, where they should either be using a transaction or an AtomicUpdate. Sorry for not noticing this during review.\n\nYou can either take a stab at fixing it yourself, or bug Edwin about it, or maybe I will remember to do it at some point.",
+      "parentUuid": "c63c58dd_2219cf24",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "12fdd0ee78707e902277a5f145d7c21b3989c66f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d80d697f_7c7fb199",
         "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
         "patchSetId": 1

@@ -73,14 +73,14 @@ limitations under the License.
     </div>
     <span
         id="messageControlsContainer"
-        hidden$="[[_computeShowHideTextHidden(_visibleMessages.length, _processedMessages, _hideAutomated)]]">
+        hidden$="[[_computeShowHideTextHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]">
       <gr-button id="oldMessagesBtn" link on-tap="_handleShowAllTap">
-          [[_computeNumMessagesText(_visibleMessages.length, _processedMessages, _hideAutomated)]]
+          [[_computeNumMessagesText(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]
       </gr-button>
       /
       <gr-button id="incrementMessagesBtn" link
           on-tap="_handleIncrementShownMessages">
-        [[_computeIncrementText(_visibleMessages.length, _processedMessages, _hideAutomated)]]
+        [[_computeIncrementText(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]
       </gr-button>
     </span>
     <template

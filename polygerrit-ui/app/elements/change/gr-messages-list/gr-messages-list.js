@@ -255,9 +255,9 @@
      * remaining in the list and the number of messages needed to display five
      * more visible messages in the list.
      */
-    _getDelta: function(numVisible, messages, hideAutomated) {
+    _getDelta: function(visibleMessages, messages, hideAutomated) {
       var delta = MESSAGES_INCREMENT;
-      var msgsRemaining = messages.length - numVisible;
+      var msgsRemaining = messages.length - visibleMessages.length;
       if (hideAutomated) {
         var counter = 0;
         var i;
@@ -273,29 +273,33 @@
      * Gets the number of messages that would be visible, but do not currently
      * exist in _visibleMessages.
      */
-    _numRemaining: function(numVisible, messages, hideAutomated) {
-      var total = hideAutomated ?
-          messages.filter(function(msg) {
-            return !this._isAutomated(msg);
-          }.bind(this)).length :
-          messages.length;
-      return total - numVisible;
+    _numRemaining: function(visibleMessages, messages, hideAutomated) {
+      if (hideAutomated) {
+        return this._getHumanMessages(messages).length -
+            this._getHumanMessages(visibleMessages).length;
+      }
+      return messages.length - visibleMessages.length;
     },
 
-    _computeIncrementText: function(numVisible, messages, hideAutomated) {
-      var delta = this._getDelta(numVisible, messages, hideAutomated);
+    _computeIncrementText: function(visibleMessages, messages, hideAutomated) {
+      var delta = this._getDelta(visibleMessages, messages, hideAutomated);
       delta = Math.min(
-          this._numRemaining(numVisible, messages, hideAutomated), delta);
+          this._numRemaining(visibleMessages, messages, hideAutomated), delta);
       return 'Show ' + Math.min(MESSAGES_INCREMENT, delta) + ' more';
     },
 
-    _computeShowHideTextHidden: function(numVisible, messages, hideAutomated) {
-      if (numVisible >= messages.length) { return true; }
-      if (!hideAutomated) {
-        return numVisible >= messages.length;
+    _getHumanMessages: function(messages) {
+      return messages.filter(function(msg) {
+        return !this._isAutomated(msg);
+      }.bind(this));
+    },
+
+    _computeShowHideTextHidden: function(visibleMessages, messages, hideAutomated) {
+      if (hideAutomated) {
+        messages = this._getHumanMessages(messages);
+        visibleMessages = this._getHumanMessages(visibleMessages);
       }
-      var hiddenMessages = messages.slice(0, messages.length - numVisible);
-      return this._hasAutomatedMessages(hiddenMessages);
+      return visibleMessages.length >= messages.length;
     },
 
     _handleShowAllTap: function() {
@@ -304,9 +308,9 @@
     },
 
     _handleIncrementShownMessages: function() {
-      var len = this._visibleMessages.length;
-      var delta = this._getDelta(len, this._processedMessages,
+      var delta = this._getDelta(this._visibleMessages, this._processedMessages,
           this._hideAutomated);
+      var len = this._visibleMessages.length;
       var newMessages = this._processedMessages.slice(-(len + delta), -len);
       // Add newMessages to the beginning of _visibleMessages
       this.splice.apply(this, ['_visibleMessages', 0, 0].concat(newMessages));
@@ -317,8 +321,8 @@
       this._visibleMessages = messages.slice(-MAX_INITIAL_SHOWN_MESSAGES);
     },
 
-    _computeNumMessagesText: function(numVisible, messages, hideAutomated) {
-      var total = this._numRemaining(numVisible, messages, hideAutomated);
+    _computeNumMessagesText: function(visibleMessages, messages, hideAutomated) {
+      var total = this._numRemaining(visibleMessages, messages, hideAutomated);
       return total === 1 ? 'Show 1 message' : 'Show all ' + total + ' messages';
     },
   });

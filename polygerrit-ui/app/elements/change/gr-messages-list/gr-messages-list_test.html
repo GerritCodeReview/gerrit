@@ -450,19 +450,21 @@ limitations under the License.
 
     test('_getDelta', function() {
       var messages = [randomMessage()];
-      assert.equal(element._getDelta(0, messages, false), 1);
-      assert.equal(element._getDelta(0, messages, true), 1);
+      assert.equal(element._getDelta([], messages, false), 1);
+      assert.equal(element._getDelta([], messages, true), 1);
 
 
       messages = _.times(7, randomMessage);
-      assert.equal(element._getDelta(0, messages, false), 5);
-      assert.equal(element._getDelta(0, messages, true), 5);
+      assert.equal(element._getDelta([], messages, false), 5);
+      assert.equal(element._getDelta([], messages, true), 5);
 
       messages = _.times(4, randomMessage)
           .concat(_.times(2, randomAutomated))
           .concat(_.times(3, randomMessage));
-      assert.equal(element._getDelta(2, messages, false), 5);
-      assert.equal(element._getDelta(2, messages, true), 7);
+
+      var dummyArr = _.times(2, randomMessage);
+      assert.equal(element._getDelta(dummyArr, messages, false), 5);
+      assert.equal(element._getDelta(dummyArr, messages, true), 7);
     });
   });
 </script>

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df09e6b5_984d970a",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-09T08:25:44Z",
+      "side": 1,
+      "message": "Was it run through buildifier?",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 144
+      },
+      "revId": "ed25a012cb26e0aecaeb6532c470ba6803df903f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "244741d7_0b5ee0ae",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-09T08:25:44Z",
+      "side": 1,
+      "message": "Unused?",
+      "range": {
+        "startLine": 1,
+        "startChar": 5,
+        "endLine": 1,
+        "endChar": 46
+      },
+      "revId": "ed25a012cb26e0aecaeb6532c470ba6803df903f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

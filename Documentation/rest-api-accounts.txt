@@ -1840,7 +1840,7 @@ returned. The labels are lexicographically sorted.
 --
 
 Update star labels on a change. The star labels to be added/removed
-must be specified in the request body as link:#star-input[StarInput]
+must be specified in the request body as link:#stars-input[StarsInput]
 entity. Starred changes are returned for the search query `has:stars`.
 
 .Request

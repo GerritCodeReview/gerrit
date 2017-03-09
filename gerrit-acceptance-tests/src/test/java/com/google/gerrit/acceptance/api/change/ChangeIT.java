@@ -243,6 +243,24 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void toggleWorkInProgressState() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    gApi.changes().id(changeId).setWorkInProgress("Needs some refactoring");
+
+    ChangeInfo info = gApi.changes().id(changeId).get();
+
+    assertThat(info.workInProgress).isTrue();
+    assertThat(Iterables.getLast(info.messages).message).contains("Needs some refactoring");
+
+    gApi.changes().id(changeId).setReadyForReview("PTAL");
+
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.workInProgress).isFalse();
+    assertThat(Iterables.getLast(info.messages).message).contains("PTAL");
+  }
+
+  @Test
   public void getAmbiguous() throws Exception {
     PushOneCommit.Result r1 = createChange();
     String changeId = r1.getChangeId();

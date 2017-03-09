@@ -375,6 +375,48 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byWip() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo), userId);
+
+    assertQuery("is:open", change1);
+    assertQuery("is:wip");
+
+    gApi.changes().id(change1.getChangeId()).setWorkInProgress(null);
+
+    assertQuery("is:wip", change1);
+
+    gApi.changes().id(change1.getChangeId()).setReadyForReview(null);
+
+    assertQuery("is:private");
+  }
+
+  @Test
+  public void excludeWipChangeFromReviewersDashboards() throws Exception {
+    Account.Id user1 = createAccount("user1");
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo), userId);
+
+    AddReviewerInput rin = new AddReviewerInput();
+    rin.reviewer = user1.toString();
+    rin.state = ReviewerState.REVIEWER;
+    gApi.changes().id(change1.getId().get()).addReviewer(rin);
+
+    assertQuery("is:wip");
+    assertQuery("reviewer:" + user1, change1);
+
+    gApi.changes().id(change1.getChangeId()).setWorkInProgress(null);
+
+    assertQuery("is:wip", change1);
+    assertQuery("reviewer:" + user1);
+
+    gApi.changes().id(change1.getChangeId()).setReadyForReview(null);
+
+    assertQuery("is:wip");
+    assertQuery("reviewer:" + user1, change1);
+  }
+
+  @Test
   public void byCommit() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo);

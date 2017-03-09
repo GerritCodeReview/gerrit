@@ -69,8 +69,15 @@ public class FileContentUtil {
 
   public BinaryResult getContent(ProjectState project, ObjectId revstr, String path)
       throws ResourceNotFoundException, IOException {
-    try (Repository repo = openRepository(project);
-        RevWalk rw = new RevWalk(repo)) {
+    try (Repository repo = openRepository(project)) {
+      return getContent(repo, project, revstr, path);
+    }
+  }
+
+  public BinaryResult getContent(
+      Repository repo, ProjectState project, ObjectId revstr, String path)
+      throws IOException, ResourceNotFoundException {
+    try (RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(revstr);
       ObjectReader reader = rw.getObjectReader();
       TreeWalk tw = TreeWalk.forPath(reader, path, commit.getTree());

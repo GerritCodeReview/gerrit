@@ -16,10 +16,11 @@ package com.google.gerrit.acceptance.api.revision;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.extensions.common.RobotCommentInfoSubject.assertThatList;
+import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
@@ -32,18 +33,31 @@ import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.BinaryResultSubject;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.hamcrest.core.StringContains;
+import java.util.Objects;
+import java.util.Optional;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class RobotCommentsIT extends AbstractDaemonTest {
+  private static final String FILE_NAME = "file_to_fix.txt";
+  private static final String FILE_CONTENT =
+      "First line\nSecond line\nThird line\nFourth line\nFifth line\nSixth line"
+          + "\nSeventh line\nEighth line\nNinth line\nTenth line\n";
+
+  @Rule public ExpectedException expectedException = ExpectedException.none();
+
   private String changeId;
   private FixReplacementInfo fixReplacementInfo;
   private FixSuggestionInfo fixSuggestionInfo;
@@ -51,7 +65,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    PushOneCommit.Result changeResult = createChange();
+    PushOneCommit.Result changeResult =
+        createChange("Provide a file which can be used for fixes", FILE_NAME, FILE_CONTENT);
     changeId = changeResult.getChangeId();
 
     fixReplacementInfo = createFixReplacementInfo();
@@ -313,8 +328,85 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     fixReplacementInfo.range = createRange(13, 9, 5, 10);
     exception.expect(BadRequestException.class);
-    exception.expectMessage(new StringContains("Range (13:9 - 5:10)"));
+    exception.expectMessage("Range (13:9 - 5:10)");
     addRobotComment(changeId, withFixRobotCommentInput);
+  }
+
+  @Test
+  public void rangesOfFixReplacementsOfSameFixSuggestionMayNotOverlap() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 3, 1);
+    fixReplacementInfo1.replacement = "First modification\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME;
+    fixReplacementInfo2.range = createRange(3, 0, 4, 0);
+    fixReplacementInfo2.replacement = "Second modification\n";
+
+    FixSuggestionInfo fixSuggestionInfo =
+        createFixSuggestionInfo(fixReplacementInfo1, fixReplacementInfo2);
+    withFixRobotCommentInput.fixSuggestions = ImmutableList.of(fixSuggestionInfo);
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("overlap");
+    addRobotComment(changeId, withFixRobotCommentInput);
+  }
+
+  @Test
+  public void rangesOfFixReplacementsOfDifferentFixSuggestionsMayOverlap() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 3, 1);
+    fixReplacementInfo1.replacement = "First modification\n";
+    FixSuggestionInfo fixSuggestionInfo1 = createFixSuggestionInfo(fixReplacementInfo1);
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME;
+    fixReplacementInfo2.range = createRange(3, 0, 4, 0);
+    fixReplacementInfo2.replacement = "Second modification\n";
+    FixSuggestionInfo fixSuggestionInfo2 = createFixSuggestionInfo(fixReplacementInfo2);
+
+    withFixRobotCommentInput.fixSuggestions =
+        ImmutableList.of(fixSuggestionInfo1, fixSuggestionInfo2);
+
+    addRobotComment(changeId, withFixRobotCommentInput);
+
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+    assertThatList(robotCommentInfos).onlyElement().fixSuggestions().hasSize(2);
+  }
+
+  @Test
+  public void fixReplacementsDoNotNeedToBeOrderedAccordingToRange() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 3, 0);
+    fixReplacementInfo1.replacement = "First modification\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME;
+    fixReplacementInfo2.range = createRange(3, 0, 4, 0);
+    fixReplacementInfo2.replacement = "Second modification\n";
+
+    FixReplacementInfo fixReplacementInfo3 = new FixReplacementInfo();
+    fixReplacementInfo3.path = FILE_NAME;
+    fixReplacementInfo3.range = createRange(4, 0, 5, 0);
+    fixReplacementInfo3.replacement = "Third modification\n";
+
+    FixSuggestionInfo fixSuggestionInfo =
+        createFixSuggestionInfo(fixReplacementInfo2, fixReplacementInfo1, fixReplacementInfo3);
+    withFixRobotCommentInput.fixSuggestions = ImmutableList.of(fixSuggestionInfo);
+
+    addRobotComment(changeId, withFixRobotCommentInput);
+
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+    assertThatList(robotCommentInfos).onlyElement().onlyFixSuggestion().replacements().hasSize(3);
   }
 
   @Test
@@ -349,13 +441,299 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void fixWithinALineCanBeApplied() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    addRobotComment(changeId, withFixRobotCommentInput);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    gApi.changes().id(changeId).current().applyFix(fixId);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nSecond line\nTModified contentrd line\nFourth line\nFifth line\n"
+                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+  }
+
+  @Test
+  public void fixSpanningMultipleLinesCanBeApplied() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content\n5";
+    fixReplacementInfo.range = createRange(3, 2, 5, 3);
+
+    addRobotComment(changeId, withFixRobotCommentInput);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    gApi.changes().id(changeId).current().applyFix(fixId);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nSecond line\nThModified content\n5th line\nSixth line\nSeventh line\n"
+                + "Eighth line\nNinth line\nTenth line\n");
+  }
+
+  @Test
+  public void fixWithTwoCloseReplacementsOnSameFileCanBeApplied() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 3, 0);
+    fixReplacementInfo1.replacement = "First modification\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME;
+    fixReplacementInfo2.range = createRange(3, 0, 4, 0);
+    fixReplacementInfo2.replacement = "Some other modified content\n";
+
+    FixSuggestionInfo fixSuggestionInfo =
+        createFixSuggestionInfo(fixReplacementInfo1, fixReplacementInfo2);
+    withFixRobotCommentInput.fixSuggestions = ImmutableList.of(fixSuggestionInfo);
+
+    addRobotComment(changeId, withFixRobotCommentInput);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    gApi.changes().id(changeId).current().applyFix(fixId);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nFirst modification\nSome other modified content\nFourth line\nFifth line\n"
+                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+  }
+
+  @Test
+  public void twoFixesOnSameFileCanBeApplied() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 3, 0);
+    fixReplacementInfo1.replacement = "First modification\n";
+    FixSuggestionInfo fixSuggestionInfo1 = createFixSuggestionInfo(fixReplacementInfo1);
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME;
+    fixReplacementInfo2.range = createRange(8, 0, 9, 0);
+    fixReplacementInfo2.replacement = "Some other modified content\n";
+    FixSuggestionInfo fixSuggestionInfo2 = createFixSuggestionInfo(fixReplacementInfo2);
+
+    RobotCommentInput robotCommentInput1 = createRobotCommentInput(fixSuggestionInfo1);
+    RobotCommentInput robotCommentInput2 = createRobotCommentInput(fixSuggestionInfo2);
+    addRobotComment(changeId, robotCommentInput1);
+    addRobotComment(changeId, robotCommentInput2);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    gApi.changes().id(changeId).current().applyFix(fixIds.get(0));
+    gApi.changes().id(changeId).current().applyFix(fixIds.get(1));
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nFirst modification\nThird line\nFourth line\nFifth line\nSixth line\n"
+                + "Seventh line\nSome other modified content\nNinth line\nTenth line\n");
+  }
+
+  @Test
+  public void twoConflictingFixesOnSameFileCannotBeApplied() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 3, 1);
+    fixReplacementInfo1.replacement = "First modification\n";
+    FixSuggestionInfo fixSuggestionInfo1 = createFixSuggestionInfo(fixReplacementInfo1);
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME;
+    fixReplacementInfo2.range = createRange(3, 0, 4, 0);
+    fixReplacementInfo2.replacement = "Some other modified content\n";
+    FixSuggestionInfo fixSuggestionInfo2 = createFixSuggestionInfo(fixReplacementInfo2);
+
+    RobotCommentInput robotCommentInput1 = createRobotCommentInput(fixSuggestionInfo1);
+    RobotCommentInput robotCommentInput2 = createRobotCommentInput(fixSuggestionInfo2);
+    addRobotComment(changeId, robotCommentInput1);
+    addRobotComment(changeId, robotCommentInput2);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    gApi.changes().id(changeId).current().applyFix(fixIds.get(0));
+    expectedException.expect(ResourceConflictException.class);
+    expectedException.expectMessage("merge");
+    gApi.changes().id(changeId).current().applyFix(fixIds.get(1));
+  }
+
+  @Test
+  public void twoFixesOfSameRobotCommentCanBeApplied() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 3, 0);
+    fixReplacementInfo1.replacement = "First modification\n";
+    FixSuggestionInfo fixSuggestionInfo1 = createFixSuggestionInfo(fixReplacementInfo1);
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME;
+    fixReplacementInfo2.range = createRange(8, 0, 9, 0);
+    fixReplacementInfo2.replacement = "Some other modified content\n";
+    FixSuggestionInfo fixSuggestionInfo2 = createFixSuggestionInfo(fixReplacementInfo2);
+
+    withFixRobotCommentInput.fixSuggestions =
+        ImmutableList.of(fixSuggestionInfo1, fixSuggestionInfo2);
+
+    addRobotComment(changeId, withFixRobotCommentInput);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    gApi.changes().id(changeId).current().applyFix(fixIds.get(0));
+    gApi.changes().id(changeId).current().applyFix(fixIds.get(1));
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nFirst modification\nThird line\nFourth line\nFifth line\nSixth line\n"
+                + "Seventh line\nSome other modified content\nNinth line\nTenth line\n");
+  }
+
+  @Test
+  public void fixOnPreviousPatchSetWithoutChangeEditCannotBeApplied() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    addRobotComment(changeId, withFixRobotCommentInput);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    // Remember patch set and add another one.
+    String previousRevision = gApi.changes().id(changeId).get().currentRevision;
+    amendChange(changeId);
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    expectedException.expect(ResourceConflictException.class);
+    expectedException.expectMessage("current");
+    gApi.changes().id(changeId).revision(previousRevision).applyFix(fixId);
+  }
+
+  @Test
+  public void fixOnPreviousPatchSetWithExistingChangeEditCanBeApplied() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    // Create an empty change edit.
+    gApi.changes().id(changeId).edit().create();
+
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    addRobotComment(changeId, withFixRobotCommentInput);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    // Remember patch set and add another one.
+    String previousRevision = gApi.changes().id(changeId).get().currentRevision;
+    amendChange(changeId);
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    gApi.changes().id(changeId).revision(previousRevision).applyFix(fixId);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nSecond line\nTModified contentrd line\nFourth line\nFifth line\n"
+                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+  }
+
+  @Test
+  public void fixOnCurrentPatchSetWithChangeEditOnPreviousPatchSetCannotBeApplied()
+      throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    // Create an empty change edit.
+    gApi.changes().id(changeId).edit().create();
+
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    // Add another patch set.
+    amendChange(changeId);
+
+    addRobotComment(changeId, withFixRobotCommentInput);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    expectedException.expect(ResourceConflictException.class);
+    expectedException.expectMessage("based");
+    gApi.changes().id(changeId).current().applyFix(fixId);
+  }
+
+  @Test
+  public void fixDoesNotModifyCommitMessageOfChangeEdit() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    String changeEditCommitMessage = "This is the commit message of the change edit.\n";
+    gApi.changes().id(changeId).edit().modifyCommitMessage(changeEditCommitMessage);
+
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    addRobotComment(changeId, withFixRobotCommentInput);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    gApi.changes().id(changeId).current().applyFix(fixId);
+
+    String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
+    assertThat(commitMessage).isEqualTo(changeEditCommitMessage);
+  }
+
+  @Test
   public void robotCommentsNotSupportedWithoutNoteDb() throws Exception {
     assume().that(notesMigration.enabled()).isFalse();
 
     RobotCommentInput in = createRobotCommentInput();
     ReviewInput reviewInput = new ReviewInput();
     Map<String, List<RobotCommentInput>> robotComments = new HashMap<>();
-    robotComments.put(FILE_NAME, Collections.singletonList(in));
+    robotComments.put(in.path, ImmutableList.of(in));
     reviewInput.robotComments = robotComments;
     reviewInput.message = "comment test";
 
@@ -389,7 +767,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     }
   }
 
-  private RobotCommentInput createRobotCommentInputWithMandatoryFields() {
+  private static RobotCommentInput createRobotCommentInputWithMandatoryFields() {
     RobotCommentInput in = new RobotCommentInput();
     in.robotId = "happyRobot";
     in.robotRunId = "1";
@@ -399,7 +777,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     return in;
   }
 
-  private RobotCommentInput createRobotCommentInput(FixSuggestionInfo... fixSuggestionInfos) {
+  private static RobotCommentInput createRobotCommentInput(
+      FixSuggestionInfo... fixSuggestionInfos) {
     RobotCommentInput in = createRobotCommentInputWithMandatoryFields();
     in.url = "http://www.happy-robot.com";
     in.properties = new HashMap<>();
@@ -409,7 +788,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     return in;
   }
 
-  private FixSuggestionInfo createFixSuggestionInfo(FixReplacementInfo... fixReplacementInfos) {
+  private static FixSuggestionInfo createFixSuggestionInfo(
+      FixReplacementInfo... fixReplacementInfos) {
     FixSuggestionInfo newFixSuggestionInfo = new FixSuggestionInfo();
     newFixSuggestionInfo.fixId = "An ID which must be overwritten.";
     newFixSuggestionInfo.description = "A description for a suggested fix.";
@@ -417,15 +797,15 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     return newFixSuggestionInfo;
   }
 
-  private FixReplacementInfo createFixReplacementInfo() {
+  private static FixReplacementInfo createFixReplacementInfo() {
     FixReplacementInfo newFixReplacementInfo = new FixReplacementInfo();
     newFixReplacementInfo.path = FILE_NAME;
     newFixReplacementInfo.replacement = "some replacement code";
-    newFixReplacementInfo.range = createRange(3, 12, 15, 4);
+    newFixReplacementInfo.range = createRange(3, 9, 8, 4);
     return newFixReplacementInfo;
   }
 
-  private Comment.Range createRange(
+  private static Comment.Range createRange(
       int startLine, int startCharacter, int endLine, int endCharacter) {
     Comment.Range range = new Comment.Range();
     range.startLine = startLine;
@@ -439,8 +819,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
       throws Exception {
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.robotComments =
-        Collections.singletonMap(
-            robotCommentInput.path, Collections.singletonList(robotCommentInput));
+        Collections.singletonMap(robotCommentInput.path, ImmutableList.of(robotCommentInput));
     reviewInput.message = "robot comment test";
     gApi.changes().id(targetChangeId).current().review(reviewInput);
   }
@@ -469,5 +848,16 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     } else {
       assertThat(c.path).isNull();
     }
+  }
+
+  private static List<String> getFixIds(List<RobotCommentInfo> robotComments) {
+    assertThatList(robotComments).isNotNull();
+    return robotComments
+        .stream()
+        .map(robotCommentInfo -> robotCommentInfo.fixSuggestions)
+        .filter(Objects::nonNull)
+        .flatMap(List::stream)
+        .map(fixSuggestionInfo -> fixSuggestionInfo.fixId)
+        .collect(toList());
   }
 }

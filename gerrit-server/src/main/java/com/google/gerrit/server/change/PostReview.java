@@ -50,6 +50,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
+import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -564,6 +565,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ensureRangeIsValid(commentPath, fixReplacementInfo.range);
       ensureReplacementStringIsSet(commentPath, fixReplacementInfo.replacement);
     }
+    ensureRangesDoNotOverlap(commentPath, fixReplacementInfos);
   }
 
   private void ensureReplacementsArePresent(
@@ -598,9 +600,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private void ensureRangeIsSet(
-      String commentPath, com.google.gerrit.extensions.client.Comment.Range range)
-      throws BadRequestException {
+  private void ensureRangeIsSet(String commentPath, Range range) throws BadRequestException {
     if (range == null) {
       throw new BadRequestException(
           String.format(
@@ -608,9 +608,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private void ensureRangeIsValid(
-      String commentPath, com.google.gerrit.extensions.client.Comment.Range range)
-      throws BadRequestException {
+  private void ensureRangeIsValid(String commentPath, Range range) throws BadRequestException {
     if (range == null) {
       return;
     }
@@ -634,6 +632,28 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
               "A content for replacement "
                   + "must be indicated for the replacement of the robot comment on %s",
               commentPath));
+    }
+  }
+
+  private static void ensureRangesDoNotOverlap(
+      String commentPath, List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
+    List<Range> sortedRanges =
+        fixReplacementInfos
+            .stream()
+            .map(fixReplacementInfo -> fixReplacementInfo.range)
+            .sorted()
+            .collect(toList());
+
+    int previousEndLine = 0;
+    int previousOffset = -1;
+    for (Range range : sortedRanges) {
+      if (range.startLine < previousEndLine
+          || (range.startLine == previousEndLine && range.startCharacter < previousOffset)) {
+        throw new BadRequestException(
+            String.format("Replacements overlap for the robot comment on %s", commentPath));
+      }
+      previousEndLine = range.endLine;
+      previousOffset = range.endCharacter;
     }
   }
 

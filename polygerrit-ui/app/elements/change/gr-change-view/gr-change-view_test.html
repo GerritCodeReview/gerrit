@@ -988,5 +988,79 @@ limitations under the License.
             element.$.commitMessage.classList.contains('collapsed'));
       });
     });
+
+    suite('related changes expand/collapse', function() {
+      var updateHeightSpy;
+      setup(function() {
+        updateHeightSpy = sandbox.spy(element, '_updateRelatedChangeMaxHeight');
+      });
+
+      test('relatedChangesToggle shown height greater than changeInfo height',
+          function() {
+        assert.isTrue(element.$.relatedChangesToggle.hasAttribute('hidden'));
+
+        sandbox.stub(element, '_getOffsetHeight', function() {
+          return 50;
+        });
+
+        sandbox.stub(element, '_getScrollHeight', function() {
+          return 60;
+        });
+        element._relatedChangesLoading = false;
+        assert.isFalse(element.$.relatedChangesToggle.hasAttribute('hidden'));
+        assert.equal(updateHeightSpy.callCount, 1);
+      });
+
+      test('relatedChangesToggle hidden height less than changeInfo height',
+            function() {
+        assert.isTrue(element.$.relatedChangesToggle.hasAttribute('hidden'));
+        sandbox.stub(element, '_getOffsetHeight', function() {
+          return 50;
+        });
+
+        sandbox.stub(element, '_getScrollHeight', function() {
+          return 40;
+        });
+        element._relatedChangesLoading = false;
+        assert.isTrue(element.$.relatedChangesToggle.hasAttribute('hidden'));
+        assert.equal(updateHeightSpy.callCount, 1);
+      });
+
+      test('relatedChangesToggle functions', function() {
+        sandbox.stub(element, '_getOffsetHeight', function() {
+          return 50;
+        });
+
+        sandbox.stub(element, '_getScrollHeight', function() {
+          return 60;
+        });
+        element._relatedChangesLoading = false;
+        assert.isTrue(element._relatedChangesCollapsed);
+        assert.isTrue(
+            element.$.relatedChanges.classList.contains('collapsed'));
+        MockInteractions.tap(element.$.relatedChangesToggleButton);
+        assert.isFalse(element._relatedChangesCollapsed);
+        assert.isFalse(
+            element.$.relatedChanges.classList.contains('collapsed'));
+      });
+
+      test('_updateRelatedChangeMaxHeight', function() {
+        sandbox.stub(element, '_getOffsetHeight', function() {
+          return 50;
+        });
+
+        sandbox.stub(element, '_getLineHeight', function() {
+          return 12;
+        });
+
+        // 50 - 24 = 26.
+        // 50 % 12 = 2.
+        // 26 - 2 = 24.
+
+        element._updateRelatedChangeMaxHeight();
+        assert.equal(element.customStyle['--relation-chain-max-height'],
+            '24px');
+      });
+    });
   });
 </script>

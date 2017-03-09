@@ -45,8 +45,14 @@ limitations under the License.
       }
       .changeContainer.thisChange:before {
         content: '➔';
-        position: absolute;
-        transform: translateX(-1.2em);
+        width: 1.2em
+      }
+      .rightIndent {
+        display: flex
+      }
+      .rightIndent:before {
+        content: ' ';
+        width: 1.2em
       }
       .relatedChanges a {
         display: inline-block;
@@ -85,16 +91,16 @@ limitations under the License.
         }
       }
     </style>
-    <div hidden$="[[!_loading]]">Loading...</div>
-    <div hidden$="[[_loading]]">
+    <div class="rightIndent" hidden$="[[!loading]]">Loading...</div>
+    <div hidden$="[[loading]]">
       <hr class="mobile">
       <section class="relatedChanges" hidden$="[[!_relatedResponse.changes.length]]" hidden>
-        <h4>Relation chain</h4>
+        <h4 class="rightIndent">Relation chain</h4>
         <template
             is="dom-repeat"
             items="[[_relatedResponse.changes]]"
             as="related">
-          <div class$="[[_computeChangeContainerClass(change, related)]]">
+          <div class$="rightIndent [[_computeChangeContainerClass(change, related)]]">
             <a href$="[[_computeChangeURL(related._change_number, related._revision_number)]]"
                 class$="[[_computeLinkClass(related)]]">
               [[related.commit.subject]]
@@ -106,39 +112,47 @@ limitations under the License.
         </template>
       </section>
       <section hidden$="[[!_submittedTogether.length]]" hidden>
-        <h4>Submitted together</h4>
+        <h4 class="rightIndent">Submitted together</h4>
         <template is="dom-repeat" items="[[_submittedTogether]]" as="change">
-          <a href$="[[_computeChangeURL(change._number)]]"
-              class$="[[_computeLinkClass(change)]]">
-            [[change.project]]: [[change.branch]]: [[change.subject]]
-          </a>
+          <div class="rightIndent">
+            <a href$="[[_computeChangeURL(change._number)]]"
+                class$="[[_computeLinkClass(change)]]">
+              [[change.project]]: [[change.branch]]: [[change.subject]]
+            </a>
+          </div>
         </template>
       </section>
       <section hidden$="[[!_sameTopic.length]]" hidden>
-        <h4>Same topic</h4>
+        <h4 class="rightIndent">Same topic</h4>
         <template is="dom-repeat" items="[[_sameTopic]]" as="change">
-          <a href$="[[_computeChangeURL(change._number)]]"
-              class$="[[_computeLinkClass(change)]]">
-            [[change.project]]: [[change.branch]]: [[change.subject]]
-          </a>
+          <div class="rightIndent">
+            <a href$="[[_computeChangeURL(change._number)]]"
+                class$="[[_computeLinkClass(change)]]">
+              [[change.project]]: [[change.branch]]: [[change.subject]]
+            </a>
+          </div>
         </template>
       </section>
       <section hidden$="[[!_conflicts.length]]" hidden>
-        <h4>Merge conflicts</h4>
+        <h4 class="rightIndent">Merge conflicts</h4>
         <template is="dom-repeat" items="[[_conflicts]]" as="change">
-          <a href$="[[_computeChangeURL(change._number)]]"
-              class$="[[_computeLinkClass(change)]]">
-            [[change.subject]]
-          </a>
+          <div class="rightIndent">
+            <a href$="[[_computeChangeURL(change._number)]]"
+                class$="[[_computeLinkClass(change)]]">
+              [[change.subject]]
+            </a>
+          </div>
         </template>
       </section>
       <section hidden$="[[!_cherryPicks.length]]" hidden>
-        <h4>Cherry picks</h4>
+        <h4 class="rightIndent">Cherry picks</h4>
         <template is="dom-repeat" items="[[_cherryPicks]]" as="change">
-          <a href$="[[_computeChangeURL(change._number)]]"
-              class$="[[_computeLinkClass(change)]]">
-            [[change.branch]]: [[change.subject]]
-          </a>
+          <div class="rightIndent">
+            <a href$="[[_computeChangeURL(change._number)]]"
+                class$="[[_computeLinkClass(change)]]">
+              [[change.branch]]: [[change.subject]]
+            </a>
+          </div>
         </template>
       </section>
     </div>

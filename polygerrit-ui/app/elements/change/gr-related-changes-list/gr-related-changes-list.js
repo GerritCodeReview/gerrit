@@ -30,8 +30,10 @@
         value: false,
         reflectToAttribute: true,
       },
-
-      _loading: Boolean,
+      loading: {
+        type: Boolean,
+        notify: true,
+      },
       _connectedRevisions: {
         type: Array,
         computed: '_computeConnectedRevisions(change, patchNum, ' +
@@ -54,14 +56,14 @@
     ],
 
     clear: function() {
-      this._loading = true;
+      this.loading = true;
     },
 
     reload: function() {
       if (!this.change || !this.patchNum) {
         return Promise.resolve();
       }
-      this._loading = true;
+      this.loading = true;
       var promises = [
         this._getRelatedChanges().then(function(response) {
           this._relatedResponse = response;
@@ -97,7 +99,7 @@
       }.bind(this)));
 
       return Promise.all(promises).then(function() {
-        this._loading = false;
+        this.loading = false;
       }.bind(this));
     },
 

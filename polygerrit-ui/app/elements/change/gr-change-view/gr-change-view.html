@@ -107,7 +107,7 @@ limitations under the License.
       .commitMessage {
         font-family: var(--monospace-font-family);
         max-width: 100ch;
-        margin-right: 2em;
+        margin-right: 1em;
         margin-bottom: 1em;
       }
       .commitMessage gr-linked-text {
@@ -139,9 +139,11 @@ limitations under the License.
         flex: 1;
         overflow-x: hidden;
       }
+      .collapseToggleButton {
+        text-decoration: none;
+      }
       .relatedChanges {
         flex: 1 1 auto;
-        font-size: .9em;
         overflow: hidden;
       }
       .patchInfo {
@@ -192,17 +194,27 @@ limitations under the License.
         max-height: 36em;
         overflow: hidden;
       }
+      #relatedChanges {
+        font-size: .9em;
+      }
+      #relatedChanges.collapsed {
+        margin-bottom: 1.1em;
+        max-height: var(--relation-chain-max-height, 2em);
+        overflow: hidden;
+      }
       .commitContainer {
         display: flex;
         flex-direction: column;
       }
       .collapseToggleContainer {
         display: flex;
-        justify-content: center;
       }
       .collapseToggleContainer gr-button {
         display: block;
-        width: 8em;
+      }
+      #relatedChangesToggle {
+        margin-left: 1em;
+        padding-top: var(--related-change-btn-top-padding, 0);
       }
       @media screen and (max-width: 50em) {
         .mobile {
@@ -305,7 +317,7 @@ limitations under the License.
                This will not work with Shadow DOM. -->
           <div id="change_plugins"></div>
         </div>
-        <div class="changeInfo-column mainChangeInfo">
+        <div id="mainChangeInfo" class="changeInfo-column mainChangeInfo">
           <div class="commitActions" hidden$="[[!_loggedIn]]">
             <gr-button
                 class="reply"
@@ -362,16 +374,30 @@ limitations under the License.
                     id="commitCollapseToggleButton"
                     class="collapseToggleButton"
                     on-tap="_toggleCommitCollapsed">
-                  [[_computeCollapseCommitText(_commitCollapsed)]]
+                  [[_computeCollapseText(_commitCollapsed)]]
                 </gr-button>
               </div>
             </div>
             <div class="relatedChanges">
               <gr-related-changes-list id="relatedChanges"
+                  class$="[[_computeRelatedChangesClass(_relatedChangesCollapsed, _relatedChangesLoading)]]"
                   change="[[_change]]"
                   has-parent="{{hasParent}}"
+                  loading="{{_relatedChangesLoading}}"
                   patch-num="[[_computeLatestPatchNum(_allPatchSets)]]">
               </gr-related-changes-list>
+              <div
+                  id="relatedChangesToggle"
+                  class="collapseToggleContainer"
+                  hidden$="[[_computeRelatedChangesToggleHidden(_relatedChangesLoading)]]">
+                <gr-button
+                    link
+                    id="relatedChangesToggleButton"
+                    class="collapseToggleButton"
+                    on-tap="_toggleRelatedChangesCollapsed">
+                  [[_computeCollapseText(_relatedChangesCollapsed)]]
+                </gr-button>
+              </div>
             </div>
           </div>
         </div>

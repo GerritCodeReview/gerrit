@@ -18,6 +18,7 @@ import static java.util.Comparator.comparingInt;
 
 import com.google.common.collect.Ordering;
 import com.google.common.io.BaseEncoding;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -76,6 +77,10 @@ public class ChangeUtil {
       return subject.substring(0, maxLength) + SUBJECT_CROP_APPENDIX;
     }
     return subject;
+  }
+
+  public static String status(Change c) {
+    return c != null ? c.getStatus().name().toLowerCase() : "deleted";
   }
 
   private ChangeUtil() {}

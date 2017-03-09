@@ -71,8 +71,11 @@ import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
 import com.google.gerrit.server.change.Reviewers;
 import com.google.gerrit.server.change.Revisions;
+import com.google.gerrit.server.change.SetReadyForReview;
+import com.google.gerrit.server.change.SetWorkInProgress;
 import com.google.gerrit.server.change.SubmittedTogether;
 import com.google.gerrit.server.change.SuggestChangeReviewers;
+import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
@@ -124,6 +127,8 @@ class ChangeApiImpl implements ChangeApi {
   private final Move move;
   private final PutPrivate putPrivate;
   private final DeletePrivate deletePrivate;
+  private final SetWorkInProgress setWip;
+  private final SetReadyForReview setReady;
 
   @Inject
   ChangeApiImpl(
@@ -160,6 +165,8 @@ class ChangeApiImpl implements ChangeApi {
       Move move,
       PutPrivate putPrivate,
       DeletePrivate deletePrivate,
+      SetWorkInProgress setWip,
+      SetReadyForReview setReady,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -194,6 +201,8 @@ class ChangeApiImpl implements ChangeApi {
     this.move = move;
     this.putPrivate = putPrivate;
     this.deletePrivate = deletePrivate;
+    this.setWip = setWip;
+    this.setReady = setReady;
     this.change = change;
   }
 
@@ -284,6 +293,24 @@ class ChangeApiImpl implements ChangeApi {
       }
     } catch (UpdateException e) {
       throw new RestApiException("Cannot change private status", e);
+    }
+  }
+
+  @Override
+  public void setWorkInProgress(String message) throws RestApiException {
+    try {
+      setWip.apply(change, new WorkInProgressOp.Input(message));
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot set work in progress state", e);
+    }
+  }
+
+  @Override
+  public void setReadyForReview(String message) throws RestApiException {
+    try {
+      setReady.apply(change, new WorkInProgressOp.Input(message));
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot set ready for review state", e);
     }
   }
 

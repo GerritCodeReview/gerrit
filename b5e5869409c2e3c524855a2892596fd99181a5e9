@@ -22,6 +22,30 @@
       "revId": "b5e5869409c2e3c524855a2892596fd99181a5e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "607e99a4_a108a7c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-09T08:25:26Z",
+      "side": 1,
+      "message": "Good catch, I think you are right!\n\nhttps://gerrit-review.googlesource.com/c/99631",
+      "parentUuid": "88a9eab3_e42e5e7e",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 166,
+        "endChar": 11
+      },
+      "revId": "b5e5869409c2e3c524855a2892596fd99181a5e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

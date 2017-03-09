@@ -68,6 +68,6 @@ public enum ArchiveFormat {
     @SuppressWarnings("unchecked")
     ArchiveCommand.Format<T> fmt = (Format<T>) format;
     fmt.putEntry(
-        out, path, FileMode.REGULAR_FILE, new ObjectLoader.SmallObject(FileMode.TYPE_FILE, data));
+        out, null, path, FileMode.REGULAR_FILE, new ObjectLoader.SmallObject(FileMode.TYPE_FILE, data));
   }
 }

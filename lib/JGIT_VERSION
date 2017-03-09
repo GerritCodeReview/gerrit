@@ -1,4 +1,0 @@
-include_defs('//lib/jgit/jgit.bzl')
-include_defs('//lib/maven.defs')
-
-REPO = GERRIT # Leave here even if set to MAVEN_CENTRAL.

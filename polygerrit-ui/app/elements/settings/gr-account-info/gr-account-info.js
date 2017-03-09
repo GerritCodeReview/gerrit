@@ -32,9 +32,17 @@
       hasUnsavedChanges: {
         type: Boolean,
         notify: true,
-        value: false,
+        computed: '_computeHasUnsavedChanges(_hasNameChange, _hasStatusChange)',
       },
 
+      _hasNameChange: {
+        type: Boolean,
+        value: false,
+      },
+      _hasStatusChange: {
+        type: Boolean,
+        value: false,
+      },
       _loading: {
         type: Boolean,
         value: false,
@@ -48,7 +56,8 @@
     },
 
     observers: [
-      '_accountChanged(_account.*)',
+      '_nameChanged(_account.name)',
+      '_statusChanged(_account.status)',
     ],
 
     loadData: function() {
@@ -75,23 +84,46 @@
       }
 
       this._saving = true;
-      return Promise.all([
-        this.$.restAPI.setAccountName(this._account.name),
-        this.$.restAPI.setAccountStatus(this._account.status),
-      ]).then(function() {
-        this.hasUnsavedChanges = false;
-        this._saving = false;
-        this.fire('account-detail-update');
-      }.bind(this));
+      // Set only the fields that have changed.
+      // Must be done in sequence to avoid race conditions (@see Issue 5721)
+      return this._maybeSetName()
+          .then(this._maybeSetStatus.bind(this))
+          .then(function() {
+            this._hasNameChange = false;
+            this._hasStatusChange = false;
+            this._saving = false;
+            this.fire('account-detail-update');
+          }.bind(this));
+    },
+
+    _maybeSetName: function() {
+      return this._hasNameChange ?
+          this.$.restAPI.setAccountName(this._account.name) :
+          Promise.resolve();
+    },
+
+    _maybeSetStatus: function() {
+      return this._hasStatusChange ?
+          this.$.restAPI.setAccountStatus(this._account.status) :
+          Promise.resolve();
+    },
+
+    _computeHasUnsavedChanges: function(name, status) {
+      return name || status;
     },
 
     _computeMutable: function(config) {
       return config.auth.editable_account_fields.indexOf('FULL_NAME') !== -1;
     },
 
-    _accountChanged: function() {
+    _statusChanged: function() {
       if (this._loading) { return; }
-      this.hasUnsavedChanges = true;
+      this._hasStatusChange = true;
+    },
+
+    _nameChanged: function() {
+      if (this._loading) { return; }
+      this._hasNameChange = true;
     },
 
     _handleKeydown: function(e) {

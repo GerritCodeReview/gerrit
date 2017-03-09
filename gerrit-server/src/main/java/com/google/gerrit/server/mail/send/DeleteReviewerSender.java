@@ -58,6 +58,7 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
     ccExistingReviewers();
     includeWatchers(NotifyType.ALL_COMMENTS);
     add(RecipientType.TO, reviewers);
+    removeUsersThatIgnoredTheChange();
   }
 
   @Override

@@ -15,13 +15,17 @@
 package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.StarredChangesUtil.IGNORE_LABEL;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
@@ -442,5 +446,38 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     assertThat(m.rcpt()).containsExactly(userThatCanViewDrafts.emailAddress);
     assertThat(m.body()).contains("Change subject: TRIGGER\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
+  }
+
+  @Test
+  public void watchProjectNoNotificationForIgnoredChange() throws Exception {
+    // watch project
+    String watchedProject = createProject("watchedProject").get();
+    setApiUser(user);
+    watch(watchedProject, null);
+
+    // push a change to watched project
+    setApiUser(admin);
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(new Project.NameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), watchedRepo, "ignored change", "a", "a1")
+            .to("refs/for/master");
+    r.assertOkStatus();
+
+    // ignore the change
+    setApiUser(user);
+    gApi.accounts().self().setStars(r.getChangeId(), new StarsInput(ImmutableSet.of(IGNORE_LABEL)));
+
+    sender.clear();
+
+    // post a comment -> should not trigger email notification since user ignored the change
+    setApiUser(admin);
+    ReviewInput in = new ReviewInput();
+    in.message = "comment";
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
+
+    // assert email notification
+    assertThat(sender.getMessages()).isEmpty();
   }
 }

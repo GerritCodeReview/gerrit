@@ -93,6 +93,30 @@
       "revId": "ed25a012cb26e0aecaeb6532c470ba6803df903f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29a927d5_76849f81",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-09T09:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfd450c6_d25bf9ae",
+      "range": {
+        "startLine": 1,
+        "startChar": 5,
+        "endLine": 1,
+        "endChar": 46
+      },
+      "revId": "ed25a012cb26e0aecaeb6532c470ba6803df903f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

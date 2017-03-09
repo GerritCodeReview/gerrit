@@ -420,6 +420,7 @@ public class ChangeJson {
       info._number = c.getId().get();
       info.problems = result.problems();
       info.isPrivate = c.isPrivate();
+      info.wip = c.isWip();
       finish(info);
     } else {
       info = new ChangeInfo();
@@ -473,6 +474,7 @@ public class ChangeJson {
       out.deletions = changedLines.get().deletions;
     }
     out.isPrivate = in.isPrivate();
+    out.wip = in.isWip();
     out.subject = in.getSubject();
     out.status = in.getStatus().asChangeStatus();
     out.owner = accountLoader.get(in.getOwner());

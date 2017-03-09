@@ -22,6 +22,92 @@
       "revId": "90daf1720949fc447e6d97c2e92c6a6d6ec23037",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b29b1cdf_6d2a0fa6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-09T17:58:10Z",
+      "side": 1,
+      "message": "Nit: these two properties are out of order.",
+      "range": {
+        "startLine": 196,
+        "startChar": 8,
+        "endLine": 197,
+        "endChar": 27
+      },
+      "revId": "90daf1720949fc447e6d97c2e92c6a6d6ec23037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b75e27a_4e956f8b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-09T17:58:10Z",
+      "side": 1,
+      "message": "Maybe this button should be more prominent. In http://imgur.com/a/Bx4O8 the button can get kind of lost, and users might not realize it\u0027s collapsed and there\u0027s actually a very long chain.\n\nWhat if both buttons were left-aligned? Maybe they can be given little ↓ down ↓ arrows ↓. Is there a color other than blue that might be appropriate? Maybe they can be gr-button\u0027s.",
+      "range": {
+        "startLine": 386,
+        "startChar": 16,
+        "endLine": 392,
+        "endChar": 28
+      },
+      "revId": "90daf1720949fc447e6d97c2e92c6a6d6ec23037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fa047ab_4e49e042",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-09T17:58:10Z",
+      "side": 1,
+      "message": "Nit: it\u0027s often good to avoid describing what a CSS ruleset does in the class name.\n\nCan this be rewritten with a more descriptive class name or perhaps be written as a larger selector?\n\nSomething like ...\n\n:host \u003e div,\n:host \u003e h4,\n... etc ... {\n  display: flex;\n}",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 7
+      },
+      "revId": "90daf1720949fc447e6d97c2e92c6a6d6ec23037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1366b739_10e83184",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-09T17:58:10Z",
+      "side": 1,
+      "message": "This should also reset to collapsed \u003d true when reloaded.\n\nCurrently, if I expand the related changes list and then click one to navigate to a different change, the list stays expanded.",
+      "revId": "90daf1720949fc447e6d97c2e92c6a6d6ec23037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -4256,6 +4256,72 @@ returned that describes the robot comment.
   }
 ----
 
+[[apply-fix]]
+=== Apply Fix
+--
+'POST /changes/<<change-id,\{change-id\}>>/revisions/<<revision-id,\{revision-id\}>>/fixes/<<fix-id,\{fix-id\}>>/apply'
+--
+
+Applies a suggested fix by creating a change edit which includes the
+modifications indicated by the fix suggestion. If a change edit already exists,
+it will be updated accordingly. A fix can only be applied if no change edit
+exists and the fix refers to the current patch set, or the fix refers to the
+patch set on which the change edit is based.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/fixes/8f605a55_f6aa4ecc/apply HTTP/1.0
+----
+
+If the fix was successfully applied, an <<edit-info,EditInfo>> describing the
+resulting change edit is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+    Content-Disposition: attachment
+    Content-Type: application/json; charset=UTF-8
+
+    )]}'
+    {
+      "commit":{
+        "parents":[
+          {
+            "commit":"1eee2c9d8f352483781e772f35dc586a69ff5646",
+          }
+        ],
+        "author":{
+          "name":"John Doe",
+          "email":"john.doe@example.com",
+          "date":"2013-05-07 15:21:27.000000000",
+          "tz":120
+         },
+         "committer":{
+           "name":"Jane Doe",
+           "email":"jane.doe@example.com",
+           "date":"2013-05-07 15:35:43.000000000",
+           "tz":120
+         },
+         "subject":"Implement feature X",
+         "message":"Implement feature X\n\nWith this feature ..."
+      },
+      "base_revision":"674ac754f91e64a0efb8087e59a176484bd534d1"
+    }
+----
+
+If the application failed e.g. due to conflicts with an existing change edit,
+the response "`409 Conflict`" including an error message in the response body
+is returned.
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Disposition: attachment
+  Content-Type: text/plain; charset=UTF-8
+
+  The existing change edit could not be merged with another tree.
+----
+
 [[list-files]]
 === List Files
 --
@@ -5592,7 +5658,7 @@ The `EditInfo` entity contains information about a change edit.
 |`commit`       ||The commit of change edit as
 link:#commit-info[CommitInfo] entity.
 |`base_revision`||The revision of the patch set the change edit is based on.
-|`fetch`        ||
+|`fetch`        |optional|
 Information about how to fetch this patch set. The fetch information is
 provided as a map that maps the protocol name ("`git`", "`http`",
 "`ssh`") to link:#fetch-info[FetchInfo] entities.
@@ -5686,7 +5752,10 @@ replaced by another content.
 |`path`          |The path of the file which should be modified. Modifications
 are only allowed for the file on which the corresponding comment was placed.
 |`range`         |A <<comment-range,CommentRange>> indicating which content
-of the file should be replaced.
+of the file should be replaced. Lines in the file are assumed to be separated
+by the line feed character, the carriage return character, the carriage return
+followed by the line feed character, or one of the other Unicode linebreak
+sequences supported by Java.
 |`replacement`   |The content which should be used instead of the current one.
 |==========================
 

@@ -100,6 +100,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
@@ -242,6 +243,44 @@ public class ChangeIT extends AbstractDaemonTest {
     allow(Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS, "refs/*");
     setApiUser(user);
     assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
+  }
+
+  @Test
+  public void toggleWorkInProgressState() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    // With message
+    gApi.changes().id(changeId).setWorkInProgress("Needs some refactoring");
+
+    ChangeInfo info = gApi.changes().id(changeId).get();
+
+    assertThat(info.workInProgress).isTrue();
+    assertThat(Iterables.getLast(info.messages).message).contains("Needs some refactoring");
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_WIP);
+
+    gApi.changes().id(changeId).setReadyForReview("PTAL");
+
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.workInProgress).isFalse();
+    assertThat(Iterables.getLast(info.messages).message).contains("PTAL");
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_READY);
+
+    // No message
+    gApi.changes().id(changeId).setWorkInProgress();
+
+    info = gApi.changes().id(changeId).get();
+
+    assertThat(info.workInProgress).isTrue();
+    assertThat(Iterables.getLast(info.messages).message).isEqualTo("Work In Progress");
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_WIP);
+
+    gApi.changes().id(changeId).setReadyForReview();
+
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.workInProgress).isFalse();
+    assertThat(Iterables.getLast(info.messages).message).isEqualTo("Ready For Review");
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_READY);
   }
 
   @Test

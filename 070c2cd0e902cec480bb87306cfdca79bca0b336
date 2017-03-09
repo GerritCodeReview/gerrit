@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "ff9146ec_d44c90ac",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-09T08:54:20Z",
+      "side": 1,
+      "message": "Looks like in this class all comments start with lowercase, so for consistency I would keep it lowercase here too.",
+      "parentUuid": "f1bcbfd8_23c26d63",
+      "range": {
+        "startLine": 453,
+        "startChar": 7,
+        "endLine": 453,
+        "endChar": 8
+      },
+      "revId": "070c2cd0e902cec480bb87306cfdca79bca0b336",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fd8002f_d6dfa68d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2017-03-09T08:38:55Z",
       "side": 1,
       "message": "nit: Just \u0027current()\u0027",
+      "range": {
+        "startLine": 478,
+        "startChar": 39,
+        "endLine": 478,
+        "endChar": 69
+      },
+      "revId": "070c2cd0e902cec480bb87306cfdca79bca0b336",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472e6ea6_118dfecb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-09T08:54:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fd8002f_d6dfa68d",
       "range": {
         "startLine": 478,
         "startChar": 39,

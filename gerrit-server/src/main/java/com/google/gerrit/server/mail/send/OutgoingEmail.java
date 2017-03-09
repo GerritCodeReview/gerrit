@@ -147,23 +147,22 @@ public abstract class OutgoingEmail {
           //
           removeUser(fromUser);
         }
-
-        // Check the preferences of all recipients. If any user has disabled
-        // his email notifications then drop him from recipients' list.
-        // In addition, check if users only want to receive plaintext email.
-        for (Account.Id id : rcptTo) {
-          Account thisUser = args.accountCache.get(id).getAccount();
-          GeneralPreferencesInfo prefs = thisUser.getGeneralPreferencesInfo();
-          if (prefs == null || prefs.getEmailStrategy() == DISABLED) {
-            removeUser(thisUser);
-          } else if (useHtml() && prefs.getEmailFormat() == EmailFormat.PLAINTEXT) {
-            removeUser(thisUser);
-            smtpRcptToPlaintextOnly.add(
-                new Address(thisUser.getFullName(), thisUser.getPreferredEmail()));
-          }
-          if (smtpRcptTo.isEmpty() && smtpRcptToPlaintextOnly.isEmpty()) {
-            return;
-          }
+      }
+      // Check the preferences of all recipients. If any user has disabled
+      // his email notifications then drop him from recipients' list.
+      // In addition, check if users only want to receive plaintext email.
+      for (Account.Id id : rcptTo) {
+        Account thisUser = args.accountCache.get(id).getAccount();
+        GeneralPreferencesInfo prefs = thisUser.getGeneralPreferencesInfo();
+        if (prefs == null || prefs.getEmailStrategy() == DISABLED) {
+          removeUser(thisUser);
+        } else if (useHtml() && prefs.getEmailFormat() == EmailFormat.PLAINTEXT) {
+          removeUser(thisUser);
+          smtpRcptToPlaintextOnly.add(
+              new Address(thisUser.getFullName(), thisUser.getPreferredEmail()));
+        }
+        if (smtpRcptTo.isEmpty() && smtpRcptToPlaintextOnly.isEmpty()) {
+          return;
         }
       }
 

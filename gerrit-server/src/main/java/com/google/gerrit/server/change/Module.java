@@ -89,6 +89,8 @@ public class Module extends RestApiModule {
     delete(CHANGE_KIND, "private").to(DeletePrivate.class);
     put(CHANGE_KIND, "ignore").to(Ignore.class);
     put(CHANGE_KIND, "unignore").to(Unignore.class);
+    post(CHANGE_KIND, "wip").to(SetWorkInProgress.class);
+    post(CHANGE_KIND, "ready").to(SetReadyForReview.class);
 
     post(CHANGE_KIND, "reviewers").to(PostReviewers.class);
     get(CHANGE_KIND, "suggest_reviewers").to(SuggestChangeReviewers.class);

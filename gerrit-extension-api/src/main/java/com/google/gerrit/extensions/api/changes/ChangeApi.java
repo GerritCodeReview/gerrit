@@ -87,6 +87,18 @@ public interface ChangeApi {
 
   void setPrivate(boolean value) throws RestApiException;
 
+  void setWorkInProgress(String message) throws RestApiException;
+
+  void setReadyForReview(String message) throws RestApiException;
+
+  default void setWorkInProgress() throws RestApiException {
+    setWorkInProgress("");
+  }
+
+  default void setReadyForReview() throws RestApiException {
+    setReadyForReview("");
+  }
+
   /**
    * Create a new change that reverts this change.
    *
@@ -310,6 +322,26 @@ public interface ChangeApi {
 
     @Override
     public void setPrivate(boolean value) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setWorkInProgress(String message) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setReadyForReview(String message) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setWorkInProgress() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setReadyForReview() {
       throw new NotImplementedException();
     }
 

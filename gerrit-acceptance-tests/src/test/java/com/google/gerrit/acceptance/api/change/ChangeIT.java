@@ -254,6 +254,67 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setWorkInProgressNotAllowedWithoutPermission() throws Exception {
+    PushOneCommit.Result rwip = createChange();
+    String changeId = rwip.getChangeId();
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to set work in progress");
+    gApi.changes().id(changeId).setWorkInProgress();
+  }
+
+  @Test
+  public void setReadyForReviewNotAllowedWithoutPermission() throws Exception {
+    PushOneCommit.Result rready = createChange();
+    String changeId = rready.getChangeId();
+    gApi.changes().id(changeId).setWorkInProgress();
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to set ready for review");
+    gApi.changes().id(changeId).setReadyForReview();
+  }
+
+  @Test
+  public void toggleWorkInProgressState() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    // With message
+    gApi.changes().id(changeId).setWorkInProgress("Needs some refactoring");
+
+    ChangeInfo info = gApi.changes().id(changeId).get();
+
+    assertThat(info.workInProgress).isTrue();
+    assertThat(Iterables.getLast(info.messages).message).contains("Needs some refactoring");
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_WIP);
+
+    gApi.changes().id(changeId).setReadyForReview("PTAL");
+
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.workInProgress).isFalse();
+    assertThat(Iterables.getLast(info.messages).message).contains("PTAL");
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_READY);
+
+    // No message
+    gApi.changes().id(changeId).setWorkInProgress();
+
+    info = gApi.changes().id(changeId).get();
+
+    assertThat(info.workInProgress).isTrue();
+    assertThat(Iterables.getLast(info.messages).message).isEqualTo("Work In Progress");
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_WIP);
+
+    gApi.changes().id(changeId).setReadyForReview();
+
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.workInProgress).isFalse();
+    assertThat(Iterables.getLast(info.messages).message).isEqualTo("Ready For Review");
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_READY);
+  }
+
+  @Test
   public void getAmbiguous() throws Exception {
     PushOneCommit.Result r1 = createChange();
     String changeId = r1.getChangeId();

@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "4145865c_7ed5bf97",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-10T02:11:11Z",
+      "side": 1,
+      "message": "We can tweak it in future changes if we want. No need to bikeshed here.",
+      "parentUuid": "aab71d1b_0b696875",
+      "range": {
+        "startLine": 386,
+        "startChar": 16,
+        "endLine": 392,
+        "endChar": 28
+      },
+      "revId": "90daf1720949fc447e6d97c2e92c6a6d6ec23037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2fa047ab_4e49e042",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.html",
         "patchSetId": 1

@@ -396,7 +396,7 @@
           });
     },
 
-    _handleFileTap: function(e) {
+    _handleFileClick: function(e) {
       // If the user prefers to expand inline diffs rather than opening the diff
       // view, intercept the click event.
       if (e.metaKey || e.ctrlKey) { return; }

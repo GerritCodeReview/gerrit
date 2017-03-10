@@ -34,11 +34,12 @@
       changeStatus: String,
       commitMessage: String,
       commitNum: String,
-      message: {
-        type: String,
-        computed: '_computeMessage(changeStatus, commitNum, commitMessage)',
-      },
+      message: String,
     },
+
+    observers: [
+      '_computeMessage(changeStatus, commitNum, commitMessage)',
+    ],
 
     _computeMessage: function(changeStatus, commitNum, commitMessage) {
       var newMessage = commitMessage;
@@ -46,7 +47,7 @@
       if (changeStatus === 'MERGED') {
         newMessage += '(cherry picked from commit ' + commitNum + ')';
       }
-      return newMessage;
+      this.message = newMessage;
     },
 
     _handleConfirmTap: function(e) {

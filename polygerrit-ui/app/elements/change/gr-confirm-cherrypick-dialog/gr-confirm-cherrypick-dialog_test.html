@@ -45,7 +45,7 @@ limitations under the License.
       element.branch = 'master';
       flushAsynchronousOperations();
       var expectedMessage = 'message\n(cherry picked from commit 123)';
-      assert.equal(element._message, expectedMessage);
+      assert.equal(element.message, expectedMessage);
     });
 
     test('with unmerged change', function() {
@@ -55,7 +55,19 @@ limitations under the License.
       element.branch = 'master';
       flushAsynchronousOperations();
       var expectedMessage = 'message\n';
-      assert.equal(element._message, expectedMessage);
+      assert.equal(element.message, expectedMessage);
+    });
+
+    test('with updated commit message', function() {
+      element.changeStatus = 'OPEN';
+      element.commitMessage = 'message\n';
+      element.commitNum = '123';
+      element.branch = 'master';
+      var myNewMessage = 'updated commit message';
+      element.message = myNewMessage;
+      flushAsynchronousOperations();
+      var expectedMessage = 'message\n';
+      assert.equal(element.message, myNewMessage);
     });
   });
 </script>

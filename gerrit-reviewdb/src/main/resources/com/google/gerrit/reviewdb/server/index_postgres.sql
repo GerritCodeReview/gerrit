@@ -57,10 +57,6 @@ delimiter ;
 CREATE INDEX accounts_byPreferredEmail
 ON accounts (preferred_email);
 
---    covers:             suggestByFullName
-CREATE INDEX accounts_byFullName
-ON accounts (full_name);
-
 
 -- *********************************************************************
 -- AccountGroupMemberAccess

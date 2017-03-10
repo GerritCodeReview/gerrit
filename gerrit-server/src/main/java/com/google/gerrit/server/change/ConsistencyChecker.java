@@ -51,6 +51,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.UpdateException;
@@ -498,7 +499,7 @@ public class ConsistencyChecker {
           // PatchSetInserter will reinsert the same ref, making it a no-op.
           bu.addOp(
               ctl.getId(),
-              new BatchUpdate.Op() {
+              new BatchUpdateOp() {
                 @Override
                 public void updateRepo(RepoContext ctx) throws IOException {
                   ctx.addRefUpdate(
@@ -536,7 +537,7 @@ public class ConsistencyChecker {
     }
   }
 
-  private static class FixMergedOp extends BatchUpdate.Op {
+  private static class FixMergedOp implements BatchUpdateOp {
     private final ProblemInfo p;
 
     private FixMergedOp(ProblemInfo p) {
@@ -632,7 +633,7 @@ public class ConsistencyChecker {
     }
   }
 
-  private class DeletePatchSetFromDbOp extends BatchUpdate.Op {
+  private class DeletePatchSetFromDbOp implements BatchUpdateOp {
     private final ProblemInfo p;
     private final PatchSet.Id psId;
 
@@ -670,7 +671,7 @@ public class ConsistencyChecker {
     }
   }
 
-  private class UpdateCurrentPatchSetOp extends BatchUpdate.Op {
+  private class UpdateCurrentPatchSetOp implements BatchUpdateOp {
     private final Set<PatchSet.Id> toDelete;
 
     private UpdateCurrentPatchSetOp(List<DeletePatchSetFromDbOp> deleteOps) {

@@ -46,6 +46,7 @@ import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.UpdateException;
@@ -149,7 +150,7 @@ public class PublishDraftPatchSet
     }
   }
 
-  private class Op extends BatchUpdate.Op {
+  private class Op implements BatchUpdateOp {
     private final PatchSet.Id psId;
 
     private PatchSet patchSet;

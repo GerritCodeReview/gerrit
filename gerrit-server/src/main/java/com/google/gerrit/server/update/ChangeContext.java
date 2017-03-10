@@ -23,7 +23,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 
 /**
- * Context for performing the {@link BatchUpdate.Op#updateChange} phase.
+ * Context for performing the {@link BatchUpdateOp#updateChange} phase.
  *
  * <p>A single {@code ChangeContext} corresponds to updating a single change; if a {@link
  * BatchUpdate} spans multiple changes, then multiple {@code ChangeContext} instances will be

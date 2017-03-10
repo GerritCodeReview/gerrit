@@ -41,6 +41,7 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
@@ -214,7 +215,7 @@ public class ChangeEditUtil {
                 .setMessage(message.toString()));
         bu.addOp(
             change.getId(),
-            new BatchUpdate.Op() {
+            new BatchUpdateOp() {
               @Override
               public void updateRepo(RepoContext ctx) throws Exception {
                 deleteRef(ctx.getRepository(), edit);

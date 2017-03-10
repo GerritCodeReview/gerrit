@@ -30,7 +30,7 @@ import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.extensions.events.AssigneeChanged;
 import com.google.gerrit.server.mail.send.SetAssigneeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.validators.AssigneeValidationListener;
@@ -42,7 +42,7 @@ import com.google.inject.assistedinject.AssistedInject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SetAssigneeOp extends BatchUpdate.Op {
+public class SetAssigneeOp implements BatchUpdateOp {
   private static final Logger log = LoggerFactory.getLogger(SetAssigneeOp.class);
 
   public interface Factory {

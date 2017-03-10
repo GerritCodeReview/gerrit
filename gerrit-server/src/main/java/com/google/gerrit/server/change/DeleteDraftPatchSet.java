@@ -34,6 +34,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Order;
 import com.google.gerrit.server.update.RepoContext;
@@ -91,7 +92,7 @@ public class DeleteDraftPatchSet
     return Response.none();
   }
 
-  private class Op extends BatchUpdate.Op {
+  private class Op implements BatchUpdateOp {
     private final PatchSet.Id psId;
 
     private Collection<PatchSet> patchSetsBeforeDeletion;

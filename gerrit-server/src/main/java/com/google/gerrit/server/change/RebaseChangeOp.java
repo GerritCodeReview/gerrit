@@ -31,7 +31,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
@@ -46,7 +46,7 @@ import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-public class RebaseChangeOp extends BatchUpdate.Op {
+public class RebaseChangeOp implements BatchUpdateOp {
   public interface Factory {
     RebaseChangeOp create(
         ChangeControl ctl, PatchSet originalPatchSet, @Nullable String baseCommitish);

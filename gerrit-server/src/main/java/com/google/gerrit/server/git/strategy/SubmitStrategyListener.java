@@ -23,14 +23,14 @@ import com.google.gerrit.server.change.Submit.TestSubmitInput;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeOp.CommitStatus;
-import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-public class SubmitStrategyListener extends BatchUpdate.Listener {
+public class SubmitStrategyListener implements BatchUpdateListener {
   private final Collection<SubmitStrategy> strategies;
   private final CommitStatus commitStatus;
   private final boolean failAfterRefUpdates;

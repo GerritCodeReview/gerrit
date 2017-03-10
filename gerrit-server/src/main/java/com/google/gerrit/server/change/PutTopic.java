@@ -31,6 +31,7 @@ import com.google.gerrit.server.extensions.events.TopicEdited;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.UpdateException;
@@ -82,7 +83,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>, UiAction
         : Response.ok(op.newTopicName);
   }
 
-  private class Op extends BatchUpdate.Op {
+  private class Op implements BatchUpdateOp {
     private final Input input;
 
     private Change change;

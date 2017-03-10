@@ -1278,7 +1278,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Throwable cause = e.getCause();
     assertThat(cause).isInstanceOf(UpdateException.class);
     assertThat(cause.getCause()).isInstanceOf(OrmException.class);
-    assertThat(cause.getCause()).hasMessage(NoteDbUpdateManager.CHANGES_READ_ONLY);
+    assertThat(cause.getCause()).hasMessageThat().isEqualTo(NoteDbUpdateManager.CHANGES_READ_ONLY);
   }
 
   private void setInvalidNoteDbState(Change.Id id) throws Exception {

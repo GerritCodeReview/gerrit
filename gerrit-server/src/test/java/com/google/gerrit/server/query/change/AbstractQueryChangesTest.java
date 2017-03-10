@@ -268,7 +268,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("change:repo~branch~" + k.substring(0, 10), change);
 
     assertQuery("foo~bar");
-    assertThatQueryException("change:foo~bar").hasMessage("Invalid change format");
+    assertThatQueryException("change:foo~bar").hasMessageThat().isEqualTo("Invalid change format");
     assertQuery("otherrepo~branch~" + k);
     assertQuery("change:otherrepo~branch~" + k);
     assertQuery("repo~otherbranch~" + k);
@@ -366,8 +366,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("status:N", change1);
     assertQuery("status:nE", change1);
     assertQuery("status:neW", change1);
-    assertThatQueryException("status:nx").hasMessage("invalid change status: nx");
-    assertThatQueryException("status:newx").hasMessage("invalid change status: newx");
+    assertThatQueryException("status:nx").hasMessageThat().isEqualTo("invalid change status: nx");
+    assertThatQueryException("status:newx")
+        .hasMessageThat()
+        .isEqualTo("invalid change status: newx");
   }
 
   @Test
@@ -785,7 +787,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery(query.withStart(1));
     assertQuery(query.withStart(99));
     assertThatQueryException(query.withStart(100))
-        .hasMessage("Cannot go beyond page 10 of results");
+        .hasMessageThat()
+        .isEqualTo("Cannot go beyond page 10 of results");
     assertQuery(query.withLimit(100).withStart(100));
   }
 

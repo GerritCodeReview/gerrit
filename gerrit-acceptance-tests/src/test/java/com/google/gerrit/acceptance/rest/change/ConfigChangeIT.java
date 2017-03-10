@@ -118,7 +118,8 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     } catch (ResourceConflictException e) {
       int n = gApi.changes().id(id).info()._number;
       assertThat(e)
-          .hasMessage(
+          .hasMessageThat()
+          .isEqualTo(
               "Failed to submit 1 change due to the following problems:\n"
                   + "Change "
                   + n

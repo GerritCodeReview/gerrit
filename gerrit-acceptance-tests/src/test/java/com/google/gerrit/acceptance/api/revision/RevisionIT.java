@@ -163,7 +163,9 @@ public class RevisionIT extends AbstractDaemonTest {
       gApi.changes().id(changeId).current().review(ReviewInput.dislike());
       fail("expected ResourceConflictException");
     } catch (ResourceConflictException e) {
-      assertThat(e).hasMessage("Cannot reduce vote on labels for closed change: Code-Review");
+      assertThat(e)
+          .hasMessageThat()
+          .isEqualTo("Cannot reduce vote on labels for closed change: Code-Review");
     }
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(1);
@@ -181,7 +183,9 @@ public class RevisionIT extends AbstractDaemonTest {
       gApi.changes().id(changeId).current().review(ReviewInput.dislike());
       fail("expected ResourceConflictException");
     } catch (ResourceConflictException e) {
-      assertThat(e).hasMessage("Cannot reduce vote on labels for closed change: Code-Review");
+      assertThat(e)
+          .hasMessageThat()
+          .isEqualTo("Cannot reduce vote on labels for closed change: Code-Review");
     }
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(2);

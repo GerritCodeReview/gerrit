@@ -65,7 +65,7 @@ public class DeleteTagsIT extends AbstractDaemonTest {
       project().deleteTags(input);
       fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
-      assertThat(e).hasMessage(errorMessageForTags(TAGS));
+      assertThat(e).hasMessageThat().isEqualTo(errorMessageForTags(TAGS));
     }
     setApiUser(admin);
     assertTags(TAGS);
@@ -81,7 +81,9 @@ public class DeleteTagsIT extends AbstractDaemonTest {
       project().deleteTags(input);
       fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
-      assertThat(e).hasMessage(errorMessageForTags(ImmutableList.of("refs/tags/does-not-exist")));
+      assertThat(e)
+          .hasMessageThat()
+          .isEqualTo(errorMessageForTags(ImmutableList.of("refs/tags/does-not-exist")));
     }
     assertTagsDeleted();
   }
@@ -98,7 +100,9 @@ public class DeleteTagsIT extends AbstractDaemonTest {
       project().deleteTags(input);
       fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
-      assertThat(e).hasMessage(errorMessageForTags(ImmutableList.of("refs/tags/does-not-exist")));
+      assertThat(e)
+          .hasMessageThat()
+          .isEqualTo(errorMessageForTags(ImmutableList.of("refs/tags/does-not-exist")));
     }
     assertTagsDeleted();
   }

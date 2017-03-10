@@ -36,6 +36,7 @@ import com.google.gerrit.server.change.GetRelated.ChangeAndCommit;
 import com.google.gerrit.server.change.GetRelated.RelatedInfo;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
@@ -580,7 +581,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     try (BatchUpdate bu = updateFactory.create(db, project, user(user), TimeUtil.nowTs())) {
       bu.addOp(
           psId.getParentKey(),
-          new BatchUpdate.Op() {
+          new BatchUpdateOp() {
             @Override
             public boolean updateChange(ChangeContext ctx) throws OrmException {
               PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);

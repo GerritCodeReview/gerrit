@@ -47,6 +47,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.UpdateException;
@@ -207,7 +208,7 @@ public class MailProcessor {
     }
   }
 
-  private class Op extends BatchUpdate.Op {
+  private class Op implements BatchUpdateOp {
     private final PatchSet.Id psId;
     private final List<MailComment> parsedComments;
     private final String tag;

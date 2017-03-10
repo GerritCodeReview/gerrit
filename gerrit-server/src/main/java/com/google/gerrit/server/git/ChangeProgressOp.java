@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import org.eclipse.jgit.lib.ProgressMonitor;
 
 /** Trivial op to update a counter during {@code updateChange} */
-class ChangeProgressOp extends BatchUpdate.Op {
+class ChangeProgressOp implements BatchUpdateOp {
   private final ProgressMonitor progress;
 
   ChangeProgressOp(ProgressMonitor progress) {

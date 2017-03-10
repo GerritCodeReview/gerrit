@@ -39,6 +39,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
@@ -99,7 +100,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
     return json.noOptions().format(req.getChange());
   }
 
-  private class Op extends BatchUpdate.Op {
+  private class Op implements BatchUpdateOp {
     private final MoveInput input;
 
     private Change change;

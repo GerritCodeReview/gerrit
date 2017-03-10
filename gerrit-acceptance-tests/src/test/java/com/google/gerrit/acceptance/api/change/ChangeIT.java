@@ -109,6 +109,7 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
@@ -2510,7 +2511,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(changeStatus).isEqualTo(newStatus.asChangeStatus());
   }
 
-  private static class ChangeStatusUpdateOp extends BatchUpdate.Op {
+  private static class ChangeStatusUpdateOp implements BatchUpdateOp {
     private final Change.Status newStatus;
 
     ChangeStatusUpdateOp(Change.Status newStatus) {

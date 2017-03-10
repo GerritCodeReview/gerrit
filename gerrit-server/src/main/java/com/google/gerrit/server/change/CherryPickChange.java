@@ -48,6 +48,7 @@ import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
@@ -279,7 +280,7 @@ public class CherryPickChange {
     return changeId;
   }
 
-  private static class AddMessageToSourceChangeOp extends BatchUpdate.Op {
+  private static class AddMessageToSourceChangeOp implements BatchUpdateOp {
     private final ChangeMessagesUtil cmUtil;
     private final PatchSet.Id psId;
     private final String destBranch;

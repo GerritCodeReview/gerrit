@@ -47,6 +47,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.UpdateException;
@@ -237,7 +238,7 @@ public class Revert
     return change != null ? change.getStatus().name().toLowerCase() : "deleted";
   }
 
-  private class NotifyOp extends BatchUpdate.Op {
+  private class NotifyOp implements BatchUpdateOp {
     private final Change change;
     private final ChangeInserter ins;
 
@@ -261,7 +262,7 @@ public class Revert
     }
   }
 
-  private class PostRevertedMessageOp extends BatchUpdate.Op {
+  private class PostRevertedMessageOp implements BatchUpdateOp {
     private final ObjectId computedChangeId;
 
     PostRevertedMessageOp(ObjectId computedChangeId) {

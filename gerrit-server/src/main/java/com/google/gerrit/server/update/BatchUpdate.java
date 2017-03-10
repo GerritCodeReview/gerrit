@@ -256,58 +256,6 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  public static class RepoOnlyOp {
-    /**
-     * Override this method to update the repo.
-     *
-     * @param ctx context
-     */
-    public void updateRepo(RepoContext ctx) throws Exception {}
-
-    /**
-     * Override this method to do something after the update e.g. send email or run hooks
-     *
-     * @param ctx context
-     */
-    //TODO(dborowitz): Support async operations?
-    public void postUpdate(Context ctx) throws Exception {}
-  }
-
-  public static class Op extends RepoOnlyOp {
-    /**
-     * Override this method to modify a change.
-     *
-     * @param ctx context
-     * @return whether anything was changed that might require a write to the metadata storage.
-     */
-    public boolean updateChange(ChangeContext ctx) throws Exception {
-      return false;
-    }
-  }
-
-  public abstract static class InsertChangeOp extends Op {
-    public abstract Change createChange(Context ctx);
-  }
-
-  /**
-   * Interface for listening during batch update execution.
-   *
-   * <p>When used during execution of multiple batch updates, the {@code after*} methods are called
-   * after that phase has been completed for <em>all</em> updates.
-   */
-  public static class Listener {
-    public static final Listener NONE = new Listener();
-
-    /** Called after updating all repositories and flushing objects but before updating any refs. */
-    public void afterUpdateRepos() throws Exception {}
-
-    /** Called after updating all refs. */
-    public void afterRefUpdates() throws Exception {}
-
-    /** Called after updating all changes. */
-    public void afterUpdateChanges() throws Exception {}
-  }
-
   @Singleton
   private static class Metrics {
     final Timer1<Boolean> executeChangeOpsLatency;
@@ -357,7 +305,7 @@ public class BatchUpdate implements AutoCloseable {
 
   public static void execute(
       Collection<BatchUpdate> updates,
-      Listener listener,
+      BatchUpdateListener listener,
       @Nullable RequestId requestId,
       boolean dryrun)
       throws UpdateException, RestApiException {
@@ -472,7 +420,7 @@ public class BatchUpdate implements AutoCloseable {
   private final Timestamp when;
   private final TimeZone tz;
 
-  private final ListMultimap<Change.Id, Op> ops =
+  private final ListMultimap<Change.Id, BatchUpdateOp> ops =
       MultimapBuilder.linkedHashKeys().arrayListValues().build();
   private final Map<Change.Id, Change> newChanges = new HashMap<>();
   private final List<CheckedFuture<?, IOException>> indexFutures = new ArrayList<>();
@@ -568,7 +516,7 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
-  /** Execute {@link Op#updateChange(ChangeContext)} in parallel for each change. */
+  /** Execute {@link BatchUpdateOp#updateChange(ChangeContext)} in parallel for each change. */
   public BatchUpdate updateChangesInParallel() {
     this.updateChangesInParallel = true;
     return this;
@@ -603,7 +551,7 @@ public class BatchUpdate implements AutoCloseable {
     return inserter;
   }
 
-  public BatchUpdate addOp(Change.Id id, Op op) {
+  public BatchUpdate addOp(Change.Id id, BatchUpdateOp op) {
     checkArgument(!(op instanceof InsertChangeOp), "use insertChange");
     checkNotNull(op);
     ops.put(id, op);
@@ -611,7 +559,7 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public BatchUpdate addRepoOnlyOp(RepoOnlyOp op) {
-    checkArgument(!(op instanceof Op), "use addOp()");
+    checkArgument(!(op instanceof BatchUpdateOp), "use addOp()");
     repoOnlyOps.add(op);
     return this;
   }
@@ -631,10 +579,11 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public void execute() throws UpdateException, RestApiException {
-    execute(Listener.NONE);
+    execute(BatchUpdateListener.NONE);
   }
 
-  public void execute(Listener listener) throws UpdateException, RestApiException {
+  public void execute(BatchUpdateListener listener)
+      throws UpdateException, RestApiException {
     execute(ImmutableList.of(this), listener, requestId, false);
   }
 
@@ -642,7 +591,7 @@ public class BatchUpdate implements AutoCloseable {
     try {
       logDebug("Executing updateRepo on {} ops", ops.size());
       RepoContextImpl ctx = new RepoContextImpl();
-      for (Op op : ops.values()) {
+      for (BatchUpdateOp op : ops.values()) {
         op.updateRepo(ctx);
       }
 
@@ -728,7 +677,7 @@ public class BatchUpdate implements AutoCloseable {
           throw new OrmException(NoteDbUpdateManager.CHANGES_READ_ONLY);
         }
         List<ListenableFuture<?>> futures = new ArrayList<>(ops.keySet().size());
-        for (Map.Entry<Change.Id, Collection<Op>> e : ops.asMap().entrySet()) {
+        for (Map.Entry<Change.Id, Collection<BatchUpdateOp>> e : ops.asMap().entrySet()) {
           ChangeTask task =
               new ChangeTask(e.getKey(), e.getValue(), Thread.currentThread(), dryrun);
           tasks.add(task);
@@ -870,7 +819,7 @@ public class BatchUpdate implements AutoCloseable {
 
   private class ChangeTask implements Callable<Void> {
     final Change.Id id;
-    private final Collection<Op> changeOps;
+    private final Collection<BatchUpdateOp> changeOps;
     private final Thread mainThread;
     private final boolean dryrun;
 
@@ -880,7 +829,8 @@ public class BatchUpdate implements AutoCloseable {
     boolean deleted;
     private String taskId;
 
-    private ChangeTask(Change.Id id, Collection<Op> changeOps, Thread mainThread, boolean dryrun) {
+    private ChangeTask(
+        Change.Id id, Collection<BatchUpdateOp> changeOps, Thread mainThread, boolean dryrun) {
       this.id = id;
       this.changeOps = changeOps;
       this.mainThread = mainThread;
@@ -929,7 +879,7 @@ public class BatchUpdate implements AutoCloseable {
 
           // Call updateChange on each op.
           logDebug("Calling updateChange on {} ops", changeOps.size());
-          for (Op op : changeOps) {
+          for (BatchUpdateOp op : changeOps) {
             dirty |= op.updateChange(ctx);
           }
           if (!dirty) {
@@ -1105,7 +1055,7 @@ public class BatchUpdate implements AutoCloseable {
 
   private void executePostOps() throws Exception {
     ContextImpl ctx = new ContextImpl();
-    for (Op op : ops.values()) {
+    for (BatchUpdateOp op : ops.values()) {
       op.postUpdate(ctx);
     }
 

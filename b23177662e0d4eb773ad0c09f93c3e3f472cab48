@@ -118,6 +118,54 @@
     },
     {
       "key": {
+        "uuid": "93907375_80d90bca",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4274,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-10T10:45:30Z",
+      "side": 1,
+      "message": "I thought so too but the REST endpoints which create or update a change edit return \u0027204 No Content\u0027 on success. As I wanted to be consistent, I used the same response. Personally, I would prefer \u0027200 OK\u0027 or \u0027201 Created\u0027. We could also return an EditInfo describing the created/updated change edit. What would you prefer?",
+      "parentUuid": "ad478dd1_ebef3ff1",
+      "range": {
+        "startLine": 4274,
+        "startChar": 52,
+        "endLine": 4274,
+        "endChar": 66
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a9be003_d7d888e1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4274,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-10T10:45:30Z",
+      "side": 1,
+      "message": "I copied it from somewhere else in this document. All occurrences of \u0027204 No Content\u0027 in the REST documentation place \" outside of `. I wouldn\u0027t want to do it differently here. If we want to unify the use, we should do so in another change.",
+      "parentUuid": "9cd86979_51d3acbc",
+      "range": {
+        "startLine": 4274,
+        "startChar": 50,
+        "endLine": 4274,
+        "endChar": 68
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aeb30caa_39b620cd",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 2
@@ -239,6 +287,30 @@
     },
     {
       "key": {
+        "uuid": "bb722f10_ea8a831d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-10T10:45:30Z",
+      "side": 1,
+      "message": "The extension API has an own implementation of a range which is a completely different object. Even if we had a common place, I don\u0027t see a way to share this definition.",
+      "parentUuid": "72841b64_c8d3835c",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 54
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "203ceb45_11733f72",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
         "patchSetId": 2
@@ -267,6 +339,30 @@
       "writtenOn": "2017-03-10T09:16:07Z",
       "side": 1,
       "message": "As we just discussed, we should document for the range. And also it\u0027s good to have a comment here for using \"\u003c\" as the \u0027EndCharacter\u0027 is exclusive.",
+      "range": {
+        "startLine": 651,
+        "startChar": 73,
+        "endLine": 651,
+        "endChar": 74
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e990211b_06e3ddee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-10T10:45:30Z",
+      "side": 1,
+      "message": "As I said, I intend to extend the documentation for ranges (regarding: which values are zero-based/one-based, which values are inclusive/exclusive) in another change to not make this change even bigger.",
+      "parentUuid": "d046eb7f_4acdb81d",
       "range": {
         "startLine": 651,
         "startChar": 73,
@@ -336,6 +432,24 @@
     },
     {
       "key": {
+        "uuid": "79bbadca_5de16173",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-10T10:45:30Z",
+      "side": 1,
+      "message": "That depends on how paranoid we are. PostReview should make sure that all replacements refer to the file on which the robot comment is placed. As I intend to provide a change which allows replacements for other files too, the implementation and behavior of this method are going to change. That\u0027s why I didn\u0027t invest a lot of time to make this method watertight. Would you prefer to have the additional check for the moment?",
+      "parentUuid": "dea2f575_2c148b8d",
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "509bc98c_bd6a776b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/LineIdentifier.java",
         "patchSetId": 2
@@ -347,6 +461,30 @@
       "writtenOn": "2017-03-10T09:20:28Z",
       "side": 1,
       "message": "I think implementing this logic by yourself has the potential to be problematic.\n\nConsider files encoded in Unicode for instance. Unicode has a couple of more characters that they define as line ending characters [0, 1].\n\nI am not saying this needs to be changed, though. You have created a lot of tests for this class and it seems fine to me. We might just want to communicate in the docs then that fixes are only supported on files where line endings are determined by on of [ \\r\\n, \\n, \\r].\n\n[0] http://www.unicode.org/reports/tr14/tr14-32.html\n[1] https://en.wikipedia.org/wiki/Newline#Unicode",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 20
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9d30980_de5a97e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/LineIdentifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-10T10:45:30Z",
+      "side": 1,
+      "message": "\u003e I think implementing this logic by yourself has the potential to be problematic.\n\nThat\u0027s why I looked for existing implementations on the internet before I started the implementation. Unfortunately, I didn\u0027t find a suitable one. Do you know one?\n\n\u003e \n\u003e Consider files encoded in Unicode for instance. Unicode has a couple of more characters that they define as line ending characters [0, 1].\n\nStandard classes like java.io.BufferedReader also only support the standard line endings of Windows, Linux and Mac. Do we even support those special characters as line endings in Gerrit server, GWT UI, and PolyGerrit?\n\n\u003e \n\u003e I am not saying this needs to be changed, though. You have created a lot of tests for this class and it seems fine to me. We might just want to communicate in the docs then that fixes are only supported on files where line endings are determined by on of [ \\r\\n, \\n, \\r].\n\nI\u0027ll extend the documentation.\n\n\u003e \n\u003e [0] http://www.unicode.org/reports/tr14/tr14-32.html\n\u003e [1] https://en.wikipedia.org/wiki/Newline#Unicode",
+      "parentUuid": "509bc98c_bd6a776b",
       "range": {
         "startLine": 28,
         "startChar": 6,
@@ -416,6 +554,30 @@
       "writtenOn": "2017-03-10T09:20:28Z",
       "side": 1,
       "message": "I think it would be better to just record the replacements when this method is called (i.e. add them to a list) and compute the result when getResult() is called. This way you can just sort the list however you like and get rid of the limitation you mentioned in the JavaDoc.",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 73
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d4bc5bb_367388ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/StringModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-10T10:45:30Z",
+      "side": 1,
+      "message": "If StringModifier was a class which was also used by different code, I would agree. However, we just use it for a specific use case at the moment. Remembering all replacements (which includes the introduction of new objects for them) and sorting them (again) within this class would increase the overhead. Wouldn\u0027t it be better to get rid of the limitation when we really need to?",
+      "parentUuid": "75ef8469_01b93efc",
       "range": {
         "startLine": 47,
         "startChar": 2,

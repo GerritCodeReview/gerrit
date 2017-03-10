@@ -17,6 +17,24 @@
       "revId": "2dda540503b2dda87d1ea88a5745bb07729868f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10760194_b4df731f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T20:52:00Z",
+      "side": 1,
+      "message": "I don\u0027t really care if we abandon this. It made it easier for me to do the followups, which required a bunch of bulk reordering of imports, but now I\u0027m done.",
+      "parentUuid": "ce950cb8_331ab536",
+      "revId": "2dda540503b2dda87d1ea88a5745bb07729868f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

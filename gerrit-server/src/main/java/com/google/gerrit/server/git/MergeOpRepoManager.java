@@ -26,6 +26,7 @@ import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Inject;
 import java.io.IOException;

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.update;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -51,6 +51,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.InsertedObject;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -387,7 +389,7 @@ public class BatchUpdate implements AutoCloseable {
     return p;
   }
 
-  static void execute(
+  public static void execute(
       Collection<BatchUpdate> updates,
       Listener listener,
       @Nullable RequestId requestId,
@@ -595,7 +597,7 @@ public class BatchUpdate implements AutoCloseable {
    * Add a validation step for intended ref operations, which will be performed at the end of {@link
    * RepoOnlyOp#updateRepo(RepoContext)} step.
    */
-  BatchUpdate setOnSubmitValidators(OnSubmitValidators onSubmitValidators) {
+  public BatchUpdate setOnSubmitValidators(OnSubmitValidators onSubmitValidators) {
     this.onSubmitValidators = onSubmitValidators;
     return this;
   }

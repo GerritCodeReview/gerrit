@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d06040a2_d00dc9d9",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-10T18:15:19Z",
+      "side": 1,
+      "message": "FWIW, primary and secondary are existing concepts for button styles (primary buttons are blue and secondary buttons are red).\n\n\u003e An action which is important for a specific workflow\n\nI wonder if this definition is too broad. For tools like Gerrit, it can seem like *every* control is important for *somebody\u0027s* workflow. I\u0027m not sure I could say which actions are definitely Secondary in light of this definition of Primary.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 82
+      },
+      "revId": "c207881fcc4eb0045f721366518ecc66867f3971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3dbca2e_5e9a6aac",
         "filename": "Documentation/dev-ux.txt",
         "patchSetId": 4
@@ -49,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5608eb06_422fa819",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-10T18:15:19Z",
+      "side": 1,
+      "message": "Totally agree with this point that UI elements should not have counterintuitive effects, but perhaps a different example should be used to illustrate it.\n\nWhile buttons should generally do-something and links should generally take-you-somewhere, there\u0027s still considerable gray area (e.g. the show more/show less links) and we might not want to set too strong a precedent by using it as the example here.\n\nIMO, casting the show more/show less links as secondary doesn\u0027t exactly capture why they feel appropriate as those controls. It\u0027s hard to characterize that distinction and it might have more to do with typography and managing visual noise or user attention.",
+      "parentUuid": "649a6e4d_158519ec",
+      "range": {
+        "startLine": 57,
+        "startChar": 10,
+        "endLine": 58,
+        "endChar": 25
+      },
+      "revId": "c207881fcc4eb0045f721366518ecc66867f3971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "093265ca_f71489b8",
         "filename": "Documentation/dev-ux.txt",
         "patchSetId": 4
@@ -60,6 +107,30 @@
       "writtenOn": "2017-03-02T04:35:42Z",
       "side": 1,
       "message": "Hah. This is a great suggestion!  But its going to be hard to keep. There is always something that will surprise someone.",
+      "range": {
+        "startLine": 62,
+        "startChar": 79,
+        "endLine": 62,
+        "endChar": 0
+      },
+      "revId": "c207881fcc4eb0045f721366518ecc66867f3971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e0e5e2e_1f3ea6fb",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-10T18:15:19Z",
+      "side": 1,
+      "message": "While I agree, this point feels like a repeat of the principle of least astonishment. Maybe it can be a sub-point?\n\n\u003e But its going to be hard to keep. There is always something that will surprise someone.\n\nI think of the PoLA as a basis for choosing between alternative UI approaches. IOW, all else being equal, pick the least-unexpected approach. It doesn\u0027t, however, help in avoiding surprise in general; rather it minimizes surprise on a case-by-case basis.",
+      "parentUuid": "093265ca_f71489b8",
       "range": {
         "startLine": 62,
         "startChar": 79,

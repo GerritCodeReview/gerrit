@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -75,15 +76,18 @@ public class AccountCacheImpl implements AccountCache {
   private final LoadingCache<Account.Id, AccountState> byId;
   private final LoadingCache<String, Optional<Account.Id>> byName;
   private final Provider<AccountIndexer> indexer;
+  private final Provider<AccountByEmailCache> byEmailCache;
 
   @Inject
   AccountCacheImpl(
       @Named(BYID_NAME) LoadingCache<Account.Id, AccountState> byId,
       @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername,
-      Provider<AccountIndexer> indexer) {
+      Provider<AccountIndexer> indexer,
+      Provider<AccountByEmailCache> byEmailCache) {
     this.byId = byId;
     this.byName = byUsername;
     this.indexer = indexer;
+    this.byEmailCache = byEmailCache;
   }
 
   @Override
@@ -110,6 +114,17 @@ public class AccountCacheImpl implements AccountCache {
       log.warn("Cannot load AccountState for " + username, e);
       return null;
     }
+  }
+
+  @Override
+  public Set<AccountState> getByPreferredEmail(String preferredEmail) {
+    return byEmailCache
+        .get()
+        .get(preferredEmail)
+        .stream()
+        .map(i -> get(i))
+        .filter(a -> preferredEmail.equals(a.getAccount().getPreferredEmail()))
+        .collect(toSet());
   }
 
   @Override

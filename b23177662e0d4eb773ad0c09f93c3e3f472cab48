@@ -189,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "f3f1ddde_e506a0f7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4274,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-10T13:53:02Z",
+      "side": 1,
+      "message": "\u003e I thought so too but the REST endpoints which create or update a\n \u003e change edit return \u0027204 No Content\u0027 on success.\n\nSounds like a bug to me. I think we should consider to fix this.\n\n \u003e As I wanted to be\n \u003e consistent, I used the same response.\n\nMakes sense, but maybe we should just fix the response code for the change edit REST endpoints.\n\n \u003e Personally, I would prefer\n \u003e \u0027200 OK\u0027 or \u0027201 Created\u0027. We could also return an EditInfo\n \u003e describing the created/updated change edit. What would you prefer?\n\nReturning an EditInfo would be nice.",
+      "parentUuid": "93907375_80d90bca",
+      "range": {
+        "startLine": 4274,
+        "startChar": 52,
+        "endLine": 4274,
+        "endChar": 66
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aeb30caa_39b620cd",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 2
@@ -467,6 +491,24 @@
       "side": 1,
       "message": "That depends on how paranoid we are. PostReview should make sure that all replacements refer to the file on which the robot comment is placed. As I intend to provide a change which allows replacements for other files too, the implementation and behavior of this method are going to change. That\u0027s why I didn\u0027t invest a lot of time to make this method watertight. Would you prefer to have the additional check for the moment?",
       "parentUuid": "dea2f575_2c148b8d",
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abc28dbe_1452a42c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-10T13:53:02Z",
+      "side": 1,
+      "message": "OK, it fine with me to leave this as it is.",
+      "parentUuid": "79bbadca_5de16173",
       "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3699557_8b6ecf9f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-10T00:59:09Z",
+      "side": 1,
+      "message": "Not super convinced this one is useful, but it causes no harm.",
+      "range": {
+        "startLine": 40,
+        "startChar": 14,
+        "endLine": 40,
+        "endChar": 25
+      },
+      "revId": "bdf4390476e622433e186a11886599cb749d35b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

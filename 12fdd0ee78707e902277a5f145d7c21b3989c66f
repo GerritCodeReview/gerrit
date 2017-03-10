@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "10f5c8dc_450091a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-10T07:40:17Z",
+      "side": 1,
+      "message": "Done in\n  https://gerrit-review.googlesource.com/99730",
+      "parentUuid": "b9599221_6ff706b6",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "12fdd0ee78707e902277a5f145d7c21b3989c66f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d80d697f_7c7fb199",
         "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
         "patchSetId": 1

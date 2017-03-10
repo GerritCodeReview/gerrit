@@ -15,21 +15,26 @@
 package com.google.gerrit.testutil;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /** Fake implementation of {@link AccountCache} for testing. */
 public class FakeAccountCache implements AccountCache {
   private final Map<Account.Id, AccountState> byId;
   private final Map<String, AccountState> byUsername;
+  private final ListMultimap<String, AccountState> byPreferredEmail;
 
   public FakeAccountCache() {
     byId = new HashMap<>();
     byUsername = new HashMap<>();
+    byPreferredEmail = MultimapBuilder.hashKeys().arrayListValues().build();
   }
 
   @Override
@@ -49,6 +54,11 @@ public class FakeAccountCache implements AccountCache {
   @Override
   public synchronized AccountState getByUsername(String username) {
     return byUsername.get(username);
+  }
+
+  @Override
+  public synchronized Set<AccountState> getByPreferredEmail(String preferredEmail) {
+    return ImmutableSet.copyOf(byPreferredEmail.get(preferredEmail));
   }
 
   @Override
@@ -72,6 +82,9 @@ public class FakeAccountCache implements AccountCache {
     byId.put(account.getId(), state);
     if (account.getUserName() != null) {
       byUsername.put(account.getUserName(), state);
+    }
+    if (account.getPreferredEmail() != null) {
+      byPreferredEmail.put(account.getPreferredEmail(), state);
     }
   }
 

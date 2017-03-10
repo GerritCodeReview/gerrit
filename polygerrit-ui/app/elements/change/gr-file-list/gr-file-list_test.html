@@ -768,7 +768,7 @@ limitations under the License.
       element.push('_expandedFilePaths', path);
     });
 
-    suite('_handleFileTap', function() {
+    suite('_handleFileClick', function() {
       function testForModifier(modifier) {
         var e = {preventDefault: function() {}};
         e[modifier] = true;
@@ -776,23 +776,23 @@ limitations under the License.
         var hiddenChangeStub = sandbox.stub(element, '_handleHiddenChange');
         element._userPrefs = { expand_inline_diffs: true };
 
-        element._handleFileTap(e);
+        element._handleFileClick(e);
         assert.isFalse(hiddenChangeStub.called);
 
         e[modifier] = false;
-        element._handleFileTap(e);
+        element._handleFileClick(e);
         assert.equal(hiddenChangeStub.callCount, 1);
 
         element._userPrefs = { expand_inline_diffs: false };
-        element._handleFileTap(e);
+        element._handleFileClick(e);
         assert.equal(hiddenChangeStub.callCount, 1);
       }
 
-      test('_handleFileTap meta', function() {
+      test('_handleFileClick meta', function() {
         testForModifier('metaKey');
       });
 
-      test('_handleFileTap ctrl', function() {
+      test('_handleFileClick ctrl', function() {
         testForModifier('ctrlKey');
       });
     });

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "12508e9d_a68cd161",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-10T07:02:07Z",
+      "side": 1,
+      "message": "Put vs. Post: put is always idempotent, while post is not.\n\nMajor difference betwen PUT /changes/\u003cid\u003e/private and POST /changes/\u003cid\u003e/wip is that the former doesn\u0027t expect the body , while the latter accept a string. My implementation of wip/ready endpoints is not idempotent, contrary to PutPrivate implementation:\n\n  if (rsrc.getChange().isPrivate()) {\n      return Response.ok(\"\");\n  }\n\nI don\u0027t like to silently ignore the wrong request:\n\n  if (change.isWip()) {\n      throw new ResourceConflictException(\"change is already work in progress\");\n  }\n\nDelete vs. Post:\n\nAgain, the difference here is the message that could be provided. Whil ethe spec doesn\u0027t explicitly mention, whether body is allowed or not in DELETE method, some implmenetataions don\u0027t support it. See [1].\n\n* [1] http://stackoverflow.com/questions/299628/is-an-entity-body-allowed-for-an-http-delete-request",
+      "parentUuid": "bc2bb277_6452b53a",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 59
+      },
+      "revId": "adf7f9ef03033a27ced0c4ff1580f9ef55f77457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e0ef569_1755362c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetReadyForReview.java",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "43268103_10182d78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetReadyForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-10T07:02:07Z",
+      "side": 1,
+      "message": "Yeah, I considered to provide only one endpoint and offer an input boolean wip/ready to differentiate between them. I decided against it. May be it was a wrong decision.",
+      "parentUuid": "2e0ef569_1755362c",
+      "revId": "adf7f9ef03033a27ced0c4ff1580f9ef55f77457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a849a0d6_c215ccee",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetReadyForReview.java",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2017-03-10T04:46:39Z",
       "side": 1,
       "message": "optional: Add \"isNew()\" method on the Change class?",
+      "range": {
+        "startLine": 54,
+        "startChar": 8,
+        "endLine": 54,
+        "endChar": 40
+      },
+      "revId": "adf7f9ef03033a27ced0c4ff1580f9ef55f77457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e7da0e0_f51f22b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetReadyForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-10T07:02:07Z",
+      "side": 1,
+      "message": "Could be done in its own change.",
+      "parentUuid": "a849a0d6_c215ccee",
       "range": {
         "startLine": 54,
         "startChar": 8,

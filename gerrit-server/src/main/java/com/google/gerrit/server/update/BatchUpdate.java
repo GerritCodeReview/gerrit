@@ -532,21 +532,21 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  public CurrentUser getUser() {
+  private CurrentUser getUser() {
     return user;
   }
 
-  public Repository getRepository() throws IOException {
+  private Repository getRepository() throws IOException {
     initRepository();
     return repo;
   }
 
-  public RevWalk getRevWalk() throws IOException {
+  private RevWalk getRevWalk() throws IOException {
     initRepository();
     return revWalk;
   }
 
-  public ObjectInserter getObjectInserter() throws IOException {
+  private ObjectInserter getObjectInserter() throws IOException {
     initRepository();
     return inserter;
   }

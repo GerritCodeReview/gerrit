@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "432012e7_5e246053",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4262,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-10T11:40:48Z",
+      "side": 1,
+      "message": "I used \u0027put\u0027 as defined by the design doc. However, we don\u0027t create or update a fix resource when this REST endpoint is called. Wouldn\u0027t a \u0027post\u0027 be more appropriate?",
+      "range": {
+        "startLine": 4262,
+        "startChar": 1,
+        "endLine": 4262,
+        "endChar": 4
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "77c7ecc5_1bf68600",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2

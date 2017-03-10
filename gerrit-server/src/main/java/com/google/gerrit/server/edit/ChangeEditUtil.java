@@ -41,7 +41,7 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdate.RepoContext;
+import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;

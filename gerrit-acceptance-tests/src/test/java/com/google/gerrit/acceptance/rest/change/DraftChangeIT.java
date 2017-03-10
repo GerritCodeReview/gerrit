@@ -42,6 +42,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.Collection;
@@ -277,7 +278,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
 
   private class MarkChangeAsDraftUpdateOp extends BatchUpdate.Op {
     @Override
-    public boolean updateChange(BatchUpdate.ChangeContext ctx) throws Exception {
+    public boolean updateChange(ChangeContext ctx) throws Exception {
       Change change = ctx.getChange();
 
       // Change status in database.
@@ -299,7 +300,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     }
 
     @Override
-    public boolean updateChange(BatchUpdate.ChangeContext ctx) throws Exception {
+    public boolean updateChange(ChangeContext ctx) throws Exception {
       Collection<PatchSet> patchSets = psUtil.byChange(db, ctx.getNotes());
 
       // Change status in database.

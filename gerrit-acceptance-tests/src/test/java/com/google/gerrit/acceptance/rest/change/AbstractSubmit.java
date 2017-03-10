@@ -70,7 +70,7 @@ import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;

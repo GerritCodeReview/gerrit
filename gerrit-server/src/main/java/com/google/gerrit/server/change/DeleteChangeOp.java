@@ -30,9 +30,10 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdate.ChangeContext;
-import com.google.gerrit.server.update.BatchUpdate.RepoContext;
 import com.google.gerrit.server.update.BatchUpdateReviewDb;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.Order;
+import com.google.gerrit.server.update.RepoContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -84,8 +85,7 @@ class DeleteChangeOp extends BatchUpdate.Op {
   public boolean updateChange(ChangeContext ctx)
       throws RestApiException, OrmException, IOException, NoSuchChangeException {
     checkState(
-        ctx.getOrder() == BatchUpdate.Order.DB_BEFORE_REPO,
-        "must use DeleteChangeOp with DB_BEFORE_REPO");
+        ctx.getOrder() == Order.DB_BEFORE_REPO, "must use DeleteChangeOp with DB_BEFORE_REPO");
     checkState(id == null, "cannot reuse DeleteChangeOp");
 
     id = ctx.getChange().getId();

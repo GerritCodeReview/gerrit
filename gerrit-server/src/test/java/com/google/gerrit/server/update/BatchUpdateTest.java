@@ -12,7 +12,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.schema.SchemaCreator;
-import com.google.gerrit.server.update.BatchUpdate.RepoContext;
 import com.google.gerrit.server.update.BatchUpdate.RepoOnlyOp;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;

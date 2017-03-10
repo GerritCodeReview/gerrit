@@ -22,6 +22,30 @@
       "revId": "6fb011228815eb9de1f860b1e29a58b8d1feaf3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a01937de_dafb5825",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-10T07:10:07Z",
+      "side": 1,
+      "message": "\u003e isWorkInProgress\n\nI think there are two comments in one:\n\n* 1. replace wip with workInProgress\n* 2. add \"is\" prefix to workInProgress attribute.\n\nConcerning 1. Good suggestion, probably worth doing.\nConcerning 2. The naming convention is to name the vars without \"is\" prefix but name the access method with is. See Account:\n\n  /** Is this user inactive? */\n  @Column(id \u003d 7)\n  protected boolean inactive;\n  boolean isActive();\n\nThe reason why it called isPrivate and not private is only because private is a reserved keyword in java.\n\n\u003e Or can we invert the logic and call it isReadyForReview?\n\nWe should have the logic the way, that we do not need to update this attribute for all changes to true. So to name it wip is correct here. new Change() and that value is assigned to false, same as Account#inactive and Change#isPrivate.",
+      "parentUuid": "d5d288c4_b30ff90e",
+      "range": {
+        "startLine": 502,
+        "startChar": 20,
+        "endLine": 502,
+        "endChar": 23
+      },
+      "revId": "6fb011228815eb9de1f860b1e29a58b8d1feaf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

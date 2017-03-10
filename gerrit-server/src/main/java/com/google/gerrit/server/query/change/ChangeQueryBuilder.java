@@ -1088,20 +1088,23 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (query.startsWith("refs/")) {
       return ref(query);
     } else if (DEF_CHANGE.matcher(query).matches()) {
+      List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(2);
       try {
-        return change(query);
+        predicates.add(change(query));
       } catch (QueryParseException e) {
         // Skip.
       }
+
+      // For PAT_LEGACY_ID, it may also be the prefix of some commits.
+      if (query.length() >= 6 && PAT_LEGACY_ID.matcher(query).matches()) {
+        predicates.add(commit(query));
+      }
+
+      return Predicate.or(predicates);
     }
 
     // Adapt the capacity of this list when adding more default predicates.
     List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(11);
-    try {
-      predicates.add(commit(query));
-    } catch (IllegalArgumentException e) {
-      // Skip.
-    }
     try {
       predicates.add(owner(query));
     } catch (OrmException | QueryParseException e) {
@@ -1118,6 +1121,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     } catch (OrmException | QueryParseException e) {
       // Skip.
     }
+    predicates.add(commit(query));
     predicates.add(message(query));
     predicates.add(comment(query));
     predicates.add(projects(query));

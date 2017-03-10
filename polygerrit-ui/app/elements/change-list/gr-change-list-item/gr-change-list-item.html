@@ -141,7 +141,9 @@ limitations under the License.
     </td>
     <td class="cell updated"
         hidden$="[[isColumnHidden('Updated', visibleChangeTableColumns)]]">
-      <gr-date-formatter date-str="[[change.updated]]"></gr-date-formatter>
+      <gr-date-formatter
+          has-tooltip
+          date-str="[[change.updated]]"></gr-date-formatter>
     </td>
     <td class="cell size u-monospace"
         hidden$="[[isColumnHidden('Size', visibleChangeTableColumns)]]">

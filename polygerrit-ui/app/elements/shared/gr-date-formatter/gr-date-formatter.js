@@ -65,10 +65,6 @@
       this._loadPreferences();
     },
 
-    _getTzString: function() {
-      return ' ' + new Date().toString().split(' ').pop();
-    },
-
     _getUtcOffsetString: function() {
       return ' UTC' + moment().format('Z');
     },
@@ -150,7 +146,7 @@
       var now = new Date();
       var format = TimeFormats.MONTH_DAY_YEAR;
       if (this._isWithinDay(now, date)) {
-        return date.format(timeFormat) + this._getTzString();
+        format = timeFormat;
       } else if (this._isWithinHalfYear(now, date)) {
         format = TimeFormats.MONTH_DAY;
       }

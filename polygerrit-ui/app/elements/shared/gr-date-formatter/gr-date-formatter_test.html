@@ -82,7 +82,6 @@ limitations under the License.
           {time_format: 'HHMM_24', relative_date_in_change_table: false}
         ).then(function() {
           element = fixture('basic');
-          sandbox.stub(element, '_getTzString').returns('');
           sandbox.stub(element, '_getUtcOffsetString').returns('');
           return element._loadPreferences();
         });
@@ -125,7 +124,6 @@ limitations under the License.
           {time_format: 'HHMM_12'}
         ).then(function() {
           element = fixture('basic');
-          sandbox.stub(element, '_getTzString').returns('');
           sandbox.stub(element, '_getUtcOffsetString').returns('');
           return element._loadPreferences();
         });
@@ -144,7 +142,6 @@ limitations under the License.
           {time_format: 'HHMM_12', relative_date_in_change_table: true}
         ).then(function() {
           element = fixture('basic');
-          sandbox.stub(element, '_getTzString').returns('');
           sandbox.stub(element, '_getUtcOffsetString').returns('');
           return element._loadPreferences();
         });
@@ -169,7 +166,6 @@ limitations under the License.
           {time_format: 'HHMM_12', relative_date_in_change_table: true}
         ).then(function() {
           element = fixture('basic');
-          sandbox.stub(element, '_getTzString').returns('');
           return element._loadPreferences();
         });
       });
@@ -184,7 +180,6 @@ limitations under the License.
       setup(function() {
         return stubRestAPI(null).then(function() {
           element = fixture('basic');
-          sandbox.stub(element, '_getTzString').returns('');
           return element._loadPreferences();
         });
       });

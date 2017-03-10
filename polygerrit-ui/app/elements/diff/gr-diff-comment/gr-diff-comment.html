@@ -189,7 +189,9 @@ limitations under the License.
           <span class="collapsedContent">[[comment.message]]</span>
         </div>
         <a class="date" href$="[[_computeLinkToComment(comment)]]" on-tap="_handleLinkTap">
-          <gr-date-formatter date-str="[[comment.updated]]"></gr-date-formatter>
+          <gr-date-formatter
+              has-tooltip
+              date-str="[[comment.updated]]"></gr-date-formatter>
         </a>
         <div class="show-hide">
           <label class="show-hide">

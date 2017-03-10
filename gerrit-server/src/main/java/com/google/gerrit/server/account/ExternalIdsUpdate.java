@@ -16,8 +16,8 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.account.ExternalId.Key.toAccountExternalIdKeys;
 import static com.google.gerrit.server.account.ExternalId.toAccountExternalIds;
+import static com.google.gerrit.server.account.ExternalId.Key.toAccountExternalIdKeys;
 import static com.google.gerrit.server.account.ExternalIds.MAX_NOTE_SZ;
 import static com.google.gerrit.server.account.ExternalIds.readNoteMap;
 import static com.google.gerrit.server.account.ExternalIds.readRevision;

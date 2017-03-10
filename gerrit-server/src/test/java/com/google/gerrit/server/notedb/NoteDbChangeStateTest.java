@@ -17,10 +17,10 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.common.TimeUtil.nowTs;
-import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.NOTE_DB;
-import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.applyDelta;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.parse;
+import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.NOTE_DB;
+import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
 import static org.eclipse.jgit.lib.ObjectId.zeroId;
 
 import com.google.common.collect.ImmutableMap;

@@ -212,6 +212,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(authModule);
     install(AccountByEmailCacheImpl.module());
     install(AccountCacheImpl.module());
+    install(BatchUpdate.module());
     install(ChangeKindCacheImpl.module());
     install(ConflictsCacheImpl.module());
     install(GroupCacheImpl.module());
@@ -239,7 +240,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(AddReviewerSender.Factory.class);
     factory(DeleteReviewerSender.Factory.class);
     factory(AddKeySender.Factory.class);
-    factory(BatchUpdate.Factory.class);
     factory(CapabilityCollection.Factory.class);
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);

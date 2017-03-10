@@ -163,6 +163,29 @@
     },
     {
       "key": {
+        "uuid": "d046eb7f_4acdb81d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-10T09:16:07Z",
+      "side": 1,
+      "message": "As we just discussed, we should document for the range. And also it\u0027s good to have a comment here for using \"\u003c\" as the \u0027EndCharacter\u0027 is exclusive.",
+      "range": {
+        "startLine": 651,
+        "startChar": 73,
+        "endLine": 651,
+        "endChar": 74
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1ba36f5_6905a377",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 2

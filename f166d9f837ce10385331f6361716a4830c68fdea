@@ -16,6 +16,24 @@
       "revId": "f166d9f837ce10385331f6361716a4830c68fdea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "124c4e21_b7f760c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1102,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-10T15:07:14Z",
+      "side": 1,
+      "message": "Yeah. I think it will not throw IAE anymore. Same below.",
+      "parentUuid": "1a0db3dc_dca449dd",
+      "revId": "f166d9f837ce10385331f6361716a4830c68fdea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

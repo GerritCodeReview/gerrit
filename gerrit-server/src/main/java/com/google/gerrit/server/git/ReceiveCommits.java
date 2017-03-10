@@ -115,7 +115,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;

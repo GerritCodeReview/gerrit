@@ -50,7 +50,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;

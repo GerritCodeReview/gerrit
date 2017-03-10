@@ -1309,7 +1309,7 @@ public Object apply(RevisionResource rcrs, Input in) {
       db, project.getNameKey(), user, TimeUtil.nowTs())) {
     bu.addOp(change.getId(), new BatchUpdate.Op() {
       @Override
-      public boolean updateChange(BatchUpdate.ChangeContext ctx) {
+      public boolean updateChange(ChangeContext ctx) {
         return true;
       }
     });

@@ -47,6 +47,8 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -221,7 +223,7 @@ public class MailProcessor {
     }
 
     @Override
-    public boolean updateChange(BatchUpdate.ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx)
         throws OrmException, UnprocessableEntityException {
       changeControl = ctx.getControl();
       patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
@@ -296,7 +298,7 @@ public class MailProcessor {
     }
 
     @Override
-    public void postUpdate(BatchUpdate.Context ctx) throws Exception {
+    public void postUpdate(Context ctx) throws Exception {
       String patchSetComment = null;
       if (parsedComments.get(0).type == MailComment.CommentType.CHANGE_MESSAGE) {
         patchSetComment = parsedComments.get(0).message;

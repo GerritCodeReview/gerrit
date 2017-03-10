@@ -26,6 +26,7 @@ import com.google.gerrit.server.change.DeleteChange.Input;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.Order;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -61,7 +62,7 @@ public class DeleteChange
     try (BatchUpdate bu =
         updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Change.Id id = rsrc.getChange().getId();
-      bu.setOrder(BatchUpdate.Order.DB_BEFORE_REPO);
+      bu.setOrder(Order.DB_BEFORE_REPO);
       bu.addOp(id, opProvider.get());
       bu.execute();
     }

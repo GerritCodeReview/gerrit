@@ -462,7 +462,7 @@ public class MergeOp implements AutoCloseable {
     try {
       List<SubmitStrategy> strategies = getSubmitStrategies(toSubmit, submoduleOp, dryrun);
       this.allProjects = submoduleOp.getProjectsInOrder();
-      BatchUpdate.execute(
+      batchUpdateFactory.execute(
           orm.batchUpdates(allProjects),
           new SubmitStrategyListener(submitInput, strategies, commitStatus),
           submissionId,

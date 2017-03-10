@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ac8f83ae_f1fcd1ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-10T07:31:10Z",
+      "side": 1,
+      "message": "Fair enough, but I didn\u0027t intend to get into a discussion about the pros and cons of POST, PUT and DELETE.\n\nI\u0027m not too bothered about which way we do it, I just think we should be consistent for both. I don\u0027t really like that we have two flags (private and wip) that are essentially the same thing -- basically just booleans that get flipped -- but different REST implementations.",
+      "parentUuid": "12508e9d_a68cd161",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 59
+      },
+      "revId": "adf7f9ef03033a27ced0c4ff1580f9ef55f77457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e0ef569_1755362c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetReadyForReview.java",
         "patchSetId": 2

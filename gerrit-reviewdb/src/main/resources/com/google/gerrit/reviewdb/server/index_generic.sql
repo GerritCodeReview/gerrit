@@ -6,7 +6,7 @@
 
 -- *********************************************************************
 -- AccountAccess
---    covers:             byPreferredEmail, suggestByPreferredEmail
+--    covers:             suggestByPreferredEmail
 CREATE INDEX accounts_byPreferredEmail
 ON accounts (preferred_email);
 

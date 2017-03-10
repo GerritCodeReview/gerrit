@@ -16,7 +16,9 @@ package com.google.gerrit.httpd.auth.become;
 
 import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.account.ExternalId.SCHEME_UUID;
+import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HtmlDomUtil;
@@ -25,6 +27,7 @@ import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
@@ -43,6 +46,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -59,6 +63,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   private final AccountManager accountManager;
   private final SiteHeaderFooter headers;
   private final InternalAccountQuery accountQuery;
+  private final AccountCache accountCache;
 
   @Inject
   BecomeAnyAccountLoginServlet(
@@ -66,12 +71,14 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
       SchemaFactory<ReviewDb> sf,
       AccountManager am,
       SiteHeaderFooter shf,
-      InternalAccountQuery aq) {
+      InternalAccountQuery aq,
+      AccountCache ac) {
     webSession = ws;
     schema = sf;
     accountManager = am;
     headers = shf;
     accountQuery = aq;
+    accountCache = ac;
   }
 
   @Override
@@ -206,13 +213,9 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   }
 
   private AuthResult byPreferredEmail(final String email) {
-    try (ReviewDb db = schema.open()) {
-      List<Account> matches = db.accounts().byPreferredEmail(email).toList();
-      return matches.size() == 1 ? auth(matches.get(0)) : null;
-    } catch (OrmException e) {
-      getServletContext().log("cannot query database", e);
-      return null;
-    }
+    Set<Account> matches =
+        accountCache.getByPreferredEmail(email).stream().map(a -> a.getAccount()).collect(toSet());
+    return matches.size() == 1 ? auth(Iterables.getOnlyElement(matches)) : null;
   }
 
   private AuthResult byAccountId(final String idStr) {

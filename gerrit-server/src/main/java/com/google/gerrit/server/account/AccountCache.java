@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.Account;
 import java.io.IOException;
+import java.util.Set;
 
 /** Caches important (but small) account state to avoid database hits. */
 public interface AccountCache {
@@ -24,6 +25,8 @@ public interface AccountCache {
   AccountState getIfPresent(Account.Id accountId);
 
   AccountState getByUsername(String username);
+
+  Set<AccountState> getByPreferredEmail(String preferredEmail);
 
   void evict(Account.Id accountId) throws IOException;
 

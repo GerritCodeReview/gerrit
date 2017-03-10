@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a0db3dc_dca449dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:44:30Z",
+      "side": 1,
+      "message": "How can this happen? I don\u0027t see a way for the CommitPredicate constructor to throw IAE",
+      "revId": "f166d9f837ce10385331f6361716a4830c68fdea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

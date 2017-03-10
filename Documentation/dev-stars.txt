@@ -55,9 +55,9 @@ Since changes can only be ignored once they are created, users that
 watch a project will always get the email notifications for the change
 creation. Only then the change can be ignored.
 
-Users that are added as reviewer to a change that they have ignored
-will be notified about this, so that they know about the review
-request. They can the decide to remove the ignore star.
+Users that are added as reviewer or assignee to a change that they have
+ignored will be notified about this, so that they know about the review
+request. They can then decide to remove the ignore star.
 
 The ignore star is represented by the special star label 'ignore'.
 

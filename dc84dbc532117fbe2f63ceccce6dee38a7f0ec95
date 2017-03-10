@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1489166455 -0500\nnonce AIcUUg/JLu8dxsMUlBZBORDMsBUioL/2SefyFtbMh+/JptvtCzsbKaKYYPxfdE+ZrSgrba5KzV3r\n\n0000000000000000000000000000000000000000 dc84dbc532117fbe2f63ceccce6dee38a7f0ec95 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYwuB3AAoJEF/XxZqaEoiMUm0P/ik7nW8UnZcIygFuUgMDrtyp\nVyXFTWsAjO9DFFng7z6qecsXYNcUcbqd+VkTbWCpghFXU7PvQgxBTGmypPVWZXP9\nzlOf+zVvia25efMowRXBJgaIpXO/UA9wniB+hCrsG4Ph5SETL4+fFfMuFAP7Vc/U\n24pEIGL376g0roRaXUykLq5jm1PWGoFvTVBb/IdYt5lkF16S8YLy6Ej785h98MEB\nRqqiH3WvRzcu0B7cINw/a7EDovi/dP158H6sncW80um3EEBXXAsFOP9RTZ1TYTJq\nQ98lMzb6AR+LNm5F1KE+Dct7BI6ONgKvoC4ckkMrpzeh6kpPXNUP22WjvrKwK0Ou\n2kvNplApIO3l0akx/bw8Aq36N8dsKJ/mjETKh/xn00OzQ+6nFyuNAsOT1YG4tutr\nvGe6xeju+xUUfNxwBnDUvsTqEhGVXgOBBc80uLFN4OhJX1u+3I87jNTDPzozm7zI\nheWeHJWibd49Pw5sJwX9s6k6SM6hvdIRu8P3stFn75psQrhhDXVOjyAztyZzpTy/\nn/sKyrJqeMUBcY/4uK4YAKFvOBh3KU5EGjeW49J/mn+c2aprBGnC428/lh8a0muv\nvDaD9bOaSqnvDn60ddAl5Fj40q7wc3M0C35QT4JvVL9hnTIzvcRFet9LvZoFEPE8\nIce5uO3scBlspz28f3g3\n\u003dkBc5\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "58212b33_ca3b5c4a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/index/SchemaUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-10T20:17:28Z",
+      "side": 1,
+      "message": "//lib:truth-java8-extension is missing in gerrit-server/BUILD.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 56
+      },
+      "revId": "dc84dbc532117fbe2f63ceccce6dee38a7f0ec95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

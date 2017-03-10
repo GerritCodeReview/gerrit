@@ -115,6 +115,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
@@ -2187,7 +2188,7 @@ public class ReceiveCommits {
         if (!Strings.isNullOrEmpty(magicBranch.topic)) {
           bu.addOp(
               changeId,
-              new BatchUpdate.Op() {
+              new BatchUpdateOp() {
                 @Override
                 public boolean updateChange(ChangeContext ctx) {
                   ctx.getUpdate(psId).setTopic(magicBranch.topic);
@@ -2197,7 +2198,7 @@ public class ReceiveCommits {
         }
         bu.addOp(
             changeId,
-            new BatchUpdate.Op() {
+            new BatchUpdateOp() {
               @Override
               public boolean updateChange(ChangeContext ctx) {
                 change = ctx.getChange();
@@ -2504,7 +2505,7 @@ public class ReceiveCommits {
       if (magicBranch != null && magicBranch.edit) {
         bu.addOp(
             notes.getChangeId(),
-            new BatchUpdate.Op() {
+            new BatchUpdateOp() {
               @Override
               public boolean updateChange(ChangeContext ctx) throws Exception {
                 // return pseudo dirty state to trigger reindexing
@@ -2571,7 +2572,7 @@ public class ReceiveCommits {
     private void addOps(BatchUpdate bu) {
       bu.addOp(
           psId.getParentKey(),
-          new BatchUpdate.Op() {
+          new BatchUpdateOp() {
             @Override
             public boolean updateChange(ChangeContext ctx) throws OrmException {
               PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);

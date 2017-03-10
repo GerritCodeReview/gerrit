@@ -57,9 +57,9 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
-import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.InsertChangeOp;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.OrmException;
@@ -80,7 +80,7 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ChangeInserter extends BatchUpdate.InsertChangeOp {
+public class ChangeInserter implements InsertChangeOp {
   public interface Factory {
     ChangeInserter create(Change.Id cid, RevCommit rc, String refName);
   }

@@ -78,6 +78,7 @@ import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -455,7 +456,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
             db, project, identifiedUserFactory.create(user.getId()), TimeUtil.nowTs())) {
       bu.addOp(
           id,
-          new BatchUpdate.Op() {
+          new BatchUpdateOp() {
             @Override
             public boolean updateChange(ChangeContext ctx) throws OrmException {
               PatchSet.Id psId = ctx.getChange().currentPatchSetId();
@@ -1147,7 +1148,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
             db, project, identifiedUserFactory.create(user.getId()), TimeUtil.nowTs())) {
       bu.addOp(
           id,
-          new BatchUpdate.Op() {
+          new BatchUpdateOp() {
             @Override
             public boolean updateChange(ChangeContext ctx)
                 throws PatchSetInfoNotAvailableException {

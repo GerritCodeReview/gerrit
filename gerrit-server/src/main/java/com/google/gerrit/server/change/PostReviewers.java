@@ -59,6 +59,7 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.UpdateException;
@@ -359,7 +360,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     }
   }
 
-  public class Op extends BatchUpdate.Op {
+  public class Op implements BatchUpdateOp {
     final Map<Account.Id, ChangeControl> reviewers;
     final ReviewerState state;
     final NotifyHandling notify;

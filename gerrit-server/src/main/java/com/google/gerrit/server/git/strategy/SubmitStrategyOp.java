@@ -46,7 +46,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.SubmoduleException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
@@ -68,7 +68,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-abstract class SubmitStrategyOp extends BatchUpdate.Op {
+abstract class SubmitStrategyOp implements BatchUpdateOp {
   private static final Logger log = LoggerFactory.getLogger(SubmitStrategyOp.class);
 
   protected final SubmitStrategy.Arguments args;

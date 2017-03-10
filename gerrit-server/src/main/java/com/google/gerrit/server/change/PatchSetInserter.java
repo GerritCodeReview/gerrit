@@ -45,7 +45,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
-import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
@@ -61,7 +61,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PatchSetInserter extends BatchUpdate.Op {
+public class PatchSetInserter implements BatchUpdateOp {
   private static final Logger log = LoggerFactory.getLogger(PatchSetInserter.class);
 
   public interface Factory {

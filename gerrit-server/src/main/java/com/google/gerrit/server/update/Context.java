@@ -40,7 +40,7 @@ public interface Context {
    * Get an open repository instance for this project.
    *
    * <p>Will be opened lazily if necessary; callers should not close the repo. In some phases of the
-   * update, the repository might be read-only; see {@link BatchUpdate.Op} for details.
+   * update, the repository might be read-only; see {@link BatchUpdateOp} for details.
    *
    * @return repository instance.
    * @throws IOException if an error occurred opening the repo.

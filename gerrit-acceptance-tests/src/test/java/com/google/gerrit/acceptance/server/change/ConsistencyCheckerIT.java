@@ -50,6 +50,7 @@ import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
@@ -360,7 +361,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     try (BatchUpdate bu = newUpdate(adminId)) {
       bu.addOp(
           ctl.getId(),
-          new BatchUpdate.Op() {
+          new BatchUpdateOp() {
             @Override
             public boolean updateChange(ChangeContext ctx) throws OrmException {
               ctx.getChange().setStatus(Change.Status.MERGED);
@@ -916,7 +917,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     try (BatchUpdate bu = newUpdate(adminId)) {
       bu.addOp(
           ctl.getId(),
-          new BatchUpdate.Op() {
+          new BatchUpdateOp() {
             @Override
             public void updateRepo(RepoContext ctx) throws IOException {
               ctx.addRefUpdate(new ReceiveCommand(oldId, newId, dest));

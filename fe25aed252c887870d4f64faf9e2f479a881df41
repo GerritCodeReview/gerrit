@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f685b565_73fb5330",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:42:07Z",
+      "side": 1,
+      "message": "There shouldn\u0027t be a newline before this, which tells me you forgot to run this file through google-java-format :)",
+      "revId": "fe25aed252c887870d4f64faf9e2f479a881df41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

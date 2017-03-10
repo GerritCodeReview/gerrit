@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "31baceb2_7451f751",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:42:07Z",
+      "side": 1,
+      "message": "It looks like that caniuse link is about \u003clink rel\u003d\"preload\"\u003e, not the HTTP header. Is the header supported by a different set of browsers?\n\nAnyway, I\u0027m still not 100% convinced we need a flag for this, but you are absolutely right it is safest, and you already wrote the code, so it\u0027s not like it\u0027s wasting anybody\u0027s time at this point. We can leave it.",
+      "parentUuid": "86a7fc5c_f24a50af",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e3ea5c9_acc4b9c3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "\u003e Can you explain briefly in the commit message why you\u0027re using a different mechanism here?\n\nMakes sense, done.\n\n\nFonts are preloaded, but not all .js files (webcomponents-lite, for example, and other Polymer dependencies). \n\nIn any case, the point was that this gives signal to browser for what should be loaded so it can be prioritized/preloaded.\n\n\u003e would it make sense to have JS/fonts preload using headers instead?\n\nI think yes, to keep all preloading logic in one place to make maintenance easier.\nHowever, I\u0027d prefer to roll out a small set of headers initially and experiment with determining the right amount in follow-up releases.",
       "parentUuid": "8e3ea5c9_acc4b9c3",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 33
+      },
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab6fc22a_ecc3ffbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:42:07Z",
+      "side": 1,
+      "message": "Ack, we can consider that for later cleanup.",
+      "parentUuid": "c30164fe_5bf343a3",
       "range": {
         "startLine": 14,
         "startChar": 20,
@@ -207,6 +255,24 @@
     },
     {
       "key": {
+        "uuid": "82ce5036_33735137",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:42:07Z",
+      "side": 1,
+      "message": "\u003e I can imagine situation when preloading all REST APIs chokes the browser and in fact increases user-perceived latency (time to first draw).\n\nReally good point. I look forward to seeing numbers on this :)",
+      "parentUuid": "8d866265_c1ea571d",
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36f19e16_379ce689",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
         "patchSetId": 3
@@ -221,6 +287,24 @@
       "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80ffccad_28170b6b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36f19e16_379ce689",
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -1,0 +1,512 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfdc391e_30d17e21",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 4170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "Please mention here that the contents of the comment will be replaced and not simply deleted. This is clear from reading the DeleteCommentInput documentation, but IMO it should be mentioned here as well.",
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d6d8168_d4c79ad5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CommentApi.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "This implementation detail only applies to NoteDb, please say so.",
+      "range": {
+        "startLine": 25,
+        "startChar": 46,
+        "endLine": 25,
+        "endChar": 77
+      },
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29893616_bcc7ad94",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CommentApi.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "Nit: \u003cp\u003e after first sentence",
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a48969d6_e21b346c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "Many users do not have usernames.\n\nExtract a method to get the name. It needs some logic like:\n\n if (user.isInternalUser()) {\n   return serverIdent.getName();\n } else if (user.isIdentifiedUser()) {\n   return user.asIdentifiedUser().getAccount().getName(anonymousCowardName);\n } else {\n  // either throw IAE or come up with some other string\n }\n\n...Actually, having read through your update code, it looks like you are assuming the user is an identified user. That\u0027s fine (we do it in many places), and it simplifies this code so you can just do .asIdentifiedUser().getAccount().getName",
+      "range": {
+        "startLine": 88,
+        "startChar": 40,
+        "endLine": 88,
+        "endChar": 51
+      },
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87424357_7b9150ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "Use commitChangeWrites instead.",
+      "range": {
+        "startLine": 98,
+        "startChar": 23,
+        "endLine": 98,
+        "endChar": 35
+      },
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75a271b5_357734fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "You need to ignore exceptions from this method. Normally BatchUpdate does this for you (BatchUpdate.java:1025), but since you\u0027re going outside BatchUpdate, you need to replicate that logic.",
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c7f1e84_e2c48d72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "This all needs to be in a transaction or AtomicUpdate. You also need to update the state in the same transaction, see my comments below.",
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb706383_b153c8f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "Don\u0027t reread the ref here, it might be a different value from what cd.notes() read a few lines up. Just use cd.notes().getRevision()",
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "851a9664_5e6ba426",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "Nit: unnecessary parens",
+      "range": {
+        "startLine": 143,
+        "startChar": 71,
+        "endLine": 143,
+        "endChar": 86
+      },
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "977cd42e_39c49185",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "Don\u0027t do this in a separate update. For auto-rebuilding to work properly, you must do operations in this order:\n\n* stage NoteDb update, get new NoteDbChangeState\n* in a single ReviewDb transaction, update the change data and set the new NoteDbChangeState\n* commit ReviewDb transaction\n* execute NoteDb update, ignoring errors\n\nThis is subtle and difficult to do correctly. That\u0027s why the goal of BatchUpdate is for there to be exactly one place where we implement this logic.",
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83f7e01d_e3de0ce1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "This should probably be an OrmException or some other checked type, rather than ISE",
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a05e6a1f_5bbc25d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "See above, don\u0027t use ISE",
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc5c52fe_a4639589",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "\"the comment\" makes it sound like there is only one.\n\nIt would also be good to say what the keys in the map are, i.e. UUIDs",
+      "range": {
+        "startLine": 133,
+        "startChar": 9,
+        "endLine": 133,
+        "endChar": 20
+      },
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6681a029_cd6c7922",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "This does a lot of unnecessary work. ChangeNotesParser#parseAll walks the entire commit history, because much of the data is stored in commit messages. Doing that for every commit in history is O(N^2) work.\n\nHowever, comments are special, because you don\u0027t need to walk any history: all the data is present in the tree. So basically, instead of using ChangeNotesParser, use RevisionNoteMap.parse.",
+      "range": {
+        "startLine": 149,
+        "startChar": 67,
+        "endLine": 149,
+        "endChar": 77
+      },
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc13a09e_c85c4b66",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "Nit: per the style guide, this should be targetUuid",
+      "range": {
+        "startLine": 167,
+        "startChar": 50,
+        "endLine": 167,
+        "endChar": 60
+      },
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81d32856_1d14d801",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "Prepending to an ArrayList in a loop is O(N^2). Instead of doing this, do walk.sort(RevSort.REVERSE) before starting the walk, then the commits will come out in the same order you want to return them.",
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "722f3a54_de479792",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "What does \"redo\" mean in this case? It would be easier to follow the implementation as a reader if there were a comment describing the high-level approach",
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "040ab420_f35e5abb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "Nit: targetUuid",
+      "range": {
+        "startLine": 204,
+        "startChar": 13,
+        "endLine": 204,
+        "endChar": 23
+      },
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c92ca36_b80b4379",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "Nit: Gerrit convention for for loops is i++",
+      "range": {
+        "startLine": 211,
+        "startChar": 43,
+        "endLine": 211,
+        "endChar": 46
+      },
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c2f4ed_5e7d1dd3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "Currently, I don\u0027t think we want to replace the committer.\n\nChangeNotesParser#parseIdent assumes that the committer ident is always the server ident. Making it so that it is usually the server ident but sometimes the ident of the user who deleted a comment will break that assumption.\n\nI see where you\u0027re coming from, we want to somehow record the user who removed the comment. IMO, having it in the new message text is enough.\n\n(I think in the long term we will probably want to relax the requirement that the committer ident is always the server ident, but that is more work than we want to tackle in this change.)",
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2782d79_9a712399",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "Generally we try very hard to do at most one ObjectInserter flush per user operation. These are very slow operations on our googlesource.com infrastructure--at least 10-100ms each. It\u0027s fast if you\u0027re only doing one, but here it looks like you are calling it in an inner loop once per commit in the history. It should be called exactly once, immediately before updating the ref.",
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "608d863b_5915b71b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "targetUuid",
+      "range": {
+        "startLine": 316,
+        "startChar": 13,
+        "endLine": 316,
+        "endChar": 23
+      },
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1523873b_80d6106f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "See my comments in the REST API handler. If you update the ref directly here, then auto-rebuilding doesn\u0027t work.",
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9380df7_ab9db48b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "Does this need to be public? It very much feels like an implementation detail of this class.",
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7810c403_f3ea771f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "These should be final",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 369,
+        "endChar": 44
+      },
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b3a73f0_285260e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T14:30:08Z",
+      "side": 1,
+      "message": "Don\u0027t make this public, you should use commitChangeWrites instead",
+      "revId": "a9f619cd3f544cd75f7478b4e277e2e8166c55e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

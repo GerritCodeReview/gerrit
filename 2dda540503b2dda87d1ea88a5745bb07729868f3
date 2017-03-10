@@ -35,6 +35,23 @@
       "revId": "2dda540503b2dda87d1ea88a5745bb07729868f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee171e50_23104860",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-10T21:18:49Z",
+      "side": 1,
+      "message": "[Optional] Mention, that at the time of the writing there is a mismatch between import order implementation of Eclipse and gjf. I patched gjf, and added an option to sort with Eclipse container first style: [1], that wasn\u0027t apparently accepted upstream. Moreover, I filed this issue for Eclipse project to expose an option to sort imports with gjf\u0027s pure ASCII order style, that wasn\u0027t answered until now: [2].\n\n* [1] https://github.com/google/google-java-format/pull/126\n* [2] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d512733",
+      "revId": "2dda540503b2dda87d1ea88a5745bb07729868f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

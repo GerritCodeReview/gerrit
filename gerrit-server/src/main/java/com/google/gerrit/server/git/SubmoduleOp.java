@@ -98,6 +98,7 @@ public class SubmoduleOp {
   private final PersonIdent myIdent;
   private final ProjectCache projectCache;
   private final ProjectState.Factory projectStateFactory;
+  private final BatchUpdate.Factory batchUpdateFactory;
   private final VerboseSuperprojectUpdate verboseSuperProject;
   private final boolean enableSuperProjectSubscriptions;
   private final MergeOpRepoManager orm;
@@ -123,6 +124,7 @@ public class SubmoduleOp {
       @GerritServerConfig Config cfg,
       ProjectCache projectCache,
       ProjectState.Factory projectStateFactory,
+      BatchUpdate.Factory batchUpdateFactory,
       @Assisted Set<Branch.NameKey> updatedBranches,
       @Assisted MergeOpRepoManager orm)
       throws SubmoduleException {
@@ -130,6 +132,7 @@ public class SubmoduleOp {
     this.myIdent = myIdent;
     this.projectCache = projectCache;
     this.projectStateFactory = projectStateFactory;
+    this.batchUpdateFactory = batchUpdateFactory;
     this.verboseSuperProject =
         cfg.getEnum("submodule", null, "verboseSuperprojectUpdate", VerboseSuperprojectUpdate.TRUE);
     this.enableSuperProjectSubscriptions =
@@ -338,7 +341,7 @@ public class SubmoduleOp {
           }
         }
       }
-      BatchUpdate.execute(
+      batchUpdateFactory.execute(
           orm.batchUpdates(superProjects), BatchUpdateListener.NONE, orm.getSubmissionId(), false);
     } catch (RestApiException | UpdateException | IOException | NoSuchProjectException e) {
       throw new SubmoduleException("Cannot update gitlinks", e);

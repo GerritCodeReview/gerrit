@@ -100,6 +100,7 @@ public class BatchProgramModule extends FactoryModule {
     install(reviewDbModule);
     install(new DiffExecutorModule());
     install(new ReceiveCommitsExecutorModule());
+    install(BatchUpdate.module());
     install(PatchListCacheImpl.module());
 
     // Plugins are not loaded and we're just running through each change
@@ -123,7 +124,6 @@ public class BatchProgramModule extends FactoryModule {
     bind(ReplacePatchSetSender.Factory.class)
         .toProvider(Providers.<ReplacePatchSetSender.Factory>of(null));
     bind(CurrentUser.class).to(IdentifiedUser.class);
-    factory(BatchUpdate.Factory.class);
     factory(MergeUtil.Factory.class);
     factory(PatchSetInserter.Factory.class);
     factory(RebaseChangeOp.Factory.class);

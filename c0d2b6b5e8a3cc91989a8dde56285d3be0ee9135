@@ -39,6 +39,41 @@
       "revId": "c0d2b6b5e8a3cc91989a8dde56285d3be0ee9135",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9469d23_584c6e40",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-10T00:49:07Z",
+      "side": 1,
+      "message": "I expect that\u0027s just so Polymer recomputes it on an additional trigger.",
+      "parentUuid": "8f341d62_5ee1c8fc",
+      "revId": "c0d2b6b5e8a3cc91989a8dde56285d3be0ee9135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b510c349_ce606b3d",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-10T00:49:07Z",
+      "side": 1,
+      "message": "Can we add a test that encodes the sequence of interactions described in the bug?",
+      "revId": "c0d2b6b5e8a3cc91989a8dde56285d3be0ee9135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

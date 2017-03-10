@@ -188,6 +188,12 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     for (Values<V> values : schema.buildFields(v, fillArgs)) {
       String name = values.getField().getName();
       if (values.getField().isRepeatable()) {
+        // Pass an Iterable as the sole varargs parameter to
+        //   XContentBuilder#array(String, Object...)
+        // This results in all repeated fields being arrays-of-arrays where the outer array contains
+        // exactly one element. This is most likely not what was originally intended, but Java
+        // varargs method resolution is sometimes non-obvious. Safest to keep it this way to avoid
+        // requiring a rebuild of existing indexes.
         builder.array(name, values.getValues());
       } else {
         Object element = Iterables.getOnlyElement(values.getValues(), "");

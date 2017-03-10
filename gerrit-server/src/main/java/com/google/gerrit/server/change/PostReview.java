@@ -246,7 +246,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     try (BatchUpdate bu =
         batchUpdateFactory.create(
             db.get(), revision.getChange().getProject(), revision.getUser(), ts)) {
-      Account.Id id = bu.getUser().getAccountId();
+      Account.Id id = revision.getUser().getAccountId();
       boolean ccOrReviewer = false;
       if (input.labels != null && !input.labels.isEmpty()) {
         ccOrReviewer = input.labels.values().stream().filter(v -> v != 0).findFirst().isPresent();
@@ -286,7 +286,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         // User posting this review isn't currently in the reviewer or CC list,
         // isn't being explicitly added, and isn't voting on any label.
         // Automatically CC them on this change so they receive replies.
-        PostReviewers.Addition selfAddition = postReviewers.ccCurrentUser(bu.getUser(), revision);
+        PostReviewers.Addition selfAddition =
+            postReviewers.ccCurrentUser(revision.getUser(), revision);
         bu.addOp(revision.getChange().getId(), selfAddition.op);
       }
 

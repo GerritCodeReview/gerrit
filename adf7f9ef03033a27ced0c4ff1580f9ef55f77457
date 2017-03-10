@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc2bb277_6452b53a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-10T04:46:39Z",
+      "side": 1,
+      "message": "What about doing this in the same way as above with private?  I.e. put wip and delete wip?",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 59
+      },
+      "revId": "adf7f9ef03033a27ced0c4ff1580f9ef55f77457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e0ef569_1755362c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetReadyForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-10T04:46:39Z",
+      "side": 1,
+      "message": "I feel like there is a lot of duplicated code here between SetReadyForReview and SetWorkInProgress, for what is basically just flipping a boolean flag.",
+      "revId": "adf7f9ef03033a27ced0c4ff1580f9ef55f77457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a849a0d6_c215ccee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetReadyForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-10T04:46:39Z",
+      "side": 1,
+      "message": "optional: Add \"isNew()\" method on the Change class?",
+      "range": {
+        "startLine": 54,
+        "startChar": 8,
+        "endLine": 54,
+        "endChar": 40
+      },
+      "revId": "adf7f9ef03033a27ced0c4ff1580f9ef55f77457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

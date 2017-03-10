@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5d288c4_b30ff90e",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-10T04:48:28Z",
+      "side": 1,
+      "message": "isWorkInProgress?\n\nOr can we invert the logic and call it isReadyForReview?",
+      "range": {
+        "startLine": 502,
+        "startChar": 20,
+        "endLine": 502,
+        "endChar": 23
+      },
+      "revId": "6fb011228815eb9de1f860b1e29a58b8d1feaf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

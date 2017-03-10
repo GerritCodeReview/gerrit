@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fd9dd33_8c341748",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-10T00:41:00Z",
+      "side": 1,
+      "message": "It\u0027s \"its\", not \"it\u0027s\", here.",
+      "range": {
+        "startLine": 16,
+        "startChar": 5,
+        "endLine": 16,
+        "endChar": 9
+      },
+      "revId": "c0d2b6b5e8a3cc91989a8dde56285d3be0ee9135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f341d62_5ee1c8fc",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-10T00:41:00Z",
+      "side": 1,
+      "message": "This and similar changes in this file move _visibleMessages.length to a new, 4th parameter, but none of these methods do anything with a 4th parameter. Is there a reason?",
+      "revId": "c0d2b6b5e8a3cc91989a8dde56285d3be0ee9135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

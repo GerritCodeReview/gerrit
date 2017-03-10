@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a60a1f40_cbe9a150",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-10T09:20:28Z",
+      "side": 1,
+      "message": "nit: compute?",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "77c7ecc5_1bf68600",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -45,6 +68,53 @@
       "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad478dd1_ebef3ff1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4274,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-10T09:20:28Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "54cb9cfe_da99a78a",
+      "range": {
+        "startLine": 4274,
+        "startChar": 52,
+        "endLine": 4274,
+        "endChar": 66
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cd86979_51d3acbc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4274,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-10T09:20:28Z",
+      "side": 1,
+      "message": "Most of the docs use: `\"sshkeys\"` (switch \" and `). For an example, see: config-gerrit.txt. Is there a reason why you invert this?",
+      "range": {
+        "startLine": 4274,
+        "startChar": 50,
+        "endLine": 4274,
+        "endChar": 68
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {
@@ -146,6 +216,29 @@
     },
     {
       "key": {
+        "uuid": "72841b64_c8d3835c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-10T09:20:28Z",
+      "side": 1,
+      "message": "Any chance you can reuse this from the extension API or put in in a common place?",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 54
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "203ceb45_11733f72",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
         "patchSetId": 2
@@ -203,6 +296,29 @@
     },
     {
       "key": {
+        "uuid": "bf0de856_5033350e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-10T09:20:28Z",
+      "side": 1,
+      "message": "{@code PatchSet}",
+      "range": {
+        "startLine": 333,
+        "startChar": 25,
+        "endLine": 333,
+        "endChar": 34
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dea2f575_2c148b8d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
         "patchSetId": 2
@@ -217,6 +333,98 @@
       "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "509bc98c_bd6a776b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/LineIdentifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-10T09:20:28Z",
+      "side": 1,
+      "message": "I think implementing this logic by yourself has the potential to be problematic.\n\nConsider files encoded in Unicode for instance. Unicode has a couple of more characters that they define as line ending characters [0, 1].\n\nI am not saying this needs to be changed, though. You have created a lot of tests for this class and it seems fine to me. We might just want to communicate in the docs then that fixes are only supported on files where line endings are determined by on of [ \\r\\n, \\n, \\r].\n\n[0] http://www.unicode.org/reports/tr14/tr14-32.html\n[1] https://en.wikipedia.org/wiki/Newline#Unicode",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 20
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e42882e8_402733ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/LineIdentifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-10T09:20:28Z",
+      "side": 1,
+      "message": "looks like you are not using the capture groups in your logic, so this can just be (\\r\\n|\\n|\\r)",
+      "range": {
+        "startLine": 30,
+        "startChar": 73,
+        "endLine": 30,
+        "endChar": 89
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05d8cdea_9447483e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/StringModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-10T09:20:28Z",
+      "side": 1,
+      "message": "capital R",
+      "range": {
+        "startLine": 21,
+        "startChar": 80,
+        "endLine": 21,
+        "endChar": 81
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75ef8469_01b93efc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/StringModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-10T09:20:28Z",
+      "side": 1,
+      "message": "I think it would be better to just record the replacements when this method is called (i.e. add them to a list) and compute the result when getResult() is called. This way you can just sort the list however you like and get rid of the limitation you mentioned in the JavaDoc.",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 73
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

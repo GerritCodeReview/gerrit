@@ -109,12 +109,14 @@ limitations under the License.
     });
 
     suite('account info edit', function() {
-      var accountChangedSpy;
+      var nameChangedSpy;
+      var statusChangedSpy;
       var nameStub;
       var statusStub;
 
       setup(function() {
-        accountChangedSpy = sandbox.spy(element, '_accountChanged');
+        nameChangedSpy = sandbox.spy(element, '_nameChanged');
+        statusChangedSpy = sandbox.spy(element, '_statusChanged');
         element.set('_serverConfig',
           {auth: {editable_account_fields: ['FULL_NAME']}});
 
@@ -130,12 +132,14 @@ limitations under the License.
 
         element.set('_account.name', 'new name');
 
-        assert.isTrue(accountChangedSpy.called);
+        assert.isTrue(nameChangedSpy.called);
+        assert.isFalse(statusChangedSpy.called);
         assert.isTrue(element.hasUnsavedChanges);
 
         MockInteractions.pressAndReleaseKeyOn(element.$.nameInput, 13);
 
         assert.isTrue(nameStub.called);
+        assert.isFalse(statusStub.called);
         nameStub.lastCall.returnValue.then(function() {
           assert.equal(nameStub.lastCall.args[0], 'new name');
           done();
@@ -148,16 +152,17 @@ limitations under the License.
 
         element.set('_account.status', 'new status');
 
-        assert.isTrue(accountChangedSpy.called);
+        assert.isFalse(nameChangedSpy.called);
+        assert.isTrue(statusChangedSpy.called);
         assert.isTrue(element.hasUnsavedChanges);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.statusInput, 13);
-        flushAsynchronousOperations();
-
-        assert.isTrue(statusStub.called);
-        statusStub.lastCall.returnValue.then(function() {
-          assert.equal(statusStub.lastCall.args[0], 'new status');
-          done();
+        element.save().then(function() {
+          assert.isTrue(statusStub.called);
+          assert.isFalse(nameStub.called);
+          statusStub.lastCall.returnValue.then(function() {
+            assert.equal(statusStub.lastCall.args[0], 'new status');
+            done();
+          });
         });
       });
     });

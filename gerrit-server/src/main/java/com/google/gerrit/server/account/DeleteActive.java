@@ -25,12 +25,13 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.DeleteActive.Input;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
 @Singleton
@@ -52,18 +53,34 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
   @Override
   public Response<?> apply(AccountResource rsrc, Input input)
       throws RestApiException, OrmException, IOException {
-    Account a = dbProvider.get().accounts().get(rsrc.getUser().getAccountId());
-    if (a == null) {
-      throw new ResourceNotFoundException("account not found");
-    }
-    if (!a.isActive()) {
-      throw new ResourceConflictException("account not active");
-    }
     if (self.get() == rsrc.getUser()) {
       throw new ResourceConflictException("cannot deactivate own account");
     }
-    a.setActive(false);
-    dbProvider.get().accounts().update(Collections.singleton(a));
+
+    AtomicBoolean alreadyInactive = new AtomicBoolean(false);
+    Account a =
+        dbProvider
+            .get()
+            .accounts()
+            .atomicUpdate(
+                rsrc.getUser().getAccountId(),
+                new AtomicUpdate<Account>() {
+                  @Override
+                  public Account update(Account a) {
+                    if (!a.isActive()) {
+                      alreadyInactive.set(true);
+                    } else {
+                      a.setActive(false);
+                    }
+                    return a;
+                  }
+                });
+    if (a == null) {
+      throw new ResourceNotFoundException("account not found");
+    }
+    if (alreadyInactive.get()) {
+      throw new ResourceConflictException("account not active");
+    }
     byIdCache.evict(a.getId());
     return Response.none();
   }

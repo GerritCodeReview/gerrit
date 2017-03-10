@@ -27,12 +27,12 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutName.Input;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collections;
 
 @Singleton
 public class PutName implements RestModifyView<AccountResource, Input> {
@@ -77,12 +77,23 @@ public class PutName implements RestModifyView<AccountResource, Input> {
       throw new MethodNotAllowedException("realm does not allow editing name");
     }
 
-    Account a = dbProvider.get().accounts().get(user.getAccountId());
+    String newName = input.name;
+    Account a =
+        dbProvider
+            .get()
+            .accounts()
+            .atomicUpdate(
+                user.getAccountId(),
+                new AtomicUpdate<Account>() {
+                  @Override
+                  public Account update(Account a) {
+                    a.setFullName(newName);
+                    return a;
+                  }
+                });
     if (a == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    a.setFullName(input.name);
-    dbProvider.get().accounts().update(Collections.singleton(a));
     byIdCache.evict(a.getId());
     return Strings.isNullOrEmpty(a.getFullName())
         ? Response.<String>none()

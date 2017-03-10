@@ -23,12 +23,14 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutPreferred.Input;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Singleton
 public class PutPreferred implements RestModifyView<AccountResource.Email, Input> {
@@ -56,16 +58,29 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
 
   public Response<String> apply(IdentifiedUser user, String email)
       throws ResourceNotFoundException, OrmException, IOException {
-    Account a = dbProvider.get().accounts().get(user.getAccountId());
+    AtomicBoolean alreadyPreferred = new AtomicBoolean(false);
+    Account a =
+        dbProvider
+            .get()
+            .accounts()
+            .atomicUpdate(
+                user.getAccountId(),
+                new AtomicUpdate<Account>() {
+                  @Override
+                  public Account update(Account a) {
+                    if (email.equals(a.getPreferredEmail())) {
+                      alreadyPreferred.set(true);
+                    } else {
+                      a.setPreferredEmail(email);
+                    }
+                    return a;
+                  }
+                });
     if (a == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    if (email.equals(a.getPreferredEmail())) {
-      return Response.ok("");
-    }
-    a.setPreferredEmail(email);
     dbProvider.get().accounts().update(Collections.singleton(a));
     byIdCache.evict(a.getId());
-    return Response.created("");
+    return alreadyPreferred.get() ? Response.ok("") : Response.created("");
   }
 }

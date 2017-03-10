@@ -25,12 +25,12 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutStatus.Input;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collections;
 
 @Singleton
 public class PutStatus implements RestModifyView<AccountResource, Input> {
@@ -70,12 +70,23 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
       input = new Input();
     }
 
-    Account a = dbProvider.get().accounts().get(user.getAccountId());
+    String newStatus = input.status;
+    Account a =
+        dbProvider
+            .get()
+            .accounts()
+            .atomicUpdate(
+                user.getAccountId(),
+                new AtomicUpdate<Account>() {
+                  @Override
+                  public Account update(Account a) {
+                    a.setStatus(Strings.nullToEmpty(newStatus));
+                    return a;
+                  }
+                });
     if (a == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    a.setStatus(Strings.nullToEmpty(input.status));
-    dbProvider.get().accounts().update(Collections.singleton(a));
     byIdCache.evict(a.getId());
     return Strings.isNullOrEmpty(a.getStatus()) ? Response.none() : Response.ok(a.getStatus());
   }

@@ -30,7 +30,7 @@ import com.google.gerrit.server.extensions.events.ChangeAbandoned;
 import com.google.gerrit.server.mail.send.AbandonedSender;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gwtorm.server.OrmException;
@@ -39,7 +39,7 @@ import com.google.inject.assistedinject.AssistedInject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AbandonOp extends BatchUpdate.Op {
+public class AbandonOp implements BatchUpdateOp {
   private static final Logger log = LoggerFactory.getLogger(AbandonOp.class);
 
   private final AbandonedSender.Factory abandonedSenderFactory;

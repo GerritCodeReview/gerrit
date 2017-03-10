@@ -18,7 +18,7 @@ import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-/** Context for performing the {@link BatchUpdate.Op#updateRepo} phase. */
+/** Context for performing the {@link BatchUpdateOp#updateRepo} phase. */
 public interface RepoContext extends Context {
   /**
    * @return inserter for writing to the repo. Callers should not flush; the walk returned by {@link

@@ -29,7 +29,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateReviewDb;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Order;
@@ -47,7 +47,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-class DeleteChangeOp extends BatchUpdate.Op {
+class DeleteChangeOp implements BatchUpdateOp {
   static boolean allowDrafts(Config cfg) {
     return cfg.getBoolean("change", "allowDrafts", true);
   }

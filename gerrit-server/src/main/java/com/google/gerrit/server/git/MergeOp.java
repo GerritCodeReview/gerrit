@@ -64,6 +64,7 @@ import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.RequestId;
@@ -749,7 +750,7 @@ public class MergeOp implements AutoCloseable {
           bu.setRequestId(submissionId);
           bu.addOp(
               cd.getId(),
-              new BatchUpdate.Op() {
+              new BatchUpdateOp() {
                 @Override
                 public boolean updateChange(ChangeContext ctx) throws OrmException {
                   Change change = ctx.getChange();

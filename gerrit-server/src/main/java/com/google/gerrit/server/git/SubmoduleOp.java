@@ -31,8 +31,9 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdate.Listener;
+import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -70,7 +71,7 @@ import org.slf4j.LoggerFactory;
 public class SubmoduleOp {
 
   /** Only used for branches without code review changes */
-  public class GitlinkOp extends BatchUpdate.RepoOnlyOp {
+  public class GitlinkOp implements RepoOnlyOp {
     private final Branch.NameKey branch;
 
     GitlinkOp(Branch.NameKey branch) {
@@ -338,7 +339,7 @@ public class SubmoduleOp {
         }
       }
       BatchUpdate.execute(
-          orm.batchUpdates(superProjects), Listener.NONE, orm.getSubmissionId(), false);
+          orm.batchUpdates(superProjects), BatchUpdateListener.NONE, orm.getSubmissionId(), false);
     } catch (RestApiException | UpdateException | IOException | NoSuchProjectException e) {
       throw new SubmoduleException("Cannot update gitlinks", e);
     }

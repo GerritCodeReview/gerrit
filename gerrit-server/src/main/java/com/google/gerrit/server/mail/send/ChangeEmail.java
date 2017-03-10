@@ -69,6 +69,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   protected final Change change;
   protected final ChangeData changeData;
+  protected ListMultimap<Account.Id, String> stars;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
   protected String changeMessage;
@@ -163,6 +164,12 @@ public abstract class ChangeEmail extends NotificationEmail {
       }
     }
     authors = getAuthors();
+
+    try {
+      stars = args.starredChangesUtil.byChangeFromIndex(change.getId());
+    } catch (OrmException e) {
+      throw new EmailException("Failed to load stars for change " + change.getChangeId(), e);
+    }
 
     super.init();
     if (timestamp != null) {
@@ -309,28 +316,21 @@ public abstract class ChangeEmail extends NotificationEmail {
       return;
     }
 
-    try {
-      // BCC anyone who has starred this change
-      // and remove anyone who has ignored this change.
-      //
-      ListMultimap<Account.Id, String> stars =
-          args.starredChangesUtil.byChangeFromIndex(change.getId());
-      for (Map.Entry<Account.Id, Collection<String>> e : stars.asMap().entrySet()) {
-        if (e.getValue().contains(StarredChangesUtil.DEFAULT_LABEL)) {
-          super.add(RecipientType.BCC, e.getKey());
-        }
-        if (e.getValue().contains(StarredChangesUtil.IGNORE_LABEL)) {
-          AccountState accountState = args.accountCache.get(e.getKey());
-          if (accountState != null) {
-            removeUser(accountState.getAccount());
-          }
+    for (Map.Entry<Account.Id, Collection<String>> e : stars.asMap().entrySet()) {
+      if (e.getValue().contains(StarredChangesUtil.DEFAULT_LABEL)) {
+        super.add(RecipientType.BCC, e.getKey());
+      }
+    }
+  }
+
+  protected void removeUsersThatIgnoredTheChange() {
+    for (Map.Entry<Account.Id, Collection<String>> e : stars.asMap().entrySet()) {
+      if (e.getValue().contains(StarredChangesUtil.IGNORE_LABEL)) {
+        AccountState accountState = args.accountCache.get(e.getKey());
+        if (accountState != null) {
+          removeUser(accountState.getAccount());
         }
       }
-    } catch (OrmException err) {
-      // Just don't BCC everyone. Better to send a partial message to those
-      // we already have queued up then to fail deliver entirely to people
-      // who have a lower interest in the change.
-      log.warn("Cannot BCC users that starred updated change", err);
     }
   }
 

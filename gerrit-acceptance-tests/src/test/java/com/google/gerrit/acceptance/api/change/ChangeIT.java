@@ -109,6 +109,7 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
@@ -2517,7 +2518,7 @@ public class ChangeIT extends AbstractDaemonTest {
     }
 
     @Override
-    public boolean updateChange(BatchUpdate.ChangeContext ctx) throws Exception {
+    public boolean updateChange(ChangeContext ctx) throws Exception {
       Change change = ctx.getChange();
 
       // Change status in database.

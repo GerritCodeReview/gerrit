@@ -16,7 +16,7 @@ package com.google.gerrit.server.git.strategy;
 
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
-import com.google.gerrit.server.update.BatchUpdate.RepoContext;
+import com.google.gerrit.server.update.RepoContext;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

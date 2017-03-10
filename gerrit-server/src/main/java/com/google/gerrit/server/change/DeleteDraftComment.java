@@ -30,7 +30,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DeleteDraftComment.Input;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;

@@ -1,4 +1,4 @@
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.update;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,9 +11,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.git.BatchUpdate.RepoContext;
-import com.google.gerrit.server.git.BatchUpdate.RepoOnlyOp;
 import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.update.BatchUpdate.RepoContext;
+import com.google.gerrit.server.update.BatchUpdate.RepoOnlyOp;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testutil.InMemoryDatabase;

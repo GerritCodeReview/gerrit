@@ -22,7 +22,7 @@ import com.google.gerrit.server.change.DeleteDraftComment;
 import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.change.GetDraftComment;
 import com.google.gerrit.server.change.PutDraftComment;
-import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;

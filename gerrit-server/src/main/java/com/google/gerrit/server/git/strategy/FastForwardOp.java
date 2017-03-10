@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
+import com.google.gerrit.server.update.BatchUpdate.RepoContext;
 
 class FastForwardOp extends SubmitStrategyOp {
   FastForwardOp(SubmitStrategy.Arguments args, CodeReviewCommit toMerge) {

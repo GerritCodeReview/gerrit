@@ -76,6 +76,16 @@ limitations under the License.
               start_character: 5,
               start_line: 100,
             },
+          }, {
+            id: '8675309',
+            line: 55,
+            message: 'nonsense range',
+            range: {
+              end_character: 2,
+              end_line: 55,
+              start_character: 32,
+              start_line: 55,
+            },
           },
         ],
       };
@@ -301,7 +311,7 @@ limitations under the License.
       // on line 100.
       var rightKeys = [];
       for (i = 10; i <= 12; i++) { rightKeys.push('' + i); }
-      rightKeys.push('100');
+      rightKeys.push('55', '100');
       assert.deepEqual(Object.keys(element._commentMap.right).sort(),
           rightKeys.sort());
 
@@ -320,6 +330,18 @@ limitations under the License.
       assert.equal(element._commentMap.right[100].length, 1);
       assert.equal(element._commentMap.right[100][0].start, 5);
       assert.equal(element._commentMap.right[100][0].end, 15);
+    });
+
+    test('_getRangesForLine normalizes invalid ranges', function() {
+      var line = {
+        afterNumber: 55,
+        text: '_getRangesForLine normalizes invalid ranges'
+      };
+      var ranges = element._getRangesForLine(line, 'right');
+      assert.equal(ranges.length, 1);
+      var range = ranges[0];
+      assert.isTrue(range.start < range.end, 'start and end are normalized');
+      assert.equal(range.end, line.text.length);
     });
   });
 </script>

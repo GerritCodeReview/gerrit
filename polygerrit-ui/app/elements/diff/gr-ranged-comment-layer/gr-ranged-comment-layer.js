@@ -170,11 +170,20 @@
       var ranges = this.get(['_commentMap', side, lineNum]) || [];
       return ranges
           .map(function(range) {
-            return {
+            var range = {
               start: range.start,
               end: range.end === -1 ? line.text.length : range.end,
               hovering: !!range.comment.__hovering,
             };
+
+            // Normalize invalid ranges where the start is after the end but the
+            // start still makes sense. Set the end to the end of the line.
+            // @see Issue 5744
+            if (range.start >= range.end && range.start < line.text.length) {
+              range.end = line.text.length;
+            }
+
+            return range;
           })
           .sort(function(a, b) {
             // Sort the ranges so that hovering highlights are on top.

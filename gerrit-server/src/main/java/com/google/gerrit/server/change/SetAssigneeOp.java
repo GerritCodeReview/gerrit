@@ -31,7 +31,8 @@ import com.google.gerrit.server.extensions.events.AssigneeChanged;
 import com.google.gerrit.server.mail.send.SetAssigneeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdate.Context;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.validators.AssigneeValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
@@ -82,7 +83,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   }
 
   @Override
-  public boolean updateChange(BatchUpdate.ChangeContext ctx) throws OrmException, RestApiException {
+  public boolean updateChange(ChangeContext ctx) throws OrmException, RestApiException {
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     IdentifiedUser newAssigneeUser = accounts.parse(assignee);
@@ -119,7 +120,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   }
 
   private void addMessage(
-      BatchUpdate.ChangeContext ctx,
+      ChangeContext ctx,
       ChangeUpdate update,
       IdentifiedUser previousAssignee,
       IdentifiedUser newAssignee)

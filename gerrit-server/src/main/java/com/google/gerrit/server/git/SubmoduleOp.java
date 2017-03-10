@@ -32,7 +32,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdate.Listener;
-import com.google.gerrit.server.update.BatchUpdate.RepoContext;
+import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;

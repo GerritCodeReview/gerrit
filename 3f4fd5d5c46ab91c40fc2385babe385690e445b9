@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "eb7a91ed_03cfc8da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldDef.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T13:03:48Z",
+      "side": 1,
+      "message": "Done (in FieldDef constructor below)",
+      "parentUuid": "1fc57a5e_44c1ea29",
+      "range": {
+        "startLine": 106,
+        "startChar": 49,
+        "endLine": 106,
+        "endChar": 55
+      },
+      "revId": "3f4fd5d5c46ab91c40fc2385babe385690e445b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f6bac4c_32513fd2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 2
@@ -46,6 +70,30 @@
       "revId": "3f4fd5d5c46ab91c40fc2385babe385690e445b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9260dfb0_ceb54823",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T13:03:48Z",
+      "side": 1,
+      "message": "Chose the wrong one in the Eclipse dialog :)\n\nDone",
+      "parentUuid": "2f6bac4c_32513fd2",
+      "range": {
+        "startLine": 31,
+        "startChar": 7,
+        "endLine": 31,
+        "endChar": 39
+      },
+      "revId": "3f4fd5d5c46ab91c40fc2385babe385690e445b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "86e815c2_6c561b51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T13:03:48Z",
+      "side": 1,
+      "message": "The primary reason for introducing changeGetter was to eliminate calling .change() (and null checking the result) for each one of these field definitions. Having to pass ChangeData::change does not accomplish that goal.\n\nI feel like this code might be less confusing if we had a better name than changeGetter, but I\u0027m struggling to come up with one...\n\nSo I\u0027m inclined to leave it as-is, and we can always rename it later if inspiration strikes.",
+      "parentUuid": "219041b5_5fa9877f",
+      "range": {
+        "startLine": 101,
+        "startChar": 55,
+        "endLine": 101,
+        "endChar": 90
+      },
+      "revId": "3f4fd5d5c46ab91c40fc2385babe385690e445b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1956622_983af5c5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 2
@@ -95,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "f9ab3f37_2c546b22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T13:03:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1956622_983af5c5",
+      "range": {
+        "startLine": 114,
+        "startChar": 52,
+        "endLine": 114,
+        "endChar": 64
+      },
+      "revId": "3f4fd5d5c46ab91c40fc2385babe385690e445b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f940f67_186db82c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 2
@@ -115,6 +211,30 @@
       "revId": "3f4fd5d5c46ab91c40fc2385babe385690e445b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd5c0c7e_89801162",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-10T13:03:48Z",
+      "side": 1,
+      "message": "If I do that then I get:\n\nThe method buildRepeatable(FieldDef.Getter\u003cChangeData,Iterable\u003cString\u003e\u003e) is ambiguous for the type FieldDef.Builder\u003cString\u003e\n\nRather than fight with the compiler, I left it this way, which also happens to be shorter.",
+      "parentUuid": "9f940f67_186db82c",
+      "range": {
+        "startLine": 542,
+        "startChar": 45,
+        "endLine": 542,
+        "endChar": 79
+      },
+      "revId": "3f4fd5d5c46ab91c40fc2385babe385690e445b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

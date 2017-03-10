@@ -22,6 +22,30 @@
       "revId": "7ce1ab0261164d2207f60677956f1c20beb2c1f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13009cff_ac36be1b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-10T03:14:58Z",
+      "side": 1,
+      "message": "I intentionally left it, to help explain the expected values. I can remove it though, if you prefer.",
+      "parentUuid": "9ad0f624_a70797a8",
+      "range": {
+        "startLine": 1056,
+        "startChar": 8,
+        "endLine": 1058,
+        "endChar": 23
+      },
+      "revId": "7ce1ab0261164d2207f60677956f1c20beb2c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

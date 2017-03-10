@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ad785c6_9d3df19a",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-10T17:17:49Z",
+      "side": 1,
+      "message": "We\u0027ll need a timestamp in order to answer the question, \"How long has this change been work-in-progress?\". Do you want to add a second field in this change? Or add it in a later change? (Alternatively, make this single field a nullable timestamp, where null indicates not workInProgress).",
+      "revId": "bd8665b96ec7ce71622f0531648bbd3375adde42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ac58518_c7097268",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-10T17:17:49Z",
+      "side": 1,
+      "message": "Timestamp support should look something like:\n\n    boolean wip \u003d Boolean.parseBoolean(raw);\n    // If this commit puts the change\u0027s current state in to workInProgress,\n    // record the timestamp.\n    if (wip \u0026\u0026 workInProgress \u003d\u003d null) {\n      workInProgressStarted \u003d createdOn;\n    }\n    workInProgress \u003d wip;",
+      "revId": "bd8665b96ec7ce71622f0531648bbd3375adde42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

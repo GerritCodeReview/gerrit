@@ -105,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "051eb66d_6effec39",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-10T07:13:40Z",
+      "side": 1,
+      "message": "Maybe also test applying the same fix twice.",
+      "parentUuid": "73e0d4fa_a40be403",
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f63ad5f3_c7b9aa99",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
         "patchSetId": 2

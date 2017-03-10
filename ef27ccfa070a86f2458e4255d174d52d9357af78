@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5547d460_4a492e7c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-10T16:00:15Z",
+      "side": 1,
+      "message": "May be use is:wip predicate instead?",
+      "range": {
+        "startLine": 391,
+        "startChar": 20,
+        "endLine": 391,
+        "endChar": 27
+      },
+      "revId": "ef27ccfa070a86f2458e4255d174d52d9357af78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

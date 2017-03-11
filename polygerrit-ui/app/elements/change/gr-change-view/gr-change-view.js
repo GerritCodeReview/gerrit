@@ -571,7 +571,7 @@
     },
 
     _computeChangePermalink: function(changeNum) {
-      return '/' + changeNum;
+      return this.getBaseUrl() + '/' + changeNum;
     },
 
     _computeChangeStatus: function(change, patchNum) {
@@ -1140,6 +1140,14 @@
     _computeRelatedChangesToggleHidden: function() {
       return this._getScrollHeight(this.$.relatedChanges) <=
           this._getOffsetHeight(this.$.relatedChanges);
+    },
+
+    getBaseUrl: function() {
+      if (window.CONFIG_BASE_URL) {
+        return window.CONFIG_BASE_URL;
+      }
+
+      return '';
     },
   });
 })();

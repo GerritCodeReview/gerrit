@@ -21,5 +21,13 @@
       path: String,
       title: String,
     },
+
+    getBaseUrl: function(path) {
+      if (window.CONFIG_BASE_URL) {
+        return path;
+      }
+
+      return '';
+    },
   });
 })();

@@ -63,6 +63,7 @@
 
       var tooltip = document.createElement('gr-tooltip');
       tooltip.text = this._titleText;
+      tooltip.maxWidth = this.getAttribute('max-width');
 
       // Set visibility to hidden before appending to the DOM so that
       // calculations can be made based on the element’s size.

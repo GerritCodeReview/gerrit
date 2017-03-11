@@ -589,7 +589,7 @@
     },
 
     _computeDiffURL: function(changeNum, patchRange, path) {
-      return this.encodeURL('/c/' + changeNum + '/' +
+      return this.encodeURL(this.getBaseUrl() + '/c/' + changeNum + '/' +
           this._patchRangeStr(patchRange) + '/' + path, true);
     },
 
@@ -804,6 +804,14 @@
           return diffElements[i];
         }
       }
+    },
+
+    getBaseUrl: function() {
+      if (window.CONFIG_BASE_URL) {
+        return window.CONFIG_BASE_URL;
+      }
+
+      return '';
     },
   });
 })();

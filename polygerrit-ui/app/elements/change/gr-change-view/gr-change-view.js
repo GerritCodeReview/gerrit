@@ -736,7 +736,7 @@
     _handleCapitalRKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       e.preventDefault();
-      page.show('/c/' + this._change._number);
+      page.show(this.getBaseUrl() + '/c/' + this._change._number);
     },
 
     _handleSKey: function(e) {
@@ -773,7 +773,7 @@
     _determinePageBack: function() {
       // Default backPage to '/' if user came to change view page
       // via an email link, etc.
-      page.show(this.backPage || '/');
+      page.show(this.getBaseUrl() + this.backPage || this.getBaseUrl() + '/');
     },
 
     _handleLabelRemoved: function(splices, path) {
@@ -1142,6 +1142,14 @@
     _computeRelatedChangesToggleHidden: function() {
       return this._getScrollHeight(this.$.relatedChanges) <=
           this._getOffsetHeight(this.$.relatedChanges);
+    },
+
+    getBaseUrl: function() {
+      if (window.polygerrit_baseurl) {
+        return polygerrit_baseurl;
+      }
+
+      return '';
     },
   });
 })();

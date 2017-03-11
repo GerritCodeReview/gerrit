@@ -16,25 +16,25 @@
 
   var ADMIN_LINKS = [
     {
-      url: '/admin/groups',
+      url: this.getBaseUrl() + '/admin/groups',
       name: 'Groups',
     },
     {
-      url: '/admin/create-group',
+      url: this.getBaseUrl() + '/admin/create-group',
       name: 'Create Group',
       capability: 'createGroup'
     },
     {
-      url: '/admin/projects',
+      url: this.getBaseUrl() + '/admin/projects',
       name: 'Projects',
     },
     {
-      url: '/admin/create-project',
+      url: this.getBaseUrl() + '/admin/create-project',
       name: 'Create Project',
       capability: 'createProject',
     },
     {
-      url: '/admin/plugins',
+      url: this.getBaseUrl() + '/admin/plugins',
       name: 'Plugins',
       capability: 'viewPlugins',
     },
@@ -44,15 +44,15 @@
     title: 'Changes',
     links: [
       {
-        url: '/q/status:open',
+        url: this.getBaseUrl() + '/q/status:open',
         name: 'Open',
       },
       {
-        url: '/q/status:merged',
+        url: this.getBaseUrl() + '/q/status:merged',
         name: 'Merged',
       },
       {
-        url: '/q/status:abandoned',
+        url: this.getBaseUrl() + '/q/status:abandoned',
         name: 'Abandoned',
       },
     ],
@@ -88,7 +88,7 @@
       },
       _loginURL: {
         type: String,
-        value: '/login',
+        value: this.baseUrl() + '/login',
       },
       _userLinks: {
         type: Array,
@@ -114,7 +114,7 @@
     },
 
     _handleLocationChange: function(e) {
-      this._loginURL = '/login/' + encodeURIComponent(
+      this._loginURL = this.getBaseUrl() + '/login/' + encodeURIComponent(
           window.location.pathname +
           window.location.search +
           window.location.hash);
@@ -180,6 +180,14 @@
     _isSupportedLink: function(linkObj) {
       // Groups are not yet supported.
       return linkObj.url.indexOf('/groups') !== 0;
+    },
+
+    getBaseUrl: function() {
+      if (window.polygerrit_baseurl) {
+        return polygerrit_baseurl;
+      }
+
+      return '';
     },
   });
 })();

@@ -22,6 +22,30 @@
       "revId": "8b7be47ee4307cdaa300970190effcb485c3bfdf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad9e8895_b2e4f15b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-11T00:37:56Z",
+      "side": 1,
+      "message": "good catch, I lost my changes, and in re-creating forgot that most important part.",
+      "parentUuid": "205734b2_f95f80ad",
+      "range": {
+        "startLine": 252,
+        "startChar": 12,
+        "endLine": 252,
+        "endChar": 37
+      },
+      "revId": "8b7be47ee4307cdaa300970190effcb485c3bfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,25 +16,25 @@
 
   var ADMIN_LINKS = [
     {
-      url: '/admin/groups',
+      url: getBaseUrl() + '/admin/groups',
       name: 'Groups',
     },
     {
-      url: '/admin/create-group',
+      url: getBaseUrl() + '/admin/create-group',
       name: 'Create Group',
       capability: 'createGroup'
     },
     {
-      url: '/admin/projects',
+      url: getBaseUrl() + '/admin/projects',
       name: 'Projects',
     },
     {
-      url: '/admin/create-project',
+      url: getBaseUrl() + '/admin/create-project',
       name: 'Create Project',
       capability: 'createProject',
     },
     {
-      url: '/admin/plugins',
+      url: getBaseUrl() + '/admin/plugins',
       name: 'Plugins',
       capability: 'viewPlugins',
     },
@@ -44,19 +44,46 @@
     title: 'Changes',
     links: [
       {
-        url: '/q/status:open',
+        url: getBaseUrl() + '/q/status:open',
         name: 'Open',
       },
       {
-        url: '/q/status:merged',
+        url: getBaseUrl() + '/q/status:merged',
         name: 'Merged',
       },
       {
-        url: '/q/status:abandoned',
+        url: getBaseUrl() + '/q/status:abandoned',
         name: 'Abandoned',
       },
     ],
   }];
+
+  var USER_LINKS = [
+    {
+      url: getBaseUrl() + '/dashboard/self',
+      name: 'Changes',
+    },
+    {
+      url: getBaseUrl() + '/q/owner:self+is:draft',
+      name: 'Drafts',
+    },
+    {
+      url: getBaseUrl() + '/q/' + encodeURIComponent('has:draft'),
+      name: 'Draft Comments',
+    },
+    {
+      url: getBaseUrl() + '/q/' + encodeURIComponent('has:edit'),
+      name: 'Edits',
+    },
+    {
+      url: getBaseUrl() + '/q/' + encodeURIComponent('is:watched+is:open'),
+      name: 'Watched Changes',
+    },
+    {
+      url: getBaseUrl() + '/q/' + encodeURIComponent('is:starred'),
+      name: 'Starred Changes',
+    },
+  ];
 
   Polymer({
     is: 'gr-main-header',
@@ -84,15 +111,17 @@
       },
       _links: {
         type: Array,
-        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks)',
+        computed: '_computeLinks(_defaultLinks, __userLinks, _adminLinks)',
       },
       _loginURL: {
         type: String,
-        value: '/login',
+        value: getBaseUrl() + '/login',
       },
-      _userLinks: {
+      __userLinks: {
         type: Array,
-        value: function() { return []; },
+        value: function() {
+          return USER_LINKS;
+        },
       },
     },
 
@@ -114,14 +143,14 @@
     },
 
     _handleLocationChange: function(e) {
-      this._loginURL = '/login/' + encodeURIComponent(
+      this._loginURL = getBaseUrl() + '/login/' + encodeURIComponent(
           window.location.pathname +
           window.location.search +
           window.location.hash);
     },
 
     _computeRelativeURL: function(path) {
-      return '//' + window.location.host + path;
+      return '//' + window.location.host + getBaseUrl() + path;
     },
 
     _computeLinks: function(defaultLinks, userLinks, adminLinks) {
@@ -182,4 +211,12 @@
       return linkObj.url.indexOf('/groups') !== 0;
     },
   });
+
+  function getBaseUrl() {
+    if (window.polygerrit_baseurl) {
+      return polygerrit_baseurl;
+    }
+
+    return '';
+  }
 })();

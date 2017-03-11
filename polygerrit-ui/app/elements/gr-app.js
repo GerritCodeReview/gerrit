@@ -154,6 +154,14 @@
           config.gerrit.web_uis.indexOf('GWT') !== -1;
     },
 
+    getBaseUrl: function(path) {
+      if (window.CONFIG_BASE_URL) {
+        return path;
+      }
+
+      return '';
+    },
+
     _handlePageError: function(e) {
       [
         '_showChangeListView',

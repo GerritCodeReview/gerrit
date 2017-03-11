@@ -150,7 +150,7 @@ limitations under the License.
             rel="noopener" target="_blank">Send feedback</a>
         <template is="dom-if" if="[[_computeShowGwtUiLink(_serverConfig)]]">
           |
-          <a id="gwtLink" href$="/?polygerrit=0#[[_path]]" rel="external">Old UI</a>
+          <a id="gwtLink" href$="[[getBaseUrl(_path)]]/?polygerrit=0#[[_path]]" rel="external">Old UI</a>
         </template>
         | Press &ldquo;?&rdquo; for keyboard shortcuts
       </div>

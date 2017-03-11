@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,19 +15,25 @@
   'use strict';
 
   Polymer({
-    is: 'gr-tooltip',
+    is: 'gr-tooltip-content',
 
     properties: {
-      text: String,
+      title: {
+        type: String,
+        reflectToAttribute: true,
+      },
       maxWidth: {
         type: String,
-        observer: '_updateWidth',
+        reflectToAttribute: true,
+      },
+      showIcon: {
+        type: Boolean,
+        value: false,
       },
     },
 
-    _updateWidth: function(maxWidth) {
-      this.customStyle['--tooltip-max-width'] = maxWidth;
-      this.updateStyles();
-    },
+    behaviors: [
+      Gerrit.TooltipBehavior,
+    ],
   });
 })();

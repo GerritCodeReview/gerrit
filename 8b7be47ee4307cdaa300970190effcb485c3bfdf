@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "205734b2_f95f80ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-11T00:36:09Z",
+      "side": 1,
+      "message": "It looks like this only renames the function. It\u0027s still binding to on-tap.",
+      "range": {
+        "startLine": 252,
+        "startChar": 12,
+        "endLine": 252,
+        "endChar": 37
+      },
+      "revId": "8b7be47ee4307cdaa300970190effcb485c3bfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

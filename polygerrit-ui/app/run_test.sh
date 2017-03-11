@@ -21,4 +21,5 @@ bazel test \
       --test_env="NPM=${npm_bin}" \
       --test_env="DISPLAY=${DISPLAY}" \
       "$@" \
-      //polygerrit-ui/app:wct_test
+      //polygerrit-ui/app:wct_test \
+      --test_timeout="eternal"

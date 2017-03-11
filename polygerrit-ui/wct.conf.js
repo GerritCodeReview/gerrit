@@ -4,7 +4,8 @@ var ret = {
   suites: ['app/test'],
   webserver: {
     pathMappings: []
-  }
+  },
+  testTimeout: 500000
 };
 
 var mapping = {};

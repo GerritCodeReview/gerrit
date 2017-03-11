@@ -23,6 +23,30 @@
       "revId": "cb69065473b32e7b2f2d53d142c087b8c447c48b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9361626_98e86369",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-03-11T01:58:05Z",
+      "side": 1,
+      "message": "I think we can do changes even if they invalidate old ES index. I also do not think anyone is using it in production.",
+      "parentUuid": "e41b5d2c_6591e90f",
+      "range": {
+        "startLine": 21,
+        "startChar": 49,
+        "endLine": 22,
+        "endChar": 52
+      },
+      "revId": "cb69065473b32e7b2f2d53d142c087b8c447c48b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

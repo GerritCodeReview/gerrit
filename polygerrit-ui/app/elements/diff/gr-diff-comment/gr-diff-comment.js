@@ -105,6 +105,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.TooltipBehavior,
+    ],
+
     observers: [
       '_commentMessageChanged(comment.message)',
       '_loadLocalDraft(changeNum, patchNum, comment)',

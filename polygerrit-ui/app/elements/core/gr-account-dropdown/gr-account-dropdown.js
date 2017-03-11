@@ -23,9 +23,9 @@
       links: {
         type: Array,
         value: [
-          {name: 'Settings', url: '/settings'},
-          {name: 'Switch account', url: '/switch-account'},
-          {name: 'Sign out', url: '/logout'},
+          {name: 'Settings', url: getBaseUrl() + '/settings'},
+          {name: 'Switch account', url: getBaseUrl() + '/switch-account'},
+          {name: 'Sign out', url: getBaseUrl() + '/logout'},
         ],
       },
       topContent: {
@@ -47,4 +47,12 @@
       ];
     },
   });
+
+  function getBaseUrl() {
+    if (window.CONFIG_BASE_URL) {
+      return window.CONFIG_BASE_URL;
+    }
+
+    return '';
+  }
 })();

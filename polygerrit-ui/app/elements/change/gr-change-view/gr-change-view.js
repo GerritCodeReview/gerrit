@@ -736,7 +736,7 @@
     _handleCapitalRKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       e.preventDefault();
-      page.show('/c/' + this._change._number);
+      page.show(this.getBaseUrl() + '/c/' + this._change._number);
     },
 
     _handleSKey: function(e) {
@@ -1142,6 +1142,14 @@
     _computeRelatedChangesToggleHidden: function() {
       return this._getScrollHeight(this.$.relatedChanges) <=
           this._getOffsetHeight(this.$.relatedChanges);
+    },
+
+    getBaseUrl: function() {
+      if (window.polygerrit_baseurl) {
+        return polygerrit_baseurl;
+      }
+
+      return '';
     },
   });
 })();

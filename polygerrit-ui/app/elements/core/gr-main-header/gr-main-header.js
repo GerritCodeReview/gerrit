@@ -16,25 +16,25 @@
 
   var ADMIN_LINKS = [
     {
-      url: '/admin/groups',
+      url: getBaseUrl() + '/admin/groups',
       name: 'Groups',
     },
     {
-      url: '/admin/create-group',
+      url: getBaseUrl() + '/admin/create-group',
       name: 'Create Group',
       capability: 'createGroup'
     },
     {
-      url: '/admin/projects',
+      url: getBaseUrl() + '/admin/projects',
       name: 'Projects',
     },
     {
-      url: '/admin/create-project',
+      url: getBaseUrl() + '/admin/create-project',
       name: 'Create Project',
       capability: 'createProject',
     },
     {
-      url: '/admin/plugins',
+      url: getBaseUrl() + '/admin/plugins',
       name: 'Plugins',
       capability: 'viewPlugins',
     },
@@ -44,15 +44,15 @@
     title: 'Changes',
     links: [
       {
-        url: '/q/status:open',
+        url: getBaseUrl() + '/q/status:open',
         name: 'Open',
       },
       {
-        url: '/q/status:merged',
+        url: getBaseUrl() + '/q/status:merged',
         name: 'Merged',
       },
       {
-        url: '/q/status:abandoned',
+        url: getBaseUrl() + '/q/status:abandoned',
         name: 'Abandoned',
       },
     ],
@@ -88,7 +88,7 @@
       },
       _loginURL: {
         type: String,
-        value: '/login',
+        value: getBaseUrl() + '/login',
       },
       _userLinks: {
         type: Array,
@@ -114,7 +114,7 @@
     },
 
     _handleLocationChange: function(e) {
-      this._loginURL = '/login/' + encodeURIComponent(
+      this._loginURL = getBaseUrl() + '/login/' + encodeURIComponent(
           window.location.pathname +
           window.location.search +
           window.location.hash);
@@ -182,4 +182,12 @@
       return linkObj.url.indexOf('/groups') !== 0;
     },
   });
+
+  function getBaseUrl() {
+    if (window.polygerrit_baseurl) {
+      return polygerrit_baseurl;
+    }
+
+    return '';
+  }
 })();

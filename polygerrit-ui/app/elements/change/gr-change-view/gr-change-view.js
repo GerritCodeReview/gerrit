@@ -727,7 +727,7 @@
     _handleCapitalRKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       e.preventDefault();
-      page.show('/c/' + this._change._number);
+      page.show(this.baseUrl() + '/c/' + this._change._number);
     },
 
     _handleSKey: function(e) {
@@ -1055,6 +1055,14 @@
     _computeCommitToggleHidden: function(commitMessage) {
       if (!commitMessage) { return true; }
       return commitMessage.split('\n').length < MIN_LINES_FOR_COMMIT_COLLAPSE;
+    },
+
+    baseUrl: function() {
+      if (typeof polygerrit_baseurl !== "undefined") {
+        return polygerrit_baseurl;
+      } else {
+        return '';
+      }
     },
   });
 })();

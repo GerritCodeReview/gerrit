@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c98be1af_64397142",
+        "filename": "WORKSPACE",
+        "patchSetId": 8
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-12T23:02:07Z",
+      "side": 1,
+      "message": "Would we add the deps part here for eddsa or use external?",
+      "range": {
+        "startLine": 636,
+        "startChar": 0,
+        "endLine": 640,
+        "endChar": 1
+      },
+      "revId": "9af9745a8ac28ba0896ad8c57a39ce5e46df1037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

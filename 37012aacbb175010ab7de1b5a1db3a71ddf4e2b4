@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1489333981 -0400\nnonce AIcUUg/52roXFRn4WMmRtJTOXQ6eak+ogMQeq8NJzHWl7dWiv7LTyLTikFT8DBqKjApMx3AU7ILN\n\n0000000000000000000000000000000000000000 99f44a836d08581b56051968e5881b690cde649f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYxW7dAAoJEF/XxZqaEoiMnUUP/A60e7QcEzDVOScw6bkNNzj2\nqNvYYa33X9oHH6pT0T40VzSzOBsnmbGI8ytZka937Elo9MjtBYdyXY9LVu2L4Ziy\ngSV0AjYjXQd83S75HLByW5eFz9hs56SgGnB/qcd44MnlzcwTNTS+sbPgQBKfy9Mk\n4CnhNbIPG3SKjxyRufcbK8gc3vw/J5pIVaDgGBF3XGMTPTOIsYD7b1B2a/C6cD85\nK2kpT0PP7nHPWop0uWNeWocprfBY/oeW8v2pq/nGO/meN/UtLTQE2x6HZb/kDNB3\ne5Dg7GUHs6uNq71Lg/za6PKt8q4O0Bp2jT6Nb7IhzujBCUfcFphRWCfpTSsst9Oa\n3S7ikkakFTI4zCdzDGa9f6aha85SodM2M0QxkAqhS1CqGBqG5f2/G0Dglf0LafVc\nli5P96r9oiWgSg7rpEApUdhL2pWB1VyrphnXX0KBVBlY7F7vLmx3HPk87hLsuxe9\ny9FXfM+gjCnr54Z2vxoNnSH1j1XDWk1JvBJrXuXD+/P0Rz6HxZxB9qy353bBaOVk\nvn6ottEsH1GMm+Dkyx5yVxZ/b2sm1Sbz4ug/4NPigieaVEsq5259fZtonrW9W05a\n2iLTDOMuw4a8Lf1QTYdfjOnfXGLjMsgD7dDOIZsHHWeLq2wQGO41HrrY4QnXOpHT\nMgUl1F7vNlB7pQ2KvadJ\n\u003dLoWt\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebd24576_e7597538",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ChangeContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-12T23:58:42Z",
+      "side": 1,
+      "message": "\"at a\"?",
+      "range": {
+        "startLine": 34,
+        "startChar": 35,
+        "endLine": 34,
+        "endChar": 36
+      },
+      "revId": "37012aacbb175010ab7de1b5a1db3a71ddf4e2b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9b6378e_c8128193",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ChangeContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-12T23:58:42Z",
+      "side": 1,
+      "message": "Should we annotate the method as @NotNull, or at least mention in the @return that the value should not be null?",
+      "range": {
+        "startLine": 68,
+        "startChar": 11,
+        "endLine": 68,
+        "endChar": 23
+      },
+      "revId": "37012aacbb175010ab7de1b5a1db3a71ddf4e2b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8543fba3_2fa104c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-12T23:58:42Z",
+      "side": 1,
+      "message": "remove this?",
+      "range": {
+        "startLine": 78,
+        "startChar": 74,
+        "endLine": 78,
+        "endChar": 76
+      },
+      "revId": "37012aacbb175010ab7de1b5a1db3a71ddf4e2b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63e97aac_206ebd4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-12T23:58:42Z",
+      "side": 1,
+      "message": "throws what?  Should there be a throws definition on the method?\n\nSame for getAccount and getAccountId below.",
+      "range": {
+        "startLine": 86,
+        "startChar": 52,
+        "endLine": 86,
+        "endChar": 61
+      },
+      "revId": "37012aacbb175010ab7de1b5a1db3a71ddf4e2b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

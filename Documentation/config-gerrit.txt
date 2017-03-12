@@ -3601,7 +3601,7 @@ an error occurs.
 Maximum size of thread pool in which the review comments
 notifications are sent out asynchronously.
 +
-By default, 1.
+By default, 2.
 
 [[sendemail.from]]sendemail.from::
 +

@@ -48,7 +48,7 @@ public class ReceiveCommitsExecutorModule extends AbstractModule {
   @SendEmailExecutor
   public ExecutorService createSendEmailExecutor(
       @GerritServerConfig Config config, WorkQueue queues) {
-    int poolSize = config.getInt("sendemail", null, "threadPoolSize", 1);
+    int poolSize = config.getInt("sendemail", null, "threadPoolSize", 2);
     if (poolSize == 0) {
       return MoreExecutors.newDirectExecutorService();
     }

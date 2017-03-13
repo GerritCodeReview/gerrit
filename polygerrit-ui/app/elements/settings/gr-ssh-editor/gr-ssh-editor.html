@@ -57,7 +57,7 @@ limitations under the License.
             <tr>
               <th class="commentHeader">Comment</th>
               <th class="statusHeader">Status</th>
-              <th class="keyHeader">Public Key</th>
+              <th class="keyHeader">Public key</th>
             </tr>
           </thead>
           <tbody>
@@ -87,7 +87,7 @@ limitations under the License.
               <span class="value">[[_keyToView.algorithm]]</span>
             </section>
             <section>
-              <span class="title">Public Key</span>
+              <span class="title">Public key</span>
               <span class="value publicKey">[[_keyToView.encoded_key]]</span>
             </section>
             <section>
@@ -101,11 +101,11 @@ limitations under the License.
         </gr-overlay>
         <gr-button
             on-tap="save"
-            disabled$="[[!hasUnsavedChanges]]">Save Changes</gr-button>
+            disabled$="[[!hasUnsavedChanges]]">Save changes</gr-button>
       </fieldset>
       <fieldset>
         <section>
-          <span class="title">New SSH Key</span>
+          <span class="title">New SSH key</span>
           <span class="value">
             <iron-autogrow-textarea
                 id="newKey"
@@ -117,7 +117,7 @@ limitations under the License.
         <gr-button
             id="addButton"
             disabled$="[[_computeAddButtonDisabled(_newKey)]]"
-            on-tap="_handleAddKey">Add New SSH Key</gr-button>
+            on-tap="_handleAddKey">Add new SSH key</gr-button>
       </fieldset>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

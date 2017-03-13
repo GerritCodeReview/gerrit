@@ -35,6 +35,24 @@
       "revId": "2390ed393b38e58ed390398102b297c7edea4939",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87584b53_64a86479",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-13T18:40:27Z",
+      "side": 1,
+      "message": "This Factory class will get a NotesMigration injected and there will be an if/else block in the body of create() and execute() delegating to one implementation or the other.",
+      "parentUuid": "da769598_b98c14ef",
+      "revId": "2390ed393b38e58ed390398102b297c7edea4939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

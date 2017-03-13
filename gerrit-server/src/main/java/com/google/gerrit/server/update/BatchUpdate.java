@@ -334,7 +334,7 @@ public class BatchUpdate implements AutoCloseable {
           for (BatchUpdate u : updates) {
             u.executeRefUpdates(dryrun);
           }
-          listener.afterRefUpdates();
+          listener.afterUpdateRefs();
           for (BatchUpdate u : updates) {
             u.reindexChanges(u.executeChangeOps(updateChangesInParallel, dryrun));
           }
@@ -352,7 +352,7 @@ public class BatchUpdate implements AutoCloseable {
           for (BatchUpdate u : updates) {
             u.executeRefUpdates(dryrun);
           }
-          listener.afterRefUpdates();
+          listener.afterUpdateRefs();
           break;
         default:
           throw new IllegalStateException("invalid execution order: " + order);

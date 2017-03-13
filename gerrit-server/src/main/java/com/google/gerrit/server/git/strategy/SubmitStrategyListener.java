@@ -58,7 +58,7 @@ public class SubmitStrategyListener implements BatchUpdateListener {
   }
 
   @Override
-  public void afterRefUpdates() throws ResourceConflictException {
+  public void afterUpdateRefs() throws ResourceConflictException {
     if (failAfterRefUpdates) {
       throw new ResourceConflictException("Failing after ref updates");
     }

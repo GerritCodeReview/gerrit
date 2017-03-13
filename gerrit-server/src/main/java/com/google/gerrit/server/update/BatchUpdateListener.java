@@ -27,7 +27,7 @@ public interface BatchUpdateListener {
   default void afterUpdateRepos() throws Exception {}
 
   /** Called after updating all refs. */
-  default void afterRefUpdates() throws Exception {}
+  default void afterUpdateRefs() throws Exception {}
 
   /** Called after updating all changes. */
   default void afterUpdateChanges() throws Exception {}

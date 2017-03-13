@@ -107,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "f5677215_a79cd55b",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-13T22:31:19Z",
+      "side": 1,
+      "message": "It\u0027s in our internal glue code.\n\nIt\u0027s really a question of how many characters to require from the user to avoid false positives. 8 is a reasonable minimum, though we can probably tolerate an even lower one.",
+      "parentUuid": "576ff5e3_84bedc19",
+      "range": {
+        "startLine": 87,
+        "startChar": 38,
+        "endLine": 87,
+        "endChar": 42
+      },
+      "revId": "61264ee67ee2b11d0dbbe5dcd069e2c58ad9b0be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "80d3b88a_5c64db9f",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 2

@@ -40,7 +40,7 @@
    * _asyncThreshold of 64, but feel free to tune this constant to your
    * performance needs.
    */
-  var MAX_GROUP_SIZE = 70;
+  var MAX_GROUP_SIZE = 120;
 
   Polymer({
     is: 'gr-diff-processor',
@@ -355,6 +355,22 @@
       var leftLineNum = 0;
       var rightLineNum = 0;
 
+      // If the context is set to "whole file", then break down the shared
+      // chunks so they can be rendered incrementally. Note: this is not enabled
+      // for any other context preference because manipulating the chunks in
+      // this way violates assumptions by the context grouper logic.
+      if (this.context === -1) {
+        var newContent = [];
+        content.forEach(function(group) {
+          if (group.ab) {
+            newContent.push.apply(newContent, this._breakdownGroup(group));
+          } else {
+            newContent.push(group);
+          }
+        }.bind(this));
+        content = newContent;
+      }
+
       // For each section in the diff.
       for (var i = 0; i < content.length; i++) {
 
@@ -484,6 +500,8 @@
         key = 'a';
       } else if (group.b && !group.a) {
         key = 'b';
+      } else if (group.ab) {
+        key = 'ab';
       }
 
       if (!key) { return [group]; }

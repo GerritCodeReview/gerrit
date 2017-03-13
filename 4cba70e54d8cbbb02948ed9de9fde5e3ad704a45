@@ -2,6 +2,144 @@
   "comments": [
     {
       "key": {
+        "uuid": "280d141b_f368a1d7",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-13T23:06:42Z",
+      "side": 1,
+      "message": "This might look cleaner as an ES5 getter method, so the parens can be omitted when it\u0027s used.\n\nget baseUrl: {\n  // ...\n}\n\nIf not defined as an ES5 getter, I\u0027d recommend naming it like `getBaseUrl`, but that feels little heavier.",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 25
+      },
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7dc7232_06c1bb07",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-13T23:06:42Z",
+      "side": 1,
+      "message": "Since this is only interested in base URLs defined on `window`, I\u0027d recommend the following test:\n\n  if (window.polygerrit_baseurl) {",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 136,
+        "endChar": 51
+      },
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd640ccd_a1f21a59",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-13T23:06:42Z",
+      "side": 1,
+      "message": "Nitpick: no need for the else. Can just end with:\n\n return \u0027\u0027;",
+      "range": {
+        "startLine": 138,
+        "startChar": 7,
+        "endLine": 140,
+        "endChar": 7
+      },
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d320824_12473342",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-13T23:06:42Z",
+      "side": 1,
+      "message": "😃",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 3
+      },
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94ab154f_b2331750",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-13T23:06:42Z",
+      "side": 1,
+      "message": "Since we require prefixing with the base URL on every API request, it seems safer to prefix it inside of the underlying methods.\n\nThis file has a few utility networking methods such as:\n\n* _fetchSharedCacheURL\n* send\n* fetchJSON\n* _fetchB64File\n\nSince they\u0027ll never be used without the prefix, I\u0027d prefer if they could be passed un-prefixed URLs to them, and have them set the prefix internally. Possibly it only needs to be added to the implementation of `send`.\n\nThat way, there aren\u0027t so many modifications needed in this file.",
+      "range": {
+        "startLine": 182,
+        "startChar": 39,
+        "endLine": 182,
+        "endChar": 53
+      },
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20b88ae4_45835bef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-13T23:06:42Z",
+      "side": 1,
+      "message": "Nitpicking the name of this property: what about something like ...\n\n window.CONFIG_BASE_URL\n\n... to distinguish the property as a configuration constant?",
+      "range": {
+        "startLine": 1049,
+        "startChar": 17,
+        "endLine": 1049,
+        "endChar": 35
+      },
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dcb8b07b_b26fc4f3",
         "filename": "polygerrit-ui/app/index.html",
         "patchSetId": 26
@@ -106,6 +244,24 @@
       "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75a4cc9b_157a4f2a",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-13T23:06:42Z",
+      "side": 1,
+      "message": "I like the idea of using Soy for this. Soy would provide a few additional advantages to PG. I\u0027ll look into it.\n\nLoading a separate script feels like the wrong approach, since it would add an additional request to all page-loads just to get a single, optional string.\n\nIn the meantime, for configuring the base-URL, would it be feasible to add the following script by manually editing the index.html or by inserting it through a Java request filter?\n\n  \u003cscript\u003ewindow.polygerrit_baseurl \u003d \u0027/my/path/\u0027;\u003c/script\u003e",
+      "parentUuid": "d583fd8e_0513db2f",
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

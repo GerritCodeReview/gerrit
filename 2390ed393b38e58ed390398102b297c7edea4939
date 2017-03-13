@@ -17,6 +17,24 @@
       "revId": "2390ed393b38e58ed390398102b297c7edea4939",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da769598_b98c14ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2017-03-13T18:35:20Z",
+      "side": 1,
+      "message": "Currently, we only have one BatchUpdate Factory, it should be ok here.\nHow will the future NoteDbBatchUpdate fit here? Or will this part of code be removed in the future?",
+      "parentUuid": "0f6e56df_6a01d585",
+      "revId": "2390ed393b38e58ed390398102b297c7edea4939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

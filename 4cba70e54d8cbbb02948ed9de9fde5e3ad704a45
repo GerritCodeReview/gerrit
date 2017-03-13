@@ -34,6 +34,24 @@
       "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "930b3691_c97a79b7",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-13T16:31:49Z",
+      "side": 1,
+      "message": "what we could do is create a js file through java code like we already do for gwt for gerrit. The variable could be based on the canonicalUrl or a new config introduced. Though im not sure how to do that either but i have been looking into doing that.",
+      "parentUuid": "dcb8b07b_b26fc4f3",
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

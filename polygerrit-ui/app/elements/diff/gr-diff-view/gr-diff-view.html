@@ -75,6 +75,9 @@ limitations under the License.
         cursor: pointer;
         padding: 0;
       }
+      iron-dropdown {
+        position: absolute;
+      }
       .dropdown-content {
         background-color: #fff;
         box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
@@ -191,9 +194,9 @@ limitations under the License.
             <span class="downArrow">&#9660;</span>
           </gr-button>
           <iron-dropdown id="dropdown"
-              vertical-align="top"
-              vertical-offset="25"
-              allow-outside-scroll="true">
+              allow-outside-scroll
+              vertical-align=""
+              horizontal-align="">
             <div class="dropdown-content">
               <template
                   is="dom-repeat"

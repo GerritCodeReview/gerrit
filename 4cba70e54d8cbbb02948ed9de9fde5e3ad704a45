@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcb8b07b_b26fc4f3",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2017-03-13T09:13:38Z",
+      "side": 1,
+      "message": "An alternative approach: \n\nRender index.html through a template system (soy is used at other places) before serving it (currently done from gerrit/httpd/raw/StaticModule.java) and inject the necessary parts at this point (the information is available from canonicalUrl etc in the config). Then no need arises to add a special js file at a possibly otherwise unrelated location.\n\nThe you could also use fixed instead of computed hrefs.",
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

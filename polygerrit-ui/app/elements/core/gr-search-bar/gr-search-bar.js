@@ -84,6 +84,8 @@
 
   var MAX_AUTOCOMPLETE_RESULTS = 10;
 
+  var CHANGE_ID_REGEX = /^[Ii][0-9a-f]{40}$/g;
+  var CHANGE_NUM_REGEX = /^[1-9][0-9]*$/g;
   var TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
 
   Polymer({
@@ -149,8 +151,37 @@
         target.blur();
       }
       if (this._inputVal) {
-        page.show('/q/' + this.encodeURL(this._inputVal, false));
+        // Navigate directly to changes.
+        if (this._inputVal.match(CHANGE_NUM_REGEX)) {
+          // Matches a change number.
+          page.show('/c/' + this._inputVal);
+        } else if (this._inputVal.match(CHANGE_ID_REGEX)) {
+          // Matches a change ID.
+          this._getSingleChangeNumberFromID(this._inputVal).then(function(num) {
+            if (num) {
+              // Corresponding change number found.
+              page.show('/c/' + num);
+            } else {
+              // Fall back to default search behavior.
+              page.show('/q/' + this.encodeURL(this._inputVal, false));
+            }
+          }.bind(this));
+        } else {
+          page.show('/q/' + this.encodeURL(this._inputVal, false));
+        }
       }
+    },
+
+    /**
+     * Searches for changes with the ID supplied. If one unique change number is
+     * found, return that number.
+     */
+    _getSingleChangeNumberFromID: function(id) {
+      return this.$.restAPI.getChanges(10, id).then(function(res) {
+        if (res.length === 1) {
+          return res[0]._number;
+        }
+      });
     },
 
     /**

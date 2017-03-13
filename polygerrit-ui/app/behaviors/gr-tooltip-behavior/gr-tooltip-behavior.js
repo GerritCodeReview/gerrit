@@ -43,6 +43,7 @@
     },
 
     detached: function() {
+      this._handleHideTooltip();
       this.unlisten(window, 'scroll', '_handleWindowScroll');
     },
 

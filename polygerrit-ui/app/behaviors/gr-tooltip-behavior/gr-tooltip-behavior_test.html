@@ -20,6 +20,7 @@ limitations under the License.
 <script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
 
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-tooltip-behavior.html">
 
 <test-fixture id="basic">
@@ -107,6 +108,13 @@ limitations under the License.
       assert.isAbove(parseFloat(offset.replace(/px$/, '')), 0);
       assert.equal(tooltip.style.left, '915px');
       assert.equal(tooltip.style.top, '100px');
+    });
+
+    test('hides tooltip when detached', function() {
+      sandbox.stub(element, '_handleHideTooltip');
+      element.remove();
+      flushAsynchronousOperations();
+      assert.isTrue(element._handleHideTooltip.called);
     });
   });
 </script>

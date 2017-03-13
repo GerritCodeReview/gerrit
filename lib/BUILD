@@ -264,6 +264,7 @@ java_library(
         ":args4j",
         ":gson",
         ":guava",
+        ":html-types",
         ":icu4j",
         ":jsr305",
         ":protobuf",
@@ -276,6 +277,13 @@ java_library(
         "//lib/ow2:ow2-asm-commons",
         "//lib/ow2:ow2-asm-util",
     ],
+)
+
+java_library(
+    name = "html-types",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@html_types//jar"],
 )
 
 java_library(

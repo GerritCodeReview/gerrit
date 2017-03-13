@@ -126,6 +126,7 @@
 
       return Promise.all(promises).then(function() {
         if (this.prefs) {
+          this.prefs.context = -1;
           return this._renderDiffTable();
         }
         return Promise.resolve();

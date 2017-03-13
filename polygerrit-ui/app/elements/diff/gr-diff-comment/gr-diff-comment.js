@@ -170,7 +170,7 @@
     _eraseDraftComment: function() {
       this.$.storage.eraseDraftComment({
         changeNum: this.changeNum,
-        patchNum: this.patchNum,
+        patchNum: this._getPatchNum(),
         path: this.comment.path,
         line: this.comment.line,
         range: this.comment.range,
@@ -288,7 +288,7 @@
 
         var commentLocation = {
           changeNum: this.changeNum,
-          patchNum: this.patchNum,
+          patchNum: this._getPatchNum(),
           path: this.comment.path,
           line: this.comment.line,
           range: this.comment.range,
@@ -410,6 +410,10 @@
           draft);
     },
 
+    _getPatchNum: function() {
+      return this.side === "PARENT" ? "PARENT" : this.patchNum;
+    },
+
     _loadLocalDraft: function(changeNum, patchNum, comment) {
       // Only apply local drafts to comments that haven't been saved
       // remotely, and haven't been given a default message already.
@@ -423,7 +427,7 @@
 
       var draft = this.$.storage.getDraftComment({
         changeNum: changeNum,
-        patchNum: patchNum,
+        patchNum: this._getPatchNum(),
         path: comment.path,
         line: comment.line,
         range: comment.range,

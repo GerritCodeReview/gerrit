@@ -1,4 +1,166 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1489414186 -0400\nnonce AIcUUg9GIh2Dh3WOHPf2HbUjjFezgdfSL0xn6Uv5nIzDdotkj+TQEmI1cp3/7QteMfvUCx+m6bkU\n\n0000000000000000000000000000000000000000 2390ed393b38e58ed390398102b297c7edea4939 refs/for/master%topic\u003dabstract-batch-update,r\u003dekempin@google.com,r\u003ddpursehouse@collab.net,r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYxqgqAAoJEF/XxZqaEoiMOikQAK+Jd8jaXx8KmI+wUHVGD3ct\njDf/t84F4NUMS5YH6Ec0f3CLjhGxQ/EWNIBT+CCEk27RZfh6DK/aTxbU0SP9yvKw\nUk62LP76ZyI2m+hKOH9l94bg62Hrfo5pgof8GyNQMwKGcMzo7ONA6vLan8ilnVXP\njco0jR9Vp1sxA/LSyyinmsQJGfS8u4mL0RnwX3pyY/ePFxIT8DirjRhxyMY55J3s\nYQdHWHTysAQCXMS/qw3az8U3yt/JpXc6nesrUnIRansYmseanQck5Ch35F76HgWx\nq+qUZYPVbmXf8yVB1V7dOKm+EoY4rPPSXceWiKOVcmtxwa1BmNafT8uoomRX3Tah\ntc3eIcr6lQ72q+CnMFuOMNEzivlvL0afUvfpR4hNMwEgtqGf7mGY8hUa0bODPNJu\n1jl7Ivido9WHq4o5sfcnSinVbc4gumN2B1oMg8hUi/aparNKFEpsrNsO8Uy+Fr9z\n8E3Nozkt6ua2TT+vraSPco0H7ncc00RIK4bz/yDLuy3+d8RmisAln9ZhfbVSQWT5\ncocbrqcEAiMHCi6rrfnhVMYjOhbD5erExO7rBQ6d2WPjiw3g7VT+pGn/7JKiJnos\n4RjutnAmzvd5SZLi6B5rBoi/MSEtJVYoYMlXKeD0wIIIE5OG5jCjNa74hGqxO/QV\nEzFQ+NjWIHB8QPtcmpT+\n\u003dSvoF\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "052f8aa9_d60f62db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-13T17:25:42Z",
+      "side": 1,
+      "message": "optional: We need to access \u0027updates\u0027, \u0027deleted\u0027 and \u0027bumpLastUpdatedOn\u0027 in BatchUpdate. Would it hurt to make these fields accessible via public methods (on the interface) which return an unmodifiable view? Thus, we could get rid of referring to ChangeContextImpl at various locations within BatchUpdate.",
+      "range": {
+        "startLine": 195,
+        "startChar": 4,
+        "endLine": 201,
+        "endChar": 45
+      },
+      "revId": "b91cf223be6ba9fad3c1757397d4190c8b2b817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82b87917_86063042",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-13T17:25:42Z",
+      "side": 1,
+      "message": "nit: The type Context should be sufficient.",
+      "range": {
+        "startLine": 620,
+        "startChar": 4,
+        "endLine": 620,
+        "endChar": 15
+      },
+      "revId": "b91cf223be6ba9fad3c1757397d4190c8b2b817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37cf3c16_e665ff93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-13T17:25:42Z",
+      "side": 1,
+      "message": "nit: The type RepoContext should be sufficient.",
+      "range": {
+        "startLine": 644,
+        "startChar": 6,
+        "endLine": 644,
+        "endChar": 21
+      },
+      "revId": "b91cf223be6ba9fad3c1757397d4190c8b2b817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c04a126f_c745fa0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-13T17:25:42Z",
+      "side": 1,
+      "message": "nit: The type Context should be sufficient.",
+      "range": {
+        "startLine": 1107,
+        "startChar": 4,
+        "endLine": 1107,
+        "endChar": 15
+      },
+      "revId": "b91cf223be6ba9fad3c1757397d4190c8b2b817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8e9c666_f11368ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ChangeContext.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-13T17:25:42Z",
+      "side": 1,
+      "message": "nit: Starting with a return or parameter tag is not in line with our style guide [1]. Please update also the other occurrences within this and the other introduced interface files.\n\n[1] https://google.github.io/styleguide/javaguide.html#s7.2-summary-fragment",
+      "range": {
+        "startLine": 47,
+        "startChar": 5,
+        "endLine": 47,
+        "endChar": 12
+      },
+      "revId": "b91cf223be6ba9fad3c1757397d4190c8b2b817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86ea1dc9_7ef4c1ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ChangeContext.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-13T17:25:42Z",
+      "side": 1,
+      "message": "unrelated: We always pass false as parameter at the moment. Do we intend to use \u0027true\u0027 as parameter in the future?",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 0
+      },
+      "revId": "b91cf223be6ba9fad3c1757397d4190c8b2b817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afe45d76_9301eeff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoContext.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-13T17:25:42Z",
+      "side": 1,
+      "message": "nit: This comment is a bit vague. Could we please explicitly mention that this method is for reference updates?\n\nAt some point in the future, we should extend this Javadoc comment to provide more details. For instance, users of this method don\u0027t know whether the reference updates will be executed atomically (including the reference updates necessary for NoteDb) or at which point in the process the updates will be processed. If we don\u0027t want to give any guarantees, we should also mention that so that users don\u0027t accidentally rely on implementation details.",
+      "range": {
+        "startLine": 32,
+        "startChar": 5,
+        "endLine": 32,
+        "endChar": 51
+      },
+      "revId": "b91cf223be6ba9fad3c1757397d4190c8b2b817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

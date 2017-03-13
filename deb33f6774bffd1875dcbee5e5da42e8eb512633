@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ba8b9b9_5f17a874",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-13T23:22:50Z",
+      "side": 1,
+      "message": "If you make the leading i optional, then we could treat commit sha1 in the same way.",
+      "range": {
+        "startLine": 87,
+        "startChar": 24,
+        "endLine": 87,
+        "endChar": 44
+      },
+      "revId": "deb33f6774bffd1875dcbee5e5da42e8eb512633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

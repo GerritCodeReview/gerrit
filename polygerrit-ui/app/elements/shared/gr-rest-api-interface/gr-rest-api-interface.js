@@ -781,6 +781,7 @@
       function onlyParent(c) { return c.side == PARENT_PATCH_NUM; }
       function withoutParent(c) { return c.side != PARENT_PATCH_NUM; }
       function setPath(c) { c.path = opt_path; }
+      function setIsOnParent(c) { c.__isOnParent = true; }
 
       var promises = [];
       var comments;
@@ -800,6 +801,10 @@
         if (opt_basePatchNum == PARENT_PATCH_NUM) {
           baseComments = comments.filter(onlyParent);
           baseComments.forEach(setPath);
+
+          // Translate {String} side to {Boolean} __isOnParent for readability
+          // in the app.
+          baseComments.forEach(setIsOnParent);
         }
         comments = comments.filter(withoutParent);
 

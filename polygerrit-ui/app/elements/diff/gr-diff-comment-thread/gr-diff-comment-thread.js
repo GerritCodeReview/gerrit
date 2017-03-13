@@ -41,9 +41,9 @@
       patchNum: String,
       path: String,
       projectConfig: Object,
-      side: {
-        type: String,
-        value: 'REVISION',
+      isOnParent: {
+        type: Boolean,
+        value: false,
       },
 
       _showActions: Boolean,
@@ -272,7 +272,7 @@
         __date: new Date(),
         path: this.path,
         patchNum: this.patchNum,
-        side: this.side,
+        __isOnParent: this.__isOnParent,
         __commentSide: this.commentSide,
       };
       if (opt_lineNum) {

@@ -11,7 +11,9 @@
 # and the output will be discarded.
 
 function rev() {
-  cd $1; git describe --always --match "v[0-9].*" --dirty
+  local describe=(git describe --always --match "v[0-9].*")
+  cd "$1"
+  "${describe[@]}" --dirty || echo $("${describe[@]}")-dirty
 }
 
 echo STABLE_BUILD_GERRIT_LABEL $(rev .)

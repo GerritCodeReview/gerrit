@@ -719,7 +719,7 @@ public class PluginLoader implements LifecycleListener {
   public String getGerritPluginName(Path srcPath) {
     String fileName = srcPath.getFileName().toString();
     if (isJsPlugin(fileName)) {
-      return fileName.substring(0, fileName.length() - 3);
+      return fileName.substring(0, fileName.lastIndexOf('.'));
     }
     if (serverPluginFactory.handles(srcPath)) {
       return serverPluginFactory.getPluginName(srcPath);
@@ -736,7 +736,7 @@ public class PluginLoader implements LifecycleListener {
   }
 
   private static boolean isJsPlugin(String name) {
-    return isPlugin(name, "js");
+    return isPlugin(name, "js") || isPlugin(name, "html");
   }
 
   private static boolean isPlugin(String fileName, String ext) {

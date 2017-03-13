@@ -107,7 +107,8 @@
     }
 
     // TODO(andybons): Polyfill currentScript for IE10/11 (edge supports it).
-    var src = opt_src || (document.currentScript && document.currentScript.src);
+    var src = opt_src || (document.currentScript &&
+         document.currentScript.src || document.currentScript.baseURI);
     var plugin = new Plugin(src);
     try {
       callback(plugin);

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "c1c7e6f2_1dc42549",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ChangeContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-13T14:09:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebd24576_e7597538",
+      "range": {
+        "startLine": 34,
+        "startChar": 35,
+        "endLine": 34,
+        "endChar": 36
+      },
+      "revId": "37012aacbb175010ab7de1b5a1db3a71ddf4e2b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9b6378e_c8128193",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ChangeContext.java",
         "patchSetId": 2
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "714a012a_465dcb21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-13T14:09:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8543fba3_2fa104c5",
+      "range": {
+        "startLine": 78,
+        "startChar": 74,
+        "endLine": 78,
+        "endChar": 76
+      },
+      "revId": "37012aacbb175010ab7de1b5a1db3a71ddf4e2b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63e97aac_206ebd4b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/Context.java",
         "patchSetId": 2
@@ -107,6 +155,30 @@
       "writtenOn": "2017-03-12T23:58:42Z",
       "side": 1,
       "message": "throws what?  Should there be a throws definition on the method?\n\nSame for getAccount and getAccountId below.",
+      "range": {
+        "startLine": 86,
+        "startChar": 52,
+        "endLine": 86,
+        "endChar": 61
+      },
+      "revId": "37012aacbb175010ab7de1b5a1db3a71ddf4e2b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02eb0692_24fb6cfd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-13T14:09:59Z",
+      "side": 1,
+      "message": "Done. I intentionally did not specify the type, as callers should not be depending on a specific exception type, they should be guarding with isIdentifiedUser instead.",
+      "parentUuid": "63e97aac_206ebd4b",
       "range": {
         "startLine": 86,
         "startChar": 52,

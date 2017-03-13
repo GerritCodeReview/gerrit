@@ -212,6 +212,30 @@
       "revId": "37012aacbb175010ab7de1b5a1db3a71ddf4e2b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40328328_22a3cf2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-13T17:41:40Z",
+      "side": 1,
+      "message": "I can do the @throws, that\u0027s fine.\n\nI am still resisting going into more detail here because this is clearly a thin wrapper around CurrentUser#asIdentifiedUser. Of course if you look at that method, it is not at all properly documented. Nonetheless, to limit the scope of this change, I will probably just link to that method from here and punt improved documentation of CurrentUser to a later fix.",
+      "parentUuid": "0d88e5bd_6697a41e",
+      "range": {
+        "startLine": 86,
+        "startChar": 52,
+        "endLine": 86,
+        "endChar": 61
+      },
+      "revId": "37012aacbb175010ab7de1b5a1db3a71ddf4e2b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

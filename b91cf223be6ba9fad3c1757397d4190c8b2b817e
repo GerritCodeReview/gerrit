@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "c3b3d741_d32bc876",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-13T17:41:40Z",
+      "side": 1,
+      "message": "I am open to that possibility, but I\u0027d prefer to wait until we have another implementation of the interface before we decide which of these makes sense to push into the interface.\n\n\u003e Thus, we could get rid of referring to ChangeContextImpl at various locations within BatchUpdate.\n\nThis seems to me a minor advantage at best. I have no intention of moving ContextImpl out of this class, since the implementations are tightly coupled in other ways. Given that, there is not much harm in accessing these via private fields.",
+      "parentUuid": "052f8aa9_d60f62db",
+      "range": {
+        "startLine": 195,
+        "startChar": 4,
+        "endLine": 201,
+        "endChar": 45
+      },
+      "revId": "b91cf223be6ba9fad3c1757397d4190c8b2b817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82b87917_86063042",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
         "patchSetId": 4
@@ -118,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "1c214efb_1791c500",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ChangeContext.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-13T17:41:40Z",
+      "side": 1,
+      "message": "TIL. I disagree with the style guide here, since IMO a tool that can\u0027t display the @return text when no summary exists is broken, but I have no problem complying.",
+      "parentUuid": "b8e9c666_f11368ce",
+      "range": {
+        "startLine": 47,
+        "startChar": 5,
+        "endLine": 47,
+        "endChar": 12
+      },
+      "revId": "b91cf223be6ba9fad3c1757397d4190c8b2b817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86ea1dc9_7ef4c1ba",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ChangeContext.java",
         "patchSetId": 4
@@ -141,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "af0e44e3_a648c137",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ChangeContext.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-13T17:41:40Z",
+      "side": 1,
+      "message": "No, in fact, in the future (post-ReviewDb) this will probably go away entirely. Not bumping lastUpdatedOn when updating the change meta ref is impossible in NoteDb. As a result, to maintain the same behavior in ReviewDb/NoteDb, this method is only used to avoid bumping lastUpdatedOn when updating a draft comment. (It had more uses in the past but I killed \u0027em.)\n\nAre you proposing that we rename this dontBumpLastUpdatedOn and remove the argument?",
+      "parentUuid": "86ea1dc9_7ef4c1ba",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 0
+      },
+      "revId": "b91cf223be6ba9fad3c1757397d4190c8b2b817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afe45d76_9301eeff",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoContext.java",
         "patchSetId": 4
@@ -152,6 +224,30 @@
       "writtenOn": "2017-03-13T17:25:42Z",
       "side": 1,
       "message": "nit: This comment is a bit vague. Could we please explicitly mention that this method is for reference updates?\n\nAt some point in the future, we should extend this Javadoc comment to provide more details. For instance, users of this method don\u0027t know whether the reference updates will be executed atomically (including the reference updates necessary for NoteDb) or at which point in the process the updates will be processed. If we don\u0027t want to give any guarantees, we should also mention that so that users don\u0027t accidentally rely on implementation details.",
+      "range": {
+        "startLine": 32,
+        "startChar": 5,
+        "endLine": 32,
+        "endChar": 51
+      },
+      "revId": "b91cf223be6ba9fad3c1757397d4190c8b2b817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91ef8d23_96326dc0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoContext.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-13T17:41:40Z",
+      "side": 1,
+      "message": "This is kept short for now because in the not-too-distant future the order of operations is going to change between mixed ReviewDb/NoteDb and pure-NoteDb implementations: we want the pure-NoteDb impl to update both the code refs and meta refs in the same BatchRefUpdate. (Which is really the point of this whole refactoring.)\n\nWhen that happens, I will be sure to explain the differences and their practical consequences for callers.",
+      "parentUuid": "afe45d76_9301eeff",
       "range": {
         "startLine": 32,
         "startChar": 5,

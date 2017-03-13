@@ -35,6 +35,7 @@ public class PluginLoader extends DialogBox {
 
   public static void load(
       List<String> plugins, int loadTimeout, AsyncCallback<VoidResult> callback) {
+    plugins.removeIf(p -> !p.endsWith(".js"));
     if (plugins == null || plugins.isEmpty()) {
       callback.onSuccess(VoidResult.create());
     } else {

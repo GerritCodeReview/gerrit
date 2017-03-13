@@ -149,8 +149,33 @@
         target.blur();
       }
       if (this._inputVal) {
-        page.show('/q/' + this.encodeURL(this._inputVal, false));
+        // Navigate directly to changes.
+        if (this._inputVal.match(/^[1-9][0-9]*$/g)) {
+          // Matches a change number.
+          page.show('/c/' + this._inputVal);
+        } else if (this._inputVal.match(/^[Ii][0-9a-f]{40}$/g)) {
+          // Matches a change ID.
+          this._getChangeNumberFromID(this._inputVal).then(function(num) {
+            if (num) {
+              // Corresponding change number found.
+              page.show('/c/' + num);
+            } else {
+              // Fall back to default search behavior.
+              page.show('/q/' + this.encodeURL(this._inputVal, false));
+            }
+          }.bind(this));
+        } else {
+          page.show('/q/' + this.encodeURL(this._inputVal, false));
+        }
       }
+    },
+
+    _getChangeNumberFromID: function(id) {
+      return this.$.restAPI.getChanges(1, id).then(function(res) {
+        if (res.length) {
+          return res[0]._number;
+        }
+      });
     },
 
     /**

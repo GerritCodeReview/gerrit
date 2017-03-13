@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "999c8d0d_1c08d862",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-13T22:00:09Z",
+      "side": 1,
+      "message": "I think this should only be when a change ID or number are searched AND there is only one result for the query.\n\nFor example, if when searching by change ID for a change that has been cherry-picked to multiple branches, I\u0027d expect all of them to appear in search.",
+      "revId": "61264ee67ee2b11d0dbbe5dcd069e2c58ad9b0be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

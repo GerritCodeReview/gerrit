@@ -84,6 +84,8 @@
 
   var MAX_AUTOCOMPLETE_RESULTS = 10;
 
+  var CHANGE_ID_REGEX = /^i?[0-9a-f]{8,40}$/i;
+  var CHANGE_NUM_REGEX = /^[1-9][0-9]*$/g;
   var TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
 
   Polymer({
@@ -149,8 +151,38 @@
         target.blur();
       }
       if (this._inputVal) {
-        page.show('/q/' + this.encodeURL(this._inputVal, false));
+        var trimmedInput = this._inputVal.trim();
+        // Navigate directly to changes.
+        if (trimmedInput.match(CHANGE_NUM_REGEX) ||
+            trimmedInput.match(CHANGE_ID_REGEX)) {
+          // Matches a change ID, num, or commit hash.
+          this.$.searchInput.disabled = true;
+          this._getChangeNumFromQuery(trimmedInput).then(function(num) {
+            if (num) {
+              // Corresponding change number found.
+              page.show('/c/' + num);
+            } else {
+              // Fall back to default search behavior.
+              page.show('/q/' + this.encodeURL(trimmedInput, false));
+            }
+            this.$.searchInput.disabled = false;
+          }.bind(this));
+        } else {
+          page.show('/q/' + this.encodeURL(trimmedInput, false));
+        }
       }
+    },
+
+    /**
+     * Searches for changes with the query supplied. If one unique change number
+     * is found, return that number.
+     */
+    _getChangeNumFromQuery: function(query) {
+      return this.$.restAPI.getChanges(10, query).then(function(res) {
+        if (res.length === 1) {
+          return res[0]._number;
+        }
+      });
     },
 
     /**

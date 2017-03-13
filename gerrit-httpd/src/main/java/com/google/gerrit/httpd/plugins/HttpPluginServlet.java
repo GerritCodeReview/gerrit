@@ -637,7 +637,11 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
     Path path = plugin.getSrcFile();
     if (req.getRequestURI().endsWith(getJsPluginPath(plugin)) && Files.exists(path)) {
       res.setHeader("Content-Length", Long.toString(Files.size(path)));
-      res.setContentType("application/javascript");
+      if (path.toString().endsWith(".html")) {
+        res.setContentType("text/html");
+      } else {
+        res.setContentType("application/javascript");
+      }
       writeToResponse(res, Files.newInputStream(path));
     } else {
       resourceCache.put(key, Resource.NOT_FOUND);

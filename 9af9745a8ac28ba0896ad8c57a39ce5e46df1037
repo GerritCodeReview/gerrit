@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ac4c5402_798c29ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-13T07:29:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b1e29132_3fec6585",
+      "revId": "9af9745a8ac28ba0896ad8c57a39ce5e46df1037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c98be1af_64397142",
         "filename": "WORKSPACE",
         "patchSetId": 8
@@ -77,6 +95,24 @@
       "writtenOn": "2017-03-13T05:47:53Z",
       "side": 1,
       "message": "nit: should be moved after org.apache.sshd.common.util.net",
+      "revId": "9af9745a8ac28ba0896ad8c57a39ce5e46df1037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05ba9c8e_7687582c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-13T07:29:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "67f61f6a_7a441dd0",
       "revId": "9af9745a8ac28ba0896ad8c57a39ce5e46df1037",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

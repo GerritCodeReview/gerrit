@@ -34,6 +34,86 @@
       "revId": "61264ee67ee2b11d0dbbe5dcd069e2c58ad9b0be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9975f78a_ae8dcbb1",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-13T22:19:07Z",
+      "side": 1,
+      "message": "googlesource.com sites are default-configured to autolink /I[0-9a-f]{8,40}/ in comments. Support the same {8,40} range, so the user can specify a prefix.",
+      "range": {
+        "startLine": 87,
+        "startChar": 38,
+        "endLine": 87,
+        "endChar": 42
+      },
+      "revId": "61264ee67ee2b11d0dbbe5dcd069e2c58ad9b0be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cc3461a_0cd4fc3b",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-13T22:19:07Z",
+      "side": 1,
+      "message": "Just make the regex case-insensitive.",
+      "range": {
+        "startLine": 87,
+        "startChar": 27,
+        "endLine": 87,
+        "endChar": 30
+      },
+      "revId": "61264ee67ee2b11d0dbbe5dcd069e2c58ad9b0be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80d3b88a_5c64db9f",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-13T22:19:07Z",
+      "side": 1,
+      "message": "Is whitespace trimmed from the ends of this._inputVal prior to this point?",
+      "revId": "61264ee67ee2b11d0dbbe5dcd069e2c58ad9b0be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7a1ba52_b5037d9a",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-13T22:19:07Z",
+      "side": 1,
+      "message": "Is it possible for the user to enter more queries while waiting for this round trip?",
+      "revId": "61264ee67ee2b11d0dbbe5dcd069e2c58ad9b0be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

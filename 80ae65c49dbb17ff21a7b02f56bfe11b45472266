@@ -22,6 +22,30 @@
       "revId": "80ae65c49dbb17ff21a7b02f56bfe11b45472266",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c7e349f_26386c4b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/goget/HttpGoGetFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-03-13T16:15:09Z",
+      "side": 1,
+      "message": "Understood.",
+      "parentUuid": "d58c50e1_3dbd4e94",
+      "range": {
+        "startLine": 89,
+        "startChar": 75,
+        "endLine": 89,
+        "endChar": 76
+      },
+      "revId": "80ae65c49dbb17ff21a7b02f56bfe11b45472266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

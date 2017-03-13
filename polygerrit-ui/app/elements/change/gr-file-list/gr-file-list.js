@@ -494,6 +494,10 @@
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
+      // Use native handling if an anchor is selected. @see Issue 5754
+      if (e.detail && e.detail.keyboardEvent && e.detail.keyboardEvent.target &&
+          e.detail.keyboardEvent.target.tagName === 'A') { return; }
+
       e.preventDefault();
       if (this._showInlineDiffs) {
         this._openCursorFile();

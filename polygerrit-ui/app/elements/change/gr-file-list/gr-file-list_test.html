@@ -357,6 +357,44 @@ limitations under the License.
               element.diffs[index].path);
         }
       });
+
+      test('_handleEnterKey navigates', function() {
+        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+        sandbox.stub(element, 'modifierPressed').returns(false);
+        var expandStub = sandbox.stub(element, '_openCursorFile');
+        var navStub = sandbox.stub(element, '_openSelectedFile');
+        var e = new CustomEvent('fake-keyboard-event');
+        sinon.stub(e, 'preventDefault');
+        element._showInlineDiffs = false;
+        element._handleEnterKey(e);
+        assert.isTrue(e.preventDefault.called);
+        assert.isTrue(navStub.called);
+        assert.isFalse(expandStub.called);
+      });
+
+      test('_handleEnterKey expands', function() {
+        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+        sandbox.stub(element, 'modifierPressed').returns(false);
+        var expandStub = sandbox.stub(element, '_openCursorFile');
+        var navStub = sandbox.stub(element, '_openSelectedFile');
+        var e = new CustomEvent('fake-keyboard-event');
+        sinon.stub(e, 'preventDefault');
+        element._showInlineDiffs = true;
+        element._handleEnterKey(e);
+        assert.isTrue(e.preventDefault.called);
+        assert.isFalse(navStub.called);
+        assert.isTrue(expandStub.called);
+      });
+
+      test('_handleEnterKey noop when anchor focused', function() {
+        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+        sandbox.stub(element, 'modifierPressed').returns(false);
+        var e = new CustomEvent('fake-keyboard-event',
+            {detail: {keyboardEvent: {target: document.createElement('a')}}});
+        sinon.stub(e, 'preventDefault');
+        element._handleEnterKey(e);
+        assert.isFalse(e.preventDefault.called);
+      });
     });
 
     test('comment filtering', function() {

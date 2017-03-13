@@ -14,6 +14,9 @@
 (function() {
   'use strict';
 
+  var CHANGE_ID_REGEX = /^i?[0-9a-f]{8,40}$/i;
+  var CHANGE_NUM_REGEX = /^[1-9][0-9]*$/g;
+
   Polymer({
     is: 'gr-change-list-view',
 
@@ -55,7 +58,10 @@
       /**
        * Currently active query.
        */
-      _query: String,
+      _query: {
+        type: String,
+        value: '',
+      },
 
       /**
        * Offset of currently visible query results.
@@ -104,8 +110,16 @@
         this._changesPerPage = prefs.changes_per_page;
         return this._getChanges();
       }.bind(this)).then(function(changes) {
-        this._changes = changes;
-        this._loading = false;
+        if (this._query && changes.length === 1) {
+          var trimmedInput = this._query.trim();
+          if (trimmedInput.match(CHANGE_NUM_REGEX) ||
+            trimmedInput.match(CHANGE_ID_REGEX)) {
+            page.show('/c/' + changes[0]._number);
+          }
+        } else {
+          this._changes = changes;
+          this._loading = false;
+        }
       }.bind(this));
     },
 

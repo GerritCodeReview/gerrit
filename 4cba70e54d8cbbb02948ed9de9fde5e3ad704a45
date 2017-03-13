@@ -70,6 +70,24 @@
       "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c00b2b07_6d4c10f7",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-13T17:12:45Z",
+      "side": 1,
+      "message": "Generating it with init sounds better though not sure how that will work. Will it be like Documentation?",
+      "parentUuid": "20d6bcf4_b8c7dfbd",
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -52,6 +52,24 @@
       "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20d6bcf4_b8c7dfbd",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2017-03-13T16:56:14Z",
+      "side": 1,
+      "message": "That would not help too much in all setups. We host gerrit (and a few other things) on different machines, and the canonical host just proxies to the via different pathes. The toplevel is occupied by another application. So the the script file needs to get resolved on inital loading. \nAs the index.hmtl file is fixed during runtime, one could even generate it during init (store it in static? )and point gerrit/httpd/raw/StaticModule.java#getPolyGerritUiIndexServlet  to this new file.",
+      "parentUuid": "930b3691_c97a79b7",
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

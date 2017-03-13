@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "d41517a6_639df0da",
+        "filename": "WORKSPACE",
+        "patchSetId": 8
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-13T08:11:29Z",
+      "side": 1,
+      "message": "Yep this can be done in a follow up. I was just wondering if that\u0027s how we would do it.",
+      "parentUuid": "72e7741e_91034078",
+      "range": {
+        "startLine": 636,
+        "startChar": 0,
+        "endLine": 640,
+        "endChar": 1
+      },
+      "revId": "9af9745a8ac28ba0896ad8c57a39ce5e46df1037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67f61f6a_7a441dd0",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 8

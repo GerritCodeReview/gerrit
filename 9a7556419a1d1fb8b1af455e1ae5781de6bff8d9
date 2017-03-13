@@ -22,6 +22,30 @@
       "revId": "9a7556419a1d1fb8b1af455e1ae5781de6bff8d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43696498_6fd61e5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-13T08:11:29Z",
+      "side": 1,
+      "message": "Yep as the 1.4.0 release notes won\u0027t show changes done in 1.3.0.\n\nSo I included the two release notes.\n\nThough I can remove the 1.3 release notes if you only want one there.",
+      "parentUuid": "2013eb1b_4917caa5",
+      "range": {
+        "startLine": 9,
+        "startChar": 51,
+        "endLine": 14,
+        "endChar": 90
+      },
+      "revId": "9a7556419a1d1fb8b1af455e1ae5781de6bff8d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,7 @@ limitations under the License.
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-list-view.html">
 
 <test-fixture id="basic">
@@ -31,6 +32,9 @@ limitations under the License.
 </test-fixture>
 
 <script>
+  var CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';
+  var COMMIT_HASH = '12345678';
+
   suite('gr-change-list-view tests', function() {
     var element;
     var sandbox;
@@ -38,6 +42,9 @@ limitations under the License.
     setup(function() {
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(false); },
+        getChanges: function(num, query) {
+          return Promise.resolve([]);
+        },
       });
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
@@ -121,6 +128,63 @@ limitations under the License.
       element.$.prevArrow.hidden = false;
       element._handlePreviousPage();
       assert.isTrue(showStub.called);
+    });
+
+    suite('query based navigation', function() {
+      test('Searching for a change ID redirects to change', function(done) {
+        sandbox.stub(element, '_getChanges')
+            .returns(Promise.resolve([{_number: 1}]));
+        sandbox.stub(page, 'show', function(url) {
+          assert.equal(url, '/c/1');
+          done();
+        });
+
+        element.params = {view: 'gr-change-list-view', query: CHANGE_ID};
+      });
+
+      test('Searching for a change num redirects to change', function(done) {
+        sandbox.stub(element, '_getChanges')
+            .returns(Promise.resolve([{_number: 1}]));
+        sandbox.stub(page, 'show', function(url) {
+          assert.equal(url, '/c/1');
+          done();
+        });
+
+        element.params = {view: 'gr-change-list-view', query: '1'};
+      });
+
+      test('Commit hash redirects to change', function(done) {
+        sandbox.stub(element, '_getChanges')
+            .returns(Promise.resolve([{_number: 1}]));
+        sandbox.stub(page, 'show', function(url) {
+          assert.equal(url, '/c/1');
+          done();
+        });
+
+        element.params = {view: 'gr-change-list-view', query: COMMIT_HASH};
+      });
+
+      test('Searching for an invalid change ID searches', function() {
+        sandbox.stub(element, '_getChanges')
+            .returns(Promise.resolve([]));
+        var stub = sandbox.stub(page, 'show');
+
+        element.params = {view: 'gr-change-list-view', query: CHANGE_ID};
+        flushAsynchronousOperations();
+
+        assert.isFalse(stub.called);
+      });
+
+      test('Change ID with multiple search results searches', function() {
+        sandbox.stub(element, '_getChanges')
+            .returns(Promise.resolve([{}, {}]));
+        var stub = sandbox.stub(page, 'show');
+
+        element.params = {view: 'gr-change-list-view', query: CHANGE_ID};
+        flushAsynchronousOperations();
+
+        assert.isFalse(stub.called);
+      });
     });
   });
 </script>

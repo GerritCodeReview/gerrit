@@ -14,6 +14,11 @@
 (function() {
   'use strict';
 
+  var Regex = {
+    CHANGE_ID: /^\s*i?[0-9a-f]{8,40}\s*$/i,
+    CHANGE_NUM: /^\s*[1-9][0-9]*\s*$/g,
+  };
+
   Polymer({
     is: 'gr-change-list-view',
 
@@ -55,7 +60,10 @@
       /**
        * Currently active query.
        */
-      _query: String,
+      _query: {
+        type: String,
+        value: '',
+      },
 
       /**
        * Offset of currently visible query results.
@@ -104,8 +112,15 @@
         this._changesPerPage = prefs.changes_per_page;
         return this._getChanges();
       }.bind(this)).then(function(changes) {
-        this._changes = changes;
-        this._loading = false;
+        if (this._query && changes.length === 1) {
+          if (this._query.match(Regex.CHANGE_NUM) ||
+            this._query.match(Regex.CHANGE_ID)) {
+            page.show('/c/' + changes[0]._number);
+          }
+        } else {
+          this._changes = changes;
+          this._loading = false;
+        }
       }.bind(this));
     },
 

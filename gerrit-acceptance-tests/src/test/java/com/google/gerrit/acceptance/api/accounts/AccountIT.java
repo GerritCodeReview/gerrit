@@ -423,7 +423,7 @@ public class AccountIT extends AbstractDaemonTest {
         gApi.accounts().self().addEmail(input);
         fail("Expected BadRequestException for invalid email address: " + email);
       } catch (BadRequestException e) {
-        assertThat(e).hasMessage("invalid email address");
+        assertThat(e).hasMessageThat().isEqualTo("invalid email address");
       }
     }
   }

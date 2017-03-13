@@ -243,7 +243,8 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
       fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
       assertThat(e)
-          .hasMessage(
+          .hasMessageThat()
+          .isEqualTo(
               "Failed to submit 2 changes due to the following problems:\n"
                   + "Change "
                   + r1.getChange().getId()

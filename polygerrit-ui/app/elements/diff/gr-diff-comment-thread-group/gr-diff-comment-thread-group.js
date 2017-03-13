@@ -26,9 +26,9 @@
       patchForNewThreads: String,
       projectConfig: Object,
       range: Object,
-      side: {
-        type: String,
-        value: 'REVISION',
+      isOnParent: {
+        type: Boolean,
+        value: false,
       },
       _threads: {
         type: Array,

@@ -336,13 +336,13 @@
   };
 
   GrDiffBuilder.prototype.createCommentThreadGroup = function(changeNum,
-      patchNum, path, side, projectConfig, range) {
+      patchNum, path, isOnParent, projectConfig, range) {
     var threadGroupEl =
         document.createElement('gr-diff-comment-thread-group');
     threadGroupEl.changeNum = changeNum;
     threadGroupEl.patchForNewThreads = patchNum;
     threadGroupEl.path = path;
-    threadGroupEl.side = side;
+    threadGroupEl.isOnParent = isOnParent;
     threadGroupEl.projectConfig = projectConfig;
     threadGroupEl.range = range;
     return threadGroupEl;
@@ -356,11 +356,11 @@
     }
 
     var patchNum = this._comments.meta.patchRange.patchNum;
-    var side = comments[0].side || 'REVISION';
+    var isOnParent = comments[0].__isOnParent || false ;
     if (line.type === GrDiffLine.Type.REMOVE ||
         opt_side === GrDiffBuilder.Side.LEFT) {
       if (this._comments.meta.patchRange.basePatchNum === 'PARENT') {
-        side = 'PARENT';
+        isOnParent = true;
       } else {
         patchNum = this._comments.meta.patchRange.basePatchNum;
       }
@@ -369,7 +369,7 @@
         this._comments.meta.changeNum,
         patchNum,
         this._comments.meta.path,
-        side,
+        isOnParent,
         this._comments.meta.projectConfig);
     threadGroupEl.comments = comments;
     if (opt_side) {

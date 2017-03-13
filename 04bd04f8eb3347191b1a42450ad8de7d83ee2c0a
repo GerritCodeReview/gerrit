@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14ac4c54_a9d6090c",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-13T23:57:12Z",
+      "side": 1,
+      "message": "Can the response to the search be cached so that showing this page doesn\u0027t need to repeat the round trip?",
+      "revId": "04bd04f8eb3347191b1a42450ad8de7d83ee2c0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

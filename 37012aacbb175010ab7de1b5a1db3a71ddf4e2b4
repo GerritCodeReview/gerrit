@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2c394adc_b12e9018",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ChangeContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-13T13:41:30Z",
+      "side": 1,
+      "message": "We currently don\u0027t use @NonNull anywhere in Gerrit: http://cs.bazel.build/search?q\u003dr%3Agerrit+%40No%5Bnt%5DNull\u0026num\u003d50\n\nNot saying we don\u0027t want to do that eventually, but I don\u0027t feel the need to start here. In the absence of a new policy, the old convention is essentially assume non-null unless it has @Nullable. This code follows that convention.",
+      "parentUuid": "c9b6378e_c8128193",
+      "range": {
+        "startLine": 68,
+        "startChar": 11,
+        "endLine": 68,
+        "endChar": 23
+      },
+      "revId": "37012aacbb175010ab7de1b5a1db3a71ddf4e2b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8543fba3_2fa104c5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/Context.java",
         "patchSetId": 2

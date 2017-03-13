@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2013eb1b_4917caa5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-13T08:04:23Z",
+      "side": 1,
+      "message": "Now we have both the 1.3 and 1.4 release notes.",
+      "range": {
+        "startLine": 9,
+        "startChar": 51,
+        "endLine": 14,
+        "endChar": 90
+      },
+      "revId": "9a7556419a1d1fb8b1af455e1ae5781de6bff8d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

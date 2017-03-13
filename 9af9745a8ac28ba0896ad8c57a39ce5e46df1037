@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "72e7741e_91034078",
+        "filename": "WORKSPACE",
+        "patchSetId": 8
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-13T08:04:23Z",
+      "side": 1,
+      "message": "Is this needed in this change, or are you planning to do it in a follow up?\n\nI assume it\u0027s not strictly needed here, given that CI passed.",
+      "parentUuid": "b9fc40b2_fe42d272",
+      "range": {
+        "startLine": 636,
+        "startChar": 0,
+        "endLine": 640,
+        "endChar": 1
+      },
+      "revId": "9af9745a8ac28ba0896ad8c57a39ce5e46df1037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67f61f6a_7a441dd0",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 8

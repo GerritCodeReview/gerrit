@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "393a644b_226cde6a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-13T20:12:32Z",
+      "side": 1,
+      "message": "Why set these to the empty string? What does that do as opposed to leaving the attributes out?",
+      "range": {
+        "startLine": 198,
+        "startChar": 14,
+        "endLine": 199,
+        "endChar": 33
+      },
+      "revId": "453c8f9bd8e944f0de7ae5f8410e56f233cf6e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

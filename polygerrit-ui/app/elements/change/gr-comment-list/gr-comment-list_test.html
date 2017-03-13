@@ -71,7 +71,7 @@ limitations under the License.
       assert.equal(actual, expected);
 
       comment.line = 321;
-      comment.side = 'PARENT';
+      comment.__isOnParent = true;
 
       expected = '/c/<change>/<patch>/<file>#b321';
       actual = element._computeDiffLineURL('<file>', '<change>', '<patch>',
@@ -87,7 +87,7 @@ limitations under the License.
       element.patchNum = 9;
       assert.equal(element._computePatchDisplayName(comment), 'PS10, ');
 
-      comment.side = 'PARENT';
+      comment.__isOnParent = true;
       assert.equal(element._computePatchDisplayName(comment), 'Base, ');
     });
   });

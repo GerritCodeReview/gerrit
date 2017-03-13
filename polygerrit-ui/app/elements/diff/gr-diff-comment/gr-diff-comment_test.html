@@ -153,10 +153,10 @@ limitations under the License.
     });
 
     test('_getPatchNum', function() {
-      element.side = 'PARENT';
+      element.isOnParent = true;
       element.patchNum = 1;
       assert.equal(element._getPatchNum(), 'PARENT');
-      element.side = 'REVISION';
+      element.isOnParent = false;
       assert.equal(element._getPatchNum(), 1);
     });
 
@@ -508,6 +508,7 @@ limitations under the License.
         assert.deepEqual(fireStub.lastCall.args[1], {
           comment: {
             __commentSide: 'right',
+            __isOnParent: false,
             __draft: true,
             __draftID: 'temp_draft_id',
             __editing: false,

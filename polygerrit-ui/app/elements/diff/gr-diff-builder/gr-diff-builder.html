@@ -216,10 +216,10 @@ limitations under the License.
               GrDiffBuilder.Side.RIGHT : GrDiffBuilder.Side.LEFT;
         },
 
-        createCommentThreadGroup: function(changeNum, patchNum, path, side,
+        createCommentThreadGroup: function(changeNum, patchNum, path, isOnParent,
             commentSide, projectConfig) {
           return this._builder.createCommentThreadGroup(changeNum, patchNum,
-              path, side, commentSide, projectConfig);
+              path, isOnParent, commentSide, projectConfig);
         },
 
         emitGroup: function(group, sectionEl) {

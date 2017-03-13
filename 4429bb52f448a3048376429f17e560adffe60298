@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ac54074_79ce5389",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-13T19:03:39Z",
+      "side": 1,
+      "message": "Nit: these should use single quotes.",
+      "range": {
+        "startLine": 414,
+        "startChar": 27,
+        "endLine": 414,
+        "endChar": 46
+      },
+      "revId": "4429bb52f448a3048376429f17e560adffe60298",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

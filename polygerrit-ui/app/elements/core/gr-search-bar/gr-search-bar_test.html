@@ -33,11 +33,19 @@ limitations under the License.
 </test-fixture>
 
 <script>
+  var CHANGE_ID = 'Ia8b2f0abe1d24a3849628fe335c931f07bcaff52';
+
   suite('gr-search-bar tests', function() {
     var element;
+    var sandbox;
 
     setup(function() {
       element = fixture('basic');
+      sandbox = sinon.sandbox.create();
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('value is propagated to _inputVal', function() {
@@ -52,8 +60,7 @@ limitations under the License.
     }
 
     test('tap on search button triggers nav', function(done) {
-      sinon.stub(page, 'show', function() {
-        page.show.restore();
+      sandbox.stub(page, 'show', function() {
         assert.notEqual(getActiveElement(), element.$.searchInput);
         assert.notEqual(getActiveElement(), element.$.searchButton);
         done();
@@ -63,8 +70,7 @@ limitations under the License.
     });
 
     test('enter in search input triggers nav', function(done) {
-      sinon.stub(page, 'show', function() {
-        page.show.restore();
+      sandbox.stub(page, 'show', function() {
         assert.notEqual(getActiveElement(), element.$.searchInput);
         assert.notEqual(getActiveElement(), element.$.searchButton);
         done();
@@ -75,27 +81,24 @@ limitations under the License.
     });
 
     test('search query should be double-escaped', function() {
-      var showStub = sinon.stub(page, 'show');
+      var showStub = sandbox.stub(page, 'show');
       element.$.searchInput.text = 'fate/stay';
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
           null, 'enter');
       assert.equal(showStub.lastCall.args[0], '/q/fate%252Fstay');
-      showStub.restore();
     });
 
     test('input blurred after commit', function() {
-      var showStub = sinon.stub(page, 'show');
-      var blurSpy = sinon.spy(element.$.searchInput.$.input, 'blur');
+      var showStub = sandbox.stub(page, 'show');
+      var blurSpy = sandbox.spy(element.$.searchInput.$.input, 'blur');
       element.$.searchInput.text = 'fate/stay';
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
           null, 'enter');
       assert.isTrue(blurSpy.called);
-      showStub.restore();
-      blurSpy.restore();
     });
 
     test('empty search query does not trigger nav', function() {
-      var showSpy = sinon.spy(page, 'show');
+      var showSpy = sandbox.spy(page, 'show');
       element.value = '';
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
           null, 'enter');
@@ -103,8 +106,8 @@ limitations under the License.
     });
 
     test('keyboard shortcuts', function() {
-      var focusSpy = sinon.spy(element.$.searchInput, 'focus');
-      var selectAllSpy = sinon.spy(element.$.searchInput, 'selectAll');
+      var focusSpy = sandbox.spy(element.$.searchInput, 'focus');
+      var selectAllSpy = sandbox.spy(element.$.searchInput, 'selectAll');
       MockInteractions.pressAndReleaseKeyOn(document.body, 191, null, '/');
       assert.isTrue(focusSpy.called);
       assert.isTrue(selectAllSpy.called);
@@ -112,7 +115,7 @@ limitations under the License.
 
     suite('_getSearchSuggestions', function() {
       setup(function() {
-        sinon.stub(element.$.restAPI, 'getSuggestedAccounts', function() {
+        sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', function() {
           return Promise.resolve([
             {
               name: 'fred',
@@ -120,24 +123,18 @@ limitations under the License.
             },
           ]);
         });
-        sinon.stub(element.$.restAPI, 'getSuggestedGroups', function() {
+        sandbox.stub(element.$.restAPI, 'getSuggestedGroups', function() {
           return Promise.resolve({
             Polygerrit: 0,
             gerrit: 0,
             gerrittest: 0,
           });
         });
-        sinon.stub(element.$.restAPI, 'getSuggestedProjects', function() {
+        sandbox.stub(element.$.restAPI, 'getSuggestedProjects', function() {
           return Promise.resolve({
             Polygerrit: 0,
           });
         });
-      });
-
-      teardown(function() {
-        element.$.restAPI.getSuggestedAccounts.restore();
-        element.$.restAPI.getSuggestedGroups.restore();
-        element.$.restAPI.getSuggestedProjects.restore();
       });
 
       test('Autocompletes accounts', function(done) {
@@ -207,6 +204,52 @@ limitations under the License.
           });
         });
       });
+    });
+
+    test('Searching for a change ID redirects to that change', function(done) {
+      sandbox.stub(element.$.restAPI, 'getChanges')
+          .returns(Promise.resolve([{_number: 1}]));
+      sandbox.stub(page, 'show', function(url) {
+        assert.equal(url, '/c/1');
+        done();
+      });
+
+      element._inputVal = CHANGE_ID;
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13);
+    });
+
+    test('Searching for a change num redirects to that change', function(done) {
+      sandbox.stub(page, 'show', function(url) {
+        assert.equal(url, '/c/1');
+        done();
+      });
+
+      element._inputVal = '1';
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13);
+    });
+
+    test('Searching for an invalid change ID searches', function(done) {
+      sandbox.stub(element.$.restAPI, 'getChanges')
+          .returns(Promise.resolve([]));
+      sandbox.stub(page, 'show', function(url) {
+        assert.equal(url, '/q/' + CHANGE_ID);
+        done();
+      });
+
+      element._inputVal = CHANGE_ID;
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13);
+    });
+
+    test('Change ID with multiple search results searches', function(done) {
+      sandbox.stub(element.$.restAPI, 'getChanges')
+          .returns(Promise.resolve([{}, {}]));
+      sandbox.stub(page, 'show', function(url) {
+        assert.equal(url, '/q/' + CHANGE_ID);
+        done();
+      });
+
+      element._inputVal = CHANGE_ID;
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13);
     });
   });
 </script>

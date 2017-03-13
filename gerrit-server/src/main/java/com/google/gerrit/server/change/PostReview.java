@@ -86,16 +86,17 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.extensions.events.CommentAdded;
-import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
-import com.google.gerrit.server.git.BatchUpdate.Context;
-import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -245,7 +246,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     try (BatchUpdate bu =
         batchUpdateFactory.create(
             db.get(), revision.getChange().getProject(), revision.getUser(), ts)) {
-      Account.Id id = bu.getUser().getAccountId();
+      Account.Id id = revision.getUser().getAccountId();
       boolean ccOrReviewer = false;
       if (input.labels != null && !input.labels.isEmpty()) {
         ccOrReviewer = input.labels.values().stream().filter(v -> v != 0).findFirst().isPresent();
@@ -285,7 +286,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         // User posting this review isn't currently in the reviewer or CC list,
         // isn't being explicitly added, and isn't voting on any label.
         // Automatically CC them on this change so they receive replies.
-        PostReviewers.Addition selfAddition = postReviewers.ccCurrentUser(bu.getUser(), revision);
+        PostReviewers.Addition selfAddition =
+            postReviewers.ccCurrentUser(revision.getUser(), revision);
         bu.addOp(revision.getChange().getId(), selfAddition.op);
       }
 
@@ -676,7 +678,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     abstract Comment.Range range();
   }
 
-  private class Op extends BatchUpdate.Op {
+  private class Op implements BatchUpdateOp {
     private final PatchSet.Id psId;
     private final ReviewInput in;
     private final ListMultimap<RecipientType, Account.Id> accountsToNotify;

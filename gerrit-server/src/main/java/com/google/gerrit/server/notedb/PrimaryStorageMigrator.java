@@ -40,11 +40,8 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepoRefCache;
-import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbChangeState.RefState;
@@ -52,6 +49,10 @@ import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
@@ -455,7 +456,7 @@ public class PrimaryStorageMigrator {
             db.get(), project, internalUserFactory.create(), TimeUtil.nowTs())) {
       bu.addOp(
           id,
-          new BatchUpdate.Op() {
+          new BatchUpdateOp() {
             @Override
             public boolean updateChange(ChangeContext ctx) {
               ctx.getUpdate(ctx.getChange().currentPatchSetId()).setReadOnlyUntil(new Timestamp(0));

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.update;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -23,8 +23,6 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MultimapBuilder;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -39,7 +37,6 @@ import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -47,11 +44,11 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.validators.OnSubmitValidators;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.InsertedObject;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -77,7 +74,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -97,124 +93,95 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Context for a set of updates that should be applied for a site.
+ * {@link BatchUpdate} implementation that supports mixed ReviewDb/NoteDb operations, depending on
+ * the migration state specified in {@link NotesMigration}.
  *
- * <p>An update operation can be divided into three phases:
+ * <p>When performing change updates in a mixed ReviewDb/NoteDb environment with ReviewDb primary,
+ * the order of operations is very subtle:
  *
  * <ol>
- *   <li>Git reference updates
- *   <li>Database updates
- *   <li>Post-update steps
- *   <li>
+ *   <li>Stage NoteDb updates to get the new NoteDb state, but do not write to the repo.
+ *   <li>Write the new state in the Change entity, and commit this to ReviewDb.
+ *   <li>Update NoteDb, ignoring any write failures.
  * </ol>
  *
- * A single conceptual operation, such as a REST API call or a merge operation, may make multiple
- * changes at each step, which all need to be serialized relative to each other. Moreover, for
- * consistency, <em>all</em> git ref updates must be performed before <em>any</em> database updates,
- * since database updates might refer to newly-created patch set refs. And all post-update steps,
- * such as hooks, should run only after all storage mutations have completed.
- *
- * <p>Depending on the backend used, each step might support batching, for example in a {@code
- * BatchRefUpdate} or one or more database transactions. All operations in one phase must complete
- * successfully before proceeding to the next phase.
+ * The implementation in this class is well-tested, and it is strongly recommended that you not
+ * attempt to reimplement this logic. Use {@code BatchUpdate} if at all possible.
  */
-public class BatchUpdate implements AutoCloseable {
-  private static final Logger log = LoggerFactory.getLogger(BatchUpdate.class);
+class ReviewDbBatchUpdate extends BatchUpdate {
+  private static final Logger log = LoggerFactory.getLogger(ReviewDbBatchUpdate.class);
 
-  public interface Factory {
-    BatchUpdate create(ReviewDb db, Project.NameKey project, CurrentUser user, Timestamp when);
+  interface AssistedFactory {
+    ReviewDbBatchUpdate create(
+        ReviewDb db, Project.NameKey project, CurrentUser user, Timestamp when);
   }
 
-  /** Order of execution of the various phases. */
-  public enum Order {
-    /**
-     * Update the repository and execute all ref updates before touching the database.
-     *
-     * <p>The default and most common, as Gerrit does not behave well when a patch set has no
-     * corresponding ref in the repo.
-     */
-    REPO_BEFORE_DB,
-
-    /**
-     * Update the database before touching the repository.
-     *
-     * <p>Generally only used when deleting patch sets, which should be deleted first from the
-     * database (for the same reason as above.)
-     */
-    DB_BEFORE_REPO;
-  }
-
-  public class Context {
+  class ContextImpl implements Context {
     private Repository repoWrapper;
 
+    @Override
     public Repository getRepository() throws IOException {
       if (repoWrapper == null) {
-        repoWrapper = new ReadOnlyRepository(BatchUpdate.this.getRepository());
+        repoWrapper = new ReadOnlyRepository(ReviewDbBatchUpdate.this.getRepository());
       }
       return repoWrapper;
     }
 
+    @Override
     public RevWalk getRevWalk() throws IOException {
-      return BatchUpdate.this.getRevWalk();
+      return ReviewDbBatchUpdate.this.getRevWalk();
     }
 
+    @Override
     public Project.NameKey getProject() {
       return project;
     }
 
+    @Override
     public Timestamp getWhen() {
       return when;
     }
 
+    @Override
+    public TimeZone getTimeZone() {
+      return tz;
+    }
+
+    @Override
     public ReviewDb getDb() {
       return db;
     }
 
+    @Override
     public CurrentUser getUser() {
       return user;
     }
 
-    public IdentifiedUser getIdentifiedUser() {
-      checkNotNull(user);
-      return user.asIdentifiedUser();
-    }
-
-    public Account getAccount() {
-      checkNotNull(user);
-      return user.asIdentifiedUser().getAccount();
-    }
-
-    public Account.Id getAccountId() {
-      checkNotNull(user);
-      return user.getAccountId();
-    }
-
+    @Override
     public Order getOrder() {
       return order;
     }
   }
 
-  public class RepoContext extends Context {
+  private class RepoContextImpl extends ContextImpl implements RepoContext {
     @Override
     public Repository getRepository() throws IOException {
-      return BatchUpdate.this.getRepository();
+      return ReviewDbBatchUpdate.this.getRepository();
     }
 
+    @Override
     public ObjectInserter getInserter() throws IOException {
-      return BatchUpdate.this.getObjectInserter();
+      return ReviewDbBatchUpdate.this.getObjectInserter();
     }
 
+    @Override
     public void addRefUpdate(ReceiveCommand cmd) throws IOException {
       initRepository();
       commands.add(cmd);
     }
-
-    public TimeZone getTimeZone() {
-      return tz;
-    }
   }
 
-  public class ChangeContext extends Context {
+  private class ChangeContextImpl extends ContextImpl implements ChangeContext {
     private final ChangeControl ctl;
     private final Map<PatchSet.Id, ChangeUpdate> updates;
     private final ReviewDbWrapper dbWrapper;
@@ -224,7 +191,7 @@ public class BatchUpdate implements AutoCloseable {
     private boolean deleted;
     private boolean bumpLastUpdatedOn = true;
 
-    protected ChangeContext(
+    protected ChangeContextImpl(
         ChangeControl ctl, ReviewDbWrapper dbWrapper, Repository repo, RevWalk rw) {
       this.ctl = ctl;
       this.dbWrapper = dbWrapper;
@@ -249,6 +216,7 @@ public class BatchUpdate implements AutoCloseable {
       return threadLocalRevWalk;
     }
 
+    @Override
     public ChangeUpdate getUpdate(PatchSet.Id psId) {
       ChangeUpdate u = updates.get(psId);
       if (u == null) {
@@ -262,82 +230,21 @@ public class BatchUpdate implements AutoCloseable {
       return u;
     }
 
-    public ChangeNotes getNotes() {
-      ChangeNotes n = ctl.getNotes();
-      checkNotNull(n);
-      return n;
-    }
-
+    @Override
     public ChangeControl getControl() {
       checkNotNull(ctl);
       return ctl;
     }
 
-    public Change getChange() {
-      Change c = ctl.getChange();
-      checkNotNull(c);
-      return c;
-    }
-
+    @Override
     public void bumpLastUpdatedOn(boolean bump) {
       bumpLastUpdatedOn = bump;
     }
 
+    @Override
     public void deleteChange() {
       deleted = true;
     }
-  }
-
-  public static class RepoOnlyOp {
-    /**
-     * Override this method to update the repo.
-     *
-     * @param ctx context
-     */
-    public void updateRepo(RepoContext ctx) throws Exception {}
-
-    /**
-     * Override this method to do something after the update e.g. send email or run hooks
-     *
-     * @param ctx context
-     */
-    //TODO(dborowitz): Support async operations?
-    public void postUpdate(Context ctx) throws Exception {}
-  }
-
-  public static class Op extends RepoOnlyOp {
-    /**
-     * Override this method to modify a change.
-     *
-     * @param ctx context
-     * @return whether anything was changed that might require a write to the metadata storage.
-     */
-    public boolean updateChange(ChangeContext ctx) throws Exception {
-      return false;
-    }
-  }
-
-  public abstract static class InsertChangeOp extends Op {
-    public abstract Change createChange(Context ctx);
-  }
-
-  /**
-   * Interface for listening during batch update execution.
-   *
-   * <p>When used during execution of multiple batch updates, the {@code after*} methods are called
-   * after that phase has been completed for <em>all</em> updates.
-   */
-  public static class Listener {
-    public static final Listener NONE = new Listener();
-
-    /** Called after updating all repositories and flushing objects but before updating any refs. */
-    public void afterUpdateRepos() throws Exception {}
-
-    /** Called after updating all refs. */
-    public void afterRefUpdates() throws Exception {}
-
-    /** Called after updating all changes. */
-    public void afterUpdateChanges() throws Exception {}
   }
 
   @Singleton
@@ -356,40 +263,9 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private static Order getOrder(Collection<BatchUpdate> updates) {
-    Order o = null;
-    for (BatchUpdate u : updates) {
-      if (o == null) {
-        o = u.order;
-      } else if (u.order != o) {
-        throw new IllegalArgumentException("cannot mix execution orders");
-      }
-    }
-    return o;
-  }
-
-  private static boolean getUpdateChangesInParallel(Collection<BatchUpdate> updates) {
-    checkArgument(!updates.isEmpty());
-    Boolean p = null;
-    for (BatchUpdate u : updates) {
-      if (p == null) {
-        p = u.updateChangesInParallel;
-      } else if (u.updateChangesInParallel != p) {
-        throw new IllegalArgumentException("cannot mix parallel and non-parallel operations");
-      }
-    }
-    // Properly implementing this would involve hoisting the parallel loop up
-    // even further. As of this writing, the only user is ReceiveCommits,
-    // which only executes a single BatchUpdate at a time. So bail for now.
-    checkArgument(
-        !p || updates.size() <= 1,
-        "cannot execute ChangeOps in parallel with more than 1 BatchUpdate");
-    return p;
-  }
-
   static void execute(
-      Collection<BatchUpdate> updates,
-      Listener listener,
+      ImmutableList<ReviewDbBatchUpdate> updates,
+      BatchUpdateListener listener,
       @Nullable RequestId requestId,
       boolean dryrun)
       throws UpdateException, RestApiException {
@@ -411,44 +287,44 @@ public class BatchUpdate implements AutoCloseable {
       boolean updateChangesInParallel = getUpdateChangesInParallel(updates);
       switch (order) {
         case REPO_BEFORE_DB:
-          for (BatchUpdate u : updates) {
+          for (ReviewDbBatchUpdate u : updates) {
             u.executeUpdateRepo();
           }
           listener.afterUpdateRepos();
-          for (BatchUpdate u : updates) {
+          for (ReviewDbBatchUpdate u : updates) {
             u.executeRefUpdates(dryrun);
           }
-          listener.afterRefUpdates();
-          for (BatchUpdate u : updates) {
+          listener.afterUpdateRefs();
+          for (ReviewDbBatchUpdate u : updates) {
             u.reindexChanges(u.executeChangeOps(updateChangesInParallel, dryrun));
           }
           listener.afterUpdateChanges();
           break;
         case DB_BEFORE_REPO:
-          for (BatchUpdate u : updates) {
+          for (ReviewDbBatchUpdate u : updates) {
             u.reindexChanges(u.executeChangeOps(updateChangesInParallel, dryrun));
           }
           listener.afterUpdateChanges();
-          for (BatchUpdate u : updates) {
+          for (ReviewDbBatchUpdate u : updates) {
             u.executeUpdateRepo();
           }
           listener.afterUpdateRepos();
-          for (BatchUpdate u : updates) {
+          for (ReviewDbBatchUpdate u : updates) {
             u.executeRefUpdates(dryrun);
           }
-          listener.afterRefUpdates();
+          listener.afterUpdateRefs();
           break;
         default:
           throw new IllegalStateException("invalid execution order: " + order);
       }
 
       List<CheckedFuture<?, IOException>> indexFutures = new ArrayList<>();
-      for (BatchUpdate u : updates) {
+      for (ReviewDbBatchUpdate u : updates) {
         indexFutures.addAll(u.indexFutures);
       }
       ChangeIndexer.allAsList(indexFutures).get();
 
-      for (BatchUpdate u : updates) {
+      for (ReviewDbBatchUpdate u : updates) {
         if (u.batchRefUpdate != null) {
           // Fire ref update events only after all mutations are finished, since
           // callers may assume a patch set ref being created means the change
@@ -461,7 +337,7 @@ public class BatchUpdate implements AutoCloseable {
         }
       }
       if (!dryrun) {
-        for (BatchUpdate u : updates) {
+        for (ReviewDbBatchUpdate u : updates) {
           u.executePostOps();
         }
       }
@@ -490,7 +366,6 @@ public class BatchUpdate implements AutoCloseable {
   private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeUpdate.Factory changeUpdateFactory;
   private final GitReferenceUpdated gitRefUpdated;
-  private final GitRepositoryManager repoManager;
   private final ListeningExecutorService changeUpdateExector;
   private final Metrics metrics;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
@@ -498,31 +373,10 @@ public class BatchUpdate implements AutoCloseable {
   private final ReviewDb db;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final long skewMs;
-
-  private final Project.NameKey project;
-  private final CurrentUser user;
-  private final Timestamp when;
-  private final TimeZone tz;
-
-  private final ListMultimap<Change.Id, Op> ops =
-      MultimapBuilder.linkedHashKeys().arrayListValues().build();
-  private final Map<Change.Id, Change> newChanges = new HashMap<>();
   private final List<CheckedFuture<?, IOException>> indexFutures = new ArrayList<>();
-  private final List<RepoOnlyOp> repoOnlyOps = new ArrayList<>();
-
-  private Repository repo;
-  private ObjectInserter inserter;
-  private RevWalk revWalk;
-  private ChainedReceiveCommands commands;
-  private BatchRefUpdate batchRefUpdate;
-  private boolean closeRepo;
-  private Order order;
-  private OnSubmitValidators onSubmitValidators;
-  private boolean updateChangesInParallel;
-  private RequestId requestId;
 
   @AssistedInject
-  BatchUpdate(
+  ReviewDbBatchUpdate(
       @GerritServerConfig Config cfg,
       AllUsersName allUsers,
       ChangeControl.GenericFactory changeControlFactory,
@@ -541,6 +395,7 @@ public class BatchUpdate implements AutoCloseable {
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Timestamp when) {
+    super(repoManager, serverIdent, project, user, when);
     this.allUsers = allUsers;
     this.changeControlFactory = changeControlFactory;
     this.changeNotesFactory = changeNotesFactory;
@@ -550,131 +405,32 @@ public class BatchUpdate implements AutoCloseable {
     this.indexer = indexer;
     this.metrics = metrics;
     this.notesMigration = notesMigration;
-    this.repoManager = repoManager;
     this.schemaFactory = schemaFactory;
     this.updateManagerFactory = updateManagerFactory;
     this.db = db;
-    this.project = project;
-    this.user = user;
-    this.when = when;
-    tz = serverIdent.getTimeZone();
-    order = Order.REPO_BEFORE_DB;
     skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
   }
 
   @Override
-  public void close() {
-    if (closeRepo) {
-      revWalk.close();
-      inserter.close();
-      repo.close();
-    }
-  }
-
-  public BatchUpdate setRequestId(RequestId requestId) {
-    this.requestId = requestId;
-    return this;
-  }
-
-  public BatchUpdate setRepository(Repository repo, RevWalk revWalk, ObjectInserter inserter) {
-    checkState(this.repo == null, "repo already set");
-    closeRepo = false;
-    this.repo = checkNotNull(repo, "repo");
-    this.revWalk = checkNotNull(revWalk, "revWalk");
-    this.inserter = checkNotNull(inserter, "inserter");
-    commands = new ChainedReceiveCommands(repo);
-    return this;
-  }
-
-  public BatchUpdate setOrder(Order order) {
-    this.order = order;
-    return this;
-  }
-
-  /**
-   * Add a validation step for intended ref operations, which will be performed at the end of {@link
-   * RepoOnlyOp#updateRepo(RepoContext)} step.
-   */
-  BatchUpdate setOnSubmitValidators(OnSubmitValidators onSubmitValidators) {
-    this.onSubmitValidators = onSubmitValidators;
-    return this;
-  }
-
-  /** Execute {@link Op#updateChange(ChangeContext)} in parallel for each change. */
-  public BatchUpdate updateChangesInParallel() {
-    this.updateChangesInParallel = true;
-    return this;
-  }
-
-  private void initRepository() throws IOException {
-    if (repo == null) {
-      this.repo = repoManager.openRepository(project);
-      closeRepo = true;
-      inserter = repo.newObjectInserter();
-      revWalk = new RevWalk(inserter.newReader());
-      commands = new ChainedReceiveCommands(repo);
-    }
-  }
-
-  public CurrentUser getUser() {
-    return user;
-  }
-
-  public Repository getRepository() throws IOException {
-    initRepository();
-    return repo;
-  }
-
-  public RevWalk getRevWalk() throws IOException {
-    initRepository();
-    return revWalk;
-  }
-
-  public ObjectInserter getObjectInserter() throws IOException {
-    initRepository();
-    return inserter;
-  }
-
-  public BatchUpdate addOp(Change.Id id, Op op) {
-    checkArgument(!(op instanceof InsertChangeOp), "use insertChange");
-    checkNotNull(op);
-    ops.put(id, op);
-    return this;
-  }
-
-  public BatchUpdate addRepoOnlyOp(RepoOnlyOp op) {
-    checkArgument(!(op instanceof Op), "use addOp()");
-    repoOnlyOps.add(op);
-    return this;
-  }
-
-  public BatchUpdate insertChange(InsertChangeOp op) {
-    Context ctx = new Context();
-    Change c = op.createChange(ctx);
-    checkArgument(
-        !newChanges.containsKey(c.getId()), "only one op allowed to create change %s", c.getId());
-    newChanges.put(c.getId(), c);
-    ops.get(c.getId()).add(0, op);
-    return this;
-  }
-
-  public Collection<ReceiveCommand> getRefUpdates() {
-    return commands.getCommands().values();
-  }
-
   public void execute() throws UpdateException, RestApiException {
-    execute(Listener.NONE);
+    execute(BatchUpdateListener.NONE);
   }
 
-  public void execute(Listener listener) throws UpdateException, RestApiException {
+  @Override
+  public void execute(BatchUpdateListener listener) throws UpdateException, RestApiException {
     execute(ImmutableList.of(this), listener, requestId, false);
+  }
+
+  @Override
+  protected Context newContext() {
+    return new ContextImpl();
   }
 
   private void executeUpdateRepo() throws UpdateException, RestApiException {
     try {
       logDebug("Executing updateRepo on {} ops", ops.size());
-      RepoContext ctx = new RepoContext();
-      for (Op op : ops.values()) {
+      RepoContextImpl ctx = new RepoContextImpl();
+      for (BatchUpdateOp op : ops.values()) {
         op.updateRepo(ctx);
       }
 
@@ -760,7 +516,7 @@ public class BatchUpdate implements AutoCloseable {
           throw new OrmException(NoteDbUpdateManager.CHANGES_READ_ONLY);
         }
         List<ListenableFuture<?>> futures = new ArrayList<>(ops.keySet().size());
-        for (Map.Entry<Change.Id, Collection<Op>> e : ops.asMap().entrySet()) {
+        for (Map.Entry<Change.Id, Collection<BatchUpdateOp>> e : ops.asMap().entrySet()) {
           ChangeTask task =
               new ChangeTask(e.getKey(), e.getValue(), Thread.currentThread(), dryrun);
           tasks.add(task);
@@ -902,7 +658,7 @@ public class BatchUpdate implements AutoCloseable {
 
   private class ChangeTask implements Callable<Void> {
     final Change.Id id;
-    private final Collection<Op> changeOps;
+    private final Collection<BatchUpdateOp> changeOps;
     private final Thread mainThread;
     private final boolean dryrun;
 
@@ -912,7 +668,8 @@ public class BatchUpdate implements AutoCloseable {
     boolean deleted;
     private String taskId;
 
-    private ChangeTask(Change.Id id, Collection<Op> changeOps, Thread mainThread, boolean dryrun) {
+    private ChangeTask(
+        Change.Id id, Collection<BatchUpdateOp> changeOps, Thread mainThread, boolean dryrun) {
       this.id = id;
       this.changeOps = changeOps;
       this.mainThread = mainThread;
@@ -926,7 +683,7 @@ public class BatchUpdate implements AutoCloseable {
         Repository repo = getRepository();
         try (ObjectReader reader = repo.newObjectReader();
             RevWalk rw = new RevWalk(repo)) {
-          call(BatchUpdate.this.db, repo, rw);
+          call(ReviewDbBatchUpdate.this.db, repo, rw);
         }
       } else {
         // Possible optimization: allow Ops to declare whether they need to
@@ -950,7 +707,7 @@ public class BatchUpdate implements AutoCloseable {
       try {
         db.changes().beginTransaction(id);
         try {
-          ChangeContext ctx = newChangeContext(db, repo, rw, id);
+          ChangeContextImpl ctx = newChangeContext(db, repo, rw, id);
           NoteDbChangeState oldState = NoteDbChangeState.parse(ctx.getChange());
           NoteDbChangeState.checkNotReadOnly(oldState, skewMs);
 
@@ -961,7 +718,7 @@ public class BatchUpdate implements AutoCloseable {
 
           // Call updateChange on each op.
           logDebug("Calling updateChange on {} ops", changeOps.size());
-          for (Op op : changeOps) {
+          for (BatchUpdateOp op : changeOps) {
             dirty |= op.updateChange(ctx);
           }
           if (!dirty) {
@@ -1036,8 +793,8 @@ public class BatchUpdate implements AutoCloseable {
       }
     }
 
-    private ChangeContext newChangeContext(ReviewDb db, Repository repo, RevWalk rw, Change.Id id)
-        throws OrmException {
+    private ChangeContextImpl newChangeContext(
+        ReviewDb db, Repository repo, RevWalk rw, Change.Id id) throws OrmException {
       Change c = newChanges.get(id);
       boolean isNew = c != null;
       if (isNew) {
@@ -1073,10 +830,10 @@ public class BatchUpdate implements AutoCloseable {
       }
       ChangeNotes notes = changeNotesFactory.createForBatchUpdate(c, !isNew);
       ChangeControl ctl = changeControlFactory.controlFor(notes, user);
-      return new ChangeContext(ctl, new BatchUpdateReviewDb(db), repo, rw);
+      return new ChangeContextImpl(ctl, new BatchUpdateReviewDb(db), repo, rw);
     }
 
-    private NoteDbUpdateManager stageNoteDbUpdate(ChangeContext ctx, boolean deleted)
+    private NoteDbUpdateManager stageNoteDbUpdate(ChangeContextImpl ctx, boolean deleted)
         throws OrmException, IOException {
       logDebug("Staging NoteDb update");
       NoteDbUpdateManager updateManager =
@@ -1116,18 +873,18 @@ public class BatchUpdate implements AutoCloseable {
 
     private void logDebug(String msg, Throwable t) {
       if (log.isDebugEnabled()) {
-        BatchUpdate.this.logDebug("[" + taskId + "]" + msg, t);
+        ReviewDbBatchUpdate.this.logDebug("[" + taskId + "]" + msg, t);
       }
     }
 
     private void logDebug(String msg, Object... args) {
       if (log.isDebugEnabled()) {
-        BatchUpdate.this.logDebug("[" + taskId + "]" + msg, args);
+        ReviewDbBatchUpdate.this.logDebug("[" + taskId + "]" + msg, args);
       }
     }
   }
 
-  private static Iterable<Change> changesToUpdate(ChangeContext ctx) {
+  private static Iterable<Change> changesToUpdate(ChangeContextImpl ctx) {
     Change c = ctx.getChange();
     if (ctx.bumpLastUpdatedOn && c.getLastUpdatedOn().before(ctx.getWhen())) {
       c.setLastUpdatedOn(ctx.getWhen());
@@ -1136,28 +893,13 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private void executePostOps() throws Exception {
-    Context ctx = new Context();
-    for (Op op : ops.values()) {
+    ContextImpl ctx = new ContextImpl();
+    for (BatchUpdateOp op : ops.values()) {
       op.postUpdate(ctx);
     }
 
     for (RepoOnlyOp op : repoOnlyOps) {
       op.postUpdate(ctx);
-    }
-  }
-
-  private void logDebug(String msg, Throwable t) {
-    if (requestId != null && log.isDebugEnabled()) {
-      log.debug(requestId + msg, t);
-    }
-  }
-
-  private void logDebug(String msg, Object... args) {
-    // Only log if there is a requestId assigned, since those are the
-    // expensive/complicated requests like MergeOp. Doing it every time would be
-    // noisy.
-    if (requestId != null && log.isDebugEnabled()) {
-      log.debug(requestId + msg, args);
     }
   }
 }

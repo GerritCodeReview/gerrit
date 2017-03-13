@@ -65,12 +65,13 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
-import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
@@ -744,7 +745,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           updateFactory.create(db, project, userFactory.create(admin.id), TimeUtil.nowTs())) {
         bu.addOp(
             change.getChange().getId(),
-            new BatchUpdate.Op() {
+            new BatchUpdateOp() {
               @Override
               public boolean updateChange(ChangeContext ctx) throws OrmException {
                 ctx.getChange().setStatus(Change.Status.NEW);

@@ -28,11 +28,12 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
-import com.google.gerrit.server.git.BatchUpdate.RepoContext;
-import com.google.gerrit.server.git.BatchUpdateReviewDb;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.BatchUpdateReviewDb;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.Order;
+import com.google.gerrit.server.update.RepoContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -46,7 +47,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-class DeleteChangeOp extends BatchUpdate.Op {
+class DeleteChangeOp implements BatchUpdateOp {
   static boolean allowDrafts(Config cfg) {
     return cfg.getBoolean("change", "allowDrafts", true);
   }
@@ -84,8 +85,7 @@ class DeleteChangeOp extends BatchUpdate.Op {
   public boolean updateChange(ChangeContext ctx)
       throws RestApiException, OrmException, IOException, NoSuchChangeException {
     checkState(
-        ctx.getOrder() == BatchUpdate.Order.DB_BEFORE_REPO,
-        "must use DeleteChangeOp with DB_BEFORE_REPO");
+        ctx.getOrder() == Order.DB_BEFORE_REPO, "must use DeleteChangeOp with DB_BEFORE_REPO");
     checkState(id == null, "cannot reuse DeleteChangeOp");
 
     id = ctx.getChange().getId();

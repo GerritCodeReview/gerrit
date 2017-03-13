@@ -52,7 +52,6 @@ import com.google.gerrit.server.config.DisableReverseDnsLookupProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
-import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
@@ -69,6 +68,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
@@ -100,6 +100,7 @@ public class BatchProgramModule extends FactoryModule {
     install(reviewDbModule);
     install(new DiffExecutorModule());
     install(new ReceiveCommitsExecutorModule());
+    install(BatchUpdate.module());
     install(PatchListCacheImpl.module());
 
     // Plugins are not loaded and we're just running through each change
@@ -123,7 +124,6 @@ public class BatchProgramModule extends FactoryModule {
     bind(ReplacePatchSetSender.Factory.class)
         .toProvider(Providers.<ReplacePatchSetSender.Factory>of(null));
     bind(CurrentUser.class).to(IdentifiedUser.class);
-    factory(BatchUpdate.Factory.class);
     factory(MergeUtil.Factory.class);
     factory(PatchSetInserter.Factory.class);
     factory(RebaseChangeOp.Factory.class);

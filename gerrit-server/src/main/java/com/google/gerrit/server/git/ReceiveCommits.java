@@ -93,7 +93,6 @@ import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
@@ -115,6 +114,10 @@ import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestId;
@@ -2185,7 +2188,7 @@ public class ReceiveCommits {
         if (!Strings.isNullOrEmpty(magicBranch.topic)) {
           bu.addOp(
               changeId,
-              new BatchUpdate.Op() {
+              new BatchUpdateOp() {
                 @Override
                 public boolean updateChange(ChangeContext ctx) {
                   ctx.getUpdate(psId).setTopic(magicBranch.topic);
@@ -2195,7 +2198,7 @@ public class ReceiveCommits {
         }
         bu.addOp(
             changeId,
-            new BatchUpdate.Op() {
+            new BatchUpdateOp() {
               @Override
               public boolean updateChange(ChangeContext ctx) {
                 change = ctx.getChange();
@@ -2502,7 +2505,7 @@ public class ReceiveCommits {
       if (magicBranch != null && magicBranch.edit) {
         bu.addOp(
             notes.getChangeId(),
-            new BatchUpdate.Op() {
+            new BatchUpdateOp() {
               @Override
               public boolean updateChange(ChangeContext ctx) throws Exception {
                 // return pseudo dirty state to trigger reindexing
@@ -2569,7 +2572,7 @@ public class ReceiveCommits {
     private void addOps(BatchUpdate bu) {
       bu.addOp(
           psId.getParentKey(),
-          new BatchUpdate.Op() {
+          new BatchUpdateOp() {
             @Override
             public boolean updateChange(ChangeContext ctx) throws OrmException {
               PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);

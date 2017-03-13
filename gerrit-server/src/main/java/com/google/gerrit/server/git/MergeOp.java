@@ -51,7 +51,6 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.change.NotifyUtil;
-import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenBranch;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
@@ -64,6 +63,10 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -459,7 +462,7 @@ public class MergeOp implements AutoCloseable {
     try {
       List<SubmitStrategy> strategies = getSubmitStrategies(toSubmit, submoduleOp, dryrun);
       this.allProjects = submoduleOp.getProjectsInOrder();
-      BatchUpdate.execute(
+      batchUpdateFactory.execute(
           orm.batchUpdates(allProjects),
           new SubmitStrategyListener(submitInput, strategies, commitStatus),
           submissionId,
@@ -747,7 +750,7 @@ public class MergeOp implements AutoCloseable {
           bu.setRequestId(submissionId);
           bu.addOp(
               cd.getId(),
-              new BatchUpdate.Op() {
+              new BatchUpdateOp() {
                 @Override
                 public boolean updateChange(ChangeContext ctx) throws OrmException {
                   Change change = ctx.getChange();

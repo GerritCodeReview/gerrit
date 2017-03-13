@@ -40,8 +40,10 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.notedb.PatchSetState;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.Collection;
@@ -275,9 +277,9 @@ public class DraftChangeIT extends AbstractDaemonTest {
     return revisionInfos.stream().map(revisionInfo -> revisionInfo.draft).collect(toList());
   }
 
-  private class MarkChangeAsDraftUpdateOp extends BatchUpdate.Op {
+  private class MarkChangeAsDraftUpdateOp implements BatchUpdateOp {
     @Override
-    public boolean updateChange(BatchUpdate.ChangeContext ctx) throws Exception {
+    public boolean updateChange(ChangeContext ctx) throws Exception {
       Change change = ctx.getChange();
 
       // Change status in database.
@@ -291,7 +293,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     }
   }
 
-  private class DraftStatusOfPatchSetsUpdateOp extends BatchUpdate.Op {
+  private class DraftStatusOfPatchSetsUpdateOp implements BatchUpdateOp {
     private final boolean draftStatus;
 
     DraftStatusOfPatchSetsUpdateOp(boolean draftStatus) {
@@ -299,7 +301,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     }
 
     @Override
-    public boolean updateChange(BatchUpdate.ChangeContext ctx) throws Exception {
+    public boolean updateChange(ChangeContext ctx) throws Exception {
       Collection<PatchSet> patchSets = psUtil.byChange(db, ctx.getNotes());
 
       // Change status in database.

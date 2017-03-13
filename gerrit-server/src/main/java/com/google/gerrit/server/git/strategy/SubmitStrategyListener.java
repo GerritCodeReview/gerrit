@@ -20,17 +20,17 @@ import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.Submit.TestSubmitInput;
-import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeOp.CommitStatus;
+import com.google.gerrit.server.update.BatchUpdateListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-public class SubmitStrategyListener extends BatchUpdate.Listener {
+public class SubmitStrategyListener implements BatchUpdateListener {
   private final Collection<SubmitStrategy> strategies;
   private final CommitStatus commitStatus;
   private final boolean failAfterRefUpdates;
@@ -58,7 +58,7 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
   }
 
   @Override
-  public void afterRefUpdates() throws ResourceConflictException {
+  public void afterUpdateRefs() throws ResourceConflictException {
     if (failAfterRefUpdates) {
       throw new ResourceConflictException("Failing after ref updates");
     }

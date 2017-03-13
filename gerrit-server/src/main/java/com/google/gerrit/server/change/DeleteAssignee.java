@@ -29,11 +29,12 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.DeleteAssignee.Input;
 import com.google.gerrit.server.extensions.events.AssigneeChanged;
-import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
-import com.google.gerrit.server.git.BatchUpdate.Context;
-import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -81,7 +82,7 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
     }
   }
 
-  private class Op extends BatchUpdate.Op {
+  private class Op implements BatchUpdateOp {
     private Change change;
     private Account deletedAssignee;
 
@@ -110,8 +111,7 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
       return deletedAssignee != null ? deletedAssignee.getId() : null;
     }
 
-    private void addMessage(
-        BatchUpdate.ChangeContext ctx, ChangeUpdate update, IdentifiedUser deletedAssignee)
+    private void addMessage(ChangeContext ctx, ChangeUpdate update, IdentifiedUser deletedAssignee)
         throws OrmException {
       ChangeMessage cmsg =
           ChangeMessagesUtil.newMessage(

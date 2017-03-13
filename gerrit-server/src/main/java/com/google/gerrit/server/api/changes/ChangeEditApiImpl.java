@@ -30,7 +30,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.DeleteChangeEdit;
 import com.google.gerrit.server.change.PublishChangeEdit;
 import com.google.gerrit.server.change.RebaseChangeEdit;
-import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;

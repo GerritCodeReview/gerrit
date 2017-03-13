@@ -41,13 +41,16 @@ import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.CommentAdded;
-import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gwtorm.server.OrmException;
@@ -205,7 +208,7 @@ public class MailProcessor {
     }
   }
 
-  private class Op extends BatchUpdate.Op {
+  private class Op implements BatchUpdateOp {
     private final PatchSet.Id psId;
     private final List<MailComment> parsedComments;
     private final String tag;
@@ -221,7 +224,7 @@ public class MailProcessor {
     }
 
     @Override
-    public boolean updateChange(BatchUpdate.ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx)
         throws OrmException, UnprocessableEntityException {
       changeControl = ctx.getControl();
       patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
@@ -296,7 +299,7 @@ public class MailProcessor {
     }
 
     @Override
-    public void postUpdate(BatchUpdate.Context ctx) throws Exception {
+    public void postUpdate(Context ctx) throws Exception {
       String patchSetComment = null;
       if (parsedComments.get(0).type == MailComment.CommentType.CHANGE_MESSAGE) {
         patchSetComment = parsedComments.get(0).message;

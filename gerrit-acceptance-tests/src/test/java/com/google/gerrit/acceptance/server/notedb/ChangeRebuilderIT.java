@@ -63,11 +63,8 @@ import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.Rebuild;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.RepoRefCache;
-import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -80,6 +77,10 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
@@ -455,7 +456,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
             db, project, identifiedUserFactory.create(user.getId()), TimeUtil.nowTs())) {
       bu.addOp(
           id,
-          new BatchUpdate.Op() {
+          new BatchUpdateOp() {
             @Override
             public boolean updateChange(ChangeContext ctx) throws OrmException {
               PatchSet.Id psId = ctx.getChange().currentPatchSetId();
@@ -1147,7 +1148,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
             db, project, identifiedUserFactory.create(user.getId()), TimeUtil.nowTs())) {
       bu.addOp(
           id,
-          new BatchUpdate.Op() {
+          new BatchUpdateOp() {
             @Override
             public boolean updateChange(ChangeContext ctx)
                 throws PatchSetInfoNotAvailableException {

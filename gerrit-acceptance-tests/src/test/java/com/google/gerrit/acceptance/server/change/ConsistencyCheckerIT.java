@@ -45,13 +45,14 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ConsistencyChecker;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
-import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.gwtorm.server.OrmException;
@@ -360,7 +361,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     try (BatchUpdate bu = newUpdate(adminId)) {
       bu.addOp(
           ctl.getId(),
-          new BatchUpdate.Op() {
+          new BatchUpdateOp() {
             @Override
             public boolean updateChange(ChangeContext ctx) throws OrmException {
               ctx.getChange().setStatus(Change.Status.MERGED);
@@ -916,7 +917,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     try (BatchUpdate bu = newUpdate(adminId)) {
       bu.addOp(
           ctl.getId(),
-          new BatchUpdate.Op() {
+          new BatchUpdateOp() {
             @Override
             public void updateRepo(RepoContext ctx) throws IOException {
               ctx.addRefUpdate(new ReceiveCommand(oldId, newId, dest));

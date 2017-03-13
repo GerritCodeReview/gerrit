@@ -26,12 +26,15 @@ import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.VerboseSuperprojectUpdate;
-import com.google.gerrit.server.git.BatchUpdate.Listener;
-import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateListener;
+import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.update.RepoOnlyOp;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -68,7 +71,7 @@ import org.slf4j.LoggerFactory;
 public class SubmoduleOp {
 
   /** Only used for branches without code review changes */
-  public class GitlinkOp extends BatchUpdate.RepoOnlyOp {
+  public class GitlinkOp implements RepoOnlyOp {
     private final Branch.NameKey branch;
 
     GitlinkOp(Branch.NameKey branch) {
@@ -95,6 +98,7 @@ public class SubmoduleOp {
   private final PersonIdent myIdent;
   private final ProjectCache projectCache;
   private final ProjectState.Factory projectStateFactory;
+  private final BatchUpdate.Factory batchUpdateFactory;
   private final VerboseSuperprojectUpdate verboseSuperProject;
   private final boolean enableSuperProjectSubscriptions;
   private final MergeOpRepoManager orm;
@@ -120,6 +124,7 @@ public class SubmoduleOp {
       @GerritServerConfig Config cfg,
       ProjectCache projectCache,
       ProjectState.Factory projectStateFactory,
+      BatchUpdate.Factory batchUpdateFactory,
       @Assisted Set<Branch.NameKey> updatedBranches,
       @Assisted MergeOpRepoManager orm)
       throws SubmoduleException {
@@ -127,6 +132,7 @@ public class SubmoduleOp {
     this.myIdent = myIdent;
     this.projectCache = projectCache;
     this.projectStateFactory = projectStateFactory;
+    this.batchUpdateFactory = batchUpdateFactory;
     this.verboseSuperProject =
         cfg.getEnum("submodule", null, "verboseSuperprojectUpdate", VerboseSuperprojectUpdate.TRUE);
     this.enableSuperProjectSubscriptions =
@@ -335,8 +341,8 @@ public class SubmoduleOp {
           }
         }
       }
-      BatchUpdate.execute(
-          orm.batchUpdates(superProjects), Listener.NONE, orm.getSubmissionId(), false);
+      batchUpdateFactory.execute(
+          orm.batchUpdates(superProjects), BatchUpdateListener.NONE, orm.getSubmissionId(), false);
     } catch (RestApiException | UpdateException | IOException | NoSuchProjectException e) {
       throw new SubmoduleException("Cannot update gitlinks", e);
     }

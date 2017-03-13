@@ -22,6 +22,30 @@
       "revId": "453c8f9bd8e944f0de7ae5f8410e56f233cf6e1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e427a463_8ba1bf85",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-13T20:56:27Z",
+      "side": 1,
+      "message": "This was per the recommendation of Valdrin who is the maintainer of the element.  It\u0027s a performance improvement so that iron fit behavior doesn\u0027t listen for scroll events.\n\n\"iron-fit-behavior will try to position the element for you. If you set vertical/horizontal align, it will perform the positioning according to the positionTarget\n\nif those properties are both null, it will check if you still want that element to be centered and fit on the screen according to the fitInto element\n\nif won\u0027t do that if you already positioned the element yourself (e.g. position: absolute)\"",
+      "parentUuid": "393a644b_226cde6a",
+      "range": {
+        "startLine": 198,
+        "startChar": 14,
+        "endLine": 199,
+        "endChar": 33
+      },
+      "revId": "453c8f9bd8e944f0de7ae5f8410e56f233cf6e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "61264ee67ee2b11d0dbbe5dcd069e2c58ad9b0be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bc4b72b_d2a0496f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-13T22:15:38Z",
+      "side": 1,
+      "message": "Excellent point, I totally missed that case.",
+      "parentUuid": "999c8d0d_1c08d862",
+      "revId": "61264ee67ee2b11d0dbbe5dcd069e2c58ad9b0be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

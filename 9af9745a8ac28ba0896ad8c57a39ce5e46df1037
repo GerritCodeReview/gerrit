@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "b1e29132_3fec6585",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-13T05:47:53Z",
+      "side": 1,
+      "message": "This is the release note for sshd 1.3, not 1.4\n\nAlso, is there a separate release note for mina core?",
+      "revId": "9af9745a8ac28ba0896ad8c57a39ce5e46df1037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c98be1af_64397142",
         "filename": "WORKSPACE",
         "patchSetId": 8
@@ -43,6 +60,23 @@
         "endLine": 640,
         "endChar": 1
       },
+      "revId": "9af9745a8ac28ba0896ad8c57a39ce5e46df1037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67f61f6a_7a441dd0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-13T05:47:53Z",
+      "side": 1,
+      "message": "nit: should be moved after org.apache.sshd.common.util.net",
       "revId": "9af9745a8ac28ba0896ad8c57a39ce5e46df1037",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

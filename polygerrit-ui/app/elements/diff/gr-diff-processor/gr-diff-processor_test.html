@@ -549,14 +549,6 @@ limitations under the License.
       });
 
       suite('_breakdown*', function() {
-        test('_breakdownGroup ignores shared groups', function() {
-          sandbox.stub(element, '_breakdown');
-          var chunk = {ab: ['blah', 'blah', 'blah']};
-          var result = element._breakdownGroup(chunk);
-          assert.deepEqual(result, [chunk]);
-          assert.isFalse(element._breakdown.called);
-        });
-
         test('_breakdownGroup breaks down additions', function() {
           sandbox.spy(element, '_breakdown');
           var chunk = {b: ['blah', 'blah', 'blah']};

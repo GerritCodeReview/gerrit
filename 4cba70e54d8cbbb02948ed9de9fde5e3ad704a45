@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "94c9d9bc_15cee3ec",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-13T23:35:31Z",
+      "side": 1,
+      "message": "It seems that fails. So i will name the variable getBaseUrl :)",
+      "parentUuid": "280d141b_f368a1d7",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 25
+      },
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c7dc7232_06c1bb07",
         "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
         "patchSetId": 26
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0f9481a7_2e60d926",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-13T23:35:31Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c7dc7232_06c1bb07",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 136,
+        "endChar": 51
+      },
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cd640ccd_a1f21a59",
         "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
         "patchSetId": 26
@@ -59,6 +107,30 @@
       "writtenOn": "2017-03-13T23:06:42Z",
       "side": 1,
       "message": "Nitpick: no need for the else. Can just end with:\n\n return \u0027\u0027;",
+      "range": {
+        "startLine": 138,
+        "startChar": 7,
+        "endLine": 140,
+        "endChar": 7
+      },
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f94c0192_b63baad3",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-13T23:35:31Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "cd640ccd_a1f21a59",
       "range": {
         "startLine": 138,
         "startChar": 7,
@@ -128,6 +200,30 @@
       "writtenOn": "2017-03-13T23:06:42Z",
       "side": 1,
       "message": "Nitpicking the name of this property: what about something like ...\n\n window.CONFIG_BASE_URL\n\n... to distinguish the property as a configuration constant?",
+      "range": {
+        "startLine": 1049,
+        "startChar": 17,
+        "endLine": 1049,
+        "endChar": 35
+      },
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcfa20cc_f9e39149",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-13T23:35:31Z",
+      "side": 1,
+      "message": "Would that mean doing var CONFIG_BASE_URL \u003d \u0027/r\u0027; ?",
+      "parentUuid": "20b88ae4_45835bef",
       "range": {
         "startLine": 1049,
         "startChar": 17,
@@ -259,6 +355,24 @@
       "side": 1,
       "message": "I like the idea of using Soy for this. Soy would provide a few additional advantages to PG. I\u0027ll look into it.\n\nLoading a separate script feels like the wrong approach, since it would add an additional request to all page-loads just to get a single, optional string.\n\nIn the meantime, for configuring the base-URL, would it be feasible to add the following script by manually editing the index.html or by inserting it through a Java request filter?\n\n  \u003cscript\u003ewindow.polygerrit_baseurl \u003d \u0027/my/path/\u0027;\u003c/script\u003e",
       "parentUuid": "d583fd8e_0513db2f",
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77331d34_e6e8e72b",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-13T23:35:31Z",
+      "side": 1,
+      "message": "I have been looking into java doing that one havn\u0027t found a way to do it.\n\nHow would i do that please?",
+      "parentUuid": "75a4cc9b_157a4f2a",
       "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

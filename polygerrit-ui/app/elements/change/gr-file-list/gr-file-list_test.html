@@ -771,7 +771,8 @@ limitations under the License.
     suite('_handleFileTap', function() {
       function testForModifier(modifier) {
         var e = {preventDefault: function() {}};
-        e[modifier] = true;
+        e.detail = {'sourceEvent': {}};
+        e.detail.sourceEvent[modifier] = true;
 
         var hiddenChangeStub = sandbox.stub(element, '_handleHiddenChange');
         element._userPrefs = { expand_inline_diffs: true };
@@ -779,7 +780,7 @@ limitations under the License.
         element._handleFileTap(e);
         assert.isFalse(hiddenChangeStub.called);
 
-        e[modifier] = false;
+        e.detail.sourceEvent[modifier] = false;
         element._handleFileTap(e);
         assert.equal(hiddenChangeStub.callCount, 1);
 

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1489333981 -0400\nnonce AIcUUg/52roXFRn4WMmRtJTOXQ6eak+ogMQeq8NJzHWl7dWiv7LTyLTikFT8DBqKjApMx3AU7ILN\n\n0000000000000000000000000000000000000000 99f44a836d08581b56051968e5881b690cde649f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYxW7dAAoJEF/XxZqaEoiMnUUP/A60e7QcEzDVOScw6bkNNzj2\nqNvYYa33X9oHH6pT0T40VzSzOBsnmbGI8ytZka937Elo9MjtBYdyXY9LVu2L4Ziy\ngSV0AjYjXQd83S75HLByW5eFz9hs56SgGnB/qcd44MnlzcwTNTS+sbPgQBKfy9Mk\n4CnhNbIPG3SKjxyRufcbK8gc3vw/J5pIVaDgGBF3XGMTPTOIsYD7b1B2a/C6cD85\nK2kpT0PP7nHPWop0uWNeWocprfBY/oeW8v2pq/nGO/meN/UtLTQE2x6HZb/kDNB3\ne5Dg7GUHs6uNq71Lg/za6PKt8q4O0Bp2jT6Nb7IhzujBCUfcFphRWCfpTSsst9Oa\n3S7ikkakFTI4zCdzDGa9f6aha85SodM2M0QxkAqhS1CqGBqG5f2/G0Dglf0LafVc\nli5P96r9oiWgSg7rpEApUdhL2pWB1VyrphnXX0KBVBlY7F7vLmx3HPk87hLsuxe9\ny9FXfM+gjCnr54Z2vxoNnSH1j1XDWk1JvBJrXuXD+/P0Rz6HxZxB9qy353bBaOVk\nvn6ottEsH1GMm+Dkyx5yVxZ/b2sm1Sbz4ug/4NPigieaVEsq5259fZtonrW9W05a\n2iLTDOMuw4a8Lf1QTYdfjOnfXGLjMsgD7dDOIZsHHWeLq2wQGO41HrrY4QnXOpHT\nMgUl1F7vNlB7pQ2KvadJ\n\u003dLoWt\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1106f4e1_f4b1c22a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdateListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-13T00:42:33Z",
+      "side": 1,
+      "message": "Can we change this to afterUpdateRefs to make it consistent with the other method names?",
+      "range": {
+        "startLine": 30,
+        "startChar": 15,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "2924ddece89be31f439efe966eb60b0418c00537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

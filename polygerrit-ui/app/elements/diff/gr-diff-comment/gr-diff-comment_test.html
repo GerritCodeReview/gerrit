@@ -152,6 +152,14 @@ limitations under the License.
       });
     });
 
+    test('_getPatchNum', function() {
+      element.side = 'PARENT';
+      element.patchNum = 1;
+      assert.equal(element._getPatchNum(), 'PARENT');
+      element.side = 'REVISION';
+      assert.equal(element._getPatchNum(), 1);
+    });
+
     test('comment expand and collapse', function() {
       element.collapsed = true;
       assert.isFalse(isVisible(element.$$('gr-formatted-text')),

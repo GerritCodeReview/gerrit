@@ -23,6 +23,30 @@
       "revId": "2924ddece89be31f439efe966eb60b0418c00537",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0fa9fe9_a901626a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdateListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-13T08:08:20Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "1106f4e1_f4b1c22a",
+      "range": {
+        "startLine": 30,
+        "startChar": 15,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "2924ddece89be31f439efe966eb60b0418c00537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

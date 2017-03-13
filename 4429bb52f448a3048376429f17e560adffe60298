@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1bdc985e_5e50dce7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-13T20:08:46Z",
+      "side": 1,
+      "message": "How is it different from comment-side?",
+      "revId": "4429bb52f448a3048376429f17e560adffe60298",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ac54074_79ce5389",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 1

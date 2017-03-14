@@ -16,6 +16,75 @@
       "revId": "dd7c61ed5d523c5198dd6fd8718a9df77f2798fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d72cdcb_082df284",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-14T17:07:28Z",
+      "side": 1,
+      "message": "Optionally, we can just roll the trim into the regex:\n\n  /^\\s*i[0-9a-f]{8,40}\\s*$/i",
+      "range": {
+        "startLine": 114,
+        "startChar": 10,
+        "endLine": 115,
+        "endChar": 50
+      },
+      "revId": "dd7c61ed5d523c5198dd6fd8718a9df77f2798fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "029c15c0_fd79bbeb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-14T17:07:28Z",
+      "side": 1,
+      "message": "This could maybe be a more representative change ID. It could include more hex characters and also include mixed-case to encode the case insensitivity of the regex.",
+      "range": {
+        "startLine": 35,
+        "startChar": 19,
+        "endLine": 35,
+        "endChar": 40
+      },
+      "revId": "dd7c61ed5d523c5198dd6fd8718a9df77f2798fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "796f5bdf_a1a4fa5c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-14T17:07:28Z",
+      "side": 1,
+      "message": "Stray debugger.",
+      "range": {
+        "startLine": 46,
+        "startChar": 10,
+        "endLine": 46,
+        "endChar": 18
+      },
+      "revId": "dd7c61ed5d523c5198dd6fd8718a9df77f2798fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

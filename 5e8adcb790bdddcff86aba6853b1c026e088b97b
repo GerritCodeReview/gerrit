@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "81007e12_fe8cd25b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-14T11:51:41Z",
+      "side": 1,
+      "message": "In that case I prefer that we wait for a fix in bazel rather than trying to work around or hide the problem here, particularly since it only seems to occur in a very specific condition.",
+      "parentUuid": "128e3fa0_414471cd",
+      "revId": "5e8adcb790bdddcff86aba6853b1c026e088b97b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd92d166_01e11c92",
         "filename": "tools/workspace-status.sh",
         "patchSetId": 1

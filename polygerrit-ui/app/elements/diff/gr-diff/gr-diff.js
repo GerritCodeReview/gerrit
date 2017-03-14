@@ -133,7 +133,7 @@
     },
 
     getCursorStops: function() {
-      if (this.noAutoRender) {
+      if (this.hidden && this.noAutoRender) {
         return [];
       }
 

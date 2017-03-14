@@ -422,6 +422,185 @@ limitations under the License.
         element.path = 'file.txt';
         element._getDiff().then(done);
       });
+
+      suite('getCursorStops', function() {
+
+        var setupDiff = function() {
+          element._diff = {
+            'meta_a': {
+              'name': 'lorem.txt',
+              'content_type': 'text/plain',
+              'lines': 32
+            },
+            'meta_b': {
+              'name': 'lorem.txt',
+              'content_type': 'text/plain',
+              'lines': 30
+            },
+            'intraline_status': 'OK',
+            'change_type': 'MODIFIED',
+            'diff_header': [
+              'diff --git a/lorem.txt b/lorem.txt',
+              'index 4aed6b6..3e01bc1 100644',
+              '--- a/lorem.txt',
+              '+++ b/lorem.txt'
+            ],
+            'content': [
+              {
+                'ab': [
+                  'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'
+                ]
+              },
+              {
+                'a': [
+                  'Aenean commodo ligula eget dolor.'
+                ]
+              },
+              {
+                'ab': [
+                  'Aenean massa.',
+                  'Cum sociis natoque penatibus et magnis dis parturient mont' +
+                  'es, nascetur ridiculus mus.',
+                  'Donec quam felis, ultricies nec, pellentesque eu, pretium ' +
+                  'quis, sem.',
+                  'Nulla consequat massa quis enim.',
+                  'Donec pede justo, fringilla vel, aliquet nec, vulputate eg' +
+                  'et, arcu.',
+                  'In enim justo, rhoncus ut, imperdiet a, venenatis vitae, j' +
+                  'usto.',
+                  'Nullam dictum felis eu pede mollis pretium.',
+                  'Integer tincidunt.',
+                  'Cras dapibus.',
+                  'Vivamus elementum semper nisi.',
+                  'Aenean vulputate eleifend tellus.',
+                  'Aenean leo ligula, porttitor eu, consequat vitae, eleifend' +
+                  ' ac, enim.',
+                  'Aliquam lorem ante, dapibus in, viverra quis, feugiat a, t' +
+                  'ellus.',
+                  'Phasellus viverra nulla ut metus varius laoreet.'
+                ]
+              },
+              {
+                'a': [
+                  'Quisque rutrum.'
+                ],
+                'b': [
+                  'Quisque\trutrum.'
+                ],
+                'edit_a': [
+                  [
+                    7,
+                    1
+                  ]
+                ],
+                'edit_b': [
+                  [
+                    7,
+                    1
+                  ]
+                ]
+              },
+              {
+                'ab': [
+                  'Aenean imperdiet.'
+                ]
+              },
+              {
+                'a': [
+                  'Etiam ultricies nisi vel augue.'
+                ],
+                'b': [
+                  'Etiam\tul💩tricies\tnisi\tvel\taugue.'
+                ],
+                'edit_a': [
+                  [
+                    5,
+                    3
+                  ],
+                  [
+                    7,
+                    10
+                  ]
+                ],
+                'edit_b': [
+                  [
+                    5,
+                    5
+                  ],
+                  [
+                    7,
+                    10
+                  ]
+                ]
+              },
+              {
+                'ab': [
+                  'Curabitur ullamcorper ultricies nisi.',
+                  'Nam eget dui.',
+                  'Etiam rhoncus.',
+                  'Maecenas tempus, tellus eget condimentum rhoncus, sem quam' +
+                  ' semper libero, sit amet adipiscing sem neque sed ipsum.',
+                  'Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id,' +
+                  ' lorem.',
+                  'Maecenas nec odio et ante tincidunt tempus.',
+                  'Donec vitae sapien ut libero venenatis faucibus.',
+                  'Nullam quis ante.',
+                  'Etiam sit amet orci eget eros faucibus tincidunt.',
+                  'Duis leo.',
+                  'Sed fringilla mauris sit amet nibh.'
+                ]
+              },
+              {
+                'a': [
+                  'Donec sodales sagittis magna.'
+                ]
+              },
+              {
+                'ab': [
+                  'Sed consequat, leo eget bibendum sodales, augue velit curs' +
+                  'us nunc,'
+                ]
+              }
+            ]
+          };
+          element._comments = {
+            left: [],
+            right: [],
+          };
+          element.prefs = {
+            context: 10,
+            tab_size: 8,
+            font_size: 12,
+            line_length: 100,
+            cursor_blink_rate: 0,
+            line_wrapping: false,
+            intraline_difference: true,
+            show_line_endings: true,
+            show_tabs: true,
+            show_whitespace_errors: true,
+            syntax_highlighting: true,
+            auto_hide_diff_table_header: true,
+            theme: 'DEFAULT',
+            ignore_whitespace: 'IGNORE_NONE',
+          };
+
+          element._renderDiffTable();
+          flushAsynchronousOperations();
+        };
+
+        test('getCursorStops returns [] when hidden and noAutoRender are true',
+             function() {
+          element.noAutoRender = true;
+          setupDiff();
+          element.hidden = true;
+          assert.equal(element.getCursorStops().length, 0);
+        });
+
+        test('getCursorStops', function() {
+          setupDiff();
+          assert.equal(element.getCursorStops().length, 33);
+        });
+      });
     });
 
     suite('logged in', function() {

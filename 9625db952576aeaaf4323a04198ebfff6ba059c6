@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d8ebf213_0f3eda1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-14T20:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94aaaba9_936c0fcd",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "9625db952576aeaaf4323a04198ebfff6ba059c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1330c104_48f01d00",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
         "patchSetId": 2
@@ -112,6 +136,30 @@
         "startChar": 30,
         "endLine": 190,
         "endChar": 17
+      },
+      "revId": "9625db952576aeaaf4323a04198ebfff6ba059c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea032a18_29a8a0b0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-14T20:15:49Z",
+      "side": 1,
+      "message": "Which bug?",
+      "parentUuid": "37d898b5_604295cc",
+      "range": {
+        "startLine": 190,
+        "startChar": 54,
+        "endLine": 190,
+        "endChar": 99
       },
       "revId": "9625db952576aeaaf4323a04198ebfff6ba059c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

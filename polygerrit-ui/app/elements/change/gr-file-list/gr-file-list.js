@@ -240,6 +240,10 @@
       }
     },
 
+    _togglePathExpandedByIndex: function(index) {
+      this._togglePathExpanded(this._files[index].__path);
+    },
+
     _handlePatchChange: function(e) {
       var patchRange = Object.assign({}, this.patchRange);
       patchRange.basePatchNum = Polymer.dom(e).rootTarget.value;
@@ -430,7 +434,7 @@
           this.$.fileCursor.index === -1) { return; }
 
       e.preventDefault();
-      this._togglePathExpanded(this.$.fileCursor.target.path);
+      this._togglePathExpandedByIndex(this.$.fileCursor.index);
     },
 
     _handleCapitalIKey: function(e) {

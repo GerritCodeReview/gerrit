@@ -213,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "6daac564_bb2b5e64",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-14T16:38:51Z",
+      "side": 1,
+      "message": "I\u0027ve managed to do it now :)",
+      "parentUuid": "6d1c7c0c_b58b16ca",
+      "range": {
+        "startLine": 182,
+        "startChar": 39,
+        "endLine": 182,
+        "endChar": 53
+      },
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "20b88ae4_45835bef",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 26

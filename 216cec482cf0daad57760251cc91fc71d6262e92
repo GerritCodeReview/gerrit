@@ -22,6 +22,30 @@
       "revId": "216cec482cf0daad57760251cc91fc71d6262e92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11b4af37_15563318",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-14T19:38:49Z",
+      "side": 1,
+      "message": "Good call. Done.",
+      "parentUuid": "7d017b9e_1202e547",
+      "range": {
+        "startLine": 123,
+        "startChar": 9,
+        "endLine": 126,
+        "endChar": 9
+      },
+      "revId": "216cec482cf0daad57760251cc91fc71d6262e92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

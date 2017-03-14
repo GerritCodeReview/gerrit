@@ -213,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "894c83a2_6cc24873",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ChangeContext.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-14T08:41:42Z",
+      "side": 1,
+      "message": "\u003e Are you proposing that we rename this dontBumpLastUpdatedOn and remove the argument?\n\nYes. That\u0027s what I had in mind.",
+      "parentUuid": "af0e44e3_a648c137",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 0
+      },
+      "revId": "b91cf223be6ba9fad3c1757397d4190c8b2b817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afe45d76_9301eeff",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoContext.java",
         "patchSetId": 4
@@ -248,6 +272,30 @@
       "side": 1,
       "message": "This is kept short for now because in the not-too-distant future the order of operations is going to change between mixed ReviewDb/NoteDb and pure-NoteDb implementations: we want the pure-NoteDb impl to update both the code refs and meta refs in the same BatchRefUpdate. (Which is really the point of this whole refactoring.)\n\nWhen that happens, I will be sure to explain the differences and their practical consequences for callers.",
       "parentUuid": "afe45d76_9301eeff",
+      "range": {
+        "startLine": 32,
+        "startChar": 5,
+        "endLine": 32,
+        "endChar": 51
+      },
+      "revId": "b91cf223be6ba9fad3c1757397d4190c8b2b817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "264ab706_8334faa1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoContext.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-14T08:41:42Z",
+      "side": 1,
+      "message": "\u003e When that happens, I will be sure to explain the differences and their practical consequences for callers.\n\nSGTM. I only suggested adding more details because I recently needed to know more about this method and ended up diving deep into the implementation.",
+      "parentUuid": "91ef8d23_96326dc0",
       "range": {
         "startLine": 32,
         "startChar": 5,

@@ -8,7 +8,6 @@
 *~
 .DS_Store
 .gwt_work_dir
-.primary_build_tool
 /.apt_generated
 /.buckd
 /.classpath

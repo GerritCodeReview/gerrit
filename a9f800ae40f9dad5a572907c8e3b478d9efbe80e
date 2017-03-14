@@ -22,6 +22,47 @@
       "revId": "a9f800ae40f9dad5a572907c8e3b478d9efbe80e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d74ca15b_9791d72d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-14T18:31:29Z",
+      "side": 1,
+      "message": "I\u0027d go even more descriptive, these aren\u0027t just any queries, they\u0027re lookup queries.",
+      "parentUuid": "354dfd22_e9c768c6",
+      "range": {
+        "startLine": 17,
+        "startChar": 6,
+        "endLine": 17,
+        "endChar": 11
+      },
+      "revId": "a9f800ae40f9dad5a572907c8e3b478d9efbe80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8689111d_0cf41db7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-14T18:31:29Z",
+      "side": 1,
+      "message": "Why not iterate over Regex looking for any match?",
+      "revId": "a9f800ae40f9dad5a572907c8e3b478d9efbe80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

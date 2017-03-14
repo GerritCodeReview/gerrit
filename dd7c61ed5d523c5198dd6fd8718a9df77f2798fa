@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0146e21f_3b7c9c64",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-14T16:54:03Z",
+      "side": 1,
+      "message": "Optional: make a single array constant of regexes for \"lookup query\" patterns.",
+      "revId": "dd7c61ed5d523c5198dd6fd8718a9df77f2798fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

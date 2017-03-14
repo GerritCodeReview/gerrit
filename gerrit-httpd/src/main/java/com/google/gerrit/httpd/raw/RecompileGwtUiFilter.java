@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.raw;
 
-import com.google.gerrit.httpd.raw.BuildSystem.Label;
+import com.google.gerrit.httpd.raw.BazelBuild.Label;
 import com.google.gwtexpui.linker.server.UserAgentRule;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,12 +41,12 @@ class RecompileGwtUiFilter implements Filter {
   private final UserAgentRule rule = new UserAgentRule();
   private final Set<String> uaInitialized = new HashSet<>();
   private final Path unpackedWar;
-  private final BuildSystem builder;
+  private final BazelBuild builder;
 
   private String lastAgent;
   private long lastTime;
 
-  RecompileGwtUiFilter(BuildSystem builder, Path unpackedWar) {
+  RecompileGwtUiFilter(BazelBuild builder, Path unpackedWar) {
     this.builder = builder;
     this.unpackedWar = unpackedWar;
   }
@@ -62,7 +62,7 @@ class RecompileGwtUiFilter implements Filter {
       synchronized (this) {
         try {
           builder.build(label);
-        } catch (BuildSystem.BuildFailureException e) {
+        } catch (BazelBuild.BuildFailureException e) {
           e.display(label.toString(), (HttpServletResponse) res);
           return;
         }

@@ -192,8 +192,8 @@
       delete this._baselines[name];
     },
 
-    reportInteraction: function(eventName) {
-      this.reporter(INTERACTION_TYPE, this.category, eventName);
+    reportInteraction: function(eventName, opt_msg) {
+      this.reporter(INTERACTION_TYPE, this.category, eventName, opt_msg);
     },
   });
 

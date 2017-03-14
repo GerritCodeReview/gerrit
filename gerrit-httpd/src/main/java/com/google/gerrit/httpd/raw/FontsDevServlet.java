@@ -26,14 +26,14 @@ class FontsDevServlet extends ResourceServlet {
 
   private final Path fonts;
 
-  FontsDevServlet(Cache<Path, Resource> cache, BuildSystem builder) throws IOException {
+  FontsDevServlet(Cache<Path, Resource> cache, BazelBuild builder) throws IOException {
     super(cache, true);
     Objects.requireNonNull(builder);
 
-    BuildSystem.Label zipLabel = builder.fontZipLabel();
+    BazelBuild.Label zipLabel = builder.fontZipLabel();
     try {
       builder.build(zipLabel);
-    } catch (BuildSystem.BuildFailureException e) {
+    } catch (BazelBuild.BuildFailureException e) {
       throw new IOException(e);
     }
 

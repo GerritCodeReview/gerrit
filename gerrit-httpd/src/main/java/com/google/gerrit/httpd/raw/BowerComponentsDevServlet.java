@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
-import com.google.gerrit.httpd.raw.BuildSystem.Label;
+import com.google.gerrit.httpd.raw.BazelBuild.Label;
 import com.google.gerrit.launcher.GerritLauncher;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -28,14 +28,14 @@ class BowerComponentsDevServlet extends ResourceServlet {
   private final Path bowerComponents;
   private final Path zip;
 
-  BowerComponentsDevServlet(Cache<Path, Resource> cache, BuildSystem builder) throws IOException {
+  BowerComponentsDevServlet(Cache<Path, Resource> cache, BazelBuild builder) throws IOException {
     super(cache, true);
 
     Objects.requireNonNull(builder);
     Label label = builder.polygerritComponents();
     try {
       builder.build(label);
-    } catch (BuildSystem.BuildFailureException e) {
+    } catch (BazelBuild.BuildFailureException e) {
       throw new IOException(e);
     }
 

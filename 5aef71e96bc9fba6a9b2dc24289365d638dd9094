@@ -22,6 +22,30 @@
       "revId": "5aef71e96bc9fba6a9b2dc24289365d638dd9094",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c18e5f1_c2714504",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-14T13:06:40Z",
+      "side": 1,
+      "message": "Ah, right. We and Eclipse are not allowed to write to bazel-out as well.",
+      "parentUuid": "a8270abb_2a71d048",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 62
+      },
+      "revId": "5aef71e96bc9fba6a9b2dc24289365d638dd9094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

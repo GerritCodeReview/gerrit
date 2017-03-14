@@ -189,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "6d1c7c0c_b58b16ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-14T16:22:39Z",
+      "side": 1,
+      "message": "Hi it seems i have to do this as testing your feedback locally fails because it needs to be in fetchJSON and _fetchSharedCacheURL",
+      "parentUuid": "94ab154f_b2331750",
+      "range": {
+        "startLine": 182,
+        "startChar": 39,
+        "endLine": 182,
+        "endChar": 53
+      },
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "20b88ae4_45835bef",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 26

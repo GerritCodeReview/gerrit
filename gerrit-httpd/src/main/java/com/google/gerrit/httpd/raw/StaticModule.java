@@ -292,7 +292,7 @@ public class StaticModule extends ServletModule {
 
   private static class Paths {
     private final FileSystem warFs;
-    private final BuildSystem builder;
+    private final BazelBuild builder;
     private final Path sourceRoot;
     private final Path unpackedWar;
     private final boolean development;

@@ -123,16 +123,14 @@
               {/if}
 
               <p style="{$commentHeaderStyle}">
-                {if length($comment.lines) > 0}
-                  <a href="{$comment.link}">
-                    {if $comment.startLine == 0}
-                      Patch Set #{$group.patchSetId}:
-                    {else}
-                      Patch Set #{$group.patchSetId},{sp}
-                      Line {$comment.startLine}:
-                    {/if}
-                  </a>{sp}
-                {/if}
+                <a href="{$comment.link}">
+                  {if $comment.startLine == 0}
+                    Patch Set #{$group.patchSetId}:
+                  {else}
+                    Patch Set #{$group.patchSetId},{sp}
+                    Line {$comment.startLine}:
+                  {/if}
+                </a>{sp}
                 {if length($comment.lines) == 1}
                   <code style="font-family:monospace,monospace">
                     {$comment.lines[0]}

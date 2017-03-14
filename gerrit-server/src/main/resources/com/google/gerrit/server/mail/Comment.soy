@@ -60,6 +60,10 @@
         {/if}
         {$line}{\n}
       {/foreach}
+      {if length($comment.lines) == 0}
+        {$comment.linePrefix}{\n}
+      {/if}
+
       {if $comment.parentMessage}
         >{sp}{$comment.parentMessage}{\n}
       {/if}

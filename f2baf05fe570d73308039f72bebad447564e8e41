@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1f3f4d3_0fbbc964",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-14T23:07:48Z",
+      "side": 1,
+      "message": "Line is longer than 80 characters.",
+      "revId": "f2baf05fe570d73308039f72bebad447564e8e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5946fbfc_569109ab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-14T23:07:48Z",
+      "side": 1,
+      "message": "This line exceeds 80 characters.",
+      "revId": "f2baf05fe570d73308039f72bebad447564e8e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83c4c45b_2ef92403",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-14T23:07:48Z",
+      "side": 1,
+      "message": "I assume this is for the REST API which still expects side for this. Is this the only place you do this?\n\nIt might be worth adding a comments that identify the places where that translation is done.",
+      "revId": "f2baf05fe570d73308039f72bebad447564e8e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -10,7 +10,6 @@
 .gwt_work_dir
 .primary_build_tool
 /.apt_generated
-/.buckd
 /.classpath
 /.factorypath
 /.idea
@@ -25,8 +24,6 @@
 /bazel-out
 /bazel-testlogs
 /bin/
-/buck-out
-/eclipse-out
 /extras
 /gerrit-package-plugins
 /gwt-unitCache

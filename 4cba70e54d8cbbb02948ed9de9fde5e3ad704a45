@@ -424,6 +424,24 @@
       "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "305c211e_0d609dda",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-14T17:02:18Z",
+      "side": 1,
+      "message": "Also by editing the html woulden\u0027t you have to rebuild it? What happends if a user uses the offical gerrit war. We should get java request filter to do that though i have no idea how to do that and have done alot of github searches on doing that.",
+      "parentUuid": "77331d34_e6e8e72b",
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

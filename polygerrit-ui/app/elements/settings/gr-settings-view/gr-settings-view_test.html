@@ -243,16 +243,6 @@ limitations under the License.
       });
     });
 
-    test('columns input is hidden with fit to scsreen is selected', function() {
-      assert.isFalse(element.$.columnsPref.hidden);
-
-      MockInteractions.tap(element.$.lineWrapping);
-      assert.isTrue(element.$.columnsPref.hidden);
-
-      MockInteractions.tap(element.$.lineWrapping);
-      assert.isFalse(element.$.columnsPref.hidden);
-    });
-
     test('menu', function(done) {
       assert.isFalse(element._menuChanged);
       assert.isFalse(element._prefsChanged);

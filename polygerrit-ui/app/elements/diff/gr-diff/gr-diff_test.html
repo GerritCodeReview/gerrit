@@ -84,6 +84,24 @@ limitations under the License.
         });
       });
 
+      test('line wrapping styles', function() {
+        element.prefs = {
+          line_length: 80,
+          line_wrapping: true,
+        };
+        assert.equal(element.customStyle['--content-min-width'], 'unset');
+        assert.equal(element.customStyle['--content-width'], '80ch');
+      });
+
+      test('non line wrapping styles', function() {
+        element.prefs = {
+          line_length: 80,
+          line_wrapping: false,
+        };
+        assert.equal(element.customStyle['--content-min-width'], '80ch');
+        assert.equal(element.customStyle['--content-width'], '80ch');
+      });
+
       test('get robot comments', function(done) {
         element.patchRange = {basePatchNum: 0, patchNum: 0};
 

@@ -70,18 +70,6 @@ limitations under the License.
       assert.isFalse(element._newPrefs.syntax_highlighting);
     });
 
-    test('clicking fit to screen hides line length input', function() {
-      element.prefs = {line_wrapping: false};
-
-      assert.isFalse(element.$.columnsPref.hidden);
-
-      MockInteractions.tap(element.$.lineWrappingInput);
-      assert.isTrue(element.$.columnsPref.hidden);
-
-      MockInteractions.tap(element.$.lineWrappingInput);
-      assert.isFalse(element.$.columnsPref.hidden);
-    });
-
     test('clicking save button calls _handleSave function', function() {
       var savePrefs = sinon.stub(element, '_handleSave');
       MockInteractions.tap(element.$.saveButton);

@@ -88,7 +88,7 @@ limitations under the License.
         background-color: #fff;
       }
       .full-width {
-        width: 100%;
+        width: auto;
       }
       .full-width .contentText {
         white-space: pre-wrap;
@@ -121,7 +121,7 @@ limitations under the License.
         /* Set max and min width since setting width on table cells still
            allows them to shrink. */
         max-width: var(--content-width, 80ch);
-        min-width: var(--content-width, 80ch);
+        min-width: var(--content-min-width, 80ch);
         width: var(--content-width, 80ch);
       }
       .content.add .intraline,

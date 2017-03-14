@@ -402,14 +402,15 @@
 
     _prefsChanged: function(prefs) {
       if (!prefs) { return; }
+      this.customStyle['--content-width'] = prefs.line_length + 'ch';
       if (prefs.line_wrapping) {
         this._diffTableClass = 'full-width';
         if (this.viewMode === 'SIDE_BY_SIDE') {
-          this.customStyle['--content-width'] = 'none';
+          this.customStyle['--content-min-width'] = 'unset';
         }
       } else {
         this._diffTableClass = '';
-        this.customStyle['--content-width'] = prefs.line_length + 'ch';
+        this.customStyle['--content-min-width'] = prefs.line_length + 'ch';
       }
 
       if (!!prefs.font_size) {

@@ -334,6 +334,28 @@ limitations under the License.
         ]);
       });
 
+      test('breaks-down shared chunks w/ whole-file', function() {
+        var lineNums = {left: 0, right: 0};
+        var content = [{
+          ab: _.times(75, function() { return '' + Math.random(); }),
+        }];
+        element.context = -1;
+        var result = element._splitCommonGroupsWithComments(content, lineNums);
+        assert.equal(result.length, 2);
+        assert.deepEqual(result[0].ab, content[0].ab.slice(0, 5));
+        assert.deepEqual(result[1].ab, content[0].ab.slice(5));
+      });
+
+      test('does not break-down shared chunks w/ context', function() {
+        var lineNums = {left: 0, right: 0};
+        var content = [{
+          ab: _.times(75, function() { return '' + Math.random(); }),
+        }];
+        element.context = 4;
+        var result = element._splitCommonGroupsWithComments(content, lineNums);
+        assert.deepEqual(result, content);
+      });
+
       test('intraline normalization', function() {
         // The content and highlights are in the format returned by the Gerrit
         // REST API.
@@ -549,14 +571,6 @@ limitations under the License.
       });
 
       suite('_breakdown*', function() {
-        test('_breakdownGroup ignores shared groups', function() {
-          sandbox.stub(element, '_breakdown');
-          var chunk = {ab: ['blah', 'blah', 'blah']};
-          var result = element._breakdownGroup(chunk);
-          assert.deepEqual(result, [chunk]);
-          assert.isFalse(element._breakdown.called);
-        });
-
         test('_breakdownGroup breaks down additions', function() {
           sandbox.spy(element, '_breakdown');
           var chunk = {b: ['blah', 'blah', 'blah']};

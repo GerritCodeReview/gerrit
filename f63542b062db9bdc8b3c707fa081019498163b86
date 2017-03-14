@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2eda5d09_dba2f938",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RecompileGwtUiFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-14T23:58:34Z",
+      "side": 1,
+      "message": "optional, not about this patch: could avoid this import and use BazelBuild.Label",
+      "revId": "f63542b062db9bdc8b3c707fa081019498163b86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

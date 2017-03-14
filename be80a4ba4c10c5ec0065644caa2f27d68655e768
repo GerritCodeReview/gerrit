@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86ebb27b_83ba815c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelBuild.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-14T12:51:07Z",
+      "side": 0,
+      "message": "I\u0027m not sure why this was necessary.  It seems to work without it for me on MacOS.",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 5
+      },
+      "revId": "be80a4ba4c10c5ec0065644caa2f27d68655e768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

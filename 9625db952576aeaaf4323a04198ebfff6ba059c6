@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "7fbd336f_04a6e8ad",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-14T20:17:53Z",
+      "side": 1,
+      "message": "I verified that it is on master already, so we are good. (https://gerrit-review.googlesource.com/c/99832/)",
+      "parentUuid": "ea032a18_29a8a0b0",
+      "range": {
+        "startLine": 190,
+        "startChar": 54,
+        "endLine": 190,
+        "endChar": 99
+      },
+      "revId": "9625db952576aeaaf4323a04198ebfff6ba059c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdd4d537_7dc108f6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 2

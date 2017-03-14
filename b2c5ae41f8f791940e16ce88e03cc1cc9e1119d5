@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "412d1fc1_d39616a7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-14T20:17:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88c8ce0b_f0f25646",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 12
+      },
+      "revId": "b2c5ae41f8f791940e16ce88e03cc1cc9e1119d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "839628f1_92299032",
         "filename": "polygerrit-ui/app/test/index.html",
         "patchSetId": 4

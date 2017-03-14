@@ -64,7 +64,10 @@
         value: function() { return {}; },
         notify: true,
       },
-
+      hidden: {
+        type: Boolean,
+        reflectToAttribute: true,
+      },
       _loggedIn: {
         type: Boolean,
         value: false,
@@ -133,7 +136,7 @@
     },
 
     getCursorStops: function() {
-      if (this.noAutoRender) {
+      if (this.hidden && this.noAutoRender) {
         return [];
       }
 

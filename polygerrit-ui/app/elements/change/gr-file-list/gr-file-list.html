@@ -311,7 +311,7 @@ limitations under the License.
       </div>
       <gr-diff
           no-auto-render
-          hidden$="[[!_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
+          hidden="[[!_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
           project="[[change.project]]"
           commit="[[change.current_revision]]"
           change-num="[[changeNum]]"

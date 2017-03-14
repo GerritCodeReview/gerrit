@@ -23,6 +23,7 @@ limitations under the License.
 <script src="../../../scripts/util.js"></script>
 
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/mock-diff-response_test.html">
 <link rel="import" href="gr-diff.html">
 
 <test-fixture id="basic">
@@ -421,6 +422,50 @@ limitations under the License.
         element.patchRange = {basePatchNum: 1, patchNum: 2};
         element.path = 'file.txt';
         element._getDiff().then(done);
+      });
+
+      suite('getCursorStops', function() {
+
+        var setupDiff = function() {
+          var mock = document.createElement('mock-diff-response');
+          element._diff = mock.diffResponse;
+          element._comments = {
+            left: [],
+            right: [],
+          };
+          element.prefs = {
+            context: 10,
+            tab_size: 8,
+            font_size: 12,
+            line_length: 100,
+            cursor_blink_rate: 0,
+            line_wrapping: false,
+            intraline_difference: true,
+            show_line_endings: true,
+            show_tabs: true,
+            show_whitespace_errors: true,
+            syntax_highlighting: true,
+            auto_hide_diff_table_header: true,
+            theme: 'DEFAULT',
+            ignore_whitespace: 'IGNORE_NONE',
+          };
+
+          element._renderDiffTable();
+          flushAsynchronousOperations();
+        };
+
+        test('getCursorStops returns [] when hidden and noAutoRender are true',
+             function() {
+          element.noAutoRender = true;
+          setupDiff();
+          element.hidden = true;
+          assert.equal(element.getCursorStops().length, 0);
+        });
+
+        test('getCursorStops', function() {
+          setupDiff();
+          assert.equal(element.getCursorStops().length, 50);
+        });
       });
     });
 

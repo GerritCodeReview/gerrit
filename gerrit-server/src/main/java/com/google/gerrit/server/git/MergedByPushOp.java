@@ -128,7 +128,11 @@ public class MergedByPushOp extends BatchUpdate.Op {
     info = getPatchSetInfo(ctx);
 
     ChangeUpdate update = ctx.getUpdate(psId);
-    if (change.getStatus().isOpen()) {
+    Change.Status status = change.getStatus();
+    if (status == Change.Status.MERGED) {
+      return true;
+    }
+    if (status.isOpen()) {
       change.setCurrentPatchSet(info);
       change.setStatus(Change.Status.MERGED);
 

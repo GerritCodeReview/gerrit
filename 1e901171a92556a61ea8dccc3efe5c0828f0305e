@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ec842eb_7d909303",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-14T11:41:03Z",
+      "side": 1,
+      "message": "I was a bit skeptical too but then found this [1] interesting discussion. If even Brian Goetz recommends using streams as return values, we should probably give them a try. However, we should stay with return values and not use streams as method parameters or fields.\n\n[1] http://stackoverflow.com/questions/24676877/should-i-return-a-collection-or-a-stream",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 51
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68cdf5ca_aeb32b0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-14T11:41:03Z",
+      "side": 1,
+      "message": "What do you mean by this? Does your comment refer to streams which are used as method parameters or instance fields?",
+      "range": {
+        "startLine": 22,
+        "startChar": 59,
+        "endLine": 23,
+        "endChar": 53
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e30b111f_8ca41a4a",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-14T11:41:03Z",
+      "side": 1,
+      "message": "Did you adjust this code to have a better error message? If not, we could still use Iterables#getOnlyElement on the collected list.",
+      "range": {
+        "startLine": 199,
+        "startChar": 8,
+        "endLine": 208,
+        "endChar": 9
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb09c9b8_9609e01b",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-14T11:41:03Z",
+      "side": 1,
+      "message": "optional: Could be replaced by map(toField).forEach(doc::add).",
+      "range": {
+        "startLine": 345,
+        "startChar": 36,
+        "endLine": 345,
+        "endChar": 75
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66b2e1e6_fc6183ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/Schema.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-14T11:41:03Z",
+      "side": 1,
+      "message": "As streams can only be consumed once, I don\u0027t think it\u0027s a good idea to use a stream as a field and expose it via a public getter.",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 28
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e006c1a_fc13db7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/Schema.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-14T11:41:03Z",
+      "side": 1,
+      "message": "We should try to avoid using peek as Stream#peek mainly exists for debugging purposes.",
+      "range": {
+        "startLine": 82,
+        "startChar": 16,
+        "endLine": 82,
+        "endChar": 20
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "428de0a7_8403acce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-14T11:41:03Z",
+      "side": 1,
+      "message": "What about Stream.empty()? If you adjust it, please also replace the other newly introduced occurrences.",
+      "range": {
+        "startLine": 143,
+        "startChar": 13,
+        "endLine": 143,
+        "endChar": 24
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0256fcaf_530de5ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-14T11:41:03Z",
+      "side": 1,
+      "message": "This doesn\u0027t really feel good and also doesn\u0027t comply with the rule that map operations should be stateless and side-effect free. I understand why it\u0027s necessary but I would rather use a different approach if possible.",
+      "range": {
+        "startLine": 657,
+        "startChar": 4,
+        "endLine": 659,
+        "endChar": 81
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "361b4418_b7e525ba",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/index/change/ChangeFieldTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-14T11:41:03Z",
+      "side": 1,
+      "message": "The stream has been consumed at this point and will throw an exception.",
+      "range": {
+        "startLine": 65,
+        "startChar": 52,
+        "endLine": 65,
+        "endChar": 58
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

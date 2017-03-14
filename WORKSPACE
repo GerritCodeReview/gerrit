@@ -439,8 +439,8 @@ maven_jar(
 
 maven_jar(
     name = "auto_value",
-    artifact = "com.google.auto.value:auto-value:1.4-rc1",
-    sha1 = "9347939002003a7a3c3af48271fc2c18734528a4",
+    artifact = "com.google.auto.value:auto-value:1.4-rc3",
+    sha1 = "b58e82f70576a951146ca61a00ef26806f8c4667",
 )
 
 maven_jar(

@@ -71,6 +71,54 @@
     },
     {
       "key": {
+        "uuid": "37d898b5_604295cc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-14T19:58:22Z",
+      "side": 1,
+      "message": "Sounds good to me, as long as the tooltip bug is fixed (I think it was merged yesterday)",
+      "parentUuid": "1330c104_48f01d00",
+      "range": {
+        "startLine": 190,
+        "startChar": 54,
+        "endLine": 190,
+        "endChar": 99
+      },
+      "revId": "9625db952576aeaaf4323a04198ebfff6ba059c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e65320a3_b8245de7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-14T19:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73c6d8b4_573dfe07",
+      "range": {
+        "startLine": 188,
+        "startChar": 30,
+        "endLine": 190,
+        "endChar": 17
+      },
+      "revId": "9625db952576aeaaf4323a04198ebfff6ba059c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdd4d537_7dc108f6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 2
@@ -91,6 +139,30 @@
       "revId": "9625db952576aeaaf4323a04198ebfff6ba059c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0ff0a35_1d854869",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-14T19:58:22Z",
+      "side": 1,
+      "message": "Oh yeah, I think you\u0027re right.",
+      "parentUuid": "cdd4d537_7dc108f6",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 6
+      },
+      "revId": "9625db952576aeaaf4323a04198ebfff6ba059c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

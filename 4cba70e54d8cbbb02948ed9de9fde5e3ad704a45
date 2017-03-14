@@ -442,6 +442,24 @@
       "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5555d65_b0ec9995",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-14T18:48:27Z",
+      "side": 1,
+      "message": "We could also do that in a follow up change? As this patch will at least fix running polygerrit under prefixed url. We could do the java request filter in a follow up change as i have no idea how to do it currently.\n\nAnd would like to get this change into the gerrit 2.14 release :)",
+      "parentUuid": "305c211e_0d609dda",
+      "revId": "4cba70e54d8cbbb02948ed9de9fde5e3ad704a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

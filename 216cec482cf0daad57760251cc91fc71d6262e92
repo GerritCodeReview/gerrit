@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e0b8d3d4_89c7d8ae",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-14T19:40:32Z",
+      "side": 1,
+      "message": "Nit: the entries of LookupQueries aren\u0027t queries, they\u0027re patterns for queries. Maybe it should be named\n\n LookupQueryPatterns\n\nand have this become\n\n for (var pattern in LookupQueryPatterns) {\n\nBut I don\u0027t feel strongly.",
+      "range": {
+        "startLine": 116,
+        "startChar": 19,
+        "endLine": 116,
+        "endChar": 41
+      },
+      "revId": "216cec482cf0daad57760251cc91fc71d6262e92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d017b9e_1202e547",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
         "patchSetId": 3
@@ -46,6 +69,30 @@
       "revId": "216cec482cf0daad57760251cc91fc71d6262e92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcbd12ee_1d58e933",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-14T19:40:32Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "7d017b9e_1202e547",
+      "range": {
+        "startLine": 123,
+        "startChar": 9,
+        "endLine": 126,
+        "endChar": 9
+      },
+      "revId": "216cec482cf0daad57760251cc91fc71d6262e92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

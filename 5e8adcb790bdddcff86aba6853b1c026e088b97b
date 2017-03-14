@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "128e3fa0_414471cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-14T11:25:01Z",
+      "side": 1,
+      "message": "\u003e The problem here is that it was failing without a clear error\n \u003e message that helps track it down.\n\nRight, but this is UX Bazel bug, that was accepted in discussion to this issue: [1], quoting:\n\n  Agreed, this is a UX failure on our side.\n  @aehlig, can we print a more helpful error message if the --  \n  workspace_status_command fails than \"Process exited with status 1\"?\n\n* [1] https://github.com/bazelbuild/bazel/issues/2040#issuecomment-258451629",
+      "parentUuid": "2ac736e1_dd6aa803",
+      "revId": "5e8adcb790bdddcff86aba6853b1c026e088b97b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd92d166_01e11c92",
         "filename": "tools/workspace-status.sh",
         "patchSetId": 1

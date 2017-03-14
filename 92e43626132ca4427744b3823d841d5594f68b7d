@@ -16,6 +16,24 @@
       "revId": "92e43626132ca4427744b3823d841d5594f68b7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3273066_83249280",
+        "filename": "tools/workspace-status.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-03-14T16:02:24Z",
+      "side": 0,
+      "message": "The solution in PS1 deals with 3 different use cases:\n\n1) the git describe --dirty works so you get a version like\n \n v2.13.5-2559-gf3837bd-dirty\n\n\n2) the git describe --dirty fails, but the git describe (without --dirty succeeds), which is the case I was seeing when the submodule link is wrong, so you get a version string which looks identical to case #1, but comes from the right side (echo side) of the command:\n\n\n v2.13.5-2559-gf3837bd-dirty\n\n\n3) Both git describes fail outright, you get a version string that looks like:\n\n\n -dirty\n\n\nYour proposed solution would behave like #3 above (except for your preference for \"dev\" over \"-dirty\") even in the case of #2 above.  That feels like it would needlessly waste valuable versioning info.",
+      "parentUuid": "dd2e19f5_df185b3e",
+      "revId": "92e43626132ca4427744b3823d841d5594f68b7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

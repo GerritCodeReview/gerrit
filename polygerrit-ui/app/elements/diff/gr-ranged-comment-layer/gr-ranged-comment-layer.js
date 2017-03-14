@@ -181,6 +181,8 @@
             // @see Issue 5744
             if (range.start >= range.end && range.start < line.text.length) {
               range.end = line.text.length;
+              console.warn('Modified invalid comment range on l.' + lineNum +
+                  ' of the ' + side + ' side');
             }
 
             return range;

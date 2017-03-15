@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "81965c2c_9cad4929",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-15T18:28:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1f3f4d3_0fbbc964",
+      "revId": "f2baf05fe570d73308039f72bebad447564e8e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5946fbfc_569109ab",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2bcc090f_94205e6f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-15T18:28:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5946fbfc_569109ab",
+      "revId": "f2baf05fe570d73308039f72bebad447564e8e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83c4c45b_2ef92403",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2017-03-14T23:07:48Z",
       "side": 1,
       "message": "I assume this is for the REST API which still expects side for this. Is this the only place you do this?\n\nIt might be worth adding a comments that identify the places where that translation is done.",
+      "revId": "f2baf05fe570d73308039f72bebad447564e8e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d5fafd1_fd2a7f9a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-15T18:28:55Z",
+      "side": 1,
+      "message": "Yes, it does. It is done here on the setting side and here (https://gerrit-review.googlesource.com/c/99973/2/polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js#804) on the getting side.",
+      "parentUuid": "83c4c45b_2ef92403",
       "revId": "f2baf05fe570d73308039f72bebad447564e8e41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

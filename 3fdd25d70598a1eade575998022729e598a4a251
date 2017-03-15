@@ -47,6 +47,30 @@
       "revId": "3fdd25d70598a1eade575998022729e598a4a251",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ae78bce_8131442e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-15T07:31:32Z",
+      "side": 1,
+      "message": "I\u0027ve updated the commit message.\n\nI don\u0027t think we need a schema migration to remove the indices, at least we haven\u0027t done this in the past and the indices will go away anyway when the table is deleted later. So I think it\u0027s not worth the effort to write a migration for this.",
+      "parentUuid": "f1267ef2_262acf76",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "3fdd25d70598a1eade575998022729e598a4a251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

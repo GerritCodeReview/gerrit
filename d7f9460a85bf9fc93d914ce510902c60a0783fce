@@ -34,6 +34,24 @@
       "revId": "d7f9460a85bf9fc93d914ce510902c60a0783fce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "930b5e32_dcc086c3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-15T20:11:40Z",
+      "side": 1,
+      "message": "More in the sense of indicating a popup than externality.",
+      "parentUuid": "8bc2b75d_fd85f0f0",
+      "revId": "d7f9460a85bf9fc93d914ce510902c60a0783fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

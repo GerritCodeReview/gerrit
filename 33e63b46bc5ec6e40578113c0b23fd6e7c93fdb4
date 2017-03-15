@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6a428e2_e2a2ee92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-15T17:30:41Z",
+      "side": 1,
+      "message": "s/Issue: 5773/Bug: Issue 5773/",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 11
+      },
+      "revId": "33e63b46bc5ec6e40578113c0b23fd6e7c93fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c223c32d_57d90715",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-15T17:30:41Z",
+      "side": 1,
+      "message": "I believe this is actually testing this.getAttribute(\u0027hidden\u0027), right? Since the file list sets it using\n\n hidden$\u003d\"[[...]]\"\n\nUnless declared as part of the component\u0027s interface, I tend to think of the `hidden` attribute as a concern for the hosting element. For example, if gr-file-list gives the diff a margin, should the internals of gr-diff be aware of that?\n\nMoreover, the file list might potentially hide diffs in other ways, such as `display: none;`. This hidden check wouldn\u0027t detect that.\n\nWe could maybe declare hidden as an property with attribute reflection\n\nhidden: {\n  type: Boolean,\n  reflectToAttribute: true,\n},\n\nand then modify the gr-file-list binding to use\n\n hidden\u003d\"[[...]]\"\n\nOr, a different approach would be to have gr-file-list ask gr-diff to empty its table when it\u0027s collapsed (since the diff re-renders when expanded anyway). That way the `getCursorStops` method wouldn\u0027t return any stops and the diff itself doesn\u0027t have to try to detect when it\u0027s hidden.",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 136,
+        "endChar": 21
+      },
+      "revId": "33e63b46bc5ec6e40578113c0b23fd6e7c93fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0981122c_d28103e7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-15T17:30:41Z",
+      "side": 1,
+      "message": "Would it make sense to use the mock-diff-response component for this data?",
+      "range": {
+        "startLine": 429,
+        "startChar": 10,
+        "endLine": 429,
+        "endChar": 27
+      },
+      "revId": "33e63b46bc5ec6e40578113c0b23fd6e7c93fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

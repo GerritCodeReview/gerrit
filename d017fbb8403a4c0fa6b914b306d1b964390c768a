@@ -34,6 +34,24 @@
       "revId": "d017fbb8403a4c0fa6b914b306d1b964390c768a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6504e40e_55fac04a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-15T20:51:30Z",
+      "side": 1,
+      "message": "Because we have no idea what the username is in this case.\n\nThe old UI doesn\u0027t show a username here (or in the profile section) if HTTP passwords are externally managed.",
+      "parentUuid": "c073e360_fcf8bc80",
+      "revId": "d017fbb8403a4c0fa6b914b306d1b964390c768a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

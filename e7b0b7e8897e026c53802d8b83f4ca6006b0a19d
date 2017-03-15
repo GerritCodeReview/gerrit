@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfa76251_6698807a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/UnregisteredCcIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-15T18:04:40Z",
+      "side": 1,
+      "message": "Formatting",
+      "revId": "e7b0b7e8897e026c53802d8b83f4ca6006b0a19d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

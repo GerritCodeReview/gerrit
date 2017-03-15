@@ -37,6 +37,7 @@ java_library(
         "//lib:jsch",
         "//lib:mime-util",
         "//lib:servlet-api-3_1",
+        "//lib:soy",
         "//lib/auto:auto-value",
         "//lib/commons:codec",
         "//lib/guice",

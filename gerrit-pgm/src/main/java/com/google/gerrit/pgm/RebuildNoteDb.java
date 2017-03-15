@@ -17,6 +17,7 @@ package com.google.gerrit.pgm;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Predicates;
 import com.google.common.base.Stopwatch;
@@ -58,7 +59,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -266,7 +269,9 @@ public class RebuildNoteDb extends SiteProgram {
       throws IOException, OrmException {
     checkArgument(allChanges.containsKey(project));
     boolean ok = true;
-    ProgressMonitor pm = new TextProgressMonitor(new PrintWriter(System.out));
+    ProgressMonitor pm =
+        new TextProgressMonitor(
+            new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out, UTF_8))));
     pm.beginTask(FormatUtil.elide(project.get(), 50), allChanges.get(project).size());
     try (NoteDbUpdateManager manager = updateManagerFactory.create(project);
         ObjectInserter allUsersInserter = allUsersRepo.newObjectInserter();

@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1daf1737_8156aea4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-15T12:35:14Z",
+      "side": 1,
+      "message": "I am referring to precisely the issue you raise here: https://gerrit-review.googlesource.com/c/99713/3/gerrit-server/src/main/java/com/google/gerrit/server/index/Schema.java#67",
+      "parentUuid": "68cdf5ca_aeb32b0d",
+      "range": {
+        "startLine": 22,
+        "startChar": 59,
+        "endLine": 23,
+        "endChar": 53
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e30b111f_8ca41a4a",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 3
@@ -117,6 +141,30 @@
     },
     {
       "key": {
+        "uuid": "415afd7a_21609bb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/Schema.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-15T12:35:14Z",
+      "side": 1,
+      "message": "The way I think of Values is it really is just a Stream with a FieldDef attached to it describing where the stream came from.. In this implementation it is a value class that has public getters for the associated Stream/FieldDef.\n\nIt would be nice if we had a type that implemented Stream but also had an additional getField() method indicating where it came from. Then we wouldn\u0027t have a getter for the Stream, we would just be passing around FieldValueStreams.\n\nIs it feasible to have a delegating wrapper implementation of Stream? I haven\u0027t looked into it.",
+      "parentUuid": "66b2e1e6_fc6183ce",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 28
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9e006c1a_fc13db7f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/Schema.java",
         "patchSetId": 3
@@ -128,6 +176,30 @@
       "writtenOn": "2017-03-14T11:41:03Z",
       "side": 1,
       "message": "We should try to avoid using peek as Stream#peek mainly exists for debugging purposes.",
+      "range": {
+        "startLine": 82,
+        "startChar": 16,
+        "endLine": 82,
+        "endChar": 20
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a043c6ad_e4846319",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/Schema.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-15T12:35:14Z",
+      "side": 1,
+      "message": "I don\u0027t disagree, but I couldn\u0027t think of another way to implement ChangeSubIndex#toDoc without materializing the stream to a list. Specifically, that method needs to add additional fields to the document only for a subset of the values in the stream, and then delegate to the superclass implementation to get the rest of the values.",
+      "parentUuid": "9e006c1a_fc13db7f",
       "range": {
         "startLine": 82,
         "startChar": 16,

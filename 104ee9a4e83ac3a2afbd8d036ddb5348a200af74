@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99c046d6_cc9a1f77",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-15T20:01:49Z",
+      "side": 1,
+      "message": "How about...\n\n for the REST API format.",
+      "range": {
+        "startLine": 143,
+        "startChar": 59,
+        "endLine": 144,
+        "endChar": 30
+      },
+      "revId": "104ee9a4e83ac3a2afbd8d036ddb5348a200af74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac5c267c_7c7a1e58",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-15T20:01:49Z",
+      "side": 1,
+      "message": "how about\n\n readability in the code.\n\nor \n\n legibility in the code.\n\n\"in the app\" feels ambiguous.",
+      "range": {
+        "startLine": 805,
+        "startChar": 63,
+        "endLine": 806,
+        "endChar": 24
+      },
+      "revId": "104ee9a4e83ac3a2afbd8d036ddb5348a200af74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

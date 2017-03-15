@@ -155,30 +155,30 @@ limitations under the License.
 
     test('user preferences', function(done) {
       // Rendered with the expected preferences selected.
-      assert.equal(valueOf('Changes Per Page', 'preferences')
+      assert.equal(valueOf('Changes per page', 'preferences')
           .firstElementChild.bindValue, preferences.changes_per_page);
-      assert.equal(valueOf('Date/Time Format', 'preferences')
+      assert.equal(valueOf('Date/time format', 'preferences')
           .firstElementChild.bindValue, preferences.date_format);
-      assert.equal(valueOf('Date/Time Format', 'preferences')
+      assert.equal(valueOf('Date/time format', 'preferences')
           .lastElementChild.bindValue, preferences.time_format);
-      assert.equal(valueOf('Email Notifications', 'preferences')
+      assert.equal(valueOf('Email notifications', 'preferences')
           .firstElementChild.bindValue, preferences.email_strategy);
-      assert.equal(valueOf('Email Format', 'preferences')
+      assert.equal(valueOf('Email format', 'preferences')
           .firstElementChild.bindValue, preferences.email_format);
-      assert.equal(valueOf('Diff View', 'preferences')
+      assert.equal(valueOf('Diff view', 'preferences')
           .firstElementChild.bindValue, preferences.diff_view);
-      assert.equal(valueOf('Expand Inline Diffs', 'preferences')
+      assert.equal(valueOf('Expand inline diffs', 'preferences')
           .firstElementChild.checked, false);
 
       assert.isFalse(element._prefsChanged);
       assert.isFalse(element._menuChanged);
 
       // Change the diff view element.
-      var diffSelect = valueOf('Diff View', 'preferences').firstElementChild;
+      var diffSelect = valueOf('Diff view', 'preferences').firstElementChild;
       diffSelect.bindValue = 'SIDE_BY_SIDE';
 
       var expandInlineDiffs =
-          valueOf('Expand Inline Diffs', 'preferences').firstElementChild;
+          valueOf('Expand inline diffs', 'preferences').firstElementChild;
       diffSelect.fire('change');
 
       MockInteractions.tap(expandInlineDiffs);
@@ -207,22 +207,22 @@ limitations under the License.
       // Rendered with the expected preferences selected.
       assert.equal(valueOf('Context', 'diffPreferences')
           .firstElementChild.bindValue, diffPreferences.context);
-      assert.equal(valueOf('Diff Width', 'diffPreferences')
+      assert.equal(valueOf('Diff width', 'diffPreferences')
           .firstElementChild.bindValue, diffPreferences.line_length);
-      assert.equal(valueOf('Tab Width', 'diffPreferences')
+      assert.equal(valueOf('Tab width', 'diffPreferences')
           .firstElementChild.bindValue, diffPreferences.tab_size);
-      assert.equal(valueOf('Font Size', 'diffPreferences')
+      assert.equal(valueOf('Font size', 'diffPreferences')
           .firstElementChild.bindValue, diffPreferences.font_size);
-      assert.equal(valueOf('Show Tabs', 'diffPreferences')
+      assert.equal(valueOf('Show tabs', 'diffPreferences')
           .firstElementChild.checked, diffPreferences.show_tabs);
-      assert.equal(valueOf('Show Trailing Whitespace', 'diffPreferences')
+      assert.equal(valueOf('Show trailing whitespace', 'diffPreferences')
           .firstElementChild.checked, diffPreferences.show_whitespace_errors);
-      assert.equal(valueOf('Fit to Screen', 'diffPreferences')
+      assert.equal(valueOf('Fit to screen', 'diffPreferences')
           .firstElementChild.checked, diffPreferences.line_wrapping);
 
       assert.isFalse(element._diffPrefsChanged);
 
-      var showTabsCheckbox = valueOf('Show Tabs', 'diffPreferences')
+      var showTabsCheckbox = valueOf('Show tabs', 'diffPreferences')
           .firstElementChild;
       showTabsCheckbox.checked = false;
       element._handleShowTabsChanged();

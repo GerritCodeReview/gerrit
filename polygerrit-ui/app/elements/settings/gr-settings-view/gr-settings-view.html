@@ -123,14 +123,14 @@ limitations under the License.
           <gr-button
               on-tap="_handleSaveAccountInfo"
               hidden$="[[!_accountInfoMutable]]"
-              disabled="[[!_accountInfoChanged]]">Save Changes</gr-button>
+              disabled="[[!_accountInfoChanged]]">Save changes</gr-button>
         </fieldset>
         <h2
             id="Preferences"
             class$="[[_computeHeaderClass(_prefsChanged)]]">Preferences</h2>
         <fieldset id="preferences">
           <section>
-            <span class="title">Changes Per Page</span>
+            <span class="title">Changes per page</span>
             <span class="value">
               <select
                   is="gr-select"
@@ -143,7 +143,7 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Date/Time Format</span>
+            <span class="title">Date/time format</span>
             <span class="value">
               <select
                   is="gr-select"
@@ -163,41 +163,41 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Email Notifications</span>
+            <span class="title">Email notifications</span>
             <span class="value">
               <select
                   is="gr-select"
                   bind-value="{{_localPrefs.email_strategy}}">
-                <option value="CC_ON_OWN_COMMENTS">Every Comment</option>
-                <option value="ENABLED">Only Comments Left By Others</option>
+                <option value="CC_ON_OWN_COMMENTS">Every comment</option>
+                <option value="ENABLED">Only comments left by others</option>
                 <option value="DISABLED">None</option>
               </select>
             </span>
           </section>
           <section hidden$="[[!_localPrefs.email_format]]">
-            <span class="title">Email Format</span>
+            <span class="title">Email format</span>
             <span class="value">
               <select
                   is="gr-select"
                   bind-value="{{_localPrefs.email_format}}">
-                <option value="HTML_PLAINTEXT">HTML and Plaintext</option>
-                <option value="PLAINTEXT">Plaintext Only</option>
+                <option value="HTML_PLAINTEXT">HTML and plaintext</option>
+                <option value="PLAINTEXT">Plaintext only</option>
               </select>
             </span>
           </section>
           <section>
-            <span class="title">Diff View</span>
+            <span class="title">Diff view</span>
             <span class="value">
               <select
                   is="gr-select"
                   bind-value="{{_localPrefs.diff_view}}">
-                <option value="SIDE_BY_SIDE">Side by Side</option>
-                <option value="UNIFIED_DIFF">Unified Diff</option>
+                <option value="SIDE_BY_SIDE">Side by side</option>
+                <option value="UNIFIED_DIFF">Unified diff</option>
               </select>
             </span>
           </section>
           <section>
-            <span class="title">Expand Inline Diffs</span>
+            <span class="title">Expand inline diffs</span>
             <span class="value">
               <input
                   id="expandInlineDiffs"
@@ -209,7 +209,7 @@ limitations under the License.
           <gr-button
               id="savePrefs"
               on-tap="_handleSavePreferences"
-              disabled="[[!_prefsChanged]]">Save Changes</gr-button>
+              disabled="[[!_prefsChanged]]">Save changes</gr-button>
         </fieldset>
         <h2
             id="DiffPreferences"
@@ -234,7 +234,7 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Fit to Screen</span>
+            <span class="title">Fit to screen</span>
             <span class="value">
               <input
                   id="lineWrapping"
@@ -244,7 +244,7 @@ limitations under the License.
             </span>
           </section>
           <section id="columnsPref" hidden$="[[_diffPrefs.line_wrapping]]">
-            <span class="title">Diff Width</span>
+            <span class="title">Diff width</span>
             <span class="value">
               <input
                   is="iron-input"
@@ -255,7 +255,7 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Tab Width</span>
+            <span class="title">Tab width</span>
             <span class="value">
               <input
                   is="iron-input"
@@ -266,7 +266,7 @@ limitations under the License.
             </span>
           </section>
           <section hidden$="[[!_diffPrefs.font_size]]">
-            <span class="title">Font Size</span>
+            <span class="title">Font size</span>
             <span class="value">
               <input
                   is="iron-input"
@@ -277,7 +277,7 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Show Tabs</span>
+            <span class="title">Show tabs</span>
             <span class="value">
               <input
                   id="showTabs"
@@ -287,7 +287,7 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Show Trailing Whitespace</span>
+            <span class="title">Show trailing whitespace</span>
             <span class="value">
               <input
                   id="showTrailingWhitespace"
@@ -297,7 +297,7 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Syntax Highlighting</span>
+            <span class="title">Syntax highlighting</span>
             <span class="value">
               <input
                   id="syntaxHighlighting"
@@ -309,7 +309,7 @@ limitations under the License.
           <gr-button
               id="saveDiffPrefs"
               on-tap="_handleSaveDiffPreferences"
-              disabled$="[[!_diffPrefsChanged]]">Save Changes</gr-button>
+              disabled$="[[!_diffPrefsChanged]]">Save changes</gr-button>
         </fieldset>
         <h2 id="Menu" class$="[[_computeHeaderClass(_menuChanged)]]">Menu</h2>
         <fieldset id="menu">
@@ -317,7 +317,7 @@ limitations under the License.
           <gr-button
               id="saveMenu"
               on-tap="_handleSaveMenu"
-              disabled="[[!_menuChanged]]">Save Changes</gr-button>
+              disabled="[[!_menuChanged]]">Save changes</gr-button>
         </fieldset>
         <h2 id="ChangeTableColumns"
             class$="[[_computeHeaderClass(_changeTableChanged)]]">
@@ -330,7 +330,7 @@ limitations under the License.
           <gr-button
               id="saveChangeTable"
               on-tap="_handleSaveChangeTable"
-              disabled="[[!_changeTableChanged]]">Save Changes</gr-button>
+              disabled="[[!_changeTableChanged]]">Save changes</gr-button>
         </fieldset>
         <h2
             id="Notifications"
@@ -344,7 +344,7 @@ limitations under the License.
           <gr-button
               on-tap="_handleSaveWatchedProjects"
               disabled$="[[!_watchedProjectsChanged]]"
-              id="_handleSaveWatchedProjects">Save Changes</gr-button>
+              id="_handleSaveWatchedProjects">Save changes</gr-button>
         </fieldset>
         <h2
             id="EmailAddresses"
@@ -357,11 +357,11 @@ limitations under the License.
               has-unsaved-changes="{{_emailsChanged}}"></gr-email-editor>
           <gr-button
               on-tap="_handleSaveEmails"
-              disabled$="[[!_emailsChanged]]">Save Changes</gr-button>
+              disabled$="[[!_emailsChanged]]">Save changes</gr-button>
         </fieldset>
         <fieldset id="newEmail">
           <section>
-            <span class="title">New Email Address</span>
+            <span class="title">New email address</span>
             <span class="value">
               <input
                   id="newEmailInput"
@@ -383,7 +383,7 @@ limitations under the License.
           </section>
           <gr-button
               disabled="[[!_computeAddEmailButtonEnabled(_newEmail, _addingEmail)]]"
-              on-tap="_handleAddEmailButton">Send Verification</gr-button>
+              on-tap="_handleAddEmailButton">Send verification</gr-button>
         </fieldset>
         <h2 id="HTTPCredentials">HTTP Credentials</h2>
         <fieldset>
@@ -392,7 +392,7 @@ limitations under the License.
         <div hidden$="[[!_serverConfig.sshd]]">
           <h2
               id="SSHKeys"
-              class$="[[_computeHeaderClass(_keysChanged)]]">SSH Keys</h2>
+              class$="[[_computeHeaderClass(_keysChanged)]]">SSH keys</h2>
           <gr-ssh-editor
               id="sshEditor"
               has-unsaved-changes="{{_keysChanged}}"></gr-ssh-editor>

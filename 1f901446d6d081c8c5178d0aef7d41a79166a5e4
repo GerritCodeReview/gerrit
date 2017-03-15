@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dd246a77_d6586bd2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelBuild.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-15T09:11:52Z",
+      "side": 1,
+      "message": "Done in a follow up change.",
+      "parentUuid": "ecb04917_de373e2a",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 62
+      },
+      "revId": "1f901446d6d081c8c5178d0aef7d41a79166a5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48dd4d52_6c3426c3",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelBuild.java",
         "patchSetId": 3

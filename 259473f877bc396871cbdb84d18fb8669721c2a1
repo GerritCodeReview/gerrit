@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c8e303f_7541b1ed",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-15T21:30:21Z",
+      "side": 1,
+      "message": "Should we report/collect it?",
+      "revId": "259473f877bc396871cbdb84d18fb8669721c2a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

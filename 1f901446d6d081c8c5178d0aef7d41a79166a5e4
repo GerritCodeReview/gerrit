@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ecb04917_de373e2a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelBuild.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-15T08:10:41Z",
+      "side": 1,
+      "message": "Optional: Remove the \"[bazel]\" part as it is clear now:\n\n  [2017-03-15 09:07:50,673] [HTTP-69] INFO  com.google.gerrit.httpd.raw.BazelBuild : building [bazel] //gerrit-gwtui:ui_safari.zip\n\nSo, may be just:\n\n  log.info(\"building \" + label.fullName());\n\nSo that the output would just be:\n\n  [2017-03-15 09:10:21,995] [HTTP-83] INFO  com.google.gerrit.httpd.raw.BazelBuild : building //gerrit-gwtui:ui_safari.zip",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 62
+      },
+      "revId": "1f901446d6d081c8c5178d0aef7d41a79166a5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48dd4d52_6c3426c3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelBuild.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-15T08:10:41Z",
+      "side": 1,
+      "message": "Optional: Remove this.",
+      "range": {
+        "startLine": 149,
+        "startChar": 2,
+        "endLine": 152,
+        "endChar": 3
+      },
+      "revId": "1f901446d6d081c8c5178d0aef7d41a79166a5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

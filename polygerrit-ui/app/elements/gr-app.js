@@ -37,6 +37,12 @@
         value: function() { return document.body; },
       },
 
+      /**
+       * The path component of the canonicalWebURL. If Gerrit is running from
+       * the root of the domain, this should be empty.
+       */
+      canonicalPath: String,
+
       _account: {
         type: Object,
         observer: '_accountChanged',
@@ -72,8 +78,11 @@
       '?': '_showKeyboardShortcuts',
     },
 
-    attached: function() {
+    ready: function() {
+      Gerrit.CANONICAL_PATH = this.canonicalPath;
+
       this.$.router.start();
+
       this.$.restAPI.getAccount().then(function(account) {
         this._account = account;
       }.bind(this));
@@ -83,9 +92,7 @@
       this.$.restAPI.getVersion().then(function(version) {
         this._version = version;
       }.bind(this));
-    },
 
-    ready: function() {
       this.$.reporting.appStarted();
       this._viewState = {
         changeView: {
@@ -107,6 +114,8 @@
     },
 
     _accountChanged: function(account) {
+      if (!account) { return; }
+
       // Preferences are cached when a user is logged in; warm them.
       this.$.restAPI.getPreferences();
       this.$.restAPI.getDiffPreferences();

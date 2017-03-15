@@ -213,6 +213,102 @@
     },
     {
       "key": {
+        "uuid": "5533bc57_14f4f97d",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-15T10:28:33Z",
+      "side": 1,
+      "message": "After factoring out the common code as suggested at L195 and using a lambda as suggested at L192 I could get rid of this method in favor of an inline statement.",
+      "parentUuid": "b5834490_efcc8ddf",
+      "range": {
+        "startLine": 189,
+        "startChar": 37,
+        "endLine": 189,
+        "endChar": 50
+      },
+      "revId": "052f0045ab07acb71de3ae40fe5f2f454ccb2222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bec8906d_ea761385",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-15T10:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "278cfe24_2e93b741",
+      "range": {
+        "startLine": 189,
+        "startChar": 61,
+        "endLine": 189,
+        "endChar": 76
+      },
+      "revId": "052f0045ab07acb71de3ae40fe5f2f454ccb2222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad01c4ba_bcfd0e46",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-15T10:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "185622e7_37205986",
+      "range": {
+        "startLine": 189,
+        "startChar": 20,
+        "endLine": 189,
+        "endChar": 35
+      },
+      "revId": "052f0045ab07acb71de3ae40fe5f2f454ccb2222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26eb3329_625d9010",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-15T10:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d42938f_e5cc18d6",
+      "range": {
+        "startLine": 189,
+        "startChar": 9,
+        "endLine": 189,
+        "endChar": 10
+      },
+      "revId": "052f0045ab07acb71de3ae40fe5f2f454ccb2222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55b4f24e_ce77846a",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 1
@@ -307,6 +403,54 @@
     },
     {
       "key": {
+        "uuid": "966da903_6a2808ea",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-15T10:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "655c521b_6fb8f3f0",
+      "range": {
+        "startLine": 190,
+        "startChar": 53,
+        "endLine": 190,
+        "endChar": 57
+      },
+      "revId": "052f0045ab07acb71de3ae40fe5f2f454ccb2222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a087cd01_4dc5ee65",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-15T10:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f7f9ea0_cdcaf5ae",
+      "range": {
+        "startLine": 190,
+        "startChar": 11,
+        "endLine": 190,
+        "endChar": 58
+      },
+      "revId": "052f0045ab07acb71de3ae40fe5f2f454ccb2222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15961331_0d00a134",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 1
@@ -354,6 +498,30 @@
     },
     {
       "key": {
+        "uuid": "086c0fbe_bdfb5755",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-15T10:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72b38c65_6c3151e0",
+      "range": {
+        "startLine": 192,
+        "startChar": 12,
+        "endLine": 192,
+        "endChar": 37
+      },
+      "revId": "052f0045ab07acb71de3ae40fe5f2f454ccb2222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "458de123_d5c9a450",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 1
@@ -389,6 +557,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "458de123_d5c9a450",
+      "range": {
+        "startLine": 195,
+        "startChar": 23,
+        "endLine": 195,
+        "endChar": 80
+      },
+      "revId": "052f0045ab07acb71de3ae40fe5f2f454ccb2222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34600a2e_333627d6",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-15T10:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "636ebd9e_e9eb10ce",
       "range": {
         "startLine": 195,
         "startChar": 23,

@@ -49,8 +49,4 @@
           {$patchSet.refName}
     {/param}{/call}
   {/if}
-
-  {if $email.includeDiff}
-    {call .Pre}{param content: $email.unifiedDiff /}{/call}
-  {/if}
 {/template}

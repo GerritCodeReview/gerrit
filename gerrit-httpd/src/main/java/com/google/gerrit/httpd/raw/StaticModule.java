@@ -27,11 +27,13 @@ import com.google.gerrit.httpd.XsrfCookieFilter;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Key;
+import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
@@ -41,6 +43,7 @@ import com.google.inject.servlet.ServletModule;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import javax.servlet.Filter;
@@ -249,9 +252,12 @@ public class StaticModule extends ServletModule {
     @Provides
     @Singleton
     @Named(POLYGERRIT_INDEX_SERVLET)
-    HttpServlet getPolyGerritUiIndexServlet(@Named(CACHE) Cache<Path, Resource> cache) {
-      return new SingleFileServlet(
-          cache, polyGerritBasePath().resolve("index.html"), getPaths().isDev(), false);
+    HttpServlet getPolyGerritUiIndexServlet(
+        @CanonicalWebUrl @Nullable final String canonicalUrl,
+        @GerritServerConfig Config cfg)
+        throws URISyntaxException {
+      String cdnPath = cfg.getString("gerrit", null, "cdnPath");
+      return new IndexServlet(canonicalUrl, cdnPath);
     }
 
     @Provides

@@ -27,11 +27,13 @@ import com.google.gerrit.httpd.XsrfCookieFilter;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Key;
+import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
@@ -249,9 +251,12 @@ public class StaticModule extends ServletModule {
     @Provides
     @Singleton
     @Named(POLYGERRIT_INDEX_SERVLET)
-    HttpServlet getPolyGerritUiIndexServlet(@Named(CACHE) Cache<Path, Resource> cache) {
-      return new SingleFileServlet(
-          cache, polyGerritBasePath().resolve("index.html"), getPaths().isDev(), false);
+    HttpServlet getPolyGerritUiIndexServlet(
+        @CanonicalWebUrl @Nullable final Provider<String> canonicalURLProvider,
+        @GerritServerConfig Config cfg)
+        throws ServletException {
+      String cdnPath = cfg.getString("httpd", null, "cdnPath");
+      return new IndexServlet(canonicalURLProvider.get(), cdnPath);
     }
 
     @Provides

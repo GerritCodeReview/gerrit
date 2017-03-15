@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03030b09_af44550f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-15T19:14:31Z",
+      "side": 1,
+      "message": "If this is the only call site (and it isn\u0027t unit-tested separately), why not just use ...\n\n this._togglePathExpanded(this._files[this.$.fileCursor.index].__path);\n\n... and skip the new method definition?",
+      "revId": "3a9837c2976fa629afc59908c28892f06b148a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

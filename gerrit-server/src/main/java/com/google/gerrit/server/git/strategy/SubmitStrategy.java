@@ -31,7 +31,6 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -123,7 +122,6 @@ public abstract class SubmitStrategy {
     final OnSubmitValidators.Factory onSubmitValidatorsFactory;
     final TagCache tagCache;
     final InternalChangeQuery internalChangeQuery;
-    final ChangeKindCache changeKindCache;
 
     final Branch.NameKey destBranch;
     final CodeReviewRevWalk rw;
@@ -167,7 +165,6 @@ public abstract class SubmitStrategy {
         OnSubmitValidators.Factory onSubmitValidatorsFactory,
         TagCache tagCache,
         InternalChangeQuery internalChangeQuery,
-        ChangeKindCache changeKindCache,
         @Assisted Branch.NameKey destBranch,
         @Assisted CommitStatus commitStatus,
         @Assisted CodeReviewRevWalk rw,
@@ -200,7 +197,6 @@ public abstract class SubmitStrategy {
       this.rebaseFactory = rebaseFactory;
       this.tagCache = tagCache;
       this.internalChangeQuery = internalChangeQuery;
-      this.changeKindCache = changeKindCache;
 
       this.serverIdent = serverIdent;
       this.destBranch = destBranch;

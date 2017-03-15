@@ -19,6 +19,9 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.isReadable;
 
+import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.inject.Provider;
+
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
@@ -249,9 +252,8 @@ public class StaticModule extends ServletModule {
     @Provides
     @Singleton
     @Named(POLYGERRIT_INDEX_SERVLET)
-    HttpServlet getPolyGerritUiIndexServlet(@Named(CACHE) Cache<Path, Resource> cache) {
-      return new SingleFileServlet(
-          cache, polyGerritBasePath().resolve("index.html"), getPaths().isDev(), false);
+    HttpServlet getPolyGerritUiIndexServlet(@CanonicalWebUrl @Nullable final Provider<String> urlProvider) {
+      return new IndexServlet(urlProvider);
     }
 
     @Provides

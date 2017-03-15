@@ -64,6 +64,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.LabelVote;
 import java.io.IOException;
@@ -139,6 +140,7 @@ class ChangeNotesParser {
   private final List<PatchSetApproval> bufferedApprovals;
   private final List<ChangeMessage> allChangeMessages;
   private final ListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
+  private final Table<Address, UnregisteredCcState, Timestamp> unregisteredCcs;
 
   // Non-final private members filled in during the parsing process.
   private String branch;
@@ -182,6 +184,7 @@ class ChangeNotesParser {
     deletedPatchSets = new HashSet<>();
     patchSetStates = new HashMap<>();
     currentPatchSets = new ArrayList<>();
+    unregisteredCcs = HashBasedTable.create();
   }
 
   ChangeNotesState parseAll() throws ConfigInvalidException, IOException {
@@ -199,6 +202,7 @@ class ChangeNotesParser {
       parseNotes();
       allPastReviewers.addAll(reviewers.rowKeySet());
       pruneReviewers();
+      pruneUnregisteredCcs();
 
       updatePatchSetStates();
       checkMandatoryFooters();
@@ -238,7 +242,8 @@ class ChangeNotesParser {
         buildAllMessages(),
         buildMessagesByPatchSet(),
         comments,
-        readOnlyUntil);
+        readOnlyUntil,
+        unregisteredCcs.rowKeySet());
   }
 
   private PatchSet.Id buildCurrentPatchSetId() {
@@ -377,6 +382,13 @@ class ChangeNotesParser {
 
     if (readOnlyUntil == null) {
       parseReadOnlyUntil(commit);
+    }
+
+    for (UnregisteredCcState state : UnregisteredCcState.values()) {
+      for (String line : commit.getFooterLineValues(state.getFooterKey())) {
+        parseUnregisteredCcs(ts, state, line);
+      }
+      // Don't update timestamp when an unregistered CC was added, matching what we do for reviewers
     }
 
     if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
@@ -924,12 +936,36 @@ class ChangeNotesParser {
     }
   }
 
+  private void parseUnregisteredCcs(Timestamp ts, UnregisteredCcState state, String line)
+      throws ConfigInvalidException {
+    Address adr;
+    try {
+      adr = Address.parse(line);
+    } catch (IllegalArgumentException e) {
+      throw invalidFooter(state.getFooterKey(), line);
+    }
+    if (!unregisteredCcs.containsRow(adr)) {
+      unregisteredCcs.put(adr, state, ts);
+    }
+  }
+
   private void pruneReviewers() {
     Iterator<Table.Cell<Account.Id, ReviewerStateInternal, Timestamp>> rit =
         reviewers.cellSet().iterator();
     while (rit.hasNext()) {
       Table.Cell<Account.Id, ReviewerStateInternal, Timestamp> e = rit.next();
       if (e.getColumnKey() == ReviewerStateInternal.REMOVED) {
+        rit.remove();
+      }
+    }
+  }
+
+  private void pruneUnregisteredCcs() {
+    Iterator<Table.Cell<Address, UnregisteredCcState, Timestamp>> rit =
+        unregisteredCcs.cellSet().iterator();
+    while (rit.hasNext()) {
+      Table.Cell<Address, UnregisteredCcState, Timestamp> e = rit.next();
+      if (e.getColumnKey() == UnregisteredCcState.REMOVED) {
         rit.remove();
       }
     }

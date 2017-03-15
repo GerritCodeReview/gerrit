@@ -49,6 +49,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.testutil.TestChanges;
@@ -3263,6 +3264,64 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isEqualTo("succeeding-topic");
     assertThat(notes.getReadOnlyUntil()).isEqualTo(new Timestamp(0));
+  }
+
+  @Test
+  public void defaultUnregisteredCcIsEmpty() throws Exception {
+    Change c = newChange();
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getUnregisteredCcs()).isEmpty();
+  }
+
+  @Test
+  public void putUnregisteredCc() throws Exception {
+    Address adr = new Address("Foo Bar", "foo.bar@gerritcodereview.com");
+
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putUnregisteredCc(adr);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getUnregisteredCcs()).containsExactly(adr);
+  }
+
+  @Test
+  public void putAndRemoveUnregisteredCc() throws Exception {
+    Address adr = new Address("Foo Bar", "foo.bar@gerritcodereview.com");
+
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putUnregisteredCc(adr);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.removeUnregisteredCc(adr);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getUnregisteredCcs()).isEmpty();
+  }
+
+  @Test
+  public void putRemoveAndAddBackUnregisteredCc() throws Exception {
+    Address adr = new Address("Foo Bar", "foo.bar@gerritcodereview.com");
+
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putUnregisteredCc(adr);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.removeUnregisteredCc(adr);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.putUnregisteredCc(adr);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getUnregisteredCcs()).containsExactly(adr);
   }
 
   private boolean testJson() {

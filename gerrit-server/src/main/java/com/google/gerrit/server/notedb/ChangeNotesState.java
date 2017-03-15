@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -71,7 +72,8 @@ public abstract class ChangeNotesState {
         ImmutableList.of(),
         ImmutableListMultimap.of(),
         ImmutableListMultimap.of(),
-        null);
+        null,
+        ImmutableSet.of());
   }
 
   static ChangeNotesState create(
@@ -100,7 +102,8 @@ public abstract class ChangeNotesState {
       List<ChangeMessage> allChangeMessages,
       ListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet,
       ListMultimap<RevId, Comment> publishedComments,
-      @Nullable Timestamp readOnlyUntil) {
+      @Nullable Timestamp readOnlyUntil,
+      Set<Address> unregisteredCcs) {
     if (hashtags == null) {
       hashtags = ImmutableSet.of();
     }
@@ -131,7 +134,8 @@ public abstract class ChangeNotesState {
         ImmutableList.copyOf(allChangeMessages),
         ImmutableListMultimap.copyOf(changeMessagesByPatchSet),
         ImmutableListMultimap.copyOf(publishedComments),
-        readOnlyUntil);
+        readOnlyUntil,
+        ImmutableSet.copyOf(unregisteredCcs));
   }
 
   /**
@@ -211,6 +215,9 @@ public abstract class ChangeNotesState {
 
   @Nullable
   abstract Timestamp readOnlyUntil();
+
+  @Nullable
+  abstract ImmutableSet<Address> unregisteredCcs();
 
   Change newChange(Project.NameKey project) {
     ChangeColumns c = checkNotNull(columns(), "columns are required");

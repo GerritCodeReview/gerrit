@@ -52,6 +52,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.git.RepoRefCache;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -463,6 +464,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   /** @return change messages by patch set, in chronological order, oldest first. */
   public ImmutableListMultimap<PatchSet.Id, ChangeMessage> getChangeMessagesByPatchSet() {
     return state.changeMessagesByPatchSet();
+  }
+
+  /** @return unregistered CCs on a change. */
+  public ImmutableSet<Address> getUnregisteredCcs() {
+    return state.unregisteredCcs();
   }
 
   /** @return inline comments on each revision. */

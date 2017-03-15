@@ -60,6 +60,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
@@ -128,6 +129,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
   private final List<Comment> comments = new ArrayList<>();
+  private final Map<Address, UnregisteredCcState> unregisteredCcs = new LinkedHashMap<>();
 
   private String commitSubject;
   private String subject;
@@ -469,6 +471,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     reviewers.put(reviewer, ReviewerStateInternal.REMOVED);
   }
 
+  public void putUnregisteredCc(Address cc) {
+    unregisteredCcs.put(cc, UnregisteredCcState.ADDED);
+  }
+
+  public void removeUnregisteredCc(Address cc) {
+    unregisteredCcs.put(cc, UnregisteredCcState.REMOVED);
+  }
+
   public void setPatchSetState(PatchSetState psState) {
     this.psState = psState;
   }
@@ -711,6 +721,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_READ_ONLY_UNTIL, ChangeNoteUtil.formatTime(serverIdent, readOnlyUntil));
     }
 
+    for (Map.Entry<Address, UnregisteredCcState> e : unregisteredCcs.entrySet()) {
+      addFooter(msg, e.getValue().getFooterKey(), e.getKey().toString());
+    }
+
     cb.setMessage(msg.toString());
     try {
       ObjectId treeId = storeRevisionNotes(rw, ins, curr);
@@ -743,6 +757,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && changeMessage == null
         && comments.isEmpty()
         && reviewers.isEmpty()
+        && unregisteredCcs.isEmpty()
         && changeId == null
         && branch == null
         && status == null

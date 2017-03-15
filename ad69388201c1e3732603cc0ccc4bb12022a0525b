@@ -22,6 +22,30 @@
       "revId": "ad69388201c1e3732603cc0ccc4bb12022a0525b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55b07388_491ffc75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-15T17:57:41Z",
+      "side": 1,
+      "message": "This was per the request of @Aaron. https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d5108\n\nHe thinks on large screens, it\u0027s too hard to compare a side by side view when the columns are far apart, but doesn\u0027t want scrolling when viewing on a smaller screen.",
+      "parentUuid": "fa7ac68c_d875ffec",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "ad69388201c1e3732603cc0ccc4bb12022a0525b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d250b02_232ca5e4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-15T20:03:57Z",
+      "side": 1,
+      "message": "Would be nice to have some sort of ⍈ symbol at the end.",
+      "revId": "d7f9460a85bf9fc93d914ce510902c60a0783fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

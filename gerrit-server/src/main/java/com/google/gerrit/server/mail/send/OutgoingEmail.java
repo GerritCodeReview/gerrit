@@ -459,6 +459,11 @@ public abstract class OutgoingEmail {
     }
   }
 
+  /** Schedule delivery of this message as CC to an unregistered user. */
+  protected void addUnregisteredCc(Address adr) {
+    add(RecipientType.CC, adr);
+  }
+
   /**
    * @param to account.
    * @throws OrmException

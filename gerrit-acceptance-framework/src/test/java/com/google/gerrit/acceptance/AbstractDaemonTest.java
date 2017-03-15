@@ -88,6 +88,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.EmailHeader;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -1192,12 +1193,16 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void assertNotifyCc(TestAccount expected) {
+    assertNotifyCc(new Address("", expected.email));
+  }
+
+  protected void assertNotifyCc(Address expected) {
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
-    assertThat(m.rcpt()).containsExactly(expected.emailAddress);
+    assertThat(m.rcpt()).containsExactly(expected);
     assertThat(m.headers().get("To").isEmpty()).isTrue();
     assertThat(((EmailHeader.AddressList) m.headers().get("CC")).getAddressList())
-        .containsExactly(expected.emailAddress);
+        .containsExactly(expected);
   }
 
   protected void assertNotifyBcc(TestAccount expected) {

@@ -20,11 +20,13 @@ import static com.google.common.truth.TruthJUnit.assume;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AddressInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.mail.Address;
 import java.util.EnumSet;
 import org.junit.Before;
 import org.junit.Test;
@@ -135,5 +137,17 @@ public class UnregisteredCcIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage("can't add existing account");
     gApi.changes().id(r.getChangeId()).addUnregisteredCc(adr);
+  }
+
+  @Test
+  public void unregisteredCcReceivesEmail() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+    AddressInfo adr = new AddressInfo("Foo Bar", "foo.bar@gerritcodereview.com");
+
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addUnregisteredCc(adr);
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+
+    assertNotifyCc(new Address(adr.name, adr.email));
   }
 }

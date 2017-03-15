@@ -30,6 +30,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchList;
@@ -180,6 +181,16 @@ public abstract class ChangeEmail extends NotificationEmail {
     setHeader("X-Gerrit-Change-Number", "" + change.getChangeId());
     setChangeUrlHeader();
     setCommitIdHeader();
+
+    if (notify.ordinal() >= NotifyHandling.OWNER_REVIEWERS.ordinal()) {
+      try {
+        for (Address a : changeData.notes().getUnregisteredCcs()) {
+          addUnregisteredCc(a);
+        }
+      } catch (OrmException e) {
+        throw new EmailException("Failed to add unregistered CCs " + change.getChangeId(), e);
+      }
+    }
   }
 
   private void setChangeUrlHeader() {

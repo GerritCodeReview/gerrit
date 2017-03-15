@@ -44,7 +44,7 @@ public class BazelBuild {
   public void build(Label label) throws IOException, BuildFailureException {
     ProcessBuilder proc = newBuildProcess(label);
     proc.directory(sourceRoot.toFile()).redirectErrorStream(true);
-    log.info("building [" + name() + "] " + label.fullName());
+    log.info("building " + label.fullName());
     long start = TimeUtil.nowMs();
     Process rebuild = proc.start();
     byte[] out;
@@ -144,10 +144,5 @@ public class BazelBuild {
   /** Label for the fonts zip file. */
   public Label fontZipLabel() {
     return new Label("polygerrit-ui", "fonts.zip");
-  }
-
-  /** Build system name. */
-  public String name() {
-    return "bazel";
   }
 }

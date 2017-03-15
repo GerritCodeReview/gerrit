@@ -70,6 +70,30 @@
       "revId": "be80a4ba4c10c5ec0065644caa2f27d68655e768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9151c6f6_c2c10773",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelBuild.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-15T07:59:17Z",
+      "side": 0,
+      "message": ";-)",
+      "parentUuid": "4d2fcd09_794a0045",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 5
+      },
+      "revId": "be80a4ba4c10c5ec0065644caa2f27d68655e768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

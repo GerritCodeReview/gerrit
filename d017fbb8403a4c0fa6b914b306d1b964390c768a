@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16340c66_de27b271",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-15T20:35:42Z",
+      "side": 1,
+      "message": "One more thing: hide this section if _passwordUrl",
+      "revId": "d017fbb8403a4c0fa6b914b306d1b964390c768a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

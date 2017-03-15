@@ -48,6 +48,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
@@ -183,12 +186,24 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     return new io.searchbox.core.Index.Builder(doc).index(indexName).type(type).id(id).build();
   }
 
+  private Iterable<? extends Object> arrayElements(Iterable<? extends Object> input) {
+    return StreamSupport.stream(input.spliterator(), true)
+        .filter(
+            new Predicate<Object>() {
+              @Override
+              public boolean test(Object input) {
+                return !(input instanceof String) || !((String) input).isEmpty();
+              }
+            })
+        .collect(Collectors.toList());
+  }
+
   private String toDoc(V v) throws IOException {
     XContentBuilder builder = jsonBuilder().startObject();
     for (Values<V> values : schema.buildFields(v, fillArgs)) {
       String name = values.getField().getName();
       if (values.getField().isRepeatable()) {
-        builder.array(name, values.getValues());
+        builder.field(name, arrayElements(values.getValues()));
       } else {
         Object element = Iterables.getOnlyElement(values.getValues(), "");
         if (!(element instanceof String) || !((String) element).isEmpty()) {

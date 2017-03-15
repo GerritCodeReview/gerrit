@@ -20,7 +20,6 @@ import static org.apache.commons.codec.binary.Base64.decodeBase64;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -61,9 +60,9 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     if (field == null) {
       return null;
     }
-    return FluentIterable.from(field)
-        .transform(i -> codec.decode(decodeBase64(i.toString())))
-        .toList();
+    return StreamSupport.stream(field.spliterator(), true)
+        .map(i -> codec.decode(decodeBase64(i.toString())))
+        .collect(Collectors.toList());
   }
 
   private final Schema<V> schema;

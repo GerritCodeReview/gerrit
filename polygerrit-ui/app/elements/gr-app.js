@@ -37,6 +37,12 @@
         value: function() { return document.body; },
       },
 
+      /**
+       * The path component of the canonicalWebURL. If Gerrit is running from
+       * the root of the domain, this should be empty.
+       */
+      canonicalPath: String,
+
       _account: {
         type: Object,
         observer: '_accountChanged',
@@ -86,6 +92,7 @@
     },
 
     ready: function() {
+      window.CANONICAL_PATH = this.canonicalPath;
       this.$.reporting.appStarted();
       this._viewState = {
         changeView: {

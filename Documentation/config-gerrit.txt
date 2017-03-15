@@ -2513,6 +2513,10 @@ Enable (or disable) registration of Jetty MBeans for Java JMX.
 +
 By default, false.
 
+[[httpd.cdnPath]]httpd.cdnPath::
++
+Path prefix for PolyGerrit's static resources if using a CDN.
+
 [[index]]
 === Section index
 

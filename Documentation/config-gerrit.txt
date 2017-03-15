@@ -2059,6 +2059,10 @@ Setting this option to true will prevent this behavior.
 +
 By default false.
 
+[[gerrit.cdnPath]]gerrit.cdnPath::
++
+Path prefix for PolyGerrit's static resources if using a CDN.
+
 [[gitweb]]
 === Section gitweb
 

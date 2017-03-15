@@ -121,11 +121,6 @@ public class BazelBuild {
     return new ProcessBuilder("bazel", "build", label.fullName());
   }
 
-  /** returns the command to build given target */
-  public String buildCommand(Label l) {
-    return "bazel build " + l.toString();
-  }
-
   /** returns the root relative path to the artifact for the given label */
   public Path targetPath(Label l) {
     return sourceRoot.resolve("bazel-bin").resolve(l.pkg).resolve(l.name);

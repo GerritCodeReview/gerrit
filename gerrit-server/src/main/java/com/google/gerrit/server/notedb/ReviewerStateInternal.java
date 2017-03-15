@@ -58,6 +58,10 @@ public enum ReviewerStateInternal {
     return footerKey;
   }
 
+  FooterKey getByEmailFooterKey() {
+    return new FooterKey(footerKey.getName() + "-by-email");
+  }
+
   public ReviewerState asReviewerState() {
     return state;
   }

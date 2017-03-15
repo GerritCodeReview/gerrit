@@ -37,6 +37,8 @@
         value: function() { return document.body; },
       },
 
+      assetPrefix: String,
+
       _account: {
         type: Object,
         observer: '_accountChanged',
@@ -86,6 +88,7 @@
     },
 
     ready: function() {
+      window.ASSET_URL_PREFIX = this.assetPrefix;
       this.$.reporting.appStarted();
       this._viewState = {
         changeView: {

@@ -16,6 +16,24 @@
       "revId": "d017fbb8403a4c0fa6b914b306d1b964390c768a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c073e360_fcf8bc80",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-15T20:37:26Z",
+      "side": 1,
+      "message": "Why? Isn\u0027t the HTTP username equally relevant when the password is generated differently?",
+      "parentUuid": "16340c66_de27b271",
+      "revId": "d017fbb8403a4c0fa6b914b306d1b964390c768a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

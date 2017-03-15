@@ -20,6 +20,8 @@ limitations under the License.
 
 <link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
 
+<link rel="import" href="./cla/gr-cla-view/gr-cla-view.html">
+
 <link rel="import" href="./core/gr-error-manager/gr-error-manager.html">
 <link rel="import" href="./core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html">
 <link rel="import" href="./core/gr-main-header/gr-main-header.html">
@@ -127,6 +129,9 @@ limitations under the License.
       </template>
       <template is="dom-if" if="[[_showAdminView]]" restamp="true">
         <gr-admin-view path="[[_path]]"></gr-admin-view>
+      </template>
+      <template is="dom-if" if="[[_showCLAView]]" restamp="true">
+        <gr-cla-view path="[[_path]]"></gr-cla-view>
       </template>
       <div id="errorView" class="errorView" hidden>
         <div class="errorEmoji">[[_lastError.emoji]]</div>

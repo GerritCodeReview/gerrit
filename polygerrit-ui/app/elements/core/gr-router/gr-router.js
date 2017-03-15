@@ -198,6 +198,17 @@
       app.params = params;
     });
 
+    page(/^\/settings\/(agreements|new-agreement)/, loadUser, function(data) {
+      restAPI.getLoggedIn().then(function(loggedIn) {
+        if (loggedIn) {
+          data.params.view = 'gr-cla-view';
+          app.params = data.params;
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
     page(/^\/settings\/VE\/(\S+)/, function(data) {
       restAPI.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {

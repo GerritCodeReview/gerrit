@@ -121,6 +121,7 @@
       this.set('_showDiffView', view === 'gr-diff-view');
       this.set('_showSettingsView', view === 'gr-settings-view');
       this.set('_showAdminView', view === 'gr-admin-view');
+      this.set('_showCLAView', view === 'gr-cla-view');
       if (this.params.justRegistered) {
         this.$.registration.open();
       }

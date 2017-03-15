@@ -37,6 +37,7 @@ java_library(
         "//lib:jsch",
         "//lib:mime-util",
         "//lib:servlet-api-3_1",
+        "//lib:soy",
         "//lib/auto:auto-value",
         "//lib/commons:codec",
         "//lib/guice",
@@ -54,6 +55,7 @@ junit_tests(
     srcs = glob(["src/test/java/**/*.java"]),
     deps = [
         ":httpd",
+        "//gerrit-common:annotations",
         "//gerrit-common:server",
         "//gerrit-extension-api:api",
         "//gerrit-reviewdb:server",
@@ -66,6 +68,7 @@ junit_tests(
         "//lib:jimfs",
         "//lib:junit",
         "//lib:servlet-api-3_1-without-neverlink",
+        "//lib:soy",
         "//lib:truth",
         "//lib/easymock",
         "//lib/guice",

@@ -38,7 +38,7 @@
                                       // monospace text.
     white-space: pre-wrap;
   {/let}
-  <pre style="{$preStyle}">{$content}</pre>
+  <pre style="{$preStyle}">{$content|changeNewlineToBr}</pre>
 {/template}
 
 /**
@@ -70,7 +70,7 @@
 
   {foreach $block in $content}
     {if $block.type == 'paragraph'}
-      <p style="{$pStyle}">{$block.text}</p>
+      <p style="{$pStyle}">{$block.text|changeNewlineToBr}</p>
     {elseif $block.type == 'quote'}
       <blockquote style="{$blockquoteStyle}">
         {call .WikiFormat}{param content: $block.quotedBlocks /}{/call}

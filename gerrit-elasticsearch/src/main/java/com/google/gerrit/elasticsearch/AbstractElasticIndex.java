@@ -16,12 +16,14 @@ package com.google.gerrit.elasticsearch;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
+import static java.util.stream.Collectors.toList;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Streams;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
@@ -183,15 +185,21 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     return new io.searchbox.core.Index.Builder(doc).index(indexName).type(type).id(id).build();
   }
 
+  private static boolean shouldAddElement(Object element) {
+    return !(element instanceof String) || !((String) element).isEmpty();
+  }
+
   private String toDoc(V v) throws IOException {
     XContentBuilder builder = jsonBuilder().startObject();
     for (Values<V> values : schema.buildFields(v, fillArgs)) {
       String name = values.getField().getName();
       if (values.getField().isRepeatable()) {
-        builder.array(name, values.getValues());
+        builder.field(
+            name,
+            Streams.stream(values.getValues()).filter(e -> shouldAddElement(e)).collect(toList()));
       } else {
         Object element = Iterables.getOnlyElement(values.getValues(), "");
-        if (!(element instanceof String) || !((String) element).isEmpty()) {
+        if (shouldAddElement(element)) {
           builder.field(name, element);
         }
       }

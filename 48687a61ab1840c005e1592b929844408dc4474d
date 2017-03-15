@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dab4dabb_62b74c9f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-15T18:04:19Z",
+      "side": 1,
+      "message": "[[put-unregistered-cc]]",
+      "revId": "48687a61ab1840c005e1592b929844408dc4474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bea66c9_d2fb12b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1357,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-15T18:04:19Z",
+      "side": 1,
+      "message": "I think it\u0027d be better to just get rid of this and add LABEL as an argument to the calls above.",
+      "revId": "48687a61ab1840c005e1592b929844408dc4474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "512f147d_a81224ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/Address.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-15T18:04:19Z",
+      "side": 1,
+      "message": "Isn\u0027t 4 too short to assume for TLDs these days? Why not use the apache commons validator?",
+      "range": {
+        "startLine": 24,
+        "startChar": 52,
+        "endLine": 24,
+        "endChar": 64
+      },
+      "revId": "48687a61ab1840c005e1592b929844408dc4474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

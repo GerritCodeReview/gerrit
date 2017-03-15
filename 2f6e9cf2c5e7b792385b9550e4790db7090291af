@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "af38c78c_6054965b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-15T20:33:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f3d3404d_056bc155",
+      "revId": "2f6e9cf2c5e7b792385b9550e4790db7090291af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb64e334_1b655b38",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 44
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "d0d78652_4ca4dd7f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-15T20:33:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "bb64e334_1b655b38",
+      "range": {
+        "startLine": 491,
+        "startChar": 8,
+        "endLine": 497,
+        "endChar": 7
+      },
+      "revId": "2f6e9cf2c5e7b792385b9550e4790db7090291af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54b8360c_33aab28f",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 44
@@ -53,6 +95,30 @@
       "writtenOn": "2017-03-15T15:47:44Z",
       "side": 1,
       "message": "Just write it with a correct bsae on the java side, instead of the double writing?",
+      "range": {
+        "startLine": 497,
+        "startChar": 8,
+        "endLine": 505,
+        "endChar": 8
+      },
+      "revId": "2f6e9cf2c5e7b792385b9550e4790db7090291af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "698045ae_29088c98",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-15T20:33:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "54b8360c_33aab28f",
       "range": {
         "startLine": 497,
         "startChar": 8,

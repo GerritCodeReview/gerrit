@@ -62,8 +62,10 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.LabelVote;
 import java.io.IOException;
@@ -127,6 +129,7 @@ class ChangeNotesParser {
   // Private final but mutable members initialized in the constructor and filled
   // in during the parsing process.
   private final Table<Account.Id, ReviewerStateInternal, Timestamp> reviewers;
+  private final Table<Address, ReviewerStateInternal, Timestamp> reviewersByEmail;
   private final List<Account.Id> allPastReviewers;
   private final List<ReviewerStatusUpdate> reviewerUpdates;
   private final List<SubmitRecord> submitRecords;
@@ -172,6 +175,7 @@ class ChangeNotesParser {
     approvals = new LinkedHashMap<>();
     bufferedApprovals = new ArrayList<>();
     reviewers = HashBasedTable.create();
+    reviewersByEmail = HashBasedTable.create();
     allPastReviewers = new ArrayList<>();
     reviewerUpdates = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
@@ -199,6 +203,7 @@ class ChangeNotesParser {
       parseNotes();
       allPastReviewers.addAll(reviewers.rowKeySet());
       pruneReviewers();
+      pruneReviewersByEmail();
 
       updatePatchSetStates();
       checkMandatoryFooters();
@@ -232,6 +237,7 @@ class ChangeNotesParser {
         patchSets,
         buildApprovals(),
         ReviewerSet.fromTable(Tables.transpose(reviewers)),
+        ReviewerByEmailSet.fromTable(Tables.transpose(reviewersByEmail)),
         allPastReviewers,
         buildReviewerUpdates(),
         submitRecords,
@@ -370,6 +376,9 @@ class ChangeNotesParser {
     for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
       for (String line : commit.getFooterLineValues(state.getFooterKey())) {
         parseReviewer(ts, state, line);
+      }
+      for (String line : commit.getFooterLineValues(state.getByEmailFooterKey())) {
+        parseReviewerByEmail(ts, state, line);
       }
       // Don't update timestamp when a reviewer was added, matching RevewDb
       // behavior.
@@ -910,6 +919,19 @@ class ChangeNotesParser {
     }
   }
 
+  private void parseReviewerByEmail(Timestamp ts, ReviewerStateInternal state, String line)
+      throws ConfigInvalidException {
+    Address adr;
+    try {
+      adr = Address.parse(line);
+    } catch (IllegalArgumentException e) {
+      throw invalidFooter(state.getByEmailFooterKey(), line);
+    }
+    if (!reviewersByEmail.containsRow(adr)) {
+      reviewersByEmail.put(adr, state, ts);
+    }
+  }
+
   private void parseReadOnlyUntil(ChangeNotesCommit commit) throws ConfigInvalidException {
     String raw = parseOneFooter(commit, FOOTER_READ_ONLY_UNTIL);
     if (raw == null) {
@@ -929,6 +951,17 @@ class ChangeNotesParser {
         reviewers.cellSet().iterator();
     while (rit.hasNext()) {
       Table.Cell<Account.Id, ReviewerStateInternal, Timestamp> e = rit.next();
+      if (e.getColumnKey() == ReviewerStateInternal.REMOVED) {
+        rit.remove();
+      }
+    }
+  }
+
+  private void pruneReviewersByEmail() {
+    Iterator<Table.Cell<Address, ReviewerStateInternal, Timestamp>> rit =
+        reviewersByEmail.cellSet().iterator();
+    while (rit.hasNext()) {
+      Table.Cell<Address, ReviewerStateInternal, Timestamp> e = rit.next();
       if (e.getColumnKey() == ReviewerStateInternal.REMOVED) {
         rit.remove();
       }

@@ -49,6 +49,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.testutil.TestChanges;
@@ -3263,6 +3264,86 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isEqualTo("succeeding-topic");
     assertThat(notes.getReadOnlyUntil()).isEqualTo(new Timestamp(0));
+  }
+
+  @Test
+  public void defaultReviewersByEmailIsEmpty() throws Exception {
+    Change c = newChange();
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getReviewersByEmail().all()).isEmpty();
+  }
+
+  @Test
+  public void putReviewerByEmail() throws Exception {
+    Address adr = new Address("Foo Bar", "foo.bar@gerritcodereview.com");
+
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putReviewerByEmail(adr, ReviewerStateInternal.REVIEWER);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getReviewersByEmail().all()).containsExactly(adr);
+  }
+
+  @Test
+  public void putAndRemoveReviewerByEmail() throws Exception {
+    Address adr = new Address("Foo Bar", "foo.bar@gerritcodereview.com");
+
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putReviewerByEmail(adr, ReviewerStateInternal.REVIEWER);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.removeReviewerByEmail(adr);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getReviewersByEmail().all()).isEmpty();
+  }
+
+  @Test
+  public void putRemoveAndAddBackReviewerByEmail() throws Exception {
+    Address adr = new Address("Foo Bar", "foo.bar@gerritcodereview.com");
+
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putReviewerByEmail(adr, ReviewerStateInternal.REVIEWER);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.removeReviewerByEmail(adr);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.putReviewerByEmail(adr, ReviewerStateInternal.CC);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getReviewersByEmail().all()).containsExactly(adr);
+  }
+
+  @Test
+  public void putReviewerByEmailAndCcByEmail() throws Exception {
+    Address adrReviewer = new Address("Foo Bar", "foo.bar@gerritcodereview.com");
+    Address adrCc = new Address("Foo Bor", "foo.bar.2@gerritcodereview.com");
+
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putReviewerByEmail(adrReviewer, ReviewerStateInternal.REVIEWER);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.putReviewerByEmail(adrCc, ReviewerStateInternal.CC);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getReviewersByEmail().byState(ReviewerStateInternal.REVIEWER))
+        .containsExactly(adrReviewer);
+    assertThat(notes.getReviewersByEmail().byState(ReviewerStateInternal.CC))
+        .containsExactly(adrCc);
+    assertThat(notes.getReviewersByEmail().all()).containsExactly(adrReviewer, adrCc);
   }
 
   private boolean testJson() {

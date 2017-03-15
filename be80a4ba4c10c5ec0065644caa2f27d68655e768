@@ -46,6 +46,30 @@
       "revId": "be80a4ba4c10c5ec0065644caa2f27d68655e768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d2fcd09_794a0045",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelBuild.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-15T07:24:21Z",
+      "side": 0,
+      "message": "Actually it looks like it was added by you :)\n\nhttps://gerrit-review.googlesource.com/#/c/91440/",
+      "parentUuid": "4f5eda04_ed850bcd",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 5
+      },
+      "revId": "be80a4ba4c10c5ec0065644caa2f27d68655e768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -20,12 +20,21 @@
     properties: {
       _username: String,
       _generatedPassword: String,
+      _passwordUrl: String,
     },
 
     loadData: function() {
-      return this.$.restAPI.getAccount().then(function(account) {
+      var promises = [];
+
+      promises.push(this.$.restAPI.getAccount().then(function(account) {
         this._username = account.username;
-      }.bind(this));
+      }.bind(this)));
+
+      promises.push(this.$.restAPI.getConfig().then(function(info) {
+        this._passwordUrl = info.auth.http_password_url || null;
+      }.bind(this)));
+
+      return Promise.all(promises);
     },
 
     _handleGenerateTap: function() {

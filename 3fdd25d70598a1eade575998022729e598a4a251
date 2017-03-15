@@ -23,6 +23,30 @@
       "revId": "3fdd25d70598a1eade575998022729e598a4a251",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1267ef2_262acf76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-15T04:30:13Z",
+      "side": 1,
+      "message": "As far as I understand the indices are not being removed, only the creation of them for new sites.\n\nDo we need a migration to remove these also from existing databases?",
+      "parentUuid": "c98d8f32_99a18c3f",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "3fdd25d70598a1eade575998022729e598a4a251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

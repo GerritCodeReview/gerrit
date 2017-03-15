@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.AddressInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -187,6 +188,20 @@ public interface ChangeApi {
    * @return the assignee that was deleted, or null if there was no assignee.
    */
   AccountInfo deleteAssignee() throws RestApiException;
+
+  /**
+   * Add a new unregistered CC
+   *
+   * @param in {@code AddressInfo} to add as unregistered CC
+   */
+  void addUnregisteredCc(AddressInfo in) throws RestApiException;
+
+  /**
+   * Delete the unregistered CC on a change.
+   *
+   * @param in {@code AddressInfo} to delete as unregistered CC
+   */
+  void deleteUnregisteredCc(AddressInfo in) throws RestApiException;
 
   /**
    * Get all published comments on a change.
@@ -423,6 +438,16 @@ public interface ChangeApi {
 
     @Override
     public AccountInfo deleteAssignee() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void addUnregisteredCc(AddressInfo in) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void deleteUnregisteredCc(AddressInfo in) {
       throw new NotImplementedException();
     }
 

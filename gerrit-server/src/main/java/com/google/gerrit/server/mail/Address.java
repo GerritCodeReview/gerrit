@@ -15,8 +15,14 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.server.mail.send.EmailHeader;
+import java.util.regex.Pattern;
 
 public class Address {
+  // Pattern to validate addresses. Note that this does not check for full RFC 822 compliance but
+  // does some basic sanity checking.
+  private static final Pattern ADDRESS_PATTERN =
+      Pattern.compile("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$");
+
   public static Address parse(final String in) {
     final int lt = in.indexOf('<');
     final int gt = in.indexOf('>');
@@ -40,6 +46,10 @@ public class Address {
     }
 
     throw new IllegalArgumentException("Invalid email address: " + in);
+  }
+
+  public static boolean isValidAddress(String address) {
+    return ADDRESS_PATTERN.matcher(address.toLowerCase()).find();
   }
 
   final String name;

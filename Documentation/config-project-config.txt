@@ -199,6 +199,28 @@ the implicit merge check.
 Default is `INHERIT`, which means that this property is inherited from
 the parent project.
 
+[[reviewers-section]]
+=== Reviewers Section
+
+The reviewers section will allow to change certain parameters on who can
+be added as reviewer or CC on a change:
+
+[[reviewers.enableUnregisteredCcs]]
+=== Enable Unregistered CC
+
+This setting enables users to add email addresses of people who do not
+have a Gerrit account as CC on a change.
+
+- `true`:
+
+Adding unregistered users as CC is enabled.
+
+- `false`:
+
+Adding unregistered users as CC is disabled.
+
+Defaults to false.
+
 [[submit-section]]
 === Submit section
 

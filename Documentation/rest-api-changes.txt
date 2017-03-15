@@ -1033,6 +1033,62 @@ describing the account of the deleted assignee is returned.
 
 If the change had no assignee the response is "`204 No Content`".
 
+[[put-assignee]]
+=== Add Unregistered CC
+--
+'PUT /changes/link:#change-id[\{change-id\}]/unregistered_cc'
+--
+
+Adds a person who does not have a Gerrit account as CC on a change.
+
+The unregistered CC must be provided in the request body inside a
+link:#address-info[AddressInfo] entity.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/unregistered_cc HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "name":  "John Doe",
+    "email": "john.doe@example.com"
+  }
+----
+
+If the change had no assignee the response is "`204 No Content`".
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[delete-unregistered-cc]]
+=== Delete Unregistered CC
+--
+'POST /changes/link:#change-id[\{change-id\}]/unregistered_cc.delete'
+--
+
+Deletes an unregistered CC on a change.
+
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/unregistered_cc.delete HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "name":  "John Doe",
+    "email": "john.doe@example.com"
+  }
+----
+
+If the unregistered CC was removed successfully, the response is "`204 No Content`".
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[abandon-change]]
 === Abandon Change
 --
@@ -4991,6 +5047,17 @@ If true the action is permitted at this time and the caller is
 likely allowed to execute it. This may change if state is updated
 at the server or permissions are modified. Not present if false.
 |====================================
+
+[[address-info]]
+=== AddressInfo
+The `AddressInfo` entity describes a user's name and their email address.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`name`    |The user's name.
+|`email    |The email address.
+|======================
 
 [[add-reviewer-result]]
 === AddReviewerResult

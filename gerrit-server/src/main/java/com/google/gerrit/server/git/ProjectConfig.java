@@ -155,6 +155,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       ImmutableSet.of(
           "MaxWithBlock", "AnyWithBlock", "MaxNoBlock", "NoBlock", "NoOp", "PatchSetLock");
 
+  private static final String REVIEWERS = "reviewers";
+  private static final String KEY_ENABLE_UNREGISTERED_CCS = "enableUnregisteredCcs";
+
   private static final String LEGACY_PERMISSION_PUSH_TAG = "pushTag";
   private static final String LEGACY_PERMISSION_PUSH_SIGNED_TAG = "pushSignedTag";
 
@@ -182,6 +185,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private boolean checkReceivedObjects;
   private Set<String> sectionsWithUnknownPermissions;
   private boolean hasLegacyPermissions;
+  private boolean enableUnregisteredCcs;
 
   public static ProjectConfig read(MetaDataUpdate update)
       throws IOException, ConfigInvalidException {
@@ -435,6 +439,16 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return checkReceivedObjects;
   }
 
+  /** @return the enableUnregisteredCc for this project, default is false. */
+  public boolean getEnableUnregisteredCcs() {
+    return enableUnregisteredCcs;
+  }
+
+  /** Set enableUnregisteredCc for this project, default is false. */
+  public void setEnableUnregisteredCcs(boolean val) {
+    enableUnregisteredCcs = val;
+  }
+
   /**
    * Check all GroupReferences use current group name, repairing stale ones.
    *
@@ -526,6 +540,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     mimeTypes = new ConfiguredMimeTypes(projectName.get(), rc);
     loadPluginSections(rc);
     loadReceiveSection(rc);
+    loadReviewersSection(rc);
   }
 
   private void loadAccountsSection(Config rc, Map<String, GroupReference> groupsByName) {
@@ -933,6 +948,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     maxObjectSizeLimit = rc.getLong(RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT, 0);
   }
 
+  private void loadReviewersSection(Config rc) {
+    enableUnregisteredCcs = rc.getBoolean(REVIEWERS, null, KEY_ENABLE_UNREGISTERED_CCS, false);
+  }
+
   private void loadPluginSections(Config rc) {
     pluginConfigs = new HashMap<>();
     for (String plugin : rc.getSubsections(PLUGIN)) {
@@ -1070,6 +1089,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     groupList.retainUUIDs(keepGroups);
     saveLabelSections(rc);
     saveSubscribeSections(rc);
+    saveEnableUnregisteredCcs(rc);
 
     saveConfig(PROJECT_CONFIG, rc);
     saveGroupList();
@@ -1336,10 +1356,15 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static void setBooleanConfigKey(
       Config rc, String name, String key, boolean value, boolean defaultValue) {
+    setBooleanConfigKey(rc, LABEL, name, key, value, defaultValue);
+  }
+
+  private static void setBooleanConfigKey(
+      Config rc, String section, String name, String key, boolean value, boolean defaultValue) {
     if (value == defaultValue) {
-      rc.unset(LABEL, name, key);
+      rc.unset(section, name, key);
     } else {
-      rc.setBoolean(LABEL, name, key, value);
+      rc.setBoolean(section, name, key, value);
     }
   }
 
@@ -1386,6 +1411,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       }
       rc.setStringList(SUBSCRIBE_SECTION, p.get(), SUBSCRIBE_MULTI_MATCH_REFS, multimatchs);
     }
+  }
+
+  private void saveEnableUnregisteredCcs(Config rc) {
+    setBooleanConfigKey(
+        rc, REVIEWERS, null, KEY_ENABLE_UNREGISTERED_CCS, enableUnregisteredCcs, false);
   }
 
   private <E extends Enum<?>> E getEnum(

@@ -296,7 +296,6 @@ Project owners can set `HEAD`
 - in the Web UI under 'Projects' > 'List' > <project> > 'Branches' or
 - via the link:rest-api-projects.html#set-head[Set HEAD] REST endpoint
 
-
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

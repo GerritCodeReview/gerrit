@@ -178,6 +178,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.owner.email).isNull();
     assertThat(c.owner.username).isNull();
     assertThat(c.owner.avatars).isNull();
+    assertThat(c.unregisteredCcs).isNull();
   }
 
   @Test

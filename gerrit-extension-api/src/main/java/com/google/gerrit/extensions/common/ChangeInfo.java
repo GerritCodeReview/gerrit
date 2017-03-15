@@ -55,6 +55,7 @@ public class ChangeInfo {
   public Collection<AccountInfo> removableReviewers;
   public Map<ReviewerState, Collection<AccountInfo>> reviewers;
   public Collection<ReviewerUpdateInfo> reviewerUpdates;
+  public Collection<AddressInfo> unregisteredCcs;
   public Collection<ChangeMessageInfo> messages;
 
   public String currentRevision;

@@ -67,6 +67,7 @@ import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.AddressInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -530,6 +531,13 @@ public class ChangeJson {
           cd.reviewers().asTable().rowMap().entrySet()) {
         out.reviewers.put(e.getKey().asReviewerState(), toAccountInfo(e.getValue().keySet()));
       }
+
+      out.unregisteredCcs =
+          cd.notes()
+              .getUnregisteredCcs()
+              .stream()
+              .map(u -> new AddressInfo(u.getName(), u.getEmail()))
+              .collect(toList());
 
       out.removableReviewers = removableReviewers(ctl, out);
     }

@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherOption;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.AddressInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -51,6 +52,7 @@ import com.google.gerrit.server.change.Check;
 import com.google.gerrit.server.change.CreateMergePatchSet;
 import com.google.gerrit.server.change.DeleteAssignee;
 import com.google.gerrit.server.change.DeleteChange;
+import com.google.gerrit.server.change.DeleteUnregisteredCc;
 import com.google.gerrit.server.change.GetAssignee;
 import com.google.gerrit.server.change.GetHashtags;
 import com.google.gerrit.server.change.GetPastAssignees;
@@ -65,6 +67,7 @@ import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.PublishDraftPatchSet;
 import com.google.gerrit.server.change.PutAssignee;
 import com.google.gerrit.server.change.PutTopic;
+import com.google.gerrit.server.change.PutUnregisteredCc;
 import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
@@ -121,6 +124,8 @@ class ChangeApiImpl implements ChangeApi {
   private final ChangeEditApiImpl.Factory changeEditApi;
   private final Check check;
   private final Index index;
+  private final PutUnregisteredCc putUnregisteredCc;
+  private final DeleteUnregisteredCc deleteUnregisteredCc;
   private final Move move;
 
   @Inject
@@ -157,6 +162,8 @@ class ChangeApiImpl implements ChangeApi {
       Check check,
       Index index,
       Move move,
+      PutUnregisteredCc putUnregisteredCc,
+      DeleteUnregisteredCc deleteUnregisteredCc,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -190,6 +197,8 @@ class ChangeApiImpl implements ChangeApi {
     this.check = check;
     this.index = index;
     this.move = move;
+    this.putUnregisteredCc = putUnregisteredCc;
+    this.deleteUnregisteredCc = deleteUnregisteredCc;
     this.change = change;
   }
 
@@ -503,6 +512,24 @@ class ChangeApiImpl implements ChangeApi {
       return r.isNone() ? null : r.value();
     } catch (UpdateException | OrmException e) {
       throw new RestApiException("Cannot delete assignee", e);
+    }
+  }
+
+  @Override
+  public void addUnregisteredCc(AddressInfo in) throws RestApiException {
+    try {
+      putUnregisteredCc.apply(change, in);
+    } catch (UpdateException | IOException | OrmException e) {
+      throw new RestApiException("Cannot add unregistered CC", e);
+    }
+  }
+
+  @Override
+  public void deleteUnregisteredCc(AddressInfo in) throws RestApiException {
+    try {
+      deleteUnregisteredCc.apply(change, in);
+    } catch (UpdateException | OrmException e) {
+      throw new RestApiException("Cannot delete unregistered CC", e);
     }
   }
 

@@ -16,6 +16,24 @@
       "revId": "d7f9460a85bf9fc93d914ce510902c60a0783fce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bc2b75d_fd85f0f0",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-15T20:10:43Z",
+      "side": 1,
+      "message": "Do you mean in order to indicate that it\u0027s an external link? Interestingly, in the case of gerrit-review at least, the URL is not an external link.\n\nIf we do this one, should we also mark links generated in gr-linked-text and similar? What criterion would we use for external-ness?",
+      "parentUuid": "6d250b02_232ca5e4",
+      "revId": "d7f9460a85bf9fc93d914ce510902c60a0783fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

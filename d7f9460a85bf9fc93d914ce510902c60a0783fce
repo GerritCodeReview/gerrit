@@ -52,6 +52,24 @@
       "revId": "d7f9460a85bf9fc93d914ce510902c60a0783fce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29501410_6c85ab43",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-15T20:31:18Z",
+      "side": 1,
+      "message": "I added some text following the link. Let me know if that works. I think if we want to use an icon for that, we\u0027ll have to get an actual icon rather than using ⍈ or other unicode.\n\n\u003e More in the sense of indicating a popup than externality.\n\nBy the same token, we might want similar indications for gr-linkified-text links which have target\u003d\"_blank\". That might be work for another change.",
+      "parentUuid": "930b5e32_dcc086c3",
+      "revId": "d7f9460a85bf9fc93d914ce510902c60a0783fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
@@ -65,6 +66,7 @@ public abstract class ChangeNotesState {
         ImmutableList.of(),
         ImmutableList.of(),
         ReviewerSet.empty(),
+        ReviewerByEmailSet.empty(),
         ImmutableList.of(),
         ImmutableList.of(),
         ImmutableList.of(),
@@ -94,6 +96,7 @@ public abstract class ChangeNotesState {
       Map<PatchSet.Id, PatchSet> patchSets,
       ListMultimap<PatchSet.Id, PatchSetApproval> approvals,
       ReviewerSet reviewers,
+      ReviewerByEmailSet reviewersByEmail,
       List<Account.Id> allPastReviewers,
       List<ReviewerStatusUpdate> reviewerUpdates,
       List<SubmitRecord> submitRecords,
@@ -125,6 +128,7 @@ public abstract class ChangeNotesState {
         ImmutableList.copyOf(patchSets.entrySet()),
         ImmutableList.copyOf(approvals.entries()),
         reviewers,
+        reviewersByEmail,
         ImmutableList.copyOf(allPastReviewers),
         ImmutableList.copyOf(reviewerUpdates),
         ImmutableList.copyOf(submitRecords),
@@ -196,6 +200,8 @@ public abstract class ChangeNotesState {
   abstract ImmutableList<Map.Entry<PatchSet.Id, PatchSetApproval>> approvals();
 
   abstract ReviewerSet reviewers();
+
+  abstract ReviewerByEmailSet reviewersByEmail();
 
   abstract ImmutableList<Account.Id> allPastReviewers();
 

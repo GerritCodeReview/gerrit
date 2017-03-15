@@ -3,6 +3,24 @@
   "comments": [
     {
       "key": {
+        "uuid": "2ceef1ec_89ee0880",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-15T23:36:45Z",
+      "side": 1,
+      "message": "We still want to throw IOException if a later command failed for a different reason.",
+      "tag": "mailMessageId\u003d\u003cCAD0k6qT0DgDceOqX0EtaTsW4moaVZ1S62h9CaCAo6AH4jSOe0Q@mail.gmail.com\u003e",
+      "revId": "bf56a4d57261aae4c28aca2334df049f52cfe857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44c6606f_6303cee4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 1

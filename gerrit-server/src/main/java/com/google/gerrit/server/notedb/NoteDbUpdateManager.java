@@ -38,6 +38,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.InsertedObject;
+import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gwtorm.server.OrmConcurrencyException;
@@ -476,10 +477,28 @@ public class NoteDbUpdateManager implements AutoCloseable {
     or.cmds.addTo(bru);
     bru.setAllowNonFastForwards(true);
     bru.execute(or.rw, NullProgressMonitor.INSTANCE);
+
+    boolean lockFailure = false;
     for (ReceiveCommand cmd : bru.getCommands()) {
-      if (cmd.getResult() != ReceiveCommand.Result.OK) {
-        throw new IOException("Update failed: " + bru);
+      switch (cmd.getResult()) {
+        case OK:
+          continue;
+        case LOCK_FAILURE:
+          lockFailure = true;
+          break;
+        case NOT_ATTEMPTED:
+        case REJECTED_CURRENT_BRANCH:
+        case REJECTED_MISSING_OBJECT:
+        case REJECTED_NOCREATE:
+        case REJECTED_NODELETE:
+        case REJECTED_NONFASTFORWARD:
+        case REJECTED_OTHER_REASON:
+        default:
+          throw new IOException("Update failed: " + bru);
       }
+    }
+    if (lockFailure) {
+      throw new LockFailureException("Update failed with one or more lock failures: " + bru);
     }
   }
 

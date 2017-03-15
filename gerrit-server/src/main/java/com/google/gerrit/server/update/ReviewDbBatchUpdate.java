@@ -49,6 +49,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InsertedObject;
+import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -561,7 +562,8 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     }
   }
 
-  private void executeNoteDbUpdates(List<ChangeTask> tasks) throws IOException {
+  private void executeNoteDbUpdates(List<ChangeTask> tasks)
+      throws ResourceConflictException, IOException {
     // Aggregate together all NoteDb ref updates from the ops we executed,
     // possibly in parallel. Each task had its own NoteDbUpdateManager instance
     // with its own thread-local copy of the repo(s), but each of those was just
@@ -624,16 +626,20 @@ class ReviewDbBatchUpdate extends BatchUpdate {
       }
     } catch (IOException e) {
       if (tasks.stream().allMatch(t -> t.storage == PrimaryStorage.REVIEW_DB)) {
-        // Ignore all errors trying to update NoteDb at this point. We've
-        // already written the NoteDbChangeStates to ReviewDb, which means
-        // if any state is out of date it will be rebuilt the next time it
-        // is needed.
+        // Ignore all errors trying to update NoteDb at this point. We've already written the
+        // NoteDbChangeStates to ReviewDb, which means if any state is out of date it will be
+        // rebuilt the next time it is needed.
+        //
         // Always log even without RequestId.
         log.debug("Ignoring NoteDb update error after ReviewDb write", e);
       } else {
-        // We can't prove it's safe to ignore the error, either because some
-        // change had NOTE_DB primary, or a task failed before determining the
-        // primary storage.
+        // We can't prove it's safe to ignore the error, either because some change had NOTE_DB
+        // primary, or a task failed before determining the primary storage.
+        if (e instanceof LockFailureException) {
+          // LOCK_FAILURE is a special case indicating there was a conflicting write to a meta ref,
+          // although it happened too late for us to produce anything but a generic error message.
+          throw new ResourceConflictException("Updating change failed due to conflicting write", e);
+        }
         throw e;
       }
     }

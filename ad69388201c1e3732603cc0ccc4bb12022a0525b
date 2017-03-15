@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa7ac68c_d875ffec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-15T17:53:32Z",
+      "side": 1,
+      "message": "To me, this behavior is exactly why it\u0027s called fit-to-screen. How does this improve the diff for smaller screens?",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "ad69388201c1e3732603cc0ccc4bb12022a0525b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -28,13 +28,16 @@ import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import java.util.Collection;
+import java.io.Serializable;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
-public abstract class ExternalId {
+public abstract class ExternalId implements Serializable {
+  private static final long serialVersionUID = 1L;
+
   private static final String EXTERNAL_ID_SECTION = "externalId";
   private static final String ACCOUNT_ID_KEY = "accountId";
   private static final String EMAIL_KEY = "email";
@@ -64,7 +67,9 @@ public abstract class ExternalId {
   public static final String SCHEME_EXTERNAL = "external";
 
   @AutoValue
-  public abstract static class Key {
+  public abstract static class Key implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     public static Key create(@Nullable String scheme, String id) {
       return new AutoValue_ExternalId_Key(scheme, id);
     }

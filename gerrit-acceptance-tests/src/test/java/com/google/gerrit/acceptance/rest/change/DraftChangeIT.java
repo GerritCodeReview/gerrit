@@ -277,7 +277,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     return revisionInfos.stream().map(revisionInfo -> revisionInfo.draft).collect(toList());
   }
 
-  private class MarkChangeAsDraftUpdateOp implements BatchUpdateOp {
+  private static class MarkChangeAsDraftUpdateOp implements BatchUpdateOp {
     @Override
     public boolean updateChange(ChangeContext ctx) throws Exception {
       Change change = ctx.getChange();

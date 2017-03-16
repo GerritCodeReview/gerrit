@@ -30,6 +30,7 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -144,7 +145,7 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
 
     @Override
     public List<CachedChange> load(Project.NameKey key) throws Exception {
-      try (AutoCloseable ctx = requestContext.open()) {
+      try (ManualRequestContext ctx = requestContext.open()) {
         List<ChangeData> cds =
             queryProvider
                 .get()

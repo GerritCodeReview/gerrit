@@ -10,8 +10,8 @@ def load_bower_archives():
   bower_archive(
     name = "accessibility-developer-tools",
     package = "accessibility-developer-tools",
-    version = "2.11.0",
-    sha1 = "792cb24b649dafb316e7e536f8ae65d0d7b52bab")
+    version = "2.12.0",
+    sha1 = "88ae82dcdeb6c658f76eff509d0ee425cae14d49")
   bower_archive(
     name = "async",
     package = "async",
@@ -40,13 +40,13 @@ def load_bower_archives():
   bower_archive(
     name = "iron-fit-behavior",
     package = "iron-fit-behavior",
-    version = "1.2.5",
-    sha1 = "5938815cd227843fc77ebeac480b999600a76157")
+    version = "1.2.6",
+    sha1 = "59daa8526aac59aa72b8edcbbd24d9eed555a0f5")
   bower_archive(
     name = "iron-flex-layout",
     package = "iron-flex-layout",
-    version = "1.3.1",
-    sha1 = "ba696394abff5e799fc06eb11bff4720129a1b52")
+    version = "1.3.2",
+    sha1 = "b896041aad049a5e889a0165828d7b1262e32612")
   bower_archive(
     name = "iron-form-element-behavior",
     package = "iron-form-element-behavior",
@@ -105,5 +105,5 @@ def load_bower_archives():
   bower_archive(
     name = "webcomponentsjs",
     package = "webcomponentsjs",
-    version = "0.7.23",
-    sha1 = "3d62269e614175573b0a0f3039aab05d40f0a763")
+    version = "0.7.24",
+    sha1 = "559227f8ee9db9bfbd81989f24510cc0c1bfc65c")

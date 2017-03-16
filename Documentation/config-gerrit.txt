@@ -4585,6 +4585,10 @@ The contents of the `system_config` table are cached at startup
 by Gerrit.  If you modify any columns in this table, Gerrit needs
 to be restarted before it will use the new values.
 
+== Configuring the UI
+
+Please see link:dev-polygerrit.html[UI] on configuring the UI.
+
 === Configurable Parameters
 
 site_path::

@@ -1,0 +1,25 @@
+= PolyGerrit - GUI
+
+CAUTION: This is still in beta period
+
+== Configuring
+
+By default GWT and polygerrit UI are enabled.
+
+To disable GWT but not polygerrit do the following:
+----
+[gerrit]
+        enableGwtUi = false
+        enablePolyGerrit = true
+----
+
+To enable GWT but not polygerrit please do the following:
+----
+[gerrit]
+        enableGwtUi = true
+        enablePolyGerrit = false
+----
+
+To enable the polygerrit ui you have to add ?polygerrit=1 in the url.
+Example https://gerrit.example.org/?polygerrit=1
+to disable change 1 into 0 which will take you back to GWT UI.

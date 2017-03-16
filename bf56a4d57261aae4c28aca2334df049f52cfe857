@@ -92,6 +92,30 @@
     },
     {
       "key": {
+        "uuid": "82aaeb7d_09c5929f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-16T00:42:50Z",
+      "side": 1,
+      "message": "In other words, agreed with Terry that \"continue\" in the next one would be clearer.",
+      "parentUuid": "7b9c2d3c_41c91558",
+      "range": {
+        "startLine": 485,
+        "startChar": 10,
+        "endLine": 485,
+        "endChar": 18
+      },
+      "revId": "bf56a4d57261aae4c28aca2334df049f52cfe857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "44c6606f_6303cee4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 1
@@ -112,6 +136,23 @@
       "revId": "bf56a4d57261aae4c28aca2334df049f52cfe857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e440367b_77c5742f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-16T00:42:50Z",
+      "side": 1,
+      "message": "nit: Can this happen as a separate \u0027catch\u0027 instead of instanceof? One way to do that would be to put that in a nested \u0027try\u0027:\n\n try {\n   try {\n     ...\n   } catch (LockFailureException e) {\n     // LOCK_FAILURE is ....\n     throw new ResourceConflictException(...)\n   }\n } catch (IOException e) {\n    if (allReviewDbPrimary) {\n      ...\n\nThat would allow narrowing the scope of the \u0027try\u0027 that catches LockFailureException.",
+      "revId": "bf56a4d57261aae4c28aca2334df049f52cfe857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -38,7 +38,7 @@
       var diffURL = this._computeFileDiffURL(file, changeNum, patchNum);
       if (comment.line) {
         diffURL += '#';
-        if (comment.side === 'PARENT') { diffURL += 'b'; }
+        if (comment.__isOnParent) { diffURL += 'b'; }
         diffURL += comment.line;
       }
       return diffURL;
@@ -51,7 +51,7 @@
     },
 
     _computePatchDisplayName: function(comment) {
-      if (comment.side == 'PARENT') {
+      if (comment.__isOnParent) {
         return 'Base, ';
       }
       if (comment.patch_set != this.patchNum) {

@@ -229,9 +229,10 @@
       var contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
       var contentEl = contentText.parentElement;
       var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
-      var side = this._getSideByLineAndContent(lineEl, contentEl);
+      var isOnParent =
+          this._getIsParentCommentByLineAndContent(lineEl, contentEl);
       var threadEl = this._getOrCreateThreadAtLineRange(contentEl, patchNum,
-          diffSide, side, range);
+          diffSide, isOnParent, range);
 
       threadEl.addOrEditDraft(line, range);
     },
@@ -241,9 +242,10 @@
       var contentEl = contentText.parentElement;
       var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       var commentSide = this._getCommentSideByLineAndContent(lineEl, contentEl);
-      var side = this._getSideByLineAndContent(lineEl, contentEl);
+      var isOnParent =
+          this._getIsParentCommentByLineAndContent(lineEl, contentEl);
       var threadEl = this._getOrCreateThreadAtLineRange(contentEl, patchNum,
-          commentSide, side);
+          commentSide, isOnParent);
 
       threadEl.addOrEditDraft(opt_lineNum);
     },
@@ -257,7 +259,7 @@
     },
 
     _getOrCreateThreadAtLineRange:
-        function(contentEl, patchNum, commentSide, side, range) {
+        function(contentEl, patchNum, commentSide, isOnParent, range) {
       var rangeToCheck = range ?
           'range-' +
           range.startLine + '-' +
@@ -270,7 +272,7 @@
       var threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
         threadGroupEl = this.$.diffBuilder.createCommentThreadGroup(
-          this.changeNum, patchNum, this.path, side,
+          this.changeNum, patchNum, this.path, isOnParent,
           this.projectConfig);
         contentEl.appendChild(threadGroupEl);
       }
@@ -296,14 +298,14 @@
       return patchNum;
     },
 
-    _getSideByLineAndContent: function(lineEl, contentEl) {
-      var side = 'REVISION';
+    _getIsParentCommentByLineAndContent: function(lineEl, contentEl) {
+      var isOnParent = false;
       if ((lineEl.classList.contains(DiffSide.LEFT) ||
           contentEl.classList.contains('remove')) &&
           this.patchRange.basePatchNum === 'PARENT') {
-        side = 'PARENT';
+        isOnParent = true;
       }
-      return side;
+      return isOnParent;
     },
 
     _getCommentSideByLineAndContent: function(lineEl, contentEl) {

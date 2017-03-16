@@ -46,6 +46,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.index.FieldDef;
@@ -53,6 +54,7 @@ import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.SchemaUtil;
 import com.google.gerrit.server.index.change.StalenessChecker.RefState;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -184,6 +186,12 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> REVIEWER =
       exact("reviewer2").stored().buildRepeatable(cd -> getReviewerFieldValues(cd.reviewers()));
 
+  /** Reviewer(s) associated with the change that do not have a gerrit account. */
+  public static final FieldDef<ChangeData, Iterable<String>> REVIEWER_BY_EMAIL =
+      exact("reviewer_by_email")
+          .stored()
+          .buildRepeatable(cd -> getReviewerByEmailFieldValues(cd.reviewersByEmail()));
+
   @VisibleForTesting
   static List<String> getReviewerFieldValues(ReviewerSet reviewers) {
     List<String> r = new ArrayList<>(reviewers.asTable().size() * 2);
@@ -198,6 +206,27 @@ public class ChangeField {
 
   public static String getReviewerFieldValue(ReviewerStateInternal state, Account.Id id) {
     return state.toString() + ',' + id;
+  }
+
+  @VisibleForTesting
+  static List<String> getReviewerByEmailFieldValues(ReviewerByEmailSet reviewersByEmail) {
+    List<String> r = new ArrayList<>(reviewersByEmail.asTable().size() * 2);
+    for (Table.Cell<ReviewerStateInternal, Address, Timestamp> c :
+        reviewersByEmail.asTable().cellSet()) {
+      String v = getReviewerByEmailFieldValue(c.getRowKey(), c.getColumnKey());
+      r.add(v);
+      if (c.getColumnKey().getName() != null) {
+        // Add another entry without the name to provide search functionality on the email
+        Address emailOnly = new Address(c.getColumnKey().getEmail());
+        r.add(getReviewerByEmailFieldValue(c.getRowKey(), emailOnly));
+      }
+      r.add(v + ',' + c.getValue().getTime());
+    }
+    return r;
+  }
+
+  public static String getReviewerByEmailFieldValue(ReviewerStateInternal state, Address adr) {
+    return state.toString() + ',' + adr;
   }
 
   public static ReviewerSet parseReviewerFieldValues(Iterable<String> values) {
@@ -218,6 +247,25 @@ public class ChangeField {
           new Timestamp(Long.valueOf(v.substring(l + 1, v.length()))));
     }
     return ReviewerSet.fromTable(b.build());
+  }
+
+  public static ReviewerByEmailSet parseReviewerByEmailFieldValues(Iterable<String> values) {
+    ImmutableTable.Builder<ReviewerStateInternal, Address, Timestamp> b = ImmutableTable.builder();
+    for (String v : values) {
+      int f = v.indexOf(',');
+      if (f < 0) {
+        continue;
+      }
+      int l = v.lastIndexOf(',');
+      if (l == f) {
+        continue;
+      }
+      b.put(
+          ReviewerStateInternal.valueOf(v.substring(0, f)),
+          Address.parse(v.substring(f + 1, l)),
+          new Timestamp(Long.valueOf(v.substring(l + 1, v.length()))));
+    }
+    return ReviewerByEmailSet.fromTable(b.build());
   }
 
   /** Commit ID of any patch set on the change, using prefix match. */

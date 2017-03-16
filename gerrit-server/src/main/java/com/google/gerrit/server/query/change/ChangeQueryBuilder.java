@@ -61,8 +61,10 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ListChildProjects;
@@ -942,17 +944,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> reviewer(String who) throws QueryParseException, OrmException {
-    return Predicate.or(
-        parseAccount(who)
-            .stream()
-            .map(id -> ReviewerPredicate.reviewer(args, id))
-            .collect(toList()));
+    return reviewerByState(who, ReviewerStateInternal.REVIEWER);
   }
 
   @Operator
   public Predicate<ChangeData> cc(String who) throws QueryParseException, OrmException {
-    return Predicate.or(
-        parseAccount(who).stream().map(id -> ReviewerPredicate.cc(args, id)).collect(toList()));
+    return reviewerByState(who, ReviewerStateInternal.CC);
   }
 
   @Operator
@@ -1180,5 +1177,38 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   private Account.Id self() throws QueryParseException {
     return args.getIdentifiedUser().getAccountId();
+  }
+
+  public Predicate<ChangeData> reviewerByState(String who, ReviewerStateInternal state)
+      throws QueryParseException, OrmException {
+    Predicate<ChangeData> reviewerByEmailPredicate = null;
+    if (args.index.getSchema().hasField(ChangeField.REVIEWER_BY_EMAIL)) {
+      Address address = Address.tryParse(who);
+      if (address != null) {
+        reviewerByEmailPredicate = ReviewerByEmailPredicate.forState(args, address, state);
+      }
+    }
+
+    Predicate<ChangeData> reviewerPredicate = null;
+    try {
+      reviewerPredicate =
+          Predicate.or(
+              parseAccount(who)
+                  .stream()
+                  .map(id -> ReviewerPredicate.forState(args, id, state))
+                  .collect(toList()));
+    } catch (QueryParseException e) {
+      // Propagate this exception only if we can't use 'who' to query by email
+      if (reviewerByEmailPredicate == null) {
+        throw e;
+      }
+    }
+
+    if (reviewerPredicate != null && reviewerByEmailPredicate != null) {
+      return Predicate.or(reviewerPredicate, reviewerByEmailPredicate);
+    } else if (reviewerPredicate != null) {
+      return reviewerPredicate;
+    }
+    return reviewerByEmailPredicate;
   }
 }

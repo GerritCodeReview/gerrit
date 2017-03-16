@@ -706,6 +706,7 @@ limitations under the License.
 
     test('show/hide diffs disabled for large amounts of files', function(done) {
       var computeSpy = sandbox.spy(element, '_fileListActionsVisible');
+      sandbox.stub(element, '_setReviewedFiles');
       element._files = [];
       element.changeNum = '42';
       element.patchRange = {
@@ -778,24 +779,38 @@ limitations under the License.
     });
 
     test('_togglePathExpanded', function() {
+      var saveStub = sandbox.stub(element, '_saveReviewedState',
+          function() { return Promise.resolve(); });
       var path = 'path/to/my/file.txt';
       element.files = [{__path: path}];
-      var expandedChangedStub = sandbox.stub(element, '_expandedPathsChanged');
+      var renderStub = sandbox.stub(element, '_renderInOrder')
+          .returns(Promise.resolve());
 
       assert.equal(element._expandedFilePaths.length, 0);
       element._togglePathExpanded(path);
-      assert.equal(expandedChangedStub.callCount, 1);
+      flushAsynchronousOperations();
+
+      assert.equal(renderStub.callCount, 1);
+      assert.equal(saveStub.callCount, 1);
       assert.include(element._expandedFilePaths, path);
       element._togglePathExpanded(path);
-      assert.equal(expandedChangedStub.callCount, 2);
+      flushAsynchronousOperations();
+
+      assert.equal(renderStub.callCount, 2);
+      assert.equal(saveStub.callCount, 1);
       assert.notInclude(element._expandedFilePaths, path);
     });
 
     test('_expandedPathsChanged', function(done) {
+      var saveStub = sandbox.stub(element, '_saveReviewedState',
+          function() { return Promise.resolve(); });
       var path = 'path/to/my/file.txt';
       var diffs = [{
         path: path,
         reload: function() {
+          assert.isTrue(saveStub.called);
+          assert.deepEqual(
+              saveStub.lastCall.args, ['path/to/my/file.txt', true]);
           done();
           return Promise.resolve();
         },

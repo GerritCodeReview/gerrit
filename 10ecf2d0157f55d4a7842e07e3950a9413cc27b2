@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c79c968_1f90c435",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-16T02:18:42Z",
+      "side": 1,
+      "message": "nit: this should be a footer:\n\n Bug: Issue 5780",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "10ecf2d0157f55d4a7842e07e3950a9413cc27b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

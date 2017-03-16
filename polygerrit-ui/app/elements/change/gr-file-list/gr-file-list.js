@@ -118,6 +118,7 @@
 
     observers: [
       '_expandedPathsChanged(_expandedFilePaths.splices)',
+      '_setReviewedFiles(_shownFiles, _files, _reviewed.*)',
     ],
 
     keyBindings: {
@@ -373,6 +374,23 @@
         alert('Couldn’t change file review status. Check the console ' +
             'and contact the PolyGerrit team for assistance.');
         throw err;
+      }.bind(this));
+    },
+
+    _reviewFiles: function(paths) {
+      var newlyReviewed = paths.filter(function(path) {
+        return this._reviewed.indexOf(path) === -1;
+      }.bind(this));
+
+      this.splice.apply(this, ['_reviewed', this._reviewed.length, 0]
+          .concat(newlyReviewed));
+
+      newlyReviewed.forEach(function(path) {
+        this._saveReviewedState(path, true).catch(function(err) {
+          alert('Couldn’t change file review status. Check the console ' +
+              'and contact the PolyGerrit team for assistance.');
+          throw err;
+        }.bind(this));
       }.bind(this));
     },
 
@@ -658,6 +676,17 @@
       return files.base.slice(0, numFilesShown);
     },
 
+    _setReviewedFiles: function(shownFiles, files, reviewedRecord) {
+      var reviewed = reviewedRecord.base;
+      for (var i = 0; i < files.length; i++) {
+        var fileReviewed = this._computeReviewed(shownFiles[i], reviewed);
+        this._files[i].isReviewed = fileReviewed;
+        if (i < shownFiles.length) {
+          this.set(['_shownFiles', i, 'isReviewed'], fileReviewed);
+        }
+      }
+    },
+
     _filesChanged: function() {
       this.async(function() {
         var diffElements = Polymer.dom(this.root).querySelectorAll('gr-diff');
@@ -758,6 +787,8 @@
                 splice.index + splice.addedCount);
           })
           .reduce(function(acc, paths) { return acc.concat(paths); }, []);
+
+      this._reviewFiles(newPaths);
 
       var timerName = 'Expand ' + newPaths.length + ' diffs';
       this.$.reporting.time(timerName);

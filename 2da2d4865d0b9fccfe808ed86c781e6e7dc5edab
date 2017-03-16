@@ -45,6 +45,30 @@
       "revId": "2da2d4865d0b9fccfe808ed86c781e6e7dc5edab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88254178_362992b7",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugins/gr-plugins.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-16T23:35:54Z",
+      "side": 1,
+      "message": "gr-plugin-manager is the closest one, but I\u0027m not sure adding `manager` improves legibility.\nNot feeling strongly at all, though.",
+      "parentUuid": "01d7cb4d_879e75ce",
+      "range": {
+        "startLine": 18,
+        "startChar": 9,
+        "endLine": 18,
+        "endChar": 19
+      },
+      "revId": "2da2d4865d0b9fccfe808ed86c781e6e7dc5edab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

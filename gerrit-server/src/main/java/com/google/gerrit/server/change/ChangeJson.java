@@ -531,9 +531,8 @@ public class ChangeJson {
           cd.reviewers().asTable().rowMap().entrySet()) {
         out.reviewers.put(e.getKey().asReviewerState(), toAccountInfo(e.getValue().keySet()));
       }
-      // TODO(hiesel) Load from ChangeData instead after the data was added there
       for (Map.Entry<ReviewerStateInternal, Map<Address, Timestamp>> e :
-          cd.notes().getReviewersByEmail().asTable().rowMap().entrySet()) {
+          cd.reviewersByEmail().asTable().rowMap().entrySet()) {
         out.reviewers.put(
             e.getKey().asReviewerState(), toAccountInfoByEmail(e.getValue().keySet()));
       }

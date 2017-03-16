@@ -71,6 +71,8 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.QueryOptions;
@@ -83,6 +85,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.RequestContext;
@@ -151,6 +154,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected SchemaCreator schemaCreator;
   @Inject protected Sequences seq;
   @Inject protected ThreadLocalRequestContext requestContext;
+  @Inject protected ProjectCache projectCache;
+  @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
 
   protected Injector injector;
   protected LifecycleManager lifecycle;
@@ -1521,6 +1526,36 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void reviewerAndCcByEmail() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    Project.NameKey project = new Project.NameKey("repo");
+    TestRepository<Repo> repo = createProject(project.get());
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    cfg.setEnableReviewerByEmail(true);
+    saveProjectConfig(project, cfg);
+
+    String userByEmail = "John Doe <un.registered@reviewer.com>";
+
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+    insert(repo, newChange(repo));
+
+    AddReviewerInput rin = new AddReviewerInput();
+    rin.reviewer = userByEmail;
+    rin.state = ReviewerState.REVIEWER;
+    gApi.changes().id(change1.getId().get()).addReviewer(rin);
+
+    rin = new AddReviewerInput();
+    rin.reviewer = userByEmail;
+    rin.state = ReviewerState.CC;
+    gApi.changes().id(change2.getId().get()).addReviewer(rin);
+
+    assertQuery("reviewer:\"" + userByEmail + "\"", change1);
+    assertQuery("cc:\"" + userByEmail + "\"", change2);
+  }
+
+  @Test
   public void submitRecords() throws Exception {
     Account.Id user1 = createAccount("user1");
     TestRepository<Repo> repo = createProject("repo");
@@ -2002,5 +2037,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         ImmutableMap.<String, List<ReviewInput.CommentInput>>of(
             Patch.COMMIT_MSG, ImmutableList.<ReviewInput.CommentInput>of(comment));
     gApi.changes().id(changeId).current().review(input);
+  }
+
+  private void saveProjectConfig(Project.NameKey p, ProjectConfig cfg) throws Exception {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(p)) {
+      md.setAuthor(userFactory.create(userId));
+      cfg.commit(md);
+    }
+    projectCache.evict(cfg.getProject());
   }
 }

@@ -42,6 +42,7 @@ limitations under the License.
   suite('gr-file-list tests', function() {
     var element;
     var sandbox;
+    var saveStub;
 
     setup(function() {
       sandbox = sinon.sandbox.create();
@@ -51,12 +52,14 @@ limitations under the License.
         fetchJSON: function() { return Promise.resolve({}); },
       });
       stub('gr-date-formatter', {
-        _loadTimeFormat: function() { return Promise.resolve(''); }
+        _loadTimeFormat: function() { return Promise.resolve(''); },
       });
       stub('gr-diff', {
         reload: function() { return Promise.resolve(); },
       });
       element = fixture('basic');
+      saveStub = sandbox.stub(element, '_saveReviewedState',
+          function() { return Promise.resolve(); });
     });
 
     teardown(function() {
@@ -553,15 +556,10 @@ limitations under the License.
       assert.isFalse(fileAdded.checked);
       assert.isTrue(myFile.checked);
 
-      var saveStub = sandbox.stub(element, '_saveReviewedState',
-          function() { return Promise.resolve(); });
-
       MockInteractions.tap(commitMsg);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false));
       MockInteractions.tap(commitMsg);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', true));
-
-      saveStub.restore();
     });
 
     test('patch set from revisions', function() {
@@ -577,7 +575,7 @@ limitations under the License.
           rev1: {_number: 1, description: 'test'},
           rev4: {_number: 4, description: 'test'},
           rev2: {_number: 2, description: 'test'},
-        }
+        },
       });
       assert.equal(patchNums.length, expected.length);
       for (var i = 0; i < expected.length; i++) {
@@ -706,6 +704,7 @@ limitations under the License.
 
     test('show/hide diffs disabled for large amounts of files', function(done) {
       var computeSpy = sandbox.spy(element, '_fileListActionsVisible');
+      sandbox.stub(element, '_setReviewedFiles');
       element._files = [];
       element.changeNum = '42';
       element.patchRange = {
@@ -780,24 +779,29 @@ limitations under the License.
     test('_togglePathExpanded', function() {
       var path = 'path/to/my/file.txt';
       element.files = [{__path: path}];
-      var expandedChangedStub = sandbox.stub(element, '_expandedPathsChanged');
+      var renderStub = sandbox.stub(element, '_renderInOrder')
+          .returns(Promise.resolve());
 
       assert.equal(element._expandedFilePaths.length, 0);
       element._togglePathExpanded(path);
-      assert.equal(expandedChangedStub.callCount, 1);
+      flushAsynchronousOperations();
+
+      assert.equal(renderStub.callCount, 1);
       assert.include(element._expandedFilePaths, path);
       element._togglePathExpanded(path);
-      assert.equal(expandedChangedStub.callCount, 2);
+      flushAsynchronousOperations();
+
+      assert.equal(renderStub.callCount, 2);
       assert.notInclude(element._expandedFilePaths, path);
     });
 
     test('_expandedPathsChanged', function(done) {
+      sandbox.stub(element, '_reviewFile');
       var path = 'path/to/my/file.txt';
       var diffs = [{
         path: path,
         reload: function() {
           done();
-          return Promise.resolve();
         },
       }];
       var diffsStub = sinon.stub(element, 'diffs', {
@@ -837,28 +841,35 @@ limitations under the License.
     });
 
     test('_renderInOrder', function(done) {
+      var reviewStub = sandbox.stub(element, '_reviewFile');
       var callCount = 0;
       var diffs = [{
         path: 'p0',
         reload: function() {
+          assert.equal(reviewStub.callCount, 2);
           assert.equal(callCount++, 2);
           return Promise.resolve();
         },
       }, {
         path: 'p1',
         reload: function() {
+          assert.equal(reviewStub.callCount, 1);
           assert.equal(callCount++, 1);
           return Promise.resolve();
         },
       }, {
         path: 'p2',
         reload: function() {
+          assert.equal(reviewStub.callCount, 0);
           assert.equal(callCount++, 0);
           return Promise.resolve();
         },
       }];
       element._renderInOrder(['p2', 'p1', 'p0'], diffs, 3)
-        .then(function() { done(); });
+        .then(function() {
+          assert.equal(reviewStub.callCount, 3);
+          done();
+        });
     });
   });
 </script>

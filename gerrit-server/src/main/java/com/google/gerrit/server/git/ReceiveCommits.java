@@ -2467,13 +2467,12 @@ public class ReceiveCommits {
         if (edit.get().getBasePatchSet().getId().equals(psId)) {
           // replace edit
           cmd =
-              new ReceiveCommand(
-                  edit.get().getRef().getObjectId(), newCommitId, edit.get().getRefName());
+              new ReceiveCommand(edit.get().getEditCommit(), newCommitId, edit.get().getRefName());
         } else {
           // delete old edit ref on rebase
           prev =
               new ReceiveCommand(
-                  edit.get().getRef().getObjectId(), ObjectId.zeroId(), edit.get().getRefName());
+                  edit.get().getEditCommit(), ObjectId.zeroId(), edit.get().getRefName());
           createEditCommand();
         }
       } else {

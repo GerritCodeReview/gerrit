@@ -275,7 +275,7 @@ public class JettyServer {
       } catch (URISyntaxException e) {
         throw new IllegalArgumentException("Invalid httpd.listenurl " + u, e);
       }
-
+      c.setInheritChannel(cfg.getBoolean("httpd", "inheritChannel", false));
       c.setReuseAddress(reuseAddress);
       connectors[idx] = c;
     }

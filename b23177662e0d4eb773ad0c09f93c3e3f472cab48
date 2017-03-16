@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cc00eed9_6bf44f43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a60a1f40_cbe9a150",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "432012e7_5e246053",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "46c7dd49_2da9c878",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4262,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "I decided to switch to \u0027POST\u0027 and adjusted the implementation accordingly.",
+      "parentUuid": "432012e7_5e246053",
+      "range": {
+        "startLine": 4262,
+        "startChar": 1,
+        "endLine": 4262,
+        "endChar": 4
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77c7ecc5_1bf68600",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2017-03-09T16:35:23Z",
       "side": 1,
       "message": "Clarify that an existing change edit is only updated when it belongs to the same patch set.",
+      "range": {
+        "startLine": 4266,
+        "startChar": 47,
+        "endLine": 4267,
+        "endChar": 31
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52e8bdf5_a7f44e4e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4267,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77c7ecc5_1bf68600",
       "range": {
         "startLine": 4266,
         "startChar": 47,
@@ -213,6 +285,54 @@
     },
     {
       "key": {
+        "uuid": "55705dcc_c4b7eee1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4274,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "\u003e Returning an EditInfo would be nice.\n\nDone.",
+      "parentUuid": "f3f1ddde_e506a0f7",
+      "range": {
+        "startLine": 4274,
+        "startChar": 52,
+        "endLine": 4274,
+        "endChar": 66
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d78f804_50a5d9e4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4274,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "As the REST endpoint now returns an EditInfo, \u0027204 No Content\u0027 isn\u0027t mentioned anymore.",
+      "parentUuid": "0a9be003_d7d888e1",
+      "range": {
+        "startLine": 4274,
+        "startChar": 50,
+        "endLine": 4274,
+        "endChar": 68
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aeb30caa_39b620cd",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 2
@@ -230,6 +350,24 @@
     },
     {
       "key": {
+        "uuid": "3ba368f9_f4fb76f9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aeb30caa_39b620cd",
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d055b6d6_42396a26",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 2
@@ -241,6 +379,30 @@
       "writtenOn": "2017-03-09T16:35:23Z",
       "side": 1,
       "message": "[optional] move this below the amend",
+      "range": {
+        "startLine": 688,
+        "startChar": 4,
+        "endLine": 690,
+        "endChar": 55
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53a8409_54a81977",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d055b6d6_42396a26",
       "range": {
         "startLine": 688,
         "startChar": 4,
@@ -288,6 +450,24 @@
     },
     {
       "key": {
+        "uuid": "e522376f_89e76a11",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "Added both tests and even further ones as we now return an EditInfo.\n\nBy the way, I had to adjust the code in ChangeEditModifier a bit so that applying a fix twice doesn\u0027t result in a sporadic exception. Thanks for thinking of that test. I intended to add it but forgot it in the end.",
+      "parentUuid": "051eb66d_6effec39",
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f63ad5f3_c7b9aa99",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
         "patchSetId": 2
@@ -299,6 +479,30 @@
       "writtenOn": "2017-03-09T16:35:23Z",
       "side": 1,
       "message": "Clarify that the existing change edit must be on the same patch set.",
+      "range": {
+        "startLine": 91,
+        "startChar": 5,
+        "endLine": 91,
+        "endChar": 25
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ec25202_10885f91",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f63ad5f3_c7b9aa99",
       "range": {
         "startLine": 91,
         "startChar": 5,
@@ -375,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "5f4fc808_770a9526",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "203ceb45_11733f72",
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d046eb7f_4acdb81d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 2
@@ -439,6 +661,24 @@
     },
     {
       "key": {
+        "uuid": "d766461e_48bad026",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1ba36f5_6905a377",
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf0de856_5033350e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 2
@@ -459,6 +699,30 @@
       "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba635011_02525919",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf0de856_5033350e",
+      "range": {
+        "startLine": 333,
+        "startChar": 25,
+        "endLine": 333,
+        "endChar": 34
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -562,6 +826,30 @@
     },
     {
       "key": {
+        "uuid": "774a6637_ba855e0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/LineIdentifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "\u003e \u003e Consider files encoded in Unicode for instance. Unicode has a couple of more characters that they define as line ending characters [0, 1].\n\nI\u0027m now using \\R which maps also to some Unicode linebreak sequences. \n\n\u003e \u003e I am not saying this needs to be changed, though. You have created a lot of tests for this class and it seems fine to me. We might just want to communicate in the docs then that fixes are only supported on files where line endings are determined by on of [ \\r\\n, \\n, \\r].\n\u003e \n\u003e I\u0027ll extend the documentation.\n\nDone.",
+      "parentUuid": "f9d30980_de5a97e5",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 20
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e42882e8_402733ff",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/LineIdentifier.java",
         "patchSetId": 2
@@ -585,6 +873,30 @@
     },
     {
       "key": {
+        "uuid": "c3ef457d_b3364ee3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/LineIdentifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "I switched to \\R instead.",
+      "parentUuid": "e42882e8_402733ff",
+      "range": {
+        "startLine": 30,
+        "startChar": 73,
+        "endLine": 30,
+        "endChar": 89
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05d8cdea_9447483e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/StringModifier.java",
         "patchSetId": 2
@@ -605,6 +917,30 @@
       "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2052ec60_a180fa10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/StringModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05d8cdea_9447483e",
+      "range": {
+        "startLine": 21,
+        "startChar": 80,
+        "endLine": 21,
+        "endChar": 81
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -652,6 +988,30 @@
       "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb5eff3e_d5f4d8c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/StringModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-16T12:10:19Z",
+      "side": 1,
+      "message": "As I didn\u0027t get a response, I assume that I can leave the implementation as is.",
+      "parentUuid": "7d4bc5bb_367388ee",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 73
+      },
+      "revId": "b23177662e0d4eb773ad0c09f93c3e3f472cab48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

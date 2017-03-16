@@ -52,6 +52,24 @@
       "revId": "92e43626132ca4427744b3823d841d5594f68b7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0e99bda_a4e0fc40",
+        "filename": "tools/workspace-status.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-03-16T21:23:02Z",
+      "side": 0,
+      "message": "Sorry, I don\u0027t understand what your proposal is trying to solve?",
+      "parentUuid": "1d1638ba_0e3f48bc",
+      "revId": "92e43626132ca4427744b3823d841d5594f68b7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

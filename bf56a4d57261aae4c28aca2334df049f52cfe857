@@ -21,6 +21,29 @@
     },
     {
       "key": {
+        "uuid": "dcff195f_5664956d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2017-03-16T00:28:58Z",
+      "side": 1,
+      "message": "nit: Why \"continue\" here and \"break\" two lines down?",
+      "range": {
+        "startLine": 485,
+        "startChar": 10,
+        "endLine": 485,
+        "endChar": 18
+      },
+      "revId": "bf56a4d57261aae4c28aca2334df049f52cfe857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "44c6606f_6303cee4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 1

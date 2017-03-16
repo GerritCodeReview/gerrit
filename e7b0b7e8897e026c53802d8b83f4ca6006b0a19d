@@ -16,6 +16,29 @@
       "revId": "e7b0b7e8897e026c53802d8b83f4ca6006b0a19d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94d1471c_f840510d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-16T08:23:31Z",
+      "side": 1,
+      "message": "Don\u0027t access the change notes here, if the changeData was instantiated from the index, we don\u0027t want to load the change notes.",
+      "range": {
+        "startLine": 187,
+        "startChar": 25,
+        "endLine": 187,
+        "endChar": 43
+      },
+      "revId": "e7b0b7e8897e026c53802d8b83f4ca6006b0a19d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

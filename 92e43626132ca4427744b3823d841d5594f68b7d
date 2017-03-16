@@ -34,6 +34,24 @@
       "revId": "92e43626132ca4427744b3823d841d5594f68b7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d1638ba_0e3f48bc",
+        "filename": "tools/workspace-status.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2017-03-16T20:52:55Z",
+      "side": 0,
+      "message": "Quoting from git-describe\u0027s code:\n\n\n\tif (argc \u003d\u003d 0) {\n\t\tif (dirty) {\n\t\t\tstatic struct lock_file index_lock;\n\t\t\tint fd;\n\n\t\t\tread_cache_preload(NULL);\n\t\t\trefresh_index(\u0026the_index, REFRESH_QUIET|REFRESH_UNMERGED,\n\t\t\t\t      NULL, NULL, NULL);\n\t\t\tfd \u003d hold_locked_index(\u0026index_lock, 0);\n\t\t\tif (0 \u003c\u003d fd)\n\t\t\t\tupdate_index_if_able(\u0026the_index, \u0026index_lock);\n\n\t\t\tif (!cmd_diff_index(ARRAY_SIZE(diff_index_args) - 1,\n\t\t\t\t\t    diff_index_args, prefix))\n\t\t\t\tdirty \u003d NULL;\n\t\t}\n\t\tdescribe(\"HEAD\", 1);\n\t} else if (dirty) {\n\t\tdie(_(\"--dirty is incompatible with commit-ishes\"));\n\n\nMaybe try \"rm $GIT_DIR/index[.lock]\" instead of \"git describe --dirty\" failed, then run it again?",
+      "parentUuid": "b3273066_83249280",
+      "revId": "92e43626132ca4427744b3823d841d5594f68b7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,8 +25,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Argument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LfsPluginAuthCommand extends SshCommand {
+  private static final Logger log = LoggerFactory.getLogger(LfsPluginAuthCommand.class);
+  private static final String CONFIGURATION_ERROR =
+      "Server configuration error: LFS auth over SSH is not properly configured.";
+
   public interface LfsSshPluginAuth {
     String authenticate(CurrentUser user, List<String> args) throws UnloggedFailure, Failure;
   }
@@ -61,11 +67,11 @@ public class LfsPluginAuthCommand extends SshCommand {
   }
 
   @Override
-  protected void run() throws UnloggedFailure, Failure, Exception {
+  protected void run() throws UnloggedFailure, Exception {
     LfsSshPluginAuth pluginAuth = auth.get();
     if (pluginAuth == null) {
-      throw new Failure(
-          1, "Server configuration error: LFS auth over SSH is not properly configured.");
+      log.warn(CONFIGURATION_ERROR);
+      throw new UnloggedFailure(1, CONFIGURATION_ERROR);
     }
 
     stdout.print(pluginAuth.authenticate(user.get(), args));

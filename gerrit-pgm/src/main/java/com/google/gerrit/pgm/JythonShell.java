@@ -74,11 +74,11 @@ public class JythonShell {
         pySystemState,
         pySystemState,
         "initialize",
-        new Class[] {Properties.class, Properties.class},
+        new Class<?>[] {Properties.class, Properties.class},
         new Object[] {null, env});
 
     try {
-      shell = console.getConstructor(new Class[] {}).newInstance();
+      shell = console.getConstructor(new Class<?>[] {}).newInstance();
       log.info("Jython shell instance created.");
     } catch (InstantiationException
         | IllegalAccessException
@@ -121,13 +121,13 @@ public class JythonShell {
   }
 
   protected String getDefaultBanner() {
-    return (String) runInterpreter("getDefaultBanner", new Class[] {}, new Object[] {});
+    return (String) runInterpreter("getDefaultBanner", new Class<?>[] {}, new Object[] {});
   }
 
   protected void printInjectedVariable(String id) {
     runInterpreter(
         "exec",
-        new Class[] {String.class},
+        new Class<?>[] {String.class},
         new Object[] {"print '\"%s\" is \"%s\"' % (\"" + id + "\", " + id + ")"});
   }
 
@@ -138,7 +138,7 @@ public class JythonShell {
     reload();
     runInterpreter(
         "interact",
-        new Class[] {String.class, pyObject},
+        new Class<?>[] {String.class, pyObject},
         new Object[] {
           getDefaultBanner()
               + " running for Gerrit "
@@ -148,7 +148,7 @@ public class JythonShell {
   }
 
   public void set(String key, Object content) {
-    runInterpreter("set", new Class[] {String.class, Object.class}, new Object[] {key, content});
+    runInterpreter("set", new Class<?>[] {String.class, Object.class}, new Object[] {key, content});
     injectedVariables.add(key);
   }
 
@@ -185,7 +185,7 @@ public class JythonShell {
             console,
             shell,
             "execfile",
-            new Class[] {String.class},
+            new Class<?>[] {String.class},
             new Object[] {script.getAbsolutePath()});
       } else {
         log.info(
@@ -206,7 +206,7 @@ public class JythonShell {
           console,
           shell,
           "execfile",
-          new Class[] {InputStream.class, String.class},
+          new Class<?>[] {InputStream.class, String.class},
           new Object[] {in, p});
     } catch (InvocationTargetException e) {
       log.error("Exception occurred while loading " + p + " : ", e);

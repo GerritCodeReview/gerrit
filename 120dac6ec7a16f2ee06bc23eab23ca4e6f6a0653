@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d593d058_fdb5f678",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/systemd/gerrit.service",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-16T13:14:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ce953089_d1b0fdbb",
+      "revId": "120dac6ec7a16f2ee06bc23eab23ca4e6f6a0653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "078125e9_3e3adce5",
         "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/systemd/gerrit.service",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2017-03-16T11:31:12Z",
       "side": 1,
       "message": "Instead of describing it in words, can we put env variables substitutions \u0027envsubst\u0027 style?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 36
+      },
+      "revId": "120dac6ec7a16f2ee06bc23eab23ca4e6f6a0653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78bc4cb4_d09ed05c",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/systemd/gerrit.service",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-16T13:14:28Z",
+      "side": 1,
+      "message": "Yep an env sounds better but how do I do that please?",
+      "parentUuid": "078125e9_3e3adce5",
       "range": {
         "startLine": 11,
         "startChar": 0,

@@ -24,6 +24,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.Window.Location;
 
 public class UserPopupPanel extends PopupPanel {
   interface Binder extends UiBinder<Widget, UserPopupPanel> {}
@@ -52,8 +53,9 @@ public class UserPopupPanel extends PopupPanel {
       userEmail.setText(account.email());
     }
     if (showSettingsLink) {
-      if (Gerrit.info().auth().switchAccountUrl() != null) {
-        switchAccount.setHref(Gerrit.info().auth().switchAccountUrl());
+      String switchAccountUrl = Gerrit.info().auth().switchAccountUrl();
+      if (switchAccountUrl != null) {
+        switchAccount.setHref(switchAccountUrl.replace("${path}", ""));
       } else if (Gerrit.info().auth().isDev() || Gerrit.info().auth().isOpenId()) {
         switchAccount.setHref(Gerrit.selfRedirect("/login"));
       } else {

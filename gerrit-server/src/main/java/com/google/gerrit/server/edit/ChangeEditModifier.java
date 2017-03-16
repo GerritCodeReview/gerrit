@@ -17,6 +17,7 @@ package com.google.gerrit.server.edit;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
@@ -44,6 +45,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -307,7 +309,7 @@ public class ChangeEditModifier {
     RevCommit baseCommit =
         optionalChangeEdit.map(ChangeEdit::getEditCommit).orElse(basePatchSetCommit);
 
-    ObjectId newTreeId = createNewTree(repository, baseCommit, treeModification);
+    ObjectId newTreeId = createNewTree(repository, baseCommit, ImmutableList.of(treeModification));
 
     String commitMessage = baseCommit.getFullMessage();
     Timestamp nowTimestamp = TimeUtil.nowTs();
@@ -322,14 +324,14 @@ public class ChangeEditModifier {
   }
 
   /**
-   * Applies the indicated modification to the specified patch set. If a change edit exists and is
+   * Applies the indicated modifications to the specified patch set. If a change edit exists and is
    * based on the same patch set, the modified patch set tree is merged with the change edit. If the
    * change edit doesn't exist, a new one will be created.
    *
    * @param repository the affected Git repository
    * @param changeControl the {@code ChangeControl} of the change to which the patch set belongs
    * @param patchSet the {@code PatchSet} which should be modified
-   * @param treeModification the modification which should be applied
+   * @param treeModifications the modifications which should be applied
    * @return the resulting {@code ChangeEdit}
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws InvalidChangeOperationException if the existing change edit is based on another patch
@@ -341,7 +343,7 @@ public class ChangeEditModifier {
       Repository repository,
       ChangeControl changeControl,
       PatchSet patchSet,
-      TreeModification treeModification)
+      List<TreeModification> treeModifications)
       throws AuthException, IOException, InvalidChangeOperationException, MergeConflictException,
           OrmException {
     ensureAuthenticatedAndPermitted(changeControl);
@@ -350,13 +352,13 @@ public class ChangeEditModifier {
     ensureAllowedPatchSet(changeControl, optionalChangeEdit, patchSet);
 
     RevCommit patchSetCommit = lookupCommit(repository, patchSet);
-    ObjectId newTreeId = createNewTree(repository, patchSetCommit, treeModification);
+    ObjectId newTreeId = createNewTree(repository, patchSetCommit, treeModifications);
 
     if (optionalChangeEdit.isPresent()) {
       ChangeEdit changeEdit = optionalChangeEdit.get();
       newTreeId = merge(repository, changeEdit, newTreeId);
       if (ObjectId.equals(newTreeId, changeEdit.getEditCommit().getTree())) {
-        // Modification is already contained in the change edit.
+        // Modifications are already contained in the change edit.
         return changeEdit;
       }
     }
@@ -459,10 +461,10 @@ public class ChangeEditModifier {
   }
 
   private static ObjectId createNewTree(
-      Repository repository, RevCommit baseCommit, TreeModification treeModification)
+      Repository repository, RevCommit baseCommit, List<TreeModification> treeModifications)
       throws IOException, InvalidChangeOperationException {
     TreeCreator treeCreator = new TreeCreator(baseCommit);
-    treeCreator.addTreeModification(treeModification);
+    treeCreator.addTreeModifications(treeModifications);
     ObjectId newTreeId = treeCreator.createNewTreeAndGetId(repository);
 
     if (ObjectId.equals(newTreeId, baseCommit.getTree())) {

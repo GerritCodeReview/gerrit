@@ -426,7 +426,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private <T extends CommentInput> void cleanUpComments(Map<String, List<T>> commentsPerPath) {
+  private static <T extends CommentInput> void cleanUpComments(
+      Map<String, List<T>> commentsPerPath) {
     Iterator<List<T>> mapValueIterator = commentsPerPath.values().iterator();
     while (mapValueIterator.hasNext()) {
       List<T> comments = mapValueIterator.next();
@@ -442,7 +443,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private <T extends CommentInput> void cleanUpComments(List<T> comments) {
+  private static <T extends CommentInput> void cleanUpComments(List<T> comments) {
     Iterator<T> commentsIterator = comments.iterator();
     while (commentsIterator.hasNext()) {
       T comment = commentsIterator.next();
@@ -481,7 +482,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     return new HashSet<>(changeData.filePaths(revision.getPatchSet()));
   }
 
-  private void ensurePathRefersToAvailableOrMagicFile(
+  private static void ensurePathRefersToAvailableOrMagicFile(
       String path, Set<String> availableFilePaths, PatchSet.Id patchSetId)
       throws BadRequestException {
     if (!availableFilePaths.contains(path) && !Patch.isMagic(path)) {
@@ -490,14 +491,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private void ensureLineIsNonNegative(Integer line, String path) throws BadRequestException {
+  private static void ensureLineIsNonNegative(Integer line, String path)
+      throws BadRequestException {
     if (line != null && line < 0) {
       throw new BadRequestException(
           String.format("negative line number %d not allowed on %s", line, path));
     }
   }
 
-  private <T extends CommentInput> void ensureCommentNotOnMagicFilesOfAutoMerge(
+  private static <T extends CommentInput> void ensureCommentNotOnMagicFilesOfAutoMerge(
       String path, T comment) throws BadRequestException {
     if (Patch.isMagic(path) && comment.side == Side.PARENT && comment.parent == null) {
       throw new BadRequestException(String.format("cannot comment on %s on auto-merge", path));
@@ -519,14 +521,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     checkComments(revision, in);
   }
 
-  private void ensureRobotIdIsSet(String robotId, String commentPath) throws BadRequestException {
+  private static void ensureRobotIdIsSet(String robotId, String commentPath)
+      throws BadRequestException {
     if (robotId == null) {
       throw new BadRequestException(
           String.format("robotId is missing for robot comment on %s", commentPath));
     }
   }
 
-  private void ensureRobotRunIdIsSet(String robotRunId, String commentPath)
+  private static void ensureRobotRunIdIsSet(String robotRunId, String commentPath)
       throws BadRequestException {
     if (robotRunId == null) {
       throw new BadRequestException(
@@ -534,7 +537,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private void ensureFixSuggestionsAreAddable(
+  private static void ensureFixSuggestionsAreAddable(
       List<FixSuggestionInfo> fixSuggestionInfos, String commentPath) throws BadRequestException {
     if (fixSuggestionInfos == null) {
       return;
@@ -546,7 +549,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private void ensureDescriptionIsSet(String commentPath, String description)
+  private static void ensureDescriptionIsSet(String commentPath, String description)
       throws BadRequestException {
     if (description == null) {
       throw new BadRequestException(
@@ -556,13 +559,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private void ensureFixReplacementsAreAddable(
+  private static void ensureFixReplacementsAreAddable(
       String commentPath, List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
     ensureReplacementsArePresent(commentPath, fixReplacementInfos);
 
     for (FixReplacementInfo fixReplacementInfo : fixReplacementInfos) {
       ensureReplacementPathIsSet(commentPath, fixReplacementInfo.path);
-      ensureReplacementPathRefersToFileOfComment(commentPath, fixReplacementInfo.path);
       ensureRangeIsSet(commentPath, fixReplacementInfo.range);
       ensureRangeIsValid(commentPath, fixReplacementInfo.range);
       ensureReplacementStringIsSet(commentPath, fixReplacementInfo.replacement);
@@ -570,7 +572,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     ensureRangesDoNotOverlap(commentPath, fixReplacementInfos);
   }
 
-  private void ensureReplacementsArePresent(
+  private static void ensureReplacementsArePresent(
       String commentPath, List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
     if (fixReplacementInfos == null || fixReplacementInfos.isEmpty()) {
       throw new BadRequestException(
@@ -581,7 +583,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private void ensureReplacementPathIsSet(String commentPath, String replacementPath)
+  private static void ensureReplacementPathIsSet(String commentPath, String replacementPath)
       throws BadRequestException {
     if (replacementPath == null) {
       throw new BadRequestException(
@@ -591,18 +593,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private void ensureReplacementPathRefersToFileOfComment(
-      String commentPath, String replacementPath) throws BadRequestException {
-    if (!Objects.equals(commentPath, replacementPath)) {
-      throw new BadRequestException(
-          String.format(
-              "Replacements may only be "
-                  + "specified for the file %s on which the robot comment was added",
-              commentPath));
-    }
-  }
-
-  private void ensureRangeIsSet(String commentPath, Range range) throws BadRequestException {
+  private static void ensureRangeIsSet(String commentPath, Range range) throws BadRequestException {
     if (range == null) {
       throw new BadRequestException(
           String.format(
@@ -610,7 +601,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private void ensureRangeIsValid(String commentPath, Range range) throws BadRequestException {
+  private static void ensureRangeIsValid(String commentPath, Range range)
+      throws BadRequestException {
     if (range == null) {
       return;
     }
@@ -626,7 +618,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private void ensureReplacementStringIsSet(String commentPath, String replacement)
+  private static void ensureReplacementStringIsSet(String commentPath, String replacement)
       throws BadRequestException {
     if (replacement == null) {
       throw new BadRequestException(

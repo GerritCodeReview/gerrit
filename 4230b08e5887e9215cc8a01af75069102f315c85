@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25687971_3bd24a95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerByEmailSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-16T19:21:16Z",
+      "side": 1,
+      "message": "We could merge this class with ReviewerSet but I was worried we mess that up too much, so I separated it.",
+      "range": {
+        "startLine": 30,
+        "startChar": 13,
+        "endLine": 30,
+        "endChar": 31
+      },
+      "revId": "4230b08e5887e9215cc8a01af75069102f315c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

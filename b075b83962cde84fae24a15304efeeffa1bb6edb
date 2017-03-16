@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cb8c185a_188abcf9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-16T19:21:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a24697d_d2b9bc1c",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "b075b83962cde84fae24a15304efeeffa1bb6edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98f6c1e1_bbc779d7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "b075b83962cde84fae24a15304efeeffa1bb6edb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdb94af0_da1c335c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-16T19:21:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98f6c1e1_bbc779d7",
+      "revId": "b075b83962cde84fae24a15304efeeffa1bb6edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

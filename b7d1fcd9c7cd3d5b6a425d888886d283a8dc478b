@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64170d72_8b12b5d6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-16T23:17:37Z",
+      "side": 1,
+      "message": "This is specific to replyBinaryResult. Do other reply cases need something similar?\n\nskip is allowed to do a partial read, without there having to be a particular reason. Should this do a loop to handle that?\n\nWould ServletUtils.consumeRequestBody be useful here?\n\nIs this code path only used for \u0027200 OK\u0027 responses, or are there also errors where this step could be skipped?\n\nWhat should happen if the read produces an IOException?",
+      "revId": "b7d1fcd9c7cd3d5b6a425d888886d283a8dc478b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

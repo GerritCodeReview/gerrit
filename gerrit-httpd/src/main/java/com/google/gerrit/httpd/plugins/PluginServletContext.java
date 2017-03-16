@@ -39,7 +39,7 @@ class PluginServletContext {
     return (ServletContext)
         Proxy.newProxyInstance(
             PluginServletContext.class.getClassLoader(),
-            new Class[] {ServletContext.class, API.class},
+            new Class<?>[] {ServletContext.class, API.class},
             new Handler(plugin, contextPath));
   }
 

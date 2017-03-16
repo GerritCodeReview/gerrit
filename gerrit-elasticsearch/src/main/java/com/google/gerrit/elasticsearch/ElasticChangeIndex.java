@@ -354,18 +354,21 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
           cd);
       decodeUnresolvedCommentCount(source, ChangeField.UNRESOLVED_COMMENT_COUNT.getName(), cd);
 
-      if (source.get(ChangeField.REF_STATE.getName()) != null) {
-        JsonArray refStates = source.get(ChangeField.REF_STATE.getName()).getAsJsonArray();
-        cd.setRefStates(Iterables.transform(refStates, e -> Base64.decodeBase64(e.getAsString())));
+      if (fields.contains(ChangeField.REF_STATE.getName())) {
+        cd.setRefStates(getByteArray(source, ChangeField.REF_STATE.getName()));
       }
-      if (source.get(ChangeField.REF_STATE_PATTERN.getName()) != null) {
-        JsonArray refStatePatterns =
-            source.get(ChangeField.REF_STATE_PATTERN.getName()).getAsJsonArray();
-        cd.setRefStatePatterns(
-            Iterables.transform(refStatePatterns, e -> Base64.decodeBase64(e.getAsString())));
+      if (fields.contains(ChangeField.REF_STATE_PATTERN.getName())) {
+        cd.setRefStatePatterns(getByteArray(source, ChangeField.REF_STATE_PATTERN.getName()));
       }
 
       return cd;
+    }
+
+    private Iterable<byte[]> getByteArray(JsonObject source, String name) {
+      JsonElement element = source.get(name);
+      return element != null
+          ? Iterables.transform(element.getAsJsonArray(), e -> Base64.decodeBase64(e.getAsString()))
+          : Collections.emptyList();
     }
 
     private void decodeSubmitRecords(

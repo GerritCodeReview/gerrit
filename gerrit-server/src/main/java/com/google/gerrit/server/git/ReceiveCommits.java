@@ -994,7 +994,7 @@ public class ReceiveCommits {
           break;
 
         default:
-          reject(cmd);
+          reject(cmd, "unknown command type " + cmd.getType() + " prohibited by Gerrit");
           continue;
       }
 
@@ -1113,7 +1113,7 @@ public class ReceiveCommits {
             break;
 
           default:
-            reject(cmd);
+            reject(cmd, "don't know how to update command type " + cmd.getType());
             continue;
         }
       }
@@ -1145,7 +1145,7 @@ public class ReceiveCommits {
       validateNewCommits(ctl, cmd);
       batch.addCommand(cmd);
     } else {
-      reject(cmd);
+      reject(cmd, "create access denied for " + cmd.getRefName());
     }
   }
 
@@ -1168,7 +1168,7 @@ public class ReceiveCommits {
       } else {
         errors.put(Error.UPDATE, ctl.getRefName());
       }
-      reject(cmd);
+      reject(cmd, "ref update access denied");
     }
   }
 
@@ -2876,10 +2876,6 @@ public class ReceiveCommits {
       r.put(cd.change().getKey(), cd.notes());
     }
     return r;
-  }
-
-  private void reject(ReceiveCommand cmd) {
-    reject(cmd, "prohibited by Gerrit");
   }
 
   private void reject(ReceiveCommand cmd, String why) {

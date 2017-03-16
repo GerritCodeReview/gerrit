@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5640d9cf_5521400a",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-16T08:20:38Z",
+      "side": 0,
+      "message": "nit: unrelated modification",
+      "revId": "b075b83962cde84fae24a15304efeeffa1bb6edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

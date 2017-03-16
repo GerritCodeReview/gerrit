@@ -19,6 +19,201 @@
     },
     {
       "key": {
+        "uuid": "1f578f09_7a44c5d1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1039,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-16T08:20:38Z",
+      "side": 1,
+      "message": "If the name becomes optional as suggested by Logan, I would make this:\n\n  PUT /changes/\u003cchange-id\u003e/unregistered_cc/\u003cemail\u003e",
+      "range": {
+        "startLine": 1039,
+        "startChar": 1,
+        "endLine": 1039,
+        "endChar": 61
+      },
+      "revId": "48687a61ab1840c005e1592b929844408dc4474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c17c14b2_e4261403",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-16T08:20:38Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 1058,
+        "startChar": 21,
+        "endLine": 1058,
+        "endChar": 29
+      },
+      "revId": "48687a61ab1840c005e1592b929844408dc4474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2714920e_0a492ab6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-16T08:20:38Z",
+      "side": 1,
+      "message": "better: DELETE /changes/\u003cchange-id\u003e/unregistered_cc/\u003cemail\u003e",
+      "range": {
+        "startLine": 1068,
+        "startChar": 1,
+        "endLine": 1068,
+        "endChar": 68
+      },
+      "revId": "48687a61ab1840c005e1592b929844408dc4474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c687b76b_04083bc3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-16T08:20:38Z",
+      "side": 1,
+      "message": "this new field should be documented",
+      "revId": "48687a61ab1840c005e1592b929844408dc4474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7390eaf_2e1e60a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-16T08:20:38Z",
+      "side": 1,
+      "message": "I think we don\u0027t want to load the change notes here, but rather get this data from the index (similar which how it\u0027s done for reviewers). See lazyLoad flag in ChangeData.",
+      "range": {
+        "startLine": 536,
+        "startChar": 9,
+        "endLine": 537,
+        "endChar": 35
+      },
+      "revId": "48687a61ab1840c005e1592b929844408dc4474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a838fbc4_ff644da0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteUnregisteredCc.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-16T08:20:38Z",
+      "side": 1,
+      "message": "Should be UnprocessableEntityException, or ResourceNotFoundException if the unregistered CC gets specified in the URL.",
+      "range": {
+        "startLine": 60,
+        "startChar": 16,
+        "endLine": 60,
+        "endChar": 35
+      },
+      "revId": "48687a61ab1840c005e1592b929844408dc4474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac43fb30_6923b4cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutUnregisteredCc.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-16T08:20:38Z",
+      "side": 1,
+      "message": "Maybe MethodNotAllowedException",
+      "range": {
+        "startLine": 71,
+        "startChar": 16,
+        "endLine": 71,
+        "endChar": 35
+      },
+      "revId": "48687a61ab1840c005e1592b929844408dc4474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89d209ac_838cbbba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutUnregisteredCc.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-16T08:20:38Z",
+      "side": 1,
+      "message": "ResourceConflictException",
+      "range": {
+        "startLine": 74,
+        "startChar": 16,
+        "endLine": 74,
+        "endChar": 35
+      },
+      "revId": "48687a61ab1840c005e1592b929844408dc4474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d00d4eb_4f1b9ebf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-16T08:20:38Z",
+      "side": 1,
+      "message": "The UI should be adapted to show this option.",
+      "revId": "48687a61ab1840c005e1592b929844408dc4474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bea66c9_d2fb12b9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 1

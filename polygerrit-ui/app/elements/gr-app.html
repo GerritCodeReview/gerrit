@@ -30,6 +30,7 @@ limitations under the License.
 <link rel="import" href="./change-list/gr-dashboard-view/gr-dashboard-view.html">
 <link rel="import" href="./change/gr-change-view/gr-change-view.html">
 <link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
+<link rel="import" href="./settings/gr-cla-view/gr-cla-view.html">
 <link rel="import" href="./settings/gr-registration-dialog/gr-registration-dialog.html">
 <link rel="import" href="./settings/gr-settings-view/gr-settings-view.html">
 
@@ -127,6 +128,9 @@ limitations under the License.
       </template>
       <template is="dom-if" if="[[_showAdminView]]" restamp="true">
         <gr-admin-view path="[[_path]]"></gr-admin-view>
+      </template>
+      <template is="dom-if" if="[[_showCLAView]]" restamp="true">
+        <gr-cla-view path="[[_path]]"></gr-cla-view>
       </template>
       <div id="errorView" class="errorView" hidden>
         <div class="errorEmoji">[[_lastError.emoji]]</div>

@@ -1,0 +1,28 @@
+= PolyGerrit - GUI
+
+CAUTION: This is still in beta
+
+== Configuring
+
+To enable both gwt and polygerrit ui at the same time do:
+```
+[gerrit]
+        enableGwtUi = true
+        enablePolyGerrit = true
+```
+
+By default gwt and polygerrit ui are true.
+
+To disable gwt but polygerit do the following:
+```
+[gerrit]
+        enableGwtUi = false
+        enablePolyGerrit = true
+```
+
+To enable gwt but disable polygerrit please do the following:
+```
+[gerrit]
+        enableGwtUi = true
+        enablePolyGerrit = false
+```

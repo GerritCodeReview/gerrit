@@ -54,8 +54,8 @@ public class ChangeFileContentModification implements TreeModification {
     return Collections.singletonList(changeContentEdit);
   }
 
-  @VisibleForTesting
-  String getFilePath() {
+  @Override
+  public String getFilePath() {
     return filePath;
   }
 

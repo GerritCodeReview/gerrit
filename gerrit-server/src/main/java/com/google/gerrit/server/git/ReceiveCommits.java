@@ -766,7 +766,7 @@ public class ReceiveCommits {
         String refName = replace.inputCommand.getRefName();
         checkState(
             NEW_PATCHSET.matcher(refName).matches(),
-            "expected a new patch set command as input when creating %s; got %s",
+            "enpxpected a new patch set command as input when creating %s; got %s",
             replace.cmd.getRefName(),
             refName);
         try {
@@ -994,7 +994,7 @@ public class ReceiveCommits {
           break;
 
         default:
-          reject(cmd);
+          reject(cmd, "prohibited by Gerrit: unknown command type " + cmd.getType());
           continue;
       }
 
@@ -1113,7 +1113,7 @@ public class ReceiveCommits {
             break;
 
           default:
-            reject(cmd);
+            reject(cmd, "prohibited by Gerrit: don't know how to handle config update of type " + cmd.getType());
             continue;
         }
       }
@@ -1145,7 +1145,7 @@ public class ReceiveCommits {
       validateNewCommits(ctl, cmd);
       batch.addCommand(cmd);
     } else {
-      reject(cmd);
+      reject(cmd, "prohibited by Gerrit: create access denied for " + cmd.getRefName());
     }
   }
 
@@ -1168,7 +1168,7 @@ public class ReceiveCommits {
       } else {
         errors.put(Error.UPDATE, ctl.getRefName());
       }
-      reject(cmd);
+      reject(cmd, "prohibited by Gerrit: ref update access denied");
     }
   }
 
@@ -2876,10 +2876,6 @@ public class ReceiveCommits {
       r.put(cd.change().getKey(), cd.notes());
     }
     return r;
-  }
-
-  private void reject(ReceiveCommand cmd) {
-    reject(cmd, "prohibited by Gerrit");
   }
 
   private void reject(ReceiveCommand cmd, String why) {

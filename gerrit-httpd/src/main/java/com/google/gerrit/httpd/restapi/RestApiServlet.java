@@ -119,6 +119,7 @@ import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.FilterOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -144,6 +145,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.Heap;
@@ -371,8 +373,10 @@ public class RestApiServlet extends HttpServlet {
         RestModifyView<RestResource, Object> m =
             (RestModifyView<RestResource, Object>) viewData.view;
 
-        inputRequestBody = parseRequest(req, inputType(m));
+        Type type = inputType(m);
+        inputRequestBody = parseRequest(req, type);
         result = m.apply(rsrc, inputRequestBody);
+        consumeRequestBody(req, type);
       } else {
         throw new ResourceNotFoundException();
       }
@@ -669,21 +673,24 @@ public class RestApiServlet extends HttpServlet {
     if (isType(JSON_TYPE, req.getContentType())) {
       try (BufferedReader br = req.getReader();
           JsonReader json = new JsonReader(br)) {
-        json.setLenient(true);
-
-        JsonToken first;
         try {
-          first = json.peek();
-        } catch (EOFException e) {
-          throw new BadRequestException("Expected JSON object");
+          json.setLenient(true);
+
+          JsonToken first;
+          try {
+            first = json.peek();
+          } catch (EOFException e) {
+            throw new BadRequestException("Expected JSON object");
+          }
+          if (first == JsonToken.STRING) {
+            return parseString(json.nextString(), type);
+          }
+          return OutputFormat.JSON.newGson().fromJson(json, type);
+        } finally {
+          br.skip(Long.MAX_VALUE);
         }
-        if (first == JsonToken.STRING) {
-          return parseString(json.nextString(), type);
-        }
-        return OutputFormat.JSON.newGson().fromJson(json, type);
       }
-    } else if (("PUT".equals(req.getMethod()) || "POST".equals(req.getMethod()))
-        && acceptsRawInput(type)) {
+    } else if (rawInputRequest(req, type)) {
       return parseRawInput(req, type);
     } else if ("DELETE".equals(req.getMethod()) && hasNoBody(req)) {
       return null;
@@ -704,6 +711,21 @@ public class RestApiServlet extends HttpServlet {
     } else {
       throw new BadRequestException("Expected Content-Type: " + JSON_TYPE);
     }
+  }
+
+  private void consumeRequestBody(HttpServletRequest req, Type type) throws BadRequestException {
+    if (rawInputRequest(req, type)) {
+      try (InputStream is = req.getInputStream()) {
+        ServletUtils.consumeRequestBody(is);
+      } catch (IOException e) {
+        throw new BadRequestException("Cannot read the request", e);
+      }
+    }
+  }
+
+  private static boolean rawInputRequest(HttpServletRequest req, Type type) {
+    String method = req.getMethod();
+    return ("PUT".equals(method) || "POST".equals(method)) && acceptsRawInput(type);
   }
 
   private static boolean hasNoBody(HttpServletRequest req) {

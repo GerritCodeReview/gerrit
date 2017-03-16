@@ -116,6 +116,30 @@
     },
     {
       "key": {
+        "uuid": "7b990f34_fcf00853",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2017-03-16T00:57:41Z",
+      "side": 1,
+      "message": "The for loop contains a single switch statement--the if(lockFailure) is outside the loop. Functionally \"break\" and \"continue\" are equivalent here--the break should be applying to the scope of the switch statement. Having them be different indicates they should be doing different things but they aren\u0027t.",
+      "parentUuid": "82aaeb7d_09c5929f",
+      "range": {
+        "startLine": 485,
+        "startChar": 10,
+        "endLine": 485,
+        "endChar": 18
+      },
+      "revId": "bf56a4d57261aae4c28aca2334df049f52cfe857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "44c6606f_6303cee4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 1

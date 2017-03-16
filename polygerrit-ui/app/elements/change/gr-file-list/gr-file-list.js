@@ -118,6 +118,7 @@
 
     observers: [
       '_expandedPathsChanged(_expandedFilePaths.splices)',
+      '_setReviewedFiles(_shownFiles, _files, _reviewed.*)',
     ],
 
     keyBindings: {
@@ -360,7 +361,10 @@
     },
 
     _handleReviewedChange: function(e) {
-      var path = Polymer.dom(e).rootTarget.getAttribute('data-path');
+      this._reviewFile(Polymer.dom(e).rootTarget.getAttribute('data-path'));
+    },
+
+    _reviewFile: function(path) {
       var index = this._reviewed.indexOf(path);
       var reviewed = index !== -1;
       if (reviewed) {
@@ -369,11 +373,7 @@
         this.push('_reviewed', path);
       }
 
-      this._saveReviewedState(path, !reviewed).catch(function(err) {
-        alert('Couldn’t change file review status. Check the console ' +
-            'and contact the PolyGerrit team for assistance.');
-        throw err;
-      }.bind(this));
+      this._saveReviewedState(path, !reviewed);
     },
 
     _saveReviewedState: function(path, reviewed) {
@@ -658,6 +658,18 @@
       return files.base.slice(0, numFilesShown);
     },
 
+    _setReviewedFiles: function(shownFiles, files, reviewedRecord) {
+      var reviewed = reviewedRecord.base;
+      var fileReviewed;
+      for (var i = 0; i < files.length; i++) {
+        fileReviewed = this._computeReviewed(shownFiles[i], reviewed);
+        this._files[i].isReviewed = fileReviewed;
+        if (i < shownFiles.length) {
+          this.set(['_shownFiles', i, 'isReviewed'], fileReviewed);
+        }
+      }
+    },
+
     _filesChanged: function() {
       this.async(function() {
         var diffElements = Polymer.dom(this.root).querySelectorAll('gr-diff');
@@ -787,7 +799,11 @@
       console.log('Expanding diff', 1 + initialCount - paths.length, 'of',
           initialCount, ':', paths[0]);
       var diffElem = this._findDiffByPath(paths[0], diffElements);
-      return diffElem.reload().then(function() {
+      var promises = [diffElem.reload()];
+      if (this._isLoggedIn) {
+        promises.push(this._reviewFile(paths[0]));
+      }
+      return Promise.all(promises).then(function() {
         return this._renderInOrder(paths.slice(1), diffElements, initialCount);
       }.bind(this));
     },

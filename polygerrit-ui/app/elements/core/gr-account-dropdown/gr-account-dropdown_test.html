@@ -46,5 +46,39 @@ limitations under the License.
       assert.deepEqual(element.topContent,
           [{text: 'John Doe', bold: true}, {text: 'john@doe.com'}]);
     });
+
+    test('switch account', function() {
+      // No switch account link.
+      assert.equal(element._getLinks(null).length, 2);
+
+      // Unparameterized switch account link.
+      var links = element._getLinks('/switch-account');
+      assert.equal(links.length, 3);
+      assert.deepEqual(links[1],
+          {name: 'Switch account', url: '/switch-account'});
+
+      // Parameterized switch account link.
+      element._path = '/c/123';
+      links = element._getLinks('/switch-account${path}');
+      assert.equal(links.length, 3);
+      assert.deepEqual(links[1],
+          {name: 'Switch account', url: '/switch-account/c/123'});
+    });
+
+    test('_interpolateUrl', function() {
+      var replacements = {
+        'foo': 'bar',
+        'test': 'TEST',
+      };
+      var interpolate = function(url) {
+        return element._interpolateUrl(url, replacements);
+      };
+
+      assert.equal(interpolate('test'), 'test');
+      assert.equal(interpolate('${test}'), 'TEST');
+      assert.equal(
+          interpolate('${}, ${test}, ${TEST}, ${foo}'),
+          '${}, TEST, , bar');
+    });
   });
 </script>

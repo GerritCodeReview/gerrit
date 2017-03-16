@@ -21,6 +21,24 @@
     },
     {
       "key": {
+        "uuid": "803474c5_415d4796",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-16T12:43:47Z",
+      "side": 1,
+      "message": "I meant for this to be an inline comment, filed issue 5794",
+      "parentUuid": "2ceef1ec_89ee0880",
+      "revId": "bf56a4d57261aae4c28aca2334df049f52cfe857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcff195f_5664956d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 1
@@ -140,6 +158,30 @@
     },
     {
       "key": {
+        "uuid": "3aeedbb9_c88f2b60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-16T12:43:47Z",
+      "side": 1,
+      "message": "Wow, I never expected this to generate such contentious debate. Clearly a switch statement inside a loop did not improve readability, I will go back to the if/else I had before.",
+      "parentUuid": "7b990f34_fcf00853",
+      "range": {
+        "startLine": 485,
+        "startChar": 10,
+        "endLine": 485,
+        "endChar": 18
+      },
+      "revId": "bf56a4d57261aae4c28aca2334df049f52cfe857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44c6606f_6303cee4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 1
@@ -177,6 +219,24 @@
       "revId": "bf56a4d57261aae4c28aca2334df049f52cfe857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dded5528_ce8636cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-16T12:43:47Z",
+      "side": 1,
+      "message": "Then we would have to duplicate the allMatch(REVIEW_DB) logic in that other catch block. Even factoring out a method for that, I don\u0027t think it\u0027s a win.\n\nCan reduce a level of nesting here, though.",
+      "parentUuid": "e440367b_77c5742f",
+      "revId": "bf56a4d57261aae4c28aca2334df049f52cfe857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

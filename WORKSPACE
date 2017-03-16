@@ -1107,8 +1107,8 @@ bower_archive(
 bower_archive(
     name = "web-component-tester",
     package = "web-component-tester",
-    sha1 = "a4a9bc7815a22d143e8f8593e37b3c2028b8c20f",
-    version = "5.0.0",
+    sha1 = "4e778f8b7d784ba2a069d83d0cd146125c5c4fcb",
+    version = "5.0.1",
 )
 
 # Bower component transitive dependencies.

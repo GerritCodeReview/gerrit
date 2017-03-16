@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.fixes;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.common.RawInputUtil;
@@ -33,6 +32,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
@@ -51,31 +52,39 @@ public class FixReplacementInterpreter {
   }
 
   /**
-   * Transforms the given {@code FixReplacement}s into a {@code TreeModification}.
+   * Transforms the given {@code FixReplacement}s into {@code TreeModification}s.
    *
    * @param repository the affected Git repository
    * @param projectState the affected project
    * @param patchSetCommitId the patch set which should be modified
    * @param fixReplacements the replacements which should be applied
-   * @return a {@code TreeModification} representing the given replacements
+   * @return a list of {@code TreeModification}s representing the given replacements
    * @throws ResourceNotFoundException if a file to which one of the replacements refers doesn't
    *     exist
-   * @throws ResourceConflictException if the replacements can't be transformed into a {@code
-   *     TreeModification}
+   * @throws ResourceConflictException if the replacements can't be transformed into {@code
+   *     TreeModification}s
    */
-  public TreeModification toTreeModification(
+  public List<TreeModification> toTreeModifications(
       Repository repository,
       ProjectState projectState,
       ObjectId patchSetCommitId,
       List<FixReplacement> fixReplacements)
       throws ResourceNotFoundException, IOException, ResourceConflictException {
     checkNotNull(fixReplacements, "Fix replacements must not be null");
-    checkArgument(!fixReplacements.isEmpty(), "Fix replacements must not be empty");
 
-    // For a fix suggestion, we allow only fix replacements for the same file.
-    String filePath = fixReplacements.get(0).path;
-    return toTreeModification(
-        repository, projectState, patchSetCommitId, filePath, fixReplacements);
+    Map<String, List<FixReplacement>> fixReplacementsPerFilePath =
+        fixReplacements
+            .stream()
+            .collect(Collectors.groupingBy(fixReplacement -> fixReplacement.path));
+
+    List<TreeModification> treeModifications = new ArrayList<>();
+    for (Map.Entry<String, List<FixReplacement>> entry : fixReplacementsPerFilePath.entrySet()) {
+      TreeModification treeModification =
+          toTreeModification(
+              repository, projectState, patchSetCommitId, entry.getKey(), entry.getValue());
+      treeModifications.add(treeModification);
+    }
+    return treeModifications;
   }
 
   private TreeModification toTreeModification(

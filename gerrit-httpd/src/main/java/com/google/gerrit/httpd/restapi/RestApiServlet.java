@@ -892,6 +892,9 @@ public class RestApiServlet extends HttpServlet {
         res.setHeader("Content-Length", Long.toString(len));
       }
 
+      if (req != null) {
+        req.getInputStream().skip(Long.MAX_VALUE);
+      }
       if (req == null || !"HEAD".equals(req.getMethod())) {
         try (CountingOutputStream dst =
             new CountingOutputStream(res.getOutputStream())) {

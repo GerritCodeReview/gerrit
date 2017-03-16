@@ -52,7 +52,6 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeStrategy;
@@ -531,9 +530,7 @@ public class ChangeEditModifier {
     reindex(change);
 
     RevCommit newEditCommit = lookupCommit(repository, newEditCommitId);
-    Ref ref = repository.getRefDatabase().exactRef(editRefName);
-    return new ChangeEdit(
-        currentUser.get().asIdentifiedUser(), change, ref, newEditCommit, basePatchSet);
+    return new ChangeEdit(change, editRefName, newEditCommit, basePatchSet);
   }
 
   private String getEditRefName(Change change, PatchSet basePatchSet) {
@@ -551,11 +548,7 @@ public class ChangeEditModifier {
 
     RevCommit newEditCommit = lookupCommit(repository, newEditCommitId);
     return new ChangeEdit(
-        changeEdit.getUser(),
-        changeEdit.getChange(),
-        changeEdit.getRef(),
-        newEditCommit,
-        changeEdit.getBasePatchSet());
+        changeEdit.getChange(), editRefName, newEditCommit, changeEdit.getBasePatchSet());
   }
 
   private void updateReference(

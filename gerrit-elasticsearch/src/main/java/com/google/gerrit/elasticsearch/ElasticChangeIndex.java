@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -340,6 +341,16 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
                     .transform(JsonElement::getAsString)));
       } else if (fields.contains(ChangeField.REVIEWER.getName())) {
         cd.setReviewers(ReviewerSet.empty());
+      }
+
+      if (source.get(ChangeField.REVIEWER_BY_EMAIL.getName()) != null) {
+        cd.setReviewersByEmail(
+            ChangeField.parseReviewerByEmailFieldValues(
+                FluentIterable.from(
+                        source.get(ChangeField.REVIEWER_BY_EMAIL.getName()).getAsJsonArray())
+                    .transform(JsonElement::getAsString)));
+      } else if (fields.contains(ChangeField.REVIEWER_BY_EMAIL.getName())) {
+        cd.setReviewersByEmail(ReviewerByEmailSet.empty());
       }
 
       decodeSubmitRecords(

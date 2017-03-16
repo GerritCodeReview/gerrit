@@ -75,6 +75,30 @@
       "revId": "5e8adcb790bdddcff86aba6853b1c026e088b97b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0af9e589_6b56624c",
+        "filename": "tools/workspace-status.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-16T20:51:58Z",
+      "side": 1,
+      "message": "Won\u0027t this fail if gerrit was checked out from a tarball instead of a git repository?",
+      "parentUuid": "cd92d166_01e11c92",
+      "range": {
+        "startLine": 16,
+        "startChar": 30,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "5e8adcb790bdddcff86aba6853b1c026e088b97b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

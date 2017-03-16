@@ -84,7 +84,6 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -681,8 +680,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
       taskId = id.toString() + "-" + Thread.currentThread().getId();
       if (Thread.currentThread() == mainThread) {
         Repository repo = getRepository();
-        try (ObjectReader reader = repo.newObjectReader();
-            RevWalk rw = new RevWalk(repo)) {
+        try (RevWalk rw = new RevWalk(repo)) {
           call(ReviewDbBatchUpdate.this.db, repo, rw);
         }
       } else {

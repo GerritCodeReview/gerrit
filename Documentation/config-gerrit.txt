@@ -397,8 +397,10 @@ the currently active account.  This is disabled by default except when
 the "Switch Account" link is displayed next to "Sign Out".
 +
 When `auth.type` does not normally enable this URL administrators may
-set this to `login/` or `$canonicalWebUrl/login`, allowing users to
-begin a new web session.
+set this to `login/`, allowing users to begin a new web session.
++
+If a ${path} parameter is included, then PolyGerrit will substitute the
+currently viewed path in the link.
 
 [[auth.cookiePath]]auth.cookiePath::
 +

@@ -19,25 +19,48 @@
 
     properties: {
       account: Object,
-      _hasAvatars: Boolean,
       links: {
         type: Array,
-        value: [
-          {name: 'Settings', url: '/settings'},
-          {name: 'Switch account', url: '/switch-account'},
-          {name: 'Sign out', url: '/logout'},
-        ],
+        computed: '_getLinks(_switchAccountUrl)',
       },
       topContent: {
         type: Array,
         computed: '_getTopContent(account)',
       },
+      _path: {
+        type: String,
+        value: '/',
+      },
+      _hasAvatars: Boolean,
+      _switchAccountUrl: String,
     },
 
     attached: function() {
+      this._handleLocationChange();
+      this.listen(window, 'location-change', '_handleLocationChange');
       this.$.restAPI.getConfig().then(function(cfg) {
+        if (cfg && cfg.auth && cfg.auth.switch_account_url) {
+          this._switchAccountUrl = cfg.auth.switch_account_url;
+        } else {
+          this._switchAccountUrl = null;
+        }
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
       }.bind(this));
+    },
+
+    detached: function() {
+      this.unlisten(window, 'location-change', '_handleLocationChange');
+    },
+
+    _getLinks: function(switchAccountUrl) {
+      var links = [{name: 'Settings', url: '/settings'}];
+      if (switchAccountUrl) {
+        var replacements = {path: this._path};
+        var url = this._interpolateUrl(switchAccountUrl, replacements);
+        links.push({name: 'Switch account', url: url});
+      }
+      links.push({name: 'Sign out', url: '/logout'});
+      return links;
     },
 
     _getTopContent: function(account) {
@@ -45,6 +68,19 @@
         {text: account.name, bold: true},
         {text: account.email},
       ];
+    },
+
+    _handleLocationChange: function() {
+      this._path =
+          window.location.pathname +
+          window.location.search +
+          window.location.hash;
+    },
+
+    _interpolateUrl: function(url, replacements) {
+      return url.replace(/\$\{([\w]+)\}/g, function(match, p1) {
+        return replacements[p1] || '';
+      });
     },
   });
 })();

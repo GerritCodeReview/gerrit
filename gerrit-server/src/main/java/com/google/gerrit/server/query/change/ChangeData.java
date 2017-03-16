@@ -52,6 +52,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
@@ -352,6 +353,7 @@ public class ChangeData {
   private StarsOf starsOf;
   private ImmutableMap<Account.Id, StarRef> starRefs;
   private ReviewerSet reviewers;
+  private ReviewerByEmailSet reviewersByEmail;
   private List<ReviewerStatusUpdate> reviewerUpdates;
   private PersonIdent author;
   private PersonIdent committer;
@@ -952,6 +954,24 @@ public class ChangeData {
 
   public ReviewerSet getReviewers() {
     return reviewers;
+  }
+
+  public ReviewerByEmailSet reviewersByEmail() throws OrmException {
+    if (reviewersByEmail == null) {
+      if (!lazyLoad) {
+        return ReviewerByEmailSet.empty();
+      }
+      reviewersByEmail = notes().getReviewersByEmail();
+    }
+    return reviewersByEmail;
+  }
+
+  public void setReviewersByEmail(ReviewerByEmailSet reviewersByEmail) {
+    this.reviewersByEmail = reviewersByEmail;
+  }
+
+  public ReviewerByEmailSet getReviewersByEmail() {
+    return reviewersByEmail;
   }
 
   public List<ReviewerStatusUpdate> reviewerUpdates() throws OrmException {

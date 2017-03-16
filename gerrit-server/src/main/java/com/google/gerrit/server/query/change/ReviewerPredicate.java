@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.query.Predicate;
@@ -26,6 +26,12 @@ import com.google.gwtorm.server.OrmException;
 import java.util.stream.Stream;
 
 class ReviewerPredicate extends ChangeIndexPredicate {
+  static Predicate<ChangeData> forState(
+      Arguments args, Account.Id id, ReviewerStateInternal state) {
+    checkArgument(state != ReviewerStateInternal.REMOVED, "can't query by removed reviewer");
+    return create(args, new ReviewerPredicate(state, id));
+  }
+
   static Predicate<ChangeData> reviewer(Arguments args, Account.Id id) {
     Predicate<ChangeData> p;
     if (args.notesMigration.readChanges()) {
@@ -52,15 +58,6 @@ class ReviewerPredicate extends ChangeIndexPredicate {
             .filter(s -> s != ReviewerStateInternal.REMOVED)
             .map(s -> new ReviewerPredicate(s, id))
             .collect(toList()));
-  }
-
-  private static Predicate<ChangeData> create(Arguments args, Predicate<ChangeData> p) {
-    if (!args.allowsDrafts) {
-      // TODO(dborowitz): This really belongs much higher up e.g. QueryProcessor. Also, why are we
-      // even doing this?
-      return Predicate.and(p, Predicate.not(new ChangeStatusPredicate(Change.Status.DRAFT)));
-    }
-    return p;
   }
 
   private final ReviewerStateInternal state;

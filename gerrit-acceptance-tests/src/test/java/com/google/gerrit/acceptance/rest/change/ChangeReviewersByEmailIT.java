@@ -19,6 +19,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -237,6 +238,34 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     exception.expectMessage(
         "Foo Bar <foo.bar@gerritcodereview.com> does not identify a registered user or group");
     gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@gerritcodereview.com>");
+  }
+
+  @Test
+  public void reviewersByEmailAreServedFromIndex() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
+
+    for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
+      PushOneCommit.Result r = createChange();
+
+      AddReviewerInput input = new AddReviewerInput();
+      input.reviewer = toRFCAddressString(acc);
+      input.state = state;
+      gApi.changes().id(r.getChangeId()).addReviewer(input);
+
+      notesMigration.setFailOnLoad(true);
+      try {
+        ChangeInfo info =
+            Iterables.getOnlyElement(
+                gApi.changes()
+                    .query(r.getChangeId())
+                    .withOption(ListChangesOption.DETAILED_LABELS)
+                    .get());
+        assertThat(info.reviewers).isEqualTo(ImmutableMap.of(state, ImmutableList.of(acc)));
+      } finally {
+        notesMigration.setFailOnLoad(false);
+      }
+    }
   }
 
   private static String toRFCAddressString(AccountInfo info) {

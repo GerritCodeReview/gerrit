@@ -121,6 +121,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String REF_STATE_PATTERN_FIELD = ChangeField.REF_STATE_PATTERN.getName();
   private static final String REVIEWEDBY_FIELD = ChangeField.REVIEWEDBY.getName();
   private static final String REVIEWER_FIELD = ChangeField.REVIEWER.getName();
+  private static final String REVIEWER_BY_EMAIL_FIELD = ChangeField.REVIEWER_BY_EMAIL.getName();
   private static final String HASHTAG_FIELD = ChangeField.HASHTAG_CASE_AWARE.getName();
   private static final String STAR_FIELD = ChangeField.STAR.getName();
   private static final String SUBMIT_RECORD_LENIENT_FIELD =
@@ -459,6 +460,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (fields.contains(REVIEWER_FIELD)) {
       decodeReviewers(doc, cd);
     }
+    if (fields.contains(REVIEWER_BY_EMAIL_FIELD)) {
+      decodeReviewersByEmail(doc, cd);
+    }
     decodeSubmitRecords(
         doc, SUBMIT_RECORD_STRICT_FIELD, ChangeField.SUBMIT_RULE_OPTIONS_STRICT, cd);
     decodeSubmitRecords(
@@ -553,6 +557,13 @@ public class LuceneChangeIndex implements ChangeIndex {
     cd.setReviewers(
         ChangeField.parseReviewerFieldValues(
             FluentIterable.from(doc.get(REVIEWER_FIELD)).transform(IndexableField::stringValue)));
+  }
+
+  private void decodeReviewersByEmail(ListMultimap<String, IndexableField> doc, ChangeData cd) {
+    cd.setReviewersByEmail(
+        ChangeField.parseReviewerByEmailFieldValues(
+            FluentIterable.from(doc.get(REVIEWER_BY_EMAIL_FIELD))
+                .transform(IndexableField::stringValue)));
   }
 
   private void decodeSubmitRecords(

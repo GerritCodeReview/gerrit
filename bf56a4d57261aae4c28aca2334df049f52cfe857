@@ -237,6 +237,24 @@
       "revId": "bf56a4d57261aae4c28aca2334df049f52cfe857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d46e4c5_f245c7dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-16T17:31:11Z",
+      "side": 1,
+      "message": "That duplication could be avoided by nesting the \u0027try\u0027s, as I suggested.\n\nThat said, what you have here is fine. Once PrimaryStorage.REVIEW_DB is eliminated, the complexity will go away.",
+      "parentUuid": "dded5528_ce8636cb",
+      "revId": "bf56a4d57261aae4c28aca2334df049f52cfe857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

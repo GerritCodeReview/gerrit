@@ -414,6 +414,27 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitChainFailsOnRework() throws Exception {
+    PushOneCommit.Result change1 = createChange("subject 1", "fileName 1", "content 1");
+    RevCommit headAfterChange1 = change1.getCommit();
+    PushOneCommit.Result change2 = createChange("subject 2", "fileName 2", "content 2");
+    testRepo.reset(headAfterChange1);
+    change1 = amendChange(change1.getChangeId(), "subject 1 amend", "fileName 2",
+        "rework content 2");
+    submit(change1.getChangeId());
+    headAfterChange1 = getRemoteHead();
+
+    submitWithConflict(
+        change2.getChangeId(),
+        "Cannot rebase "
+            + change2.getCommit().getName()
+            + ": "
+            + "The change could not be rebased due to a conflict during merge.");
+    assertThat(getRemoteHead()).isEqualTo(headAfterChange1);
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitChainOneByOneManualRebase() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change1 = createChange("subject 1", "fileName 1", "content 1");

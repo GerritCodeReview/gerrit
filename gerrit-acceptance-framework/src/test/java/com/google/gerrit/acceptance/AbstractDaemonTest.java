@@ -648,14 +648,27 @@ public abstract class AbstractDaemonTest {
       String changeId, String ref, TestAccount testAccount, TestRepository<?> repo)
       throws Exception {
     Collections.shuffle(RANDOM);
+    return amendChange(changeId, ref, testAccount, repo, PushOneCommit.SUBJECT,
+        PushOneCommit.FILE_NAME, new String(Chars.toArray(RANDOM)));
+  }
+
+  protected PushOneCommit.Result amendChange(String changeId, String subject, String fileName,
+      String content) throws Exception {
+    return amendChange(changeId, "refs/for/master", admin, testRepo, subject, fileName, content);
+  }
+
+  protected PushOneCommit.Result amendChange(
+      String changeId, String ref, TestAccount testAccount, TestRepository<?> repo, String subject,
+      String fileName, String content)
+      throws Exception {
     PushOneCommit push =
         pushFactory.create(
             db,
             testAccount.getIdent(),
             repo,
-            PushOneCommit.SUBJECT,
-            PushOneCommit.FILE_NAME,
-            new String(Chars.toArray(RANDOM)),
+            subject,
+            fileName,
+            content,
             changeId);
     return push.to(ref);
   }

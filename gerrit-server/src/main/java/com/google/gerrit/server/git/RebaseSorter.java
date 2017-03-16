@@ -14,11 +14,8 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change.Status;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -32,8 +29,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.slf4j.Logger;
@@ -47,24 +42,18 @@ public class RebaseSorter {
   private final RevCommit initialTip;
   private final Set<RevCommit> alreadyAccepted;
   private final InternalChangeQuery internalChangeQuery;
-  private final ChangeKindCache changeKindCache;
-  private final Repository repo;
 
   public RebaseSorter(
       CodeReviewRevWalk rw,
       RevCommit initialTip,
       Set<RevCommit> alreadyAccepted,
       RevFlag canMergeFlag,
-      InternalChangeQuery internalChangeQuery,
-      ChangeKindCache changeKindCache,
-      Repository repo) {
+      InternalChangeQuery internalChangeQuery) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.initialTip = initialTip;
     this.alreadyAccepted = alreadyAccepted;
     this.internalChangeQuery = internalChangeQuery;
-    this.changeKindCache = changeKindCache;
-    this.repo = repo;
   }
 
   public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> incoming) throws IOException {
@@ -127,8 +116,7 @@ public class RebaseSorter {
       List<ChangeData> changes = internalChangeQuery.byCommit(commit);
       for (ChangeData change : changes) {
         if (change.change().getStatus() == Status.MERGED
-            && change.change().getDest().equals(dest)
-            && !isRework(dest.getParentKey(), commit, change)) {
+            && change.change().getDest().equals(dest)) {
           log.debug(
               "Dependency {} associated with merged change {}.", commit.getName(), change.getId());
           return true;
@@ -138,14 +126,6 @@ public class RebaseSorter {
     } catch (OrmException e) {
       throw new IOException(e);
     }
-  }
-
-  private boolean isRework(Project.NameKey project, RevCommit oldCommit, ChangeData change)
-      throws OrmException, IOException {
-    RevCommit currentCommit =
-        rw.parseCommit(ObjectId.fromString(change.currentPatchSet().getRevision().get()));
-    return ChangeKind.REWORK
-        == changeKindCache.getChangeKind(project, repo, oldCommit, currentCommit);
   }
 
   private static <T> T removeOne(final Collection<T> c) {

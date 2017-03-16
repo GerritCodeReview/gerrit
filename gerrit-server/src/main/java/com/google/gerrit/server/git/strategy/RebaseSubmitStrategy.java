@@ -295,9 +295,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
               args.mergeTip.getInitialTip(),
               args.alreadyAccepted,
               args.canMergeFlag,
-              args.internalChangeQuery,
-              args.changeKindCache,
-              args.repo)
+              args.internalChangeQuery)
           .sort(toSort);
     } catch (IOException e) {
       throw new IntegrationException("Commit sorting failed", e);

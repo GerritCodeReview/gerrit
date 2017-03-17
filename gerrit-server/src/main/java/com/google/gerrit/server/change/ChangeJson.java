@@ -108,6 +108,7 @@ import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -530,6 +531,12 @@ public class ChangeJson {
       for (Map.Entry<ReviewerStateInternal, Map<Account.Id, Timestamp>> e :
           cd.reviewers().asTable().rowMap().entrySet()) {
         out.reviewers.put(e.getKey().asReviewerState(), toAccountInfo(e.getValue().keySet()));
+      }
+      // TODO(hiesel) Load from ChangeData instead after the data was added there
+      for (Map.Entry<ReviewerStateInternal, Map<Address, Timestamp>> e :
+          cd.notes().getReviewersByEmail().asTable().rowMap().entrySet()) {
+        out.reviewers.put(
+            e.getKey().asReviewerState(), toAccountInfoByEmail(e.getValue().keySet()));
       }
 
       out.removableReviewers = removableReviewers(ctl, out);
@@ -1075,9 +1082,11 @@ public class ChangeJson {
     Collection<AccountInfo> ccs = out.reviewers.get(ReviewerState.CC);
     if (ccs != null) {
       for (AccountInfo ai : ccs) {
-        Account.Id id = new Account.Id(ai._accountId);
-        if (ctl.canRemoveReviewer(id, 0)) {
-          removable.add(id);
+        if (ai._accountId != null) {
+          Account.Id id = new Account.Id(ai._accountId);
+          if (ctl.canRemoveReviewer(id, 0)) {
+            removable.add(id);
+          }
         }
       }
     }
@@ -1091,6 +1100,14 @@ public class ChangeJson {
     for (Account.Id id : removable) {
       result.add(accountLoader.get(id));
     }
+    // Reviewers added by email are always removable
+    for (Collection<AccountInfo> infos : out.reviewers.values()) {
+      for (AccountInfo info : infos) {
+        if (info._accountId == null) {
+          result.add(info);
+        }
+      }
+    }
     return result;
   }
 
@@ -1098,6 +1115,14 @@ public class ChangeJson {
     return accounts
         .stream()
         .map(accountLoader::get)
+        .sorted(AccountInfoComparator.ORDER_NULLS_FIRST)
+        .collect(toList());
+  }
+
+  private Collection<AccountInfo> toAccountInfoByEmail(Collection<Address> addresses) {
+    return addresses
+        .stream()
+        .map(a -> new AccountInfo(a.getName(), a.getEmail()))
         .sorted(AccountInfoComparator.ORDER_NULLS_FIRST)
         .collect(toList());
   }

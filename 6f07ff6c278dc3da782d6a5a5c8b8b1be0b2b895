@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "3ca6242d_1396fbb7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-17T13:35:20Z",
+      "side": 1,
+      "message": "With \u0027Ack\u0027, I acknowledged having read your comment but indicated that I didn\u0027t want to change it.\n\nI have several reasons why I don\u0027t want to change it. One reason: the name \u0027robotCommentInput\u0027 would clash with a variable defined in robotCommentsCanBeRetrievedAsList() and other tests which would then need to be renamed to something else.\nDo you insist that I elaborate further on my reasons?\n\nTo be honest, I don\u0027t think this discussion is worth spending effort on it.",
+      "parentUuid": "710d3be3_d7e5402a",
+      "range": {
+        "startLine": 63,
+        "startChar": 28,
+        "endLine": 63,
+        "endChar": 52
+      },
+      "revId": "6f07ff6c278dc3da782d6a5a5c8b8b1be0b2b895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fff9f953_c6575648",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
         "patchSetId": 3
@@ -84,6 +108,30 @@
       "writtenOn": "2017-03-17T08:51:51Z",
       "side": 1,
       "message": "non-existent",
+      "range": {
+        "startLine": 121,
+        "startChar": 40,
+        "endLine": 121,
+        "endChar": 52
+      },
+      "revId": "6f07ff6c278dc3da782d6a5a5c8b8b1be0b2b895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e7b880a_8252fae7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-17T13:35:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fff9f953_c6575648",
       "range": {
         "startLine": 121,
         "startChar": 40,
@@ -178,6 +226,30 @@
       "writtenOn": "2017-03-17T08:51:51Z",
       "side": 1,
       "message": "What is the rationale for having this utility method rather than overriding the implementation of toString on the Comment.Range class?",
+      "range": {
+        "startLine": 141,
+        "startChar": 2,
+        "endLine": 144,
+        "endChar": 3
+      },
+      "revId": "6f07ff6c278dc3da782d6a5a5c8b8b1be0b2b895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34017b46_e5a63053",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-17T13:35:20Z",
+      "side": 1,
+      "message": "Comment.Range already implements toString() but uses a longer string representation. As I wanted the error message to be concise and helpful, I chose another representation. Another reason was that I didn\u0027t want to expose any details about our internal objects in an error message.",
+      "parentUuid": "8c822a1c_ce91fe21",
       "range": {
         "startLine": 141,
         "startChar": 2,

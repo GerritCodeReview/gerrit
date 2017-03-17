@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6728e3ac_e399bd7a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-17T17:48:32Z",
+      "side": 1,
+      "message": "Could use a // QuotaExceededError, and local explanation as to why this method disables itself.",
+      "revId": "338716470466b02e95bf8866ebca783c73596303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

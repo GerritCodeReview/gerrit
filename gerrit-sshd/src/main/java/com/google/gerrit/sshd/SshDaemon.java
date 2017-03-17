@@ -420,7 +420,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private void initKeyExchanges(Config cfg) {
     List<NamedFactory<KeyExchange>> a = ServerBuilder.setUpDefaultKeyExchanges(true);
     setKeyExchangeFactories(
-        filter(cfg, "kex", (NamedFactory<KeyExchange>[]) a.toArray(new NamedFactory[a.size()])));
+        filter(cfg, "kex", (NamedFactory<KeyExchange>[]) a.toArray(new NamedFactory<?>[a.size()])));
   }
 
   private void initProviderBouncyCastle(Config cfg) {
@@ -528,14 +528,14 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
     a.add(null);
     setCipherFactories(
-        filter(cfg, "cipher", (NamedFactory<Cipher>[]) a.toArray(new NamedFactory[a.size()])));
+        filter(cfg, "cipher", (NamedFactory<Cipher>[]) a.toArray(new NamedFactory<?>[a.size()])));
   }
 
   @SuppressWarnings("unchecked")
   private void initMacs(Config cfg) {
     List<NamedFactory<Mac>> m = BaseBuilder.setUpDefaultMacs(true);
     setMacFactories(
-        filter(cfg, "mac", (NamedFactory<Mac>[]) m.toArray(new NamedFactory[m.size()])));
+        filter(cfg, "mac", (NamedFactory<Mac>[]) m.toArray(new NamedFactory<?>[m.size()])));
   }
 
   @SafeVarargs

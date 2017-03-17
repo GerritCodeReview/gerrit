@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04f48990_e93c60e6",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-17T22:46:41Z",
+      "side": 1,
+      "message": "caching",
+      "range": {
+        "startLine": 249,
+        "startChar": 71,
+        "endLine": 249,
+        "endChar": 79
+      },
+      "revId": "f4549872db4268d800e8228e89af3f8e8c085ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

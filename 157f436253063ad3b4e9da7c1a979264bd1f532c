@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "2348bc08_5b433a0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-17T13:01:54Z",
+      "side": 1,
+      "message": "Don\u0027t know:\n\nException in thread \"main\" java.lang.NoClassDefFoundError: com/google/common/base/Function\n\tat java.lang.Class.getDeclaredMethods0(Native Method)\n\tat java.lang.Class.privateGetDeclaredMethods(Class.java:2703)\n\tat java.lang.Class.privateGetMethodRecursive(Class.java:3050)\n\tat java.lang.Class.getMethod0(Class.java:3020)\n\tat java.lang.Class.getMethod(Class.java:1786)\n\tat com.facebook.buck.cli.bootstrapper.ClassLoaderBootstrapper.main(ClassLoaderBootstrapper.java:61)\nCaused by: java.lang.ClassNotFoundException: com.google.common.base.Function\n\tat java.net.URLClassLoader.findClass(URLClassLoader.java:381)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:424)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:357)\n\t... 6 more\n\nProbably something easy, but don\u0027t want to spend time on it now.",
+      "parentUuid": "3a75ad50_1d0a941a",
+      "range": {
+        "startLine": 14,
+        "startChar": 28,
+        "endLine": 14,
+        "endChar": 47
+      },
+      "revId": "157f436253063ad3b4e9da7c1a979264bd1f532c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a73f566_9da56059",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

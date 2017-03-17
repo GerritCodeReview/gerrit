@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d70b291_91537050",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-17T12:58:10Z",
+      "side": 1,
+      "message": "Mention the situation with ReviewDb? This feature is not going to be supported there? Should be added later?",
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b526e00e_44605e44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-17T12:58:10Z",
+      "side": 1,
+      "message": "Can you clarify the promotion state from ReviewerByEmail to regular reviewer? This would be done when user is registered?",
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "596c0ff6_f30891cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-17T12:58:10Z",
+      "side": 1,
+      "message": "state.getByEmailFooterKey()",
+      "range": {
+        "startLine": 928,
+        "startChar": 26,
+        "endLine": 928,
+        "endChar": 46
+      },
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

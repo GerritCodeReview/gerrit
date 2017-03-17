@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f96c9f8_13d9c54f",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/libraries.config",
+        "patchSetId": 26
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-17T07:02:22Z",
+      "side": 1,
+      "message": "The latest mariadb connector 1.5.9 is not available on this location yet, but only on Central:\n\n  https://repo.maven.apache.org/maven2/org/mariadb/jdbc/mariadb-java-client/1.5.9/mariadb-java-client-1.5.9.jar",
+      "revId": "866c8d5a8701e912b711c8a72a53bce57dc77cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2764,6 +2764,41 @@ To confirm the addition of the reviewers, resend the request with the
   }
 ----
 
+If link:config-project-config.html#reviewer.enableByEmail[reviewer.enableByEmail] is set
+for the project, reviewers and CCs are not required to have a Gerrit account. If you POST
+an email address of a reviewer or CC then, they will be added to the change even if they
+don't have a Gerrit account.
+
+If this option is disabled, the request would fail with `400 Bad Request` if the email
+address can't be resolved to an active Gerrit account.
+
+Note that the name is optional so both "un.registered@reviewer.com" and
+John Doe <un.registered@reviewer.com>" are valid inputs.
+
+Reviewers without Gerrit accounts can only be added on public changes.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "reviewer": "John Doe <un.registered@reviewer.com>"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "input": "John Doe <un.registered@reviewer.com>"
+  }
+----
+
 [[delete-reviewer]]
 === Delete Reviewer
 --
@@ -6138,6 +6173,10 @@ In addition `ReviewerInfo` has the following fields:
 |`approvals`   |
 The approvals of the reviewer as a map that maps the label names to the
 approval values ("`-2`", "`-1`", "`0`", "`+1`", "`+2`").
+|`_account_id`   |
+This field is inherited from `AccountInfo` but is optional here if an
+unregistered reviewer was added by email. See
+link:rest-api-changes.html#add-reviewer[add-reviewer] for details.
 |==========================
 
 [[reviewer-input]]

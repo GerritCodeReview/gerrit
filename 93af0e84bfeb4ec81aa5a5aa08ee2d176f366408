@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6607dcd_bd93f85c",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T16:02:00Z",
+      "side": 1,
+      "message": "-f will only match regular files; is this guaranteed by the LSB spec to not be a symlink?",
+      "revId": "93af0e84bfeb4ec81aa5a5aa08ee2d176f366408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

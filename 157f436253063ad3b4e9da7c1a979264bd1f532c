@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "c7341c58_4063373d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-17T12:50:58Z",
+      "side": 1,
+      "message": "Would make sense to cherry-pick it to stable-2.13. It only has conflicts due to the reformatting. But my dev environment for stable-2.13 is not working anymore. The Eclipse project generation fails for me and I don\u0027t want to sort the imports by hand. Could you do the cherry-pick?",
+      "parentUuid": "29778f17_86333fcf",
+      "range": {
+        "startLine": 14,
+        "startChar": 28,
+        "endLine": 14,
+        "endChar": 47
+      },
+      "revId": "157f436253063ad3b4e9da7c1a979264bd1f532c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a73f566_9da56059",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "790054ab_1da6420c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/Libraries.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-17T16:31:05Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7fa0d025_6c5057ca",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 45
+      },
+      "revId": "b1219a79ca0fcdaaff524a9daf9ebe555b0f4147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8bc2a092_0967075a",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_x.java",
         "patchSetId": 32
@@ -36,6 +60,24 @@
       "writtenOn": "2017-03-17T14:07:39Z",
       "side": 1,
       "message": "optional: new code shouldn\u0027t user \"final\" for local variables.\n\noptional because this is DB code which should eventually be deleted.",
+      "revId": "b1219a79ca0fcdaaff524a9daf9ebe555b0f4147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20f4c8c5_44e9781e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_x.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-17T16:31:05Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8bc2a092_0967075a",
       "revId": "b1219a79ca0fcdaaff524a9daf9ebe555b0f4147",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

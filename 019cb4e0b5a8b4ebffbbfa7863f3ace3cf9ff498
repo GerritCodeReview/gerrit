@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bf2fc9b9_86360dec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2017-03-17T19:37:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "138547d8_fc866f69",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "081afb72_95383e0d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 3

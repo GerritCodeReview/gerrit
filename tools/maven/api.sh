@@ -16,9 +16,9 @@
 
 set -e
 
-if [[ "$#" != "1" ]] ; then
+if [[ "$#" -lt "1" ]] ; then
   cat <<EOF
-Usage: run "$0 COMMAND" from the top of your workspace,
+Usage: run "$0 COMMAND [build_args...]" from the top of your workspace,
 where COMMAND is one of
 
   install
@@ -54,12 +54,13 @@ war_deploy)
     exit 1
     ;;
 esac
+shift
 
 if [[ "${VERBOSE:-x}" != "x" ]]; then
   set -o xtrace
 fi
 
-bazel build //tools/maven:gen_${command} || \
+bazel build //tools/maven:gen_${command} "$@" || \
   { echo "bazel failed to build gen_${command}. Use VERBOSE=1 for more info" ; exit 1 ; }
 
 ./bazel-genfiles/tools/maven/${command}.sh

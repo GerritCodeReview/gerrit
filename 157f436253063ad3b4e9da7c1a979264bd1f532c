@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1489752725 +0100\nnonce AIcUUg/EwF8SmBzAOhff2c4vO/ozCUTIK6jUiIM5aEQ1X/H4x9CauvN6nLIhcTJheURlCQuf0HBw\n\n0000000000000000000000000000000000000000 157f436253063ad3b4e9da7c1a979264bd1f532c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYy9KVAAoJEFG1/Zeg0O9RbNUH/0J2gn5KihYFLUCmrpqbb/Pv\nOazEJ0T/KWF2my2Fjr89qI5ezNJlWgUeY4XrmOffhY73zP5oKLcdCpXjHb2wO98v\nOX56CBU+g5AFevz7Hml3BSRaUFuQnMvhoAV/qpSh1jGy5pwcOr20IUI9rKdYm7JO\n3a8LxKaVnzUFjJmAS/TUp6y+I12KhFdHxvmIEQXXCY07fS1+XN2Go+RZY20zUUJk\nDrq8K/jlVmJsKeymkVY98qukahA7geNeQonr3H3RjxLr4xmyCruaJY6SGmgpxW2E\ncRNsCxOQ3vT1rc9zmogv6a4V1suyHpY08ZU4gitaT0BKSD4U17oAynXqltfYcKA\u003d\n\u003dR/7o\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "49114ca0_6aa725ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-17T12:23:58Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 11,
+        "startChar": 49,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "157f436253063ad3b4e9da7c1a979264bd1f532c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47ea0238_39ffaeb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-17T12:23:58Z",
+      "side": 1,
+      "message": "stale and should be removed?",
+      "range": {
+        "startLine": 284,
+        "startChar": 8,
+        "endLine": 285,
+        "endChar": 48
+      },
+      "revId": "157f436253063ad3b4e9da7c1a979264bd1f532c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

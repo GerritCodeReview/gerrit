@@ -23,19 +23,28 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
+import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
+import com.google.inject.Inject;
+import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Test;
@@ -43,6 +52,8 @@ import org.junit.Test;
 @NoHttpd
 @Sandboxed
 public class ProjectWatchIT extends AbstractDaemonTest {
+  @Inject private WatchConfig.Accessor watchConfig;
+
   @Test
   public void newPatchSetsNotifyConfig() throws Exception {
     Address addr = new Address("Watcher", "watcher@example.com");
@@ -479,5 +490,35 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // assert email notification
     assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void deleteAllProjectWatches() throws Exception {
+    Map<ProjectWatchKey, Set<NotifyType>> watches = new HashMap<>();
+    watches.put(ProjectWatchKey.create(project, "*"), ImmutableSet.of(NotifyType.ALL));
+    watchConfig.upsertProjectWatches(admin.getId(), watches);
+    assertThat(watchConfig.getProjectWatches(admin.getId())).isNotEmpty();
+
+    watchConfig.deleteAllProjectWatches(admin.getId());
+    assertThat(watchConfig.getProjectWatches(admin.getId())).isEmpty();
+  }
+
+  @Test
+  public void deleteAllProjectWatchesIfWatchConfigIsTheOnlyFileInUserBranch() throws Exception {
+    // Create account that has no files in its refs/users/ branch.
+    Account.Id id = new Account.Id(db.nextAccountId());
+    Account a = new Account(id, TimeUtil.nowTs());
+    db.accounts().insert(Collections.singleton(a));
+
+    // Add a project watch so that a watch.config file in the refs/users/ branch is created.
+    Map<ProjectWatchKey, Set<NotifyType>> watches = new HashMap<>();
+    watches.put(ProjectWatchKey.create(project, "*"), ImmutableSet.of(NotifyType.ALL));
+    watchConfig.upsertProjectWatches(id, watches);
+    assertThat(watchConfig.getProjectWatches(id)).isNotEmpty();
+
+    // Delete all project watches so that the watch.config file in the refs/users/ branch is
+    // deleted.
+    watchConfig.deleteAllProjectWatches(id);
+    assertThat(watchConfig.getProjectWatches(id)).isEmpty();
   }
 }

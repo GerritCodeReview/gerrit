@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a695ac1_39936e04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-17T05:12:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2aa270e1_90a7bf75",
+      "revId": "21be6a5731727829936fa57181557c099a78d82a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "920b6454_8dc9e4cb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-03-17T03:54:25Z",
       "side": 1,
       "message": "I tested it then and testing it now: It works for me on Linux even without passing PATH to the ProcessBuilder. Is that a Mac Os X speciic problem only? If it is, mention it here? I don\u0027t have access to Mac Os X at the moment to try.",
+      "revId": "21be6a5731727829936fa57181557c099a78d82a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f26b356_8ef0375f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-17T05:12:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "920b6454_8dc9e4cb",
       "revId": "21be6a5731727829936fa57181557c099a78d82a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

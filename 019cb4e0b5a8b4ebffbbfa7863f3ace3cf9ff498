@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "138547d8_fc866f69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T13:42:48Z",
+      "side": 1,
+      "message": "RFCs?",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "081afb72_95383e0d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T13:42:48Z",
+      "side": 1,
+      "message": "Why is this necessary? It\u0027s clearly not for RFC compliance, because the only caller of parseRequest consumes the request after processing.\n\nI\u0027m guessing it has to do with our TTFB/TTLB metrics, which aren\u0027t otherwise mentioned in this change. So maybe this deserves a comment?",
+      "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e497582b_673b5e19",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T13:42:48Z",
+      "side": 1,
+      "message": "Note that parseRawInput just returns a wrapper around req.getInputStream(), it doesn\u0027t consume it. If we care about draining the request before returning from this method, possibly we need to eagerly parse raw inputs as well. Not sure of the performance implications though. In most cases, raw input strings should be quite short, but you never know.\n\n(I think from a security perspective we don\u0027t (currently) have to worry about a maliciously large POST body sucking up all our memory, because we always eagerly parse in the JSON case, so it\u0027s trivial for an attacker to send well-formed but excessively-long JSON.)",
+      "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

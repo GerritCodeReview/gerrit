@@ -26,6 +26,52 @@
     },
     {
       "key": {
+        "uuid": "29778f17_86333fcf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-17T12:34:06Z",
+      "side": 1,
+      "message": "That\u0027s included since 2.11.  Should we put this fix on a stable branch?\n\nI don\u0027t think there\u0027s any plan to do 2.11.x or 2.12.x but 2.13.7 is coming soon, so stable-2.13?",
+      "range": {
+        "startLine": 14,
+        "startChar": 28,
+        "endLine": 14,
+        "endChar": 47
+      },
+      "revId": "157f436253063ad3b4e9da7c1a979264bd1f532c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a73f566_9da56059",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-17T12:34:06Z",
+      "side": 1,
+      "message": "\"only contained\"",
+      "range": {
+        "startLine": 17,
+        "startChar": 20,
+        "endLine": 17,
+        "endChar": 36
+      },
+      "revId": "157f436253063ad3b4e9da7c1a979264bd1f532c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47ea0238_39ffaeb8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
         "patchSetId": 1

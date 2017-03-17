@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5d4f73eb_a177f265",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-17T20:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6728e3ac_e399bd7a",
+      "revId": "338716470466b02e95bf8866ebca783c73596303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e9befa5_aa566271",
         "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-03-17T18:22:02Z",
       "side": 1,
       "message": "If a user gets into such a state, what\u0027ll break?",
+      "revId": "338716470466b02e95bf8866ebca783c73596303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c6cbb3f_12ba7d47",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-17T20:05:14Z",
+      "side": 1,
+      "message": "Good question.\n\nCurrently, localStorage is used for unsaved drafts of top-level and inline comments. If localStorage is disabled, the draft will not be invisibly saved.\n\nCurrently, the only way I know of to end up with a zero-quota is by creating a private tab in Safari. I argue this is reasonable, because a user in a private tab would not expect/wish for their unsaved draft comments to persist anyway.",
+      "parentUuid": "7e9befa5_aa566271",
       "revId": "338716470466b02e95bf8866ebca783c73596303",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

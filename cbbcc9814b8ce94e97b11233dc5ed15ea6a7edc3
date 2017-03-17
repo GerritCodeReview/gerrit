@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "5fb291f3_791a75a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T13:31:51Z",
+      "side": 1,
+      "message": "Nit: separate paragraphs with a blank line",
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b526e00e_44605e44",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -30,6 +47,64 @@
       "writtenOn": "2017-03-17T12:58:10Z",
       "side": 1,
       "message": "Can you clarify the promotion state from ReviewerByEmail to regular reviewer? This would be done when user is registered?",
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afec398_60ac8bac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T13:31:51Z",
+      "side": 1,
+      "message": "+1, I talked this through with Patrick yesterday and we have a plan.",
+      "parentUuid": "b526e00e_44605e44",
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fb468dd_301e4038",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerByEmailSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T13:31:51Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be necessary in Java 8.",
+      "range": {
+        "startLine": 32,
+        "startChar": 44,
+        "endLine": 32,
+        "endChar": 87
+      },
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65b5ee4e_567b2cc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T13:31:51Z",
+      "side": 1,
+      "message": "Hm, this makes me think that we should have been using Address instead of PersonIdent for reviewers and other identities in this class as well. parsePersonIdent handles both \"Name \u003cemail\u003e\" and \"Name \u003cemail\u003e [ts] [offset]\"; only the first one should be valid.\n\nDoesn\u0027t need to be cleaned up in this series of course.",
       "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -56,6 +131,46 @@
       "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf5d203c_723ea4d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T13:31:51Z",
+      "side": 1,
+      "message": "Nit: factor this out into a private static void checkReviewerType method",
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99ae84ec_6c719b38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ReviewerStateInternal.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T13:31:51Z",
+      "side": 1,
+      "message": "In the context of a map-like data type, the \"by\" makes sense, because \"by \u003ckey type\u003e\" is a common pattern. But in the footer I would prefer removing this \"by\". It\u0027s less verbose and still reads correctly:\n\n Reviewer-email: \u003cfoo@google.com\u003e",
+      "range": {
+        "startLine": 62,
+        "startChar": 48,
+        "endLine": 62,
+        "endChar": 51
+      },
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

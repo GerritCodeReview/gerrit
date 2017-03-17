@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96ec7b6f_7b54b6e0",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 30
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-17T09:54:36Z",
+      "side": 1,
+      "message": "I wonder if all this details really belongs to this docs? I tend to remove all that and just say: Set up the database analog to MySQL database. And see documentation for further details.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 4
+      },
+      "revId": "43aad5c8c09be630dfab7e0001bcc39fdb70275c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

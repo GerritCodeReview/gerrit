@@ -163,8 +163,7 @@ public abstract class QueryBuilder<T> {
 
   protected final Definition<T, ? extends QueryBuilder<T>> builderDef;
 
-  @SuppressWarnings("rawtypes")
-  protected final Map<String, OperatorFactory> opFactories;
+  protected final Map<String, OperatorFactory<?, ?>> opFactories;
 
   @SuppressWarnings({"unchecked", "rawtypes"})
   protected QueryBuilder(Definition<T, ? extends QueryBuilder<T>> def) {
@@ -296,12 +295,11 @@ public abstract class QueryBuilder<T> {
     throw error("Unsupported query:" + value);
   }
 
-  @SuppressWarnings("unchecked")
-  private Predicate<T>[] children(final Tree r)
+  private List<Predicate<T>> children(final Tree r)
       throws QueryParseException, IllegalArgumentException {
-    final Predicate<T>[] p = new Predicate[r.getChildCount()];
-    for (int i = 0; i < p.length; i++) {
-      p[i] = toPredicate(r.getChild(i));
+    List<Predicate<T>> p = new ArrayList<>(r.getChildCount());
+    for (int i = 0; i < r.getChildCount(); i++) {
+      p.add(toPredicate(r.getChild(i)));
     }
     return p;
   }

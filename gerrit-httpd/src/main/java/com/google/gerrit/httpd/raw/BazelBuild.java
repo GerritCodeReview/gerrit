@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.escape.Escaper;
@@ -25,7 +26,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.Properties;
+
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
@@ -117,8 +122,24 @@ public class BazelBuild {
     }
   }
 
-  private ProcessBuilder newBuildProcess(Label label) {
-    return new ProcessBuilder("bazel", "build", label.fullName());
+  private Properties loadBuildProperties(Path propPath) throws IOException {
+    Properties properties = new Properties();
+    try (InputStream in = Files.newInputStream(propPath)) {
+      properties.load(in);
+    } catch (NoSuchFileException e) {
+      // Ignore; will be run from PATH, with a descriptive error if it fails.
+    }
+    return properties;
+  }
+
+  private ProcessBuilder newBuildProcess(Label label) throws IOException {
+    Properties properties = loadBuildProperties(sourceRoot.resolve(".bazel_path"));
+    String bazel = firstNonNull(properties.getProperty("bazel"), "bazel");
+    ProcessBuilder proc = new ProcessBuilder(bazel, "build", label.fullName());
+    if (properties.containsKey("PATH")) {
+      proc.environment().put("PATH", properties.getProperty("PATH"));
+    }
+    return proc;
   }
 
   /** returns the root relative path to the artifact for the given label */

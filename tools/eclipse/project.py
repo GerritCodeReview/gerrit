@@ -56,6 +56,12 @@ args, _ = opts.parse_args()
 def retrieve_ext_location():
   return check_output(['bazel', 'info', 'output_base']).strip()
 
+def gen_bazel_path():
+  bazel = check_output(['which', 'bazel']).strip()
+  with open(path.join(ROOT, ".bazel_path"), 'w') as fd:
+    fd.write("bazel=%s\n" % bazel)
+    fd.write("PATH=%s\n" % environ["PATH"])
+
 def _query_classpath(target):
   deps = []
   t = cp_targets[target]
@@ -258,6 +264,7 @@ try:
   gen_project(args.project_name)
   gen_classpath(ext_location)
   gen_factorypath(ext_location)
+  gen_bazel_path()
 
   # TODO(davido): Remove this when GWT gone
   gwt_working_dir = ".gwt_work_dir"

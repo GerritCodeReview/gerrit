@@ -237,7 +237,11 @@
           opt_errFn, opt_ctx);
     },
 
-    getAccount: function() {
+    getAccount: function(opt_noCache) {
+      if (opt_noCache) {
+        return this.fetchJSON('/accounts/self/detail');
+      }
+
       return this._fetchSharedCacheURL('/accounts/self/detail', function(resp) {
         if (resp.status === 403) {
           this._cache['/accounts/self/detail'] = null;

@@ -94,5 +94,11 @@ limitations under the License.
       element._loadPlugins([]);
       assert.isTrue(Gerrit._setPluginsCount.calledWithExactly(0));
     });
+
+    test('lodaing account starts heartbeat', function() {
+      var heartbeatStub = sandbox.stub(element, '_accountHeartbeat');
+      element._accountChanged();
+      assert.isTrue(heartbeatStub.called);
+    });
   });
 </script>

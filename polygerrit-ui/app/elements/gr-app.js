@@ -21,6 +21,10 @@
   // @see Issue 4699
   Polymer.RenderStatus._makeReady();
 
+  // Check account credentials every ten minutes (or until the tab is
+  // foregrounded).
+  var ACCOUNT_HEARTBEAT_INTERVAL_MS = 10*60*1000;
+
   Polymer({
     is: 'gr-app',
 
@@ -111,6 +115,7 @@
       // Preferences are cached when a user is logged in; warm them.
       this.$.restAPI.getPreferences();
       this.$.restAPI.getDiffPreferences();
+      this._accountHeartbeat();
     },
 
     _viewChanged: function(view) {
@@ -227,6 +232,26 @@
     _handleRegistrationDialogClose: function(e) {
       this.params.justRegistered = false;
       this.$.registration.close();
+    },
+
+    /**
+     * Check that account credentials are valid. If not, an auth toast will
+     * appear automatically.
+     *
+     * While the page is in the foreground, the check is done every
+     * ACCOUNT_HEARTBEAT_INTERVAL_MS milliseconds. If the tab is backgrounded
+     * in between checks, and enough time has elapsed, the check will wait to
+     * execute immediately when foregrounded.
+     */
+    _accountHeartbeat: function() {
+      this.async(function() {
+        window.requestAnimationFrame(function() {
+          // Fetch the credentials directly to avoid REST response caching.
+          this.$.restAPI.getAccount(true).then(function() {
+            this._accountHeartbeat();
+          }.bind(this))
+        }.bind(this));
+      }, ACCOUNT_HEARTBEAT_INTERVAL_MS);
     },
   });
 })();

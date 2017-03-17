@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2aa270e1_90a7bf75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-17T03:54:59Z",
+      "side": 1,
+      "message": "Fix launching daemon in Eclipse on Mac Os X?",
+      "revId": "21be6a5731727829936fa57181557c099a78d82a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "920b6454_8dc9e4cb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -31,19 +31,21 @@ limitations under the License.
 <script>
   suite('gr-storage tests', function() {
     var element;
-    var storage;
 
-    function cleanupStorage() {
-      // Make sure there are no entries in storage.
-      for (var key in window.localStorage) {
-        window.localStorage.removeItem(key);
-      }
+    function mockStorage(opt_quotaExceeded) {
+      return {
+        getItem: function(key) { return this[key]; },
+        removeItem: function(key) { delete this[key]; },
+        setItem: function(key, value) {
+          if (opt_quotaExceeded) { throw {code: 22}; /* Quota exceeded */ }
+          this[key] = value;
+        },
+      };
     }
 
     setup(function() {
       element = fixture('basic');
-      storage = element._storage;
-      cleanupStorage();
+      element._storage = mockStorage();
     });
 
     test('storing, retrieving and erasing drafts', function() {
@@ -68,17 +70,15 @@ limitations under the License.
 
       // Setting the draft stores it under the expected key.
       element.setDraftComment(location, 'my comment');
-      assert.isOk(storage.getItem(key));
-      assert.equal(JSON.parse(storage.getItem(key)).message, 'my comment');
-      assert.isOk(JSON.parse(storage.getItem(key)).updated);
+      assert.isOk(element._storage.getItem(key));
+      assert.equal(JSON.parse(element._storage.getItem(key)).message,
+          'my comment');
+      assert.isOk(JSON.parse(element._storage.getItem(key)).updated);
 
       // Erasing the draft removes the key.
       element.eraseDraftComment(location);
-      assert.isNotOk(storage.getItem(key));
-
-      cleanupStorage();
+      assert.isNotOk(element._storage.getItem(key));
     });
-
 
     test('automatically removes old drafts', function() {
       var changeNum = 1234;
@@ -100,7 +100,7 @@ limitations under the License.
       var cleanupSpy = sinon.spy(element, '_cleanupDrafts');
 
       // Create a message with a timestamp that is a second behind the max age.
-      storage.setItem(key, JSON.stringify({
+      element._storage.setItem(key, JSON.stringify({
         message: 'old message',
         updated: Date.now() - 24 * 60 * 60 * 1000 - 1000,
       }));
@@ -110,10 +110,9 @@ limitations under the License.
 
       assert.isTrue(cleanupSpy.called);
       assert.isNotOk(draft);
-      assert.isNotOk(storage.getItem(key));
+      assert.isNotOk(element._storage.getItem(key));
 
       cleanupSpy.restore();
-      cleanupStorage();
     });
 
     test('_getDraftKey', function() {
@@ -137,6 +136,26 @@ limitations under the License.
       };
       expectedResult = 'draft:1234:5:my_source_file.js:123:1-1-1-2';
       assert.equal(element._getDraftKey(location), expectedResult);
+    });
+
+    test('exceeded quota disables storage', function() {
+      element._storage = mockStorage(true);
+      assert.isFalse(element._exceededQuota);
+
+      var changeNum = 1234;
+      var patchNum = 5;
+      var path = 'my_source_file.js';
+      var line = 123;
+      var location = {
+        changeNum: changeNum,
+        patchNum: patchNum,
+        path: path,
+        line: line,
+      };
+      var key = element._getDraftKey(location);
+      element.setDraftComment(location, 'my comment');
+      assert.isTrue(element._exceededQuota);
+      assert.isNotOk(element._storage.getItem(key));
     });
   });
 </script>

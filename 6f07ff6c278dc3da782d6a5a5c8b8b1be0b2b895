@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "710d3be3_d7e5402a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-17T11:58:54Z",
+      "side": 1,
+      "message": "Not quite sure what you ack\u0027d here. Can you please provide a rationale why you think this should not be changed?",
+      "parentUuid": "5cc17d89_f705389f",
+      "range": {
+        "startLine": 63,
+        "startChar": 28,
+        "endLine": 63,
+        "endChar": 52
+      },
+      "revId": "6f07ff6c278dc3da782d6a5a5c8b8b1be0b2b895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fff9f953_c6575648",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
         "patchSetId": 3
@@ -107,6 +131,30 @@
       "side": 1,
       "message": "I disagree. I\u0027m using it for consistency and readability reasons.",
       "parentUuid": "374fc6f7_a3768e47",
+      "range": {
+        "startLine": 135,
+        "startChar": 12,
+        "endLine": 135,
+        "endChar": 27
+      },
+      "revId": "6f07ff6c278dc3da782d6a5a5c8b8b1be0b2b895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5645356d_72168bd9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-17T11:58:54Z",
+      "side": 1,
+      "message": "Keeping it consistent with the rest of the class is a good reason not to change it. I just marked it because it seems that in Gerrit we don\u0027t use Strings.format() most of the time when it\u0027s just about concatenating two strings.",
+      "parentUuid": "2c96a3e1_0f73c8e1",
       "range": {
         "startLine": 135,
         "startChar": 12,

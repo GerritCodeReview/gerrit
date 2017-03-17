@@ -20,6 +20,10 @@
   var SIGN_IN_HEIGHT_PX = 500;
   var TOO_MANY_FILES = 'too many files to find conflicts';
 
+  // Check account credentials every ten minutes (or until the tab is
+  // foregrounded).
+  var ACCOUNT_HEARTBEAT_INTERVAL_MS = 10*60*1000;
+
   Polymer({
     is: 'gr-error-manager',
 
@@ -162,6 +166,26 @@
       this.unlisten(this._alertElement, 'action', '_createLoginPopup');
       this._hideAlert();
       this._showAlert('Credentials refreshed.');
+    },
+
+    /**
+     * Check that account credentials are valid. If not, an auth toast will
+     * appear automatically.
+     *
+     * While the page is in the foreground, the check is done every
+     * ACCOUNT_HEARTBEAT_INTERVAL_MS milliseconds. If the tab is backgrounded
+     * in between checks, and enough time has elapsed, the check will wait to
+     * execute immediately when foregrounded.
+     */
+    accountHeartbeat: function() {
+      this.async(function() {
+        window.requestAnimationFrame(function() {
+          // Fetch the credentials directly to avoid REST response caching.
+          this.$.restAPI.getAccount(true).then(function() {
+            this.accountHeartbeat();
+          }.bind(this))
+        }.bind(this));
+      }, ACCOUNT_HEARTBEAT_INTERVAL_MS);
     },
   });
 })();

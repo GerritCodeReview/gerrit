@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58d3670c_d2ce586f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-17T04:35:08Z",
+      "side": 1,
+      "message": "Well, the safe-html-types dependency was missing, so that the bug report is invalid, and I fixed it in the new ps in: [1]. So may be remove that from this commit message?\n\n* [1] https://gerrit-review.googlesource.com/#/c/99739/",
+      "revId": "1fc0cef8c1f54b26ca1099894b50f7b6f15ad61b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

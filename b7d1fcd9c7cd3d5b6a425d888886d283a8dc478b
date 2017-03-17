@@ -16,6 +16,24 @@
       "revId": "b7d1fcd9c7cd3d5b6a425d888886d283a8dc478b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2f2839a_42799919",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2017-03-17T00:08:43Z",
+      "side": 1,
+      "message": "The JSON response eventually calls replyBinaryResult, so it was fine. Though, because here I cannot tell if I should use InputStream or Reader, I moved the logic to the request parsing code.\n\nI changed to use ServletUtils for InputStream. I use Reader.skip because it seems it won\u0027t allow partial read.\n\nSince the logic moved to the request parsing code, it discards the unused request body for most of the requests.\n\nIOException will be handled as if it\u0027s thrown in the request parsing (except one case).",
+      "parentUuid": "64170d72_8b12b5d6",
+      "revId": "b7d1fcd9c7cd3d5b6a425d888886d283a8dc478b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

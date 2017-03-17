@@ -69,6 +69,30 @@
       "revId": "2da2d4865d0b9fccfe808ed86c781e6e7dc5edab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e00ebd6_9681e3ad",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugins/gr-plugins.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-17T00:20:48Z",
+      "side": 1,
+      "message": "My only issue is with the use of plural. \n\nWhat about...\n* gr-plugin-host",
+      "parentUuid": "88254178_362992b7",
+      "range": {
+        "startLine": 18,
+        "startChar": 9,
+        "endLine": 18,
+        "endChar": 19
+      },
+      "revId": "2da2d4865d0b9fccfe808ed86c781e6e7dc5edab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "acf90d192d9075477e4bd7c164ccd577150317f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0b62c14_a069b800",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-17T17:49:20Z",
+      "side": 1,
+      "message": "To me, the line number isn\u0027t really a complete address without also providing the side. Ideally, we\u0027d state the patch number of the problem comment instead, but this component doesn\u0027t get told the patch range.",
+      "parentUuid": "974f604b_59942412",
+      "range": {
+        "startLine": 188,
+        "startChar": 31,
+        "endLine": 188,
+        "endChar": 35
+      },
+      "revId": "acf90d192d9075477e4bd7c164ccd577150317f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

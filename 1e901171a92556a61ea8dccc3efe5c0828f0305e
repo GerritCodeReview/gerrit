@@ -165,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "868b0533_a2d768ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/Schema.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-17T16:40:02Z",
+      "side": 1,
+      "message": "\u003e The way I think of Values is it really is just a Stream with a FieldDef attached to it describing where the stream came from.. In this implementation it is a value class that has public getters for the associated Stream/FieldDef.\n\nIf we stay with this implementation, we should add a warning that Values#getValues may only be called once and the Values instance shouldn\u0027t be used or passed along afterwards anymore.\n\n\u003e It would be nice if we had a type that implemented Stream but also had an additional getField() method indicating where it came from. Then we wouldn\u0027t have a getter for the Stream, we would just be passing around FieldValueStreams.\n\nI would prefer that much more.\n\n\u003e Is it feasible to have a delegating wrapper implementation of Stream? I haven\u0027t looked into it.\n\nAs Stream is an interface, providing a delegating wrapper implementation should be possible. We would only need to delegate about 40 methods. ;-)",
+      "parentUuid": "415afd7a_21609bb6",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 28
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9e006c1a_fc13db7f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/Schema.java",
         "patchSetId": 3
@@ -200,6 +224,30 @@
       "side": 1,
       "message": "I don\u0027t disagree, but I couldn\u0027t think of another way to implement ChangeSubIndex#toDoc without materializing the stream to a list. Specifically, that method needs to add additional fields to the document only for a subset of the values in the stream, and then delegate to the superclass implementation to get the rest of the values.",
       "parentUuid": "9e006c1a_fc13db7f",
+      "range": {
+        "startLine": 82,
+        "startChar": 16,
+        "endLine": 82,
+        "endChar": 20
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "882cdc97_8410d470",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/Schema.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-17T16:40:02Z",
+      "side": 1,
+      "message": "Would materializing the list hurt us so much? I\u0027d rather take on the overhead of materialization than use peek. To keep it limited, we could materialize the list in ChangeSubIndex#add and recreate the stream for the super call.\n\nAnother possibility would be to refactor AbstractLuceneIndex and ChangeSubIndex. Instead of overriding the add() method, we could collect all consumers of values first, combine them with Consumer#andThen and then use the stream only once.\n\nI found another reason [*] why we shouldn\u0027t use peek: The terminal operation determines when the consumer given to peek is executed and whether it\u0027s executed at all.\n\n[*] http://stackoverflow.com/a/33636377",
+      "parentUuid": "a043c6ad_e4846319",
       "range": {
         "startLine": 82,
         "startChar": 16,

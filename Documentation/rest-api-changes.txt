@@ -721,7 +721,11 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
           "name": "Jane Roe",
           "email": "jane.roe@example.com",
           "username": "jroe"
-        }
+        },
+        {
+          "name": "Jane Roe",
+          "email": "jane.roe@example.com",
+        },
       ]
     },
     "reviewer_updates": [
@@ -2764,6 +2768,34 @@ To confirm the addition of the reviewers, resend the request with the
   }
 ----
 
+If reviewer.enableByEmail is set for the project, you can also add reviewers and CCs who do
+not currently have an account with Gerrit. Note that the email address is mandatory while the
+name is optional.
+
+Reviewers without Gerrit accounts can only be added on public changes.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "reviewer": "John Doe <un.registered@reviewer.com>"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "input": "John Doe <un.registered@reviewer.com>"
+  }
+----
+
 [[delete-reviewer]]
 === Delete Reviewer
 --
@@ -2792,6 +2824,33 @@ request:
   Content-Type: application/json; charset=UTF-8
 
   {
+    "notify": "NONE"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[delete-reviewer-by-email]]
+=== Delete Reviewer
+--
+'POST /changes/link:#change-id[\{change-id\}]/reviewers_by_email.delete'
+--
+
+Deletes a reviewer who does not have a Gerrit account from a change.
+
+Options can be provided in the request body as a
+link:#delete-reviewer-by-email-input[DeleteReviewerByEmailInput] entity.
+
+.Request
+----
+  POST /changes/link:#change-id[\{change-id\}]/reviewers_by_email.delete HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    reviewer: "John Doe <un.registered@reviewer.com>"
     "notify": "NONE"
   }
 ----
@@ -5427,6 +5486,27 @@ reviewer.
 [options="header",cols="1,^1,5"]
 |=============================
 |Field Name      ||Description
+|`notify`        |optional|
+Notify handling that defines to whom email notifications should be sent
+after the reviewer is deleted. +
+Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
+If not set, the default is `ALL`.
+|`notify_details`|optional|
+Additional information about whom to notify about the update as a map
+of recipient type to link:#notify-info[NotifyInfo] entity.
+|=============================
+
+[[delete-reviewer-by-email-input]]
+=== DeleteReviewerByEmailInput
+The `DeleteReviewerByEmailInput` entity contains options for the deletion of a
+reviewer who does not have a Gerrit account.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name      ||Description
+|`reviewer`     ||
+The email address or name and email address of the reviewer to delete.
+Example: John Doe <un.registered@reviewer.com>
 |`notify`        |optional|
 Notify handling that defines to whom email notifications should be sent
 after the reviewer is deleted. +

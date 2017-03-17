@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
 import com.google.gerrit.extensions.api.changes.Changes;
+import com.google.gerrit.extensions.api.changes.DeleteReviewerByEmailInput;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
@@ -51,6 +52,7 @@ import com.google.gerrit.server.change.Check;
 import com.google.gerrit.server.change.CreateMergePatchSet;
 import com.google.gerrit.server.change.DeleteAssignee;
 import com.google.gerrit.server.change.DeleteChange;
+import com.google.gerrit.server.change.DeleteReviewerByEmail;
 import com.google.gerrit.server.change.GetAssignee;
 import com.google.gerrit.server.change.GetHashtags;
 import com.google.gerrit.server.change.GetPastAssignees;
@@ -121,6 +123,7 @@ class ChangeApiImpl implements ChangeApi {
   private final ChangeEditApiImpl.Factory changeEditApi;
   private final Check check;
   private final Index index;
+  private final DeleteReviewerByEmail deleteReviewerByEmail;
   private final Move move;
 
   @Inject
@@ -157,6 +160,7 @@ class ChangeApiImpl implements ChangeApi {
       Check check,
       Index index,
       Move move,
+      DeleteReviewerByEmail deleteReviewerByEmail,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -190,6 +194,7 @@ class ChangeApiImpl implements ChangeApi {
     this.check = check;
     this.index = index;
     this.move = move;
+    this.deleteReviewerByEmail = deleteReviewerByEmail;
     this.change = change;
   }
 
@@ -223,6 +228,15 @@ class ChangeApiImpl implements ChangeApi {
       return reviewerApi.create(reviewers.parse(change, IdString.fromDecoded(id)));
     } catch (OrmException e) {
       throw new RestApiException("Cannot parse reviewer", e);
+    }
+  }
+
+  @Override
+  public void deleteReviewerByEmail(DeleteReviewerByEmailInput input) throws RestApiException {
+    try {
+      deleteReviewerByEmail.apply(change, input);
+    } catch (OrmException | UpdateException e) {
+      throw new RestApiException("Cannot remove reviewer", e);
     }
   }
 

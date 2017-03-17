@@ -73,6 +73,8 @@ public interface ChangeApi {
    */
   ReviewerApi reviewer(String id) throws RestApiException;
 
+  void deleteReviewerByEmail(DeleteReviewerByEmailInput in) throws RestApiException;
+
   void abandon() throws RestApiException;
 
   void abandon(AbandonInput in) throws RestApiException;
@@ -268,6 +270,10 @@ public interface ChangeApi {
 
     @Override
     public ReviewerApi reviewer(String id) {
+      throw new NotImplementedException();
+    }
+
+    public void deleteReviewerByEmail(DeleteReviewerByEmailInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

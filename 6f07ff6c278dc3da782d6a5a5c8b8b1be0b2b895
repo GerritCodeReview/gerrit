@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5cc17d89_f705389f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-17T08:47:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9d41f8a9_06f36ae1",
+      "range": {
+        "startLine": 63,
+        "startChar": 28,
+        "endLine": 63,
+        "endChar": 52
+      },
+      "revId": "6f07ff6c278dc3da782d6a5a5c8b8b1be0b2b895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "374fc6f7_a3768e47",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "6f07ff6c278dc3da782d6a5a5c8b8b1be0b2b895",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c96a3e1_0f73c8e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-17T08:47:14Z",
+      "side": 1,
+      "message": "I disagree. I\u0027m using it for consistency and readability reasons.",
+      "parentUuid": "374fc6f7_a3768e47",
+      "range": {
+        "startLine": 135,
+        "startChar": 12,
+        "endLine": 135,
+        "endChar": 27
+      },
+      "revId": "6f07ff6c278dc3da782d6a5a5c8b8b1be0b2b895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

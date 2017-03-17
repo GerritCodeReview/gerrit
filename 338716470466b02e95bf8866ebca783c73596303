@@ -16,6 +16,23 @@
       "revId": "338716470466b02e95bf8866ebca783c73596303",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e9befa5_aa566271",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-17T18:22:02Z",
+      "side": 1,
+      "message": "If a user gets into such a state, what\u0027ll break?",
+      "revId": "338716470466b02e95bf8866ebca783c73596303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

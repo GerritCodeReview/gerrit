@@ -11,7 +11,7 @@
       "author": {
         "id": 1011842
       },
-      "writtenOn": "Feb 7, 2017 4:50:30 PM",
+      "writtenOn": "2017-02-08T00:50:30Z",
       "side": 1,
       "message": "it is still useful so tests can avoid calling?\n\n(i.e. s/for tests avoid/so tests can avoid/)",
       "range": {
@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "5ce63085_99827316",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T19:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fb797ab_6cc31639",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "522952abd36885a0a65cc940e702c2cd0684009f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86a632a3_cf822a71",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
         "patchSetId": 3
@@ -34,7 +58,7 @@
       "author": {
         "id": 1011123
       },
-      "writtenOn": "Feb 7, 2017 3:31:56 PM",
+      "writtenOn": "2017-02-07T23:31:56Z",
       "side": 1,
       "message": "prefix",
       "range": {
@@ -57,7 +81,7 @@
       "author": {
         "id": 1011842
       },
-      "writtenOn": "Feb 7, 2017 4:48:27 PM",
+      "writtenOn": "2017-02-08T00:48:27Z",
       "side": 1,
       "message": "This is checking that \u0027name\u0027 doesn\u0027t start with refs/, or in other words that it is a suffix that doesn\u0027t have refs/sequences/ already prepended to it.\n\nMight be simpler to avoid the check. The RepoSequence constructor doesn\u0027t have an analogous check, so I guess it\u0027s allowed to have a sequence with name starting with \"refs/\", even though that would be confusing.\n\nAn alternative check would be to disallow anything with / in it:\n\n private static String validSequenceName(String name) {\n   checkNotNull(name, \"name\");\n   checkArgument(!name.contains(\u0027/\u0027), \"expected ref suffix, got %s\", name);\n   return name;\n }\n\nand to use that here and in the RepoSequence constructor.",
       "parentUuid": "86a632a3_cf822a71",
@@ -75,13 +99,37 @@
       "author": {
         "id": 1011123
       },
-      "writtenOn": "Feb 7, 2017 4:56:06 PM",
+      "writtenOn": "2017-02-08T00:56:06Z",
       "side": 1,
       "message": "\u003e This is checking that \u0027name\u0027 doesn\u0027t start with refs/,\n\nAh, right. I misread the logic of the check.  Thanks.\n\n\u003e or in other words that it is a suffix that doesn\u0027t have refs/sequences/ already prepended to it.\n\nIn that case shouldn\u0027t we be checking against RefNames.REFS_SEQUENCES rather than Constants.R_REFS?",
       "parentUuid": "ec031370_7ace9bcb",
       "revId": "522952abd36885a0a65cc940e702c2cd0684009f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "738e876e_f78a802d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T19:26:09Z",
+      "side": 1,
+      "message": "Moved the check to the RepoSequence constructor, which should clarify my intent.",
+      "parentUuid": "1eb80999_6c13fc85",
+      "range": {
+        "startLine": 273,
+        "startChar": 68,
+        "endLine": 273,
+        "endChar": 74
+      },
+      "revId": "522952abd36885a0a65cc940e702c2cd0684009f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,12 +141,30 @@
       "author": {
         "id": 1011842
       },
-      "writtenOn": "Feb 7, 2017 4:48:27 PM",
+      "writtenOn": "2017-02-08T00:48:27Z",
       "side": 1,
       "message": "optional --- feel free to add a TODO if this is complicated: could this go in the same pack and ref transaction as the permission grant?",
       "revId": "522952abd36885a0a65cc940e702c2cd0684009f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09097571_8716a806",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T19:26:09Z",
+      "side": 1,
+      "message": "It already uses the same BatchRefUpdate. Using the same ObjectInserter is not currently supported by VersionedMetaData. I can add a comment but I\u0027m not sure it rises to the level of a TODO.",
+      "parentUuid": "b2ecffd6_65de1cb8",
+      "revId": "522952abd36885a0a65cc940e702c2cd0684009f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,9 +176,33 @@
       "author": {
         "id": 1011123
       },
-      "writtenOn": "Feb 7, 2017 3:31:56 PM",
+      "writtenOn": "2017-02-07T23:31:56Z",
       "side": 1,
       "message": "allProjectsName",
+      "range": {
+        "startLine": 207,
+        "startChar": 54,
+        "endLine": 207,
+        "endChar": 63
+      },
+      "revId": "522952abd36885a0a65cc940e702c2cd0684009f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad07c38b_2cee858b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T19:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a097d26e_374672e2",
       "range": {
         "startLine": 207,
         "startChar": 54,

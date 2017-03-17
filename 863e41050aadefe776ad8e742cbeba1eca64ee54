@@ -10,12 +10,30 @@
       "author": {
         "id": 1011842
       },
-      "writtenOn": "Feb 7, 2017 4:48:27 PM",
+      "writtenOn": "2017-02-08T00:48:27Z",
       "side": 0,
       "message": "unrelated removal?",
       "revId": "863e41050aadefe776ad8e742cbeba1eca64ee54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d6d2581_a41dd793",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaUpdaterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T19:26:09Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "0f739408_9b6823c9",
+      "revId": "863e41050aadefe776ad8e742cbeba1eca64ee54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

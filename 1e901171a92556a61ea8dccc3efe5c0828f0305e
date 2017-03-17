@@ -189,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "373e9a06_dc4ec705",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/Schema.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T16:47:14Z",
+      "side": 1,
+      "message": "\u003e As Stream is an interface, providing a delegating wrapper implementation should be possible. We would only need to delegate about 40 methods. ;-)\n\nI wouldn\u0027t feel that bad about the boilerplate, but it does seems like a lot of extra allocations. It would have to be:\n\n @Override\n public ValueStream\u003cT\u003e filter(Predicate\u003cT\u003e p) {\n   return ValueStream.wrap(delegate.filter(p));\n }\n\ni.e. adding one allocation per method call.",
+      "parentUuid": "868b0533_a2d768ca",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 28
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9e006c1a_fc13db7f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/Schema.java",
         "patchSetId": 3
@@ -248,6 +272,30 @@
       "side": 1,
       "message": "Would materializing the list hurt us so much? I\u0027d rather take on the overhead of materialization than use peek. To keep it limited, we could materialize the list in ChangeSubIndex#add and recreate the stream for the super call.\n\nAnother possibility would be to refactor AbstractLuceneIndex and ChangeSubIndex. Instead of overriding the add() method, we could collect all consumers of values first, combine them with Consumer#andThen and then use the stream only once.\n\nI found another reason [*] why we shouldn\u0027t use peek: The terminal operation determines when the consumer given to peek is executed and whether it\u0027s executed at all.\n\n[*] http://stackoverflow.com/a/33636377",
       "parentUuid": "a043c6ad_e4846319",
+      "range": {
+        "startLine": 82,
+        "startChar": 16,
+        "endLine": 82,
+        "endChar": 20
+      },
+      "revId": "1e901171a92556a61ea8dccc3efe5c0828f0305e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1851af37_11860762",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/Schema.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-17T16:47:14Z",
+      "side": 1,
+      "message": "\u003e Would materializing the list hurt us so much? I\u0027d rather take on the overhead of materialization than use peek.\n\nHonestly, I would rather drop this whole idea than materialize the list. Not materializing is the main benefit we would be getting from using Stream instead of Iterable, since in many current FieldDef implementations it returns a materialized Collection.\n\n(I\u0027m not trying to sound whiny--this is an RFC change, and I\u0027m fine if we decide the benefits do not outweigh the costs.)",
+      "parentUuid": "882cdc97_8410d470",
       "range": {
         "startLine": 82,
         "startChar": 16,

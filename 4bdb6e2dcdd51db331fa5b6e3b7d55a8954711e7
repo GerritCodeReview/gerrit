@@ -22,6 +22,30 @@
       "revId": "4bdb6e2dcdd51db331fa5b6e3b7d55a8954711e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "137a008f_ab73a7ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-17T05:15:51Z",
+      "side": 1,
+      "message": "This is the version used by soy.",
+      "parentUuid": "42e7f6ae_33df6088",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "4bdb6e2dcdd51db331fa5b6e3b7d55a8954711e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

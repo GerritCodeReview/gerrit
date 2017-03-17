@@ -69,6 +69,24 @@
       "revId": "338716470466b02e95bf8866ebca783c73596303",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0651c3a_f69b280f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-17T21:02:58Z",
+      "side": 1,
+      "message": "\u003e the only way I know of to end up with a zero-quota\n\nFYI: https://demo.agektmr.com/storage/\n\nSo it seems the effects are invisible, so that\u0027s probably not severe.\n\nWhat probably worth investigating, is how to recover from that state - if, say, browser is out of quota, should we show a toast stating that so user could clear it?",
+      "parentUuid": "7c6cbb3f_12ba7d47",
+      "revId": "338716470466b02e95bf8866ebca783c73596303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

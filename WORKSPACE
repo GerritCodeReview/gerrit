@@ -906,8 +906,8 @@ maven_jar(
 
 maven_jar(
     name = "elasticsearch",
-    artifact = "org.elasticsearch:elasticsearch:2.4.0",
-    sha1 = "aeb9704a76fa8654c348f38fcbb993a952a7ab07",
+    artifact = "org.elasticsearch:elasticsearch:2.4.4",
+    sha1 = "e69930bc794c539d34778e665d6f8ccbffd42c6f",
 )
 
 # Java REST client for Elasticsearch.

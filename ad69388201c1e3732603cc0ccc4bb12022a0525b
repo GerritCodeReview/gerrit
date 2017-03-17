@@ -46,6 +46,30 @@
       "revId": "ad69388201c1e3732603cc0ccc4bb12022a0525b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "660c8ca7_79d8262c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-17T17:45:35Z",
+      "side": 1,
+      "message": "\u003e  on large screens, it\u0027s too hard to compare a side by side view when the columns are far apart, but doesn\u0027t want scrolling when viewing on a smaller screen.\n\nSounds like this describes something other than fit-to-screen. To me, fit-to-screen means stretching the diff no-matter how far apart the sides get.",
+      "parentUuid": "55b07388_491ffc75",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "ad69388201c1e3732603cc0ccc4bb12022a0525b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

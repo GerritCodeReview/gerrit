@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "9be94881_2d79aeee",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2017-03-17T19:35:38Z",
+      "side": 1,
+      "message": "\u003e the only caller of parseRequest consumes the request after processing.\n\nI cannot see that. Can you give me a pointer?",
+      "parentUuid": "081afb72_95383e0d",
+      "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e497582b_673b5e19",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 3
@@ -56,6 +74,24 @@
       "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9a55566_d1bf4820",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2017-03-17T19:35:38Z",
+      "side": 1,
+      "message": "Please see consumeRequestBody below. It\u0027s a method that handles this case.",
+      "parentUuid": "e497582b_673b5e19",
+      "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

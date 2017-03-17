@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail.send;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
@@ -28,7 +29,9 @@ import java.util.Set;
 /** Sends an email alerting a user to a new change for them to review. */
 public abstract class NewChangeSender extends ChangeEmail {
   private final Set<Account.Id> reviewers = new HashSet<>();
+  private final Set<Address> reviewersByEmail = new HashSet<>();
   private final Set<Account.Id> extraCC = new HashSet<>();
+  private final Set<Address> extraCCByEmail = new HashSet<>();
 
   protected NewChangeSender(EmailArguments ea, ChangeData cd) throws OrmException {
     super(ea, "newchange", cd);
@@ -38,8 +41,16 @@ public abstract class NewChangeSender extends ChangeEmail {
     reviewers.addAll(cc);
   }
 
+  public void addReviewersByEmail(final Collection<Address> cc) {
+    reviewersByEmail.addAll(cc);
+  }
+
   public void addExtraCC(final Collection<Account.Id> cc) {
     extraCC.addAll(cc);
+  }
+
+  public void addExtraCCByEmail(final Collection<Address> cc) {
+    extraCCByEmail.addAll(cc);
   }
 
   @Override
@@ -55,9 +66,11 @@ public abstract class NewChangeSender extends ChangeEmail {
       case ALL:
       default:
         add(RecipientType.CC, extraCC);
+        extraCCByEmail.stream().forEach(cc -> add(RecipientType.CC, cc));
         //$FALL-THROUGH$
       case OWNER_REVIEWERS:
         add(RecipientType.TO, reviewers);
+        addByEmail(RecipientType.TO, reviewersByEmail);
         break;
     }
 

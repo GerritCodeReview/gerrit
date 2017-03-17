@@ -180,6 +180,20 @@ public abstract class ChangeEmail extends NotificationEmail {
     setHeader("X-Gerrit-Change-Number", "" + change.getChangeId());
     setChangeUrlHeader();
     setCommitIdHeader();
+
+    if (notify.ordinal() >= NotifyHandling.OWNER_REVIEWERS.ordinal()) {
+      try {
+        // TODO(hiesel) Load from index instead
+        addByEmail(
+            RecipientType.CC,
+            changeData.notes().getReviewersByEmail().byState(ReviewerStateInternal.CC));
+        addByEmail(
+            RecipientType.TO,
+            changeData.notes().getReviewersByEmail().byState(ReviewerStateInternal.REVIEWER));
+      } catch (OrmException e) {
+        throw new EmailException("Failed to add unregistered CCs " + change.getChangeId(), e);
+      }
+    }
   }
 
   private void setChangeUrlHeader() {

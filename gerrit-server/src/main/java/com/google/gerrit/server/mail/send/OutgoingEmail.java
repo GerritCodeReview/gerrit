@@ -441,6 +441,13 @@ public abstract class OutgoingEmail {
     }
   }
 
+  /** Schedule this message for delivery to the listed address. */
+  protected void addByEmail(final RecipientType rt, final Collection<Address> list) {
+    for (final Address id : list) {
+      add(rt, id);
+    }
+  }
+
   protected void add(final RecipientType rt, final UserIdentity who) {
     if (who != null && who.getAccount() != null) {
       add(rt, who.getAccount());

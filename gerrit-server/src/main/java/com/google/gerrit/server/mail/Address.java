@@ -42,6 +42,14 @@ public class Address {
     throw new IllegalArgumentException("Invalid email address: " + in);
   }
 
+  public static Address tryParse(String in) {
+    try {
+      return parse(in);
+    } catch (IllegalArgumentException e) {
+      return null;
+    }
+  }
+
   final String name;
   final String email;
 

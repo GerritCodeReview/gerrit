@@ -14,11 +14,14 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
@@ -37,6 +40,7 @@ public class ReviewerResource implements RestResource {
   private final ChangeResource change;
   private final RevisionResource revision;
   private final IdentifiedUser user;
+  private final Address address;
 
   @AssistedInject
   ReviewerResource(
@@ -44,8 +48,9 @@ public class ReviewerResource implements RestResource {
       @Assisted ChangeResource change,
       @Assisted Account.Id id) {
     this.change = change;
-    this.revision = null;
     this.user = userFactory.create(id);
+    this.revision = null;
+    this.address = null;
   }
 
   @AssistedInject
@@ -56,6 +61,21 @@ public class ReviewerResource implements RestResource {
     this.revision = revision;
     this.change = revision.getChangeResource();
     this.user = userFactory.create(id);
+    this.address = null;
+  }
+
+  ReviewerResource(ChangeResource change, Address address) {
+    this.change = change;
+    this.address = address;
+    this.revision = null;
+    this.user = null;
+  }
+
+  ReviewerResource(RevisionResource revision, Address address) {
+    this.revision = revision;
+    this.change = revision.getChangeResource();
+    this.address = address;
+    this.user = null;
   }
 
   public ChangeResource getChangeResource() {
@@ -75,7 +95,21 @@ public class ReviewerResource implements RestResource {
   }
 
   public IdentifiedUser getReviewerUser() {
+    checkArgument(user != null, "no user provided");
     return user;
+  }
+
+  public Address getReviewerByEmail() {
+    checkArgument(address != null, "no address provided");
+    return address;
+  }
+
+  /**
+   * @return true if the resource was constructed by providing an {@code Address}; false if the
+   *     resource was constructed by providing an {@code Account.Id}.
+   */
+  public boolean isByEmail() {
+    return user == null;
   }
 
   /**
@@ -91,6 +125,7 @@ public class ReviewerResource implements RestResource {
    *     {@link #getControl()}).
    */
   public ChangeControl getReviewerControl() {
+    checkArgument(user != null, "no user provided");
     return change.getControl().forUser(user);
   }
 }

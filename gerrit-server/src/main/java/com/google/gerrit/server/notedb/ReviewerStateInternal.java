@@ -29,6 +29,10 @@ public enum ReviewerStateInternal {
   /** The user was previously a reviewer on the change, but was removed. */
   REMOVED(new FooterKey("Removed"), ReviewerState.REMOVED);
 
+  public static ReviewerStateInternal fromReviewerState(ReviewerState state) {
+    return ReviewerStateInternal.values()[state.ordinal()];
+  }
+
   static {
     boolean ok = true;
     if (ReviewerStateInternal.values().length != ReviewerState.values().length) {

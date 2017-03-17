@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7857b20_162c989a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-17T05:15:02Z",
+      "side": 1,
+      "message": "The previous release also had the same dependency.  I missed that it was not on the classpath.",
+      "revId": "761a19ebc3bdba39e18caad0fd4ee1a0f8ceddab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

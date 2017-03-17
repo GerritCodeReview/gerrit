@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c70a24_21d29efc",
+        "filename": "WORKSPACE",
+        "patchSetId": 28
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-17T08:34:01Z",
+      "side": 1,
+      "message": "This should be removed.",
+      "range": {
+        "startLine": 192,
+        "startChar": 4,
+        "endLine": 192,
+        "endChar": 28
+      },
+      "revId": "437bf49fe4ed5941536bd6f8d20cd7591b9f3797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

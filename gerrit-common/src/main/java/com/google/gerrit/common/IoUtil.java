@@ -26,6 +26,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
@@ -54,7 +55,7 @@ public final class IoUtil {
     }.start();
   }
 
-  public static void loadJARs(Iterable<Path> jars) {
+  public static void loadJARs(Collection<Path> jars) {
     ClassLoader cl = IoUtil.class.getClassLoader();
     if (!(cl instanceof URLClassLoader)) {
       throw noAddURL("Not loaded by URLClassLoader", null);

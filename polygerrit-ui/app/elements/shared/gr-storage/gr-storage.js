@@ -31,6 +31,10 @@
           return window.localStorage;
         },
       },
+      _exceededQuota: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     getDraftComment: function(location) {
@@ -94,7 +98,18 @@
     },
 
     _setObject: function(key, obj) {
-      this._storage.setItem(key, JSON.stringify(obj));
+      if (this._exceededQuota) { return; }
+      try {
+        this._storage.setItem(key, JSON.stringify(obj));
+      } catch (exc) {
+        if (exc.code === 22) {
+          this._exceededQuota = true;
+          console.warn('Local storage quota exceeded: disabling');
+          return;
+        } else {
+          throw exc;
+        }
+      }
     },
   });
 })();

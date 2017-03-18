@@ -104,7 +104,7 @@ public class GroupsIT extends AbstractDaemonTest {
     TestAccount u10 = accounts.create("u10", "u10@example.com", "Full Name 10");
     TestAccount u11_at =
         accounts.create("u11@something", "u11@example.com", "Full Name 11 With At");
-    TestAccount u11 = accounts.create("u11", "u11.another@example.com", "Full Name 11 Without At");
+    accounts.create("u11", "u11.another@example.com", "Full Name 11 Without At");
     gApi.groups().id(g).addMembers(u10.username, u11_at.username);
     assertMembers(g, u10, u11_at);
   }

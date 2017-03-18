@@ -16,6 +16,8 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_SEQUENCES;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -52,6 +54,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
  * Class for managing an incrementing sequence backed by a git repository.
@@ -117,7 +120,15 @@ public class RepoSequence {
       Retryer<RefUpdate.Result> retryer) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
     this.projectName = checkNotNull(projectName, "projectName");
-    this.refName = RefNames.REFS_SEQUENCES + checkNotNull(name, "name");
+
+    checkArgument(
+        name != null
+            && !name.startsWith(REFS)
+            && !name.startsWith(REFS_SEQUENCES.substring(REFS.length())),
+        "name should be a suffix to follow \"refs/sequences/\", got: %s",
+        name);
+    this.refName = RefNames.REFS_SEQUENCES + name;
+
     this.seed = checkNotNull(seed, "seed");
 
     checkArgument(batchSize > 0, "expected batchSize > 0, got: %s", batchSize);
@@ -264,5 +275,11 @@ public class RepoSequence {
     ru.setNewObjectId(newId);
     ru.setForceUpdate(true); // Required for non-commitish updates.
     return ru.update(rw);
+  }
+
+  public static ReceiveCommand storeNew(ObjectInserter ins, String name, int val)
+      throws IOException {
+    ObjectId newId = ins.insert(OBJ_BLOB, Integer.toString(val).getBytes(UTF_8));
+    return new ReceiveCommand(ObjectId.zeroId(), newId, RefNames.REFS_SEQUENCES + name);
   }
 }

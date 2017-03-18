@@ -22,6 +22,30 @@
       "revId": "0a8cc707de3dec6414305d32cde13aa49626c7aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09ea799b_a9e6296e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1012247
+      },
+      "writtenOn": "2017-03-18T10:21:06Z",
+      "side": 1,
+      "message": "My intention was to ensure that Gerrit is able to distinguish between a user called \"u11\" and another user \"u11@something\". Because I don\u0027t have any knowledge about groups or other account internals, I wanted to verify that there\u0027s nothing like \"oh let\u0027s ignore whatever is after @ when computing group membership\".\n\nThe way I understand assertMembers(), it checks that that group contins exactly the listed user accounts, right? Anyway, I think Gerrit is the only Java codebase I\u0027ve ever contributed to, so if there\u0027s a more common idiom to use here while presrving this intention, please feel free to improve this.",
+      "parentUuid": "c0c0ca2b_1bdb9c23",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 81
+      },
+      "revId": "0a8cc707de3dec6414305d32cde13aa49626c7aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

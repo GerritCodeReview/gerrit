@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22c00d3b_700d8562",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_x.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-18T07:01:41Z",
+      "side": 1,
+      "message": "On second thought, why should we make 2.0 upgrade code MariaDB aware?",
+      "revId": "9f8a5acbf5cea0e225afb0860be79a6dd74faa14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

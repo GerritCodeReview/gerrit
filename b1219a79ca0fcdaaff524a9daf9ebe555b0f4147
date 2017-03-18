@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "85c443f1_0bc093d3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_x.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-18T06:31:30Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 245,
+        "startChar": 6,
+        "endLine": 245,
+        "endChar": 11
+      },
+      "revId": "b1219a79ca0fcdaaff524a9daf9ebe555b0f4147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bc2a092_0967075a",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_x.java",
         "patchSetId": 32

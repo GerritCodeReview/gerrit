@@ -419,8 +419,8 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     RevCommit headAfterChange1 = change1.getCommit();
     PushOneCommit.Result change2 = createChange("subject 2", "fileName 2", "content 2");
     testRepo.reset(headAfterChange1);
-    change1 = amendChange(change1.getChangeId(), "subject 1 amend", "fileName 2",
-        "rework content 2");
+    change1 =
+        amendChange(change1.getChangeId(), "subject 1 amend", "fileName 2", "rework content 2");
     submit(change1.getChangeId());
     headAfterChange1 = getRemoteHead();
 

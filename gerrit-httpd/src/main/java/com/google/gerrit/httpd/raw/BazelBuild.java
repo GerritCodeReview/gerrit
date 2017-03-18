@@ -30,7 +30,6 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Properties;
-
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;

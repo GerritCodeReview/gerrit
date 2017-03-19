@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "aaa0b720_047cceee",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 31
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-19T16:49:46Z",
+      "side": 1,
+      "message": "This should not affect root urls. This just fixes it for prefixed urls so we can use the footer to get back to the gwt ui.",
+      "range": {
+        "startLine": 153,
+        "startChar": 33,
+        "endLine": 153,
+        "endChar": 54
+      },
+      "revId": "495d76d008be8d4a1f6266f36968a4f64eaf356d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "249f3306_e8717a41",
         "filename": "polygerrit-ui/app/elements/shared/gr-placeholder/gr-placeholder.html",
         "patchSetId": 31

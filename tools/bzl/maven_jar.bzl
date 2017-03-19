@@ -6,6 +6,16 @@ MAVEN_CENTRAL = "MAVEN_CENTRAL:"
 
 MAVEN_LOCAL = "MAVEN_LOCAL:"
 
+def define_license(name):
+  n = 'LICENSE-' + name
+  genrule(
+    name = n,
+    cmd = 'ln -s $SRCS $OUT',
+    srcs = [n],
+    out = n,
+    visibility = ['PUBLIC'],
+  )
+
 def _maven_release(ctx, parts):
   """induce jar and url name from maven coordinates."""
   if len(parts) not in [3, 4]:
@@ -156,6 +166,7 @@ maven_jar = repository_rule(
         "deps": attr.string_list(),
         "exports": attr.string_list(),
         "exclude": attr.string_list(),
+        "license": attr.string(),
     },
     local = True,
     implementation = _maven_jar_impl,

@@ -818,12 +818,10 @@
 
     _handleReloadChange: function(e) {
       return this._reload().then(function() {
-        // If the change was rebased, we need to reload the related changes.
+        // If the change was rebased, we need to reload the page with the
+        // latest patch.
         if (e.detail.action === 'rebase') {
-          this.$.relatedChanges.reload();
-          this.set('_patchRange.patchNum',
-              this._computeLatestPatchNum(this._allPatchSets));
-          this._updateSelected();
+          page.show(this.changePath(this._changeNum));
         }
       }.bind(this));
     },

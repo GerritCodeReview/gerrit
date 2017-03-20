@@ -35,6 +35,24 @@
       "revId": "ef018cbfdf0659e0a09b3ef1838e87143e09af84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990c7d9a_ac0e36ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-20T12:48:35Z",
+      "side": 1,
+      "message": "I see. The reason i\u0027m asking: there are a lot of other warnings and you are only fixing some of them. So I wanted to understand what is the system behind your approach to fixing only particular warnings and not other ;-) The system is: EP warnings only get generated for changed files only in your import tool chain into Google internal repository.\n\nThat sucks, of course. The correct way to do it is ask build tool chain to generate EP warnings for the whole code base. Due to Bazel/EP integration limitation it\u0027s currently not supported, unfortunately. Workaround, use my patch: [1]. It\u0027s easy to build Bazel from the source and use the custom built version.\n\n* [1] https://bazel-review.googlesource.com/7891",
+      "parentUuid": "7125a388_9dced98f",
+      "revId": "ef018cbfdf0659e0a09b3ef1838e87143e09af84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

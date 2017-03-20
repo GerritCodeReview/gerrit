@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -90,24 +91,36 @@ public abstract class BatchUpdate implements AutoCloseable {
       @Override
       public void configure() {
         factory(ReviewDbBatchUpdate.AssistedFactory.class);
+        factory(NoteDbBatchUpdate.AssistedFactory.class);
       }
     };
   }
 
   @Singleton
   public static class Factory {
+    private final NotesMigration migration;
     private final ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory;
+    private final NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory;
 
     @Inject
-    Factory(ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory) {
+    Factory(
+        NotesMigration migration,
+        ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory,
+        NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory) {
+      this.migration = migration;
       this.reviewDbBatchUpdateFactory = reviewDbBatchUpdateFactory;
+      this.noteDbBatchUpdateFactory = noteDbBatchUpdateFactory;
     }
 
     public BatchUpdate create(
         ReviewDb db, Project.NameKey project, CurrentUser user, Timestamp when) {
+      if (migration.disableChangeReviewDb()) {
+        return noteDbBatchUpdateFactory.create(db, project, user, when);
+      }
       return reviewDbBatchUpdateFactory.create(db, project, user, when);
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public void execute(
         Collection<BatchUpdate> updates,
         BatchUpdateListener listener,
@@ -119,10 +132,15 @@ public abstract class BatchUpdate implements AutoCloseable {
       // method above, which always returns instances of the type we expect. Just to be safe,
       // copy them into an ImmutableList so there is no chance the callee can pollute the input
       // collection.
-      @SuppressWarnings({"rawtypes", "unchecked"})
-      ImmutableList<ReviewDbBatchUpdate> reviewDbUpdates =
-          (ImmutableList) ImmutableList.copyOf(updates);
-      ReviewDbBatchUpdate.execute(reviewDbUpdates, listener, requestId, dryRun);
+      if (migration.disableChangeReviewDb()) {
+        ImmutableList<NoteDbBatchUpdate> noteDbUpdates =
+            (ImmutableList) ImmutableList.copyOf(updates);
+        NoteDbBatchUpdate.execute(noteDbUpdates, listener, requestId, dryRun);
+      } else {
+        ImmutableList<ReviewDbBatchUpdate> reviewDbUpdates =
+            (ImmutableList) ImmutableList.copyOf(updates);
+        ReviewDbBatchUpdate.execute(reviewDbUpdates, listener, requestId, dryRun);
+      }
     }
   }
 
@@ -278,7 +296,13 @@ public abstract class BatchUpdate implements AutoCloseable {
     return this;
   }
 
-  /** Execute {@link BatchUpdateOp#updateChange(ChangeContext)} in parallel for each change. */
+  /**
+   * Execute {@link BatchUpdateOp#updateChange(ChangeContext)} in parallel for each change.
+   *
+   * <p>This improves performance of writing to multiple changes in separate ReviewDb transactions.
+   * When only NoteDb is used, updates to all changes are written in a single batch ref update, so
+   * parallelization is not used and this option is ignored.
+   */
   public BatchUpdate updateChangesInParallel() {
     this.updateChangesInParallel = true;
     return this;

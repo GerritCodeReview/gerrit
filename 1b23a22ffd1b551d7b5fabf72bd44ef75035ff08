@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd3b9346_8bd880e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetReadyForReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1016208
+      },
+      "writtenOn": "2017-03-20T17:23:37Z",
+      "side": 1,
+      "message": "Return 200 (ok).",
+      "range": {
+        "startLine": 66,
+        "startChar": 13,
+        "endLine": 66,
+        "endChar": 28
+      },
+      "revId": "1b23a22ffd1b551d7b5fabf72bd44ef75035ff08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "141afb89_894e6b67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetWorkInProgress.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1016208
+      },
+      "writtenOn": "2017-03-20T17:23:37Z",
+      "side": 1,
+      "message": "Maybe better return 201 (created) here?",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 29
+      },
+      "revId": "1b23a22ffd1b551d7b5fabf72bd44ef75035ff08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

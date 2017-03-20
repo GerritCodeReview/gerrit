@@ -16,6 +16,24 @@
       "revId": "16e0c4c85b87d5fe8c0fcfef074bb8ae4b57427f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67924cad_fe42a995",
+        "filename": "lib/jgit/org.eclipse.jgit.junit/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-20T08:05:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fccc5eb6_3733580c",
+      "revId": "16e0c4c85b87d5fe8c0fcfef074bb8ae4b57427f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

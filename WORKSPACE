@@ -906,23 +906,23 @@ maven_jar(
 
 maven_jar(
     name = "elasticsearch",
-    artifact = "org.elasticsearch:elasticsearch:2.4.0",
-    sha1 = "aeb9704a76fa8654c348f38fcbb993a952a7ab07",
+    artifact = "org.elasticsearch:elasticsearch:2.4.4",
+    sha1 = "e69930bc794c539d34778e665d6f8ccbffd42c6f",
 )
 
 # Java REST client for Elasticsearch.
-JEST_VERSION = "2.0.3"
+JEST_VERSION = "2.4.0"
 
 maven_jar(
     name = "jest_common",
     artifact = "io.searchbox:jest-common:" + JEST_VERSION,
-    sha1 = "f304c66894aaf2f6c17a886bc826f09c7a161cf9",
+    sha1 = "ea779ebe7c438a53dce431f85b0d4e1d8faee2ac",
 )
 
 maven_jar(
     name = "jest",
     artifact = "io.searchbox:jest:" + JEST_VERSION,
-    sha1 = "b8f9ed1423489b361804e47f640515ea9f1fa08d",
+    sha1 = "e2a604a584e6633545ac6b1fe99ef888ab96dae9",
 )
 
 maven_jar(

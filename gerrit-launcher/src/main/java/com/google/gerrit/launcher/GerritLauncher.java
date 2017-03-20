@@ -54,7 +54,7 @@ import java.util.zip.ZipFile;
 
 /** Main class for a JAR file to run code from "WEB-INF/lib". */
 public final class GerritLauncher {
-  private static final String pkg = "com.google.gerrit.pgm";
+  private static final String PKG = "com.google.gerrit.pgm";
   public static final String NOT_ARCHIVED = "NOT_ARCHIVED";
 
   private static ClassLoader daemonClassLoader;
@@ -173,17 +173,17 @@ public final class GerritLauncher {
     try {
       try {
         String cn = programClassName(name);
-        clazz = Class.forName(pkg + "." + cn, true, loader);
+        clazz = Class.forName(PKG + "." + cn, true, loader);
       } catch (ClassNotFoundException cnfe) {
         if (name.equals(name.toLowerCase())) {
-          clazz = Class.forName(pkg + "." + name, true, loader);
+          clazz = Class.forName(PKG + "." + name, true, loader);
         } else {
           throw cnfe;
         }
       }
     } catch (ClassNotFoundException cnfe) {
       System.err.println("fatal: unknown command " + name);
-      System.err.println("      (no " + pkg + "." + name + ")");
+      System.err.println("      (no " + PKG + "." + name + ")");
       return 1;
     }
 
@@ -605,7 +605,7 @@ public final class GerritLauncher {
     return resolveInSourceRoot("eclipse-out");
   }
 
-  static String SOURCE_ROOT_RESOURCE = "/gerrit-launcher/workspace-root.txt";
+  static final String SOURCE_ROOT_RESOURCE = "/gerrit-launcher/workspace-root.txt";
 
   /**
    * Locate a path in the source tree.

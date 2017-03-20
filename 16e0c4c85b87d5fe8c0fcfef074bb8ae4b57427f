@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fccc5eb6_3733580c",
+        "filename": "lib/jgit/org.eclipse.jgit.junit/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-20T01:28:32Z",
+      "side": 1,
+      "message": "Can this target (and the above) be testonly?",
+      "revId": "16e0c4c85b87d5fe8c0fcfef074bb8ae4b57427f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

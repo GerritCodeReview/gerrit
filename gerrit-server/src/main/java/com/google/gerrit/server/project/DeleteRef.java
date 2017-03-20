@@ -115,6 +115,8 @@ public class DeleteRef {
     }
     RefUpdate.Result result;
     RefUpdate u = r.updateRef(ref);
+    u.setExpectedOldObjectId(r.exactRef(ref).getObjectId());
+    u.setNewObjectId(ObjectId.zeroId());
     u.setForceUpdate(true);
     refDeletionValidator.validateRefOperation(ref, identifiedUser.get(), u);
     int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
@@ -222,6 +224,8 @@ public class DeleteRef {
 
     RefUpdate u = r.updateRef(refName);
     u.setForceUpdate(true);
+    u.setExpectedOldObjectId(r.exactRef(refName).getObjectId());
+    u.setNewObjectId(ObjectId.zeroId());
     refDeletionValidator.validateRefOperation(project.getName(), identifiedUser.get(), u);
     return command;
   }

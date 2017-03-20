@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "f01f24f4_0ea70e16",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-20T20:04:58Z",
+      "side": 1,
+      "message": "\u003e window.requestAnimationFrame to check for foreground? Why not Visibility API, as per recommended approach?\n\nThe Visibility API is an interesting idea. I believe that listening for `visibilitychange` is recommended when you are specifically interested in the tab transitioning between foreground and background. That\u0027s not exactly what rAF is used for here.\n\nrAF is intended for avoiding wasteful work while backgrounded. That\u0027s intent in this case: it doesn\u0027t do wasteful account checks when the tab is backgrounded.",
+      "parentUuid": "ab9a3a82_cd715bff",
+      "revId": "cd9d6346c4c9df3e71394522a149c04d2b3c8bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "702256c6_be2cc863",
         "filename": "polygerrit-ui/app/elements/gr-app.js",
         "patchSetId": 2
@@ -105,6 +123,24 @@
       "revId": "cd9d6346c4c9df3e71394522a149c04d2b3c8bc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbc4252c_30bea9a9",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-20T20:04:58Z",
+      "side": 1,
+      "message": "\u003e \u003e it doesn\u0027t handle logged-in or refresh or really handle anything\n\u003e \n\u003e If feels weird that we have another piece of that in a completely different place.\n\nGood point. I have moved it over into `gr-error-manager`.\n\nThe way that component is looking, I suspect it might bet better named something like gr-network-monitor or gr-connectivity or similar. Do you think an issue should be filed for that?",
+      "parentUuid": "d4a9e5de_9f4dec0a",
+      "revId": "cd9d6346c4c9df3e71394522a149c04d2b3c8bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toSet;
 
@@ -71,7 +72,7 @@ public abstract class ExternalId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static Key create(@Nullable String scheme, String id) {
-      return new AutoValue_ExternalId_Key(scheme, id);
+      return new AutoValue_ExternalId_Key(Strings.emptyToNull(scheme), id);
     }
 
     public static ExternalId.Key from(AccountExternalId.Key externalIdKey) {
@@ -158,7 +159,8 @@ public abstract class ExternalId implements Serializable {
 
   public static ExternalId create(
       Key key, Account.Id accountId, @Nullable String email, @Nullable String hashedPassword) {
-    return new AutoValue_ExternalId(key, accountId, email, hashedPassword);
+    return new AutoValue_ExternalId(
+        key, accountId, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword));
   }
 
   public static ExternalId createWithPassword(
@@ -174,16 +176,16 @@ public abstract class ExternalId implements Serializable {
   }
 
   public static ExternalId createWithEmail(
-      String scheme, String id, Account.Id accountId, String email) {
+      String scheme, String id, Account.Id accountId, @Nullable String email) {
     return createWithEmail(Key.create(scheme, id), accountId, email);
   }
 
-  public static ExternalId createWithEmail(Key key, Account.Id accountId, String email) {
-    return new AutoValue_ExternalId(key, accountId, email, null);
+  public static ExternalId createWithEmail(Key key, Account.Id accountId, @Nullable String email) {
+    return new AutoValue_ExternalId(key, accountId, Strings.emptyToNull(email), null);
   }
 
   public static ExternalId createEmail(Account.Id accountId, String email) {
-    return createWithEmail(SCHEME_MAILTO, email, accountId, email);
+    return createWithEmail(SCHEME_MAILTO, email, accountId, checkNotNull(email));
   }
 
   /**
@@ -243,7 +245,11 @@ public abstract class ExternalId implements Serializable {
               accountIdStr, EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY));
     }
 
-    return new AutoValue_ExternalId(externalIdKey, new Account.Id(accountId), email, password);
+    return new AutoValue_ExternalId(
+        externalIdKey,
+        new Account.Id(accountId),
+        Strings.emptyToNull(email),
+        Strings.emptyToNull(password));
   }
 
   private static ConfigInvalidException invalidConfig(String noteId, String message) {
@@ -259,8 +265,8 @@ public abstract class ExternalId implements Serializable {
     return new AutoValue_ExternalId(
         ExternalId.Key.parse(externalId.getExternalId()),
         externalId.getAccountId(),
-        externalId.getEmailAddress(),
-        externalId.getPassword());
+        Strings.emptyToNull(externalId.getEmailAddress()),
+        Strings.emptyToNull(externalId.getPassword()));
   }
 
   public static Set<ExternalId> from(Collection<AccountExternalId> externalIds) {

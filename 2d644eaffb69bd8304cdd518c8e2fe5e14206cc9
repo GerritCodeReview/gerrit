@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "39f94d71_f8820f2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-03-20T08:54:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d010d72_2400a3b0",
+      "range": {
+        "startLine": 18,
+        "startChar": 11,
+        "endLine": 18,
+        "endChar": 15
+      },
+      "revId": "2d644eaffb69bd8304cdd518c8e2fe5e14206cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3741735f_2ad969ed",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-03-20T08:10:04Z",
       "side": 1,
       "message": "Should this also be getExpectedNewObjectId?",
+      "range": {
+        "startLine": 42,
+        "startChar": 48,
+        "endLine": 42,
+        "endChar": 62
+      },
+      "revId": "2d644eaffb69bd8304cdd518c8e2fe5e14206cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440adba2_376a5856",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-03-20T08:54:02Z",
+      "side": 1,
+      "message": "there is no method like getExpectedNewObjectId",
+      "parentUuid": "3741735f_2ad969ed",
       "range": {
         "startLine": 42,
         "startChar": 48,

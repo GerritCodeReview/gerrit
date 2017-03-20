@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d209f965_ee5c9f7e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-20T23:47:53Z",
+      "side": 1,
+      "message": "Are we sure we need to reload the page on rebase still? I know you said yes earlier in a DM, I\u0027m mostly curious as to why.",
+      "range": {
+        "startLine": 824,
+        "startChar": 10,
+        "endLine": 824,
+        "endChar": 54
+      },
+      "revId": "31c9c5b2ea9e2509c7eea5cb507876d21babd608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

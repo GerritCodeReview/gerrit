@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ab9a3a82_cd715bff",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-20T18:39:37Z",
+      "side": 1,
+      "message": "window.requestAnimationFrame to check for foreground? Why not Visibility API, as per recommended approach?",
+      "parentUuid": "a55c506e_ed400cb1",
+      "revId": "cd9d6346c4c9df3e71394522a149c04d2b3c8bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "702256c6_be2cc863",
         "filename": "polygerrit-ui/app/elements/gr-app.js",
         "patchSetId": 2
@@ -69,6 +87,24 @@
       "revId": "cd9d6346c4c9df3e71394522a149c04d2b3c8bc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4a9e5de_9f4dec0a",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-20T18:39:37Z",
+      "side": 1,
+      "message": "\u003e it doesn\u0027t handle logged-in or refresh or really handle anything\n\nIf feels weird that we have another piece of that in a completely different place.\n\nI think the right way is to have all this logic be in one place. gr-error-manager probably has the most of it at the moment, even though it\u0027s not the best match.\nPlease at the very least file the bug to improve the code health.",
+      "parentUuid": "35e9a31c_bec92276",
+      "revId": "cd9d6346c4c9df3e71394522a149c04d2b3c8bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

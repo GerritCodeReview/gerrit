@@ -22,6 +22,29 @@
       "revId": "2d644eaffb69bd8304cdd518c8e2fe5e14206cc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3741735f_2ad969ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-20T08:10:04Z",
+      "side": 1,
+      "message": "Should this also be getExpectedNewObjectId?",
+      "range": {
+        "startLine": 42,
+        "startChar": 48,
+        "endLine": 42,
+        "endChar": 62
+      },
+      "revId": "2d644eaffb69bd8304cdd518c8e2fe5e14206cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -24,6 +24,8 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
@@ -38,8 +40,12 @@ public class RefOperationValidators {
   }
 
   public static ReceiveCommand getCommand(RefUpdate update, ReceiveCommand.Type type) {
+    ObjectId oldObjectId = update.getOldObjectId();
+    ObjectId newObjectId = update.getNewObjectId();
     return new ReceiveCommand(
-        update.getOldObjectId(), update.getNewObjectId(), update.getName(), type);
+        oldObjectId != null ? oldObjectId : ObjectId.zeroId(),
+        newObjectId != null ? newObjectId : ObjectId.zeroId(),
+        update.getName(), type);
   }
 
   private final RefReceivedEvent event;

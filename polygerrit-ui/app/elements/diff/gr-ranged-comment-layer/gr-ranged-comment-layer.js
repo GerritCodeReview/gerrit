@@ -20,6 +20,8 @@
   var RANGE_HIGHLIGHT = 'range';
   var HOVER_HIGHLIGHT = 'rangeHighlight';
 
+  var NORMALIZE_RANGE_EVENT = 'normalize-range';
+
   Polymer({
     is: 'gr-ranged-comment-layer',
 
@@ -181,10 +183,13 @@
             // @see Issue 5744
             if (range.start >= range.end && range.start < line.text.length) {
               range.end = line.text.length;
+              this.$.reporting.reportInteraction(NORMALIZE_RANGE_EVENT,
+                  'Modified invalid comment range on l.' + lineNum +
+                  ' of the ' + side + ' side');
             }
 
             return range;
-          })
+          }.bind(this))
           .sort(function(a, b) {
             // Sort the ranges so that hovering highlights are on top.
             return a.hovering && !b.hovering ? 1 : 0;

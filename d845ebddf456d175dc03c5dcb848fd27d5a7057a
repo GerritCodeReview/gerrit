@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61558616_9059c582",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-20T18:00:04Z",
+      "side": 1,
+      "message": "For CSS specificity cleanliness, I recommend avoiding :not when possible. This can be refactored into adding `cursor: pointer;` to the previous ruleset:\n\n:host {\n  ...\n  cursor: pointer;\n  ...\n}\n\n... and creating a positive rule ..\n\n:host[_expanded] {\n  cursor: default;\n}",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 32
+      },
+      "revId": "d845ebddf456d175dc03c5dcb848fd27d5a7057a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fabdad6b_26e392e1",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-20T18:00:04Z",
+      "side": 1,
+      "message": "If it\u0027s being reflected to an attribute, it should not be _underscore _prefixed.",
+      "range": {
+        "startLine": 71,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 15
+      },
+      "revId": "d845ebddf456d175dc03c5dcb848fd27d5a7057a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68ccce9e_2688a78d",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-20T18:00:04Z",
+      "side": 1,
+      "message": "Aside: two things about this strike me as odd:\n* `_expanded` appears to be used as a boolean, but here, it\u0027s typed as an Object.\n* `_computeExpanded` just returns its parameter. Why not just use `message.expanded` in bindings? I wonder if this property can be removed.",
+      "range": {
+        "startLine": 72,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 55
+      },
+      "revId": "d845ebddf456d175dc03c5dcb848fd27d5a7057a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "454c2753_ee79b57e",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-20T18:00:04Z",
+      "side": 1,
+      "message": "I suspect that this won\u0027t work in Shadow DOM, have you tested this.\n\nIt\u0027s more code, but I typically have to create an observer for `message.expanded` that adds or removes the class from `element.classList`.",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 33
+      },
+      "revId": "d845ebddf456d175dc03c5dcb848fd27d5a7057a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

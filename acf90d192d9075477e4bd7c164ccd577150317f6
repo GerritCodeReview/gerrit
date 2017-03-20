@@ -46,6 +46,30 @@
       "revId": "acf90d192d9075477e4bd7c164ccd577150317f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99d8a3db_de0eff67",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-20T20:45:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f0b62c14_a069b800",
+      "range": {
+        "startLine": 188,
+        "startChar": 31,
+        "endLine": 188,
+        "endChar": 35
+      },
+      "revId": "acf90d192d9075477e4bd7c164ccd577150317f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c537a745_94a29eab",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-20T23:37:46Z",
+      "side": 1,
+      "message": "Maybe we could add a test that _setReviewedFiles is called after _reviewedFiles?",
+      "revId": "2cd31e0477dc778f3c5cbe2a5479725f2e556aba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -71,6 +71,7 @@
       _expanded: {
         type: Object,
         computed: '_computeExpanded(message.expanded)',
+        reflectToAttribute: true,
       },
       _loggedIn: {
         type: Boolean,

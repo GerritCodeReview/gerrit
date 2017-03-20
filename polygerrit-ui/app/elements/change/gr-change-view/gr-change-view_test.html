@@ -35,10 +35,12 @@ limitations under the License.
   suite('gr-change-view tests', function() {
     var element;
     var sandbox;
+    var showStub;
     var TEST_SCROLL_TOP_PX = 100;
 
     setup(function() {
       sandbox = sinon.sandbox.create();
+      showStub = sandbox.stub(page, 'show');
       stub('gr-rest-api-interface', {
         getConfig: function() { return Promise.resolve({}); },
         getAccount: function() { return Promise.resolve(null); },
@@ -58,14 +60,12 @@ limitations under the License.
       });
 
       test('U should navigate to / if no backPage set', function() {
-        var showStub = sandbox.stub(page, 'show');
         MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
         assert(showStub.lastCall.calledWithExactly('/'));
       });
 
       test('U should navigate to backPage if set', function() {
         element.backPage = '/dashboard/self';
-        var showStub = sandbox.stub(page, 'show');
         MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
         assert(showStub.lastCall.calledWithExactly('/dashboard/self'));
       });
@@ -120,7 +120,8 @@ limitations under the License.
 
         sandbox.stub(element.$.actions, 'reload');
 
-        var showStub = sandbox.stub(page, 'show', function(arg) {
+        showStub.restore();
+        showStub = sandbox.stub(page, 'show', function(arg) {
           assert.equal(arg, '/c/42');
           done();
         });
@@ -401,8 +402,6 @@ limitations under the License.
       assert.notEqual(select, 3);
       assert.equal(optionEls[3].value, 13);
 
-      var showStub = sandbox.stub(page, 'show');
-
       var numEvents = 0;
       selectEl.addEventListener('change', function(e) {
         assert.equal(element.viewState.diffMode, 'UNIFIED');
@@ -452,8 +451,6 @@ limitations under the License.
       assert.notEqual(
         element.$$('.patchInfo-header #patchSetSelect').bindValue, 3);
       assert.equal(optionEls[3].value, 13);
-
-      var showStub = sandbox.stub(page, 'show');
 
       var numEvents = 0;
       selectEl.addEventListener('change', function(e) {
@@ -531,8 +528,6 @@ limitations under the License.
         labels: {},
       };
 
-      var showStub = sandbox.stub(page, 'show');
-
       element._changePatchNum(13);
       assert(showStub.lastCall.calledWithExactly('/c/42/2..13'));
 
@@ -544,17 +539,15 @@ limitations under the License.
 
     test('related changes are updated and new patch selected after rebase',
         function(done) {
+      element._changeNum = '42';
       sandbox.stub(element, '_computeLatestPatchNum', function() {
         return 1;
       });
       sandbox.stub(element, '_reload',
           function() { return Promise.resolve(); });
-      sandbox.stub(element, '_updateSelected');
-      sandbox.stub(element.$.relatedChanges, 'reload');
       var e = {detail: {action: 'rebase'}};
       element._handleReloadChange(e).then(function() {
-        assert.isTrue(element.$.relatedChanges.reload.called);
-        assert.isTrue(element._updateSelected.called);
+        assert.isTrue(showStub.lastCall.calledWithExactly('/c/42'));
         done();
       });
     });
@@ -566,8 +559,7 @@ limitations under the License.
       sandbox.stub(element.$.relatedChanges, 'reload');
       var e = {detail: {action: 'abandon'}};
       element._handleReloadChange(e).then(function() {
-        assert.isFalse(element.$.relatedChanges.reload.called);
-        assert.isFalse(element._updateSelected.called);
+        assert.isFalse(showStub.called);
         done();
       });
     });

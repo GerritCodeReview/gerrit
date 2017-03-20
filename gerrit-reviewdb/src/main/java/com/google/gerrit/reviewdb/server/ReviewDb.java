@@ -118,4 +118,8 @@ public interface ReviewDb extends Schema {
   @Sequence(startWith = FIRST_CHANGE_ID)
   @Deprecated
   int nextChangeId() throws OrmException;
+
+  default boolean changesTablesEnabled() {
+    return true;
+  }
 }

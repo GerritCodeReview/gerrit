@@ -155,6 +155,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       ImmutableSet.of(
           "MaxWithBlock", "AnyWithBlock", "MaxNoBlock", "NoBlock", "NoOp", "PatchSetLock");
 
+  private static final String REVIEWER = "reviewer";
+  private static final String KEY_ENABLE_REVIEWER_BY_EMAIL = "enableByEmail";
+
   private static final String LEGACY_PERMISSION_PUSH_TAG = "pushTag";
   private static final String LEGACY_PERMISSION_PUSH_SIGNED_TAG = "pushSignedTag";
 
@@ -182,6 +185,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private boolean checkReceivedObjects;
   private Set<String> sectionsWithUnknownPermissions;
   private boolean hasLegacyPermissions;
+  private boolean enableReviewerByEmail;
 
   public static ProjectConfig read(MetaDataUpdate update)
       throws IOException, ConfigInvalidException {
@@ -435,6 +439,16 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return checkReceivedObjects;
   }
 
+  /** @return the enableReviewerByEmail for this project, default is false. */
+  public boolean getEnableReviewerByEmail() {
+    return enableReviewerByEmail;
+  }
+
+  /** Set enableReviewerByEmail for this project, default is false. */
+  public void setEnableReviewerByEmail(boolean val) {
+    enableReviewerByEmail = val;
+  }
+
   /**
    * Check all GroupReferences use current group name, repairing stale ones.
    *
@@ -526,6 +540,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     mimeTypes = new ConfiguredMimeTypes(projectName.get(), rc);
     loadPluginSections(rc);
     loadReceiveSection(rc);
+    loadReviewerSection(rc);
   }
 
   private void loadAccountsSection(Config rc, Map<String, GroupReference> groupsByName) {
@@ -933,6 +948,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     maxObjectSizeLimit = rc.getLong(RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT, 0);
   }
 
+  private void loadReviewerSection(Config rc) {
+    enableReviewerByEmail = rc.getBoolean(REVIEWER, null, KEY_ENABLE_REVIEWER_BY_EMAIL, false);
+  }
+
   private void loadPluginSections(Config rc) {
     pluginConfigs = new HashMap<>();
     for (String plugin : rc.getSubsections(PLUGIN)) {
@@ -1067,6 +1086,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     saveAccessSections(rc, keepGroups);
     saveNotifySections(rc, keepGroups);
     savePluginSections(rc, keepGroups);
+    saveReviewerSection(rc);
     groupList.retainUUIDs(keepGroups);
     saveLabelSections(rc);
     saveSubscribeSections(rc);
@@ -1288,40 +1308,55 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
       setBooleanConfigKey(
           rc,
+          LABEL,
           name,
           KEY_ALLOW_POST_SUBMIT,
           label.allowPostSubmit(),
           LabelType.DEF_ALLOW_POST_SUBMIT);
       setBooleanConfigKey(
-          rc, name, KEY_COPY_MIN_SCORE, label.isCopyMinScore(), LabelType.DEF_COPY_MIN_SCORE);
-      setBooleanConfigKey(
-          rc, name, KEY_COPY_MAX_SCORE, label.isCopyMaxScore(), LabelType.DEF_COPY_MAX_SCORE);
+          rc,
+          LABEL,
+          name,
+          KEY_COPY_MIN_SCORE,
+          label.isCopyMinScore(),
+          LabelType.DEF_COPY_MIN_SCORE);
       setBooleanConfigKey(
           rc,
+          LABEL,
+          name,
+          KEY_COPY_MAX_SCORE,
+          label.isCopyMaxScore(),
+          LabelType.DEF_COPY_MAX_SCORE);
+      setBooleanConfigKey(
+          rc,
+          LABEL,
           name,
           KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
           label.isCopyAllScoresOnTrivialRebase(),
           LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
       setBooleanConfigKey(
           rc,
+          LABEL,
           name,
           KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
           label.isCopyAllScoresIfNoCodeChange(),
           LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
       setBooleanConfigKey(
           rc,
+          LABEL,
           name,
           KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
           label.isCopyAllScoresIfNoChange(),
           LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
       setBooleanConfigKey(
           rc,
+          LABEL,
           name,
           KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
           label.isCopyAllScoresOnMergeFirstParentUpdate(),
           LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
       setBooleanConfigKey(
-          rc, name, KEY_CAN_OVERRIDE, label.canOverride(), LabelType.DEF_CAN_OVERRIDE);
+          rc, LABEL, name, KEY_CAN_OVERRIDE, label.canOverride(), LabelType.DEF_CAN_OVERRIDE);
       List<String> values = Lists.newArrayListWithCapacity(label.getValues().size());
       for (LabelValue value : label.getValues()) {
         values.add(value.format());
@@ -1335,11 +1370,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private static void setBooleanConfigKey(
-      Config rc, String name, String key, boolean value, boolean defaultValue) {
+      Config rc, String section, String name, String key, boolean value, boolean defaultValue) {
     if (value == defaultValue) {
-      rc.unset(LABEL, name, key);
+      rc.unset(section, name, key);
     } else {
-      rc.setBoolean(LABEL, name, key, value);
+      rc.setBoolean(section, name, key, value);
     }
   }
 
@@ -1365,6 +1400,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             PLUGIN, plugin, name, Arrays.asList(pluginConfig.getStringList(PLUGIN, plugin, name)));
       }
     }
+  }
+
+  private void saveReviewerSection(Config rc) {
+    setBooleanConfigKey(
+        rc, REVIEWER, null, KEY_ENABLE_REVIEWER_BY_EMAIL, enableReviewerByEmail, false);
   }
 
   private void saveGroupList() throws IOException {

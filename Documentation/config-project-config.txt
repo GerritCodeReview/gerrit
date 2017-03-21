@@ -291,6 +291,18 @@ Branches not listed in this section will not be included in the mergeability
 check. If the `branchOrder` section is not defined then the mergeability of a
 change into other branches will not be done.
 
+[[reviewer-section]]
+=== reviewer section
+
+Defines config options to adjust a project's reviewer workflow such as enabling
+reviewers and CCs by email.
+
+[[reviewer.enableByEmail]]reviewer.enableByEmail::
++
+A boolean indicating if reviewers and CCs that do not currently have a Gerrit
+account can be added to a change by providing their email address.
+
+Defaults to `false`.
 
 [[file-groups]]
 == The file +groups+

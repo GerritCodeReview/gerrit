@@ -1,5 +1,6 @@
 load("//tools/bzl:gwt.bzl", "gwt_module")
 load("//tools/bzl:junit.bzl", "junit_tests")
+load("//tools/bzl:gjf.bzl", "gen_java_format_tests")
 
 SRC = "src/main/java/com/google/gerrit/"
 
@@ -84,3 +85,5 @@ junit_tests(
         "//lib/auto:auto-value",
     ],
 )
+
+gen_java_format_tests()

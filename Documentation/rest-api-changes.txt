@@ -2107,6 +2107,62 @@ Only the change owner, a project owner, or an administrator may fix changes.
   }
 ----
 
+[[set-work-in-pogress]]
+== Set Work-In-Progress
+--
+'POST /changes/link:#change-id[\{change-id\}]/wip'
+--
+
+Marks the change as not ready for review yet.
+
+The request body does not need to include a 
+link:#work-in-progress-input[WorkInProgressInput] entity if no review comment
+is added. Actions that create a new patch set in a WIP change default to 
+notifying *OWNER* instead of *ALL*.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/wip HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "message": "Refactoring needs to be done before we can proceed here."
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+----
+
+[[set-ready-for-review]]
+== Set Ready-For-Review
+--
+'POST /changes/link:#change-id[\{change-id\}]/ready'
+--
+
+Marks the change as ready for review (set WIP property to false).
+
+Activates notifications of reviewer. The request body does not need
+to include a link:#work-in-progress-input[WorkInProgressInput] entity
+if no review comment is added.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/ready HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "message": "Refactoring is done."
+  }
+
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+----
+
 [[mark-private]]
 === Mark Private
 --
@@ -6493,6 +6549,19 @@ behavior matches how the rule will execute if installed. +
 If `SKIP` the parent filters are not called, allowing the test
 to return results from the input rule.
 |===========================
+
+[[work-in-progress-input]]
+=== WorkInProgressInput
+The `WorkInProgressInput` entity contains additional information for a change
+set to WorkInProgress/ReadyForReview.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name      ||Description
+|`message`       |optional|
+Message to be added as a review comment to the change being set WorkInProgress/ReadyForReview.
+change.
+|=============================
 
 [[submit-info]]
 === SubmitInfo

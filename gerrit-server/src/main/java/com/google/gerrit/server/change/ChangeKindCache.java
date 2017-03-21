@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.change.ChangeData;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * Cache of {@link ChangeKind} per commit.
@@ -32,9 +33,14 @@ import org.eclipse.jgit.lib.Repository;
  */
 public interface ChangeKindCache {
   ChangeKind getChangeKind(
-      Project.NameKey project, @Nullable Repository repo, ObjectId prior, ObjectId next);
+      Project.NameKey project,
+      @Nullable Repository repo,
+      @Nullable RevWalk rw,
+      ObjectId prior,
+      ObjectId next);
 
   ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch);
 
-  ChangeKind getChangeKind(@Nullable Repository repo, ChangeData cd, PatchSet patch);
+  ChangeKind getChangeKind(
+      @Nullable Repository repo, @Nullable RevWalk rw, ChangeData cd, PatchSet patch);
 }

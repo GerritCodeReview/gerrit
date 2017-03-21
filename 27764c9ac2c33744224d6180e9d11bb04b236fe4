@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1490111851 -0700\nnonce AIcUUg9Wk/VLgobjvysCUj11I9Rz+MDIF6WSMhN34QnUEoZN/mZUFK3D/UVfEULvGnuv4RCseXmK\n\n0000000000000000000000000000000000000000 6cb7d40518c85fe48c5c7644651d8d21c652c5e3 refs/for/master%topic\u003dnotedb-batch-update,r\u003dekempin,r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJY0U2EAAoJEF/XxZqaEoiM9QQP/3EUqQZGYDfNEa6KPuTGsO6c\ngSPC96g3ylqIZT9/e6eZ/UQd4AX1TeRt+K8ra+lbXxrvoLr24TQ518NJfrK4QBnP\n+112vb3Zf0dZL36qSp9q/GnwYM0iAojvJZZ8ZShtMHkViJozSccmApw+2dUT+dtM\nL8ghP1ZT1Qj8tX3u3JKaMBEXpYZZAkGIkbPdbTC10l654qo0i98B4TCZZ0vNQNUY\nQSkXf85v59hkHN818lu3+3VAjE0mPYd2W85uHtrqIArLt8VDUx9fgIWr42BksxXa\nzbnUtMxDIzwZaM37FCdWYYjUFUjux45HnSLV/HbAdOOdpJbVtLYx3EppIGON0ERH\nB39P2hJmunNEbcXYR8zFCIAzFhSSk1tuNZ9EZdIXjvHq7uwft+6psdPaBQ8rBXek\nnXyPPbYjYARRXCcEaWmbvH0kXXOw2l8spwqkiDSMiwDZH3pw8+Uf0Uxt0l0UtsHs\nUwdMBbfUgwYbmOw/1z8Hp9OyyucpR4X6tE7gSBhCOGtD5mcJwCfe2WxtWvR9slN9\nAzenDkGdleTwIiEGuXicZDPB6ygB9CJ8AKoIUxN6csHjuKdDVKzcs1Y5qnRU9Nh+\noQZ22gh95OZhErxe0f3Y3Kd1podWQztBTo9T/qP43tw7cgqNRTJ5M+b6lzoF+3gB\nww640aJKrGFmcQKMpBpf\n\u003d+e4z\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "918d1062_8101bc45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ChangeContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-21T16:06:52Z",
+      "side": 1,
+      "message": "{@link BatchUpdateOp#updateChange}",
+      "range": {
+        "startLine": 50,
+        "startChar": 22,
+        "endLine": 50,
+        "endChar": 43
+      },
+      "revId": "27764c9ac2c33744224d6180e9d11bb04b236fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

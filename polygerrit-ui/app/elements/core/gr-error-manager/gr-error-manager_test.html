@@ -143,5 +143,23 @@ limitations under the License.
       assert.isTrue(element._showAlert.calledOnce);
       assert.isTrue(element._showAlert.lastCall.calledWithExactly('foo'));
     });
+
+    test('checks stale credentials on visibility change', function() {
+      var getAccountStub = sandbox.stub(element.$.restAPI, 'getAccount');
+      sandbox.stub(Date, 'now').returns(999999);
+      element._lastCredentialCheck = 0;
+      element._handleVisibilityChange();
+
+      // Since there is no known account, it should not test credentials.
+      assert.isFalse(getAccountStub.called);
+      assert.equal(element._lastCredentialCheck, 0);
+
+      element.knownAccountId = 123;
+      element._handleVisibilityChange();
+
+      // Should test credentials, since there is a known account.
+      assert.isTrue(getAccountStub.calledWith(true));
+      assert.equal(element._lastCredentialCheck, 999999);
+    });
   });
 </script>

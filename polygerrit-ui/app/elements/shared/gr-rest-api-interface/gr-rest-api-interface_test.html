@@ -600,5 +600,17 @@ limitations under the License.
         });
       });
     });
+
+    test('getAccount via cache', function() {
+      var sharedCacheStub = sandbox.stub(element, '_fetchSharedCacheURL');
+      element.getAccount();
+      assert.isTrue(sharedCacheStub.called);
+    });
+
+    test('getAccount no cache', function() {
+      var sharedCacheStub = sandbox.stub(element, '_fetchSharedCacheURL');
+      element.getAccount(true);
+      assert.isFalse(sharedCacheStub.called);
+    });
   });
 </script>

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa731438_e6217d73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-21T02:24:28Z",
+      "side": 1,
+      "message": "Nitpicks:\n\nMaybe this can just describe how it\u0027s refactored. Like \"Is refactored to do X\" or \"is refactored to not be so Y\".\n\nUse present tense to describe functionality introduced by this change,",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 13
+      },
+      "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d45ceaf_fbc1f2e9",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-21T02:24:28Z",
+      "side": 1,
+      "message": "If we add this, is the on-change listener on the next line needed? Why is the on-change listener insufficient?",
+      "range": {
+        "startLine": 241,
+        "startChar": 59,
+        "endLine": 241,
+        "endChar": 67
+      },
+      "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f94f9e34_9f445052",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-21T02:24:28Z",
+      "side": 1,
+      "message": "Optionally, this might be tidier as a filter:\n\nvar newlyReviewed \u003d paths.filter(function(path) {\n  return this._reviewed.indexOf(path) \u003d\u003d\u003d -1;\n}.bind(this));",
+      "range": {
+        "startLine": 381,
+        "startChar": 6,
+        "endLine": 386,
+        "endChar": 20
+      },
+      "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e21d902_5ddaf902",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-21T02:24:28Z",
+      "side": 1,
+      "message": "Is there another way to handle this besides an `alert`? Have you observed this failing? If so, maybe it should go in the gr-error-manager.",
+      "range": {
+        "startLine": 393,
+        "startChar": 10,
+        "endLine": 393,
+        "endChar": 15
+      },
+      "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89e58e3e_ff8b1dbf",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-21T02:24:28Z",
+      "side": 1,
+      "message": "This is going to send one API request per file, isn\u0027t it? It\u0027s a shame there isn\u0027t a bulk-mark-as-reviewed API call.\n\nIf I expand all on a change with 12k files, will it send 12k simultaneous mark-as-reviewed calls?\n\nI suspect we should either...\n* Create a new bulk mark-as-reviewed endpoint, or...\n* Mark each on in order (waiting for each call to complete before firing the next one). This would be similar to the `_renderInOrder` method you can see at the end of this file (except they\u0027d be network promises rather than diff-render promises). It may even be possible to piggy-back off of that function to make the reviewed call as each diff is rendered.\n\nWhat do you think?",
+      "range": {
+        "startLine": 391,
+        "startChar": 6,
+        "endLine": 396,
+        "endChar": 22
+      },
+      "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

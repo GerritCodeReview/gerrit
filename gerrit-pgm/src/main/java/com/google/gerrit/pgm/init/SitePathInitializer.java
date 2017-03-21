@@ -98,6 +98,10 @@ public class SitePathInitializer {
 
     extract(site.gerrit_sh, getClass(), "gerrit.sh");
     chmod(0755, site.gerrit_sh);
+    extract(site.gerrit_service, getClass(), "gerrit.service");
+    chmod(0755, site.gerrit_service);
+    extract(site.gerrit_service, getClass(), "gerrit.socket");
+    chmod(0755, site.gerrit_socket);
     chmod(0700, site.tmp_dir);
 
     extractMailExample("Abandoned.soy");

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "734d4868_fb80f072",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-21T04:28:11Z",
+      "side": 1,
+      "message": "I found it really confusing. This is saying \"put your hostname here,\" not referring to our actual parametrization syntax. I could keep working on making these docs clear.",
+      "revId": "d3ee026914e2aed619db1681a05898012312c397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

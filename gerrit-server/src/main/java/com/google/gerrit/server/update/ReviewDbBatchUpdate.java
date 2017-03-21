@@ -237,8 +237,8 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     }
 
     @Override
-    public void bumpLastUpdatedOn(boolean bump) {
-      bumpLastUpdatedOn = bump;
+    public void dontBumpLastUpdatedOn() {
+      bumpLastUpdatedOn = false;
     }
 
     @Override

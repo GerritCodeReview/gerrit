@@ -122,7 +122,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
 
       commentsUtil.putComments(
           ctx.getDb(), ctx.getUpdate(psId), Status.DRAFT, Collections.singleton(comment));
-      ctx.bumpLastUpdatedOn(false);
+      ctx.dontBumpLastUpdatedOn();
       return true;
     }
   }

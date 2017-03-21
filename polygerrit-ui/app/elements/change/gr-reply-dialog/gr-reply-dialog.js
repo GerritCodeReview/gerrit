@@ -112,8 +112,13 @@
     FocusTarget: FocusTarget,
 
     behaviors: [
+      Gerrit.KeyboardShortcutBehavior,
       Gerrit.RESTClientBehavior,
     ],
+
+    keyBindings: {
+      'esc': '_handleEscKey',
+    },
 
     observers: [
       '_changeUpdated(change.reviewers.*, change.owner, serverConfig)',
@@ -156,6 +161,10 @@
       var item = selectorEl.$$('gr-button[data-value="' + value + '"]');
       if (!item) { return; }
       selectorEl.selectIndex(selectorEl.indexOf(item));
+    },
+
+    _handleEscKey: function(e) {
+      this.cancel();
     },
 
     _ccsChanged: function(splices) {
@@ -517,6 +526,10 @@
 
     _cancelTapHandler: function(e) {
       e.preventDefault();
+      this.cancel();
+    },
+
+    cancel: function() {
       this.fire('cancel', null, {bubbles: false});
       this._purgeReviewersPendingRemove(true);
       this._rebuildReviewerArrays(this.change.reviewers, this._owner,

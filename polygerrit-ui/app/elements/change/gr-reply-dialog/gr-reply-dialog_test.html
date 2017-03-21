@@ -621,5 +621,14 @@ limitations under the License.
         done();
       });
     });
+
+    test('emits cancel on esc key', function() {
+      var cancelHandler = sandbox.spy();
+      element.addEventListener('cancel', cancelHandler);
+      MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'esc');
+      flushAsynchronousOperations();
+
+      assert.isTrue(cancelHandler.called);
+    });
   });
 </script>

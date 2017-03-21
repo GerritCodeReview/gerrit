@@ -237,7 +237,11 @@
           opt_errFn, opt_ctx);
     },
 
-    getAccount: function() {
+    getAccount: function(opt_noCache) {
+      if (opt_noCache) {
+        return this.fetchJSON('/accounts/self/detail');
+      }
+
       return this._fetchSharedCacheURL('/accounts/self/detail', function(resp) {
         if (resp.status === 403) {
           this._cache['/accounts/self/detail'] = null;
@@ -328,15 +332,14 @@
           queryString);
     },
 
-    getLoggedIn: function() {
-      return this.getAccount().then(function(account) {
+    getLoggedIn: function(opt_noCache) {
+      return this.getAccount(opt_noCache).then(function(account) {
         return account != null;
       });
     },
 
     refreshCredentials: function() {
-      this._cache = {};
-      return this.getLoggedIn();
+      return this.getLoggedIn(true);
     },
 
     getPreferences: function() {

@@ -334,9 +334,11 @@
       });
     },
 
-    refreshCredentials: function() {
-      this._cache = {};
-      return this.getLoggedIn();
+    checkCredentials: function() {
+      // Skip the REST response cache.
+      return this.fetchJSON('/accounts/self/detail').then(function(account) {
+        return account != null;
+      });
     },
 
     getPreferences: function() {

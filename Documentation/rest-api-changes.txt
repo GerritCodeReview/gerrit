@@ -2084,6 +2084,44 @@ Only the change owner, a project owner, or an administrator may fix changes.
   }
 ----
 
+[[set-work-in-pogress]]
+== SetWorkInProgress
+--
+'POST /changes/link:#change-id[\{change-id\}]/wip'
+--
+
+Marks the change as not ready for review yet. Actions that create a new patch set in a WIP
+change default to notifying *OWNER* instead of *ALL*.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/wip HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[set-ready-for-review]]
+== SetReadyForReview
+--
+'POST /changes/link:#change-id[\{change-id\}]/ready'
+--
+
+Marks the change as ready for review (set WIP property to false). Activates notifications
+of human reviewer.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/ready HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[Mark-private]]
 === Mark Private
 --

@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
@@ -171,6 +172,75 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     assertThat(out).hasSize(1);
     RobotCommentInfo comment = Iterables.getOnlyElement(out.get(in.path));
     assertRobotComment(comment, in, false);
+  }
+
+  @Test
+  public void hugeRobotCommentIsRejected() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    int defaultSizeLimit = 1024 * 1024;
+    int sizeOfRest = 451;
+    fixReplacementInfo.replacement = getStringFor(defaultSizeLimit - sizeOfRest + 1);
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("limit");
+    addRobotComment(changeId, withFixRobotCommentInput);
+  }
+
+  @Test
+  public void reasonablyLargeRobotCommentIsAccepted() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    int defaultSizeLimit = 1024 * 1024;
+    int sizeOfRest = 451;
+    fixReplacementInfo.replacement = getStringFor(defaultSizeLimit - sizeOfRest);
+
+    addRobotComment(changeId, withFixRobotCommentInput);
+
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+    assertThat(robotCommentInfos).hasSize(1);
+  }
+
+  @Test
+  @GerritConfig(name = "review.robotCommentSizeLimit", value = "10k")
+  public void maximumAllowedSizeOfRobotCommentCanBeAdjusted() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    int sizeLimit = 10 * 1024;
+    fixReplacementInfo.replacement = getStringFor(sizeLimit);
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("limit");
+    addRobotComment(changeId, withFixRobotCommentInput);
+  }
+
+  @Test
+  @GerritConfig(name = "review.robotCommentSizeLimit", value = "0")
+  public void zeroForMaximumAllowedSizeOfRobotCommentRemovesRestriction() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    int defaultSizeLimit = 1024 * 1024;
+    fixReplacementInfo.replacement = getStringFor(defaultSizeLimit);
+
+    addRobotComment(changeId, withFixRobotCommentInput);
+
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+    assertThat(robotCommentInfos).hasSize(1);
+  }
+
+  @Test
+  @GerritConfig(name = "review.robotCommentSizeLimit", value = "-1")
+  public void negativeValueForMaximumAllowedSizeOfRobotCommentRemovesRestriction()
+      throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    int defaultSizeLimit = 1024 * 1024;
+    fixReplacementInfo.replacement = getStringFor(defaultSizeLimit);
+
+    addRobotComment(changeId, withFixRobotCommentInput);
+
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+    assertThat(robotCommentInfos).hasSize(1);
   }
 
   @Test
@@ -1059,6 +1129,13 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     } else {
       assertThat(c.path).isNull();
     }
+  }
+
+  private static String getStringFor(int numberOfBytes) {
+    char[] chars = new char[numberOfBytes];
+    // 'a' will require one byte even when mapped to a JSON string
+    Arrays.fill(chars, 'a');
+    return new String(chars);
   }
 
   private static List<String> getFixIds(List<RobotCommentInfo> robotComments) {

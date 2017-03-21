@@ -84,9 +84,11 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountsCollection;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -95,16 +97,19 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdate.Factory;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -115,13 +120,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.OptionalInt;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
 public class PostReview implements RestModifyView<RevisionResource, ReviewInput> {
   private static final Logger log = LoggerFactory.getLogger(PostReview.class);
+  private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
+  private static final int DEFAULT_ROBOT_COMMENT_SIZE_LIMIT_IN_BYTES = 1024 * 1024;
 
   private final Provider<ReviewDb> db;
   private final BatchUpdate.Factory batchUpdateFactory;
@@ -138,11 +147,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final PostReviewers postReviewers;
   private final NotesMigration migration;
   private final NotifyUtil notifyUtil;
+  private final Config gerritConfig;
 
   @Inject
   PostReview(
       Provider<ReviewDb> db,
-      BatchUpdate.Factory batchUpdateFactory,
+      Factory batchUpdateFactory,
       ChangesCollection changes,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
@@ -155,7 +165,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       CommentAdded commentAdded,
       PostReviewers postReviewers,
       NotesMigration migration,
-      NotifyUtil notifyUtil) {
+      NotifyUtil notifyUtil,
+      @GerritServerConfig Config gerritConfig) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
     this.changes = changes;
@@ -171,6 +182,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.postReviewers = postReviewers;
     this.migration = migration;
     this.notifyUtil = notifyUtil;
+    this.gerritConfig = gerritConfig;
   }
 
   @Override
@@ -514,12 +526,39 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     for (Map.Entry<String, List<RobotCommentInput>> e : in.entrySet()) {
       String commentPath = e.getKey();
       for (RobotCommentInput c : e.getValue()) {
+        ensureSizeOfJsonInputIsWithinBounds(c);
         ensureRobotIdIsSet(c.robotId, commentPath);
         ensureRobotRunIdIsSet(c.robotRunId, commentPath);
         ensureFixSuggestionsAreAddable(c.fixSuggestions, commentPath);
       }
     }
     checkComments(revision, in);
+  }
+
+  private void ensureSizeOfJsonInputIsWithinBounds(RobotCommentInput robotCommentInput)
+      throws BadRequestException {
+    OptionalInt robotCommentSizeLimit = getRobotCommentSizeLimit();
+    if (robotCommentSizeLimit.isPresent()) {
+      int sizeLimit = robotCommentSizeLimit.getAsInt();
+      byte[] robotCommentBytes = GSON.toJson(robotCommentInput).getBytes(StandardCharsets.UTF_8);
+      int robotCommentSize = robotCommentBytes.length;
+      if (robotCommentSize > sizeLimit) {
+        throw new BadRequestException(
+            String.format(
+                "Size %d (bytes) of robot comment is greater than limit %d (bytes)",
+                robotCommentSize, sizeLimit));
+      }
+    }
+  }
+
+  private OptionalInt getRobotCommentSizeLimit() {
+    int robotCommentSizeLimit =
+        gerritConfig.getInt(
+            "review", "robotCommentSizeLimit", DEFAULT_ROBOT_COMMENT_SIZE_LIMIT_IN_BYTES);
+    if (robotCommentSizeLimit <= 0) {
+      return OptionalInt.empty();
+    }
+    return OptionalInt.of(robotCommentSizeLimit);
   }
 
   private static void ensureRobotIdIsSet(String robotId, String commentPath)

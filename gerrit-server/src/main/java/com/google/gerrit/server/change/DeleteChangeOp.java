@@ -38,12 +38,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
@@ -147,9 +145,8 @@ class DeleteChangeOp implements BatchUpdateOp {
 
     RevWalk revWalk = ctx.getRevWalk();
     ObjectId objectId = ObjectId.fromString(patchSet.getRevision().get());
-    RevCommit revCommit = revWalk.parseCommit(objectId);
-    return IncludedInResolver.includedInOne(
-        repository, revWalk, revCommit, Collections.singletonList(destinationRef));
+    return revWalk.isMergedInto(
+        revWalk.parseCommit(objectId), revWalk.parseCommit(destinationRef.getObjectId()));
   }
 
   private void deleteChangeElementsFromDb(ChangeContext ctx, Change.Id id) throws OrmException {

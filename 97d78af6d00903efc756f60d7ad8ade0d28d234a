@@ -306,6 +306,30 @@
       "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47358216_814bd456",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-21T23:35:21Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t believe we allow expanding-all on a change with 12k files, do we? (Actually, you may have removed that cap when you made the diffs render in order.)\n\nI used that as an example, but whatever the max is, say x diffs, then we send x requests simultaneously. If x is bigger than... say 6, then it already feels excessive.\n\n\u003e I\u0027d rather not do the second point, because then we make 12k iterative updates to the _reviewed array instead of just doing it with one big splice.\n\n12k calls to the REST API is orders of magnitude more expensive than 12k modifications to an array.\n\nAnother advantage of doing this in the render loop is that reviewed will only ever be set on diffs that actually rendered. If there are many diffs, and the page is closed before the last half of them render, those will not be marked as reviewed.",
+      "parentUuid": "dc01d9d7_2eb27888",
+      "range": {
+        "startLine": 391,
+        "startChar": 6,
+        "endLine": 396,
+        "endChar": 22
+      },
+      "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

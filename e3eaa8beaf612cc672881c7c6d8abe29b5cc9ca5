@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cfa9016_aa2fe4da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-21T23:35:21Z",
+      "side": 1,
+      "message": "I\u0027m guessing this is what fixed the binding. The compute function wasn\u0027t getting re-run properly. Is that right?",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 54
+      },
+      "revId": "e3eaa8beaf612cc672881c7c6d8abe29b5cc9ca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

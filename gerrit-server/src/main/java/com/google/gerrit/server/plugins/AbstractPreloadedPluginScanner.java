@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.server.plugins.Plugin.ApiType;
 import com.google.inject.Module;
+import com.google.inject.servlet.ServletModule;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -116,7 +117,7 @@ public abstract class AbstractPreloadedPluginScanner implements PluginContentSca
   private void scanGuiceModules(Set<Class<?>> classes) throws IOException {
     try {
       Class<?> sysModuleBaseClass = Module.class;
-      Class<?> httpModuleBaseClass = Class.forName("com.google.inject.servlet.ServletModule");
+      Class<?> httpModuleBaseClass = ServletModule.class;
       Class<?> sshModuleBaseClass = Class.forName("com.google.gerrit.sshd.CommandModule");
       sshModuleClass = null;
       httpModuleClass = null;

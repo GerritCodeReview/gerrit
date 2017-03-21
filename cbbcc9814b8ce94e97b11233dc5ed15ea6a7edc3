@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "465fa685_fd4d8189",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-21T08:01:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d70b291_91537050",
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fb291f3_791a75a4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc7baf6c_f25a4e39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-21T08:01:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fb291f3_791a75a4",
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "0f729161_35d8f5d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-21T08:01:10Z",
+      "side": 1,
+      "message": "I\u0027ve added a statement on how this will look like.",
+      "parentUuid": "7afec398_60ac8bac",
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fb468dd_301e4038",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerByEmailSet.java",
         "patchSetId": 3
@@ -94,6 +148,30 @@
     },
     {
       "key": {
+        "uuid": "a4103789_251ad10b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerByEmailSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-21T08:01:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fb468dd_301e4038",
+      "range": {
+        "startLine": 32,
+        "startChar": 44,
+        "endLine": 32,
+        "endChar": 87
+      },
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65b5ee4e_567b2cc5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 3
@@ -105,6 +183,24 @@
       "writtenOn": "2017-03-17T13:31:51Z",
       "side": 1,
       "message": "Hm, this makes me think that we should have been using Address instead of PersonIdent for reviewers and other identities in this class as well. parsePersonIdent handles both \"Name \u003cemail\u003e\" and \"Name \u003cemail\u003e [ts] [offset]\"; only the first one should be valid.\n\nDoesn\u0027t need to be cleaned up in this series of course.",
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e224a632_861444ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-21T08:01:10Z",
+      "side": 1,
+      "message": "I really like this idea! Would be a good cleanup after this change since getting this done in a timely manner is a concern here.",
+      "parentUuid": "65b5ee4e_567b2cc5",
       "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -134,6 +230,30 @@
     },
     {
       "key": {
+        "uuid": "1da4d668_1375ec30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-21T08:01:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "596c0ff6_f30891cd",
+      "range": {
+        "startLine": 928,
+        "startChar": 26,
+        "endLine": 928,
+        "endChar": 46
+      },
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf5d203c_723ea4d1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 3
@@ -145,6 +265,24 @@
       "writtenOn": "2017-03-17T13:31:51Z",
       "side": 1,
       "message": "Nit: factor this out into a private static void checkReviewerType method",
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96545077_7f68a18b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-21T08:01:10Z",
+      "side": 1,
+      "message": "I would prefer not to, the current implementation is very easy to read and understand. It would actually have to be\n\ncheckReviewerTypeNot(type, ReviewerStateInternal.REMOVED) since we are interested in the inverse\n\nIf you don\u0027t mind I would keep it like that.",
+      "parentUuid": "cf5d203c_723ea4d1",
       "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -171,6 +309,30 @@
       "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f36c499b_51b50a5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ReviewerStateInternal.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-21T08:01:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99ae84ec_6c719b38",
+      "range": {
+        "startLine": 62,
+        "startChar": 48,
+        "endLine": 62,
+        "endChar": 51
+      },
+      "revId": "cbbcc9814b8ce94e97b11233dc5ed15ea6a7edc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

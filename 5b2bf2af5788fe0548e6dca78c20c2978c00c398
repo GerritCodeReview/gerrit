@@ -46,6 +46,30 @@
       "revId": "5b2bf2af5788fe0548e6dca78c20c2978c00c398",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a32c5691_cd33625d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteRef.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-21T03:21:34Z",
+      "side": 1,
+      "message": "What was wrong with using resolve as I had done in the previous patch set?",
+      "parentUuid": "2ecb6ca2_eb7cdd21",
+      "range": {
+        "startLine": 118,
+        "startChar": 31,
+        "endLine": 118,
+        "endChar": 39
+      },
+      "revId": "5b2bf2af5788fe0548e6dca78c20c2978c00c398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

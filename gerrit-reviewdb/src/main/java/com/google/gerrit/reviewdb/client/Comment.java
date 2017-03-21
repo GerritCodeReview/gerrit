@@ -131,10 +131,10 @@ public class Comment {
   }
 
   public static class Range {
-    public int startLine;
-    public int startChar;
-    public int endLine;
-    public int endChar;
+    public int startLine; // 1-based, inclusive
+    public int startChar; // 0-based, inclusive
+    public int endLine; // 1-based, exclusive
+    public int endChar; // 0-based, exclusive
 
     public Range(Range r) {
       this(r.startLine, r.startChar, r.endLine, r.endChar);

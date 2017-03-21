@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.TreeMap;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * Copies approvals between patch sets.
@@ -140,7 +141,8 @@ public class ApprovalCopier {
 
       TreeMap<Integer, PatchSet> patchSets = getPatchSets(cd);
 
-      try (Repository repo = repoManager.openRepository(project.getProject().getNameKey())) {
+      try (Repository repo = repoManager.openRepository(project.getProject().getNameKey());
+          RevWalk rw = new RevWalk(repo)) {
         // Walk patch sets strictly less than current in descending order.
         Collection<PatchSet> allPrior =
             patchSets.descendingMap().tailMap(ps.getId().get(), false).values();
@@ -154,6 +156,7 @@ public class ApprovalCopier {
               changeKindCache.getChangeKind(
                   project.getProject().getNameKey(),
                   repo,
+                  rw,
                   ObjectId.fromString(priorPs.getRevision().get()),
                   ObjectId.fromString(ps.getRevision().get()));
 

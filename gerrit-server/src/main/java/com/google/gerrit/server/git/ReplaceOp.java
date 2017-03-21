@@ -197,7 +197,11 @@ public class ReplaceOp implements BatchUpdateOp {
     ctx.getRevWalk().parseBody(commit);
     changeKind =
         changeKindCache.getChangeKind(
-            projectControl.getProject().getNameKey(), ctx.getRepository(), priorCommitId, commitId);
+            projectControl.getProject().getNameKey(),
+            ctx.getRepository(),
+            ctx.getRevWalk(),
+            priorCommitId,
+            commitId);
 
     if (checkMergedInto) {
       Ref mergedInto = findMergedInto(ctx, dest.get(), commit);

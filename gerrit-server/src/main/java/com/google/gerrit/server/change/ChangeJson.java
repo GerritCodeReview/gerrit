@@ -1110,15 +1110,21 @@ public class ChangeJson {
     return null;
   }
 
+  @Nullable
+  private RevWalk newRevWalk(@Nullable Repository repo) {
+    return repo != null ? new RevWalk(repo) : null;
+  }
+
   private Map<String, RevisionInfo> revisions(
       ChangeControl ctl, ChangeData cd, Map<PatchSet.Id, PatchSet> map, ChangeInfo changeInfo)
       throws PatchListNotAvailableException, GpgException, OrmException, IOException {
     Map<String, RevisionInfo> res = new LinkedHashMap<>();
-    try (Repository repo = openRepoIfNecessary(ctl)) {
+    try (Repository repo = openRepoIfNecessary(ctl);
+        RevWalk rw = newRevWalk(repo)) {
       for (PatchSet in : map.values()) {
         if ((has(ALL_REVISIONS) || in.getId().equals(ctl.getChange().currentPatchSetId()))
             && ctl.isPatchVisible(in, db.get())) {
-          res.put(in.getRevision().get(), toRevisionInfo(ctl, cd, in, repo, false, changeInfo));
+          res.put(in.getRevision().get(), toRevisionInfo(ctl, cd, in, repo, rw, false, changeInfo));
         }
       }
       return res;
@@ -1155,9 +1161,10 @@ public class ChangeJson {
   public RevisionInfo getRevisionInfo(ChangeControl ctl, PatchSet in)
       throws PatchListNotAvailableException, GpgException, OrmException, IOException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    try (Repository repo = openRepoIfNecessary(ctl)) {
+    try (Repository repo = openRepoIfNecessary(ctl);
+        RevWalk rw = newRevWalk(repo)) {
       RevisionInfo rev =
-          toRevisionInfo(ctl, changeDataFactory.create(db.get(), ctl), in, repo, true, null);
+          toRevisionInfo(ctl, changeDataFactory.create(db.get(), ctl), in, repo, rw, true, null);
       accountLoader.fill();
       return rev;
     }
@@ -1168,6 +1175,7 @@ public class ChangeJson {
       ChangeData cd,
       PatchSet in,
       @Nullable Repository repo,
+      @Nullable RevWalk rw,
       boolean fillCommit,
       @Nullable ChangeInfo changeInfo)
       throws PatchListNotAvailableException, GpgException, OrmException, IOException {
@@ -1180,32 +1188,32 @@ public class ChangeJson {
     out.uploader = accountLoader.get(in.getUploader());
     out.draft = in.isDraft() ? true : null;
     out.fetch = makeFetchMap(ctl, in);
-    out.kind = changeKindCache.getChangeKind(repo, cd, in);
+    out.kind = changeKindCache.getChangeKind(repo, rw, cd, in);
     out.description = in.getDescription();
 
     boolean setCommit = has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT));
     boolean addFooters = out.isCurrent && has(COMMIT_FOOTERS);
     if (setCommit || addFooters) {
+      checkState(rw != null);
+      checkState(repo != null);
       Project.NameKey project = c.getProject();
-      try (RevWalk rw = new RevWalk(repo)) {
-        String rev = in.getRevision().get();
-        RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
-        rw.parseBody(commit);
-        if (setCommit) {
-          out.commit = toCommit(ctl, rw, commit, has(WEB_LINKS), fillCommit);
+      String rev = in.getRevision().get();
+      RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
+      rw.parseBody(commit);
+      if (setCommit) {
+        out.commit = toCommit(ctl, rw, commit, has(WEB_LINKS), fillCommit);
+      }
+      if (addFooters) {
+        Ref ref = repo.exactRef(ctl.getChange().getDest().get());
+        RevCommit mergeTip = null;
+        if (ref != null) {
+          mergeTip = rw.parseCommit(ref.getObjectId());
+          rw.parseBody(mergeTip);
         }
-        if (addFooters) {
-          Ref ref = repo.exactRef(ctl.getChange().getDest().get());
-          RevCommit mergeTip = null;
-          if (ref != null) {
-            mergeTip = rw.parseCommit(ref.getObjectId());
-            rw.parseBody(mergeTip);
-          }
-          out.commitWithFooters =
-              mergeUtilFactory
-                  .create(projectCache.get(project))
-                  .createCommitMessageOnSubmit(commit, mergeTip, ctl, in.getId());
-        }
+        out.commitWithFooters =
+            mergeUtilFactory
+                .create(projectCache.get(project))
+                .createCommitMessageOnSubmit(commit, mergeTip, ctl, in.getId());
       }
     }
 

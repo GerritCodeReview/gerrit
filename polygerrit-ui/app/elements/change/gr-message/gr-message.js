@@ -78,6 +78,10 @@
       },
     },
 
+    observers: [
+      '_updateExpandedClass(message.expanded)',
+    ],
+
     ready: function() {
       this.$.restAPI.getConfig().then(function(config) {
         this.config = config;
@@ -85,6 +89,14 @@
       this.$.restAPI.getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
       }.bind(this));
+    },
+
+    _updateExpandedClass: function(expanded) {
+      if (expanded) {
+        this.classList.add('expanded');
+      } else {
+        this.classList.remove('expanded');
+      }
     },
 
     _computeAuthor: function(message) {

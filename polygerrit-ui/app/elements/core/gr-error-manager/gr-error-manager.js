@@ -170,16 +170,29 @@
     },
 
     _checkSignedIn: function() {
-      this.$.restAPI.checkCredentials().then(function(isLoggedIn) {
+      this.$.restAPI.checkCredentials().then(function(account) {
+        var isLoggedIn = !!account;
         this._lastCredentialCheck = Date.now();
         if (this._refreshingCredentials) {
           if (isLoggedIn) {
+
+            // If the credentials were refreshed but the account is different
+            // then reload the page completely.
+            if (account._account_id !== this.knownAccountId) {
+              this._reloadPage();
+              return;
+            }
+
             this._handleCredentialRefreshed();
           } else {
             this._requestCheckLoggedIn();
           }
         }
       }.bind(this));
+    },
+
+    _reloadPage: function() {
+      window.location.reload();
     },
 
     _createLoginPopup: function(e) {

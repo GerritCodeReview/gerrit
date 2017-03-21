@@ -238,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "2faed0e6_c43a6e94",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-21T22:42:51Z",
+      "side": 1,
+      "message": "Since there is already code that creates an alert, maybe we should just create a cleanup issue to convert it to a toast-message or similar.\n\nWhat about creating a `_handleSetReviewedError` method so we only have one alert in the page?",
+      "parentUuid": "1d3f9048_a53e9416",
+      "range": {
+        "startLine": 393,
+        "startChar": 10,
+        "endLine": 393,
+        "endChar": 15
+      },
+      "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "89e58e3e_ff8b1dbf",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2

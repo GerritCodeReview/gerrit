@@ -451,10 +451,11 @@ limitations under the License.
           return Promise.resolve(responses.shift());
         }
       });
-      element.getLoggedIn().then(function(isLoggedIn) {
-        assert.isFalse(isLoggedIn);
-        element.checkCredentials().then(function(isRefreshed) {
-          assert.isTrue(isRefreshed);
+
+      element.getLoggedIn().then(function(account) {
+        assert.isNotOk(account);
+        element.checkCredentials().then(function(account) {
+          assert.isOk(account);
           done();
         });
       });

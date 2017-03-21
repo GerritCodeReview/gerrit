@@ -34,11 +34,15 @@
       return '/c/' + changeNum + '/' + patchNum + '/' + file;
     },
 
+    _isOnParent: function(comment) {
+      return comment.side === 'PARENT';
+    },
+
     _computeDiffLineURL: function(file, changeNum, patchNum, comment) {
       var diffURL = this._computeFileDiffURL(file, changeNum, patchNum);
       if (comment.line) {
         diffURL += '#';
-        if (comment.__isOnParent) { diffURL += 'b'; }
+        if (this._isOnParent(comment)) { diffURL += 'b'; }
         diffURL += comment.line;
       }
       return diffURL;
@@ -51,7 +55,7 @@
     },
 
     _computePatchDisplayName: function(comment) {
-      if (comment.__isOnParent) {
+      if (this._isOnParent(comment)) {
         return 'Base, ';
       }
       if (comment.patch_set != this.patchNum) {

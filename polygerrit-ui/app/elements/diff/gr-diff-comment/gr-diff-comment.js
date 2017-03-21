@@ -137,12 +137,13 @@
       this.isRobotComment = !!comment.robot_id;
     },
 
+    isOnParent: function() {
+      return this.side === 'PARENT';
+    },
+
     save: function() {
       this.comment.message = this._messageText;
 
-      // Translate {Boolean} __isOnParent to {String} side for the REST API
-      // format.
-      this.comment.side = this.comment.__isOnParent ? 'PARENT' : null;
       this.disabled = true;
 
       this._eraseDraftComment();
@@ -153,7 +154,6 @@
 
         return this.$.restAPI.getResponseObject(response).then(function(obj) {
           var comment = obj;
-          comment.__isOnParent = comment.side === 'PARENT';
           comment.__draft = true;
           // Maintain the ephemeral draft ID for identification by other
           // elements.
@@ -407,18 +407,16 @@
     },
 
     _saveDraft: function(draft) {
-      draft.side = draft.__isOnParent ? 'PARENT' : null;
       return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft);
     },
 
     _deleteDraft: function(draft) {
-      draft.side = draft.__isOnParent ? 'PARENT' : null;
       return this.$.restAPI.deleteDiffDraft(this.changeNum, this.patchNum,
           draft);
     },
 
     _getPatchNum: function() {
-      return this.isOnParent ? 'PARENT' : this.patchNum;
+      return this.isOnParent() ? 'PARENT' : this.patchNum;
     },
 
     _loadLocalDraft: function(changeNum, patchNum, comment) {

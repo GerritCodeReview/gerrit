@@ -356,7 +356,7 @@
     }
 
     var patchNum = this._comments.meta.patchRange.patchNum;
-    var isOnParent = comments[0].__isOnParent || false ;
+    var isOnParent = comments[0].side === 'PARENT' || false;
     if (line.type === GrDiffLine.Type.REMOVE ||
         opt_side === GrDiffBuilder.Side.LEFT) {
       if (this._comments.meta.patchRange.basePatchNum === 'PARENT') {

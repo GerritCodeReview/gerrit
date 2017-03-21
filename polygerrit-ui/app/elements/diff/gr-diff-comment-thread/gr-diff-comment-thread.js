@@ -272,7 +272,7 @@
         __date: new Date(),
         path: this.path,
         patchNum: this.patchNum,
-        __isOnParent: this.__isOnParent,
+        side: this._getSide(this.isOnParent),
         __commentSide: this.commentSide,
       };
       if (opt_lineNum) {
@@ -287,6 +287,11 @@
         };
       }
       return d;
+    },
+
+    _getSide: function(isOnParent) {
+      if (isOnParent) { return 'PARENT'; }
+      return 'REVISION';
     },
 
     _handleCommentDiscard: function(e) {

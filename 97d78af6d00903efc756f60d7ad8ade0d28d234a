@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0c2e4c3a_282aecdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-21T18:33:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa731438_e6217d73",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 13
+      },
+      "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d45ceaf_fbc1f2e9",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 2
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "77ce3100_949e372b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-21T18:33:20Z",
+      "side": 1,
+      "message": "It is not needed. Change works with just...\n\n  checked\u003d\"[[file.isReviewed]]\"\n\n...\nThe key takeaway here is that one way binding to a property that is updated works, whereas binding to a computed function did not.\n\nThe Polymer docs are definitely a bit confusing on this point.",
+      "parentUuid": "1d13d15c_f85752ee",
+      "range": {
+        "startLine": 241,
+        "startChar": 59,
+        "endLine": 241,
+        "endChar": 67
+      },
+      "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f94f9e34_9f445052",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -119,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "80b6fe6b_d1720137",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-21T18:33:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f94f9e34_9f445052",
+      "range": {
+        "startLine": 381,
+        "startChar": 6,
+        "endLine": 386,
+        "endChar": 20
+      },
+      "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e21d902_5ddaf902",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -130,6 +202,30 @@
       "writtenOn": "2017-03-21T02:24:28Z",
       "side": 1,
       "message": "Is there another way to handle this besides an `alert`? Have you observed this failing? If so, maybe it should go in the gr-error-manager.",
+      "range": {
+        "startLine": 393,
+        "startChar": 10,
+        "endLine": 393,
+        "endChar": 15
+      },
+      "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d3f9048_a53e9416",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-21T18:33:20Z",
+      "side": 1,
+      "message": "This is just the behavior that existed before, as you can see on #373 of the left hand side of the diff with BASE.\n\nI\u0027ve observed this happening, yeah. It\u0027s usually in the standard case of an API request failing, e.g. being disconnected from the internet. \n\nAFAIK, all errors are logged with the error-manager already through the send function in the rest-api itself. Not sure what the right course of action is here, would love your thoughts!",
+      "parentUuid": "6e21d902_5ddaf902",
       "range": {
         "startLine": 393,
         "startChar": 10,
@@ -162,6 +258,30 @@
       "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc01d9d7_2eb27888",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-21T18:33:20Z",
+      "side": 1,
+      "message": "I don\u0027t believe we allow expanding-all on a change with 12k files, do we? (Actually, you may have removed that cap when you made the diffs render in order.)\n\nRegardless, yes that will happen. I think the first point you make is the best option, I\u0027ll file a feature request with the backend team. I\u0027d rather not do the second point, because then we make 12k iterative updates to the _reviewed array instead of just doing it with one big splice.",
+      "parentUuid": "89e58e3e_ff8b1dbf",
+      "range": {
+        "startLine": 391,
+        "startChar": 6,
+        "endLine": 396,
+        "endChar": 22
+      },
+      "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

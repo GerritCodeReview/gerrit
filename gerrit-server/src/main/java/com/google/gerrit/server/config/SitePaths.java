@@ -46,6 +46,8 @@ public final class SitePaths {
   public final Path index_dir;
 
   public final Path gerrit_sh;
+  public final Path gerrit_service;
+  public final Path gerrit_socket;
   public final Path gerrit_war;
 
   public final Path gerrit_config;
@@ -85,6 +87,8 @@ public final class SitePaths {
     index_dir = p.resolve("index");
 
     gerrit_sh = bin_dir.resolve("gerrit.sh");
+    gerrit_service = bin_dir.resolve("gerrit.service");
+    gerrit_socket = bin_dir.resolve("gerrit.socket");
     gerrit_war = bin_dir.resolve("gerrit.war");
 
     gerrit_config = etc_dir.resolve("gerrit.config");

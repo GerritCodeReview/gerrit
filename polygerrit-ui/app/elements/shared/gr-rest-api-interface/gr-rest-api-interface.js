@@ -339,7 +339,7 @@
     },
 
     refreshCredentials: function() {
-      return this.getLoggedIn(true);
+      return this.getAccount(true);
     },
 
     getPreferences: function() {

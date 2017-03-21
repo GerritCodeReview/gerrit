@@ -394,6 +394,10 @@ public class ProjectState {
     return getInheritableBoolean(Project::getRejectImplicitMerges);
   }
 
+  public boolean isEnableReviewerByEmail() {
+    return getInheritableBoolean(Project::getEnableReviewerByEmail);
+  }
+
   public LabelTypes getLabelTypes() {
     Map<String, LabelType> types = new LinkedHashMap<>();
     for (ProjectState s : treeInOrder()) {

@@ -94,6 +94,7 @@ import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
 import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -140,7 +141,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected ChangeIndexCollection indexes;
   @Inject protected ChangeIndexer indexer;
   @Inject protected IndexConfig indexConfig;
-  @Inject protected InMemoryDatabase schemaFactory;
   @Inject protected InMemoryRepositoryManager repoManager;
   @Inject protected InternalChangeQuery internalChangeQuery;
   @Inject protected ChangeNotes.Factory notesFactory;
@@ -149,8 +149,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected ChangeControl.GenericFactory changeControlFactory;
   @Inject protected ChangeQueryProcessor queryProcessor;
   @Inject protected SchemaCreator schemaCreator;
+  @Inject protected SchemaFactory<ReviewDb> schemaFactory;
   @Inject protected Sequences seq;
   @Inject protected ThreadLocalRequestContext requestContext;
+
+  // Only for use in setting up/tearing down injector other users should use schemaFactory.
+  @Inject private InMemoryDatabase inMemoryDatabase;
 
   protected Injector injector;
   protected LifecycleManager lifecycle;
@@ -173,8 +177,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected void setUpDatabase() throws Exception {
+    try (ReviewDb underlyingDb = inMemoryDatabase.getDatabase().open()) {
+      schemaCreator.create(underlyingDb);
+    }
     db = schemaFactory.open();
-    schemaCreator.create(db);
 
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     Account userAccount = db.accounts().get(userId);
@@ -208,7 +214,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     if (db != null) {
       db.close();
     }
-    InMemoryDatabase.drop(schemaFactory);
+    InMemoryDatabase.drop(inMemoryDatabase);
   }
 
   @Before
@@ -1341,7 +1347,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     allUsers.update(draftsRef.getName(), draftsRef.getObjectId());
     assertThat(allUsers.getRepository().exactRef(draftsRef.getName())).isNotNull();
 
-    if (PrimaryStorage.of(change) == PrimaryStorage.REVIEW_DB) {
+    if (PrimaryStorage.of(change) == PrimaryStorage.REVIEW_DB
+        && !notesMigration.disableChangeReviewDb()) {
       // Record draft ref in noteDbState as well.
       ReviewDb db = ReviewDbUtil.unwrapDb(this.db);
       change = db.changes().get(id);

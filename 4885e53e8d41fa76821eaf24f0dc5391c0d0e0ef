@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc9ea9db_a2f3d1b2",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-21T16:45:13Z",
+      "side": 1,
+      "message": "Stale credentials will only be checked if this is set. This could have been a boolean, but I plan to test this value in follow-up work for issue 5820, so that\u0027s why it\u0027s the ID number.",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "4885e53e8d41fa76821eaf24f0dc5391c0d0e0ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

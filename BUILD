@@ -2,6 +2,7 @@ package(default_visibility = ["//visibility:public"])
 
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
+load("//tools/bzl:gjf.bzl", "java_format_test")
 
 genrule(
     name = "gen_version",
@@ -70,3 +71,7 @@ genrule2(
         "zip -qr $$ROOT/$@ .",
     ]),
 )
+
+java_format_test(
+    name = "api_format_test",
+    libs = [ "//gerrit-acceptance-framework:lib" ])

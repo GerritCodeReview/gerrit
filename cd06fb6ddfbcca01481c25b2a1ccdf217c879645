@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60c4207c_c8813ae5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-21T15:35:00Z",
+      "side": 1,
+      "message": "optional nit: regular\n\nI think \u0027regular\u0027 is more commonly used when compared to \u0027normal\u0027. But native speakers might correct me :)",
+      "range": {
+        "startLine": 32,
+        "startChar": 68,
+        "endLine": 32,
+        "endChar": 74
+      },
+      "revId": "cd06fb6ddfbcca01481c25b2a1ccdf217c879645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

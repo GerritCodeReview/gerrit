@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d0fca451_397444c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-21T00:22:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61558616_9059c582",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 32
+      },
+      "revId": "d845ebddf456d175dc03c5dcb848fd27d5a7057a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fabdad6b_26e392e1",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "2bc759df_9b389447",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-21T00:22:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fabdad6b_26e392e1",
+      "range": {
+        "startLine": 71,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 15
+      },
+      "revId": "d845ebddf456d175dc03c5dcb848fd27d5a7057a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68ccce9e_2688a78d",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2017-03-20T18:00:04Z",
       "side": 1,
       "message": "Aside: two things about this strike me as odd:\n* `_expanded` appears to be used as a boolean, but here, it\u0027s typed as an Object.\n* `_computeExpanded` just returns its parameter. Why not just use `message.expanded` in bindings? I wonder if this property can be removed.",
+      "range": {
+        "startLine": 72,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 55
+      },
+      "revId": "d845ebddf456d175dc03c5dcb848fd27d5a7057a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71ff082b_47b42bff",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-21T00:22:40Z",
+      "side": 1,
+      "message": "I think it\u0027s because it\u0027s used as an argument in _computeClass on line 128 of gr-message.html",
+      "parentUuid": "68ccce9e_2688a78d",
       "range": {
         "startLine": 72,
         "startChar": 8,
@@ -91,6 +163,30 @@
       "revId": "d845ebddf456d175dc03c5dcb848fd27d5a7057a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23c1cb5f_6687a1b4",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-21T00:22:40Z",
+      "side": 1,
+      "message": "You\u0027re right.",
+      "parentUuid": "454c2753_ee79b57e",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 33
+      },
+      "revId": "d845ebddf456d175dc03c5dcb848fd27d5a7057a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

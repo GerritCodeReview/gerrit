@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Comparator.comparing;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
@@ -318,24 +319,19 @@ class ReviewDbBatchUpdate extends BatchUpdate {
           throw new IllegalStateException("invalid execution order: " + order);
       }
 
-      List<CheckedFuture<?, IOException>> indexFutures = new ArrayList<>();
-      for (ReviewDbBatchUpdate u : updates) {
-        indexFutures.addAll(u.indexFutures);
-      }
-      ChangeIndexer.allAsList(indexFutures).get();
+      ChangeIndexer.allAsList(
+              updates.stream().flatMap(u -> u.indexFutures.stream()).collect(toList()))
+          .get();
 
-      for (ReviewDbBatchUpdate u : updates) {
-        if (u.batchRefUpdate != null) {
-          // Fire ref update events only after all mutations are finished, since
-          // callers may assume a patch set ref being created means the change
-          // was created, or a branch advancing meaning some changes were
-          // closed.
-          u.gitRefUpdated.fire(
-              u.project,
-              u.batchRefUpdate,
-              u.getUser().isIdentifiedUser() ? u.getUser().asIdentifiedUser().getAccount() : null);
-        }
-      }
+      // Fire ref update events only after all mutations are finished, since callers may assume a
+      // patch set ref being created means the change was created, or a branch advancing meaning
+      // some changes were closed.
+      updates
+          .stream()
+          .filter(u -> u.batchRefUpdate != null)
+          .forEach(
+              u -> u.gitRefUpdated.fire(u.project, u.batchRefUpdate, u.getAccount().orElse(null)));
+
       if (!dryrun) {
         for (ReviewDbBatchUpdate u : updates) {
           u.executePostOps();

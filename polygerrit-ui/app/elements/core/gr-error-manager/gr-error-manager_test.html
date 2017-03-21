@@ -162,5 +162,67 @@ limitations under the License.
       assert.isTrue(refreshStub.called);
       assert.equal(element._lastCredentialCheck, 999999);
     });
+
+    test('refresh loop continues on credential fail', function(done) {
+      var accountPromise = Promise.resolve(null);
+      sandbox.stub(element.$.restAPI, 'refreshCredentials')
+          .returns(accountPromise);
+      var requestCheckStub = sandbox.stub(element, '_requestCheckLoggedIn');
+      var handleRefreshStub = sandbox.stub(element,
+          '_handleCredentialRefreshed');
+      var reloadStub = sandbox.stub(element, '_reloadPage');
+
+      element._refreshingCredentials = true;
+      element._checkSignedIn();
+
+      accountPromise.then(function() {
+        assert.isTrue(requestCheckStub.called);
+        assert.isFalse(handleRefreshStub.called);
+        assert.isFalse(reloadStub.called);
+        done();
+      });
+    });
+
+    test('refreshes with same credentials', function(done) {
+      var accountPromise = Promise.resolve({_account_id: 1234});
+      sandbox.stub(element.$.restAPI, 'refreshCredentials')
+          .returns(accountPromise);
+      var requestCheckStub = sandbox.stub(element, '_requestCheckLoggedIn');
+      var handleRefreshStub = sandbox.stub(element,
+          '_handleCredentialRefreshed');
+      var reloadStub = sandbox.stub(element, '_reloadPage');
+
+      element.knownAccountId = 1234;
+      element._refreshingCredentials = true;
+      element._checkSignedIn();
+
+      accountPromise.then(function() {
+        assert.isFalse(requestCheckStub.called);
+        assert.isTrue(handleRefreshStub.called);
+        assert.isFalse(reloadStub.called);
+        done();
+      });
+    });
+
+    test('reloads when refreshed credentials differ', function(done) {
+      var accountPromise = Promise.resolve({_account_id: 1234});
+      sandbox.stub(element.$.restAPI, 'refreshCredentials')
+          .returns(accountPromise);
+      var requestCheckStub = sandbox.stub(element, '_requestCheckLoggedIn');
+      var handleRefreshStub = sandbox.stub(element,
+          '_handleCredentialRefreshed');
+      var reloadStub = sandbox.stub(element, '_reloadPage');
+
+      element.knownAccountId = 4321; // Different from 1234
+      element._refreshingCredentials = true;
+      element._checkSignedIn();
+
+      accountPromise.then(function() {
+        assert.isFalse(requestCheckStub.called);
+        assert.isFalse(handleRefreshStub.called);
+        assert.isTrue(reloadStub.called);
+        done();
+      });
+    });
   });
 </script>

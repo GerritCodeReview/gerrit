@@ -99,6 +99,8 @@ public final class Project {
 
   protected InheritableBoolean rejectImplicitMerges;
 
+  protected InheritableBoolean enableReviewerByEmail;
+
   protected Project() {}
 
   public Project(Project.NameKey nameKey) {
@@ -112,6 +114,7 @@ public final class Project {
     createNewChangeForAllNotInTarget = InheritableBoolean.INHERIT;
     enableSignedPush = InheritableBoolean.INHERIT;
     requireSignedPush = InheritableBoolean.INHERIT;
+    enableReviewerByEmail = InheritableBoolean.INHERIT;
   }
 
   public Project.NameKey getNameKey() {
@@ -152,6 +155,10 @@ public final class Project {
 
   public InheritableBoolean getRejectImplicitMerges() {
     return rejectImplicitMerges;
+  }
+
+  public InheritableBoolean getEnableReviewerByEmail() {
+    return enableReviewerByEmail;
   }
 
   public void setUseContributorAgreements(final InheritableBoolean u) {

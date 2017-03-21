@@ -29,7 +29,7 @@ public abstract class Comment {
   public String path;
   public Side side;
   public Integer parent;
-  public Integer line;
+  public Integer line; // value 0 or null indicates a file comment, normal lines start at 1
   public Range range;
   public String inReplyTo;
   public Timestamp updated;
@@ -37,15 +37,15 @@ public abstract class Comment {
   public Boolean unresolved;
 
   public static class Range {
-    public int startLine;
-    public int startCharacter;
-    public int endLine;
-    public int endCharacter;
+    public int startLine; // 1-based, inclusive
+    public int startCharacter; // 0-based, inclusive
+    public int endLine; // 1-based, exclusive
+    public int endCharacter; // 0-based, exclusive
 
     public boolean isValid() {
-      return startLine >= 0
+      return startLine > 0
           && startCharacter >= 0
-          && endLine >= 0
+          && endLine > 0
           && endCharacter >= 0
           && startLine <= endLine
           && (startLine != endLine || startCharacter <= endCharacter);

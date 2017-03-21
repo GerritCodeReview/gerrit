@@ -22,6 +22,30 @@
       "revId": "0cb03c07f85421f2efad76a9e52b2d1b2e8cc701",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26f9f74c_a62e8065",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-21T15:23:21Z",
+      "side": 1,
+      "message": "\u003e nit: this was already the case, no?  If so, \"Clarify boundaries of comment range\" (or something similar)\n\nPreviously, the REST endpoint accepted comments and robot comments which used a start line or end line of 0 within their range. Errors were only reported when the comment was used. I adjusted this line of the commit message to better reflect the change.\n\u003e \n\u003e I guess the file comments were added through a different bit of the API ?\n\nFor file comments, no range is set. We have the field \u0027line\u0027 on a Comment instance to indicate line comments or file comments.",
+      "parentUuid": "b1b68aae_a9d53451",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "0cb03c07f85421f2efad76a9e52b2d1b2e8cc701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "563d9c996d2f3cd6264cb42d4ce79907c920b93b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "561f581d_f0236927",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-21T18:37:37Z",
+      "side": 1,
+      "message": "I read this as PolyGerrit-Review -2",
+      "parentUuid": "04f493a0_4211b360",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 9
+      },
+      "revId": "563d9c996d2f3cd6264cb42d4ce79907c920b93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

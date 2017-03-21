@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "96339085_ff7f47d0",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-21T04:41:18Z",
+      "side": 1,
+      "message": "I seem to have more issues with shadow dom... the error view takes up the whole screen and I can\u0027t click on anything. May need to address some things separately.",
+      "parentUuid": "d2a07356_d6dcc467",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 22
+      },
+      "revId": "01a3b189fb9b8bc9f098e5446718b20edf5c8dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "943c03a5_da0df73d",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
         "patchSetId": 3
@@ -53,6 +77,30 @@
       "writtenOn": "2017-03-21T01:57:01Z",
       "side": 1,
       "message": "I know I suggested `default`, but looking at the property def, I suspect `auto` is more correct here. What do you think?",
+      "range": {
+        "startLine": 36,
+        "startChar": 16,
+        "endLine": 36,
+        "endChar": 23
+      },
+      "revId": "01a3b189fb9b8bc9f098e5446718b20edf5c8dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c72f7568_a5872da1",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-21T04:41:18Z",
+      "side": 1,
+      "message": "I think that either could work in this case. It we want to make sure it\u0027s an arrow/similar, default works. If we want the browser to decide what is best, then auto.",
+      "parentUuid": "943c03a5_da0df73d",
       "range": {
         "startLine": 36,
         "startChar": 16,

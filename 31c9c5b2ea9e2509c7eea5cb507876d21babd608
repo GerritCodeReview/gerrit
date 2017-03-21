@@ -46,6 +46,47 @@
       "revId": "31c9c5b2ea9e2509c7eea5cb507876d21babd608",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73fbf003_4006ad21",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-21T02:33:43Z",
+      "side": 1,
+      "message": "Thinking out loud:\n\nAccording to [1] the rebase network call returns JSON of the updated change. Can we get the new patch number from that?\n\nHmm, but at the same time, we probably still have to completely reload because there will be at least one new patch set that wasn\u0027t known previously.\n\nAnother option, would be to call the `_handleCapitalRKey` method, which is supposed to do the same thing (maybe even refactor it into `_reloadToLatest` or something cool).\n\nThis approach here looks good to me.\n\n* [1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#rebase-change",
+      "parentUuid": "132d1273_02068b11",
+      "range": {
+        "startLine": 824,
+        "startChar": 10,
+        "endLine": 824,
+        "endChar": 54
+      },
+      "revId": "31c9c5b2ea9e2509c7eea5cb507876d21babd608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aee4a743_db32614a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-21T02:33:43Z",
+      "side": 1,
+      "message": "Maybe also add an assertion for the URL you expect it to be called with (i.e. no patch number specified).",
+      "revId": "31c9c5b2ea9e2509c7eea5cb507876d21babd608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

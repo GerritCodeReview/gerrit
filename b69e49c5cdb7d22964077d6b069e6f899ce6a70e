@@ -22,6 +22,30 @@
       "revId": "b69e49c5cdb7d22964077d6b069e6f899ce6a70e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e794e7b_ced96376",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-21T07:53:07Z",
+      "side": 1,
+      "message": "That one cannot be replaced with it reference, because the dependency graph is pointing to different direction:\n\n  SSHD -\u003e Gerrit-Server\n\nso that we cannot\n\n  import com.google.gerrit.sshd.CommandModule;\n\nwith adding //gerrit-sshd:sshd\n\nto the dependency on gerrit-server. But doing it would introduce dependency graph cycle, that is not supported in any build tool chain:\n\n  diff --git a/gerrit-server/BUILD b/gerrit-server/BUILD\nindex a8ac50d..110e043 100644\n--- a/gerrit-server/BUILD\n+++ b/gerrit-server/BUILD\n@@ -83,6 +83,7 @@ java_library(\n         \"//lib/ow2:ow2-asm-tree\",\n         \"//lib/ow2:ow2-asm-util\",\n         \"//lib/prolog:runtime\",\n+        \"//gerrit-sshd:sshd\",\n     ],\n )\n\nand now we get:\n\n  $ bazel build gerrit-sshd:sshd\nERROR: /home/davido/projects/gerrit/gerrit-sshd/BUILD:5:1: in java_library rule //gerrit-sshd:sshd: cycle in dependency graph:\n.-\u003e //gerrit-sshd:sshd\n|   //gerrit-server:server\n`-- //gerrit-sshd:sshd\nThis cycle occurred because of a configuration option.\nERROR: Analysis of target \u0027//gerrit-sshd:sshd\u0027 failed; build aborted.",
+      "parentUuid": "670bd155_d36cfd9a",
+      "range": {
+        "startLine": 121,
+        "startChar": 36,
+        "endLine": 121,
+        "endChar": 89
+      },
+      "revId": "b69e49c5cdb7d22964077d6b069e6f899ce6a70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

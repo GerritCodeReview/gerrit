@@ -116,7 +116,7 @@ public class DeleteRef {
     RefUpdate.Result result;
     RefUpdate u = r.updateRef(ref);
     u.setForceUpdate(true);
-    refDeletionValidator.validateRefOperation(ref, identifiedUser.get(), u);
+    refDeletionValidator.validateRefOperation(resource.getName(), identifiedUser.get(), u);
     int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
     for (; ; ) {
       try {

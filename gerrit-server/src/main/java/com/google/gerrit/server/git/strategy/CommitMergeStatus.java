@@ -62,7 +62,7 @@ public enum CommitMergeStatus {
           + "\n"
           + "Please rebase the change locally and upload again for review.");
 
-  private String message;
+  private final String message;
 
   CommitMergeStatus(String message) {
     this.message = message;

@@ -117,7 +117,7 @@ public abstract class BatchUpdate implements AutoCloseable {
     }
   }
 
-  protected static Order getOrder(Collection<? extends BatchUpdate> updates) {
+  static Order getOrder(Collection<? extends BatchUpdate> updates) {
     Order o = null;
     for (BatchUpdate u : updates) {
       if (o == null) {
@@ -129,7 +129,7 @@ public abstract class BatchUpdate implements AutoCloseable {
     return o;
   }
 
-  protected static boolean getUpdateChangesInParallel(Collection<? extends BatchUpdate> updates) {
+  static boolean getUpdateChangesInParallel(Collection<? extends BatchUpdate> updates) {
     checkArgument(!updates.isEmpty());
     Boolean p = null;
     for (BatchUpdate u : updates) {

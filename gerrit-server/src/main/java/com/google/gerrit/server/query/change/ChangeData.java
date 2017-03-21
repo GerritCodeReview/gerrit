@@ -747,6 +747,8 @@ public class ChangeData {
       }
       if (c.getStatus() == Change.Status.MERGED) {
         mergeable = true;
+      } else if (c.getStatus() == Change.Status.ABANDONED) {
+        return null;
       } else {
         PatchSet ps = currentPatchSet();
         if (ps == null || !changeControl().isPatchVisible(ps, db)) {

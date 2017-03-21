@@ -1067,8 +1067,8 @@ bower_archive(
 bower_archive(
     name = "polymer",
     package = "polymer/polymer",
-    sha1 = "f2563ed9c8571057814b78d8f6cf275eeb953eeb",
-    version = "1.7.1",
+    sha1 = "2c7dd638d55ea91242525139cba18a308b9426d5",
+    version = "1.9.1",
 )
 
 bower_archive(

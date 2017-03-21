@@ -105,7 +105,9 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
                             + "  accepted = group Developers\n" //
                             + "  accepted = group Staff\n" //
                             + "  autoVerify = group Developers\n" //
-                            + "  agreementUrl = http://www.example.com/agree\n")) //
+                            + "  agreementUrl = http://www.example.com/agree\n" //
+                            + "[reviewer]\n" //
+                            + "  enableByEmail = true\n")) //
                 ));
 
     ProjectConfig cfg = read(rev);
@@ -132,6 +134,8 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     assertThat(submit.getExclusiveGroup()).isTrue();
     assertThat(read.getExclusiveGroup()).isTrue();
     assertThat(push.getExclusiveGroup()).isFalse();
+
+    assertThat(cfg.getEnableReviewerByEmail()).isTrue();
   }
 
   @Test

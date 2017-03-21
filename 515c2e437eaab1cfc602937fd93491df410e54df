@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b3666f5_1e285cfc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-21T04:08:23Z",
+      "side": 0,
+      "message": "Why is this removed?",
+      "range": {
+        "startLine": 400,
+        "startChar": 21,
+        "endLine": 400,
+        "endChar": 48
+      },
+      "revId": "515c2e437eaab1cfc602937fd93491df410e54df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

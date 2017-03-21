@@ -18,8 +18,8 @@
 
 # See https://github.com/bazelbuild/bazel/issues/1017 for background.
 
-_OUTPUT = """import org.junit.runners.Suite;
-import org.junit.runner.RunWith;
+_OUTPUT = """import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({%s})
@@ -48,10 +48,14 @@ def _AsClassName(fname):
     return ".".join(toks[findex:]) + ".class"
 
 def _impl(ctx):
-    classes = ",".join(
-        [_AsClassName(x) for x in ctx.attr.srcs])
+    classes = [_AsClassName(x) for x in ctx.attr.srcs]
+    if len(classes) > 1:
+        classes_str = "\n  %s\n" % (",\n  ".join(classes))
+    else:
+        classes_str = classes[0]
+
     ctx.file_action(output=ctx.outputs.out, content=_OUTPUT % (
-            classes, ctx.attr.outname))
+            classes_str, ctx.attr.outname))
 
 _GenSuite = rule(
     attrs = {

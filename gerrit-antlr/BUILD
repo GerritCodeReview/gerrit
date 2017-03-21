@@ -30,3 +30,6 @@ java_library(
         "//lib/antlr:java_runtime",
     ],
 )
+
+load("//tools/bzl:gjf.bzl", "gen_java_format_tests")
+gen_java_format_tests()

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91acca1c_991be855",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-21T01:03:57Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right. The javadoc for RefUpdate says \"the value of the ref prior to the update being attempted; null if the update has not been attempted yet\". Why should we assume that if the update has not been attempted that it is a branch creation?",
+      "revId": "b99aab34c578405b6cee1c437f032a579efa771d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -44,8 +44,12 @@ public interface ChangeContext extends Context {
   ChangeUpdate getUpdate(PatchSet.Id psId);
 
   /**
-   * @return control for this change. The user will be the same as {@link #getUser()}, and the
-   *     change data is read within the same transaction that {@code updateChange} is executing.
+   * Get the control for this change, encapsulating the user and up-to-date change data.
+   *
+   * <p>The user will be the same as {@link #getUser()}, and the change data is read within the same
+   * transaction that {@link BatchUpdateOp#updateChange(ChangeContext)} is executing.
+   *
+   * @return control for this change.
    */
   ChangeControl getControl();
 
@@ -66,7 +70,11 @@ public interface ChangeContext extends Context {
    */
   void deleteChange();
 
-  /** @return notes corresponding to {@link #getControl()}. */
+  /**
+   * Get notes corresponding to {@link #getControl()}.
+   *
+   * @return loaded notes instance.
+   */
   default ChangeNotes getNotes() {
     return checkNotNull(getControl().getNotes());
   }

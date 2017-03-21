@@ -30,9 +30,10 @@ limitations under the License.
         border-top: 1px solid #ddd;
         display: block;
         position: relative;
-      }
-      :host(:not([expanded])) {
         cursor: pointer;
+      }
+      :host(.expanded) {
+        cursor: auto;
       }
       gr-avatar {
         position: absolute;

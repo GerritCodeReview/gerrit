@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcf7c095_067ad201",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-21T11:04:48Z",
+      "side": 1,
+      "message": "General comment: it would be nicer to format this in a similar way to how the options are documented in for example config.gerrit\n\nAlso, this file should be linked from somewhere else in the documentation otherwise nobody will find it.",
+      "revId": "e5d7e73d4f531b4e477e37757b2b459d9c996362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bef0556_f91e98f1",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-21T11:04:48Z",
+      "side": 1,
+      "message": "nit: missing period",
+      "range": {
+        "startLine": 3,
+        "startChar": 26,
+        "endLine": 3,
+        "endChar": 30
+      },
+      "revId": "e5d7e73d4f531b4e477e37757b2b459d9c996362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9b19f31_9c5a9aec",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-21T11:04:48Z",
+      "side": 1,
+      "message": "GWT",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "e5d7e73d4f531b4e477e37757b2b459d9c996362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4aee368_f7d487d6",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-21T11:04:48Z",
+      "side": 1,
+      "message": "UI",
+      "range": {
+        "startLine": 7,
+        "startChar": 34,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "e5d7e73d4f531b4e477e37757b2b459d9c996362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f99d4b6f_69b69f66",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-21T11:04:48Z",
+      "side": 1,
+      "message": "This entire section seems redundant since both values default to true.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "e5d7e73d4f531b4e477e37757b2b459d9c996362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "183aeacf_4348714d",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-21T11:04:48Z",
+      "side": 1,
+      "message": "\"but not\"?\n\n\"but enable\"?",
+      "range": {
+        "startLine": 16,
+        "startChar": 15,
+        "endLine": 16,
+        "endChar": 18
+      },
+      "revId": "e5d7e73d4f531b4e477e37757b2b459d9c996362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3ad7f68_5e6ef14c",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-21T11:04:48Z",
+      "side": 1,
+      "message": "polygerrit",
+      "range": {
+        "startLine": 16,
+        "startChar": 19,
+        "endLine": 16,
+        "endChar": 28
+      },
+      "revId": "e5d7e73d4f531b4e477e37757b2b459d9c996362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -60,6 +60,8 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.H2AccountPatchReviewStore;
+import com.google.gerrit.server.schema.NotesMigrationSchemaFactory;
+import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
@@ -70,6 +72,7 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
@@ -172,12 +175,14 @@ public class InMemoryModule extends FactoryModule {
     bind(ListeningExecutorService.class)
         .annotatedWith(ChangeUpdateExecutor.class)
         .toInstance(MoreExecutors.newDirectExecutorService());
-
     bind(DataSourceType.class).to(InMemoryH2Type.class);
-    bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).to(InMemoryDatabase.class);
     bind(ChangeBundleReader.class).to(GwtormChangeBundleReader.class);
-
     bind(SecureStore.class).to(DefaultSecureStore.class);
+
+    TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
+        new TypeLiteral<SchemaFactory<ReviewDb>>() {};
+    bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
+    bind(Key.get(schemaFactory, ReviewDbFactory.class)).to(InMemoryDatabase.class);
 
     install(NoSshKeyCache.module());
     install(

@@ -1,0 +1,2 @@
+
+load("@gerrit//tools/bzl:gjf.bzl", "java_library")

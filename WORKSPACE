@@ -1072,6 +1072,12 @@ bower_archive(
     version = "1.7.6",
 )
 
+http_jar(
+    name = "google_java_format",
+    sha256 = "96607b6e2e013a2396cc6625257e2bd4817fb92a509fcc8cba82836c8f01cf4f",
+    url = "https://github.com/google/google-java-format/releases/download/google-java-format-1.3/google-java-format-1.3-all-deps.jar"
+)
+
 bower_archive(
     name = "iron-selector",
     package = "polymerelements/iron-selector",

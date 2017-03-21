@@ -27,13 +27,21 @@ same repository as code changes.
   servers behind `googlesource.com`. In other words, if you use
   link:https://gerrit-review.googlesource.com/[gerrit-review], you're already
   using NoteDb. +
-  Specifically, `gerrit-review` is running with `noteDb.changes.write=true`,
-  `noteDb.changes.read=true`, `noteDb.changes.primaryStorage=NOTE_DB`, and all
-  old changes have been migrated to NoteDb primary.
 - Storing some account data, e.g. user preferences, is implemented in releases
   back to 2.13.
 - Storing the rest of account data is a work in progress.
 - Storing group data is a work in progress.
+
+To match the current configuration of `googlesource.com`, paste the following
+config snippet in your `gerrit.config`:
+
+----
+[noteDb "changes"]
+  write = true
+  read = true
+  primaryStorage = NOTE_DB
+---
+
 
 For an example NoteDb change, poke around at this one:
 ----

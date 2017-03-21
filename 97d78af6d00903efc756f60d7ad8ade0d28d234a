@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "61fa5d73_adcafc0e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-21T17:20:07Z",
+      "side": 1,
+      "message": "I\u0027m not sure exactly, but this is what the Polymer docs say to do for two way binding to a native element: \nhttps://www.polymer-project.org/1.0/docs/devguide/data-binding#two-way-native",
+      "parentUuid": "3d45ceaf_fbc1f2e9",
+      "range": {
+        "startLine": 241,
+        "startChar": 59,
+        "endLine": 241,
+        "endChar": 67
+      },
+      "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f94f9e34_9f445052",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2

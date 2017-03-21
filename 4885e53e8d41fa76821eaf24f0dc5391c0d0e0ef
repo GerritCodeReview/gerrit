@@ -22,6 +22,53 @@
       "revId": "4885e53e8d41fa76821eaf24f0dc5391c0d0e0ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9babe43_9ce50f9e",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-21T19:17:52Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we always reload or massively rebuild the UI on login?",
+      "parentUuid": "bc9ea9db_a2f3d1b2",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "4885e53e8d41fa76821eaf24f0dc5391c0d0e0ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fba2fcb_760ca6dc",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-21T19:17:52Z",
+      "side": 1,
+      "message": "Would refreshCredentials do the same?",
+      "range": {
+        "startLine": 158,
+        "startChar": 8,
+        "endLine": 158,
+        "endChar": 40
+      },
+      "revId": "4885e53e8d41fa76821eaf24f0dc5391c0d0e0ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

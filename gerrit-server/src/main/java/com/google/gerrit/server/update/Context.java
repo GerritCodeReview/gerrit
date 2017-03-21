@@ -33,7 +33,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * <p>A single update may span multiple changes, but they all belong to a single repo.
  */
 public interface Context {
-  /** @return the project name this update operates on. */
+  /**
+   * Get the project name this update operates on.
+   *
+   * @return project.
+   */
   Project.NameKey getProject();
 
   /**
@@ -57,50 +61,80 @@ public interface Context {
    */
   RevWalk getRevWalk() throws IOException;
 
-  /** @return the timestamp at which this update takes place. */
+  /**
+   * Get the timestamp at which this update takes place.
+   *
+   * @return timestamp.
+   */
   Timestamp getWhen();
 
   /**
-   * @return the time zone in which this update takes place. In the current implementation, this is
-   *     always the time zone of the server.
+   * Get the time zone in which this update takes place.
+   *
+   * <p>In the current implementation, this is always the time zone of the server.
+   *
+   * @return time zone.
    */
   TimeZone getTimeZone();
 
   /**
-   * @return an open ReviewDb database. Callers should not manage transactions or call mutating
-   *     methods on the Changes table. Mutations on other tables (including other entities in the
-   *     change entity group) are fine.
+   * Get the ReviewDb database.
+   *
+   * <p>Callers should not manage transactions or call mutating methods on the Changes table.
+   * Mutations on other tables (including other entities in the change entity group) are fine.
+   *
+   * @return open database instance.
    */
   ReviewDb getDb();
 
   /**
-   * @return user performing the update. In the current implementation, this is always an {@link
-   *     IdentifiedUser} or {@link com.google.gerrit.server.InternalUser}.
+   * Get the user performing the update.
+   *
+   * <p>In the current implementation, this is always an {@link IdentifiedUser} or {@link
+   * com.google.gerrit.server.InternalUser}.
+   *
+   * @return user.
    */
   CurrentUser getUser();
 
-  /** @return order in which operations are executed in this update. */
+  /**
+   * Get the order in which operations are executed in this update.
+   *
+   * @return order of operations.
+   */
   Order getOrder();
 
   /**
-   * @return identified user performing the update; throws an unchecked exception if the user is not
-   *     an {@link IdentifiedUser}
+   * Get the identified user performing the update.
+   *
+   * <p>Convenience method for {@code getUser().asIdentifiedUser()}; see {@link
+   * CurrentUser#asIdentifiedUser()}.
+   *
+   * @return user.
    */
   default IdentifiedUser getIdentifiedUser() {
     return checkNotNull(getUser()).asIdentifiedUser();
   }
 
   /**
-   * @return account of the user performing the update; throws if the user is not an {@link
-   *     IdentifiedUser}
+   * Get the account of the user performing the update.
+   *
+   * <p>Convenience method for {@code getIdentifiedUser().getAccount()}; see {@link
+   * CurrentUser#asIdentifiedUser()}.
+   *
+   * @return account.
    */
   default Account getAccount() {
     return getIdentifiedUser().getAccount();
   }
 
   /**
-   * @return account ID of the user performing the update; throws if the user is not an {@link
-   *     IdentifiedUser}
+   * Get the account ID of the user performing the update.
+   *
+   * <p>Convenience method for {@code getUser().getAccountId()}; see {@link
+   * CurrentUser#getAccountId()}.
+   *
+   * @return account ID.
    */
   default Account.Id getAccountId() {
     return getIdentifiedUser().getAccountId();

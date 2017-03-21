@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b7f1ccd5_71709835",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-21T02:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "490a4f94_78f566fa",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "cdc60c3b36a3af45d7dabb2379d7d52c9780d734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ef847a5_27bbe093",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteRef.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "cdc60c3b36a3af45d7dabb2379d7d52c9780d734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "560ed4bd_c917afaa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteRef.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-21T02:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ef847a5_27bbe093",
+      "range": {
+        "startLine": 118,
+        "startChar": 31,
+        "endLine": 118,
+        "endChar": 38
+      },
+      "revId": "cdc60c3b36a3af45d7dabb2379d7d52c9780d734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -24,6 +24,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -41,6 +42,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -249,6 +251,12 @@ public abstract class BatchUpdate implements AutoCloseable {
 
   protected CurrentUser getUser() {
     return user;
+  }
+
+  protected Optional<Account> getAccount() {
+    return user.isIdentifiedUser()
+        ? Optional.of(user.asIdentifiedUser().getAccount())
+        : Optional.empty();
   }
 
   protected Repository getRepository() throws IOException {

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2ce22e16_8ee42d2a",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-21T19:42:53Z",
+      "side": 1,
+      "message": "* On login: YES. Definitely the page needs to be totally be rebuilt if it goes from logged-out to logged-in. In this case, the `knownAccountId` is the ID of the user when GR-APP was started, so if it\u0027s set, then the user is assumed to be logged in.\n* On credentials refresh: MAYBE NOT. If the credentials refresh was done before a regular 403 was encountered (i.e. eagerly showing the refresh toast when credentials have expired) and the refreshed account is the same as it was already, then everything should continue to work as normal. If it\u0027s different, then yeah the page should reload per issue 5820.\n\nAdded documentation. Let me know if that isn\u0027t clear or if you still have concerns.",
+      "parentUuid": "f9babe43_9ce50f9e",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "4885e53e8d41fa76821eaf24f0dc5391c0d0e0ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fba2fcb_760ca6dc",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 1
@@ -69,6 +93,30 @@
       "revId": "4885e53e8d41fa76821eaf24f0dc5391c0d0e0ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db969386_c34f109d",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-21T19:42:53Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "0fba2fcb_760ca6dc",
+      "range": {
+        "startLine": 158,
+        "startChar": 8,
+        "endLine": 158,
+        "endChar": 40
+      },
+      "revId": "4885e53e8d41fa76821eaf24f0dc5391c0d0e0ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

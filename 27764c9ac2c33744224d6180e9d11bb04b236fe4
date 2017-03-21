@@ -23,6 +23,52 @@
       "revId": "27764c9ac2c33744224d6180e9d11bb04b236fe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "693bb2d9_168dceb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-21T17:29:07Z",
+      "side": 1,
+      "message": "optional: Could be replaced with @see depending on how strong you want to highlight it.",
+      "range": {
+        "startLine": 110,
+        "startChar": 69,
+        "endLine": 110,
+        "endChar": 79
+      },
+      "revId": "27764c9ac2c33744224d6180e9d11bb04b236fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b902cfd6_cb71c263",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-21T17:29:07Z",
+      "side": 1,
+      "message": "Did you mean IdentifiedUser#getAccount()?",
+      "range": {
+        "startLine": 123,
+        "startChar": 5,
+        "endLine": 123,
+        "endChar": 35
+      },
+      "revId": "27764c9ac2c33744224d6180e9d11bb04b236fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

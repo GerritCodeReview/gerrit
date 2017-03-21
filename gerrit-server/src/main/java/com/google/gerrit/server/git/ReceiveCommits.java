@@ -1113,7 +1113,10 @@ public class ReceiveCommits {
             break;
 
           default:
-            reject(cmd, "prohibited by Gerrit: don't know how to handle config update of type " + cmd.getType());
+            reject(
+                cmd,
+                "prohibited by Gerrit: don't know how to handle config update of type "
+                    + cmd.getType());
             continue;
         }
       }

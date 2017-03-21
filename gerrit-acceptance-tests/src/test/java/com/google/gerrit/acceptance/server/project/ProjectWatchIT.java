@@ -49,7 +49,6 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Test;
 
-
 @NoHttpd
 @Sandboxed
 public class ProjectWatchIT extends AbstractDaemonTest {

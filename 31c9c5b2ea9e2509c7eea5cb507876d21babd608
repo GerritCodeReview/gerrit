@@ -22,6 +22,30 @@
       "revId": "31c9c5b2ea9e2509c7eea5cb507876d21babd608",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "132d1273_02068b11",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-21T00:01:36Z",
+      "side": 1,
+      "message": "We need to reload because if you are on a specific patchset ex: /c/123/25, we want the url to change to /c/123/  after rebase, since we are displaying the latest change. Before, the path didn\u0027t change, so if you refresh the page, it actually took you back to a previous patch.",
+      "parentUuid": "d209f965_ee5c9f7e",
+      "range": {
+        "startLine": 824,
+        "startChar": 10,
+        "endLine": 824,
+        "endChar": 54
+      },
+      "revId": "31c9c5b2ea9e2509c7eea5cb507876d21babd608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

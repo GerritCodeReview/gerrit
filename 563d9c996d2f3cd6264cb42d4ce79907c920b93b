@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04f493a0_4211b360",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-21T17:03:55Z",
+      "side": 1,
+      "message": "This change adds a *lot* of infrastructure to be able to hide some DIVs.\n\nI know I sound like a broken record, but quicker and more-direct approach might be to add a regular function to the JS API:\n\n plugin.metadata.setSectionVisible(\u0027status\u0027, false);\n\nThis would more-closely match the API for change actions.",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 9
+      },
+      "revId": "563d9c996d2f3cd6264cb42d4ce79907c920b93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

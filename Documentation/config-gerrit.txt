@@ -3123,6 +3123,13 @@ Common examples:
   safe = true
 ----
 
+[[note-db]]
+=== Section noteDb
+
+NoteDb is the next generation of Gerrit storage backend, currently powering
+`googlesource.com`. It is not (yet) recommended for general use, but if you want
+to learn more, see the link:dev-note-db.html[developer documentation].
+
 [[oauth]]
 === Section oauth
 

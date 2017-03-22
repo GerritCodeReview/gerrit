@@ -505,6 +505,30 @@
       "revId": "89068a76643551f84c8344f2d38471179c6093ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aaa7e0f_6665fccf",
+        "filename": "tools/bzl/gjf.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-22T16:06:27Z",
+      "side": 1,
+      "message": "but we want to stick this into a reusable remote rule, so that\u0027s not a good solution.",
+      "parentUuid": "8e3b9ac4_b7bca1df",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

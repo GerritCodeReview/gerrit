@@ -139,9 +139,9 @@ public class AccountIT extends AbstractDaemonTest {
       // savedExternalIds is null when we don't run SSH tests and the assume in
       // @Before in AbstractDaemonTest prevents this class' @Before method from
       // being executed.
-      externalIdsUpdate.delete(db, getExternalIds(admin));
-      externalIdsUpdate.delete(db, getExternalIds(user));
-      externalIdsUpdate.insert(db, savedExternalIds);
+      externalIdsUpdate.delete(getExternalIds(admin));
+      externalIdsUpdate.delete(getExternalIds(user));
+      externalIdsUpdate.insert(savedExternalIds);
     }
     accountCache.evict(admin.getId());
     accountCache.evict(user.getId());
@@ -457,7 +457,7 @@ public class AccountIT extends AbstractDaemonTest {
         ImmutableList.of(
             ExternalId.createWithEmail(ExternalId.Key.parse(extId1), admin.id, email),
             ExternalId.createWithEmail(ExternalId.Key.parse(extId2), admin.id, email));
-    externalIdsUpdateFactory.create().insert(db, extIds);
+    externalIdsUpdateFactory.create().insert(extIds);
     accountCache.evict(admin.id);
     assertThat(
             gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
@@ -508,7 +508,7 @@ public class AccountIT extends AbstractDaemonTest {
     String email = "foo.bar@example.com";
     externalIdsUpdateFactory
         .create()
-        .insert(db, ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id, email));
+        .insert(ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id, email));
     accountCache.evict(admin.id);
     assertEmail(byEmailCache.get(email), admin);
 
@@ -716,7 +716,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void addOtherUsersGpgKey_Conflict() throws Exception {
     // Both users have a matching external ID for this key.
     addExternalIdEmail(admin, "test5@example.com");
-    externalIdsUpdate.insert(db, ExternalId.create("foo", "myId", user.getId()));
+    externalIdsUpdate.insert(ExternalId.create("foo", "myId", user.getId()));
     accountCache.evict(user.getId());
 
     TestKey key = validKeyWithSecondUserId();
@@ -917,7 +917,7 @@ public class AccountIT extends AbstractDaemonTest {
         expected.transform(k -> BaseEncoding.base16().encode(k.getPublicKey().getFingerprint()));
     Iterable<String> actualFps =
         externalIds
-            .byAccount(db, currAccountId, SCHEME_GPGKEY)
+            .byAccount(currAccountId, SCHEME_GPGKEY)
             .stream()
             .map(e -> e.key().id())
             .collect(toSet());
@@ -946,7 +946,7 @@ public class AccountIT extends AbstractDaemonTest {
   private void addExternalIdEmail(TestAccount account, String email) throws Exception {
     checkNotNull(email);
     externalIdsUpdate.insert(
-        db, ExternalId.createWithEmail(name("test"), email, account.getId(), email));
+        ExternalId.createWithEmail(name("test"), email, account.getId(), email));
     // Clear saved AccountState and ExternalIds.
     accountCache.evict(account.getId());
     setApiUser(account);

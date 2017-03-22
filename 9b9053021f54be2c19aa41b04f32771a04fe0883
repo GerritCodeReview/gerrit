@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c87f10e8_92dcab97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeIndexPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T13:06:05Z",
+      "side": 1,
+      "message": "Remove it now? TODO is done and below is the clarification for why it is needed.\n\nWe need it for WIP changes, used by wip plugin. It is used, when allowsDraft \u003d false, wip plugin is deployed, and change is set to wip state, by setting the change.status to \"d\" (change.Status.DRAFT).\n\nWhat we want to achieve here is that wip changes not appear on reviewer\u0027s dashboards. Also note, that this hack is removed in the wip series pending for review.",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 25
+      },
+      "revId": "9b9053021f54be2c19aa41b04f32771a04fe0883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

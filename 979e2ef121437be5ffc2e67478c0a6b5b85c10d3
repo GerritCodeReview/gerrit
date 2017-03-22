@@ -46,6 +46,30 @@
       "revId": "979e2ef121437be5ffc2e67478c0a6b5b85c10d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d30658_bb295aac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T21:04:18Z",
+      "side": 1,
+      "message": "I wonder if the reason is because the overlay binds to the capture phase [1] rather than the bubble phase. Not sure why it would do that.\n\nDoes this problem affect other overlays too? Would it be appropriate to solve this in gr-overlay somehow?\n\n* [1] https://github.com/PolymerElements/iron-overlay-behavior/blob/master/iron-overlay-manager.html#L49",
+      "parentUuid": "df20d454_196046ef",
+      "range": {
+        "startLine": 9,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "979e2ef121437be5ffc2e67478c0a6b5b85c10d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

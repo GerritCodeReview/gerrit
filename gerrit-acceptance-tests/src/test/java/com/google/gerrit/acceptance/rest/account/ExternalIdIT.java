@@ -29,7 +29,6 @@ import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.Sandboxed;
@@ -218,13 +217,12 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
     // create valid external IDs
     u.insert(
-        db,
         ExternalId.createWithPassword(
             ExternalId.Key.parse(nextId(i)),
             admin.id,
             "admin.other@example.com",
             "secret-password"));
-    u.insert(db, createExternalIdWithOtherCaseEmail(nextId(i)));
+    u.insert(createExternalIdWithOtherCaseEmail(nextId(i)));
 
     ConsistencyCheckInput input = new ConsistencyCheckInput();
     input.checkAccountExternalIdsInput = new CheckAccountExternalIdsInput();
@@ -262,7 +260,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     }
 
     ExternalId extIdForNonExistingAccount = createExternalIdForNonExistingAccount(nextId(i));
-    u.insert(db, extIdForNonExistingAccount);
+    u.insert(extIdForNonExistingAccount);
     expectedProblems.add(
         consistencyError(
             "External ID '"
@@ -271,7 +269,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 + extIdForNonExistingAccount.accountId().get()));
 
     ExternalId extIdWithInvalidEmail = createExternalIdWithInvalidEmail(nextId(i));
-    u.insert(db, extIdWithInvalidEmail);
+    u.insert(extIdWithInvalidEmail);
     expectedProblems.add(
         consistencyError(
             "External ID '"
@@ -280,7 +278,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 + extIdWithInvalidEmail.email()));
 
     ExternalId extIdWithDuplicateEmail = createExternalIdWithDuplicateEmail(nextId(i));
-    u.insert(db, extIdWithDuplicateEmail);
+    u.insert(extIdWithDuplicateEmail);
     expectedProblems.add(
         consistencyError(
             "Email '"
@@ -292,7 +290,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 + "'"));
 
     ExternalId extIdWithBadPassword = createExternalIdWithBadPassword("admin-username");
-    u.insert(db, extIdWithBadPassword);
+    u.insert(extIdWithBadPassword);
     expectedProblems.add(
         consistencyError(
             "External ID '"
@@ -434,7 +432,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
             () -> {
               if (!doneBgUpdate.getAndSet(true)) {
                 try {
-                  extIdsUpdate.create().insert(db, ExternalId.create(barId, admin.id));
+                  extIdsUpdate.create().insert(ExternalId.create(barId, admin.id));
                 } catch (IOException | ConfigInvalidException | OrmException e) {
                   // Ignore, the successful insertion of the external ID is asserted later
                 }
@@ -442,11 +440,11 @@ public class ExternalIdIT extends AbstractDaemonTest {
             },
             retryer);
     assertThat(doneBgUpdate.get()).isFalse();
-    update.insert(db, ExternalId.create(fooId, admin.id));
+    update.insert(ExternalId.create(fooId, admin.id));
     assertThat(doneBgUpdate.get()).isTrue();
 
-    assertThat(externalIds.get(db, fooId)).isNotNull();
-    assertThat(externalIds.get(db, barId)).isNotNull();
+    assertThat(externalIds.get(fooId)).isNotNull();
+    assertThat(externalIds.get(barId)).isNotNull();
   }
 
   @Test
@@ -470,7 +468,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
               try {
                 extIdsUpdate
                     .create()
-                    .insert(db, ExternalId.create(extIdsKeys[bgCounter.getAndAdd(1)], admin.id));
+                    .insert(ExternalId.create(extIdsKeys[bgCounter.getAndAdd(1)], admin.id));
               } catch (IOException | ConfigInvalidException | OrmException e) {
                 // Ignore, the successful insertion of the external ID is asserted later
               }
@@ -481,14 +479,14 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 .build());
     assertThat(bgCounter.get()).isEqualTo(0);
     try {
-      update.insert(db, ExternalId.create(ExternalId.Key.create("abc", "abc"), admin.id));
+      update.insert(ExternalId.create(ExternalId.Key.create("abc", "abc"), admin.id));
       fail("expected LockFailureException");
     } catch (LockFailureException e) {
       // Ignore, expected
     }
     assertThat(bgCounter.get()).isEqualTo(extIdsKeys.length);
     for (ExternalId.Key extIdKey : extIdsKeys) {
-      assertThat(externalIds.get(db, extIdKey)).isNotNull();
+      assertThat(externalIds.get(extIdKey)).isNotNull();
     }
   }
 
@@ -496,38 +494,36 @@ public class ExternalIdIT extends AbstractDaemonTest {
   public void readExternalIdWithAccountIdThatCanBeExpressedInKiB() throws Exception {
     ExternalId.Key extIdKey = ExternalId.Key.parse("foo:bar");
     Account.Id accountId = new Account.Id(1024 * 100);
-    extIdsUpdate.create().insert(db, ExternalId.create(extIdKey, accountId));
-    ExternalId extId = externalIds.get(db, extIdKey);
+    extIdsUpdate.create().insert(ExternalId.create(extIdKey, accountId));
+    ExternalId extId = externalIds.get(extIdKey);
     assertThat(extId.accountId()).isEqualTo(accountId);
   }
 
   @Test
-  @GerritConfig(name = "user.readExternalIdsFromGit", value = "true")
   public void checkNoReloadAfterUpdate() throws Exception {
-    Set<ExternalId> expectedExtIds = new HashSet<>(externalIds.byAccount(db, admin.id));
+    Set<ExternalId> expectedExtIds = new HashSet<>(externalIds.byAccount(admin.id));
     externalIdReader.setFailOnLoad(true);
 
     // insert external ID
     ExternalId extId = ExternalId.create("foo", "bar", admin.id);
-    extIdsUpdate.create().insert(db, extId);
+    extIdsUpdate.create().insert(extId);
     expectedExtIds.add(extId);
-    assertThat(externalIds.byAccount(db, admin.id)).containsExactlyElementsIn(expectedExtIds);
+    assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
 
     // update external ID
     expectedExtIds.remove(extId);
     extId = ExternalId.createWithEmail("foo", "bar", admin.id, "foo.bar@example.com");
-    extIdsUpdate.create().upsert(db, extId);
+    extIdsUpdate.create().upsert(extId);
     expectedExtIds.add(extId);
-    assertThat(externalIds.byAccount(db, admin.id)).containsExactlyElementsIn(expectedExtIds);
+    assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
 
     // delete external ID
-    extIdsUpdate.create().delete(db, extId);
+    extIdsUpdate.create().delete(extId);
     expectedExtIds.remove(extId);
-    assertThat(externalIds.byAccount(db, admin.id)).containsExactlyElementsIn(expectedExtIds);
+    assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
   }
 
   @Test
-  @GerritConfig(name = "user.readExternalIdsFromGit", value = "true")
   public void byAccountFailIfReadingExternalIdsFails() throws Exception {
     externalIdReader.setFailOnLoad(true);
 
@@ -535,11 +531,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
     insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id));
 
     exception.expect(IOException.class);
-    externalIds.byAccount(db, admin.id);
+    externalIds.byAccount(admin.id);
   }
 
   @Test
-  @GerritConfig(name = "user.readExternalIdsFromGit", value = "true")
   public void byEmailFailIfReadingExternalIdsFails() throws Exception {
     externalIdReader.setFailOnLoad(true);
 
@@ -547,17 +542,16 @@ public class ExternalIdIT extends AbstractDaemonTest {
     insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id));
 
     exception.expect(IOException.class);
-    externalIds.byEmail(db, admin.email);
+    externalIds.byEmail(admin.email);
   }
 
   @Test
-  @GerritConfig(name = "user.readExternalIdsFromGit", value = "true")
   public void byAccountUpdateExternalIdsBehindGerritsBack() throws Exception {
-    Set<ExternalId> expectedExternalIds = new HashSet<>(externalIds.byAccount(db, admin.id));
+    Set<ExternalId> expectedExternalIds = new HashSet<>(externalIds.byAccount(admin.id));
     ExternalId newExtId = ExternalId.create("foo", "bar", admin.id);
     insertExtIdBehindGerritsBack(newExtId);
     expectedExternalIds.add(newExtId);
-    assertThat(externalIds.byAccount(db, admin.id)).containsExactlyElementsIn(expectedExternalIds);
+    assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExternalIds);
   }
 
   private void insertExtIdBehindGerritsBack(ExternalId extId) throws Exception {

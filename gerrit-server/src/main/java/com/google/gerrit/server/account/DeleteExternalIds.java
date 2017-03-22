@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -41,18 +40,13 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
   private final AccountManager accountManager;
   private final ExternalIds externalIds;
   private final Provider<CurrentUser> self;
-  private final Provider<ReviewDb> dbProvider;
 
   @Inject
   DeleteExternalIds(
-      AccountManager accountManager,
-      ExternalIds externalIds,
-      Provider<CurrentUser> self,
-      Provider<ReviewDb> dbProvider) {
+      AccountManager accountManager, ExternalIds externalIds, Provider<CurrentUser> self) {
     this.accountManager = accountManager;
     this.externalIds = externalIds;
     this.self = self;
-    this.dbProvider = dbProvider;
   }
 
   @Override
@@ -68,7 +62,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
 
     Map<ExternalId.Key, ExternalId> externalIdMap =
         externalIds
-            .byAccount(dbProvider.get(), resource.getUser().getAccountId())
+            .byAccount(resource.getUser().getAccountId())
             .stream()
             .collect(toMap(i -> i.key(), i -> i));
 

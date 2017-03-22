@@ -16,6 +16,24 @@
       "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bf323bf_52b5843a",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T00:50:24Z",
+      "side": 1,
+      "message": "Based on [1], I believe the answer is yes. But based on the wording of your question, I wonder if there\u0027s something else I should be checking/worrying-about?\n\n* [1] https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-info",
+      "parentUuid": "b63457e2_7f721f7b",
+      "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -92,7 +92,7 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
       try (ReviewDb db = schema.open()) {
         return Streams.concat(
                 Streams.stream(db.accounts().byPreferredEmail(email)).map(a -> a.getId()),
-                externalIds.get().byEmail(db, email).stream().map(e -> e.accountId()))
+                externalIds.get().byEmail(email).stream().map(e -> e.accountId()))
             .collect(toImmutableSet());
       }
     }

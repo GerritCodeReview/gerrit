@@ -19,13 +19,11 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.SiteProgram;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsBatchUpdate;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -37,8 +35,6 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
 public class LocalUsernamesToLowerCase extends SiteProgram {
   private final LifecycleManager manager = new LifecycleManager();
   private final TextProgressMonitor monitor = new TextProgressMonitor();
-
-  @Inject private SchemaFactory<ReviewDb> database;
 
   @Inject private ExternalIds externalIds;
 
@@ -63,19 +59,17 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
             })
         .injectMembers(this);
 
-    try (ReviewDb db = database.open()) {
-      Collection<ExternalId> todo = externalIds.all(db);
-      monitor.beginTask("Converting local usernames", todo.size());
+    Collection<ExternalId> todo = externalIds.all();
+    monitor.beginTask("Converting local usernames", todo.size());
 
-      for (ExternalId extId : todo) {
-        convertLocalUserToLowerCase(extId);
-        monitor.update(1);
-      }
-
-      externalIdsBatchUpdate.commit(db, "Convert local usernames to lower case");
-      monitor.endTask();
-      manager.stop();
+    for (ExternalId extId : todo) {
+      convertLocalUserToLowerCase(extId);
+      monitor.update(1);
     }
+
+    externalIdsBatchUpdate.commit("Convert local usernames to lower case");
+    monitor.endTask();
+    manager.stop();
     return 0;
   }
 

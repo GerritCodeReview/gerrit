@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutHttpPassword.Input;
@@ -59,7 +58,6 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
   }
 
   private final Provider<CurrentUser> self;
-  private final Provider<ReviewDb> dbProvider;
   private final PermissionBackend permissionBackend;
   private final AccountCache accountCache;
   private final ExternalIds externalIds;
@@ -68,13 +66,11 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
   @Inject
   PutHttpPassword(
       Provider<CurrentUser> self,
-      Provider<ReviewDb> dbProvider,
       PermissionBackend permissionBackend,
       AccountCache accountCache,
       ExternalIds externalIds,
       ExternalIdsUpdate.User externalIdsUpdate) {
     this.self = self;
-    this.dbProvider = dbProvider;
     this.permissionBackend = permissionBackend;
     this.accountCache = accountCache;
     this.externalIds = externalIds;
@@ -114,15 +110,13 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
       throw new ResourceConflictException("username must be set");
     }
 
-    ExternalId extId =
-        externalIds.get(
-            dbProvider.get(), ExternalId.Key.create(SCHEME_USERNAME, user.getUserName()));
+    ExternalId extId = externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, user.getUserName()));
     if (extId == null) {
       throw new ResourceNotFoundException();
     }
     ExternalId newExtId =
         ExternalId.createWithPassword(extId.key(), extId.accountId(), extId.email(), newPassword);
-    externalIdsUpdate.create().upsert(dbProvider.get(), newExtId);
+    externalIdsUpdate.create().upsert(newExtId);
     accountCache.evict(user.getAccountId());
 
     return Strings.isNullOrEmpty(newPassword) ? Response.<String>none() : Response.ok(newPassword);

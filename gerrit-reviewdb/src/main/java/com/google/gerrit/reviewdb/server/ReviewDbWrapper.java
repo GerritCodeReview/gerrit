@@ -83,11 +83,6 @@ public class ReviewDbWrapper implements ReviewDb {
   }
 
   @Override
-  public AccountExternalIdAccess accountExternalIds() {
-    return delegate.accountExternalIds();
-  }
-
-  @Override
   public AccountGroupAccess accountGroups() {
     return delegate.accountGroups();
   }

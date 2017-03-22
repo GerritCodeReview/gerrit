@@ -18,8 +18,6 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -44,8 +42,8 @@ public class ExternalIds {
   }
 
   /** Returns all external IDs. */
-  public Set<ExternalId> all(ReviewDb db) throws IOException, OrmException {
-    return externalIdReader.all(db);
+  public Set<ExternalId> all() throws IOException {
+    return externalIdReader.all();
   }
 
   /** Returns all external IDs from the specified revision of the refs/meta/external-ids branch. */
@@ -55,9 +53,8 @@ public class ExternalIds {
 
   /** Returns the specified external ID. */
   @Nullable
-  public ExternalId get(ReviewDb db, ExternalId.Key key)
-      throws IOException, ConfigInvalidException, OrmException {
-    return externalIdReader.get(db, key);
+  public ExternalId get(ExternalId.Key key) throws IOException, ConfigInvalidException {
+    return externalIdReader.get(key);
   }
 
   /** Returns the specified external ID from the given revision. */
@@ -68,26 +65,16 @@ public class ExternalIds {
   }
 
   /** Returns the external IDs of the specified account. */
-  public Set<ExternalId> byAccount(ReviewDb db, Account.Id accountId)
-      throws IOException, OrmException {
-    if (externalIdReader.readFromGit()) {
-      return externalIdCache.byAccount(accountId);
-    }
-
-    return ExternalId.from(db.accountExternalIds().byAccount(accountId).toList());
+  public Set<ExternalId> byAccount(Account.Id accountId) throws IOException {
+    return externalIdCache.byAccount(accountId);
   }
 
   /** Returns the external IDs of the specified account that have the given scheme. */
-  public Set<ExternalId> byAccount(ReviewDb db, Account.Id accountId, String scheme)
-      throws IOException, OrmException {
-    return byAccount(db, accountId).stream().filter(e -> e.key().isScheme(scheme)).collect(toSet());
+  public Set<ExternalId> byAccount(Account.Id accountId, String scheme) throws IOException {
+    return byAccount(accountId).stream().filter(e -> e.key().isScheme(scheme)).collect(toSet());
   }
 
-  public Set<ExternalId> byEmail(ReviewDb db, String email) throws IOException, OrmException {
-    if (externalIdReader.readFromGit()) {
-      return externalIdCache.byEmail(email);
-    }
-
-    return ExternalId.from(db.accountExternalIds().byEmailAddress(email).toList());
+  public Set<ExternalId> byEmail(String email) throws IOException {
+    return externalIdCache.byEmail(email);
   }
 }

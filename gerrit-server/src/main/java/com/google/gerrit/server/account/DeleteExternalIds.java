@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -45,7 +44,6 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
   private final ExternalIds externalIds;
   private final ExternalIdsUpdate.User externalIdsUpdateFactory;
   private final Provider<CurrentUser> self;
-  private final Provider<ReviewDb> dbProvider;
 
   @Inject
   DeleteExternalIds(
@@ -53,14 +51,12 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
       AccountCache accountCache,
       ExternalIds externalIds,
       ExternalIdsUpdate.User externalIdsUpdateFactory,
-      Provider<CurrentUser> self,
-      Provider<ReviewDb> dbProvider) {
+      Provider<CurrentUser> self) {
     this.accountByEmailCache = accountByEmailCache;
     this.accountCache = accountCache;
     this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
     this.self = self;
-    this.dbProvider = dbProvider;
   }
 
   @Override
@@ -77,7 +73,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
     Account.Id accountId = resource.getUser().getAccountId();
     Map<ExternalId.Key, ExternalId> externalIdMap =
         externalIds
-            .byAccount(dbProvider.get(), resource.getUser().getAccountId())
+            .byAccount(resource.getUser().getAccountId())
             .stream()
             .collect(toMap(i -> i.key(), i -> i));
 
@@ -101,7 +97,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
     }
 
     if (!toDelete.isEmpty()) {
-      externalIdsUpdateFactory.create().delete(dbProvider.get(), toDelete);
+      externalIdsUpdateFactory.create().delete(toDelete);
       accountCache.evict(accountId);
       for (ExternalId e : toDelete) {
         accountByEmailCache.evict(e.email());

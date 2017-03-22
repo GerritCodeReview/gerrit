@@ -96,7 +96,7 @@ public class AccountCreator {
       if (email != null) {
         extIds.add(ExternalId.createEmail(id, email));
       }
-      externalIdsUpdate.create().insert(db, extIds);
+      externalIdsUpdate.create().insert(extIds);
 
       Account a = new Account(id, TimeUtil.nowTs());
       a.setFullName(fullName);

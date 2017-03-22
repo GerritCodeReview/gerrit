@@ -63,6 +63,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -151,7 +152,9 @@ public class Revert
     Project.NameKey project = ctl.getProject().getNameKey();
     CurrentUser user = ctl.getUser();
     try (Repository git = repoManager.openRepository(project);
-        RevWalk revWalk = new RevWalk(git)) {
+        ObjectInserter oi = git.newObjectInserter();
+        ObjectReader reader = oi.newReader();
+        RevWalk revWalk = new RevWalk(reader)) {
       RevCommit commitToRevert =
           revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
       if (commitToRevert.getParentCount() == 0) {
@@ -191,30 +194,28 @@ public class Revert
       revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, computedChangeId, true));
 
       Change.Id changeId = new Change.Id(seq.nextChangeId());
-      try (ObjectInserter oi = git.newObjectInserter()) {
-        ObjectId id = oi.insert(revertCommitBuilder);
-        oi.flush();
-        RevCommit revertCommit = revWalk.parseCommit(id);
+      ObjectId id = oi.insert(revertCommitBuilder);
+      oi.flush();
+      RevCommit revertCommit = revWalk.parseCommit(id);
 
-        ChangeInserter ins =
-            changeInserterFactory
-                .create(changeId, revertCommit, ctl.getChange().getDest().get())
-                .setTopic(changeToRevert.getTopic());
-        ins.setMessage("Uploaded patch set 1.");
+      ChangeInserter ins =
+          changeInserterFactory
+              .create(changeId, revertCommit, ctl.getChange().getDest().get())
+              .setTopic(changeToRevert.getTopic());
+      ins.setMessage("Uploaded patch set 1.");
 
-        Set<Account.Id> reviewers = new HashSet<>();
-        reviewers.add(changeToRevert.getOwner());
-        reviewers.addAll(approvalsUtil.getReviewers(db.get(), ctl.getNotes()).all());
-        reviewers.remove(user.getAccountId());
-        ins.setReviewers(reviewers);
+      Set<Account.Id> reviewers = new HashSet<>();
+      reviewers.add(changeToRevert.getOwner());
+      reviewers.addAll(approvalsUtil.getReviewers(db.get(), ctl.getNotes()).all());
+      reviewers.remove(user.getAccountId());
+      ins.setReviewers(reviewers);
 
-        try (BatchUpdate bu = updateFactory.create(db.get(), project, user, now)) {
-          bu.setRepository(git, revWalk, oi);
-          bu.insertChange(ins);
-          bu.addOp(changeId, new NotifyOp(ctl.getChange(), ins));
-          bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(computedChangeId));
-          bu.execute();
-        }
+      try (BatchUpdate bu = updateFactory.create(db.get(), project, user, now)) {
+        bu.setRepository(git, revWalk, oi);
+        bu.insertChange(ins);
+        bu.addOp(changeId, new NotifyOp(ctl.getChange(), ins));
+        bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(computedChangeId));
+        bu.execute();
       }
       return changeId;
     } catch (RepositoryNotFoundException e) {

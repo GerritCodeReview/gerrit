@@ -70,6 +70,30 @@
       "revId": "979e2ef121437be5ffc2e67478c0a6b5b85c10d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcaf60b5_dae5d15b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-22T21:08:12Z",
+      "side": 1,
+      "message": "You\u0027re likely correct -- and yes, this does affect the other overlays. \n\nI\u0027m hesitant to include a solution as part of this change, though, because up until now this was desired behavior for all overlays. Modifying the behavior in the overlay means I then have to set up this manual handling in every overlay in the app (or figure out some other more generic solution), which I\u0027d very much rather not do right now.\n\nMaybe a tracking issue is in order?",
+      "parentUuid": "48d30658_bb295aac",
+      "range": {
+        "startLine": 9,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "979e2ef121437be5ffc2e67478c0a6b5b85c10d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

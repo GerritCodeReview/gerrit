@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.PutUsername.Input;
 import com.google.gwtorm.server.OrmException;
@@ -41,18 +40,13 @@ public class PutUsername implements RestModifyView<AccountResource, Input> {
   private final Provider<CurrentUser> self;
   private final ChangeUserName.Factory changeUserNameFactory;
   private final Realm realm;
-  private final Provider<ReviewDb> db;
 
   @Inject
   PutUsername(
-      Provider<CurrentUser> self,
-      ChangeUserName.Factory changeUserNameFactory,
-      Realm realm,
-      Provider<ReviewDb> db) {
+      Provider<CurrentUser> self, ChangeUserName.Factory changeUserNameFactory, Realm realm) {
     this.self = self;
     this.changeUserNameFactory = changeUserNameFactory;
     this.realm = realm;
-    this.db = db;
   }
 
   @Override
@@ -72,7 +66,7 @@ public class PutUsername implements RestModifyView<AccountResource, Input> {
     }
 
     try {
-      changeUserNameFactory.create(db.get(), rsrc.getUser(), input.username).call();
+      changeUserNameFactory.create(rsrc.getUser(), input.username).call();
     } catch (IllegalStateException e) {
       if (ChangeUserName.USERNAME_CANNOT_BE_CHANGED.equals(e.getMessage())) {
         throw new MethodNotAllowedException(e.getMessage());

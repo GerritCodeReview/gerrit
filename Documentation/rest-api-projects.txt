@@ -2060,6 +2060,60 @@ The content is returned as base64 encoded string.
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
 ----
 
+
+[[cherry-pick-commit]]
+=== Cherry Pick Commit
+--
+'POST /projects/link:#project-name[\{project-name\}]/commits/link:#commit-id[\{commit-id\}]/cherrypick'
+--
+
+Cherry-picks a commit of a project to a destination branch.
+
+The destination branch must be provided in the request body inside a
+link:rest-api-changes.html#cherrypick-input[CherryPickInput] entity.
+If the commit message is not set, the commit message of the source
+commit will be used.
+
+.Request
+----
+  POST /projects/work%2Fmy-project/commits/a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96/cherrypick HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "message" : "Implementing Feature X",
+    "destination" : "release-branch"
+  }
+----
+
+As response a link:rest-api-changes.html#change-info[ChangeInfo] entity is returned that
+describes the resulting cherry-picked change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9941",
+    "project": "myProject",
+    "branch": "release-branch",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9941",
+    "subject": "Implementing Feature X",
+    "status": "NEW",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "mergeable": true,
+    "insertions": 12,
+    "deletions": 11,
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    }
+  }
+----
+
 [[dashboard-endpoints]]
 == Dashboard Endpoints
 

@@ -433,7 +433,7 @@ limitations under the License.
           });
     });
 
-    test('refreshCredentials', function(done) {
+    test('checkCredentials', function(done) {
       var responses = [
         {
           ok: false,
@@ -453,7 +453,7 @@ limitations under the License.
       });
       element.getLoggedIn().then(function(isLoggedIn) {
         assert.isFalse(isLoggedIn);
-        element.refreshCredentials().then(function(isRefreshed) {
+        element.checkCredentials().then(function(isRefreshed) {
           assert.isTrue(isRefreshed);
           done();
         });

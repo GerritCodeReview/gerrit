@@ -15,7 +15,8 @@
   'use strict';
 
   var HIDE_ALERT_TIMEOUT_MS = 5000;
-  var CHECK_SIGN_IN_INTERVAL_MS = 60000;
+  var CHECK_SIGN_IN_INTERVAL_MS = 60*1000;
+  var STALE_CREDENTIAL_THRESHOLD_MS = 10*60*1000;
   var SIGN_IN_WIDTH_PX = 690;
   var SIGN_IN_HEIGHT_PX = 500;
   var TOO_MANY_FILES = 'too many files to find conflicts';
@@ -24,20 +25,40 @@
     is: 'gr-error-manager',
 
     properties: {
+      /**
+       * The ID of the account that was logged in when the app was launched. If
+       * not set, then there was no account at launch.
+       */
+      knownAccountId: Number,
+
       _alertElement: Element,
       _hideAlertHandle: Number,
+      _refreshingCredentials: {
+        type: Boolean,
+        value: false,
+      },
+
+      /**
+       * The time (in milliseconds) since the most recent credential check.
+       */
+      _lastCredentialCheck: {
+        type: Number,
+        value: function() { return Date.now(); },
+      }
     },
 
     attached: function() {
       this.listen(document, 'server-error', '_handleServerError');
       this.listen(document, 'network-error', '_handleNetworkError');
       this.listen(document, 'show-alert', '_handleShowAlert');
+      this.listen(document, 'visibilitychange', '_handleVisibilityChange');
     },
 
     detached: function() {
       this._clearHideAlertHandle();
       this.unlisten(document, 'server-error', '_handleServerError');
       this.unlisten(document, 'network-error', '_handleNetworkError');
+      this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
     },
 
     _shouldSuppressError: function(msg) {
@@ -108,9 +129,7 @@
       this._alertElement.show('Auth error', 'Refresh credentials.');
       this.listen(this._alertElement, 'action', '_createLoginPopup');
 
-      if (typeof document.hidden !== undefined) {
-        this.listen(document, 'visibilitychange', '_handleVisibilityChange');
-      }
+      this._refreshingCredentials = true;
       this._requestCheckLoggedIn();
       if (!document.hidden) {
         this._handleVisibilityChange();
@@ -124,8 +143,24 @@
     },
 
     _handleVisibilityChange: function() {
-      if (!document.hidden) {
+      // Ignore when the page is transitioning to hidden (or hidden is
+      // undefined).
+      if (document.hidden !== false) { return; }
+
+      // If we're currently in a credential refresh, flush the debouncer so that
+      // it can be checked immediately.
+      if (this._refreshingCredentials) {
         this.flushDebouncer('checkLoggedIn');
+        return;
+      }
+
+      // If the credentials are old, request them to confirm their validity or
+      // (display an auth toast if it fails).
+      var timeSinceLastCheck = Date.now() - this._lastCredentialCheck;
+      if (this.knownAccountId !== undefined &&
+          timeSinceLastCheck > STALE_CREDENTIAL_THRESHOLD_MS) {
+        this._lastCredentialCheck = Date.now();
+        this.$.restAPI.checkCredentials();
       }
     },
 
@@ -135,11 +170,14 @@
     },
 
     _checkSignedIn: function() {
-      this.$.restAPI.refreshCredentials().then(function(isLoggedIn) {
-        if (isLoggedIn) {
-          this._handleCredentialRefresh();
-        } else {
-          this._requestCheckLoggedIn();
+      this.$.restAPI.checkCredentials().then(function(isLoggedIn) {
+        this._lastCredentialCheck = Date.now();
+        if (this._refreshingCredentials) {
+          if (isLoggedIn) {
+            this._handleCredentialRefreshed();
+          } else {
+            this._requestCheckLoggedIn();
+          }
         }
       }.bind(this));
     },
@@ -156,8 +194,8 @@
       window.open('/login/%3FcloseAfterLogin', '_blank', options.join(','));
     },
 
-    _handleCredentialRefresh: function() {
-      this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
+    _handleCredentialRefreshed: function() {
+      this._refreshingCredentials = false;
       this.unlisten(this._alertElement, 'action', '_createLoginPopup');
       this._hideAlert();
       this._showAlert('Credentials refreshed.');

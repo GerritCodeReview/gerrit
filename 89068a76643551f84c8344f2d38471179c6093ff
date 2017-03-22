@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ac8fa96a_78c65705",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-22T10:14:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fcf8365_ea711c90",
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d405b22_d14f8717",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "227e8d89_d91d4adc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-22T10:14:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d405b22_d14f8717",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 4
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a54f571_aa03f03c",
         "filename": "gerrit-common/BUILD",
         "patchSetId": 4
@@ -53,6 +95,30 @@
       "writtenOn": "2017-03-22T07:11:12Z",
       "side": 1,
       "message": "Why put it in gerrit-common and not in : package?",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 23
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bf4fc45_8c9cb0f9",
+        "filename": "gerrit-common/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-22T10:14:17Z",
+      "side": 1,
+      "message": "this is just a demo.",
+      "parentUuid": "6a54f571_aa03f03c",
       "range": {
         "startLine": 89,
         "startChar": 0,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "9bdec311_7f8fec8b",
+        "filename": "tools/bzl/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-22T10:14:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4247e5c7_c305e38a",
+      "range": {
+        "startLine": 5,
+        "startChar": 4,
+        "endLine": 5,
+        "endChar": 18
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b4926eb_8cc13b80",
         "filename": "tools/bzl/gjf.bzl",
         "patchSetId": 4
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "60a5e075_611821c9",
+        "filename": "tools/bzl/gjf.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-22T10:14:17Z",
+      "side": 1,
+      "message": "well, let\u0027s make it work for gerrit first. I\u0027m sure the good folks from bazel can find a better home afterwards.",
+      "parentUuid": "4b4926eb_8cc13b80",
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c97912bb_914a6b27",
         "filename": "tools/bzl/gjf.bzl",
         "patchSetId": 4
@@ -116,6 +224,30 @@
       "writtenOn": "2017-03-22T01:45:31Z",
       "side": 1,
       "message": "Out of curiosity: what is the --validate flag?",
+      "range": {
+        "startLine": 2,
+        "startChar": 28,
+        "endLine": 2,
+        "endChar": 38
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65994163_fff04490",
+        "filename": "tools/bzl/gjf.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-22T10:14:17Z",
+      "side": 1,
+      "message": "added comment to .sh",
+      "parentUuid": "c97912bb_914a6b27",
       "range": {
         "startLine": 2,
         "startChar": 28,
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "d69118b0_eae1e02d",
+        "filename": "tools/bzl/gjf.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-22T10:14:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "933b2d77_c3e109be",
+      "range": {
+        "startLine": 4,
+        "startChar": 4,
+        "endLine": 4,
+        "endChar": 27
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca60fb65_d5a6d764",
         "filename": "tools/bzl/gjf.bzl",
         "patchSetId": 4
@@ -162,6 +318,30 @@
       "writtenOn": "2017-03-22T07:11:12Z",
       "side": 1,
       "message": "You missed to add this file to this change:\n\n  $ bazel test gerrit-common:java_format_test\nINFO: Found 1 test target...\nERROR: missing input file \u0027//tools/bzl:check_gjf.sh\u0027.\nERROR: /home/davido/projects/gerrit/gerrit-common/BUILD:89:1: //gerrit-common:java_format_test: missing input file \u0027//tools/bzl:check_gjf.sh\u0027.\nTarget //gerrit-common:java_format_test failed to build\nUse --verbose_failures to see the command lines of failed build steps.\nERROR: /home/davido/projects/gerrit/gerrit-common/BUILD:89:1 1 input file(s) do not exist.\nINFO: Elapsed time: 0.825s, Critical Path: 0.64s",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 37
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d40de7cd_eb816344",
+        "filename": "tools/bzl/gjf.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-22T10:14:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca60fb65_d5a6d764",
       "range": {
         "startLine": 28,
         "startChar": 13,
@@ -191,6 +371,24 @@
     },
     {
       "key": {
+        "uuid": "ed7d2da7_c9955612",
+        "filename": "tools/bzl/gjf.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-22T10:14:17Z",
+      "side": 1,
+      "message": "no, antlr generates a srcjar",
+      "parentUuid": "23cafb7c_0de64696",
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b6d61a2_8905204e",
         "filename": "tools/bzl/gjf.bzl",
         "patchSetId": 4
@@ -202,6 +400,30 @@
       "writtenOn": "2017-03-22T07:11:12Z",
       "side": 1,
       "message": "Why it\u0027s needed? Can be a parameter?",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1fae2d4_154e2644",
+        "filename": "tools/bzl/gjf.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-22T10:14:17Z",
+      "side": 1,
+      "message": "the runfiles directory is prefixed by the workspace name, so you get the files as ${TEST_SRCDIR}/gerrit/gerrit-common/Bla.java\n\nWe should find a way to inject it here, but I\u0027m not sure how that can be done short of writing a proper Bazel rule again. Damien?",
+      "parentUuid": "2b6d61a2_8905204e",
       "range": {
         "startLine": 58,
         "startChar": 4,

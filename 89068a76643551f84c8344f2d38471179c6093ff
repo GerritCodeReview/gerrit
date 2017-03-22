@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4247e5c7_c305e38a",
+        "filename": "tools/bzl/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-22T01:32:00Z",
+      "side": 1,
+      "message": "Did you forget to git add this file?",
+      "range": {
+        "startLine": 5,
+        "startChar": 4,
+        "endLine": 5,
+        "endChar": 18
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

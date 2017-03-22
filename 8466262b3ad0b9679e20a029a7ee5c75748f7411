@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1c8821d9_ef237831",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-22T18:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "754fb730_b26d4d80",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35761c4f_ae88de88",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -65,6 +83,54 @@
     },
     {
       "key": {
+        "uuid": "9eeb9cf3_f9dd16ac",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2771,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-22T18:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35761c4f_ae88de88",
+      "range": {
+        "startLine": 2771,
+        "startChar": 50,
+        "endLine": 2771,
+        "endChar": 66
+      },
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a3ddbf4_748c7908",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2771,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-22T18:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89e99e78_0885be83",
+      "range": {
+        "startLine": 2771,
+        "startChar": 3,
+        "endLine": 2771,
+        "endChar": 25
+      },
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5768853e_07a4845d",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "6da289e1_819c4718",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2773,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-22T18:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5768853e_07a4845d",
+      "range": {
+        "startLine": 2773,
+        "startChar": 0,
+        "endLine": 2773,
+        "endChar": 16
+      },
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a607f53d_9b1cef1a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -102,6 +192,24 @@
       "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc2990e0_76ef4fd7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6213,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-22T18:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a607f53d_9b1cef1a",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "06454b9c_dadc6787",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-22T18:45:44Z",
+      "side": 1,
+      "message": "Done. I was a little bit afraid of that at first (having the Address also in the reviewer resource) but it turned out nicely. Thanks for pointing it out.",
+      "parentUuid": "722f7fd5_27411db3",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d7b97ae_89c0bf8b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 1
@@ -136,6 +262,24 @@
       "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37fcdf64_f05ed014",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-22T18:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d7b97ae_89c0bf8b",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -156,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "836f6e9b_cad64413",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-22T18:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "681395a0_fc9ef885",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c60990a_2245f8c0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 1
@@ -170,6 +332,24 @@
       "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d6fb8c2_7d3cae84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-22T18:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c60990a_2245f8c0",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -190,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "f3b6dbe8_93125dfb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-22T18:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe834c3d_9629f6e4",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d4235b5_830c054b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 1
@@ -204,6 +402,24 @@
       "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d416666_e311033a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-22T18:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d4235b5_830c054b",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -224,6 +440,24 @@
     },
     {
       "key": {
+        "uuid": "dac1b564_0a32be8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-22T18:45:44Z",
+      "side": 1,
+      "message": "I\u0027ve added a check to on migration.changePrimaryStorage() on putAccountByEmail",
+      "parentUuid": "afc6fae2_0fc628fd",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9317b581_8f9e0f77",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 1
@@ -241,6 +475,24 @@
     },
     {
       "key": {
+        "uuid": "f9a3bb8e_d77899c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-22T18:45:44Z",
+      "side": 1,
+      "message": "Done. I\u0027ve created ReviewerStateInternal.fromReviewerState and simplified the code.",
+      "parentUuid": "9317b581_8f9e0f77",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d89b095_9f6b680f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 1
@@ -255,6 +507,24 @@
       "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1a61e07_117d0ad5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-22T18:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d89b095_9f6b680f",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -323,6 +593,24 @@
       "side": 1,
       "message": "Ack. Whether or not ChangeData#reviewersByEmail populates it from live data or the index is not the main issue.",
       "parentUuid": "f71e80c6_3d5cf3fa",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7435bad3_c9191ad3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-22T18:45:44Z",
+      "side": 1,
+      "message": "Yes, I meant it has to be added to changeData. That is why I placed a TODO here. Sorry for not being explicit.\n\nI\u0027ve bundled this together with the index change here:\nhttps://gerrit-review.googlesource.com/c/100776/",
+      "parentUuid": "f13568c3_bd3e6480",
       "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

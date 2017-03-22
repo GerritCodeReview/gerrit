@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5d405b22_d14f8717",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2017-03-22T01:45:31Z",
+      "side": 1,
+      "message": "nit nit nit :)",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 4
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4247e5c7_c305e38a",
         "filename": "tools/bzl/BUILD",
         "patchSetId": 4
@@ -22,6 +45,29 @@
       "revId": "89068a76643551f84c8344f2d38471179c6093ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c97912bb_914a6b27",
+        "filename": "tools/bzl/gjf.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2017-03-22T01:45:31Z",
+      "side": 1,
+      "message": "Out of curiosity: what is the --validate flag?",
+      "range": {
+        "startLine": 2,
+        "startChar": 28,
+        "endLine": 2,
+        "endChar": 38
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

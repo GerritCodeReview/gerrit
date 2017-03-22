@@ -19,16 +19,21 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.changes.CherryPickCommitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.RefNames;
+import java.util.Iterator;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -135,5 +140,22 @@ public class ProjectIT extends AbstractDaemonTest {
     RevCommit updatedHead = getRemoteHead(project, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         project.get(), RefNames.REFS_CONFIG, initialHead, updatedHead);
+  }
+
+  @Test
+  public void cherryPickCommitToSameBranch() throws Exception {
+    PushOneCommit.Result r = createChange();
+    CherryPickCommitInput in = new CherryPickCommitInput();
+    in.commit = r.getCommit().getName();
+    in.message = "it generates a new patch set\n\nChange-Id: " + r.getChangeId();
+    in.destination = "master";
+
+    ChangeInfo cherryInfo = gApi.projects().name(project.get()).cherryPickCommit(in);
+    cherryInfo = gApi.changes().id(cherryInfo.id).get();
+
+    assertThat(cherryInfo.messages).hasSize(2);
+    Iterator<ChangeMessageInfo> cherryIt = cherryInfo.messages.iterator();
+    assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 1.");
+    assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 2.");
   }
 }

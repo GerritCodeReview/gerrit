@@ -16,6 +16,8 @@ package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
+import com.google.gerrit.extensions.api.changes.CherryPickCommitInput;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -124,6 +126,8 @@ public interface ProjectApi {
    */
   TagApi tag(String ref) throws RestApiException;
 
+  ChangeInfo cherryPickCommit(CherryPickCommitInput input) throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -216,6 +220,11 @@ public interface ProjectApi {
 
     @Override
     public void deleteTags(DeleteTagsInput in) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfo cherryPickCommit(CherryPickCommitInput input) {
       throw new NotImplementedException();
     }
   }

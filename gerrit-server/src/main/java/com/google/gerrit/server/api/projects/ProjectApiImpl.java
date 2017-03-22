@@ -18,6 +18,7 @@ import static com.google.gerrit.server.account.CapabilityUtils.checkRequiresCapa
 
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
+import com.google.gerrit.extensions.api.changes.CherryPickCommitInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ChildProjectApi;
@@ -30,6 +31,7 @@ import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -38,6 +40,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.change.CherryPickCommit;
 import com.google.gerrit.server.project.ChildProjectsCollection;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.DeleteBranches;
@@ -54,6 +57,7 @@ import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gerrit.server.project.PutConfig;
 import com.google.gerrit.server.project.PutDescription;
 import com.google.gerrit.server.project.SetAccess;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -89,6 +93,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final ListTags listTags;
   private final DeleteBranches deleteBranches;
   private final DeleteTags deleteTags;
+  private final CherryPickCommit cherryPickCommit;
 
   @AssistedInject
   ProjectApiImpl(
@@ -111,6 +116,7 @@ public class ProjectApiImpl implements ProjectApi {
       ListTags listTags,
       DeleteBranches deleteBranches,
       DeleteTags deleteTags,
+      CherryPickCommit cherryPickCommit,
       @Assisted ProjectResource project) {
     this(
         user,
@@ -133,6 +139,7 @@ public class ProjectApiImpl implements ProjectApi {
         deleteBranches,
         deleteTags,
         project,
+        cherryPickCommit,
         null);
   }
 
@@ -157,6 +164,7 @@ public class ProjectApiImpl implements ProjectApi {
       ListTags listTags,
       DeleteBranches deleteBranches,
       DeleteTags deleteTags,
+      CherryPickCommit cherryPickCommit,
       @Assisted String name) {
     this(
         user,
@@ -179,6 +187,7 @@ public class ProjectApiImpl implements ProjectApi {
         deleteBranches,
         deleteTags,
         null,
+        cherryPickCommit,
         name);
   }
 
@@ -203,6 +212,7 @@ public class ProjectApiImpl implements ProjectApi {
       DeleteBranches deleteBranches,
       DeleteTags deleteTags,
       ProjectResource project,
+      CherryPickCommit cherryPickCommit,
       String name) {
     this.user = user;
     this.createProjectFactory = createProjectFactory;
@@ -225,6 +235,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.listTags = listTags;
     this.deleteBranches = deleteBranches;
     this.deleteTags = deleteTags;
+    this.cherryPickCommit = cherryPickCommit;
   }
 
   @Override
@@ -390,6 +401,15 @@ public class ProjectApiImpl implements ProjectApi {
       deleteTags.apply(checkExists(), in);
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot delete tags", e);
+    }
+  }
+
+  @Override
+  public ChangeInfo cherryPickCommit(CherryPickCommitInput input) throws RestApiException {
+    try {
+      return cherryPickCommit.apply(checkExists(), input);
+    } catch (OrmException | IOException | UpdateException e) {
+      throw new RestApiException("Cannot cherry pick", e);
     }
   }
 

@@ -63,6 +63,30 @@ public class RangeTest {
   }
 
   @Test
+  public void zeroStartLineResultsInInvalidRange() {
+    Comment.Range range = createRange(0, 2, 19, 10);
+    assertThat(range).isInvalid();
+  }
+
+  @Test
+  public void zeroEndLineResultsInInvalidRange() {
+    Comment.Range range = createRange(13, 2, 0, 10);
+    assertThat(range).isInvalid();
+  }
+
+  @Test
+  public void zeroStartCharacterResultsInValidRange() {
+    Comment.Range range = createRange(13, 0, 19, 10);
+    assertThat(range).isValid();
+  }
+
+  @Test
+  public void zeroEndCharacterResultsInValidRange() {
+    Comment.Range range = createRange(13, 31, 19, 0);
+    assertThat(range).isValid();
+  }
+
+  @Test
   public void startLineGreaterThanEndLineResultsInInvalidRange() {
     Comment.Range range = createRange(20, 2, 19, 10);
     assertThat(range).isInvalid();

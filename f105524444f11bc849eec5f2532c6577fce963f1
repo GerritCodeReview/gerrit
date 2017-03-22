@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c44d9bb8_aac80c5e",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T00:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb8323f4_98b693c4",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 19,
+        "endChar": 35
+      },
+      "revId": "f105524444f11bc849eec5f2532c6577fce963f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e67ccd2a_87e6d677",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "42294790_b1677648",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T00:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e67ccd2a_87e6d677",
+      "range": {
+        "startLine": 150,
+        "startChar": 18,
+        "endLine": 150,
+        "endChar": 27
+      },
+      "revId": "f105524444f11bc849eec5f2532c6577fce963f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a191f26d_625ca349",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 3
@@ -59,6 +107,24 @@
       "writtenOn": "2017-03-22T00:08:04Z",
       "side": 1,
       "message": "Do we not want 403 handling in this case?",
+      "revId": "f105524444f11bc849eec5f2532c6577fce963f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d0c46df_f2c1062f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T00:17:14Z",
+      "side": 1,
+      "message": "The 403 handling below on ll.245-9 is for cleaning the cache. Do you mean this should clean the cache also?\n\nThe 403 handling for showing the toast is handled by `fetchJSON` which throws a `server-error` event that gr-error-manager catches and checks for a 403 status. The nice thing about that is that it works on any authenticated REST call.",
+      "parentUuid": "a191f26d_625ca349",
       "revId": "f105524444f11bc849eec5f2532c6577fce963f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

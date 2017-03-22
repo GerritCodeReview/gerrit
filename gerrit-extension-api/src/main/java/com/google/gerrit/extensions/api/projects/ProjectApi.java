@@ -125,6 +125,14 @@ public interface ProjectApi {
   TagApi tag(String ref) throws RestApiException;
 
   /**
+   * Lookup a commit by its {@Code ObjectId} string.
+   *
+   * @param commit the {@Code ObjectId} string.
+   * @return API for accessing the commit.
+   */
+  CommitApi commit(String commit) throws RestApiException;
+
+  /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
    */
@@ -216,6 +224,11 @@ public interface ProjectApi {
 
     @Override
     public void deleteTags(DeleteTagsInput in) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public CommitApi commit(String commit) {
       throw new NotImplementedException();
     }
   }

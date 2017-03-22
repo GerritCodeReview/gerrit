@@ -275,6 +275,24 @@
     },
     {
       "key": {
+        "uuid": "525b4eef_2034a3ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-22T00:50:16Z",
+      "side": 1,
+      "message": "Maybe what you really mean is add a method on ChangeData instead?",
+      "parentUuid": "3aa7ee69_dda4d6c7",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18566a3f_7880a67e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/NewChangeSender.java",
         "patchSetId": 1

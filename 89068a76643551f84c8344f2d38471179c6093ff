@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0fcf8365_ea711c90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T07:11:12Z",
+      "side": 1,
+      "message": "Mention how to use it, e.g.:\n\n Tested:\n\n  bazel test //gerrit-common:java_format_test\n\nbeter:\n\n  bazel test :java_format_test",
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d405b22_d14f8717",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -22,6 +39,29 @@
       "revId": "89068a76643551f84c8344f2d38471179c6093ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a54f571_aa03f03c",
+        "filename": "gerrit-common/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T07:11:12Z",
+      "side": 1,
+      "message": "Why put it in gerrit-common and not in : package?",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 23
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -48,6 +88,23 @@
     },
     {
       "key": {
+        "uuid": "4b4926eb_8cc13b80",
+        "filename": "tools/bzl/gjf.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T07:11:12Z",
+      "side": 1,
+      "message": "This should be put in gerrit\u0027s bazlets repository, so that other Gerrit projects, like gitiles, and 100+ plugins can benefit from this Skylark rule, after migrating to using gjf.\n\nI would go even further, and consider to add something to upstream Bazel itself, or at least to google-java-format project itself. So that what we would do here (and in all other bazel- and gjf-driven projects) would just be:\n\nWORKSPACE:\n\n  git_repository(\n    name \u003d \"io_bazel_rules_gjf\",\n    remote \u003d \"https://github.com/bazelbuild/rules_gjf.git\",\n    tag \u003d \"0.1\",\n  )\n  load(\"@io_bazel_rules_gjf//gjf:def.bzl\", \"gjf_test\")\n  go_repositories()\n\nBUILD:\n\n  gjf_test()",
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c97912bb_914a6b27",
         "filename": "tools/bzl/gjf.bzl",
         "patchSetId": 4
@@ -68,6 +125,92 @@
       "revId": "89068a76643551f84c8344f2d38471179c6093ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "933b2d77_c3e109be",
+        "filename": "tools/bzl/gjf.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T07:11:12Z",
+      "side": 1,
+      "message": "Not used?",
+      "range": {
+        "startLine": 4,
+        "startChar": 4,
+        "endLine": 4,
+        "endChar": 27
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca60fb65_d5a6d764",
+        "filename": "tools/bzl/gjf.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T07:11:12Z",
+      "side": 1,
+      "message": "You missed to add this file to this change:\n\n  $ bazel test gerrit-common:java_format_test\nINFO: Found 1 test target...\nERROR: missing input file \u0027//tools/bzl:check_gjf.sh\u0027.\nERROR: /home/davido/projects/gerrit/gerrit-common/BUILD:89:1: //gerrit-common:java_format_test: missing input file \u0027//tools/bzl:check_gjf.sh\u0027.\nTarget //gerrit-common:java_format_test failed to build\nUse --verbose_failures to see the command lines of failed build steps.\nERROR: /home/davido/projects/gerrit/gerrit-common/BUILD:89:1 1 input file(s) do not exist.\nINFO: Elapsed time: 0.825s, Critical Path: 0.64s",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 37
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23cafb7c_0de64696",
+        "filename": "tools/bzl/gjf.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T07:11:12Z",
+      "side": 1,
+      "message": "That would als retrieve generated code, antlr, that we cannot influence, right, so that we would need to add more exceptions?",
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b6d61a2_8905204e",
+        "filename": "tools/bzl/gjf.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T07:11:12Z",
+      "side": 1,
+      "message": "Why it\u0027s needed? Can be a parameter?",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

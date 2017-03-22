@@ -116,7 +116,9 @@ limitations under the License.
         assert.isFalse(windowOpen.called);
         toast.fire('action');
         assert.isTrue(windowOpen.called);
-        assert.notEqual(windowOpen.lastCall.args[2].indexOf('noopener=yes'),
+
+        // @see Issue 5822: noopener breaks closeAfterLogin
+        assert.equal(windowOpen.lastCall.args[2].indexOf('noopener=yes'),
             -1);
 
         var hideToastSpy = sandbox.spy(toast, 'hide');

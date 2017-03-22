@@ -144,7 +144,7 @@
       }.bind(this));
     },
 
-    _createLoginPopup: function(e) {
+    _createLoginPopup: function() {
       var left = window.screenLeft + (window.outerWidth - SIGN_IN_WIDTH_PX) / 2;
       var top = window.screenTop + (window.outerHeight - SIGN_IN_HEIGHT_PX) / 2;
       var options = [

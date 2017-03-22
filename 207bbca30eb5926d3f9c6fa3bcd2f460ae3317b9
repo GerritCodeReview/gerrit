@@ -2,6 +2,115 @@
   "comments": [
     {
       "key": {
+        "uuid": "00035b17_7e6905d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T19:25:51Z",
+      "side": 1,
+      "message": "Is this text needed? One can already count the number of comments in the comment list. It might also show the number in the label, like \"Publish 5 drafts\".",
+      "range": {
+        "startLine": 266,
+        "startChar": 8,
+        "endLine": 266,
+        "endChar": 52
+      },
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ab4d3ff_4a3832cd",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T19:25:51Z",
+      "side": 1,
+      "message": "I wonder if this wording can be confusing or scary to users. What about ...\n\n* Include Comments\n\nAnother thought is that maybe the checked state for include could make it seem like it\u0027s doing something new and additional. Might this be less frightening for users if the checked-state corresponded to the unusual case?\n\n* Exclude comments",
+      "range": {
+        "startLine": 270,
+        "startChar": 37,
+        "endLine": 270,
+        "endChar": 51
+      },
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cf2a879_e4f24b36",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T19:25:51Z",
+      "side": 1,
+      "message": "This adds height to the reply dialog in all cases, but I suspect users will want to keep drafts only rarely.\n\nWhat if this checkbox appears to the right of the [Submit] button below?",
+      "range": {
+        "startLine": 267,
+        "startChar": 8,
+        "endLine": 271,
+        "endChar": 14
+      },
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37f897f8_9140eb07",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T19:25:51Z",
+      "side": 1,
+      "message": "If it\u0027s configured to not publish drafts, I think it should hide the comment list. That way, the user can understand what the checkbox is doing visually.",
+      "range": {
+        "startLine": 272,
+        "startChar": 8,
+        "endLine": 272,
+        "endChar": 24
+      },
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44f2dae9_22bafb0d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T19:25:51Z",
+      "side": 1,
+      "message": "It seems like this makes it persistent. If I set a \"CQ Dry Run\", but then want to publish comments like normal, it should be true the second time I hit reply.\n\nCould it be parameter to the `send` method, like `opt_keepDrafts`? That way the \"CQ Dry Run\" button could just fire a `send` with `true`.",
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35ea10b8_c3e2516e",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 2

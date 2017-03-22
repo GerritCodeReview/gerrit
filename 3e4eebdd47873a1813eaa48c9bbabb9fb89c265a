@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eaa896aa_c98c0651",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3442,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-22T02:28:27Z",
+      "side": 1,
+      "message": "Should we interpret 0 as no limit?",
+      "range": {
+        "startLine": 3440,
+        "startChar": 0,
+        "endLine": 3442,
+        "endChar": 28
+      },
+      "revId": "3e4eebdd47873a1813eaa48c9bbabb9fb89c265a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

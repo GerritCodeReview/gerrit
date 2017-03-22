@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87c309c5_8f296249",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T18:54:40Z",
+      "side": 1,
+      "message": "notInclude might be cool here, but not needed.\n\n assert.notInclude(windowOpen.lastCall.args[2], \u0027noopener\u003dyes\u0027);",
+      "range": {
+        "startLine": 121,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 16
+      },
+      "revId": "ab2fa7cc39112b6e79e0544812ba8ef78f00d95f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

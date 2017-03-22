@@ -200,7 +200,7 @@ class NoteDbBatchUpdate extends BatchUpdate {
     @Override
     public void addRefUpdate(ReceiveCommand cmd) throws IOException {
       initRepository();
-      commands.add(cmd);
+      repoView.getCommands().add(cmd);
     }
   }
 
@@ -312,18 +312,19 @@ class NoteDbBatchUpdate extends BatchUpdate {
         op.updateRepo(ctx);
       }
 
-      if (onSubmitValidators != null && commands != null && !commands.isEmpty()) {
+      if (onSubmitValidators != null && !getRefUpdates().isEmpty()) {
         // Validation of refs has to take place here and not at the beginning of executeRefUpdates.
         // Otherwise, failing validation in a second BatchUpdate object will happen *after* the
         // first update's executeRefUpdates has finished, hence after first repo's refs have been
         // updated, which is too late.
-        onSubmitValidators.validate(project, ctx.getRevWalk().getObjectReader(), commands);
+        onSubmitValidators.validate(
+            project, ctx.getRevWalk().getObjectReader(), repoView.getCommands());
       }
 
       // TODO(dborowitz): Don't flush when fusing phases.
-      if (inserter != null) {
+      if (repoView != null) {
         logDebug("Flushing inserter");
-        inserter.flush();
+        repoView.getInserter().flush();
       } else {
         logDebug("No objects to flush");
       }
@@ -335,14 +336,14 @@ class NoteDbBatchUpdate extends BatchUpdate {
 
   // TODO(dborowitz): Don't execute non-change ref updates separately when fusing phases.
   private void executeRefUpdates(boolean dryrun) throws IOException, RestApiException {
-    if (commands == null || commands.isEmpty()) {
+    if (getRefUpdates().isEmpty()) {
       logDebug("No ref updates to execute");
       return;
     }
     // May not be opened if the caller added ref updates but no new objects.
     initRepository();
-    batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
-    commands.addTo(batchRefUpdate);
+    batchRefUpdate = repoView.getRepository().getRefDatabase().newBatchUpdate();
+    repoView.getCommands().addTo(batchRefUpdate);
     logDebug("Executing batch of {} ref updates", batchRefUpdate.getCommands().size());
     if (dryrun) {
       return;
@@ -350,7 +351,7 @@ class NoteDbBatchUpdate extends BatchUpdate {
 
     // Force BatchRefUpdate to read newly referenced objects using a new RevWalk, rather than one
     // that might have access to unflushed objects.
-    try (RevWalk updateRw = new RevWalk(repo)) {
+    try (RevWalk updateRw = new RevWalk(repoView.getRepository())) {
       batchRefUpdate.execute(updateRw, NullProgressMonitor.INSTANCE);
     }
     boolean ok = true;

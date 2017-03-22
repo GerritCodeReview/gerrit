@@ -311,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "f13568c3_bd3e6480",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-22T16:20:06Z",
+      "side": 1,
+      "message": "Ack. Whether or not ChangeData#reviewersByEmail populates it from live data or the index is not the main issue.",
+      "parentUuid": "f71e80c6_3d5cf3fa",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18566a3f_7880a67e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/NewChangeSender.java",
         "patchSetId": 1

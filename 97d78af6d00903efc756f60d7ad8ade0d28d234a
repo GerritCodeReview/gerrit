@@ -262,6 +262,30 @@
     },
     {
       "key": {
+        "uuid": "1c9dea02_801e92e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-22T00:16:42Z",
+      "side": 1,
+      "message": "Will remove the handler and allow the rest-api handle it for now. I don\u0027t think the error from the backend is an illegible one, this may be good enough.",
+      "parentUuid": "2faed0e6_c43a6e94",
+      "range": {
+        "startLine": 393,
+        "startChar": 10,
+        "endLine": 393,
+        "endChar": 15
+      },
+      "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89e58e3e_ff8b1dbf",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -330,6 +354,30 @@
       "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b141ee1_203854bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-22T00:16:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47358216_814bd456",
+      "range": {
+        "startLine": 391,
+        "startChar": 6,
+        "endLine": 396,
+        "endChar": 22
+      },
+      "revId": "97d78af6d00903efc756f60d7ad8ade0d28d234a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

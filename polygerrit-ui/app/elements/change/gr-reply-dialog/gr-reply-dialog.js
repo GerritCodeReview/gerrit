@@ -90,6 +90,10 @@
       },
       _owner: Object,
       _pendingConfirmationDetails: Object,
+      _excludeComments: {
+        type: Boolean,
+        value: false,
+      },
       _reviewers: Array,
       _reviewerPendingConfirmation: {
         type: Object,
@@ -240,9 +244,9 @@
       return {reviewer: reviewerId, confirmed: confirmed};
     },
 
-    send: function() {
+    send: function(excludeComments) {
       var obj = {
-        drafts: 'PUBLISH_ALL_REVISIONS',
+        drafts: excludeComments ? 'KEEP' : 'PUBLISH_ALL_REVISIONS',
         labels: {},
       };
 
@@ -509,7 +513,7 @@
 
     _sendTapHandler: function(e) {
       e.preventDefault();
-      this.send().then(function() {
+      this.send(this._excludeComments).then(function() {
         this._purgeReviewersPendingRemove();
       }.bind(this));
     },

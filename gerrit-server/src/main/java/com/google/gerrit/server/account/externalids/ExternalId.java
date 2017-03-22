@@ -16,21 +16,17 @@ package com.google.gerrit.server.account.externalids;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.account.HashedPassword;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -76,10 +72,6 @@ public abstract class ExternalId implements Serializable {
       return new AutoValue_ExternalId_Key(Strings.emptyToNull(scheme), id);
     }
 
-    public static ExternalId.Key from(AccountExternalId.Key externalIdKey) {
-      return parse(externalIdKey.get());
-    }
-
     /**
      * Parses an external ID key from a string in the format "scheme:id" or "id".
      *
@@ -93,24 +85,12 @@ public abstract class ExternalId implements Serializable {
       return create(externalId.substring(0, c), externalId.substring(c + 1));
     }
 
-    public static Set<AccountExternalId.Key> toAccountExternalIdKeys(
-        Collection<ExternalId.Key> extIdKeys) {
-      return extIdKeys.stream().map(k -> k.asAccountExternalIdKey()).collect(toSet());
-    }
-
     public abstract @Nullable String scheme();
 
     public abstract String id();
 
     public boolean isScheme(String scheme) {
       return scheme.equals(scheme());
-    }
-
-    public AccountExternalId.Key asAccountExternalIdKey() {
-      if (scheme() != null) {
-        return new AccountExternalId.Key(scheme(), id());
-      }
-      return new AccountExternalId.Key(id());
     }
 
     /**
@@ -258,29 +238,6 @@ public abstract class ExternalId implements Serializable {
         String.format("Invalid external id config for note %s: %s", noteId, message));
   }
 
-  public static ExternalId from(AccountExternalId externalId) {
-    if (externalId == null) {
-      return null;
-    }
-
-    return new AutoValue_ExternalId(
-        ExternalId.Key.parse(externalId.getExternalId()),
-        externalId.getAccountId(),
-        Strings.emptyToNull(externalId.getEmailAddress()),
-        Strings.emptyToNull(externalId.getPassword()));
-  }
-
-  public static Set<ExternalId> from(Collection<AccountExternalId> externalIds) {
-    if (externalIds == null) {
-      return ImmutableSet.of();
-    }
-    return externalIds.stream().map(ExternalId::from).collect(toSet());
-  }
-
-  public static Set<AccountExternalId> toAccountExternalIds(Collection<ExternalId> extIds) {
-    return extIds.stream().map(e -> e.asAccountExternalId()).collect(toSet());
-  }
-
   public abstract Key key();
 
   public abstract Account.Id accountId();
@@ -291,13 +248,6 @@ public abstract class ExternalId implements Serializable {
 
   public boolean isScheme(String scheme) {
     return key().isScheme(scheme);
-  }
-
-  public AccountExternalId asAccountExternalId() {
-    AccountExternalId extId = new AccountExternalId(accountId(), key().asAccountExternalIdKey());
-    extId.setEmailAddress(email());
-    extId.setPassword(password());
-    return extId;
   }
 
   /**

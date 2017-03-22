@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "130dcdba_9751f9fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteRef.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-22T10:49:18Z",
+      "side": 1,
+      "message": "Need to do it here too.",
+      "range": {
+        "startLine": 225,
+        "startChar": 4,
+        "endLine": 228,
+        "endChar": 19
+      },
+      "revId": "597cdb20cbb9e8a40f0591e375741087261f76fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

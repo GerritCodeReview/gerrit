@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "c1207af4_545d732e",
+        "filename": "gerrit-common/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-22T10:15:59Z",
+      "side": 1,
+      "message": "the weakness is that you have to add this to every BUILD file with a java_something.\n\nI still think this is the right way though, The formatting process is quite slow if you do it over the entire tree, so bazel can help with caching.",
+      "parentUuid": "5bf4fc45_8c9cb0f9",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 23
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4247e5c7_c305e38a",
         "filename": "tools/bzl/BUILD",
         "patchSetId": 4

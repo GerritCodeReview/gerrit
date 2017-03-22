@@ -188,15 +188,20 @@
      * accounts if necessary.
      *
      * @param {Boolean} isCancel true if the action is a cancel.
+     * @param {Object} opt_accountIdsReadded map of account IDs that must
+     *     not be removed, because they have been readded in another state.
      */
-    _purgeReviewersPendingRemove: function(isCancel) {
+    _purgeReviewersPendingRemove: function(isCancel, opt_accountIdsReadded) {
       var reviewerArr;
+      var keep = opt_accountIdsReadded || {};
       for (var type in this._reviewersPendingRemove) {
         if (this._reviewersPendingRemove.hasOwnProperty(type)) {
           if (!isCancel) {
             reviewerArr = this._reviewersPendingRemove[type];
             for (var i = 0; i < reviewerArr.length; i++) {
-              this._removeAccount(reviewerArr[i], type);
+              if (!keep[reviewerArr[i]._account_id]) {
+                this._removeAccount(reviewerArr[i], type);
+              }
             }
           }
           this._reviewersPendingRemove[type] = [];
@@ -271,9 +276,18 @@
         obj.message = this.draft;
       }
 
-      obj.reviewers = this.$.reviewers.additions().map(this._mapReviewer);
+      var accountAdditions = {};
+      obj.reviewers = this.$.reviewers.additions().map(function(reviewer) {
+        if (reviewer.account) {
+          accountAdditions[reviewer.account._account_id] = true;
+        }
+        return this._mapReviewer(reviewer);
+      }.bind(this));
       if (this.serverConfig.note_db_enabled) {
         this.$$('#ccs').additions().forEach(function(reviewer) {
+          if (reviewer.account) {
+            accountAdditions[reviewer.account._account_id] = true;
+          }
           reviewer = this._mapReviewer(reviewer);
           reviewer.state = 'CC';
           obj.reviewers.push(reviewer);
@@ -290,6 +304,7 @@
         this.disabled = false;
         this.draft = '';
         this.fire('send', null, {bubbles: false});
+        return accountAdditions;
       }.bind(this)).catch(function(err) {
         this.disabled = false;
         throw err;
@@ -509,8 +524,8 @@
 
     _sendTapHandler: function(e) {
       e.preventDefault();
-      this.send().then(function() {
-        this._purgeReviewersPendingRemove();
+      this.send().then(function(keep) {
+        this._purgeReviewersPendingRemove(false, keep);
       }.bind(this));
     },
 

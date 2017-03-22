@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.errors.LockFailedException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -114,7 +115,10 @@ public class DeleteRef {
       ref = prefix + ref;
     }
     RefUpdate.Result result;
+    String ref = rsrc.getRef();
     RefUpdate u = r.updateRef(ref);
+    u.setExpectedOldObjectId(r.exactRef(ref).getObjectId());
+    u.setNewObjectId(ObjectId.zeroId());
     u.setForceUpdate(true);
     refDeletionValidator.validateRefOperation(ref, identifiedUser.get(), u);
     int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;

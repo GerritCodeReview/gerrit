@@ -22,6 +22,30 @@
       "revId": "979e2ef121437be5ffc2e67478c0a6b5b85c10d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df20d454_196046ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-22T20:24:36Z",
+      "side": 1,
+      "message": "I have a descendent change inbound that does that too, but the short answer is no. Based on my testing, the iron-overlay-manager catches all keyboard events, regardless of whether or not preventDefault or stopPropagation is called on them in the autocomplete.\n\nIf you want to try this out, put a breakpoint in both _handleKeydown in gr-autocomplete and _onCaptureKeydown in iron-overlay-manager.",
+      "parentUuid": "b08614a6_6ed3bd79",
+      "range": {
+        "startLine": 9,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "979e2ef121437be5ffc2e67478c0a6b5b85c10d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ChildProjectApi;
+import com.google.gerrit.extensions.api.projects.CommitApi;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
@@ -39,6 +40,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ChildProjectsCollection;
+import com.google.gerrit.server.project.CommitsCollection;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.DeleteBranches;
 import com.google.gerrit.server.project.DeleteTags;
@@ -89,6 +91,8 @@ public class ProjectApiImpl implements ProjectApi {
   private final ListTags listTags;
   private final DeleteBranches deleteBranches;
   private final DeleteTags deleteTags;
+  private final CommitsCollection commitsCollection;
+  private final CommitApiImpl.Factory commitApi;
 
   @AssistedInject
   ProjectApiImpl(
@@ -111,6 +115,8 @@ public class ProjectApiImpl implements ProjectApi {
       ListTags listTags,
       DeleteBranches deleteBranches,
       DeleteTags deleteTags,
+      CommitsCollection commitsCollection,
+      CommitApiImpl.Factory commitApi,
       @Assisted ProjectResource project) {
     this(
         user,
@@ -133,6 +139,8 @@ public class ProjectApiImpl implements ProjectApi {
         deleteBranches,
         deleteTags,
         project,
+        commitsCollection,
+        commitApi,
         null);
   }
 
@@ -157,6 +165,8 @@ public class ProjectApiImpl implements ProjectApi {
       ListTags listTags,
       DeleteBranches deleteBranches,
       DeleteTags deleteTags,
+      CommitsCollection commitsCollection,
+      CommitApiImpl.Factory commitApi,
       @Assisted String name) {
     this(
         user,
@@ -179,6 +189,8 @@ public class ProjectApiImpl implements ProjectApi {
         deleteBranches,
         deleteTags,
         null,
+        commitsCollection,
+        commitApi,
         name);
   }
 
@@ -203,6 +215,8 @@ public class ProjectApiImpl implements ProjectApi {
       DeleteBranches deleteBranches,
       DeleteTags deleteTags,
       ProjectResource project,
+      CommitsCollection commitsCollection,
+      CommitApiImpl.Factory commitApi,
       String name) {
     this.user = user;
     this.createProjectFactory = createProjectFactory;
@@ -225,6 +239,8 @@ public class ProjectApiImpl implements ProjectApi {
     this.listTags = listTags;
     this.deleteBranches = deleteBranches;
     this.deleteTags = deleteTags;
+    this.commitsCollection = commitsCollection;
+    this.commitApi = commitApi;
   }
 
   @Override
@@ -390,6 +406,15 @@ public class ProjectApiImpl implements ProjectApi {
       deleteTags.apply(checkExists(), in);
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot delete tags", e);
+    }
+  }
+
+  @Override
+  public CommitApi commit(String commit) throws RestApiException {
+    try {
+      return commitApi.create(commitsCollection.parse(checkExists(), IdString.fromDecoded(commit)));
+    } catch (IOException e) {
+      throw new RestApiException("Cannot parse commit", e);
     }
   }
 

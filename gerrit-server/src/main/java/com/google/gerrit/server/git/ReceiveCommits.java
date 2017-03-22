@@ -844,8 +844,9 @@ public class ReceiveCommits {
     try (BatchUpdate bu =
             batchUpdateFactory.create(
                 db, magicBranch.dest.getParentKey(), user.materializedCopy(), TimeUtil.nowTs());
-        ObjectInserter ins = repo.newObjectInserter()) {
-      bu.setRepository(repo, rp.getRevWalk(), ins).updateChangesInParallel();
+        ObjectInserter ins = repo.newObjectInserter();
+        RevWalk rw = new RevWalk(ins.newReader())) {
+      bu.setRepository(repo, rw, ins).updateChangesInParallel();
       bu.setRequestId(receiveId);
       for (ReplaceRequest replace : replaceByChange.values()) {
         if (replace.inputCommand == magicBranch.cmd) {
@@ -2561,8 +2562,9 @@ public class ReceiveCommits {
       try (BatchUpdate bu =
               batchUpdateFactory.create(
                   db, projectControl.getProject().getNameKey(), user, TimeUtil.nowTs());
-          ObjectInserter ins = repo.newObjectInserter()) {
-        bu.setRepository(repo, rp.getRevWalk(), ins);
+          ObjectInserter ins = repo.newObjectInserter();
+          RevWalk rw = new RevWalk(ins.newReader())) {
+        bu.setRepository(repo, rw, ins);
         bu.setRequestId(receiveId);
         addOps(bu, replaceProgress);
         bu.execute();
@@ -2794,14 +2796,14 @@ public class ReceiveCommits {
         !MagicBranch.isMagicBranch(refName),
         "shouldn't be auto-closing changes on magic branch %s",
         refName);
-    RevWalk rw = rp.getRevWalk();
     // TODO(dborowitz): Combine this BatchUpdate with the main one in
     // insertChangesAndPatchSets.
     try (BatchUpdate bu =
             batchUpdateFactory.create(
                 db, projectControl.getProject().getNameKey(), user, TimeUtil.nowTs());
-        ObjectInserter ins = repo.newObjectInserter()) {
-      bu.setRepository(repo, rp.getRevWalk(), ins).updateChangesInParallel();
+        ObjectInserter ins = repo.newObjectInserter();
+        RevWalk rw = new RevWalk(ins.newReader())) {
+      bu.setRepository(repo, rw, ins).updateChangesInParallel();
       bu.setRequestId(receiveId);
       // TODO(dborowitz): Teach BatchUpdate to ignore missing changes.
 

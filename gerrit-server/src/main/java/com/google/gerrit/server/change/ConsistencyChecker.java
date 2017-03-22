@@ -119,6 +119,7 @@ public class ConsistencyChecker {
   private ChangeControl ctl;
   private Repository repo;
   private RevWalk rw;
+  private ObjectInserter oi;
 
   private RevCommit tip;
   private SetMultimap<ObjectId, PatchSet> patchSetsBySha;
@@ -223,7 +224,8 @@ public class ConsistencyChecker {
     Project.NameKey project = change().getDest().getParentKey();
     try {
       repo = repoManager.openRepository(project);
-      rw = new RevWalk(repo);
+      oi = repo.newObjectInserter();
+      rw = new RevWalk(oi.newReader());
       return true;
     } catch (RepositoryNotFoundException e) {
       return error("Destination repository not found: " + project, e);
@@ -490,8 +492,7 @@ public class ConsistencyChecker {
               ? psIdToDelete
               : ChangeUtil.nextPatchSetId(repo, change().currentPatchSetId());
       PatchSetInserter inserter = patchSetInserterFactory.create(ctl, psId, commit);
-      try (BatchUpdate bu = newBatchUpdate();
-          ObjectInserter oi = repo.newObjectInserter()) {
+      try (BatchUpdate bu = newBatchUpdate()) {
         bu.setRepository(repo, rw, oi);
 
         if (psIdToDelete != null) {
@@ -555,8 +556,7 @@ public class ConsistencyChecker {
   }
 
   private void fixMerged(ProblemInfo p) {
-    try (BatchUpdate bu = newBatchUpdate();
-        ObjectInserter oi = repo.newObjectInserter()) {
+    try (BatchUpdate bu = newBatchUpdate()) {
       bu.setRepository(repo, rw, oi);
       bu.addOp(ctl.getId(), new FixMergedOp(p));
       bu.execute();
@@ -607,8 +607,7 @@ public class ConsistencyChecker {
   }
 
   private void deletePatchSets(List<DeletePatchSetFromDbOp> ops) {
-    try (BatchUpdate bu = newBatchUpdate();
-        ObjectInserter oi = repo.newObjectInserter()) {
+    try (BatchUpdate bu = newBatchUpdate()) {
       bu.setRepository(repo, rw, oi);
       for (DeletePatchSetFromDbOp op : ops) {
         checkArgument(op.psId.getParentKey().equals(ctl.getId()));

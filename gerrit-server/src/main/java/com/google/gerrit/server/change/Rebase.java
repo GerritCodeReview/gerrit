@@ -89,8 +89,8 @@ public class Rebase
     ChangeControl control = rsrc.getControl();
     Change change = rsrc.getChange();
     try (Repository repo = repoManager.openRepository(change.getProject());
-        RevWalk rw = new RevWalk(repo);
         ObjectInserter oi = repo.newObjectInserter();
+        RevWalk rw = new RevWalk(oi.newReader());
         BatchUpdate bu =
             updateFactory.create(
                 dbProvider.get(), change.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {

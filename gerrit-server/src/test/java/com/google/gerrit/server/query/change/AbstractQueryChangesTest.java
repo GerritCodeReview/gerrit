@@ -116,6 +116,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
@@ -1924,8 +1925,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .setFireRevisionCreated(false)
             .setValidatePolicy(CommitValidators.Policy.NONE);
     try (BatchUpdate bu = updateFactory.create(db, c.getProject(), user, TimeUtil.nowTs());
-        ObjectInserter oi = repo.getRepository().newObjectInserter()) {
-      bu.setRepository(repo.getRepository(), repo.getRevWalk(), oi);
+        ObjectInserter oi = repo.getRepository().newObjectInserter();
+        RevWalk rw = new RevWalk(oi.newReader())) {
+      bu.setRepository(repo.getRepository(), rw, oi);
       bu.addOp(c.getId(), inserter);
       bu.execute();
     }

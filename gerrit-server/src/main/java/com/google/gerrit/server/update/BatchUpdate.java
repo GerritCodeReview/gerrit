@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
@@ -223,17 +224,13 @@ public abstract class BatchUpdate implements AutoCloseable {
   protected final Map<Change.Id, Change> newChanges = new HashMap<>();
   protected final List<RepoOnlyOp> repoOnlyOps = new ArrayList<>();
 
-  protected Repository repo;
-  protected ObjectInserter inserter;
-  protected RevWalk revWalk;
-  protected ChainedReceiveCommands commands;
+  protected RepoView repoView;
   protected BatchRefUpdate batchRefUpdate;
   protected Order order;
   protected OnSubmitValidators onSubmitValidators;
   protected RequestId requestId;
 
   private boolean updateChangesInParallel;
-  private boolean closeRepo;
 
   protected BatchUpdate(
       GitRepositoryManager repoManager,
@@ -251,10 +248,8 @@ public abstract class BatchUpdate implements AutoCloseable {
 
   @Override
   public void close() {
-    if (closeRepo) {
-      revWalk.close();
-      inserter.close();
-      repo.close();
+    if (repoView != null) {
+      repoView.close();
     }
   }
 
@@ -273,12 +268,8 @@ public abstract class BatchUpdate implements AutoCloseable {
   }
 
   public BatchUpdate setRepository(Repository repo, RevWalk revWalk, ObjectInserter inserter) {
-    checkState(this.repo == null, "repo already set");
-    closeRepo = false;
-    this.repo = checkNotNull(repo, "repo");
-    this.revWalk = checkNotNull(revWalk, "revWalk");
-    this.inserter = checkNotNull(inserter, "inserter");
-    commands = new ChainedReceiveCommands(repo);
+    checkState(this.repoView == null, "repo already set");
+    repoView = new RepoView(repo, revWalk, inserter);
     return this;
   }
 
@@ -309,12 +300,8 @@ public abstract class BatchUpdate implements AutoCloseable {
   }
 
   protected void initRepository() throws IOException {
-    if (repo == null) {
-      this.repo = repoManager.openRepository(project);
-      closeRepo = true;
-      inserter = repo.newObjectInserter();
-      revWalk = new RevWalk(inserter.newReader());
-      commands = new ChainedReceiveCommands(repo);
+    if (repoView == null) {
+      repoView = new RepoView(repoManager, project);
     }
   }
 
@@ -330,21 +317,21 @@ public abstract class BatchUpdate implements AutoCloseable {
 
   protected Repository getRepository() throws IOException {
     initRepository();
-    return repo;
+    return repoView.getRepository();
   }
 
   protected RevWalk getRevWalk() throws IOException {
     initRepository();
-    return revWalk;
+    return repoView.getRevWalk();
   }
 
   protected ObjectInserter getObjectInserter() throws IOException {
     initRepository();
-    return inserter;
+    return repoView.getInserter();
   }
 
-  public Collection<ReceiveCommand> getRefUpdates() {
-    return commands.getCommands().values();
+  public Map<String, ReceiveCommand> getRefUpdates() {
+    return repoView != null ? repoView.getCommands().getCommands() : ImmutableMap.of();
   }
 
   public BatchUpdate addOp(Change.Id id, BatchUpdateOp op) {

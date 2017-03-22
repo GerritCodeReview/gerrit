@@ -173,8 +173,8 @@ public class ChangeEditUtil {
       throws IOException, OrmException, RestApiException, UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
-        RevWalk rw = new RevWalk(repo);
-        ObjectInserter oi = repo.newObjectInserter()) {
+        ObjectInserter oi = repo.newObjectInserter();
+        RevWalk rw = new RevWalk(oi.newReader())) {
       PatchSet basePatchSet = edit.getBasePatchSet();
       if (!basePatchSet.getId().equals(change.currentPatchSetId())) {
         throw new ResourceConflictException("only edit for current patch set can be published");
@@ -194,7 +194,8 @@ public class ChangeEditUtil {
 
       // Previously checked that the base patch set is the current patch set.
       ObjectId prior = ObjectId.fromString(basePatchSet.getRevision().get());
-      ChangeKind kind = changeKindCache.getChangeKind(change.getProject(), repo, rw, prior, squashed);
+      ChangeKind kind =
+          changeKindCache.getChangeKind(change.getProject(), repo, rw, prior, squashed);
       if (kind == ChangeKind.NO_CODE_CHANGE) {
         message.append("Commit message was updated.");
         inserter.setDescription("Edit commit message");

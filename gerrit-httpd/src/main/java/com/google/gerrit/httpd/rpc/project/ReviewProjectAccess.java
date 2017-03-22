@@ -138,8 +138,8 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       return null;
     }
 
-    try (RevWalk rw = new RevWalk(md.getRepository());
-        ObjectInserter objInserter = md.getRepository().newObjectInserter();
+    try (ObjectInserter objInserter = md.getRepository().newObjectInserter();
+        RevWalk rw = new RevWalk(objInserter.newReader());
         BatchUpdate bu =
             updateFactory.create(
                 db, config.getProject().getNameKey(), projectControl.getUser(), TimeUtil.nowTs())) {

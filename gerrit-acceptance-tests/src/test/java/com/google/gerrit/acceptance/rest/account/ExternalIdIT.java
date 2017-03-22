@@ -201,7 +201,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
             () -> {
               if (!doneBgUpdate.getAndSet(true)) {
                 try {
-                  extIdsUpdate.create().insert(db, ExternalId.create(barId, admin.id));
+                  extIdsUpdate.create().insert(ExternalId.create(barId, admin.id));
                 } catch (IOException | ConfigInvalidException | OrmException e) {
                   // Ignore, the successful insertion of the external ID is asserted later
                 }
@@ -209,11 +209,11 @@ public class ExternalIdIT extends AbstractDaemonTest {
             },
             retryer);
     assertThat(doneBgUpdate.get()).isFalse();
-    update.insert(db, ExternalId.create(fooId, admin.id));
+    update.insert(ExternalId.create(fooId, admin.id));
     assertThat(doneBgUpdate.get()).isTrue();
 
-    assertThat(externalIds.get(db, fooId)).isNotNull();
-    assertThat(externalIds.get(db, barId)).isNotNull();
+    assertThat(externalIds.get(fooId)).isNotNull();
+    assertThat(externalIds.get(barId)).isNotNull();
   }
 
   @Test
@@ -236,7 +236,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
               try {
                 extIdsUpdate
                     .create()
-                    .insert(db, ExternalId.create(extIdsKeys[bgCounter.getAndAdd(1)], admin.id));
+                    .insert(ExternalId.create(extIdsKeys[bgCounter.getAndAdd(1)], admin.id));
               } catch (IOException | ConfigInvalidException | OrmException e) {
                 // Ignore, the successful insertion of the external ID is asserted later
               }
@@ -247,14 +247,14 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 .build());
     assertThat(bgCounter.get()).isEqualTo(0);
     try {
-      update.insert(db, ExternalId.create(ExternalId.Key.create("abc", "abc"), admin.id));
+      update.insert(ExternalId.create(ExternalId.Key.create("abc", "abc"), admin.id));
       fail("expected LockFailureException");
     } catch (LockFailureException e) {
       // Ignore, expected
     }
     assertThat(bgCounter.get()).isEqualTo(extIdsKeys.length);
     for (ExternalId.Key extIdKey : extIdsKeys) {
-      assertThat(externalIds.get(db, extIdKey)).isNotNull();
+      assertThat(externalIds.get(extIdKey)).isNotNull();
     }
   }
 }

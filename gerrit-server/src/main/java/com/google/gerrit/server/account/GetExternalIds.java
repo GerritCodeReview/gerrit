@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -38,18 +37,12 @@ import java.util.List;
 
 @Singleton
 public class GetExternalIds implements RestReadView<AccountResource> {
-  private final Provider<ReviewDb> db;
   private final ExternalIds externalIds;
   private final Provider<CurrentUser> self;
   private final AuthConfig authConfig;
 
   @Inject
-  GetExternalIds(
-      Provider<ReviewDb> db,
-      ExternalIds externalIds,
-      Provider<CurrentUser> self,
-      AuthConfig authConfig) {
-    this.db = db;
+  GetExternalIds(ExternalIds externalIds, Provider<CurrentUser> self, AuthConfig authConfig) {
     this.externalIds = externalIds;
     this.self = self;
     this.authConfig = authConfig;
@@ -62,7 +55,7 @@ public class GetExternalIds implements RestReadView<AccountResource> {
       throw new AuthException("not allowed to get external IDs");
     }
 
-    Collection<ExternalId> ids = externalIds.byAccount(db.get(), resource.getUser().getAccountId());
+    Collection<ExternalId> ids = externalIds.byAccount(resource.getUser().getAccountId());
     if (ids.isEmpty()) {
       return ImmutableList.of();
     }

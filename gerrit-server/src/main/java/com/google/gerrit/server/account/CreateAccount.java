@@ -131,11 +131,11 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     Account.Id id = new Account.Id(db.nextAccountId());
 
     ExternalId extUser = ExternalId.createUsername(username, id, input.httpPassword);
-    if (externalIds.get(db, extUser.key()) != null) {
+    if (externalIds.get(extUser.key()) != null) {
       throw new ResourceConflictException("username '" + username + "' already exists");
     }
     if (input.email != null) {
-      if (externalIds.get(db, ExternalId.Key.create(SCHEME_MAILTO, input.email)) != null) {
+      if (externalIds.get(ExternalId.Key.create(SCHEME_MAILTO, input.email)) != null) {
         throw new UnprocessableEntityException("email '" + input.email + "' already exists");
       }
       if (!OutgoingEmailValidator.isValid(input.email)) {
@@ -151,17 +151,17 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
 
     ExternalIdsUpdate externalIdsUpdate = externalIdsUpdateFactory.create();
     try {
-      externalIdsUpdate.insert(db, extIds);
+      externalIdsUpdate.insert(extIds);
     } catch (OrmDuplicateKeyException duplicateKey) {
       throw new ResourceConflictException("username '" + username + "' already exists");
     }
 
     if (input.email != null) {
       try {
-        externalIdsUpdate.insert(db, ExternalId.createEmail(id, input.email));
+        externalIdsUpdate.insert(ExternalId.createEmail(id, input.email));
       } catch (OrmDuplicateKeyException duplicateKey) {
         try {
-          externalIdsUpdate.delete(db, extUser);
+          externalIdsUpdate.delete(extUser);
         } catch (IOException | ConfigInvalidException cleanupError) {
           // Ignored
         }

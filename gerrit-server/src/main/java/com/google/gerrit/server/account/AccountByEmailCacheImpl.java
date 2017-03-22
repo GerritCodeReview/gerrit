@@ -93,7 +93,7 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
         for (Account a : db.accounts().byPreferredEmail(email)) {
           r.add(a.getId());
         }
-        externalIds.get().byEmail(db, email).stream().map(e -> e.accountId()).forEach(r::add);
+        externalIds.get().byEmail(email).stream().map(e -> e.accountId()).forEach(r::add);
         return ImmutableSet.copyOf(r);
       }
     }

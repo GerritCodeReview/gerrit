@@ -19,18 +19,14 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -41,7 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Class to read external IDs from ReviewDb or NoteDb.
+ * Class to read external IDs from NoteDb.
  *
  * <p>In NoteDb external IDs are stored in the All-Users repository in a Git Notes branch called
  * refs/meta/external-ids where the sha1 of the external ID is used as note name. Each note content
@@ -73,20 +69,13 @@ public class ExternalIdReader {
     return NoteMap.newEmptyMap();
   }
 
-  private final boolean readFromGit;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
 
   @Inject
-  ExternalIdReader(
-      @GerritServerConfig Config cfg, GitRepositoryManager repoManager, AllUsersName allUsersName) {
-    this.readFromGit = cfg.getBoolean("user", null, "readExternalIdsFromGit", false);
+  ExternalIdReader(GitRepositoryManager repoManager, AllUsersName allUsersName) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
-  }
-
-  boolean readFromGit() {
-    return readFromGit;
   }
 
   ObjectId readRevision() throws IOException {
@@ -96,14 +85,10 @@ public class ExternalIdReader {
   }
 
   /** Reads and returns all external IDs. */
-  Set<ExternalId> all(ReviewDb db) throws IOException, OrmException {
-    if (readFromGit) {
-      try (Repository repo = repoManager.openRepository(allUsersName)) {
-        return all(repo, readRevision(repo));
-      }
+  Set<ExternalId> all() throws IOException {
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      return all(repo, readRevision(repo));
     }
-
-    return ExternalId.from(db.accountExternalIds().all().toList());
   }
 
   /**
@@ -140,20 +125,16 @@ public class ExternalIdReader {
 
   /** Reads and returns the specified external ID. */
   @Nullable
-  ExternalId get(ReviewDb db, ExternalId.Key key)
-      throws IOException, ConfigInvalidException, OrmException {
-    if (readFromGit) {
-      try (Repository repo = repoManager.openRepository(allUsersName);
-          RevWalk rw = new RevWalk(repo)) {
-        ObjectId rev = readRevision(repo);
-        if (rev.equals(ObjectId.zeroId())) {
-          return null;
-        }
-
-        return parse(key, rw, rev);
+  ExternalId get(ExternalId.Key key) throws IOException, ConfigInvalidException {
+    try (Repository repo = repoManager.openRepository(allUsersName);
+        RevWalk rw = new RevWalk(repo)) {
+      ObjectId rev = readRevision(repo);
+      if (rev.equals(ObjectId.zeroId())) {
+        return null;
       }
+
+      return parse(key, rw, rev);
     }
-    return ExternalId.from(db.accountExternalIds().get(key.asAccountExternalIdKey()));
   }
 
   /** Reads and returns the specified external ID from the given revision. */

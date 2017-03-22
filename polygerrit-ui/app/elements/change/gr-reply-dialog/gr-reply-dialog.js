@@ -90,6 +90,10 @@
       },
       _owner: Object,
       _pendingConfirmationDetails: Object,
+      _publishDrafts: {
+        type: Boolean,
+        value: true,
+      },
       _reviewers: Array,
       _reviewerPendingConfirmation: {
         type: Object,
@@ -156,6 +160,14 @@
       var item = selectorEl.$$('gr-button[data-value="' + value + '"]');
       if (!item) { return; }
       selectorEl.selectIndex(selectorEl.indexOf(item));
+    },
+
+    /**
+     * Function used for plugins to exclude drafts from getting published.
+     * @param {Boolean} shouldPublishDrafts
+     */
+    setPublishDrafts: function(shouldPublishDrafts) {
+      this.set('_publishDrafts', shouldPublishDrafts);
     },
 
     _ccsChanged: function(splices) {
@@ -242,7 +254,7 @@
 
     send: function() {
       var obj = {
-        drafts: 'PUBLISH_ALL_REVISIONS',
+        drafts: this._publishDrafts ? 'PUBLISH_ALL_REVISIONS' : 'KEEP',
         labels: {},
       };
 

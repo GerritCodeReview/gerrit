@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "a016d78c_3ba3f7e2",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T18:10:23Z",
+      "side": 1,
+      "message": "You\u0027re right. That\u0027s another way for credentials to change.\n\nAre you saying that would cause a problem? If the user has two PG tabs -- tab A and tab B -- and re-logs in on tab B, then tab A should continue to work as normal since the cookie is valid.",
+      "parentUuid": "5403cffd_205912a0",
+      "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df86ec6e_c43a27bc",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 4
@@ -261,6 +279,30 @@
     },
     {
       "key": {
+        "uuid": "a4583fd0_21dd2a27",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T18:10:23Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you\u0027re asking. l.342 is:\n\n  return this.getLoggedIn(true);",
+      "parentUuid": "35efaf3e_be9d661a",
+      "range": {
+        "startLine": 240,
+        "startChar": 25,
+        "endLine": 240,
+        "endChar": 36
+      },
+      "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9358142_02f99274",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 4
@@ -308,6 +350,24 @@
       "side": 1,
       "message": "Few points that were spread in multiple other comments:\n\n- getAccount() isn\u0027t used with parameter as of now, except in getLoggedIn\n- getLoggedIn() isn\u0027t used with parameter as of now, except in refreshCredentials\n- refreshCredentials is only used in one place, and triggers a chain of 3 methods and adds the parameter.\n- if fetchJSON was called in refreshCredentials, this would allow not to add parameter to the getLoggedIn and getAccount\n\nAs for removing refreshCredentials or renaming - I think it\u0027s a great idea. I think refreshCredentials used to demonstrate intent initially, and looks like it changed over time.",
       "parentUuid": "74b72db6_f41690bd",
+      "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a83c56c_956de992",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T18:10:23Z",
+      "side": 1,
+      "message": "I do plan to use it in upcoming changes, including the change that depends on this one.\n\nHowever, I don\u0027t want this detail to hold up this change, so I have refactored and will rebase the dependent change so that this change makes more sense on its own.",
+      "parentUuid": "892b4386_6853ef8c",
       "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

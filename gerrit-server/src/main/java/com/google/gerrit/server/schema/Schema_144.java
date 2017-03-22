@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -21,11 +22,15 @@ import com.google.gerrit.server.account.externalids.ExternalIdReader;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -56,7 +61,26 @@ public class Schema_144 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
-    Set<ExternalId> toAdd = ExternalId.from(db.accountExternalIds().all().toList());
+    Set<ExternalId> toAdd = new HashSet<>();
+    try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
+        ResultSet rs =
+            stmt.executeQuery(
+                "SELECT "
+                    + "account_id, "
+                    + "email_address, "
+                    + "password, "
+                    + "external_id "
+                    + "FROM account_external_ids")) {
+      while (rs.next()) {
+        Account.Id accountId = new Account.Id(rs.getInt(1));
+        String email = rs.getString(2);
+        String password = rs.getString(3);
+        String externalId = rs.getString(4);
+
+        toAdd.add(ExternalId.create(ExternalId.Key.parse(externalId), accountId, email, password));
+      }
+    }
+
     try {
       try (Repository repo = repoManager.openRepository(allUsersName);
           RevWalk rw = new RevWalk(repo);

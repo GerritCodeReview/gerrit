@@ -34,7 +34,6 @@ import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.GerritPublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -64,7 +63,6 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
   public static final String MIME_TYPE = "application/pgp-keys";
 
   private final DynamicMap<RestView<GpgKey>> views;
-  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
   private final Provider<PublicKeyStore> storeProvider;
   private final GerritPublicKeyChecker.Factory checkerFactory;
@@ -73,13 +71,11 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
   @Inject
   GpgKeys(
       DynamicMap<RestView<GpgKey>> views,
-      Provider<ReviewDb> db,
       Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
       GerritPublicKeyChecker.Factory checkerFactory,
       ExternalIds externalIds) {
     this.views = views;
-    this.db = db;
     this.self = self;
     this.storeProvider = storeProvider;
     this.checkerFactory = checkerFactory;
@@ -199,8 +195,8 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
     }
   }
 
-  private Iterable<ExternalId> getGpgExtIds(AccountResource rsrc) throws IOException, OrmException {
-    return externalIds.byAccount(db.get(), rsrc.getUser().getAccountId(), SCHEME_GPGKEY);
+  private Iterable<ExternalId> getGpgExtIds(AccountResource rsrc) throws IOException {
+    return externalIds.byAccount(rsrc.getUser().getAccountId(), SCHEME_GPGKEY);
   }
 
   private static long keyId(byte[] fp) {

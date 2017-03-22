@@ -127,6 +127,8 @@ public class DeleteBranches
       command.setResult(Result.REJECTED_OTHER_REASON, "it has open changes");
     }
     RefUpdate u = r.updateRef(branch);
+    u.setExpectedOldObjectId(r.exactRef(branch).getObjectId());
+    u.setNewObjectId(ObjectId.zeroId());
     u.setForceUpdate(true);
     refDeletionValidator.validateRefOperation(
         project.getName(), identifiedUser.get(), u);

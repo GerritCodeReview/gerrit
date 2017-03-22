@@ -41,7 +41,7 @@ public class RefOperationValidators {
   }
 
   public static ReceiveCommand getCommand(RefUpdate update, ReceiveCommand.Type type) {
-    return new ReceiveCommand(update.getOldObjectId(), update.getNewObjectId(),
+    return new ReceiveCommand(update.getExpectedOldObjectId(), update.getNewObjectId(),
         update.getName(), type);
   }
 

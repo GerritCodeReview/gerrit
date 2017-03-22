@@ -29,6 +29,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.LockFailedException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -80,7 +81,10 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
 
     try (Repository r = repoManager.openRepository(rsrc.getNameKey())) {
       RefUpdate.Result result;
-      RefUpdate u = r.updateRef(rsrc.getRef());
+      String ref = rsrc.getRef();
+      RefUpdate u = r.updateRef(ref);
+      u.setExpectedOldObjectId(r.exactRef(ref).getObjectId());
+      u.setNewObjectId(ObjectId.zeroId());
       u.setForceUpdate(true);
       refDeletionValidator.validateRefOperation(
           rsrc.getName(), identifiedUser.get(), u);

@@ -46,6 +46,30 @@
       "revId": "ab2fa7cc39112b6e79e0544812ba8ef78f00d95f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c11e3f4_c376b7b0",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T19:00:53Z",
+      "side": 1,
+      "message": "Hmm, does it not work that way? [1] says the haystack can be a string. Maybe we have a different version.\n\n* [1] http://chaijs.com/api/assert/#method_notinclude",
+      "parentUuid": "d623d658_7c2a7fcf",
+      "range": {
+        "startLine": 121,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 16
+      },
+      "revId": "ab2fa7cc39112b6e79e0544812ba8ef78f00d95f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

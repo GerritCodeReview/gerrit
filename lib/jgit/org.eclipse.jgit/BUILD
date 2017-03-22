@@ -2,8 +2,20 @@ java_library(
     name = "jgit",
     data = ["//lib:LICENSE-jgit"],
     visibility = ["//visibility:public"],
-    exports = ["@jgit//jar"],
+    exports = select({
+        # "//lib/jgit:dev": ["@jgit//org.eclipse.jgit:jgit"],
+        "//conditions:default": ["@jgit_lib//jar"],
+    }),
     runtime_deps = [":javaewah"],
+)
+
+alias(
+    name = "jgit-source",
+    actual = select({
+        # "//lib/jgit:dev": "@jgit//org.eclipse.jgit:libjgit-src.jar",
+        "//conditions:default": "@jgit_lib//jar:src",
+    }),
+    visibility = ["//visibility:public"],
 )
 
 java_library(

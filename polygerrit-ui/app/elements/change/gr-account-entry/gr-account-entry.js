@@ -22,7 +22,6 @@
      *
      * @event add
      */
-
     properties: {
       borderless: Boolean,
       change: Object,

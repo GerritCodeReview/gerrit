@@ -16,8 +16,6 @@ package com.google.gerrit.server.account.externalids;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.account.externalids.ExternalId.Key.toAccountExternalIdKeys;
-import static com.google.gerrit.server.account.externalids.ExternalId.toAccountExternalIds;
 import static com.google.gerrit.server.account.externalids.ExternalIdReader.MAX_NOTE_SZ;
 import static com.google.gerrit.server.account.externalids.ExternalIdReader.readNoteMap;
 import static com.google.gerrit.server.account.externalids.ExternalIdReader.readRevision;
@@ -42,7 +40,6 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
@@ -252,9 +249,8 @@ public class ExternalIdsUpdate {
    *
    * <p>If the external ID already exists, the insert fails with {@link OrmDuplicateKeyException}.
    */
-  public void insert(ReviewDb db, ExternalId extId)
-      throws IOException, ConfigInvalidException, OrmException {
-    insert(db, Collections.singleton(extId));
+  public void insert(ExternalId extId) throws IOException, ConfigInvalidException, OrmException {
+    insert(Collections.singleton(extId));
   }
 
   /**
@@ -263,10 +259,8 @@ public class ExternalIdsUpdate {
    * <p>If any of the external ID already exists, the insert fails with {@link
    * OrmDuplicateKeyException}.
    */
-  public void insert(ReviewDb db, Collection<ExternalId> extIds)
+  public void insert(Collection<ExternalId> extIds)
       throws IOException, ConfigInvalidException, OrmException {
-    db.accountExternalIds().insert(toAccountExternalIds(extIds));
-
     RefsMetaExternalIdsUpdate u =
         updateNoteMap(
             o -> {
@@ -282,9 +276,8 @@ public class ExternalIdsUpdate {
    *
    * <p>If the external ID already exists, it is overwritten, otherwise it is inserted.
    */
-  public void upsert(ReviewDb db, ExternalId extId)
-      throws IOException, ConfigInvalidException, OrmException {
-    upsert(db, Collections.singleton(extId));
+  public void upsert(ExternalId extId) throws IOException, ConfigInvalidException, OrmException {
+    upsert(Collections.singleton(extId));
   }
 
   /**
@@ -292,10 +285,8 @@ public class ExternalIdsUpdate {
    *
    * <p>If any of the external IDs already exists, it is overwritten. New external IDs are inserted.
    */
-  public void upsert(ReviewDb db, Collection<ExternalId> extIds)
+  public void upsert(Collection<ExternalId> extIds)
       throws IOException, ConfigInvalidException, OrmException {
-    db.accountExternalIds().upsert(toAccountExternalIds(extIds));
-
     RefsMetaExternalIdsUpdate u =
         updateNoteMap(
             o -> {
@@ -312,9 +303,8 @@ public class ExternalIdsUpdate {
    * @throws IllegalStateException is thrown if there is an existing external ID that has the same
    *     key, but otherwise doesn't match the specified external ID.
    */
-  public void delete(ReviewDb db, ExternalId extId)
-      throws IOException, ConfigInvalidException, OrmException {
-    delete(db, Collections.singleton(extId));
+  public void delete(ExternalId extId) throws IOException, ConfigInvalidException, OrmException {
+    delete(Collections.singleton(extId));
   }
 
   /**
@@ -324,10 +314,8 @@ public class ExternalIdsUpdate {
    *     key as any of the external IDs that should be deleted, but otherwise doesn't match the that
    *     external ID.
    */
-  public void delete(ReviewDb db, Collection<ExternalId> extIds)
+  public void delete(Collection<ExternalId> extIds)
       throws IOException, ConfigInvalidException, OrmException {
-    db.accountExternalIds().delete(toAccountExternalIds(extIds));
-
     RefsMetaExternalIdsUpdate u =
         updateNoteMap(
             o -> {
@@ -344,9 +332,9 @@ public class ExternalIdsUpdate {
    * @throws IllegalStateException is thrown if the external ID does not belong to the specified
    *     account.
    */
-  public void delete(ReviewDb db, Account.Id accountId, ExternalId.Key extIdKey)
+  public void delete(Account.Id accountId, ExternalId.Key extIdKey)
       throws IOException, ConfigInvalidException, OrmException {
-    delete(db, accountId, Collections.singleton(extIdKey));
+    delete(accountId, Collections.singleton(extIdKey));
   }
 
   /**
@@ -355,10 +343,8 @@ public class ExternalIdsUpdate {
    * @throws IllegalStateException is thrown if any of the external IDs does not belong to the
    *     specified account.
    */
-  public void delete(ReviewDb db, Account.Id accountId, Collection<ExternalId.Key> extIdKeys)
+  public void delete(Account.Id accountId, Collection<ExternalId.Key> extIdKeys)
       throws IOException, ConfigInvalidException, OrmException {
-    db.accountExternalIds().deleteKeys(toAccountExternalIdKeys(extIdKeys));
-
     RefsMetaExternalIdsUpdate u =
         updateNoteMap(
             o -> {
@@ -374,10 +360,8 @@ public class ExternalIdsUpdate {
    *
    * <p>The external IDs are deleted regardless of which account they belong to.
    */
-  public void deleteByKeys(ReviewDb db, Collection<ExternalId.Key> extIdKeys)
+  public void deleteByKeys(Collection<ExternalId.Key> extIdKeys)
       throws IOException, ConfigInvalidException, OrmException {
-    db.accountExternalIds().deleteKeys(toAccountExternalIdKeys(extIdKeys));
-
     RefsMetaExternalIdsUpdate u =
         updateNoteMap(
             o -> {
@@ -389,9 +373,9 @@ public class ExternalIdsUpdate {
   }
 
   /** Deletes all external IDs of the specified account. */
-  public void deleteAll(ReviewDb db, Account.Id accountId)
+  public void deleteAll(Account.Id accountId)
       throws IOException, ConfigInvalidException, OrmException {
-    delete(db, externalIds.byAccount(db, accountId));
+    delete(externalIds.byAccount(accountId));
   }
 
   /**
@@ -406,15 +390,9 @@ public class ExternalIdsUpdate {
    *     the specified account.
    */
   public void replace(
-      ReviewDb db,
-      Account.Id accountId,
-      Collection<ExternalId.Key> toDelete,
-      Collection<ExternalId> toAdd)
+      Account.Id accountId, Collection<ExternalId.Key> toDelete, Collection<ExternalId> toAdd)
       throws IOException, ConfigInvalidException, OrmException {
     checkSameAccount(toAdd, accountId);
-
-    db.accountExternalIds().deleteKeys(toAccountExternalIdKeys(toDelete));
-    db.accountExternalIds().insert(toAccountExternalIds(toAdd));
 
     RefsMetaExternalIdsUpdate u =
         updateNoteMap(
@@ -440,12 +418,8 @@ public class ExternalIdsUpdate {
    *
    * <p>The external IDs are replaced regardless of which account they belong to.
    */
-  public void replaceByKeys(
-      ReviewDb db, Collection<ExternalId.Key> toDelete, Collection<ExternalId> toAdd)
+  public void replaceByKeys(Collection<ExternalId.Key> toDelete, Collection<ExternalId> toAdd)
       throws IOException, ConfigInvalidException, OrmException {
-    db.accountExternalIds().deleteKeys(toAccountExternalIdKeys(toDelete));
-    db.accountExternalIds().insert(toAccountExternalIds(toAdd));
-
     RefsMetaExternalIdsUpdate u =
         updateNoteMap(
             o -> {
@@ -466,9 +440,9 @@ public class ExternalIdsUpdate {
    * @throws IllegalStateException is thrown if the specified external IDs belong to different
    *     accounts.
    */
-  public void replace(ReviewDb db, ExternalId toDelete, ExternalId toAdd)
+  public void replace(ExternalId toDelete, ExternalId toAdd)
       throws IOException, ConfigInvalidException, OrmException {
-    replace(db, Collections.singleton(toDelete), Collections.singleton(toAdd));
+    replace(Collections.singleton(toDelete), Collections.singleton(toAdd));
   }
 
   /**
@@ -482,7 +456,7 @@ public class ExternalIdsUpdate {
    * @throws IllegalStateException is thrown if the specified external IDs belong to different
    *     accounts.
    */
-  public void replace(ReviewDb db, Collection<ExternalId> toDelete, Collection<ExternalId> toAdd)
+  public void replace(Collection<ExternalId> toDelete, Collection<ExternalId> toAdd)
       throws IOException, ConfigInvalidException, OrmException {
     Account.Id accountId = checkSameAccount(Iterables.concat(toDelete, toAdd));
     if (accountId == null) {
@@ -490,7 +464,7 @@ public class ExternalIdsUpdate {
       return;
     }
 
-    replace(db, accountId, toDelete.stream().map(e -> e.key()).collect(toSet()), toAdd);
+    replace(accountId, toDelete.stream().map(e -> e.key()).collect(toSet()), toAdd);
   }
 
   /**

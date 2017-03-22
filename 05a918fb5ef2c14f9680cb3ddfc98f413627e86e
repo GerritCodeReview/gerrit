@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7cc3073_73542601",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T00:31:48Z",
+      "side": 1,
+      "message": "Tiny nitpick: declare `fileReviewed` outside the loop.\n\nvar fileReviewed;\nfor (var i \u003d 0; i \u003c files.length; i++) {\n  fileReviewed \u003d this._computeReviewed(shownFiles[i], reviewed);",
+      "range": {
+        "startLine": 664,
+        "startChar": 8,
+        "endLine": 664,
+        "endChar": 24
+      },
+      "revId": "05a918fb5ef2c14f9680cb3ddfc98f413627e86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3243980f_d87216db",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T00:31:48Z",
+      "side": 1,
+      "message": "I\u0027m thinking this should only execute if the user is logged in.\n\nif (this._isLoggedIn) {\n  this._reviewFile(paths[0]);\n}\n\nOptionally, this could also wait to start rendering the next diff (and REST calling for tons of diff junk) until the previous path is marked as reviewed.\n\nvar promises \u003d [diffElem.reload()];\nif (this._isLoggedIn) {\n  promises.push(this._reviewFile(paths[0]));\n}\nreturn Promise.all(promises).then(function() {\n  return this._renderInOrder(paths.slice(1), diffElements, initialCount);\n}.bind(this));\n\nThis would be a small optimization though... Maybe not worth it.",
+      "range": {
+        "startLine": 802,
+        "startChar": 8,
+        "endLine": 802,
+        "endChar": 35
+      },
+      "revId": "05a918fb5ef2c14f9680cb3ddfc98f413627e86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

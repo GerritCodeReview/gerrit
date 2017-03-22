@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5041cb4e_af52508a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-22T09:16:49Z",
+      "side": 1,
+      "message": "optional: map or wrap (Handling means to me that we would react to the error, consume the exception, and really do something.)",
+      "range": {
+        "startLine": 174,
+        "startChar": 14,
+        "endLine": 174,
+        "endChar": 20
+      },
+      "revId": "d5aecc1db9fb1a1bf864a8c48374e17e572312a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82dd411b_486f300f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
         "patchSetId": 1

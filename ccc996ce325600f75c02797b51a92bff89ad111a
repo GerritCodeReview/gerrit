@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b63457e2_7f721f7b",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-22T00:42:23Z",
+      "side": 1,
+      "message": "Is this._account guaranteed to have an _account_id at this point?",
+      "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

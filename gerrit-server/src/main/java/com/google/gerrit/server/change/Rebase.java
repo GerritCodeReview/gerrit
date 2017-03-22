@@ -47,6 +47,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -93,8 +94,9 @@ public class Rebase
     ChangeControl control = rsrc.getControl();
     Change change = rsrc.getChange();
     try (Repository repo = repoManager.openRepository(change.getProject());
-        RevWalk rw = new RevWalk(repo);
         ObjectInserter oi = repo.newObjectInserter();
+        ObjectReader reader = oi.newReader();
+        RevWalk rw = new RevWalk(reader);
         BatchUpdate bu =
             updateFactory.create(
                 dbProvider.get(), change.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {

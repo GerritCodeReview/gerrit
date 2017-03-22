@@ -52,6 +52,7 @@ import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -137,8 +138,9 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       return null;
     }
 
-    try (RevWalk rw = new RevWalk(md.getRepository());
-        ObjectInserter objInserter = md.getRepository().newObjectInserter();
+    try (ObjectInserter objInserter = md.getRepository().newObjectInserter();
+        ObjectReader objReader = objInserter.newReader();
+        RevWalk rw = new RevWalk(objReader);
         BatchUpdate bu =
             updateFactory.create(
                 db, config.getProject().getNameKey(), projectControl.getUser(), TimeUtil.nowTs())) {

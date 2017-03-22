@@ -53,6 +53,7 @@ import java.util.Optional;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -175,8 +176,9 @@ public class ChangeEditUtil {
       throws IOException, OrmException, RestApiException, UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
-        RevWalk rw = new RevWalk(repo);
-        ObjectInserter oi = repo.newObjectInserter()) {
+        ObjectInserter oi = repo.newObjectInserter();
+        ObjectReader reader = oi.newReader();
+        RevWalk rw = new RevWalk(reader)) {
       PatchSet basePatchSet = edit.getBasePatchSet();
       if (!basePatchSet.getId().equals(change.currentPatchSetId())) {
         throw new ResourceConflictException("only edit for current patch set can be published");

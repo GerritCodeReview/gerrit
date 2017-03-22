@@ -183,6 +183,17 @@
       }.bind(this));
     },
 
+    _unremoveReviewers: function(accountIds) {
+      for (var type in this._reviewersPendingRemove) {
+        if (this._reviewersPendingRemove.hasOwnProperty(type)) {
+          this._reviewersPendingRemove[type] =
+              this._reviewersPendingRemove[type].filter(function(r) {
+            return !accountIds[r._account_id];
+          });
+        }
+      }
+    },
+
     /**
      * Resets the state of the _reviewersPendingRemove object, and removes
      * accounts if necessary.
@@ -271,9 +282,18 @@
         obj.message = this.draft;
       }
 
-      obj.reviewers = this.$.reviewers.additions().map(this._mapReviewer);
+      var accountAdditions = {};
+      obj.reviewers = this.$.reviewers.additions().map(function(reviewer) {
+        if (reviewer.account) {
+          accountAdditions[reviewer.account._account_id] = true;
+        }
+        return this._mapReviewer(reviewer);
+      }.bind(this));
       if (this.serverConfig.note_db_enabled) {
         this.$$('#ccs').additions().forEach(function(reviewer) {
+          if (reviewer.account) {
+            accountAdditions[reviewer.account._account_id] = true;
+          }
           reviewer = this._mapReviewer(reviewer);
           reviewer.state = 'CC';
           obj.reviewers.push(reviewer);
@@ -289,6 +309,7 @@
         }
         this.disabled = false;
         this.draft = '';
+        this._unremoveReviewers(accountAdditions);
         this.fire('send', null, {bubbles: false});
       }.bind(this)).catch(function(err) {
         this.disabled = false;

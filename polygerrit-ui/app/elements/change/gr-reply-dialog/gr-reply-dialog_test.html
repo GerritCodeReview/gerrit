@@ -558,5 +558,72 @@ limitations under the License.
         done();
       });
     });
+
+    test('migrate reviewers between states', function(done) {
+      element.serverConfig = {note_db_enabled: true};
+      element._reviewersPendingRemove = {
+        CC: [],
+        REVIEWER: [],
+      };
+      flushAsynchronousOperations();
+      var reviewers = element.$.reviewers;
+      var ccs = element.$$('#ccs');
+      var reviewer1 = makeAccount();
+      var reviewer2 = makeAccount();
+      var cc1 = makeAccount();
+      var cc2 = makeAccount();
+      element._reviewers = [reviewer1, reviewer2];
+      element._ccs = [cc1, cc2];
+
+      var mutations = [];
+
+      var saveReviewStub = sinon.stub(element, '_saveReview',
+          function(review) {
+        for (var i = 0; i < review.reviewers.length; i++) {
+          mutations.push(review.reviewers[i]);
+        }
+        return Promise.resolve({ok: true});
+      });
+
+      var removeAccountStub = sinon.stub(element, '_removeAccount',
+          function(account, type) {
+        mutations.push({state: 'REMOVED', account: account});
+        return Promise.resolve();
+      });
+
+      // Remove and add to other field.
+      reviewers.fire('remove', {account: reviewer1});
+      ccs.$.entry.fire('add', {value: {account: reviewer1}});
+      ccs.fire('remove', {account: cc1});
+      reviewers.$.entry.fire('add', {value: {account: cc1}});
+
+      // Add to other field without removing from former field.
+      // (Currently not possible in UI, but this is a good consistency check).
+      reviewers.$.entry.fire('add', {value: {account: cc2}});
+      ccs.$.entry.fire('add', {value: {account: reviewer2}});
+      var mapReviewer = function(reviewer, opt_state) {
+        var result = {reviewer: reviewer._account_id, confirmed: undefined};
+        if (!!opt_state) {
+          result.state = opt_state;
+        }
+        return result;
+      };
+
+      // Send and purge and verify moves without deletions.
+      element.send()
+          .then(element._purgeReviewersPendingRemove.bind(element))
+          .then(function() {
+        saveReviewStub.restore();
+        removeAccountStub.restore();
+        assert.deepEqual(
+            mutations, [
+                mapReviewer(cc1),
+                mapReviewer(cc2),
+                mapReviewer(reviewer1, 'CC'),
+                mapReviewer(reviewer2, 'CC'),
+            ]);
+        done();
+      });
+    });
   });
 </script>

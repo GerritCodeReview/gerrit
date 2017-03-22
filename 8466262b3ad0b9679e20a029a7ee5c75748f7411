@@ -293,6 +293,24 @@
     },
     {
       "key": {
+        "uuid": "f71e80c6_3d5cf3fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-22T07:21:14Z",
+      "side": 1,
+      "message": "I think this goes back to one of my comments. What I meant is that below we should not call\n\n   changeData.notes().getReviewersByEmail()\n\nbut rather something like\n\n   changeData.reviewersByEmail()\n\nE.g. in line 369 we also call \n\n  changeData.reviewers()\n\nand not\n\n  changeData.notes().getReviewers()",
+      "parentUuid": "525b4eef_2034a3ad",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18566a3f_7880a67e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/NewChangeSender.java",
         "patchSetId": 1

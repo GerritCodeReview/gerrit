@@ -22,6 +22,30 @@
       "revId": "cd06fb6ddfbcca01481c25b2a1ccdf217c879645",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d6098e7_a3593563",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-22T02:23:05Z",
+      "side": 1,
+      "message": "If this were in the documentation I\u0027d say change it to \"regular\", but since it\u0027s in a code comment I think we can leave it.",
+      "parentUuid": "60c4207c_c8813ae5",
+      "range": {
+        "startLine": 32,
+        "startChar": 68,
+        "endLine": 32,
+        "endChar": 74
+      },
+      "revId": "cd06fb6ddfbcca01481c25b2a1ccdf217c879645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -360,7 +360,24 @@ the lines in the `lib/jgit/**/BUILD` files for `jgit` rule aliases.
 `jgit-dev=1` must be passed in to bazel:
 
 ----
-  $ bazel test --define jgit-dev=1 ...
+  $ bazel build --define jgit-dev=1 gerrit
+----
+
+To run the test additional dependency must be added to the `WORKSPACE`
+file in gerrit project (the version and sha1 should match the jgit version)
+
+----
+  maven_jar(
+      name = "hamcrest_library",
+      artifact = "org.hamcrest:hamcrest-library:1.3",
+      sha1 = "4785a3c21320980282f9f33d0d1264a69040538f",
+  )
+----
+
+Now the tests should work as well:
+
+----
+  $ bazel test --define jgit-dev=1 //...
 ----
 
 [[clean-cache]]

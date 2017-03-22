@@ -24,6 +24,7 @@ import static com.google.gerrit.server.project.TagResource.TAG_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.change.CherryPickCommit;
 
 public class Module extends RestApiModule {
   @Override
@@ -95,6 +96,8 @@ public class Module extends RestApiModule {
 
     get(PROJECT_KIND, "config").to(GetConfig.class);
     put(PROJECT_KIND, "config").to(PutConfig.class);
+
+    post(COMMIT_KIND, "cherrypickcommit").to(CherryPickCommit.class);
 
     factory(DeleteRef.Factory.class);
   }

@@ -264,6 +264,11 @@ limitations under the License.
       </section>
       <section class="draftsContainer" hidden$="[[_computeHideDraftList(diffDrafts)]]">
         <h3>[[_computeDraftsTitle(diffDrafts)]]</h3>
+        <div class="publishDrafts">
+          <input type="checkbox" id="publishDrafts"
+              checked="{{_publishDrafts::change}}">
+          <label for="publishDrafts">Publish drafts</label>
+        </div>
         <gr-comment-list
             comments="[[diffDrafts]]"
             change-num="[[change._number]]"

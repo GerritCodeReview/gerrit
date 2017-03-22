@@ -90,6 +90,10 @@
       },
       _owner: Object,
       _pendingConfirmationDetails: Object,
+      _publishDrafts: {
+        type: Boolean,
+        value: true,
+      },
       _reviewers: Array,
       _reviewerPendingConfirmation: {
         type: Object,
@@ -242,7 +246,7 @@
 
     send: function() {
       var obj = {
-        drafts: 'PUBLISH_ALL_REVISIONS',
+        drafts: this._publishDrafts ? 'PUBLISH_ALL_REVISIONS' : 'KEEP',
         labels: {},
       };
 

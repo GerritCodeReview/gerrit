@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "971243b0_387faaa5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-22T21:40:47Z",
+      "side": 1,
+      "message": "Prefer sandbox for stubbing. You can remove the restore calls too.",
+      "range": {
+        "startLine": 580,
+        "startChar": 27,
+        "endLine": 580,
+        "endChar": 32
+      },
+      "revId": "4ac87a4782f830a98eed1e762af2249d18ece918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

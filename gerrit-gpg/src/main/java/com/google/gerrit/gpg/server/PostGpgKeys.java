@@ -40,7 +40,6 @@ import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.server.PostGpgKeys.Input;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -85,7 +84,6 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
 
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final Provider<PersonIdent> serverIdent;
-  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
   private final Provider<PublicKeyStore> storeProvider;
   private final GerritPublicKeyChecker.Factory checkerFactory;
@@ -98,7 +96,6 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   @Inject
   PostGpgKeys(
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
-      Provider<ReviewDb> db,
       Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
       GerritPublicKeyChecker.Factory checkerFactory,
@@ -108,7 +105,6 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       ExternalIds externalIds,
       ExternalIdsUpdate.User externalIdsUpdateFactory) {
     this.serverIdent = serverIdent;
-    this.db = db;
     this.self = self;
     this.storeProvider = storeProvider;
     this.checkerFactory = checkerFactory;
@@ -126,7 +122,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
     GpgKeys.checkVisible(self, rsrc);
 
     Collection<ExternalId> existingExtIds =
-        externalIds.byAccount(db.get(), rsrc.getUser().getAccountId(), SCHEME_GPGKEY);
+        externalIds.byAccount(rsrc.getUser().getAccountId(), SCHEME_GPGKEY);
     try (PublicKeyStore store = storeProvider.get()) {
       Set<Fingerprint> toRemove = readKeysToRemove(input, existingExtIds);
       List<PGPPublicKeyRing> newKeys = readKeysToAdd(input, toRemove);
@@ -151,7 +147,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
           toRemove.stream().map(fp -> toExtIdKey(fp.get())).collect(toList());
       externalIdsUpdateFactory
           .create()
-          .replace(db.get(), rsrc.getUser().getAccountId(), extIdKeysToRemove, newExtIds);
+          .replace(rsrc.getUser().getAccountId(), extIdKeysToRemove, newExtIds);
       accountCache.evict(rsrc.getUser().getAccountId());
       return toJson(newKeys, toRemove, store, rsrc.getUser());
     }

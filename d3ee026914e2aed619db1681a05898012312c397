@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a35e51a7_cd0d45c8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-22T21:00:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "734d4868_fb80f072",
+      "revId": "d3ee026914e2aed619db1681a05898012312c397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad7f53cb_faec01d0",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2017-03-21T06:58:24Z",
       "side": 1,
       "message": "Please also mention how the GWT UI behave in this case.",
+      "range": {
+        "startLine": 402,
+        "startChar": 36,
+        "endLine": 403,
+        "endChar": 33
+      },
+      "revId": "d3ee026914e2aed619db1681a05898012312c397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fa34ff0_1b5860a0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-22T21:00:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad7f53cb_faec01d0",
       "range": {
         "startLine": 402,
         "startChar": 36,

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1490190538 +0100\nnonce AIcUUg8K0sGmjz1rFKWzZ7saUyst1f2hIN9rzhjdzn/wuwsixXB/hbKH3JYy8L0G5Vr0x84M5udO\n\n0000000000000000000000000000000000000000 d259158c882d77365cb943ba4cf63102142aa83a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY0oDKAAoJEFG1/Zeg0O9Rs3YH/34T/qe5dJVpPdLSWyVqnOgK\ns8ASjK6hjNung5f8/j4uqwKz7jPxpuVRUkUXY/+6B1LzLDd6fwf/c6+U2OAq42BF\n2+GV1C2b9mDFLQGs3L3hWzd44NgbM8yoggjD0Q+mCTzQo6e6d0k9+8OS5YB6jSax\n0RR53OBHOE9+5qWe1+BmZdwEsc4tw/Rz30A0q4wVrOQGig9W0YhiN7/Jr0foslo2\niVcDHvb4AX0VxzJszYZiezQzwNJ8xBvU2Pae+BWC32lLnXZz2mdwiDFsvbawz+Sr\nMmqbq6dYQtr/VGJRJDXE++vhuF5rb0e2k02wbyAZ3rO4S83R48lTN2s0f9DfZp0\u003d\n\u003dIkhn\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4f3885c_917e438f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIds.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-22T17:23:45Z",
+      "side": 1,
+      "message": "Why is this a provider? Just to break a dependency cycle?",
+      "revId": "d259158c882d77365cb943ba4cf63102142aa83a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

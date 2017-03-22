@@ -284,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "65100fec_46b181d0",
+        "filename": "tools/bzl/gjf.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2017-03-22T12:52:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65994163_fff04490",
+      "range": {
+        "startLine": 2,
+        "startChar": 28,
+        "endLine": 2,
+        "endChar": 38
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "933b2d77_c3e109be",
         "filename": "tools/bzl/gjf.bzl",
         "patchSetId": 4
@@ -448,6 +472,30 @@
       "side": 1,
       "message": "the runfiles directory is prefixed by the workspace name, so you get the files as ${TEST_SRCDIR}/gerrit/gerrit-common/Bla.java\n\nWe should find a way to inject it here, but I\u0027m not sure how that can be done short of writing a proper Bazel rule again. Damien?",
       "parentUuid": "2b6d61a2_8905204e",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "89068a76643551f84c8344f2d38471179c6093ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e3b9ac4_b7bca1df",
+        "filename": "tools/bzl/gjf.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2017-03-22T12:52:13Z",
+      "side": 1,
+      "message": "Use REPOSITORY_NAME? https://bazel.build/versions/master/docs/skylark/lib/globals.html#REPOSITORY_NAME (it will be the repository of the bzl file though)",
+      "parentUuid": "e1fae2d4_154e2644",
       "range": {
         "startLine": 58,
         "startChar": 4,

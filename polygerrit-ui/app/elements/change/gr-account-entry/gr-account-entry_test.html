@@ -169,5 +169,20 @@ limitations under the License.
         });
       });
     });
+
+    test('allowAnyInput suppresses cancel event', function() {
+      var cancelHandler = sandbox.stub();
+      element.addEventListener('cancel', cancelHandler);
+      element.allowAnyInput = true;
+      element.$.input._cancel();
+      flushAsynchronousOperations();
+
+      assert.isFalse(cancelHandler.called);
+      element.allowAnyInput = false;
+      element.$.input._cancel();
+      flushAsynchronousOperations();
+
+      assert.isTrue(cancelHandler.called);
+    });
   });
 </script>

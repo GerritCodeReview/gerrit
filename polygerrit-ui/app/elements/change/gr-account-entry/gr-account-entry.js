@@ -39,6 +39,14 @@
        */
       allowAnyUser: Boolean,
 
+      /**
+       * When true, allows for non-suggested inputs to be added.
+       */
+      allowAnyInput: {
+        type: Boolean,
+        value: false,
+      },
+
       suggestFrom: {
         type: Number,
         value: 3,
@@ -105,6 +113,11 @@
             .filter(this.filter)
             .map(this._makeSuggestion.bind(this));
       }.bind(this));
+    },
+
+    _handleCancel: function(e) {
+      if (this.allowAnyInput) { return; }
+      this.fire('cancel');
     },
   });
 })();

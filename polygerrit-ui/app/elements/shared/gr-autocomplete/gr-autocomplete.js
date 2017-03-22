@@ -237,7 +237,7 @@
 
     _cancel: function() {
       this._suggestions = [];
-      this.fire('cancel');
+      this.fire('cancel', null, {bubbles: false});
     },
 
     _updateValue: function(suggestions, index) {

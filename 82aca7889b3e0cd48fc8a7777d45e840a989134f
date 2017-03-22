@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e994758d_6ef02d91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewerByEmailOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-22T21:20:11Z",
+      "side": 1,
+      "message": "Nit: public fields before private. (Does it need to be public? I didn\u0027t see a reference in DeleteReviewer.java, but I might have missed it.)",
+      "revId": "82aca7889b3e0cd48fc8a7777d45e840a989134f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4b4b362_1d22cb63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-22T21:20:11Z",
+      "side": 1,
+      "message": "readChanges",
+      "range": {
+        "startLine": 269,
+        "startChar": 19,
+        "endLine": 269,
+        "endChar": 26
+      },
+      "revId": "82aca7889b3e0cd48fc8a7777d45e840a989134f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef48c8fe_7473e323",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-22T21:20:11Z",
+      "side": 1,
+      "message": "Style guide says you need a summary rather than only @return",
+      "revId": "82aca7889b3e0cd48fc8a7777d45e840a989134f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c39d4280_b5c7a367",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ReviewerStateInternal.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-22T21:20:11Z",
+      "side": 1,
+      "message": "This invariant isn\u0027t guaranteed by the static check below. In other words you could reorder the enum definitions in ReviewerState and the static checks would still pass.\n\nSo I think you need to reword the static checks to iterate over ReviewerState.values() and ReviewerStateInternal.values() in parallel. (Sorry it\u0027s so fiddly.)",
+      "revId": "82aca7889b3e0cd48fc8a7777d45e840a989134f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

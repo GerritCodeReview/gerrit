@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c0847772_27c689fe",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-22T21:20:11Z",
+      "side": 1,
+      "message": "Actually I just meant the omitting \"name\" field, i.e. \"email\" only.\n\nThis is fine too though *shrug*",
+      "parentUuid": "1c8821d9_ef237831",
+      "revId": "8466262b3ad0b9679e20a029a7ee5c75748f7411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35761c4f_ae88de88",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1

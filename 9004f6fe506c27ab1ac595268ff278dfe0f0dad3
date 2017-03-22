@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae2cd568_daab20ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T07:50:37Z",
+      "side": 1,
+      "message": "Should PG UI prevent adding user by email or should th rest endpoint reject the attempt, when PG/ReviewDb combination is used?",
+      "revId": "9004f6fe506c27ab1ac595268ff278dfe0f0dad3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c9e7414_80f7aa57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T07:50:37Z",
+      "side": 1,
+      "message": "This is better then nothing. Alternatively, I could imagine to migrate all changes, where the user was added as Reviewer-email or CC-email state. Could be a site configuration and could be done asynchronously.",
+      "range": {
+        "startLine": 20,
+        "startChar": 9,
+        "endLine": 21,
+        "endChar": 25
+      },
+      "revId": "9004f6fe506c27ab1ac595268ff278dfe0f0dad3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

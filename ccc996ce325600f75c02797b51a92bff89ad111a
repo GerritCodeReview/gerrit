@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "38320d4c_777d1502",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T17:05:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75718c34_f247ca3b",
+      "range": {
+        "startLine": 19,
+        "startChar": 38,
+        "endLine": 19,
+        "endChar": 48
+      },
+      "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea197c39_91e8f011",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 4
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "bdd1fa06_7d8e19d9",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T17:05:22Z",
+      "side": 1,
+      "message": "This records the ID when the app is launched (IOW each time GR-APP is initialized). If a user logs in or out, the result is new page load, which means GR-APP is run again.\n\nThe only way credentials change without a new page load is by refresh. Thus, this allows us to check whether the refreshed ID differs from the launch ID.",
+      "parentUuid": "ea197c39_91e8f011",
+      "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df86ec6e_c43a27bc",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 4
@@ -56,6 +98,24 @@
       "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80d1437f_3753478d",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T17:05:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df86ec6e_c43a27bc",
+      "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -135,6 +195,30 @@
     },
     {
       "key": {
+        "uuid": "dfb3dbfe_4cc8adef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T17:05:22Z",
+      "side": 1,
+      "message": "This parameter is still used. It\u0027s used by `getLoggedIn`.",
+      "parentUuid": "4e00e829_f01254c2",
+      "range": {
+        "startLine": 240,
+        "startChar": 25,
+        "endLine": 240,
+        "endChar": 36
+      },
+      "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9358142_02f99274",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 4
@@ -149,6 +233,24 @@
       "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74b72db6_f41690bd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-22T17:05:22Z",
+      "side": 1,
+      "message": "I don\u0027t think it belongs there. This option is for getting the account without the cache, so it\u0027s an option on the `getAccount` method.\n\nIn fact, I\u0027d lean towards removing `refreshCredentials` or maybe just renaming it to `validateCredentials` or `checkCredentials` since it doesn\u0027t do any refreshing. That may be cleanup for a future change.",
+      "parentUuid": "f9358142_02f99274",
+      "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

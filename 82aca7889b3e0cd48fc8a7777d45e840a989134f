@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5961e5f0_86f02af3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T21:52:01Z",
+      "side": 1,
+      "message": "Invalid char.",
+      "range": {
+        "startLine": 724,
+        "startChar": 9,
+        "endLine": 724,
+        "endChar": 10
+      },
+      "revId": "82aca7889b3e0cd48fc8a7777d45e840a989134f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e994758d_6ef02d91",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewerByEmailOp.java",
         "patchSetId": 2
@@ -39,6 +62,121 @@
       "revId": "82aca7889b3e0cd48fc8a7777d45e840a989134f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c9070d5_3c06f615",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T21:52:01Z",
+      "side": 1,
+      "message": "If you do this, you can remove all null checks below.",
+      "range": {
+        "startLine": 432,
+        "startChar": 4,
+        "endLine": 434,
+        "endChar": 60
+      },
+      "revId": "82aca7889b3e0cd48fc8a7777d45e840a989134f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7348e6ec_e3b6b79d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T21:52:01Z",
+      "side": 1,
+      "message": "After adding 432-434 this is always true so that you can remove this if entirely.",
+      "range": {
+        "startLine": 493,
+        "startChar": 6,
+        "endLine": 493,
+        "endChar": 55
+      },
+      "revId": "82aca7889b3e0cd48fc8a7777d45e840a989134f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f5db2ce_d1f5091e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T21:52:01Z",
+      "side": 1,
+      "message": "Always false.",
+      "range": {
+        "startLine": 497,
+        "startChar": 16,
+        "endLine": 497,
+        "endChar": 38
+      },
+      "revId": "82aca7889b3e0cd48fc8a7777d45e840a989134f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91506524_97c26fa7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T21:52:01Z",
+      "side": 1,
+      "message": "Always false.",
+      "range": {
+        "startLine": 499,
+        "startChar": 12,
+        "endLine": 499,
+        "endChar": 28
+      },
+      "revId": "82aca7889b3e0cd48fc8a7777d45e840a989134f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cf7164f_a9605982",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-22T21:52:01Z",
+      "side": 1,
+      "message": "On line 497 you are checking for:\n\n  addedReviewers \u003d\u003d null\n\nbut here you don\u0027t. But there is no any assignments to addedReviewers between these lines, so that you would get NPE here, if condition on line 497 wouldn\u0027t always be false.",
+      "range": {
+        "startLine": 504,
+        "startChar": 13,
+        "endLine": 504,
+        "endChar": 27
+      },
+      "revId": "82aca7889b3e0cd48fc8a7777d45e840a989134f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -39,6 +39,14 @@
        */
       allowAnyUser: Boolean,
 
+      /**
+       * When true, allows for non-suggested inputs to be added.
+       */
+      allowAnyInput: {
+        type: Boolean,
+        value: false,
+      },
+
       suggestFrom: {
         type: Number,
         value: 3,

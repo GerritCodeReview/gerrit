@@ -85,6 +85,8 @@
         value: false,
       },
 
+      noCancelOnEscKey: Boolean,
+
       /**
        * When true, tab key autocompletes but does not fire the commit event.
        * See Issue 4556.
@@ -237,7 +239,9 @@
 
     _cancel: function() {
       this._suggestions = [];
-      this.fire('cancel');
+      if (!this.noCancelOnEscKey) {
+        this.fire('cancel', null, {cancelable: true});
+      }
     },
 
     _updateValue: function(suggestions, index) {

@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "75718c34_f247ca3b",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-22T05:02:15Z",
+      "side": 1,
+      "message": "Either make this one a number, or update the one above to me a multiplication statement.",
+      "range": {
+        "startLine": 19,
+        "startChar": 38,
+        "endLine": 19,
+        "endChar": 48
+      },
+      "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea197c39_91e8f011",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-22T05:02:15Z",
+      "side": 1,
+      "message": "I presume, user can log in and out multiple times, so there is no need to focus on app launch.",
+      "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df86ec6e_c43a27bc",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-22T05:02:15Z",
+      "side": 1,
+      "message": "This return isn\u0027t needed.",
+      "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b63457e2_7f721f7b",
         "filename": "polygerrit-ui/app/elements/gr-app.js",
         "patchSetId": 4
@@ -52,6 +109,46 @@
       "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e00e829_f01254c2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-22T05:02:15Z",
+      "side": 1,
+      "message": "Looks like you don\u0027t need this one now.",
+      "range": {
+        "startLine": 240,
+        "startChar": 25,
+        "endLine": 240,
+        "endChar": 36
+      },
+      "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9358142_02f99274",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-22T05:02:15Z",
+      "side": 1,
+      "message": "What do you think about moving this into refreshCredentials()?",
+      "revId": "ccc996ce325600f75c02797b51a92bff89ad111a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

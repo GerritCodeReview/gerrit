@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "e06073f7_18861080",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-22T05:02:15Z",
+      "side": 1,
+      "message": "There are tons of edge cases we\u0027re not taking into account, like user signing out on purpose and account being updated on the server side here.\n\nI think we historically did a \"soft refresh\" since it was easy to do, not because it\u0027s the right thing to do.",
+      "parentUuid": "2ce22e16_8ee42d2a",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "4885e53e8d41fa76821eaf24f0dc5391c0d0e0ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fba2fcb_760ca6dc",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 1

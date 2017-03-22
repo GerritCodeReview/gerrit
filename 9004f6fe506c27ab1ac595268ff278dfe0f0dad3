@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b766bcf9_ae173d64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-22T16:54:32Z",
+      "side": 1,
+      "message": "IIRC both UIs will let you type whatever you want in the reviewer input, and will pass through any error that the server returns. This series just makes the server return an error in fewer cases.",
+      "parentUuid": "ae2cd568_daab20ad",
+      "revId": "9004f6fe506c27ab1ac595268ff278dfe0f0dad3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c9e7414_80f7aa57",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

@@ -336,9 +336,7 @@
 
     checkCredentials: function() {
       // Skip the REST response cache.
-      return this.fetchJSON('/accounts/self/detail').then(function(account) {
-        return account != null;
-      });
+      return this.fetchJSON('/accounts/self/detail');
     },
 
     getPreferences: function() {

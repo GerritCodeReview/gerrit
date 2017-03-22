@@ -147,7 +147,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
           BundleWriter bw = new BundleWriter(or.getRepo());
           bw.setObjectCountCallback(null);
           bw.setPackConfig(null);
-          Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates();
+          Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates().values();
           for (ReceiveCommand r : refs) {
             bw.include(r.getRefName(), r.getNewId());
             ObjectId oldId = r.getOldId();

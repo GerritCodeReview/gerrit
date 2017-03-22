@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.DeleteEmail.Input;
@@ -43,7 +42,6 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
 
   private final Provider<CurrentUser> self;
   private final Realm realm;
-  private final Provider<ReviewDb> dbProvider;
   private final AccountManager accountManager;
   private final ExternalIds externalIds;
 
@@ -51,12 +49,10 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
   DeleteEmail(
       Provider<CurrentUser> self,
       Realm realm,
-      Provider<ReviewDb> dbProvider,
       AccountManager accountManager,
       ExternalIds externalIds) {
     this.self = self;
     this.realm = realm;
-    this.dbProvider = dbProvider;
     this.accountManager = accountManager;
     this.externalIds = externalIds;
   }
@@ -80,7 +76,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
 
     Set<ExternalId> extIds =
         externalIds
-            .byAccount(dbProvider.get(), user.getAccountId())
+            .byAccount(user.getAccountId())
             .stream()
             .filter(e -> email.equals(e.email()))
             .collect(toSet());

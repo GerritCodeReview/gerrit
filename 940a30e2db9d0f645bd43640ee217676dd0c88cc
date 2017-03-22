@@ -22,6 +22,30 @@
       "revId": "940a30e2db9d0f645bd43640ee217676dd0c88cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfe65a46_562d91ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-22T21:27:51Z",
+      "side": 1,
+      "message": "There is a way.",
+      "parentUuid": "67b7ee7c_6569d06c",
+      "range": {
+        "startLine": 186,
+        "startChar": 4,
+        "endLine": 195,
+        "endChar": 6
+      },
+      "revId": "940a30e2db9d0f645bd43640ee217676dd0c88cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

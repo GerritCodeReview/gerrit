@@ -236,8 +236,11 @@
     },
 
     _cancel: function() {
-      this._suggestions = [];
-      this.fire('cancel');
+      if (this._suggestions.length) {
+        this._suggestions = [];
+      } else {
+        this.fire('cancel');
+      }
     },
 
     _updateValue: function(suggestions, index) {

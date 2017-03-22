@@ -35,6 +35,7 @@
         type: Boolean,
         value: false,
       },
+
       /**
        * When true, the account-entry autocomplete uses the account suggest API
        * endpoint, which suggests any account in that Gerrit instance (and does
@@ -48,6 +49,15 @@
         type: Boolean,
         value: false,
       },
+
+      /**
+       * When true, allows for non-suggested inputs to be added.
+       */
+      allowAnyInput: {
+        type: Boolean,
+        value: false,
+      },
+
       /**
        * Array of values (groups/accounts) that are removable. When this prop is
        * undefined, all values are removable.

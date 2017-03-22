@@ -169,5 +169,19 @@ limitations under the License.
         });
       });
     });
+
+    test('allowAnyInput suppresses cancel event', function() {
+      var fireStub = sandbox.stub(element, 'fire');
+      element.allowAnyInput = true;
+      element.$.input._cancel();
+      flushAsynchronousOperations();
+
+      assert.isFalse(fireStub.called);
+      element.allowAnyInput = false;
+      element.$.input._cancel();
+      flushAsynchronousOperations();
+
+      assert.isTrue(fireStub.called);
+    });
   });
 </script>

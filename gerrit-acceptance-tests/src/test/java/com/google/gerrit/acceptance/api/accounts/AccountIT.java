@@ -414,7 +414,7 @@ public class AccountIT extends AbstractDaemonTest {
             "@example.com",
 
             // Non-supported TLD  (see tlds-alpha-by-domain.txt)
-            "new.email@example.blog");
+            "new.email@example.africa");
     for (String email : emails) {
       EmailInput input = new EmailInput();
       input.email = email;

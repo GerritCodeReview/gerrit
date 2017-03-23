@@ -351,8 +351,8 @@ maven_jar(
 
 maven_jar(
     name = "commons_validator",
-    artifact = "commons-validator:commons-validator:1.5.1",
-    sha1 = "86d05a46e8f064b300657f751b5a98c62807e2a0",
+    artifact = "commons-validator:commons-validator:1.6",
+    sha1 = "e989d1e87cdd60575df0765ed5bac65c905d7908",
 )
 
 maven_jar(

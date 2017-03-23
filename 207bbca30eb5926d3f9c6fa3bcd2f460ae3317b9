@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "704dd4c0_ab97a4d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-23T15:07:26Z",
+      "side": 1,
+      "message": "I\u0027m not sure. I removed it, attaching screenshot. Can be up for discussion.\n\nhttp://imgur.com/a/aZjbv",
+      "parentUuid": "00035b17_7e6905d9",
+      "range": {
+        "startLine": 266,
+        "startChar": 8,
+        "endLine": 266,
+        "endChar": 52
+      },
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ab4d3ff_4a3832cd",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cf488fe_2ce19d81",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-23T15:07:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ab4d3ff_4a3832cd",
+      "range": {
+        "startLine": 270,
+        "startChar": 37,
+        "endLine": 270,
+        "endChar": 51
+      },
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0e1a690d_b914b2db",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-23T15:07:26Z",
+      "side": 1,
+      "message": "I played around with this and didn\u0027t like it being lower, because it can be hidden and not sure if the user would scroll through the comments. However, if it\u0027s above, they at least see the option.",
+      "parentUuid": "2cf2a879_e4f24b36",
+      "range": {
+        "startLine": 267,
+        "startChar": 8,
+        "endLine": 271,
+        "endChar": 14
+      },
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37f897f8_9140eb07",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "663caf3b_b14b3f84",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-23T15:07:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37f897f8_9140eb07",
+      "range": {
+        "startLine": 272,
+        "startChar": 8,
+        "endLine": 272,
+        "endChar": 24
+      },
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44f2dae9_22bafb0d",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2
@@ -108,6 +204,24 @@
       "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78fff504_b5bfcc9d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-23T15:07:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44f2dae9_22bafb0d",
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -131,6 +245,30 @@
       "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "558924af_0e5fc0ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-23T15:07:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35ea10b8_c3e2516e",
+      "range": {
+        "startLine": 158,
+        "startChar": 10,
+        "endLine": 158,
+        "endChar": 49
+      },
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

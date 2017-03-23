@@ -17,6 +17,24 @@
       "revId": "97ffb0d86f0c91293ae68c7bf5fd453c846a801d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bb02062_9ff4547a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-23T08:10:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f343745_29fd9537",
+      "revId": "97ffb0d86f0c91293ae68c7bf5fd453c846a801d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

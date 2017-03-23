@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "f54624bf_42ff7467",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-23T08:11:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7fb5b2a_bcb9a39b",
+      "revId": "67ccacb32d926792e1ef254ba8c11b17ef9878f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "627f4205_c7d44c77",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 11
@@ -31,6 +49,24 @@
       "writtenOn": "2017-03-22T19:47:56Z",
       "side": 1,
       "message": "Hm, would it make more sense to move the ImmutableList.copyOf into the CVE constructor?",
+      "revId": "67ccacb32d926792e1ef254ba8c11b17ef9878f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1446b7ca_a2f8051c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-23T08:11:53Z",
+      "side": 1,
+      "message": "Done in:\n  https://gerrit-review.googlesource.com/100789",
+      "parentUuid": "627f4205_c7d44c77",
       "revId": "67ccacb32d926792e1ef254ba8c11b17ef9878f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

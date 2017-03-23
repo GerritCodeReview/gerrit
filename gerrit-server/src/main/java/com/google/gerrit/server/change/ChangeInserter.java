@@ -529,7 +529,7 @@ public class ChangeInserter implements InsertChangeOp {
               commitId,
               ctx.getIdentifiedUser())) {
         commitValidatorsFactory
-            .forGerritCommits(refControl, new NoSshInfo(), ctx.getRepository())
+            .forGerritCommits(refControl, new NoSshInfo(), ctx.getRevWalk())
             .validate(event);
       }
     } catch (CommitValidationException e) {

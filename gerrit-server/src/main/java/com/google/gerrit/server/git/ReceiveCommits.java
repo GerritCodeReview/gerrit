@@ -2778,7 +2778,7 @@ public class ReceiveCommits {
       CommitValidators validators =
           isMerged
               ? commitValidatorsFactory.forMergedCommits(ctl)
-              : commitValidatorsFactory.forReceiveCommits(ctl, sshInfo, repo);
+              : commitValidatorsFactory.forReceiveCommits(ctl, sshInfo, repo, rw);
       messages.addAll(validators.validate(receiveEvent));
     } catch (CommitValidationException e) {
       logDebug("Commit validation failed on {}", c.name());

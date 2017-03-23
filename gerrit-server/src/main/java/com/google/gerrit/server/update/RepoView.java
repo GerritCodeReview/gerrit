@@ -17,15 +17,33 @@ package com.google.gerrit.server.update;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/**
+ * Restricted view of a {@link Repository} for use by {@link BatchUpdateOp} implementations.
+ *
+ * <p>This class serves two purposes in the context of {@link BatchUpdate}. First, the subset of
+ * normal Repository functionality is purely read-only, which prevents implementors from modifying
+ * the repository outside of {@link BatchUpdateOp#updateRepo}. Write operations can only be
+ * performed by calling methods on {@link RepoContext}.
+ *
+ * <p>Second, the read methods take into account any pending operations on the repository that
+ * implementations have staged using the write methods on {@link RepoContext}. Callers do not have
+ * to worry about whether operations have been performed yet, and the implementation details may
+ * differ between ReviewDb and NoteDb, but callers just don't need to care.
+ */
 public class RepoView {
   private final Repository repo;
   private final RevWalk rw;
@@ -54,25 +72,107 @@ public class RepoView {
     closeRepo = false;
   }
 
+  /**
+   * Get this repo's configuration.
+   *
+   * <p>This is the storage-level config you would get with {@link Repository#getConfig()}, not, for
+   * example, the Gerrit-level project config.
+   *
+   * @return a defensive copy of the config; modifications have no effect on the underlying config.
+   */
+  public Config getConfig() {
+    return new Config(repo.getConfig());
+  }
+
+  /**
+   * Get an open revwalk on the repo.
+   *
+   * <p>Guaranteed to be able to read back any objects inserted in the repository via {@link
+   * RepoContext#getInserter()}, even if objects have not been flushed to the underlying repo. In
+   * particular this includes any object returned by {@link #getRef(String)}, even taking into
+   * account not-yet-executed commands.
+   *
+   * @return revwalk.
+   */
   public RevWalk getRevWalk() {
     return rw;
   }
 
-  public ObjectInserter getInserter() {
-    return inserter;
-  }
-
-  public ChainedReceiveCommands getCommands() {
-    return commands;
-  }
-
+  /**
+   * Read a single ref from the repo.
+   *
+   * <p>Takes into account any ref update commands added during the course of the update using
+   * {@link RepoContext#addRefUpdate}, even if they have not yet been executed on the underlying
+   * repo.
+   *
+   * <p>The results of individual ref lookups are cached: calling this method multiple times with
+   * the same ref name will return the same result (unless a command was added in the meantime). The
+   * repo is not reread.
+   *
+   * @param name exact ref name.
+   * @return the value of the ref, if present.
+   * @throws IOException if an error occurred.
+   */
   public Optional<ObjectId> getRef(String name) throws IOException {
     return getCommands().get(name);
   }
 
-  // TODO(dborowitz): Remove this so callers can't do arbitrary stuff.
-  Repository getRepository() {
-    return repo;
+  /**
+   * Look up refs by prefix.
+   *
+   * <p>Takes into account any ref update commands added during the course of the update using
+   * {@link RepoContext#addRefUpdate}, even if they have not yet been executed on the underlying
+   * repo.
+   *
+   * <p>For any ref that has previously been accessed with {@link #getRef(String)}, the value in the
+   * result map will be that same cached value. Any refs that have <em>not</em> been previously
+   * accessed are re-scanned from the repo on each call.
+   *
+   * @param prefix ref prefix; must end in '/' or else be empty.
+   * @return a map of ref suffixes to SHA-1s. The refs are all under {@code prefix} and have the
+   *     prefix stripped; this matches the behavior of {@link
+   *     org.eclipse.jgit.lib.RefDatabase#getRefs(String)}.
+   * @throws IOException if an error occurred.
+   */
+  public Map<String, ObjectId> getRefs(String prefix) throws IOException {
+    Map<String, ObjectId> result =
+        new HashMap<>(
+            Maps.transformValues(repo.getRefDatabase().getRefs(prefix), Ref::getObjectId));
+
+    // First, overwrite any cached reads from the underlying RepoRefCache. If any of these differ,
+    // it's because a ref was updated after the RepoRefCache read it. It feels a little odd to
+    // prefer the *old* value in this case, but it would be weirder to be inconsistent with getRef.
+    //
+    // Mostly this doesn't matter. If the caller was intending to write to the ref, they lost a
+    // race, and they will get a lock failure. If they just want to read, well, the JGit interface
+    // doesn't currently guarantee that any snapshot of multiple refs is consistent, so they were
+    // probably out of luck anyway.
+    commands.getRepoRefCache().getCachedRefs().forEach((k, v) -> putRef(result, prefix, k, v));
+
+    // Second, overwrite with any pending commands.
+    commands
+        .getCommands()
+        .values()
+        .forEach(c -> putRef(result, prefix, c.getRefName(), toOptional(c.getNewId())));
+
+    return result;
+  }
+
+  private static Optional<ObjectId> toOptional(ObjectId id) {
+    return id.equals(ObjectId.zeroId()) ? Optional.empty() : Optional.of(id);
+  }
+
+  private static void putRef(
+      Map<String, ObjectId> map, String prefix, String fullRefName, Optional<ObjectId> maybeId) {
+    if (!fullRefName.startsWith(prefix)) {
+      return;
+    }
+    String suffix = fullRefName.substring(prefix.length());
+    if (maybeId.isPresent()) {
+      map.put(suffix, maybeId.get());
+    } else {
+      map.remove(suffix);
+    }
   }
 
   // Not AutoCloseable so callers can't improperly close it. Plus it's never managed with a try
@@ -83,5 +183,17 @@ public class RepoView {
       rw.close();
       repo.close();
     }
+  }
+
+  Repository getRepository() {
+    return repo;
+  }
+
+  ObjectInserter getInserter() {
+    return inserter;
+  }
+
+  ChainedReceiveCommands getCommands() {
+    return commands;
   }
 }

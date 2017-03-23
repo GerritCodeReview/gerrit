@@ -322,11 +322,6 @@ public abstract class BatchUpdate implements AutoCloseable {
         : Optional.empty();
   }
 
-  protected Repository getRepository() throws IOException {
-    initRepository();
-    return repoView.getRepository();
-  }
-
   protected RevWalk getRevWalk() throws IOException {
     initRepository();
     return repoView.getRevWalk();

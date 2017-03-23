@@ -90,27 +90,24 @@ public class CommitValidators {
     }
 
     public CommitValidators forReceiveCommits(
-        RefControl refControl, SshInfo sshInfo, Repository repo) throws IOException {
-      try (RevWalk rw = new RevWalk(repo)) {
-        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, rw);
-        return new CommitValidators(
-            ImmutableList.of(
-                new UploadMergesPermissionValidator(refControl),
-                new AmendedGerritMergeCommitValidationListener(refControl, gerritIdent),
-                new AuthorUploaderValidator(refControl, canonicalWebUrl),
-                new CommitterUploaderValidator(refControl, canonicalWebUrl),
-                new SignedOffByValidator(refControl),
-                new ChangeIdValidator(
-                    refControl, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
-                new ConfigValidator(refControl, repo, allUsers),
-                new BannedCommitsValidator(rejectCommits),
-                new PluginCommitValidationListener(pluginValidators),
-                new BlockExternalIdUpdateListener(allUsers)));
-      }
+        RefControl refControl, SshInfo sshInfo, Repository repo, RevWalk rw) throws IOException {
+      NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, rw);
+      return new CommitValidators(
+          ImmutableList.of(
+              new UploadMergesPermissionValidator(refControl),
+              new AmendedGerritMergeCommitValidationListener(refControl, gerritIdent),
+              new AuthorUploaderValidator(refControl, canonicalWebUrl),
+              new CommitterUploaderValidator(refControl, canonicalWebUrl),
+              new SignedOffByValidator(refControl),
+              new ChangeIdValidator(
+                  refControl, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
+              new ConfigValidator(refControl, rw, allUsers),
+              new BannedCommitsValidator(rejectCommits),
+              new PluginCommitValidationListener(pluginValidators),
+              new BlockExternalIdUpdateListener(allUsers)));
     }
 
-    public CommitValidators forGerritCommits(
-        RefControl refControl, SshInfo sshInfo, Repository repo) {
+    public CommitValidators forGerritCommits(RefControl refControl, SshInfo sshInfo, RevWalk rw) {
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(refControl),
@@ -119,7 +116,7 @@ public class CommitValidators {
               new SignedOffByValidator(refControl),
               new ChangeIdValidator(
                   refControl, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
-              new ConfigValidator(refControl, repo, allUsers),
+              new ConfigValidator(refControl, rw, allUsers),
               new PluginCommitValidationListener(pluginValidators),
               new BlockExternalIdUpdateListener(allUsers)));
     }
@@ -320,12 +317,12 @@ public class CommitValidators {
   /** If this is the special project configuration branch, validate the config. */
   public static class ConfigValidator implements CommitValidationListener {
     private final RefControl refControl;
-    private final Repository repo;
+    private final RevWalk rw;
     private final AllUsersName allUsers;
 
-    public ConfigValidator(RefControl refControl, Repository repo, AllUsersName allUsers) {
+    public ConfigValidator(RefControl refControl, RevWalk rw, AllUsersName allUsers) {
       this.refControl = refControl;
-      this.repo = repo;
+      this.rw = rw;
       this.allUsers = allUsers;
     }
 
@@ -339,7 +336,7 @@ public class CommitValidators {
 
         try {
           ProjectConfig cfg = new ProjectConfig(receiveEvent.project.getNameKey());
-          cfg.load(repo, receiveEvent.command.getNewId());
+          cfg.load(rw, receiveEvent.command.getNewId());
           if (!cfg.getValidationErrors().isEmpty()) {
             addError("Invalid project configuration:", messages);
             for (ValidationError err : cfg.getValidationErrors()) {
@@ -367,7 +364,7 @@ public class CommitValidators {
         if (accountId != null) {
           try {
             WatchConfig wc = new WatchConfig(accountId);
-            wc.load(repo, receiveEvent.command.getNewId());
+            wc.load(rw, receiveEvent.command.getNewId());
             if (!wc.getValidationErrors().isEmpty()) {
               addError("Invalid project configuration:", messages);
               for (ValidationError err : wc.getValidationErrors()) {

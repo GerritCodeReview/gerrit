@@ -22,6 +22,30 @@
       "revId": "967ba953d41b7f3d380b50f6c6088aa0af11ddf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575a4d06_2e9dfaa9",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-23T19:53:09Z",
+      "side": 1,
+      "message": "Actually the problem is still under investigation. I wouldn\u0027t wonder if it is not a bug.",
+      "parentUuid": "c338d8b4_ba669aec",
+      "range": {
+        "startLine": 716,
+        "startChar": 0,
+        "endLine": 716,
+        "endChar": 58
+      },
+      "revId": "967ba953d41b7f3d380b50f6c6088aa0af11ddf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

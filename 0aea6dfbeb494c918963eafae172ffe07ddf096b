@@ -52,6 +52,24 @@
       "revId": "0aea6dfbeb494c918963eafae172ffe07ddf096b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c88b6548_6f00dc82",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-23T20:37:25Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/100851/2/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html#488",
+      "parentUuid": "9e6b22b3_029b2e8d",
+      "revId": "0aea6dfbeb494c918963eafae172ffe07ddf096b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

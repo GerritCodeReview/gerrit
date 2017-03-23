@@ -32,6 +32,12 @@
      * @event line-selected
      */
 
+    /**
+     * Fired if being logged in is required.
+     *
+     * @event show-auth-required
+     */
+
     properties: {
       changeNum: String,
       noAutoRender: {
@@ -146,7 +152,10 @@
     addDraftAtLine: function(el) {
       this._selectLine(el);
       this._getLoggedIn().then(function(loggedIn) {
-        if (!loggedIn) { return; }
+        if (!loggedIn) {
+          this.fire('show-auth-required');
+          return;
+        }
 
         var value = el.getAttribute('data-value');
         if (value === GrDiffLine.FILE) {

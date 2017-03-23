@@ -70,19 +70,36 @@ limitations under the License.
         assert(showStub.lastCall.calledWithExactly('/dashboard/self'));
       });
 
-      test('A should toggle overlay', function() {
+      test('A fires an error event when not logged in', function(done) {
+        sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(false));
+        var loggedInErrorSpy = sandbox.spy();
+        element.addEventListener('show-auth-required', loggedInErrorSpy);
         MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-        var overlayEl = element.$.replyOverlay;
-        assert.isFalse(overlayEl.opened);
-        element._loggedIn = true;
+        flush(function() {
+          assert.isFalse(element.$.replyOverlay.opened);
+          assert.isTrue(loggedInErrorSpy.called);
+          done();
+        });
+      });
 
+      test('shift A does not open reply overlay', function(done) {
+        sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
         MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
-        assert.isFalse(overlayEl.opened);
+        flush(function() {
+          assert.isFalse(element.$.replyOverlay.opened);
+          done();
+        });
+      });
 
+      test('A toggles overlay when logged in', function(done) {
+        sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
         MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-        assert.isTrue(overlayEl.opened);
-        overlayEl.close();
-        assert.isFalse(overlayEl.opened);
+        flush(function() {
+          assert.isTrue(element.$.replyOverlay.opened);
+          element.$.replyOverlay.close();
+          assert.isFalse(element.$.replyOverlay.opened);
+          done();
+        });
       });
 
       test('X should expand all messages', function() {

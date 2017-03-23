@@ -62,6 +62,10 @@
         type: Boolean,
         computed: '_computeShowAvatar(author, config)',
       },
+      showOnBehalfOf: {
+        type: Boolean,
+        computed: '_computeShowOnBehalfOf(message)',
+      },
       showReplyButton: {
         type: Boolean,
         computed: '_computeShowReplyButton(message, _loggedIn)',
@@ -107,6 +111,12 @@
       return !!(author && config && config.plugin && config.plugin.has_avatars);
     },
 
+    _computeShowOnBehalfOf: function(message) {
+      var author = message.author || message.updated_by;
+      return !!(author && message.real_author &&
+          author._account_id != message.real_author._account_id);
+    },
+
     _computeShowReplyButton: function(message, loggedIn) {
       return !!message.message && loggedIn;
     },
@@ -132,7 +142,7 @@
       this.set('message.expanded', true);
     },
 
-    _handleNameTap: function(e) {
+    _handleAuthorTap: function(e) {
       if (!this.message.expanded) { return; }
       e.stopPropagation();
       this.set('message.expanded', false);

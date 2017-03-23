@@ -128,6 +128,42 @@
       "revId": "3c632ed75890fe3ef688ea8d1ecacc66caa136dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5af0e77f_79abc59f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-23T15:35:53Z",
+      "side": 1,
+      "message": "Actually carn\u0027t use canonical urls as the url carn\u0027t end in a /. So it has to be /r or host.example.com",
+      "parentUuid": "4464069a_51a6632b",
+      "revId": "3c632ed75890fe3ef688ea8d1ecacc66caa136dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04f5e563_8327cd71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-23T15:35:53Z",
+      "side": 1,
+      "message": "Actually wont be able to do that as the url has to end in for example /r or host.example.com it carn\u0027t have / at the end of the url.",
+      "parentUuid": "4464069a_51a6632b",
+      "revId": "3c632ed75890fe3ef688ea8d1ecacc66caa136dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -42,7 +42,7 @@ class MergeOneOp extends SubmitStrategyOp {
             args.serverIdent,
             args.rw,
             ctx.getInserter(),
-            ctx.getRepository().getConfig(),
+            ctx.getRepoView().getConfig(),
             args.destBranch,
             args.mergeTip.getCurrentTip(),
             toMerge);

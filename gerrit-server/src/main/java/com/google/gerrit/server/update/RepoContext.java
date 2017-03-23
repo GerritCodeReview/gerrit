@@ -31,8 +31,7 @@ public interface RepoContext extends Context {
   /**
    * Add a command to the pending list of commands.
    *
-   * <p>Callers should use this method instead of writing directly to the repository returned by
-   * {@link #getRepository()}.
+   * <p>This method is the only way of updating refs in the repository from a {@link BatchUpdateOp}.
    *
    * @param cmd ref update command.
    * @throws IOException if an error occurred opening the repo.

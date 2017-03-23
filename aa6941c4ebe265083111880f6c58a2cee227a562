@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfcf12fe_17dcde34",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T17:28:36Z",
+      "side": 1,
+      "message": "Why make this bold? The preview formatting checkbox label isn\u0027t bold.",
+      "range": {
+        "startLine": 269,
+        "startChar": 39,
+        "endLine": 269,
+        "endChar": 42
+      },
+      "revId": "aa6941c4ebe265083111880f6c58a2cee227a562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f96f2fc2_ea6b73f5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T17:28:36Z",
+      "side": 1,
+      "message": "Should this set\n\n this._excludeComments \u003d false;\n\nso that it\u0027s defaulted to false each time the dialog opens?",
+      "revId": "aa6941c4ebe265083111880f6c58a2cee227a562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

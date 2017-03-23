@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "eb3be279_0e9bb0f3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T17:28:36Z",
+      "side": 1,
+      "message": "Nice. I feel like the counter isn\u0027t needed and draws too much attention, though. It could just say \"Exclude comments\".\n\nWhat do you think? I\u0027d like it to not feel like another thing to fill out or decision to make when replying. 9 times out of 10, the user shouldn\u0027t even notice the checkbox or worry about it.",
+      "parentUuid": "704dd4c0_ab97a4d6",
+      "range": {
+        "startLine": 266,
+        "startChar": 8,
+        "endLine": 266,
+        "endChar": 52
+      },
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ab4d3ff_4a3832cd",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
         "patchSetId": 2
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "I played around with this and didn\u0027t like it being lower, because it can be hidden and not sure if the user would scroll through the comments. However, if it\u0027s above, they at least see the option.",
       "parentUuid": "2cf2a879_e4f24b36",
+      "range": {
+        "startLine": 267,
+        "startChar": 8,
+        "endLine": 271,
+        "endChar": 14
+      },
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b487c507_74fc0790",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T17:28:36Z",
+      "side": 1,
+      "message": "Yeah, maybe lower is wrong. My only issue is that we\u0027re adding height to the dialog, and the dialog is already sorta height-constrained.\n\nWhat if it appears in the same row as the \"Preview Formatting\" checkbox? Maybe right-aligned?",
+      "parentUuid": "0e1a690d_b914b2db",
       "range": {
         "startLine": 267,
         "startChar": 8,

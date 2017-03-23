@@ -354,6 +354,13 @@ destination branch.
 Mergeability of abandoned changes is not computed. This operator will
 not find any abandoned but mergeable changes.
 
+
+[[private]]
+is:private::
++
+True if the change is private, ie. only visible to owner and its
+reviewers.
+
 [[status]]
 status:open, status:pending::
 +

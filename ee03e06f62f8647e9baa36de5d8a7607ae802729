@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23f289e2_510aae2d",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-23T20:48:16Z",
+      "side": 1,
+      "message": "This should be JGIT_DOC_URL, as it used outside.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "ee03e06f62f8647e9baa36de5d8a7607ae802729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9c13885_e2e26d29",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-23T20:48:16Z",
+      "side": 1,
+      "message": "This can be used in place now.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 61
+      },
+      "revId": "ee03e06f62f8647e9baa36de5d8a7607ae802729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

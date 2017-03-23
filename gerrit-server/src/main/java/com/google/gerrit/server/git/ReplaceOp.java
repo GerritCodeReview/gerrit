@@ -83,9 +83,9 @@ public class ReplaceOp implements BatchUpdateOp {
         Branch.NameKey dest,
         boolean checkMergedInto,
         @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
-        @Assisted("priorCommit") RevCommit priorCommit,
+        @Assisted("priorCommitId") ObjectId priorCommit,
         @Assisted("patchSetId") PatchSet.Id patchSetId,
-        @Assisted("commit") RevCommit commit,
+        @Assisted("commitId") ObjectId commitId,
         PatchSetInfo info,
         List<String> groups,
         @Nullable MagicBranchInput magicBranch,
@@ -115,9 +115,9 @@ public class ReplaceOp implements BatchUpdateOp {
   private final Branch.NameKey dest;
   private final boolean checkMergedInto;
   private final PatchSet.Id priorPatchSetId;
-  private final RevCommit priorCommit;
+  private final ObjectId priorCommitId;
   private final PatchSet.Id patchSetId;
-  private final RevCommit commit;
+  private final ObjectId commitId;
   private final PatchSetInfo info;
   private final MagicBranchInput magicBranch;
   private final PushCertificate pushCertificate;
@@ -125,6 +125,7 @@ public class ReplaceOp implements BatchUpdateOp {
 
   private final Map<String, Short> approvals = new HashMap<>();
   private final MailRecipients recipients = new MailRecipients();
+  private RevCommit commit;
   private Change change;
   private PatchSet newPatchSet;
   private ChangeKind changeKind;
@@ -154,9 +155,9 @@ public class ReplaceOp implements BatchUpdateOp {
       @Assisted Branch.NameKey dest,
       @Assisted boolean checkMergedInto,
       @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
-      @Assisted("priorCommit") RevCommit priorCommit,
+      @Assisted("priorCommitId") ObjectId priorCommitId,
       @Assisted("patchSetId") PatchSet.Id patchSetId,
-      @Assisted("commit") RevCommit commit,
+      @Assisted("commitId") ObjectId commitId,
       @Assisted PatchSetInfo info,
       @Assisted List<String> groups,
       @Assisted @Nullable MagicBranchInput magicBranch,
@@ -180,9 +181,9 @@ public class ReplaceOp implements BatchUpdateOp {
     this.dest = dest;
     this.checkMergedInto = checkMergedInto;
     this.priorPatchSetId = priorPatchSetId;
-    this.priorCommit = priorCommit;
+    this.priorCommitId = priorCommitId.copy();
     this.patchSetId = patchSetId;
-    this.commit = commit;
+    this.commitId = commitId.copy();
     this.info = info;
     this.groups = groups;
     this.magicBranch = magicBranch;
@@ -192,9 +193,11 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Override
   public void updateRepo(RepoContext ctx) throws Exception {
+    commit = ctx.getRevWalk().parseCommit(commitId);
+    ctx.getRevWalk().parseBody(commit);
     changeKind =
         changeKindCache.getChangeKind(
-            projectControl.getProject().getNameKey(), ctx.getRepository(), priorCommit, commit);
+            projectControl.getProject().getNameKey(), ctx.getRepository(), priorCommitId, commitId);
 
     if (checkMergedInto) {
       Ref mergedInto = findMergedInto(ctx, dest.get(), commit);
@@ -205,7 +208,7 @@ public class ReplaceOp implements BatchUpdateOp {
     }
 
     if (updateRef) {
-      ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(), commit, patchSetId.toRefName()));
+      ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(), commitId, patchSetId.toRefName()));
     }
   }
 
@@ -259,7 +262,7 @@ public class ReplaceOp implements BatchUpdateOp {
             ctx.getRevWalk(),
             update,
             patchSetId,
-            commit,
+            commitId,
             draft,
             groups,
             pushCertificate != null ? pushCertificate.toTextWithSignature() : null,
@@ -383,7 +386,7 @@ public class ReplaceOp implements BatchUpdateOp {
 
     List<String> idList = commit.getFooterLines(CHANGE_ID);
     if (idList.isEmpty()) {
-      change.setKey(new Change.Key("I" + commit.name()));
+      change.setKey(new Change.Key("I" + commitId.name()));
     } else {
       change.setKey(new Change.Key(idList.get(idList.size() - 1).trim()));
     }
@@ -398,7 +401,7 @@ public class ReplaceOp implements BatchUpdateOp {
     final Account account = ctx.getAccount();
     if (!updateRef) {
       gitRefUpdated.fire(
-          ctx.getProject(), newPatchSet.getRefName(), ObjectId.zeroId(), commit, account);
+          ctx.getProject(), newPatchSet.getRefName(), ObjectId.zeroId(), commitId, account);
     }
 
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
@@ -505,7 +508,7 @@ public class ReplaceOp implements BatchUpdateOp {
     return this;
   }
 
-  private Ref findMergedInto(Context ctx, String first, RevCommit commit) {
+  private static Ref findMergedInto(Context ctx, String first, RevCommit commit) {
     try {
       RefDatabase refDatabase = ctx.getRepository().getRefDatabase();
 

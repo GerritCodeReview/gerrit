@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3bbb1b7_26272758",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-23T09:27:31Z",
+      "side": 1,
+      "message": "optional: add a sentence explaining the motivation for the size limitation?",
+      "revId": "5e016fb1f5d4e2cbd0041f2bcd7b854f7f15da5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fccecff_9e3a4d82",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-23T09:27:31Z",
+      "side": 1,
+      "message": "What about a test with negative value?",
+      "revId": "5e016fb1f5d4e2cbd0041f2bcd7b854f7f15da5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "16ca6a31_783b80c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-23T19:16:43Z",
+      "side": 1,
+      "message": "I\u0027m ok with exclude comments.  I did kind of like the visual separation that the title added, though, but maybe there\u0027s something else we can do there, maybe even as a follow-up change. Also, some of this may change if/when we allow granular submitting of comments. We might want to show the users how many the are going to submit?",
+      "parentUuid": "eb3be279_0e9bb0f3",
+      "range": {
+        "startLine": 266,
+        "startChar": 8,
+        "endLine": 266,
+        "endChar": 52
+      },
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ab4d3ff_4a3832cd",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
         "patchSetId": 2
@@ -188,6 +212,30 @@
       "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "475e658a_af0ba83f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-23T19:16:43Z",
+      "side": 1,
+      "message": "I like that it\u0027s already inside the section that has the computeHideDraftList, so we don\u0027t have to worry about that again, though I suppose we can just have the same hidden$ twice. \n\n I don\u0027t like how this looks though either:\nhttp://imgur.com/a/egqTX",
+      "parentUuid": "b487c507_74fc0790",
+      "range": {
+        "startLine": 267,
+        "startChar": 8,
+        "endLine": 271,
+        "endChar": 14
+      },
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

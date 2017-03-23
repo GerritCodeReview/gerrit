@@ -252,6 +252,30 @@
       "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f194ddcf_87d8f842",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/NewChangeSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-23T17:11:16Z",
+      "side": 1,
+      "message": "In this instance it is purely for consistency with surrounding code.\n\nShawn used to prefer the \"use final on every local variable possible\" style (actually maybe he still does), but we have been converting to \"never use final on local variables unless it\u0027s required\" over the past 5 years or so.",
+      "parentUuid": "517c03f6_2b3600b5",
+      "range": {
+        "startLine": 44,
+        "startChar": 34,
+        "endLine": 44,
+        "endChar": 39
+      },
+      "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

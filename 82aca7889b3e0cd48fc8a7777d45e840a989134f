@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "e2921a82_3105d6e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-23T17:11:16Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "f3e812a0_dd4d5f7f",
+      "range": {
+        "startLine": 269,
+        "startChar": 19,
+        "endLine": 269,
+        "endChar": 26
+      },
+      "revId": "82aca7889b3e0cd48fc8a7777d45e840a989134f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c9070d5_3c06f615",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 2

@@ -14,30 +14,30 @@
 
 package com.google.gerrit.server.git.validators;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.validators.ValidationException;
-import java.util.Collections;
 import java.util.List;
 
 public class CommitValidationException extends ValidationException {
   private static final long serialVersionUID = 1L;
-  private final List<CommitValidationMessage> messages;
+  private final ImmutableList<CommitValidationMessage> messages;
 
   public CommitValidationException(String reason, List<CommitValidationMessage> messages) {
     super(reason);
-    this.messages = messages;
+    this.messages = ImmutableList.copyOf(messages);
   }
 
   public CommitValidationException(String reason) {
     super(reason);
-    this.messages = Collections.emptyList();
+    this.messages = ImmutableList.of();
   }
 
   public CommitValidationException(String reason, Throwable why) {
     super(reason, why);
-    this.messages = Collections.emptyList();
+    this.messages = ImmutableList.of();
   }
 
-  public List<CommitValidationMessage> getMessages() {
+  public ImmutableList<CommitValidationMessage> getMessages() {
     return messages;
   }
 

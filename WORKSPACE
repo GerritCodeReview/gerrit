@@ -323,8 +323,8 @@ maven_jar(
 
 maven_jar(
     name = "pegdown",
-    artifact = "org.pegdown:pegdown:1.4.2",
-    sha1 = "d96db502ed832df867ff5d918f05b51ba3879ea7",
+    artifact = "org.pegdown:pegdown:1.6.0",
+    sha1 = "231ae49d913467deb2027d0b8a0b68b231deef4f",
 )
 
 maven_jar(

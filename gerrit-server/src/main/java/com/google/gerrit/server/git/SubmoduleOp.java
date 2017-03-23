@@ -35,8 +35,8 @@ import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -117,7 +117,7 @@ public class SubmoduleOp {
   // map of superproject and its branches which has submodule subscriptions
   private final SetMultimap<Project.NameKey, Branch.NameKey> branchesByProject;
 
-  @AssistedInject
+  @Inject
   public SubmoduleOp(
       GitModules.Factory gitmodulesFactory,
       @GerritPersonIdent PersonIdent myIdent,

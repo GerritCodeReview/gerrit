@@ -39,8 +39,8 @@ import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.validators.HashtagValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
@@ -64,7 +64,7 @@ public class SetHashtagsOp implements BatchUpdateOp {
   private Set<String> toRemove;
   private ImmutableSortedSet<String> updatedHashtags;
 
-  @AssistedInject
+  @Inject
   SetHashtagsOp(
       NotesMigration notesMigration,
       ChangeMessagesUtil cmUtil,

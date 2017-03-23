@@ -69,7 +69,6 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -375,7 +374,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
   private final long skewMs;
   private final List<CheckedFuture<?, IOException>> indexFutures = new ArrayList<>();
 
-  @AssistedInject
+  @Inject
   ReviewDbBatchUpdate(
       @GerritServerConfig Config cfg,
       AllUsersName allUsers,

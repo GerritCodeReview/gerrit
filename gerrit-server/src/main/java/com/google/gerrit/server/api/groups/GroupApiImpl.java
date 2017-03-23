@@ -42,8 +42,8 @@ import com.google.gerrit.server.group.PutName;
 import com.google.gerrit.server.group.PutOptions;
 import com.google.gerrit.server.group.PutOwner;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -73,7 +73,7 @@ class GroupApiImpl implements GroupApi {
   private final GroupResource rsrc;
   private final Index index;
 
-  @AssistedInject
+  @Inject
   GroupApiImpl(
       GetGroup getGroup,
       GetDetail getDetail,

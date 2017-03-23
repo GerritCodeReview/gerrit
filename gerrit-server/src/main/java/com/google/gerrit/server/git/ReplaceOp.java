@@ -55,8 +55,8 @@ import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.util.HashMap;
@@ -134,7 +134,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private RequestScopePropagator requestScopePropagator;
   private boolean updateRef;
 
-  @AssistedInject
+  @Inject
   ReplaceOp(
       AccountResolver accountResolver,
       ApprovalCopier approvalCopier,

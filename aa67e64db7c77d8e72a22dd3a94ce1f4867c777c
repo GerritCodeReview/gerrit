@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "a2a3ab43_80b2babe",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-23T23:46:43Z",
+      "side": 1,
+      "message": "How do we feel about nesting spans within spans?",
+      "parentUuid": "e2051ede_37687a5d",
+      "range": {
+        "startLine": 132,
+        "startChar": 10,
+        "endLine": 132,
+        "endChar": 54
+      },
+      "revId": "aa67e64db7c77d8e72a22dd3a94ce1f4867c777c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d59de92_698f3890",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 1

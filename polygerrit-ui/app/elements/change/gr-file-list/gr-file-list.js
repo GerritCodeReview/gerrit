@@ -662,7 +662,7 @@
       var reviewed = reviewedRecord.base;
       var fileReviewed;
       for (var i = 0; i < files.length; i++) {
-        fileReviewed = this._computeReviewed(shownFiles[i], reviewed);
+        fileReviewed = this._computeReviewed(files[i], reviewed);
         this._files[i].isReviewed = fileReviewed;
         if (i < shownFiles.length) {
           this.set(['_shownFiles', i, 'isReviewed'], fileReviewed);

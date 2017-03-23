@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c338d8b4_ba669aec",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2017-03-23T19:33:37Z",
+      "side": 1,
+      "message": "Maybe add a TODO to remove this dep when the bazel bug is fixed?\nhttps://github.com/bazelbuild/bazel/issues/2391",
+      "range": {
+        "startLine": 716,
+        "startChar": 0,
+        "endLine": 716,
+        "endChar": 58
+      },
+      "revId": "967ba953d41b7f3d380b50f6c6088aa0af11ddf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

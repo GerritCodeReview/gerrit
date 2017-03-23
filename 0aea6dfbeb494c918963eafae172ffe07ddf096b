@@ -34,6 +34,24 @@
       "revId": "0aea6dfbeb494c918963eafae172ffe07ddf096b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e6b22b3_029b2e8d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-23T20:03:58Z",
+      "side": 1,
+      "message": "Apparently, iron-overlay-behavior has its own noCancelOnEscKey:\n\nhttps://github.com/PolymerElements/iron-overlay-behavior/blob/master/iron-overlay-behavior.html#L438\n\nCan we add noCancelOnEscKey to all overlays that shouldn\u0027t be closed on cancel?\n\nHere\u0027s it: http://jsbin.com/mitije/edit?html,output",
+      "parentUuid": "88a776cb_a4969724",
+      "revId": "0aea6dfbeb494c918963eafae172ffe07ddf096b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -143,5 +143,23 @@ limitations under the License.
       assert.isFalse(element._computeShowReplyButton(message, false));
       assert.isTrue(element._computeShowReplyButton(message, true));
     });
+
+    test('_computeOnBehalfOf', function() {
+      var message = {
+        'message': '...',
+      };
+      assert.isNotOk(element._computeOnBehalfOf(message));
+      message.author = {_account_id: 1115495};
+      assert.isNotOk(element._computeOnBehalfOf(message));
+      message.real_author = {_account_id: 1115495};
+      assert.isNotOk(element._computeOnBehalfOf(message));
+      message.real_author._account_id = 123456;
+      assert.isOk(element._computeOnBehalfOf(message));
+      message.updated_by = message.author;
+      delete message.author;
+      assert.isOk(element._computeOnBehalfOf(message));
+      delete message.updated_by;
+      assert.isNotOk(element._computeOnBehalfOf(message));
+    });
   });
 </script>

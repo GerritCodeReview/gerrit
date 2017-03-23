@@ -40,6 +40,10 @@
         type: Object,
         computed: '_computeAuthor(message)',
       },
+      on_behalf_of: {
+        type: Boolean,
+        computed: '_computeOnBehalfOf(message)',
+      },
       comments: {
         type: Object,
         observer: '_commentsChanged',
@@ -103,6 +107,12 @@
       return message.author || message.updated_by;
     },
 
+    _computeOnBehalfOf: function(message) {
+      var author = message.author || message.updated_by;
+      return author && message.real_author &&
+          author._account_id != message.real_author._account_id;
+    },
+
     _computeShowAvatar: function(author, config) {
       return !!(author && config && config.plugin && config.plugin.has_avatars);
     },
@@ -132,7 +142,7 @@
       this.set('message.expanded', true);
     },
 
-    _handleNameTap: function(e) {
+    _handleAuthorTap: function(e) {
       if (!this.message.expanded) { return; }
       e.stopPropagation();
       this.set('message.expanded', false);

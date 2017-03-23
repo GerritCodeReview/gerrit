@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "caf3e009_a95eebb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-23T09:20:48Z",
+      "side": 1,
+      "message": "Just tested this together with Alice: If we have two @Inject on the same class, Error Prone would fail at compile time with the following hint:\n\nhttp://errorprone.info/bugpattern/MoreThanOneInjectableConstructor\n\nHaving one constructor with @Inject and the other one with @AssistedInject would also fail, but at runtime if the factory needs the constructor annotated with @Inject.\n\nHaving a single constructor that needs assisted parameters annotated with @AssistedInject instead of @Inject would work and is more of a cosmetic issue according to the docs.",
+      "parentUuid": "dba3477e_f6f2ac54",
+      "range": {
+        "startLine": 12,
+        "startChar": 14,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "819f0cbf2e0f7e5c2cf7cd1fd03ffe7368d3f360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cda66de_cb68fec9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-03-23T09:00:44Z",
       "side": 1,
       "message": "It would be better to link to the specific version that we are using.",
+      "range": {
+        "startLine": 17,
+        "startChar": 44,
+        "endLine": 17,
+        "endChar": 50
+      },
+      "revId": "819f0cbf2e0f7e5c2cf7cd1fd03ffe7368d3f360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c79d2795_87e42d2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-23T09:20:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cda66de_cb68fec9",
       "range": {
         "startLine": 17,
         "startChar": 44,

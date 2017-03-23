@@ -1,0 +1,192 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "881afef0_de1e9f5f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-23T17:48:25Z",
+      "side": 1,
+      "message": "POST .../commits/.../cherrypickcommit sounds redundant. Maybe just name the endpoint \"cherrypick\" instead of \"cherrypickcommit\"?",
+      "range": {
+        "startLine": 2067,
+        "startChar": 0,
+        "endLine": 2067,
+        "endChar": 109
+      },
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37053dbb_43160492",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2072,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-23T17:48:25Z",
+      "side": 1,
+      "message": "Why do you need to provide the commit message? Normally if you just type \"git cherry-pick\" you don\u0027t have to enter a new message, it will just take the old commit message.",
+      "range": {
+        "startLine": 2072,
+        "startChar": 0,
+        "endLine": 2072,
+        "endChar": 18
+      },
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de901cf2_0908f600",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CherryPickCommitIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-23T17:48:25Z",
+      "side": 1,
+      "message": "I would prefer if these new test methods go in an existing test class, either CreateChangeIT or ProjectIT. The overhead of starting up a new test server is pretty high.",
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74109187_67342fd8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CherryPickCommitIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-23T17:48:25Z",
+      "side": 1,
+      "message": "I think you want to check the entire message contents. Specifically, we want to make sure the Change-Id line is there.",
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47526461_7c7baf75",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CherryPickCommitIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-23T17:48:25Z",
+      "side": 1,
+      "message": "Why are these two lines necessary?",
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb6195b2_185b5acd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CherryPickCommitIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-23T17:48:25Z",
+      "side": 1,
+      "message": "Unnecessary",
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3656dcf0_476e9459",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CherryPickCommitIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-23T17:48:25Z",
+      "side": 1,
+      "message": "Don\u0027t use HTTP, you need to implement the extension API for this as well.",
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "105c8c97_14b54074",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-23T17:48:25Z",
+      "side": 1,
+      "message": "Please annotate nullable arguments with @Nullable",
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9431a3cc_329f74a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-23T17:48:25Z",
+      "side": 1,
+      "message": "Per my question on the documentation: why? This is not how \"git cherry-pick\" normally works.",
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b350a748_0d0edc4d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-23T17:48:25Z",
+      "side": 1,
+      "message": "What can cause a NoSuchChangeException? Would this make more sense as a 400 (or maybe 404?) than a 409?",
+      "range": {
+        "startLine": 88,
+        "startChar": 36,
+        "endLine": 88,
+        "endChar": 57
+      },
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

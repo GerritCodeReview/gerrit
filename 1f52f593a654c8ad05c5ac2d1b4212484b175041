@@ -46,6 +46,30 @@
       "revId": "1f52f593a654c8ad05c5ac2d1b4212484b175041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9080575b_04cfb23c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickCommit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-23T11:02:59Z",
+      "side": 1,
+      "message": "Ah, I was getting confused with CherryPick (the REST endpoint) and CherryPickChange.\n\nLet\u0027s leave it like this for now; if necessary we can do a cleanup later.",
+      "parentUuid": "923c0c31_751a74d2",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 5
+      },
+      "revId": "1f52f593a654c8ad05c5ac2d1b4212484b175041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

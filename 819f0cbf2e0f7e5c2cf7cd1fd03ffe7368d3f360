@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dba3477e_f6f2ac54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-23T09:00:44Z",
+      "side": 1,
+      "message": "What happens if we don\u0027t follow this pattern?  I.e. for example if we have a class with multiple constructors, but only annotate the class as @Inject?\n\nIf it fails, does it do so in a way that makes it easy to see what was wrong?\n\nI\u0027m just wondering about the case where someone adds a new constructor with @Assisted parameter, but leaves the class with only @Inject.",
+      "range": {
+        "startLine": 12,
+        "startChar": 14,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "819f0cbf2e0f7e5c2cf7cd1fd03ffe7368d3f360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cda66de_cb68fec9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-23T09:00:44Z",
+      "side": 1,
+      "message": "It would be better to link to the specific version that we are using.",
+      "range": {
+        "startLine": 17,
+        "startChar": 44,
+        "endLine": 17,
+        "endChar": 50
+      },
+      "revId": "819f0cbf2e0f7e5c2cf7cd1fd03ffe7368d3f360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

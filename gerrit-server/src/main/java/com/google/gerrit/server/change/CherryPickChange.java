@@ -288,7 +288,7 @@ public class CherryPickChange {
       String topic,
       Branch.NameKey sourceBranch,
       ObjectId sourceCommit)
-      throws OrmException {
+      throws OrmException, IOException {
     Change.Id changeId = new Change.Id(seq.nextChangeId());
     ChangeInserter ins =
         changeInserterFactory

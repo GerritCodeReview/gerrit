@@ -164,6 +164,24 @@
       "revId": "3c632ed75890fe3ef688ea8d1ecacc66caa136dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f26f3fa_d2842f02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-23T15:54:43Z",
+      "side": 1,
+      "message": "This wont work. It doubles redirect me to /r/r/ if i have the url set like http://gerrit.new/r",
+      "parentUuid": "7d0c9163_54f393f7",
+      "revId": "3c632ed75890fe3ef688ea8d1ecacc66caa136dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

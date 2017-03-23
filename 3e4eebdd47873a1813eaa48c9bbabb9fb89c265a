@@ -22,6 +22,30 @@
       "revId": "3e4eebdd47873a1813eaa48c9bbabb9fb89c265a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b460bc_f6eb7d77",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3442,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-23T08:43:30Z",
+      "side": 1,
+      "message": "Done. I also defined negative values as no limit.",
+      "parentUuid": "eaa896aa_c98c0651",
+      "range": {
+        "startLine": 3440,
+        "startChar": 0,
+        "endLine": 3442,
+        "endChar": 28
+      },
+      "revId": "3e4eebdd47873a1813eaa48c9bbabb9fb89c265a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -66,9 +66,7 @@ public class CherryPick
       throw new BadRequestException("destination must be non-empty");
     }
 
-    @SuppressWarnings("resource")
-    ReviewDb db = dbProvider.get();
-    if (!control.isVisible(db)) {
+    if (!control.isVisible(dbProvider.get())) {
       throw new AuthException("Cherry pick not permitted");
     }
 

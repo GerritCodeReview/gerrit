@@ -51,7 +51,7 @@ for project in ['gerrit-acceptance-framework', 'gerrit-extension-api',
   pom = os.path.join(project, 'pom.xml')
   replace_in_file(pom, src_pattern)
 
-src_pattern = re.compile(r"^(GERRIT_VERSION = ')([-.\w]+)(')$", re.MULTILINE)
+src_pattern = re.compile(r'^(GERRIT_VERSION = ")([-.\w]+)(")$', re.MULTILINE)
 replace_in_file('version.bzl', src_pattern)
 
 src_pattern = re.compile(r'^(\s*-DarchetypeVersion=)([-.\w]+)(\s*\\)$',

@@ -22,6 +22,30 @@
       "revId": "0c8c5cf2fa419a592a9977ca70291a8629c10dcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4a63033_55a786ef",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-23T17:32:02Z",
+      "side": 1,
+      "message": "oops.\n\nI think we can simplify this whole thing by putting all these definitions (including the alias ones) in a .bzl file, and  have one boolean to control the whole thing.",
+      "parentUuid": "dc563756_6fd1be09",
+      "range": {
+        "startLine": 140,
+        "startChar": 11,
+        "endLine": 140,
+        "endChar": 39
+      },
+      "revId": "0c8c5cf2fa419a592a9977ca70291a8629c10dcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -160,7 +160,9 @@ public class RebaseChangeOp implements BatchUpdateOp {
             baseCommitId.name());
 
     rebasedPatchSetId =
-        ChangeUtil.nextPatchSetId(ctx.getRepository(), ctl.getChange().currentPatchSetId());
+        ChangeUtil.nextPatchSetIdFromChangeRefsMap(
+            ctx.getRepoView().getRefs(originalPatchSet.getId().getParentKey().toRefPrefix()),
+            ctl.getChange().currentPatchSetId());
     patchSetInserter =
         patchSetInserterFactory
             .create(ctl, rebasedPatchSetId, rebasedCommit)
@@ -241,7 +243,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
     }
 
     ThreeWayMerger merger =
-        newMergeUtil().newThreeWayMerger(ctx.getInserter(), ctx.getRepository().getConfig());
+        newMergeUtil().newThreeWayMerger(ctx.getInserter(), ctx.getRepoView().getConfig());
     merger.setBase(parentCommit);
     merger.merge(original, base);
 

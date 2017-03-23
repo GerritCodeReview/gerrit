@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "d3f45649_131ddc60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-23T17:29:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cc7e167_2e86ba1e",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "48f501d07416bdb9534d3594de3624033093cc57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7516ae2a_4b282c45",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 1

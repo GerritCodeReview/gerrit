@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf6da0f4_28965005",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T19:09:55Z",
+      "side": 1,
+      "message": "Nice.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 11
+      },
+      "revId": "884c149521299369cfd3315acf2d0b461ea696f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00549b47_b21a834f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T19:09:55Z",
+      "side": 1,
+      "message": "This should maybe not even be run when the user is logged out, since the checkboxes won\u0027t appear anyway.",
+      "revId": "884c149521299369cfd3315acf2d0b461ea696f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

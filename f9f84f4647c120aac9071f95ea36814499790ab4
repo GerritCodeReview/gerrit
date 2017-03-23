@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "181176d4_91cc392a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CherryPickCommitIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-23T11:47:37Z",
+      "side": 1,
+      "message": "we want to simulate that the commit was imported from another host, so can you\npush to a branch directly, ie. \n\n  refs/heads/master\n\ninstead?",
+      "range": {
+        "startLine": 35,
+        "startChar": 46,
+        "endLine": 35,
+        "endChar": 52
+      },
+      "revId": "f9f84f4647c120aac9071f95ea36814499790ab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

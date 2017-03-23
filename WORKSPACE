@@ -130,55 +130,16 @@ maven_jar(
     sha1 = "cdb2dcb4e22b83d6b32b93095f644c3462739e82",
 )
 
-load("//lib/jgit:jgit.bzl", "JGIT_VERS", "JGIT_REPO", "JGIT_SHA1", "JGIT_SRC_SHA1", "JGIT_SERVLET_SHA1", "JGIT_ARCHIVE_SHA1", "JGIT_JUNIT_SHA1")
+load("//lib/jgit:jgit.bzl", "jgit_repos")
 
-#
-# Uncomment jgit repository to route JGit dependency to development tree.
-# Pass jgit-dev=1 in to bazel: `bazel test --define jgit-dev=1 ...`
-# Due to: https://github.com/bazelbuild/bazel/issues/2707
-# aliases to jgit should be uncommented in lib/jgit/**/BUILD files.
-#local_repository(
-#    name = "jgit",
-#    path = "/home/<user>/projects/jgit",
-#)
+jgit_repos()
 
-maven_jar(
-    name = "jgit_lib",
-    artifact = "org.eclipse.jgit:org.eclipse.jgit:" + JGIT_VERS,
-    repository = JGIT_REPO,
-    sha1 = JGIT_SHA1,
-    src_sha1 = JGIT_SRC_SHA1,
-    unsign = True,
-)
-
-maven_jar(
-    name = "jgit_servlet",
-    artifact = "org.eclipse.jgit:org.eclipse.jgit.http.server:" + JGIT_VERS,
-    repository = JGIT_REPO,
-    sha1 = JGIT_SERVLET_SHA1,
-    unsign = True,
-)
 
 maven_jar(
     name = "javaewah",
     artifact = "com.googlecode.javaewah:JavaEWAH:1.1.6",
     attach_source = False,
     sha1 = "94ad16d728b374d65bd897625f3fbb3da223a2b6",
-)
-
-maven_jar(
-    name = "jgit_archive",
-    artifact = "org.eclipse.jgit:org.eclipse.jgit.archive:" + JGIT_VERS,
-    repository = JGIT_REPO,
-    sha1 = JGIT_ARCHIVE_SHA1,
-)
-
-maven_jar(
-    name = "jgit_junit",
-    artifact = "org.eclipse.jgit:org.eclipse.jgit.junit:" + JGIT_VERS,
-    repository = JGIT_REPO,
-    sha1 = JGIT_JUNIT_SHA1,
-    unsign = True,
 )
 
 maven_jar(

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2b02ea7e_d1ddcdda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-23T13:16:40Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0de2de92_5c58f632",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "3c632ed75890fe3ef688ea8d1ecacc66caa136dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3fd03c7c_9383639a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "fec89f1c_82cda3f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-23T13:16:40Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3fd03c7c_9383639a",
+      "range": {
+        "startLine": 12,
+        "startChar": 45,
+        "endLine": 12,
+        "endChar": 67
+      },
+      "revId": "3c632ed75890fe3ef688ea8d1ecacc66caa136dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7d0c9163_54f393f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritOptions.java",
         "patchSetId": 1
@@ -59,6 +107,24 @@
       "writtenOn": "2017-03-23T13:05:36Z",
       "side": 1,
       "message": "This could be replaced by something like:\n\nu URI(cfg.getString(\u0027canonicalWebUrl\u0027) \npoylGerritBaseUrl \u003d u.getPath()...\n\n\nOr you could use canonicalWebUrl directly (well, all links will contain the host part as well)",
+      "revId": "3c632ed75890fe3ef688ea8d1ecacc66caa136dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4464069a_51a6632b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-23T13:16:40Z",
+      "side": 1,
+      "message": "Oh, thanks, done.",
+      "parentUuid": "7d0c9163_54f393f7",
       "revId": "3c632ed75890fe3ef688ea8d1ecacc66caa136dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

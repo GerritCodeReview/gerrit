@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bdd9fd1_245cada9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-23T16:57:02Z",
+      "side": 1,
+      "message": "But why?\nWouldn\u0027t it be cleaner if the parent element (overlay, I believe) would just capture the esc key that bubbles, and cancel if needed?\nhttp://jsbin.com/benawiqiva/1/edit?html,js,console,output",
+      "revId": "0aea6dfbeb494c918963eafae172ffe07ddf096b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

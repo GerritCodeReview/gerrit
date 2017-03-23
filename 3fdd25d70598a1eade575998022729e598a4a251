@@ -71,6 +71,30 @@
       "revId": "3fdd25d70598a1eade575998022729e598a4a251",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c94c8d2_adf54d03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-23T14:19:32Z",
+      "side": 1,
+      "message": "Actually writing this migration turned out to be easy.\n\nDone",
+      "parentUuid": "3ae78bce_8131442e",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "3fdd25d70598a1eade575998022729e598a4a251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

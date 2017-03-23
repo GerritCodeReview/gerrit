@@ -251,7 +251,7 @@
       var reviewerId;
       var confirmed;
       if (reviewer.account) {
-        reviewerId = reviewer.account._account_id;
+        reviewerId = reviewer.account._account_id || reviewer.account.email;
       } else if (reviewer.group) {
         reviewerId = reviewer.group.id;
         confirmed = reviewer.group.confirmed;

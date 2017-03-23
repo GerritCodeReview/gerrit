@@ -53,7 +53,6 @@ import com.google.gerrit.server.update.RepoContext;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -62,7 +61,6 @@ import java.util.Objects;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
@@ -168,19 +166,20 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     }
     CodeReviewRevWalk rw = (CodeReviewRevWalk) ctx.getRevWalk();
     Change.Id id = getId();
+    String refPrefix = id.toRefPrefix();
 
-    Collection<Ref> refs = ctx.getRepository().getRefDatabase().getRefs(id.toRefPrefix()).values();
+    Map<String, ObjectId> refs = ctx.getRepoView().getRefs(refPrefix);
     List<CodeReviewCommit> commits = new ArrayList<>(refs.size());
-    for (Ref ref : refs) {
-      PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
+    for (Map.Entry<String, ObjectId> e : refs.entrySet()) {
+      PatchSet.Id psId = PatchSet.Id.fromRef(refPrefix + e.getKey());
       if (psId == null) {
         continue;
       }
       try {
-        CodeReviewCommit c = rw.parseCommit(ref.getObjectId());
+        CodeReviewCommit c = rw.parseCommit(e.getValue());
         c.setPatchsetId(psId);
         commits.add(c);
-      } catch (MissingObjectException | IncorrectObjectTypeException e) {
+      } catch (MissingObjectException | IncorrectObjectTypeException ex) {
         continue; // Bogus ref, can't be merged into tip so we don't care.
       }
     }

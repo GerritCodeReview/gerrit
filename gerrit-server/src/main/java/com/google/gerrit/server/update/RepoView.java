@@ -17,14 +17,19 @@ package com.google.gerrit.server.update;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class RepoView implements AutoCloseable {
   private final Repository repo;
@@ -58,21 +63,31 @@ public class RepoView implements AutoCloseable {
     return rw;
   }
 
-  public ObjectInserter getInserter() {
-    return inserter;
-  }
-
-  public ChainedReceiveCommands getCommands() {
-    return commands;
-  }
-
   public Optional<ObjectId> getRef(String name) throws IOException {
     return getCommands().get(name);
   }
 
-  // TODO(dborowitz): Remove this so callers can't do arbitrary stuff.
-  Repository getRepository() {
-    return repo;
+  // TODO(dborowitz): Document the crazy consistency semantics.
+  public Map<String, ObjectId> getRefs(String prefix) throws IOException {
+    Map<String, ObjectId> result =
+        new HashMap<>(
+            Maps.transformValues(repo.getRefDatabase().getRefs(prefix), Ref::getObjectId));
+
+    // Only update actually modified refs; don't take the chance of incurring lots of random reads
+    // via commands.get on the off chance that we might see some cached values.
+    for (ReceiveCommand cmd : commands.getCommands().values()) {
+      if (!cmd.getRefName().startsWith(prefix)) {
+        continue;
+      }
+      String suffix = cmd.getRefName().substring(prefix.length());
+      if (cmd.getNewId().equals(ObjectId.zeroId())) {
+        result.remove(suffix);
+      } else {
+        result.put(suffix, cmd.getNewId());
+      }
+    }
+
+    return result;
   }
 
   @Override
@@ -82,5 +97,17 @@ public class RepoView implements AutoCloseable {
       rw.close();
       repo.close();
     }
+  }
+
+  Repository getRepository() {
+    return repo;
+  }
+
+  ObjectInserter getInserter() {
+    return inserter;
+  }
+
+  ChainedReceiveCommands getCommands() {
+    return commands;
   }
 }

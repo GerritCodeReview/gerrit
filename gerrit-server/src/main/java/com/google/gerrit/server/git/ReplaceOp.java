@@ -18,6 +18,7 @@ import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -62,13 +63,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
@@ -204,10 +203,10 @@ public class ReplaceOp implements BatchUpdateOp {
             commitId);
 
     if (checkMergedInto) {
-      Ref mergedInto = findMergedInto(ctx, dest.get(), commit);
+      String mergedInto = findMergedInto(ctx, dest.get(), commit);
       if (mergedInto != null) {
         mergedByPushOp =
-            mergedByPushOpFactory.create(requestScopePropagator, patchSetId, mergedInto.getName());
+            mergedByPushOpFactory.create(requestScopePropagator, patchSetId, mergedInto);
       }
     }
 
@@ -512,18 +511,17 @@ public class ReplaceOp implements BatchUpdateOp {
     return this;
   }
 
-  private static Ref findMergedInto(Context ctx, String first, RevCommit commit) {
+  private static String findMergedInto(Context ctx, String first, RevCommit commit) {
     try {
-      RefDatabase refDatabase = ctx.getRepository().getRefDatabase();
-
-      Ref firstRef = refDatabase.exactRef(first);
-      if (firstRef != null && isMergedInto(ctx.getRevWalk(), commit, firstRef)) {
-        return firstRef;
+      RevWalk rw = ctx.getRevWalk();
+      Optional<ObjectId> firstId = ctx.getRepoView().getRef(first);
+      if (firstId.isPresent() && rw.isMergedInto(commit, rw.parseCommit(firstId.get()))) {
+        return first;
       }
 
-      for (Ref ref : refDatabase.getRefs(Constants.R_HEADS).values()) {
-        if (isMergedInto(ctx.getRevWalk(), commit, ref)) {
-          return ref;
+      for (Map.Entry<String, ObjectId> e : ctx.getRepoView().getRefs(R_HEADS).entrySet()) {
+        if (rw.isMergedInto(commit, rw.parseCommit(e.getValue()))) {
+          return R_HEADS + e.getKey();
         }
       }
       return null;
@@ -531,9 +529,5 @@ public class ReplaceOp implements BatchUpdateOp {
       log.warn("Can't check for already submitted change", e);
       return null;
     }
-  }
-
-  private static boolean isMergedInto(RevWalk rw, RevCommit commit, Ref ref) throws IOException {
-    return rw.isMergedInto(commit, rw.parseCommit(ref.getObjectId()));
   }
 }

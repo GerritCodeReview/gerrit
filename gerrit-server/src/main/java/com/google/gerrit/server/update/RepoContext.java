@@ -29,10 +29,20 @@ public interface RepoContext extends Context {
   ObjectInserter getInserter() throws IOException;
 
   /**
+   * Get a read-only view of the repository.
+   *
+   * <p>Reading from this repository during an implementation of {@link
+   * BatchUpdateOp#updateRepo(RepoContext)} will not reflect any unsaved state.
+   *
+   * @return read-only repository wrapper.
+   */
+  ReadOnlyRepository getRepository() throws IOException;
+
+  /**
    * Add a command to the pending list of commands.
    *
-   * <p>Callers should use this method instead of writing directly to the repository returned by
-   * {@link #getRepository()}.
+   * <p>This method is the only way of updating refs in the repository; the {@link
+   * ReadOnlyRepository} returned by {@link #getRepository()} cannot be used.
    *
    * @param cmd ref update command.
    * @throws IOException if an error occurred opening the repo.

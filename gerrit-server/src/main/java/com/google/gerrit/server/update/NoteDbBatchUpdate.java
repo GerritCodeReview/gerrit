@@ -141,19 +141,15 @@ class NoteDbBatchUpdate extends BatchUpdate {
   }
 
   class ContextImpl implements Context {
-    private Repository repoWrapper;
-
     @Override
-    public Repository getRepository() throws IOException {
-      if (repoWrapper == null) {
-        repoWrapper = new ReadOnlyRepository(NoteDbBatchUpdate.this.getRepository());
-      }
-      return repoWrapper;
+    public RepoView getRepoView() throws IOException {
+      initRepository();
+      return NoteDbBatchUpdate.this.repoView;
     }
 
     @Override
     public RevWalk getRevWalk() throws IOException {
-      return NoteDbBatchUpdate.this.getRevWalk();
+      return getRepoView().getRevWalk();
     }
 
     @Override
@@ -189,13 +185,14 @@ class NoteDbBatchUpdate extends BatchUpdate {
 
   private class RepoContextImpl extends ContextImpl implements RepoContext {
     @Override
-    public Repository getRepository() throws IOException {
-      return NoteDbBatchUpdate.this.getRepository();
+    public ReadOnlyRepository getRepository() throws IOException {
+      initRepository();
+      return new ReadOnlyRepository(repoView.getRepository());
     }
 
     @Override
     public ObjectInserter getInserter() throws IOException {
-      return NoteDbBatchUpdate.this.getObjectInserter();
+      return getRepoView().getInserter();
     }
 
     @Override
@@ -374,7 +371,8 @@ class NoteDbBatchUpdate extends BatchUpdate {
     logDebug("Executing change ops");
     Map<Change.Id, ChangeResult> result =
         Maps.newLinkedHashMapWithExpectedSize(ops.keySet().size());
-    Repository repo = getRepository();
+    initRepository();
+    Repository repo = repoView.getRepository();
     // TODO(dborowitz): Teach NoteDbUpdateManager to allow reusing the same inserter and batch ref
     // update as in executeUpdateRepo.
     try (ObjectInserter ins = repo.newObjectInserter();

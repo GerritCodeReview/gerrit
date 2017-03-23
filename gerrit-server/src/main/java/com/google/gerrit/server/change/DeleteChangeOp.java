@@ -38,10 +38,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
@@ -137,16 +137,14 @@ class DeleteChangeOp implements BatchUpdateOp {
   }
 
   private boolean isPatchSetMerged(ChangeContext ctx, PatchSet patchSet) throws IOException {
-    Repository repository = ctx.getRepository();
-    Ref destinationRef = repository.exactRef(ctx.getChange().getDest().get());
-    if (destinationRef == null) {
+    Optional<ObjectId> destId = ctx.getRepoView().getRef(ctx.getChange().getDest().get());
+    if (!destId.isPresent()) {
       return false;
     }
 
     RevWalk revWalk = ctx.getRevWalk();
     ObjectId objectId = ObjectId.fromString(patchSet.getRevision().get());
-    return revWalk.isMergedInto(
-        revWalk.parseCommit(objectId), revWalk.parseCommit(destinationRef.getObjectId()));
+    return revWalk.isMergedInto(revWalk.parseCommit(objectId), revWalk.parseCommit(destId.get()));
   }
 
   private void deleteChangeElementsFromDb(ChangeContext ctx, Change.Id id) throws OrmException {
@@ -174,8 +172,8 @@ class DeleteChangeOp implements BatchUpdateOp {
   public void updateRepo(RepoContext ctx) throws IOException {
     String prefix = new PatchSet.Id(id, 1).toRefName();
     prefix = prefix.substring(0, prefix.length() - 1);
-    for (Ref ref : ctx.getRepository().getRefDatabase().getRefs(prefix).values()) {
-      ctx.addRefUpdate(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
+    for (Map.Entry<String, ObjectId> e : ctx.getRepoView().getRefs(prefix).entrySet()) {
+      ctx.addRefUpdate(new ReceiveCommand(e.getValue(), ObjectId.zeroId(), prefix + e.getKey()));
     }
   }
 }

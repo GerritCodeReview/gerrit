@@ -111,19 +111,15 @@ class ReviewDbBatchUpdate extends BatchUpdate {
   }
 
   class ContextImpl implements Context {
-    private Repository repoWrapper;
-
     @Override
-    public Repository getRepository() throws IOException {
-      if (repoWrapper == null) {
-        repoWrapper = new ReadOnlyRepository(ReviewDbBatchUpdate.this.getRepository());
-      }
-      return repoWrapper;
+    public RepoView getRepoView() throws IOException {
+      initRepository();
+      return ReviewDbBatchUpdate.this.repoView;
     }
 
     @Override
     public RevWalk getRevWalk() throws IOException {
-      return ReviewDbBatchUpdate.this.getRevWalk();
+      return getRepoView().getRevWalk();
     }
 
     @Override
@@ -159,13 +155,13 @@ class ReviewDbBatchUpdate extends BatchUpdate {
 
   private class RepoContextImpl extends ContextImpl implements RepoContext {
     @Override
-    public Repository getRepository() throws IOException {
-      return ReviewDbBatchUpdate.this.getRepository();
+    public ReadOnlyRepository getRepository() throws IOException {
+      return new ReadOnlyRepository(getRepoView().getRepository());
     }
 
     @Override
     public ObjectInserter getInserter() throws IOException {
-      return ReviewDbBatchUpdate.this.getObjectInserter();
+      return getRepoView().getInserter();
     }
 
     @Override
@@ -198,11 +194,6 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     public ReviewDb getDb() {
       checkNotNull(dbWrapper);
       return dbWrapper;
-    }
-
-    @Override
-    public Repository getRepository() {
-      return threadLocalRepo;
     }
 
     @Override
@@ -535,9 +526,10 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     // updates on the change repo first.
     logDebug("Executing NoteDb updates for {} changes", tasks.size());
     try {
-      BatchRefUpdate changeRefUpdate = getRepository().getRefDatabase().newBatchUpdate();
+      initRepository();
+      BatchRefUpdate changeRefUpdate = repoView.getRepository().getRefDatabase().newBatchUpdate();
       boolean hasAllUsersCommands = false;
-      try (ObjectInserter ins = getRepository().newObjectInserter()) {
+      try (ObjectInserter ins = repoView.getRepository().newObjectInserter()) {
         int objs = 0;
         for (ChangeTask task : tasks) {
           if (task.noteDbResult == null) {
@@ -644,7 +636,8 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     public Void call() throws Exception {
       taskId = id.toString() + "-" + Thread.currentThread().getId();
       if (Thread.currentThread() == mainThread) {
-        Repository repo = getRepository();
+        initRepository();
+        Repository repo = repoView.getRepository();
         try (RevWalk rw = new RevWalk(repo)) {
           call(ReviewDbBatchUpdate.this.db, repo, rw);
         }
@@ -803,10 +796,10 @@ class ReviewDbBatchUpdate extends BatchUpdate {
           updateManagerFactory
               .create(ctx.getProject())
               .setChangeRepo(
-                  ctx.getRepository(),
-                  ctx.getRevWalk(),
+                  ctx.threadLocalRepo,
+                  ctx.threadLocalRevWalk,
                   null,
-                  new ChainedReceiveCommands(ctx.getRepository()));
+                  new ChainedReceiveCommands(ctx.threadLocalRepo));
       if (ctx.getUser().isIdentifiedUser()) {
         updateManager.setRefLogIdent(
             ctx.getUser().asIdentifiedUser().newRefLogIdent(ctx.getWhen(), tz));

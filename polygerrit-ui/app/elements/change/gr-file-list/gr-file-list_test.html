@@ -535,6 +535,7 @@ limitations under the License.
         {__path: 'myfile.txt'},
       ];
       element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
+      element._loggedIn = true;
       element.changeNum = '42';
       element.patchRange = {
         basePatchNum: 'PARENT',
@@ -704,7 +705,6 @@ limitations under the License.
 
     test('show/hide diffs disabled for large amounts of files', function(done) {
       var computeSpy = sandbox.spy(element, '_fileListActionsVisible');
-      sandbox.stub(element, '_setReviewedFiles');
       element._files = [];
       element.changeNum = '42';
       element.patchRange = {
@@ -868,6 +868,7 @@ limitations under the License.
           done();
         });
     });
+
     test('_renderInOrder logged in', function(done) {
       element._isLoggedIn = true;
       var reviewStub = sandbox.stub(element, '_reviewFile');

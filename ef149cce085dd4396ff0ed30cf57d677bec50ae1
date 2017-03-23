@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e183724_45df6bc5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T18:09:44Z",
+      "side": 1,
+      "message": "This says\n\n error-not-logged-in\n\nbut actually fires\n\n show-logged-in-error",
+      "range": {
+        "startLine": 48,
+        "startChar": 14,
+        "endLine": 48,
+        "endChar": 33
+      },
+      "revId": "ef149cce085dd4396ff0ed30cf57d677bec50ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef9e850b_64e1f48e",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T18:09:44Z",
+      "side": 1,
+      "message": "I\u0027d like to avoid the use of the word \"error\" here too. I think the use of \"logged-in\" is also confusing because this should only fire when the user is not logged-in.\n\nWhat about:\n\n show-auth-required\n\nor\n\n auth-required-message\n\n?",
+      "range": {
+        "startLine": 55,
+        "startChar": 29,
+        "endLine": 55,
+        "endChar": 49
+      },
+      "revId": "ef149cce085dd4396ff0ed30cf57d677bec50ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2853462_36324066",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T18:09:44Z",
+      "side": 1,
+      "message": "IMO, this should be phrased with a more helpful tone and we should not use the word error. The user wants to do something that requires login, we shouldn\u0027t blame them for making an \"error\".\n\nWhat about some of the following options?\n* Log in is required to perform that action.\n* Log in to {{actionDescription}}.\n* You must log in to do that.\n* Info: log-in to {{actionDescription}}.\n* Help: log-in first.\n* Sign into your account to {{actionDescription}}.",
+      "range": {
+        "startLine": 72,
+        "startChar": 32,
+        "endLine": 72,
+        "endChar": 52
+      },
+      "revId": "ef149cce085dd4396ff0ed30cf57d677bec50ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

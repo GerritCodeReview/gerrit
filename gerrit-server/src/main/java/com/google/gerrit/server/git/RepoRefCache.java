@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -43,5 +44,10 @@ public class RepoRefCache implements RefCache {
     id = Optional.ofNullable(ref).map(Ref::getObjectId);
     ids.put(refName, id);
     return id;
+  }
+
+  /** @return an unmodifiable view of the refs that have been cached by this instance. */
+  public Map<String, Optional<ObjectId>> getCachedRefs() {
+    return Collections.unmodifiableMap(ids);
   }
 }

@@ -246,6 +246,7 @@ junit_tests(
         "//lib:guava",
         "//lib:guava-retrying",
         "//lib:protobuf",
+        "//lib:truth-java8-extension",
         "//lib/bouncycastle:bcprov",
         "//lib/dropwizard:dropwizard-core",
         "//lib/guice:guice-assistedinject",

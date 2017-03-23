@@ -14,6 +14,8 @@
 (function() {
   'use strict';
 
+  var VALID_EMAIL_ALERT = 'Please input a valid email.';
+
   Polymer({
     is: 'gr-account-list',
 
@@ -99,6 +101,15 @@
         var group = Object.assign({}, reviewer.group,
             {_pendingAdd: true, _group: true});
         this.push('accounts', group);
+      } else if (this.allowAnyInput) {
+        if (reviewer.indexOf('@') === -1) {
+          this.$.entry.setText(reviewer);
+          this.dispatchEvent(new CustomEvent('show-alert',
+            {detail: {message: VALID_EMAIL_ALERT}, bubbles: true}));
+        } else {
+          var account = {email: reviewer, _pendingAdd: true};
+          this.push('accounts', account);
+        }
       }
       this.pendingConfirmation = null;
     },

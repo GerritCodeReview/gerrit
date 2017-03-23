@@ -264,6 +264,31 @@ limitations under the License.
       assert.isTrue(element.$.entry.hasAttribute('hidden'));
     });
 
+    suite('allowAnyInput', function() {
+      var entry;
+
+      setup(function() {
+        entry = element.$.entry;
+        sandbox.stub(entry, '_getReviewerSuggestions');
+        sandbox.stub(entry.$.input, '_updateSuggestions');
+        element.allowAnyInput = true;
+      });
+
+      test('adds emails', function() {
+        var accountLen = element.accounts.length;
+        element._handleAdd({detail: {value: 'test@test'}});
+        assert.equal(element.accounts.length, accountLen + 1);
+        assert.equal(element.accounts[accountLen].email, 'test@test');
+      });
+
+      test('toasts on invalid email', function() {
+        var toastHandler = sandbox.stub();
+        element.addEventListener('show-alert', toastHandler);
+        element._handleAdd({detail: {value: 'test'}});
+        assert.isTrue(toastHandler.called);
+      });
+    });
+
     suite('keyboard interactions', function() {
 
       test('backspace at text input start removes last account', function() {

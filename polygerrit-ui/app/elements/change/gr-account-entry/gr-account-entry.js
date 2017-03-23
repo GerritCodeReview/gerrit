@@ -72,6 +72,10 @@
       this.$.input.clear();
     },
 
+    setText: function(text) {
+      this.$.input.setText(text);
+    },
+
     _handleInputCommit: function(e) {
       this.fire('add', {value: e.detail.value});
     },

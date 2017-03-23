@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "05edac56_05836184",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-23T10:53:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc06709_74af6a2f",
+      "range": {
+        "startLine": 7,
+        "startChar": 34,
+        "endLine": 7,
+        "endChar": 57
+      },
+      "revId": "c8dd1a4df39257b91cc7154a8e029a80d5bfb42a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39c92b9f_865431bd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickCommit.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "04727192_cf0e55eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickCommit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-23T10:53:17Z",
+      "side": 1,
+      "message": "non-final members removed.",
+      "parentUuid": "39c92b9f_865431bd",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 10
+      },
+      "revId": "c8dd1a4df39257b91cc7154a8e029a80d5bfb42a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3c3a20f_25893087",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickCommit.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2017-03-22T23:43:54Z",
       "side": 1,
       "message": "It would be better to inline this at the call site, then the non-private member variables are not needed and the class can be @Singleton",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 53
+      },
+      "revId": "c8dd1a4df39257b91cc7154a8e029a80d5bfb42a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166dce3a_8ddda347",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickCommit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-23T10:53:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3c3a20f_25893087",
       "range": {
         "startLine": 103,
         "startChar": 2,

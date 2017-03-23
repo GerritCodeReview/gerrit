@@ -15,8 +15,8 @@
   'use strict';
 
   var HIDE_ALERT_TIMEOUT_MS = 5000;
-  var CHECK_SIGN_IN_INTERVAL_MS = 60*1000;
-  var STALE_CREDENTIAL_THRESHOLD_MS = 10*60*1000;
+  var CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
+  var STALE_CREDENTIAL_THRESHOLD_MS = 10 * 60 * 1000;
   var SIGN_IN_WIDTH_PX = 690;
   var SIGN_IN_HEIGHT_PX = 500;
   var TOO_MANY_FILES = 'too many files to find conflicts';

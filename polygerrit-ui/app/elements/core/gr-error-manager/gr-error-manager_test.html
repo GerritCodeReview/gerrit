@@ -56,6 +56,13 @@ limitations under the License.
       });
     });
 
+    test('show logged in error', function() {
+      sandbox.stub(element, '_showAuthErrorAlert');
+      element.fire('show-auth-required');
+      assert.isTrue(element._showAuthErrorAlert.calledWithExactly(
+          'Log in is required to perform that action.', 'Log in.'));
+    });
+
     test('show normal server error', function(done) {
       var showAlertStub = sandbox.stub(element, '_showAlert');
       var textSpy = sandbox.spy(function() { return Promise.resolve('ZOMG'); });

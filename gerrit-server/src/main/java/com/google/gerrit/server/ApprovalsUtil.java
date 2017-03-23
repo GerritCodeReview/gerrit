@@ -20,7 +20,6 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Comparator.comparing;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -158,7 +157,7 @@ public class ApprovalsUtil {
    */
   public List<ReviewerStatusUpdate> getReviewerUpdates(ChangeNotes notes) throws OrmException {
     if (!migration.readChanges()) {
-      return ImmutableList.of();
+      return Collections.emptyList();
     }
     return notes.load().getReviewerUpdates();
   }
@@ -227,7 +226,7 @@ public class ApprovalsUtil {
       throws OrmException {
     List<LabelType> allTypes = labelTypes.getLabelTypes();
     if (allTypes.isEmpty()) {
-      return ImmutableList.of();
+      return Collections.emptyList();
     }
 
     Set<Account.Id> need = Sets.newLinkedHashSet(wantReviewers);
@@ -241,7 +240,7 @@ public class ApprovalsUtil {
     need.remove(change.getOwner());
     need.removeAll(existingReviewers);
     if (need.isEmpty()) {
-      return ImmutableList.of();
+      return Collections.emptyList();
     }
 
     List<PatchSetApproval> cells = Lists.newArrayListWithCapacity(need.size());

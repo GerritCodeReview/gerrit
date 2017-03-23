@@ -50,8 +50,8 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -106,7 +106,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private ChangeMessage changeMessage;
   private ReviewerSet oldReviewers;
 
-  @AssistedInject
+  @Inject
   public PatchSetInserter(
       ApprovalsUtil approvalsUtil,
       ApprovalCopier approvalCopier,

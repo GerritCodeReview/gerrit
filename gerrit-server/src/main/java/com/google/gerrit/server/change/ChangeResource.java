@@ -32,9 +32,9 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class ChangeResource implements RestResource, HasETag {
@@ -56,7 +56,7 @@ public class ChangeResource implements RestResource, HasETag {
   private final StarredChangesUtil starredChangesUtil;
   private final ChangeControl control;
 
-  @AssistedInject
+  @Inject
   ChangeResource(StarredChangesUtil starredChangesUtil, @Assisted ChangeControl control) {
     this.starredChangesUtil = starredChangesUtil;
     this.control = control;

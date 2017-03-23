@@ -26,9 +26,9 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +64,7 @@ public class DeleteRef {
     DeleteRef create(ProjectResource r);
   }
 
-  @AssistedInject
+  @Inject
   DeleteRef(
       Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,

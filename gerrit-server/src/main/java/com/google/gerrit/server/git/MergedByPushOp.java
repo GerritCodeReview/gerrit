@@ -34,9 +34,9 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.concurrent.ExecutorService;
@@ -74,7 +74,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   private PatchSet patchSet;
   private PatchSetInfo info;
 
-  @AssistedInject
+  @Inject
   MergedByPushOp(
       PatchSetInfoFactory patchSetInfoFactory,
       ChangeMessagesUtil cmUtil,

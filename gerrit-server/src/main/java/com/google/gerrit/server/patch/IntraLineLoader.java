@@ -18,8 +18,8 @@ package com.google.gerrit.server.patch;
 import com.google.common.base.Throwables;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -52,7 +52,7 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
   private final IntraLineDiffKey key;
   private final IntraLineDiffArgs args;
 
-  @AssistedInject
+  @Inject
   IntraLineLoader(
       @DiffExecutor ExecutorService diffExecutor,
       @GerritServerConfig Config cfg,

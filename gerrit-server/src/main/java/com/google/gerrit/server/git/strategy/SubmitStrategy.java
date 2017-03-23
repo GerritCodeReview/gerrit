@@ -53,9 +53,9 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.RequestId;
+import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -145,7 +145,7 @@ public abstract class SubmitStrategy {
     final MergeUtil mergeUtil;
     final boolean dryrun;
 
-    @AssistedInject
+    @Inject
     Arguments(
         AccountCache accountCache,
         ApprovalsUtil approvalsUtil,

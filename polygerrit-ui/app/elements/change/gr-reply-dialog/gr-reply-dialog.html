@@ -263,12 +263,18 @@ limitations under the License.
         </template>
       </section>
       <section class="draftsContainer" hidden$="[[_computeHideDraftList(diffDrafts)]]">
-        <h3>[[_computeDraftsTitle(diffDrafts)]]</h3>
+        <div class="excludeComments">
+          <input type="checkbox" id="excludeComments"
+              checked="{{_excludeComments::change}}">
+          <label for="excludeComments"><b>Exclude [[_computeDraftsTitle(diffDrafts)]]</b></label>
+        </div>
         <gr-comment-list
+            id="commentList"
             comments="[[diffDrafts]]"
             change-num="[[change._number]]"
             project-config="[[projectConfig]]"
-            patch-num="[[patchNum]]"></gr-comment-list>
+            patch-num="[[patchNum]]"
+            hidden$="[[_excludeComments]]"></gr-comment-list>
       </section>
       <section class="actionsContainer">
         <gr-button primary class="action send" on-tap="_sendTapHandler">Send</gr-button>

@@ -126,6 +126,69 @@ limitations under the License.
       MockInteractions.tap(element.$$('.cancel'));
     });
 
+    test('default to publishing drafts with reply', function(done) {
+      // Async tick is needed because iron-selector content is distributed and
+      // distributed content requires an observer to be set up.
+      // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
+      flush(function() {
+        flush(function() {
+          element.draft = 'I wholeheartedly disapprove';
+
+          var saveReviewStub = sandbox.stub(element, '_saveReview',
+              function(review) {
+            assert.deepEqual(review, {
+              drafts: 'PUBLISH_ALL_REVISIONS',
+              labels: {},
+              message: 'I wholeheartedly disapprove',
+              reviewers: [],
+            });
+            assert.isFalse(element.$.commentList.hidden);
+            done();
+            return Promise.resolve({ok: true});
+          });
+
+          // This is needed on non-Blink engines most likely due to the ways in
+          // which the dom-repeat elements are stamped.
+          flush(function() {
+            MockInteractions.tap(element.$$('.send'));
+          });
+        });
+      });
+    });
+
+    test('keep drafts with reply', function(done) {
+      MockInteractions.tap(element.$$('#excludeComments'));
+      assert.equal(element._excludeComments, true);
+
+      // Async tick is needed because iron-selector content is distributed and
+      // distributed content requires an observer to be set up.
+      // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
+      flush(function() {
+        flush(function() {
+          element.draft = 'I wholeheartedly disapprove';
+
+          var saveReviewStub = sandbox.stub(element, '_saveReview',
+              function(review) {
+            assert.deepEqual(review, {
+              drafts: 'KEEP',
+              labels: {},
+              message: 'I wholeheartedly disapprove',
+              reviewers: [],
+            });
+            assert.isTrue(element.$.commentList.hidden);
+            done();
+            return Promise.resolve({ok: true});
+          });
+
+          // This is needed on non-Blink engines most likely due to the ways in
+          // which the dom-repeat elements are stamped.
+          flush(function() {
+            MockInteractions.tap(element.$$('.send'));
+          });
+        });
+      });
+    });
+
     test('label picker', function(done) {
       element.revisions = {};
       element.patchNum = '';
@@ -147,7 +210,7 @@ limitations under the License.
               'iron-selector[data-label="Verified"] > ' +
               'gr-button[data-value="-1"]'));
 
-          var saveReviewStub = sinon.stub(element, '_saveReview',
+          var saveReviewStub = sandbox.stub(element, '_saveReview',
               function(review) {
             assert.deepEqual(review, {
               drafts: 'PUBLISH_ALL_REVISIONS',
@@ -165,7 +228,6 @@ limitations under the License.
             assert.isFalse(element.disabled,
                 'Element should be enabled when done sending reply.');
             assert.equal(element.draft.length, 0);
-            saveReviewStub.restore();
             done();
           });
 
@@ -440,14 +502,13 @@ limitations under the License.
 
     test('only send labels that have changed', function(done) {
       flush(function() {
-        var saveReviewStub = sinon.stub(element, '_saveReview',
+        var saveReviewStub = sandbox.stub(element, '_saveReview',
             function(review) {
           assert.deepEqual(review.labels, {Verified: -1});
           return Promise.resolve({ok: true});
         });
 
         element.addEventListener('send', function() {
-          saveReviewStub.restore();
           done();
         });
         // Without wrapping this test in flush(), the below two calls to

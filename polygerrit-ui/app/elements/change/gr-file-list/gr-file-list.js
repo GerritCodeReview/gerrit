@@ -118,7 +118,7 @@
 
     observers: [
       '_expandedPathsChanged(_expandedFilePaths.splices)',
-      '_setReviewedFiles(_shownFiles, _files, _reviewed.*)',
+      '_setReviewedFiles(_shownFiles, _files, _reviewed.*, _loggedIn)',
     ],
 
     keyBindings: {
@@ -658,11 +658,12 @@
       return files.base.slice(0, numFilesShown);
     },
 
-    _setReviewedFiles: function(shownFiles, files, reviewedRecord) {
+    _setReviewedFiles: function(shownFiles, files, reviewedRecord, loggedIn) {
+      if (!loggedIn) { return; }
       var reviewed = reviewedRecord.base;
       var fileReviewed;
       for (var i = 0; i < files.length; i++) {
-        fileReviewed = this._computeReviewed(shownFiles[i], reviewed);
+        fileReviewed = this._computeReviewed(files[i], reviewed);
         this._files[i].isReviewed = fileReviewed;
         if (i < shownFiles.length) {
           this.set(['_shownFiles', i, 'isReviewed'], fileReviewed);

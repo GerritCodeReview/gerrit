@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4c296d3f_d13d553f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-23T09:23:40Z",
+      "side": 1,
+      "message": "\u003e I\u0027m just wondering about the case where someone adds a new constructor with @Assisted parameter, but leaves the class with only @Inject.\n\nAccording to the docs this should be OK. If the class has only one constructor and we add a new parameter annotated with @Assisted to it, the @Inject should not be swapped for @AssistedInject.",
+      "parentUuid": "caf3e009_a95eebb5",
+      "range": {
+        "startLine": 12,
+        "startChar": 14,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "819f0cbf2e0f7e5c2cf7cd1fd03ffe7368d3f360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cda66de_cb68fec9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

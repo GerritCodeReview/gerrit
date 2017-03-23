@@ -88,7 +88,10 @@ limitations under the License.
               name: 'Diane Nguyen',
               email: 'macarthurfellow2B@juno.com',
             },
-          ]
+            {
+              email: 'test@e.mail',
+            },
+          ],
         },
         removable_reviewers: [
           {
@@ -100,14 +103,17 @@ limitations under the License.
             name: 'Diane Nguyen',
             email: 'macarthurfellow2B@juno.com',
           },
-        ]
+          {
+            email: 'test@e.mail',
+          },
+        ],
       };
       flushAsynchronousOperations();
       var chips =
           Polymer.dom(element.root).querySelectorAll('gr-account-chip');
-      assert.equal(chips.length, 3);
+      assert.equal(chips.length, 4);
       Array.from(chips).forEach(function(el) {
-        var accountID = parseInt(el.getAttribute('data-account-id'), 10);
+        var accountID = el.account._account_id || el.account.email;
         assert.ok(accountID);
 
         var buttonEl = el.$$('gr-button');

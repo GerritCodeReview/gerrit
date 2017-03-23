@@ -14,6 +14,8 @@
 (function() {
   'use strict';
 
+  var VALID_EMAIL_ALERT = 'Please input a valid email.';
+
   Polymer({
     is: 'gr-account-list',
 
@@ -45,6 +47,13 @@
        * that is not already a reviewer (or is not CCed) on that change.
        */
       allowAnyUser: {
+        type: Boolean,
+        value: false,
+      },
+      /**
+       * When true, allows for non-suggested inputs to be added.
+       */
+      allowAnyInput: {
         type: Boolean,
         value: false,
       },
@@ -88,6 +97,17 @@
         var group = Object.assign({}, reviewer.group,
             {_pendingAdd: true, _group: true});
         this.push('accounts', group);
+      } else if (this.allowAnyInput) {
+        if (reviewer.indexOf('@') === -1) {
+          // Repopulate the input with what the user tried to enter and have
+          // a toast tell them why they can't enter it.
+          this.$.entry.setText(reviewer);
+          this.dispatchEvent(new CustomEvent('show-alert',
+            {detail: {message: VALID_EMAIL_ALERT}, bubbles: true}));
+        } else {
+          var account = {email: reviewer, _pendingAdd: true};
+          this.push('accounts', account);
+        }
       }
       this.pendingConfirmation = null;
     },
@@ -110,11 +130,21 @@
       return classes.join(' ');
     },
 
+    _accountMatches: function(a, b) {
+      if (a._account_id) {
+        return a._account_id === b._account_id;
+      }
+      if (a.email) {
+        return a.email === b.email;
+      }
+      return a === b;
+    },
+
     _computeRemovable: function(account) {
       if (this.readonly) { return false; }
       if (this.removableValues) {
         for (var i = 0; i < this.removableValues.length; i++) {
-          if (this.removableValues[i]._account_id === account._account_id) {
+          if (this._accountMatches(this.removableValues[i], account)) {
             return true;
           }
         }
@@ -137,7 +167,7 @@
         if (toRemove._group) {
           matches = toRemove.id === account.id;
         } else {
-          matches = toRemove._account_id === account._account_id;
+          matches = this._accountMatches(toRemove, account);
         }
         if (matches) {
           this.splice('accounts', i, 1);

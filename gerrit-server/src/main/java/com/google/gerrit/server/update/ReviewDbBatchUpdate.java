@@ -400,12 +400,11 @@ class ReviewDbBatchUpdate extends BatchUpdate {
 
       if (onSubmitValidators != null && commands != null && !commands.isEmpty()) {
         try (ObjectReader reader = ctx.getInserter().newReader()) {
-          // Validation of refs has to take place here and not at the beginning
-          // executeRefUpdates. Otherwise failing validation in a second BatchUpdate object will
-          // happen *after* first object's executeRefUpdates has finished, hence after first repo's
-          // refs have been updated, which is too late.
-          onSubmitValidators.validate(
-              project, new ReadOnlyRepository(getRepository()), reader, commands.getCommands());
+          // Validation of refs has to take place here and not at the beginning of
+          // executeRefUpdates.  Otherwise, failing validation in a second BatchUpdate object will
+          // happen *after* the first update's executeRefUpdates has finished, hence after first
+          // repo's refs have been updated, which is too late.
+          onSubmitValidators.validate(project, ctx.getRevWalk().getObjectReader(), commands);
         }
       }
 

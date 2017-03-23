@@ -756,11 +756,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         new OnSubmitValidationListener() {
           @Override
           public void preBranchUpdate(Arguments args) throws ValidationException {
-            assertThat(args.getCommands().keySet()).contains("refs/heads/master");
-            try (RevWalk rw = args.newRevWalk()) {
+            assertThat(args.getCommands()).containsKey("refs/heads/master");
+            RevWalk rw = args.getRevWalk();
+            try {
               rw.parseBody(rw.parseCommit(args.getCommands().get("refs/heads/master").getNewId()));
             } catch (IOException e) {
-              assertThat(e).isNull();
+              throw new AssertionError("failed parsing new commit", e);
             }
             projectsCalled.add(args.getProject().get());
             if (projectsCalled.size() == 2) {

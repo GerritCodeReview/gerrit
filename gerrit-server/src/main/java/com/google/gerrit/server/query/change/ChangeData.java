@@ -1063,6 +1063,8 @@ public class ChangeData {
       }
       if (c.getStatus() == Change.Status.MERGED) {
         mergeable = true;
+      } else if (c.getStatus() == Change.Status.ABANDONED) {
+        return null;
       } else {
         if (!lazyLoad) {
           return null;

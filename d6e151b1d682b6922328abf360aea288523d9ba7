@@ -16,6 +16,24 @@
       "revId": "d6e151b1d682b6922328abf360aea288523d9ba7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0c60b17_e72892d4",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/AccountAccess.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-23T08:13:32Z",
+      "side": 0,
+      "message": "With this change we are not removing any index. The index that covered this query is still needed for the suggestByPreferredEmail method.\n\nBut with the follow-up change [1] some indexes become obsolete. I argued there that it\u0027s not worth to write a schema migration that deletes the index from existing sites, since the accounts table is dropped soon anyway (and with it all indexes) [2]. However if wanted I can also add a migration for dropping the indexes, but IIRC this requires database specific code, which is always a little ugly and hard to test if you don\u0027t have all database platforms available.\n\n[1] https://gerrit-review.googlesource.com/99734\n[2] https://gerrit-review.googlesource.com/#/c/99734/1//COMMIT_MSG@7",
+      "parentUuid": "bf479c09_a1bd1499",
+      "revId": "d6e151b1d682b6922328abf360aea288523d9ba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

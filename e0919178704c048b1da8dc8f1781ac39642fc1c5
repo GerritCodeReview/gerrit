@@ -17,6 +17,24 @@
       "revId": "e0919178704c048b1da8dc8f1781ac39642fc1c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60fe0a88_fb4a0ab0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-23T08:13:32Z",
+      "side": 1,
+      "message": "No, because we want to return Set\u003cAccountState\u003e (not Set\u003cAccount.Id\u003e).",
+      "parentUuid": "d37f8d25_44664e69",
+      "revId": "e0919178704c048b1da8dc8f1781ac39642fc1c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

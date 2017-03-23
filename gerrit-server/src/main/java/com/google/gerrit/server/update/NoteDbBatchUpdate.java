@@ -42,6 +42,15 @@ import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
+
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -50,12 +59,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
-import org.eclipse.jgit.lib.NullProgressMonitor;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
  * {@link BatchUpdate} implementation that only supports NoteDb.
@@ -312,16 +315,13 @@ class NoteDbBatchUpdate extends BatchUpdate {
       }
 
       if (onSubmitValidators != null && commands != null && !commands.isEmpty()) {
-        // Validation of refs has to take place here and not at the beginning
-        // executeRefUpdates. Otherwise failing validation in a second
-        // BatchUpdate object will happen *after* first object's
-        // executeRefUpdates has finished, hence after first repo's refs have
-        // been updated, which is too late.
-        onSubmitValidators.validate(
-            project,
-            new ReadOnlyRepository(getRepository()),
-            ctx.getInserter().newReader(),
-            commands.getCommands());
+        try (ObjectReader reader = ctx.getInserter().newReader()) {
+          // Validation of refs has to take place here and not at the beginning of
+          // executeRefUpdates.  Otherwise, failing validation in a second BatchUpdate object will
+          // happen *after* the first update's executeRefUpdates has finished, hence after first
+          // repo's refs have been updated, which is too late.
+          onSubmitValidators.validate(project, ctx.getRevWalk().getObjectReader(), commands);
+        }
       }
 
       // TODO(dborowitz): Don't flush when fusing phases.

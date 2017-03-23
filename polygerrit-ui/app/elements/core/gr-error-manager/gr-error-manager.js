@@ -15,8 +15,8 @@
   'use strict';
 
   var HIDE_ALERT_TIMEOUT_MS = 5000;
-  var CHECK_SIGN_IN_INTERVAL_MS = 60*1000;
-  var STALE_CREDENTIAL_THRESHOLD_MS = 10*60*1000;
+  var CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
+  var STALE_CREDENTIAL_THRESHOLD_MS = 10 * 60 * 1000;
   var SIGN_IN_WIDTH_PX = 690;
   var SIGN_IN_HEIGHT_PX = 500;
   var TOO_MANY_FILES = 'too many files to find conflicts';
@@ -52,17 +52,24 @@
       this.listen(document, 'network-error', '_handleNetworkError');
       this.listen(document, 'show-alert', '_handleShowAlert');
       this.listen(document, 'visibilitychange', '_handleVisibilityChange');
+      this.listen(document, 'show-logged-in-error', '_handleShowLoggedInError');
     },
 
     detached: function() {
       this._clearHideAlertHandle();
       this.unlisten(document, 'server-error', '_handleServerError');
       this.unlisten(document, 'network-error', '_handleNetworkError');
+      this.unlisten(
+          document, 'show-logged-in-error', '_handleShowLoggedInError');
       this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
     },
 
     _shouldSuppressError: function(msg) {
       return msg.indexOf(TOO_MANY_FILES) > -1;
+    },
+
+    _handleShowLoggedInError: function() {
+      this._showAuthErrorAlert('Error: not logged in', 'Log in.');
     },
 
     _handleServerError: function(e) {
@@ -71,7 +78,7 @@
           if (loggedIn) {
             // The app was logged at one point and is now getting auth errors.
             // This indicates the auth token is no longer valid.
-            this._showAuthErrorAlert();
+            this._showAuthErrorAlert('Auth error', 'Refresh credentials.');
           }
         }.bind(this));
       } else {
@@ -121,12 +128,12 @@
       }
     },
 
-    _showAuthErrorAlert: function() {
+    _showAuthErrorAlert: function(errorText, actionText) {
       // TODO(viktard): close alert if it's not for auth error.
       if (this._alertElement) { return; }
 
       this._alertElement = this._createToastAlert();
-      this._alertElement.show('Auth error', 'Refresh credentials.');
+      this._alertElement.show(errorText, actionText);
       this.listen(this._alertElement, 'action', '_createLoginPopup');
 
       this._refreshingCredentials = true;

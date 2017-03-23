@@ -42,6 +42,12 @@
      * @event page-error
      */
 
+    /**
+     * Fired if being logged in is required.
+     *
+     * @event error-not-logged-in
+     */
+
     properties: {
       /**
        * URL params passed from the router.
@@ -718,11 +724,18 @@
 
     _handleAKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e) ||
-          !this._loggedIn) { return; }
+          this.modifierPressed(e)) {
+        return;
+      }
+      this._getLoggedIn().then(function(isLoggedIn) {
+        if (!isLoggedIn) {
+          this.fire('show-logged-in-error');
+          return;
+        }
 
-      e.preventDefault();
-      this._openReplyDialog();
+        e.preventDefault();
+        this._openReplyDialog();
+      }.bind(this));
     },
 
     _handleDKey: function(e) {

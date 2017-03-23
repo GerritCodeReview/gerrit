@@ -60,6 +60,17 @@ limitations under the License.
         assert.isFalse(element.classList.contains('no-left'));
       });
 
+      test('addDraftAtLine', function(done) {
+        sandbox.stub(element, '_selectLine');
+        var loggedInErrorSpy = sandbox.spy();
+        element.addEventListener('show-logged-in-error', loggedInErrorSpy);
+        element.addDraftAtLine();
+        flush(function() {
+          assert.isTrue(loggedInErrorSpy.called);
+          done();
+        });
+      });
+
       test('view does not start with displayLine classList', function() {
         assert.isFalse(
             element.$$('.diffContainer').classList.contains('displayLine'));
@@ -574,6 +585,20 @@ limitations under the License.
             ],
           });
 
+          done();
+        });
+      });
+
+      test('addDraftAtLine', function(done) {
+        var fakeLineEl = {getAttribute: sandbox.stub().returns(42)};
+        sandbox.stub(element, '_selectLine');
+        sandbox.stub(element, '_addDraft');
+        var loggedInErrorSpy = sandbox.spy();
+        element.addEventListener('show-logged-in-error', loggedInErrorSpy);
+        element.addDraftAtLine(fakeLineEl);
+        flush(function() {
+          assert.isFalse(loggedInErrorSpy.called);
+          assert.isTrue(element._addDraft.calledWithExactly(fakeLineEl, 42));
           done();
         });
       });

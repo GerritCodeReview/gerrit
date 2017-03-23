@@ -322,7 +322,7 @@ public class ApprovalsUtil {
         accountId,
         ps.getUploader());
     if (approvals.isEmpty()) {
-      return Collections.emptyList();
+      return ImmutableList.of();
     }
     checkApprovals(approvals, changeCtl);
     List<PatchSetApproval> cells = new ArrayList<>(approvals.size());

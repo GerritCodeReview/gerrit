@@ -11,15 +11,20 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package com.google.gerrit.server.git.validators;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.server.git.RefCache;
+import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gerrit.server.validators.ValidationException;
-import java.util.Map;
-import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.Repository;
+import java.io.IOException;
+import java.util.Optional;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
@@ -37,40 +42,57 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 public interface OnSubmitValidationListener {
   class Arguments {
     private Project.NameKey project;
-    private Repository repository;
-    private ObjectReader objectReader;
-    private Map<String, ReceiveCommand> commands;
+    private RevWalk rw;
+    private ImmutableMap<String, ReceiveCommand> commands;
+    private RefCache refs;
 
-    public Arguments(
-        NameKey project,
-        Repository repository,
-        ObjectReader objectReader,
-        Map<String, ReceiveCommand> commands) {
-      this.project = project;
-      this.repository = repository;
-      this.objectReader = objectReader;
-      this.commands = commands;
+    /**
+     * @param project project.
+     * @param rw revwalk that can read unflushed objects from {@code refs}.
+     * @param commands commands to be executed.
+     */
+    Arguments(Project.NameKey project, RevWalk rw, ChainedReceiveCommands commands) {
+      this.project = checkNotNull(project);
+      this.rw = checkNotNull(rw);
+      this.refs = checkNotNull(commands);
+      this.commands = ImmutableMap.copyOf(commands.getCommands());
     }
 
+    /** Get the project name for this operation. */
     public Project.NameKey getProject() {
       return project;
     }
 
-    /** @return a read only repository */
-    public Repository getRepository() {
-      return repository;
-    }
-
-    public RevWalk newRevWalk() {
-      return new RevWalk(objectReader);
+    /**
+     * Get a revwalk for this operation.
+     *
+     * <p>This instance is able to read all objects mentioned in {@link #getCommands()} and {@link
+     * #getRef(String)}.
+     *
+     * @return open revwalk.
+     */
+    public RevWalk getRevWalk() {
+      return rw;
     }
 
     /**
-     * @return a map from ref to op on it covering all ref ops to be performed on this repository as
-     *     part of ongoing submit operation.
+     * @return a map from ref to commands covering all ref operations to be performed on this
+     *     repository as part of the ongoing submit operation.
      */
-    public Map<String, ReceiveCommand> getCommands() {
+    public ImmutableMap<String, ReceiveCommand> getCommands() {
       return commands;
+    }
+
+    /**
+     * Get a ref from the repository.
+     *
+     * @param name ref name; can be any ref, not just the ones mentioned in {@link #getCommands()}.
+     * @return latest value of a ref in the repository, as if all commands from {@link
+     *     #getCommands()} had already been applied.
+     * @throws IOException if an error occurred reading the ref.
+     */
+    public Optional<ObjectId> getRef(String name) throws IOException {
+      return refs.get(name);
     }
   }
 

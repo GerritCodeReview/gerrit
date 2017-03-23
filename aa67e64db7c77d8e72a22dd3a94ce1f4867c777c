@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34a49f67_0072fbd9",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T23:15:36Z",
+      "side": 1,
+      "message": "Looks like you could use `_computeOnBehalfOf(message)` here and skip the defined property.",
+      "range": {
+        "startLine": 132,
+        "startChar": 38,
+        "endLine": 132,
+        "endChar": 50
+      },
+      "revId": "aa67e64db7c77d8e72a22dd3a94ce1f4867c777c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a58b74d_b184ff93",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T23:15:36Z",
+      "side": 1,
+      "message": "Nit: Since it only guards text, can this be a bit lighter using `hidden$`?\n\n \u003cdiv hidden$\u003d\"[[!on_behalf_of]]\"\u003e",
+      "range": {
+        "startLine": 132,
+        "startChar": 10,
+        "endLine": 132,
+        "endChar": 54
+      },
+      "revId": "aa67e64db7c77d8e72a22dd3a94ce1f4867c777c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d59de92_698f3890",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T23:15:36Z",
+      "side": 1,
+      "message": "Nit: camelCase properties.",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 18
+      },
+      "revId": "aa67e64db7c77d8e72a22dd3a94ce1f4867c777c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adb4934a_de6fd6e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T23:15:36Z",
+      "side": 1,
+      "message": "Nit: quotes are not needed around this key.",
+      "range": {
+        "startLine": 149,
+        "startChar": 8,
+        "endLine": 149,
+        "endChar": 17
+      },
+      "revId": "aa67e64db7c77d8e72a22dd3a94ce1f4867c777c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

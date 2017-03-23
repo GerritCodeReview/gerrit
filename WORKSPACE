@@ -209,8 +209,8 @@ maven_jar(
 
 maven_jar(
     name = "joda_time",
-    artifact = "joda-time:joda-time:2.9.4",
-    sha1 = "1c295b462f16702ebe720bbb08f62e1ba80da41b",
+    artifact = "joda-time:joda-time:2.9.8",
+    sha1 = "03986e1763e5df02ad7fc040ecb555193a8436bb",
 )
 
 maven_jar(

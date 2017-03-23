@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b931819b_45d08ceb",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T23:09:59Z",
+      "side": 1,
+      "message": "It\u0027s already different in that it has a checkbox, it\u0027s not a link like the first line of the comment list and it has a horizontal rule in between it and the first comment.\n\nMaking it bold draws attention to it: shouldn\u0027t users ignore the checkbox almost all the time? This makes it seem like a big decision, when you should generally be able to just trust the default state and move on.",
+      "parentUuid": "2addde7e_eeddb916",
+      "range": {
+        "startLine": 269,
+        "startChar": 39,
+        "endLine": 269,
+        "endChar": 42
+      },
+      "revId": "aa6941c4ebe265083111880f6c58a2cee227a562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f96f2fc2_ea6b73f5",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 4
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "Maybe? Although if a person has specifically excluded comments, they might want to reply again and exclude them. I\u0027m not sold either way on this one.",
       "parentUuid": "f96f2fc2_ea6b73f5",
+      "revId": "aa6941c4ebe265083111880f6c58a2cee227a562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01f0ca28_98c78729",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T23:09:59Z",
+      "side": 1,
+      "message": "My thinking is around having safe defaults. if the reply dialog initializes in a consistent state, then it\u0027s not an extra thing the user has to be thinking about when they want to reply.\n\nWhat about re-setting it to false after the reply is sent? That way it will be preserved if the user drafts a reply, cancels and opens it again.",
+      "parentUuid": "a5a0f060_a5829daa",
       "revId": "aa6941c4ebe265083111880f6c58a2cee227a562",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

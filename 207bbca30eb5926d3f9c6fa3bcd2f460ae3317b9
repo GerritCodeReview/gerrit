@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "117fbfa9_d6954242",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T23:09:59Z",
+      "side": 1,
+      "message": "Do you think \"Exclude\" is more or less confusing? I\u0027m not sure at this point. Seriously asking.",
+      "parentUuid": "1cf488fe_2ce19d81",
+      "range": {
+        "startLine": 270,
+        "startChar": 37,
+        "endLine": 270,
+        "endChar": 51
+      },
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2cf2a879_e4f24b36",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
         "patchSetId": 2
@@ -227,6 +251,30 @@
       "side": 1,
       "message": "I like that it\u0027s already inside the section that has the computeHideDraftList, so we don\u0027t have to worry about that again, though I suppose we can just have the same hidden$ twice. \n\n I don\u0027t like how this looks though either:\nhttp://imgur.com/a/egqTX",
       "parentUuid": "b487c507_74fc0790",
+      "range": {
+        "startLine": 267,
+        "startChar": 8,
+        "endLine": 271,
+        "endChar": 14
+      },
+      "revId": "207bbca30eb5926d3f9c6fa3bcd2f460ae3317b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e966b114_d55b919b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-23T23:09:59Z",
+      "side": 1,
+      "message": "\u003e  I don\u0027t like how this looks though either: http://imgur.com/a/egqTX\n\nYeah, I agree, that one doesn\u0027t look great.\n\nCan you think of any other ways to avoid adding height or making it feel like another form field that has to be filled out? It just feels like it has too much visual significance in the dialog.\n\nI worry about the reply dialog getting options and widgets that make it scarier and confusing.",
+      "parentUuid": "475e658a_af0ba83f",
       "range": {
         "startLine": 267,
         "startChar": 8,

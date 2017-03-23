@@ -707,6 +707,13 @@ maven_jar(
     sha1 = "4e031bb61df09069aeb2bffb4019e7a5034a4ee0",
 )
 
+# Used by Jgit tests, in the local repo configuration.
+maven_jar(
+    name = "hamcrest_library",
+    artifact = "org.hamcrest:hamcrest-library:1.3",
+    sha1 = "4785a3c21320980282f9f33d0d1264a69040538f",
+)
+
 maven_jar(
     name = "hamcrest_core",
     artifact = "org.hamcrest:hamcrest-core:1.3",

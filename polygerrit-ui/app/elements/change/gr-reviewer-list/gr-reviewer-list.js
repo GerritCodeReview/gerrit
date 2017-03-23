@@ -87,9 +87,11 @@
     _computeCanRemoveReviewer: function(reviewer, mutable) {
       if (!mutable) { return false; }
 
+      var current;
       for (var i = 0; i < this.change.removable_reviewers.length; i++) {
-        if (this.change.removable_reviewers[i]._account_id ==
-            reviewer._account_id) {
+        current = this.change.removable_reviewers[i];
+        if (current._account_id === reviewer._account_id ||
+            (!reviewer._account_id && current.email === reviewer.email)) {
           return true;
         }
       }
@@ -99,7 +101,8 @@
     _handleRemove: function(e) {
       e.preventDefault();
       var target = Polymer.dom(e).rootTarget;
-      var accountID = parseInt(target.getAttribute('data-account-id'), 10);
+      if (!target.account) { return; }
+      var accountID = target.account._account_id || target.account.email;
       this.disabled = true;
       this._xhrPromise =
           this._removeReviewer(accountID).then(function(response) {
@@ -110,7 +113,8 @@
         ['REVIEWER', 'CC'].forEach(function(type) {
           reviewers[type] = reviewers[type] || [];
           for (var i = 0; i < reviewers[type].length; i++) {
-            if (reviewers[type][i]._account_id == accountID) {
+            if (reviewers[type][i]._account_id == accountID ||
+                reviewers[type][i].email == accountID) {
               this.splice('change.reviewers.' + type, i, 1);
               break;
             }

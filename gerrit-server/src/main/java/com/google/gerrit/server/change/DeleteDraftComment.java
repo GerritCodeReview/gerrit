@@ -101,7 +101,7 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
       Comment c = maybeComment.get();
       setCommentRevId(c, patchListCache, ctx.getChange(), ps);
       commentsUtil.deleteComments(ctx.getDb(), ctx.getUpdate(psId), Collections.singleton(c));
-      ctx.bumpLastUpdatedOn(false);
+      ctx.dontBumpLastUpdatedOn();
       return true;
     }
   }

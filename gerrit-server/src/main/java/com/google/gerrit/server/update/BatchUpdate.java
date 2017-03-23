@@ -18,18 +18,26 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -41,6 +49,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -117,7 +126,21 @@ public abstract class BatchUpdate implements AutoCloseable {
     }
   }
 
-  protected static Order getOrder(Collection<? extends BatchUpdate> updates) {
+  static void setRequestIds(
+      Collection<? extends BatchUpdate> updates, @Nullable RequestId requestId) {
+    if (requestId != null) {
+      for (BatchUpdate u : updates) {
+        checkArgument(
+            u.requestId == null || u.requestId == requestId,
+            "refusing to overwrite RequestId %s in update with %s",
+            u.requestId,
+            requestId);
+        u.setRequestId(requestId);
+      }
+    }
+  }
+
+  static Order getOrder(Collection<? extends BatchUpdate> updates) {
     Order o = null;
     for (BatchUpdate u : updates) {
       if (o == null) {
@@ -129,7 +152,7 @@ public abstract class BatchUpdate implements AutoCloseable {
     return o;
   }
 
-  protected static boolean getUpdateChangesInParallel(Collection<? extends BatchUpdate> updates) {
+  static boolean getUpdateChangesInParallel(Collection<? extends BatchUpdate> updates) {
     checkArgument(!updates.isEmpty());
     Boolean p = null;
     for (BatchUpdate u : updates) {
@@ -146,6 +169,28 @@ public abstract class BatchUpdate implements AutoCloseable {
         !p || updates.size() <= 1,
         "cannot execute ChangeOps in parallel with more than 1 BatchUpdate");
     return p;
+  }
+
+  static void wrapAndThrowException(Exception e) throws UpdateException, RestApiException {
+    Throwables.throwIfUnchecked(e);
+
+    // Propagate REST API exceptions thrown by operations; they commonly throw exceptions like
+    // ResourceConflictException to indicate an atomic update failure.
+    Throwables.throwIfInstanceOf(e, UpdateException.class);
+    Throwables.throwIfInstanceOf(e, RestApiException.class);
+
+    // Convert other common non-REST exception types with user-visible messages to corresponding
+    // REST exception types
+    if (e instanceof InvalidChangeOperationException) {
+      throw new ResourceConflictException(e.getMessage(), e);
+    } else if (e instanceof NoSuchChangeException
+        || e instanceof NoSuchRefException
+        || e instanceof NoSuchProjectException) {
+      throw new ResourceNotFoundException(e.getMessage(), e);
+    }
+
+    // Otherwise, wrap in a generic UpdateException, which does not include a user-visible message.
+    throw new UpdateException(e);
   }
 
   protected GitRepositoryManager repoManager;
@@ -198,7 +243,9 @@ public abstract class BatchUpdate implements AutoCloseable {
   public abstract void execute(BatchUpdateListener listener)
       throws UpdateException, RestApiException;
 
-  public abstract void execute() throws UpdateException, RestApiException;
+  public void execute() throws UpdateException, RestApiException {
+    execute(BatchUpdateListener.NONE);
+  }
 
   protected abstract Context newContext();
 
@@ -249,6 +296,12 @@ public abstract class BatchUpdate implements AutoCloseable {
 
   protected CurrentUser getUser() {
     return user;
+  }
+
+  protected Optional<Account> getAccount() {
+    return user.isIdentifiedUser()
+        ? Optional.of(user.asIdentifiedUser().getAccount())
+        : Optional.empty();
   }
 
   protected Repository getRepository() throws IOException {

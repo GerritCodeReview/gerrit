@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.update;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Comparator.comparing;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
@@ -30,7 +30,6 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
@@ -59,10 +58,6 @@ import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.MismatchedStateException;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -236,8 +231,8 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     }
 
     @Override
-    public void bumpLastUpdatedOn(boolean bump) {
-      bumpLastUpdatedOn = bump;
+    public void dontBumpLastUpdatedOn() {
+      bumpLastUpdatedOn = false;
     }
 
     @Override
@@ -271,16 +266,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     if (updates.isEmpty()) {
       return;
     }
-    if (requestId != null) {
-      for (BatchUpdate u : updates) {
-        checkArgument(
-            u.requestId == null || u.requestId == requestId,
-            "refusing to overwrite RequestId %s in update with %s",
-            u.requestId,
-            requestId);
-        u.setRequestId(requestId);
-      }
-    }
+    setRequestIds(updates, requestId);
     try {
       Order order = getOrder(updates);
       boolean updateChangesInParallel = getUpdateChangesInParallel(updates);
@@ -317,45 +303,26 @@ class ReviewDbBatchUpdate extends BatchUpdate {
           throw new IllegalStateException("invalid execution order: " + order);
       }
 
-      List<CheckedFuture<?, IOException>> indexFutures = new ArrayList<>();
-      for (ReviewDbBatchUpdate u : updates) {
-        indexFutures.addAll(u.indexFutures);
-      }
-      ChangeIndexer.allAsList(indexFutures).get();
+      ChangeIndexer.allAsList(
+              updates.stream().flatMap(u -> u.indexFutures.stream()).collect(toList()))
+          .get();
 
-      for (ReviewDbBatchUpdate u : updates) {
-        if (u.batchRefUpdate != null) {
-          // Fire ref update events only after all mutations are finished, since
-          // callers may assume a patch set ref being created means the change
-          // was created, or a branch advancing meaning some changes were
-          // closed.
-          u.gitRefUpdated.fire(
-              u.project,
-              u.batchRefUpdate,
-              u.getUser().isIdentifiedUser() ? u.getUser().asIdentifiedUser().getAccount() : null);
-        }
-      }
+      // Fire ref update events only after all mutations are finished, since callers may assume a
+      // patch set ref being created means the change was created, or a branch advancing meaning
+      // some changes were closed.
+      updates
+          .stream()
+          .filter(u -> u.batchRefUpdate != null)
+          .forEach(
+              u -> u.gitRefUpdated.fire(u.project, u.batchRefUpdate, u.getAccount().orElse(null)));
+
       if (!dryrun) {
         for (ReviewDbBatchUpdate u : updates) {
           u.executePostOps();
         }
       }
-    } catch (UpdateException | RestApiException e) {
-      // Propagate REST API exceptions thrown by operations; they commonly throw
-      // exceptions like ResourceConflictException to indicate an atomic update
-      // failure.
-      throw e;
-
-      // Convert other common non-REST exception types with user-visible
-      // messages to corresponding REST exception types
-    } catch (InvalidChangeOperationException e) {
-      throw new ResourceConflictException(e.getMessage(), e);
-    } catch (NoSuchChangeException | NoSuchRefException | NoSuchProjectException e) {
-      throw new ResourceNotFoundException(e.getMessage(), e);
-
     } catch (Exception e) {
-      Throwables.throwIfUnchecked(e);
-      throw new UpdateException(e);
+      wrapAndThrowException(e);
     }
   }
 
@@ -408,11 +375,6 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     this.updateManagerFactory = updateManagerFactory;
     this.db = db;
     skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
-  }
-
-  @Override
-  public void execute() throws UpdateException, RestApiException {
-    execute(BatchUpdateListener.NONE);
   }
 
   @Override

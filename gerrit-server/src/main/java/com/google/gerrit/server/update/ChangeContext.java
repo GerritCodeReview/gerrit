@@ -44,17 +44,24 @@ public interface ChangeContext extends Context {
   ChangeUpdate getUpdate(PatchSet.Id psId);
 
   /**
-   * @return control for this change. The user will be the same as {@link #getUser()}, and the
-   *     change data is read within the same transaction that {@code updateChange} is executing.
+   * Get the control for this change, encapsulating the user and up-to-date change data.
+   *
+   * <p>The user will be the same as {@link #getUser()}, and the change data is read within the same
+   * transaction that {@link BatchUpdateOp#updateChange(ChangeContext)} is executing.
+   *
+   * @return control for this change.
    */
   ChangeControl getControl();
 
   /**
-   * @param bump whether to bump the value of {@link Change#getLastUpdatedOn()} field before storing
-   *     to ReviewDb. For NoteDb, the value is always incremented (assuming the update is not
-   *     otherwise a no-op).
+   * Don't bump the value of {@link Change#getLastUpdatedOn()}.
+   *
+   * <p>If called, don't bump the timestamp before storing to ReviewDb. Only has an effect in
+   * ReviewDb, and the only usage should be to match the behavior of NoteDb. Specifically, in NoteDb
+   * the timestamp is updated if and only if the change meta graph is updated, and is not updated
+   * when only drafts are modified.
    */
-  void bumpLastUpdatedOn(boolean bump);
+  void dontBumpLastUpdatedOn();
 
   /**
    * Instruct {@link BatchUpdate} to delete this change.
@@ -63,7 +70,11 @@ public interface ChangeContext extends Context {
    */
   void deleteChange();
 
-  /** @return notes corresponding to {@link #getControl()}. */
+  /**
+   * Get notes corresponding to {@link #getControl()}.
+   *
+   * @return loaded notes instance.
+   */
   default ChangeNotes getNotes() {
     return checkNotNull(getControl().getNotes());
   }

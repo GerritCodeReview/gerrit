@@ -75,6 +75,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.ChangeIdUtil;
 import org.slf4j.Logger;
@@ -82,7 +83,7 @@ import org.slf4j.LoggerFactory;
 
 public class ChangeInserter implements InsertChangeOp {
   public interface Factory {
-    ChangeInserter create(Change.Id cid, RevCommit rc, String refName);
+    ChangeInserter create(Change.Id cid, ObjectId commitId, String refName);
   }
 
   private static final Logger log = LoggerFactory.getLogger(ChangeInserter.class);
@@ -102,7 +103,7 @@ public class ChangeInserter implements InsertChangeOp {
 
   private final Change.Id changeId;
   private final PatchSet.Id psId;
-  private final RevCommit commit;
+  private final ObjectId commitId;
   private final String refName;
 
   // Fields exposed as setters.
@@ -146,7 +147,7 @@ public class ChangeInserter implements InsertChangeOp {
       CommentAdded commentAdded,
       RevisionCreated revisionCreated,
       @Assisted Change.Id changeId,
-      @Assisted RevCommit commit,
+      @Assisted ObjectId commitId,
       @Assisted String refName) {
     this.projectControlFactory = projectControlFactory;
     this.userFactory = userFactory;
@@ -163,7 +164,7 @@ public class ChangeInserter implements InsertChangeOp {
 
     this.changeId = changeId;
     this.psId = new PatchSet.Id(changeId, INITIAL_PATCH_SET_ID);
-    this.commit = commit;
+    this.commitId = commitId.copy();
     this.refName = refName;
     this.reviewers = Collections.emptySet();
     this.extraCC = Collections.emptySet();
@@ -175,10 +176,10 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   @Override
-  public Change createChange(Context ctx) {
+  public Change createChange(Context ctx) throws IOException {
     change =
         new Change(
-            getChangeKey(commit),
+            getChangeKey(ctx.getRevWalk(), commitId),
             changeId,
             ctx.getAccountId(),
             new Branch.NameKey(ctx.getProject(), refName),
@@ -189,29 +190,31 @@ public class ChangeInserter implements InsertChangeOp {
     return change;
   }
 
-  private static Change.Key getChangeKey(RevCommit commit) {
+  private static Change.Key getChangeKey(RevWalk rw, ObjectId id) throws IOException {
+    RevCommit commit = rw.parseCommit(id);
+    rw.parseBody(commit);
     List<String> idList = commit.getFooterLines(FooterConstants.CHANGE_ID);
     if (!idList.isEmpty()) {
       return new Change.Key(idList.get(idList.size() - 1).trim());
     }
-    ObjectId id =
+    ObjectId changeId =
         ChangeIdUtil.computeChangeId(
             commit.getTree(),
             commit,
             commit.getAuthorIdent(),
             commit.getCommitterIdent(),
             commit.getShortMessage());
-    StringBuilder changeId = new StringBuilder();
-    changeId.append("I").append(ObjectId.toString(id));
-    return new Change.Key(changeId.toString());
+    StringBuilder changeIdStr = new StringBuilder();
+    changeIdStr.append("I").append(ObjectId.toString(changeId));
+    return new Change.Key(changeIdStr.toString());
   }
 
   public PatchSet.Id getPatchSetId() {
     return psId;
   }
 
-  public RevCommit getCommit() {
-    return commit;
+  public ObjectId getCommitId() {
+    return commitId;
   }
 
   public Change getChange() {
@@ -338,7 +341,7 @@ public class ChangeInserter implements InsertChangeOp {
       return;
     }
     if (updateRefCommand == null) {
-      ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(), commit, psId.toRefName()));
+      ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(), commitId, psId.toRefName()));
     } else {
       ctx.addRefUpdate(updateRefCommand);
     }
@@ -350,7 +353,8 @@ public class ChangeInserter implements InsertChangeOp {
     change = ctx.getChange(); // Use defensive copy created by ChangeControl.
     ReviewDb db = ctx.getDb();
     ChangeControl ctl = ctx.getControl();
-    patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
+    patchSetInfo =
+        patchSetInfoFactory.get(ctx.getRevWalk(), ctx.getRevWalk().parseCommit(commitId), psId);
     ctx.getChange().setCurrentPatchSet(patchSetInfo);
 
     ChangeUpdate update = ctx.getUpdate(psId);
@@ -366,7 +370,7 @@ public class ChangeInserter implements InsertChangeOp {
     boolean draft = status == Change.Status.DRAFT;
     List<String> newGroups = groups;
     if (newGroups.isEmpty()) {
-      newGroups = GroupCollector.getDefaultGroups(commit);
+      newGroups = GroupCollector.getDefaultGroups(commitId);
     }
     patchSet =
         psUtil.insert(
@@ -374,7 +378,7 @@ public class ChangeInserter implements InsertChangeOp {
             ctx.getRevWalk(),
             update,
             psId,
-            commit,
+            commitId,
             draft,
             newGroups,
             pushCert,
@@ -516,9 +520,11 @@ public class ChangeInserter implements InsertChangeOp {
       RefControl refControl =
           projectControlFactory.controlFor(ctx.getProject(), ctx.getUser()).controlForRef(refName);
       String refName = psId.toRefName();
+      RevCommit commit = ctx.getRevWalk().parseCommit(commitId);
+      ctx.getRevWalk().parseBody(commit);
       CommitReceivedEvent event =
           new CommitReceivedEvent(
-              new ReceiveCommand(ObjectId.zeroId(), commit.getId(), refName),
+              new ReceiveCommand(ObjectId.zeroId(), commitId, refName),
               refControl.getProjectControl().getProject(),
               change.getDest().get(),
               commit,

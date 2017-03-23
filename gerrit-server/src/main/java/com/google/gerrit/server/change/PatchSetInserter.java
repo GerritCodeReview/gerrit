@@ -65,7 +65,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private static final Logger log = LoggerFactory.getLogger(PatchSetInserter.class);
 
   public interface Factory {
-    PatchSetInserter create(ChangeControl ctl, PatchSet.Id psId, RevCommit commit);
+    PatchSetInserter create(ChangeControl ctl, PatchSet.Id psId, ObjectId commitId);
   }
 
   // Injected fields.
@@ -80,7 +80,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   // Assisted-injected fields.
   private final PatchSet.Id psId;
-  private final RevCommit commit;
+  private final ObjectId commitId;
   // Read prior to running the batch update, so must only be used during
   // updateRepo; updateChange and later must use the control from the
   // ChangeContext.
@@ -118,7 +118,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       RevisionCreated revisionCreated,
       @Assisted ChangeControl ctl,
       @Assisted PatchSet.Id psId,
-      @Assisted RevCommit commit) {
+      @Assisted ObjectId commitId) {
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
@@ -130,7 +130,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
     this.origCtl = ctl;
     this.psId = psId;
-    this.commit = commit;
+    this.commitId = commitId.copy();
   }
 
   public PatchSet.Id getPatchSetId() {
@@ -210,7 +210,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     validate(ctx);
     ctx.addRefUpdate(
         new ReceiveCommand(
-            ObjectId.zeroId(), commit, getPatchSetId().toRefName(), ReceiveCommand.Type.CREATE));
+            ObjectId.zeroId(), commitId, getPatchSetId().toRefName(), ReceiveCommand.Type.CREATE));
   }
 
   @Override
@@ -243,7 +243,7 @@ public class PatchSetInserter implements BatchUpdateOp {
             ctx.getRevWalk(),
             ctx.getUpdate(psId),
             psId,
-            commit,
+            commitId,
             draft,
             newGroups,
             null,
@@ -264,7 +264,8 @@ public class PatchSetInserter implements BatchUpdateOp {
       changeMessage.setMessage(message);
     }
 
-    patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
+    patchSetInfo =
+        patchSetInfoFactory.get(ctx.getRevWalk(), ctx.getRevWalk().parseCommit(commitId), psId);
     if (change.getStatus() != Change.Status.DRAFT && !allowClosed) {
       change.setStatus(Change.Status.NEW);
     }
@@ -311,11 +312,13 @@ public class PatchSetInserter implements BatchUpdateOp {
     }
 
     String refName = getPatchSetId().toRefName();
+    RevCommit commit = ctx.getRevWalk().parseCommit(commitId);
+    ctx.getRevWalk().parseBody(commit);
     CommitReceivedEvent event =
         new CommitReceivedEvent(
             new ReceiveCommand(
                 ObjectId.zeroId(),
-                commit.getId(),
+                commitId,
                 refName.substring(0, refName.lastIndexOf('/') + 1) + "new"),
             origCtl.getProjectControl().getProject(),
             origCtl.getRefControl().getRefName(),

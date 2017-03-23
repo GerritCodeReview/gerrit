@@ -336,7 +336,7 @@ public abstract class BatchUpdate implements AutoCloseable {
     return this;
   }
 
-  public BatchUpdate insertChange(InsertChangeOp op) {
+  public BatchUpdate insertChange(InsertChangeOp op) throws IOException {
     Context ctx = newContext();
     Change c = op.createChange(ctx);
     checkArgument(

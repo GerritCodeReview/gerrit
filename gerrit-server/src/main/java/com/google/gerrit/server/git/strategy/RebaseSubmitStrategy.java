@@ -127,7 +127,9 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         // RebaseAlways means we modify commit message.
         args.rw.parseBody(toMerge);
         newPatchSetId =
-            ChangeUtil.nextPatchSetId(ctx.getRepository(), toMerge.change().currentPatchSetId());
+            ChangeUtil.nextPatchSetIdFromChangeRefsMap(
+                ctx.getRepoView().getRefs(getId().toRefPrefix()),
+                toMerge.change().currentPatchSetId());
         RevCommit mergeTip = args.mergeTip.getCurrentTip();
         args.rw.parseBody(mergeTip);
         String cherryPickCmtMsg = args.mergeUtil.createCommitMessageOnSubmit(toMerge, mergeTip);
@@ -137,7 +139,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
           newCommit =
               args.mergeUtil.createCherryPickFromCommit(
                   ctx.getInserter(),
-                  ctx.getRepository().getConfig(),
+                  ctx.getRepoView().getConfig(),
                   args.mergeTip.getCurrentTip(),
                   toMerge,
                   committer,
@@ -269,7 +271,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
                 caller,
                 args.rw,
                 ctx.getInserter(),
-                ctx.getRepository().getConfig(),
+                ctx.getRepoView().getConfig(),
                 args.destBranch,
                 mergeTip.getCurrentTip(),
                 toMerge);

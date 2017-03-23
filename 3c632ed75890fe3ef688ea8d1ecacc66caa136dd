@@ -45,6 +45,23 @@
       "revId": "3c632ed75890fe3ef688ea8d1ecacc66caa136dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d0c9163_54f393f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2017-03-23T13:05:36Z",
+      "side": 1,
+      "message": "This could be replaced by something like:\n\nu URI(cfg.getString(\u0027canonicalWebUrl\u0027) \npoylGerritBaseUrl \u003d u.getPath()...\n\n\nOr you could use canonicalWebUrl directly (well, all links will contain the host part as well)",
+      "revId": "3c632ed75890fe3ef688ea8d1ecacc66caa136dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

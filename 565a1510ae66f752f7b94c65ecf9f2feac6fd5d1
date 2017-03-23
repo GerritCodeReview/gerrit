@@ -22,6 +22,30 @@
       "revId": "565a1510ae66f752f7b94c65ecf9f2feac6fd5d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849afdf6_1cd3e225",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-23T07:54:25Z",
+      "side": 1,
+      "message": "I guess it could, but I thought it\u0027s generally better to use native Java 8 methods rather than Guava where possible.\n\nThe only reason it\u0027s the opposite way in the change below is that we should return an immutable list, like in other places in the code, but Collections does not (as far as I can see) have a helper method to do that with an empty list.",
+      "parentUuid": "a153a24c_8a288c1b",
+      "range": {
+        "startLine": 256,
+        "startChar": 11,
+        "endLine": 256,
+        "endChar": 39
+      },
+      "revId": "565a1510ae66f752f7b94c65ecf9f2feac6fd5d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

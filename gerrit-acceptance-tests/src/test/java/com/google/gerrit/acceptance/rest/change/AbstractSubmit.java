@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
@@ -95,6 +96,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -756,11 +758,16 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         new OnSubmitValidationListener() {
           @Override
           public void preBranchUpdate(Arguments args) throws ValidationException {
-            assertThat(args.getCommands().keySet()).contains("refs/heads/master");
-            try (RevWalk rw = args.newRevWalk()) {
-              rw.parseBody(rw.parseCommit(args.getCommands().get("refs/heads/master").getNewId()));
+            String master = "refs/heads/master";
+            assertThat(args.getCommands()).containsKey(master);
+            ReceiveCommand cmd = args.getCommands().get(master);
+            ObjectId newMasterId = cmd.getNewId();
+            try (Repository repo = repoManager.openRepository(project)) {
+              assertThat(repo.exactRef(master).getObjectId()).isEqualTo(cmd.getOldId());
+              assertThat(args.getRef(master)).hasValue(newMasterId);
+              args.getRevWalk().parseBody(args.getRevWalk().parseCommit(newMasterId));
             } catch (IOException e) {
-              assertThat(e).isNull();
+              throw new AssertionError("failed checking new ref value", e);
             }
             projectsCalled.add(args.getProject().get());
             if (projectsCalled.size() == 2) {

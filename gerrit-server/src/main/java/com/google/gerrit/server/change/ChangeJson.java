@@ -1029,6 +1029,10 @@ public class ChangeJson {
         cmi.message = message.getMessage();
         cmi.tag = message.getTag();
         cmi._revisionNumber = patchNum != null ? patchNum.get() : null;
+        Account.Id realAuthor = message.getRealAuthor();
+        if (realAuthor != null) {
+          cmi.realAuthor = accountLoader.get(realAuthor);
+        }
         result.add(cmi);
       }
     }

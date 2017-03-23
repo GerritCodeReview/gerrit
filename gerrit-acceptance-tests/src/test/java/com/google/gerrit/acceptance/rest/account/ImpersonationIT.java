@@ -39,8 +39,10 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -62,6 +64,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
+import java.util.EnumSet;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.junit.After;
@@ -527,6 +530,28 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(m.getMessage()).endsWith(in.message);
     assertThat(m.getAuthor()).isEqualTo(user.id);
     assertThat(m.getRealAuthor()).isEqualTo(admin.id); // not user2
+  }
+
+  @Test
+  public void changeMessageCreatedOnBehalfOfHasRealUser() throws Exception {
+    allowCodeReviewOnBehalfOf();
+
+    PushOneCommit.Result r = createChange();
+    ReviewInput in = new ReviewInput();
+    in.onBehalfOf = user.id.toString();
+    in.message = "Message on behalf of";
+    in.label("Code-Review", 1);
+
+    setApiUser(accounts.user2());
+    gApi.changes().id(r.getChangeId()).revision(r.getPatchSetId().getId()).review(in);
+
+    ChangeInfo info =
+        gApi.changes().id(r.getChangeId()).get(EnumSet.of(ListChangesOption.MESSAGES));
+    assertThat(info.messages).hasSize(2);
+
+    ChangeMessageInfo changeMessageInfo = Iterables.getLast(info.messages);
+    assertThat(changeMessageInfo.realAuthor).isNotNull();
+    assertThat(changeMessageInfo.realAuthor._accountId).isEqualTo(accounts.user2().id.get());
   }
 
   private void allowCodeReviewOnBehalfOf() throws Exception {

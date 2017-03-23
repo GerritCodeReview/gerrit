@@ -11,17 +11,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package com.google.gerrit.server.git.validators;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gerrit.server.validators.ValidationException;
-import java.util.Map;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
  * Listener to validate ref updates performed during submit operation.
@@ -37,17 +36,11 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 public interface OnSubmitValidationListener {
   class Arguments {
     private Project.NameKey project;
-    private Repository repository;
     private ObjectReader objectReader;
-    private Map<String, ReceiveCommand> commands;
+    private ChainedReceiveCommands commands;
 
-    public Arguments(
-        NameKey project,
-        Repository repository,
-        ObjectReader objectReader,
-        Map<String, ReceiveCommand> commands) {
+    public Arguments(NameKey project, ObjectReader objectReader, ChainedReceiveCommands commands) {
       this.project = project;
-      this.repository = repository;
       this.objectReader = objectReader;
       this.commands = commands;
     }
@@ -56,20 +49,23 @@ public interface OnSubmitValidationListener {
       return project;
     }
 
-    /** @return a read only repository */
-    public Repository getRepository() {
-      return repository;
-    }
-
     public RevWalk newRevWalk() {
       return new RevWalk(objectReader);
     }
 
     /**
-     * @return a map from ref to op on it covering all ref ops to be performed on this repository as
-     *     part of ongoing submit operation.
+     * Get pending commands that will be executed.
+     *
+     * <p>The returned instance can be used to inspect the commands that are going to be executed,
+     * and can also read the values of any ref in the repo, taking into account the results of the
+     * new commands.
+     *
+     * <p>Objects referenced by pending commands are guaranteed to be readable by the result of
+     * {@link #newRevWalk()}.
+     *
+     * @return pending commands.
      */
-    public Map<String, ReceiveCommand> getCommands() {
+    public ChainedReceiveCommands getCommands() {
       return commands;
     }
   }

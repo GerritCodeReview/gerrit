@@ -408,9 +408,8 @@ class ReviewDbBatchUpdate extends BatchUpdate {
         // been updated, which is too late.
         onSubmitValidators.validate(
             project,
-            new ReadOnlyRepository(getRepository()),
-            ctx.getInserter().newReader(),
-            getRefUpdates());
+            ctx.getRevWalk().getObjectReader(),
+            repoView.getCommands());
       }
 
       if (repoView != null) {

@@ -661,7 +661,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           @Override
           public void preBranchUpdate(Arguments args) throws ValidationException {
             called.set(true);
-            HashSet<String> refs = Sets.newHashSet(args.getCommands().keySet());
+            HashSet<String> refs = Sets.newHashSet(args.getCommands().getCommands().keySet());
             assertThat(refs).contains("refs/heads/master");
             refs.remove("refs/heads/master");
             if (!refs.isEmpty()) {
@@ -712,9 +712,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         new OnSubmitValidationListener() {
           @Override
           public void preBranchUpdate(Arguments args) throws ValidationException {
-            assertThat(args.getCommands().keySet()).contains("refs/heads/master");
+            assertThat(args.getCommands().getCommands()).containsKey("refs/heads/master");
             try (RevWalk rw = args.newRevWalk()) {
-              rw.parseBody(rw.parseCommit(args.getCommands().get("refs/heads/master").getNewId()));
+              rw.parseBody(rw.parseCommit(args.getCommands().get("refs/heads/master").get()));
             } catch (IOException e) {
               assertThat(e).isNull();
             }

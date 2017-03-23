@@ -34,6 +34,24 @@
       "revId": "d6e151b1d682b6922328abf360aea288523d9ba7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3216a8d5_e984089a",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/AccountAccess.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-23T14:18:37Z",
+      "side": 0,
+      "message": "Actually this is easy since dropping indexes is supported by gwtorm. Done in:\n\n  https://gerrit-review.googlesource.com/99734",
+      "parentUuid": "d0c60b17_e72892d4",
+      "revId": "d6e151b1d682b6922328abf360aea288523d9ba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

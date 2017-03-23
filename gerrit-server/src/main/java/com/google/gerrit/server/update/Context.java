@@ -24,7 +24,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.TimeZone;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
@@ -41,7 +40,7 @@ public interface Context {
   Project.NameKey getProject();
 
   /**
-   * Get an open repository instance for this project.
+   * Get a view of the open repository for this project.
    *
    * <p>Will be opened lazily if necessary; callers should not close the repo. In some phases of the
    * update, the repository might be read-only; see {@link BatchUpdateOp} for details.
@@ -49,7 +48,7 @@ public interface Context {
    * @return repository instance.
    * @throws IOException if an error occurred opening the repo.
    */
-  Repository getRepository() throws IOException;
+  RepoView getRepoView() throws IOException;
 
   /**
    * Get a walk for this project.

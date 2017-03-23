@@ -2774,7 +2774,7 @@ public class ReceiveCommits {
                   && cmd.getRefName().equals(magicBranch.cmd.getRefName())
                   && magicBranch.merged
               ? commitValidatorsFactory.forMergedCommits(ctl)
-              : commitValidatorsFactory.forReceiveCommits(ctl, sshInfo, repo);
+              : commitValidatorsFactory.forReceiveCommits(ctl, sshInfo, repo, rw);
       messages.addAll(validators.validate(receiveEvent));
     } catch (CommitValidationException e) {
       logDebug("Commit validation failed on {}", c.name());

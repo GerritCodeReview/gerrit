@@ -1446,6 +1446,10 @@ public class ChangeScreen extends Screen {
       nm = JsArray.createArray().cast();
     }
 
+    if (om.length() == nm.length()) {
+      return;
+    }
+
     if (updateAvailable == null) {
       updateAvailable = new UpdateAvailableBar() {
         @Override

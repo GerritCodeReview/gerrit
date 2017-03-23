@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "cb90586c_82d02d0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-23T17:29:06Z",
+      "side": 1,
+      "message": "To me, \"wrapException(Exception)\" sounds like it should take an Exception as input and return a new Exception as output. I renamed to something more verbose and specific.",
+      "parentUuid": "5041cb4e_af52508a",
+      "range": {
+        "startLine": 174,
+        "startChar": 14,
+        "endLine": 174,
+        "endChar": 20
+      },
+      "revId": "d5aecc1db9fb1a1bf864a8c48374e17e572312a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82dd411b_486f300f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2017-03-21T23:57:14Z",
       "side": 1,
       "message": "Could this be done with try-catch rather than if-else and instanceof?\n\n try {\n   throw e;\n } catch (UpdateException | RestApiException e) {\n   throw e;\n } catch (InvalidChangeOperation e) {\n   throw new ResourceConflictException(...);\n } catch (NoSuchChangeException | NoSuchRefException | NoSuchProjectException e) {\n   throw new ResourceNotFoundException(...);\n } catch (Execption e) {\n   throw new UpdateException(e);\n }",
+      "range": {
+        "startLine": 177,
+        "startChar": 4,
+        "endLine": 193,
+        "endChar": 33
+      },
+      "revId": "d5aecc1db9fb1a1bf864a8c48374e17e572312a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6489b95_f12662fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-23T17:29:06Z",
+      "side": 1,
+      "message": "It could but I don\u0027t see the win, and \"try {throw e;}\" just looks wrong.",
+      "parentUuid": "82dd411b_486f300f",
       "range": {
         "startLine": 177,
         "startChar": 4,

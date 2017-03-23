@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af864205_20375518",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-23T20:31:26Z",
+      "side": 1,
+      "message": "Could use a comment here. I presume the intention is to repopulate the input with what the user tried to enter and have the toast tell them why they can\u0027t enter it?",
+      "revId": "f9c39ed1be41771b4ad944a671f209660f965536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

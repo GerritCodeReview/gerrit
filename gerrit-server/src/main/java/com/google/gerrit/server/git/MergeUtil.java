@@ -743,21 +743,25 @@ public class MergeUtil {
       Repository repo, final ObjectInserter inserter, String strategyName) {
     MergeStrategy strategy = MergeStrategy.get(strategyName);
     checkArgument(strategy != null, "invalid merge strategy: %s", strategyName);
-    Merger m = strategy.newMerger(repo, true);
-    m.setObjectInserter(
-        new ObjectInserter.Filter() {
+    return strategy.newMerger(
+        new RepositoryWrapper(repo) {
           @Override
-          protected ObjectInserter delegate() {
-            return inserter;
+          public ObjectInserter newObjectInserter() {
+            return new ObjectInserter.Filter() {
+              @Override
+              protected ObjectInserter delegate() {
+                return inserter;
+              }
+
+              @Override
+              public void flush() {}
+
+              @Override
+              public void close() {}
+            };
           }
-
-          @Override
-          public void flush() {}
-
-          @Override
-          public void close() {}
-        });
-    return m;
+        },
+        true);
   }
 
   public void markCleanMerges(

@@ -36,8 +36,8 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -75,7 +75,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   private PatchSetInserter patchSetInserter;
   private PatchSet rebasedPatchSet;
 
-  @AssistedInject
+  @Inject
   RebaseChangeOp(
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,

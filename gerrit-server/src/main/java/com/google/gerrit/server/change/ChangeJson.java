@@ -122,7 +122,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -214,7 +213,7 @@ public class ChangeJson {
   private AccountLoader accountLoader;
   private FixInput fix;
 
-  @AssistedInject
+  @Inject
   ChangeJson(
       Provider<ReviewDb> db,
       LabelNormalizer ln,

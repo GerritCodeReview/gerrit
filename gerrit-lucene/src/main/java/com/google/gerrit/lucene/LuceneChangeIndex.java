@@ -61,9 +61,9 @@ import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -147,7 +147,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private final ChangeSubIndex openIndex;
   private final ChangeSubIndex closedIndex;
 
-  @AssistedInject
+  @Inject
   LuceneChangeIndex(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,

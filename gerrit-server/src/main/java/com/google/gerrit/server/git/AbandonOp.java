@@ -34,8 +34,8 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,7 +64,7 @@ public class AbandonOp implements BatchUpdateOp {
         @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify);
   }
 
-  @AssistedInject
+  @Inject
   AbandonOp(
       AbandonedSender.Factory abandonedSenderFactory,
       ChangeMessagesUtil cmUtil,

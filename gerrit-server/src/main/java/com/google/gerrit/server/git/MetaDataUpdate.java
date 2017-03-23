@@ -22,7 +22,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -185,7 +184,7 @@ public class MetaDataUpdate implements AutoCloseable {
   private boolean closeRepository;
   private IdentifiedUser author;
 
-  @AssistedInject
+  @Inject
   public MetaDataUpdate(
       GitReferenceUpdated gitRefUpdated,
       @Assisted Project.NameKey projectName,

@@ -29,8 +29,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -86,7 +86,7 @@ public class PatchListLoader implements Callable<PatchList> {
   private final long timeoutMillis;
   private final boolean save;
 
-  @AssistedInject
+  @Inject
   PatchListLoader(
       GitRepositoryManager mgr,
       PatchListCache plc,

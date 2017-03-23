@@ -38,9 +38,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Bulk;
 import io.searchbox.core.Bulk.Builder;
@@ -76,7 +76,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   private final AccountMapping mapping;
   private final Provider<AccountCache> accountCache;
 
-  @AssistedInject
+  @Inject
   ElasticAccountIndex(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,

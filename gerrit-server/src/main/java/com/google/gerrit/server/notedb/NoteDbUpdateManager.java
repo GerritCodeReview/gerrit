@@ -43,9 +43,9 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -206,7 +206,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private String refLogMessage;
   private PersonIdent refLogIdent;
 
-  @AssistedInject
+  @Inject
   NoteDbUpdateManager(
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       GitRepositoryManager repoManager,

@@ -376,6 +376,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
       Set<Change.Id> changeIds = new HashSet<>();
       for (ReceiveCommand cmd : changeRepo.getCommandsSnapshot()) {
         Change.Id changeId = Change.Id.fromRef(cmd.getRefName());
+        if (changeId == null) {
+          // Not a meta ref update, likely due to a repo update along with the change meta update.
+          continue;
+        }
         changeIds.add(changeId);
         Optional<ObjectId> metaId = Optional.of(cmd.getNewId());
         staged.put(

@@ -166,6 +166,30 @@
       "revId": "c39e251f815c417a08dff7400ba12bd418cc44ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26f856bd_65f1d1c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_144.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-24T09:01:16Z",
+      "side": 1,
+      "message": "Yes, it\u0027s definitely on my backlog :-) I like the WIP concept a lot. My question on the migration path was: if we are planning to allow Draft to WIP migration BUT we do migrate now all Draft as Private ... how would I be able to recognise the \"Private migrated\" so that I can move them to WIP?\n\nP.S. Please note that GerritHub.io is kept up to date with master, so once the Schema change is merged, we apply it to GerritHub.io *before* the 2.15 release.",
+      "parentUuid": "d5e0b498_96268596",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 70
+      },
+      "revId": "c39e251f815c417a08dff7400ba12bd418cc44ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

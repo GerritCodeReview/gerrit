@@ -397,8 +397,14 @@ the currently active account.  This is disabled by default except when
 the "Switch Account" link is displayed next to "Sign Out".
 +
 When `auth.type` does not normally enable this URL administrators may
-set this to `login/` or `$canonicalWebUrl/login`, allowing users to
-begin a new web session.
+set this to `login/`, allowing users to begin a new web session. This value
+is used as an href in PolyGerrit and the GWT UI, so absolute URLs like
+`https://someotherhost/login` work as well.
++
+If a ${path} parameter is included, then PolyGerrit will substitute the
+currently viewed path in the link. Be aware that this path will include
+a leading slash, so a value like this might be appropriate: `/login${path}`.
+Note: in the GWT UI this substitution for ${path} is *always* `/`.
 
 [[auth.cookiePath]]auth.cookiePath::
 +

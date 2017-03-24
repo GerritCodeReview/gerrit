@@ -52,8 +52,9 @@ public class UserPopupPanel extends PopupPanel {
       userEmail.setText(account.email());
     }
     if (showSettingsLink) {
-      if (Gerrit.info().auth().switchAccountUrl() != null) {
-        switchAccount.setHref(Gerrit.info().auth().switchAccountUrl());
+      String switchAccountUrl = Gerrit.info().auth().switchAccountUrl();
+      if (switchAccountUrl != null) {
+        switchAccount.setHref(switchAccountUrl.replace("${path}", "/"));
       } else if (Gerrit.info().auth().isDev() || Gerrit.info().auth().isOpenId()) {
         switchAccount.setHref(Gerrit.selfRedirect("/login"));
       } else {

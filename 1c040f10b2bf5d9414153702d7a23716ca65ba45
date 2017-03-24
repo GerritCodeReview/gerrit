@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8165394e_d890450e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2088,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-24T07:23:14Z",
+      "side": 1,
+      "message": "nit: these titles should be written in normal casing, i.e.  \"Set Work-In-Progress\" etc.",
+      "range": {
+        "startLine": 2088,
+        "startChar": 3,
+        "endLine": 2088,
+        "endChar": 20
+      },
+      "revId": "1c040f10b2bf5d9414153702d7a23716ca65ba45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

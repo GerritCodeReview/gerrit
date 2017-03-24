@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a478973_2459620b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdsUpdate.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-24T11:40:48Z",
+      "side": 0,
+      "message": "Not related to this commit: @FunctionalInterface annotation is missing.",
+      "range": {
+        "startLine": 590,
+        "startChar": 2,
+        "endLine": 590,
+        "endChar": 40
+      },
+      "revId": "aae6da8e9141a6077d6f0c9d9c1c4877501245e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

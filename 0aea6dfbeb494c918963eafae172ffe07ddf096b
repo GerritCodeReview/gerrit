@@ -70,6 +70,24 @@
       "revId": "0aea6dfbeb494c918963eafae172ffe07ddf096b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfa21a95_8e4172ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-24T16:12:57Z",
+      "side": 1,
+      "message": "Why do you still need noCancelOnEscKey then?\nShouldn\u0027t gr-autocomplete just let esc bubble and rely on the container element to cancel when needed on esc?",
+      "parentUuid": "c88b6548_6f00dc82",
+      "revId": "0aea6dfbeb494c918963eafae172ffe07ddf096b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

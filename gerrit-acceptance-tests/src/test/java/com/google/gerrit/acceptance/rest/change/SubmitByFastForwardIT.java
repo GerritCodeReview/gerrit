@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.common.collect.Iterables;
@@ -145,6 +146,9 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
   @Test
   public void repairChangeStateAfterFailure() throws Exception {
+    // In NoteDb-only mode, repo and meta updates are atomic (at least in InMemoryRepository).
+    assume().that(notesMigration.disableChangeReviewDb()).isFalse();
+
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     Change.Id id = change.getChange().getId();
     SubmitInput failAfterRefUpdates = new TestSubmitInput(new SubmitInput(), true);

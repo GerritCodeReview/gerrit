@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0fc28bdb_078a38cd",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-24T00:38:24Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "881afef0_de1e9f5f",
+      "range": {
+        "startLine": 2067,
+        "startChar": 0,
+        "endLine": 2067,
+        "endChar": 109
+      },
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37053dbb_43160492",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2017-03-23T17:48:25Z",
       "side": 1,
       "message": "Why do you need to provide the commit message? Normally if you just type \"git cherry-pick\" you don\u0027t have to enter a new message, it will just take the old commit message.",
+      "range": {
+        "startLine": 2072,
+        "startChar": 0,
+        "endLine": 2072,
+        "endChar": 18
+      },
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e58626f_6c337af7",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2072,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-24T00:38:24Z",
+      "side": 1,
+      "message": "git cherry-pick doesn\u0027t require you to enter a commit message, but you can amend the commit message before pushing.\n\nSo having it as an input allows the caller to change the commit message before the change is created, rather than creating the change and then having to upload a new patch set with the edited message.\n\nWhen the endpoint is called from the UI it gets pre-populated with the commit message of the source change/commit and appended with the \"cherry picked from ...\" string.  The caller can also add other information if they want to.  This is the same as it is in the existing endpoint which cherry-picks from an existing change.\n\nMaybe it would be better to make it optional, and if not set just default to the source commit message?",
+      "parentUuid": "37053dbb_43160492",
       "range": {
         "startLine": 2072,
         "startChar": 0,

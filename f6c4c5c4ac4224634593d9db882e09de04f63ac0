@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1490292246 -0700\nnonce AIcUUg8Fv1uu/waXeW4+uTZOx+AfbnW2qWo+IBvm5kCLlU6/YTF5gfgvZtTmfup/imC7eBzPkN3H\n\n0000000000000000000000000000000000000000 f6c4c5c4ac4224634593d9db882e09de04f63ac0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJY1A4dAAoJEF/XxZqaEoiMDmcQALPQBs9mJHUxzvFBAyV7iWmA\n6YrCz9QF2I9DmdksU4rN4xmRKN4oZRvzOf2AMFC6XTXkd2z95oiFC5b5hPSA3mxv\nw4dwNRzj+CF+oiQCJswmmNmIPW77FBIkQNtwuOCjkLVD+rF5zDtrW+zKah/WCYE3\niuH1/LlKX9Dgpkjj8/jOInB9xNrKUHyQlAxqquCZSTmdIo0G1aDr6PRjlfdOWO5q\nn1eYwdZf4/jeI7Tpz9v0Aith7CuwgTlMG2bNHrX8wsjUFZCmxbMpMFUq8tu4SQpy\nA0DUpQl+9WF/pDug2jTPlzPeqlkkhqqVWMv4N/R/Ym856yp1gNkJntJDfUdTg7r6\n2Py8YN8h3DrVt7Hrm5TvPY4l9AAEEFvo72g+6iwCkW8UwdCKOXKmH+Sa61759oXq\nEIsIGVt047ewJHZxes2lwWImJRLqmAGLW316U6eja+EsQGe2Y1BlGwTsDdSpISeK\nt9Fcrlib5WiHEdHSC7jSZKkhMZuOBmao8rVCz1qmRuEkwvM//Clpek6apQGC8jDQ\nzcGUPSeHqSPDuJNHcIjTIwQc3CaRVZkD0qBtBppOGI5eqqcXrgdl/uhwNoRXrMyc\n3Sc5HQjUr6COvh2vLXnOY5bPnpjvPjIpPjQxS307r2WiuaP5MkmaN3Mi1zuRksUY\nGQJQ+GmkLlcRq571iY0l\n\u003dOj4U\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd167154_43877fc9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-24T07:22:24Z",
+      "side": 1,
+      "message": "Is this the reason why we no longer check if changes updates can be executed in parallel?",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 67
+      },
+      "revId": "f6c4c5c4ac4224634593d9db882e09de04f63ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79af04e0_40028b82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-24T07:22:24Z",
+      "side": 1,
+      "message": "Why don\u0027t we need thread local versions of repo and rev walk anymore? Because updates are no longer done in parallel?",
+      "revId": "f6c4c5c4ac4224634593d9db882e09de04f63ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

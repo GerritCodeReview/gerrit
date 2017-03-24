@@ -168,6 +168,12 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
 
     void flush() throws IOException {
+      flushToFinalInserter();
+      finalIns.flush();
+      tempIns.clear();
+    }
+
+    void flushToFinalInserter() throws IOException {
       checkState(finalIns != null);
       for (InsertedObject obj : tempIns.getInsertedObjects()) {
         finalIns.insert(obj.type(), obj.data().toByteArray());
@@ -317,7 +323,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
     return changeUpdates.isEmpty()
         && draftUpdates.isEmpty()
         && robotCommentUpdates.isEmpty()
-        && toDelete.isEmpty();
+        && toDelete.isEmpty()
+        && !hasCommands(changeRepo)
+        && !hasCommands(allUsersRepo);
+  }
+
+  private static boolean hasCommands(@Nullable OpenRepo or) {
+    return or != null && !or.cmds.isEmpty();
   }
 
   /**
@@ -385,6 +397,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
       Set<Change.Id> changeIds = new HashSet<>();
       for (ReceiveCommand cmd : changeRepo.getCommandsSnapshot()) {
         Change.Id changeId = Change.Id.fromRef(cmd.getRefName());
+        if (changeId == null || !cmd.getRefName().equals(RefNames.changeMetaRef(changeId))) {
+          // Not a meta ref update, likely due to a repo update along with the change meta update.
+          continue;
+        }
         changeIds.add(changeId);
         Optional<ObjectId> metaId = Optional.of(cmd.getNewId());
         staged.put(
@@ -450,13 +466,19 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
   }
 
-  public void execute() throws OrmException, IOException {
+  @Nullable
+  public BatchRefUpdate execute() throws OrmException, IOException {
+    return execute(false);
+  }
+
+  @Nullable
+  public BatchRefUpdate execute(boolean dryrun) throws OrmException, IOException {
     // Check before even inspecting the list, as this is a programmer error.
     if (migration.failChangeWrites()) {
       throw new OrmException(CHANGES_READ_ONLY);
     }
     if (isEmpty()) {
-      return;
+      return null;
     }
     try (Timer1.Context timer = metrics.updateLatency.start(CHANGES)) {
       stage();
@@ -468,36 +490,47 @@ public class NoteDbUpdateManager implements AutoCloseable {
       // we may have stale draft comments. Doing it in this order allows stale
       // comments to be filtered out by ChangeNotes, reflecting the fact that
       // comments can only go from DRAFT to PUBLISHED, not vice versa.
-      execute(changeRepo);
-      execute(allUsersRepo);
+      BatchRefUpdate result = execute(changeRepo, dryrun);
+      execute(allUsersRepo, dryrun);
+      return result;
     } finally {
       close();
     }
   }
 
-  private void execute(OpenRepo or) throws IOException {
+  private BatchRefUpdate execute(OpenRepo or, boolean dryrun) throws IOException {
     if (or == null || or.cmds.isEmpty()) {
-      return;
+      return null;
     }
-    or.flush();
+    if (!dryrun) {
+      or.flush();
+    } else {
+      // OpenRepo buffers objects separately; caller may assume that objects are available in the
+      // inserter it previously passed via setChangeRepo.
+      or.flushToFinalInserter();
+    }
+
     BatchRefUpdate bru = or.repo.getRefDatabase().newBatchUpdate();
     bru.setRefLogMessage(firstNonNull(refLogMessage, "Update NoteDb refs"), false);
     bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent.get());
     or.cmds.addTo(bru);
     bru.setAllowNonFastForwards(true);
-    bru.execute(or.rw, NullProgressMonitor.INSTANCE);
 
-    boolean lockFailure = false;
-    for (ReceiveCommand cmd : bru.getCommands()) {
-      if (cmd.getResult() == ReceiveCommand.Result.LOCK_FAILURE) {
-        lockFailure = true;
-      } else if (cmd.getResult() != ReceiveCommand.Result.OK) {
-        throw new IOException("Update failed: " + bru);
+    if (!dryrun) {
+      bru.execute(or.rw, NullProgressMonitor.INSTANCE);
+      boolean lockFailure = false;
+      for (ReceiveCommand cmd : bru.getCommands()) {
+        if (cmd.getResult() == ReceiveCommand.Result.LOCK_FAILURE) {
+          lockFailure = true;
+        } else if (cmd.getResult() != ReceiveCommand.Result.OK) {
+          throw new IOException("Update failed: " + bru);
+        }
+      }
+      if (lockFailure) {
+        throw new LockFailureException("Update failed with one or more lock failures: " + bru);
       }
     }
-    if (lockFailure) {
-      throw new LockFailureException("Update failed with one or more lock failures: " + bru);
-    }
+    return bru;
   }
 
   private void addCommands() throws OrmException, IOException {

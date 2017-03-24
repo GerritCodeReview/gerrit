@@ -37,7 +37,12 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.config.ConsistencyCheck;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -76,6 +81,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
+import org.eclipse.jgit.util.MutableInteger;
 import org.junit.Test;
 
 @Sandboxed
@@ -182,12 +188,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
 
     // different case email is allowed
-    ExternalId newExtId =
-        ExternalId.createWithPassword(
-            ExternalId.Key.parse("foo:bar"),
-            admin.id,
-            admin.email.toUpperCase(Locale.US),
-            "password");
+    ExternalId newExtId = createExternalIdWithOtherCaseEmail("foo:bar");
     addExtId(allUsersRepo, newExtId);
     allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
 
@@ -203,19 +204,34 @@ public class ExternalIdIT extends AbstractDaemonTest {
             Iterables.concat(extIdsBefore, ImmutableSet.of(toExternalIdInfo(newExtId))));
   }
 
+  private ExternalId createExternalIdWithOtherCaseEmail(String externalId) {
+    return ExternalId.createWithPassword(
+        ExternalId.Key.parse(externalId), admin.id, admin.email.toUpperCase(Locale.US), "password");
+  }
+
   @Test
   public void pushToExternalIdsBranchRejectsExternalIdWithoutAccountId() throws Exception {
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
     allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
 
-    ObjectId rev = ExternalIdReader.readRevision(allUsersRepo.getRepository());
+    insertExternalIdWithoutAccountId(
+        allUsersRepo.getRepository(), allUsersRepo.getRevWalk(), "foo:bar");
+    allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
 
-    NoteMap noteMap = ExternalIdReader.readNoteMap(allUsersRepo.getRevWalk(), rev);
+    allowPushOfExternalIds();
+    PushResult r = pushHead(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
+    assertRefUpdateFailure(r.getRemoteUpdate(RefNames.REFS_EXTERNAL_IDS), "invalid external IDs");
+  }
 
-    ExternalId extId = ExternalId.create(ExternalId.Key.parse("foo:bar"), admin.id);
+  private String insertExternalIdWithoutAccountId(Repository repo, RevWalk rw, String externalId)
+      throws IOException {
+    ObjectId rev = ExternalIdReader.readRevision(repo);
+    NoteMap noteMap = ExternalIdReader.readNoteMap(rw, rev);
 
-    try (ObjectInserter ins = allUsersRepo.getRepository().newObjectInserter()) {
+    ExternalId extId = ExternalId.create(ExternalId.Key.parse(externalId), admin.id);
+
+    try (ObjectInserter ins = repo.newObjectInserter()) {
       ObjectId noteId = extId.key().sha1();
       Config c = new Config();
       extId.writeToConfig(c);
@@ -225,20 +241,9 @@ public class ExternalIdIT extends AbstractDaemonTest {
       noteMap.set(noteId, dataBlob);
 
       ExternalIdsUpdate.commit(
-          allUsersRepo.getRepository(),
-          allUsersRepo.getRevWalk(),
-          ins,
-          rev,
-          noteMap,
-          "Add external ID",
-          admin.getIdent(),
-          admin.getIdent());
-      allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
+          repo, rw, ins, rev, noteMap, "Add external ID", admin.getIdent(), admin.getIdent());
+      return noteId.getName();
     }
-
-    allowPushOfExternalIds();
-    PushResult r = pushHead(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
-    assertRefUpdateFailure(r.getRemoteUpdate(RefNames.REFS_EXTERNAL_IDS), "invalid external IDs");
   }
 
   @Test
@@ -248,14 +253,24 @@ public class ExternalIdIT extends AbstractDaemonTest {
     fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
     allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
 
-    ObjectId rev = ExternalIdReader.readRevision(allUsersRepo.getRepository());
+    insertExternalIdWithKeyThatDoesntMatchNoteId(
+        allUsersRepo.getRepository(), allUsersRepo.getRevWalk(), "foo:bar");
+    allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
 
-    NoteMap noteMap = ExternalIdReader.readNoteMap(allUsersRepo.getRevWalk(), rev);
+    allowPushOfExternalIds();
+    PushResult r = pushHead(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
+    assertRefUpdateFailure(r.getRemoteUpdate(RefNames.REFS_EXTERNAL_IDS), "invalid external IDs");
+  }
 
-    ExternalId extId = ExternalId.create(ExternalId.Key.parse("foo:bar"), admin.id);
+  private String insertExternalIdWithKeyThatDoesntMatchNoteId(
+      Repository repo, RevWalk rw, String externalId) throws IOException {
+    ObjectId rev = ExternalIdReader.readRevision(repo);
+    NoteMap noteMap = ExternalIdReader.readNoteMap(rw, rev);
 
-    try (ObjectInserter ins = allUsersRepo.getRepository().newObjectInserter()) {
-      ObjectId noteId = ExternalId.Key.parse("other:baz").sha1();
+    ExternalId extId = ExternalId.create(ExternalId.Key.parse(externalId), admin.id);
+
+    try (ObjectInserter ins = repo.newObjectInserter()) {
+      ObjectId noteId = ExternalId.Key.parse(externalId + "x").sha1();
       Config c = new Config();
       extId.writeToConfig(c);
       byte[] raw = c.toText().getBytes(UTF_8);
@@ -263,20 +278,9 @@ public class ExternalIdIT extends AbstractDaemonTest {
       noteMap.set(noteId, dataBlob);
 
       ExternalIdsUpdate.commit(
-          allUsersRepo.getRepository(),
-          allUsersRepo.getRevWalk(),
-          ins,
-          rev,
-          noteMap,
-          "Add external ID",
-          admin.getIdent(),
-          admin.getIdent());
-      allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
+          repo, rw, ins, rev, noteMap, "Add external ID", admin.getIdent(), admin.getIdent());
+      return noteId.getName();
     }
-
-    allowPushOfExternalIds();
-    PushResult r = pushHead(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
-    assertRefUpdateFailure(r.getRemoteUpdate(RefNames.REFS_EXTERNAL_IDS), "invalid external IDs");
   }
 
   @Test
@@ -285,59 +289,73 @@ public class ExternalIdIT extends AbstractDaemonTest {
     fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
     allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
 
-    ObjectId rev = ExternalIdReader.readRevision(allUsersRepo.getRepository());
-
-    NoteMap noteMap = ExternalIdReader.readNoteMap(allUsersRepo.getRevWalk(), rev);
-
-    try (ObjectInserter ins = allUsersRepo.getRepository().newObjectInserter()) {
-      ObjectId noteId = ExternalId.Key.parse("foo:bar").sha1();
-      byte[] raw = "bad-config".getBytes(UTF_8);
-      ObjectId dataBlob = ins.insert(OBJ_BLOB, raw);
-      noteMap.set(noteId, dataBlob);
-
-      ExternalIdsUpdate.commit(
-          allUsersRepo.getRepository(),
-          allUsersRepo.getRevWalk(),
-          ins,
-          rev,
-          noteMap,
-          "Add external ID",
-          admin.getIdent(),
-          admin.getIdent());
-      allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
-    }
+    insertExternalIdWithInvalidConfig(
+        allUsersRepo.getRepository(), allUsersRepo.getRevWalk(), "foo:bar");
+    allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
 
     allowPushOfExternalIds();
     PushResult r = pushHead(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
     assertRefUpdateFailure(r.getRemoteUpdate(RefNames.REFS_EXTERNAL_IDS), "invalid external IDs");
   }
 
+  private String insertExternalIdWithInvalidConfig(Repository repo, RevWalk rw, String externalId)
+      throws IOException {
+    ObjectId rev = ExternalIdReader.readRevision(repo);
+    NoteMap noteMap = ExternalIdReader.readNoteMap(rw, rev);
+
+    try (ObjectInserter ins = repo.newObjectInserter()) {
+      ObjectId noteId = ExternalId.Key.parse(externalId).sha1();
+      byte[] raw = "bad-config".getBytes(UTF_8);
+      ObjectId dataBlob = ins.insert(OBJ_BLOB, raw);
+      noteMap.set(noteId, dataBlob);
+
+      ExternalIdsUpdate.commit(
+          repo, rw, ins, rev, noteMap, "Add external ID", admin.getIdent(), admin.getIdent());
+      return noteId.getName();
+    }
+  }
+
   @Test
   public void pushToExternalIdsBranchRejectsExternalIdForNonExistingAccount() throws Exception {
     testPushToExternalIdsBranchRejectsInvalidExternalId(
-        ExternalId.create(ExternalId.Key.parse("foo:bar"), new Account.Id(1)));
+        createExternalIdForNonExistingAccount("foo:bar"));
+  }
+
+  private ExternalId createExternalIdForNonExistingAccount(String externalId) {
+    return ExternalId.create(ExternalId.Key.parse(externalId), new Account.Id(1));
   }
 
   @Test
   public void pushToExternalIdsBranchRejectsExternalIdWithInvalidEmail() throws Exception {
     testPushToExternalIdsBranchRejectsInvalidExternalId(
-        ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id, "invalid-email"));
+        createExternalIdWithInvalidEmail("foo:bar"));
+  }
+
+  private ExternalId createExternalIdWithInvalidEmail(String externalId) {
+    return ExternalId.createWithEmail(ExternalId.Key.parse(externalId), admin.id, "invalid-email");
   }
 
   @Test
   public void pushToExternalIdsBranchRejectsDuplicateEmails() throws Exception {
     testPushToExternalIdsBranchRejectsInvalidExternalId(
-        ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id, admin.email));
+        createExternalIdWithDuplicateEmail("foo:bar"));
+  }
+
+  private ExternalId createExternalIdWithDuplicateEmail(String externalId) {
+    return ExternalId.createWithEmail(ExternalId.Key.parse(externalId), admin.id, admin.email);
   }
 
   @Test
   public void pushToExternalIdsBranchRejectsBadPassword() throws Exception {
-    testPushToExternalIdsBranchRejectsInvalidExternalId(
-        ExternalId.create(
-            ExternalId.Key.create(SCHEME_USERNAME, "foo"),
-            admin.id,
-            null,
-            "non-hashed-password-is-not-allowed"));
+    testPushToExternalIdsBranchRejectsInvalidExternalId(createExternalIdWithBadPassword("foo"));
+  }
+
+  private ExternalId createExternalIdWithBadPassword(String username) {
+    return ExternalId.create(
+        ExternalId.Key.create(SCHEME_USERNAME, username),
+        admin.id,
+        null,
+        "non-hashed-password-is-not-allowed");
   }
 
   private void testPushToExternalIdsBranchRejectsInvalidExternalId(ExternalId invalidExtId)
@@ -352,6 +370,119 @@ public class ExternalIdIT extends AbstractDaemonTest {
     allowPushOfExternalIds();
     PushResult r = pushHead(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
     assertRefUpdateFailure(r.getRemoteUpdate(RefNames.REFS_EXTERNAL_IDS), "invalid external IDs");
+  }
+
+  @Test
+  public void checkConsistency() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    resetCurrentApiUser();
+
+    MutableInteger i = new MutableInteger();
+    ExternalIdsUpdate u = extIdsUpdate.create();
+
+    // create valid external IDs
+    u.insert(
+        ExternalId.createWithPassword(
+            ExternalId.Key.parse(nextId(i)),
+            admin.id,
+            "admin.other@example.com",
+            "secret-password"));
+    u.insert(createExternalIdWithOtherCaseEmail(nextId(i)));
+
+    ConsistencyCheckInput input = new ConsistencyCheckInput(ConsistencyCheck.ACCOUNT_EXTERNAL_IDS);
+    ConsistencyCheckInfo checkInfo = gApi.config().server().checkConsistency(input);
+    assertThat(checkInfo.results.get(ConsistencyCheck.ACCOUNT_EXTERNAL_IDS)).isEmpty();
+
+    // create invalid external IDs
+    Set<ConsistencyProblemInfo> expectedProblems = new HashSet<>();
+    try (Repository repo = repoManager.openRepository(allUsers);
+        RevWalk rw = new RevWalk(repo)) {
+      String externalId = nextId(i);
+      String noteId = insertExternalIdWithoutAccountId(repo, rw, externalId);
+      expectedProblems.add(
+          consistencyError(
+              "Invalid external ID config for note '"
+                  + noteId
+                  + "': Value for 'externalId."
+                  + externalId
+                  + ".accountId' is missing, expected account ID"));
+
+      externalId = nextId(i);
+      noteId = insertExternalIdWithKeyThatDoesntMatchNoteId(repo, rw, externalId);
+      expectedProblems.add(
+          consistencyError(
+              "The note ID '"
+                  + noteId
+                  + "' of external ID '"
+                  + externalId
+                  + "' doesn't match the SHA1 of the external ID key"));
+
+      noteId = insertExternalIdWithInvalidConfig(repo, rw, nextId(i));
+      expectedProblems.add(
+          consistencyError(
+              "Invalid external ID config for note '" + noteId + "': Invalid line in config file"));
+    }
+
+    ExternalId extIdForNonExistingAccount = createExternalIdForNonExistingAccount(nextId(i));
+    u.insert(extIdForNonExistingAccount);
+    expectedProblems.add(
+        consistencyError(
+            "External ID '"
+                + extIdForNonExistingAccount.key().get()
+                + "' belongs to account that doesn't exist: "
+                + extIdForNonExistingAccount.accountId().get()));
+
+    ExternalId extIdWithInvalidEmail = createExternalIdWithInvalidEmail(nextId(i));
+    u.insert(extIdWithInvalidEmail);
+    expectedProblems.add(
+        consistencyError(
+            "External ID '"
+                + extIdWithInvalidEmail.key().get()
+                + "' has an invalid email: "
+                + extIdWithInvalidEmail.email()));
+
+    ExternalId extIdWithDuplicateEmail = createExternalIdWithDuplicateEmail(nextId(i));
+    u.insert(extIdWithDuplicateEmail);
+    expectedProblems.add(
+        consistencyError(
+            "Email '"
+                + extIdWithDuplicateEmail.email()
+                + "' is not unique, it's used by the following external IDs: '"
+                + extIdWithDuplicateEmail.key().get()
+                + "', 'mailto:"
+                + extIdWithDuplicateEmail.email()
+                + "'"));
+
+    ExternalId extIdWithBadPassword = createExternalIdWithBadPassword("admin-username");
+    u.insert(extIdWithBadPassword);
+    expectedProblems.add(
+        consistencyError(
+            "External ID '"
+                + extIdWithBadPassword.key().get()
+                + "' has an invalid password: unrecognized algorithm"));
+
+    checkInfo = gApi.config().server().checkConsistency(input);
+    assertThat(checkInfo.results).hasSize(1);
+    assertThat(checkInfo.results.get(ConsistencyCheck.ACCOUNT_EXTERNAL_IDS)).hasSize(7);
+    assertThat(checkInfo.results.get(ConsistencyCheck.ACCOUNT_EXTERNAL_IDS))
+        .containsExactlyElementsIn(expectedProblems);
+  }
+
+  private ConsistencyProblemInfo consistencyError(String message) {
+    return new ConsistencyProblemInfo(ConsistencyProblemInfo.Status.ERROR, message);
+  }
+
+  @Test
+  public void checkConsistencyNotAllowed() throws Exception {
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to run consistency checks");
+    gApi.config()
+        .server()
+        .checkConsistency(new ConsistencyCheckInput(ConsistencyCheck.ACCOUNT_EXTERNAL_IDS));
+  }
+
+  private static String nextId(MutableInteger i) {
+    return "foo:bar" + ++i.value;
   }
 
   @Test

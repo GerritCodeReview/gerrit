@@ -40,6 +40,24 @@
       "revId": "f6c4c5c4ac4224634593d9db882e09de04f63ac0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52c068f1_0f4dfa44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-24T16:01:45Z",
+      "side": 1,
+      "message": "Correct. Parallelization was just an optimization to be able to fan out the ReviewDb reads/writes, which are all on different entity groups.\n\nThere is a slight possibility that reading large numbers of changes from NoteDb in parallel will be slow if there are lots of cache misses. Normally, though, we should have pretty good caching behavior. I believe in both ReceiveCommits and MergeOp (the two main cases that modify large numbers of changes) we have already loaded all affected changes in serial earlier in the request path, which should leave the cache pretty well populated.\n\nAt any rate, I do not want to reintroduce that kind of complication into this implementation until we have evidence that this is a real performance problem.",
+      "parentUuid": "79af04e0_40028b82",
+      "revId": "f6c4c5c4ac4224634593d9db882e09de04f63ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

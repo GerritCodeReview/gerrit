@@ -130,6 +130,7 @@ limitations under the License.
 
         var hideToastSpy = sandbox.spy(toast, 'hide');
 
+        element._handleWindowFocus();
         assert.isTrue(refreshStub.called);
         element.flushDebouncer('checkLoggedIn');
         flush(function() {

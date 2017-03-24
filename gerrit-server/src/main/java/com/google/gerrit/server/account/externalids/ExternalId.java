@@ -203,7 +203,7 @@ public abstract class ExternalId implements Serializable {
     String externalIdKeyStr = Iterables.getOnlyElement(externalIdKeys);
     Key externalIdKey = Key.parse(externalIdKeyStr);
     if (externalIdKey == null) {
-      throw invalidConfig(noteId, String.format("Invalid external id: %s", externalIdKeyStr));
+      throw invalidConfig(noteId, String.format("Invalid external ID: %s", externalIdKeyStr));
     }
 
     String accountIdStr =
@@ -235,7 +235,7 @@ public abstract class ExternalId implements Serializable {
 
   private static ConfigInvalidException invalidConfig(String noteId, String message) {
     return new ConfigInvalidException(
-        String.format("Invalid external id config for note %s: %s", noteId, message));
+        String.format("Invalid external ID config for note '%s': %s", noteId, message));
   }
 
   public abstract Key key();

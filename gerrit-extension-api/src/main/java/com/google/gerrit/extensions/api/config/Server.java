@@ -34,6 +34,8 @@ public interface Server {
 
   DiffPreferencesInfo setDefaultDiffPreferences(DiffPreferencesInfo in) throws RestApiException;
 
+  ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -66,6 +68,11 @@ public interface Server {
 
     @Override
     public DiffPreferencesInfo setDefaultDiffPreferences(DiffPreferencesInfo in) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) {
       throw new NotImplementedException();
     }
   }

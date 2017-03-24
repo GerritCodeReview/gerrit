@@ -3,11 +3,6 @@
 	url = ../plugins/commit-message-length-validator
 	branch = .
 
-[submodule "plugins/cookbook-plugin"]
-	path = plugins/cookbook-plugin
-	url = ../plugins/cookbook-plugin
-	branch = .
-
 [submodule "plugins/download-commands"]
 	path = plugins/download-commands
 	url = ../plugins/download-commands

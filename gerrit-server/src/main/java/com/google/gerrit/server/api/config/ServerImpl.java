@@ -15,11 +15,14 @@
 package com.google.gerrit.server.api.config;
 
 import com.google.gerrit.common.Version;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.config.CheckConsistency;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.GetDiffPreferences;
 import com.google.gerrit.server.config.GetPreferences;
@@ -27,6 +30,7 @@ import com.google.gerrit.server.config.GetServerInfo;
 import com.google.gerrit.server.config.SetDiffPreferences;
 import com.google.gerrit.server.config.SetPreferences;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -38,6 +42,7 @@ public class ServerImpl implements Server {
   private final GetDiffPreferences getDiffPreferences;
   private final SetDiffPreferences setDiffPreferences;
   private final GetServerInfo getServerInfo;
+  private final Provider<CheckConsistency> checkConsistency;
 
   @Inject
   ServerImpl(
@@ -45,12 +50,14 @@ public class ServerImpl implements Server {
       SetPreferences setPreferences,
       GetDiffPreferences getDiffPreferences,
       SetDiffPreferences setDiffPreferences,
-      GetServerInfo getServerInfo) {
+      GetServerInfo getServerInfo,
+      Provider<CheckConsistency> checkConsistency) {
     this.getPreferences = getPreferences;
     this.setPreferences = setPreferences;
     this.getDiffPreferences = getDiffPreferences;
     this.setDiffPreferences = setDiffPreferences;
     this.getServerInfo = getServerInfo;
+    this.checkConsistency = checkConsistency;
   }
 
   @Override
@@ -102,6 +109,15 @@ public class ServerImpl implements Server {
       return setDiffPreferences.apply(new ConfigResource(), in);
     } catch (IOException | ConfigInvalidException e) {
       throw new RestApiException("Cannot set default diff preferences", e);
+    }
+  }
+
+  @Override
+  public ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) throws RestApiException {
+    try {
+      return checkConsistency.get().apply(new ConfigResource(), in);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot check consistency", e);
     }
   }
 }

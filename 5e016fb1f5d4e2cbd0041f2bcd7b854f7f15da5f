@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "541a27cb_6ef0f282",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-24T10:22:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3bbb1b7_26272758",
+      "revId": "5e016fb1f5d4e2cbd0041f2bcd7b854f7f15da5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fccecff_9e3a4d82",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "5e016fb1f5d4e2cbd0041f2bcd7b854f7f15da5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4afa1c59_8adec4cd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-24T10:22:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fccecff_9e3a4d82",
+      "revId": "5e016fb1f5d4e2cbd0041f2bcd7b854f7f15da5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

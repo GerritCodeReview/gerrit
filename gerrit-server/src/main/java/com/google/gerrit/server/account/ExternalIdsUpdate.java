@@ -587,6 +587,7 @@ public class ExternalIdsUpdate {
     return ins.insert(OBJ_TREE, new byte[] {});
   }
 
+  @FunctionalInterface
   private static interface MyConsumer<T> {
     void accept(T t) throws IOException, ConfigInvalidException, OrmException;
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35286f91_78c37239",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-24T15:09:38Z",
+      "side": 1,
+      "message": "(Following up on the comment from the other IT file that was now deleted.)\n\nYou\u0027re correct that the ChangeInfo returned by CherryPickCommit doesn\u0027t include the full commit message. But you can get this from the API;\n\n changeInfo \u003d gApi.changes()\n      .id(projct.get(), input.destination, changeInfo.id)\n      .get(EnumSet.of(ListChangesOption.CURRENT_COMMIT));\n CommitInfo commitInfo \u003d changeInfo.revisions.get(changeInfo.currentRevision).commit;\n assertThat(commitInfo.message).isEqualTo(...)",
+      "revId": "c60345bf87664d08aafadff282ee67e08f2b1099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

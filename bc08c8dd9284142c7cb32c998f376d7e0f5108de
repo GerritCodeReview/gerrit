@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1490338722 +0100\nnonce AIcUUg/ZVVAjr5LTWBPwZxqBOGRvPmcEYfhucZJ/7fxCtWHf+apkpuU319jOEMmtRA3wSyquwdzg\n\n0000000000000000000000000000000000000000 8b5580ca7c50a6ac6723f2c5a8e1f35796945ef4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY1MOiAAoJEFG1/Zeg0O9RWYkH/ipxKSJHi9ZCGammWHxt3eHY\nwWVtk/9aK78ylHeg1NeqfbH9u/jT0HUeU47bEaf1kpce6vagopuC9DnJsJKiqdEA\nFx83sGXCfAmB8y9HiOkJSfRH1FFwwPbSUZSajGJvVqz8sfEKYGyJS86fFREUScCB\nFSQHTglrBvcdG9DdKIIcw6P2Xns0+hwv3Urr8qpP39Q2x5RfbvGuY6RYd06yjYNT\nsYPCwHAiMCZISl8ilCixWFokTiCQHp86gtTC1e4/3Q/WsAJwXanSER2oql79ozcY\nGPu0hQazITaozQdXz+ecjUvFD1WABkErK9zCE5x5XeEZ2C9dSRFybzYfa3BWLVc\u003d\n\u003dETM+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d0e3708_68f7278f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-24T07:17:49Z",
+      "side": 1,
+      "message": "Why are you doing this now with explicit select? What was wrong with the base version:\n\n  List\u003cAccountExternalId\u003e newIds \u003d db.accountExternalIds().all().toList();",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 92
+      },
+      "revId": "bc08c8dd9284142c7cb32c998f376d7e0f5108de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69ccfd06_49211ec2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-24T07:17:49Z",
+      "side": 1,
+      "message": "The new version is all about optimization? We are talking about number of thousands of users (\u003c 10k). Is that makes really a difference?",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 70,
+        "endChar": 11
+      },
+      "revId": "bc08c8dd9284142c7cb32c998f376d7e0f5108de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

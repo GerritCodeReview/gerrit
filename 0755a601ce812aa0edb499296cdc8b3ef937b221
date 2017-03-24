@@ -52,6 +52,24 @@
       "revId": "0755a601ce812aa0edb499296cdc8b3ef937b221",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8611cdb_643ecb6f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-24T17:39:24Z",
+      "side": 1,
+      "message": "I\u0027m fairly certain the cancel event was named that way in the autocomplete on purpose for this exact case. I could just change the name of the event and add handlers everywhere that \u0027cancel\u0027 was supposed to bubble up to fire the proper event, or change the listener to listen for \u0027dismiss-autocomplete\u0027. It seems like in most cases the cancel event isn\u0027t even explicitly listened for anyway.\n\nI\u0027m a bit afraid of the unintended consequences of renaming an event, as there doesn\u0027t seem to be any simple way of seeing everything that listens for this event. It also seems like much more code, because this is the only case (at least so far) that we even want to disable the cancel event.",
+      "parentUuid": "1810fa92_93c3aefb",
+      "revId": "0755a601ce812aa0edb499296cdc8b3ef937b221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

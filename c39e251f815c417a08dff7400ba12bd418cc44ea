@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f51a3555_e8196e13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_144.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-24T07:31:23Z",
+      "side": 1,
+      "message": "@Edwin, @Logan: would you agree with this migration path? (Not sure, how to do it zero-downtime capable, though?).\n\nThe idea is to get rid of draft workflow already now (before Chromium launch) and not need to rebase this change all the time. Once WIP feature is ready, we could consider to adjust this migration path and make it configurable. How is that sounds? (Of course, for that, the draft workflow would need to be removed from PG UI, as indicated in the commit message).\n\nI really don\u0027t like the idea of removal of draft patch sets for regular changes during migration, as we cannot replace it with edits. There can be number of draft patch sets per regular change, but only one edit per change is currently supported. I would clearly prefer publishing of draft patch sets over removal. I think this change already does that, as draft bit is removed in patch set without any repacement.",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 70
+      },
+      "revId": "c39e251f815c417a08dff7400ba12bd418cc44ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d236b50_1788b047",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-24T16:11:24Z",
+      "side": 1,
+      "message": "So, gr-reply cancels on esc, but the gr-overlay that wraps gr-reply in change-view has no-cancel-on-esc-key.\nIn which cases gr-reply shouldn\u0027t close on esc?",
+      "revId": "0755a601ce812aa0edb499296cdc8b3ef937b221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

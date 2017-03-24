@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
@@ -42,6 +43,7 @@ import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -655,6 +657,30 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(reviewerResult.ccs).hasSize(1);
   }
 
+  @Test
+  public void removingReviewerRemovesTheirVote() throws Exception {
+    String crLabel = "Code-Review";
+    PushOneCommit.Result r = createChange();
+    ReviewInput input = ReviewInput.approve().reviewer(admin.email);
+    ReviewResult addResult = review(r.getChangeId(), r.getCommit().name(), input);
+    assertThat(addResult.reviewers).isNotNull();
+    assertThat(addResult.reviewers).hasSize(1);
+
+    Map<String, LabelInfo> changeLabels = getChangeLabels(r.getChangeId());
+    assertThat(changeLabels.get(crLabel).all).hasSize(1);
+
+    RestResponse deleteResult = deleteReviewer(r.getChangeId(), admin);
+    deleteResult.assertNoContent();
+
+    changeLabels = getChangeLabels(r.getChangeId());
+    assertThat(changeLabels.get(crLabel).all).isNull();
+
+    // Check that the vote is gone even after the reviewer is added back
+    addReviewer(r.getChangeId(), admin.email);
+    changeLabels = getChangeLabels(r.getChangeId());
+    assertThat(changeLabels.get(crLabel).all).isNull();
+  }
+
   private AddReviewerResult addReviewer(String changeId, String reviewer) throws Exception {
     return addReviewer(changeId, reviewer, SC_OK);
   }
@@ -734,5 +760,9 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
           accounts.create(name("u" + i), emailPrefix + "-" + i + "@example.com", "Full Name " + i));
     }
     return result;
+  }
+
+  private Map<String, LabelInfo> getChangeLabels(String changeId) throws Exception {
+    return gApi.changes().id(changeId).get(EnumSet.of(DETAILED_LABELS)).labels;
   }
 }

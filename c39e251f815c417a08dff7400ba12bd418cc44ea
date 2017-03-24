@@ -70,6 +70,30 @@
       "revId": "c39e251f815c417a08dff7400ba12bd418cc44ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47189906_eb51f590",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_144.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-24T08:36:05Z",
+      "side": 1,
+      "message": "We have two options then: just say \"draft changes aren\u0027t supported anymore, get rid of them, full stop\". Then, in this case, we just abandon or remove them upon migration.\n\nOr we may say \"draft changes workflow have now been managed through the WIP concept\" and thus we need a migration path from draft changes to WIP.\n\nDraft and Private are different, let\u0027s now mix them to avoid confusion IMHO.",
+      "parentUuid": "aa25ebd7_16922b79",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 70
+      },
+      "revId": "c39e251f815c417a08dff7400ba12bd418cc44ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

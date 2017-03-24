@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "7edb108e_ae420de2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-24T16:30:18Z",
+      "side": 1,
+      "message": "Skip this entire block if the current read index doesn\u0027t contain the reviewer by email field.",
+      "range": {
+        "startLine": 1184,
+        "startChar": 4,
+        "endLine": 1189,
+        "endChar": 5
+      },
+      "revId": "30814a2cc8fc96511d9b3e75fc92e6509e800a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e37c3bb5_4db7883a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 2

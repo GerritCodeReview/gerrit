@@ -583,8 +583,8 @@ maven_jar(
 
 maven_jar(
     name = "dropwizard_core",
-    artifact = "io.dropwizard.metrics:metrics-core:3.2.1",
-    sha1 = "f453a6b2660c369c62b83ded443391ae1bfd23a0",
+    artifact = "io.dropwizard.metrics:metrics-core:3.2.2",
+    sha1 = "cd9886f498ee2ab2d994f0c779e5553b2c450416",
 )
 
 # This version must match the version that also appears in

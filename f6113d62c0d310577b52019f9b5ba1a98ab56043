@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "6ebca9c1_301341ea",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-24T22:26:25Z",
+      "side": 1,
+      "message": "FWIW whenever I am tempted to do anything beyond exception.expect(SomeException.class), I just use try/catch and use Truth on the caught exception.",
+      "parentUuid": "1360b811_8d9618ea",
+      "range": {
+        "startLine": 236,
+        "startChar": 52,
+        "endLine": 236,
+        "endChar": 53
+      },
+      "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32a72107_eac3d2b3",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewerInfo.java",
         "patchSetId": 3
@@ -319,6 +343,30 @@
       "side": 1,
       "message": "Done. AFAIC they should always be removable. I\u0027ve added the code for this.",
       "parentUuid": "8ff741c5_93102cec",
+      "range": {
+        "startLine": 1080,
+        "startChar": 15,
+        "endLine": 1080,
+        "endChar": 25
+      },
+      "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a97fab74_8991c35e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-24T22:26:25Z",
+      "side": 1,
+      "message": "Correct, the only reason you need to check permissions is because removing a reviewer removes all their votes. But emails can\u0027t vote, only accounts can vote.",
+      "parentUuid": "a1bca7cd_b9f6bb44",
       "range": {
         "startLine": 1080,
         "startChar": 15,

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8a65a7d9_57949f2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-24T13:24:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37b703d9_c5a53b40",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0eb408f5_c84723cc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf62eda2_f9b89f70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-24T13:24:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eb408f5_c84723cc",
+      "range": {
+        "startLine": 14,
+        "startChar": 16,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "272bb5b1_0c7db3bb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2776,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-24T13:24:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b4ab473_03eaebb5",
+      "range": {
+        "startLine": 2776,
+        "startChar": 0,
+        "endLine": 2776,
+        "endChar": 4
+      },
+      "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56036a80_5ff0d2a6",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "5b1f42c7_3af8921a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2778,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-24T13:24:08Z",
+      "side": 1,
+      "message": "Hah, good call given that we just merged private changes. I\u0027ve adapted it to \u0027anonymous users\u0027.",
+      "parentUuid": "56036a80_5ff0d2a6",
+      "range": {
+        "startLine": 2778,
+        "startChar": 55,
+        "endLine": 2778,
+        "endChar": 61
+      },
+      "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04f8eeb5_cc9f67f6",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
         "patchSetId": 3
@@ -105,6 +201,30 @@
       "writtenOn": "2017-03-23T15:10:04Z",
       "side": 1,
       "message": "drop \" + \".\n\nnit, opt: I would avoid checking full error strings. It leads to spurious errors if we change the phrasing, and the exact format of the string is not an API contract.",
+      "range": {
+        "startLine": 236,
+        "startChar": 52,
+        "endLine": 236,
+        "endChar": 53
+      },
+      "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1360b811_8d9618ea",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-24T13:24:08Z",
+      "side": 1,
+      "message": "Done. (the first one).\nThe optional nit is hard to do given the exception class we use we would have to provide a matcher instead. Might be easier to adapt the test when we change the message?",
+      "parentUuid": "04f8eeb5_cc9f67f6",
       "range": {
         "startLine": 236,
         "startChar": 52,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "450e07e4_d121a1f8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewerInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-24T13:24:08Z",
+      "side": 1,
+      "message": "Done. I went the other way by defining a private constructor without arguments",
+      "parentUuid": "32a72107_eac3d2b3",
+      "range": {
+        "startLine": 35,
+        "startChar": 22,
+        "endLine": 35,
+        "endChar": 29
+      },
+      "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8ff741c5_93102cec",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 3
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "a1bca7cd_b9f6bb44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-24T13:24:08Z",
+      "side": 1,
+      "message": "Done. AFAIC they should always be removable. I\u0027ve added the code for this.",
+      "parentUuid": "8ff741c5_93102cec",
+      "range": {
+        "startLine": 1080,
+        "startChar": 15,
+        "endLine": 1080,
+        "endChar": 25
+      },
+      "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44f069cc_89f9adc1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewerOp.java",
         "patchSetId": 3
@@ -174,6 +342,30 @@
       "writtenOn": "2017-03-23T15:10:04Z",
       "side": 1,
       "message": "i\u0027m assuming this file wasn\u0027t changed",
+      "range": {
+        "startLine": 1,
+        "startChar": 26,
+        "endLine": 1,
+        "endChar": 33
+      },
+      "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aad9b25e_c68ba176",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-24T13:24:08Z",
+      "side": 1,
+      "message": "I\u0027ve update the header to 2017",
+      "parentUuid": "44f069cc_89f9adc1",
       "range": {
         "startLine": 1,
         "startChar": 26,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "7c6f6d83_ca4fbeca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-24T13:24:08Z",
+      "side": 1,
+      "message": "Looks way better :) I\u0027ll follow up with this in a new change.",
+      "parentUuid": "6be80818_d0d82486",
+      "range": {
+        "startLine": 192,
+        "startChar": 49,
+        "endLine": 192,
+        "endChar": 59
+      },
+      "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3a86ec2f_dacdd83a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerResource.java",
         "patchSetId": 3
@@ -229,6 +445,30 @@
       "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75e00ebe_fbba3167",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerResource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-24T13:24:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a86ec2f_dacdd83a",
+      "range": {
+        "startLine": 43,
+        "startChar": 10,
+        "endLine": 43,
+        "endChar": 15
+      },
+      "revId": "f6113d62c0d310577b52019f9b5ba1a98ab56043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

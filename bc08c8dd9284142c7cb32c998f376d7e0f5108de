@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "1a4c761f_be8d654f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-24T07:36:01Z",
+      "side": 1,
+      "message": "Thanks for clarifying. Should be moved to [1], indeed.",
+      "parentUuid": "e19cacb5_2bc487a5",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 92
+      },
+      "revId": "bc08c8dd9284142c7cb32c998f376d7e0f5108de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69ccfd06_49211ec2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
         "patchSetId": 35

@@ -64,6 +64,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ChangeFinder;
@@ -1072,6 +1073,8 @@ public abstract class AbstractDaemonTest {
   /**
    * Fetches each bundle into a newly cloned repository, then it applies the bundle, and returns the
    * resulting tree id.
+   *
+   * <p>Omits NoteDb meta refs.
    */
   protected Map<Branch.NameKey, ObjectId> fetchFromBundles(BinaryResult bundles) throws Exception {
     assertThat(bundles.getContentType()).isEqualTo("application/x-zip");
@@ -1105,11 +1108,12 @@ public abstract class AbstractDaemonTest {
                   NullProgressMonitor.INSTANCE,
                   Arrays.asList(new RefSpec("refs/*:refs/preview/*")));
           for (Ref r : fr.getAdvertisedRefs()) {
-            String branchName = r.getName();
-            Branch.NameKey n = new Branch.NameKey(proj, branchName);
-
+            String refName = r.getName();
+            if (RefNames.isNoteDbMetaRef(refName)) {
+              continue;
+            }
             RevCommit c = localRepo.getRevWalk().parseCommit(r.getObjectId());
-            ret.put(n, c.getTree().copy());
+            ret.put(new Branch.NameKey(proj, refName), c.getTree().copy());
           }
         }
       }

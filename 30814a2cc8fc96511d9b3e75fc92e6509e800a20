@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20c3eda9_91ef2025",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1187,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-24T15:00:38Z",
+      "side": 1,
+      "message": "Catching unchecked exceptions is risky because it\u0027s not obvious which parts of the previous statement can throw IAE. Just Address.parse, or forState as well?\n\nIf only Address.parse can throw, please consider factoring out a helper method tryParseAddress (or put it in Address)",
+      "revId": "30814a2cc8fc96511d9b3e75fc92e6509e800a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e37c3bb5_4db7883a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-24T15:00:38Z",
+      "side": 1,
+      "message": "Always use braces for blocks.",
+      "revId": "30814a2cc8fc96511d9b3e75fc92e6509e800a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "246fff4f_ffcfca20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1208,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-24T15:00:38Z",
+      "side": 1,
+      "message": "Optional nit: unnecessary else",
+      "revId": "30814a2cc8fc96511d9b3e75fc92e6509e800a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04d49267_c5fccc87",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1578,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-24T15:00:38Z",
+      "side": 1,
+      "message": "Need more tests:\n\n\n* test for this userByEmail string, but searching with \"reviewer:un.registered@reviewer.com\"\n* test for where the userByEmail string doesn\u0027t contain a user (i.e. a new test method",
+      "revId": "30814a2cc8fc96511d9b3e75fc92e6509e800a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

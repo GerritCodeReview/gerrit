@@ -1650,6 +1650,7 @@ public class ReceiveCommits {
           break;
         }
         total++;
+        rp.getRevWalk().parseBody(c);
         String name = c.name();
         groupCollector.visit(c);
         Collection<Ref> existingRefs = existing.get(c);

@@ -147,17 +147,12 @@
       // undefined).
       if (document.hidden !== false) { return; }
 
-      // If we're currently in a credential refresh, flush the debouncer so that
-      // it can be checked immediately.
-      if (this._refreshingCredentials) {
-        this.flushDebouncer('checkLoggedIn');
-        return;
-      }
-
-      // If the credentials are old, request them to confirm their validity or
-      // (display an auth toast if it fails).
+      // If not currently refreshing credentials and the credentials are old,
+      // request them to confirm their validity or (display an auth toast if it
+      // fails).
       var timeSinceLastCheck = Date.now() - this._lastCredentialCheck;
-      if (this.knownAccountId !== undefined &&
+      if (!this._refreshingCredentials &&
+          this.knownAccountId !== undefined &&
           timeSinceLastCheck > STALE_CREDENTIAL_THRESHOLD_MS) {
         this._lastCredentialCheck = Date.now();
         this.$.restAPI.checkCredentials();
@@ -205,13 +200,19 @@
         'top=' + top,
       ];
       window.open('/login/%3FcloseAfterLogin', '_blank', options.join(','));
+      this.listen(window, 'focus', '_handleWindowFocus');
     },
 
     _handleCredentialRefreshed: function() {
+      this.unlisten(window, 'focus', '_handleWindowFocus');
       this._refreshingCredentials = false;
       this.unlisten(this._alertElement, 'action', '_createLoginPopup');
       this._hideAlert();
       this._showAlert('Credentials refreshed.');
+    },
+
+    _handleWindowFocus: function() {
+      this.flushDebouncer('checkLoggedIn');
     },
   });
 })();

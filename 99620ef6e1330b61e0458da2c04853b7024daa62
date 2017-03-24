@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad1be21e_30ba71f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-24T19:36:47Z",
+      "side": 0,
+      "message": "This code was all moved to DeleteRef.java in I92800734. The conflict was introduced in If1f3a6179, which sets expected old object IDs on these ref operations. So before deleting this code and accepting the stable-2.14 version, I double-checked that the implementation of DeleteRef in I92800734 includes the RefUpdate fixes introduced in this file in If1f3a6179.",
+      "revId": "99620ef6e1330b61e0458da2c04853b7024daa62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54486d4d_b7ef741f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-24T19:36:47Z",
+      "side": 0,
+      "message": "Same story as in DeleteBranch.",
+      "revId": "99620ef6e1330b61e0458da2c04853b7024daa62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

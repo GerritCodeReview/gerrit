@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "d804d92b_f4ebde76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-24T07:45:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a4c761f_be8d654f",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 92
+      },
+      "revId": "bc08c8dd9284142c7cb32c998f376d7e0f5108de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69ccfd06_49211ec2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
         "patchSetId": 35
@@ -156,6 +180,30 @@
       "side": 1,
       "message": "Same here. I can use \u0027db.accountExternalIds().all()\u0027 in this change but must rewrite it for \u0027\nMigrate external IDs to NoteDb (part 3)\u0027 [1] then.\n\n[1] https://gerrit-review.googlesource.com/100801",
       "parentUuid": "a4aae777_816e133e",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 53
+      },
+      "revId": "bc08c8dd9284142c7cb32c998f376d7e0f5108de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee3c9f5c_f26a48ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_144.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-24T07:45:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f325347e_29d9eb34",
       "range": {
         "startLine": 65,
         "startChar": 4,

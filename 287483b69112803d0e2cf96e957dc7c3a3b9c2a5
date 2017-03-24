@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec9916e1_e5383f72",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-24T14:54:42Z",
+      "side": 1,
+      "message": "Nit: style guide says this should be toRfcAddressString",
+      "range": {
+        "startLine": 242,
+        "startChar": 24,
+        "endLine": 242,
+        "endChar": 42
+      },
+      "revId": "287483b69112803d0e2cf96e957dc7c3a3b9c2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.LimitedByteArrayOutputStream.LimitExceededException;
@@ -151,7 +152,9 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
           for (ReceiveCommand r : refs) {
             bw.include(r.getRefName(), r.getNewId());
             ObjectId oldId = r.getOldId();
-            if (!oldId.equals(ObjectId.zeroId())) {
+            if (!oldId.equals(ObjectId.zeroId())
+                // Probably the client doesn't already have NoteDb data.
+                && !RefNames.isNoteDbMetaRef(r.getRefName())) {
               bw.assume(or.getCodeReviewRevWalk().parseCommit(oldId));
             }
           }

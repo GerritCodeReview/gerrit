@@ -58,6 +58,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     InheritedBooleanInfo enableSignedPush = new InheritedBooleanInfo();
     InheritedBooleanInfo requireSignedPush = new InheritedBooleanInfo();
     InheritedBooleanInfo rejectImplicitMerges = new InheritedBooleanInfo();
+    InheritedBooleanInfo enableReviewerByEmail = new InheritedBooleanInfo();
 
     useContributorAgreements.value = projectState.isUseContributorAgreements();
     useSignedOffBy.value = projectState.isUseSignedOffBy();
@@ -73,6 +74,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     enableSignedPush.configuredValue = p.getEnableSignedPush();
     requireSignedPush.configuredValue = p.getRequireSignedPush();
     rejectImplicitMerges.configuredValue = p.getRejectImplicitMerges();
+    enableReviewerByEmail.configuredValue = p.getEnableReviewerByEmail();
 
     ProjectState parentState = Iterables.getFirst(projectState.parents(), null);
     if (parentState != null) {
@@ -85,6 +87,7 @@ public class ConfigInfoImpl extends ConfigInfo {
       enableSignedPush.inheritedValue = projectState.isEnableSignedPush();
       requireSignedPush.inheritedValue = projectState.isRequireSignedPush();
       rejectImplicitMerges.inheritedValue = projectState.isRejectImplicitMerges();
+      enableReviewerByEmail.inheritedValue = projectState.isEnableReviewerByEmail();
     }
 
     this.useContributorAgreements = useContributorAgreements;

@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.mail.Address;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -48,11 +49,16 @@ class ListReviewers implements RestReadView<ChangeResource> {
 
   @Override
   public List<ReviewerInfo> apply(ChangeResource rsrc) throws OrmException {
-    Map<Account.Id, ReviewerResource> reviewers = new LinkedHashMap<>();
+    Map<String, ReviewerResource> reviewers = new LinkedHashMap<>();
     ReviewDb db = dbProvider.get();
     for (Account.Id accountId : approvalsUtil.getReviewers(db, rsrc.getNotes()).all()) {
-      if (!reviewers.containsKey(accountId)) {
-        reviewers.put(accountId, resourceFactory.create(rsrc, accountId));
+      if (!reviewers.containsKey(accountId.toString())) {
+        reviewers.put(accountId.toString(), resourceFactory.create(rsrc, accountId));
+      }
+    }
+    for (Address adr : rsrc.getNotes().getReviewersByEmail().all()) {
+      if (!reviewers.containsKey(adr.toString())) {
+        reviewers.put(adr.toString(), new ReviewerResource(rsrc, adr));
       }
     }
     return json.format(reviewers.values());

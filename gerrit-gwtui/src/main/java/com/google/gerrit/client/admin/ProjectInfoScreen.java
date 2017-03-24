@@ -86,6 +86,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox enableSignedPush;
   private ListBox requireSignedPush;
   private ListBox rejectImplicitMerges;
+  private ListBox enableReviewerByEmail;
   private NpTextBox maxObjectSizeLimit;
   private Label effectiveMaxObjectSizeLimit;
   private Map<String, Map<String, HasEnabled>> pluginConfigWidgets;
@@ -191,6 +192,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     requireChangeID.setEnabled(isOwner);
     rejectImplicitMerges.setEnabled(isOwner);
     maxObjectSizeLimit.setEnabled(isOwner);
+    enableReviewerByEmail.setEnabled(isOwner);
 
     if (pluginConfigWidgets != null) {
       for (Map<String, HasEnabled> widgetMap : pluginConfigWidgets.values()) {
@@ -263,6 +265,10 @@ public class ProjectInfoScreen extends ProjectScreen {
     rejectImplicitMerges = newInheritedBooleanBox();
     saveEnabler.listenTo(rejectImplicitMerges);
     grid.addHtml(AdminConstants.I.rejectImplicitMerges(), rejectImplicitMerges);
+
+    enableReviewerByEmail = newInheritedBooleanBox();
+    saveEnabler.listenTo(enableReviewerByEmail);
+    grid.addHtml(AdminConstants.I.rejectImplicitMerges(), enableReviewerByEmail);
 
     maxObjectSizeLimit = new NpTextBox();
     saveEnabler.listenTo(maxObjectSizeLimit);
@@ -395,6 +401,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       setBool(requireSignedPush, result.requireSignedPush());
     }
     setBool(rejectImplicitMerges, result.rejectImplicitMerges());
+    setBool(enableReviewerByEmail, result.enableReviewerByEmail());
     setSubmitType(result.submitType());
     setState(result.state());
     maxObjectSizeLimit.setText(result.maxObjectSizeLimit().configuredValue());

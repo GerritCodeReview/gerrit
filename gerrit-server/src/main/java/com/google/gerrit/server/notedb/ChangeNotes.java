@@ -48,6 +48,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.RefCache;
@@ -426,6 +427,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public ReviewerSet getReviewers() {
     return state.reviewers();
+  }
+
+  /** @return reviewers that do not currently have a Gerrit account and were added by email. */
+  public ReviewerByEmailSet getReviewersByEmail() {
+    return state.reviewersByEmail();
   }
 
   public ImmutableList<ReviewerStatusUpdate> getReviewerUpdates() {

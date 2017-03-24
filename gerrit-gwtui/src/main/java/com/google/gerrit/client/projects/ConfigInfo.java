@@ -57,6 +57,9 @@ public class ConfigInfo extends JavaScriptObject {
   public final native InheritedBooleanInfo rejectImplicitMerges()
       /*-{ return this.reject_implicit_merges; }-*/ ;
 
+  public final native InheritedBooleanInfo enableReviewerByEmail()
+      /*-{ return this.enable_reviewer_by_email; }-*/ ;
+
   public final SubmitType submitType() {
     return SubmitType.valueOf(submitTypeRaw());
   }

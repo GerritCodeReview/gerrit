@@ -61,6 +61,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
@@ -128,6 +129,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
+  private final Map<Address, ReviewerStateInternal> reviewersByEmail = new LinkedHashMap<>();
   private final List<Comment> comments = new ArrayList<>();
 
   private String commitSubject;
@@ -471,6 +473,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     reviewers.put(reviewer, ReviewerStateInternal.REMOVED);
   }
 
+  public void putReviewerByEmail(Address reviewer, ReviewerStateInternal type) {
+    checkArgument(type != ReviewerStateInternal.REMOVED, "invalid ReviewerType");
+    reviewersByEmail.put(reviewer, type);
+  }
+
+  public void removeReviewerByEmail(Address reviewer) {
+    reviewersByEmail.put(reviewer, ReviewerStateInternal.REMOVED);
+  }
+
   public void setPatchSetState(PatchSetState psState) {
     this.psState = psState;
   }
@@ -660,6 +671,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addIdent(msg, e.getKey()).append('\n');
     }
 
+    for (Map.Entry<Address, ReviewerStateInternal> e : reviewersByEmail.entrySet()) {
+      addFooter(msg, e.getValue().getByEmailFooterKey(), e.getKey().toString());
+    }
+
     for (Table.Cell<String, Account.Id, Optional<Short>> c : approvals.cellSet()) {
       addFooter(msg, FOOTER_LABEL);
       // Label names/values are safe to append without sanitizing.
@@ -749,6 +764,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && changeMessage == null
         && comments.isEmpty()
         && reviewers.isEmpty()
+        && reviewersByEmail.isEmpty()
         && changeId == null
         && branch == null
         && status == null

@@ -86,6 +86,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.extensions.events.CommentAdded;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -313,14 +314,18 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ListMultimap<RecipientType, Account.Id> accountsToNotify) {
     List<Account.Id> to = new ArrayList<>();
     List<Account.Id> cc = new ArrayList<>();
+    List<Address> toByEmail = new ArrayList<>();
+    List<Address> ccByEmail = new ArrayList<>();
     for (PostReviewers.Addition addition : reviewerAdditions) {
       if (addition.op.state == ReviewerState.REVIEWER) {
         to.addAll(addition.op.reviewers.keySet());
+        toByEmail.addAll(addition.op.reviewersByEmail);
       } else if (addition.op.state == ReviewerState.CC) {
         cc.addAll(addition.op.reviewers.keySet());
+        ccByEmail.addAll(addition.op.reviewersByEmail);
       }
     }
-    postReviewers.emailReviewers(change, to, cc, notify, accountsToNotify);
+    postReviewers.emailReviewers(change, to, cc, toByEmail, ccByEmail, notify, accountsToNotify);
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in)

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1490278633 +0100\nnonce AIcUUg8rztooKCBPOf6PAfLm1VumxlvrhDSXHci2EgwAKUbiUJw+oBmJD/BCaJ6oAaWakGZl2yfr\n\n0000000000000000000000000000000000000000 05ceb55c2ffa6f556e3626fdbee57dc494f9f237 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY09jpAAoJEFG1/Zeg0O9RDxAIAJqAFA/LbusAhn6bFsJVzrs8\nck3X+96DBe1sY6BMykWvA6U7SgE+gDPGe2Fztu5cCoQD4h4cDkYiqzsJqLAuAk0R\n2ChRM8H7LMc6o7zv5P6FCaY29K4k9TK2E1Jcg+MLQCS9vA8WRZyPPVSL8jKUxy2k\n7PFsZE196SomNSDZA6ajfeBTdFSjAFQiTCR9DR5UaiXMA3+nO2zW9NcNhjEZiee2\nKhaphqzp8h+7QWDtFw2x/d9Uj0PrZe0TIDwzNzTX+/Vo5SDuCBzn0Z+BlxSC3dyp\nUVlpV11mtUzBDALXzpNi02vs2Sa0suRX7A5ZvpOd4bAZPi2FjRsTa6iUFnncdt0\u003d\n\u003d2E7h\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "486fa089_944971cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-24T06:50:37Z",
+      "side": 1,
+      "message": "Is this outdated now or what is hashed_password and where it comes from and why it\u0027s needed? I also don\u0027t see that AccountExternalId.java was extended to contain this column.\n\nHavn\u0027t we agreed, that in schema version 142, we just keep one single column passwd, but replace the original password with the hashed one?",
+      "range": {
+        "startLine": 47,
+        "startChar": 27,
+        "endLine": 47,
+        "endChar": 42
+      },
+      "revId": "3bc645905c0000227591b48ad0d228b5f2a7d794",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

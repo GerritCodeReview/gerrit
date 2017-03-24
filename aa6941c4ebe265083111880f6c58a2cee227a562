@@ -123,6 +123,24 @@
       "revId": "aa6941c4ebe265083111880f6c58a2cee227a562",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0a7966d_709dcb62",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-24T20:57:06Z",
+      "side": 1,
+      "message": "I like the re-setting after a reply is sent idea.",
+      "parentUuid": "01f0ca28_98c78729",
+      "revId": "aa6941c4ebe265083111880f6c58a2cee227a562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

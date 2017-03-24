@@ -46,6 +46,29 @@
       "revId": "bc08c8dd9284142c7cb32c998f376d7e0f5108de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4aae777_816e133e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_144.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-24T07:18:38Z",
+      "side": 1,
+      "message": "Same here, what is wrong with:\n\n  List\u003cAccountExternalId\u003e newIds \u003d db.accountExternalIds().all().toList();",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 53
+      },
+      "revId": "bc08c8dd9284142c7cb32c998f376d7e0f5108de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

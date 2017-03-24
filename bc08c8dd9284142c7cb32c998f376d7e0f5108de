@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "e19cacb5_2bc487a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-24T07:27:27Z",
+      "side": 1,
+      "message": "Yes, this should probably be moved into \u0027Migrate external IDs to NoteDb (part 3)\u0027 [1]. Didn\u0027t pay attention to it when I split the change. In [1] we can\u0027t use \u0027db.accountExternalIds().all().toList()\u0027 anymore since the ACCOUNT_EXTERNAL_IDS table is deleted and \u0027db.accountExternalIds()\u0027 is not existing anymore.\n\nWill address this in a new patch set.\n\n[1] https://gerrit-review.googlesource.com/100801",
+      "parentUuid": "4d0e3708_68f7278f",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 92
+      },
+      "revId": "bc08c8dd9284142c7cb32c998f376d7e0f5108de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69ccfd06_49211ec2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
         "patchSetId": 35
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "5436e315_2f0cad39",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-24T07:27:27Z",
+      "side": 1,
+      "message": "see above",
+      "parentUuid": "69ccfd06_49211ec2",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 70,
+        "endChar": 11
+      },
+      "revId": "bc08c8dd9284142c7cb32c998f376d7e0f5108de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4aae777_816e133e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_144.java",
         "patchSetId": 35
@@ -60,6 +108,30 @@
       "writtenOn": "2017-03-24T07:18:38Z",
       "side": 1,
       "message": "Same here, what is wrong with:\n\n  List\u003cAccountExternalId\u003e newIds \u003d db.accountExternalIds().all().toList();",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 53
+      },
+      "revId": "bc08c8dd9284142c7cb32c998f376d7e0f5108de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f325347e_29d9eb34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_144.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-24T07:27:27Z",
+      "side": 1,
+      "message": "Same here. I can use \u0027db.accountExternalIds().all()\u0027 in this change but must rewrite it for \u0027\nMigrate external IDs to NoteDb (part 3)\u0027 [1] then.\n\n[1] https://gerrit-review.googlesource.com/100801",
+      "parentUuid": "a4aae777_816e133e",
       "range": {
         "startLine": 65,
         "startChar": 4,

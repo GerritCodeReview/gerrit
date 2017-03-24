@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e7557a8_9abf8045",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-24T22:10:07Z",
+      "side": 1,
+      "message": "Why does this relay cancels that originated on the autocomplete? Is this not the same as bubbling?",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 6
+      },
+      "revId": "f2ccb0482386a36f3e7e79eb019c251bba5b096e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

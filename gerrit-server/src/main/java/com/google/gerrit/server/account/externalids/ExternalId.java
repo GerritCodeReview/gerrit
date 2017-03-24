@@ -222,7 +222,7 @@ public abstract class ExternalId implements Serializable {
     String externalIdKeyStr = Iterables.getOnlyElement(externalIdKeys);
     Key externalIdKey = Key.parse(externalIdKeyStr);
     if (externalIdKey == null) {
-      throw invalidConfig(noteId, String.format("Invalid external id: %s", externalIdKeyStr));
+      throw invalidConfig(noteId, String.format("Invalid external ID: %s", externalIdKeyStr));
     }
 
     String email = externalIdConfig.getString(EXTERNAL_ID_SECTION, externalIdKeyStr, EMAIL_KEY);
@@ -245,7 +245,7 @@ public abstract class ExternalId implements Serializable {
       throw invalidConfig(
           noteId,
           String.format(
-              "Value for %s.%s.%s is missing, expected account ID",
+              "Value for '%s.%s.%s' is missing, expected account ID",
               EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY));
     }
 
@@ -256,7 +256,7 @@ public abstract class ExternalId implements Serializable {
         throw invalidConfig(
             noteId,
             String.format(
-                "Value %s for %s.%s.%s is invalid, expected account ID",
+                "Value %s for '%s.%s.%s' is invalid, expected account ID",
                 accountIdStr, EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY));
       }
       return accountId;
@@ -264,14 +264,14 @@ public abstract class ExternalId implements Serializable {
       throw invalidConfig(
           noteId,
           String.format(
-              "Value %s for %s.%s.%s is invalid, expected account ID",
+              "Value %s for '%s.%s.%s' is invalid, expected account ID",
               accountIdStr, EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY));
     }
   }
 
   private static ConfigInvalidException invalidConfig(String noteId, String message) {
     return new ConfigInvalidException(
-        String.format("Invalid external id config for note %s: %s", noteId, message));
+        String.format("Invalid external ID config for note '%s': %s", noteId, message));
   }
 
   public static ExternalId from(AccountExternalId externalId) {

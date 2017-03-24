@@ -138,6 +138,51 @@ As result a link:#server-info[ServerInfo] entity is returned.
   }
 ----
 
+[[check-consistency]]
+=== Check Consistency
+--
+'POST /config/server/check.consistency'
+--
+
+Runs consistency checks and returns detected problems.
+
+Input for the consistency checks that should be run must be provided in
+the request body inside a
+link:#consistency-check-input[ConsistencyCheckInput] entity.
+
+.Request
+----
+  POST /config/server/check.consistency HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "accountExternalIdCheckInput": {}
+  }
+----
+
+As result a link:#consistency-check-info[ConsistencyCheckInfo] entity
+is returned that contains detected consistency problems.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "results": {
+      "accountExternalIdResult": {
+        "problems": [
+          {
+            "status": "ERROR",
+            "message": "External ID \u0027uuid:ccb8d323-1361-45aa-8874-41987a660c46\u0027 belongs to account that doesn\u0027t exist: 1000012"
+          }
+        ]
+      }
+    }
+  }
+----
+
 [[confirm-email]]
 === Confirm Email
 --
@@ -1364,6 +1409,66 @@ interface should poll for updates to the currently open change].
 link:config-gerrit.html#change.submitWholeTopic[A configuration if
 the whole topic is submitted].
 |=============================
+
+[[check-account-external-ids-input]]
+=== CheckAccountExternalIdsInput
+The `CheckAccountExternalIdsInput` entity contains input for the
+account external IDs consistency check.
+
+Currently this entity contains no fields.
+
+[[check-account-external-ids-result-info]]
+=== CheckAccountExternalIdsResultInfo
+The `CheckAccountExternalIdsResultInfo` entity contains the result of
+running the account external IDs consistency check.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`problems`|A list of link:#consistency-problem-info[
+ConsistencyProblemInfo] entities.
+|======================
+
+[[consistency-check-info]]
+=== ConsistencyCheckInfo
+The `ConsistencyCheckInfo` entity contains the results of running
+consistency checks.
+
+[options="header",cols="1,^1,5"]
+|============================================
+|Field Name                     ||Description
+|`checkAccountExternalIdsResult`|optional|
+The result of running the account external ID consistency check as a
+link:#check-account-external-ids-result-info[
+CheckAccountExternalIdsResultInfo] entity.
+|============================================
+
+[[consistency-check-input]]
+=== ConsistencyCheckInput
+The `ConsistencyCheckInput` entity contains information about which
+consistency checks should be run.
+
+[options="header",cols="1,^1,5"]
+|===========================================
+|Field Name                    ||Description
+|`checkAccountExternalIdsInput`|optional|
+Input for the account external ID consistency check as
+link:#check-account-external-ids-input[CheckAccountExternalIdsInput]
+entity.
+|===========================================
+
+[[consistency-problem-info]]
+=== ConsistencyProblemInfo
+The `ConsistencyProblemInfo` entity contains information about a
+consistency problem.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`status`  |The status of the consistency problem. +
+Possible values are `ERROR` and `WARNING`.
+|`message` |Message describing the consistency problem.
+|======================
 
 [[download-info]]
 === DownloadInfo

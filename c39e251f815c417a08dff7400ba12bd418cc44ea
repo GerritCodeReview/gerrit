@@ -94,6 +94,30 @@
       "revId": "c39e251f815c417a08dff7400ba12bd418cc44ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6352f345_08b4ac18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_144.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-24T08:41:22Z",
+      "side": 1,
+      "message": "We have around 700 draft changes on GerritHub.io, people is actually using the draft workflow and quite a lot. We would need WIP IMHO. Best would having the WIP workflow first, and migrate the draft changes to WIP.",
+      "parentUuid": "47189906_eb51f590",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 70
+      },
+      "revId": "c39e251f815c417a08dff7400ba12bd418cc44ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

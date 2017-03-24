@@ -34,6 +34,24 @@
       "revId": "0755a601ce812aa0edb499296cdc8b3ef937b221",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1810fa92_93c3aefb",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-24T17:04:36Z",
+      "side": 1,
+      "message": "Is it possible that this happens because the autocomplete is firing \"cancel\" on escape and that \"cancel\" event has the same name as the event that cancels overlays?\n\nIf so, maybe it should be renamed to something like...\n* autocomplete-cancel\n* cancel-suggestions\n* dismiss-autocomplete\n\nOr, alternatively be fired in a way that doesn\u0027t bubble.",
+      "parentUuid": "5627bb08_e109dc73",
+      "revId": "0755a601ce812aa0edb499296cdc8b3ef937b221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

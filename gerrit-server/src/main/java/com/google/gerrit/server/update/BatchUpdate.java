@@ -128,6 +128,7 @@ public abstract class BatchUpdate implements AutoCloseable {
         @Nullable RequestId requestId,
         boolean dryRun)
         throws UpdateException, RestApiException {
+      checkNotNull(listener);
       // It's safe to downcast all members of the input collection in this case, because the only
       // way a caller could have gotten any BatchUpdates in the first place is to call the create
       // method above, which always returns instances of the type we expect. Just to be safe,
@@ -159,7 +160,7 @@ public abstract class BatchUpdate implements AutoCloseable {
     }
   }
 
-  static Order getOrder(Collection<? extends BatchUpdate> updates) {
+  static Order getOrder(Collection<? extends BatchUpdate> updates, BatchUpdateListener listener) {
     Order o = null;
     for (BatchUpdate u : updates) {
       if (o == null) {
@@ -167,6 +168,12 @@ public abstract class BatchUpdate implements AutoCloseable {
       } else if (u.order != o) {
         throw new IllegalArgumentException("cannot mix execution orders");
       }
+    }
+    if (o != Order.REPO_BEFORE_DB) {
+      checkArgument(
+          listener == BatchUpdateListener.NONE,
+          "BatchUpdateListener not supported for order %s",
+          o);
     }
     return o;
   }

@@ -83,11 +83,10 @@ class NoteDbBatchUpdate extends BatchUpdate {
     setRequestIds(updates, requestId);
 
     try {
-      Order order = getOrder(updates);
+      Order order = getOrder(updates, listener);
       // TODO(dborowitz): Fuse implementations to use a single BatchRefUpdate between phases. Note
-      // that we will still need to respect the order, since it also dictates the order in which
-      // listener methods are called. We can revisit this later, particularly since the only user of
-      // BatchUpdateListener is MergeOp, which only uses one order.
+      // that we may still need to respect the order, since op implementations may make assumptions
+      // about the order in which their methods are called.
       switch (order) {
         case REPO_BEFORE_DB:
           for (NoteDbBatchUpdate u : updates) {
@@ -107,15 +106,12 @@ class NoteDbBatchUpdate extends BatchUpdate {
           for (NoteDbBatchUpdate u : updates) {
             u.reindexChanges(u.executeChangeOps(dryrun), dryrun);
           }
-          listener.afterUpdateChanges();
           for (NoteDbBatchUpdate u : updates) {
             u.executeUpdateRepo();
           }
-          listener.afterUpdateRepos();
           for (NoteDbBatchUpdate u : updates) {
             u.executeRefUpdates(dryrun);
           }
-          listener.afterUpdateRefs();
           break;
         default:
           throw new IllegalStateException("invalid execution order: " + order);

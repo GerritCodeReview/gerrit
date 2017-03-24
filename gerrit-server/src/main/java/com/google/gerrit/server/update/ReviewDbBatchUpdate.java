@@ -269,7 +269,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     }
     setRequestIds(updates, requestId);
     try {
-      Order order = getOrder(updates);
+      Order order = getOrder(updates, listener);
       boolean updateChangesInParallel = getUpdateChangesInParallel(updates);
       switch (order) {
         case REPO_BEFORE_DB:
@@ -290,15 +290,12 @@ class ReviewDbBatchUpdate extends BatchUpdate {
           for (ReviewDbBatchUpdate u : updates) {
             u.reindexChanges(u.executeChangeOps(updateChangesInParallel, dryrun));
           }
-          listener.afterUpdateChanges();
           for (ReviewDbBatchUpdate u : updates) {
             u.executeUpdateRepo();
           }
-          listener.afterUpdateRepos();
           for (ReviewDbBatchUpdate u : updates) {
             u.executeRefUpdates(dryrun);
           }
-          listener.afterUpdateRefs();
           break;
         default:
           throw new IllegalStateException("invalid execution order: " + order);

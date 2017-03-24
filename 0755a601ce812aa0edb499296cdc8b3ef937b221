@@ -70,6 +70,24 @@
       "revId": "0755a601ce812aa0edb499296cdc8b3ef937b221",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a865c620_98b10b46",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-24T18:04:26Z",
+      "side": 1,
+      "message": "\u003e I\u0027m fairly certain the cancel event was named that way in the autocomplete on purpose for this exact case.\n\nWhat makes you say that?\n\nFor what it\u0027s worth, I added this event in I47426740d3, and at that time the autocomplete wasn\u0027t even in a modal, so I rather doubt that was it\u0027s original purpose.",
+      "parentUuid": "e8611cdb_643ecb6f",
+      "revId": "0755a601ce812aa0edb499296cdc8b3ef937b221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

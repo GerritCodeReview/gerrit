@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "944ec289_9524afc6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-24T07:01:56Z",
+      "side": 1,
+      "message": "Nit: trailing white space.",
+      "range": {
+        "startLine": 2112,
+        "startChar": 89,
+        "endLine": 2112,
+        "endChar": 90
+      },
+      "revId": "648f0b520f497c36ca175e76265972384c0fd206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

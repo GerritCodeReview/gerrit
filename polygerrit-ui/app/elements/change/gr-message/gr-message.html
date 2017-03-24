@@ -82,7 +82,7 @@ limitations under the License.
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      .collapsed .name,
+      .collapsed .author,
       .collapsed .content,
       .collapsed .message,
       .collapsed .updateCategory,
@@ -108,11 +108,11 @@ limitations under the License.
       .collapsed .date {
         position: static;
       }
-      .collapsed .name {
+      .collapsed .author {
         color: var(--default-text-color);
         margin-right: .4em;
       }
-      .expanded .name {
+      .expanded .author {
         cursor: pointer;
       }
       .date {
@@ -128,7 +128,13 @@ limitations under the License.
     <div class$="[[_computeClass(_expanded, showAvatar)]]">
       <gr-avatar account="[[author]]" image-size="100"></gr-avatar>
       <div class="contentContainer">
-        <div class="name" on-tap="_handleNameTap">[[author.name]]</div>
+        <div class="author" on-tap="_handleAuthorTap">
+          <span hidden$="[[!showOnBehalfOf]]">
+            <span class="name">[[message.real_author.name]]</span>
+            on behalf of
+          </span>
+          <span class="name">[[author.name]]</span>
+        </div>
         <template is="dom-if" if="[[message.message]]">
           <div class="content">
             <div class="message hideOnOpen">[[message.message]]</div>

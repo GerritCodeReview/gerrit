@@ -88,6 +88,24 @@
       "revId": "0755a601ce812aa0edb499296cdc8b3ef937b221",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a54d7bb_3fee9078",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-24T18:20:29Z",
+      "side": 1,
+      "message": "Hm, fair enough. I guess I assumed that the collision was on purpose, I guess it was just a happy accident.\n\nI\u0027m still not persuaded that the approach you\u0027re proposing is better. It seems like it could cause a lot of silent issues.",
+      "parentUuid": "a865c620_98b10b46",
+      "revId": "0755a601ce812aa0edb499296cdc8b3ef937b221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

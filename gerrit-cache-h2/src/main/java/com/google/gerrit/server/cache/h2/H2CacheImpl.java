@@ -504,7 +504,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       try {
         c = acquire();
         if (c.put == null) {
-          c.put = c.conn.prepareStatement("MERGE INTO data VALUES(?,?,?,?)");
+          c.put = c.conn.prepareStatement(
+              "MERGE INTO data (k, v, created, accessed) VALUES(?,?,?,?)");
         }
         try {
           keyType.set(c.put, 1, key);
@@ -572,7 +573,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         try (Statement s = c.conn.createStatement()) {
           long used = 0;
           try (ResultSet r =
-              s.executeQuery("SELECT SUM(OCTET_LENGTH(k) + OCTET_LENGTH(v)) FROM data")) {
+              s.executeQuery("SELECT SUM(space) FROM data")) {
             used = r.next() ? r.getLong(1) : 0;
           }
           if (used <= maxSize) {
@@ -583,7 +584,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
               s.executeQuery(
                   "SELECT"
                       + " k"
-                      + ",OCTET_LENGTH(k) + OCTET_LENGTH(v)"
+                      + ",space"
                       + ",created"
                       + " FROM data"
                       + " ORDER BY accessed")) {
@@ -618,7 +619,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
                 s.executeQuery(
                     "SELECT"
                         + " COUNT(*)"
-                        + ",SUM(OCTET_LENGTH(k) + OCTET_LENGTH(v))"
+                        + ",SUM(space)"
                         + " FROM data")) {
           if (r.next()) {
             size = r.getLong(1);
@@ -670,7 +671,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       this.url = url;
       this.conn = org.h2.Driver.load().connect(url, null);
       try (Statement stmt = conn.createStatement()) {
-        stmt.execute(
+        stmt.addBatch(
             "CREATE TABLE IF NOT EXISTS data"
                 + "(k "
                 + type.columnType()
@@ -679,6 +680,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
                 + ",created TIMESTAMP NOT NULL"
                 + ",accessed TIMESTAMP NOT NULL"
                 + ")");
+        stmt.addBatch(
+            "ALTER TABLE data ADD COLUMN IF NOT EXISTS "
+                + "space BIGINT AS OCTET_LENGTH(k) + OCTET_LENGTH(v)");
+        stmt.executeBatch();
       }
     }
 

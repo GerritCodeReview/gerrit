@@ -49,6 +49,54 @@
     },
     {
       "key": {
+        "uuid": "b6af55fc_24f9eb70",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-24T09:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "881afef0_de1e9f5f",
+      "range": {
+        "startLine": 2067,
+        "startChar": 0,
+        "endLine": 2067,
+        "endChar": 109
+      },
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c92d5d_31764dd5",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-24T09:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fc28bdb_078a38cd",
+      "range": {
+        "startLine": 2067,
+        "startChar": 0,
+        "endLine": 2067,
+        "endChar": 109
+      },
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37053dbb_43160492",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 6
@@ -96,6 +144,54 @@
     },
     {
       "key": {
+        "uuid": "a1bbd129_d9d87048",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2072,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-24T09:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37053dbb_43160492",
+      "range": {
+        "startLine": 2072,
+        "startChar": 0,
+        "endLine": 2072,
+        "endChar": 18
+      },
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60b0105a_719be283",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2072,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-24T09:33:14Z",
+      "side": 1,
+      "message": "For the cherrypick endpoint for change revision [1], the message is required. Here we use the same input class (CherryPickInput). I think we can change the message to be optional. \n\nBut do we also want to update the cherrypick revision endpoint?\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#cherrypick-input",
+      "parentUuid": "2e58626f_6c337af7",
+      "range": {
+        "startLine": 2072,
+        "startChar": 0,
+        "endLine": 2072,
+        "endChar": 18
+      },
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "de901cf2_0908f600",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CherryPickCommitIT.java",
         "patchSetId": 6
@@ -107,6 +203,24 @@
       "writtenOn": "2017-03-23T17:48:25Z",
       "side": 1,
       "message": "I would prefer if these new test methods go in an existing test class, either CreateChangeIT or ProjectIT. The overhead of starting up a new test server is pretty high.",
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8759e590_457984db",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CherryPickCommitIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-24T09:33:14Z",
+      "side": 1,
+      "message": "Done. Then let\u0027s move it to CreateChangeIT, as it will actually create a new change (or new PS).",
+      "parentUuid": "de901cf2_0908f600",
       "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -130,6 +244,24 @@
     },
     {
       "key": {
+        "uuid": "7a2e104e_a8e4c263",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CherryPickCommitIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-24T09:33:14Z",
+      "side": 1,
+      "message": "The ChangeMessageInfo has no Change-Id. If we want to check that, we have to use other way. But is this necessary?",
+      "parentUuid": "74109187_67342fd8",
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "47526461_7c7baf75",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CherryPickCommitIT.java",
         "patchSetId": 6
@@ -141,6 +273,24 @@
       "writtenOn": "2017-03-23T17:48:25Z",
       "side": 1,
       "message": "Why are these two lines necessary?",
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06df0fe7_aa9c1ce6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CherryPickCommitIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-24T09:33:14Z",
+      "side": 1,
+      "message": "Removed. But those cherrypick tests in RevisionIT have these two lines. I\u0027m not sure if there is any special concern.",
+      "parentUuid": "47526461_7c7baf75",
       "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -164,6 +314,24 @@
     },
     {
       "key": {
+        "uuid": "4a62bc5f_f52bdc2b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CherryPickCommitIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-24T09:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb6195b2_185b5acd",
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3656dcf0_476e9459",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CherryPickCommitIT.java",
         "patchSetId": 6
@@ -175,6 +343,24 @@
       "writtenOn": "2017-03-23T17:48:25Z",
       "side": 1,
       "message": "Don\u0027t use HTTP, you need to implement the extension API for this as well.",
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "165dd388_12b2da40",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CherryPickCommitIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-24T09:33:14Z",
+      "side": 1,
+      "message": "OK. Before this one, for COMMIT_KIND, we only have REST API, no Java Api.",
+      "parentUuid": "3656dcf0_476e9459",
       "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -198,6 +384,24 @@
     },
     {
       "key": {
+        "uuid": "acf06286_6e026c11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-24T09:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "105c8c97_14b54074",
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9431a3cc_329f74a3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickCommit.java",
         "patchSetId": 6
@@ -215,6 +419,24 @@
     },
     {
       "key": {
+        "uuid": "e3654b1c_06f84776",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-24T09:33:14Z",
+      "side": 1,
+      "message": "Normally, from gerrit UI, when we do cherry pick, the commit message will be set as default \"message\". Here as this new endpoint doesn\u0027t have UI support. So we can adapt it to optional, and ff it\u0027s empty, the commit message will be used.",
+      "parentUuid": "9431a3cc_329f74a3",
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b350a748_0d0edc4d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickCommit.java",
         "patchSetId": 6
@@ -226,6 +448,30 @@
       "writtenOn": "2017-03-23T17:48:25Z",
       "side": 1,
       "message": "What can cause a NoSuchChangeException? Would this make more sense as a 400 (or maybe 404?) than a 409?",
+      "range": {
+        "startLine": 88,
+        "startChar": 36,
+        "endLine": 88,
+        "endChar": 57
+      },
+      "revId": "0e8c796e2539d3e1143a915729042a7f89de85a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaac825d_8bab127e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-24T09:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b350a748_0d0edc4d",
       "range": {
         "startLine": 88,
         "startChar": 36,

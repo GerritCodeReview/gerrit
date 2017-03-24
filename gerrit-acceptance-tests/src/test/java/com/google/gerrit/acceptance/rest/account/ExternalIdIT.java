@@ -19,6 +19,8 @@ import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
 
 import com.github.rholder.retry.BlockStrategy;
@@ -33,7 +35,12 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccountExternalIdsInput;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -54,6 +61,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -61,11 +69,13 @@ import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.MutableInteger;
 import org.junit.Test;
 
 @Sandboxed
@@ -196,6 +206,229 @@ public class ExternalIdIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
     push.to(RefNames.REFS_EXTERNAL_IDS)
         .assertErrorStatus("not allowed to update " + RefNames.REFS_EXTERNAL_IDS);
+  }
+
+  @Test
+  public void checkConsistency() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    resetCurrentApiUser();
+
+    MutableInteger i = new MutableInteger();
+    ExternalIdsUpdate u = extIdsUpdate.create();
+
+    // create valid external IDs
+    u.insert(
+        db,
+        ExternalId.createWithPassword(
+            ExternalId.Key.parse(nextId(i)),
+            admin.id,
+            "admin.other@example.com",
+            "secret-password"));
+    u.insert(db, createExternalIdWithOtherCaseEmail(nextId(i)));
+
+    ConsistencyCheckInput input = new ConsistencyCheckInput();
+    input.checkAccountExternalIds = new CheckAccountExternalIdsInput();
+    ConsistencyCheckInfo checkInfo = gApi.config().server().checkConsistency(input);
+    assertThat(checkInfo.checkAccountExternalIdsResult.problems).isEmpty();
+
+    // create invalid external IDs
+    Set<ConsistencyProblemInfo> expectedProblems = new HashSet<>();
+    try (Repository repo = repoManager.openRepository(allUsers);
+        RevWalk rw = new RevWalk(repo)) {
+      String externalId = nextId(i);
+      String noteId = insertExternalIdWithoutAccountId(repo, rw, externalId);
+      expectedProblems.add(
+          consistencyError(
+              "Invalid external ID config for note '"
+                  + noteId
+                  + "': Value for 'externalId."
+                  + externalId
+                  + ".accountId' is missing, expected account ID"));
+
+      externalId = nextId(i);
+      noteId = insertExternalIdWithKeyThatDoesntMatchNoteId(repo, rw, externalId);
+      expectedProblems.add(
+          consistencyError(
+              "Invalid external ID config for note '"
+                  + noteId
+                  + "': SHA1 of external ID '"
+                  + externalId
+                  + "' does not match note ID '"
+                  + noteId
+                  + "'"));
+
+      noteId = insertExternalIdWithInvalidConfig(repo, rw, nextId(i));
+      expectedProblems.add(
+          consistencyError(
+              "Invalid external ID config for note '" + noteId + "': Invalid line in config file"));
+
+      noteId = insertExternalIdWithEmptyNote(repo, rw, nextId(i));
+      expectedProblems.add(
+          consistencyError(
+              "Invalid external ID config for note '"
+                  + noteId
+                  + "': Expected exactly 1 'externalId' section, found 0"));
+    }
+
+    ExternalId extIdForNonExistingAccount = createExternalIdForNonExistingAccount(nextId(i));
+    u.insert(db, extIdForNonExistingAccount);
+    expectedProblems.add(
+        consistencyError(
+            "External ID '"
+                + extIdForNonExistingAccount.key().get()
+                + "' belongs to account that doesn't exist: "
+                + extIdForNonExistingAccount.accountId().get()));
+
+    ExternalId extIdWithInvalidEmail = createExternalIdWithInvalidEmail(nextId(i));
+    u.insert(db, extIdWithInvalidEmail);
+    expectedProblems.add(
+        consistencyError(
+            "External ID '"
+                + extIdWithInvalidEmail.key().get()
+                + "' has an invalid email: "
+                + extIdWithInvalidEmail.email()));
+
+    ExternalId extIdWithDuplicateEmail = createExternalIdWithDuplicateEmail(nextId(i));
+    u.insert(db, extIdWithDuplicateEmail);
+    expectedProblems.add(
+        consistencyError(
+            "Email '"
+                + extIdWithDuplicateEmail.email()
+                + "' is not unique, it's used by the following external IDs: '"
+                + extIdWithDuplicateEmail.key().get()
+                + "', 'mailto:"
+                + extIdWithDuplicateEmail.email()
+                + "'"));
+
+    ExternalId extIdWithBadPassword = createExternalIdWithBadPassword("admin-username");
+    u.insert(db, extIdWithBadPassword);
+    expectedProblems.add(
+        consistencyError(
+            "External ID '"
+                + extIdWithBadPassword.key().get()
+                + "' has an invalid password: unrecognized algorithm"));
+
+    checkInfo = gApi.config().server().checkConsistency(input);
+    assertThat(checkInfo.checkAccountExternalIdsResult.problems).hasSize(expectedProblems.size());
+    assertThat(checkInfo.checkAccountExternalIdsResult.problems)
+        .containsExactlyElementsIn(expectedProblems);
+  }
+
+  @Test
+  public void checkConsistencyNotAllowed() throws Exception {
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to run consistency checks");
+    gApi.config().server().checkConsistency(new ConsistencyCheckInput());
+  }
+
+  private ConsistencyProblemInfo consistencyError(String message) {
+    return new ConsistencyProblemInfo(ConsistencyProblemInfo.Status.ERROR, message);
+  }
+
+  private ExternalId createExternalIdWithOtherCaseEmail(String externalId) {
+    return ExternalId.createWithPassword(
+        ExternalId.Key.parse(externalId), admin.id, admin.email.toUpperCase(Locale.US), "password");
+  }
+
+  private String insertExternalIdWithoutAccountId(Repository repo, RevWalk rw, String externalId)
+      throws IOException {
+    ObjectId rev = ExternalIdReader.readRevision(repo);
+    NoteMap noteMap = ExternalIdReader.readNoteMap(rw, rev);
+
+    ExternalId extId = ExternalId.create(ExternalId.Key.parse(externalId), admin.id);
+
+    try (ObjectInserter ins = repo.newObjectInserter()) {
+      ObjectId noteId = extId.key().sha1();
+      Config c = new Config();
+      extId.writeToConfig(c);
+      c.unset("externalId", extId.key().get(), "accountId");
+      byte[] raw = c.toText().getBytes(UTF_8);
+      ObjectId dataBlob = ins.insert(OBJ_BLOB, raw);
+      noteMap.set(noteId, dataBlob);
+
+      ExternalIdsUpdate.commit(
+          repo, rw, ins, rev, noteMap, "Add external ID", admin.getIdent(), admin.getIdent());
+      return noteId.getName();
+    }
+  }
+
+  private String insertExternalIdWithKeyThatDoesntMatchNoteId(
+      Repository repo, RevWalk rw, String externalId) throws IOException {
+    ObjectId rev = ExternalIdReader.readRevision(repo);
+    NoteMap noteMap = ExternalIdReader.readNoteMap(rw, rev);
+
+    ExternalId extId = ExternalId.create(ExternalId.Key.parse(externalId), admin.id);
+
+    try (ObjectInserter ins = repo.newObjectInserter()) {
+      ObjectId noteId = ExternalId.Key.parse(externalId + "x").sha1();
+      Config c = new Config();
+      extId.writeToConfig(c);
+      byte[] raw = c.toText().getBytes(UTF_8);
+      ObjectId dataBlob = ins.insert(OBJ_BLOB, raw);
+      noteMap.set(noteId, dataBlob);
+
+      ExternalIdsUpdate.commit(
+          repo, rw, ins, rev, noteMap, "Add external ID", admin.getIdent(), admin.getIdent());
+      return noteId.getName();
+    }
+  }
+
+  private String insertExternalIdWithInvalidConfig(Repository repo, RevWalk rw, String externalId)
+      throws IOException {
+    ObjectId rev = ExternalIdReader.readRevision(repo);
+    NoteMap noteMap = ExternalIdReader.readNoteMap(rw, rev);
+
+    try (ObjectInserter ins = repo.newObjectInserter()) {
+      ObjectId noteId = ExternalId.Key.parse(externalId).sha1();
+      byte[] raw = "bad-config".getBytes(UTF_8);
+      ObjectId dataBlob = ins.insert(OBJ_BLOB, raw);
+      noteMap.set(noteId, dataBlob);
+
+      ExternalIdsUpdate.commit(
+          repo, rw, ins, rev, noteMap, "Add external ID", admin.getIdent(), admin.getIdent());
+      return noteId.getName();
+    }
+  }
+
+  private String insertExternalIdWithEmptyNote(Repository repo, RevWalk rw, String externalId)
+      throws IOException {
+    ObjectId rev = ExternalIdReader.readRevision(repo);
+    NoteMap noteMap = ExternalIdReader.readNoteMap(rw, rev);
+
+    try (ObjectInserter ins = repo.newObjectInserter()) {
+      ObjectId noteId = ExternalId.Key.parse(externalId).sha1();
+      byte[] raw = "".getBytes(UTF_8);
+      ObjectId dataBlob = ins.insert(OBJ_BLOB, raw);
+      noteMap.set(noteId, dataBlob);
+
+      ExternalIdsUpdate.commit(
+          repo, rw, ins, rev, noteMap, "Add external ID", admin.getIdent(), admin.getIdent());
+      return noteId.getName();
+    }
+  }
+
+  private ExternalId createExternalIdForNonExistingAccount(String externalId) {
+    return ExternalId.create(ExternalId.Key.parse(externalId), new Account.Id(1));
+  }
+
+  private ExternalId createExternalIdWithInvalidEmail(String externalId) {
+    return ExternalId.createWithEmail(ExternalId.Key.parse(externalId), admin.id, "invalid-email");
+  }
+
+  private ExternalId createExternalIdWithDuplicateEmail(String externalId) {
+    return ExternalId.createWithEmail(ExternalId.Key.parse(externalId), admin.id, admin.email);
+  }
+
+  private ExternalId createExternalIdWithBadPassword(String username) {
+    return ExternalId.create(
+        ExternalId.Key.create(SCHEME_USERNAME, username),
+        admin.id,
+        null,
+        "non-hashed-password-is-not-allowed");
+  }
+
+  private static String nextId(MutableInteger i) {
+    return "foo:bar" + ++i.value;
   }
 
   @Test

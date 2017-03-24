@@ -142,6 +142,30 @@
       "revId": "c39e251f815c417a08dff7400ba12bd418cc44ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5e0b498_96268596",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_144.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-24T08:53:10Z",
+      "side": 1,
+      "message": "I agree. Feel free, to contribute to the wip series implementation. Proposal (already approved) is here, and the wip series partially implemented is here: [2]. ;-)\n\n* [1] https://gerrit-review.googlesource.com/#/c/97245/\n* [2] https://gerrit-review.googlesource.com/#/q/topic:wip-workflow",
+      "parentUuid": "6352f345_08b4ac18",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 70
+      },
+      "revId": "c39e251f815c417a08dff7400ba12bd418cc44ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

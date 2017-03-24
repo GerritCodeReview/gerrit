@@ -118,6 +118,30 @@
       "revId": "c39e251f815c417a08dff7400ba12bd418cc44ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83ec4520_b8793e17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_144.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-24T08:49:04Z",
+      "side": 1,
+      "message": "Ah, I understand why you are asking, you missed the discussion in private change proposal change and you missed my statement above:\n\n  Once WIP feature is ready, we could consider to adjust this migration path\n  and make it configurable.\n\nSo, this proposed migration path above is an intermediate step, that nobody should deploy on a production site, unless she really really wants DRAFT -\u003e PRIVATE changes migration path. For all other sites, they should wait until 2.15 is released.\n\nIn 2.15 final, the plan is to offer changes.draftWorkflowMigrationPath configuration option and allow it to be one of:\n\n* abandon (effectively publish)\n* private (draft changes remain hidden, with the ability to delete the change, when the site enabled that option, or mark as non private, effectively publish)\n* wip (effectively publish the draft changes, but mark them as wip)\n\nNote, that all this applies only to draft changes, not for draft patch set for regular changes. They can\u0027t be mapped to anything, because new concepts doesn\u0027t support private or wip draft patch sets. And there can\u0027t be more than one change edits for changes. So that it\u0027s still open whether we just publish or delete draft patch sets or even make this configurable as well?\n\nTo summarize, what I proposed in my comment above, as an intermediate step, already implement (hard coded) DRAFT -\u003e PRIVATE migration path part in Schema_144, and extend it when wip feature is implemented. At that point we could introduce the config option ad extend Schema 144 to reflect it.",
+      "parentUuid": "47189906_eb51f590",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 70
+      },
+      "revId": "c39e251f815c417a08dff7400ba12bd418cc44ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

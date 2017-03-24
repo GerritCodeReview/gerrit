@@ -23,6 +23,30 @@
       "revId": "3bc645905c0000227591b48ad0d228b5f2a7d794",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b11d259_cab544b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-24T06:59:02Z",
+      "side": 1,
+      "message": "You are right. Good catch.\n\nDone.",
+      "parentUuid": "486fa089_944971cd",
+      "range": {
+        "startLine": 47,
+        "startChar": 27,
+        "endLine": 47,
+        "endChar": 42
+      },
+      "revId": "3bc645905c0000227591b48ad0d228b5f2a7d794",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

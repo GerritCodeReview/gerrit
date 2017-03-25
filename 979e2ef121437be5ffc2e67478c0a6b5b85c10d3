@@ -94,6 +94,30 @@
       "revId": "979e2ef121437be5ffc2e67478c0a6b5b85c10d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8eda3049_2371f7fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-25T00:52:01Z",
+      "side": 1,
+      "message": "This is confusing tbh.\n\nPlease add an explicit comment into either gr-overlay, or gr-reply-dialog, for example:\n\n\"iron-overlay noCancelOnEscKey\u003dfalse closes itself by capturing ESC key on capture phase. Since gr-autosuggest needs ESC key, we have to provide noCancelOnEscKey\u003dtrue. Since gr-reply-dialog should be able to close on ESC, reimplement...\"\n\n+1 to making gr-overlay to override noCancelOnEscKey implementation based on non-capturing events.",
+      "parentUuid": "fcaf60b5_dae5d15b",
+      "range": {
+        "startLine": 9,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "979e2ef121437be5ffc2e67478c0a6b5b85c10d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

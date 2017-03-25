@@ -106,6 +106,24 @@
       "revId": "0755a601ce812aa0edb499296cdc8b3ef937b221",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8be1587f_e675b186",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-25T00:52:01Z",
+      "side": 1,
+      "message": "This clearly needs cleanup, and this change probably isn\u0027t the right place for it.\nI\u0027ll leave it to Kasper to either file follow-up tracking issue or just file a change.\nI think we all agree that gr-autosuggest shouldn\u0027t be firing \"close\" event to close dialog.\nAlso, I think we all agree that gr-autosuggest should consume ESC if action can be taken, and let it bubble if not.",
+      "parentUuid": "7a54d7bb_3fee9078",
+      "revId": "0755a601ce812aa0edb499296cdc8b3ef937b221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

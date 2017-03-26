@@ -116,7 +116,9 @@
       opt_opts = opt_opts || {};
       var fetchOptions = {
         credentials: 'same-origin',
-        headers: opt_opts.headers,
+        // Issue 5715, can be re enabled once
+        // iOS 10.3 has the fetch api fix.
+        // headers: opt_opts.headers,
       };
 
       var urlWithParams = this._urlWithParams(url, opt_params);

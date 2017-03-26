@@ -1,4 +1,183 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1490368639 +0100\nnonce AIcUUg/aHYCA8UpqXmEFDpb4RkJF/NtxZhTaUoT8KSgpW+b/35YdDewS4RJCBlKZZE/Xe7IsWCJ0\n\n0000000000000000000000000000000000000000 89ff4789d7225b33601da2404864310fa3835dfa refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY1Th/AAoJEFG1/Zeg0O9R8MMH/2MyTqaMh2i+50vr1l3NdjqU\nDrRgCmQZVHegogcQd/BuABQrgEmgsqJOG9HN6n0YHrX0YKE8Kl50inls/Wt9/cB8\neL+8mwF4EHM1m7VZ93XHD3zYGMQES8E8VWuvkygTzSSxw0fNauM8mK3Uct7HnPMt\nULIKNqSmrhThOqVQ+b6uyjEpt+KV1Y6CkGXUH1Opch2pOha0l8wvtYtWqAM5sIM4\nETTu5/HKG7E/PEivCYjb+dDDqjk5UdLtwMBUY7+g4P6uZhvGX3NqnY4GNinSmvAn\newXvfcLo5w2M+YZhIqP0IU8lUvilXCsBg6nLOutmNrHaXmTV0pq23ccBp27lJy0\u003d\n\u003dbF0y\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "88ffce2b_5d4e281e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 37
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-26T22:10:40Z",
+      "side": 1,
+      "message": "* adds ExternalIdCache\n* adds No-op ExternalId implementation (for DisabledExternalIdCache only?)\n* extracts external ids handling in its own package\n\nIt probably does other things too, that I forgot. I already mentioned multiple times in other reviews, it is incredibly hard to review changes with multiple changes pressed together in one commit and containing thousands canged LoC. Consider to split that in multiple changes, if possible.",
+      "revId": "79654b2d1dadc20e48afb5d9697f12e81b52df79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16e55e5a_6f99c007",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-26T22:10:40Z",
+      "side": 1,
+      "message": "Add a comment why we want to disable external IDs cache in LocalUsernamesToLowerCase program?",
+      "range": {
+        "startLine": 57,
+        "startChar": 16,
+        "endLine": 57,
+        "endChar": 58
+      },
+      "revId": "79654b2d1dadc20e48afb5d9697f12e81b52df79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54c7400f_3c15d034",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdCache.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-26T22:10:40Z",
+      "side": 1,
+      "message": "As stated in the commit message, it\u0027s all implementation detail, how this cache is implemented and what it\u0027s doing and that why it\u0027s package private. Yet there is this interface that is also package private. After reading the commit message I wouldn\u0027t expect that such an interface exists. I guess it\u0027s needed to implement the DisabledExternalIdCache, that is only needed to optimize LocalUsernamesToLowerCase? Can be mentioned in the commit message?",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 25
+      },
+      "revId": "79654b2d1dadc20e48afb5d9697f12e81b52df79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e55bc243_568ae2b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdCacheImpl.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-26T22:10:40Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this rather be: \"Cannot update external IDs cache\"?",
+      "range": {
+        "startLine": 202,
+        "startChar": 16,
+        "endLine": 202,
+        "endChar": 40
+      },
+      "revId": "79654b2d1dadc20e48afb5d9697f12e81b52df79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "217f0f29_41a43ff6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIds.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-26T22:10:40Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be a provider. I see, it was already discussed. There shoudn\u0027t be a cyclic dependency. The utility class ExternalIds shoud depend on ExternalIdCache, but ExternalIdCache shouldn\u0027t need to know anything from ExternalIds. Those two methods, could be extracted to ExternalIdUtil class: [1]. Still, I think that consumers outside of this package should always consult ExternalIds and shoudn\u0027t know anythink about ExternalIdCache and ExternalIdUtil.\n\n* [1] http://paste.openstack.org/show/604202/",
+      "range": {
+        "startLine": 82,
+        "startChar": 16,
+        "endLine": 82,
+        "endChar": 24
+      },
+      "revId": "79654b2d1dadc20e48afb5d9697f12e81b52df79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7887cb8d_32ee25d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdsBatchUpdate.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-26T22:10:40Z",
+      "side": 1,
+      "message": "If we forget to reflect the changes after external ID changes  on mutation operations (remove and update above), then the cache would be stale. That would be hard to find bug. I guess we can\u0027t really do anything against it here?",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 57
+      },
+      "revId": "79654b2d1dadc20e48afb5d9697f12e81b52df79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba8a983f_182c4427",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdsUpdate.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-26T22:10:40Z",
+      "side": 1,
+      "message": "Not really related to this commit: given that Callable\u003cV\u003e in Java 8 is FunctionalInterface and in light of: [1], I would prefer to use lambda expression here instead of class instance that implements Callable. The way it is done now, I need to scroll to the bottom of this class and study how the class TryNoteMapUpdate is constructed and what it\u0027s doing. Using lambda expression, and removing the whole TryNoteMapUpdate class below, we would get:\n\n  return retryer.call(() -\u003e {\n      ObjectId rev \u003d readRevision(repo);\n      afterReadRevision.run();\n      NoteMap noteMap \u003d readNoteMap(rw, rev);\n      update.accept(OpenRepo.create(repo, rw, ins, noteMap));\n      return commit(repo, rw, ins, rev, noteMap);\n  });\n\nI went ahead and added it to the: [1], in the latest patch set.\n\n* [1] https://gerrit-review.googlesource.com/101012",
+      "range": {
+        "startLine": 556,
+        "startChar": 26,
+        "endLine": 556,
+        "endChar": 69
+      },
+      "revId": "79654b2d1dadc20e48afb5d9697f12e81b52df79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a69a06a5_c9daabeb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_144.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-26T22:10:40Z",
+      "side": 1,
+      "message": "Blank is missing.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "79654b2d1dadc20e48afb5d9697f12e81b52df79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

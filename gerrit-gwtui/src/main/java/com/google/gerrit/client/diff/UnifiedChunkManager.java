@@ -214,17 +214,14 @@ class UnifiedChunkManager extends ChunkManager {
 
   @Override
   Runnable diffChunkNav(final CodeMirror cm, final Direction dir) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        int line = cm.extras().hasActiveLine() ? cm.getLineNumber(cm.extras().activeLine()) : 0;
-        int res =
-            Collections.binarySearch(
-                chunks,
-                new UnifiedDiffChunkInfo(cm.side(), 0, 0, line, false),
-                getDiffChunkComparatorCmLine());
-        diffChunkNavHelper(chunks, host, res, dir);
-      }
+    return () -> {
+      int line = cm.extras().hasActiveLine() ? cm.getLineNumber(cm.extras().activeLine()) : 0;
+      int res =
+          Collections.binarySearch(
+              chunks,
+              new UnifiedDiffChunkInfo(cm.side(), 0, 0, line, false),
+              getDiffChunkComparatorCmLine());
+      diffChunkNavHelper(chunks, host, res, dir);
     };
   }
 

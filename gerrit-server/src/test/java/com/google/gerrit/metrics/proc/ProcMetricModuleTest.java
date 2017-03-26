@@ -133,12 +133,9 @@ public class ProcMetricModuleTest {
     final AtomicInteger invocations = new AtomicInteger(0);
     metrics.newTrigger(
         cntr,
-        new Runnable() {
-          @Override
-          public void run() {
-            invocations.getAndIncrement();
-            cntr.set(42L);
-          }
+        () -> {
+          invocations.getAndIncrement();
+          cntr.set(42L);
         });
 
     // Triggers run immediately with DropWizard binding.

@@ -79,19 +79,16 @@ public abstract class MetricMaker {
    * @param value only value of the metric.
    * @param desc description of the metric.
    */
-  public <V> void newConstantMetric(String name, final V value, Description desc) {
+  public <V> void newConstantMetric(String name, V value, Description desc) {
     desc.setConstant();
 
     @SuppressWarnings("unchecked")
     Class<V> type = (Class<V>) value.getClass();
-    final CallbackMetric0<V> metric = newCallbackMetric(name, type, desc);
+    CallbackMetric0<V> metric = newCallbackMetric(name, type, desc);
     newTrigger(
         metric,
-        new Runnable() {
-          @Override
-          public void run() {
-            metric.set(value);
-          }
+        () -> {
+          metric.set(value);
         });
   }
 
@@ -116,15 +113,12 @@ public abstract class MetricMaker {
    * @param trigger function to compute the value of the metric.
    */
   public <V> void newCallbackMetric(
-      String name, Class<V> valueClass, Description desc, final Supplier<V> trigger) {
-    final CallbackMetric0<V> metric = newCallbackMetric(name, valueClass, desc);
+      String name, Class<V> valueClass, Description desc, Supplier<V> trigger) {
+    CallbackMetric0<V> metric = newCallbackMetric(name, valueClass, desc);
     newTrigger(
         metric,
-        new Runnable() {
-          @Override
-          public void run() {
-            metric.set(trigger.get());
-          }
+        () -> {
+          metric.set(trigger.get());
         });
   }
 

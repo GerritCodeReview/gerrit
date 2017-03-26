@@ -133,17 +133,14 @@ public class GerritServer {
   static GerritServer start(Description desc, Config baseConfig) throws Exception {
     Config cfg = desc.buildConfig(baseConfig);
     Logger.getLogger("com.google.gerrit").setLevel(Level.DEBUG);
-    final CyclicBarrier serverStarted = new CyclicBarrier(2);
-    final Daemon daemon =
+    CyclicBarrier serverStarted = new CyclicBarrier(2);
+    Daemon daemon =
         new Daemon(
-            new Runnable() {
-              @Override
-              public void run() {
-                try {
-                  serverStarted.await();
-                } catch (InterruptedException | BrokenBarrierException e) {
-                  throw new RuntimeException(e);
-                }
+            () -> {
+              try {
+                serverStarted.await();
+              } catch (InterruptedException | BrokenBarrierException e) {
+                throw new RuntimeException(e);
               }
             },
             Paths.get(baseConfig.getString("gerrit", null, "tempSiteDir")));

@@ -79,12 +79,9 @@ abstract class ChunkManager {
         cm.addLineClass(line, where, className);
       }
       undo.add(
-          new Runnable() {
-            @Override
-            public void run() {
-              for (int line = start; line < end; line++) {
-                cm.removeLineClass(line, where, className);
-              }
+          () -> {
+            for (int line = start; line < end; line++) {
+              cm.removeLineClass(line, where, className);
             }
           });
     }

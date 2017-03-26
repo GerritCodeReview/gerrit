@@ -64,12 +64,9 @@ class ScrollbarAnnotation extends Widget implements ClickHandler {
     refresh =
         cmB.on(
             "refresh",
-            new Runnable() {
-              @Override
-              public void run() {
-                if (updateScale()) {
-                  updatePosition();
-                }
+            () -> {
+              if (updateScale()) {
+                updatePosition();
               }
             });
     updateScale();

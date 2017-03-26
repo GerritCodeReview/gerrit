@@ -322,13 +322,10 @@ public class PreferencesBox extends Composite {
       prefs.tabSize(Math.max(1, Integer.parseInt(v)));
       if (view != null) {
         view.operation(
-            new Runnable() {
-              @Override
-              public void run() {
-                int v = prefs.tabSize();
-                for (CodeMirror cm : view.getCms()) {
-                  cm.setOption("tabSize", v);
-                }
+            () -> {
+              int size = prefs.tabSize();
+              for (CodeMirror cm : view.getCms()) {
+                cm.setOption("tabSize", size);
               }
             });
       }
@@ -342,11 +339,8 @@ public class PreferencesBox extends Composite {
       prefs.lineLength(Math.max(1, Integer.parseInt(v)));
       if (view != null) {
         view.operation(
-            new Runnable() {
-              @Override
-              public void run() {
-                view.setLineLength(prefs.lineLength());
-              }
+            () -> {
+              view.setLineLength(prefs.lineLength());
             });
       }
     }
@@ -461,12 +455,9 @@ public class PreferencesBox extends Composite {
                     && Objects.equals(mode, getSelectedMode())
                     && view.isAttached()) {
                   view.operation(
-                      new Runnable() {
-                        @Override
-                        public void run() {
-                          view.getCmFromSide(DisplaySide.A).setOption("mode", mode);
-                          view.getCmFromSide(DisplaySide.B).setOption("mode", mode);
-                        }
+                      () -> {
+                        view.getCmFromSide(DisplaySide.A).setOption("mode", mode);
+                        view.getCmFromSide(DisplaySide.B).setOption("mode", mode);
                       });
                 }
               }
@@ -483,13 +474,10 @@ public class PreferencesBox extends Composite {
     prefs.showWhitespaceErrors(e.getValue());
     if (view != null) {
       view.operation(
-          new Runnable() {
-            @Override
-            public void run() {
-              boolean s = prefs.showWhitespaceErrors();
-              for (CodeMirror cm : view.getCms()) {
-                cm.setOption("showTrailingSpace", s);
-              }
+          () -> {
+            boolean s = prefs.showWhitespaceErrors();
+            for (CodeMirror cm : view.getCms()) {
+              cm.setOption("showTrailingSpace", s);
             }
           });
     }
@@ -546,15 +534,12 @@ public class PreferencesBox extends Composite {
             @Override
             public void onSuccess(Void result) {
               view.operation(
-                  new Runnable() {
-                    @Override
-                    public void run() {
-                      if (getSelectedTheme() == newTheme && isAttached()) {
-                        String t = newTheme.name().toLowerCase();
-                        view.getCmFromSide(DisplaySide.A).setOption("theme", t);
-                        view.getCmFromSide(DisplaySide.B).setOption("theme", t);
-                        view.setThemeStyles(newTheme.isDark());
-                      }
+                  () -> {
+                    if (getSelectedTheme() == newTheme && isAttached()) {
+                      String t = newTheme.name().toLowerCase();
+                      view.getCmFromSide(DisplaySide.A).setOption("theme", t);
+                      view.getCmFromSide(DisplaySide.B).setOption("theme", t);
+                      view.setThemeStyles(newTheme.isDark());
                     }
                   });
             }

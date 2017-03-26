@@ -147,23 +147,20 @@ public class ProcMetricModule extends MetricModule {
     metrics.newTrigger(
         ImmutableSet.<CallbackMetric<?>>of(
             heapCommitted, heapUsed, nonHeapCommitted, nonHeapUsed, objectPendingFinalizationCount),
-        new Runnable() {
-          @Override
-          public void run() {
-            try {
-              MemoryUsage stats = memory.getHeapMemoryUsage();
-              heapCommitted.set(stats.getCommitted());
-              heapUsed.set(stats.getUsed());
-            } catch (IllegalArgumentException e) {
-              // MXBean may throw due to a bug in Java 7; ignore.
-            }
-
-            MemoryUsage stats = memory.getNonHeapMemoryUsage();
-            nonHeapCommitted.set(stats.getCommitted());
-            nonHeapUsed.set(stats.getUsed());
-
-            objectPendingFinalizationCount.set(memory.getObjectPendingFinalizationCount());
+        () -> {
+          try {
+            MemoryUsage stats = memory.getHeapMemoryUsage();
+            heapCommitted.set(stats.getCommitted());
+            heapUsed.set(stats.getUsed());
+          } catch (IllegalArgumentException e) {
+            // MXBean may throw due to a bug in Java 7; ignore.
           }
+
+          MemoryUsage stats = memory.getNonHeapMemoryUsage();
+          nonHeapCommitted.set(stats.getCommitted());
+          nonHeapUsed.set(stats.getUsed());
+
+          objectPendingFinalizationCount.set(memory.getObjectPendingFinalizationCount());
         });
   }
 
@@ -187,18 +184,15 @@ public class ProcMetricModule extends MetricModule {
     metrics.newTrigger(
         gcCount,
         gcTime,
-        new Runnable() {
-          @Override
-          public void run() {
-            for (GarbageCollectorMXBean gc : ManagementFactory.getGarbageCollectorMXBeans()) {
-              long count = gc.getCollectionCount();
-              if (count != -1) {
-                gcCount.set(gc.getName(), count);
-              }
-              long time = gc.getCollectionTime();
-              if (time != -1) {
-                gcTime.set(gc.getName(), time);
-              }
+        () -> {
+          for (GarbageCollectorMXBean gc : ManagementFactory.getGarbageCollectorMXBeans()) {
+            long count = gc.getCollectionCount();
+            if (count != -1) {
+              gcCount.set(gc.getName(), count);
+            }
+            long time = gc.getCollectionTime();
+            if (time != -1) {
+              gcTime.set(gc.getName(), time);
             }
           }
         });

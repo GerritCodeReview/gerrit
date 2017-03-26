@@ -228,12 +228,9 @@ public class Daemon extends SiteProgram {
     try {
       start();
       RuntimeShutdown.add(
-          new Runnable() {
-            @Override
-            public void run() {
-              log.info("caught shutdown, cleaning up");
-              stop();
-            }
+          () -> {
+            log.info("caught shutdown, cleaning up");
+            stop();
           });
 
       log.info("Gerrit Code Review " + myVersion() + " ready");

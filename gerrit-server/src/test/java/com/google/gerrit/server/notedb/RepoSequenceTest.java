@@ -159,14 +159,11 @@ public class RepoSequenceTest {
     // Seed existing ref value.
     writeBlob("id", "1");
 
-    final AtomicBoolean doneBgUpdate = new AtomicBoolean(false);
+    AtomicBoolean doneBgUpdate = new AtomicBoolean(false);
     Runnable bgUpdate =
-        new Runnable() {
-          @Override
-          public void run() {
-            if (!doneBgUpdate.getAndSet(true)) {
-              writeBlob("id", "1234");
-            }
+        () -> {
+          if (!doneBgUpdate.getAndSet(true)) {
+            writeBlob("id", "1234");
           }
         };
 
@@ -203,13 +200,10 @@ public class RepoSequenceTest {
 
   @Test
   public void failAfterRetryerGivesUp() throws Exception {
-    final AtomicInteger bgCounter = new AtomicInteger(1234);
+    AtomicInteger bgCounter = new AtomicInteger(1234);
     Runnable bgUpdate =
-        new Runnable() {
-          @Override
-          public void run() {
-            writeBlob("id", Integer.toString(bgCounter.getAndAdd(1000)));
-          }
+        () -> {
+          writeBlob("id", Integer.toString(bgCounter.getAndAdd(1000)));
         };
     RepoSequence s =
         newSequence(

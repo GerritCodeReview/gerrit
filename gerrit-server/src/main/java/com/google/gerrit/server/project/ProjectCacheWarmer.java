@@ -54,25 +54,19 @@ public class ProjectCacheWarmer implements LifecycleListener {
 
       log.info("Loading project cache");
       scheduler.execute(
-          new Runnable() {
-            @Override
-            public void run() {
-              for (final Project.NameKey name : cache.all()) {
-                pool.execute(
-                    new Runnable() {
-                      @Override
-                      public void run() {
-                        cache.get(name);
-                      }
-                    });
-              }
-              pool.shutdown();
-              try {
-                pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-                log.info("Finished loading project cache");
-              } catch (InterruptedException e) {
-                log.warn("Interrupted while waiting for project cache to load");
-              }
+          () -> {
+            for (final Project.NameKey name : cache.all()) {
+              pool.execute(
+                  () -> {
+                    cache.get(name);
+                  });
+            }
+            pool.shutdown();
+            try {
+              pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+              log.info("Finished loading project cache");
+            } catch (InterruptedException e) {
+              log.warn("Interrupted while waiting for project cache to load");
             }
           });
     }

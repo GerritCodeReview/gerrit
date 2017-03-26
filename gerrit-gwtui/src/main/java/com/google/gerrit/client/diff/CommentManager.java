@@ -203,32 +203,26 @@ abstract class CommentManager {
 
   abstract String getTokenSuffixForActiveLine(CodeMirror cm);
 
-  Runnable signInCallback(final CodeMirror cm) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        String token = host.getToken();
-        if (cm.extras().hasActiveLine()) {
-          token += "@" + getTokenSuffixForActiveLine(cm);
-        }
-        Gerrit.doSignIn(token);
+  Runnable signInCallback(CodeMirror cm) {
+    return () -> {
+      String token = host.getToken();
+      if (cm.extras().hasActiveLine()) {
+        token += "@" + getTokenSuffixForActiveLine(cm);
       }
+      Gerrit.doSignIn(token);
     };
   }
 
   abstract void newDraft(CodeMirror cm);
 
-  Runnable newDraftCallback(final CodeMirror cm) {
+  Runnable newDraftCallback(CodeMirror cm) {
     if (!Gerrit.isSignedIn()) {
       return signInCallback(cm);
     }
 
-    return new Runnable() {
-      @Override
-      public void run() {
-        if (cm.extras().hasActiveLine()) {
-          newDraft(cm);
-        }
+    return () -> {
+      if (cm.extras().hasActiveLine()) {
+        newDraft(cm);
       }
     };
   }
@@ -268,51 +262,48 @@ abstract class CommentManager {
   abstract SortedMap<Integer, CommentGroup> getMapForNav(DisplaySide side);
 
   Runnable commentNav(final CodeMirror src, final Direction dir) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        // Every comment appears in both side maps as a linked pair.
-        // It is only necessary to search one side to find a comment
-        // on either side of the editor pair.
-        SortedMap<Integer, CommentGroup> map = getMapForNav(src.side());
-        int line =
-            src.extras().hasActiveLine() ? src.getLineNumber(src.extras().activeLine()) + 1 : 0;
+    return () -> {
+      // Every comment appears in both side maps as a linked pair.
+      // It is only necessary to search one side to find a comment
+      // on either side of the editor pair.
+      SortedMap<Integer, CommentGroup> map = getMapForNav(src.side());
+      int line =
+          src.extras().hasActiveLine() ? src.getLineNumber(src.extras().activeLine()) + 1 : 0;
 
-        CommentGroup g;
-        if (dir == Direction.NEXT) {
-          map = map.tailMap(line + 1);
+      CommentGroup g;
+      if (dir == Direction.NEXT) {
+        map = map.tailMap(line + 1);
+        if (map.isEmpty()) {
+          return;
+        }
+        g = map.get(map.firstKey());
+        while (g.getBoxCount() == 0) {
+          map = map.tailMap(map.firstKey() + 1);
           if (map.isEmpty()) {
             return;
           }
           g = map.get(map.firstKey());
-          while (g.getBoxCount() == 0) {
-            map = map.tailMap(map.firstKey() + 1);
-            if (map.isEmpty()) {
-              return;
-            }
-            g = map.get(map.firstKey());
-          }
-        } else {
-          map = map.headMap(line);
+        }
+      } else {
+        map = map.headMap(line);
+        if (map.isEmpty()) {
+          return;
+        }
+        g = map.get(map.lastKey());
+        while (g.getBoxCount() == 0) {
+          map = map.headMap(map.lastKey());
           if (map.isEmpty()) {
             return;
           }
           g = map.get(map.lastKey());
-          while (g.getBoxCount() == 0) {
-            map = map.headMap(map.lastKey());
-            if (map.isEmpty()) {
-              return;
-            }
-            g = map.get(map.lastKey());
-          }
         }
-
-        CodeMirror cm = g.getCm();
-        double y = cm.heightAtLine(g.getLine() - 1, "local");
-        cm.setCursor(Pos.create(g.getLine() - 1));
-        cm.scrollToY(y - 0.5 * cm.scrollbarV().getClientHeight());
-        cm.focus();
       }
+
+      CodeMirror cm = g.getCm();
+      double y = cm.heightAtLine(g.getLine() - 1, "local");
+      cm.setCursor(Pos.create(g.getLine() - 1));
+      cm.scrollToY(y - 0.5 * cm.scrollbarV().getClientHeight());
+      cm.focus();
     };
   }
 
@@ -425,26 +416,20 @@ abstract class CommentManager {
 
   abstract CommentGroup getCommentGroupOnActiveLine(CodeMirror cm);
 
-  Runnable toggleOpenBox(final CodeMirror cm) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        CommentGroup group = getCommentGroupOnActiveLine(cm);
-        if (group != null) {
-          group.openCloseLast();
-        }
+  Runnable toggleOpenBox(CodeMirror cm) {
+    return () -> {
+      CommentGroup group = getCommentGroupOnActiveLine(cm);
+      if (group != null) {
+        group.openCloseLast();
       }
     };
   }
 
-  Runnable openCloseAll(final CodeMirror cm) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        CommentGroup group = getCommentGroupOnActiveLine(cm);
-        if (group != null) {
-          group.openCloseAll();
-        }
+  Runnable openCloseAll(CodeMirror cm) {
+    return () -> {
+      CommentGroup group = getCommentGroupOnActiveLine(cm);
+      if (group != null) {
+        group.openCloseAll();
       }
     };
   }

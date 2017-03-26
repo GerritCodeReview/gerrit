@@ -49,7 +49,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -318,11 +317,8 @@ public class EditScreen extends Screen {
   }
 
   private Runnable gotoLine() {
-    return new Runnable() {
-      @Override
-      public void run() {
-        cmEdit.execCommand("jumpToLine");
-      }
+    return () -> {
+      cmEdit.execCommand("jumpToLine");
     };
   }
 
@@ -474,18 +470,12 @@ public class EditScreen extends Screen {
 
   void setTheme(final Theme newTheme) {
     cmBase.operation(
-        new Runnable() {
-          @Override
-          public void run() {
-            cmBase.setOption("theme", newTheme.name().toLowerCase());
-          }
+        () -> {
+          cmBase.setOption("theme", newTheme.name().toLowerCase());
         });
     cmEdit.operation(
-        new Runnable() {
-          @Override
-          public void run() {
-            cmEdit.setOption("theme", newTheme.name().toLowerCase());
-          }
+        () -> {
+          cmEdit.setOption("theme", newTheme.name().toLowerCase());
         });
   }
 
@@ -506,18 +496,12 @@ public class EditScreen extends Screen {
 
   void setShowWhitespaceErrors(final boolean show) {
     cmBase.operation(
-        new Runnable() {
-          @Override
-          public void run() {
-            cmBase.setOption("showTrailingSpace", show);
-          }
+        () -> {
+          cmBase.setOption("showTrailingSpace", show);
         });
     cmEdit.operation(
-        new Runnable() {
-          @Override
-          public void run() {
-            cmEdit.setOption("showTrailingSpace", show);
-          }
+        () -> {
+          cmEdit.setOption("showTrailingSpace", show);
         });
   }
 
@@ -643,29 +627,17 @@ public class EditScreen extends Screen {
   }
 
   private Runnable updateCursorPosition() {
-    return new Runnable() {
-      @Override
-      public void run() {
-        // The rendering of active lines has to be deferred. Reflow
-        // caused by adding and removing styles chokes Firefox when arrow
-        // key (or j/k) is held down. Performance on Chrome is fine
-        // without the deferral.
-        //
-        Scheduler.get()
-            .scheduleDeferred(
-                new ScheduledCommand() {
-                  @Override
-                  public void execute() {
-                    cmEdit.operation(
-                        new Runnable() {
-                          @Override
-                          public void run() {
-                            updateActiveLine();
-                          }
-                        });
-                  }
-                });
-      }
+    return () -> {
+      // The rendering of active lines has to be deferred. Reflow
+      // caused by adding and removing styles chokes Firefox when arrow
+      // key (or j/k) is held down. Performance on Chrome is fine
+      // without the deferral.
+      //
+      Scheduler.get()
+          .scheduleDeferred(
+              () -> {
+                cmEdit.operation(this::updateActiveLine);
+              });
     };
   }
 
@@ -683,37 +655,34 @@ public class EditScreen extends Screen {
   }
 
   private Runnable save() {
-    return new Runnable() {
-      @Override
-      public void run() {
-        if (!cmEdit.isClean(generation)) {
-          close.setEnabled(false);
-          String text = cmEdit.getValue();
-          if (Patch.COMMIT_MSG.equals(path)) {
-            String trimmed = text.trim() + "\r";
-            if (!trimmed.equals(text)) {
-              text = trimmed;
-              cmEdit.setValue(text);
-            }
+    return () -> {
+      if (!cmEdit.isClean(generation)) {
+        close.setEnabled(false);
+        String text = cmEdit.getValue();
+        if (Patch.COMMIT_MSG.equals(path)) {
+          String trimmed = text.trim() + "\r";
+          if (!trimmed.equals(text)) {
+            text = trimmed;
+            cmEdit.setValue(text);
           }
-          final int g = cmEdit.changeGeneration(false);
-          ChangeEditApi.put(
-              revision.getParentKey().get(),
-              path,
-              text,
-              new GerritCallback<VoidResult>() {
-                @Override
-                public void onSuccess(VoidResult result) {
-                  generation = g;
-                  setClean(cmEdit.isClean(g));
-                }
-
-                @Override
-                public void onFailure(final Throwable caught) {
-                  close.setEnabled(true);
-                }
-              });
         }
+        final int g = cmEdit.changeGeneration(false);
+        ChangeEditApi.put(
+            revision.getParentKey().get(),
+            path,
+            text,
+            new GerritCallback<VoidResult>() {
+              @Override
+              public void onSuccess(VoidResult result) {
+                generation = g;
+                setClean(cmEdit.isClean(g));
+              }
+
+              @Override
+              public void onFailure(final Throwable caught) {
+                close.setEnabled(true);
+              }
+            });
       }
     };
   }

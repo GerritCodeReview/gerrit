@@ -114,10 +114,18 @@
     fetchJSON: function(url, opt_errFn, opt_cancelCondition, opt_params,
         opt_opts) {
       opt_opts = opt_opts || {};
-      var fetchOptions = {
-        credentials: 'same-origin',
-        headers: opt_opts.headers,
-      };
+      // Issue 5715, can be de duplicated once
+      // iOS 10.3 has the fetch api fix.
+      if (opt_opts.headers !== undefined) {
+        var fetchOptions = {
+          credentials: 'same-origin',
+          headers: opt_opts.headers,
+        };
+      } else {
+        var fetchOptions = {
+          credentials: 'same-origin',
+        };
+      }
 
       var urlWithParams = this._urlWithParams(url, opt_params);
       return fetch(urlWithParams, fetchOptions).then(function(response) {

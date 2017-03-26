@@ -82,22 +82,14 @@ public abstract class RequestScopePropagator {
    * @return a new Callable which will execute in the current request scope.
    */
   @SuppressWarnings("javadoc") // See GuiceRequestScopePropagator#wrapImpl
-  public final <T> Callable<T> wrap(final Callable<T> callable) {
-    final RequestContext callerContext = checkNotNull(local.getContext());
-    final Callable<T> wrapped = wrapImpl(context(callerContext, cleanup(callable)));
-    return new Callable<T>() {
-      @Override
-      public T call() throws Exception {
-        if (callerContext == local.getContext()) {
-          return callable.call();
-        }
-        return wrapped.call();
+  public final <T> Callable<T> wrap(Callable<T> callable) {
+    RequestContext callerContext = checkNotNull(local.getContext());
+    Callable<T> wrapped = wrapImpl(context(callerContext, cleanup(callable)));
+    return () -> {
+      if (callerContext == local.getContext()) {
+        return callable.call();
       }
-
-      @Override
-      public String toString() {
-        return callable.toString();
-      }
+      return wrapped.call();
     };
   }
 
@@ -173,51 +165,45 @@ public abstract class RequestScopePropagator {
   protected abstract <T> Callable<T> wrapImpl(Callable<T> callable);
 
   protected <T> Callable<T> context(final RequestContext context, final Callable<T> callable) {
-    return new Callable<T>() {
-      @Override
-      public T call() throws Exception {
-        RequestContext old =
-            local.setContext(
-                new RequestContext() {
-                  @Override
-                  public CurrentUser getUser() {
-                    return context.getUser();
-                  }
+    return () -> {
+      RequestContext old =
+          local.setContext(
+              new RequestContext() {
+                @Override
+                public CurrentUser getUser() {
+                  return context.getUser();
+                }
 
-                  @Override
-                  public Provider<ReviewDb> getReviewDbProvider() {
-                    return dbProviderProvider.get();
-                  }
-                });
-        try {
-          return callable.call();
-        } finally {
-          local.setContext(old);
-        }
+                @Override
+                public Provider<ReviewDb> getReviewDbProvider() {
+                  return dbProviderProvider.get();
+                }
+              });
+      try {
+        return callable.call();
+      } finally {
+        local.setContext(old);
       }
     };
   }
 
   protected <T> Callable<T> cleanup(final Callable<T> callable) {
-    return new Callable<T>() {
-      @Override
-      public T call() throws Exception {
-        RequestCleanup cleanup =
-            scope
-                .scope(
-                    Key.get(RequestCleanup.class),
-                    new Provider<RequestCleanup>() {
-                      @Override
-                      public RequestCleanup get() {
-                        return new RequestCleanup();
-                      }
-                    })
-                .get();
-        try {
-          return callable.call();
-        } finally {
-          cleanup.run();
-        }
+    return () -> {
+      RequestCleanup cleanup =
+          scope
+              .scope(
+                  Key.get(RequestCleanup.class),
+                  new Provider<RequestCleanup>() {
+                    @Override
+                    public RequestCleanup get() {
+                      return new RequestCleanup();
+                    }
+                  })
+              .get();
+      try {
+        return callable.call();
+      } finally {
+        cleanup.run();
       }
     };
   }

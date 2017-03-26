@@ -45,7 +45,6 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.nio.file.Paths;
 import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -170,24 +169,17 @@ public class GerritServer {
       @SuppressWarnings("unused")
       Future<?> possiblyIgnoredError =
           daemonService.submit(
-              new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                  int rc =
-                      daemon.main(
-                          new String[] {
-                            "-d",
-                            site.getPath(),
-                            "--headless",
-                            "--console-log",
-                            "--show-stack-trace",
-                          });
-                  if (rc != 0) {
-                    System.err.println("Failed to start Gerrit daemon");
-                    serverStarted.reset();
-                  }
-                  return null;
+              () -> {
+                int rc =
+                    daemon.main(
+                        new String[] {
+                          "-d", site.getPath(), "--headless", "--console-log", "--show-stack-trace",
+                        });
+                if (rc != 0) {
+                  System.err.println("Failed to start Gerrit daemon");
+                  serverStarted.reset();
                 }
+                return null;
               });
       serverStarted.await();
       System.out.println("Gerrit Server Started");

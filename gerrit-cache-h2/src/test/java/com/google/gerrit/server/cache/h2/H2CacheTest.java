@@ -24,7 +24,6 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.inject.TypeLiteral;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.Before;
@@ -54,12 +53,9 @@ public class H2CacheTest {
     assertTrue(
         impl.get(
             "foo",
-            new Callable<Boolean>() {
-              @Override
-              public Boolean call() throws Exception {
-                called.set(true);
-                return true;
-              }
+            () -> {
+              called.set(true);
+              return true;
             }));
     assertTrue("used Callable", called.get());
     assertTrue("exists in cache", impl.getIfPresent("foo"));
@@ -70,12 +66,9 @@ public class H2CacheTest {
     assertTrue(
         impl.get(
             "foo",
-            new Callable<Boolean>() {
-              @Override
-              public Boolean call() throws Exception {
-                called.set(true);
-                return true;
-              }
+            () -> {
+              called.set(true);
+              return true;
             }));
     assertFalse("did not invoke Callable", called.get());
   }

@@ -53,7 +53,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -510,7 +509,15 @@ public class ExternalIdsUpdate {
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);
         ObjectInserter ins = repo.newObjectInserter()) {
-      retryer.call(new TryNoteMapUpdate(repo, rw, ins, update));
+      retryer.call(
+          () -> {
+            ObjectId rev = readRevision(repo);
+            afterReadRevision.run();
+            NoteMap noteMap = readNoteMap(rw, rev);
+            update.accept(OpenRepo.create(repo, rw, ins, noteMap));
+            commit(repo, rw, ins, rev, noteMap);
+            return null;
+          });
     } catch (ExecutionException | RetryException e) {
       if (e.getCause() != null) {
         Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
@@ -605,33 +612,5 @@ public class ExternalIdsUpdate {
     abstract ObjectInserter ins();
 
     abstract NoteMap noteMap();
-  }
-
-  private class TryNoteMapUpdate implements Callable<Void> {
-    private final Repository repo;
-    private final RevWalk rw;
-    private final ObjectInserter ins;
-    private final MyConsumer<OpenRepo> update;
-
-    private TryNoteMapUpdate(
-        Repository repo, RevWalk rw, ObjectInserter ins, MyConsumer<OpenRepo> update) {
-      this.repo = repo;
-      this.rw = rw;
-      this.ins = ins;
-      this.update = update;
-    }
-
-    @Override
-    public Void call() throws Exception {
-      ObjectId rev = readRevision(repo);
-
-      afterReadRevision.run();
-
-      NoteMap noteMap = readNoteMap(rw, rev);
-      update.accept(OpenRepo.create(repo, rw, ins, noteMap));
-
-      commit(repo, rw, ins, rev, noteMap);
-      return null;
-    }
   }
 }

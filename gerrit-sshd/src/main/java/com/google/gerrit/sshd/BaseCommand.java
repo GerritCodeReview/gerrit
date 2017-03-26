@@ -224,31 +224,6 @@ public abstract class BaseCommand implements Command {
    * <p>Typically this should be invoked within {@link Command#start(Environment)}, such as:
    *
    * <pre>
-   * startThread(new Runnable() {
-   *   public void run() {
-   *     runImp();
-   *   }
-   * });
-   * </pre>
-   *
-   * @param thunk the runnable to execute on the thread, performing the command's logic.
-   */
-  protected void startThread(final Runnable thunk) {
-    startThread(
-        new CommandRunnable() {
-          @Override
-          public void run() throws Exception {
-            thunk.run();
-          }
-        });
-  }
-
-  /**
-   * Spawn a function into its own thread.
-   *
-   * <p>Typically this should be invoked within {@link Command#start(Environment)}, such as:
-   *
-   * <pre>
    * startThread(new CommandRunnable() {
    *   public void run() throws Exception {
    *     runImp();
@@ -469,6 +444,7 @@ public abstract class BaseCommand implements Command {
   }
 
   /** Runnable function which can throw an exception. */
+  @FunctionalInterface
   public interface CommandRunnable {
     void run() throws Exception;
   }

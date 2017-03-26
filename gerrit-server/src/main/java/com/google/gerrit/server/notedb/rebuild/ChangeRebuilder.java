@@ -25,7 +25,6 @@ import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import java.io.IOException;
-import java.util.concurrent.Callable;
 
 public abstract class ChangeRebuilder {
   public static class NoPatchSetsException extends OrmException {
@@ -45,12 +44,9 @@ public abstract class ChangeRebuilder {
   public final ListenableFuture<Result> rebuildAsync(
       final Change.Id id, ListeningExecutorService executor) {
     return executor.submit(
-        new Callable<Result>() {
-          @Override
-          public Result call() throws Exception {
-            try (ReviewDb db = schemaFactory.open()) {
-              return rebuild(db, id);
-            }
+        () -> {
+          try (ReviewDb db = schemaFactory.open()) {
+            return rebuild(db, id);
           }
         });
   }

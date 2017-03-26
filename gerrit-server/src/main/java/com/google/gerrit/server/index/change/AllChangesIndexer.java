@@ -195,43 +195,35 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   }
 
   public Callable<Void> reindexProject(
-      final ChangeIndexer indexer,
-      final Project.NameKey project,
-      final Task done,
-      final Task failed,
-      final PrintWriter verboseWriter) {
-    return new Callable<Void>() {
-      @Override
-      public Void call() throws Exception {
-        ListMultimap<ObjectId, ChangeData> byId =
-            MultimapBuilder.hashKeys().arrayListValues().build();
-        // TODO(dborowitz): Opening all repositories in a live server may be
-        // wasteful; see if we can determine which ones it is safe to close
-        // with RepositoryCache.close(repo).
-        try (Repository repo = repoManager.openRepository(project);
-            ReviewDb db = schemaFactory.open()) {
-          Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
-          // TODO(dborowitz): Pre-loading all notes is almost certainly a
-          // terrible idea for performance. If we can get rid of walking by
-          // commit (see note below), then all we need to discover here is the
-          // change IDs.
-          for (ChangeNotes cn : notesFactory.scan(repo, db, project)) {
-            Ref r = refs.get(cn.getChange().currentPatchSetId().toRefName());
-            if (r != null) {
-              byId.put(r.getObjectId(), changeDataFactory.create(db, cn));
-            }
+      ChangeIndexer indexer,
+      Project.NameKey project,
+      Task done,
+      Task failed,
+      PrintWriter verboseWriter) {
+    return () -> {
+      ListMultimap<ObjectId, ChangeData> byId =
+          MultimapBuilder.hashKeys().arrayListValues().build();
+      // TODO(dborowitz): Opening all repositories in a live server may be
+      // wasteful; see if we can determine which ones it is safe to close
+      // with RepositoryCache.close(repo).
+      try (Repository repo = repoManager.openRepository(project);
+          ReviewDb db = schemaFactory.open()) {
+        Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
+        // TODO(dborowitz): Pre-loading all notes is almost certainly a
+        // terrible idea for performance. If we can get rid of walking by
+        // commit (see note below), then all we need to discover here is the
+        // change IDs.
+        for (ChangeNotes cn : notesFactory.scan(repo, db, project)) {
+          Ref r = refs.get(cn.getChange().currentPatchSetId().toRefName());
+          if (r != null) {
+            byId.put(r.getObjectId(), changeDataFactory.create(db, cn));
           }
-          new ProjectIndexer(indexer, byId, repo, done, failed, verboseWriter).call();
-        } catch (RepositoryNotFoundException rnfe) {
-          log.error(rnfe.getMessage());
         }
-        return null;
+        new ProjectIndexer(indexer, byId, repo, done, failed, verboseWriter).call();
+      } catch (RepositoryNotFoundException rnfe) {
+        log.error(rnfe.getMessage());
       }
-
-      @Override
-      public String toString() {
-        return "Index all changes of project " + project.get();
-      }
+      return null;
     };
   }
 

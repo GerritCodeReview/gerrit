@@ -20,7 +20,6 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AbstractFuture;
-import com.google.common.util.concurrent.AsyncFunction;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -246,31 +245,22 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
   ListenableFuture<?> insert(final Document doc) {
     return submit(
-        new Callable<Long>() {
-          @Override
-          public Long call() throws IOException, InterruptedException {
-            return writer.addDocument(doc);
-          }
+        () -> {
+          return writer.addDocument(doc);
         });
   }
 
   ListenableFuture<?> replace(final Term term, final Document doc) {
     return submit(
-        new Callable<Long>() {
-          @Override
-          public Long call() throws IOException, InterruptedException {
-            return writer.updateDocument(term, doc);
-          }
+        () -> {
+          return writer.updateDocument(term, doc);
         });
   }
 
   ListenableFuture<?> delete(final Term term) {
     return submit(
-        new Callable<Long>() {
-          @Override
-          public Long call() throws IOException, InterruptedException {
-            return writer.deleteDocuments(term);
-          }
+        () -> {
+          return writer.deleteDocuments(term);
         });
   }
 
@@ -278,14 +268,11 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     ListenableFuture<Long> future = Futures.nonCancellationPropagating(writerThread.submit(task));
     return Futures.transformAsync(
         future,
-        new AsyncFunction<Long, Void>() {
-          @Override
-          public ListenableFuture<Void> apply(Long gen) throws InterruptedException {
-            // Tell the reopen thread a future is waiting on this
-            // generation so it uses the min stale time when refreshing.
-            reopenThread.waitForGeneration(gen, 0);
-            return new NrtFuture(gen);
-          }
+        gen -> {
+          // Tell the reopen thread a future is waiting on this
+          // generation so it uses the min stale time when refreshing.
+          reopenThread.waitForGeneration(gen, 0);
+          return new NrtFuture(gen);
         },
         directExecutor());
   }

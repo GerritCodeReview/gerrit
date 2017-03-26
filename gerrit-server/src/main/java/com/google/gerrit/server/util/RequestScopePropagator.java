@@ -173,51 +173,45 @@ public abstract class RequestScopePropagator {
   protected abstract <T> Callable<T> wrapImpl(Callable<T> callable);
 
   protected <T> Callable<T> context(final RequestContext context, final Callable<T> callable) {
-    return new Callable<T>() {
-      @Override
-      public T call() throws Exception {
-        RequestContext old =
-            local.setContext(
-                new RequestContext() {
-                  @Override
-                  public CurrentUser getUser() {
-                    return context.getUser();
-                  }
+    return () -> {
+      RequestContext old =
+          local.setContext(
+              new RequestContext() {
+                @Override
+                public CurrentUser getUser() {
+                  return context.getUser();
+                }
 
-                  @Override
-                  public Provider<ReviewDb> getReviewDbProvider() {
-                    return dbProviderProvider.get();
-                  }
-                });
-        try {
-          return callable.call();
-        } finally {
-          local.setContext(old);
-        }
+                @Override
+                public Provider<ReviewDb> getReviewDbProvider() {
+                  return dbProviderProvider.get();
+                }
+              });
+      try {
+        return callable.call();
+      } finally {
+        local.setContext(old);
       }
     };
   }
 
   protected <T> Callable<T> cleanup(final Callable<T> callable) {
-    return new Callable<T>() {
-      @Override
-      public T call() throws Exception {
-        RequestCleanup cleanup =
-            scope
-                .scope(
-                    Key.get(RequestCleanup.class),
-                    new Provider<RequestCleanup>() {
-                      @Override
-                      public RequestCleanup get() {
-                        return new RequestCleanup();
-                      }
-                    })
-                .get();
-        try {
-          return callable.call();
-        } finally {
-          cleanup.run();
-        }
+    return () -> {
+      RequestCleanup cleanup =
+          scope
+              .scope(
+                  Key.get(RequestCleanup.class),
+                  new Provider<RequestCleanup>() {
+                    @Override
+                    public RequestCleanup get() {
+                      return new RequestCleanup();
+                    }
+                  })
+              .get();
+      try {
+        return callable.call();
+      } finally {
+        cleanup.run();
       }
     };
   }

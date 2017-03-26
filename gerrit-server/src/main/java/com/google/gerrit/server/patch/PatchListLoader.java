@@ -255,12 +255,9 @@ public class PatchListLoader implements Callable<PatchList> {
 
     Future<FileHeader> result =
         diffExecutor.submit(
-            new Callable<FileHeader>() {
-              @Override
-              public FileHeader call() throws IOException {
-                synchronized (diffEntry) {
-                  return diffFormatter.toFileHeader(diffEntry);
-                }
+            () -> {
+              synchronized (diffEntry) {
+                return diffFormatter.toFileHeader(diffEntry);
               }
             });
 

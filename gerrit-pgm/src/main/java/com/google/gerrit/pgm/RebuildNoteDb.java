@@ -66,7 +66,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -155,15 +154,12 @@ public class RebuildNoteDb extends SiteProgram {
       for (final Project.NameKey project : projectNames) {
         ListenableFuture<Boolean> future =
             executor.submit(
-                new Callable<Boolean>() {
-                  @Override
-                  public Boolean call() {
-                    try (ReviewDb db = unwrapDb(schemaFactory.open())) {
-                      return rebuildProject(db, changesByProject, project, allUsersRepo);
-                    } catch (Exception e) {
-                      log.error("Error rebuilding project " + project, e);
-                      return false;
-                    }
+                () -> {
+                  try (ReviewDb db = unwrapDb(schemaFactory.open())) {
+                    return rebuildProject(db, changesByProject, project, allUsersRepo);
+                  } catch (Exception e) {
+                    log.error("Error rebuilding project " + project, e);
+                    return false;
                   }
                 });
         futures.add(future);

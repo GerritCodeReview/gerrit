@@ -75,12 +75,7 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
   public IntraLineDiff call() throws Exception {
     Future<IntraLineDiff> result =
         diffExecutor.submit(
-            new Callable<IntraLineDiff>() {
-              @Override
-              public IntraLineDiff call() throws Exception {
-                return IntraLineLoader.compute(args.aText(), args.bText(), args.edits());
-              }
-            });
+            () -> IntraLineLoader.compute(args.aText(), args.bText(), args.edits()));
     try {
       return result.get(timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (InterruptedException | TimeoutException e) {

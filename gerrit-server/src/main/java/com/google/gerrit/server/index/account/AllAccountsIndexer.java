@@ -33,7 +33,6 @@ import com.google.inject.Singleton;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -76,31 +75,28 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
   }
 
   private SiteIndexer.Result reindexAccounts(
-      final AccountIndex index, List<Account.Id> ids, ProgressMonitor progress) {
+      AccountIndex index, List<Account.Id> ids, ProgressMonitor progress) {
     progress.beginTask("Reindexing accounts", ids.size());
     List<ListenableFuture<?>> futures = new ArrayList<>(ids.size());
     AtomicBoolean ok = new AtomicBoolean(true);
-    final AtomicInteger done = new AtomicInteger();
-    final AtomicInteger failed = new AtomicInteger();
+    AtomicInteger done = new AtomicInteger();
+    AtomicInteger failed = new AtomicInteger();
     Stopwatch sw = Stopwatch.createStarted();
     for (final Account.Id id : ids) {
-      final String desc = "account " + id;
+      String desc = "account " + id;
       ListenableFuture<?> future =
           executor.submit(
-              new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                  try {
-                    accountCache.evict(id);
-                    index.replace(accountCache.get(id));
-                    verboseWriter.println("Reindexed " + desc);
-                    done.incrementAndGet();
-                  } catch (Exception e) {
-                    failed.incrementAndGet();
-                    throw e;
-                  }
-                  return null;
+              () -> {
+                try {
+                  accountCache.evict(id);
+                  index.replace(accountCache.get(id));
+                  verboseWriter.println("Reindexed " + desc);
+                  done.incrementAndGet();
+                } catch (Exception e) {
+                  failed.incrementAndGet();
+                  throw e;
                 }
+                return null;
               });
       addErrorListener(future, desc, progress, ok);
       futures.add(future);

@@ -88,29 +88,26 @@ class SideBySideCommentGroup extends CommentGroup implements Comparable<SideBySi
   void handleRedraw() {
     getLineWidget()
         .onRedraw(
-            new Runnable() {
-              @Override
-              public void run() {
-                if (canComputeHeight() && peers.peek().canComputeHeight()) {
-                  if (getResizeTimer() != null) {
-                    getResizeTimer().cancel();
-                    setResizeTimer(null);
-                  }
-                  adjustPadding(SideBySideCommentGroup.this, peers.peek());
-                } else if (getResizeTimer() == null) {
-                  setResizeTimer(
-                      new Timer() {
-                        @Override
-                        public void run() {
-                          if (canComputeHeight() && peers.peek().canComputeHeight()) {
-                            cancel();
-                            setResizeTimer(null);
-                            adjustPadding(SideBySideCommentGroup.this, peers.peek());
-                          }
-                        }
-                      });
-                  getResizeTimer().scheduleRepeating(5);
+            () -> {
+              if (canComputeHeight() && peers.peek().canComputeHeight()) {
+                if (getResizeTimer() != null) {
+                  getResizeTimer().cancel();
+                  setResizeTimer(null);
                 }
+                adjustPadding(SideBySideCommentGroup.this, peers.peek());
+              } else if (getResizeTimer() == null) {
+                setResizeTimer(
+                    new Timer() {
+                      @Override
+                      public void run() {
+                        if (canComputeHeight() && peers.peek().canComputeHeight()) {
+                          cancel();
+                          setResizeTimer(null);
+                          adjustPadding(SideBySideCommentGroup.this, peers.peek());
+                        }
+                      }
+                    });
+                getResizeTimer().scheduleRepeating(5);
               }
             });
   }

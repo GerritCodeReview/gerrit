@@ -246,15 +246,12 @@ class SideBySideChunkManager extends ChunkManager {
 
   @Override
   Runnable diffChunkNav(final CodeMirror cm, final Direction dir) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        int line = cm.extras().hasActiveLine() ? cm.getLineNumber(cm.extras().activeLine()) : 0;
-        int res =
-            Collections.binarySearch(
-                chunks, new DiffChunkInfo(cm.side(), line, 0, false), getDiffChunkComparator());
-        diffChunkNavHelper(chunks, host, res, dir);
-      }
+    return () -> {
+      int line = cm.extras().hasActiveLine() ? cm.getLineNumber(cm.extras().activeLine()) : 0;
+      int res =
+          Collections.binarySearch(
+              chunks, new DiffChunkInfo(cm.side(), line, 0, false), getDiffChunkComparator());
+      diffChunkNavHelper(chunks, host, res, dir);
     };
   }
 

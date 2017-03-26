@@ -45,16 +45,13 @@ public class Gsql extends SiteProgram {
     manager.add(dbInjector);
     manager.start();
     RuntimeShutdown.add(
-        new Runnable() {
-          @Override
-          public void run() {
-            try {
-              System.in.close();
-            } catch (IOException e) {
-              // Ignored
-            }
-            manager.stop();
+        () -> {
+          try {
+            System.in.close();
+          } catch (IOException e) {
+            // Ignored
           }
+          manager.stop();
         });
     final QueryShell shell = shellFactory().create(System.in, System.out);
     shell.setOutputFormat(format);

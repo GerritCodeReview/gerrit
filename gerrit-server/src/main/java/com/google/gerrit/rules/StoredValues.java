@@ -119,19 +119,13 @@ public final class StoredValues {
           GitRepositoryManager gitMgr = env.getArgs().getGitRepositoryManager();
           Change change = getChange(engine);
           Project.NameKey projectKey = change.getProject();
-          final Repository repo;
+          Repository repo;
           try {
             repo = gitMgr.openRepository(projectKey);
           } catch (IOException e) {
             throw new SystemException(e.getMessage());
           }
-          env.addToCleanup(
-              new Runnable() {
-                @Override
-                public void run() {
-                  repo.close();
-                }
-              });
+          env.addToCleanup(repo::close);
           return repo;
         }
       };

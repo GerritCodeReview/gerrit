@@ -318,47 +318,32 @@ public class Header extends Composite {
   }
 
   Runnable toggleReviewed() {
-    return new Runnable() {
-      @Override
-      public void run() {
-        reviewed.setValue(!reviewed.getValue(), true);
-      }
+    return () -> {
+      reviewed.setValue(!reviewed.getValue(), true);
     };
   }
 
   Runnable navigate(Direction dir) {
     switch (dir) {
       case PREV:
-        return new Runnable() {
-          @Override
-          public void run() {
-            (hasPrev ? prev : up).go();
-          }
+        return () -> {
+          (hasPrev ? prev : up).go();
         };
       case NEXT:
-        return new Runnable() {
-          @Override
-          public void run() {
-            (hasNext ? next : up).go();
-          }
+        return () -> {
+          (hasNext ? next : up).go();
         };
       default:
-        return new Runnable() {
-          @Override
-          public void run() {}
-        };
+        return () -> {};
     }
   }
 
   Runnable reviewedAndNext() {
-    return new Runnable() {
-      @Override
-      public void run() {
-        if (Gerrit.isSignedIn()) {
-          reviewed.setValue(true, true);
-        }
-        navigate(Direction.NEXT).run();
+    return () -> {
+      if (Gerrit.isSignedIn()) {
+        reviewed.setValue(true, true);
       }
+      navigate(Direction.NEXT).run();
     };
   }
 

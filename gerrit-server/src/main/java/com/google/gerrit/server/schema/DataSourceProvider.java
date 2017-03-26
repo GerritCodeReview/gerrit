@@ -161,8 +161,8 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
     }
   }
 
-  private void exportPoolMetrics(final BasicDataSource pool) {
-    final CallbackMetric1<Boolean, Integer> cnt =
+  private void exportPoolMetrics(BasicDataSource pool) {
+    CallbackMetric1<Boolean, Integer> cnt =
         metrics.newCallbackMetric(
             "sql/connection_pool/connections",
             Integer.class,
@@ -170,13 +170,10 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
             Field.ofBoolean("active"));
     metrics.newTrigger(
         cnt,
-        new Runnable() {
-          @Override
-          public void run() {
-            synchronized (pool) {
-              cnt.set(true, pool.getNumActive());
-              cnt.set(false, pool.getNumIdle());
-            }
+        () -> {
+          synchronized (pool) {
+            cnt.set(true, pool.getNumActive());
+            cnt.set(false, pool.getNumIdle());
           }
         });
   }

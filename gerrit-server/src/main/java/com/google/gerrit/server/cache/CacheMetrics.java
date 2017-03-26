@@ -69,25 +69,22 @@ public class CacheMetrics {
 
     metrics.newTrigger(
         cacheMetrics,
-        new Runnable() {
-          @Override
-          public void run() {
-            for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
-              Cache<?, ?> c = e.getProvider().get();
-              String name = metricNameOf(e);
-              CacheStats cstats = c.stats();
-              memEnt.set(name, c.size());
-              memHit.set(name, cstats.hitRate() * 100);
-              memEvict.set(name, cstats.evictionCount());
-              if (c instanceof PersistentCache) {
-                PersistentCache.DiskStats d = ((PersistentCache) c).diskStats();
-                perDiskEnt.set(name, d.size());
-                perDiskHit.set(name, hitRatio(d));
-              }
+        () -> {
+          for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
+            Cache<?, ?> c = e.getProvider().get();
+            String name = metricNameOf(e);
+            CacheStats cstats = c.stats();
+            memEnt.set(name, c.size());
+            memHit.set(name, cstats.hitRate() * 100);
+            memEvict.set(name, cstats.evictionCount());
+            if (c instanceof PersistentCache) {
+              PersistentCache.DiskStats d = ((PersistentCache) c).diskStats();
+              perDiskEnt.set(name, d.size());
+              perDiskHit.set(name, hitRatio(d));
             }
-            for (CallbackMetric<?> cbm : cacheMetrics) {
-              cbm.prune();
-            }
+          }
+          for (CallbackMetric<?> cbm : cacheMetrics) {
+            cbm.prune();
           }
         });
   }

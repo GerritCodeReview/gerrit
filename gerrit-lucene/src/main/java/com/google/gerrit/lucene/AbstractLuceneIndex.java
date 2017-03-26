@@ -121,28 +121,25 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       @SuppressWarnings("unused") // Error handling within Runnable.
       Future<?> possiblyIgnoredError =
           autoCommitExecutor.scheduleAtFixedRate(
-              new Runnable() {
-                @Override
-                public void run() {
+              () -> {
+                try {
+                  if (autoCommitWriter.hasUncommittedChanges()) {
+                    autoCommitWriter.manualFlush();
+                    autoCommitWriter.commit();
+                  }
+                } catch (IOException e) {
+                  log.error("Error committing " + index + " Lucene index", e);
+                } catch (OutOfMemoryError e) {
+                  log.error("Error committing " + index + " Lucene index", e);
                   try {
-                    if (autoCommitWriter.hasUncommittedChanges()) {
-                      autoCommitWriter.manualFlush();
-                      autoCommitWriter.commit();
-                    }
-                  } catch (IOException e) {
-                    log.error("Error committing " + index + " Lucene index", e);
-                  } catch (OutOfMemoryError e) {
-                    log.error("Error committing " + index + " Lucene index", e);
-                    try {
-                      autoCommitWriter.close();
-                    } catch (IOException e2) {
-                      log.error(
-                          "SEVERE: Error closing "
-                              + index
-                              + " Lucene index after OOM;"
-                              + " index may be corrupted.",
-                          e);
-                    }
+                    autoCommitWriter.close();
+                  } catch (IOException e2) {
+                    log.error(
+                        "SEVERE: Error closing "
+                            + index
+                            + " Lucene index after OOM;"
+                            + " index may be corrupted.",
+                        e);
                   }
                 }
               },

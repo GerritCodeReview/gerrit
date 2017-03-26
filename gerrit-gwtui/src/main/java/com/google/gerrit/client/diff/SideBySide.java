@@ -102,14 +102,11 @@ public class SideBySide extends DiffScreen {
     super.onShowView();
 
     operation(
-        new Runnable() {
-          @Override
-          public void run() {
-            resizeCodeMirror();
-            chunkManager.adjustPadding();
-            cmA.refresh();
-            cmB.refresh();
-          }
+        () -> {
+          resizeCodeMirror();
+          chunkManager.adjustPadding();
+          cmA.refresh();
+          cmB.refresh();
         });
     setLineLength(Patch.COMMIT_MSG.equals(path) ? 72 : prefs.lineLength());
     diffTable.refresh();
@@ -209,18 +206,15 @@ public class SideBySide extends DiffScreen {
     chunkManager = new SideBySideChunkManager(this, cmA, cmB, diffTable.scrollbar);
 
     operation(
-        new Runnable() {
-          @Override
-          public void run() {
-            // Estimate initial CodeMirror height, fixed up in onShowView.
-            int height = Window.getClientHeight() - (Gerrit.getHeaderFooterHeight() + 18);
-            cmA.setHeight(height);
-            cmB.setHeight(height);
+        () -> {
+          // Estimate initial CodeMirror height, fixed up in onShowView.
+          int height = Window.getClientHeight() - (Gerrit.getHeaderFooterHeight() + 18);
+          cmA.setHeight(height);
+          cmB.setHeight(height);
 
-            render(diff);
-            commentManager.render(comments, prefs.expandAllComments());
-            skipManager.render(prefs.context(), diff);
-          }
+          render(diff);
+          commentManager.render(comments, prefs.expandAllComments());
+          skipManager.render(prefs.context(), diff);
         });
 
     registerCmEvents(cmA);
@@ -321,64 +315,50 @@ public class SideBySide extends DiffScreen {
   @Override
   Runnable updateActiveLine(final CodeMirror cm) {
     final CodeMirror other = otherCm(cm);
-    return new Runnable() {
-      @Override
-      public void run() {
-        // The rendering of active lines has to be deferred. Reflow
-        // caused by adding and removing styles chokes Firefox when arrow
-        // key (or j/k) is held down. Performance on Chrome is fine
-        // without the deferral.
-        //
-        Scheduler.get()
-            .scheduleDeferred(
-                new ScheduledCommand() {
-                  @Override
-                  public void execute() {
-                    operation(
-                        new Runnable() {
-                          @Override
-                          public void run() {
-                            LineHandle handle =
-                                cm.getLineHandleVisualStart(cm.getCursor("end").line());
-                            if (!cm.extras().activeLine(handle)) {
-                              return;
-                            }
+    return () -> {
+      // The rendering of active lines has to be deferred. Reflow
+      // caused by adding and removing styles chokes Firefox when arrow
+      // key (or j/k) is held down. Performance on Chrome is fine
+      // without the deferral.
+      //
+      Scheduler.get()
+          .scheduleDeferred(
+              new ScheduledCommand() {
+                @Override
+                public void execute() {
+                  operation(
+                      () -> {
+                        LineHandle handle = cm.getLineHandleVisualStart(cm.getCursor("end").line());
+                        if (!cm.extras().activeLine(handle)) {
+                          return;
+                        }
 
-                            LineOnOtherInfo info = lineOnOther(cm.side(), cm.getLineNumber(handle));
-                            if (info.isAligned()) {
-                              other.extras().activeLine(other.getLineHandle(info.getLine()));
-                            } else {
-                              other.extras().clearActiveLine();
-                            }
-                          }
-                        });
-                  }
-                });
-      }
+                        LineOnOtherInfo info = lineOnOther(cm.side(), cm.getLineNumber(handle));
+                        if (info.isAligned()) {
+                          other.extras().activeLine(other.getLineHandle(info.getLine()));
+                        } else {
+                          other.extras().clearActiveLine();
+                        }
+                      });
+                }
+              });
     };
   }
 
   private Runnable moveCursorToSide(final CodeMirror cmSrc, DisplaySide sideDst) {
     final CodeMirror cmDst = getCmFromSide(sideDst);
     if (cmDst == cmSrc) {
-      return new Runnable() {
-        @Override
-        public void run() {}
-      };
+      return () -> {};
     }
 
     final DisplaySide sideSrc = cmSrc.side();
-    return new Runnable() {
-      @Override
-      public void run() {
-        if (cmSrc.extras().hasActiveLine()) {
-          cmDst.setCursor(
-              Pos.create(
-                  lineOnOther(sideSrc, cmSrc.getLineNumber(cmSrc.extras().activeLine()))
-                      .getLine()));
-        }
-        cmDst.focus();
+    return () -> {
+      if (cmSrc.extras().hasActiveLine()) {
+        cmDst.setCursor(
+            Pos.create(
+                lineOnOther(sideSrc, cmSrc.getLineNumber(cmSrc.extras().activeLine())).getLine()));
       }
+      cmDst.focus();
     };
   }
 
@@ -389,19 +369,10 @@ public class SideBySide extends DiffScreen {
   }
 
   @Override
-  void operation(final Runnable apply) {
+  void operation(Runnable apply) {
     cmA.operation(
-        new Runnable() {
-          @Override
-          public void run() {
-            cmB.operation(
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    apply.run();
-                  }
-                });
-          }
+        () -> {
+          cmB.operation(apply::run);
         });
   }
 

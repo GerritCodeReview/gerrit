@@ -51,12 +51,9 @@ public class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
         cleanup
             .get()
             .add(
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    c.close();
-                    db = null;
-                  }
+                () -> {
+                  c.close();
+                  db = null;
                 });
       } catch (Throwable e) {
         c.close();

@@ -230,13 +230,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
       Future<?> future = task.getAndSet(null);
       if (future != null) {
         future.cancel(true);
-        destroyExecutor.execute(
-            new Runnable() {
-              @Override
-              public void run() {
-                onDestroy();
-              }
-            });
+        destroyExecutor.execute(this::onDestroy);
       }
     }
 

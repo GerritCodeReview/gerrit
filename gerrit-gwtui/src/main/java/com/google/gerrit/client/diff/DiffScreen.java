@@ -336,7 +336,7 @@ abstract class DiffScreen extends Screen {
     handlers.clear();
   }
 
-  void registerCmEvents(final CodeMirror cm) {
+  void registerCmEvents(CodeMirror cm) {
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("focus", updateActiveLine(cm));
     KeyMap keyMap =
@@ -356,169 +356,108 @@ abstract class DiffScreen extends Screen {
             .on("Shift-O", getCommentManager().openCloseAll(cm))
             .on(
                 "I",
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    switch (getIntraLineStatus()) {
-                      case OFF:
-                      case OK:
-                        toggleShowIntraline();
-                        break;
-                      case FAILURE:
-                      case TIMEOUT:
-                      default:
-                        break;
-                    }
+                () -> {
+                  switch (getIntraLineStatus()) {
+                    case OFF:
+                    case OK:
+                      toggleShowIntraline();
+                      break;
+                    case FAILURE:
+                    case TIMEOUT:
+                    default:
+                      break;
                   }
                 })
-            .on(
-                "','",
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    prefsAction.show();
-                  }
-                })
+            .on("','", prefsAction::show)
             .on(
                 "Shift-/",
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    new ShowHelpCommand().onKeyPress(null);
-                  }
+                () -> {
+                  new ShowHelpCommand().onKeyPress(null);
                 })
             .on(
                 "Space",
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    cm.vim().handleKey("<C-d>");
-                  }
+                () -> {
+                  cm.vim().handleKey("<C-d>");
                 })
             .on(
                 "Shift-Space",
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    cm.vim().handleKey("<C-u>");
-                  }
+                () -> {
+                  cm.vim().handleKey("<C-u>");
                 })
             .on(
                 "Ctrl-F",
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    cm.execCommand("find");
-                  }
+                () -> {
+                  cm.execCommand("find");
                 })
             .on(
                 "Ctrl-G",
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    cm.execCommand("findNext");
-                  }
+                () -> {
+                  cm.execCommand("findNext");
                 })
             .on("Enter", maybeNextCmSearch(cm))
             .on(
                 "Shift-Ctrl-G",
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    cm.execCommand("findPrev");
-                  }
+                () -> {
+                  cm.execCommand("findPrev");
                 })
             .on(
                 "Shift-Enter",
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    cm.execCommand("findPrev");
-                  }
+                () -> {
+                  cm.execCommand("findPrev");
                 })
             .on(
                 "Esc",
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    cm.setCursor(cm.getCursor());
-                    cm.execCommand("clearSearch");
-                    cm.vim().handleEx("nohlsearch");
-                  }
+                () -> {
+                  cm.setCursor(cm.getCursor());
+                  cm.execCommand("clearSearch");
+                  cm.vim().handleEx("nohlsearch");
                 })
             .on(
                 "Ctrl-A",
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    cm.execCommand("selectAll");
-                  }
+                () -> {
+                  cm.execCommand("selectAll");
                 })
             .on(
                 "G O",
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    Gerrit.display(PageLinks.toChangeQuery("status:open"));
-                  }
+                () -> {
+                  Gerrit.display(PageLinks.toChangeQuery("status:open"));
                 })
             .on(
                 "G M",
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    Gerrit.display(PageLinks.toChangeQuery("status:merged"));
-                  }
+                () -> {
+                  Gerrit.display(PageLinks.toChangeQuery("status:merged"));
                 })
             .on(
                 "G A",
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    Gerrit.display(PageLinks.toChangeQuery("status:abandoned"));
-                  }
+                () -> {
+                  Gerrit.display(PageLinks.toChangeQuery("status:abandoned"));
                 });
     if (Gerrit.isSignedIn()) {
       keyMap
           .on(
               "G I",
-              new Runnable() {
-                @Override
-                public void run() {
-                  Gerrit.display(PageLinks.MINE);
-                }
+              () -> {
+                Gerrit.display(PageLinks.MINE);
               })
           .on(
               "G D",
-              new Runnable() {
-                @Override
-                public void run() {
-                  Gerrit.display(PageLinks.toChangeQuery("owner:self is:draft"));
-                }
+              () -> {
+                Gerrit.display(PageLinks.toChangeQuery("owner:self is:draft"));
               })
           .on(
               "G C",
-              new Runnable() {
-                @Override
-                public void run() {
-                  Gerrit.display(PageLinks.toChangeQuery("has:draft"));
-                }
+              () -> {
+                Gerrit.display(PageLinks.toChangeQuery("has:draft"));
               })
           .on(
               "G W",
-              new Runnable() {
-                @Override
-                public void run() {
-                  Gerrit.display(PageLinks.toChangeQuery("is:watched status:open"));
-                }
+              () -> {
+                Gerrit.display(PageLinks.toChangeQuery("is:watched status:open"));
               })
           .on(
               "G S",
-              new Runnable() {
-                @Override
-                public void run() {
-                  Gerrit.display(PageLinks.toChangeQuery("is:starred"));
-                }
+              () -> {
+                Gerrit.display(PageLinks.toChangeQuery("is:starred"));
               });
     }
 
@@ -700,13 +639,10 @@ abstract class DiffScreen extends Screen {
 
   void setContext(final int context) {
     operation(
-        new Runnable() {
-          @Override
-          public void run() {
-            skipManager.removeAll();
-            skipManager.render(context, diff);
-            updateRenderEntireFile();
-          }
+        () -> {
+          skipManager.removeAll();
+          skipManager.render(context, diff);
+          updateRenderEntireFile();
         });
   }
 
@@ -753,21 +689,18 @@ abstract class DiffScreen extends Screen {
     return line - offset;
   }
 
-  private Runnable openEditScreen(final CodeMirror cm) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        LineHandle handle = cm.extras().activeLine();
-        int line = cm.getLineNumber(handle) + 1;
-        if (Patch.COMMIT_MSG.equals(path)) {
-          line = adjustCommitMessageLine(line);
-        }
-        String token = Dispatcher.toEditScreen(revision, path, line);
-        if (!Gerrit.isSignedIn()) {
-          Gerrit.doSignIn(token);
-        } else {
-          Gerrit.display(token);
-        }
+  private Runnable openEditScreen(CodeMirror cm) {
+    return () -> {
+      LineHandle handle = cm.extras().activeLine();
+      int line = cm.getLineNumber(handle) + 1;
+      if (Patch.COMMIT_MSG.equals(path)) {
+        line = adjustCommitMessageLine(line);
+      }
+      String token = Dispatcher.toEditScreen(revision, path, line);
+      if (!Gerrit.isSignedIn()) {
+        Gerrit.doSignIn(token);
+      } else {
+        Gerrit.display(token);
       }
     };
   }
@@ -832,63 +765,51 @@ abstract class DiffScreen extends Screen {
 
   abstract void operation(Runnable apply);
 
-  private Runnable upToChange(final boolean openReplyBox) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        CallbackGroup group = new CallbackGroup();
-        getCommentManager().saveAllDrafts(group);
-        group.done();
-        group.addListener(
-            new GerritCallback<Void>() {
-              @Override
-              public void onSuccess(Void result) {
-                String rev = String.valueOf(revision.get());
-                Gerrit.display(
-                    PageLinks.toChange(changeId, base.asString(), rev),
-                    new ChangeScreen(changeId, base, rev, openReplyBox, FileTable.Mode.REVIEW));
-              }
-            });
+  private Runnable upToChange(boolean openReplyBox) {
+    return () -> {
+      CallbackGroup group = new CallbackGroup();
+      getCommentManager().saveAllDrafts(group);
+      group.done();
+      group.addListener(
+          new GerritCallback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+              String rev = String.valueOf(revision.get());
+              Gerrit.display(
+                  PageLinks.toChange(changeId, base.asString(), rev),
+                  new ChangeScreen(changeId, base, rev, openReplyBox, FileTable.Mode.REVIEW));
+            }
+          });
+    };
+  }
+
+  private Runnable maybePrevVimSearch(CodeMirror cm) {
+    return () -> {
+      if (cm.vim().hasSearchHighlight()) {
+        cm.vim().handleKey("N");
+      } else {
+        getCommentManager().commentNav(cm, Direction.NEXT).run();
       }
     };
   }
 
-  private Runnable maybePrevVimSearch(final CodeMirror cm) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        if (cm.vim().hasSearchHighlight()) {
-          cm.vim().handleKey("N");
-        } else {
-          getCommentManager().commentNav(cm, Direction.NEXT).run();
-        }
+  private Runnable maybeNextVimSearch(CodeMirror cm) {
+    return () -> {
+      if (cm.vim().hasSearchHighlight()) {
+        cm.vim().handleKey("n");
+      } else {
+        getChunkManager().diffChunkNav(cm, Direction.NEXT).run();
       }
     };
   }
 
-  private Runnable maybeNextVimSearch(final CodeMirror cm) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        if (cm.vim().hasSearchHighlight()) {
-          cm.vim().handleKey("n");
-        } else {
-          getChunkManager().diffChunkNav(cm, Direction.NEXT).run();
-        }
-      }
-    };
-  }
-
-  Runnable maybeNextCmSearch(final CodeMirror cm) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        if (cm.hasSearchHighlight()) {
-          cm.execCommand("findNext");
-        } else {
-          cm.execCommand("clearSearch");
-          getCommentManager().toggleOpenBox(cm).run();
-        }
+  Runnable maybeNextCmSearch(CodeMirror cm) {
+    return () -> {
+      if (cm.hasSearchHighlight()) {
+        cm.execCommand("findNext");
+      } else {
+        cm.execCommand("clearSearch");
+        getCommentManager().toggleOpenBox(cm).run();
       }
     };
   }
@@ -973,7 +894,7 @@ abstract class DiffScreen extends Screen {
   }
 
   void reloadDiffInfo() {
-    final int id = ++reloadVersionId;
+    int id = ++reloadVersionId;
     DiffApi.diff(revision, path)
         .base(base.asPatchSetId())
         .wholeFile()
@@ -986,16 +907,13 @@ abstract class DiffScreen extends Screen {
                 if (id == reloadVersionId && isAttached()) {
                   diff = diffInfo;
                   operation(
-                      new Runnable() {
-                        @Override
-                        public void run() {
-                          skipManager.removeAll();
-                          getChunkManager().reset();
-                          getDiffTable().scrollbar.removeDiffAnnotations();
-                          setShowIntraline(prefs.intralineDifference());
-                          render(diff);
-                          skipManager.render(prefs.context(), diff);
-                        }
+                      () -> {
+                        skipManager.removeAll();
+                        getChunkManager().reset();
+                        getDiffTable().scrollbar.removeDiffAnnotations();
+                        setShowIntraline(prefs.intralineDifference());
+                        render(diff);
+                        skipManager.render(prefs.context(), diff);
                       });
                 }
               }

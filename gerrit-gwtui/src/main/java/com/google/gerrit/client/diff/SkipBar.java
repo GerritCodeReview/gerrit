@@ -91,12 +91,9 @@ class SkipBar extends Composite {
       }
       if (isNew) {
         lineWidget.onFirstRedraw(
-            new Runnable() {
-              @Override
-              public void run() {
-                int w = cm.getGutterElement().getOffsetWidth();
-                getElement().getStyle().setPaddingLeft(w, Unit.PX);
-              }
+            () -> {
+              int w = cm.getGutterElement().getOffsetWidth();
+              getElement().getStyle().setPaddingLeft(w, Unit.PX);
             });
       }
     }
@@ -110,14 +107,7 @@ class SkipBar extends Composite {
                 .set("inclusiveLeft", true)
                 .set("inclusiveRight", true));
 
-    textMarker.on(
-        "beforeCursorEnter",
-        new Runnable() {
-          @Override
-          public void run() {
-            expandAll();
-          }
-        });
+    textMarker.on("beforeCursorEnter", this::expandAll);
 
     int skipped = end - start + 1;
     if (skipped <= UP_DOWN_THRESHOLD) {

@@ -30,7 +30,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -102,12 +101,9 @@ public class Unified extends DiffScreen {
     super.onShowView();
 
     operation(
-        new Runnable() {
-          @Override
-          public void run() {
-            resizeCodeMirror();
-            cm.refresh();
-          }
+        () -> {
+          resizeCodeMirror();
+          cm.refresh();
         });
     setLineLength(Patch.COMMIT_MSG.equals(path) ? 72 : prefs.lineLength());
     diffTable.refresh();
@@ -142,13 +138,10 @@ public class Unified extends DiffScreen {
 
     cm.on(
         "scroll",
-        new Runnable() {
-          @Override
-          public void run() {
-            ScrollInfo si = cm.getScrollInfo();
-            if (autoHideDiffTableHeader) {
-              updateDiffTableHeader(si);
-            }
+        () -> {
+          ScrollInfo si = cm.getScrollInfo();
+          if (autoHideDiffTableHeader) {
+            updateDiffTableHeader(si);
           }
         });
     maybeRegisterRenderEntireFileKeyMap(cm);
@@ -186,17 +179,14 @@ public class Unified extends DiffScreen {
     chunkManager = new UnifiedChunkManager(this, cm, diffTable.scrollbar);
 
     operation(
-        new Runnable() {
-          @Override
-          public void run() {
-            // Estimate initial CodeMirror height, fixed up in onShowView.
-            int height = Window.getClientHeight() - (Gerrit.getHeaderFooterHeight() + 18);
-            cm.setHeight(height);
+        () -> {
+          // Estimate initial CodeMirror height, fixed up in onShowView.
+          int height = Window.getClientHeight() - (Gerrit.getHeaderFooterHeight() + 18);
+          cm.setHeight(height);
 
-            render(diff);
-            commentManager.render(comments, prefs.expandAllComments());
-            skipManager.render(prefs.context(), diff);
-          }
+          render(diff);
+          commentManager.render(comments, prefs.expandAllComments());
+          skipManager.render(prefs.context(), diff);
         });
 
     registerCmEvents(cm);
@@ -318,24 +308,18 @@ public class Unified extends DiffScreen {
 
   @Override
   Runnable updateActiveLine(final CodeMirror cm) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        // The rendering of active lines has to be deferred. Reflow
-        // caused by adding and removing styles chokes Firefox when arrow
-        // key (or j/k) is held down. Performance on Chrome is fine
-        // without the deferral.
-        //
-        Scheduler.get()
-            .scheduleDeferred(
-                new ScheduledCommand() {
-                  @Override
-                  public void execute() {
-                    LineHandle handle = cm.getLineHandleVisualStart(cm.getCursor("end").line());
-                    cm.extras().activeLine(handle);
-                  }
-                });
-      }
+    return () -> {
+      // The rendering of active lines has to be deferred. Reflow
+      // caused by adding and removing styles chokes Firefox when arrow
+      // key (or j/k) is held down. Performance on Chrome is fine
+      // without the deferral.
+      //
+      Scheduler.get()
+          .scheduleDeferred(
+              () -> {
+                LineHandle handle = cm.getLineHandleVisualStart(cm.getCursor("end").line());
+                cm.extras().activeLine(handle);
+              });
     };
   }
 
@@ -354,14 +338,8 @@ public class Unified extends DiffScreen {
   }
 
   @Override
-  void operation(final Runnable apply) {
-    cm.operation(
-        new Runnable() {
-          @Override
-          public void run() {
-            apply.run();
-          }
-        });
+  void operation(Runnable apply) {
+    cm.operation(apply::run);
   }
 
   @Override

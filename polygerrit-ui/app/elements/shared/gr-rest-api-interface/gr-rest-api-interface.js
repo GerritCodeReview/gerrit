@@ -114,10 +114,14 @@
     fetchJSON: function(url, opt_errFn, opt_cancelCondition, opt_params,
         opt_opts) {
       opt_opts = opt_opts || {};
+      // Issue 5715, This can be reverted back once
+      // iOS 10.3 and mac os 10.12.4 has the fetch api fix.
       var fetchOptions = {
-        credentials: 'same-origin',
-        headers: opt_opts.headers,
+        credentials: 'same-origin'
       };
+      if (opt_opts.headers !== undefined) {
+        fetchOptions['headers'] = opt_opts.headers;
+      }
 
       var urlWithParams = this._urlWithParams(url, opt_params);
       return fetch(urlWithParams, fetchOptions).then(function(response) {

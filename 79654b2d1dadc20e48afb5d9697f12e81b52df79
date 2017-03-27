@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "449b3c01_d19165f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 37
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-27T11:07:17Z",
+      "side": 1,
+      "message": "Into which parts would you split this?",
+      "parentUuid": "88ffce2b_5d4e281e",
+      "revId": "79654b2d1dadc20e48afb5d9697f12e81b52df79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16e55e5a_6f99c007",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
         "patchSetId": 37

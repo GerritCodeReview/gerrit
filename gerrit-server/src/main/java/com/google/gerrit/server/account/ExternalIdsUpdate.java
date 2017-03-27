@@ -254,8 +254,8 @@ public class ExternalIdsUpdate {
   /**
    * Deletes an external ID.
    *
-   * <p>The deletion fails with {@link IllegalStateException} if there is an existing external ID
-   * that has the same key, but otherwise doesn't match the specified external ID.
+   * @throws IllegalStateException is thrown if there is an existing external ID that has the same
+   *     key, but otherwise doesn't match the specified external ID.
    */
   public void delete(ReviewDb db, ExternalId extId)
       throws IOException, ConfigInvalidException, OrmException {
@@ -265,9 +265,9 @@ public class ExternalIdsUpdate {
   /**
    * Deletes external IDs.
    *
-   * <p>The deletion fails with {@link IllegalStateException} if there is an existing external ID
-   * that has the same key as any of the external IDs that should be deleted, but otherwise doesn't
-   * match the that external ID.
+   * @throws IllegalStateException is thrown if there is an existing external ID that has the same
+   *     key as any of the external IDs that should be deleted, but otherwise doesn't match the that
+   *     external ID.
    */
   public void delete(ReviewDb db, Collection<ExternalId> extIds)
       throws IOException, ConfigInvalidException, OrmException {
@@ -284,8 +284,8 @@ public class ExternalIdsUpdate {
   /**
    * Delete an external ID by key.
    *
-   * <p>The external ID is only deleted if it belongs to the specified account. If it belongs to
-   * another account the deletion fails with {@link IllegalStateException}.
+   * @throws IllegalStateException is thrown if the external ID does not belong to the specified
+   *     account.
    */
   public void delete(ReviewDb db, Account.Id accountId, ExternalId.Key extIdKey)
       throws IOException, ConfigInvalidException, OrmException {
@@ -295,8 +295,8 @@ public class ExternalIdsUpdate {
   /**
    * Delete external IDs by external ID key.
    *
-   * <p>The external IDs are only deleted if they belongs to the specified account. If any of the
-   * external IDs belongs to another account the deletion fails with {@link IllegalStateException}.
+   * @throws IllegalStateException is thrown if any of the external IDs does not belong to the
+   *     specified account.
    */
   public void delete(ReviewDb db, Account.Id accountId, Collection<ExternalId.Key> extIdKeys)
       throws IOException, ConfigInvalidException, OrmException {
@@ -341,8 +341,8 @@ public class ExternalIdsUpdate {
    * be added, the old external ID with that key is deleted first and then the new external ID is
    * added (so the external ID for that key is replaced).
    *
-   * <p>If any of the specified external IDs belongs to another account the replacement fails with
-   * {@link IllegalStateException}.
+   * @throws IllegalStateException is thrown if any of the specified external IDs does not belong to
+   *     the specified account.
    */
   public void replace(
       ReviewDb db,
@@ -398,8 +398,8 @@ public class ExternalIdsUpdate {
   /**
    * Replaces an external ID.
    *
-   * <p>If the specified external IDs belongs to different accounts the replacement fails with
-   * {@link IllegalStateException}.
+   * @throws IllegalStateException is thrown if the specified external IDs belong to different
+   *     accounts.
    */
   public void replace(ReviewDb db, ExternalId toDelete, ExternalId toAdd)
       throws IOException, ConfigInvalidException, OrmException {
@@ -414,8 +414,8 @@ public class ExternalIdsUpdate {
    * added, the old external ID with that key is deleted first and then the new external ID is added
    * (so the external ID for that key is replaced).
    *
-   * <p>If the specified external IDs belong to different accounts the replacement fails with {@link
-   * IllegalStateException}.
+   * @throws IllegalStateException is thrown if the specified external IDs belong to different
+   *     accounts.
    */
   public void replace(ReviewDb db, Collection<ExternalId> toDelete, Collection<ExternalId> toAdd)
       throws IOException, ConfigInvalidException, OrmException {
@@ -502,8 +502,8 @@ public class ExternalIdsUpdate {
   /**
    * Removes an external ID from the note map.
    *
-   * <p>The removal fails with {@link IllegalStateException} if there is an existing external ID
-   * that has the same key, but otherwise doesn't match the specified external ID.
+   * @throws IllegalStateException is thrown if there is an existing external ID that has the same
+   *     key, but otherwise doesn't match the specified external ID.
    */
   public static void remove(RevWalk rw, NoteMap noteMap, ExternalId extId)
       throws IOException, ConfigInvalidException {
@@ -526,9 +526,8 @@ public class ExternalIdsUpdate {
   /**
    * Removes an external ID from the note map by external ID key.
    *
-   * <p>If an expected account ID is provided the external ID is only deleted if it belongs to this
-   * account and the deletion fails with {@link IllegalStateException} if the external IDs belongs
-   * to another account.
+   * @throws IllegalStateException is thrown if an expected account ID is provided and an external
+   *     ID with the specified key exists, but belongs to another account.
    */
   private static void remove(
       RevWalk rw, NoteMap noteMap, ExternalId.Key extIdKey, Account.Id expectedAccountId)

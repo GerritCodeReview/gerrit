@@ -305,7 +305,24 @@ public class ExternalIdsUpdate {
     updateNoteMap(
         o -> {
           for (ExternalId.Key extIdKey : extIdKeys) {
-            remove(o.rw(), o.noteMap(), accountId, extIdKey);
+            remove(o.rw(), o.noteMap(), extIdKey, accountId);
+          }
+        });
+  }
+
+  /**
+   * Delete external IDs by external ID key.
+   *
+   * <p>The external IDs are deleted regardless of which account they belong to.
+   */
+  public void deleteByKeys(ReviewDb db, Collection<ExternalId.Key> extIdKeys)
+      throws IOException, ConfigInvalidException, OrmException {
+    db.accountExternalIds().deleteKeys(toAccountExternalIdKeys(extIdKeys));
+
+    updateNoteMap(
+        o -> {
+          for (ExternalId.Key extIdKey : extIdKeys) {
+            remove(o.rw(), o.noteMap(), extIdKey, null);
           }
         });
   }
@@ -341,7 +358,35 @@ public class ExternalIdsUpdate {
     updateNoteMap(
         o -> {
           for (ExternalId.Key extIdKey : toDelete) {
-            remove(o.rw(), o.noteMap(), accountId, extIdKey);
+            remove(o.rw(), o.noteMap(), extIdKey, accountId);
+          }
+
+          for (ExternalId extId : toAdd) {
+            insert(o.rw(), o.ins(), o.noteMap(), extId);
+          }
+        });
+  }
+
+  /**
+   * Replaces external IDs for an account by external ID keys.
+   *
+   * <p>Deletion of external IDs is done before adding the new external IDs. This means if an
+   * external ID key is specified for deletion and an external ID with the same key is specified to
+   * be added, the old external ID with that key is deleted first and then the new external ID is
+   * added (so the external ID for that key is replaced).
+   *
+   * <p>The external IDs are replaced regardless of which account they belong to.
+   */
+  public void replaceByKeys(
+      ReviewDb db, Collection<ExternalId.Key> toDelete, Collection<ExternalId> toAdd)
+      throws IOException, ConfigInvalidException, OrmException {
+    db.accountExternalIds().deleteKeys(toAccountExternalIdKeys(toDelete));
+    db.accountExternalIds().insert(toAccountExternalIds(toAdd));
+
+    updateNoteMap(
+        o -> {
+          for (ExternalId.Key extIdKey : toDelete) {
+            remove(o.rw(), o.noteMap(), extIdKey, null);
           }
 
           for (ExternalId extId : toAdd) {
@@ -481,11 +526,12 @@ public class ExternalIdsUpdate {
   /**
    * Removes an external ID from the note map by external ID key.
    *
-   * <p>The external ID is only deleted if it belongs to the specified account. If the external IDs
-   * belongs to another account the deletion fails with {@link IllegalStateException}.
+   * <p>If an expected account ID is provided the external ID is only deleted if it belongs to this
+   * account and the deletion fails with {@link IllegalStateException} if the external IDs belongs
+   * to another account.
    */
   private static void remove(
-      RevWalk rw, NoteMap noteMap, Account.Id accountId, ExternalId.Key extIdKey)
+      RevWalk rw, NoteMap noteMap, ExternalId.Key extIdKey, Account.Id expectedAccountId)
       throws IOException, ConfigInvalidException {
     ObjectId noteId = extIdKey.sha1();
     if (!noteMap.contains(noteId)) {
@@ -495,13 +541,15 @@ public class ExternalIdsUpdate {
     byte[] raw =
         rw.getObjectReader().open(noteMap.get(noteId), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
     ExternalId extId = ExternalId.parse(noteId.name(), raw);
-    checkState(
-        accountId.equals(extId.accountId()),
-        "external id %s should be removed for account %s,"
-            + " but external id belongs to account %s",
-        extIdKey.get(),
-        accountId.get(),
-        extId.accountId().get());
+    if (expectedAccountId != null) {
+      checkState(
+          expectedAccountId.equals(extId.accountId()),
+          "external id %s should be removed for account %s,"
+              + " but external id belongs to account %s",
+          extIdKey.get(),
+          expectedAccountId.get(),
+          extId.accountId().get());
+    }
     noteMap.remove(noteId);
   }
 

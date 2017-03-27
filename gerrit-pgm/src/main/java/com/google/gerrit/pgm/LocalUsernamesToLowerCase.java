@@ -14,14 +14,14 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.gerrit.server.account.ExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.ExternalId;
-import com.google.gerrit.server.account.ExternalIdsBatchUpdate;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdsBatchUpdate;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;

@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.server.account.externalids;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.account.ExternalId.Key.toAccountExternalIdKeys;
-import static com.google.gerrit.server.account.ExternalId.toAccountExternalIds;
-import static com.google.gerrit.server.account.ExternalIds.MAX_NOTE_SZ;
-import static com.google.gerrit.server.account.ExternalIds.readNoteMap;
-import static com.google.gerrit.server.account.ExternalIds.readRevision;
+import static com.google.gerrit.server.account.externalids.ExternalId.Key.toAccountExternalIdKeys;
+import static com.google.gerrit.server.account.externalids.ExternalId.toAccountExternalIds;
+import static com.google.gerrit.server.account.externalids.ExternalIds.MAX_NOTE_SZ;
+import static com.google.gerrit.server.account.externalids.ExternalIds.readNoteMap;
+import static com.google.gerrit.server.account.externalids.ExternalIds.readRevision;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;

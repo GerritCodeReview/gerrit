@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.server.account.externalids;
 
-import static com.google.gerrit.server.account.ExternalId.toAccountExternalIds;
+import static com.google.gerrit.server.account.externalids.ExternalId.toAccountExternalIds;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;

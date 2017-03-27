@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.auth.container;
 
-import static com.google.gerrit.server.account.ExternalId.SCHEME_EXTERNAL;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_EXTERNAL;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.PageLinks;
@@ -27,7 +27,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtorm.server.OrmException;

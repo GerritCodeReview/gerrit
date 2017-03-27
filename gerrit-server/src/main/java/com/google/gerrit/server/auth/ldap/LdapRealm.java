@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.auth.ldap;
 
-import static com.google.gerrit.server.account.ExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
@@ -30,8 +30,8 @@ import com.google.gerrit.server.account.AbstractRealm;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
-import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.account.GroupBackends;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;

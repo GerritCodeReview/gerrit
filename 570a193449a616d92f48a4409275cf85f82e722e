@@ -22,6 +22,30 @@
       "revId": "570a193449a616d92f48a4409275cf85f82e722e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67c34e14_ea2b2e39",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-27T18:09:57Z",
+      "side": 1,
+      "message": "Thanks, done. It looks like we should do a browser version check as it seems doing this breaks reloading diff\u0027s.",
+      "parentUuid": "e859263f_8d05666e",
+      "range": {
+        "startLine": 119,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 7
+      },
+      "revId": "570a193449a616d92f48a4409275cf85f82e722e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

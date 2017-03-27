@@ -163,5 +163,6 @@ public class Module extends RestApiModule {
     factory(ChangeResource.Factory.class);
     factory(DeleteReviewerOp.Factory.class);
     factory(DeleteReviewerByEmailOp.Factory.class);
+    factory(PostReviewersOp.Factory.class);
   }
 }

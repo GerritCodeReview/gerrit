@@ -325,7 +325,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         ccByEmail.addAll(addition.op.reviewersByEmail);
       }
     }
-    postReviewers.emailReviewers(change, to, cc, toByEmail, ccByEmail, notify, accountsToNotify);
+    if (reviewerAdditions.size() > 0) {
+      reviewerAdditions
+          .get(0)
+          .op
+          .emailReviewers(change, to, cc, toByEmail, ccByEmail, notify, accountsToNotify);
+    }
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in)

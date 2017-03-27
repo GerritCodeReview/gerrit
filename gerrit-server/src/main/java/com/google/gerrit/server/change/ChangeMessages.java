@@ -23,7 +23,6 @@ public class ChangeMessages extends TranslationBundle {
   }
 
   public String revertChangeDefaultMessage;
-  public String reviewerNotFoundUser;
   public String reviewerNotFoundUserOrGroup;
 
   public String groupIsNotAllowed;

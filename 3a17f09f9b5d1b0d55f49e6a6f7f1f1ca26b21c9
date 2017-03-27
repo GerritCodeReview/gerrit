@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1490623167 +0200\nnonce AIcUUg/D8J3bYbfejcreMOUTKjI0Ii2QACwXuTE+exB7scyrYWmisCcJiRRS+sjrivAAWOHRGwRv\n\n0000000000000000000000000000000000000000 7346d18433e78a64513776bf7b9d6fc481d9ef53 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY2Rq/AAoJEFG1/Zeg0O9ROg0IAI7e4DBsY5N8Q9g1V+Jl+LYT\nCQyQTbqqk8FQGTFsv3pmSxKLy6QlXxa4Ks0vh6k+IrxIbOGLxNZPM4ujYwZ9LIUn\nK7eibW1o2ck++CVEF6MSWnMCmw/xe3k0+UGiJOiOERz2X5KxJA8hfXdOw1Nh2y3N\n6J9fREGicdfHYB0HuLEhZ8t+N59OolfzbrPhpA4ybrjzBJCRewOcr+WdJErW+TjU\nDABITMBvJY92nZQx9bK/PPop58n/W7qBQU5xqE1QdY4xN6+lWl+bwRMEA40kvOQZ\ndgbkEnR8LRtjZP0qFL3RtENzqI3BaFZQpouMCbrXrkfdtTOVFur130orZYi6mzs\u003d\n\u003dK+H1\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "45161d62_0b084788",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-27T21:45:01Z",
+      "side": 1,
+      "message": "Nit: Blank is missing.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "3a17f09f9b5d1b0d55f49e6a6f7f1f1ca26b21c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

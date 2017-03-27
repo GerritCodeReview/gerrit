@@ -183,13 +183,11 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     if (notify.ordinal() >= NotifyHandling.OWNER_REVIEWERS.ordinal()) {
       try {
-        // TODO(hiesel) Load from index instead
         addByEmail(
-            RecipientType.CC,
-            changeData.notes().getReviewersByEmail().byState(ReviewerStateInternal.CC));
+            RecipientType.CC, changeData.reviewersByEmail().byState(ReviewerStateInternal.CC));
         addByEmail(
             RecipientType.TO,
-            changeData.notes().getReviewersByEmail().byState(ReviewerStateInternal.REVIEWER));
+            changeData.reviewersByEmail().byState(ReviewerStateInternal.REVIEWER));
       } catch (OrmException e) {
         throw new EmailException("Failed to add unregistered CCs " + change.getChangeId(), e);
       }

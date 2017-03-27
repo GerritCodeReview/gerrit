@@ -4340,24 +4340,12 @@ returned that describes the robot comment.
 
 Lists the files that were modified, added or deleted in a revision.
 
-In addition the following magic files are included:
-
-* `/COMMIT_MSG`:
-+
-The commit message and headers with the parent commit(s), the author
-information and the committer information.
-
-* `/MERGE_LIST` (for merge commits only):
-+
-The list of commits that are being integrated into the destination
-branch by submitting the merge commit.
-
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/ HTTP/1.0
 ----
 
-As result a map is returned that maps the file path to a list of
+As result a map is returned that maps the link:#file-id[file path] to a list of
 link:#file-info[FileInfo] entries. The entries in the map are
 sorted by file path.
 
@@ -5001,6 +4989,18 @@ The name of the label.
 [[file-id]]
 === \{file-id\}
 The path of the file.
+
+The following magic paths are supported:
+
+* `/COMMIT_MSG`:
++
+The commit message and headers with the parent commit(s), the author
+information and the committer information.
+
+* `/MERGE_LIST` (for merge commits only):
++
+The list of commits that are being integrated into the destination
+branch by submitting the merge commit.
 
 [[fix-id]]
 === \{fix-id\}

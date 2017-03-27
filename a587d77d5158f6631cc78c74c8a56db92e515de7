@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1490623167 +0200\nnonce AIcUUg/D8J3bYbfejcreMOUTKjI0Ii2QACwXuTE+exB7scyrYWmisCcJiRRS+sjrivAAWOHRGwRv\n\n0000000000000000000000000000000000000000 7346d18433e78a64513776bf7b9d6fc481d9ef53 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY2Rq/AAoJEFG1/Zeg0O9ROg0IAI7e4DBsY5N8Q9g1V+Jl+LYT\nCQyQTbqqk8FQGTFsv3pmSxKLy6QlXxa4Ks0vh6k+IrxIbOGLxNZPM4ujYwZ9LIUn\nK7eibW1o2ck++CVEF6MSWnMCmw/xe3k0+UGiJOiOERz2X5KxJA8hfXdOw1Nh2y3N\n6J9fREGicdfHYB0HuLEhZ8t+N59OolfzbrPhpA4ybrjzBJCRewOcr+WdJErW+TjU\nDABITMBvJY92nZQx9bK/PPop58n/W7qBQU5xqE1QdY4xN6+lWl+bwRMEA40kvOQZ\ndgbkEnR8LRtjZP0qFL3RtENzqI3BaFZQpouMCbrXrkfdtTOVFur130orZYi6mzs\u003d\n\u003dK+H1\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8301fc32_3ef43af6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-27T21:52:37Z",
+      "side": 1,
+      "message": "Can be simplified using Guava\u0027s 21 ImmutableSet#toImmutableSet() collector\n\n  return externalIds.get().byEmail(email).stream().map(e -\u003e e.accountId()).collect(toImmutableSet());",
+      "range": {
+        "startLine": 92,
+        "startChar": 8,
+        "endLine": 94,
+        "endChar": 38
+      },
+      "revId": "a587d77d5158f6631cc78c74c8a56db92e515de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

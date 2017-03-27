@@ -324,22 +324,27 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private void emailReviewers(
       Change change,
       List<PostReviewers.Addition> reviewerAdditions,
-      NotifyHandling notify,
+      @Nullable NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify) {
     List<Account.Id> to = new ArrayList<>();
     List<Account.Id> cc = new ArrayList<>();
     List<Address> toByEmail = new ArrayList<>();
     List<Address> ccByEmail = new ArrayList<>();
     for (PostReviewers.Addition addition : reviewerAdditions) {
-      if (addition.op.state == ReviewerState.REVIEWER) {
-        to.addAll(addition.op.reviewers.keySet());
-        toByEmail.addAll(addition.op.reviewersByEmail);
-      } else if (addition.op.state == ReviewerState.CC) {
-        cc.addAll(addition.op.reviewers.keySet());
-        ccByEmail.addAll(addition.op.reviewersByEmail);
+      if (addition.state == ReviewerState.REVIEWER) {
+        to.addAll(addition.reviewers.keySet());
+        toByEmail.addAll(addition.reviewersByEmail);
+      } else if (addition.state == ReviewerState.CC) {
+        cc.addAll(addition.reviewers.keySet());
+        ccByEmail.addAll(addition.reviewersByEmail);
       }
     }
-    postReviewers.emailReviewers(change, to, cc, toByEmail, ccByEmail, notify, accountsToNotify);
+    if (reviewerAdditions.size() > 0) {
+      reviewerAdditions
+          .get(0)
+          .op
+          .emailReviewers(change, to, cc, toByEmail, ccByEmail, notify, accountsToNotify);
+    }
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in)
@@ -1066,16 +1071,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     private boolean isReviewer(ChangeContext ctx) throws OrmException {
       if (ctx.getAccountId().equals(ctx.getChange().getOwner())) {
         return true;
-      }
-      for (PostReviewers.Addition addition : reviewerResults) {
-        if (addition.op.addedReviewers == null) {
-          continue;
-        }
-        for (PatchSetApproval psa : addition.op.addedReviewers) {
-          if (psa.getAccountId().equals(ctx.getAccountId())) {
-            return true;
-          }
-        }
       }
       ChangeData cd = changeDataFactory.create(db.get(), ctx.getControl());
       ReviewerSet reviewers = cd.reviewers();

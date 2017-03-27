@@ -613,6 +613,15 @@ maven_jar(
     name = "sshd",
     artifact = "org.apache.sshd:sshd-core:1.4.0",
     sha1 = "c8f3d7457fc9979d1b9ec319f0229b89793c8e56",
+    deps = [
+      "@eddsa//jar",
+    ],
+)
+
+maven_jar(
+    name = "eddsa",
+    artifact = "net.i2p.crypto:eddsa:0.1.0",
+    sha1 = "8f5a3b165164e222da048d8136b21428ee0b9122",
 )
 
 maven_jar(

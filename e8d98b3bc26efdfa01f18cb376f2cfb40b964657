@@ -1,4 +1,108 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1490623167 +0200\nnonce AIcUUg/D8J3bYbfejcreMOUTKjI0Ii2QACwXuTE+exB7scyrYWmisCcJiRRS+sjrivAAWOHRGwRv\n\n0000000000000000000000000000000000000000 7346d18433e78a64513776bf7b9d6fc481d9ef53 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY2Rq/AAoJEFG1/Zeg0O9ROg0IAI7e4DBsY5N8Q9g1V+Jl+LYT\nCQyQTbqqk8FQGTFsv3pmSxKLy6QlXxa4Ks0vh6k+IrxIbOGLxNZPM4ujYwZ9LIUn\nK7eibW1o2ck++CVEF6MSWnMCmw/xe3k0+UGiJOiOERz2X5KxJA8hfXdOw1Nh2y3N\n6J9fREGicdfHYB0HuLEhZ8t+N59OolfzbrPhpA4ybrjzBJCRewOcr+WdJErW+TjU\nDABITMBvJY92nZQx9bK/PPop58n/W7qBQU5xqE1QdY4xN6+lWl+bwRMEA40kvOQZ\ndgbkEnR8LRtjZP0qFL3RtENzqI3BaFZQpouMCbrXrkfdtTOVFur130orZYi6mzs\u003d\n\u003dK+H1\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d5c29e4_23431103",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-27T21:38:37Z",
+      "side": 1,
+      "message": "I wouldn\u0027t touch the table that is going to be removed in follow-up change. But if you decide to do it, please mention in the commit message that account_external_ids_byEmail index is going to be created for all dialects and will be removed in the follow-up change.",
+      "revId": "e8d98b3bc26efdfa01f18cb376f2cfb40b964657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70778d63_91d7a317",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-27T21:38:37Z",
+      "side": 1,
+      "message": "No provider on singletons, use ExternalIds directly.",
+      "range": {
+        "startLine": 84,
+        "startChar": 43,
+        "endLine": 84,
+        "endChar": 51
+      },
+      "revId": "e8d98b3bc26efdfa01f18cb376f2cfb40b964657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bc275d1_3556ceb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-27T21:38:37Z",
+      "side": 1,
+      "message": "This is too verbose and can all be done in one liner, using Guava\u0027s 21 ImmutableSet.html#toImmutableSet() collector: [1], using Guava\u0027s Streams.concat() and Streams.stream(Iterable\u003cV\u003e) methods:\n\n  try (ReviewDb db \u003d schema.open()) {\n    return Streams.concat(\n            Streams.stream(db.accounts().byPreferredEmail(email)).map(e -\u003e e.getId()),\n            externalIds.byEmail(db, email).stream().map(e -\u003e e.accountId()))\n        .collect(toImmutableSet());\n  }\n\n* [1] https://google.github.io/guava/releases/21.0/api/docs/com/google/common/collect/ImmutableSet.html#toImmutableSet--",
+      "range": {
+        "startLine": 92,
+        "startChar": 8,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "e8d98b3bc26efdfa01f18cb376f2cfb40b964657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f41ffb1_62e4a875",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_145.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-27T21:38:37Z",
+      "side": 1,
+      "message": "I wouldn\u0027t do it. I mean, if this version would stay for a whole release or something, but this series will be merged together, right? So why do we bother?",
+      "revId": "e8d98b3bc26efdfa01f18cb376f2cfb40b964657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b6ea2e3_6989223e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_145.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-27T21:38:37Z",
+      "side": 1,
+      "message": "Hm, this index was removed in schema version 102 and belongs to the table changes and not account_external_ids. Is it a leftover from testing? Remove this line.",
+      "range": {
+        "startLine": 39,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 76
+      },
+      "revId": "e8d98b3bc26efdfa01f18cb376f2cfb40b964657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

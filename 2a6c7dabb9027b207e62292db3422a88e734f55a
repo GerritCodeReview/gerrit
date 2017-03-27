@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "d037e30d_81d7268f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-27T08:16:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4c3590a_a93896e6",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "2a6c7dabb9027b207e62292db3422a88e734f55a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bc43325_0d914b3a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
         "patchSetId": 1
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "4d5fb5fa_48760198",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-27T08:16:27Z",
+      "side": 1,
+      "message": "Makes sense. Can do this in another change.",
+      "parentUuid": "3bc43325_0d914b3a",
+      "range": {
+        "startLine": 298,
+        "startChar": 84,
+        "endLine": 299,
+        "endChar": 99
+      },
+      "revId": "2a6c7dabb9027b207e62292db3422a88e734f55a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7181925_5c496494",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
         "patchSetId": 1
@@ -60,6 +108,30 @@
       "writtenOn": "2017-03-27T07:34:16Z",
       "side": 1,
       "message": "\"of which account they belong to\"?",
+      "range": {
+        "startLine": 378,
+        "startChar": 49,
+        "endLine": 378,
+        "endChar": 77
+      },
+      "revId": "2a6c7dabb9027b207e62292db3422a88e734f55a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c12a5c6_06880b56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-27T08:16:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7181925_5c496494",
       "range": {
         "startLine": 378,
         "startChar": 49,

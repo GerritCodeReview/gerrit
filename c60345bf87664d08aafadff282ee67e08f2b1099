@@ -16,6 +16,24 @@
       "revId": "c60345bf87664d08aafadff282ee67e08f2b1099",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "735d765e_b05fc87c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-27T13:10:22Z",
+      "side": 1,
+      "message": "Seems to work over here without the extra fetch.",
+      "parentUuid": "35286f91_78c37239",
+      "revId": "c60345bf87664d08aafadff282ee67e08f2b1099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

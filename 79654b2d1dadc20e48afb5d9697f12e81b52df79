@@ -309,6 +309,30 @@
     },
     {
       "key": {
+        "uuid": "25821c20_c5ee3621",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdsBatchUpdate.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-27T21:32:40Z",
+      "side": 1,
+      "message": "Thanks for clarifying.",
+      "parentUuid": "82bd049f_03920c88",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 57
+      },
+      "revId": "79654b2d1dadc20e48afb5d9697f12e81b52df79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba8a983f_182c4427",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdsUpdate.java",
         "patchSetId": 37

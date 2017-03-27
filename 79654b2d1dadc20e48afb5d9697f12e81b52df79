@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "6a9da25b_4ae520e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 37
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-27T11:47:33Z",
+      "side": 1,
+      "message": "One option is to do the move of ExternalId-stuff to its own package in a separate change.",
+      "parentUuid": "449b3c01_d19165f0",
+      "revId": "79654b2d1dadc20e48afb5d9697f12e81b52df79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16e55e5a_6f99c007",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
         "patchSetId": 37

@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1490381235 -0700\nnonce AIcUUg8rkRBh4S/FKxRyq+7jX2qfM6bOkC+eYcA2qRk6uoGPg7Oy8rm+YaGnGOIDZIZuaDIM81Zx\n\n0000000000000000000000000000000000000000 9ff480869ac1384a024c8ea4c3ab4e5958da97e0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJY1Wm2AAoJEF/XxZqaEoiM+NQP/AoI5q3yYhbjuoi4DOtuArXN\nzrLnPwsFz36UTyAT9Dncjt9Q07kfLsTcfsnNR+g9o/cSVCJoph8zg/Q2pV+nFrhN\n4xGEHKDtgMFTfue3zinn3al8ZXzYe65rbzQ5vtOmFNrlxWIZVQc/ouVfY1p7B3uR\nSjDvh3t7UIEJdkd/H3d2+R3ENAyG/pbQbPWlN7knig1Bsu9bI+3nIhpz+gkO+JO4\nF1lAdaWWTjx2CBITy3UA1dmDZdwRI2rgMff6uiyJBe+pp2+OT76T4nVSemZieN7M\ndMkmpqNxLBCGNy6Ga45kpoY5PzT2td5HSQQ15tkhxwwlAGpZq7upW2uTsGTveKNh\n14wx0uApGPDOWI1x8bKlSWNG3nyc7iEuUO+gHqw0OPWpzmK+bRI2wE5GFbk+pwFL\n3zvZjc4rNsPgfYelW85Cenfhbx1J4c2wE9GShbE9wYZFwcYbINYScrvC8KYz5g9j\ny3AYnUUwrnG/neQ3uCVfI+ALgGTaVSM/lRFB4ANhLuSYmDobBBbnqp14rD483ZS+\nN7JGCn0y6LxC7ZbWcSZDLBkRrmS8IeCcOvc15TvWRV/qfz6btb84VYsDuG9JC+/V\nd7Y29MZFhG/gaFAkg+GIov82jLMFzttccHlxD820DVZtcksNsVYvbxSYtb/BBaj0\nk3cOXS1MNvNqTaCPdq+/\n\u003dKb+5\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2fbaf49_21d6a104",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-27T15:02:13Z",
+      "side": 1,
+      "message": "@Inject",
+      "range": {
+        "startLine": 271,
+        "startChar": 2,
+        "endLine": 271,
+        "endChar": 17
+      },
+      "revId": "9ff480869ac1384a024c8ea4c3ab4e5958da97e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52a591f8_92f2a649",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-27T15:02:13Z",
+      "side": 1,
+      "message": "optional: Could we add a boolean method to the interface ReviewDb instead?",
+      "range": {
+        "startLine": 287,
+        "startChar": 8,
+        "endLine": 287,
+        "endChar": 95
+      },
+      "revId": "9ff480869ac1384a024c8ea4c3ab4e5958da97e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4b73677_10109a21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-27T15:02:13Z",
+      "side": 1,
+      "message": "optional: Unnecessary as NoSuchChangeException is an OrmException.",
+      "range": {
+        "startLine": 426,
+        "startChar": 13,
+        "endLine": 426,
+        "endChar": 34
+      },
+      "revId": "9ff480869ac1384a024c8ea4c3ab4e5958da97e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

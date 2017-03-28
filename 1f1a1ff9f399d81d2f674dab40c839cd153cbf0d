@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42c2824b_cddedcb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T14:29:08Z",
+      "side": 1,
+      "message": "Instead of adding comments as a heading to code block, could those code block be factored out into methods? E.g. addByAccountId, addWholeGroup, addByEmail",
+      "revId": "1f1a1ff9f399d81d2f674dab40c839cd153cbf0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e6fce49_ce7d4ad6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewersOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T14:29:08Z",
+      "side": 1,
+      "message": "That all this is non-private makes me think that just extracting the BatchUpdateOp into a class actually doesn\u0027t make this code much cleaner and easier to understand. Can this class have some methods to expose the result of running the op? Especially exposing non-final fields like this seems wrong. \n\nWhen the BatchUpdateOp was directly implemented in PostReviewers you could argue that it\u0027s an implementation detail of that class, but if we make this a separate class I think concerns between PostReviewersOp and PostReviewers should be separated more clearly.",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 58
+      },
+      "revId": "1f1a1ff9f399d81d2f674dab40c839cd153cbf0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

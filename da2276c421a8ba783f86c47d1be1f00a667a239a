@@ -26,6 +26,29 @@
     },
     {
       "key": {
+        "uuid": "f2fd08cf_361e33dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-28T08:06:53Z",
+      "side": 1,
+      "message": "If I understand it correctly, calling newObjectInserter() on a ReadOnlyRepository doesn\u0027t throw an UnsupportedOperationException anymore because of this overridden method. Maybe we shouldn\u0027t override methods which delegate to ObjectDatabase or RefDatabase.",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 125,
+        "endChar": 3
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ff2ae5a5_a3cef874",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
         "patchSetId": 1

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa3b8523_bfab8cfa",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-28T00:07:55Z",
+      "side": 1,
+      "message": "Reader.skip isn\u0027t guaranteed to read that many characters --- it\u0027s allowed to return early. Does BufferedReader provide a stronger guarantee?",
+      "revId": "d768510f02198f209cf40cd401651df0fc372421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd7d0c8e_56f1227c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-28T00:07:55Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to discard this exception. Instead, it should affect the response code.\n\nOtherwise, if you hit an I/O error while trying to read the response, you can end up sending 200 OK early without intending to.",
+      "revId": "d768510f02198f209cf40cd401651df0fc372421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "29c87f51_53413c54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T07:09:01Z",
+      "side": 1,
+      "message": "No longer needed and can be removed.\n\nDone.",
+      "range": {
+        "startLine": 91,
+        "startChar": 6,
+        "endLine": 91,
+        "endChar": 41
+      },
+      "revId": "a587d77d5158f6631cc78c74c8a56db92e515de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8301fc32_3ef43af6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
         "patchSetId": 18
@@ -14,6 +37,30 @@
       "writtenOn": "2017-03-27T21:52:37Z",
       "side": 1,
       "message": "Can be simplified using Guava\u0027s 21 ImmutableSet#toImmutableSet() collector\n\n  return externalIds.get().byEmail(email).stream().map(e -\u003e e.accountId()).collect(toImmutableSet());",
+      "range": {
+        "startLine": 92,
+        "startChar": 8,
+        "endLine": 94,
+        "endChar": 38
+      },
+      "revId": "a587d77d5158f6631cc78c74c8a56db92e515de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8eb04659_ba675865",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T07:09:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8301fc32_3ef43af6",
       "range": {
         "startLine": 92,
         "startChar": 8,

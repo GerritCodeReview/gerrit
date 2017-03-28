@@ -75,6 +75,8 @@ public interface AdminConstants extends Constants {
 
   String rejectImplicitMerges();
 
+  String enableReviewerByEmail();
+
   String headingMaxObjectSizeLimit();
 
   String headingGroupOptions();

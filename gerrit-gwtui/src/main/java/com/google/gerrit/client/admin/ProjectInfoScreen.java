@@ -268,7 +268,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
     enableReviewerByEmail = newInheritedBooleanBox();
     saveEnabler.listenTo(enableReviewerByEmail);
-    grid.addHtml(AdminConstants.I.rejectImplicitMerges(), enableReviewerByEmail);
+    grid.addHtml(AdminConstants.I.enableReviewerByEmail(), enableReviewerByEmail);
 
     maxObjectSizeLimit = new NpTextBox();
     saveEnabler.listenTo(maxObjectSizeLimit);

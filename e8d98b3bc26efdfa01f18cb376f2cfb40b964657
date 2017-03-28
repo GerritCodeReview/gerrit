@@ -185,6 +185,24 @@
     },
     {
       "key": {
+        "uuid": "b08f3291_c692aff8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_145.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T07:19:08Z",
+      "side": 1,
+      "message": "Sorry, that this wasn\u0027t clear :-(\n\nI guess it contributed to the confusion that it was first one change and I split it only late.",
+      "parentUuid": "d889a287_77baa463",
+      "revId": "e8d98b3bc26efdfa01f18cb376f2cfb40b964657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b6ea2e3_6989223e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_145.java",
         "patchSetId": 18

@@ -42,6 +42,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -137,6 +138,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final PostReviewers postReviewers;
   private final NotesMigration migration;
   private final NotifyUtil notifyUtil;
+  private final DeleteReviewerByEmailOp.Factory deleteReviewerByEmailOpFactory;
 
   @Inject
   PostReview(
@@ -154,7 +156,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       CommentAdded commentAdded,
       PostReviewers postReviewers,
       NotesMigration migration,
-      NotifyUtil notifyUtil) {
+      NotifyUtil notifyUtil,
+      DeleteReviewerByEmailOp.Factory deleteReviewerByEmailOpFactory) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
     this.changes = changes;
@@ -170,6 +173,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.postReviewers = postReviewers;
     this.migration = migration;
     this.notifyUtil = notifyUtil;
+    this.deleteReviewerByEmailOpFactory = deleteReviewerByEmailOpFactory;
   }
 
   @Override
@@ -291,6 +295,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             postReviewers.ccCurrentUser(revision.getUser(), revision);
         bu.addOp(revision.getChange().getId(), selfAddition.op);
       }
+
+      removeCurrentUserByEmailIfNecessary(revision, bu);
 
       bu.addOp(
           revision.getChange().getId(),
@@ -1261,6 +1267,17 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     private void addLabelDelta(String name, short value) {
       labelDelta.add(LabelVote.create(name, value));
+    }
+  }
+
+  private void removeCurrentUserByEmailIfNecessary(RevisionResource revision, BatchUpdate bu) {
+    Account currentUser = revision.getUser().asIdentifiedUser().getAccount();
+    Address currentUserEmail = new Address(currentUser.getPreferredEmail());
+    if (revision.getNotes().getReviewersByEmail().all().contains(currentUserEmail)) {
+      bu.addOp(
+          revision.getChange().getId(),
+          deleteReviewerByEmailOpFactory.create(
+              currentUserEmail, DeleteReviewerInput.notifyNone()));
     }
   }
 }

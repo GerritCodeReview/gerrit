@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -239,7 +240,55 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@gerritcodereview.com>");
   }
 
+  @Test
+  public void reviewerGetsConvertedWhenUserRegistersAndComments() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    AccountInfo acc = new AccountInfo("Foo Bar", "willregister.one@gerritcodereview.com");
+
+    PushOneCommit.Result r = createChange();
+    addReviewerByEmail(r.getChangeId(), acc);
+
+    TestAccount newlyAddedAccount = accounts.create("foobar", acc.email, acc.name);
+    setApiUser(newlyAddedAccount);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.recommend());
+
+    assertThatUserIsOnlyReviewer(r.getChangeId(), newlyAddedAccount);
+  }
+
+  @Test
+  public void reviewerGetsConvertedWhenUserRegistersAndAccountIsAdded() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    AccountInfo acc = new AccountInfo("Foo Bar", "willregister.two@gerritcodereview.com");
+
+    PushOneCommit.Result r = createChange();
+    addReviewerByEmail(r.getChangeId(), acc);
+
+    TestAccount newlyAddedAccount = accounts.create("foobar2", acc.email, acc.name);
+    setApiUser(newlyAddedAccount);
+    gApi.changes().id(r.getChangeId()).addReviewer(newlyAddedAccount.email);
+
+    assertThatUserIsOnlyReviewer(r.getChangeId(), newlyAddedAccount);
+  }
+
   private static String toRfcAddressString(AccountInfo info) {
     return (new Address(info.name, info.email)).toString();
+  }
+
+  private void addReviewerByEmail(String changeId, AccountInfo info) throws Exception {
+    AddReviewerInput input = new AddReviewerInput();
+    input.reviewer = toRfcAddressString(info);
+    input.state = ReviewerState.REVIEWER;
+    gApi.changes().id(changeId).addReviewer(input);
+  }
+
+  private void assertThatUserIsOnlyReviewer(String changeId, TestAccount user) throws Exception {
+    ChangeInfo info =
+        gApi.changes().id(changeId).get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+    assertThat(info.reviewers.get(ReviewerState.REVIEWER)).hasSize(1);
+    assertThat(info.reviewers.get(ReviewerState.REVIEWER).iterator().next()._accountId)
+        .isEqualTo(user.id.get());
   }
 }

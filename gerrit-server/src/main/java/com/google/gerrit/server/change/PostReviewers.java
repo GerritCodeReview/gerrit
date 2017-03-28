@@ -28,6 +28,7 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
@@ -93,6 +94,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final ProjectCache projectCache;
   private final Provider<AnonymousUser> anonymousProvider;
   private final PostReviewersOp.Factory postReviewersOpFactory;
+  private final DeleteReviewerByEmailOp.Factory deleteReviewerByEmailFactory;
 
   @Inject
   PostReviewers(
@@ -110,7 +112,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       NotifyUtil notifyUtil,
       ProjectCache projectCache,
       Provider<AnonymousUser> anonymousProvider,
-      PostReviewersOp.Factory postReviewersOpFactory) {
+      PostReviewersOp.Factory postReviewersOpFactory,
+      DeleteReviewerByEmailOp.Factory deleteReviewerByEmailFactory) {
     this.accounts = accounts;
     this.reviewerFactory = reviewerFactory;
     this.groupsCollection = groupsCollection;
@@ -126,6 +129,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     this.projectCache = projectCache;
     this.anonymousProvider = anonymousProvider;
     this.postReviewersOpFactory = postReviewersOpFactory;
+    this.deleteReviewerByEmailFactory = deleteReviewerByEmailFactory;
   }
 
   @Override
@@ -143,6 +147,11 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
         batchUpdateFactory.create(
             dbProvider.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Change.Id id = rsrc.getChange().getId();
+      DeleteReviewerByEmailOp deleteReviewerByEmailOp =
+          removeNewlyRegisteredReviewer(input.reviewer, rsrc, addition.reviewersByEmail);
+      if (deleteReviewerByEmailOp != null) {
+        bu.addOp(id, deleteReviewerByEmailOp);
+      }
       bu.addOp(id, addition.op);
       bu.execute();
       addition.gatherResults();
@@ -338,6 +347,30 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     addition.result.confirm = confirm ? true : null;
     addition.result.error = error;
     return addition;
+  }
+
+  /**
+   * Create a {@code DeleteReviewerByEmailOp} to remove a newly registered reviewer by email if
+   * necessary.
+   *
+   * @param reviewer The reviewer as provided through the API.
+   * @param rsrc The {@code ChangeResource} this operation was triggered from.
+   * @param newReviewersByEmail Reviewers by email added through this operation.
+   * @return {@code DeleteReviewerByEmailOp} if the new reviewer should be deleted, null otherwise.
+   */
+  private DeleteReviewerByEmailOp removeNewlyRegisteredReviewer(
+      String reviewer, ChangeResource rsrc, Collection<Address> newReviewersByEmail) {
+    Address address = Address.tryParse(reviewer);
+    if (address == null) {
+      return null;
+    }
+    if (!rsrc.getNotes().getReviewersByEmail().all().contains(address)) {
+      return null;
+    }
+    if (newReviewersByEmail.contains(address)) {
+      return null;
+    }
+    return deleteReviewerByEmailFactory.create(address, DeleteReviewerInput.notifyNone());
   }
 
   public class Addition {

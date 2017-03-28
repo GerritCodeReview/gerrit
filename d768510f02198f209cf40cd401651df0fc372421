@@ -51,6 +51,24 @@
       "revId": "d768510f02198f209cf40cd401651df0fc372421",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05108c66_977a902c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-28T00:11:42Z",
+      "side": 1,
+      "message": "I realize that\u0027s theoretical and not practically useful because consumeRequestBody is not allowed to throw an exception.\n\nBut it will help once jgit gets an alternative to consumeRequestBody that throws. And it\u0027s a good habit.",
+      "parentUuid": "cd7d0c8e_56f1227c",
+      "revId": "d768510f02198f209cf40cd401651df0fc372421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

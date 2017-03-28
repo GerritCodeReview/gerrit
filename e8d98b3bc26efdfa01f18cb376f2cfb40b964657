@@ -109,6 +109,30 @@
     },
     {
       "key": {
+        "uuid": "c49123ba_778dc45f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-28T09:17:29Z",
+      "side": 1,
+      "message": "I see, should we optionally add a comment on this, to avoid that it  will be changed and reverted again?",
+      "parentUuid": "22a50efc_a4287470",
+      "range": {
+        "startLine": 84,
+        "startChar": 43,
+        "endLine": 84,
+        "endChar": 51
+      },
+      "revId": "e8d98b3bc26efdfa01f18cb376f2cfb40b964657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bc275d1_3556ceb9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
         "patchSetId": 18

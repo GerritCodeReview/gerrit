@@ -326,6 +326,28 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickSetChangeID() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    String id = "Ideadbeefdeadbeefdeadbeefdeadbeefdeadbe3f";
+    in.message = "it goes to stable branch\n\nChange-Id: " + id;
+
+    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+    ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
+
+    assertThat(orig.get().messages).hasSize(1);
+    ChangeApi cherry = orig.revision(r.getCommit().name()).cherryPick(in);
+
+    ChangeInfo changeInfo = cherry.get();
+
+    // The cherry-pick honors the ChangeId specified in the input message:
+    RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    assertThat(revInfo).isNotNull();
+    assertThat(revInfo.commit.message).endsWith(id + "\n");
+  }
+
+  @Test
   public void cherryPickwithNoTopic() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     CherryPickInput in = new CherryPickInput();

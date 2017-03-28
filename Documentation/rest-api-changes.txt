@@ -4786,7 +4786,8 @@ Deletes the reviewed flag of the calling user from a file of a revision.
 Cherry picks a revision to a destination branch.
 
 The commit message and destination branch must be provided in the request body inside a
-link:#cherrypick-input[CherryPickInput] entity.
+link:#cherrypick-input[CherryPickInput] entity.  If the commit message
+does not specify a Change-Id, a new one is picked for the destination change.
 
 .Request
 ----

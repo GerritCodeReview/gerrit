@@ -224,6 +224,24 @@
       "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92e0ae57_5ce08c1d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-28T18:06:11Z",
+      "side": 1,
+      "message": "The request only needs to be drained for responses with status \u003c 400. Exceptions are only thrown for cases that will produce a \u003e\u003d 400 response, so this doesn\u0027t need to be in a finally.\n\nIf an exception were used to produce a \u003c 400 response, we would need a finally in a nested try block to ensure that the request is drained before writing the response. Draining the request in the success path and relying on exceptions producing status \u003c 400 is simpler.",
+      "parentUuid": "7003de76_273ea2ad",
+      "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

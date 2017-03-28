@@ -16,6 +16,24 @@
       "revId": "df18b355e42a1cb84c623c5b60ede009d8024d0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "906edf62_71ff7036",
+        "filename": "lib/LICENSE-CCO-1.0",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-28T15:26:55Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "44f11ed2_17dd8943",
+      "revId": "df18b355e42a1cb84c623c5b60ede009d8024d0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

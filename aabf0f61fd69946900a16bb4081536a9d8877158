@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53db1957_f7000092",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2079,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T10:44:14Z",
+      "side": 1,
+      "message": "s/cherrypickcommit/cherrypick",
+      "range": {
+        "startLine": 2079,
+        "startChar": 84,
+        "endLine": 2079,
+        "endChar": 101
+      },
+      "revId": "aabf0f61fd69946900a16bb4081536a9d8877158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68851f23_1bed9fa1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T10:44:14Z",
+      "side": 1,
+      "message": "Format with google-java-format.",
+      "revId": "aabf0f61fd69946900a16bb4081536a9d8877158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed20f3ff_1859fe38",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T10:44:14Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "aabf0f61fd69946900a16bb4081536a9d8877158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e371211_e1ffa4fc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T10:44:14Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "aabf0f61fd69946900a16bb4081536a9d8877158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9f2c50c_b7124ccc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T10:44:14Z",
+      "side": 1,
+      "message": "Assert that the created change has the same Change-Id as the cherry-picked commit.",
+      "revId": "aabf0f61fd69946900a16bb4081536a9d8877158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b42d3c82_57b9bcd9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/CommitApi.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T10:44:14Z",
+      "side": 1,
+      "message": "Format with google-java-format.",
+      "revId": "aabf0f61fd69946900a16bb4081536a9d8877158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

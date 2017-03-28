@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0df6530b_23e040d1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-28T16:31:37Z",
+      "side": 1,
+      "message": "This line is using the wrong label for the control. Simple copy and paste error.",
+      "range": {
+        "startLine": 271,
+        "startChar": 81,
+        "endLine": 271,
+        "endChar": 0
+      },
+      "revId": "6db5afdf59f5bd725c31e9561ca56b36c7e4138b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

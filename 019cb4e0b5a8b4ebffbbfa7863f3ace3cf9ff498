@@ -170,6 +170,24 @@
       "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dea17506_90970c13",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-28T18:02:01Z",
+      "side": 1,
+      "message": "Ok, that is really hard to follow, but I guess I\u0027m convinced it\u0027s correct (except that maybe consumeRequestBody should be in a finally block).",
+      "parentUuid": "2bb227a4_e68447ec",
+      "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

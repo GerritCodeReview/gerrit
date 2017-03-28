@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a04df42f_593b8a3e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-28T16:35:33Z",
+      "side": 1,
+      "message": "This is never true as the control is created by the block its wrapping.",
+      "range": {
+        "startLine": 271,
+        "startChar": 40,
+        "endLine": 271,
+        "endChar": 0
+      },
+      "revId": "227c8d3cad51c530f3f78e6ff4615e5ead08b387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed29b4b4_ad32c347",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-28T16:35:33Z",
+      "side": 1,
+      "message": "The bug is that result.enableReviewerByEmail() is null, possibly due to an issue with the backend REST API handler.",
+      "range": {
+        "startLine": 409,
+        "startChar": 69,
+        "endLine": 409,
+        "endChar": 0
+      },
+      "revId": "227c8d3cad51c530f3f78e6ff4615e5ead08b387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

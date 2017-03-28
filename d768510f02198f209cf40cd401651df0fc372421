@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "793a2adb_63485e5e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2017-03-28T00:21:25Z",
+      "side": 1,
+      "message": "Ugh. \u003e This method will block until **some** characters are available\n\nAre you OK with depending on the specific JRE\u0027s implementation?",
+      "parentUuid": "920578f3_588c6753",
+      "revId": "d768510f02198f209cf40cd401651df0fc372421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd7d0c8e_56f1227c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 4
@@ -69,6 +87,24 @@
       "revId": "d768510f02198f209cf40cd401651df0fc372421",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0383108f_43bfcd05",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2017-03-28T00:21:25Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "05108c66_977a902c",
+      "revId": "d768510f02198f209cf40cd401651df0fc372421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "ac38f33f_15d617f7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-28T17:54:55Z",
+      "side": 1,
+      "message": "The only caller of parseRequest is line 376, and consumeRequestBody is called on line 378. I guess the difference is that consumeRequestBody is not in a finally block. (Should it be?)",
+      "parentUuid": "9be94881_2d79aeee",
+      "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e497582b_673b5e19",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 3
@@ -116,6 +134,24 @@
       "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cc466bc_b67cb0d5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-28T17:54:55Z",
+      "side": 1,
+      "message": "Right, but that was exactly the source of my confusion in the previous comment.\n\nThere are 2 paths through this method:\n\n* JSON: request body is _consumed before returning_ by the br.skip on line 689.\n* Raw input: request body is _not consumed before returning_.\n\nIn both cases, consumeRequestBody is called after the method returns (modulo exceptions). So I am left wondering why there is a difference in the behavior within this method.",
+      "parentUuid": "d9a55566_d1bf4820",
+      "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

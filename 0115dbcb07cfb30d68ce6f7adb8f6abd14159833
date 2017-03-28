@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3783dd8a_8e74ab73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-28T06:42:18Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "98e5f1f5_d6a417de",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 65
+      },
+      "revId": "0115dbcb07cfb30d68ce6f7adb8f6abd14159833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac288755_e84bda2c",
         "filename": "WORKSPACE",
         "patchSetId": 7
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "To verify that it worked, create `bazel build release`, extract release.war and verify that the right license is referenced by eddsa artifact.",
       "parentUuid": "ac288755_e84bda2c",
+      "range": {
+        "startLine": 616,
+        "startChar": 3,
+        "endLine": 618,
+        "endChar": 6
+      },
+      "revId": "0115dbcb07cfb30d68ce6f7adb8f6abd14159833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "116f570e_3a08bd1a",
+        "filename": "WORKSPACE",
+        "patchSetId": 7
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-28T06:42:18Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4e10c475_cd9c229e",
       "range": {
         "startLine": 616,
         "startChar": 3,

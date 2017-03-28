@@ -225,6 +225,11 @@
       return output;
     },
 
+    _computeProjectHref: function(project) {
+      var encodedProject = encodeURIComponent('\"' + project + '\"');
+      return '/q/project:' + encodeURIComponent(encodedProject);
+    },
+
     _computeTopicHref: function(topic) {
       var encodedTopic = encodeURIComponent('\"' + topic + '\"');
       return '/q/topic:' + encodeURIComponent(encodedTopic) +

@@ -165,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "8964f205_ff7cd63f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T12:51:33Z",
+      "side": 1,
+      "message": "It could be that this only works if you don\u0027t overwrite the message in the input.",
+      "parentUuid": "8e0da246_8abcdf82",
+      "revId": "aabf0f61fd69946900a16bb4081536a9d8877158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b42d3c82_57b9bcd9",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/CommitApi.java",
         "patchSetId": 10

@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "67579644_1828af40",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2017-03-28T18:02:08Z",
+      "side": 1,
+      "message": "Two reasons for this structure.\n\n1) If I want to drain the request body in consumeRequestBody, I cannot tell whether I should use HttpServletRequest.getReader() or HttpServletRequest.getInputStream().\n2) HttpServletRequest.getReader() is already closed in parseRequest, so I cannot open it again and drain the body in consumeRequestBody. (close doesn\u0027t mean the request body is discarded)",
+      "parentUuid": "ac38f33f_15d617f7",
+      "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e497582b_673b5e19",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 3
@@ -188,6 +206,24 @@
       "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7003de76_273ea2ad",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2017-03-28T18:02:08Z",
+      "side": 1,
+      "message": "Please see the other comment for this structure.",
+      "parentUuid": "9cc466bc_b67cb0d5",
+      "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

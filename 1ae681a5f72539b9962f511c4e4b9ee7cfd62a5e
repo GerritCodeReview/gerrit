@@ -16,6 +16,24 @@
       "revId": "1ae681a5f72539b9962f511c4e4b9ee7cfd62a5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1376daad_f903334c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-28T17:33:05Z",
+      "side": 1,
+      "message": "I think the actual fix is in https://gerrit-review.googlesource.com/101154 and this change is just cosmetic. Which is fine, the commit message just needs to be accurate.",
+      "parentUuid": "feb6d730_f5df87a9",
+      "revId": "1ae681a5f72539b9962f511c4e4b9ee7cfd62a5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "feb6d730_f5df87a9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-28T16:54:08Z",
+      "side": 1,
+      "message": "This clearly fixes a UI bug, but how could this have been causing an error? You changed it from passing string A to passing string B. But we know string A is defined in this scope, because it\u0027s the same string from line 267.",
+      "revId": "1ae681a5f72539b9962f511c4e4b9ee7cfd62a5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

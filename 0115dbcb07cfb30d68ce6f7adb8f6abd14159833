@@ -45,6 +45,30 @@
       "revId": "0115dbcb07cfb30d68ce6f7adb8f6abd14159833",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e10c475_cd9c229e",
+        "filename": "WORKSPACE",
+        "patchSetId": 7
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-28T05:44:30Z",
+      "side": 1,
+      "message": "To verify that it worked, create `bazel build release`, extract release.war and verify that the right license is referenced by eddsa artifact.",
+      "parentUuid": "ac288755_e84bda2c",
+      "range": {
+        "startLine": 616,
+        "startChar": 3,
+        "endLine": 618,
+        "endChar": 6
+      },
+      "revId": "0115dbcb07cfb30d68ce6f7adb8f6abd14159833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

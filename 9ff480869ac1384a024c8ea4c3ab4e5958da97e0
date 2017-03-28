@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "bce5fe97_daa4d593",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-28T19:41:10Z",
+      "side": 1,
+      "message": "My first thought is no, we can\u0027t do that because the gwtorm runtime bytecode generation really doesn\u0027t like when you add new methods that don\u0027t have @Relation or @Sequence. But now that you mention it I haven\u0027t tried with a Java 8 default method. I\u0027ll give it a shot.",
+      "parentUuid": "52a591f8_92f2a649",
+      "range": {
+        "startLine": 287,
+        "startChar": 8,
+        "endLine": 287,
+        "endChar": 95
+      },
+      "revId": "9ff480869ac1384a024c8ea4c3ab4e5958da97e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4b73677_10109a21",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
         "patchSetId": 5

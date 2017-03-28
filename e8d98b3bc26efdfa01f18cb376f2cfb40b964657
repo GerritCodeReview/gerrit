@@ -167,6 +167,24 @@
     },
     {
       "key": {
+        "uuid": "d889a287_77baa463",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_145.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-28T07:16:43Z",
+      "side": 1,
+      "message": "Thanks for explaining. I had all the time the impression I\u0027m missing something. That something is two steps upgrade procedure on *.googlesource.com. As always, by explaining the reviewers why are you doing some strange dance in the commit message, you would make their life much easier ;-)",
+      "parentUuid": "2aa43fd9_6c7e994f",
+      "revId": "e8d98b3bc26efdfa01f18cb376f2cfb40b964657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b6ea2e3_6989223e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_145.java",
         "patchSetId": 18

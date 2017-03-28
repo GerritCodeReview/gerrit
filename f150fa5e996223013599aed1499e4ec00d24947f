@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1490693345 +0200\nnonce AIcUUg946PKp1PnXf3Yz7s0Kucqm8GwUnxtphnb8VhZHT/6iH/+1jDh8aWym7TdoUDrPclqJ29ql\n\n0000000000000000000000000000000000000000 f792acfac40a14988a8e11cca23a8b4f546264c0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY2izhAAoJEFG1/Zeg0O9RlSoIAKztsZZewRRCpSeEx9ZzlbWz\n1hoT+zf9EpaKvacpC/nZIOwvCmZQnhW4dw1eLB1JokDnRVVif53Hpu4Odt1tTK4s\nOqiOsG92gROFfIUai3mD9iNY/lh4mISM28A95XNnj2MUNtWudylUSU3hFs42IE+w\nEQVClfQ2/r7YS0h4Or8zKewjzgEo81VFTjAVFTk+QixzePmtrq5fMMeUTvDkyF2U\nw2iqgIhEDBdwBZjLhLw40KOqJlC51Ghu6cA++tKlHLgH+S/V43+GA8bx/rj/NeZW\ncEKxGHIrFz9oD2lT3EMTgDw4JVsuN1UCihLmrT1tJMPSsvAGrh82MM3+5AUaU84\u003d\n\u003dRnvD\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3951725d_af843576",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-28T15:04:36Z",
+      "side": 1,
+      "message": "What happens to the preferred email field on the account when the external ID referring to that email address gets deleted or moved to a different account?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "f150fa5e996223013599aed1499e4ec00d24947f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

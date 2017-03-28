@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98e5f1f5_d6a417de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-28T05:42:36Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s sufficient. Every dependency shipped in gerrit.war must reference the right license.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 65
+      },
+      "revId": "0115dbcb07cfb30d68ce6f7adb8f6abd14159833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac288755_e84bda2c",
+        "filename": "WORKSPACE",
+        "patchSetId": 7
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-28T05:42:36Z",
+      "side": 1,
+      "message": "This is wrong, as you missed the license. Remove it here. Add the license file LICENSE-CCO-1.0 to lib directory and import the artifact with the license referenced in data attribute in lib/mina/BUILD, something like: [1].\n\n* [1] http://paste.openstack.org/show/604420/",
+      "range": {
+        "startLine": 616,
+        "startChar": 3,
+        "endLine": 618,
+        "endChar": 6
+      },
+      "revId": "0115dbcb07cfb30d68ce6f7adb8f6abd14159833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "77e0f7de_c782cfd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T07:08:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d5c29e4_23431103",
+      "revId": "e8d98b3bc26efdfa01f18cb376f2cfb40b964657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70778d63_91d7a317",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
         "patchSetId": 18
@@ -31,6 +49,30 @@
       "writtenOn": "2017-03-27T21:38:37Z",
       "side": 1,
       "message": "No provider on singletons, use ExternalIds directly.",
+      "range": {
+        "startLine": 84,
+        "startChar": 43,
+        "endLine": 84,
+        "endChar": 51
+      },
+      "revId": "e8d98b3bc26efdfa01f18cb376f2cfb40b964657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03caa618_e4ce0d95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T07:08:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70778d63_91d7a317",
       "range": {
         "startLine": 84,
         "startChar": 43,
@@ -66,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "5220fc20_bac78d5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T07:08:09Z",
+      "side": 1,
+      "message": "Thanks, indeed much better :)\n\nDone",
+      "parentUuid": "5bc275d1_3556ceb9",
+      "range": {
+        "startLine": 92,
+        "startChar": 8,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "e8d98b3bc26efdfa01f18cb376f2cfb40b964657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f41ffb1_62e4a875",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_145.java",
         "patchSetId": 18
@@ -83,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "2aa43fd9_6c7e994f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_145.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T07:08:09Z",
+      "side": 1,
+      "message": "Yes, the indexes added here will be removed again with the next change. But these changes are not merged together, it\u0027s two steps:\n\n1. \"Migrate external IDs to NoteDb (part 2)\" + \"AccountByEmailCacheImpl: Use ExternalIdCache to find accounts by email\" [1]\n2. \"Migrate external IDs to NoteDb (part 3)\" + \"Allow to update external IDs by push\" [2]\n\nWith 1. we have a config parameter that allows us to control if external IDs are read from ReviewDb or NoteDb. This means we can test on our production system that reading from NoteDb really works by flipping this flag. Only when we are sure that it works we want to drop the ReviewDb tables with 2.\n\nWith some rework we may avoid adding the indexes back in open source Gerrit, but we definitely need it for our migration internally. Not adding it back here, would mean quite some extra work for us. But they just stay a a few days and then they are gone again with the next change. I now mention this in the commit message.\n\n[1] https://gerrit-review.googlesource.com/#/q/topic:migrate-external-ids-2+(status:open+OR+status:merged)\n[2] https://gerrit-review.googlesource.com/#/q/topic:migrate-external-ids-3+(status:open+OR+status:merged)",
+      "parentUuid": "0f41ffb1_62e4a875",
+      "revId": "e8d98b3bc26efdfa01f18cb376f2cfb40b964657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b6ea2e3_6989223e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_145.java",
         "patchSetId": 18
@@ -94,6 +178,30 @@
       "writtenOn": "2017-03-27T21:38:37Z",
       "side": 1,
       "message": "Hm, this index was removed in schema version 102 and belongs to the table changes and not account_external_ids. Is it a leftover from testing? Remove this line.",
+      "range": {
+        "startLine": 39,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 76
+      },
+      "revId": "e8d98b3bc26efdfa01f18cb376f2cfb40b964657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816755bb_d2184ba4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_145.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-28T07:08:09Z",
+      "side": 1,
+      "message": "Urg, copy-paste-mistake. Thanks for noticing.\n\nDone.",
+      "parentUuid": "2b6ea2e3_6989223e",
       "range": {
         "startLine": 39,
         "startChar": 6,

@@ -96,6 +96,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     this.requireChangeId = requireChangeId;
     this.rejectImplicitMerges = rejectImplicitMerges;
     this.createNewChangeForAllNotInTarget = createNewChangeForAllNotInTarget;
+    this.enableReviewerByEmail = enableReviewerByEmail;
     if (serverEnableSignedPush) {
       this.enableSignedPush = enableSignedPush;
       this.requireSignedPush = requireSignedPush;

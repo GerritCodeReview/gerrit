@@ -45,6 +45,30 @@
       "revId": "227c8d3cad51c530f3f78e6ff4615e5ead08b387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8245a2f9_8cb5b036",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-28T17:13:07Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem like a server issue, since returning null for false boolean values is de rigeur in all our REST APIs. Sounds like an issue in converting the JSON into a Java object. Or maybe setBool should just handle this case.",
+      "parentUuid": "ed29b4b4_ad32c347",
+      "range": {
+        "startLine": 409,
+        "startChar": 69,
+        "endLine": 409,
+        "endChar": 0
+      },
+      "revId": "227c8d3cad51c530f3f78e6ff4615e5ead08b387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

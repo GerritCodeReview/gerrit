@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "df81dcc8_6b1c0cf6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-28T12:46:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68851f23_1bed9fa1",
+      "revId": "aabf0f61fd69946900a16bb4081536a9d8877158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed20f3ff_1859fe38",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 10
@@ -53,6 +71,24 @@
       "writtenOn": "2017-03-28T10:44:14Z",
       "side": 1,
       "message": "unused import",
+      "revId": "aabf0f61fd69946900a16bb4081536a9d8877158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1767e3c_d84da34a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-28T12:46:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed20f3ff_1859fe38",
       "revId": "aabf0f61fd69946900a16bb4081536a9d8877158",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -76,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "665c8874_158dadea",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-28T12:46:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e371211_e1ffa4fc",
+      "revId": "aabf0f61fd69946900a16bb4081536a9d8877158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9f2c50c_b7124ccc",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 10
@@ -87,6 +141,24 @@
       "writtenOn": "2017-03-28T10:44:14Z",
       "side": 1,
       "message": "Assert that the created change has the same Change-Id as the cherry-picked commit.",
+      "revId": "aabf0f61fd69946900a16bb4081536a9d8877158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e0da246_8abcdf82",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-28T12:46:10Z",
+      "side": 1,
+      "message": "this is broken. Let me check the cherry-pick basic behavior.",
+      "parentUuid": "e9f2c50c_b7124ccc",
       "revId": "aabf0f61fd69946900a16bb4081536a9d8877158",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

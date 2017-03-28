@@ -141,6 +141,24 @@
       "revId": "d768510f02198f209cf40cd401651df0fc372421",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a5bab0d_5d87f820",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2017-03-28T00:39:06Z",
+      "side": 1,
+      "message": "We cannot tell if it\u0027s client\u0027s or server\u0027s fault. The Servlet API just says it\u0027s thrown \"if an input or output exception occurred\". It may be caused by client\u0027s going away or an internal error in the Servlet container. Anyway, I don\u0027t care. It wouldn\u0027t happen frequently.",
+      "parentUuid": "bdc818c7_04efbb28",
+      "revId": "d768510f02198f209cf40cd401651df0fc372421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

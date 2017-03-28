@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44f11ed2_17dd8943",
+        "filename": "lib/LICENSE-CCO-1.0",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-03-28T15:10:44Z",
+      "side": 1,
+      "message": "CCO -\u003e CC0",
+      "revId": "df18b355e42a1cb84c623c5b60ede009d8024d0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

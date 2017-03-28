@@ -192,7 +192,9 @@ public class ProjectInfoScreen extends ProjectScreen {
     requireChangeID.setEnabled(isOwner);
     rejectImplicitMerges.setEnabled(isOwner);
     maxObjectSizeLimit.setEnabled(isOwner);
-    enableReviewerByEmail.setEnabled(isOwner);
+    if (enableReviewerByEmail != null) {
+      enableReviewerByEmail.setEnabled(isOwner);
+    }
 
     if (pluginConfigWidgets != null) {
       for (Map<String, HasEnabled> widgetMap : pluginConfigWidgets.values()) {
@@ -401,7 +403,9 @@ public class ProjectInfoScreen extends ProjectScreen {
       setBool(requireSignedPush, result.requireSignedPush());
     }
     setBool(rejectImplicitMerges, result.rejectImplicitMerges());
-    setBool(enableReviewerByEmail, result.enableReviewerByEmail());
+    if (enableReviewerByEmail != null) {
+      setBool(enableReviewerByEmail, result.enableReviewerByEmail());
+    }
     setSubmitType(result.submitType());
     setState(result.state());
     maxObjectSizeLimit.setText(result.maxObjectSizeLimit().configuredValue());

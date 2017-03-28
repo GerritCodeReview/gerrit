@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "a5824e87_c580b27a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-28T00:30:41Z",
+      "side": 1,
+      "message": "I\u0027m comfortable with it.",
+      "parentUuid": "793a2adb_63485e5e",
+      "revId": "d768510f02198f209cf40cd401651df0fc372421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd7d0c8e_56f1227c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 4
@@ -105,6 +123,24 @@
       "revId": "d768510f02198f209cf40cd401651df0fc372421",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdc818c7_04efbb28",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-28T00:30:41Z",
+      "side": 1,
+      "message": "I think this is a server error, not client error (since there is nothing the client can do to trigger it). Letting the caller catch it would produce SC_INTERNAL_SERVER_ERROR, right? I think that\u0027s the right status code.",
+      "parentUuid": "0383108f_43bfcd05",
+      "revId": "d768510f02198f209cf40cd401651df0fc372421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "920578f3_588c6753",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-28T00:10:15Z",
+      "side": 1,
+      "message": "The implementation of BufferedReader seems to do the right thing *phew*",
+      "parentUuid": "aa3b8523_bfab8cfa",
+      "revId": "d768510f02198f209cf40cd401651df0fc372421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd7d0c8e_56f1227c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 4

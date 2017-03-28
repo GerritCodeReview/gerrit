@@ -159,6 +159,24 @@
       "revId": "d768510f02198f209cf40cd401651df0fc372421",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c421b183_82a18f61",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-28T00:40:38Z",
+      "side": 1,
+      "message": "Ah, I forgot about client disconnects.\n\nBut *shrug* yes, when we don\u0027t know the cause we can just take the blame. It\u0027s too bad the servlet API doesn\u0027t have a separate exception for client disconnects.",
+      "parentUuid": "6a5bab0d_5d87f820",
+      "revId": "d768510f02198f209cf40cd401651df0fc372421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

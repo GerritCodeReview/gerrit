@@ -120,6 +120,24 @@
     },
     {
       "key": {
+        "uuid": "76c0526d_8596388d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-28T18:11:24Z",
+      "side": 1,
+      "message": "\u003e Two reasons for this structure.\n\u003e \n\u003e 1) If I want to drain the request body in consumeRequestBody, I cannot tell whether I should use HttpServletRequest.getReader() or HttpServletRequest.getInputStream().\n\u003e 2) HttpServletRequest.getReader() is already closed in parseRequest, so I cannot open it again and drain the body in consumeRequestBody. (close doesn\u0027t mean the request body is discarded)\n\nOk, that explains the try/finally here, thanks.",
+      "parentUuid": "67579644_1828af40",
+      "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e497582b_673b5e19",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 3
@@ -239,6 +257,24 @@
       "side": 1,
       "message": "The request only needs to be drained for responses with status \u003c 400. Exceptions are only thrown for cases that will produce a \u003e\u003d 400 response, so this doesn\u0027t need to be in a finally.\n\nIf an exception were used to produce a \u003c 400 response, we would need a finally in a nested try block to ensure that the request is drained before writing the response. Draining the request in the success path and relying on exceptions producing status \u003c 400 is simpler.",
       "parentUuid": "7003de76_273ea2ad",
+      "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e42e712_66585e7d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-28T18:11:24Z",
+      "side": 1,
+      "message": "\u003e Exceptions are only thrown for cases that will produce a \u003e\u003d 400 response, so this doesn\u0027t need to be in a finally.\n\nAh, this is what I was missing. I was thinking about our servlet glue code where we do use exceptions to generate 302s, but we don\u0027t within Gerrit core. Thanks.\n\nPlease try to make the logic a little easier to follow:\n* explain some of the rationale from your comment above in the finally block\n* rename consumeRequestBody or add a comment so it\u0027s clearer *at the call site* that this method call is only useful for raw inputs.",
+      "parentUuid": "92e0ae57_5ce08c1d",
       "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

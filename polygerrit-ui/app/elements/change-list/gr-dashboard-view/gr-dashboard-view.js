@@ -67,7 +67,7 @@
         this._loading = false;
       }.bind(this)).catch(function(err) {
         this._loading = false;
-        console.error(err.message);
+        console.warn(err.message);
       }.bind(this));
     },
 

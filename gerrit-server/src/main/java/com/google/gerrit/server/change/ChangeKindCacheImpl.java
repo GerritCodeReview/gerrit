@@ -241,10 +241,14 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
           return ChangeKind.NO_CHANGE;
         }
 
-        if ((prior.getParentCount() != 1 || next.getParentCount() != 1)
-            && (!onlyFirstParentChanged(prior, next) || prior.getParentCount() == 0)) {
-          // Trivial rebases done by machine only work well on 1 parent.
-          return ChangeKind.REWORK;
+        try {
+          if ((prior.getParentCount() != 1 || next.getParentCount() != 1)
+              && (!onlyFirstParentChanged(prior, next) || prior.getParentCount() == 0)) {
+            // Trivial rebases done by machine only work well on 1 parent.
+            return ChangeKind.REWORK;
+          }
+        } catch(Exception e) {
+          // This will get hit by ChangeKind.REWORK so no need to add it here.
         }
 
         // A trivial rebase can be detected by looking for the next commit

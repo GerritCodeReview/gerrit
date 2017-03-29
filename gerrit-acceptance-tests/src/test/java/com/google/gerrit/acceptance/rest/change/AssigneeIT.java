@@ -26,11 +26,15 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 import java.util.Iterator;
 import java.util.List;
+
+import org.eclipse.jgit.transport.RefSpec;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -133,6 +137,16 @@ public class AssigneeIT extends AbstractDaemonTest {
     gApi.accounts().id(user.getId().get()).setActive(false);
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage("is not active");
+    setAssignee(r, user.email);
+  }
+
+  @Test
+  public void setAssigneeForNonVisibleChange() throws Exception {
+    git().fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config")).call();
+    testRepo.reset(RefNames.REFS_CONFIG);
+    PushOneCommit.Result r = createChange("refs/for/refs/meta/config");
+    exception.expect(AuthException.class);
+    exception.expectMessage("is not visible to");
     setAssignee(r, user.email);
   }
 

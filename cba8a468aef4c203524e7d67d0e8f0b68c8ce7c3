@@ -3,6 +3,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "f5a7c681_a6fece8b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-29T15:15:39Z",
+      "side": 1,
+      "message": "Do those need to be in the try? Since they are passed into bu.setRepository, bu.close should take care to close them?\n\nSame for all other places where the same modification is done.",
+      "range": {
+        "startLine": 141,
+        "startChar": 9,
+        "endLine": 142,
+        "endChar": 56
+      },
+      "revId": "cba8a468aef4c203524e7d67d0e8f0b68c8ce7c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfa49fb_c9e924b7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-29T15:15:39Z",
+      "side": 1,
+      "message": "Should this be\n\n  new RevWalk(objInserter.newReader(), true)\n\n?\n\nSame for all other places where the same modification is done.",
+      "range": {
+        "startLine": 142,
+        "startChar": 21,
+        "endLine": 142,
+        "endChar": 56
+      },
+      "revId": "cba8a468aef4c203524e7d67d0e8f0b68c8ce7c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b6fab4f_f5cb0ee0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-29T15:15:39Z",
+      "side": 1,
+      "message": "Should oi be closed here too?",
+      "range": {
+        "startLine": 178,
+        "startChar": 6,
+        "endLine": 183,
+        "endChar": 7
+      },
+      "revId": "cba8a468aef4c203524e7d67d0e8f0b68c8ce7c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0583c05_1e684606",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-29T15:15:39Z",
+      "side": 1,
+      "message": "reader should be closed",
+      "range": {
+        "startLine": 228,
+        "startChar": 23,
+        "endLine": 228,
+        "endChar": 37
+      },
+      "revId": "cba8a468aef4c203524e7d67d0e8f0b68c8ce7c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b5fba37_2dadb662",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java",
         "patchSetId": 1
@@ -17,6 +109,29 @@
       "revId": "cba8a468aef4c203524e7d67d0e8f0b68c8ce7c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b31baff_7132e839",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-29T15:15:39Z",
+      "side": 1,
+      "message": "new RevWalk(inserter.newReader(), true)",
+      "range": {
+        "startLine": 39,
+        "startChar": 9,
+        "endLine": 39,
+        "endChar": 42
+      },
+      "revId": "cba8a468aef4c203524e7d67d0e8f0b68c8ce7c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

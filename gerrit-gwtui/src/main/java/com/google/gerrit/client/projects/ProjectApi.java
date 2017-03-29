@@ -147,6 +147,7 @@ public class ProjectApi {
       InheritableBoolean enableSignedPush,
       InheritableBoolean requireSignedPush,
       InheritableBoolean rejectImplicitMerges,
+      InheritableBoolean enableReviewerByEmail,
       String maxObjectSizeLimit,
       SubmitType submitType,
       ProjectState state,
@@ -170,6 +171,7 @@ public class ProjectApi {
     in.setSubmitType(submitType);
     in.setState(state);
     in.setPluginConfigValues(pluginConfigValues);
+    in.setEnableReviewerByEmail(enableReviewerByEmail);
 
     project(name).view("config").put(in, cb);
   }
@@ -293,6 +295,13 @@ public class ProjectApi {
     final void setRequireSignedPush(InheritableBoolean v) {
       setRequireSignedPushRaw(v.name());
     }
+
+    final void setEnableReviewerByEmail(InheritableBoolean v) {
+      setEnableReviewerByEmailRaw(v.name());
+    }
+
+    private native void setEnableReviewerByEmailRaw(String v)
+        /*-{ if(v)this.enable_reviewer_by_email=v; }-*/ ;
 
     private native void setRequireSignedPushRaw(String v)
         /*-{ if(v)this.require_signed_push=v; }-*/ ;

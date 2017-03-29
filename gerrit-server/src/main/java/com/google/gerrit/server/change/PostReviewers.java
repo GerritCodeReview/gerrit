@@ -55,7 +55,6 @@ import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.ReviewerAdded;
-import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.Address;
@@ -189,19 +188,20 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     try {
       accountId = accounts.parse(input.reviewer).getAccountId();
     } catch (UnprocessableEntityException e) {
-      ProjectConfig projectConfig = projectCache.checkedGet(rsrc.getProject()).getConfig();
+      boolean enableReviewerByEmail =
+          projectCache.checkedGet(rsrc.getProject()).isEnableReviewerByEmail();
       if (allowGroup) {
         try {
           return putGroup(rsrc, input);
         } catch (UnprocessableEntityException e2) {
-          if (!projectConfig.getEnableReviewerByEmail()) {
+          if (!enableReviewerByEmail) {
             throw new UnprocessableEntityException(
                 MessageFormat.format(
                     ChangeMessages.get().reviewerNotFoundUserOrGroup, input.reviewer));
           }
         }
       }
-      if (!projectConfig.getEnableReviewerByEmail()) {
+      if (!enableReviewerByEmail) {
         throw new UnprocessableEntityException(
             MessageFormat.format(ChangeMessages.get().reviewerNotFoundUser, input.reviewer));
       }

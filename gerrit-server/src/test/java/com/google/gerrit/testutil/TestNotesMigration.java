@@ -29,6 +29,8 @@ public class TestNotesMigration extends NotesMigration {
   private volatile boolean disableChangeReviewDb;
   private volatile boolean failOnLoad;
 
+  public TestNotesMigration() {}
+
   @Override
   public boolean readChanges() {
     return readChanges;
@@ -54,7 +56,7 @@ public class TestNotesMigration extends NotesMigration {
   // Increase visbility from superclass, as tests may want to check whether
   // NoteDb data is written in specific migration scenarios.
   @Override
-  public boolean writeChanges() {
+  public boolean rawWriteChangesSetting() {
     return writeChanges;
   }
 
@@ -127,6 +129,14 @@ public class TestNotesMigration extends NotesMigration {
         setDisableChangeReviewDb(false);
         break;
     }
+    return this;
+  }
+
+  public TestNotesMigration setFrom(NotesMigration other) {
+    setWriteChanges(other.rawWriteChangesSetting());
+    setReadChanges(other.readChanges());
+    setChangePrimaryStorage(other.changePrimaryStorage());
+    setDisableChangeReviewDb(other.disableChangeReviewDb());
     return this;
   }
 }

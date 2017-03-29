@@ -89,7 +89,7 @@ public class NoteDbChecker {
 
     List<ChangeBundle> allExpected = readExpected(changeIds);
 
-    boolean oldWrite = notesMigration.writeChanges();
+    boolean oldWrite = notesMigration.rawWriteChangesSetting();
     boolean oldRead = notesMigration.readChanges();
     try {
       notesMigration.setWriteChanges(true);
@@ -162,7 +162,7 @@ public class NoteDbChecker {
   private void checkActual(List<ChangeBundle> allExpected, List<String> msgs) throws Exception {
     ReviewDb db = getUnwrappedDb();
     boolean oldRead = notesMigration.readChanges();
-    boolean oldWrite = notesMigration.writeChanges();
+    boolean oldWrite = notesMigration.rawWriteChangesSetting();
     try {
       notesMigration.setWriteChanges(true);
       notesMigration.setReadChanges(true);

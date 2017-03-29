@@ -376,21 +376,21 @@ limitations under the License.
       element._path = 'glados.txt';
       flushAsynchronousOperations();
       var linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
-      assert.equal(linkEls.length, 2);
+      assert.equal(linkEls.length, 3);
       assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/chell.go');
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/10/wheatley.md');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/wheatley.md');
       element._path = 'wheatley.md';
       flushAsynchronousOperations();
       assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/glados.txt');
-      assert.isFalse(linkEls[1].hasAttribute('href'));
+      assert.isFalse(linkEls[2].hasAttribute('href'));
       element._path = 'chell.go';
       flushAsynchronousOperations();
       assert.isFalse(linkEls[0].hasAttribute('href'));
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/10/glados.txt');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/glados.txt');
       element._path = 'not_a_real_file';
       flushAsynchronousOperations();
       assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/wheatley.md');
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/10/chell.go');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/chell.go');
     });
 
     test('download link', function() {
@@ -416,17 +416,17 @@ limitations under the License.
       element._path = 'glados.txt';
       flushAsynchronousOperations();
       var linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
-      assert.equal(linkEls.length, 2);
+      assert.equal(linkEls.length, 3);
       assert.equal(linkEls[0].getAttribute('href'), '/c/42/5..10/chell.go');
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10/wheatley.md');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/5..10/wheatley.md');
       element._path = 'wheatley.md';
       flushAsynchronousOperations();
       assert.equal(linkEls[0].getAttribute('href'), '/c/42/5..10/glados.txt');
-      assert.isFalse(linkEls[1].hasAttribute('href'));
+      assert.isFalse(linkEls[2].hasAttribute('href'));
       element._path = 'chell.go';
       flushAsynchronousOperations();
       assert.isFalse(linkEls[0].hasAttribute('href'));
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10/glados.txt');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/5..10/glados.txt');
     });
 
     test('file review status', function(done) {

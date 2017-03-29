@@ -263,7 +263,11 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       if (prior.getParentCount() == 0) {
         return next.getParentCount() == 0;
       }
-      return prior.getParent(0).equals(next.getParent(0));
+      try {
+        return prior.getParent(0).equals(next.getParent(0));
+      } catch (ExecutionException e) {
+        return 0;
+      }
     }
 
     private static boolean sameRestOfParents(RevCommit prior, RevCommit next) {

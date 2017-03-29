@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6480abb5_7e670efc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-29T21:15:53Z",
+      "side": 1,
+      "message": "Methods like this typically start with `_compute`. I\u0027d recommend something like:\n\n _computeUpURL",
+      "range": {
+        "startLine": 379,
+        "startChar": 4,
+        "endLine": 379,
+        "endChar": 22
+      },
+      "revId": "40f53c1a25496fea10408d35a204d7a3970a2d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "127b2a0e_a65c0ba2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-29T21:15:53Z",
+      "side": 1,
+      "message": "The up-link doesn\u0027t necessarily take the user back in their history. It\u0027s supposed to take the user up to the change view. In this way, the up-link does the same thing as the \u0027u\u0027 keyboard shortcut.\n\nFor this, we can just borrow the URL from `_navToChangeView` also in this file.\n\nreturn this._getChangePath(\n    this._changeNum,\n    this._patchRange,\n    this._change \u0026\u0026 this._change.revisions);\n\nIn that way you can also get rid of the `backPage` property above.",
+      "range": {
+        "startLine": 380,
+        "startChar": 7,
+        "endLine": 381,
+        "endChar": 33
+      },
+      "revId": "40f53c1a25496fea10408d35a204d7a3970a2d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47b6ab11_07071191",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-29T21:15:53Z",
+      "side": 1,
+      "message": "The way this method is used in the binding, it\u0027s supposed to return the value used as the `href` of the link. But this method returns nothing and navigates the page.\n\nAs a result, the href for the up-link does not get set and the link is not functional. I recommend returning `this._getChangePath...` as described in my above comment.",
+      "range": {
+        "startLine": 382,
+        "startChar": 7,
+        "endLine": 382,
+        "endChar": 39
+      },
+      "revId": "40f53c1a25496fea10408d35a204d7a3970a2d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

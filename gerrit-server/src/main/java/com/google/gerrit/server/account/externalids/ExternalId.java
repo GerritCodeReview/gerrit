@@ -338,7 +338,8 @@ public abstract class ExternalId implements Serializable {
 
   public void writeToConfig(Config c) {
     String externalIdKey = key().get();
-    c.setInt(EXTERNAL_ID_SECTION, externalIdKey, ACCOUNT_ID_KEY, accountId().get());
+    c.setString(
+        EXTERNAL_ID_SECTION, externalIdKey, ACCOUNT_ID_KEY, Integer.toString(accountId().get()));
     if (email() != null) {
       c.setString(EXTERNAL_ID_SECTION, externalIdKey, EMAIL_KEY, email());
     }

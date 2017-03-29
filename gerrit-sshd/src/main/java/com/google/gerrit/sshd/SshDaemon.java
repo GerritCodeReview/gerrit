@@ -346,6 +346,10 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @Override
   public synchronized void stop() {
+    if (executor != null) {
+      executor.shutdownNow();
+    }
+
     if (daemonAcceptor != null) {
       try {
         daemonAcceptor.close(true).await();

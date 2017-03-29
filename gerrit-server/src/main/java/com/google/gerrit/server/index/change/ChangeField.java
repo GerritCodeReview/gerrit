@@ -40,7 +40,6 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
@@ -75,8 +74,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Stream;
 import org.eclipse.jgit.revwalk.FooterLine;
 
 /**
@@ -386,16 +387,11 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
       fullText(ChangeQueryBuilder.FIELD_COMMENT)
           .buildRepeatable(
-              cd -> {
-                Set<String> r = new HashSet<>();
-                for (Comment c : cd.publishedComments()) {
-                  r.add(c.message);
-                }
-                for (ChangeMessage m : cd.messages()) {
-                  r.add(m.getMessage());
-                }
-                return r;
-              });
+              cd ->
+                  Stream.concat(
+                          cd.publishedComments().stream().map(c -> c.message),
+                          cd.messages().stream().map(ChangeMessage::getMessage))
+                      .collect(toSet()));
 
   /** Number of unresolved comments of the change. */
   public static final FieldDef<ChangeData, Integer> UNRESOLVED_COMMENT_COUNT =
@@ -441,18 +437,13 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<Integer>> COMMENTBY =
       integer(ChangeQueryBuilder.FIELD_COMMENTBY)
           .buildRepeatable(
-              cd -> {
-                Set<Integer> r = new HashSet<>();
-                for (ChangeMessage m : cd.messages()) {
-                  if (m.getAuthor() != null) {
-                    r.add(m.getAuthor().get());
-                  }
-                }
-                for (Comment c : cd.publishedComments()) {
-                  r.add(c.author.getId().get());
-                }
-                return r;
-              });
+              cd ->
+                  Stream.concat(
+                          cd.messages().stream().map(ChangeMessage::getAuthor),
+                          cd.publishedComments().stream().map(c -> c.author.getId()))
+                      .filter(Objects::nonNull)
+                      .map(Account.Id::get)
+                      .collect(toSet()));
 
   /** Star labels on this change in the format: &lt;account-id&gt;:&lt;label&gt; */
   public static final FieldDef<ChangeData, Iterable<String>> STAR =
@@ -475,13 +466,8 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> GROUP =
       exact(ChangeQueryBuilder.FIELD_GROUP)
           .buildRepeatable(
-              cd -> {
-                Set<String> r = Sets.newHashSetWithExpectedSize(1);
-                for (PatchSet ps : cd.patchSets()) {
-                  r.addAll(ps.getGroups());
-                }
-                return r;
-              });
+              cd ->
+                  cd.patchSets().stream().flatMap(ps -> ps.getGroups().stream()).collect(toSet()));
 
   public static final ProtobufCodec<PatchSet> PATCH_SET_CODEC =
       CodecFactory.encoder(PatchSet.class);
@@ -521,11 +507,7 @@ public class ChangeField {
                 if (reviewedBy.isEmpty()) {
                   return ImmutableSet.of(NOT_REVIEWED);
                 }
-                List<Integer> result = new ArrayList<>(reviewedBy.size());
-                for (Account.Id id : reviewedBy) {
-                  result.add(id.get());
-                }
-                return result;
+                return reviewedBy.stream().map(Account.Id::get).collect(toList());
               });
 
   // Submit rule options in this class should never use fastEvalLabels. This

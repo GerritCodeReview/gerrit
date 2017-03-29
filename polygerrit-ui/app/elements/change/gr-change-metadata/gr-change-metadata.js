@@ -48,6 +48,7 @@
 
     behaviors: [
       Gerrit.RESTClientBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
     observers: [
@@ -225,9 +226,9 @@
       return output;
     },
 
-    _computeProjectHref: function(project) {
-      var encodedProject = encodeURIComponent('\"' + project + '\"');
-      return '/q/project:' + encodeURIComponent(encodedProject);
+    _computeProjectURL: function(project) {
+      return '/q/status:open+project:' +
+          this.encodeURL(project, false);
     },
 
     _computeTopicHref: function(topic) {

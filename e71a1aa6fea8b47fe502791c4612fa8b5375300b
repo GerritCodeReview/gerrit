@@ -1,0 +1,24 @@
+{
+  "comments": [
+    {
+      "robotId": "happy_robot_id",
+      "robotRunId": "5838406743490560",
+      "fixSuggestions": [],
+      "key": {
+        "uuid": "ee485b7a_e0eb2594",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-29T08:31:28Z",
+      "side": 1,
+      "message": "This is a robot comment",
+      "revId": "e71a1aa6fea8b47fe502791c4612fa8b5375300b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

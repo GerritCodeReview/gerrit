@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1490791637 +0200\nnonce AIcUUg9ULDqEE7pE8y/L7fj7DilM7kx6T/Hx734HReqdnp361wgD/l3hljTqn+lvxrALAdijwOP0\n\n0000000000000000000000000000000000000000 5832cb082f5297daa26f42ca54bcf00c1cc55e81 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY26zVAAoJEFG1/Zeg0O9RlKgH+QHIp2Gwf880KLgPQO9flfuT\nGbWGvYNA2bVnjncmFt/kAd4AB9HFQeTc5xDKOookrS9BnOJo8Xk7bOJVAfp2Mg7p\nsYttb/+YXcbkt5BUMUvziN7Cz5KR2fDeEgTHwcuLU9zaEOCAqQDsGXsz+Vhts3kQ\nl/Iy7MpKCvpusogxhdaxo38V6zgEHGvw/zwRlSthhRDqPt6QRu0All2mTdcnfVwB\nHX8EdbdJdc70zt2bYfLz2BC39878jN878g87BGHvPCm1XIBTGs5fSqi4B/jHQKx9\n58+N2kx4P/allGqnlVsBmyvXtGS1R0sQMPnIRS1tnD6zzNoK3J9RXjWUsNAUDhY\u003d\n\u003dfdgt\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6e26f0f_cddc56da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_145.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-29T13:01:55Z",
+      "side": 1,
+      "message": "optional: Log that the index did not exist",
+      "range": {
+        "startLine": 42,
+        "startChar": 8,
+        "endLine": 42,
+        "endChar": 44
+      },
+      "revId": "5832cb082f5297daa26f42ca54bcf00c1cc55e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

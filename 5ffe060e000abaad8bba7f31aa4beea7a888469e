@@ -17,6 +17,24 @@
       "revId": "5ffe060e000abaad8bba7f31aa4beea7a888469e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a3386c6_bacd0718",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-29T13:44:45Z",
+      "side": 1,
+      "message": "Not sure I understand how this should work, since we also need to add the current external IDs to set and those are already passed to the constructor.",
+      "parentUuid": "10cfd538_4b95b684",
+      "revId": "5ffe060e000abaad8bba7f31aa4beea7a888469e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

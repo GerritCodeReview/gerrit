@@ -31,6 +31,7 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -256,5 +257,14 @@ public class ExternalIdIT extends AbstractDaemonTest {
     for (ExternalId.Key extIdKey : extIdsKeys) {
       assertThat(externalIds.get(db, extIdKey)).isNotNull();
     }
+  }
+
+  @Test
+  public void readExternalIdWithAccountIdThatCanBeExpressedInKiB() throws Exception {
+    ExternalId.Key extIdKey = ExternalId.Key.parse("foo:bar");
+    Account.Id accountId = new Account.Id(1024 * 100);
+    extIdsUpdate.create().insert(db, ExternalId.create(extIdKey, accountId));
+    ExternalId extId = externalIds.get(db, extIdKey);
+    assertThat(extId.accountId()).isEqualTo(accountId);
   }
 }

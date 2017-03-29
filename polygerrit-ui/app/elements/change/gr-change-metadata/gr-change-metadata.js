@@ -48,6 +48,7 @@
 
     behaviors: [
       Gerrit.RESTClientBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
     observers: [
@@ -234,6 +235,11 @@
     _handleTopicRemoved: function() {
       this.set(['change', 'topic'], '');
       this.$.restAPI.setChangeTopic(this.change._number, null);
+    },
+
+    _computeProjectURL: function(project) {
+      return '/q/status:open+project:' +
+          this.encodeURL(project, false);
     },
   });
 })();

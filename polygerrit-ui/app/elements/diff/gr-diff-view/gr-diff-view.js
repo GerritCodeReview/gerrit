@@ -57,7 +57,6 @@
         notify: true,
         value: function() { return {}; },
       },
-
       _patchRange: Object,
       _change: Object,
       _changeNum: String,
@@ -372,6 +371,14 @@
           this._changeNum,
           this._patchRange,
           this._change && this._change.revisions));
+    },
+
+    _computeUpURL: function() {
+      return this._getChangePath(
+          this._changeNum,
+          this._patchRange,
+          this._change && this._change.revisions);
+
     },
 
     _navToFile: function(path, fileList, direction) {

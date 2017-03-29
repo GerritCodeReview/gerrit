@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "941da1d1_063fb27c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-03-29T21:07:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27a46e83_9ec28c0c",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 9
+      },
+      "revId": "047b943bbf474150d6393e032dbe4fd19ca600ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a557983a_64b63471",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 3
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "... which is exactly the approach in Iddf0fa18fca8.",
       "parentUuid": "a557983a_64b63471",
+      "range": {
+        "startLine": 229,
+        "startChar": 6,
+        "endLine": 230,
+        "endChar": 64
+      },
+      "revId": "047b943bbf474150d6393e032dbe4fd19ca600ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e088f32_5010a72d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-03-29T21:07:46Z",
+      "side": 1,
+      "message": "You\u0027re totally right. I was following the example set by _computeTopicHref below. If there\u0027s a good reason for it to behave the way it does, I\u0027d like to preserve that... if not, I\u0027m happy to change both.",
+      "parentUuid": "60d58cd5_5fa90eed",
       "range": {
         "startLine": 229,
         "startChar": 6,

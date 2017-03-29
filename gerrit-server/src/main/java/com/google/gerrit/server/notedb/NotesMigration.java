@@ -49,6 +49,9 @@ public abstract class NotesMigration {
   /**
    * Write changes to NoteDb.
    *
+   * <p>This method is awkwardly named because you should be using either {@link
+   * #commitChangeWrites()} or {@link #failChangeWrites()} instead.
+   *
    * <p>Updates to change data are written to NoteDb refs, but ReviewDb is still the source of
    * truth. Change data will not be written unless the NoteDb refs are already up to date, and the
    * write path will attempt to rebuild the change if not.
@@ -57,7 +60,7 @@ public abstract class NotesMigration {
    * readChanges() = false}, writes to NoteDb are simply ignored; if {@code true}, any attempts to
    * write will generate an error.
    */
-  protected abstract boolean writeChanges();
+  public abstract boolean rawWriteChangesSetting();
 
   /**
    * Read sequential change ID numbers from NoteDb.
@@ -99,14 +102,14 @@ public abstract class NotesMigration {
     // same codepath. This specific condition is used by the auto-rebuilding
     // path to rebuild a change and stage the results, but not commit them due
     // to failChangeWrites().
-    return writeChanges() || readChanges();
+    return rawWriteChangesSetting() || readChanges();
   }
 
   public boolean failChangeWrites() {
-    return !writeChanges() && readChanges();
+    return !rawWriteChangesSetting() && readChanges();
   }
 
   public boolean enabled() {
-    return writeChanges() || readChanges();
+    return rawWriteChangesSetting() || readChanges();
   }
 }

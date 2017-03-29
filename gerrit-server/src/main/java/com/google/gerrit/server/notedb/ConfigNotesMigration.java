@@ -84,7 +84,7 @@ public class ConfigNotesMigration extends NotesMigration {
   private final boolean disableChangeReviewDb;
 
   @Inject
-  ConfigNotesMigration(@GerritServerConfig Config cfg) {
+  public ConfigNotesMigration(@GerritServerConfig Config cfg) {
     checkConfig(cfg);
 
     writeChanges = cfg.getBoolean(NOTE_DB, CHANGES.key(), WRITE, false);
@@ -106,7 +106,7 @@ public class ConfigNotesMigration extends NotesMigration {
   }
 
   @Override
-  protected boolean writeChanges() {
+  public boolean rawWriteChangesSetting() {
     return writeChanges;
   }
 

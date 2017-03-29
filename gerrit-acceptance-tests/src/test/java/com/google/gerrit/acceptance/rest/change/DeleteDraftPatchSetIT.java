@@ -92,7 +92,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     din.message = "comment on a.txt";
     gApi.changes().id(changeId).current().createDraft(din);
 
-    if (notesMigration.writeChanges()) {
+    if (notesMigration.commitChangeWrites()) {
       assertThat(getDraftRef(admin, id)).isNotNull();
     }
 
@@ -110,7 +110,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     deletePatchSet(changeId, ps);
     assertThat(queryProvider.get().byKeyPrefix(changeId)).isEmpty();
 
-    if (notesMigration.writeChanges()) {
+    if (notesMigration.commitChangeWrites()) {
       assertThat(getDraftRef(admin, id)).isNull();
       assertThat(getMetaRef(id)).isNull();
     }

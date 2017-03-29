@@ -543,7 +543,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       throws Exception {
     List<String> expected = new ArrayList<>(expectedWithMeta.length);
     for (String r : expectedWithMeta) {
-      if (notesMigration.writeChanges() || !r.endsWith(RefNames.META_SUFFIX)) {
+      if (notesMigration.commitChangeWrites() || !r.endsWith(RefNames.META_SUFFIX)) {
         expected.add(r);
       }
     }

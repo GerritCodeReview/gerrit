@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "557c271d_abba1101",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-29T12:18:12Z",
+      "side": 1,
+      "message": "Ah, sorry, I misread it as another instanceof.",
+      "parentUuid": "70ef4900_3f2abbb9",
+      "range": {
+        "startLine": 380,
+        "startChar": 8,
+        "endLine": 380,
+        "endChar": 42
+      },
+      "revId": "7c886d8819151b884865ed3154fd77aea6897ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81911c5c_949aa3ff",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 4

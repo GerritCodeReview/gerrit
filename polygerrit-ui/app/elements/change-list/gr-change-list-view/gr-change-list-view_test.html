@@ -25,6 +25,8 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-list-view.html">
 
+<script>void(0);</script>
+
 <test-fixture id="basic">
   <template>
     <gr-change-list-view></gr-change-list-view>
@@ -50,8 +52,11 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
     });
 
-    teardown(function() {
-      sandbox.restore();
+    teardown(function(done) {
+      flush(function() {
+        sandbox.restore();
+        done();
+      });
     });
 
     test('url is properly encoded', function() {
@@ -170,7 +175,7 @@ limitations under the License.
         var stub = sandbox.stub(page, 'show');
 
         element.params = {view: 'gr-change-list-view', query: CHANGE_ID};
-        flushAsynchronousOperations();
+        flushAsynchronousOperations()
 
         assert.isFalse(stub.called);
       });
@@ -181,7 +186,7 @@ limitations under the License.
         var stub = sandbox.stub(page, 'show');
 
         element.params = {view: 'gr-change-list-view', query: CHANGE_ID};
-        flushAsynchronousOperations();
+        flushAsynchronousOperations()
 
         assert.isFalse(stub.called);
       });

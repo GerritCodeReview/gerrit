@@ -565,6 +565,8 @@
     },
 
     _getStorageLocation: function() {
+      // Tests trigger this method without setting change.
+      if (!this.change) { return {}; }
       return {
         changeNum: this.change._number,
         patchNum: this.patchNum,

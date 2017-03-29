@@ -125,9 +125,9 @@ public interface ProjectApi {
   TagApi tag(String ref) throws RestApiException;
 
   /**
-   * Lookup a commit by its {@Code ObjectId} string.
+   * Lookup a commit by its {@code ObjectId} string.
    *
-   * @param commit the {@Code ObjectId} string.
+   * @param commit the {@code ObjectId} string.
    * @return API for accessing the commit.
    */
   CommitApi commit(String commit) throws RestApiException;

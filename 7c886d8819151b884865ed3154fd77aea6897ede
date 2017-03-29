@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2af19fa4_33e2a540",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-29T11:11:07Z",
+      "side": 1,
+      "message": "This is redundant.  instanceof will return false for null values.\n\nhttp://stackoverflow.com/a/2950415/381622",
+      "range": {
+        "startLine": 372,
+        "startChar": 8,
+        "endLine": 372,
+        "endChar": 34
+      },
+      "revId": "7c886d8819151b884865ed3154fd77aea6897ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8078086_8b987868",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-29T11:11:07Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 380,
+        "startChar": 8,
+        "endLine": 380,
+        "endChar": 42
+      },
+      "revId": "7c886d8819151b884865ed3154fd77aea6897ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81911c5c_949aa3ff",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-29T11:11:07Z",
+      "side": 1,
+      "message": "Does this need to be a method?  It could be inlined at L373",
+      "range": {
+        "startLine": 377,
+        "startChar": 2,
+        "endLine": 383,
+        "endChar": 3
+      },
+      "revId": "7c886d8819151b884865ed3154fd77aea6897ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

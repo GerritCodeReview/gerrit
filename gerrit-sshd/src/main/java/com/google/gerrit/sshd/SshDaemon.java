@@ -60,6 +60,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.sshd.common.BaseBuilder;
@@ -72,7 +73,9 @@ import org.apache.sshd.common.file.FileSystemFactory;
 import org.apache.sshd.common.forward.DefaultTcpipForwarderFactory;
 import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.future.SshFutureListener;
+import org.apache.sshd.common.io.AbstractIoServiceFactory;
 import org.apache.sshd.common.io.IoAcceptor;
+import org.apache.sshd.common.io.IoServiceFactory;
 import org.apache.sshd.common.io.IoServiceFactoryFactory;
 import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.mina.MinaServiceFactoryFactory;
@@ -349,12 +352,32 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     if (daemonAcceptor != null) {
       try {
         daemonAcceptor.close(true).await();
+        shutdownExecutors();
         sshDaemonLog.info("Stopped Gerrit SSHD");
       } catch (IOException e) {
         sshDaemonLog.warn("Exception caught while closing", e);
       } finally {
         daemonAcceptor = null;
       }
+    }
+  }
+
+  private void shutdownExecutors() {
+    if (executor != null) {
+      executor.shutdownNow();
+    }
+
+    IoServiceFactory serviceFactory = getIoServiceFactory();
+    if (serviceFactory instanceof AbstractIoServiceFactory) {
+      shutdownServiceFactoryExecutor((AbstractIoServiceFactory) serviceFactory);
+    }
+  }
+
+  private void shutdownServiceFactoryExecutor(AbstractIoServiceFactory ioServiceFactory) {
+    ioServiceFactory.close(true);
+    ExecutorService serviceFactoryExecutor = ioServiceFactory.getExecutorService();
+    if (serviceFactoryExecutor != null && serviceFactoryExecutor != executor) {
+      serviceFactoryExecutor.shutdownNow();
     }
   }
 

@@ -368,31 +368,40 @@ limitations under the License.
       assert.equal(linkEls[2].getAttribute('href'), '/c/42/5..10/wheatley.md');
     });
 
-    test('prev/next links', function() {
+    test('prev/up/next links', function() {
       element._changeNum = '42';
       element._patchRange = {
         basePatchNum: 'PARENT',
         patchNum: '10',
       };
+      element._change = {
+        revisions: {
+          a: {_number: 10},
+        },
+      };
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
       flushAsynchronousOperations();
       var linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
-      assert.equal(linkEls.length, 2);
+      assert.equal(linkEls.length, 3);
       assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/chell.go');
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/10/wheatley.md');
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/wheatley.md');
       element._path = 'wheatley.md';
       flushAsynchronousOperations();
       assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/glados.txt');
-      assert.isFalse(linkEls[1].hasAttribute('href'));
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/');
+      assert.isFalse(linkEls[2].hasAttribute('href'));
       element._path = 'chell.go';
       flushAsynchronousOperations();
       assert.isFalse(linkEls[0].hasAttribute('href'));
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/10/glados.txt');
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/glados.txt');
       element._path = 'not_a_real_file';
       flushAsynchronousOperations();
       assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/wheatley.md');
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/10/chell.go');
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/chell.go');
     });
 
     test('download link', function() {
@@ -408,27 +417,36 @@ limitations under the License.
           '/changes/42/revisions/10/patch?zip&path=glados.txt');
     });
 
-    test('prev/next links with patch range', function() {
+    test('prev/up/next links with patch range', function() {
       element._changeNum = '42';
       element._patchRange = {
         basePatchNum: '5',
         patchNum: '10',
       };
+      element._change = {
+        revisions: {
+          a: {_number: 5},
+          b: {_number: 10},
+        },
+      };
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
       flushAsynchronousOperations();
       var linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
-      assert.equal(linkEls.length, 2);
+      assert.equal(linkEls.length, 3);
       assert.equal(linkEls[0].getAttribute('href'), '/c/42/5..10/chell.go');
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10/wheatley.md');
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/5..10/wheatley.md');
       element._path = 'wheatley.md';
       flushAsynchronousOperations();
       assert.equal(linkEls[0].getAttribute('href'), '/c/42/5..10/glados.txt');
-      assert.isFalse(linkEls[1].hasAttribute('href'));
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10');
+      assert.isFalse(linkEls[2].hasAttribute('href'));
       element._path = 'chell.go';
       flushAsynchronousOperations();
       assert.isFalse(linkEls[0].hasAttribute('href'));
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10/glados.txt');
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/5..10/glados.txt');
     });
 
     test('file review status', function(done) {

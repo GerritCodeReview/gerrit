@@ -23,7 +23,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
-import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
@@ -226,31 +225,48 @@ public abstract class ExternalId implements Serializable {
       throw invalidConfig(noteId, String.format("Invalid external id: %s", externalIdKeyStr));
     }
 
-    String accountIdStr =
-        externalIdConfig.getString(EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY);
     String email = externalIdConfig.getString(EXTERNAL_ID_SECTION, externalIdKeyStr, EMAIL_KEY);
     String password =
         externalIdConfig.getString(EXTERNAL_ID_SECTION, externalIdKeyStr, PASSWORD_KEY);
-    if (accountIdStr == null) {
-      throw invalidConfig(
-          noteId,
-          String.format(
-              "Missing value for %s.%s.%s", EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY));
-    }
-    Integer accountId = Ints.tryParse(accountIdStr);
-    if (accountId == null) {
-      throw invalidConfig(
-          noteId,
-          String.format(
-              "Value %s for %s.%s.%s is invalid, expected account ID",
-              accountIdStr, EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY));
-    }
+    int accountId = readAccountId(noteId, externalIdConfig, externalIdKeyStr);
 
     return new AutoValue_ExternalId(
         externalIdKey,
         new Account.Id(accountId),
         Strings.emptyToNull(email),
         Strings.emptyToNull(password));
+  }
+
+  private static int readAccountId(String noteId, Config externalIdConfig, String externalIdKeyStr)
+      throws ConfigInvalidException {
+    String accountIdStr =
+        externalIdConfig.getString(EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY);
+    if (accountIdStr == null) {
+      throw invalidConfig(
+          noteId,
+          String.format(
+              "Value for %s.%s.%s is missing, expected account ID",
+              EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY));
+    }
+
+    try {
+      int accountId =
+          externalIdConfig.getInt(EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY, -1);
+      if (accountId <= 0) {
+        throw invalidConfig(
+            noteId,
+            String.format(
+                "Value %s for %s.%s.%s is invalid, expected account ID",
+                accountIdStr, EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY));
+      }
+      return accountId;
+    } catch (IllegalArgumentException e) {
+      throw invalidConfig(
+          noteId,
+          String.format(
+              "Value %s for %s.%s.%s is invalid, expected account ID",
+              accountIdStr, EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY));
+    }
   }
 
   private static ConfigInvalidException invalidConfig(String noteId, String message) {

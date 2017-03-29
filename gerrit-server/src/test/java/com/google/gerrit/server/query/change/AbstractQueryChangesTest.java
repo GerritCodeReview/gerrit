@@ -44,6 +44,8 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -1562,9 +1564,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.setEnableReviewerByEmail(true);
-    saveProjectConfig(project, cfg);
+    ConfigInput conf = new ConfigInput();
+    conf.enableReviewerByEmail = InheritableBoolean.TRUE;
+    gApi.projects().name(project.get()).config(conf);
 
     String userByEmail = "un.registered@reviewer.com";
     String userByEmailWithName = "John Doe <" + userByEmail + ">";
@@ -1597,9 +1599,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.setEnableReviewerByEmail(true);
-    saveProjectConfig(project, cfg);
+    ConfigInput conf = new ConfigInput();
+    conf.enableReviewerByEmail = InheritableBoolean.TRUE;
+    gApi.projects().name(project.get()).config(conf);
 
     String userByEmail = "John Doe <un.registered@reviewer.com>";
 

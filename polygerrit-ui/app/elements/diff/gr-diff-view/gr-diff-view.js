@@ -58,6 +58,8 @@
         value: function() { return {}; },
       },
 
+      backPage: String,
+
       _patchRange: Object,
       _change: Object,
       _changeNum: String,
@@ -372,6 +374,12 @@
           this._changeNum,
           this._patchRange,
           this._change && this._change.revisions));
+    },
+
+    _determinePageBack: function() {
+       // Default backPage to '/' if user came to change view page
+       // via an email link, etc.
+       page.show(this.backPage || '/');
     },
 
     _navToFile: function(path, fileList, direction) {

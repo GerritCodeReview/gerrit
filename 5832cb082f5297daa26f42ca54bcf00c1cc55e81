@@ -23,6 +23,30 @@
       "revId": "5832cb082f5297daa26f42ca54bcf00c1cc55e81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfe72021_f26d07cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_145.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-29T13:05:24Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s worth logging. It would rather confuse users and let them think something is wrong.",
+      "parentUuid": "f6e26f0f_cddc56da",
+      "range": {
+        "startLine": 42,
+        "startChar": 8,
+        "endLine": 42,
+        "endChar": 44
+      },
+      "revId": "5832cb082f5297daa26f42ca54bcf00c1cc55e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

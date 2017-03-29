@@ -48,7 +48,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.api.errors.TransportException;
@@ -295,6 +297,16 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
     exception.expect(IOException.class);
     externalIds.byEmail(db, admin.email);
+  }
+
+  @Test
+  @GerritConfig(name = "user.readExternalIdsFromGit", value = "true")
+  public void byAccountUpdateExternalIdsBehindGerritsBack() throws Exception {
+    Set<ExternalId> expectedExternalIds = new HashSet<>(externalIds.byAccount(db, admin.id));
+    ExternalId newExtId = ExternalId.create("foo", "bar", admin.id);
+    insertExtIdBehindGerritsBack(newExtId);
+    expectedExternalIds.add(newExtId);
+    assertThat(externalIds.byAccount(db, admin.id)).containsExactlyElementsIn(expectedExternalIds);
   }
 
   private void insertExtIdBehindGerritsBack(ExternalId extId) throws Exception {

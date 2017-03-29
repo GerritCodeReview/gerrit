@@ -25,13 +25,14 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import java.util.EnumSet;
@@ -44,9 +45,9 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.setEnableReviewerByEmail(true);
-    saveProjectConfig(project, cfg);
+    ConfigInput conf = new ConfigInput();
+    conf.enableReviewerByEmail = InheritableBoolean.TRUE;
+    gApi.projects().name(project.get()).config(conf);
   }
 
   @Test
@@ -228,9 +229,9 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
   public void rejectWhenFeatureIsDisabled() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
 
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.setEnableReviewerByEmail(false);
-    saveProjectConfig(project, cfg);
+    ConfigInput conf = new ConfigInput();
+    conf.enableReviewerByEmail = InheritableBoolean.FALSE;
+    gApi.projects().name(project.get()).config(conf);
 
     PushOneCommit.Result r = createChange();
 

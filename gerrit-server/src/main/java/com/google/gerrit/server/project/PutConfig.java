@@ -154,6 +154,10 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         p.setState(input.state);
       }
 
+      if (input.enableReviewerByEmail != null) {
+        p.setEnableReviewerByEmail(input.enableReviewerByEmail);
+      }
+
       if (input.pluginConfigValues != null) {
         setPluginConfigValues(ctrl.getProjectState(), projectConfig, input.pluginConfigValues);
       }

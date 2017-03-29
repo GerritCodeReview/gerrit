@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
+<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
 <link rel="import" href="../../shared/gr-label/gr-label.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
@@ -180,7 +181,7 @@ limitations under the License.
     <section>
       <span class="title">Project</span>
       <span class="value">
-        <a href="[[_computeProjectHref(change.project)]]">[[change.project]]</a>
+        <a href$="[[_computeProjectURL(change.project)]]">[[change.project]]</a>
       </span>
     </section>
     <section>

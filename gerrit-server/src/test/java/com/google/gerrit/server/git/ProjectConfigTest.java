@@ -134,8 +134,6 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     assertThat(submit.getExclusiveGroup()).isTrue();
     assertThat(read.getExclusiveGroup()).isTrue();
     assertThat(push.getExclusiveGroup()).isFalse();
-
-    assertThat(cfg.getEnableReviewerByEmail()).isTrue();
   }
 
   @Test

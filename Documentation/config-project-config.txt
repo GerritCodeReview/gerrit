@@ -197,7 +197,8 @@ This check is only done for non-merge commits, merge commits are not subject of
 the implicit merge check.
 +
 Default is `INHERIT`, which means that this property is inherited from
-the parent project.
+the parent project. If the property is not set in any parent project, the default
+value is FALSE.
 
 [[submit-section]]
 === Submit section
@@ -302,7 +303,8 @@ reviewers and CCs by email.
 A boolean indicating if reviewers and CCs that do not currently have a Gerrit
 account can be added to a change by providing their email address.
 
-Defaults to `false`.
+Default is `INHERIT`, which means that this property is inherited from
+the parent project.
 
 [[file-groups]]
 == The file +groups+

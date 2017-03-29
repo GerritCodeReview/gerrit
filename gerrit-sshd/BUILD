@@ -23,6 +23,7 @@ java_library(
         "//lib:jsch",
         "//lib:servlet-api-3_1",
         "//lib/auto:auto-value",
+        "//lib/bouncycastle:bcpkix",
         "//lib/bouncycastle:bcprov",
         "//lib/commons:codec",
         "//lib/dropwizard:dropwizard-core",

@@ -167,6 +167,7 @@
         var c1Date = c1.__date || util.parseDate(c1.updated);
         var c2Date = c2.__date || util.parseDate(c2.updated);
         var dateCompare = c1Date - c2Date;
+        if (!c1.id || !c1.id.localeCompare) { return 0; }
         // If same date, fall back to sorting by id.
         return dateCompare ? dateCompare : c1.id.localeCompare(c2.id);
       });
@@ -328,7 +329,7 @@
       var index = this._indexOf(comment, this.comments);
       if (index === -1) {
         // This should never happen: comment belongs to another thread.
-        console.error('Comment update for another comment thread.');
+        console.warn('Comment update for another comment thread.');
         return;
       }
       this.set(['comments', index], comment);

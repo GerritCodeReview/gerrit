@@ -18,7 +18,7 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-app</title>
 
-<script src="../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../bower_components/web-component-tester/browser.js"></script>
 
 <link rel="import" href="gr-app.html">
@@ -90,13 +90,9 @@ limitations under the License.
     });
 
     test('passes config to gr-plugin-host', function(done) {
-      var config = {plugin: {}};
-      element.$.restAPI.getConfig.restore();
-      sandbox.stub(
-          element.$.restAPI, 'getConfig').returns(Promise.resolve(config));
-      element.attached();
-      flush(function() {
-        assert.strictEqual(element.$.plugins.config, config.plugin);
+      element.$.restAPI.getConfig.lastCall.returnValue.then(function(config) {
+        var pluginConfig = config.plugin;
+        assert.deepEqual(element.$.plugins.config, pluginConfig);
         done();
       });
     });

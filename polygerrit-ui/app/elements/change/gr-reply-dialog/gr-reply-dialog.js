@@ -285,6 +285,7 @@
         return this._mapReviewer(reviewer);
       }.bind(this));
       if (this.serverConfig.note_db_enabled) {
+        if (!this.$$('#ccs')) { return; };
         this.$$('#ccs').additions().forEach(function(reviewer) {
           if (reviewer.account) {
             accountAdditions[reviewer.account._account_id] = true;
@@ -323,6 +324,7 @@
         var reviewerEntry = this.$.reviewers.focusStart;
         reviewerEntry.async(reviewerEntry.focus);
       } else if (section === FocusTarget.CCS) {
+        if (!this.$$('#ccs')) { return; }
         var ccEntry = this.$$('#ccs').focusStart;
         ccEntry.async(ccEntry.focus);
       }
@@ -565,6 +567,7 @@
     },
 
     _getStorageLocation: function() {
+      if (!this.change) { return {}; }
       return {
         changeNum: this.change._number,
         patchNum: this.patchNum,

@@ -112,6 +112,7 @@
         this._changesPerPage = prefs.changes_per_page;
         return this._getChanges();
       }.bind(this)).then(function(changes) {
+        if (!changes) { return; }
         if (this._query && changes.length === 1) {
           for (var query in LookupQueryPatterns) {
             if (LookupQueryPatterns.hasOwnProperty(query) &&

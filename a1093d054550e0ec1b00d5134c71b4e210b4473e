@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9dd26ba_795f3b73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-29T23:46:24Z",
+      "side": 1,
+      "message": "How can this work?\n\nAside from the fact that the statements:\n\n- !onlyFirstParentChanged(prior, next)\n- onlyFirstParentChanged(prior, next) \u003d\u003d 0 \n\nare logically the same, onlyFirstParentChanged returns a boolean, not an integer, so this doesn\u0027t even compile.\n\n The operator \u003d\u003d is undefined for the argument type(s) boolean, int",
+      "range": {
+        "startLine": 228,
+        "startChar": 16,
+        "endLine": 228,
+        "endChar": 96
+      },
+      "revId": "a1093d054550e0ec1b00d5134c71b4e210b4473e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

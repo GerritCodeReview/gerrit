@@ -20,7 +20,7 @@
     properties: {
       config: {
         type: Object,
-        observer: "_configChanged",
+        observer: '_configChanged',
       },
     },
 

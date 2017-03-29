@@ -35,6 +35,24 @@
       "revId": "5ffe060e000abaad8bba7f31aa4beea7a888469e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d16c0d4_358756f4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-29T14:04:16Z",
+      "side": 1,
+      "message": "Maybe it\u0027s not possible.  I was thinking we could somehow pass both \"externalIds.byAccount(db, admin.id)\" and \"newExtId\" in the constructor.",
+      "parentUuid": "7a3386c6_bacd0718",
+      "revId": "5ffe060e000abaad8bba7f31aa4beea7a888469e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

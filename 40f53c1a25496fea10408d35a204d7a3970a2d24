@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fb30c145_e1dccc60",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-29T21:22:10Z",
+      "side": 1,
+      "message": "This method should have a unit test also.",
+      "parentUuid": "6480abb5_7e670efc",
+      "range": {
+        "startLine": 379,
+        "startChar": 4,
+        "endLine": 379,
+        "endChar": 22
+      },
+      "revId": "40f53c1a25496fea10408d35a204d7a3970a2d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "127b2a0e_a65c0ba2",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 5

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cce9244a_ea5d2f18",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-29T08:35:53Z",
+      "side": 1,
+      "message": "Should it be shutdown only after the daemonAcceptor was closed?",
+      "range": {
+        "startLine": 349,
+        "startChar": 4,
+        "endLine": 351,
+        "endChar": 5
+      },
+      "revId": "73418bc4a9b224b77ad825fabb3a93ac9cc9344c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

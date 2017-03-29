@@ -23,11 +23,14 @@ import org.eclipse.jgit.lib.ObjectId;
 
 /** Caches external IDs of all accounts */
 interface ExternalIdCache {
-  void onCreate(ObjectId newNotesRev, Collection<ExternalId> extId) throws IOException;
+  void onCreate(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId)
+      throws IOException;
 
-  void onUpdate(ObjectId newNotesRev, Collection<ExternalId> extId) throws IOException;
+  void onUpdate(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId)
+      throws IOException;
 
   void onReplace(
+      ObjectId oldNotesRev,
       ObjectId newNotesRev,
       Account.Id accountId,
       Collection<ExternalId> toRemove,
@@ -35,6 +38,7 @@ interface ExternalIdCache {
       throws IOException;
 
   void onReplaceByKeys(
+      ObjectId oldNotesRev,
       ObjectId newNotesRev,
       Account.Id accountId,
       Collection<ExternalId.Key> toRemove,
@@ -42,40 +46,55 @@ interface ExternalIdCache {
       throws IOException;
 
   void onReplaceByKeys(
-      ObjectId newNotesRev, Collection<ExternalId.Key> toRemove, Collection<ExternalId> toAdd)
+      ObjectId oldNotesRev,
+      ObjectId newNotesRev,
+      Collection<ExternalId.Key> toRemove,
+      Collection<ExternalId> toAdd)
       throws IOException;
 
   void onReplace(
-      ObjectId newNotesRev, Collection<ExternalId> toRemove, Collection<ExternalId> toAdd)
+      ObjectId oldNotesRev,
+      ObjectId newNotesRev,
+      Collection<ExternalId> toRemove,
+      Collection<ExternalId> toAdd)
       throws IOException;
 
-  void onRemove(ObjectId newNotesRev, Collection<ExternalId> extId) throws IOException;
+  void onRemove(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId)
+      throws IOException;
 
   void onRemoveByKeys(
-      ObjectId newNotesRev, Account.Id accountId, Collection<ExternalId.Key> extIdKeys)
+      ObjectId oldNotesRev,
+      ObjectId newNotesRev,
+      Account.Id accountId,
+      Collection<ExternalId.Key> extIdKeys)
       throws IOException;
 
-  void onRemoveByKeys(ObjectId newNotesRev, Collection<ExternalId.Key> extIdKeys)
+  void onRemoveByKeys(
+      ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId.Key> extIdKeys)
       throws IOException;
 
   Set<ExternalId> byAccount(Account.Id accountId) throws IOException;
 
   Set<ExternalId> byEmail(String email) throws IOException;
 
-  default void onCreate(ObjectId newNotesRev, ExternalId extId) throws IOException {
-    onCreate(newNotesRev, Collections.singleton(extId));
-  }
-
-  default void onRemove(ObjectId newNotesRev, ExternalId extId) throws IOException {
-    onRemove(newNotesRev, Collections.singleton(extId));
-  }
-
-  default void onRemoveByKey(ObjectId newNotesRev, Account.Id accountId, ExternalId.Key extIdKey)
+  default void onCreate(ObjectId oldNotesRev, ObjectId newNotesRev, ExternalId extId)
       throws IOException {
-    onRemoveByKeys(newNotesRev, accountId, Collections.singleton(extIdKey));
+    onCreate(oldNotesRev, newNotesRev, Collections.singleton(extId));
   }
 
-  default void onUpdate(ObjectId newNotesRev, ExternalId updatedExtId) throws IOException {
-    onUpdate(newNotesRev, Collections.singleton(updatedExtId));
+  default void onRemove(ObjectId oldNotesRev, ObjectId newNotesRev, ExternalId extId)
+      throws IOException {
+    onRemove(oldNotesRev, newNotesRev, Collections.singleton(extId));
+  }
+
+  default void onRemoveByKey(
+      ObjectId oldNotesRev, ObjectId newNotesRev, Account.Id accountId, ExternalId.Key extIdKey)
+      throws IOException {
+    onRemoveByKeys(oldNotesRev, newNotesRev, accountId, Collections.singleton(extIdKey));
+  }
+
+  default void onUpdate(ObjectId oldNotesRev, ObjectId newNotesRev, ExternalId updatedExtId)
+      throws IOException {
+    onUpdate(oldNotesRev, newNotesRev, Collections.singleton(updatedExtId));
   }
 }

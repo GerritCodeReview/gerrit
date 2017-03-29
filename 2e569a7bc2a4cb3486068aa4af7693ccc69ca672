@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1490790780 +0200\nnonce AIcUUg9PMRqe4NlZbercwKn6jko9eqiBxQnGClYjLJfs2mkkc98vK3FpH2msLmovYeCJMPO2FhCM\n\n0000000000000000000000000000000000000000 d7693509d70428dfd6bce85dbdc4922aa0b0733e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY26l8AAoJEFG1/Zeg0O9RdqkH+wfFMLNeYdzds40XEdfAoSOV\nVvDb2mYaeTuhA11/L5r5p24ECv55uokizQFqT+l0A5XkkXi9TLEdgAuBxZ3zM6Yg\n1uw4h8meuU2iNigsHcTMrxkol32FrJZvKFWE0eO3SZ4Cl6Syc/G3aLkUJVMoH4Sj\nN0P7BWisDmA0MHYC1GHRVQlihywwtgtKa/8YhB1vZNp4EFZFWz19uv7Ab74QO/6+\nkj37EsNiUPKGwMS1wLlTG6kT6XB7Xvsy8SHjWNdNEzxW2YVUx/Z2dl4vg0YdI40t\nQx+Ymvnew/ruWk6Pjg39FrZuH+uNfSihl0aCDjybzmsi4ZypqgcDsejcc0cVYlo\u003d\n\u003diqXc\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1020e34_a57cb395",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-29T19:55:08Z",
+      "side": 1,
+      "message": "Since this is repeated so many times, factor out a method:\n\n void removeKeys(Collection\u003cExternalId\u003e ids, Collection\u003cExternalId.Key\u003e toRemove) {\n   Collections2.transform(ids, e -\u003e e.key()).removeAll(toRemove);\n }\n\nI think that also makes it clearer that the types are correct (since removeAll takes Collection\u003c?\u003e).",
+      "range": {
+        "startLine": 150,
+        "startChar": 10,
+        "endLine": 150,
+        "endChar": 64
+      },
+      "revId": "2e569a7bc2a4cb3486068aa4af7693ccc69ca672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

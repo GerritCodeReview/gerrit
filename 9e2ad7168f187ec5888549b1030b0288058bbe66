@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dba8539e_4525704e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-03-29T17:42:02Z",
+      "side": 1,
+      "message": "We usually just denote this with a footer:\n\nBug: Issue 5885\n\nSee https://gerrit-review.googlesource.com/c/100851/ for an example.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "9e2ad7168f187ec5888549b1030b0288058bbe66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

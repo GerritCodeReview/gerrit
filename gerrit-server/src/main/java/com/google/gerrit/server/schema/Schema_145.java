@@ -36,7 +36,11 @@ public class Schema_145 extends SchemaVersion {
     JdbcSchema schema = (JdbcSchema) db;
     SqlDialect dialect = schema.getDialect();
     try (StatementExecutor e = newExecutor(db)) {
-      dialect.dropIndex(e, "account_external_ids", "account_external_ids_byEmail");
+      try {
+        dialect.dropIndex(e, "account_external_ids", "account_external_ids_byEmail");
+      } catch (OrmException ex) {
+        // Ignore.  The index did not exist.
+      }
       e.execute(
           "CREATE INDEX account_external_ids_byEmail"
               + " ON account_external_ids"

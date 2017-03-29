@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88e0c6a9_6bc7a920",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-03-29T12:47:05Z",
+      "side": 1,
+      "message": "Same database or same table?\n\nCan you point to the source of this information? If this is true then this likely explains the slow \"files?reviewed\" requests as discussed in [1].\n\n[2] discusses higher level concurrency than table level locking.\n\n[1] https://groups.google.com/d/msg/repo-discuss/AJsTjxfpUt4/0EXhsjT_AwAJ\n\n[2] http://www.h2database.com/html/advanced.html#mvcc",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "4b9c5cb1a7fb272db2314380fa2b31282b4c1f91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2eda72be_980c31f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-03-29T12:47:05Z",
+      "side": 1,
+      "message": "In my understanding each persistent cache is one separate H2 database (containing one table inside the DB). Querying those databases in parallel should be possible.",
+      "range": {
+        "startLine": 21,
+        "startChar": 12,
+        "endLine": 21,
+        "endChar": 69
+      },
+      "revId": "4b9c5cb1a7fb272db2314380fa2b31282b4c1f91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

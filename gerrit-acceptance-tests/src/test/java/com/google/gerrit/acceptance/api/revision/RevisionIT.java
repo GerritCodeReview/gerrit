@@ -24,6 +24,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.junit.Assert.fail;
@@ -38,6 +39,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
@@ -59,6 +61,7 @@ import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ETagView;
@@ -755,14 +758,36 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void description() throws Exception {
     PushOneCommit.Result r = createChange();
-    assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description())
-        .isEqualTo("");
+    assertDescription(r, "");
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("test");
-    assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description())
-        .isEqualTo("test");
+    assertDescription(r, "test");
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("");
+    assertDescription(r, "");
+  }
+
+  @Test
+  public void setDescriptionNotAllowedWithoutPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertDescription(r, "");
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("changing description not permitted");
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("test");
+  }
+
+  @Test
+  public void setDescriptionAllowedWithPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertDescription(r, "");
+    grant(Permission.OWNER, project, "refs/heads/master", false, REGISTERED_USERS);
+    setApiUser(user);
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("test");
+    assertDescription(r, "test");
+  }
+
+  private void assertDescription(PushOneCommit.Result r, String expected) throws Exception {
     assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description())
-        .isEqualTo("");
+        .isEqualTo(expected);
   }
 
   @Test

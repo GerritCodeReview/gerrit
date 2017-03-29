@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1b3d6277_9f6daf37",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-29T21:42:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6480abb5_7e670efc",
+      "range": {
+        "startLine": 379,
+        "startChar": 4,
+        "endLine": 379,
+        "endChar": 22
+      },
+      "revId": "40f53c1a25496fea10408d35a204d7a3970a2d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "127b2a0e_a65c0ba2",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 5
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "6871a2ce_b01f89d1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-29T21:42:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "127b2a0e_a65c0ba2",
+      "range": {
+        "startLine": 380,
+        "startChar": 7,
+        "endLine": 381,
+        "endChar": 33
+      },
+      "revId": "40f53c1a25496fea10408d35a204d7a3970a2d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "47b6ab11_07071191",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 5
@@ -107,6 +155,30 @@
       "writtenOn": "2017-03-29T21:15:53Z",
       "side": 1,
       "message": "The way this method is used in the binding, it\u0027s supposed to return the value used as the `href` of the link. But this method returns nothing and navigates the page.\n\nAs a result, the href for the up-link does not get set and the link is not functional. I recommend returning `this._getChangePath...` as described in my above comment.",
+      "range": {
+        "startLine": 382,
+        "startChar": 7,
+        "endLine": 382,
+        "endChar": 39
+      },
+      "revId": "40f53c1a25496fea10408d35a204d7a3970a2d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7caabba_f44e5991",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-29T21:42:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "47b6ab11_07071191",
       "range": {
         "startLine": 382,
         "startChar": 7,

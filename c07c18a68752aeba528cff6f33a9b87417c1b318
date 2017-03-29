@@ -35,6 +35,24 @@
       "revId": "c07c18a68752aeba528cff6f33a9b87417c1b318",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6e1b454_df8ce9fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdCacheImpl.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-29T12:33:32Z",
+      "side": 1,
+      "message": "Done in\n  https://gerrit-review.googlesource.com/101314",
+      "parentUuid": "86562b6c_cb2f82e6",
+      "revId": "c07c18a68752aeba528cff6f33a9b87417c1b318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

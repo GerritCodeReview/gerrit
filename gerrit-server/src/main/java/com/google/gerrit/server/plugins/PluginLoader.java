@@ -404,7 +404,7 @@ public class PluginLoader implements LifecycleListener {
       String name = entry.getKey();
       Path path = entry.getValue();
       String fileName = path.getFileName().toString();
-      if (!isJsPlugin(fileName) && !serverPluginFactory.handles(path)) {
+      if (!isUiPlugin(fileName) && !serverPluginFactory.handles(path)) {
         log.warn("No Plugin provider was found that handles this file format: {}", fileName);
         continue;
       }
@@ -586,7 +586,7 @@ public class PluginLoader implements LifecycleListener {
   private Plugin loadPlugin(String name, Path srcPlugin, FileSnapshot snapshot)
       throws InvalidPluginException {
     String pluginName = srcPlugin.getFileName().toString();
-    if (isJsPlugin(pluginName)) {
+    if (isUiPlugin(pluginName)) {
       return loadJsPlugin(name, srcPlugin, snapshot);
     } else if (serverPluginFactory.handles(srcPlugin)) {
       return loadServerPlugin(srcPlugin, snapshot);
@@ -718,8 +718,8 @@ public class PluginLoader implements LifecycleListener {
 
   public String getGerritPluginName(Path srcPath) {
     String fileName = srcPath.getFileName().toString();
-    if (isJsPlugin(fileName)) {
-      return fileName.substring(0, fileName.length() - 3);
+    if (isUiPlugin(fileName)) {
+      return fileName.substring(0, fileName.lastIndexOf('.'));
     }
     if (serverPluginFactory.handles(srcPath)) {
       return serverPluginFactory.getPluginName(srcPath);
@@ -735,8 +735,8 @@ public class PluginLoader implements LifecycleListener {
     return map;
   }
 
-  private static boolean isJsPlugin(String name) {
-    return isPlugin(name, "js");
+  private static boolean isUiPlugin(String name) {
+    return isPlugin(name, "js") || isPlugin(name, "html");
   }
 
   private static boolean isPlugin(String fileName, String ext) {

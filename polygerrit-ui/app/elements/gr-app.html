@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../styles/app-theme.html">
+<link rel="import" href="./plugins/gr-plugin-host/gr-plugin-host.html">
 
 <link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
 
@@ -170,6 +171,9 @@ limitations under the License.
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-reporting id="reporting"></gr-reporting>
     <gr-router id="router"></gr-router>
+    <gr-plugin-host id="plugins"
+        config="[[_serverConfig.plugin]]">
+    </gr-plugin-host>
   </template>
   <script src="gr-app.js" crossorigin="anonymous"></script>
 </dom-module>

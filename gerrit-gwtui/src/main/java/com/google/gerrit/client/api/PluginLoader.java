@@ -28,6 +28,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwtexpui.progress.client.ProgressBar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /** Loads JavaScript plugins with a progress meter visible. */
 public class PluginLoader extends DialogBox {
@@ -36,6 +37,13 @@ public class PluginLoader extends DialogBox {
   public static void load(
       List<String> plugins, int loadTimeout, AsyncCallback<VoidResult> callback) {
     if (plugins == null || plugins.isEmpty()) {
+      callback.onSuccess(VoidResult.create());
+    }
+    plugins = plugins
+        .stream()
+        .filter(p -> p.endsWith(".js"))
+        .collect(Collectors.toList());
+    if (plugins.isEmpty()) {
       callback.onSuccess(VoidResult.create());
     } else {
       self = new PluginLoader(loadTimeout, callback);

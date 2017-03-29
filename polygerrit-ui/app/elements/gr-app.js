@@ -62,7 +62,6 @@
 
     observers: [
       '_viewChanged(params.view)',
-      '_loadPlugins(_serverConfig.plugin.js_resource_paths)',
     ],
 
     behaviors: [
@@ -125,17 +124,6 @@
       this.set('_showCLAView', view === 'gr-cla-view');
       if (this.params.justRegistered) {
         this.$.registration.open();
-      }
-    },
-
-    _loadPlugins: function(plugins) {
-      Gerrit._setPluginsCount(plugins.length);
-      for (var i = 0; i < plugins.length; i++) {
-        var scriptEl = document.createElement('script');
-        scriptEl.defer = true;
-        scriptEl.src = '/' + plugins[i];
-        scriptEl.onerror = Gerrit._pluginInstalled;
-        document.body.appendChild(scriptEl);
       }
     },
 

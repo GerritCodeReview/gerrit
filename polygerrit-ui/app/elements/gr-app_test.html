@@ -89,10 +89,16 @@ limitations under the License.
       });
     });
 
-    test('sets plugins count', function() {
-      sandbox.stub(Gerrit, '_setPluginsCount');
-      element._loadPlugins([]);
-      assert.isTrue(Gerrit._setPluginsCount.calledWithExactly(0));
+    test('passes config to gr-plugin-host', function(done) {
+      var config = {plugin: {}};
+      element.$.restAPI.getConfig.restore();
+      sandbox.stub(
+          element.$.restAPI, 'getConfig').returns(Promise.resolve(config));
+      element.attached();
+      flush(function() {
+        assert.strictEqual(element.$.plugins.config, config.plugin);
+        done();
+      });
     });
   });
 </script>

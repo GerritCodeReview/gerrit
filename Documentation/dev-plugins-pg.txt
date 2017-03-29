@@ -1,0 +1,24 @@
+= Gerrit Code Review - PolyGerrit Plugin Development
+
+CAUTION: Work in progress. Hard hat area. +
+This document will be populated with details along with implementation. +
+link:https://groups.google.com/d/topic/repo-discuss/vb8WJ4m0hK0/discussion[Join the discussion.]
+
+== Plugin loading and initialization
+
+link:https://gerrit-review.googlesource.com/Documentation/js-api.html#_entry_point[Entry point] for the plugin and the loading method is based on link:http://w3c.github.io/webcomponents/spec/imports/[HTML Imports] spec.
+
+* Plugin provides index.html, similar to link:https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#deployment[.js Web UI plugins]
+* index.html contains a `dom-module` tag with a script that uses `Gerrit.install()`.
+* PolyGerrit imports index.html along with all required resources defined in it (fonts, styles, etc)
+* For standalone plugins, the entry point file is a `pluginname.html` file located in `gerrit-site/plugins` folder, where pluginname is an alphanumeric plugin name.
+
+Here's a sample `myplugin.html`:
+
+``` html
+<dom-module id="my-plugin">
+  <script>
+    Gerrit.install(function() { console.log('Ready.'); });
+  </script>
+</dom-module>
+```

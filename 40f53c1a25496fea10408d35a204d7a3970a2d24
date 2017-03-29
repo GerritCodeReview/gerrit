@@ -188,6 +188,30 @@
       "revId": "40f53c1a25496fea10408d35a204d7a3970a2d24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78e779dc_65983449",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-29T21:51:57Z",
+      "side": 1,
+      "message": "I have tested this now but the up button still shows greyed out.",
+      "parentUuid": "47b6ab11_07071191",
+      "range": {
+        "startLine": 382,
+        "startChar": 7,
+        "endLine": 382,
+        "endChar": 39
+      },
+      "revId": "40f53c1a25496fea10408d35a204d7a3970a2d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

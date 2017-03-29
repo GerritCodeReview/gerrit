@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bb8f3624_981e5249",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-03-29T13:27:28Z",
+      "side": 1,
+      "message": "When you use embedded h2, same database. I am 100% about that:\n\n1-While investigating a thread dump, I confirmed in the h2 source code that database queries are synchronized.\n\n2-I also confirmed that behaviour but putting some breakpoints.\n\n3-It documented, here is the snippet from [1]:\n...By default, requests to the same database are synchronized. That means an application can use multiple threads that access the same database at the same time, however if one thread executes a long running query, the other threads need to wait. To enable concurrent database usage, see the setting MULTI_THREADED...\n\nThe problem is MULTI_THREADED is an experimental option and MVCC is not fully tested.\n\nFor us(Ericsson), we were already planning to provide an implementation in high-availability plugin that stores review bits in a real database so both masters can share them.\n\nThat said, we still need to fix this bottleneck for regular standalone installation. In the context of this fix, I did a lot of benchmark of h2 embedded and it does not scale for \"large\" database. Example: counting the number of rows in a table with 1.6 million entries takes 2.5 seconds compared to few milliseconds in Postgres.\n\n[1]http://www.h2database.com/html/features.html#multiple_connections",
+      "parentUuid": "88e0c6a9_6bc7a920",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "4b9c5cb1a7fb272db2314380fa2b31282b4c1f91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2eda72be_980c31f1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-03-29T12:47:05Z",
       "side": 1,
       "message": "In my understanding each persistent cache is one separate H2 database (containing one table inside the DB). Querying those databases in parallel should be possible.",
+      "range": {
+        "startLine": 21,
+        "startChar": 12,
+        "endLine": 21,
+        "endChar": 69
+      },
+      "revId": "4b9c5cb1a7fb272db2314380fa2b31282b4c1f91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70b3e967_66f1d65a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-03-29T13:27:28Z",
+      "side": 1,
+      "message": "yes, you are right and each cache can be queried in parallel.\n\nWhat I meant is the while show-caches is executing, there will be up to (number of big persisted caches) hangs that will happen that will last (time to compute stats).",
+      "parentUuid": "2eda72be_980c31f1",
       "range": {
         "startLine": 21,
         "startChar": 12,

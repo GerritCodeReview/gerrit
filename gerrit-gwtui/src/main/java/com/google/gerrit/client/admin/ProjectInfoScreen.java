@@ -672,6 +672,7 @@ public class ProjectInfoScreen extends ProjectScreen {
         esp,
         rsp,
         getBool(rejectImplicitMerges),
+        getBool(enableReviewerByEmail),
         maxObjectSizeLimit.getText().trim(),
         SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
         ProjectState.valueOf(state.getValue(state.getSelectedIndex())),

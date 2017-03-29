@@ -233,8 +233,8 @@ maven_jar(
 
 maven_jar(
     name = "log4j",
-    artifact = "log4j:log4j:1.2.17",
-    sha1 = "5af35056b4d257e4b64b9e8069c0746e8b08629f",
+    artifact = "org.apache.logging.log4j:log4j-core:2.8.1",
+    sha1 = "4ac28ff2f1ddf05dae3043a190451e8c46b73c31",
 )
 
 maven_jar(

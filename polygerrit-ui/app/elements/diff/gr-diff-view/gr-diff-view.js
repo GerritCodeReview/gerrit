@@ -402,6 +402,10 @@
      *     direction.
      */
     _computeNavLinkURL: function(path, fileList, direction, opt_noUp) {
+      if (path && fileList === 0) {
+        return this._getDiffURL(this._changeNum, this._patchRange);
+      }
+
       if (!path || fileList.length === 0) { return null; }
 
       var idx = fileList.indexOf(path);
@@ -495,8 +499,12 @@
     },
 
     _getDiffURL: function(changeNum, patchRange, path) {
-      return '/c/' + changeNum + '/' + this._patchRangeStr(patchRange) + '/' +
-          this.encodeURL(path, true);
+      if (path != null) {
+        return '/c/' + changeNum + '/' + this._patchRangeStr(patchRange) + '/' +
+            this.encodeURL(path, true);
+      } else {
+        return '/c/' + changeNum + '/' + this._patchRangeStr(patchRange) + '/';
+      }
     },
 
     _computeDiffURL: function(changeNum, patchRangeRecord, path) {

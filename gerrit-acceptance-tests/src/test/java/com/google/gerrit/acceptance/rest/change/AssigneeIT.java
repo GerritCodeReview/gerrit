@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.Iterables;
@@ -23,6 +24,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -148,6 +150,23 @@ public class AssigneeIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("is not visible to");
     setAssignee(r, user.email);
+  }
+
+  @Test
+  public void setAssigneeNotAllowedWithoutPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("not permitted");
+    setAssignee(r, user.email);
+  }
+
+  @Test
+  public void setAssigneeAllowedWithPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    grant(Permission.EDIT_ASSIGNEE, project, "refs/heads/master", false, REGISTERED_USERS);
+    setApiUser(user);
+    assertThat(setAssignee(r, user.email)._accountId).isEqualTo(user.getId().get());
   }
 
   private AccountInfo getAssignee(PushOneCommit.Result r) throws Exception {

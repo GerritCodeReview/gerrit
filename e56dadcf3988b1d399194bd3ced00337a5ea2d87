@@ -1,0 +1,192 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10f3af82_dd1ffd9b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-29T19:23:43Z",
+      "side": 1,
+      "message": "This, and every instance of `void(0)` needs a semicolon to appease the linter.",
+      "range": {
+        "startLine": 28,
+        "startChar": 8,
+        "endLine": 28,
+        "endChar": 15
+      },
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddcb959f_686443a7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-29T19:23:43Z",
+      "side": 1,
+      "message": "Is there a test flake that this fixes? What is it?",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed4848a4_764aa35e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-29T19:23:43Z",
+      "side": 1,
+      "message": "Just a style nitpick around these `void(0)` calls...\n\nIt seems like the fix here precedes every \u003ctest-fixture\u003e with a \u003cscript\u003evoid(0)\u003c/script\u003e. \n\nIf so, maybe it would be easier to be consistent by removing the blank line.\n\n\u003cscript\u003evoid(0);\u003c/script\u003e\n\u003ctest-fixture id\u003d\"foo\"\u003e\n  ...\n\u003c/test-fixture\u003e\n  \n\u003cscript\u003evoid(0);\u003c/script\u003e\n\u003ctest-fixture id\u003d\"bar\"\u003e\n  ...\n\u003c/test-fixture\u003e\n  \n\u003cscript\u003evoid(0);\u003c/script\u003e\n\u003ctest-fixture id\u003d\"baz\"\u003e\n  ...\n\u003c/test-fixture\u003e\n\nPossibly it could also be worth adding a note to the PG style guide document around declaring text-fixtures and linking to the underlying reason.",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 30,
+        "endChar": 25
+      },
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5ffbcc6_1e5c81a0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-29T19:23:43Z",
+      "side": 1,
+      "message": "Is there a test flake that this fixes? What is it?",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3397a1a_1d46bc89",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-29T19:23:43Z",
+      "side": 1,
+      "message": "Is there a test flake that this fixes? What is it? Same with the below edits.",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4993758e_7e054f4c",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-29T19:23:43Z",
+      "side": 1,
+      "message": "Is there a test flake that this fixes? What is it?",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "387f9bee_b7611ba8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-29T19:23:43Z",
+      "side": 1,
+      "message": "Aha! I know what flake this fixes. Bravo!",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb3802ba_cc9ebbbc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-29T19:23:43Z",
+      "side": 1,
+      "message": "Looks like this code was commented out when it should have been instead perhaps changed to use console.warn.",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85a4e0d3_76fa55ac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-actions-js-api_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-29T19:23:43Z",
+      "side": 1,
+      "message": "Was the previous indentation wrong? I don\u0027t know any indentation rules around HTML comments.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 6
+      },
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4aba9b7c_e4068bd3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-29T19:23:43Z",
+      "side": 1,
+      "message": "Why doesn\u0027t the sandbox restore correctly restore the fetch?",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e10f5605_d427316a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-29T19:56:48Z",
+      "side": 1,
+      "message": "this binding should use $\u003d\n\n href$\u003d\"[[",
+      "range": {
+        "startLine": 171,
+        "startChar": 10,
+        "endLine": 171,
+        "endChar": 17
+      },
+      "revId": "1f2f2beb15f1022eb9f490599ed47f3a4ed1b948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

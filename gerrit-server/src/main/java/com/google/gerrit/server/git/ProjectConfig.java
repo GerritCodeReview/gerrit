@@ -185,7 +185,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private boolean checkReceivedObjects;
   private Set<String> sectionsWithUnknownPermissions;
   private boolean hasLegacyPermissions;
-  private boolean enableReviewerByEmail;
 
   public static ProjectConfig read(MetaDataUpdate update)
       throws IOException, ConfigInvalidException {
@@ -439,16 +438,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return checkReceivedObjects;
   }
 
-  /** @return the enableReviewerByEmail for this project, default is false. */
-  public boolean getEnableReviewerByEmail() {
-    return enableReviewerByEmail;
-  }
-
-  /** Set enableReviewerByEmail for this project, default is false. */
-  public void setEnableReviewerByEmail(boolean val) {
-    enableReviewerByEmail = val;
-  }
-
   /**
    * Check all GroupReferences use current group name, repairing stale ones.
    *
@@ -521,6 +510,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     p.setMaxObjectSizeLimit(rc.getString(RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT));
     p.setRejectImplicitMerges(
         getEnum(rc, RECEIVE, null, KEY_REJECT_IMPLICIT_MERGES, InheritableBoolean.INHERIT));
+    p.setEnableReviewerByEmail(
+        getEnum(rc, REVIEWER, null, KEY_ENABLE_REVIEWER_BY_EMAIL, InheritableBoolean.INHERIT));
 
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, DEFAULT_SUBMIT_ACTION));
     p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, InheritableBoolean.INHERIT));
@@ -540,7 +531,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     mimeTypes = new ConfiguredMimeTypes(projectName.get(), rc);
     loadPluginSections(rc);
     loadReceiveSection(rc);
-    loadReviewerSection(rc);
   }
 
   private void loadAccountsSection(Config rc, Map<String, GroupReference> groupsByName) {
@@ -948,10 +938,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     maxObjectSizeLimit = rc.getLong(RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT, 0);
   }
 
-  private void loadReviewerSection(Config rc) {
-    enableReviewerByEmail = rc.getBoolean(REVIEWER, null, KEY_ENABLE_REVIEWER_BY_EMAIL, false);
-  }
-
   private void loadPluginSections(Config rc) {
     pluginConfigs = new HashMap<>();
     for (String plugin : rc.getSubsections(PLUGIN)) {
@@ -1071,6 +1057,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         KEY_REJECT_IMPLICIT_MERGES,
         p.getRejectImplicitMerges(),
         InheritableBoolean.INHERIT);
+    set(
+        rc,
+        REVIEWER,
+        null,
+        KEY_ENABLE_REVIEWER_BY_EMAIL,
+        p.getEnableReviewerByEmail(),
+        InheritableBoolean.INHERIT);
 
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), DEFAULT_SUBMIT_ACTION);
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), InheritableBoolean.INHERIT);
@@ -1086,7 +1079,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     saveAccessSections(rc, keepGroups);
     saveNotifySections(rc, keepGroups);
     savePluginSections(rc, keepGroups);
-    saveReviewerSection(rc);
     groupList.retainUUIDs(keepGroups);
     saveLabelSections(rc);
     saveSubscribeSections(rc);
@@ -1400,11 +1392,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             PLUGIN, plugin, name, Arrays.asList(pluginConfig.getStringList(PLUGIN, plugin, name)));
       }
     }
-  }
-
-  private void saveReviewerSection(Config rc) {
-    setBooleanConfigKey(
-        rc, REVIEWER, null, KEY_ENABLE_REVIEWER_BY_EMAIL, enableReviewerByEmail, false);
   }
 
   private void saveGroupList() throws IOException {

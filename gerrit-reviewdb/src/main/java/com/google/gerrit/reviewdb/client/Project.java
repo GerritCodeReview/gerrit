@@ -161,6 +161,10 @@ public final class Project {
     return enableReviewerByEmail;
   }
 
+  public void setEnableReviewerByEmail(final InheritableBoolean enable) {
+    enableReviewerByEmail = enable;
+  }
+
   public void setUseContributorAgreements(final InheritableBoolean u) {
     useContributorAgreements = u;
   }

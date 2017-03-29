@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "70ef4900_3f2abbb9",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-29T12:15:30Z",
+      "side": 1,
+      "message": "Nope, executor could be no null whilst serviceFactoryExecutor being null \u003d\u003e then NPE",
+      "parentUuid": "b8078086_8b987868",
+      "range": {
+        "startLine": 380,
+        "startChar": 8,
+        "endLine": 380,
+        "endChar": 42
+      },
+      "revId": "7c886d8819151b884865ed3154fd77aea6897ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81911c5c_949aa3ff",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 4
@@ -59,6 +83,30 @@
       "writtenOn": "2017-03-29T11:11:07Z",
       "side": 1,
       "message": "Does this need to be a method?  It could be inlined at L373",
+      "range": {
+        "startLine": 377,
+        "startChar": 2,
+        "endLine": 383,
+        "endChar": 3
+      },
+      "revId": "7c886d8819151b884865ed3154fd77aea6897ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c7f087f_b5ffa25b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-29T12:15:30Z",
+      "side": 1,
+      "message": "It is more for readability than reuse.",
+      "parentUuid": "81911c5c_949aa3ff",
       "range": {
         "startLine": 377,
         "startChar": 2,

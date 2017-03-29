@@ -1655,6 +1655,26 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void editTopicWithoutPermissionNotAllowed() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertThat(gApi.changes().id(r.getChangeId()).topic()).isEqualTo("");
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("changing topic not permitted");
+    gApi.changes().id(r.getChangeId()).topic("mytopic");
+  }
+
+  @Test
+  public void editTopicWithPermissionAllowed() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertThat(gApi.changes().id(r.getChangeId()).topic()).isEqualTo("");
+    grant(Permission.EDIT_TOPIC_NAME, project, "refs/heads/master", false, REGISTERED_USERS);
+    setApiUser(user);
+    gApi.changes().id(r.getChangeId()).topic("mytopic");
+    assertThat(gApi.changes().id(r.getChangeId()).topic()).isEqualTo("mytopic");
+  }
+
+  @Test
   public void submitted() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());

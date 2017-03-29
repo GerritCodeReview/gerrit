@@ -90,6 +90,10 @@
       },
       _owner: Object,
       _pendingConfirmationDetails: Object,
+      _includeComments: {
+        type: Boolean,
+        value: true,
+      },
       _reviewers: Array,
       _reviewerPendingConfirmation: {
         type: Object,
@@ -246,9 +250,9 @@
       return {reviewer: reviewerId, confirmed: confirmed};
     },
 
-    send: function() {
+    send: function(includeComments) {
       var obj = {
-        drafts: 'PUBLISH_ALL_REVISIONS',
+        drafts: includeComments ? 'PUBLISH_ALL_REVISIONS' : 'KEEP',
         labels: {},
       };
 
@@ -304,6 +308,7 @@
         }
         this.disabled = false;
         this.draft = '';
+        this._includeComments = true;
         this.fire('send', null, {bubbles: false});
         return accountAdditions;
       }.bind(this)).catch(function(err) {
@@ -525,8 +530,8 @@
 
     _sendTapHandler: function(e) {
       e.preventDefault();
-      this.send().then(function(keep) {
-        this._purgeReviewersPendingRemove(false, keep);
+      this.send(this._includeComments).then(function(keepReviewers) {
+        this._purgeReviewersPendingRemove(false, keepReviewers);
       }.bind(this));
     },
 

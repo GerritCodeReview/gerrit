@@ -475,7 +475,7 @@ class ChangeApiImpl implements ChangeApi {
   public void setHashtags(HashtagsInput input) throws RestApiException {
     try {
       postHashtags.apply(change, input);
-    } catch (RestApiException | UpdateException e) {
+    } catch (UpdateException e) {
       throw new RestApiException("Cannot post hashtags", e);
     }
   }
@@ -512,7 +512,7 @@ class ChangeApiImpl implements ChangeApi {
   public List<AccountInfo> getPastAssignees() throws RestApiException {
     try {
       return getPastAssignees.apply(change).value();
-    } catch (Exception e) {
+    } catch (OrmException e) {
       throw new RestApiException("Cannot get past assignees", e);
     }
   }

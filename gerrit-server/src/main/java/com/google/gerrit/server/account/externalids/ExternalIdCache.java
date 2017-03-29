@@ -16,44 +16,47 @@ package com.google.gerrit.server.account.externalids;
 
 import com.google.gerrit.reviewdb.client.Account;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Caches external IDs of all accounts */
 interface ExternalIdCache {
-  void onCreate(ObjectId newNotesRev, Iterable<ExternalId> extId) throws IOException;
+  void onCreate(ObjectId newNotesRev, Collection<ExternalId> extId) throws IOException;
 
-  void onUpdate(ObjectId newNotesRev, Iterable<ExternalId> extId) throws IOException;
+  void onUpdate(ObjectId newNotesRev, Collection<ExternalId> extId) throws IOException;
 
   void onReplace(
       ObjectId newNotesRev,
       Account.Id accountId,
-      Iterable<ExternalId> toRemove,
-      Iterable<ExternalId> toAdd)
+      Collection<ExternalId> toRemove,
+      Collection<ExternalId> toAdd)
       throws IOException;
 
   void onReplaceByKeys(
       ObjectId newNotesRev,
       Account.Id accountId,
-      Iterable<ExternalId.Key> toRemove,
-      Iterable<ExternalId> toAdd)
+      Collection<ExternalId.Key> toRemove,
+      Collection<ExternalId> toAdd)
       throws IOException;
 
   void onReplaceByKeys(
-      ObjectId newNotesRev, Iterable<ExternalId.Key> toRemove, Iterable<ExternalId> toAdd)
+      ObjectId newNotesRev, Collection<ExternalId.Key> toRemove, Collection<ExternalId> toAdd)
       throws IOException;
 
-  void onReplace(ObjectId newNotesRev, Iterable<ExternalId> toRemove, Iterable<ExternalId> toAdd)
+  void onReplace(
+      ObjectId newNotesRev, Collection<ExternalId> toRemove, Collection<ExternalId> toAdd)
       throws IOException;
 
-  void onRemove(ObjectId newNotesRev, Iterable<ExternalId> extId) throws IOException;
+  void onRemove(ObjectId newNotesRev, Collection<ExternalId> extId) throws IOException;
 
   void onRemoveByKeys(
-      ObjectId newNotesRev, Account.Id accountId, Iterable<ExternalId.Key> extIdKeys)
+      ObjectId newNotesRev, Account.Id accountId, Collection<ExternalId.Key> extIdKeys)
       throws IOException;
 
-  void onRemoveByKeys(ObjectId newNotesRev, Iterable<ExternalId.Key> extIdKeys) throws IOException;
+  void onRemoveByKeys(ObjectId newNotesRev, Collection<ExternalId.Key> extIdKeys)
+      throws IOException;
 
   Set<ExternalId> byAccount(Account.Id accountId) throws IOException;
 

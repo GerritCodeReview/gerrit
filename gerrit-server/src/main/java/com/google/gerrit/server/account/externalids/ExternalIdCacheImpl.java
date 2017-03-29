@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -29,6 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
@@ -61,7 +63,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public void onCreate(ObjectId newNotesRev, Iterable<ExternalId> extIds) throws IOException {
+  public void onCreate(ObjectId newNotesRev, Collection<ExternalId> extIds) throws IOException {
     updateCache(
         newNotesRev,
         m -> {
@@ -72,7 +74,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public void onRemove(ObjectId newNotesRev, Iterable<ExternalId> extIds) throws IOException {
+  public void onRemove(ObjectId newNotesRev, Collection<ExternalId> extIds) throws IOException {
     updateCache(
         newNotesRev,
         m -> {
@@ -84,52 +86,29 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   @Override
   public void onRemoveByKeys(
-      ObjectId newNotesRev, Account.Id accountId, Iterable<ExternalId.Key> extIdKeys)
+      ObjectId newNotesRev, Account.Id accountId, Collection<ExternalId.Key> extIdKeys)
       throws IOException {
     updateCache(
         newNotesRev,
-        m -> {
-          for (ExternalId extId : m.get(accountId)) {
-            for (ExternalId.Key extIdKey : extIdKeys) {
-              if (extIdKey.equals(extId.key())) {
-                m.remove(accountId, extId);
-                break;
-              }
-            }
-          }
-        });
+        m -> Collections2.transform(m.get(accountId), e -> e.key()).removeAll(extIdKeys));
   }
 
   @Override
-  public void onRemoveByKeys(ObjectId newNotesRev, Iterable<ExternalId.Key> extIdKeys)
+  public void onRemoveByKeys(ObjectId newNotesRev, Collection<ExternalId.Key> extIdKeys)
       throws IOException {
     updateCache(
-        newNotesRev,
-        m -> {
-          for (ExternalId extId : m.values()) {
-            for (ExternalId.Key extIdKey : extIdKeys) {
-              if (extIdKey.equals(extId.key())) {
-                m.remove(extId.accountId(), extId);
-                break;
-              }
-            }
-          }
-        });
+        newNotesRev, m -> Collections2.transform(m.values(), e -> e.key()).removeAll(extIdKeys));
   }
 
   @Override
-  public void onUpdate(ObjectId newNotesRev, Iterable<ExternalId> updatedExtIds)
+  public void onUpdate(ObjectId newNotesRev, Collection<ExternalId> updatedExtIds)
       throws IOException {
     updateCache(
         newNotesRev,
         m -> {
+          Collections2.transform(m.values(), e -> e.key())
+              .removeAll(updatedExtIds.stream().map(e -> e.key()).collect(toSet()));
           for (ExternalId updatedExtId : updatedExtIds) {
-            for (ExternalId extId : m.get(updatedExtId.accountId())) {
-              if (updatedExtId.key().equals(extId.key())) {
-                m.remove(updatedExtId.accountId(), extId);
-                break;
-              }
-            }
             m.put(updatedExtId.accountId(), updatedExtId);
           }
         });
@@ -139,8 +118,8 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   public void onReplace(
       ObjectId newNotesRev,
       Account.Id accountId,
-      Iterable<ExternalId> toRemove,
-      Iterable<ExternalId> toAdd)
+      Collection<ExternalId> toRemove,
+      Collection<ExternalId> toAdd)
       throws IOException {
     ExternalIdsUpdate.checkSameAccount(Iterables.concat(toRemove, toAdd), accountId);
 
@@ -160,21 +139,15 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   public void onReplaceByKeys(
       ObjectId newNotesRev,
       Account.Id accountId,
-      Iterable<ExternalId.Key> toRemove,
-      Iterable<ExternalId> toAdd)
+      Collection<ExternalId.Key> toRemove,
+      Collection<ExternalId> toAdd)
       throws IOException {
     ExternalIdsUpdate.checkSameAccount(toAdd, accountId);
 
     updateCache(
         newNotesRev,
         m -> {
-          for (ExternalId extId : m.get(accountId)) {
-            for (ExternalId.Key extIdKey : toRemove) {
-              if (extIdKey.equals(extId.key())) {
-                m.remove(accountId, extId);
-              }
-            }
-          }
+          Collections2.transform(m.get(accountId), e -> e.key()).removeAll(toRemove);
           for (ExternalId extId : toAdd) {
             m.put(extId.accountId(), extId);
           }
@@ -183,18 +156,12 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   @Override
   public void onReplaceByKeys(
-      ObjectId newNotesRev, Iterable<ExternalId.Key> toRemove, Iterable<ExternalId> toAdd)
+      ObjectId newNotesRev, Collection<ExternalId.Key> toRemove, Collection<ExternalId> toAdd)
       throws IOException {
     updateCache(
         newNotesRev,
         m -> {
-          for (ExternalId extId : m.values()) {
-            for (ExternalId.Key extIdKey : toRemove) {
-              if (extIdKey.equals(extId.key())) {
-                m.remove(extId.accountId(), extId);
-              }
-            }
-          }
+          Collections2.transform(m.values(), e -> e.key()).removeAll(toRemove);
           for (ExternalId extId : toAdd) {
             m.put(extId.accountId(), extId);
           }
@@ -203,7 +170,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   @Override
   public void onReplace(
-      ObjectId newNotesRev, Iterable<ExternalId> toRemove, Iterable<ExternalId> toAdd)
+      ObjectId newNotesRev, Collection<ExternalId> toRemove, Collection<ExternalId> toAdd)
       throws IOException {
     updateCache(
         newNotesRev,

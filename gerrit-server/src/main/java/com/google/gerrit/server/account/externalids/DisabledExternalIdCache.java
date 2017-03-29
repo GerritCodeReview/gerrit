@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -33,42 +34,42 @@ public class DisabledExternalIdCache implements ExternalIdCache {
   }
 
   @Override
-  public void onCreate(ObjectId newNotesRev, Iterable<ExternalId> extId) {}
+  public void onCreate(ObjectId newNotesRev, Collection<ExternalId> extId) {}
 
   @Override
-  public void onUpdate(ObjectId newNotesRev, Iterable<ExternalId> extId) {}
+  public void onUpdate(ObjectId newNotesRev, Collection<ExternalId> extId) {}
 
   @Override
   public void onReplace(
       ObjectId newNotesRev,
       Account.Id accountId,
-      Iterable<ExternalId> toRemove,
-      Iterable<ExternalId> toAdd) {}
+      Collection<ExternalId> toRemove,
+      Collection<ExternalId> toAdd) {}
 
   @Override
   public void onReplaceByKeys(
       ObjectId newNotesRev,
       Account.Id accountId,
-      Iterable<ExternalId.Key> toRemove,
-      Iterable<ExternalId> toAdd) {}
+      Collection<ExternalId.Key> toRemove,
+      Collection<ExternalId> toAdd) {}
 
   @Override
   public void onReplaceByKeys(
-      ObjectId newNotesRev, Iterable<ExternalId.Key> toRemove, Iterable<ExternalId> toAdd) {}
+      ObjectId newNotesRev, Collection<ExternalId.Key> toRemove, Collection<ExternalId> toAdd) {}
 
   @Override
   public void onReplace(
-      ObjectId newNotesRev, Iterable<ExternalId> toRemove, Iterable<ExternalId> toAdd) {}
+      ObjectId newNotesRev, Collection<ExternalId> toRemove, Collection<ExternalId> toAdd) {}
 
   @Override
-  public void onRemove(ObjectId newNotesRev, Iterable<ExternalId> extId) {}
+  public void onRemove(ObjectId newNotesRev, Collection<ExternalId> extId) {}
 
   @Override
   public void onRemoveByKeys(
-      ObjectId newNotesRev, Account.Id accountId, Iterable<ExternalId.Key> extIdKeys) {}
+      ObjectId newNotesRev, Account.Id accountId, Collection<ExternalId.Key> extIdKeys) {}
 
   @Override
-  public void onRemoveByKeys(ObjectId newNotesRev, Iterable<ExternalId.Key> extIdKeys) {}
+  public void onRemoveByKeys(ObjectId newNotesRev, Collection<ExternalId.Key> extIdKeys) {}
 
   @Override
   public Set<ExternalId> byAccount(Account.Id accountId) {

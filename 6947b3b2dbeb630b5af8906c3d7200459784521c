@@ -16,6 +16,24 @@
       "revId": "6947b3b2dbeb630b5af8906c3d7200459784521c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f0b4bd2_3474e7bf",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-29T12:22:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd9c52d7_8e921389",
+      "revId": "6947b3b2dbeb630b5af8906c3d7200459784521c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

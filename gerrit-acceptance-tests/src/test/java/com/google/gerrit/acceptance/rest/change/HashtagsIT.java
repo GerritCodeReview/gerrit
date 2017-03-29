@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.Iterables;
@@ -25,8 +26,10 @@ import com.google.common.truth.IterableSubject;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.testutil.TestTimeUtil;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -239,6 +242,25 @@ public class HashtagsIT extends AbstractDaemonTest {
   @Test
   public void hashtagWithMixedCase() throws Exception {
     PushOneCommit.Result r = createChange();
+    addHashtags(r, "MyHashtag");
+    assertThatGet(r).containsExactly("MyHashtag");
+    assertMessage(r, "Hashtag added: MyHashtag");
+  }
+
+  @Test
+  public void addHashtagWithoutPermissionNotAllowed() throws Exception {
+    PushOneCommit.Result r = createChange();
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("Editing hashtags not permitted");
+    addHashtags(r, "MyHashtag");
+  }
+
+  @Test
+  public void addHashtagWithPermissionAllowed() throws Exception {
+    PushOneCommit.Result r = createChange();
+    grant(Permission.EDIT_HASHTAGS, project, "refs/heads/master", false, REGISTERED_USERS);
+    setApiUser(user);
     addHashtags(r, "MyHashtag");
     assertThatGet(r).containsExactly("MyHashtag");
     assertMessage(r, "Hashtag added: MyHashtag");

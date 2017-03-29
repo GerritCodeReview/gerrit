@@ -34,13 +34,14 @@ public class DisabledExternalIdCache implements ExternalIdCache {
   }
 
   @Override
-  public void onCreate(ObjectId newNotesRev, Collection<ExternalId> extId) {}
+  public void onCreate(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId) {}
 
   @Override
-  public void onUpdate(ObjectId newNotesRev, Collection<ExternalId> extId) {}
+  public void onUpdate(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId) {}
 
   @Override
   public void onReplace(
+      ObjectId oldNotesRev,
       ObjectId newNotesRev,
       Account.Id accountId,
       Collection<ExternalId> toRemove,
@@ -48,6 +49,7 @@ public class DisabledExternalIdCache implements ExternalIdCache {
 
   @Override
   public void onReplaceByKeys(
+      ObjectId oldNotesRev,
       ObjectId newNotesRev,
       Account.Id accountId,
       Collection<ExternalId.Key> toRemove,
@@ -55,21 +57,31 @@ public class DisabledExternalIdCache implements ExternalIdCache {
 
   @Override
   public void onReplaceByKeys(
-      ObjectId newNotesRev, Collection<ExternalId.Key> toRemove, Collection<ExternalId> toAdd) {}
+      ObjectId oldNotesRev,
+      ObjectId newNotesRev,
+      Collection<ExternalId.Key> toRemove,
+      Collection<ExternalId> toAdd) {}
 
   @Override
   public void onReplace(
-      ObjectId newNotesRev, Collection<ExternalId> toRemove, Collection<ExternalId> toAdd) {}
+      ObjectId oldNotesRev,
+      ObjectId newNotesRev,
+      Collection<ExternalId> toRemove,
+      Collection<ExternalId> toAdd) {}
 
   @Override
-  public void onRemove(ObjectId newNotesRev, Collection<ExternalId> extId) {}
+  public void onRemove(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId) {}
 
   @Override
   public void onRemoveByKeys(
-      ObjectId newNotesRev, Account.Id accountId, Collection<ExternalId.Key> extIdKeys) {}
+      ObjectId oldNotesRev,
+      ObjectId newNotesRev,
+      Account.Id accountId,
+      Collection<ExternalId.Key> extIdKeys) {}
 
   @Override
-  public void onRemoveByKeys(ObjectId newNotesRev, Collection<ExternalId.Key> extIdKeys) {}
+  public void onRemoveByKeys(
+      ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId.Key> extIdKeys) {}
 
   @Override
   public Set<ExternalId> byAccount(Account.Id accountId) {

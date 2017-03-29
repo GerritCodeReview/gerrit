@@ -39,6 +39,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdReader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.account.externalids.ExternalIdsUpdate.RefsMetaExternalIdsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gson.reflect.TypeToken;
@@ -183,7 +184,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void retryOnLockFailure() throws Exception {
-    Retryer<ObjectId> retryer =
+    Retryer<RefsMetaExternalIdsUpdate> retryer =
         ExternalIdsUpdate.retryerBuilder()
             .withBlockStrategy(
                 new BlockStrategy() {
@@ -249,7 +250,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 // Ignore, the successful insertion of the external ID is asserted later
               }
             },
-            RetryerBuilder.<ObjectId>newBuilder()
+            RetryerBuilder.<RefsMetaExternalIdsUpdate>newBuilder()
                 .retryIfException(e -> e instanceof LockFailureException)
                 .withStopStrategy(StopStrategies.stopAfterAttempt(extIdsKeys.length))
                 .build());
@@ -273,6 +274,31 @@ public class ExternalIdIT extends AbstractDaemonTest {
     extIdsUpdate.create().insert(db, ExternalId.create(extIdKey, accountId));
     ExternalId extId = externalIds.get(db, extIdKey);
     assertThat(extId.accountId()).isEqualTo(accountId);
+  }
+
+  @Test
+  @GerritConfig(name = "user.readExternalIdsFromGit", value = "true")
+  public void checkNoReloadAfterUpdate() throws Exception {
+    Set<ExternalId> expectedExtIds = new HashSet<>(externalIds.byAccount(db, admin.id));
+    externalIdReader.setFailOnLoad(true);
+
+    // insert external ID
+    ExternalId extId = ExternalId.create("foo", "bar", admin.id);
+    extIdsUpdate.create().insert(db, extId);
+    expectedExtIds.add(extId);
+    assertThat(externalIds.byAccount(db, admin.id)).containsExactlyElementsIn(expectedExtIds);
+
+    // update external ID
+    expectedExtIds.remove(extId);
+    extId = ExternalId.createWithEmail("foo", "bar", admin.id, "foo.bar@example.com");
+    extIdsUpdate.create().upsert(db, extId);
+    expectedExtIds.add(extId);
+    assertThat(externalIds.byAccount(db, admin.id)).containsExactlyElementsIn(expectedExtIds);
+
+    // delete external ID
+    extIdsUpdate.create().delete(db, extId);
+    expectedExtIds.remove(extId);
+    assertThat(externalIds.byAccount(db, admin.id)).containsExactlyElementsIn(expectedExtIds);
   }
 
   @Test

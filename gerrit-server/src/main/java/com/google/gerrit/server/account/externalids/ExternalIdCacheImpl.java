@@ -63,8 +63,10 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public void onCreate(ObjectId newNotesRev, Collection<ExternalId> extIds) throws IOException {
+  public void onCreate(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extIds)
+      throws IOException {
     updateCache(
+        oldNotesRev,
         newNotesRev,
         m -> {
           for (ExternalId extId : extIds) {
@@ -74,8 +76,10 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public void onRemove(ObjectId newNotesRev, Collection<ExternalId> extIds) throws IOException {
+  public void onRemove(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extIds)
+      throws IOException {
     updateCache(
+        oldNotesRev,
         newNotesRev,
         m -> {
           for (ExternalId extId : extIds) {
@@ -86,24 +90,33 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   @Override
   public void onRemoveByKeys(
-      ObjectId newNotesRev, Account.Id accountId, Collection<ExternalId.Key> extIdKeys)
+      ObjectId oldNotesRev,
+      ObjectId newNotesRev,
+      Account.Id accountId,
+      Collection<ExternalId.Key> extIdKeys)
       throws IOException {
     updateCache(
+        oldNotesRev,
         newNotesRev,
         m -> Collections2.transform(m.get(accountId), e -> e.key()).removeAll(extIdKeys));
   }
 
   @Override
-  public void onRemoveByKeys(ObjectId newNotesRev, Collection<ExternalId.Key> extIdKeys)
+  public void onRemoveByKeys(
+      ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId.Key> extIdKeys)
       throws IOException {
     updateCache(
-        newNotesRev, m -> Collections2.transform(m.values(), e -> e.key()).removeAll(extIdKeys));
+        oldNotesRev,
+        newNotesRev,
+        m -> Collections2.transform(m.values(), e -> e.key()).removeAll(extIdKeys));
   }
 
   @Override
-  public void onUpdate(ObjectId newNotesRev, Collection<ExternalId> updatedExtIds)
+  public void onUpdate(
+      ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> updatedExtIds)
       throws IOException {
     updateCache(
+        oldNotesRev,
         newNotesRev,
         m -> {
           Collections2.transform(m.values(), e -> e.key())
@@ -116,6 +129,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   @Override
   public void onReplace(
+      ObjectId oldNotesRev,
       ObjectId newNotesRev,
       Account.Id accountId,
       Collection<ExternalId> toRemove,
@@ -124,6 +138,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     ExternalIdsUpdate.checkSameAccount(Iterables.concat(toRemove, toAdd), accountId);
 
     updateCache(
+        oldNotesRev,
         newNotesRev,
         m -> {
           for (ExternalId extId : toRemove) {
@@ -137,6 +152,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   @Override
   public void onReplaceByKeys(
+      ObjectId oldNotesRev,
       ObjectId newNotesRev,
       Account.Id accountId,
       Collection<ExternalId.Key> toRemove,
@@ -145,6 +161,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     ExternalIdsUpdate.checkSameAccount(toAdd, accountId);
 
     updateCache(
+        oldNotesRev,
         newNotesRev,
         m -> {
           Collections2.transform(m.get(accountId), e -> e.key()).removeAll(toRemove);
@@ -156,9 +173,13 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   @Override
   public void onReplaceByKeys(
-      ObjectId newNotesRev, Collection<ExternalId.Key> toRemove, Collection<ExternalId> toAdd)
+      ObjectId oldNotesRev,
+      ObjectId newNotesRev,
+      Collection<ExternalId.Key> toRemove,
+      Collection<ExternalId> toAdd)
       throws IOException {
     updateCache(
+        oldNotesRev,
         newNotesRev,
         m -> {
           Collections2.transform(m.values(), e -> e.key()).removeAll(toRemove);
@@ -170,9 +191,13 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   @Override
   public void onReplace(
-      ObjectId newNotesRev, Collection<ExternalId> toRemove, Collection<ExternalId> toAdd)
+      ObjectId oldNotesRev,
+      ObjectId newNotesRev,
+      Collection<ExternalId> toRemove,
+      Collection<ExternalId> toAdd)
       throws IOException {
     updateCache(
+        oldNotesRev,
         newNotesRev,
         m -> {
           for (ExternalId extId : toRemove) {
@@ -209,14 +234,18 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     }
   }
 
-  private void updateCache(ObjectId newNotesRev, Consumer<Multimap<Account.Id, ExternalId>> update)
-      throws IOException {
+  private void updateCache(
+      ObjectId oldNotesRev,
+      ObjectId newNotesRev,
+      Consumer<Multimap<Account.Id, ExternalId>> update) {
     lock.lock();
     try {
-      ListMultimap<Account.Id, ExternalId> m =
-          MultimapBuilder.hashKeys()
-              .arrayListValues()
-              .build(extIdsByAccount.get(externalIdReader.readRevision()));
+      ListMultimap<Account.Id, ExternalId> m;
+      if (!ObjectId.zeroId().equals(oldNotesRev)) {
+        m = MultimapBuilder.hashKeys().arrayListValues().build(extIdsByAccount.get(oldNotesRev));
+      } else {
+        m = MultimapBuilder.hashKeys().arrayListValues().build();
+      }
       update.accept(m);
       extIdsByAccount.put(newNotesRev, ImmutableSetMultimap.copyOf(m));
     } catch (ExecutionException e) {

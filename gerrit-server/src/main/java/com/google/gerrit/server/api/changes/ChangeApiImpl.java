@@ -491,7 +491,7 @@ class ChangeApiImpl implements ChangeApi {
   public List<AccountInfo> getPastAssignees() throws RestApiException {
     try {
       return getPastAssignees.apply(change).value();
-    } catch (Exception e) {
+    } catch (OrmException e) {
       throw new RestApiException("Cannot get past assignees", e);
     }
   }

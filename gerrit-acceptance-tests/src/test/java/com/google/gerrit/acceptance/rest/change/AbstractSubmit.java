@@ -589,6 +589,47 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitMergeOfNonChangeBranchNonTip() throws Exception {
+    // Merge a branch with commits that have not been submitted as
+    // changes.
+    //
+    // M  -- mergeCommit (pushed for review and submitted)
+    // |\   S' -- new stable tip (pushed directly to refs/heads/stable)
+    // I'\ /
+    // |  S -- stable (pushed directly to refs/heads/stable)
+    // | /
+    // I   -- master
+    //
+    RevCommit initial = getRemoteHead(project, "master");
+    PushOneCommit.Result stableChange = pushFactory.create(
+        db, admin.getIdent(), testRepo, "new commit into stable", "change.txt", "")
+        .to("refs/heads/stable");
+    // move the stable tip ahead
+    pushFactory.create(
+        db, admin.getIdent(), testRepo, "Tip of branch stable", "stable.txt", "")
+        .to("refs/heads/stable");
+
+    testRepo.reset(initial);
+
+    // move the master ahead
+    PushOneCommit.Result master = pushFactory.create(
+        db, admin.getIdent(), testRepo, "Move master ahead", "master.txt", "")
+        .to("refs/heads/master");
+
+    // create merge change
+    PushOneCommit mergeCommit =
+        pushFactory.create(db, admin.getIdent(), testRepo, "The merge commit", "merge.txt", "");
+    mergeCommit.setParents(ImmutableList.of(master.getCommit(), stableChange.getCommit()));
+    PushOneCommit.Result mergeReview = mergeCommit.to("refs/for/master");
+    approve(mergeReview.getChangeId());
+    submit(mergeReview.getChangeId());
+
+    List<RevCommit> log = getRemoteLog();
+    assertThat(log).contains(stableChange.getCommit());
+    assertThat(log).contains(mergeReview.getCommit());
+  }
+
+  @Test
   public void submitChangeWithCommitThatWasAlreadyMerged() throws Exception {
     // create and submit a change
     PushOneCommit.Result change = createChange();

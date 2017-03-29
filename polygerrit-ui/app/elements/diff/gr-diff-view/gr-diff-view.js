@@ -58,6 +58,8 @@
         value: function() { return {}; },
       },
 
+      backPage: String,
+
       _patchRange: Object,
       _change: Object,
       _changeNum: String,
@@ -374,6 +376,12 @@
           this._change && this._change.revisions));
     },
 
+    _determinePageBack: function() {
+       // Default backPage to '/' if user came to change view page
+       // via an email link, etc.
+       page.show(this.backPage || '/');
+    },
+
     _navToFile: function(path, fileList, direction) {
       var url = this._computeNavLinkURL(path, fileList, direction);
       if (!url) { return; }
@@ -402,6 +410,10 @@
      *     direction.
      */
     _computeNavLinkURL: function(path, fileList, direction, opt_noUp) {
+      if (path && fileList === 0) {
+        return this._getDiffURL(this._changeNum, this._patchRange);
+      }
+
       if (!path || fileList.length === 0) { return null; }
 
       var idx = fileList.indexOf(path);

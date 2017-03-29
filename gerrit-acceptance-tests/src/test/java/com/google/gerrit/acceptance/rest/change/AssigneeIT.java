@@ -22,9 +22,11 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 import java.util.Iterator;
@@ -122,6 +124,16 @@ public class AssigneeIT extends AbstractDaemonTest {
   public void deleteAssigneeWhenNoAssignee() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(deleteAssignee(r)).isNull();
+  }
+
+  @Test
+  @Sandboxed
+  public void setAssigneeToInactiveUser() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.accounts().id(user.getId().get()).setActive(false);
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("is not active");
+    setAssignee(r, user.email);
   }
 
   private AccountInfo getAssignee(PushOneCommit.Result r) throws Exception {

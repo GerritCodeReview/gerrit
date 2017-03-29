@@ -18,12 +18,14 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-change-view</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <script src="../../../bower_components/page/page.js"></script>
 
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-view.html">
+
+<script>void(0);</script>
 
 <test-fixture id="basic">
   <template>
@@ -48,8 +50,11 @@ limitations under the License.
       element = fixture('basic');
     });
 
-    teardown(function() {
-      sandbox.restore();
+    teardown(function(done) {
+      flush(function() {
+        sandbox.restore();
+        done();
+      });
     });
 
     suite('keyboard shortcuts', function() {
@@ -795,16 +800,16 @@ limitations under the License.
 
     test('reply dialog focus can be controlled', function() {
       var FocusTarget = element.$.replyDialog.FocusTarget;
-      var openSpy = sandbox.spy(element, '_openReplyDialog');
+      var openStub = sandbox.stub(element, '_openReplyDialog');
 
       var e = {detail: {}};
       element._handleShowReplyDialog(e);
-      assert(openSpy.lastCall.calledWithExactly(FocusTarget.REVIEWERS),
+      assert(openStub.lastCall.calledWithExactly(FocusTarget.REVIEWERS),
           '_openReplyDialog should have been passed REVIEWERS');
 
       e.detail.value = {ccsOnly: true};
       element._handleShowReplyDialog(e);
-      assert(openSpy.lastCall.calledWithExactly(FocusTarget.CCS),
+      assert(openStub.lastCall.calledWithExactly(FocusTarget.CCS),
           '_openReplyDialog should have been passed CCS');
     });
 

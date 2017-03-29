@@ -18,12 +18,14 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-rest-api-interface</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <script src="../../../scripts/util.js"></script>
 
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-rest-api-interface.html">
+
+<script>void(0);</script>
 
 <test-fixture id="basic">
   <template>
@@ -39,6 +41,13 @@ limitations under the License.
     setup(function() {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      var testJSON = ')]}\'\n{"hello": "bonjour"}';
+      sandbox.stub(window, 'fetch').returns(Promise.resolve({
+        ok: true,
+        text: function() {
+          return Promise.resolve(testJSON);
+        },
+      }));
     });
 
     teardown(function() {
@@ -46,16 +55,6 @@ limitations under the License.
     });
 
     test('JSON prefix is properly removed', function(done) {
-      var testJSON = ')]}\'\n{"hello": "bonjour"}';
-
-      sandbox.stub(window, 'fetch', function() {
-        return Promise.resolve({
-          ok: true,
-          text: function() {
-            return Promise.resolve(testJSON);
-          },
-        });
-      });
       element.fetchJSON('/dummy/url').then(function(obj) {
         assert.deepEqual(obj, {hello: 'bonjour'});
         done();
@@ -113,13 +112,11 @@ limitations under the License.
 
     test('request callbacks can be canceled', function(done) {
       var cancelCalled = false;
-      sandbox.stub(window, 'fetch', function() {
-        return Promise.resolve({
-          body: {
-            cancel: function() { cancelCalled = true; },
-          },
-        });
-      });
+      window.fetch.returns(Promise.resolve({
+        body: {
+          cancel: function() { cancelCalled = true; },
+        },
+      }));
       element.fetchJSON('/dummy/url', null, function() { return true; }).then(
         function(obj) {
           assert.isUndefined(obj);
@@ -416,9 +413,7 @@ limitations under the License.
 
     test('server error', function(done) {
       var getResponseObjectStub = sandbox.stub(element, 'getResponseObject');
-      sandbox.stub(window, 'fetch', function() {
-        return Promise.resolve({ok: false});
-      });
+      window.fetch.returns(Promise.resolve({ok: false}));
       var serverErrorEventPromise = new Promise(function(resolve) {
         element.addEventListener('server-error', function() { resolve(); });
       });
@@ -446,6 +441,7 @@ limitations under the License.
           text: function() { return Promise.resolve(')]}\'{}'); },
         },
       ];
+      window.fetch.restore();
       sandbox.stub(window, 'fetch', function(url) {
         if (url === '/accounts/self/detail') {
           return Promise.resolve(responses.shift());
@@ -563,13 +559,12 @@ limitations under the License.
           'PUT', '/config/server/email.confirm', {token: 'foo'}));
     });
 
-    test('GrReviewerUpdatesParser.parse is used', function(done) {
+    test('GrReviewerUpdatesParser.parse is used', function() {
       sandbox.stub(GrReviewerUpdatesParser, 'parse').returns(
           Promise.resolve('foo'));
-      element.getChangeDetail(42).then(function(result) {
+      return element.getChangeDetail(42).then(function(result) {
         assert.isTrue(GrReviewerUpdatesParser.parse.calledOnce);
         assert.equal(result, 'foo');
-        done();
       });
     });
 

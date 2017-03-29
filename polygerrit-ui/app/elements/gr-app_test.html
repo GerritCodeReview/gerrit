@@ -23,6 +23,8 @@ limitations under the License.
 
 <link rel="import" href="gr-app.html">
 
+<script>void(0);</script>
+
 <test-fixture id="basic">
   <template>
     <gr-app id="app" canonical-path="/abc/def/ghi"></gr-app>
@@ -43,7 +45,8 @@ limitations under the License.
         _getTopContent: sinon.stub(),
       });
       stub('gr-rest-api-interface', {
-        getAccount: function() { return Promise.resolve(null); },
+        getAccount: function() { return Promise.resolve({}); },
+        getAccountCapabilities: function() { return Promise.resolve({}); },
         getConfig: function() {
           return Promise.resolve({
             gerrit: {web_uis: ['GWT', 'POLYGERRIT']},

@@ -41,6 +41,7 @@
     },
 
     _getTopContent: function(account) {
+      // if (!account) { return []; }
       return [
         {text: account.name, bold: true},
         {text: account.email},

@@ -52,6 +52,24 @@
       "revId": "645387a67f43acb7f2c8c54f1810f00f9ec39dba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab77dde3_b1485a65",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/HashtagsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-30T11:18:46Z",
+      "side": 1,
+      "message": "There is an inconsistency though with what the test says in the name and what is checks in the body.\n\nThe name says \"addHashtag...\" whilst the assertion checks for \"edit hashtags ...\"\n\nIf in the future the exception gets fixed (should be \"adding hashtags not permitted\") then the test will fail.\n\nI would just check for \"hashtags not permitted\" as substring, it will make the test more resilient to fluctuations in messaging.",
+      "parentUuid": "a1361bae_32beac43",
+      "revId": "645387a67f43acb7f2c8c54f1810f00f9ec39dba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

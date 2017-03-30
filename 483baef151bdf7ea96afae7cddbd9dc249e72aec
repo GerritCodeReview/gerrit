@@ -22,6 +22,30 @@
       "revId": "483baef151bdf7ea96afae7cddbd9dc249e72aec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81b79666_9081f112",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/HashtagsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-30T11:09:33Z",
+      "side": 1,
+      "message": "Should be fixed in https://gerrit-review.googlesource.com/101457",
+      "parentUuid": "e7b259d8_30e8bd77",
+      "range": {
+        "startLine": 255,
+        "startChar": 29,
+        "endLine": 255,
+        "endChar": 36
+      },
+      "revId": "483baef151bdf7ea96afae7cddbd9dc249e72aec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

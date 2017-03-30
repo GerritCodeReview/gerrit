@@ -117,6 +117,30 @@
       "revId": "047b943bbf474150d6393e032dbe4fd19ca600ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b72b56b_5ffae804",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T17:21:26Z",
+      "side": 1,
+      "message": "Makes sense. I don\u0027t think there\u0027s a difference in the how it works, we just tend to keep double-encoding in the behavior method for documentation (because it\u0027s not immediately clear why it\u0027s needed).",
+      "parentUuid": "8e088f32_5010a72d",
+      "range": {
+        "startLine": 229,
+        "startChar": 6,
+        "endLine": 230,
+        "endChar": 64
+      },
+      "revId": "047b943bbf474150d6393e032dbe4fd19ca600ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

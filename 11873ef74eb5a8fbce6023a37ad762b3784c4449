@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "857018df_000418d0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-30T08:30:12Z",
+      "side": 1,
+      "message": "What is the point of putting that file in com.google.gerrit.acceptance.rest.change, package that effectively would mark it with \"rest\" label and in the same time disable http daemon? This should be moved to the API package.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 8
+      },
+      "revId": "11873ef74eb5a8fbce6023a37ad762b3784c4449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

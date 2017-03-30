@@ -29,6 +29,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.sql.DataSource;
 
 @Singleton
 public class H2AccountPatchReviewStore
@@ -69,12 +71,12 @@ public class H2AccountPatchReviewStore
     }
   }
 
-  private final String url;
+  private final DataSource ds;
 
   @Inject
   H2AccountPatchReviewStore(@GerritServerConfig Config cfg,
       SitePaths sitePaths) {
-    this.url = H2.appendUrlOptions(cfg, getUrl(sitePaths));
+    this.ds = createDataSource(H2.appendUrlOptions(cfg, getUrl(sitePaths)));
   }
 
   public static String getUrl(SitePaths sitePaths) {
@@ -90,13 +92,24 @@ public class H2AccountPatchReviewStore
     // DB_CLOSE_DELAY=-1: By default the content of an in-memory H2 database is
     // lost at the moment the last connection is closed. This option keeps the
     // content as long as the vm lives.
-    this.url = "jdbc:h2:mem:account_patch_reviews;DB_CLOSE_DELAY=-1";
+    this.ds = createDataSource(
+        "jdbc:h2:mem:account_patch_reviews;DB_CLOSE_DELAY=-1");
+  }
+
+  private static DataSource createDataSource(String url) {
+    BasicDataSource datasource = new BasicDataSource();
+    datasource.setDriverClassName("org.h2.Driver");
+    datasource.setUrl(url);
+    datasource.setMaxActive(50);
+    datasource.setMinIdle(4);
+    datasource.setMaxIdle(16);
+    return datasource;
   }
 
   @Override
   public void start() {
     try {
-      createTableIfNotExists(url);
+      createTableIfNotExists();
     } catch (OrmException e) {
       log.error("Failed to create table to store account patch reviews", e);
     }
@@ -105,17 +118,31 @@ public class H2AccountPatchReviewStore
   public static void createTableIfNotExists(String url) throws OrmException {
     try (Connection con = DriverManager.getConnection(url);
         Statement stmt = con.createStatement()) {
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ACCOUNT_PATCH_REVIEWS ("
-          + "ACCOUNT_ID INTEGER DEFAULT 0 NOT NULL, "
-          + "CHANGE_ID INTEGER DEFAULT 0 NOT NULL, "
-          + "PATCH_SET_ID INTEGER DEFAULT 0 NOT NULL, "
-          + "FILE_NAME VARCHAR(255) DEFAULT '' NOT NULL, "
-          + "CONSTRAINT PRIMARY_KEY_ACCOUNT_PATCH_REVIEWS "
-          + "PRIMARY KEY (ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME)"
-          + ")");
+      doCreateTable(stmt);
     } catch (SQLException e) {
       throw convertError("create", e);
     }
+  }
+
+  private void createTableIfNotExists() throws OrmException {
+    try (Connection con = ds.getConnection();
+        Statement stmt = con.createStatement()) {
+      doCreateTable(stmt);
+    } catch (SQLException e) {
+      throw convertError("create", e);
+    }
+  }
+
+  private static void doCreateTable(Statement stmt) throws SQLException {
+    stmt.executeUpdate(
+        "CREATE TABLE IF NOT EXISTS ACCOUNT_PATCH_REVIEWS ("
+            + "ACCOUNT_ID INTEGER DEFAULT 0 NOT NULL, "
+            + "CHANGE_ID INTEGER DEFAULT 0 NOT NULL, "
+            + "PATCH_SET_ID INTEGER DEFAULT 0 NOT NULL, "
+            + "FILE_NAME VARCHAR(255) DEFAULT '' NOT NULL, "
+            + "CONSTRAINT PRIMARY_KEY_ACCOUNT_PATCH_REVIEWS "
+            + "PRIMARY KEY (ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME)"
+            + ")");
   }
 
   public static void dropTableIfExists(String url) throws OrmException {
@@ -134,7 +161,7 @@ public class H2AccountPatchReviewStore
   @Override
   public boolean markReviewed(PatchSet.Id psId, Account.Id accountId,
       String path) throws OrmException {
-    try (Connection con = DriverManager.getConnection(url);
+    try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement("INSERT INTO ACCOUNT_PATCH_REVIEWS "
                 + "(ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME) VALUES "
@@ -161,7 +188,7 @@ public class H2AccountPatchReviewStore
       return;
     }
 
-    try (Connection con = DriverManager.getConnection(url);
+    try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement("INSERT INTO ACCOUNT_PATCH_REVIEWS "
                 + "(ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME) VALUES "
@@ -186,7 +213,7 @@ public class H2AccountPatchReviewStore
   @Override
   public void clearReviewed(PatchSet.Id psId, Account.Id accountId, String path)
       throws OrmException {
-    try (Connection con = DriverManager.getConnection(url);
+    try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement("DELETE FROM ACCOUNT_PATCH_REVIEWS "
                 + "WHERE ACCOUNT_ID = ? AND CHANGE_ID + ? AND "
@@ -203,7 +230,7 @@ public class H2AccountPatchReviewStore
 
   @Override
   public void clearReviewed(PatchSet.Id psId) throws OrmException {
-    try (Connection con = DriverManager.getConnection(url);
+    try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement("DELETE FROM ACCOUNT_PATCH_REVIEWS "
                 + "WHERE CHANGE_ID + ? AND PATCH_SET_ID = ?")) {
@@ -218,7 +245,7 @@ public class H2AccountPatchReviewStore
   @Override
   public Collection<String> findReviewed(PatchSet.Id psId, Account.Id accountId)
       throws OrmException {
-    try (Connection con = DriverManager.getConnection(url);
+    try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement("SELECT FILE_NAME FROM ACCOUNT_PATCH_REVIEWS "
                 + "WHERE ACCOUNT_ID = ? AND CHANGE_ID = ? AND PATCH_SET_ID = ?")) {

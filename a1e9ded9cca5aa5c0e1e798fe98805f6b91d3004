@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2074caed_25ba7b90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-30T16:07:34Z",
+      "side": 1,
+      "message": "Or i could change\n return prior.getParent(0).equals(next.getParent(0));\n-\u003e\n return prior.getParent(0).equals(next.getParent(0)) \u003d\u003d 0;\n\n?",
+      "range": {
+        "startLine": 266,
+        "startChar": 0,
+        "endLine": 270,
+        "endChar": 7
+      },
+      "revId": "a1e9ded9cca5aa5c0e1e798fe98805f6b91d3004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -344,6 +344,30 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void abandonNotAllowedWithoutPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("abandon not permitted");
+    gApi.changes().id(changeId).abandon();
+  }
+
+  @Test
+  public void abandonAndRestoreAllowedWithPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+    grant(Permission.ABANDON, project, "refs/heads/master", false, REGISTERED_USERS);
+    setApiUser(user);
+    gApi.changes().id(changeId).abandon();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
+    gApi.changes().id(changeId).restore();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+  }
+
+  @Test
   public void restore() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -358,6 +382,19 @@ public class ChangeIT extends AbstractDaemonTest {
 
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("change is new");
+    gApi.changes().id(changeId).restore();
+  }
+
+  @Test
+  public void restoreNotAllowedWithoutPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+    gApi.changes().id(changeId).abandon();
+    setApiUser(user);
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
+    exception.expect(AuthException.class);
+    exception.expectMessage("restore not permitted");
     gApi.changes().id(changeId).restore();
   }
 

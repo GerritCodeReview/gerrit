@@ -971,9 +971,11 @@
           // Sometimes the server doesn't send back the content type.
           if (baseImage) {
             baseImage._expectedType = diff.meta_a.content_type;
+            baseImage._name = diff.meta_a.name;
           }
           if (revisionImage) {
             revisionImage._expectedType = diff.meta_b.content_type;
+            revisionImage._name = diff.meta_b.name;
           }
 
           return {baseImage: baseImage, revisionImage: revisionImage};

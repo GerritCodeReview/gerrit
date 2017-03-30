@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "431e6a62_43e65907",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetCapabilities.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-30T20:20:53Z",
+      "side": 1,
+      "message": "Apparently, no actually. Doing so breaks the unit tests. Specifically batchChangesLimit is expected to be returned only if there is an explicit range supplied.",
+      "parentUuid": "b0d8e31d_26e5acbc",
+      "range": {
+        "startLine": 90,
+        "startChar": 10,
+        "endLine": 90,
+        "endChar": 42
+      },
+      "revId": "db250a99c98a127e7b2943f7a77d2f216330c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56fd2ece_3fdfcf54",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
         "patchSetId": 7
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "No, fixed to maintain current behavior.",
       "parentUuid": "56fd2ece_3fdfcf54",
+      "revId": "db250a99c98a127e7b2943f7a77d2f216330c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b053c437_414fef94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-30T20:20:53Z",
+      "side": 1,
+      "message": "I think I do mean for this change in behavior. The GetCapabilities API and its associated unit test assumes even administrators don\u0027t have batchChangesLimit unless its explicitly configured.\n\nThe intent according to the comments in CapabilitiesIT, this is exactly so that this class can return systemMaxBatchChanges as the default even for administrators unless an explicit configuration overrides that.",
+      "parentUuid": "81ba0aca_ae2521a9",
       "revId": "db250a99c98a127e7b2943f7a77d2f216330c378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

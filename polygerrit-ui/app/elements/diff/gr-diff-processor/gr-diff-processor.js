@@ -103,11 +103,14 @@
      * @return {Promise} A promise that resolves when the diff is completely
      *     processed.
      */
-    process: function(content) {
-      return new Promise(function(resolve) {
-        this.groups = [];
-        this.push('groups', this._makeFileComments());
+    process: function(content, isImageDiff) {
+      this.groups = [];
+      this.push('groups', this._makeFileComments());
 
+      // If image diff, only render the file lines.
+      if (this.isImageDiff) { return Promise.resolve(); }
+
+      return new Promise(function(resolve) {
         var state = {
           lineNums: {left: 0, right: 0},
           sectionIndex: 0,
@@ -117,7 +120,11 @@
 
         var currentBatch = 0;
         var nextStep = function() {
-
+          // If image diff, only render the file lines.
+          if (isImageDiff) {
+            resolve();
+            return;
+          }
           if (this._isScrolling) {
             this.async(nextStep, 100);
             return;

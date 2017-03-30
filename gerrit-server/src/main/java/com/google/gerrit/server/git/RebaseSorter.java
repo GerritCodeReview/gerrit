@@ -95,8 +95,8 @@ public class RebaseSorter {
       mirw.reset();
       mirw.markStart(commit);
       for (RevCommit accepted : alreadyAccepted) {
-        if (mirw.isMergedInto(mirw.parseCommit(accepted),
-            mirw.parseCommit(commit))) {
+        if (mirw.isMergedInto(mirw.parseCommit(commit),
+            mirw.parseCommit(accepted))) {
           return true;
         }
       }

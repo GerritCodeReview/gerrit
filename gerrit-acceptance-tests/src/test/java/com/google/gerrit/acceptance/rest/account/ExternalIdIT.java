@@ -25,18 +25,22 @@ import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdReader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.account.externalids.ExternalIdsUpdate.RefsMetaExternalIdsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gson.reflect.TypeToken;
@@ -46,7 +50,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.api.errors.TransportException;
@@ -54,15 +60,19 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 @Sandboxed
 public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private AllUsersName allUsers;
-
   @Inject private ExternalIdsUpdate.Server extIdsUpdate;
-
   @Inject private ExternalIds externalIds;
+  @Inject private ExternalIdReader externalIdReader;
+  @Inject private MetricMaker metricMaker;
 
   @Test
   public void getExternalIDs() throws Exception {
@@ -176,7 +186,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void retryOnLockFailure() throws Exception {
-    Retryer<ObjectId> retryer =
+    Retryer<RefsMetaExternalIdsUpdate> retryer =
         ExternalIdsUpdate.retryerBuilder()
             .withBlockStrategy(
                 new BlockStrategy() {
@@ -195,6 +205,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
         new ExternalIdsUpdate(
             repoManager,
             allUsers,
+            metricMaker,
             externalIds,
             new DisabledExternalIdCache(),
             serverIdent.get(),
@@ -229,6 +240,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
         new ExternalIdsUpdate(
             repoManager,
             allUsers,
+            metricMaker,
             externalIds,
             new DisabledExternalIdCache(),
             serverIdent.get(),
@@ -242,7 +254,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 // Ignore, the successful insertion of the external ID is asserted later
               }
             },
-            RetryerBuilder.<ObjectId>newBuilder()
+            RetryerBuilder.<RefsMetaExternalIdsUpdate>newBuilder()
                 .retryIfException(e -> e instanceof LockFailureException)
                 .withStopStrategy(StopStrategies.stopAfterAttempt(extIdsKeys.length))
                 .build());
@@ -266,5 +278,76 @@ public class ExternalIdIT extends AbstractDaemonTest {
     extIdsUpdate.create().insert(db, ExternalId.create(extIdKey, accountId));
     ExternalId extId = externalIds.get(db, extIdKey);
     assertThat(extId.accountId()).isEqualTo(accountId);
+  }
+
+  @Test
+  @GerritConfig(name = "user.readExternalIdsFromGit", value = "true")
+  public void checkNoReloadAfterUpdate() throws Exception {
+    Set<ExternalId> expectedExtIds = new HashSet<>(externalIds.byAccount(db, admin.id));
+    externalIdReader.setFailOnLoad(true);
+
+    // insert external ID
+    ExternalId extId = ExternalId.create("foo", "bar", admin.id);
+    extIdsUpdate.create().insert(db, extId);
+    expectedExtIds.add(extId);
+    assertThat(externalIds.byAccount(db, admin.id)).containsExactlyElementsIn(expectedExtIds);
+
+    // update external ID
+    expectedExtIds.remove(extId);
+    extId = ExternalId.createWithEmail("foo", "bar", admin.id, "foo.bar@example.com");
+    extIdsUpdate.create().upsert(db, extId);
+    expectedExtIds.add(extId);
+    assertThat(externalIds.byAccount(db, admin.id)).containsExactlyElementsIn(expectedExtIds);
+
+    // delete external ID
+    extIdsUpdate.create().delete(db, extId);
+    expectedExtIds.remove(extId);
+    assertThat(externalIds.byAccount(db, admin.id)).containsExactlyElementsIn(expectedExtIds);
+  }
+
+  @Test
+  @GerritConfig(name = "user.readExternalIdsFromGit", value = "true")
+  public void byAccountFailIfReadingExternalIdsFails() throws Exception {
+    externalIdReader.setFailOnLoad(true);
+
+    // update external ID branch so that external IDs need to be reloaded
+    insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id));
+
+    exception.expect(IOException.class);
+    externalIds.byAccount(db, admin.id);
+  }
+
+  @Test
+  @GerritConfig(name = "user.readExternalIdsFromGit", value = "true")
+  public void byEmailFailIfReadingExternalIdsFails() throws Exception {
+    externalIdReader.setFailOnLoad(true);
+
+    // update external ID branch so that external IDs need to be reloaded
+    insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id));
+
+    exception.expect(IOException.class);
+    externalIds.byEmail(db, admin.email);
+  }
+
+  @Test
+  @GerritConfig(name = "user.readExternalIdsFromGit", value = "true")
+  public void byAccountUpdateExternalIdsBehindGerritsBack() throws Exception {
+    Set<ExternalId> expectedExternalIds = new HashSet<>(externalIds.byAccount(db, admin.id));
+    ExternalId newExtId = ExternalId.create("foo", "bar", admin.id);
+    insertExtIdBehindGerritsBack(newExtId);
+    expectedExternalIds.add(newExtId);
+    assertThat(externalIds.byAccount(db, admin.id)).containsExactlyElementsIn(expectedExternalIds);
+  }
+
+  private void insertExtIdBehindGerritsBack(ExternalId extId) throws Exception {
+    try (Repository repo = repoManager.openRepository(allUsers);
+        RevWalk rw = new RevWalk(repo);
+        ObjectInserter ins = repo.newObjectInserter()) {
+      ObjectId rev = ExternalIdReader.readRevision(repo);
+      NoteMap noteMap = ExternalIdReader.readNoteMap(rw, rev);
+      ExternalIdsUpdate.insert(rw, ins, noteMap, extId);
+      ExternalIdsUpdate.commit(
+          repo, rw, ins, rev, noteMap, "insert new ID", serverIdent.get(), serverIdent.get());
+    }
   }
 }

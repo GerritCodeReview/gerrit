@@ -338,7 +338,11 @@ public abstract class ExternalId implements Serializable {
 
   public void writeToConfig(Config c) {
     String externalIdKey = key().get();
-    c.setInt(EXTERNAL_ID_SECTION, externalIdKey, ACCOUNT_ID_KEY, accountId().get());
+    // Do not use c.setInt(...) to write the account ID because c.setInt(...) persists integers
+    // that can be expressed in KiB as a unit strings, e.g. "1024000" is stored as "100k". Using
+    // c.setString(...) ensures that account IDs are human readable.
+    c.setString(
+        EXTERNAL_ID_SECTION, externalIdKey, ACCOUNT_ID_KEY, Integer.toString(accountId().get()));
     if (email() != null) {
       c.setString(EXTERNAL_ID_SECTION, externalIdKey, EMAIL_KEY, email());
     }

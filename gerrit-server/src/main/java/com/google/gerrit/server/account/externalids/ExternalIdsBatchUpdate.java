@@ -112,7 +112,7 @@ public class ExternalIdsBatchUpdate {
       ObjectId newRev =
           ExternalIdsUpdate.commit(
               repo, rw, ins, rev, noteMap, commitMessage, serverIdent, serverIdent);
-      externalIdCache.onReplace(newRev, toDelete, toAdd);
+      externalIdCache.onReplace(rev, newRev, toDelete, toAdd);
     }
 
     toAdd.clear();

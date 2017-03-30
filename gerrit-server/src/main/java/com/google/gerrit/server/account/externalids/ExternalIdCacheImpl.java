@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -28,7 +29,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
@@ -61,8 +62,10 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public void onCreate(ObjectId newNotesRev, Iterable<ExternalId> extIds) throws IOException {
+  public void onCreate(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extIds)
+      throws IOException {
     updateCache(
+        oldNotesRev,
         newNotesRev,
         m -> {
           for (ExternalId extId : extIds) {
@@ -72,8 +75,10 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public void onRemove(ObjectId newNotesRev, Iterable<ExternalId> extIds) throws IOException {
+  public void onRemove(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extIds)
+      throws IOException {
     updateCache(
+        oldNotesRev,
         newNotesRev,
         m -> {
           for (ExternalId extId : extIds) {
@@ -84,52 +89,31 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   @Override
   public void onRemoveByKeys(
-      ObjectId newNotesRev, Account.Id accountId, Iterable<ExternalId.Key> extIdKeys)
+      ObjectId oldNotesRev,
+      ObjectId newNotesRev,
+      Account.Id accountId,
+      Collection<ExternalId.Key> extIdKeys)
       throws IOException {
-    updateCache(
-        newNotesRev,
-        m -> {
-          for (ExternalId extId : m.get(accountId)) {
-            for (ExternalId.Key extIdKey : extIdKeys) {
-              if (extIdKey.equals(extId.key())) {
-                m.remove(accountId, extId);
-                break;
-              }
-            }
-          }
-        });
+    updateCache(oldNotesRev, newNotesRev, m -> removeKeys(m.get(accountId), extIdKeys));
   }
 
   @Override
-  public void onRemoveByKeys(ObjectId newNotesRev, Iterable<ExternalId.Key> extIdKeys)
+  public void onRemoveByKeys(
+      ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId.Key> extIdKeys)
       throws IOException {
-    updateCache(
-        newNotesRev,
-        m -> {
-          for (ExternalId extId : m.values()) {
-            for (ExternalId.Key extIdKey : extIdKeys) {
-              if (extIdKey.equals(extId.key())) {
-                m.remove(extId.accountId(), extId);
-                break;
-              }
-            }
-          }
-        });
+    updateCache(oldNotesRev, newNotesRev, m -> removeKeys(m.values(), extIdKeys));
   }
 
   @Override
-  public void onUpdate(ObjectId newNotesRev, Iterable<ExternalId> updatedExtIds)
+  public void onUpdate(
+      ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> updatedExtIds)
       throws IOException {
     updateCache(
+        oldNotesRev,
         newNotesRev,
         m -> {
+          removeKeys(m.values(), updatedExtIds.stream().map(e -> e.key()).collect(toSet()));
           for (ExternalId updatedExtId : updatedExtIds) {
-            for (ExternalId extId : m.get(updatedExtId.accountId())) {
-              if (updatedExtId.key().equals(extId.key())) {
-                m.remove(updatedExtId.accountId(), extId);
-                break;
-              }
-            }
             m.put(updatedExtId.accountId(), updatedExtId);
           }
         });
@@ -137,14 +121,16 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   @Override
   public void onReplace(
+      ObjectId oldNotesRev,
       ObjectId newNotesRev,
       Account.Id accountId,
-      Iterable<ExternalId> toRemove,
-      Iterable<ExternalId> toAdd)
+      Collection<ExternalId> toRemove,
+      Collection<ExternalId> toAdd)
       throws IOException {
     ExternalIdsUpdate.checkSameAccount(Iterables.concat(toRemove, toAdd), accountId);
 
     updateCache(
+        oldNotesRev,
         newNotesRev,
         m -> {
           for (ExternalId extId : toRemove) {
@@ -158,23 +144,19 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   @Override
   public void onReplaceByKeys(
+      ObjectId oldNotesRev,
       ObjectId newNotesRev,
       Account.Id accountId,
-      Iterable<ExternalId.Key> toRemove,
-      Iterable<ExternalId> toAdd)
+      Collection<ExternalId.Key> toRemove,
+      Collection<ExternalId> toAdd)
       throws IOException {
     ExternalIdsUpdate.checkSameAccount(toAdd, accountId);
 
     updateCache(
+        oldNotesRev,
         newNotesRev,
         m -> {
-          for (ExternalId extId : m.get(accountId)) {
-            for (ExternalId.Key extIdKey : toRemove) {
-              if (extIdKey.equals(extId.key())) {
-                m.remove(accountId, extId);
-              }
-            }
-          }
+          removeKeys(m.get(accountId), toRemove);
           for (ExternalId extId : toAdd) {
             m.put(extId.accountId(), extId);
           }
@@ -183,18 +165,16 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   @Override
   public void onReplaceByKeys(
-      ObjectId newNotesRev, Iterable<ExternalId.Key> toRemove, Iterable<ExternalId> toAdd)
+      ObjectId oldNotesRev,
+      ObjectId newNotesRev,
+      Collection<ExternalId.Key> toRemove,
+      Collection<ExternalId> toAdd)
       throws IOException {
     updateCache(
+        oldNotesRev,
         newNotesRev,
         m -> {
-          for (ExternalId extId : m.values()) {
-            for (ExternalId.Key extIdKey : toRemove) {
-              if (extIdKey.equals(extId.key())) {
-                m.remove(extId.accountId(), extId);
-              }
-            }
-          }
+          removeKeys(m.values(), toRemove);
           for (ExternalId extId : toAdd) {
             m.put(extId.accountId(), extId);
           }
@@ -203,9 +183,13 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   @Override
   public void onReplace(
-      ObjectId newNotesRev, Iterable<ExternalId> toRemove, Iterable<ExternalId> toAdd)
+      ObjectId oldNotesRev,
+      ObjectId newNotesRev,
+      Collection<ExternalId> toRemove,
+      Collection<ExternalId> toAdd)
       throws IOException {
     updateCache(
+        oldNotesRev,
         newNotesRev,
         m -> {
           for (ExternalId extId : toRemove) {
@@ -222,8 +206,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     try {
       return extIdsByAccount.get(externalIdReader.readRevision()).get(accountId);
     } catch (ExecutionException e) {
-      log.warn("Cannot list external ids by account", e);
-      return Collections.emptySet();
+      throw new IOException("Cannot list external ids by account", e);
     }
   }
 
@@ -237,19 +220,22 @@ class ExternalIdCacheImpl implements ExternalIdCache {
           .filter(e -> email.equals(e.email()))
           .collect(toSet());
     } catch (ExecutionException e) {
-      log.warn("Cannot list external ids by email", e);
-      return Collections.emptySet();
+      throw new IOException("Cannot list external ids by email", e);
     }
   }
 
-  private void updateCache(ObjectId newNotesRev, Consumer<Multimap<Account.Id, ExternalId>> update)
-      throws IOException {
+  private void updateCache(
+      ObjectId oldNotesRev,
+      ObjectId newNotesRev,
+      Consumer<Multimap<Account.Id, ExternalId>> update) {
     lock.lock();
     try {
-      ListMultimap<Account.Id, ExternalId> m =
-          MultimapBuilder.hashKeys()
-              .arrayListValues()
-              .build(extIdsByAccount.get(externalIdReader.readRevision()));
+      ListMultimap<Account.Id, ExternalId> m;
+      if (!ObjectId.zeroId().equals(oldNotesRev)) {
+        m = MultimapBuilder.hashKeys().arrayListValues().build(extIdsByAccount.get(oldNotesRev));
+      } else {
+        m = MultimapBuilder.hashKeys().arrayListValues().build();
+      }
       update.accept(m);
       extIdsByAccount.put(newNotesRev, ImmutableSetMultimap.copyOf(m));
     } catch (ExecutionException e) {
@@ -257,6 +243,10 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     } finally {
       lock.unlock();
     }
+  }
+
+  private static void removeKeys(Collection<ExternalId> ids, Collection<ExternalId.Key> toRemove) {
+    Collections2.transform(ids, e -> e.key()).removeAll(toRemove);
   }
 
   static class Loader extends CacheLoader<ObjectId, ImmutableSetMultimap<Account.Id, ExternalId>> {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "82ffe25b_ee91fa57",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T17:35:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10f3af82_dd1ffd9b",
+      "range": {
+        "startLine": 28,
+        "startChar": 8,
+        "endLine": 28,
+        "endChar": 15
+      },
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddcb959f_686443a7",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
         "patchSetId": 1
@@ -65,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "61ea58a1_c9d3320f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T17:35:33Z",
+      "side": 1,
+      "message": "In fact, looks like one such script tag per file should be enough.\nUpdated the change.",
+      "parentUuid": "ed4848a4_764aa35e",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 30,
+        "endChar": 25
+      },
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5ffbcc6_1e5c81a0",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
         "patchSetId": 1
@@ -93,6 +141,30 @@
       "writtenOn": "2017-03-30T06:59:10Z",
       "side": 1,
       "message": "I don\u0027t know what this does, but it seems to fix issue 5898.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 24
+      },
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09dc9f9a_04e99db9",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T17:35:33Z",
+      "side": 1,
+      "message": "tl;dr: \nRoot cause is the browser (Chrome) not replacing Web Components with their implementation (`upgrade` is the term) in a timely manner (https://bugs.chromium.org/p/chromium/issues/detail?id\u003d701601)\nThis tag is hacky way to pause JS parser and gives browser time to sync tags with their implementations.",
+      "parentUuid": "50fe61a8_ba6a4608",
       "range": {
         "startLine": 29,
         "startChar": 0,
@@ -156,6 +228,24 @@
     },
     {
       "key": {
+        "uuid": "d91e8b9a_50a97482",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T17:35:33Z",
+      "side": 1,
+      "message": "Which one?",
+      "parentUuid": "387f9bee_b7611ba8",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eb3802ba_cc9ebbbc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 1
@@ -170,6 +260,24 @@
       "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eabdb30_5e6c61f7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T17:35:33Z",
+      "side": 1,
+      "message": "Yup.",
+      "parentUuid": "eb3802ba_cc9ebbbc",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -196,6 +304,30 @@
     },
     {
       "key": {
+        "uuid": "55bf74ed_e401ad45",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-actions-js-api_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T17:35:33Z",
+      "side": 1,
+      "message": "Nope, just auto-formatter kicking in, eager to do the job.",
+      "parentUuid": "85a4e0d3_76fa55ac",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 6
+      },
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4aba9b7c_e4068bd3",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 1
@@ -210,6 +342,24 @@
       "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7a993ff_77eaa80c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T17:35:33Z",
+      "side": 1,
+      "message": "With this change, fetch is stubbed for all tests in this file.\nfetch.restore() here is needed because callback can\u0027t be replaced on a stub without reinstalling the stub - that\u0027s done on the next line.",
+      "parentUuid": "4aba9b7c_e4068bd3",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f7ac683c_32e793c2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/StaleLibraryRemover.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-30T06:02:16Z",
+      "side": 1,
+      "message": "I\u0027d rather not to do larger refactoring here, to reduce risk of breaking something.\n\nIf we do that, I\u0027d prefer to do it on master after this has been merged up.",
+      "parentUuid": "b9a3d526_fca6b14f",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 34
+      },
+      "revId": "50c9b5bdeabb53552638a77b42590d2b7f171201",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff85c521_5cf32f49",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/StaleLibraryRemover.java",
         "patchSetId": 1

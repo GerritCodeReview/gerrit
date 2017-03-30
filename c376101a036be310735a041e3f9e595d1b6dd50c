@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ee5d91f_325151df",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T18:06:10Z",
+      "side": 1,
+      "message": "Nit: remove extra blank line.",
+      "revId": "c376101a036be310735a041e3f9e595d1b6dd50c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24a745eb_ab1fd898",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T18:06:10Z",
+      "side": 1,
+      "message": "Here, and elsewhere in this file, can we add assertions for `linkEls[1]`? For example, in this case I think it can be...\n\n assert.equal(linkEls[1].getAttribute(\u0027href\u0027), \u0027/c/42/10\u0027);\n\n... or something similar.",
+      "range": {
+        "startLine": 380,
+        "startChar": 6,
+        "endLine": 381,
+        "endChar": 76
+      },
+      "revId": "c376101a036be310735a041e3f9e595d1b6dd50c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

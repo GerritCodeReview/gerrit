@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -258,25 +259,26 @@ public class RefControl {
    * @param db db for checking change visibility.
    * @param repo repository on which user want to create
    * @param object the object the user will start the reference with.
-   * @return {@code true} if the user specified can create a new Git ref
+   * @return {@code null} if the creation is allowed, or a string describing why not.
    */
-  public boolean canCreate(ReviewDb db, Repository repo, RevObject object) {
+  @Nullable
+  public String createRejectionReason(ReviewDb db, Repository repo, RevObject object) {
     if (!canWrite()) {
-      return false;
+      return "project inactive";
     }
 
     if (object instanceof RevCommit) {
-      if (!canPerform(Permission.CREATE)) {
-        // No create permissions.
-        return false;
+      String reason = cannotPerformReason(Permission.CREATE);
+      if (reason != null) {
+        return reason;
       }
-      return canCreateCommit(db, repo, (RevCommit) object);
+      return canCreateCommit(db, repo, (RevCommit) object) ? null : "cannot create commit";
     } else if (object instanceof RevTag) {
       final RevTag tag = (RevTag) object;
       try (RevWalk rw = new RevWalk(repo)) {
         rw.parseBody(tag);
       } catch (IOException e) {
-        return false;
+        return "I/O error";
       }
 
       // If tagger is present, require it matches the user's email.
@@ -291,18 +293,19 @@ public class RefControl {
           valid = false;
         }
         if (!valid && !canForgeCommitter()) {
-          return false;
+          return "cannot forge tagger identity";
         }
       }
 
       RevObject tagObject = tag.getObject();
       if (tagObject instanceof RevCommit) {
         if (!canCreateCommit(db, repo, (RevCommit) tagObject)) {
-          return false;
+          return "cannot create commit";
         }
       } else {
-        if (!canCreate(db, repo, tagObject)) {
-          return false;
+        String reason = createRejectionReason(db, repo, tagObject);
+        if (reason != null) {
+          return reason;
         }
       }
 
@@ -310,11 +313,11 @@ public class RefControl {
       // than if it doesn't have a PGP signature.
       //
       if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
-        return canPerform(Permission.CREATE_SIGNED_TAG);
+        return cannotPerformReason(Permission.CREATE_SIGNED_TAG);
       }
-      return canPerform(Permission.CREATE_TAG);
+      return cannotPerformReason(Permission.CREATE_TAG);
     } else {
-      return false;
+      return "ref is not a tag or commit";
     }
   }
 
@@ -559,6 +562,11 @@ public class RefControl {
 
   boolean canPerform(String permissionName, boolean isChangeOwner) {
     return doCanPerform(permissionName, isChangeOwner, false);
+  }
+
+  @Nullable
+  String cannotPerformReason(String permissionName) {
+    return canPerform(permissionName) ? null : "cannot perform " + permissionName;
   }
 
   /** True if the user is blocked from using this permission. */

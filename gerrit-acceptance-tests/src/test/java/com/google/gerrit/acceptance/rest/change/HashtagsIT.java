@@ -252,7 +252,7 @@ public class HashtagsIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("Editing hashtags not permitted");
+    exception.expectMessage("edit hashtags not permitted");
     addHashtags(r, "MyHashtag");
   }
 

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9ca5551c_6dfac22b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/StaleLibraryRemover.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-30T06:34:50Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "f7ac683c_32e793c2",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 34
+      },
+      "revId": "50c9b5bdeabb53552638a77b42590d2b7f171201",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff85c521_5cf32f49",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/StaleLibraryRemover.java",
         "patchSetId": 1

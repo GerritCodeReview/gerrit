@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "4d303201_033b9b2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T19:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79fdada5_1619bdb7",
+      "range": {
+        "startLine": 69,
+        "startChar": 18,
+        "endLine": 70,
+        "endChar": 45
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2fd08cf_361e33dc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2017-03-28T08:06:53Z",
       "side": 1,
       "message": "If I understand it correctly, calling newObjectInserter() on a ReadOnlyRepository doesn\u0027t throw an UnsupportedOperationException anymore because of this overridden method. Maybe we shouldn\u0027t override methods which delegate to ObjectDatabase or RefDatabase.",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 125,
+        "endChar": 3
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8047f1ea_ce1958d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T19:58:33Z",
+      "side": 1,
+      "message": "Great catch. Clearly this demonstrates the need for a test for ReadOnlyRepository.\n\nA good first pass would be to do as you suggest, look at Repository.java and don\u0027t override any method that calls get{Object,Ref}Database in its body.\n\nUnfortunately this doesn\u0027t work in the general case though. For example, we would have to not override #resolve(String), which eventually calls getRefDatabase via resolveSimple. But it is not hard to imagine an implementation of Repository providing a custom version of #resolve(String), so by not calling delegate.resolve(revstr), you\u0027re missing out on that.\n\nI was going to say maybe we don\u0027t need to worry about that happening, but I just looked at our subclass of DfsRepository, and we have custom code in Repository#updateRef that is not just delegating to getRepository(). So not calling delegate.updateRef would produce incorrect results.\n\nIt seems like what we really want is delegate to have *its* getRefDatabase return a ReadOnlyRefDatabase, but that\u0027s obviously impossible.\n\nHonestly, at this point I am not at all sure we can properly implement a read-only Repository wrapper. The options I can see at this point are:\n\n* Don\u0027t try too hard to make it read-only; take away some of the ways that implementations of updateRepo can shoot themselves in the foot, but leave some known holes.\n* Don\u0027t expose Repository to updateRepo, only RepoView. I tried this last week, but IIRC there is some caller that really wants to call #resolve or something else difficult to emulate.\n\nI\u0027m open to other suggestions.",
+      "parentUuid": "f2fd08cf_361e33dc",
       "range": {
         "startLine": 122,
         "startChar": 2,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "7fb616f2_b58576b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T19:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff2ae5a5_a3cef874",
+      "range": {
+        "startLine": 153,
+        "startChar": 56,
+        "endLine": 153,
+        "endChar": 78
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c7f4891_aca3364e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
         "patchSetId": 1
@@ -92,6 +164,30 @@
       "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eff98e07_ac30e44e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T19:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c7f4891_aca3364e",
+      "range": {
+        "startLine": 159,
+        "startChar": 13,
+        "endLine": 159,
+        "endChar": 65
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -118,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "548d8074_fe5f7ff8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T19:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de2eca47_59211ac4",
+      "range": {
+        "startLine": 180,
+        "startChar": 13,
+        "endLine": 180,
+        "endChar": 67
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4a9d871_bee0ace9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
         "patchSetId": 1
@@ -138,6 +258,30 @@
       "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56f63af8_f4925e79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T19:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4a9d871_bee0ace9",
+      "range": {
+        "startLine": 186,
+        "startChar": 47,
+        "endLine": 186,
+        "endChar": 71
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -164,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "8fbd188f_e25c05b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T19:58:33Z",
+      "side": 1,
+      "message": "I don\u0027t see the benefit, personally.",
+      "parentUuid": "ac7bcf57_e959d2d1",
+      "range": {
+        "startLine": 202,
+        "startChar": 52,
+        "endLine": 202,
+        "endChar": 62
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac456698_ce93f268",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
         "patchSetId": 1
@@ -184,6 +352,30 @@
       "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b01303d_b6422c26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T19:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac456698_ce93f268",
+      "range": {
+        "startLine": 262,
+        "startChar": 61,
+        "endLine": 262,
+        "endChar": 83
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -210,6 +402,30 @@
     },
     {
       "key": {
+        "uuid": "991212c2_0e6ba895",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T19:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0aa86b1e_589841ea",
+      "range": {
+        "startLine": 267,
+        "startChar": 61,
+        "endLine": 267,
+        "endChar": 83
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef9beaf4_8a6f39fa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
         "patchSetId": 1
@@ -230,6 +446,30 @@
       "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "251e3610_8d66f359",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T19:58:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ef9beaf4_8a6f39fa",
+      "range": {
+        "startLine": 522,
+        "startChar": 54,
+        "endLine": 522,
+        "endChar": 64
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -256,6 +496,30 @@
     },
     {
       "key": {
+        "uuid": "fdbd6e51_1e3ee2f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T19:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc39e860_91908935",
+      "range": {
+        "startLine": 570,
+        "startChar": 15,
+        "endLine": 570,
+        "endChar": 67
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68e18629_a7358f28",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
         "patchSetId": 1
@@ -276,6 +540,30 @@
       "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e96ac7d7_184bd819",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T19:58:33Z",
+      "side": 1,
+      "message": "Ironically, a place where I *should* have copied and pasted but didn\u0027t. Fixed.",
+      "parentUuid": "68e18629_a7358f28",
+      "range": {
+        "startLine": 586,
+        "startChar": 13,
+        "endLine": 586,
+        "endChar": 39
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "177e7a0c_fedc8876",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T15:31:53Z",
+      "side": 1,
+      "message": "\u003e Only this migration would create an empty commit\n\nThat seems fixable.",
+      "parentUuid": "26e37840_1465a390",
+      "revId": "27211b44622be1e4a6275842e827568fc41229e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47425a6b_9a873c78",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalId.java",
         "patchSetId": 1

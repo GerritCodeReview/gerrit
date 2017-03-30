@@ -2,8 +2,8 @@ load("//gerrit-acceptance-tests:tests.bzl", "acceptance_tests")
 
 acceptance_tests(
     srcs = glob(["*IT.java"]),
-    group = "git",
     labels = ["git"],
+    pkg = "com.google.gerrit.acceptance.git",
     deps = [
         ":push_for_review",
         ":submodule_util",

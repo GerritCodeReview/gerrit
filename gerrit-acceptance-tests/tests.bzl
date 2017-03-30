@@ -1,23 +1,21 @@
-load("//tools/bzl:junit.bzl", "junit_tests")
-
 def acceptance_tests(
-    group,
+    pkg,
+    srcs,
     deps = [],
     labels = [],
     vm_args = ['-Xmx256m'],
     **kwargs):
-  junit_tests(
-    name = group,
+  [native.java_test(
+    name = src[:len(src)-len('.java')],
+    test_class = "%s.%s" % (pkg, src[:len(src)-len('.java')]),
+    srcs = [src],
     deps = deps + [
-      '//gerrit-acceptance-tests:lib',
-      "//lib/bouncycastle:bcpkix",
-      "//lib/bouncycastle:bcpg",
+      "//gerrit-acceptance-tests:lib",
     ],
     tags = labels + [
-      'acceptance',
-      'slow',
+      "acceptance",
+      "slow",
     ],
     size = "large",
     jvm_flags = vm_args,
-    **kwargs
-  )
+    **kwargs) for src in srcs]

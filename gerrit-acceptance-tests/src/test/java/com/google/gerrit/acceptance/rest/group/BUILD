@@ -2,6 +2,6 @@ load("//gerrit-acceptance-tests:tests.bzl", "acceptance_tests")
 
 acceptance_tests(
     srcs = glob(["*IT.java"]),
-    group = "rest_group",
     labels = ["rest"],
+    pkg = "com.google.gerrit.acceptance.rest.group",
 )

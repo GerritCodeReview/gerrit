@@ -1,5 +1,7 @@
 load("//gerrit-acceptance-tests:tests.bzl", "acceptance_tests")
 
+PKG = "com.google.gerrit.acceptance.rest.change"
+
 SUBMIT_UTIL_SRCS = glob(["AbstractSubmit*.java"])
 
 SUBMIT_TESTS = glob(["Submit*IT.java"])
@@ -11,8 +13,8 @@ OTHER_TESTS = glob(
 
 acceptance_tests(
     srcs = OTHER_TESTS,
-    group = "rest_change_other",
     labels = ["rest"],
+    pkg = PKG,
     deps = [
         ":submit_util",
         "//lib/joda:joda-time",
@@ -21,8 +23,8 @@ acceptance_tests(
 
 acceptance_tests(
     srcs = SUBMIT_TESTS,
-    group = "rest_change_submit",
     labels = ["rest"],
+    pkg = PKG,
     deps = [
         ":submit_util",
     ],

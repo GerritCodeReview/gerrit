@@ -3,8 +3,8 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
-      ":eddsa",
-      "@sshd//jar"
+        ":eddsa",
+        "@sshd//jar",
     ],
     runtime_deps = [":core"],
 )

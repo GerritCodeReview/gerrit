@@ -175,7 +175,7 @@ limitations under the License.
         var stub = sandbox.stub(page, 'show');
 
         element.params = {view: 'gr-change-list-view', query: CHANGE_ID};
-        flushAsynchronousOperations()
+        flushAsynchronousOperations();
 
         assert.isFalse(stub.called);
       });
@@ -186,7 +186,7 @@ limitations under the License.
         var stub = sandbox.stub(page, 'show');
 
         element.params = {view: 'gr-change-list-view', query: CHANGE_ID};
-        flushAsynchronousOperations()
+        flushAsynchronousOperations();
 
         assert.isFalse(stub.called);
       });

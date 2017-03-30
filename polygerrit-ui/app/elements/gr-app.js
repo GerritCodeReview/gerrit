@@ -110,7 +110,8 @@
       // Preferences are cached when a user is logged in; warm them.
       this.$.restAPI.getPreferences();
       this.$.restAPI.getDiffPreferences();
-      this.$.errorManager.knownAccountId = this._account && this._account._account_id || null;
+      this.$.errorManager.knownAccountId =
+          this._account && this._account._account_id || null;
     },
 
     _viewChanged: function(view) {

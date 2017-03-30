@@ -82,6 +82,29 @@
     },
     {
       "key": {
+        "uuid": "50fe61a8_ba6a4608",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-30T06:59:10Z",
+      "side": 1,
+      "message": "I don\u0027t know what this does, but it seems to fix issue 5898.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 24
+      },
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3397a1a_1d46bc89",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1

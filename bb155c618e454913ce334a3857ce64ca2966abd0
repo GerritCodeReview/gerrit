@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "123f41ef_8ff73086",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T21:22:45Z",
+      "side": 1,
+      "message": "/me wonders why it\u0027s a method, not an attribute/property, like HTMLInputElement\u0027s value.",
+      "revId": "bb155c618e454913ce334a3857ce64ca2966abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2630cd2c_90d3633c",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T21:22:45Z",
+      "side": 1,
+      "message": "Please add an @event comment like this one:\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js#31",
+      "range": {
+        "startLine": 108,
+        "startChar": 46,
+        "endLine": 108,
+        "endChar": 56
+      },
+      "revId": "bb155c618e454913ce334a3857ce64ca2966abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a19f9fe_bd5d0b31",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T21:22:45Z",
+      "side": 1,
+      "message": "Null checks?",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 19
+      },
+      "revId": "bb155c618e454913ce334a3857ce64ca2966abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c43687c8_d537f46c",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T21:22:45Z",
+      "side": 1,
+      "message": "Looks like this eventually should be extracted into its own component.",
+      "revId": "bb155c618e454913ce334a3857ce64ca2966abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

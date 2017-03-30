@@ -27,7 +27,6 @@ import java.util.HashMap;
 import org.joda.time.DateTime;
 import org.junit.Ignore;
 
-@Ignore
 public class AbstractMailIT extends AbstractDaemonTest {
 
   protected MailMessage.Builder messageBuilderWithDefaultFields() {

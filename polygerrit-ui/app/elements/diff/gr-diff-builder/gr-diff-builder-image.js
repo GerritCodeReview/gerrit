@@ -41,44 +41,89 @@
     var tr = this._createElement('tr');
 
     tr.appendChild(this._createElement('td'));
-    tr.appendChild(this._createImageCell(this._baseImage, 'left'));
+    tr.appendChild(this._createImageCell(this._baseImage, 'left', section));
 
     tr.appendChild(this._createElement('td'));
-    tr.appendChild(this._createImageCell(this._revisionImage, 'right'));
+    tr.appendChild(this._createImageCell(
+          this._revisionImage, 'right', section));
 
     section.appendChild(tr);
   };
 
-  GrDiffBuilderImage.prototype._createImageCell = function(image, className) {
+  GrDiffBuilderImage.prototype._createImageCell =
+      function(image, className, section) {
     var td = this._createElement('td', className);
     if (image) {
       var imageEl = this._createElement('img');
+      imageEl.onload = function() {
+        image._height = imageEl.naturalHeight;
+        image._width = imageEl.naturalWidth;
+        this._updateImageLabel(section, className, image);
+      }.bind(this);
       imageEl.src = 'data:' + image.type + ';base64, ' + image.body;
-      image._height = imageEl.naturalHeight;
-      image._width = imageEl.naturalWidth;
       imageEl.addEventListener('error', function(e) {
         imageEl.remove();
         td.textContent = '[Image failed to load]';
       });
       td.appendChild(imageEl);
-    }
     return td;
+    }
+  };
+
+  GrDiffBuilderImage.prototype._updateImageLabel =
+      function(section, className, image) {
+    var label = Polymer.dom(section)
+        .querySelector('.' + className + ' span.label');
+    this._setLabelText(label, image);
+  };
+
+  GrDiffBuilderImage.prototype._setLabelText = function(label, image) {
+    label.textContent = this._getImageLabel(image);
   };
 
   GrDiffBuilderImage.prototype._emitImageLabels = function(section) {
     var tr = this._createElement('tr');
 
+    var addNamesInLabel = false;
+
+    if (this._baseImage._name !== this._revisionImage._name) {
+      addNamesInLabel = true;
+    }
+
     tr.appendChild(this._createElement('td'));
     var td = this._createElement('td', 'left');
     var label = this._createElement('label');
-    label.textContent = this._getImageLabel(this._baseImage);
+    var nameSpan;
+    var labelSpan = this._createElement('span', 'label');
+
+    if (addNamesInLabel) {
+      nameSpan = this._createElement('span', 'name');
+      nameSpan.textContent = this._baseImage._name;
+      label.appendChild(nameSpan);
+      label.appendChild(this._createElement('br'));
+    }
+
+    this._setLabelText(labelSpan, this._baseImage, addNamesInLabel);
+
+    label.appendChild(labelSpan);
     td.appendChild(label);
     tr.appendChild(td);
 
     tr.appendChild(this._createElement('td'));
     td = this._createElement('td', 'right');
     label = this._createElement('label');
-    label.textContent = this._getImageLabel(this._revisionImage);
+    labelSpan = this._createElement('span', 'label');
+
+    if (addNamesInLabel) {
+      nameSpan = this._createElement('span', 'name');
+      nameSpan.textContent = this._revisionImage._name;
+      label.appendChild(nameSpan);
+      label.appendChild(this._createElement('br'));
+    }
+
+    this._setLabelText(labelSpan, this._revisionImage, addNamesInLabel);
+
+    label.appendChild(labelSpan);
     td.appendChild(label);
     tr.appendChild(td);
 

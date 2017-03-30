@@ -32,6 +32,7 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
@@ -71,6 +72,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private ExternalIdsUpdate.Server extIdsUpdate;
   @Inject private ExternalIds externalIds;
   @Inject private ExternalIdReader externalIdReader;
+  @Inject private MetricMaker metricMaker;
 
   @Test
   public void getExternalIDs() throws Exception {
@@ -203,6 +205,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
         new ExternalIdsUpdate(
             repoManager,
             allUsers,
+            metricMaker,
             externalIds,
             new DisabledExternalIdCache(),
             serverIdent.get(),
@@ -237,6 +240,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
         new ExternalIdsUpdate(
             repoManager,
             allUsers,
+            metricMaker,
             externalIds,
             new DisabledExternalIdCache(),
             serverIdent.get(),

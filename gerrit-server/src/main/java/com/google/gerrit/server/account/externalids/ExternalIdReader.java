@@ -19,6 +19,10 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
@@ -78,13 +82,23 @@ public class ExternalIdReader {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private boolean failOnLoad = false;
+  private final Timer0 readAllLatency;
 
   @Inject
   ExternalIdReader(
-      @GerritServerConfig Config cfg, GitRepositoryManager repoManager, AllUsersName allUsersName) {
+      @GerritServerConfig Config cfg,
+      GitRepositoryManager repoManager,
+      AllUsersName allUsersName,
+      MetricMaker metricMaker) {
     this.readFromGit = cfg.getBoolean("user", null, "readExternalIdsFromGit", false);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+    this.readAllLatency =
+        metricMaker.newTimer(
+            "notedb/read_all_external_ids_latency",
+            new Description("Latency for reading all external IDs from NoteDb.")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS));
   }
 
   @VisibleForTesting
@@ -128,12 +142,13 @@ public class ExternalIdReader {
   }
 
   /** Reads and returns all external IDs. */
-  private static Set<ExternalId> all(Repository repo, ObjectId rev) throws IOException {
+  private Set<ExternalId> all(Repository repo, ObjectId rev) throws IOException {
     if (rev.equals(ObjectId.zeroId())) {
       return ImmutableSet.of();
     }
 
-    try (RevWalk rw = new RevWalk(repo)) {
+    try (Timer0.Context ctx = readAllLatency.start();
+        RevWalk rw = new RevWalk(repo)) {
       NoteMap noteMap = readNoteMap(rw, rev);
       Set<ExternalId> extIds = new HashSet<>();
       for (Note note : noteMap) {

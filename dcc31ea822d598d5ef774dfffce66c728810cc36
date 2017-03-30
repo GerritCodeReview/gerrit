@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "572c447d_2437242e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-30T12:07:21Z",
+      "side": 1,
+      "message": "The other change was about whether the caller can perform the assignment.  This is about whether the assignee can see the change.  I think it\u0027s reasonable to do it in a separate change.\n\nThis whole series is quite finely grained.  IIRC the intention was to make it easier to bisect to find regressions.",
+      "parentUuid": "ac92a656_458497dc",
+      "revId": "dcc31ea822d598d5ef774dfffce66c728810cc36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "162f5cd5_18db55d4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

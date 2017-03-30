@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9a3d526_fca6b14f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/StaleLibraryRemover.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-30T05:57:57Z",
+      "side": 1,
+      "message": "DirectoryStream.Filter\u003cPath\u003e is functional interface, so you can use lambda expression: [1].\n\n* [1] https://docs.oracle.com/javase/8/docs/api/java/nio/file/DirectoryStream.Filter.html",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 34
+      },
+      "revId": "50c9b5bdeabb53552638a77b42590d2b7f171201",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff85c521_5cf32f49",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/StaleLibraryRemover.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-30T05:57:57Z",
+      "side": 1,
+      "message": "I know it was copied from anoter place, but we could improve and simplify the code.\n\nThere is also a method that acceppts glob: [1]. And the pattern is macthed against: getPathMatcher [2]. So one way to do it is:\n\n  Files.newDirectoryStream(lib_dir, \"regex:^\" + pattern + \"$\")) {\n\nAnother way to do it is to use lambda expression to avoid anonymous class:\n\n  try (DirectoryStream\u003cPath\u003e paths \u003d Files.newDirectoryStream(lib_dir,\n        e -\u003e e.getFileName().toString().matches(\"^\" + pattern + \"$\"))) {\n  ...\n\n* [1] https://docs.oracle.com/javase/8/docs/api/java/nio/file/Files.html#newDirectoryStream-java.nio.file.Path-java.lang.String-\n* [2] https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-",
+      "range": {
+        "startLine": 49,
+        "startChar": 41,
+        "endLine": 49,
+        "endChar": 82
+      },
+      "revId": "50c9b5bdeabb53552638a77b42590d2b7f171201",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

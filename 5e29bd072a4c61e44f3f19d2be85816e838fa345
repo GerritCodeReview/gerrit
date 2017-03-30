@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e89f5319_5d301eb7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-30T23:52:01Z",
+      "side": 1,
+      "message": "yeah that makes sense. I initially had some other logic in here that I removed.",
+      "parentUuid": "7beb10e7_cfdff244",
+      "range": {
+        "startLine": 133,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 4
+      },
+      "revId": "5e29bd072a4c61e44f3f19d2be85816e838fa345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "991209aa_8af72cc6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
         "patchSetId": 8
@@ -68,6 +92,30 @@
       "revId": "5e29bd072a4c61e44f3f19d2be85816e838fa345",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "442c41f8_dbd5842e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-03-30T23:52:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4993d59a_79c1a139",
+      "range": {
+        "startLine": 421,
+        "startChar": 0,
+        "endLine": 422,
+        "endChar": 11
+      },
+      "revId": "5e29bd072a4c61e44f3f19d2be85816e838fa345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

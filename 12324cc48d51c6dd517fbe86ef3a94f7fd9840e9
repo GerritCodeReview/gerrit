@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3894970e_646d423a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T16:46:21Z",
+      "side": 1,
+      "message": "Instead of declaring a new promise with a resolver, maybe its easier to just return the `.then`\n\nvar section \u003d this._createElement(\u0027tbody\u0027, \u0027image-diff\u0027);\nreturn this._emitImagePair(section).then(function() {\n  this._emitImageLabels(section);\n  this._outputEl.appendChild(section);\n}.bind(this));\n\nThat way it only adds one level of nesting.",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 18
+      },
+      "revId": "12324cc48d51c6dd517fbe86ef3a94f7fd9840e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f8cfdac_c0ff6aef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T16:46:21Z",
+      "side": 1,
+      "message": "Since this resolves the promise, it blocks the render, but the onload is only needed to get the height and width, which can be updated asynchronously.\n\nIs there a way to have the images get added normally, but let the onload handler do something like\n\nthis.updateImageLabel(labelEl,\n    imageEl.naturalHeight, imageEl.maturalWidth);\n\nThat way, these methods might not need to be promisified at all.\n\nAlso, if the image fails to load (like if it\u0027s malformed or corrupted or something, or maybe the permissions are bad) won\u0027t this promise never resolve?",
+      "range": {
+        "startLine": 64,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 9
+      },
+      "revId": "12324cc48d51c6dd517fbe86ef3a94f7fd9840e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

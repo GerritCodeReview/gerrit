@@ -459,6 +459,23 @@ limitations under the License.
         assert.equal(element.groups.length, 33);
       });
 
+      test('image diffs', function() {
+        var contentRow = {
+          ab: [
+            '<!DOCTYPE html>',
+            '<meta charset="utf-8">',
+          ]
+        };
+        var content = _.times(200, _.constant(contentRow));
+        sandbox.stub(element, 'async');
+        element.process(content, true);
+        assert.equal(element.groups.length, 1);
+
+        // Image diffs don't process content, just the 'FILE' line.
+        assert.equal(element.groups[0].lines.length, 1);
+      });
+
+
       suite('gr-diff-processor helpers', function() {
         var rows;
 

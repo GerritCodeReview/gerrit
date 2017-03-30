@@ -145,7 +145,8 @@ limitations under the License.
           reporting.time(TimingLabel.TOTAL);
           reporting.time(TimingLabel.CONTENT);
           this.dispatchEvent(new CustomEvent('render-start', {bubbles: true}));
-          return this.$.processor.process(this.diff.content).then(function() {
+          return this.$.processor.process(this.diff.content, this.isImageDiff)
+              .then(function() {
             if (this.isImageDiff) {
               this._builder.renderDiffImages();
             }

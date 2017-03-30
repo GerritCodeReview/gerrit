@@ -16,6 +16,24 @@
       "revId": "30d6c7d3daeea66d7150b3537d1ee4b5f3ff8178",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71675d31_7ccad4bd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 5661,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-30T12:10:13Z",
+      "side": 1,
+      "message": "No. I noticed that this field isn\u0027t always filled, only when explicitly requested. For this reason, I marked it as optional similar to \u0027files\u0027 so that users of the REST API don\u0027t expect this field to be filled when receiving an EditInfo after applying a fix.",
+      "parentUuid": "86626f87_81cf152c",
+      "revId": "30d6c7d3daeea66d7150b3537d1ee4b5f3ff8178",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

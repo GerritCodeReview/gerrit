@@ -602,24 +602,26 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     //
     RevCommit initial = getRemoteHead(project, "master");
     // push directly to stable to S1
-    PushOneCommit.Result s1 = pushFactory.create(
-      db, admin.getIdent(), testRepo, "new commit into stable", "stable1.txt", "")
-      .to("refs/heads/stable");
+    PushOneCommit.Result s1 =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, "new commit into stable", "stable1.txt", "")
+            .to("refs/heads/stable");
     // move the stable tip ahead to S2
-    pushFactory.create(
-      db, admin.getIdent(), testRepo, "Tip of branch stable", "stable2.txt", "")
-      .to("refs/heads/stable");
+    pushFactory
+        .create(db, admin.getIdent(), testRepo, "Tip of branch stable", "stable2.txt", "")
+        .to("refs/heads/stable");
 
     testRepo.reset(initial);
 
     // move the master ahead
-    PushOneCommit.Result m = pushFactory.create(
-      db, admin.getIdent(), testRepo, "Move master ahead", "master.txt", "")
-      .to("refs/heads/master");
+    PushOneCommit.Result m =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, "Move master ahead", "master.txt", "")
+            .to("refs/heads/master");
 
     // create merge change
     PushOneCommit mc =
-      pushFactory.create(db, admin.getIdent(), testRepo, "The merge commit", "merge.txt", "");
+        pushFactory.create(db, admin.getIdent(), testRepo, "The merge commit", "merge.txt", "");
     mc.setParents(ImmutableList.of(m.getCommit(), s1.getCommit()));
     PushOneCommit.Result mergeReview = mc.to("refs/for/master");
     approve(mergeReview.getChangeId());

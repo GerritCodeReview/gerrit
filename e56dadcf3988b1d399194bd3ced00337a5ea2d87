@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "91469cda_5b59667a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T21:13:19Z",
+      "side": 1,
+      "message": "This caused top-level unhandled exceptions in some cases in gr-change-list-view_test.\nMy strongest theory is that when Promises are chained and stubbed, and sandbox.restore() happens when the first one is resolved and second one isn\u0027t, it resulted in an actual network call which returns null since there is no server.",
+      "parentUuid": "ddcb959f_686443a7",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed4848a4_764aa35e",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
         "patchSetId": 1
@@ -127,6 +145,24 @@
       "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16e1588d_51e5c078",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T21:13:19Z",
+      "side": 1,
+      "message": "console.error are treated by WCT as exceptions, and if they happen after test has ended, cause top-level failures.\nCan\u0027t really narrow it down, but would rather keep it as a .warn().",
+      "parentUuid": "d5ffbcc6_1e5c81a0",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -212,6 +248,41 @@
     },
     {
       "key": {
+        "uuid": "35db66b1_719c9d10",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T21:13:19Z",
+      "side": 1,
+      "message": "So this one happens here, occasionaly:\nhttps://gerrit.googlesource.com/gerrit/+/7354e48b3c4b8162808c433fc6c406cdd1c656b4/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html#823\n\nThe critical point is that overlay.open() returns a Promise, and as a result is async. So all the logic that happens *after* that, may be scheduled over detached elements.\n\nAnd since the test doesn\u0027t wait for it to complete, it throws a bizarre top-level error. Sometimes.\n\nSame for the below, I believe.\n\nI\u0027ve reworked the test (changed spy to stub) to avoid this effect.",
+      "parentUuid": "05c9ea39_44e5f367",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c774fc87_93f739a3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T21:13:19Z",
+      "side": 1,
+      "message": "This gets triggered at least from https://gerrit.googlesource.com/gerrit/+/7354e48b3c4b8162808c433fc6c406cdd1c656b4/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html#96",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4993758e_7e054f4c",
         "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
         "patchSetId": 1
@@ -226,6 +297,24 @@
       "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ab53660_30b0cca4",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T21:13:19Z",
+      "side": 1,
+      "message": "Fixed by additional stubbing in gr-app_test.html",
+      "parentUuid": "4993758e_7e054f4c",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -279,6 +368,24 @@
       "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae10155c_c51b879f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T21:13:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "37f2f2f7_cc1fdeda",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -411,6 +518,24 @@
       "side": 1,
       "message": "Gotcha. Can the existing stub not be equivalently modified using ...\n\nwindow.fetch.returns(function(url) {\n  if (url \u003d\u003d\u003d \u0027/accounts/self/detail\u0027) {\n    return Promise.resolve(responses.shift());\n  }\n});\n\n... like some cases elsewhere in this file? Not a big deal either way.",
       "parentUuid": "f7a993ff_77eaa80c",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10e6246c_705ea537",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-30T21:13:19Z",
+      "side": 1,
+      "message": "No, because fetch should return a Promise, not a function.",
+      "parentUuid": "de028570_8b6d9e1e",
       "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

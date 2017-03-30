@@ -179,7 +179,9 @@ limitations under the License.
     </template>
     <section>
       <span class="title">Project</span>
-      <span class="value">[[change.project]]</span>
+      <span class="value">
+        <a href="[[_computeProjectHref(change.project)]]">[[change.project]]</a>
+      </span>
     </section>
     <section>
       <span class="title">Branch</span>

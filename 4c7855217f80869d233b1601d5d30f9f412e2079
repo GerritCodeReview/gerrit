@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1490867930 +0200\nnonce AIcUUg/RPbKc4kbFMID7+VhkCfZZDot3QUu/aik6zw668E8EbG4rWF6nO8+em0l/6Aul59AUKGxc\n\n0000000000000000000000000000000000000000 4c7855217f80869d233b1601d5d30f9f412e2079 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY3NbaAAoJEHFVO370GiZWURgIAJD0hdvCfm4+z/tOF5TdlmX1\nUlyBKDPO8AGEgPFvPyWQ9dIJ0UbvjAgKgmeCTD+NpxJkQkHeVO+U1JEBt+6CmPcs\nVX3fZFEhqjtjA4aZ2f6G2YbskBGuRkBAtHWLfJNy3Ky+mnYqgm/Ud3ZcxjpjrRz4\niFvvtS+XzhYVCrfYvV/V5CLz7V9rz/8y0WprDKajZh1Jr7VICYye8g22co7OSn+6\nfA8o37rMkQJwYXKLHzu5UJjhBcTFwubJVfoZObNCcAkrdK1QTFi4cxrmvil86g3l\noDJ7e7C84uJiO0YE3ui68AEvqfCrKPSes0MFxrUORntHu8r8HaltVsIO2zn/LBc\u003d\n\u003dL7Og\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "71d7b75d_be690020",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-30T12:36:05Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 150,
+        "startChar": 20,
+        "endLine": 150,
+        "endChar": 22
+      },
+      "revId": "4c7855217f80869d233b1601d5d30f9f412e2079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e83cc7e_31b89f12",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdsConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-30T12:36:05Z",
+      "side": 1,
+      "message": "In the previous version this was done in CommitValidators, so I assume only on adding a new Id.  But now it can be called against already existing Ids.\n\nSo what if an email address is added, that is valid, but then is later considered invalid by an updated version of the validator?\n\nSee for example in [1] there are some TLDs that were valid in the previous version of commons-validator, but not in the new one.\n\n[1] https://gerrit-review.googlesource.com/?polygerrit\u003d0#/c/100806/5/gerrit-server/src/test/resources/com/google/gerrit/server/mail/send/tlds-alpha-by-domain.txt",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 5
+      },
+      "revId": "4c7855217f80869d233b1601d5d30f9f412e2079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22e0b4c8_28f38323",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-30T12:36:05Z",
+      "side": 1,
+      "message": "Unrelated to this change, but is this comment correct?",
+      "range": {
+        "startLine": 628,
+        "startChar": 2,
+        "endLine": 628,
+        "endChar": 52
+      },
+      "revId": "4c7855217f80869d233b1601d5d30f9f412e2079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

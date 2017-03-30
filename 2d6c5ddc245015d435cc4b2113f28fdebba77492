@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e464615a_efdad5f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T22:35:32Z",
+      "side": 1,
+      "message": "Is this an appropriate name / section for this property?",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 11
+      },
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b2d7b44_2e09a1d2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T22:35:32Z",
+      "side": 1,
+      "message": "I\u0027m not certain whether IndexServlet should make use of the cache system that appears in ResourceServlets.\n\nThis servlet renders the template on initialization and serves the string from memory into responses, so caching seems unneeded, but I\u0027d like validation that this is a good approach.\n\nMaybe also it should just render lazily. Not sure.",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 27
+      },
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

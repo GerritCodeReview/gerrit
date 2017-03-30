@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.server.mail.receive.MailMessage;
 import java.util.HashMap;
 import org.joda.time.DateTime;
-import org.junit.Ignore;
 
 public class AbstractMailIT extends AbstractDaemonTest {
 

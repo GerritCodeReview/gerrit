@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "3549d626_603f4413",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-30T14:14:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71d7b75d_be690020",
+      "range": {
+        "startLine": 150,
+        "startChar": 20,
+        "endLine": 150,
+        "endChar": 22
+      },
+      "revId": "4c7855217f80869d233b1601d5d30f9f412e2079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e83cc7e_31b89f12",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdsConsistencyChecker.java",
         "patchSetId": 1
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "e05ab5c8_23e0ff77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdsConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-30T14:14:18Z",
+      "side": 1,
+      "message": "\u003e So what if an email address is added, that is valid, but\n \u003e then is later considered invalid by an updated version of\n \u003e the validator?\n\nThen we should either write a migration to remove external IDs with the invalid email or make this check return a warning instead of an error.",
+      "parentUuid": "7e83cc7e_31b89f12",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 5
+      },
+      "revId": "4c7855217f80869d233b1601d5d30f9f412e2079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "22e0b4c8_28f38323",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 1
@@ -60,6 +108,30 @@
       "writtenOn": "2017-03-30T12:36:05Z",
       "side": 1,
       "message": "Unrelated to this change, but is this comment correct?",
+      "range": {
+        "startLine": 628,
+        "startChar": 2,
+        "endLine": 628,
+        "endChar": 52
+      },
+      "revId": "4c7855217f80869d233b1601d5d30f9f412e2079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbdddc63_b4c7b315",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-30T14:14:18Z",
+      "side": 1,
+      "message": "Yes, this is outdated. Will fix it in\n  https://gerrit-review.googlesource.com/98972",
+      "parentUuid": "22e0b4c8_28f38323",
       "range": {
         "startLine": 628,
         "startChar": 2,

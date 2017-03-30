@@ -283,6 +283,24 @@
     },
     {
       "key": {
+        "uuid": "e826532a_cb504015",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T21:20:31Z",
+      "side": 1,
+      "message": "Nice. This somewhat fits with my theory that issue 5678 relates to opening the reply dialog via \u0027a\u0027 before the config has loaded completely.",
+      "parentUuid": "c774fc87_93f739a3",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4993758e_7e054f4c",
         "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
         "patchSetId": 1
@@ -536,6 +554,24 @@
       "side": 1,
       "message": "No, because fetch should return a Promise, not a function.",
       "parentUuid": "de028570_8b6d9e1e",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51090486_d8e7dfcb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T21:20:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "10e6246c_705ea537",
       "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7beb10e7_cfdff244",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T23:35:45Z",
+      "side": 1,
+      "message": "Why not just use `image._name` instead?",
+      "range": {
+        "startLine": 133,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 4
+      },
+      "revId": "5e29bd072a4c61e44f3f19d2be85816e838fa345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "991209aa_8af72cc6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T23:35:45Z",
+      "side": 1,
+      "message": "Instead of allowing the processor to reach all the way into here, could we just add a special case at the top of the function?\n\nprocess: function(content, isImageDiff) {\n  this.groups \u003d [];\n  this.push(\u0027groups\u0027, this._makeFileComments());\n\n  // If image diff, only render the file lines.\n  if (this.isImageDiff) { return Promise.resolve(); }\n\n  return new Promise(function(resolve) {\n    var state \u003d {\n      lineNums: {left: 0, right: 0},\n      sectionIndex: 0,\n    };\n    // ...\n\nJust because the image diff is a simpler case, and this might be a little easier to read if it skips all the asynchronous recursion that it doesn\u0027t use anyway.",
+      "range": {
+        "startLine": 120,
+        "startChar": 10,
+        "endLine": 124,
+        "endChar": 11
+      },
+      "revId": "5e29bd072a4c61e44f3f19d2be85816e838fa345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4993d59a_79c1a139",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T23:35:45Z",
+      "side": 1,
+      "message": "Nit: Add a blank line in between. Looks like the indentation is off somehow.",
+      "range": {
+        "startLine": 421,
+        "startChar": 0,
+        "endLine": 422,
+        "endChar": 11
+      },
+      "revId": "5e29bd072a4c61e44f3f19d2be85816e838fa345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

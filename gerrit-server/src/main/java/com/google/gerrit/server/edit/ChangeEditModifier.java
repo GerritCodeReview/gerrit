@@ -370,9 +370,8 @@ public class ChangeEditModifier {
 
     if (optionalChangeEdit.isPresent()) {
       return updateEdit(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);
-    } else {
-      return createEdit(repository, changeControl, patchSet, newEditCommit, nowTimestamp);
     }
+    return createEdit(repository, changeControl, patchSet, newEditCommit, nowTimestamp);
   }
 
   private void ensureAuthenticatedAndPermitted(ChangeControl changeControl)

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6af69d6_a773f01d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-30T12:25:40Z",
+      "side": 1,
+      "message": "[optional] Make this a Multimap:\n\n  Multimap\u003cString, FixReplacementInfo\u003e replacementsPerFilePath \u003d\n      Multimaps.index(fixReplacementInfos, fixReplacement -\u003e fixReplacement.path);",
+      "range": {
+        "startLine": 574,
+        "startChar": 4,
+        "endLine": 575,
+        "endChar": 96
+      },
+      "revId": "791f4af42ce6b3ce635c19b612faa1bdd73ee71a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e81be3d9_85dae98f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-30T12:25:40Z",
+      "side": 1,
+      "message": "[optional] may use Multimap",
+      "range": {
+        "startLine": 75,
+        "startChar": 3,
+        "endLine": 78,
+        "endChar": 83
+      },
+      "revId": "791f4af42ce6b3ce635c19b612faa1bdd73ee71a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

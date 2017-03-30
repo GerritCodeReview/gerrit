@@ -1741,6 +1741,26 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitNotAllowedWithoutPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("submit not permitted");
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+  }
+
+  @Test
+  public void submitAllowedWithPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    grant(Permission.SUBMIT, project, "refs/heads/master", false, REGISTERED_USERS);
+    setApiUser(user);
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+    assertThat(gApi.changes().id(r.getChangeId()).info().status).isEqualTo(ChangeStatus.MERGED);
+  }
+
+  @Test
   public void check() throws Exception {
     // TODO(dborowitz): Re-enable when ConsistencyChecker supports NoteDb.
     assume().that(notesMigration.enabled()).isFalse();

@@ -41,12 +41,14 @@ class InitSshd implements InitStep {
   private final ConsoleUI ui;
   private final SitePaths site;
   private final Section sshd;
+  private final StaleLibraryRemover remover;
 
   @Inject
-  InitSshd(final ConsoleUI ui, final SitePaths site, final Section.Factory sections) {
+  InitSshd(ConsoleUI ui, SitePaths site, Section.Factory sections, StaleLibraryRemover remover) {
     this.ui = ui;
     this.site = site;
     this.sshd = sections.get("sshd", null);
+    this.remover = remover;
   }
 
   @Override
@@ -74,6 +76,7 @@ class InitSshd implements InitStep {
     sshd.set("listenAddress", SocketUtil.format(hostname, port));
 
     generateSshHostKeys();
+    remover.remove("bc(pg|pkix|prov)-.*[.]jar");
   }
 
   private static boolean isOff(String listenHostname) {

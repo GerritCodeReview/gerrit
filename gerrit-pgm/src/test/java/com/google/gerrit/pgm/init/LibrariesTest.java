@@ -31,6 +31,7 @@ public class LibrariesTest {
   public void create() throws Exception {
     final SitePaths site = new SitePaths(Paths.get("."));
     final ConsoleUI ui = createStrictMock(ConsoleUI.class);
+    final StaleLibraryRemover remover = createStrictMock(StaleLibraryRemover.class);
 
     replay(ui);
 
@@ -39,7 +40,7 @@ public class LibrariesTest {
             new Provider<LibraryDownloader>() {
               @Override
               public LibraryDownloader get() {
-                return new LibraryDownloader(ui, site);
+                return new LibraryDownloader(ui, site, remover);
               }
             },
             Collections.<String>emptyList(),

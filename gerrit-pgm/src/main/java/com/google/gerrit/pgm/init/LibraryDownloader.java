@@ -14,7 +14,6 @@
 
 package com.google.gerrit.pgm.init;
 
-import com.google.common.base.Strings;
 import com.google.common.hash.Funnels;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
@@ -33,7 +32,6 @@ import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -45,6 +43,7 @@ import org.eclipse.jgit.util.HttpSupport;
 class LibraryDownloader {
   private final ConsoleUI ui;
   private final Path lib_dir;
+  private final StaleLibraryRemover remover;
 
   private boolean required;
   private String name;
@@ -59,9 +58,10 @@ class LibraryDownloader {
   private boolean skipDownload;
 
   @Inject
-  LibraryDownloader(ConsoleUI ui, SitePaths site) {
+  LibraryDownloader(ConsoleUI ui, SitePaths site, StaleLibraryRemover remover) {
     this.ui = ui;
     this.lib_dir = site.lib_dir;
+    this.remover = remover;
     this.needs = new ArrayList<>(2);
   }
 
@@ -169,7 +169,7 @@ class LibraryDownloader {
     }
 
     try {
-      removeStaleVersions();
+      remover.remove(remove);
       if (download) {
         doGetByHttp();
       } else {
@@ -213,32 +213,6 @@ class LibraryDownloader {
     if (Files.exists(dst)) {
       exists = true;
       IoUtil.loadJARs(dst);
-    }
-  }
-
-  private void removeStaleVersions() {
-    if (!Strings.isNullOrEmpty(remove)) {
-      DirectoryStream.Filter<Path> filter =
-          new DirectoryStream.Filter<Path>() {
-            @Override
-            public boolean accept(Path entry) {
-              return entry.getFileName().toString().matches("^" + remove + "$");
-            }
-          };
-      try (DirectoryStream<Path> paths = Files.newDirectoryStream(lib_dir, filter)) {
-        for (Path p : paths) {
-          String old = p.getFileName().toString();
-          String bak = "." + old + ".backup";
-          ui.message("Renaming %s to %s\n", old, bak);
-          try {
-            Files.move(p, p.resolveSibling(bak));
-          } catch (IOException e) {
-            throw new Die("cannot rename " + old, e);
-          }
-        }
-      } catch (IOException e) {
-        throw new Die("cannot remove stale library versions", e);
-      }
     }
   }
 

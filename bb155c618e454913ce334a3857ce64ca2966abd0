@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ec2d0d71_c2498a3c",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-30T22:21:22Z",
+      "side": 1,
+      "message": "This interacts with the autocomplete, not a HTMLInputElement. I could create this as a property and bind to it with the autocomplete, but this seems to be a simpler solution in this case.",
+      "parentUuid": "123f41ef_8ff73086",
+      "revId": "bb155c618e454913ce334a3857ce64ca2966abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2630cd2c_90d3633c",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
         "patchSetId": 6
@@ -39,6 +57,30 @@
       "revId": "bb155c618e454913ce334a3857ce64ca2966abd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc3cec72_616b2c73",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-30T22:21:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2630cd2c_90d3633c",
+      "range": {
+        "startLine": 108,
+        "startChar": 46,
+        "endLine": 108,
+        "endChar": 56
+      },
+      "revId": "bb155c618e454913ce334a3857ce64ca2966abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "66c6d606_491096da",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-30T22:21:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a19f9fe_bd5d0b31",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 19
+      },
+      "revId": "bb155c618e454913ce334a3857ce64ca2966abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c43687c8_d537f46c",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list_test.html",
         "patchSetId": 6
@@ -76,6 +142,24 @@
       "writtenOn": "2017-03-30T21:22:45Z",
       "side": 1,
       "message": "Looks like this eventually should be extracted into its own component.",
+      "revId": "bb155c618e454913ce334a3857ce64ca2966abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d72263eb_82215d19",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-30T22:21:22Z",
+      "side": 1,
+      "message": "It is its own component, gr-account-entry. We just have to interact with it pretty extensively in order to test account-list behavior, so I have this ref var to keep the tests legible.",
+      "parentUuid": "c43687c8_d537f46c",
       "revId": "bb155c618e454913ce334a3857ce64ca2966abd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

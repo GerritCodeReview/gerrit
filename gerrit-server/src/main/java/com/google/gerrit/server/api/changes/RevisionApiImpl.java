@@ -70,6 +70,7 @@ import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.change.TestSubmitType;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -219,7 +220,7 @@ class RevisionApiImpl implements RevisionApi {
   public void submit(SubmitInput in) throws RestApiException {
     try {
       submit.apply(revision, in);
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot submit change", e);
     }
   }
@@ -267,7 +268,11 @@ class RevisionApiImpl implements RevisionApi {
   public ChangeApi rebase(RebaseInput in) throws RestApiException {
     try {
       return changes.id(rebase.apply(revision, in)._number);
-    } catch (OrmException | EmailException | UpdateException | IOException e) {
+    } catch (OrmException
+        | EmailException
+        | UpdateException
+        | IOException
+        | PermissionBackendException e) {
       throw new RestApiException("Cannot rebase ps", e);
     }
   }
@@ -544,7 +549,7 @@ class RevisionApiImpl implements RevisionApi {
     in.description = description;
     try {
       putDescription.apply(revision, in);
-    } catch (UpdateException e) {
+    } catch (UpdateException | PermissionBackendException e) {
       throw new RestApiException("Cannot set description", e);
     }
   }

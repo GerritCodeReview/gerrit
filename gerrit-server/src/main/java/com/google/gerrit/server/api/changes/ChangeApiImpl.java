@@ -74,6 +74,7 @@ import com.google.gerrit.server.change.Reviewers;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.change.SubmittedTogether;
 import com.google.gerrit.server.change.SuggestChangeReviewers;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
@@ -243,7 +244,7 @@ class ChangeApiImpl implements ChangeApi {
   public void abandon(AbandonInput in) throws RestApiException {
     try {
       abandon.apply(change, in);
-    } catch (OrmException | UpdateException e) {
+    } catch (OrmException | UpdateException | PermissionBackendException e) {
       throw new RestApiException("Cannot abandon change", e);
     }
   }
@@ -257,7 +258,7 @@ class ChangeApiImpl implements ChangeApi {
   public void restore(RestoreInput in) throws RestApiException {
     try {
       restore.apply(change, in);
-    } catch (OrmException | UpdateException e) {
+    } catch (OrmException | UpdateException | PermissionBackendException e) {
       throw new RestApiException("Cannot restore change", e);
     }
   }
@@ -361,7 +362,11 @@ class ChangeApiImpl implements ChangeApi {
   public void rebase(RebaseInput in) throws RestApiException {
     try {
       rebase.apply(change, in);
-    } catch (EmailException | OrmException | UpdateException | IOException e) {
+    } catch (EmailException
+        | OrmException
+        | UpdateException
+        | IOException
+        | PermissionBackendException e) {
       throw new RestApiException("Cannot rebase change", e);
     }
   }
@@ -386,7 +391,7 @@ class ChangeApiImpl implements ChangeApi {
     in.topic = topic;
     try {
       putTopic.apply(change, in);
-    } catch (UpdateException e) {
+    } catch (UpdateException | PermissionBackendException e) {
       throw new RestApiException("Cannot set topic", e);
     }
   }
@@ -475,7 +480,7 @@ class ChangeApiImpl implements ChangeApi {
   public void setHashtags(HashtagsInput input) throws RestApiException {
     try {
       postHashtags.apply(change, input);
-    } catch (UpdateException e) {
+    } catch (UpdateException | PermissionBackendException e) {
       throw new RestApiException("Cannot post hashtags", e);
     }
   }
@@ -493,7 +498,7 @@ class ChangeApiImpl implements ChangeApi {
   public AccountInfo setAssignee(AssigneeInput input) throws RestApiException {
     try {
       return putAssignee.apply(change, input);
-    } catch (UpdateException | IOException | OrmException e) {
+    } catch (UpdateException | IOException | OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot set assignee", e);
     }
   }
@@ -522,7 +527,7 @@ class ChangeApiImpl implements ChangeApi {
     try {
       Response<AccountInfo> r = deleteAssignee.apply(change, null);
       return r.isNone() ? null : r.value();
-    } catch (UpdateException | OrmException e) {
+    } catch (UpdateException | OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot delete assignee", e);
     }
   }

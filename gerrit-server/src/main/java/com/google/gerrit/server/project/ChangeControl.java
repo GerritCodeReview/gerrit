@@ -15,13 +15,17 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -32,13 +36,22 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.ChangePermissionOrLabel;
+import com.google.gerrit.server.permissions.LabelPermission;
+import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /** Access control management for a user accessing a single change. */
 public class ChangeControl {
@@ -233,7 +246,7 @@ public class ChangeControl {
   }
 
   /** Can this user abandon this change? */
-  public boolean canAbandon(ReviewDb db) throws OrmException {
+  private boolean canAbandon(ReviewDb db) throws OrmException {
     return (isOwner() // owner (aka creator) of the change can abandon
             || getRefControl().isOwner() // branch owner can abandon
             || getProjectControl().isOwner() // project owner can abandon
@@ -272,13 +285,13 @@ public class ChangeControl {
   }
 
   /** Can this user rebase this change? */
-  public boolean canRebase(ReviewDb db) throws OrmException {
+  private boolean canRebase(ReviewDb db) throws OrmException {
     return (isOwner() || getRefControl().canSubmit(isOwner()) || getRefControl().canRebase())
         && !isPatchSetLocked(db);
   }
 
   /** Can this user restore this change? */
-  public boolean canRestore(ReviewDb db) throws OrmException {
+  private boolean canRestore(ReviewDb db) throws OrmException {
     return canAbandon(db) // Anyone who can abandon the change can restore it back
         && getRefControl().canUpload(); // as long as you can upload too
   }
@@ -419,7 +432,7 @@ public class ChangeControl {
   }
 
   /** Can this user edit the topic name? */
-  public boolean canEditTopicName() {
+  private boolean canEditTopicName() {
     if (getChange().getStatus().isOpen()) {
       return isOwner() // owner (aka creator) of the change can edit topic
           || getRefControl().isOwner() // branch owner can edit topic
@@ -432,7 +445,7 @@ public class ChangeControl {
   }
 
   /** Can this user edit the description? */
-  public boolean canEditDescription() {
+  private boolean canEditDescription() {
     if (getChange().getStatus().isOpen()) {
       return isOwner() // owner (aka creator) of the change can edit desc
           || getRefControl().isOwner() // branch owner can edit desc
@@ -443,7 +456,7 @@ public class ChangeControl {
     return false;
   }
 
-  public boolean canEditAssignee() {
+  private boolean canEditAssignee() {
     return isOwner()
         || getProjectControl().isOwner()
         || getRefControl().canEditAssignee()
@@ -451,20 +464,12 @@ public class ChangeControl {
   }
 
   /** Can this user edit the hashtag name? */
-  public boolean canEditHashtags() {
+  private boolean canEditHashtags() {
     return isOwner() // owner (aka creator) of the change can edit hashtags
         || getRefControl().isOwner() // branch owner can edit hashtags
         || getProjectControl().isOwner() // project owner can edit hashtags
         || getUser().getCapabilities().canAdministrateServer() // site administers are god
         || getRefControl().canEditHashtags(); // user can edit hashtag on a specific ref
-  }
-
-  public boolean canSubmit() {
-    return getRefControl().canSubmit(isOwner());
-  }
-
-  public boolean canSubmitAs() {
-    return getRefControl().canSubmitAs();
   }
 
   private boolean match(String destBranch, String refPattern) {
@@ -487,5 +492,140 @@ public class ChangeControl {
         || isReviewer(db, cd)
         || getRefControl().canViewPrivateChanges()
         || getUser().isInternalUser();
+  }
+
+  ForChange asForChange(@Nullable ChangeData cd, @Nullable Provider<ReviewDb> db) {
+    return new ForChangeImpl(cd, db);
+  }
+
+  private class ForChangeImpl extends ForChange {
+    private ChangeData cd;
+    private Map<String, PermissionRange> labels;
+
+    ForChangeImpl(@Nullable ChangeData cd, @Nullable Provider<ReviewDb> db) {
+      this.cd = cd;
+      this.db = db;
+    }
+
+    private ReviewDb db() {
+      if (db != null) {
+        return db.get();
+      } else if (cd != null) {
+        return cd.db();
+      } else {
+        return null;
+      }
+    }
+
+    private ChangeData changeData() {
+      if (cd == null) {
+        ReviewDb reviewDb = db();
+        checkState(reviewDb != null, "need ReviewDb");
+        cd = changeDataFactory.create(reviewDb, ChangeControl.this);
+      }
+      return cd;
+    }
+
+    @Override
+    public ForChange user(CurrentUser user) {
+      return getUser().equals(user) ? this : forUser(user).asForChange(cd, db);
+    }
+
+    @Override
+    public void check(ChangePermissionOrLabel perm)
+        throws AuthException, PermissionBackendException {
+      if (!can(perm)) {
+        throw new AuthException(perm.describeForException() + " not permitted");
+      }
+    }
+
+    @Override
+    public <T extends ChangePermissionOrLabel> Set<T> test(Collection<T> permSet)
+        throws PermissionBackendException {
+      Set<T> ok = newSet(permSet);
+      for (T perm : permSet) {
+        if (can(perm)) {
+          ok.add(perm);
+        }
+      }
+      return ok;
+    }
+
+    private boolean can(ChangePermissionOrLabel perm) throws PermissionBackendException {
+      if (perm instanceof ChangePermission) {
+        return can((ChangePermission) perm);
+      } else if (perm instanceof LabelPermission) {
+        return can((LabelPermission) perm);
+      } else if (perm instanceof LabelPermission.WithValue) {
+        return can((LabelPermission.WithValue) perm);
+      }
+      throw new PermissionBackendException(perm + " unsupported");
+    }
+
+    private boolean can(ChangePermission perm) throws PermissionBackendException {
+      try {
+        switch (perm) {
+          case READ:
+            return isVisible(db(), changeData());
+          case ABANDON:
+            return canAbandon(db());
+          case DELETE:
+            return canDelete(db(), getChange().getStatus());
+          case ADD_PATCH_SET:
+            return canAddPatchSet(db());
+          case EDIT_ASSIGNEE:
+            return canEditAssignee();
+          case EDIT_DESCRIPTION:
+            return canEditDescription();
+          case EDIT_HASHTAGS:
+            return canEditHashtags();
+          case EDIT_TOPIC_NAME:
+            return canEditTopicName();
+          case REBASE:
+            return canRebase(db());
+          case RESTORE:
+            return canRestore(db());
+          case SUBMIT:
+            return getRefControl().canSubmit(isOwner());
+
+          case REMOVE_REVIEWER: // TODO Honor specific removal filters?
+          case SUBMIT_AS:
+            return getRefControl().canPerform(perm.permissionName().get());
+        }
+      } catch (OrmException e) {
+        throw new PermissionBackendException("unavailable", e);
+      }
+      throw new PermissionBackendException(perm + " unsupported");
+    }
+
+    private boolean can(LabelPermission perm) {
+      return !label(perm.permissionName().get()).isEmpty();
+    }
+
+    private boolean can(LabelPermission.WithValue perm) {
+      return label(perm.permissionName().get()).contains(perm.value());
+    }
+
+    private PermissionRange label(String permission) {
+      if (labels == null) {
+        labels = Maps.newHashMapWithExpectedSize(4);
+      }
+      PermissionRange r = labels.get(permission);
+      if (r == null) {
+        r = getRange(permission);
+        labels.put(permission, r);
+      }
+      return r;
+    }
+  }
+
+  static <T extends ChangePermissionOrLabel> Set<T> newSet(Collection<T> permSet) {
+    if (permSet instanceof EnumSet) {
+      @SuppressWarnings({"unchecked", "rawtypes"})
+      Set<T> s = ((EnumSet) permSet).clone();
+      s.clear();
+      return s;
+    }
+    return Sets.newHashSetWithExpectedSize(permSet.size());
   }
 }

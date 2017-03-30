@@ -194,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "05c9ea39_44e5f367",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T17:58:14Z",
+      "side": 1,
+      "message": "Ping",
+      "parentUuid": "a3397a1a_1d46bc89",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4993758e_7e054f4c",
         "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
         "patchSetId": 1
@@ -240,6 +258,24 @@
       "side": 1,
       "message": "Which one?",
       "parentUuid": "387f9bee_b7611ba8",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37f2f2f7_cc1fdeda",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T17:58:14Z",
+      "side": 1,
+      "message": "Safari sometimes complains about this (either `localeCompare` or id being `undefined`, I don\u0027t remember), but not always. Wasn\u0027t sure whether the flakiness was false-positives or false-negatives.",
+      "parentUuid": "d91e8b9a_50a97482",
       "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -357,6 +393,24 @@
       "side": 1,
       "message": "With this change, fetch is stubbed for all tests in this file.\nfetch.restore() here is needed because callback can\u0027t be replaced on a stub without reinstalling the stub - that\u0027s done on the next line.",
       "parentUuid": "4aba9b7c_e4068bd3",
+      "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de028570_8b6d9e1e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T17:58:14Z",
+      "side": 1,
+      "message": "Gotcha. Can the existing stub not be equivalently modified using ...\n\nwindow.fetch.returns(function(url) {\n  if (url \u003d\u003d\u003d \u0027/accounts/self/detail\u0027) {\n    return Promise.resolve(responses.shift());\n  }\n});\n\n... like some cases elsewhere in this file? Not a big deal either way.",
+      "parentUuid": "f7a993ff_77eaa80c",
       "revId": "e56dadcf3988b1d399194bd3ced00337a5ea2d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

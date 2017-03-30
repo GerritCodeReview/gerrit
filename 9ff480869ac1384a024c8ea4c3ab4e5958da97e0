@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "a89a8dc3_24185c10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T19:58:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2fbaf49_21d6a104",
+      "range": {
+        "startLine": 271,
+        "startChar": 2,
+        "endLine": 271,
+        "endChar": 17
+      },
+      "revId": "9ff480869ac1384a024c8ea4c3ab4e5958da97e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52a591f8_92f2a649",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
         "patchSetId": 5
@@ -73,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "1731bf21_687e5924",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T19:58:44Z",
+      "side": 1,
+      "message": "Amazing, it works! Thanks for the suggestion.",
+      "parentUuid": "bce5fe97_daa4d593",
+      "range": {
+        "startLine": 287,
+        "startChar": 8,
+        "endLine": 287,
+        "endChar": 95
+      },
+      "revId": "9ff480869ac1384a024c8ea4c3ab4e5958da97e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4b73677_10109a21",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
         "patchSetId": 5
@@ -93,6 +141,30 @@
       "revId": "9ff480869ac1384a024c8ea4c3ab4e5958da97e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c5a22f6_47a24631",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T19:58:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4b73677_10109a21",
+      "range": {
+        "startLine": 426,
+        "startChar": 13,
+        "endLine": 426,
+        "endChar": 34
+      },
+      "revId": "9ff480869ac1384a024c8ea4c3ab4e5958da97e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

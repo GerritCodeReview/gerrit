@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "26c5e585_9b548662",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-30T18:17:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2ee5d91f_325151df",
+      "revId": "c376101a036be310735a041e3f9e595d1b6dd50c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "24a745eb_ab1fd898",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
         "patchSetId": 13
@@ -30,6 +48,30 @@
       "writtenOn": "2017-03-30T18:06:10Z",
       "side": 1,
       "message": "Here, and elsewhere in this file, can we add assertions for `linkEls[1]`? For example, in this case I think it can be...\n\n assert.equal(linkEls[1].getAttribute(\u0027href\u0027), \u0027/c/42/10\u0027);\n\n... or something similar.",
+      "range": {
+        "startLine": 380,
+        "startChar": 6,
+        "endLine": 381,
+        "endChar": 76
+      },
+      "revId": "c376101a036be310735a041e3f9e595d1b6dd50c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "509e5164_d3057218",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-30T18:17:11Z",
+      "side": 1,
+      "message": "It seems the button only gets /c/42/ not /c/42/10/.",
+      "parentUuid": "24a745eb_ab1fd898",
       "range": {
         "startLine": 380,
         "startChar": 6,

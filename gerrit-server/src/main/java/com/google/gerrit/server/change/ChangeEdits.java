@@ -229,7 +229,8 @@ public class ChangeEdits
         }
         try {
           editInfo.files =
-              fileInfoJson.toFileInfoMap(rsrc.getChange(), edit.get().getRevision(), basePatchSet);
+              fileInfoJson.toFileInfoMap(
+                  rsrc.getChange(), edit.get().getEditCommit(), basePatchSet);
         } catch (PatchListNotAvailableException e) {
           throw new ResourceNotFoundException(e.getMessage());
         }
@@ -395,7 +396,7 @@ public class ChangeEdits
                 rsrc.getControl().getProjectControl().getProjectState(),
                 base
                     ? ObjectId.fromString(edit.getBasePatchSet().getRevision().get())
-                    : ObjectId.fromString(edit.getRevision().get()),
+                    : edit.getEditCommit(),
                 rsrc.getPath()));
       } catch (ResourceNotFoundException rnfe) {
         return Response.none();

@@ -35,6 +35,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * Exports a single version of a patch as a normal file download.
@@ -126,7 +127,7 @@ public class CatServlet extends HttpServlet {
         try {
           Optional<ChangeEdit> edit = changeEditUtil.byChange(control.getChange());
           if (edit.isPresent()) {
-            revision = edit.get().getRevision().get();
+            revision = ObjectId.toString(edit.get().getEditCommit());
           } else {
             rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;

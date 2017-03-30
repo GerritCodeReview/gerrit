@@ -96,7 +96,8 @@ public class PublishChangeEdit
       if (in == null) {
         in = new PublishChangeEditInput();
       }
-      editUtil.publish(edit.get(), in.notify, notifyUtil.resolveAccounts(in.notifyDetails));
+      editUtil.publish(
+          rsrc.getControl(), edit.get(), in.notify, notifyUtil.resolveAccounts(in.notifyDetails));
       return Response.none();
     }
   }

@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 public class Revisions implements ChildCollection<ChangeResource, RevisionResource> {
@@ -143,8 +144,9 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     Optional<ChangeEdit> edit = editUtil.byChange(change.getChange());
     if (edit.isPresent()) {
       PatchSet ps = new PatchSet(new PatchSet.Id(change.getId(), 0));
-      ps.setRevision(edit.get().getRevision());
-      if (revid == null || edit.get().getRevision().equals(revid)) {
+      RevId editRevId = new RevId(ObjectId.toString(edit.get().getEditCommit()));
+      ps.setRevision(editRevId);
+      if (revid == null || editRevId.equals(revid)) {
         return Collections.singletonList(new RevisionResource(change, ps, edit));
       }
     }

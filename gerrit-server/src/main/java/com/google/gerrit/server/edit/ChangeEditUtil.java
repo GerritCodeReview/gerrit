@@ -149,7 +149,7 @@ public class ChangeEditUtil {
       try (RevWalk rw = new RevWalk(repo)) {
         RevCommit commit = rw.parseCommit(ref.getObjectId());
         PatchSet basePs = getBasePatchSet(ctl, ref);
-        return Optional.of(new ChangeEdit(u, change, ref, commit, basePs));
+        return Optional.of(new ChangeEdit(change, ref.getName(), commit, basePs));
       }
     }
   }
@@ -157,6 +157,7 @@ public class ChangeEditUtil {
   /**
    * Promote change edit to patch set, by squashing the edit into its parent.
    *
+   * @param ctl the {@code ChangeControl} of the change to which the change edit belongs
    * @param edit change edit to publish
    * @param notify Notify handling that defines to whom email notifications should be sent after the
    *     change edit is published.
@@ -167,6 +168,7 @@ public class ChangeEditUtil {
    * @throws RestApiException
    */
   public void publish(
+      ChangeControl ctl,
       final ChangeEdit edit,
       NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
@@ -181,7 +183,6 @@ public class ChangeEditUtil {
       }
 
       RevCommit squashed = squashEdit(rw, oi, edit.getEditCommit(), basePatchSet);
-      ChangeControl ctl = changeControlFactory.controlFor(db.get(), change, edit.getUser());
       PatchSet.Id psId = ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
       PatchSetInserter inserter =
           patchSetInserterFactory
@@ -280,7 +281,7 @@ public class ChangeEditUtil {
   private static void deleteRef(Repository repo, ChangeEdit edit) throws IOException {
     String refName = edit.getRefName();
     RefUpdate ru = repo.updateRef(refName, true);
-    ru.setExpectedOldObjectId(edit.getRef().getObjectId());
+    ru.setExpectedOldObjectId(edit.getEditCommit());
     ru.setForceUpdate(true);
     RefUpdate.Result result = ru.delete();
     switch (result) {

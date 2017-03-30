@@ -1141,14 +1141,20 @@ public class ReceiveCommits {
     }
 
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    if (ctl.canCreate(db, rp.getRepository(), obj)) {
+    String rejectReason = ctl.createRejectionReason(db, rp.getRepository(), obj);
+    if (rejectReason == null) {
       if (!validRefOperation(cmd)) {
         return;
       }
       validateNewCommits(ctl, cmd);
       batch.addCommand(cmd);
     } else {
-      reject(cmd, "prohibited by Gerrit: create access denied for " + cmd.getRefName());
+      reject(
+          cmd,
+          "prohibited by Gerrit: create access denied for "
+              + cmd.getRefName()
+              + ": "
+              + rejectReason);
     }
   }
 

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "386924d6_c84c734e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-30T20:18:04Z",
+      "side": 1,
+      "message": "\u003e * Don\u0027t expose Repository to updateRepo, only RepoView. I tried this last week, but IIRC there is some caller that really wants to call #resolve or something else difficult to emulate.\n\nThe other thing (which I remembered as soon as I opened the next change in this series) is that Merger really wants a Repository as well. It needs more than a reader/inserter: in the non-bare case it needs to be able to write intermediate stages out to disk (like what you get when \"git merge\" reports conflicts). It might not be completely impossible to support an in-core merger that only takes reader/inserter and not a full repo, but it\u0027ll require a JGit change.",
+      "parentUuid": "8047f1ea_ce1958d8",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 125,
+        "endChar": 3
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ff2ae5a5_a3cef874",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
         "patchSetId": 1

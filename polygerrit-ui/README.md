@@ -94,6 +94,9 @@ Run all web tests:
 ./polygerrit-ui/app/run_test.sh
 ```
 
+To allow the tests to run in Safari it is necessary to enable the
+"Allow Remote Automation" option under the "Develop" menu.
+
 If you need to pass additional arguments to `wct`:
 
 ```sh

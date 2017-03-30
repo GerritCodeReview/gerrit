@@ -22,6 +22,30 @@
       "revId": "2eb41dac7918a1a20ff81bdcfff51dd1c9fc3c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a35248d_e07868a8",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-30T20:14:45Z",
+      "side": 1,
+      "message": "I\u0027ve amended this whole file for our normal format.",
+      "parentUuid": "6ad649dc_35706a42",
+      "range": {
+        "startLine": 52,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 9
+      },
+      "revId": "2eb41dac7918a1a20ff81bdcfff51dd1c9fc3c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

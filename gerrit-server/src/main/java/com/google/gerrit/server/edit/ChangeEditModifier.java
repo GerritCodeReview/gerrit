@@ -52,6 +52,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeStrategy;
@@ -116,8 +117,7 @@ public class ChangeEditModifier {
 
     PatchSet currentPatchSet = lookupCurrentPatchSet(changeControl);
     ObjectId patchSetCommitId = getPatchSetCommitId(currentPatchSet);
-    createEditReference(
-        repository, changeControl, currentPatchSet, patchSetCommitId, TimeUtil.nowTs());
+    createEdit(repository, changeControl, currentPatchSet, patchSetCommitId, TimeUtil.nowTs());
   }
 
   /**
@@ -218,9 +218,9 @@ public class ChangeEditModifier {
         createCommit(repository, basePatchSetCommit, baseTree, newCommitMessage, nowTimestamp);
 
     if (optionalChangeEdit.isPresent()) {
-      updateEditReference(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);
+      updateEdit(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);
     } else {
-      createEditReference(repository, changeControl, basePatchSet, newEditCommit, nowTimestamp);
+      createEdit(repository, changeControl, basePatchSet, newEditCommit, nowTimestamp);
     }
   }
 
@@ -316,9 +316,62 @@ public class ChangeEditModifier {
         createCommit(repository, basePatchSetCommit, newTreeId, commitMessage, nowTimestamp);
 
     if (optionalChangeEdit.isPresent()) {
-      updateEditReference(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);
+      updateEdit(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);
     } else {
-      createEditReference(repository, changeControl, basePatchSet, newEditCommit, nowTimestamp);
+      createEdit(repository, changeControl, basePatchSet, newEditCommit, nowTimestamp);
+    }
+  }
+
+  /**
+   * Applies the indicated modification to the specified patch set. If a change edit exists and is
+   * based on the same patch set, the modified patch set tree is merged with the change edit. If the
+   * change edit doesn't exist, a new one will be created.
+   *
+   * @param repository the affected Git repository
+   * @param changeControl the {@code ChangeControl} of the change to which the patch set belongs
+   * @param patchSet the {@code PatchSet} which should be modified
+   * @param treeModification the modification which should be applied
+   * @return the resulting {@code ChangeEdit}
+   * @throws AuthException if the user isn't authenticated or not allowed to use change edits
+   * @throws InvalidChangeOperationException if the existing change edit is based on another patch
+   *     set or no change edit exists but the specified patch set isn't the current one
+   * @throws MergeConflictException if the modified patch set tree can't be merged with an existing
+   *     change edit
+   */
+  public ChangeEdit combineWithModifiedPatchSetTree(
+      Repository repository,
+      ChangeControl changeControl,
+      PatchSet patchSet,
+      TreeModification treeModification)
+      throws AuthException, IOException, InvalidChangeOperationException, MergeConflictException,
+          OrmException {
+    ensureAuthenticatedAndPermitted(changeControl);
+
+    Optional<ChangeEdit> optionalChangeEdit = lookupChangeEdit(changeControl);
+    ensureAllowedPatchSet(changeControl, optionalChangeEdit, patchSet);
+
+    RevCommit patchSetCommit = lookupCommit(repository, patchSet);
+    ObjectId newTreeId = createNewTree(repository, patchSetCommit, treeModification);
+
+    if (optionalChangeEdit.isPresent()) {
+      ChangeEdit changeEdit = optionalChangeEdit.get();
+      newTreeId = merge(repository, changeEdit, newTreeId);
+      if (ObjectId.equals(newTreeId, changeEdit.getEditCommit().getTree())) {
+        // Modification is already contained in the change edit.
+        return changeEdit;
+      }
+    }
+
+    String commitMessage =
+        optionalChangeEdit.map(ChangeEdit::getEditCommit).orElse(patchSetCommit).getFullMessage();
+    Timestamp nowTimestamp = TimeUtil.nowTs();
+    ObjectId newEditCommit =
+        createCommit(repository, patchSetCommit, newTreeId, commitMessage, nowTimestamp);
+
+    if (optionalChangeEdit.isPresent()) {
+      return updateEdit(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);
+    } else {
+      return createEdit(repository, changeControl, patchSet, newEditCommit, nowTimestamp);
     }
   }
 
@@ -340,7 +393,31 @@ public class ChangeEditModifier {
     }
   }
 
-  private String getWellFormedCommitMessage(String commitMessage) {
+  private static void ensureAllowedPatchSet(
+      ChangeControl changeControl, Optional<ChangeEdit> optionalChangeEdit, PatchSet patchSet)
+      throws InvalidChangeOperationException {
+    if (optionalChangeEdit.isPresent()) {
+      ChangeEdit changeEdit = optionalChangeEdit.get();
+      if (!isBasedOn(changeEdit, patchSet)) {
+        throw new InvalidChangeOperationException(
+            String.format(
+                "Only the patch set %s on which the existing change edit is based may be modified "
+                    + "(specified patch set: %s)",
+                changeEdit.getBasePatchSet().getId(), patchSet.getId()));
+      }
+    } else {
+      PatchSet.Id patchSetId = patchSet.getId();
+      PatchSet.Id currentPatchSetId = changeControl.getChange().currentPatchSetId();
+      if (!patchSetId.equals(currentPatchSetId)) {
+        throw new InvalidChangeOperationException(
+            String.format(
+                "A change edit may only be created for the current patch set %s (and not for %s)",
+                currentPatchSetId, patchSetId));
+      }
+    }
+  }
+
+  private static String getWellFormedCommitMessage(String commitMessage) {
     String wellFormedMessage = Strings.nullToEmpty(commitMessage).trim();
     checkState(!wellFormedMessage.isEmpty(), "Commit message cannot be null or empty");
     wellFormedMessage = wellFormedMessage + "\n";
@@ -372,8 +449,13 @@ public class ChangeEditModifier {
   private static RevCommit lookupCommit(Repository repository, PatchSet patchSet)
       throws IOException {
     ObjectId patchSetCommitId = getPatchSetCommitId(patchSet);
+    return lookupCommit(repository, patchSetCommitId);
+  }
+
+  private static RevCommit lookupCommit(Repository repository, ObjectId commitId)
+      throws IOException {
     try (RevWalk revWalk = new RevWalk(repository)) {
-      return revWalk.parseCommit(patchSetCommitId);
+      return revWalk.parseCommit(commitId);
     }
   }
 
@@ -390,7 +472,7 @@ public class ChangeEditModifier {
     return newTreeId;
   }
 
-  private ObjectId merge(Repository repository, ChangeEdit changeEdit, ObjectId newTreeId)
+  private static ObjectId merge(Repository repository, ChangeEdit changeEdit, ObjectId newTreeId)
       throws IOException, MergeConflictException {
     PatchSet basePatchSet = changeEdit.getBasePatchSet();
     ObjectId basePatchSetCommitId = getPatchSetCommitId(basePatchSet);
@@ -436,17 +518,22 @@ public class ChangeEditModifier {
     return ObjectId.fromString(patchSet.getRevision().get());
   }
 
-  private void createEditReference(
+  private ChangeEdit createEdit(
       Repository repository,
       ChangeControl changeControl,
       PatchSet basePatchSet,
-      ObjectId newEditCommit,
+      ObjectId newEditCommitId,
       Timestamp timestamp)
       throws IOException, OrmException {
     Change change = changeControl.getChange();
     String editRefName = getEditRefName(change, basePatchSet);
-    updateReference(repository, editRefName, ObjectId.zeroId(), newEditCommit, timestamp);
+    updateReference(repository, editRefName, ObjectId.zeroId(), newEditCommitId, timestamp);
     reindex(change);
+
+    RevCommit newEditCommit = lookupCommit(repository, newEditCommitId);
+    Ref ref = repository.getRefDatabase().exactRef(editRefName);
+    return new ChangeEdit(
+        currentUser.get().asIdentifiedUser(), change, ref, newEditCommit, basePatchSet);
   }
 
   private String getEditRefName(Change change, PatchSet basePatchSet) {
@@ -454,13 +541,21 @@ public class ChangeEditModifier {
     return RefNames.refsEdit(me.getAccountId(), change.getId(), basePatchSet.getId());
   }
 
-  private void updateEditReference(
-      Repository repository, ChangeEdit changeEdit, ObjectId newEditCommit, Timestamp timestamp)
+  private ChangeEdit updateEdit(
+      Repository repository, ChangeEdit changeEdit, ObjectId newEditCommitId, Timestamp timestamp)
       throws IOException, OrmException {
     String editRefName = changeEdit.getRefName();
     RevCommit currentEditCommit = changeEdit.getEditCommit();
-    updateReference(repository, editRefName, currentEditCommit, newEditCommit, timestamp);
+    updateReference(repository, editRefName, currentEditCommit, newEditCommitId, timestamp);
     reindex(changeEdit.getChange());
+
+    RevCommit newEditCommit = lookupCommit(repository, newEditCommitId);
+    return new ChangeEdit(
+        changeEdit.getUser(),
+        changeEdit.getChange(),
+        changeEdit.getRef(),
+        newEditCommit,
+        changeEdit.getBasePatchSet());
   }
 
   private void updateReference(

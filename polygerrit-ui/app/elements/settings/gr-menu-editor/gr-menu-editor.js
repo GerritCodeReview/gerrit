@@ -50,7 +50,6 @@
       this.splice('menuItems', this.menuItems.length, 0, {
         name: this._newName,
         url: this._newUrl,
-        target: '_blank',
       });
 
       this._newName = '';

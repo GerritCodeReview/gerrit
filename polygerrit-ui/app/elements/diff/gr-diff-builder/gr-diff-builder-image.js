@@ -29,60 +29,93 @@
   GrDiffBuilderImage.prototype.constructor = GrDiffBuilderImage;
 
   GrDiffBuilderImage.prototype.renderDiffImages = function() {
-    var section = this._createElement('tbody', 'image-diff');
+    return new Promise(function(resolve) {
+      var section = this._createElement('tbody', 'image-diff');
 
-    this._emitImagePair(section);
-    this._emitImageLabels(section);
-
-    this._outputEl.appendChild(section);
+      this._emitImagePair(section).then(function() {
+        this._emitImageLabels(section);
+        this._outputEl.appendChild(section);
+        resolve();
+      }.bind(this));
+    }.bind(this));
   };
 
   GrDiffBuilderImage.prototype._emitImagePair = function(section) {
-    var tr = this._createElement('tr');
-
-    tr.appendChild(this._createElement('td'));
-    tr.appendChild(this._createImageCell(this._baseImage, 'left'));
-
-    tr.appendChild(this._createElement('td'));
-    tr.appendChild(this._createImageCell(this._revisionImage, 'right'));
-
-    section.appendChild(tr);
+    return new Promise(function(resolve) {
+      var tr = this._createElement('tr');
+      tr.appendChild(this._createElement('td'));
+      this._createImageCell(this._baseImage, 'left').then(function(td){
+        tr.appendChild(td);
+        tr.appendChild(this._createElement('td'));
+        this._createImageCell(this._revisionImage, 'right').then(function(td){
+          tr.appendChild(td);
+          section.appendChild(tr);
+          resolve();
+        }.bind(this));
+      }.bind(this));
+    }.bind(this));
   };
 
   GrDiffBuilderImage.prototype._createImageCell = function(image, className) {
-    var td = this._createElement('td', className);
-    if (image) {
-      var imageEl = this._createElement('img');
-      imageEl.src = 'data:' + image.type + ';base64, ' + image.body;
-      image._height = imageEl.naturalHeight;
-      image._width = imageEl.naturalWidth;
-      imageEl.addEventListener('error', function(e) {
-        imageEl.remove();
-        td.textContent = '[Image failed to load]';
-      });
-      td.appendChild(imageEl);
-    }
-    return td;
+    return new Promise(function(resolve) {
+      var td = this._createElement('td', className);
+      if (image) {
+        var imageEl = this._createElement('img');
+        imageEl.onload = function() {
+          image._height = imageEl.naturalHeight;
+          image._width = imageEl.naturalWidth;
+          td.appendChild(imageEl);
+          resolve(td);
+        }
+        imageEl.src = 'data:' + image.type + ';base64, ' + image.body;
+        imageEl.addEventListener('error', function(e) {
+          imageEl.remove();
+          td.textContent = '[Image failed to load]';
+        });
+      }
+    }.bind(this));
   };
 
   GrDiffBuilderImage.prototype._emitImageLabels = function(section) {
     var tr = this._createElement('tr');
 
+    var addNamesInLabel = false;
+
+    if (this._baseImage._name !== this._revisionImage._name) {
+      addNamesInLabel = true;
+    }
+
     tr.appendChild(this._createElement('td'));
     var td = this._createElement('td', 'left');
     var label = this._createElement('label');
-    label.textContent = this._getImageLabel(this._baseImage);
+    if (addNamesInLabel) {
+      label.textContent = this._getName(this._baseImage);
+      label.appendChild(this._createElement('br'));
+    }
+    label.appendChild(document.createTextNode(
+        this._getImageLabel(this._baseImage)));
     td.appendChild(label);
     tr.appendChild(td);
 
     tr.appendChild(this._createElement('td'));
     td = this._createElement('td', 'right');
     label = this._createElement('label');
-    label.textContent = this._getImageLabel(this._revisionImage);
+
+    if (addNamesInLabel) {
+      label.textContent = this._getName(this._revisionImage);
+      label.appendChild(this._createElement('br'));
+    }
+
+    label.appendChild(document.createTextNode(
+        this._getImageLabel(this._revisionImage)));
     td.appendChild(label);
     tr.appendChild(td);
 
     section.appendChild(tr);
+  };
+
+  GrDiffBuilderImage.prototype._getName = function(image) {
+    return image._name;
   };
 
   GrDiffBuilderImage.prototype._getImageLabel = function(image) {

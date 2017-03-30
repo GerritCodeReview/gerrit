@@ -359,21 +359,27 @@ limitations under the License.
           assert.instanceOf(element.$.diffBuilder._builder, GrDiffBuilderImage);
 
           // Left image rendered with the parent commit's version of the file.
-          var leftInmage = element.$.diffTable.querySelector('td.left img');
-          assert.isOk(leftInmage);
-          assert.equal(leftInmage.getAttribute('src'),
-              'data:image/bmp;base64, ' + mockFile1.body);
 
-          // Right image rendered with this change's revision of the image.
-          var rightInmage = element.$.diffTable.querySelector('td.right img');
-          assert.isOk(rightInmage);
-          assert.equal(rightInmage.getAttribute('src'),
-              'data:image/bmp;base64, ' + mockFile2.body);
+            element.$.diffBuilder._builder.renderDiffImages().then(function() {
 
-          // Cleanup.
-          element.removeEventListener('render', rendered);
+            var leftImage = element.$.diffTable.querySelector('td.left img');
+            var leftLabel = element.$.diffTable.querySelector('td.left label');
+            assert.isOk(leftImage);
+            assert.equal(leftImage.getAttribute('src'),
+                'data:image/bmp;base64, ' + mockFile1.body);
+            assert.equal(leftLabel.textContent, '1⨉1 image/bmp');
 
-          done();
+            // Right image rendered with this change's revision of the image.
+            var rightImage = element.$.diffTable.querySelector('td.right img');
+            assert.isOk(rightImage);
+            assert.equal(rightImage.getAttribute('src'),
+                'data:image/bmp;base64, ' + mockFile2.body);
+
+            // Cleanup.
+            element.removeEventListener('render', rendered);
+            done();
+          })
+
         };
 
         element.addEventListener('render', rendered);

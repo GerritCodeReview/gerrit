@@ -454,7 +454,7 @@ class ChangeApiImpl implements ChangeApi {
   public void setHashtags(HashtagsInput input) throws RestApiException {
     try {
       postHashtags.apply(change, input);
-    } catch (UpdateException e) {
+    } catch (RestApiException | UpdateException e) {
       throw new RestApiException("Cannot post hashtags", e);
     }
   }

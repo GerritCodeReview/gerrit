@@ -504,8 +504,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       try {
         c = acquire();
         if (c.put == null) {
-          c.put = c.conn.prepareStatement(
-              "MERGE INTO data (k, v, created, accessed) VALUES(?,?,?,?)");
+          c.put =
+              c.conn.prepareStatement("MERGE INTO data (k, v, created, accessed) VALUES(?,?,?,?)");
         }
         try {
           keyType.set(c.put, 1, key);
@@ -572,8 +572,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         c = acquire();
         try (Statement s = c.conn.createStatement()) {
           long used = 0;
-          try (ResultSet r =
-              s.executeQuery("SELECT SUM(space) FROM data")) {
+          try (ResultSet r = s.executeQuery("SELECT SUM(space) FROM data")) {
             used = r.next() ? r.getLong(1) : 0;
           }
           if (used <= maxSize) {
@@ -582,12 +581,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
           try (ResultSet r =
               s.executeQuery(
-                  "SELECT"
-                      + " k"
-                      + ",space"
-                      + ",created"
-                      + " FROM data"
-                      + " ORDER BY accessed")) {
+                  "SELECT" + " k" + ",space" + ",created" + " FROM data" + " ORDER BY accessed")) {
             while (maxSize < used && r.next()) {
               K key = keyType.get(r, 1);
               Timestamp created = r.getTimestamp(3);
@@ -615,12 +609,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       try {
         c = acquire();
         try (Statement s = c.conn.createStatement();
-            ResultSet r =
-                s.executeQuery(
-                    "SELECT"
-                        + " COUNT(*)"
-                        + ",SUM(space)"
-                        + " FROM data")) {
+            ResultSet r = s.executeQuery("SELECT" + " COUNT(*)" + ",SUM(space)" + " FROM data")) {
           if (r.next()) {
             size = r.getLong(1);
             space = r.getLong(2);

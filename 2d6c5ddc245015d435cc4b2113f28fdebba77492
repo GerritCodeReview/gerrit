@@ -45,6 +45,23 @@
       "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6de9201_078cdc1d",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/index.html.soy",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-30T22:38:22Z",
+      "side": 1,
+      "message": "Side note: run-server.sh uses the index.html that still appears in polygerrit-ui/app.\n\nDown the road, I\u0027d like to render this template into place that run-server.sh can use, so that there is only one of these.",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

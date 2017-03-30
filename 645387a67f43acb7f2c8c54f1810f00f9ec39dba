@@ -70,6 +70,24 @@
       "revId": "645387a67f43acb7f2c8c54f1810f00f9ec39dba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a63a71d1_9b2df0ed",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/HashtagsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-30T11:26:53Z",
+      "side": 1,
+      "message": "Yeah, makes sense to merge it first :-) We have a broken master.",
+      "parentUuid": "e21ff526_ee127581",
+      "revId": "645387a67f43acb7f2c8c54f1810f00f9ec39dba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

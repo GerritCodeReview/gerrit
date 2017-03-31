@@ -96,6 +96,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
+
     observers: [
       '_accountLoaded(_account)',
     ],
@@ -114,14 +118,23 @@
     },
 
     _handleLocationChange: function(e) {
-      this._loginURL = '/login/' + encodeURIComponent(
-          window.location.pathname +
-          window.location.search +
-          window.location.hash);
+      if (this.getBaseUrl()) {
+        // Strip the canonical path from the path since needing canonical in
+        // the path is uneeded and breaks the url.
+        this._loginURL = this.getBaseUrl() + '/login/' + encodeURIComponent(
+            '/' + window.location.pathname.substring(this.getBaseUrl().length) +
+            window.location.search +
+            window.location.hash);
+      } else {
+        this._loginURL = '/login/' + encodeURIComponent(
+            window.location.pathname +
+            window.location.search +
+            window.location.hash);
+      }
     },
 
     _computeRelativeURL: function(path) {
-      return '//' + window.location.host + path;
+      return '//' + window.location.host + this.getBaseUrl() + path;
     },
 
     _computeLinks: function(defaultLinks, userLinks, adminLinks) {

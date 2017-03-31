@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../behaviors/base-url-behavior.html">
 <script>
 (function(window) {
   'use strict';
@@ -99,7 +100,7 @@ limitations under the License.
     },
 
     changeBaseURL: function(changeNum, patchNum) {
-      var v = '/changes/' + changeNum;
+      var v =  window.Gerrit.BaseUrlBehavior.getBaseUrl() + '/changes/' + changeNum;
       if (patchNum) {
         v += '/revisions/' + patchNum;
       }
@@ -107,7 +108,7 @@ limitations under the License.
     },
 
     changePath: function(changeNum) {
-      return '/c/' + changeNum;
+      return  window.Gerrit.BaseUrlBehavior.getBaseUrl() + '/c/' + changeNum;
     },
 
     changeIsOpen: function(status) {

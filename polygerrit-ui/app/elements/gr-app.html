@@ -14,8 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../styles/app-theme.html">
 <link rel="import" href="./plugins/gr-plugin-host/gr-plugin-host.html">
 
@@ -151,7 +152,7 @@ limitations under the License.
             rel="noopener" target="_blank">Send feedback</a>
         <template is="dom-if" if="[[_computeShowGwtUiLink(_serverConfig)]]">
           |
-          <a id="gwtLink" href$="/?polygerrit=0#[[_path]]" rel="external">Old UI</a>
+          <a id="gwtLink" href$="[[computeGwtUrl(_path)]]" rel="external">Old UI</a>
         </template>
         | Press &ldquo;?&rdquo; for keyboard shortcuts
       </div>

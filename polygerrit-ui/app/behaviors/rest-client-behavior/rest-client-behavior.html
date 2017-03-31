@@ -13,7 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 <script>
 (function(window) {
   'use strict';
@@ -99,7 +100,7 @@ limitations under the License.
     },
 
     changeBaseURL: function(changeNum, patchNum) {
-      var v = '/changes/' + changeNum;
+      var v =  this.getBaseUrl() + '/changes/' + changeNum;
       if (patchNum) {
         v += '/revisions/' + patchNum;
       }
@@ -107,7 +108,7 @@ limitations under the License.
     },
 
     changePath: function(changeNum) {
-      return '/c/' + changeNum;
+      return this.getBaseUrl() + '/c/' + changeNum;
     },
 
     changeIsOpen: function(status) {
@@ -134,6 +135,9 @@ limitations under the License.
   };
 
   window.Gerrit = window.Gerrit || {};
-  window.Gerrit.RESTClientBehavior = RESTClientBehavior;
+  window.Gerrit.RESTClientBehavior = [
+    Gerrit.BaseUrlBehavior,
+    RESTClientBehavior
+  ];
 })(window);
 </script>

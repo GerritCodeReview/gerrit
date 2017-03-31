@@ -162,6 +162,7 @@
     },
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,
@@ -588,7 +589,7 @@
     },
 
     _computeChangePermalink: function(changeNum) {
-      return '/' + changeNum;
+      return this.getBaseUrl() + '/' + changeNum;
     },
 
     _computeChangeStatus: function(change, patchNum) {

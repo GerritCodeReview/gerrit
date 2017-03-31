@@ -132,6 +132,53 @@
       "revId": "cba8a468aef4c203524e7d67d0e8f0b68c8ce7c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "040e8632_828b45b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T16:00:24Z",
+      "side": 1,
+      "message": "That\u0027s private. Everywhere else we just don\u0027t worry about this, but maybe I will rethink it later.",
+      "parentUuid": "4b31baff_7132e839",
+      "range": {
+        "startLine": 39,
+        "startChar": 9,
+        "endLine": 39,
+        "endChar": 42
+      },
+      "revId": "cba8a468aef4c203524e7d67d0e8f0b68c8ce7c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bd7eb5c_aa71d7ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T16:00:24Z",
+      "side": 1,
+      "message": "This may be problematic in the context of MergeOneOp, which uses SubmitStrategy.Arguments.rw instead of this one. I may need to resolve that TODO as part of this series.",
+      "range": {
+        "startLine": 39,
+        "startChar": 9,
+        "endLine": 39,
+        "endChar": 20
+      },
+      "revId": "cba8a468aef4c203524e7d67d0e8f0b68c8ce7c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

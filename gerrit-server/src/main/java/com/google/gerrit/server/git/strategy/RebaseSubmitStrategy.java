@@ -161,7 +161,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
             args.psUtil.get(ctx.getDb(), toMerge.getControl().getNotes(), toMerge.getPatchsetId());
         rebaseOp =
             args.rebaseFactory
-                .create(toMerge.getControl(), origPs, args.mergeTip.getCurrentTip().name())
+                .create(toMerge.getControl(), origPs, args.mergeTip.getCurrentTip())
                 .setFireRevisionCreated(false)
                 // Bypass approval copier since SubmitStrategyOp copy all approvals
                 // later anyway.

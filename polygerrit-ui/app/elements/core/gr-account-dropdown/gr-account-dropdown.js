@@ -55,13 +55,13 @@
     },
 
     _getLinks: function(switchAccountUrl) {
-      var links = [{name: 'Settings', url: '/settings'}];
+      var links = [{name: 'Settings', url: window.CANONICAL_PATH + '/settings'}];
       if (switchAccountUrl) {
         var replacements = {path: this._path};
         var url = this._interpolateUrl(switchAccountUrl, replacements);
-        links.push({name: 'Switch account', url: url});
+        links.push({name: 'Switch account', url: window.CANONICAL_PATH + url});
       }
-      links.push({name: 'Sign out', url: '/logout'});
+      links.push({name: 'Sign out', url: window.CANONICAL_PATH + '/logout'});
       return links;
     },
 

@@ -495,7 +495,7 @@
     },
 
     _getDiffURL: function(changeNum, patchRange, path) {
-      return '/c/' + changeNum + '/' + this._patchRangeStr(patchRange) + '/' +
+      return window.CANONICAL_PATH + '/c/' + changeNum + '/' + this._patchRangeStr(patchRange) + '/' +
           this.encodeURL(path, true);
     },
 
@@ -521,7 +521,7 @@
     },
 
     _getChangePath: function(changeNum, patchRange, revisions) {
-      var base = '/c/' + changeNum + '/';
+      var base = window.CANONICAL_PATH + '/c/' + changeNum + '/';
 
       // The change may not have loaded yet, making revisions unavailable.
       if (!revisions) {

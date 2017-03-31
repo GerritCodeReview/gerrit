@@ -152,7 +152,7 @@
     },
 
     _urlWithParams: function(url, opt_params) {
-      if (!opt_params) { return url; }
+      if (!opt_params) { return window.CANONICAL_PATH + url; }
 
       var params = [];
       for (var p in opt_params) {
@@ -167,7 +167,7 @@
             encodeURIComponent(values[i]));
         }
       }
-      return url + '?' + params.join('&');
+      return window.CANONICAL_PATH + url + '?' + params.join('&');
     },
 
     getResponseObject: function(response) {
@@ -384,25 +384,25 @@
     },
 
     _fetchSharedCacheURL: function(url, opt_errFn) {
-      if (this._sharedFetchPromises[url]) {
-        return this._sharedFetchPromises[url];
+      if (this._sharedFetchPromises[window.CANONICAL_PATH + url]) {
+        return this._sharedFetchPromises[window.CANONICAL_PATH + url];
       }
       // TODO(andybons): Periodic cache invalidation.
-      if (this._cache[url] !== undefined) {
-        return Promise.resolve(this._cache[url]);
+      if (this._cache[window.CANONICAL_PATH + url] !== undefined) {
+        return Promise.resolve(this._cache[window.CANONICAL_PATH + url]);
       }
-      this._sharedFetchPromises[url] = this.fetchJSON(url, opt_errFn).then(
+      this._sharedFetchPromises[window.CANONICAL_PATH + url] = this.fetchJSON(url, opt_errFn).then(
         function(response) {
           if (response !== undefined) {
-            this._cache[url] = response;
+            this._cache[window.CANONICAL_PATH + url] = response;
           }
-          this._sharedFetchPromises[url] = undefined;
+          this._sharedFetchPromises[window.CANONICAL_PATH + url] = undefined;
           return response;
         }.bind(this)).catch(function(err) {
-          this._sharedFetchPromises[url] = undefined;
+          this._sharedFetchPromises[window.CANONICAL_PATH + url] = undefined;
           throw err;
         }.bind(this));
-      return this._sharedFetchPromises[url];
+      return this._sharedFetchPromises[window.CANONICAL_PATH + url];
     },
 
     _isNarrowScreen: function() {
@@ -694,7 +694,7 @@
         }
         options.body = opt_body;
       }
-      return fetch(url, options).then(function(response) {
+      return fetch(window.CANONICAL_PATH + url, options).then(function(response) {
         if (!response.ok) {
           if (opt_errFn) {
             opt_errFn.call(opt_ctx || null, response);
@@ -907,7 +907,7 @@
     },
 
     _fetchB64File: function(url) {
-      return fetch(url, {credentials: 'same-origin'}).then(function(response) {
+      return fetch(window.CANONICAL_PATH + url, {credentials: 'same-origin'}).then(function(response) {
         var type = response.headers.get('X-FYI-Content-Type');
         return response.text()
           .then(function(text) {

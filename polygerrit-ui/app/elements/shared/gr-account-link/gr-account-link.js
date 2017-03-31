@@ -28,7 +28,7 @@
     _computeOwnerLink: function(account) {
       if (!account) { return; }
       var accountID = account.email || account._account_id;
-      return '/q/owner:' + encodeURIComponent(accountID);
+      return window.CANONICAL_PATH + '/q/owner:' + encodeURIComponent(accountID);
     },
 
     _computeShowEmail: function(account) {

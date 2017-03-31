@@ -21,5 +21,9 @@
       path: String,
       title: String,
     },
+
+    getBaseUrl: function(url, path) {
+      return url + '/?polygerrit=0#' + path;
+    },
   });
 })();

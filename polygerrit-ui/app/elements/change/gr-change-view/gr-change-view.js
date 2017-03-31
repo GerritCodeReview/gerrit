@@ -577,7 +577,7 @@
     },
 
     _computeChangePermalink: function(changeNum) {
-      return '/' + changeNum;
+      return window.CANONICAL_PATH + '/' + changeNum;
     },
 
     _computeChangeStatus: function(change, patchNum) {

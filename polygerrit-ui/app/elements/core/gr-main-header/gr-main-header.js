@@ -16,25 +16,25 @@
 
   var ADMIN_LINKS = [
     {
-      url: '/admin/groups',
+      url: window.CANONICAL_PATH + '/admin/groups',
       name: 'Groups',
     },
     {
-      url: '/admin/create-group',
+      url: window.CANONICAL_PATH + '/admin/create-group',
       name: 'Create Group',
       capability: 'createGroup'
     },
     {
-      url: '/admin/projects',
+      url: window.CANONICAL_PATH + '/admin/projects',
       name: 'Projects',
     },
     {
-      url: '/admin/create-project',
+      url: window.CANONICAL_PATH + '/admin/create-project',
       name: 'Create Project',
       capability: 'createProject',
     },
     {
-      url: '/admin/plugins',
+      url: window.CANONICAL_PATH + '/admin/plugins',
       name: 'Plugins',
       capability: 'viewPlugins',
     },
@@ -44,19 +44,46 @@
     title: 'Changes',
     links: [
       {
-        url: '/q/status:open',
+        url: window.CANONICAL_PATH + '/q/status:open',
         name: 'Open',
       },
       {
-        url: '/q/status:merged',
+        url: window.CANONICAL_PATH + '/q/status:merged',
         name: 'Merged',
       },
       {
-        url: '/q/status:abandoned',
+        url: window.CANONICAL_PATH + '/q/status:abandoned',
         name: 'Abandoned',
       },
     ],
   }];
+
+  var USER_LINKS = [
+    {
+      url: window.CANONICAL_PATH + '/dashboard/self',
+      name: 'Changes',
+    },
+    {
+      url: window.CANONICAL_PATH + '/q/owner:self+is:draft',
+      name: 'Drafts',
+    },
+    {
+      url: window.CANONICAL_PATH + '/q/has:draft',
+      name: 'Draft Comments',
+    },
+    {
+      url: window.CANONICAL_PATH + '/q/has:edit',
+      name: 'Edits',
+    },
+    {
+      url: window.CANONICAL_PATH + '/q/is:watched+is:open',
+      name: 'Watched Changes',
+    },
+    {
+      url: window.CANONICAL_PATH + '/q/is:starred',
+      name: 'Starred Changes',
+    },
+  ];
 
   Polymer({
     is: 'gr-main-header',
@@ -84,15 +111,17 @@
       },
       _links: {
         type: Array,
-        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks)',
+        computed: '_computeLinks(_defaultLinks, __userLinks, _adminLinks)',
       },
       _loginURL: {
         type: String,
-        value: '/login',
+        value: window.CANONICAL_PATH + '/login',
       },
-      _userLinks: {
+      __userLinks: {
         type: Array,
-        value: function() { return []; },
+        value: function() {
+          return USER_LINKS;
+        },
       },
     },
 
@@ -114,14 +143,14 @@
     },
 
     _handleLocationChange: function(e) {
-      this._loginURL = '/login/' + encodeURIComponent(
+      this._loginURL = window.CANONICAL_PATH + '/login/' + encodeURIComponent(
           window.location.pathname +
           window.location.search +
           window.location.hash);
     },
 
     _computeRelativeURL: function(path) {
-      return '//' + window.location.host + path;
+      return '//' + window.location.host + window.CANONICAL_PATH + path;
     },
 
     _computeLinks: function(defaultLinks, userLinks, adminLinks) {

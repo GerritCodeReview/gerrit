@@ -41,7 +41,7 @@
 
     _computeChangeURL: function(changeNum) {
       if (!changeNum) { return ''; }
-      return '/c/' + changeNum + '/';
+      return window.CANONICAL_PATH + '/c/' + changeNum + '/';
     },
 
     _computeLabelTitle: function(change, labelName) {
@@ -101,7 +101,7 @@
     },
 
     _computeProjectURL: function(project) {
-      return '/q/status:open+project:' +
+      return window.CANONICAL_PATH + '/q/status:open+project:' +
           this.encodeURL(project, false);
     },
 

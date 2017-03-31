@@ -33,6 +33,8 @@
     getReporting().pageLoaded();
   };
 
+  page.base(window.CANONICAL_PATH);
+
   window.addEventListener('WebComponentsReady', function() {
     getReporting().timeEnd('WebComponentsReady');
   });

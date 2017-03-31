@@ -22,6 +22,30 @@
       "revId": "114e9e3fc592af7108460bb658541869639f4bd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac1802d6_970fb0e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-31T17:36:41Z",
+      "side": 1,
+      "message": "Thanks for the suggestion. Will upload a fix later today.",
+      "parentUuid": "a351ce6e_22fb9d01",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 30
+      },
+      "revId": "114e9e3fc592af7108460bb658541869639f4bd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

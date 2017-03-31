@@ -105,6 +105,12 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   @Override
   public final void updateRepo(RepoContext ctx) throws Exception {
     logDebug("{}#updateRepo for change {}", getClass().getSimpleName(), toMerge.change().getId());
+    checkState(
+        ctx.getRevWalk() == args.rw,
+        "SubmitStrategyOp requires callers to call BatchUpdate#setRepository with exactly the same"
+            + " CodeReviewRevWalk instance from the SubmitStrategy.Arguments: %s != %s",
+        ctx.getRevWalk(),
+        args.rw);
     // Run the submit strategy implementation and record the merge tip state so
     // we can create the ref update.
     CodeReviewCommit tipBefore = args.mergeTip.getCurrentTip();

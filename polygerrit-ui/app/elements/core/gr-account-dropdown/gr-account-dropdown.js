@@ -31,7 +31,7 @@
       },
       _path: {
         type: String,
-        value: '/',
+        value: this.getBaseUrl() + '/',
       },
       _hasAvatars: Boolean,
       _switchAccountUrl: String,
@@ -55,13 +55,13 @@
     },
 
     _getLinks: function(switchAccountUrl) {
-      var links = [{name: 'Settings', url: '/settings'}];
+      var links = [{name: 'Settings', url: this.getBaseUrl() + '/settings'}];
       if (switchAccountUrl) {
         var replacements = {path: this._path};
         var url = this._interpolateUrl(switchAccountUrl, replacements);
         links.push({name: 'Switch account', url: url});
       }
-      links.push({name: 'Sign out', url: '/logout'});
+      links.push({name: 'Sign out', url: this.getBaseUrl() + '/logout'});
       return links;
     },
 
@@ -83,6 +83,14 @@
       return url.replace(INTERPOLATE_URL_PATTERN, function(match, p1) {
         return replacements[p1] || '';
       });
+    },
+
+    getBaseUrl: function() {
+      if (window.CANONICAL_PATH != '' || window.CANONICAL_PATH != '/') {
+        return window.CANONICAL_PATH;
+      }
+
+      return '';
     },
   });
 })();

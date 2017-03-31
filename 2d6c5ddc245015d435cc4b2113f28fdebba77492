@@ -25,6 +25,70 @@
     },
     {
       "key": {
+        "uuid": "2249a90d_348a9d69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T18:25:09Z",
+      "side": 1,
+      "message": "Seems fine to me. Although I could also see the argument that it belongs in gerrit.* like canonicalWebUrl. *shrug*",
+      "parentUuid": "e464615a_efdad5f6",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 11
+      },
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59ac1c99_317fa619",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T18:25:09Z",
+      "side": 1,
+      "message": "I don\u0027t think these are necessary as fields, see my comments below.",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 33
+      },
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9641f2a4_2cbe82fd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T18:25:09Z",
+      "side": 1,
+      "message": "I\u0027d go one step further and store a byte[] so you can skip the String -\u003e byte[] conversion in PrintWriter",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8b2d7b44_2e09a1d2",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
         "patchSetId": 7
@@ -48,6 +112,167 @@
     },
     {
       "key": {
+        "uuid": "3f526864_973f5984",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T18:25:09Z",
+      "side": 1,
+      "message": "Eagerly rendering and not using ResourceServet\u0027s caching is fine.",
+      "parentUuid": "8b2d7b44_2e09a1d2",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 27
+      },
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb40c73b_33d44517",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T18:25:09Z",
+      "side": 1,
+      "message": "I think all these methods should be static and take explicit arguments. After the constructor runs, literally the only thing you need to hold on to is the rendered output.",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3446e6f1_68e0f6be",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T18:25:09Z",
+      "side": 1,
+      "message": "Nit: unnecessary final",
+      "range": {
+        "startLine": 60,
+        "startChar": 23,
+        "endLine": 60,
+        "endChar": 28
+      },
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f8bbef3_61c76628",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T18:25:09Z",
+      "side": 1,
+      "message": "rsp.setStatus(SC_OK) prior to this",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15a591fd_3c6c9481",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T18:25:09Z",
+      "side": 1,
+      "message": "No need to wrap and rethrow, unless you think the extra exception string is particularly useful.\n\nThe only caller of the IndexServlet constructor is a @Provides method, and Guice will automatically wrap any checked exception from one of those in a ProvisionException.",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9c5b26f_1b28fa51",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T18:25:09Z",
+      "side": 1,
+      "message": "Been a while since I thought this deeply about Soy, but I think one way around this is to make this a global instead of a template var. IIRC globals aren\u0027t subject to the same sanitization rules, since the idea is that they are hard-coded on a per-renderer level by a developer, and thus can\u0027t be user content.\n\nThen again this is also a reasonably succinct way of a developer saying \"yes this is safe\", so I\u0027m not sure a global is actually better",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9108075_b998dadc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T18:25:09Z",
+      "side": 1,
+      "message": "Nit: canonicalUrlProvider",
+      "range": {
+        "startLine": 255,
+        "startChar": 58,
+        "endLine": 255,
+        "endChar": 78
+      },
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3e95427_41893750",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T18:25:09Z",
+      "side": 1,
+      "message": "Since you\u0027re eagerly calling get() I believe you can just @Inject String canonicalUrl.",
+      "range": {
+        "startLine": 259,
+        "startChar": 30,
+        "endLine": 259,
+        "endChar": 56
+      },
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6de9201_078cdc1d",
         "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/index.html.soy",
         "patchSetId": 7
@@ -59,6 +284,24 @@
       "writtenOn": "2017-03-30T22:38:22Z",
       "side": 1,
       "message": "Side note: run-server.sh uses the index.html that still appears in polygerrit-ui/app.\n\nDown the road, I\u0027d like to render this template into place that run-server.sh can use, so that there is only one of these.",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f20d666f_508fbe49",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/index.html.soy",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T18:25:09Z",
+      "side": 1,
+      "message": "I would prefer you do this sooner rather than later (but not in this change is fine), I don\u0027t want to keep two copies of index.html around.",
+      "parentUuid": "a6de9201_078cdc1d",
       "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -126,6 +369,23 @@
       "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8949009_a07e6907",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T18:25:09Z",
+      "side": 1,
+      "message": "Per my comments in IndexServlet, I would just make this a static method, then you don\u0027t have to worry about this subclassing thing either.",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -79,6 +79,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
+
     get performanceTiming() {
       return window.performance.timing;
     },
@@ -154,11 +158,11 @@
       var page = '';
       var pathname = this._getPathname();
       if (pathname.indexOf('/q/') === 0) {
-        page = '/q/';
+        page = this.getBaseUrl() + '/q/';
       } else if (pathname.match(CHANGE_VIEW_REGEX)) { // change view
-        page = '/c/';
+        page = this.getBaseUrl() + '/c/';
       } else if (pathname.match(DIFF_VIEW_REGEX)) { // diff view
-        page = '/c//COMMIT_MSG';
+        page = this.getBaseUrl() + '/c//COMMIT_MSG';
       } else {
         // Ignore other page changes.
         return;

@@ -16,7 +16,11 @@
 
   Polymer({
     is: 'gr-comment-list',
-    behaviors: [Gerrit.PathListBehavior],
+
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+      Gerrit.PathListBehavior,
+    ],
 
     properties: {
       changeNum: Number,
@@ -31,7 +35,8 @@
     },
 
     _computeFileDiffURL: function(file, changeNum, patchNum) {
-      return '/c/' + changeNum + '/' + patchNum + '/' + file;
+      return this.getBaseUrl() + '/c/' + changeNum +
+        '/' + patchNum + '/' + file;
     },
 
     _isOnParent: function(comment) {

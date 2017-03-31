@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/base-url-behavior.html">
 
 <dom-module id="gr-placeholder">
   <template>
@@ -44,7 +45,7 @@ limitations under the License.
       <h1>[[title]]</h1>
       <section>
         This page is not yet implemented in PolyGerrit. View it in the
-        <a id="gwtLink" href$="/?polygerrit=0#[[path]]" rel="external">
+        <a id="gwtLink" href$="[[computeGwtUrl(path)]]" rel="external">
         Old UI</a>
       </section>
     </main>

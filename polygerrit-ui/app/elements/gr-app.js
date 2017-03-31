@@ -150,6 +150,14 @@
           config.gerrit.web_uis.indexOf('GWT') !== -1;
     },
 
+    getBaseUrl: function(url, path) {
+      if (url != '' || url != '/') {
+        return url + '/?polygerrit=0#' + path;
+      } else {
+        return '/?polygerrit=0#' + path;
+      }
+    },
+
     _handlePageError: function(e) {
       [
         '_showChangeListView',

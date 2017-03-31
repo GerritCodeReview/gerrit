@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ea49d33d_248c135c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-31T21:05:09Z",
+      "side": 1,
+      "message": "Any reason to use this.$$ instead of this.$.ccs?",
+      "range": {
+        "startLine": 300,
+        "startChar": 18,
+        "endLine": 300,
+        "endChar": 33
+      },
+      "revId": "0e64efbf0625894346d4fda5ec8803cb7384fcde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12506a48_dd73f63e",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1

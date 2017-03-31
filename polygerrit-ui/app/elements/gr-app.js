@@ -71,6 +71,7 @@
     ],
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
       Gerrit.KeyboardShortcutBehavior,
     ],
 

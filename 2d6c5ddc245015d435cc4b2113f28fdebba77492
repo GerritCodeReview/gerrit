@@ -403,6 +403,24 @@
       "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17c83ab7_dd33db95",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-31T20:01:39Z",
+      "side": 1,
+      "message": "This being here dosen\u0027t seem to affect all the other files. This should be moved up.",
+      "parentUuid": "7b142fe3_077beef4",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

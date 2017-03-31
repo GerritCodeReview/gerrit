@@ -70,6 +70,30 @@
       "revId": "00d09f8471e86cbabd5f13702bd3885d9b3d02e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8337842_8239c73e",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T23:17:55Z",
+      "side": 1,
+      "message": "There will be a follow-up. Just doing one thing at a time here.",
+      "parentUuid": "3a5c17cb_3bc9a49a",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 12
+      },
+      "revId": "00d09f8471e86cbabd5f13702bd3885d9b3d02e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

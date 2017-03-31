@@ -35,7 +35,6 @@ import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 import java.util.Iterator;
 import java.util.List;
-
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

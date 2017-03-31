@@ -73,7 +73,7 @@ limitations under the License.
       flush(function() {
         var gwtLink = element.$$('#gwtLink');
         assert.equal(gwtLink.href,
-            'http://' + location.host + '/?polygerrit=0#/test/path');
+            'http://' + location.host + element.getBaseUrl() + '/?polygerrit=0#/test/path');
         done();
       });
     });
@@ -90,7 +90,7 @@ limitations under the License.
       flush(function() {
         var gwtLink = element.$$('#gwtLink');
         assert.equal(gwtLink.href,
-            'http://' + location.host + '/?polygerrit=0#/c/1/1/testfile.txt@2');
+            'http://' + location.host + element.getBaseUrl() + '/?polygerrit=0#/c/1/1/testfile.txt@2');
         done();
       });
     });

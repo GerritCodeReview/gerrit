@@ -106,6 +106,7 @@
     },
 
     behaviors: [
+      Gerrit.BaseUrl,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.RESTClientBehavior,
       Gerrit.URLEncodingBehavior,
@@ -502,7 +503,7 @@
     },
 
     _getDiffURL: function(changeNum, patchRange, path) {
-      return '/c/' + changeNum + '/' + this._patchRangeStr(patchRange) + '/' +
+      return this.getBaseUrl() + '/c/' + changeNum + '/' + this._patchRangeStr(patchRange) + '/' +
           this.encodeURL(path, true);
     },
 
@@ -528,7 +529,7 @@
     },
 
     _getChangePath: function(changeNum, patchRange, revisions) {
-      var base = '/c/' + changeNum + '/';
+      var base = this.getBaseUrl() + '/c/' + changeNum + '/';
 
       // The change may not have loaded yet, making revisions unavailable.
       if (!revisions) {

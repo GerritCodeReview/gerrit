@@ -62,6 +62,7 @@
     },
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
       Gerrit.RESTClientBehavior,
     ],
 
@@ -160,7 +161,7 @@
     },
 
     _computeChangeURL: function(changeNum, patchNum) {
-      var urlStr = '/c/' + changeNum;
+      var urlStr = this.getBaseUrl() + '/c/' + changeNum;
       if (patchNum != null) {
         urlStr += '/' + patchNum;
       }

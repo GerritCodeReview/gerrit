@@ -96,6 +96,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
+
     observers: [
       '_accountLoaded(_account)',
     ],
@@ -114,14 +118,21 @@
     },
 
     _handleLocationChange: function(e) {
-      this._loginURL = '/login/' + encodeURIComponent(
-          window.location.pathname +
-          window.location.search +
-          window.location.hash);
+      if (this.getBaseUrl()) {
+        this._loginURL = this.getBaseUrl() + '/login/' + encodeURIComponent(
+            window.location.pathname +
+            window.location.search +
+            window.location.hash).replace(window.Gerrit.CANONICAL_PATH.replace('/', ''), '');
+      } else {
+        this._loginURL = '/login/' + encodeURIComponent(
+            window.location.pathname +
+            window.location.search +
+            window.location.hash);
+      }
     },
 
     _computeRelativeURL: function(path) {
-      return '//' + window.location.host + path;
+      return '//' + window.location.host + this.getBaseUrl() + path;
     },
 
     _computeLinks: function(defaultLinks, userLinks, adminLinks) {

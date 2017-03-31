@@ -226,10 +226,6 @@
       return parseInt(patchNum, 10) >= parseInt(currentPatchNum, 10);
     },
 
-    _handleHiddenChange: function(e) {
-      this._togglePathExpanded(e.model.file.__path);
-    },
-
     _togglePathExpanded: function(path) {
       // Is the path in the list of expanded diffs? IF so remove it, otherwise
       // add it to the list.
@@ -400,15 +396,29 @@
           });
     },
 
-    _handleFileTap: function(e) {
+    /**
+     * Handle all events from the file list dom-repeat so event handleers don't
+     * have to get registered for potentially very long lists.
+     */
+    _handleFileListTap: function(e) {
+      // Handle checkbox mark as reviewed.
+      if (e.target.classList.contains('reviewed')) {
+        return this._handleReviewedChange(e);
+      }
+
+      // Check to see if the file should be expanded.
+      var path = e.target.dataset.path || e.target.parentElement.dataset.path;
+
       // If the user prefers to expand inline diffs rather than opening the diff
       // view, intercept the click event.
-      if (e.detail.sourceEvent.metaKey || e.detail.sourceEvent.ctrlKey) {
+      if (!path || e.detail.sourceEvent.metaKey ||
+          e.detail.sourceEvent.ctrlKey) {
           return;
       }
-      if (this._userPrefs && this._userPrefs.expand_inline_diffs) {
+      if (e.target.dataset.expand ||
+          this._userPrefs && this._userPrefs.expand_inline_diffs) {
         e.preventDefault();
-        this._handleHiddenChange(e);
+        this._togglePathExpanded(path);
       }
     },
 

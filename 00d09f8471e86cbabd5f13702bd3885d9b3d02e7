@@ -22,6 +22,30 @@
       "revId": "00d09f8471e86cbabd5f13702bd3885d9b3d02e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f21164bf_a3f696c1",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T23:02:50Z",
+      "side": 1,
+      "message": "This is only intended to set-up the constant. It\u0027s not used as of this change.",
+      "parentUuid": "3ca2b67d_9040351d",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 12
+      },
+      "revId": "00d09f8471e86cbabd5f13702bd3885d9b3d02e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

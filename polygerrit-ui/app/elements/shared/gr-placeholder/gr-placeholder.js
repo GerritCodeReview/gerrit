@@ -21,5 +21,15 @@
       path: String,
       title: String,
     },
+
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
+
+    _computeGwtUrl: function(path) {
+      var base = this.getBaseUrl();
+      var clientPath = path.substring(base.length);
+      return base + '/?polygerrit=0#' + clientPath;
+    },
   });
 })();

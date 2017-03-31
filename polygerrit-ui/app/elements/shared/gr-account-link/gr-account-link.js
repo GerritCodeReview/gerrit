@@ -25,10 +25,14 @@
       },
     },
 
+    behaviors: [
+      Gerrit.BaseUrl,
+    ],
+
     _computeOwnerLink: function(account) {
       if (!account) { return; }
       var accountID = account.email || account._account_id;
-      return '/q/owner:' + encodeURIComponent(accountID);
+      return this.getBaseUrl() + '/q/owner:' + encodeURIComponent(accountID);
     },
 
     _computeShowEmail: function(account) {

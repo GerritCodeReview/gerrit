@@ -114,14 +114,21 @@
     },
 
     _handleLocationChange: function(e) {
-      this._loginURL = '/login/' + encodeURIComponent(
-          window.location.pathname +
-          window.location.search +
-          window.location.hash);
+      if (getBaseUrl() != undefined || getBaseUrl() != "" || getBaseUrl() != "/") {
+        this._loginURL = getBaseUrl() + '/login/' + encodeURIComponent(
+            window.location.pathname +
+            window.location.search +
+            window.location.hash).replace(window.Gerrit.CANONICAL_PATH.replace('/', ''), '');
+      } else {
+        this._loginURL = getBaseUrl() + '/login/' + encodeURIComponent(
+            window.location.pathname +
+            window.location.search +
+            window.location.hash);
+      }
     },
 
     _computeRelativeURL: function(path) {
-      return '//' + window.location.host + path;
+      return '//' + window.location.host + getBaseUrl() + path;
     },
 
     _computeLinks: function(defaultLinks, userLinks, adminLinks) {
@@ -182,4 +189,8 @@
       return linkObj.url.indexOf('/groups') !== 0;
     },
   });
+
+  function getBaseUrl() {
+    return window.CANONICAL_PATH || '';
+  }
 })();

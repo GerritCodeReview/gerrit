@@ -16,25 +16,25 @@
 
   var ADMIN_LINKS = [
     {
-      url: '/admin/groups',
+      url: getBaseUrl() + '/admin/groups',
       name: 'Groups',
     },
     {
-      url: '/admin/create-group',
+      url: getBaseUrl() + '/admin/create-group',
       name: 'Create Group',
       capability: 'createGroup'
     },
     {
-      url: '/admin/projects',
+      url: getBaseUrl() + '/admin/projects',
       name: 'Projects',
     },
     {
-      url: '/admin/create-project',
+      url: getBaseUrl() + '/admin/create-project',
       name: 'Create Project',
       capability: 'createProject',
     },
     {
-      url: '/admin/plugins',
+      url: getBaseUrl() + '/admin/plugins',
       name: 'Plugins',
       capability: 'viewPlugins',
     },
@@ -44,15 +44,15 @@
     title: 'Changes',
     links: [
       {
-        url: '/q/status:open',
+        url: getBaseUrl() + '/q/status:open',
         name: 'Open',
       },
       {
-        url: '/q/status:merged',
+        url: getBaseUrl() + '/q/status:merged',
         name: 'Merged',
       },
       {
-        url: '/q/status:abandoned',
+        url: getBaseUrl() + '/q/status:abandoned',
         name: 'Abandoned',
       },
     ],
@@ -88,7 +88,7 @@
       },
       _loginURL: {
         type: String,
-        value: '/login',
+        value: getBaseUrl() + '/login',
       },
       _userLinks: {
         type: Array,
@@ -114,14 +114,21 @@
     },
 
     _handleLocationChange: function(e) {
-      this._loginURL = '/login/' + encodeURIComponent(
-          window.location.pathname +
-          window.location.search +
-          window.location.hash);
+      if (getBaseUrl() != undefined || getBaseUrl() != "" || getBaseUrl() != "/") {
+        this._loginURL = getBaseUrl() + '/login/' + encodeURIComponent(
+            window.location.pathname +
+            window.location.search +
+            window.location.hash).replace(window.CANONICAL_PATH.replace('/', ''), '');
+      } else {
+        this._loginURL = getBaseUrl() + '/login/' + encodeURIComponent(
+            window.location.pathname +
+            window.location.search +
+            window.location.hash);
+      }
     },
 
     _computeRelativeURL: function(path) {
-      return '//' + window.location.host + path;
+      return '//' + window.location.host + getBaseUrl() + path;
     },
 
     _computeLinks: function(defaultLinks, userLinks, adminLinks) {
@@ -182,4 +189,12 @@
       return linkObj.url.indexOf('/groups') !== 0;
     },
   });
+
+  function getBaseUrl() {
+    if (window.CANONICAL_PATH != undefined && (window.CANONICAL_PATH != '' || window.CANONICAL_PATH != '/')) {
+      return window.CANONICAL_PATH;
+    }
+
+    return '';
+  }
 })();

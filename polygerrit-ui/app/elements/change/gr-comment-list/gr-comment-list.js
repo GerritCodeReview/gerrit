@@ -31,7 +31,7 @@
     },
 
     _computeFileDiffURL: function(file, changeNum, patchNum) {
-      return '/c/' + changeNum + '/' + patchNum + '/' + file;
+      return this.getBaseUrl() + '/c/' + changeNum + '/' + patchNum + '/' + file;
     },
 
     _isOnParent: function(comment) {
@@ -61,6 +61,14 @@
       if (comment.patch_set != this.patchNum) {
         return 'PS' + comment.patch_set + ', ';
       }
+      return '';
+    },
+
+    getBaseUrl: function() {
+      if (window.CANONICAL_PATH != undefined && (window.CANONICAL_PATH != '' || window.CANONICAL_PATH != '/')) {
+        return window.CANONICAL_PATH;
+      }
+
       return '';
     },
   });

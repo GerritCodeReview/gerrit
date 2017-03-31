@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ca2b67d_9040351d",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-31T23:01:15Z",
+      "side": 1,
+      "message": "Will doing this work? As in the urls for example /c/ will become /prefix/c/? Since I think all the files need updating to support using the canonical path.",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 12
+      },
+      "revId": "00d09f8471e86cbabd5f13702bd3885d9b3d02e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -82,7 +82,11 @@
 
   Polymer({
     is: 'gr-rest-api-interface',
-    behaviors: [Gerrit.PathListBehavior],
+
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+      Gerrit.PathListBehavior,
+    ],
 
     /**
      * Fired when an server error occurs.
@@ -152,7 +156,7 @@
     },
 
     _urlWithParams: function(url, opt_params) {
-      if (!opt_params) { return url; }
+      if (!opt_params) { return this.getBaseUrl() + url; }
 
       var params = [];
       for (var p in opt_params) {
@@ -167,7 +171,7 @@
             encodeURIComponent(values[i]));
         }
       }
-      return url + '?' + params.join('&');
+      return this.getBaseUrl() + url + '?' + params.join('&');
     },
 
     getResponseObject: function(response) {
@@ -694,7 +698,7 @@
         }
         options.body = opt_body;
       }
-      return fetch(url, options).then(function(response) {
+      return fetch(this.getBaseUrl() + url, options).then(function(response) {
         if (!response.ok) {
           if (opt_errFn) {
             opt_errFn.call(opt_ctx || null, response);
@@ -907,7 +911,7 @@
     },
 
     _fetchB64File: function(url) {
-      return fetch(url, {credentials: 'same-origin'}).then(function(response) {
+      return fetch(this.getBaseUrl() + url, {credentials: 'same-origin'}).then(function(response) {
         var type = response.headers.get('X-FYI-Content-Type');
         return response.text()
           .then(function(text) {

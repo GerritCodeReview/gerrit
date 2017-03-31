@@ -33,6 +33,10 @@
     getReporting().pageLoaded();
   };
 
+  if (window.CANONICAL_PATH != undefined && (window.CANONICAL_PATH != '' || window.CANONICAL_PATH != '/')) {
+    page.base(window.CANONICAL_PATH);
+  }
+
   window.addEventListener('WebComponentsReady', function() {
     getReporting().timeEnd('WebComponentsReady');
   });

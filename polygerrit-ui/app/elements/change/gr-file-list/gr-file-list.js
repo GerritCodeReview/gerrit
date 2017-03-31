@@ -111,6 +111,7 @@
     },
 
     behaviors: [
+      Gerrit.BaseUrl,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
       Gerrit.URLEncodingBehavior,
@@ -599,7 +600,7 @@
     },
 
     _computeDiffURL: function(changeNum, patchRange, path) {
-      return this.encodeURL('/c/' + changeNum + '/' +
+      return this.encodeURL(this.getBaseUrl() + '/c/' + changeNum + '/' +
           this._patchRangeStr(patchRange) + '/' + path, true);
     },
 

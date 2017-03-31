@@ -607,9 +607,12 @@ maven_jar(
     sha1 = "4648af70268b6fdb24674fb1fd7c1fcc73db1231",
 )
 
+# TODO(davido): Remove exlusion of file system provider, when this issue is fixed:
+# https://issues.apache.org/jira/browse/SSHD-736
 maven_jar(
     name = "sshd",
     artifact = "org.apache.sshd:sshd-core:1.4.0",
+    exclude = ["META-INF/services/java.nio.file.spi.FileSystemProvider"],
     sha1 = "c8f3d7457fc9979d1b9ec319f0229b89793c8e56",
 )
 

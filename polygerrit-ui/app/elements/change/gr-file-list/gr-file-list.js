@@ -599,7 +599,7 @@
     },
 
     _computeDiffURL: function(changeNum, patchRange, path) {
-      return this.encodeURL('/c/' + changeNum + '/' +
+      return this.encodeURL(this.getBaseUrl() + '/c/' + changeNum + '/' +
           this._patchRangeStr(patchRange) + '/' + path, true);
     },
 
@@ -831,6 +831,14 @@
           return diffElements[i];
         }
       }
+    },
+
+    getBaseUrl: function() {
+      if (window.CANONICAL_PATH != undefined && (window.CANONICAL_PATH != '' || window.CANONICAL_PATH != '/')) {
+        return window.CANONICAL_PATH;
+      }
+
+      return '';
     },
   });
 })();

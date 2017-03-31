@@ -47,6 +47,7 @@
     },
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
       Gerrit.RESTClientBehavior,
     ],
 
@@ -227,7 +228,7 @@
 
     _computeTopicHref: function(topic) {
       var encodedTopic = encodeURIComponent('\"' + topic + '\"');
-      return '/q/topic:' + encodeURIComponent(encodedTopic) +
+      return this.getBaseUrl() + '/q/topic:' + encodeURIComponent(encodedTopic) +
           '+(status:open OR status:merged)';
     },
 

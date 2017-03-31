@@ -154,11 +154,11 @@
       var page = '';
       var pathname = this._getPathname();
       if (pathname.indexOf('/q/') === 0) {
-        page = '/q/';
-      } else if (pathname.match(CHANGE_VIEW_REGEX)) { // change view
-        page = '/c/';
-      } else if (pathname.match(DIFF_VIEW_REGEX)) { // diff view
-        page = '/c//COMMIT_MSG';
+        page = getBaseUrl() + '/q/';
+      } else if (pathname.match(getBaseUrl() + CHANGE_VIEW_REGEX)) { // change view
+        page = getBaseUrl() + '/c/';
+      } else if (pathname.match(getBaseUrl() + DIFF_VIEW_REGEX)) { // diff view
+        page = getBaseUrl() + '/c//COMMIT_MSG';
       } else {
         // Ignore other page changes.
         return;
@@ -196,6 +196,14 @@
       this.reporter(INTERACTION_TYPE, this.category, eventName, opt_msg);
     },
   });
+
+  function getBaseUrl() {
+    if (window.CANONICAL_PATH != undefined && (window.CANONICAL_PATH != '' || window.CANONICAL_PATH != '/')) {
+      return window.CANONICAL_PATH;
+    }
+
+    return '';
+  }
 
   window.GrReporting = GrReporting;
   // Expose onerror installation so it would be accessible from tests.

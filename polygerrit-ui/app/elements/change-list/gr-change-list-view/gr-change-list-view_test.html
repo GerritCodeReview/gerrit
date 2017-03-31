@@ -84,6 +84,26 @@ limitations under the License.
           '/q/status:open,10');
     });
 
+    test('_computeNavLink with path', function() {
+      window.CANONICAL_PATH = '/r';
+      var query = 'status:open';
+      var offset = 0;
+      var direction = 1;
+      var changesPerPage = 5;
+      assert.equal(
+          element._computeNavLink(query, offset, direction, changesPerPage),
+          '/r/q/status:open,5');
+      direction = -1;
+      assert.equal(
+          element._computeNavLink(query, offset, direction, changesPerPage),
+          '/r/q/status:open');
+      offset = 5;
+      direction = 1;
+      assert.equal(
+          element._computeNavLink(query, offset, direction, changesPerPage),
+          '/r/q/status:open,10');
+    });
+
     test('_hidePrevArrow', function() {
       var offset = 0;
       assert.isTrue(element._hidePrevArrow(offset));

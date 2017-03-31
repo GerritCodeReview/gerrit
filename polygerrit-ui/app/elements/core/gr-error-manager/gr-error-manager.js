@@ -24,6 +24,10 @@
   Polymer({
     is: 'gr-error-manager',
 
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
+
     properties: {
       /**
        * The ID of the account that was logged in when the app was launched. If
@@ -204,7 +208,7 @@
         'left=' + left,
         'top=' + top,
       ];
-      window.open('/login/%3FcloseAfterLogin', '_blank', options.join(','));
+      window.open(this.getBaseUrl() + '/login/%3FcloseAfterLogin', '_blank', options.join(','));
     },
 
     _handleCredentialRefreshed: function() {

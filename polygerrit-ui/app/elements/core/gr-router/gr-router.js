@@ -33,6 +33,11 @@
     getReporting().pageLoaded();
   };
 
+  var base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
+  if (base) {
+    page.base(base);
+  }
+
   window.addEventListener('WebComponentsReady', function() {
     getReporting().timeEnd('WebComponentsReady');
   });

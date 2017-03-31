@@ -153,6 +153,28 @@
           config.gerrit.web_uis.indexOf('GWT') !== -1;
     },
 
+    getBaseUrl: function() {
+      if (
+        window.Gerrit.CANONICAL_PATH != undefined &&
+        (window.Gerrit.CANONICAL_PATH != '' || window.Gerrit.CANONICAL_PATH != '/')
+      ) {
+        return window.Gerrit.CANONICAL_PATH;
+      } else {
+        return '';
+      }
+    },
+
+    getPathUrl: function(path) {
+      if (
+        window.Gerrit.CANONICAL_PATH != undefined &&
+        (window.Gerrit.CANONICAL_PATH != '' || window.Gerrit.CANONICAL_PATH != '/')
+      ) {
+        return path.replace(window.Gerrit.CANONICAL_PATH + '/', '/');
+      } else {
+        return path;
+      }
+    },
+
     _handlePageError: function(e) {
       [
         '_showChangeListView',

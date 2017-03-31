@@ -156,6 +156,7 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
 
   /** Drop this database from memory so it no longer exists. */
   public void drop() {
+    singleVersionListener.shutdown();
     if (openHandle != null) {
       try {
         openHandle.close();

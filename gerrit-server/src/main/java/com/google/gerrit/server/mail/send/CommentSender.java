@@ -588,6 +588,7 @@ public class CommentSender extends ReplyToChangeSender {
 
     footers.add("Gerrit-Comment-Date: " + getCommentTimestamp());
     footers.add("Gerrit-HasComments: " + (hasComments ? "Yes" : "No"));
+    footers.add("Gerrit-HasLabels: " + (labels.isEmpty() ? "No" : "Yes"));
   }
 
   private String getLine(PatchFile fileInfo, short side, int lineNbr) {

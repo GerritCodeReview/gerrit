@@ -21,5 +21,13 @@
       path: String,
       title: String,
     },
+
+    getBaseUrl: function(url, path) {
+      if (window.CANONICAL_PATH != undefined && (window.CANONICAL_PATH != '' || window.CANONICAL_PATH != '/')) {
+        return window.CANONICAL_PATH;
+      } else {
+        return '';
+      }
+    },
   });
 })();

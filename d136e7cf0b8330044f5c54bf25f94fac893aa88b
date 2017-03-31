@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ea64e3f9_1215d14d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1028987
+      },
+      "writtenOn": "2017-03-31T19:16:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9460361d_33a4c8a3",
+      "revId": "d136e7cf0b8330044f5c54bf25f94fac893aa88b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9460361d_d3975432",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshPluginStarterCallback.java",
         "patchSetId": 1

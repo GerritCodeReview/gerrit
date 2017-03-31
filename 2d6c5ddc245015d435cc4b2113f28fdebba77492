@@ -65,6 +65,23 @@
     },
     {
       "key": {
+        "uuid": "d5e44521_9a21456d",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/index.html.soy",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-31T00:04:32Z",
+      "side": 1,
+      "message": "Add here\n\n\u003cscript\u003ewindow.CANONICAL_PATH \u003d \u0027{$canonicalPath}\u0027;\u003c/script\u003e{\\n}\n\nAnd also follow how i did it in the other files https://gerrit-review.googlesource.com/#/c/100912/",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46d23eb3_e0840efd",
         "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/index.html.soy",
         "patchSetId": 7
@@ -76,6 +93,30 @@
       "writtenOn": "2017-03-30T23:46:04Z",
       "side": 1,
       "message": "I think it\u0027s better introducing a new prefix config as canonicalPath will not work in gr-router.",
+      "range": {
+        "startLine": 41,
+        "startChar": 19,
+        "endLine": 41,
+        "endChar": 52
+      },
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6774e862_5ac803fa",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/index.html.soy",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-31T00:04:32Z",
+      "side": 1,
+      "message": "Actually it does work. See the above comment.",
+      "parentUuid": "46d23eb3_e0840efd",
       "range": {
         "startLine": 41,
         "startChar": 19,

@@ -34,6 +34,7 @@
     },
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
       Gerrit.ChangeTableBehavior,
       Gerrit.RESTClientBehavior,
       Gerrit.URLEncodingBehavior,
@@ -41,7 +42,7 @@
 
     _computeChangeURL: function(changeNum) {
       if (!changeNum) { return ''; }
-      return '/c/' + changeNum + '/';
+      return this.getBaseUrl() + '/c/' + changeNum + '/';
     },
 
     _computeLabelTitle: function(change, labelName) {
@@ -101,7 +102,7 @@
     },
 
     _computeProjectURL: function(project) {
-      return '/q/status:open+project:' +
+      return this.getBaseUrl() + '/q/status:open+project:' +
           this.encodeURL(project, false);
     },
 

@@ -21,5 +21,17 @@
       path: String,
       title: String,
     },
+
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
+
+    getPathUrl: function(path) {
+      if (this.getBaseUrl()) {
+        return path.replace(window.Gerrit.CANONICAL_PATH  + '/', '/');
+      } else {
+        return path;
+      }
+    },
   });
 })();

@@ -71,6 +71,7 @@
     ],
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
       Gerrit.KeyboardShortcutBehavior,
     ],
 
@@ -151,6 +152,14 @@
     _computeShowGwtUiLink: function(config) {
       return config.gerrit.web_uis &&
           config.gerrit.web_uis.indexOf('GWT') !== -1;
+    },
+
+    getPathUrl: function(path) {
+      if (this.getBaseUrl()) {
+        return path.replace(window.Gerrit.CANONICAL_PATH + '/', '/');
+      } else {
+        return path;
+      }
     },
 
     _handlePageError: function(e) {

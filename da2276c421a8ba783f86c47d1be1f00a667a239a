@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "8ff7aef4_ddc40016",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T14:25:30Z",
+      "side": 1,
+      "message": "I was able without too much work to make RebaseChangeOp stop calling Repository#resolve. After that, the only BatchUpdateOp thing that really a Repository is to create a Merger. I think it is worth investigating whether I can fix the JGit interface.",
+      "parentUuid": "386924d6_c84c734e",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 125,
+        "endChar": 3
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ff2ae5a5_a3cef874",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
         "patchSetId": 1

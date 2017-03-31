@@ -2507,7 +2507,7 @@ public class ReceiveCommits {
 
     private void newPatchSet() throws IOException {
       RevCommit newCommit = rp.getRevWalk().parseCommit(newCommitId);
-      psId = ChangeUtil.nextPatchSetId(allRefs, notes.getChange().currentPatchSetId());
+      psId = ChangeUtil.nextPatchSetIdFromAllRefsMap(allRefs, notes.getChange().currentPatchSetId());
       info = patchSetInfoFactory.get(rp.getRevWalk(), newCommit, psId);
       cmd = new ReceiveCommand(ObjectId.zeroId(), newCommitId, psId.toRefName());
     }

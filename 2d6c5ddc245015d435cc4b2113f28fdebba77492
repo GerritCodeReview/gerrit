@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "900ec71b_5925a570",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T22:43:38Z",
+      "side": 1,
+      "message": "Moved to gerrit.*.",
+      "parentUuid": "2249a90d_348a9d69",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 11
+      },
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59ac1c99_317fa619",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
         "patchSetId": 7
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "86abc644_1d00f45b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T22:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59ac1c99_317fa619",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 33
+      },
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9641f2a4_2cbe82fd",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
         "patchSetId": 7
@@ -86,6 +134,24 @@
       "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de26b56d_2e712692",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T22:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9641f2a4_2cbe82fd",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -153,6 +219,24 @@
     },
     {
       "key": {
+        "uuid": "c3c3e364_a6bf8d4c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T22:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb40c73b_33d44517",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3446e6f1_68e0f6be",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
         "patchSetId": 7
@@ -176,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "02ca8354_3e4d34d9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T22:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3446e6f1_68e0f6be",
+      "range": {
+        "startLine": 60,
+        "startChar": 23,
+        "endLine": 60,
+        "endChar": 28
+      },
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f8bbef3_61c76628",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
         "patchSetId": 7
@@ -190,6 +298,24 @@
       "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd8b44a1_fd6fa36e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T22:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f8bbef3_61c76628",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -210,6 +336,24 @@
     },
     {
       "key": {
+        "uuid": "aa43ea93_980ed131",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T22:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15a591fd_3c6c9481",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9c5b26f_1b28fa51",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
         "patchSetId": 7
@@ -224,6 +368,24 @@
       "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31f9680b_6e90d0e6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T22:43:38Z",
+      "side": 1,
+      "message": "Defining globals is a good notion, but upon experiment they appear to be subject to the same escaping rules, so globals won\u0027t gain anything in this case.\n\nI definitely want to move away from this ordainer ultimately. This use is clearly safe, but it may not be as we scale to more complex template use.\n\nWe may also wish to revisit the globals option if the template is ever runtime-rendered in the future.",
+      "parentUuid": "c9c5b26f_1b28fa51",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -250,6 +412,30 @@
     },
     {
       "key": {
+        "uuid": "138cd83a_0f3da2f5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T22:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9108075_b998dadc",
+      "range": {
+        "startLine": 255,
+        "startChar": 58,
+        "endLine": 255,
+        "endChar": 78
+      },
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3e95427_41893750",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 7
@@ -270,6 +456,30 @@
       "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e47ca2b_5f96d05b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T22:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3e95427_41893750",
+      "range": {
+        "startLine": 259,
+        "startChar": 30,
+        "endLine": 259,
+        "endChar": 56
+      },
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -308,6 +518,24 @@
     },
     {
       "key": {
+        "uuid": "db9abafe_b7b4be1a",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/index.html.soy",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T22:43:38Z",
+      "side": 1,
+      "message": "Agreed. I\u0027ll work on this as immediate follow-up to be tracked as issue 5919.",
+      "parentUuid": "f20d666f_508fbe49",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5e44521_9a21456d",
         "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/index.html.soy",
         "patchSetId": 7
@@ -319,6 +547,24 @@
       "writtenOn": "2017-03-31T00:04:32Z",
       "side": 1,
       "message": "Add here\n\n\u003cscript\u003ewindow.CANONICAL_PATH \u003d \u0027{$canonicalPath}\u0027;\u003c/script\u003e{\\n}\n\nAnd also follow how i did it in the other files https://gerrit-review.googlesource.com/#/c/100912/",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca1c92_243f43cf",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/index.html.soy",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T22:43:38Z",
+      "side": 1,
+      "message": "We accomplish the equivalent more safely by setting canonical-path on gr-app.",
+      "parentUuid": "d5e44521_9a21456d",
       "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -372,6 +618,30 @@
     },
     {
       "key": {
+        "uuid": "8adcd0b8_49950a85",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/index.html.soy",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T22:43:38Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me what you\u0027re suggesting here.",
+      "parentUuid": "6774e862_5ac803fa",
+      "range": {
+        "startLine": 41,
+        "startChar": 19,
+        "endLine": 41,
+        "endChar": 52
+      },
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8949009_a07e6907",
         "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/raw/IndexServletTest.java",
         "patchSetId": 7
@@ -386,6 +656,24 @@
       "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "859b0f01_969f3872",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T22:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8949009_a07e6907",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -421,6 +709,24 @@
       "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8ff1852_465d3540",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T22:43:38Z",
+      "side": 1,
+      "message": "\u003e Can this be added to, say, serverConfig instead? Or another config?\n\nDo you mean can this be added to a config REST response? If so, then we cannot do that because we need to know the canonical path in order to make the config request in the first place.\n\nI dislike having this on the window, however. I have moved it to ...\n\n Gerrit.CANONICAL_PATH\n\n... since `window.Gerrit` can be assumed to exist at that point. (gr-app depends on `Gerrit.KeyboardShortcutBehavior`.)\n\nI\u0027ve also rearranged the initialization of the gr-app lifecycle methods. There was no need for `attached` to be separate from `ready`, so now this constant can be declared before the router or initial REST API calls start.",
+      "parentUuid": "17c83ab7_dd33db95",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

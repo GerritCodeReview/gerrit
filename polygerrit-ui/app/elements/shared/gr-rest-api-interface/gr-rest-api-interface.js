@@ -82,7 +82,11 @@
 
   Polymer({
     is: 'gr-rest-api-interface',
-    behaviors: [Gerrit.PathListBehavior],
+
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+      Gerrit.PathListBehavior,
+    ],
 
     /**
      * Fired when an server error occurs.
@@ -152,7 +156,7 @@
     },
 
     _urlWithParams: function(url, opt_params) {
-      if (!opt_params) { return url; }
+      if (!opt_params) { return this.getBaseUrl() + url; }
 
       var params = [];
       for (var p in opt_params) {
@@ -167,7 +171,7 @@
             encodeURIComponent(values[i]));
         }
       }
-      return url + '?' + params.join('&');
+      return this.getBaseUrl() + url + '?' + params.join('&');
     },
 
     getResponseObject: function(response) {
@@ -236,7 +240,7 @@
 
     saveDiffPreferences: function(prefs, opt_errFn, opt_ctx) {
       // Invalidate the cache.
-      this._cache['/accounts/self/preferences.diff'] = undefined;
+      this._cache[this.getBaseUrl() + '/accounts/self/preferences.diff'] = undefined;
       return this.send('PUT', '/accounts/self/preferences.diff', prefs,
           opt_errFn, opt_ctx);
     },
@@ -244,7 +248,7 @@
     getAccount: function() {
       return this._fetchSharedCacheURL('/accounts/self/detail', function(resp) {
         if (resp.status === 403) {
-          this._cache['/accounts/self/detail'] = null;
+          this._cache[this.getBaseUrl() + '/accounts/self/detail'] = null;
         }
       }.bind(this));
     },
@@ -269,7 +273,7 @@
           opt_errFn, opt_ctx).then(function() {
         // If result of getAccountEmails is in cache, update it in the cache
         // so we don't have to invalidate it.
-        var cachedEmails = this._cache['/accounts/self/emails'];
+        var cachedEmails = this._cache[this.getBaseUrl() + '/accounts/self/emails'];
         if (cachedEmails) {
           var emails = cachedEmails.map(function(entry) {
             if (entry.email === email) {
@@ -278,7 +282,7 @@
               return {email: email};
             }
           });
-          this._cache['/accounts/self/emails'] = emails;
+          this._cache[this.getBaseUrl() + '/accounts/self/emails'] = emails;
         }
       }.bind(this));
     },
@@ -288,12 +292,12 @@
           opt_ctx).then(function(response) {
             // If result of getAccount is in cache, update it in the cache
             // so we don't have to invalidate it.
-            var cachedAccount = this._cache['/accounts/self/detail'];
+            var cachedAccount = this._cache[this.getBaseUrl() + '/accounts/self/detail'];
             if (cachedAccount) {
               return this.getResponseObject(response).then(function(newName) {
                 // Replace object in cache with new object to force UI updates.
                 // TODO(logan): Polyfill for Object.assign in IE
-                this._cache['/accounts/self/detail'] = Object.assign(
+                this._cache[this.getBaseUrl() + '/accounts/self/detail'] = Object.assign(
                     {}, cachedAccount, {name: newName});
               }.bind(this));
             }
@@ -305,12 +309,12 @@
           opt_errFn, opt_ctx).then(function(response) {
             // If result of getAccount is in cache, update it in the cache
             // so we don't have to invalidate it.
-            var cachedAccount = this._cache['/accounts/self/detail'];
+            var cachedAccount = this._cache[this.getBaseUrl() + '/accounts/self/detail'];
             if (cachedAccount) {
               return this.getResponseObject(response).then(function(newStatus) {
                 // Replace object in cache with new object to force UI updates.
                 // TODO(logan): Polyfill for Object.assign in IE
-                this._cache['/accounts/self/detail'] = Object.assign(
+                this._cache[this.getBaseUrl() + '/accounts/self/detail'] = Object.assign(
                     {}, cachedAccount, {status: newStatus});
               }.bind(this));
             }
@@ -384,25 +388,25 @@
     },
 
     _fetchSharedCacheURL: function(url, opt_errFn) {
-      if (this._sharedFetchPromises[url]) {
-        return this._sharedFetchPromises[url];
+      if (this._sharedFetchPromises[this.getBaseUrl() + url]) {
+        return this._sharedFetchPromises[this.getBaseUrl() + url];
       }
       // TODO(andybons): Periodic cache invalidation.
-      if (this._cache[url] !== undefined) {
-        return Promise.resolve(this._cache[url]);
+      if (this._cache[this.getBaseUrl() + url] !== undefined) {
+        return Promise.resolve(this._cache[this.getBaseUrl() + url]);
       }
-      this._sharedFetchPromises[url] = this.fetchJSON(url, opt_errFn).then(
+      this._sharedFetchPromises[this.getBaseUrl() + url] = this.fetchJSON(url, opt_errFn).then(
         function(response) {
           if (response !== undefined) {
-            this._cache[url] = response;
+            this._cache[this.getBaseUrl() + url] = response;
           }
-          this._sharedFetchPromises[url] = undefined;
+          this._sharedFetchPromises[this.getBaseUrl() + url] = undefined;
           return response;
         }.bind(this)).catch(function(err) {
-          this._sharedFetchPromises[url] = undefined;
+          this._sharedFetchPromises[this.getBaseUrl() + url] = undefined;
           throw err;
         }.bind(this));
-      return this._sharedFetchPromises[url];
+      return this._sharedFetchPromises[this.getBaseUrl() + url];
     },
 
     _isNarrowScreen: function() {
@@ -694,7 +698,7 @@
         }
         options.body = opt_body;
       }
-      return fetch(url, options).then(function(response) {
+      return fetch(this.getBaseUrl() + url, options).then(function(response) {
         if (!response.ok) {
           if (opt_errFn) {
             opt_errFn.call(opt_ctx || null, response);
@@ -907,7 +911,7 @@
     },
 
     _fetchB64File: function(url) {
-      return fetch(url, {credentials: 'same-origin'}).then(function(response) {
+      return fetch(this.getBaseUrl() + url, {credentials: 'same-origin'}).then(function(response) {
         var type = response.headers.get('X-FYI-Content-Type');
         return response.text()
           .then(function(text) {

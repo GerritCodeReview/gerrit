@@ -84,6 +84,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final Set<NrtFuture> notDoneNrtFutures;
   private ScheduledThreadPoolExecutor autoCommitExecutor;
+  private boolean closed = false;
 
   AbstractLuceneIndex(
       Schema<V> schema,
@@ -206,6 +207,10 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
   @Override
   public void close() {
+    if (closed) {
+      return;
+    }
+
     if (autoCommitExecutor != null) {
       autoCommitExecutor.shutdown();
     }
@@ -245,6 +250,8 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     } catch (IOException e) {
       log.warn("error closing Lucene directory", e);
     }
+
+    closed = true;
   }
 
   ListenableFuture<?> insert(final Document doc) {

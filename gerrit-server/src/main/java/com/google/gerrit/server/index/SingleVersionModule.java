@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -94,6 +95,13 @@ public class SingleVersionModule extends LifecycleModule {
     @Override
     public void stop() {
       // Do nothing; indexes are closed by IndexCollection.
+    }
+
+    @VisibleForTesting
+    public void shutdown() {
+      for (IndexDefinition<?, ?, ?> def : defs) {
+        def.getIndexCollection().getSearchIndex().close();
+      }
     }
   }
 }

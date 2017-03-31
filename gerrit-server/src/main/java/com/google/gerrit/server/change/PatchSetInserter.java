@@ -311,7 +311,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     }
 
     String refName = getPatchSetId().toRefName();
-    CommitReceivedEvent event =
+    try (CommitReceivedEvent event =
         new CommitReceivedEvent(
             new ReceiveCommand(
                 ObjectId.zeroId(),
@@ -319,10 +319,9 @@ public class PatchSetInserter implements BatchUpdateOp {
                 refName.substring(0, refName.lastIndexOf('/') + 1) + "new"),
             origCtl.getProjectControl().getProject(),
             origCtl.getRefControl().getRefName(),
+            ctx.getRevWalk().getObjectReader(),
             commit,
-            ctx.getIdentifiedUser());
-
-    try {
+            ctx.getIdentifiedUser())) {
       commitValidatorsFactory
           .create(validatePolicy, origCtl.getRefControl(), new NoSshInfo(), ctx.getRepository())
           .validate(event);

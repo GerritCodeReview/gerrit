@@ -93,6 +93,30 @@
       "revId": "0e64efbf0625894346d4fda5ec8803cb7384fcde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2cf73cb4_773d2c00",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T23:01:42Z",
+      "side": 1,
+      "message": "By the same token, though, the `#ccs` element is nested inside a ...\n\n \u003ctemplate is\u003d\"dom-if\" if\u003d\"[[serverConfig.note_db_enabled]]\"\u003e\n\nThe truth value of `this.serverConfig.note_db_enabled` and `ccsEl` aren\u0027t necessarily the same, right? I wouldn\u0027t think it\u0027s redundant because the problem is that they differ sometimes. Preferably, we\u0027d be able to fix that underlying cause.\n\nMy suspicion is that there is a race condition where the config has not completely loaded before the reply dialog renders stemming from use of the \u0027a\u0027 keyboard shortcut on a gr-diff-view. If that\u0027s the case, maybe it should wait for the config to load inside `gr-change-view#_maybeShowReplyDialog`.",
+      "parentUuid": "f3cbf36c_860dc285",
+      "range": {
+        "startLine": 301,
+        "startChar": 10,
+        "endLine": 301,
+        "endChar": 15
+      },
+      "revId": "0e64efbf0625894346d4fda5ec8803cb7384fcde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

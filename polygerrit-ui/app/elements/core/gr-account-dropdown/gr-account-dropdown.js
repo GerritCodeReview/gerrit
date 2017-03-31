@@ -31,7 +31,7 @@
       },
       _path: {
         type: String,
-        value: '/',
+        value: getBaseUrl() + '/',
       },
       _hasAvatars: Boolean,
       _switchAccountUrl: String,
@@ -42,7 +42,7 @@
       this.listen(window, 'location-change', '_handleLocationChange');
       this.$.restAPI.getConfig().then(function(cfg) {
         if (cfg && cfg.auth && cfg.auth.switch_account_url) {
-          this._switchAccountUrl = cfg.auth.switch_account_url;
+          this._switchAccountUrl = getBaseUrl() + cfg.auth.switch_account_url;
         } else {
           this._switchAccountUrl = null;
         }
@@ -55,13 +55,13 @@
     },
 
     _getLinks: function(switchAccountUrl) {
-      var links = [{name: 'Settings', url: '/settings'}];
+      var links = [{name: 'Settings', url: getBaseUrl() + '/settings'}];
       if (switchAccountUrl) {
         var replacements = {path: this._path};
         var url = this._interpolateUrl(switchAccountUrl, replacements);
         links.push({name: 'Switch account', url: url});
       }
-      links.push({name: 'Sign out', url: '/logout'});
+      links.push({name: 'Sign out', url: getBaseUrl() + '/logout'});
       return links;
     },
 
@@ -85,4 +85,12 @@
       });
     },
   });
+
+  function getBaseUrl() {
+    if (window.CANONICAL_PATH != undefined && (window.CANONICAL_PATH != '' || window.CANONICAL_PATH != '/')) {
+      return window.CANONICAL_PATH;
+    }
+
+    return '';
+  },
 })();

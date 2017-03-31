@@ -46,6 +46,30 @@
       "revId": "00d09f8471e86cbabd5f13702bd3885d9b3d02e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a5c17cb_3bc9a49a",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-31T23:05:39Z",
+      "side": 1,
+      "message": "Ok. Will there be Follow up? I\u0027ve created https://gerrit-review.googlesource.com/#/c/101733/ which I can change the commit msg? Apart from that the change works.",
+      "parentUuid": "f21164bf_a3f696c1",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 12
+      },
+      "revId": "00d09f8471e86cbabd5f13702bd3885d9b3d02e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

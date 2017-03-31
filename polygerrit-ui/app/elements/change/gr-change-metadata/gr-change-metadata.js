@@ -227,18 +227,26 @@
     },
 
     _computeProjectURL: function(project) {
-      return '/q/status:open+project:' + this.encodeURL(project, false);
+      return this.getBaseUrl() + '/q/status:open+project:' + this.encodeURL(project, false);
     },
 
     _computeTopicHref: function(topic) {
       var encodedTopic = encodeURIComponent('\"' + topic + '\"');
-      return '/q/topic:' + encodeURIComponent(encodedTopic) +
+      return this.getBaseUrl() + '/q/topic:' + encodeURIComponent(encodedTopic) +
           '+(status:open OR status:merged)';
     },
 
     _handleTopicRemoved: function() {
       this.set(['change', 'topic'], '');
       this.$.restAPI.setChangeTopic(this.change._number, null);
+    },
+
+    getBaseUrl: function() {
+      if (window.CANONICAL_PATH != undefined && (window.CANONICAL_PATH != '' || window.CANONICAL_PATH != '/')) {
+        return window.CANONICAL_PATH;
+      }
+
+      return '';
     },
   });
 })();

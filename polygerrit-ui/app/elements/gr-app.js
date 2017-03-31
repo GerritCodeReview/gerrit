@@ -153,6 +153,22 @@
           config.gerrit.web_uis.indexOf('GWT') !== -1;
     },
 
+    getBaseUrl: function() {
+      if (window.CANONICAL_PATH != undefined && (window.CANONICAL_PATH != '' || window.CANONICAL_PATH != '/')) {
+        return window.CANONICAL_PATH;
+      } else {
+        return '';
+      }
+    },
+
+    getPathUrl: function(path) {
+      if (window.CANONICAL_PATH != undefined && (window.CANONICAL_PATH != '' || window.CANONICAL_PATH != '/')) {
+        return path.replace(window.CANONICAL_PATH + '/', '/');
+      } else {
+        return path;
+      }
+    },
+
     _handlePageError: function(e) {
       [
         '_showChangeListView',

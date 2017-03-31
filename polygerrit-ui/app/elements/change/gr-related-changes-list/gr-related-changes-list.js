@@ -144,7 +144,7 @@
     },
 
     _computeChangeURL: function(changeNum, patchNum) {
-      var urlStr = '/c/' + changeNum;
+      var urlStr = this.getBaseUrl() + '/c/' + changeNum;
       if (patchNum != null) {
         urlStr += '/' + patchNum;
       }
@@ -249,6 +249,14 @@
         --pos;
       }
       return connected;
+    },
+
+    getBaseUrl: function() {
+      if (window.CANONICAL_PATH != undefined && (window.CANONICAL_PATH != '' || window.CANONICAL_PATH != '/')) {
+        return window.CANONICAL_PATH;
+      }
+
+      return '';
     },
   });
 })();

@@ -21,5 +21,27 @@
       path: String,
       title: String,
     },
+
+    getBaseUrl: function() {
+      if (
+        window.Gerrit.CANONICAL_PATH != undefined &&
+        (window.Gerrit.CANONICAL_PATH != '' || window.Gerrit.CANONICAL_PATH != '/')
+      ) {
+        return window.Gerrit.CANONICAL_PATH;
+      } else {
+        return '';
+      }
+    },
+
+    getPathUrl: function(path) {
+      if (
+        window.Gerrit.CANONICAL_PATH != undefined &&
+        (window.Gerrit.CANONICAL_PATH != '' || window.Gerrit.CANONICAL_PATH != '/')
+      ) {
+        return path.replace(window.Gerrit.CANONICAL_PATH  + '/', '/');
+      } else {
+        return path;
+      }
+    },
   });
 })();

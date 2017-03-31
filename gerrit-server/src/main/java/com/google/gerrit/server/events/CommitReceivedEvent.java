@@ -16,14 +16,19 @@ package com.google.gerrit.server.events;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
+import java.io.IOException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-public class CommitReceivedEvent extends RefEvent {
+public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
   static final String TYPE = "commit-received";
   public ReceiveCommand command;
   public Project project;
   public String refName;
+  public RevWalk revWalk;
   public RevCommit commit;
   public IdentifiedUser user;
 
@@ -35,14 +40,18 @@ public class CommitReceivedEvent extends RefEvent {
       ReceiveCommand command,
       Project project,
       String refName,
-      RevCommit commit,
-      IdentifiedUser user) {
+      ObjectReader reader,
+      ObjectId commitId,
+      IdentifiedUser user)
+      throws IOException {
     this();
     this.command = command;
     this.project = project;
     this.refName = refName;
-    this.commit = commit;
+    this.revWalk = new RevWalk(reader);
+    this.commit = revWalk.parseCommit(commitId);
     this.user = user;
+    revWalk.parseBody(commit);
   }
 
   @Override
@@ -53,5 +62,10 @@ public class CommitReceivedEvent extends RefEvent {
   @Override
   public String getRefName() {
     return refName;
+  }
+
+  @Override
+  public void close() {
+    revWalk.close();
   }
 }

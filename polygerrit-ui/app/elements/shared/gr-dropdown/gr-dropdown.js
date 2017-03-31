@@ -56,6 +56,10 @@
       _hasAvatars: String,
     },
 
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
+
     attached: function() {
       this.$.restAPI.getConfig().then(function(cfg) {
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
@@ -79,7 +83,7 @@
     },
 
     _computeURLHelper: function(host, path) {
-      return '//' + host + path;
+      return '//' + host + this.getBaseUrl() + path;
     },
 
     _computeRelativeURL: function(path) {

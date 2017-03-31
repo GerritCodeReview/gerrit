@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7986dd9a_df4cd796",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-03-31T00:41:11Z",
+      "side": 1,
+      "message": "This bit is not needed now, right?",
+      "range": {
+        "startLine": 123,
+        "startChar": 10,
+        "endLine": 127,
+        "endChar": 11
+      },
+      "revId": "90d61cf0456602d62350c3fe00e510d1fcd95f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -311,8 +311,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.jsResourcePaths = new ArrayList<>();
     info.htmlResourcePaths = new ArrayList<>();
     for (WebUiPlugin u : plugins) {
-      String path = String.format(
-          "plugins/%s/%s", u.getPluginName(), u.getJavaScriptResourcePath());
+      String path =
+          String.format("plugins/%s/%s", u.getPluginName(), u.getJavaScriptResourcePath());
       if (path.endsWith(".html")) {
         info.htmlResourcePaths.add(path);
       } else {

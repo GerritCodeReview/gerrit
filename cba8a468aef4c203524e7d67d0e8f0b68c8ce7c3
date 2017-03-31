@@ -179,6 +179,30 @@
       "revId": "cba8a468aef4c203524e7d67d0e8f0b68c8ce7c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cf60920_1bbec97d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-03-31T17:44:39Z",
+      "side": 1,
+      "message": "That is not an issue, because MergeOp must always call BatchUpdate#setRepository, which uses the other RepoView constructor rather than this one. So in that context, this rw is always the same CodeReviewRevWalk instance as args.rw. Wrote https://gerrit-review.googlesource.com/101830 to make this assumption explicit.",
+      "parentUuid": "8bd7eb5c_aa71d7ad",
+      "range": {
+        "startLine": 39,
+        "startChar": 9,
+        "endLine": 39,
+        "endChar": 20
+      },
+      "revId": "cba8a468aef4c203524e7d67d0e8f0b68c8ce7c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

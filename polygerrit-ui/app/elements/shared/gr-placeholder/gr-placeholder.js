@@ -21,5 +21,13 @@
       path: String,
       title: String,
     },
+
+    getBaseUrl: function(url, path) {
+      if (url != undefined && (url != '' || url != '/')) {
+        return url + '/?polygerrit=0#' + path;
+      } else {
+        return '/?polygerrit=0#' + path;
+      }
+    },
   });
 })();

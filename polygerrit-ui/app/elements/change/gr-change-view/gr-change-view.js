@@ -577,7 +577,7 @@
     },
 
     _computeChangePermalink: function(changeNum) {
-      return '/' + changeNum;
+      return this.getBaseUrl() + '/' + changeNum;
     },
 
     _computeChangeStatus: function(change, patchNum) {
@@ -1153,6 +1153,14 @@
     _computeRelatedChangesToggleHidden: function() {
       return this._getScrollHeight(this.$.relatedChanges) <=
           this._getOffsetHeight(this.$.relatedChanges);
+    },
+
+    getBaseUrl: function() {
+      if (window.CANONICAL_PATH != undefined && (window.CANONICAL_PATH != '' || window.CANONICAL_PATH != '/')) {
+        return window.CANONICAL_PATH;
+      }
+
+      return '';
     },
   });
 })();

@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1490990964 -0400\nnonce AIcUUg9hq6tkXcuyaQp+rN8ZDiTSOZm9aYHc42L+n78lj2uAVI3f1fdDi1DShzH+eGrjnmvc/AXB\n\n0000000000000000000000000000000000000000 bd778f8c011fe77449be62e87b080040cabd25f3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJY3rd0AAoJEF/XxZqaEoiMm6EQAIAyT7O8J1NO+GjoWCX6V+kO\nBpFSdzASZRN+FcSBWAXTR0E/ns7afJgv10wnByNBkR5+y8mFqM3LQKdMF1NJZCWN\nsmv7XdakY6vpjl/YYJEOq7FlcdE+zCeTSuO5R0Hj9kgpkWkM+5IzQzbgefOOumxu\nkABki4MlTQLHJPOmF7PwlVakSV2izbGWZr90S4mIB1qALda0s4sf9PgrCZqTdDLX\nBR03wOAAff15KxbsJOBCWFUkSrE+ffL66vNdG7sTGREyCHpM7AfcZ+aA8VSjUF37\nhdugrIjK2cIhJWXaxE7aDJWrs64eN4K1Wj+bWWkCD7kZMiSkEvk6mjunGeMxRMKK\nZ63z7pM/dSiZDlobEfEPYQ6d8BqC84Ic7c6AVzAS11gfzjFDBLVapgoL035vhUoo\nSwrlGoWDWlDVNyT1T19S4FhblSjcXbRmTncsjvtAIo5ZQr+jp1qi5L94q+p9Qzkr\nwCRzfTodA4YjR5A4gJXa1pxM21CIfnXQyIQJCTdQc5qM1oKy45nI6FEtPEpNqiua\nlX9io/XB3Q6rgPP8WJX5ldnHJzrMS4yjcFqUEYxROaFiD/+m8mgmceMGjQ4GQ3pB\nZtr3w7O8hnod081evpN6yOpMWodR3e2ZUxXEGrpNwBVDFCGD/qssgerIt5efWPBd\ngX8iJJgIshMKnCx4YLMa\n\u003dX/M7\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "47bf87c6_623dd5aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-31T22:22:40Z",
+      "side": 1,
+      "message": "Is this the right ObjectReader or do we need ctx.getInserter().newReader() instead?\n\nThis comes down to a question about what invariants RepoContext provides, which I fear I am ignorant about.",
+      "revId": "bd778f8c011fe77449be62e87b080040cabd25f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8541ef9a_2d1f9eeb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-31T22:22:40Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "bd778f8c011fe77449be62e87b080040cabd25f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

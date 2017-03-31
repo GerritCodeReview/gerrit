@@ -75,7 +75,7 @@
     },
 
     _computeURLHelper: function(host, path) {
-      return '//' + host + path;
+      return '//' + host + this.getBaseUrl() + path;
     },
 
     _computeRelativeURL: function(path) {
@@ -92,6 +92,14 @@
 
     _computeDisabledClass: function(id, disabledIdsRecord) {
       return disabledIdsRecord.base.indexOf(id) === -1 ? '' : 'disabled';
+    },
+
+    getBaseUrl: function() {
+      if (window.CANONICAL_PATH != undefined && (window.CANONICAL_PATH != '' || window.CANONICAL_PATH != '/')) {
+        return window.CANONICAL_PATH;
+      }
+
+      return '';
     },
   });
 })();

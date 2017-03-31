@@ -21,5 +21,9 @@
       path: String,
       title: String,
     },
+
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
   });
 })();

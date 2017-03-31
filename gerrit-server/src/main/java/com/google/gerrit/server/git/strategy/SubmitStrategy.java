@@ -92,7 +92,6 @@ public abstract class SubmitStrategy {
           CodeReviewRevWalk rw,
           IdentifiedUser caller,
           MergeTip mergeTip,
-          ObjectInserter inserter,
           Repository repo,
           RevFlag canMergeFlag,
           ReviewDb db,
@@ -170,7 +169,6 @@ public abstract class SubmitStrategy {
         @Assisted CodeReviewRevWalk rw,
         @Assisted IdentifiedUser caller,
         @Assisted MergeTip mergeTip,
-        @Assisted ObjectInserter inserter,
         @Assisted Repository repo,
         @Assisted RevFlag canMergeFlag,
         @Assisted ReviewDb db,
@@ -204,7 +202,7 @@ public abstract class SubmitStrategy {
       this.rw = rw;
       this.caller = caller;
       this.mergeTip = mergeTip;
-      this.inserter = inserter;
+      this.inserter = checkNotNull(rw.getObjectReader().getCreatedFromInserter());
       this.repo = repo;
       this.canMergeFlag = canMergeFlag;
       this.db = db;

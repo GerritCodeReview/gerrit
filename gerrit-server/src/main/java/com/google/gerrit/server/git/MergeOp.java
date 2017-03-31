@@ -521,7 +521,6 @@ public class MergeOp implements AutoCloseable {
                 db,
                 or.repo,
                 or.rw,
-                or.ins,
                 or.canMergeFlag,
                 getAlreadyAccepted(or, ob.oldTip),
                 allCommits,

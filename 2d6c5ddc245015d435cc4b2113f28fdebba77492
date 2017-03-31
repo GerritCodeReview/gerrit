@@ -727,6 +727,24 @@
       "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac01b221_d05d672e",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-03-31T23:58:24Z",
+      "side": 1,
+      "message": "\u003e we need to know the canonical path in order to make the config request in the first place.\n\nLooks like we need some kind of global/base environment config then.\nWhat do you think of having something like this in the top-level response, before anything else:\n\n\u003cscript\u003e\nwindow.Gerrit \u003d {\n  Env: {\n    canonicalPath: \u0027thepathgoeshere\u0027\n  }\n); \n\u003c/script\u003e\n\nAnd gr-app could read it from Gerrit.Env.canonicalPath and pass around.",
+      "parentUuid": "f8ff1852_465d3540",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

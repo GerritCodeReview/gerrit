@@ -16,25 +16,25 @@
 
   var ADMIN_LINKS = [
     {
-      url: '/admin/groups',
+      url: this.getBaseUrl() + '/admin/groups',
       name: 'Groups',
     },
     {
-      url: '/admin/create-group',
+      url: this.getBaseUrl() + '/admin/create-group',
       name: 'Create Group',
       capability: 'createGroup'
     },
     {
-      url: '/admin/projects',
+      url: this.getBaseUrl() + '/admin/projects',
       name: 'Projects',
     },
     {
-      url: '/admin/create-project',
+      url: this.getBaseUrl() + '/admin/create-project',
       name: 'Create Project',
       capability: 'createProject',
     },
     {
-      url: '/admin/plugins',
+      url: this.getBaseUrl() + '/admin/plugins',
       name: 'Plugins',
       capability: 'viewPlugins',
     },
@@ -44,19 +44,46 @@
     title: 'Changes',
     links: [
       {
-        url: '/q/status:open',
+        url: this.getBaseUrl() + '/q/status:open',
         name: 'Open',
       },
       {
-        url: '/q/status:merged',
+        url: this.getBaseUrl() + '/q/status:merged',
         name: 'Merged',
       },
       {
-        url: '/q/status:abandoned',
+        url: this.getBaseUrl() + '/q/status:abandoned',
         name: 'Abandoned',
       },
     ],
   }];
+
+  var USER_LINKS = [
+    {
+      url: this.getBaseUrl() + '/dashboard/self',
+      name: 'Changes',
+    },
+    {
+      url: this.getBaseUrl() + '/q/owner:self+is:draft',
+      name: 'Drafts',
+    },
+    {
+      url: this.getBaseUrl() + '/q/has:draft',
+      name: 'Draft Comments',
+    },
+    {
+      url: this.getBaseUrl() + '/q/has:edit',
+      name: 'Edits',
+    },
+    {
+      url: this.getBaseUrl() + '/q/is:watched+is:open',
+      name: 'Watched Changes',
+    },
+    {
+      url: this.getBaseUrl() + '/q/is:starred',
+      name: 'Starred Changes',
+    },
+  ];
 
   Polymer({
     is: 'gr-main-header',
@@ -84,15 +111,17 @@
       },
       _links: {
         type: Array,
-        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks)',
+        computed: '_computeLinks(_defaultLinks, __userLinks, _adminLinks)',
       },
       _loginURL: {
         type: String,
-        value: '/login',
+        value: window.CANONICAL_PATH + '/login',
       },
-      _userLinks: {
+      __userLinks: {
         type: Array,
-        value: function() { return []; },
+        value: function() {
+          return USER_LINKS;
+        },
       },
     },
 
@@ -114,14 +143,21 @@
     },
 
     _handleLocationChange: function(e) {
-      this._loginURL = '/login/' + encodeURIComponent(
-          window.location.pathname +
-          window.location.search +
-          window.location.hash);
+      if (this.getBaseUrl() != "" || this.getBaseUrl() != "/") {
+        this._loginURL = this.getBaseUrl() + '/login/' + encodeURIComponent(
+            window.location.pathname +
+            window.location.search +
+            window.location.hash).replace(window.CANONICAL_PATH.replace('/', ''), '');
+      } else {
+        this._loginURL = this.getBaseUrl() + '/login/' + encodeURIComponent(
+            window.location.pathname +
+            window.location.search +
+            window.location.hash);
+      }
     },
 
     _computeRelativeURL: function(path) {
-      return '//' + window.location.host + path;
+      return '//' + window.location.host + this.getBaseUrl() + path;
     },
 
     _computeLinks: function(defaultLinks, userLinks, adminLinks) {
@@ -180,6 +216,14 @@
     _isSupportedLink: function(linkObj) {
       // Groups are not yet supported.
       return linkObj.url.indexOf('/groups') !== 0;
+    },
+
+    getBaseUrl: function() {
+      if (window.CANONICAL_PATH != undefined && (window.CANONICAL_PATH != '' || window.CANONICAL_PATH != '/')) {
+        return window.CANONICAL_PATH;
+      }
+
+      return '';
     },
   });
 })();

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "fddf584a_f9e40e7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-01T14:00:11Z",
+      "side": 1,
+      "message": "Certainly after the notedb-fusion topic, Context will provide this invariant. I will double-check on the implementation that\u0027s current as of this point",
+      "parentUuid": "47bf87c6_623dd5aa",
+      "revId": "bd778f8c011fe77449be62e87b080040cabd25f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8541ef9a_2d1f9eeb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 2

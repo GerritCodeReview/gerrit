@@ -230,6 +230,22 @@
       return '/q/status:open+project:' + this.encodeURL(project, false);
     },
 
+    _computeBranchHref: function(project, branch) {
+      var status;
+      if (this.change.status == this.ChangeStatus.DRAFT) {
+        status = ' status:draft';
+      } else if (this.change.status == this.ChangeStatus.MERGED) {
+        status = ' status:merged';
+      } else if (this.change.status == this.ChangeStatus.ABANDONED) {
+        status = ' status:abandoned';
+      } else {
+        status = ' status:open';
+      }
+
+      return '/q/project:' + encodeURL(project) +
+        ' branch:' +  encodeURL(branch) +  status;
+    },
+
     _computeTopicHref: function(topic) {
       var encodedTopic = encodeURIComponent('\"' + topic + '\"');
       return '/q/topic:' + encodeURIComponent(encodedTopic) +

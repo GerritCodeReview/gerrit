@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2b68d3be_4453048e",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-01T19:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b4228e5_c315ea4d",
+      "revId": "dcd19f7fef2f79f7ceeff04aee77978e6a03948d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f0ad2fc1_d917f8f5",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-01T19:18:44Z",
       "side": 1,
       "message": "Unnecessary {}",
+      "revId": "dcd19f7fef2f79f7ceeff04aee77978e6a03948d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ea0ada1_2a4ed221",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-01T19:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0ad2fc1_d917f8f5",
       "revId": "dcd19f7fef2f79f7ceeff04aee77978e6a03948d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b1a3213d_7b68bea6",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-01T19:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61fc57b0_a09ef1a8",
+      "revId": "dcd19f7fef2f79f7ceeff04aee77978e6a03948d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "550f5022_32bdf931",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "618dac7b_f9b3cd35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-01T19:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "550f5022_32bdf931",
+      "revId": "dcd19f7fef2f79f7ceeff04aee77978e6a03948d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "795c375d_6846594e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2017-04-01T19:18:44Z",
       "side": 1,
       "message": "I\u0027m not sure that it\u0027s a readability win to inline this giant Callable into this already-nontrivial method. In the previous places in this change where you inlined named Callable implementations, the methods tended to already be pretty trivial, so I thought it was ok. Here, I\u0027m not so sure.\n\nAnother alternative (which may or may not be more readable than a named Callable implementation) is to factor out a method that returns a lambda.",
+      "revId": "dcd19f7fef2f79f7ceeff04aee77978e6a03948d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66b9215e_fe2beffa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-01T19:48:28Z",
+      "side": 1,
+      "message": "Restored. Done.",
+      "parentUuid": "795c375d_6846594e",
       "revId": "dcd19f7fef2f79f7ceeff04aee77978e6a03948d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

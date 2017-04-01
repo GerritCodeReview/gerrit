@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gwtorm.jdbc.Database;
@@ -73,7 +72,6 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
   }
 
   private final SchemaCreator schemaCreator;
-  private final SingleVersionListener singleVersionListener;
 
   private Connection openHandle;
   private Database<ReviewDb> database;
@@ -99,14 +97,11 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
               }
             });
     this.schemaCreator = childInjector.getInstance(SchemaCreator.class);
-    this.singleVersionListener = childInjector.getInstance(SingleVersionListener.class);
     initDatabase();
   }
 
-  InMemoryDatabase(SchemaCreator schemaCreator, SingleVersionListener singleVersionListener)
-      throws OrmException {
+  InMemoryDatabase(SchemaCreator schemaCreator) throws OrmException {
     this.schemaCreator = schemaCreator;
-    this.singleVersionListener = singleVersionListener;
     initDatabase();
   }
 
@@ -143,12 +138,9 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
     if (!created) {
       created = true;
       try (ReviewDb c = open()) {
-        singleVersionListener.start();
         schemaCreator.create(c);
       } catch (IOException | ConfigInvalidException e) {
         throw new OrmException("Cannot create in-memory database", e);
-      } finally {
-        singleVersionListener.stop();
       }
     }
     return this;

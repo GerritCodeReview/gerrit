@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ef12d5b6_86cd1f3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-01T11:12:28Z",
+      "side": 1,
+      "message": "I think I found the root cause for index leak and fixed it: [1].\n\n* [1] https://gerrit-review.googlesource.com/101854",
+      "parentUuid": "78f3b2d1_db0b76e3",
+      "revId": "973d077b7d6f438aa240138b2fdf91fd5faa7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b685679b_c6a5a3df",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SingleVersionModule.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2017-04-01T06:06:44Z",
       "side": 1,
       "message": "This would only shutdown read indexes. You missed the write ones:\n  def.getIndexCollection().getSearchIndex().close();\n  def.getIndexCollection().getWriteIndexes().forEach(Index::close);",
+      "range": {
+        "startLine": 103,
+        "startChar": 8,
+        "endLine": 103,
+        "endChar": 58
+      },
+      "revId": "973d077b7d6f438aa240138b2fdf91fd5faa7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d88ef127_df7f7ba0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SingleVersionModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-01T11:12:28Z",
+      "side": 1,
+      "message": "Even better, you could  call close() on Indexcollection, that will handle both search and write indexes:\n\n  def.getIndexCollection().close();\n\nbut see my other comment.",
+      "parentUuid": "b685679b_c6a5a3df",
       "range": {
         "startLine": 103,
         "startChar": 8,

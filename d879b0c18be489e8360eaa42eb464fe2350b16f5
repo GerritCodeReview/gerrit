@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ed2d3f4_d3e2bfbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-01T16:42:25Z",
+      "side": 1,
+      "message": "Nit: I don\u0027t think this URL is needed in the commit message.",
+      "revId": "d879b0c18be489e8360eaa42eb464fe2350b16f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07031b2e_6645f491",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-01T16:42:25Z",
+      "side": 1,
+      "message": "Nit: this can fit on one line.",
+      "range": {
+        "startLine": 230,
+        "startChar": 6,
+        "endLine": 231,
+        "endChar": 41
+      },
+      "revId": "d879b0c18be489e8360eaa42eb464fe2350b16f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

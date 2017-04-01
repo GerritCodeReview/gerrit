@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "ed79f056_47719bea",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshPluginStarterCallback.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-01T04:38:30Z",
+      "side": 1,
+      "message": "note: style nits in code review can be avoided by running google-java-format on the source code.",
+      "parentUuid": "e37af710_3fdfb804",
+      "range": {
+        "startLine": 71,
+        "startChar": 13,
+        "endLine": 71,
+        "endChar": 14
+      },
+      "revId": "94ee6e959abf6aa833f6ca0cdfe1c7d071146b6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c12d4c_181c1705",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshPluginStarterCallback.java",
         "patchSetId": 4

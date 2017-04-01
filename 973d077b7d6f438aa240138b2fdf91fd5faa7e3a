@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78f3b2d1_db0b76e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-01T06:06:44Z",
+      "side": 1,
+      "message": "This hasn\u0027t answered the question, why in test the indexes need to be shut down in special way, and why indexes shutdown is not reflected with regular Daemon.stop(), as it should be in the produciton setup.",
+      "revId": "973d077b7d6f438aa240138b2fdf91fd5faa7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b685679b_c6a5a3df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SingleVersionModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-01T06:06:44Z",
+      "side": 1,
+      "message": "This would only shutdown read indexes. You missed the write ones:\n  def.getIndexCollection().getSearchIndex().close();\n  def.getIndexCollection().getWriteIndexes().forEach(Index::close);",
+      "range": {
+        "startLine": 103,
+        "startChar": 8,
+        "endLine": 103,
+        "endChar": 58
+      },
+      "revId": "973d077b7d6f438aa240138b2fdf91fd5faa7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

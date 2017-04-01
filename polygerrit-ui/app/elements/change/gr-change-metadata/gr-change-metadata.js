@@ -230,6 +230,23 @@
       return '/q/project:' + encodeURIComponent(encodedProject);
     },
 
+    _computeBranchHref: function(project, branch) {
+      var encodedProject = encodeURIComponent('\"' + project + '\"');
+      var encodedBranch = encodeURIComponent('\"' + branch + '\"');
+      var status;
+      if (this.change.status == this.ChangeStatus.DRAFT) {
+        status = ' status:draft';
+      } else if (this.change.status == this.ChangeStatus.MERGED) {
+        status = ' status:merged';
+      } else if (this.change.status == this.ChangeStatus.ABANDONED) {
+        status = ' status:abandoned';
+      } else {
+        status = ' status:open';
+      }
+
+      return this.getBaseUrl() + '/q/project:' + encodeURIComponent(encodedProject) + ' branch:' + encodeURIComponent(encodedBranch) +  status;
+    },
+
     _computeTopicHref: function(topic) {
       var encodedTopic = encodeURIComponent('\"' + topic + '\"');
       return '/q/topic:' + encodeURIComponent(encodedTopic) +

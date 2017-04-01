@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95fbdfb3_1f08077c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-01T19:18:44Z",
+      "side": 0,
+      "message": "IIRC the toString representation of a task shows up in the output of show-queues. Are we ok getting rid of that here?\n\n(It\u0027s also possible that the listeningDecorator we use for the IndexExecutors already breaks this behavior.)",
+      "revId": "baf902fae01677dc3042c8f60ba08be79af6c77c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

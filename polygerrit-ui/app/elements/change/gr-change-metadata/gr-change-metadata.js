@@ -230,6 +230,12 @@
       return '/q/project:' + encodeURIComponent(encodedProject);
     },
 
+    _computeProjectBranch: function(project, branch) {
+      var encodedProject = encodeURIComponent('\"' + project + '\"');
+      var encodedBranch = encodeURIComponent('\"' + branch + '\"');
+      return '/q/project:' + encodeURIComponent(encodedProject) + ' + branch:' + encodeURIComponent(encodedBranch);
+    },
+
     _computeTopicHref: function(topic) {
       var encodedTopic = encodeURIComponent('\"' + topic + '\"');
       return '/q/topic:' + encodeURIComponent(encodedTopic) +

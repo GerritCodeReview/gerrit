@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77c66017_158861b4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-01T19:10:35Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 11
+      },
+      "revId": "027cc901126bdb58778cdecf535625e893a44d9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "897098ac_9752c480",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-01T19:10:35Z",
+      "side": 1,
+      "message": "Nit: unnecessary final",
+      "range": {
+        "startLine": 38,
+        "startChar": 15,
+        "endLine": 38,
+        "endChar": 20
+      },
+      "revId": "027cc901126bdb58778cdecf535625e893a44d9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a654ab8e_18ff1322",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-01T19:10:35Z",
+      "side": 1,
+      "message": "Nit: unnecessary blank line",
+      "revId": "027cc901126bdb58778cdecf535625e893a44d9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9204709a_ffc5ccd4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-01T19:10:35Z",
+      "side": 1,
+      "message": "protected doesn\u0027t really make sense here since you\u0027re not intending on subclassing. Just s/protected // here and below",
+      "revId": "027cc901126bdb58778cdecf535625e893a44d9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cba3da1f_cc992f14",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-01T19:10:35Z",
+      "side": 1,
+      "message": "Nit: unnecessary finals",
+      "revId": "027cc901126bdb58778cdecf535625e893a44d9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3a3c052_c8627f98",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-01T19:10:35Z",
+      "side": 1,
+      "message": "Nit: unnecessary final",
+      "revId": "027cc901126bdb58778cdecf535625e893a44d9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

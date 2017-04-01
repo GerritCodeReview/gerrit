@@ -230,6 +230,18 @@
       return '/q/status:open+project:' + this.encodeURL(project, false);
     },
 
+    _computeBranchURL: function(project, branch) {
+      var status;
+      if (this.change.status == this.ChangeStatus.NEW) {
+        status = this.change.status.toLowerCase().replace('new', 'open');
+      } else {
+        status = this.change.status.toLowerCase();
+      }
+      return '/q/project:' + this.encodeURL(project, false) +
+        ' branch:' +  this.encodeURL(branch, false) +
+          ' status:' + this.encodeURL(status, false);
+    },
+
     _computeTopicHref: function(topic) {
       var encodedTopic = encodeURIComponent('\"' + topic + '\"');
       return '/q/topic:' + encodeURIComponent(encodedTopic) +

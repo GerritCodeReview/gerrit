@@ -369,42 +369,14 @@ abstract class DiffScreen extends Screen {
                   }
                 })
             .on("','", prefsAction::show)
-            .on(
-                "Shift-/",
-                () -> {
-                  new ShowHelpCommand().onKeyPress(null);
-                })
-            .on(
-                "Space",
-                () -> {
-                  cm.vim().handleKey("<C-d>");
-                })
-            .on(
-                "Shift-Space",
-                () -> {
-                  cm.vim().handleKey("<C-u>");
-                })
-            .on(
-                "Ctrl-F",
-                () -> {
-                  cm.execCommand("find");
-                })
-            .on(
-                "Ctrl-G",
-                () -> {
-                  cm.execCommand("findNext");
-                })
+            .on("Shift-/", () -> new ShowHelpCommand().onKeyPress(null))
+            .on("Space", () -> cm.vim().handleKey("<C-d>"))
+            .on("Shift-Space", () -> cm.vim().handleKey("<C-u>"))
+            .on("Ctrl-F", () -> cm.execCommand("find"))
+            .on("Ctrl-G", () -> cm.execCommand("findNext"))
             .on("Enter", maybeNextCmSearch(cm))
-            .on(
-                "Shift-Ctrl-G",
-                () -> {
-                  cm.execCommand("findPrev");
-                })
-            .on(
-                "Shift-Enter",
-                () -> {
-                  cm.execCommand("findPrev");
-                })
+            .on("Shift-Ctrl-G", () -> cm.execCommand("findPrev"))
+            .on("Shift-Enter", () -> cm.execCommand("findPrev"))
             .on(
                 "Esc",
                 () -> {
@@ -412,53 +384,17 @@ abstract class DiffScreen extends Screen {
                   cm.execCommand("clearSearch");
                   cm.vim().handleEx("nohlsearch");
                 })
-            .on(
-                "Ctrl-A",
-                () -> {
-                  cm.execCommand("selectAll");
-                })
-            .on(
-                "G O",
-                () -> {
-                  Gerrit.display(PageLinks.toChangeQuery("status:open"));
-                })
-            .on(
-                "G M",
-                () -> {
-                  Gerrit.display(PageLinks.toChangeQuery("status:merged"));
-                })
-            .on(
-                "G A",
-                () -> {
-                  Gerrit.display(PageLinks.toChangeQuery("status:abandoned"));
-                });
+            .on("Ctrl-A", () -> cm.execCommand("selectAll"))
+            .on("G O", () -> Gerrit.display(PageLinks.toChangeQuery("status:open")))
+            .on("G M", () -> Gerrit.display(PageLinks.toChangeQuery("status:merged")))
+            .on("G A", () -> Gerrit.display(PageLinks.toChangeQuery("status:abandoned")));
     if (Gerrit.isSignedIn()) {
       keyMap
-          .on(
-              "G I",
-              () -> {
-                Gerrit.display(PageLinks.MINE);
-              })
-          .on(
-              "G D",
-              () -> {
-                Gerrit.display(PageLinks.toChangeQuery("owner:self is:draft"));
-              })
-          .on(
-              "G C",
-              () -> {
-                Gerrit.display(PageLinks.toChangeQuery("has:draft"));
-              })
-          .on(
-              "G W",
-              () -> {
-                Gerrit.display(PageLinks.toChangeQuery("is:watched status:open"));
-              })
-          .on(
-              "G S",
-              () -> {
-                Gerrit.display(PageLinks.toChangeQuery("is:starred"));
-              });
+          .on("G I", () -> Gerrit.display(PageLinks.MINE))
+          .on("G D", () -> Gerrit.display(PageLinks.toChangeQuery("owner:self is:draft")))
+          .on("G C", () -> Gerrit.display(PageLinks.toChangeQuery("has:draft")))
+          .on("G W", () -> Gerrit.display(PageLinks.toChangeQuery("is:watched status:open")))
+          .on("G S", () -> Gerrit.display(PageLinks.toChangeQuery("is:starred")));
     }
 
     if (revision.get() != 0) {

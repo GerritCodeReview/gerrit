@@ -662,6 +662,21 @@
       return this.send('POST', url, review, opt_errFn, opt_ctx);
     },
 
+    getFileInChangeEdit: function(changeNum, path) {
+      return this.send('GET',
+        this.getChangeActionURL(changeNum, null, '/edit/' + encodeURIComponent(path)));
+    },
+
+    deleteFileInChangeEdit: function(changeNum, path) {
+      return this.send('DELETE',
+        this.getChangeActionURL(changeNum, null, '/edit/' + encodeURIComponent(path)));
+    },
+
+    saveChangeEdit: function(changeNum, path) {
+      return this.send('PUT',
+        this.getChangeActionURL(changeNum, null, '/edit/' + encodeURIComponent(path)));
+    },
+
     saveChangeCommitMessageEdit: function(changeNum, message) {
       var url = this.getChangeActionURL(changeNum, null, '/edit:message');
       return this.send('PUT', url, {message: message});

@@ -81,7 +81,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, AccountGrou
     AtomicInteger done = new AtomicInteger();
     AtomicInteger failed = new AtomicInteger();
     Stopwatch sw = Stopwatch.createStarted();
-    for (final AccountGroup.UUID uuid : uuids) {
+    for (AccountGroup.UUID uuid : uuids) {
       String desc = "group " + uuid;
       ListenableFuture<?> future =
           executor.submit(

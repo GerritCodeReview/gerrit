@@ -180,8 +180,8 @@ public class SideBySide extends DiffScreen {
     };
   }
 
-  private void display(final CommentsCollections comments) {
-    final DiffInfo diff = getDiff();
+  private void display(CommentsCollections comments) {
+    DiffInfo diff = getDiff();
     setThemeStyles(prefs.theme().isDark());
     setShowIntraline(prefs.intralineDifference());
     if (prefs.showLineNumbers()) {
@@ -313,8 +313,8 @@ public class SideBySide extends DiffScreen {
   }
 
   @Override
-  Runnable updateActiveLine(final CodeMirror cm) {
-    final CodeMirror other = otherCm(cm);
+  Runnable updateActiveLine(CodeMirror cm) {
+    CodeMirror other = otherCm(cm);
     return () -> {
       // The rendering of active lines has to be deferred. Reflow
       // caused by adding and removing styles chokes Firefox when arrow
@@ -345,13 +345,13 @@ public class SideBySide extends DiffScreen {
     };
   }
 
-  private Runnable moveCursorToSide(final CodeMirror cmSrc, DisplaySide sideDst) {
-    final CodeMirror cmDst = getCmFromSide(sideDst);
+  private Runnable moveCursorToSide(CodeMirror cmSrc, DisplaySide sideDst) {
+    CodeMirror cmDst = getCmFromSide(sideDst);
     if (cmDst == cmSrc) {
       return () -> {};
     }
 
-    final DisplaySide sideSrc = cmSrc.side();
+    DisplaySide sideSrc = cmSrc.side();
     return () -> {
       if (cmSrc.extras().hasActiveLine()) {
         cmDst.setCursor(

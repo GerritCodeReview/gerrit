@@ -172,7 +172,7 @@ public abstract class RequestScopePropagator {
   /** @see #wrap(Callable) */
   protected abstract <T> Callable<T> wrapImpl(Callable<T> callable);
 
-  protected <T> Callable<T> context(final RequestContext context, final Callable<T> callable) {
+  protected <T> Callable<T> context(RequestContext context, Callable<T> callable) {
     return () -> {
       RequestContext old =
           local.setContext(
@@ -195,7 +195,7 @@ public abstract class RequestScopePropagator {
     };
   }
 
-  protected <T> Callable<T> cleanup(final Callable<T> callable) {
+  protected <T> Callable<T> cleanup(Callable<T> callable) {
     return () -> {
       RequestCleanup cleanup =
           scope

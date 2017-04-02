@@ -133,7 +133,7 @@ public class Unified extends DiffScreen {
   }
 
   @Override
-  void registerCmEvents(final CodeMirror cm) {
+  void registerCmEvents(CodeMirror cm) {
     super.registerCmEvents(cm);
 
     cm.on(
@@ -164,8 +164,8 @@ public class Unified extends DiffScreen {
     };
   }
 
-  private void display(final CommentsCollections comments) {
-    final DiffInfo diff = getDiff();
+  private void display(CommentsCollections comments) {
+    DiffInfo diff = getDiff();
     setThemeStyles(prefs.theme().isDark());
     setShowIntraline(prefs.intralineDifference());
     if (prefs.showLineNumbers()) {
@@ -307,7 +307,7 @@ public class Unified extends DiffScreen {
   }
 
   @Override
-  Runnable updateActiveLine(final CodeMirror cm) {
+  Runnable updateActiveLine(CodeMirror cm) {
     return () -> {
       // The rendering of active lines has to be deferred. Reflow
       // caused by adding and removing styles chokes Firefox when arrow

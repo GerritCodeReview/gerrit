@@ -151,7 +151,7 @@ public class RebuildNoteDb extends SiteProgram {
       List<ListenableFuture<Boolean>> futures = new ArrayList<>();
       List<Project.NameKey> projectNames =
           Ordering.usingToString().sortedCopy(changesByProject.keySet());
-      for (final Project.NameKey project : projectNames) {
+      for (Project.NameKey project : projectNames) {
         ListenableFuture<Boolean> future =
             executor.submit(
                 () -> {

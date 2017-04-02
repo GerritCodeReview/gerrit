@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8aabc059_120d83d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-02T07:42:11Z",
+      "side": 0,
+      "message": "This is actually unrelated here and could be extracted in its own change.",
+      "range": {
+        "startLine": 207,
+        "startChar": 8,
+        "endLine": 212,
+        "endChar": 11
+      },
+      "revId": "bfa7a2f0a7f541b0fb5adee3921225e755cd9433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f091c49_c986ed28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-02T07:42:11Z",
+      "side": 0,
+      "message": "Same here.",
+      "range": {
+        "startLine": 86,
+        "startChar": 10,
+        "endLine": 88,
+        "endChar": 11
+      },
+      "revId": "bfa7a2f0a7f541b0fb5adee3921225e755cd9433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

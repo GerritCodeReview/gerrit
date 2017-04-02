@@ -48,7 +48,6 @@ import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.SendEmailExecutor;
 import com.google.gerrit.server.index.IndexModule.IndexType;
-import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
 import com.google.gerrit.server.index.account.AllAccountsIndexer;
 import com.google.gerrit.server.index.change.AllChangesIndexer;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
@@ -244,10 +243,8 @@ public class InMemoryModule extends FactoryModule {
 
   @Provides
   @Singleton
-  InMemoryDatabase getInMemoryDatabase(
-      SchemaCreator schemaCreator, SingleVersionListener singleVersionListener)
-      throws OrmException {
-    return new InMemoryDatabase(schemaCreator, singleVersionListener);
+  InMemoryDatabase getInMemoryDatabase(SchemaCreator schemaCreator) throws OrmException {
+    return new InMemoryDatabase(schemaCreator);
   }
 
   private Module luceneIndexModule() {

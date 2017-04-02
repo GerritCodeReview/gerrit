@@ -250,8 +250,7 @@ public class PatchListLoader implements Callable<PatchList> {
   }
 
   private FileHeader toFileHeader(
-      PatchListKey key, final DiffFormatter diffFormatter, final DiffEntry diffEntry)
-      throws IOException {
+      PatchListKey key, DiffFormatter diffFormatter, DiffEntry diffEntry) throws IOException {
 
     Future<FileHeader> result =
         diffExecutor.submit(

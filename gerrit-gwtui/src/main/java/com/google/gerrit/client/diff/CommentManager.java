@@ -261,7 +261,7 @@ abstract class CommentManager {
 
   abstract SortedMap<Integer, CommentGroup> getMapForNav(DisplaySide side);
 
-  Runnable commentNav(final CodeMirror src, final Direction dir) {
+  Runnable commentNav(CodeMirror src, Direction dir) {
     return () -> {
       // Every comment appears in both side maps as a linked pair.
       // It is only necessary to search one side to find a comment

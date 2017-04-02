@@ -468,7 +468,7 @@ public class EditScreen extends Screen {
     cmEdit.setOption(option, value);
   }
 
-  void setTheme(final Theme newTheme) {
+  void setTheme(Theme newTheme) {
     cmBase.operation(
         () -> {
           cmBase.setOption("theme", newTheme.name().toLowerCase());
@@ -494,7 +494,7 @@ public class EditScreen extends Screen {
     cmEdit.setOption("lineNumbers", show);
   }
 
-  void setShowWhitespaceErrors(final boolean show) {
+  void setShowWhitespaceErrors(boolean show) {
     cmBase.operation(
         () -> {
           cmBase.setOption("showTrailingSpace", show);

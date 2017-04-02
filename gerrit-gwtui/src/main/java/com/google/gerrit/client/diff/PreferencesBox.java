@@ -442,7 +442,7 @@ public class PreferencesBox extends Composite {
 
   @UiHandler("mode")
   void onMode(@SuppressWarnings("unused") ChangeEvent e) {
-    final String mode = getSelectedMode();
+    String mode = getSelectedMode();
     prefs.syntaxHighlighting(true);
     syntaxHighlighting.setValue(true, false);
     new ModeInjector()
@@ -525,7 +525,7 @@ public class PreferencesBox extends Composite {
 
   @UiHandler("theme")
   void onTheme(@SuppressWarnings("unused") ChangeEvent e) {
-    final Theme newTheme = getSelectedTheme();
+    Theme newTheme = getSelectedTheme();
     prefs.theme(newTheme);
     if (view != null) {
       ThemeLoader.loadTheme(

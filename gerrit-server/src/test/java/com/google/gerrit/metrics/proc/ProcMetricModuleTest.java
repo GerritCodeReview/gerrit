@@ -126,11 +126,11 @@ public class ProcMetricModuleTest {
 
   @Test
   public void callbackMetric0() {
-    final CallbackMetric0<Long> cntr =
+    CallbackMetric0<Long> cntr =
         metrics.newCallbackMetric(
             "test/count", Long.class, new Description("simple test").setCumulative());
 
-    final AtomicInteger invocations = new AtomicInteger(0);
+    AtomicInteger invocations = new AtomicInteger(0);
     metrics.newTrigger(
         cntr,
         () -> {

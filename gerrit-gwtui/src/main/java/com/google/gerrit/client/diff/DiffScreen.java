@@ -637,7 +637,7 @@ abstract class DiffScreen extends Screen {
 
   abstract void setSyntaxHighlighting(boolean b);
 
-  void setContext(final int context) {
+  void setContext(int context) {
     operation(
         () -> {
           skipManager.removeAll();

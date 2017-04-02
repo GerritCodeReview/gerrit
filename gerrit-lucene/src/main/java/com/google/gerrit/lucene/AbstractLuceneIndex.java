@@ -97,7 +97,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     this.sitePaths = sitePaths;
     this.dir = dir;
     this.name = name;
-    final String index = Joiner.on('_').skipNulls().join(name, subIndex);
+    String index = Joiner.on('_').skipNulls().join(name, subIndex);
     IndexWriter delegateWriter;
     long commitPeriod = writerConfig.getCommitWithinMs();
 
@@ -243,15 +243,15 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     }
   }
 
-  ListenableFuture<?> insert(final Document doc) {
+  ListenableFuture<?> insert(Document doc) {
     return submit(() -> writer.addDocument(doc));
   }
 
-  ListenableFuture<?> replace(final Term term, final Document doc) {
+  ListenableFuture<?> replace(Term term, Document doc) {
     return submit(() -> writer.updateDocument(term, doc));
   }
 
-  ListenableFuture<?> delete(final Term term) {
+  ListenableFuture<?> delete(Term term) {
     return submit(() -> writer.deleteDocuments(term));
   }
 

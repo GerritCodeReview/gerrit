@@ -82,7 +82,7 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
     AtomicInteger done = new AtomicInteger();
     AtomicInteger failed = new AtomicInteger();
     Stopwatch sw = Stopwatch.createStarted();
-    for (final Account.Id id : ids) {
+    for (Account.Id id : ids) {
       String desc = "account " + id;
       ListenableFuture<?> future =
           executor.submit(

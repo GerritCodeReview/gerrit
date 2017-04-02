@@ -666,6 +666,57 @@
       return this.send('POST', url, review, opt_errFn, opt_ctx);
     },
 
+    getFileInChangeEdit: function(changeNum, path) {
+      return this.send('GET',
+          this.getChangeActionURL(changeNum, null,
+              '/edit/' + encodeURIComponent(path)
+          ));
+    },
+
+    rebaseChangeEdit: function(changeNum, path) {
+      return this.send('POST',
+        this.getChangeActionURL(changeNum, null, '/edit:rebase')
+      );
+    },
+
+    deleteChangeEdit: function(changeNum, path) {
+      return this.send('DELETE',
+        this.getChangeActionURL(changeNum, null, '/edit')
+      );
+    },
+
+    restoreFileInChangeEdit: function(changeNum, restore_path) {
+      return this.send('POST',
+        this.getChangeActionURL(changeNum, null, '/edit'),
+        {restore_path: restore_path}
+      );
+    },
+
+    renameFileInChangeEdit: function(changeNum, old_path, new_path) {
+      return this.send('POST',
+        this.getChangeActionURL(changeNum, null, '/edit'),
+        {old_path: old_path},
+        {new_path: new_path}
+      );
+    },
+
+    deleteFileInChangeEdit: function(changeNum, path) {
+      return this.send('DELETE',
+        this.getChangeActionURL(
+          changeNum, null, '/edit/' + encodeURIComponent(path)
+        )
+      );
+    },
+
+    saveChangeEdit: function(changeNum, path, contents) {
+      return this.send('PUT',
+        this.getChangeActionURL(
+          changeNum, null, '/edit/' + encodeURIComponent(path)
+        ),
+        contents
+      );
+    },
+
     saveChangeCommitMessageEdit: function(changeNum, message) {
       var url = this.getChangeActionURL(changeNum, null, '/edit:message');
       return this.send('PUT', url, {message: message});

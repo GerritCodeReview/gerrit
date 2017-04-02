@@ -230,6 +230,11 @@
       return '/q/status:open+project:' + this.encodeURL(project, false);
     },
 
+    _computeAdminProjectHref: function(project) {
+      var encodedProject = encodeURIComponent('' + project + '');
+      return '/admin/projects/' + encodeURIComponent(encodedProject);
+    },
+
     _computeBranchHref: function(project, branch) {
       var status;
       if (this.change.status == this.ChangeStatus.DRAFT) {

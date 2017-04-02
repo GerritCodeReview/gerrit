@@ -48,9 +48,13 @@ public class CreateChangeSender extends NewChangeSender {
     super.init();
 
     boolean isDraft = change.getStatus() == Change.Status.DRAFT;
+
     try {
       // Try to mark interested owners with TO and CC or BCC line.
-      Watchers matching = getWatchers(NotifyType.NEW_CHANGES, !isDraft && !change.isPrivate());
+      Watchers matching =
+          getWatchers(
+              NotifyType.NEW_CHANGES,
+              !isDraft && !change.isWorkInProgress() && !change.isPrivate());
       for (Account.Id user :
           Iterables.concat(matching.to.accounts, matching.cc.accounts, matching.bcc.accounts)) {
         if (isOwnerOfProjectOrBranch(user)) {
@@ -69,7 +73,8 @@ public class CreateChangeSender extends NewChangeSender {
       log.warn("Cannot notify watchers for new change", err);
     }
 
-    includeWatchers(NotifyType.NEW_PATCHSETS, !isDraft && !change.isPrivate());
+    includeWatchers(
+        NotifyType.NEW_PATCHSETS, !isDraft && !change.isWorkInProgress() && !change.isPrivate());
   }
 
   private boolean isOwnerOfProjectOrBranch(Account.Id user) {

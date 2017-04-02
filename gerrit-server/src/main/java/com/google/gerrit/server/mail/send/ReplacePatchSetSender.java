@@ -67,7 +67,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     rcptToAuthors(RecipientType.CC);
     bccStarredBy();
     removeUsersThatIgnoredTheChange();
-    includeWatchers(NotifyType.NEW_PATCHSETS, !change.isPrivate());
+    includeWatchers(NotifyType.NEW_PATCHSETS, !change.isWorkInProgress() && !change.isPrivate());
   }
 
   @Override

@@ -75,9 +75,7 @@ class SideBySideTable extends DiffTable {
   }
 
   Runnable toggleA() {
-    return () -> {
-      setVisibleA(!isVisibleA());
-    };
+    return () -> setVisibleA(!isVisibleA());
   }
 
   void setVisibleB(boolean show) {

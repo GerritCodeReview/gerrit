@@ -317,9 +317,7 @@ public class EditScreen extends Screen {
   }
 
   private Runnable gotoLine() {
-    return () -> {
-      cmEdit.execCommand("jumpToLine");
-    };
+    return () -> cmEdit.execCommand("jumpToLine");
   }
 
   @Override
@@ -469,14 +467,8 @@ public class EditScreen extends Screen {
   }
 
   void setTheme(Theme newTheme) {
-    cmBase.operation(
-        () -> {
-          cmBase.setOption("theme", newTheme.name().toLowerCase());
-        });
-    cmEdit.operation(
-        () -> {
-          cmEdit.setOption("theme", newTheme.name().toLowerCase());
-        });
+    cmBase.operation(() -> cmBase.setOption("theme", newTheme.name().toLowerCase()));
+    cmEdit.operation(() -> cmEdit.setOption("theme", newTheme.name().toLowerCase()));
   }
 
   void setLineLength(int length) {
@@ -495,14 +487,8 @@ public class EditScreen extends Screen {
   }
 
   void setShowWhitespaceErrors(boolean show) {
-    cmBase.operation(
-        () -> {
-          cmBase.setOption("showTrailingSpace", show);
-        });
-    cmEdit.operation(
-        () -> {
-          cmEdit.setOption("showTrailingSpace", show);
-        });
+    cmBase.operation(() -> cmBase.setOption("showTrailingSpace", show));
+    cmEdit.operation(() -> cmEdit.setOption("showTrailingSpace", show));
   }
 
   void setShowTabs(boolean show) {
@@ -633,11 +619,7 @@ public class EditScreen extends Screen {
       // key (or j/k) is held down. Performance on Chrome is fine
       // without the deferral.
       //
-      Scheduler.get()
-          .scheduleDeferred(
-              () -> {
-                cmEdit.operation(this::updateActiveLine);
-              });
+      Scheduler.get().scheduleDeferred(() -> cmEdit.operation(this::updateActiveLine));
     };
   }
 

@@ -201,16 +201,12 @@ public class RepoSequenceTest {
   @Test
   public void failAfterRetryerGivesUp() throws Exception {
     AtomicInteger bgCounter = new AtomicInteger(1234);
-    Runnable bgUpdate =
-        () -> {
-          writeBlob("id", Integer.toString(bgCounter.getAndAdd(1000)));
-        };
     RepoSequence s =
         newSequence(
             "id",
             1,
             10,
-            bgUpdate,
+            () -> writeBlob("id", Integer.toString(bgCounter.getAndAdd(1000))),
             RetryerBuilder.<RefUpdate.Result>newBuilder()
                 .withStopStrategy(StopStrategies.stopAfterAttempt(3))
                 .build());

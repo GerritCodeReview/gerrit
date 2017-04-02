@@ -338,10 +338,7 @@ public class PreferencesBox extends Composite {
     if (v != null && v.length() > 0) {
       prefs.lineLength(Math.max(1, Integer.parseInt(v)));
       if (view != null) {
-        view.operation(
-            () -> {
-              view.setLineLength(prefs.lineLength());
-            });
+        view.operation(() -> view.setLineLength(prefs.lineLength()));
       }
     }
   }

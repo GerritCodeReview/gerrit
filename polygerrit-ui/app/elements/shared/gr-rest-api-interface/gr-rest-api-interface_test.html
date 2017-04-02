@@ -595,5 +595,25 @@ limitations under the License.
         });
       });
     });
+
+    test('saveChangeEdit', function(done) {
+      var change_num = '1';
+      var file_name = 'index.php';
+      var file_contents = '<?php';
+      sandbox.stub(element, 'send').returns(
+          Promise.resolve([change_num, file_name, file_contents])
+      );
+      sandbox.stub(element, 'getResponseObject')
+          .returns(Promise.resolve([change_num, file_name, file_contents]));
+      element._cache['/changes/' + change_num + '/edit/' + file_name] = {};
+      element.saveChangeEdit(change_num, file_name, file_contents).then(
+          function() {
+              assert.isTrue(element.send.calledWith('PUT',
+                  '/changes/' + change_num + '/edit/' +
+                      file_name, file_contents));
+              done();
+          }
+      );
+    });
   });
 </script>

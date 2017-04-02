@@ -662,6 +662,21 @@
       return this.send('POST', url, review, opt_errFn, opt_ctx);
     },
 
+    viewChangeEdit: function(changeNum, path) {
+      var url = this.getChangeActionURL(changeNum, null, '/edit/' + path);
+      return this.send('GET', url);
+    },
+
+    deleteChangeEdit: function(changeNum, path) {
+      var url = this.getChangeActionURL(changeNum, null, '/edit/' + path);
+      return this.send('DELETE', url);
+    },
+
+    saveChangeEdit: function(changeNum, path) {
+      var url = this.getChangeActionURL(changeNum, null, '/edit/' + path);
+      return this.send('PUT', url);
+    },
+
     saveChangeCommitMessageEdit: function(changeNum, message) {
       var url = this.getChangeActionURL(changeNum, null, '/edit:message');
       return this.send('PUT', url, {message: message});

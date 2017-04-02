@@ -252,6 +252,13 @@ public class ReplaceOp implements BatchUpdateOp {
         change.setPrivate(true);
         update.setPrivate(true);
       }
+      if (magicBranch.ready) {
+        change.setWorkInProgress(false);
+        update.setWorkInProgress(false);
+      } else if (magicBranch.workInProgress) {
+        change.setWorkInProgress(true);
+        update.setWorkInProgress(true);
+      }
     }
 
     update.setStatus(Change.Status.NEW);

@@ -1236,6 +1236,8 @@ public class ReceiveCommits {
     private static final Splitter COMMAS = Splitter.on(',').omitEmptyStrings();
 
     final ReceiveCommand cmd;
+    final LabelTypes labelTypes;
+    final NotesMigration notesMigration;
     Branch.NameKey dest;
     RefControl ctl;
     Set<Account.Id> reviewer = Sets.newLinkedHashSet();
@@ -1243,10 +1245,8 @@ public class ReceiveCommits {
     Map<String, Short> labels = new HashMap<>();
     String message;
     List<RevCommit> baseCommit;
-    LabelTypes labelTypes;
     CmdLineParser clp;
     Set<String> hashtags = new HashSet<>();
-    NotesMigration notesMigration;
 
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
     List<ObjectId> base;
@@ -1259,6 +1259,16 @@ public class ReceiveCommits {
 
     @Option(name = "--remove-private", usage = "remove privacy flag from updated change")
     boolean removePrivate;
+
+    @Option(
+      name = "--wip",
+      aliases = {"-work-in-progress"},
+      usage = "mark change as work in progress"
+    )
+    boolean workInProgress;
+
+    @Option(name = "--ready", usage = "mark change as ready")
+    boolean ready;
 
     @Option(
       name = "--edit",
@@ -1495,6 +1505,11 @@ public class ReceiveCommits {
 
     if (magicBranch.isPrivate && magicBranch.removePrivate) {
       reject(cmd, "the options 'private' and 'remove-private' are mutually exclusive");
+      return;
+    }
+
+    if (magicBranch.workInProgress && magicBranch.ready) {
+      reject(cmd, "the options 'wip' and 'ready' are mutually exclusive");
       return;
     }
 
@@ -2099,6 +2114,7 @@ public class ReceiveCommits {
               .create(changeId, commit, refName)
               .setTopic(magicBranch.topic)
               .setPrivate(magicBranch.isPrivate)
+              .setWorkInProgress(magicBranch.workInProgress)
               // Changes already validated in validateNewCommits.
               .setValidate(false);
 

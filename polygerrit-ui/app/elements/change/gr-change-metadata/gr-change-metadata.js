@@ -230,6 +230,11 @@
       return '/q/project:' + encodeURIComponent(encodedProject);
     },
 
+    _computeAdminProjectHref: function(project) {
+      var encodedProject = encodeURIComponent('' + project + '');
+      return '/admin/projects/' + encodeURIComponent(encodedProject);
+    },
+
     _computeBranchHref: function(project, branch) {
       var encodedProject = encodeURIComponent('\"' + project + '\"');
       var encodedBranch = encodeURIComponent('\"' + branch + '\"');

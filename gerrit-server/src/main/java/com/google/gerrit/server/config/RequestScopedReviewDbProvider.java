@@ -41,7 +41,7 @@ public class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
   @Override
   public ReviewDb get() {
     if (db == null) {
-      final ReviewDb c;
+      ReviewDb c;
       try {
         c = schema.open();
       } catch (OrmException e) {

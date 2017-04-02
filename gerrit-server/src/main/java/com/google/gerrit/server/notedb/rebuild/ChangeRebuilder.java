@@ -42,7 +42,7 @@ public abstract class ChangeRebuilder {
   }
 
   public final ListenableFuture<Result> rebuildAsync(
-      final Change.Id id, ListeningExecutorService executor) {
+      Change.Id id, ListeningExecutorService executor) {
     return executor.submit(
         () -> {
           try (ReviewDb db = schemaFactory.open()) {

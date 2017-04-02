@@ -68,12 +68,7 @@ abstract class ChunkManager {
     colorLines(cm, LineClassWhere.WRAP, color, line, line + cnt);
   }
 
-  void colorLines(
-      final CodeMirror cm,
-      final LineClassWhere where,
-      final String className,
-      final int start,
-      final int end) {
+  void colorLines(CodeMirror cm, LineClassWhere where, String className, int start, int end) {
     if (start < end) {
       for (int line = start; line < end; line++) {
         cm.addLineClass(line, where, className);

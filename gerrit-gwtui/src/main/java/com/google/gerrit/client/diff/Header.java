@@ -318,21 +318,15 @@ public class Header extends Composite {
   }
 
   Runnable toggleReviewed() {
-    return () -> {
-      reviewed.setValue(!reviewed.getValue(), true);
-    };
+    return () -> reviewed.setValue(!reviewed.getValue(), true);
   }
 
   Runnable navigate(Direction dir) {
     switch (dir) {
       case PREV:
-        return () -> {
-          (hasPrev ? prev : up).go();
-        };
+        return () -> (hasPrev ? prev : up).go();
       case NEXT:
-        return () -> {
-          (hasNext ? next : up).go();
-        };
+        return () -> (hasNext ? next : up).go();
       default:
         return () -> {};
     }

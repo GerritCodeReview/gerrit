@@ -85,11 +85,7 @@ public abstract class MetricMaker {
     @SuppressWarnings("unchecked")
     Class<V> type = (Class<V>) value.getClass();
     CallbackMetric0<V> metric = newCallbackMetric(name, type, desc);
-    newTrigger(
-        metric,
-        () -> {
-          metric.set(value);
-        });
+    newTrigger(metric, () -> metric.set(value));
   }
 
   /**
@@ -115,11 +111,7 @@ public abstract class MetricMaker {
   public <V> void newCallbackMetric(
       String name, Class<V> valueClass, Description desc, Supplier<V> trigger) {
     CallbackMetric0<V> metric = newCallbackMetric(name, valueClass, desc);
-    newTrigger(
-        metric,
-        () -> {
-          metric.set(trigger.get());
-        });
+    newTrigger(metric, () -> metric.set(trigger.get()));
   }
 
   /**

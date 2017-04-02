@@ -370,10 +370,7 @@ public class SideBySide extends DiffScreen {
 
   @Override
   void operation(Runnable apply) {
-    cmA.operation(
-        () -> {
-          cmB.operation(apply::run);
-        });
+    cmA.operation(() -> cmB.operation(apply::run));
   }
 
   @Override

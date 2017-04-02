@@ -221,6 +221,66 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void noNotificationForWipChangesForWatchersInNotifyConfig() throws Exception {
+    Address addr = new Address("Watcher", "watcher@example.com");
+    NotifyConfig nc = new NotifyConfig();
+    nc.addEmail(addr);
+    nc.setName("team");
+    nc.setHeader(NotifyConfig.Header.TO);
+    nc.setTypes(EnumSet.of(NotifyType.NEW_CHANGES, NotifyType.ALL_COMMENTS));
+
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    cfg.putNotifyConfig("team", nc);
+    saveProjectConfig(project, cfg);
+
+    sender.clear();
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, "wip change", "a", "a1")
+            .to("refs/for/master%wip");
+    r.assertOkStatus();
+
+    assertThat(sender.getMessages()).isEmpty();
+
+    setApiUser(admin);
+    ReviewInput in = new ReviewInput();
+    in.message = "comment";
+    gApi.changes().id(r.getChangeId()).current().review(in);
+
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void noNotificationForChangeThatIsTurnedWipForWatchersInNotifyConfig() throws Exception {
+    Address addr = new Address("Watcher", "watcher@example.com");
+    NotifyConfig nc = new NotifyConfig();
+    nc.addEmail(addr);
+    nc.setName("team");
+    nc.setHeader(NotifyConfig.Header.TO);
+    nc.setTypes(EnumSet.of(NotifyType.NEW_PATCHSETS));
+
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    cfg.putNotifyConfig("team", nc);
+    saveProjectConfig(project, cfg);
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, "subject", "a", "a1")
+            .to("refs/for/master");
+    r.assertOkStatus();
+
+    sender.clear();
+
+    r =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, "subject", "a", "a2", r.getChangeId())
+            .to("refs/for/master%wip");
+    r.assertOkStatus();
+
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
   public void watchProject() throws Exception {
     // watch project
     String watchedProject = createProject("watchedProject").get();

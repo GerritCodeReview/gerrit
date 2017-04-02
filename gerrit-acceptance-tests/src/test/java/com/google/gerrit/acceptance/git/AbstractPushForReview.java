@@ -408,29 +408,35 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushForMasterAsDraft() throws Exception {
-    // create draft by pushing to 'refs/drafts/'
-    PushOneCommit.Result r = pushTo("refs/drafts/master");
+  public void pushWorkInProgressChange() throws Exception {
+    // Push a work-in-progress change.
+    PushOneCommit.Result r = pushTo("refs/for/master%wip");
     r.assertOkStatus();
-    r.assertChange(Change.Status.DRAFT, null);
+    assertThat(r.getChange().change().isWorkInProgress()).isTrue();
 
-    // create draft by using 'draft' option
-    r = pushTo("refs/for/master%draft");
-    r.assertOkStatus();
-    r.assertChange(Change.Status.DRAFT, null);
-  }
-
-  @Test
-  public void publishDraftChangeByPushingNonDraftPatchSet() throws Exception {
-    // create draft change
-    PushOneCommit.Result r = pushTo("refs/drafts/master");
-    r.assertOkStatus();
-    r.assertChange(Change.Status.DRAFT, null);
-
-    // publish draft change by pushing non-draft patch set
+    // Pushing a new patch set without --wip doesn't remove the wip flag from the change.
     r = amendChange(r.getChangeId(), "refs/for/master");
     r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, null);
+    assertThat(r.getChange().change().isWorkInProgress()).isTrue();
+
+    // Remove the wip flag from the change.
+    r = amendChange(r.getChangeId(), "refs/for/master%ready");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isFalse();
+
+    // Normal push: wip flag is not added back.
+    r = amendChange(r.getChangeId(), "refs/for/master");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isFalse();
+
+    // Make the change work-in-progress again.
+    r = pushTo("refs/for/master%wip");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isTrue();
+
+    // Can't use --wip and --ready together.
+    r = pushTo("refs/for/master%wip,ready");
+    r.assertErrorStatus();
   }
 
   @Test

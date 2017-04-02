@@ -230,6 +230,24 @@ flag from a change on push, explicitly specify the `remove-private` option:
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%remove-private
 ----
 
+[[wip]]
+==== Work-In-Progress Changes
+
+To push a wip change or to turn a change to wip the `work-in-progress` (or `wip`)
+option can be specified:
+
+----
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%wip
+----
+
+Omitting the `wip` option when pushing updates to a wip change
+doesn't make change ready again. To remove the `wip`
+flag from a change on push, explicitly specify the `ready` option:
+
+----
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%ready
+----
+
 [[message]]
 ==== Message
 

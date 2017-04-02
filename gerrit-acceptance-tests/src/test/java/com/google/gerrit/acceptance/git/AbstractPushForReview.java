@@ -408,6 +408,38 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushWorkInProgressChange() throws Exception {
+    // Push a work-in-progress change.
+    PushOneCommit.Result r = pushTo("refs/for/master%wip");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isTrue();
+
+    // Pushing a new patch set without --wip doesn't remove the wip flag from the change.
+    r = amendChange(r.getChangeId(), "refs/for/master");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isTrue();
+
+    // Remove the wip flag from the change.
+    r = amendChange(r.getChangeId(), "refs/for/master%ready");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isFalse();
+
+    // Normal push: wip flag is not added back.
+    r = amendChange(r.getChangeId(), "refs/for/master");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isFalse();
+
+    // Make the change work-in-progress again.
+    r = pushTo("refs/for/master%wip");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isTrue();
+
+    // Can't use --wip and --ready together.
+    r = pushTo("refs/for/master%wip,ready");
+    r.assertErrorStatus();
+  }
+
+  @Test
   public void pushForMasterAsEdit() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();

@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee7b6df6_4e4c9bf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T19:56:16Z",
+      "side": 1,
+      "message": "Nit: capitalization\n\n REST API in PolyGerrit",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0eb2ee3_fc6ee4de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T19:56:16Z",
+      "side": 1,
+      "message": "Nit: capitalization\n\n* GUI\n* REST API\n* PolyGerrit",
+      "range": {
+        "startLine": 9,
+        "startChar": 30,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a29f023_6c536f4f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T19:56:16Z",
+      "side": 1,
+      "message": "Looks to me like the underlying endpoint is [1]. Is that right?\n\nMaybe this should be called ...\n\n getFileInChangeEdit\n\n... to keep it unambiguous if we end up implementing a method for [2].\n\n* [1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-edit-file\n* [2] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-edit-detail",
+      "range": {
+        "startLine": 665,
+        "startChar": 4,
+        "endLine": 665,
+        "endChar": 18
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3469d887_eef4a072",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T19:56:16Z",
+      "side": 1,
+      "message": "Nit: can skip the url variable and just say:\n\nreturn this.send(\u0027GET\u0027,\n    this.getChangeActionURL(changeNum, null, \u0027/edit/\u0027 + path));\n\nSame with the two below.",
+      "range": {
+        "startLine": 666,
+        "startChar": 6,
+        "endLine": 667,
+        "endChar": 35
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45703070_b0464941",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T19:56:16Z",
+      "side": 1,
+      "message": "Like with the above method, since this looks like it calls the file version of delete [1] (not delete for the whole change edit [2]) this should be named differently. Something like ...\n\n deleteFileInChangeEdit\n\n* [1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#delete-edit-file\n* [2] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#delete-edit",
+      "range": {
+        "startLine": 670,
+        "startChar": 4,
+        "endLine": 670,
+        "endChar": 20
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5518bb62_a9c3cdce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T19:56:16Z",
+      "side": 1,
+      "message": "For each of these three methods, the path should be URI encoded.\n\n \u0027/edit/\u0027 + encodeURIComponent(path)",
+      "range": {
+        "startLine": 671,
+        "startChar": 68,
+        "endLine": 671,
+        "endChar": 72
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a473164_8edd58fc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T19:56:16Z",
+      "side": 1,
+      "message": "Which REST endpoint is this method for? Is it for [1]? If so, wouldn\u0027t it need a way to PUT the contents of the file?\n\n* [1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#put-edit-file",
+      "range": {
+        "startLine": 675,
+        "startChar": 4,
+        "endLine": 675,
+        "endChar": 18
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

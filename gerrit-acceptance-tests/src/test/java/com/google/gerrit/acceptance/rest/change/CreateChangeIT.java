@@ -56,10 +56,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -160,25 +157,19 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assume().that(notesMigration.readChanges()).isTrue();
 
     ChangeInfo c = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
-    try (Repository repo = repoManager.openRepository(project);
-        RevWalk rw = new RevWalk(repo)) {
-      RevCommit commit =
-          rw.parseCommit(repo.exactRef(changeMetaRef(new Change.Id(c._number))).getObjectId());
+    RevCommit commit = commits.parseFromExactRef(project, changeMetaRef(new Change.Id(c._number)));
+    assertThat(commit.getShortMessage()).isEqualTo("Create change");
 
-      assertThat(commit.getShortMessage()).isEqualTo("Create change");
+    PersonIdent expectedAuthor =
+        changeNoteUtil.newIdent(
+            accountCache.get(admin.id).getAccount(),
+            c.created,
+            serverIdent.get(),
+            AnonymousCowardNameProvider.DEFAULT);
+    assertThat(commit.getAuthorIdent()).isEqualTo(expectedAuthor);
 
-      PersonIdent expectedAuthor =
-          changeNoteUtil.newIdent(
-              accountCache.get(admin.id).getAccount(),
-              c.created,
-              serverIdent.get(),
-              AnonymousCowardNameProvider.DEFAULT);
-      assertThat(commit.getAuthorIdent()).isEqualTo(expectedAuthor);
-
-      assertThat(commit.getCommitterIdent())
-          .isEqualTo(new PersonIdent(serverIdent.get(), c.created));
-      assertThat(commit.getParentCount()).isEqualTo(0);
-    }
+    assertThat(commit.getCommitterIdent()).isEqualTo(new PersonIdent(serverIdent.get(), c.created));
+    assertThat(commit.getParentCount()).isEqualTo(0);
   }
 
   @Test
@@ -341,22 +332,20 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   private RevCommit createNewCommitWithoutChangeId() throws Exception {
-    try (Repository repo = repoManager.openRepository(project);
-        RevWalk walk = new RevWalk(repo)) {
-      Ref ref = repo.exactRef("refs/heads/master");
-      RevCommit tip = null;
-      if (ref != null) {
-        tip = walk.parseCommit(ref.getObjectId());
-      }
-      TestRepository<?> testSrcRepo = new TestRepository<>(repo);
-      TestRepository<?>.BranchBuilder builder = testSrcRepo.branch("refs/heads/master");
-      RevCommit revCommit =
-          tip == null
-              ? builder.commit().message("commit 1").add("a.txt", "content").create()
-              : builder.commit().parent(tip).message("commit 1").add("a.txt", "content").create();
-      assertThat(GitUtil.getChangeId(testSrcRepo, revCommit).isPresent()).isFalse();
-      return revCommit;
+    RevCommit tip = null;
+    try {
+      tip = commits.parseFromExactRef(project, "refs/heads/master");
+    } catch (RefNotFoundException e) {
     }
+
+    TestRepository<?> testSrcRepo = new TestRepository<>(repo);
+    TestRepository<?>.BranchBuilder builder = testSrcRepo.branch("refs/heads/master");
+    RevCommit revCommit =
+        tip == null
+            ? builder.commit().message("commit 1").add("a.txt", "content").create()
+            : builder.commit().parent(tip).message("commit 1").add("a.txt", "content").create();
+    assertThat(GitUtil.getChangeId(testSrcRepo, revCommit).isPresent()).isFalse();
+    return revCommit;
   }
 
   private ChangeInput newChangeInput(ChangeStatus status) {

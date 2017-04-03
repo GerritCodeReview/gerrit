@@ -65,6 +65,8 @@
         computed: '_computeIsImageDiff(_diff)',
         notify: true,
       },
+      isInlineDiff: Boolean,
+      inlineIndex: Number,
       filesWeblinks: {
         type: Object,
         value: function() { return {}; },

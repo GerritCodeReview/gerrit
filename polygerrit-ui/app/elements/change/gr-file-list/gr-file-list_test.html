@@ -623,6 +623,33 @@ limitations under the License.
       });
     });
 
+    test('comments are only pre-rendered once', function() {
+      element._files = [
+        {__path: '/COMMIT_MSG'},
+        {__path: 'file_added_in_rev2.txt'},
+        {__path: 'myfile.txt'},
+      ];
+      element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
+      element._loggedIn = true;
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
+      element.$.fileCursor.setCursorAtIndex(0);
+
+      flushAsynchronousOperations();
+      var diffs =
+          Polymer.dom(element.root).querySelectorAll('gr-diff');
+
+      for (var i = 0; i < diffs.length; i++) {
+        assert.equal(i, diffs[i].inlineIndex);
+        var builder = diffs[i].querySelector('gr-diff-builder');
+        assert.equal(i, builder.inlineIndex);
+        assert.equal(true, builder.isInlineDiff);
+      }
+    });
+
     test('checkbox shows/hides diff inline', function() {
       element._files = [
         {__path: 'myfile.txt'},

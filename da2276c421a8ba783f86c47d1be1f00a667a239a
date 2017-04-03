@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "53a28ff1_cf25a3cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-03T12:52:07Z",
+      "side": 1,
+      "message": "I think that if we keep the class ReadOnlyRepository, it should at least behave exactly the same as before this change. To achieve that, we should override updateRef(), renameRef(), and newObjectInserter() in ReadOnlyRepository. That shouldn\u0027t require too much effort and still close at least the most obvious holes.",
+      "parentUuid": "8ff7aef4_ddc40016",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 125,
+        "endChar": 3
+      },
+      "revId": "da2276c421a8ba783f86c47d1be1f00a667a239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ff2ae5a5_a3cef874",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RepositoryWrapper.java",
         "patchSetId": 1

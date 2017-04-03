@@ -116,9 +116,6 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
     public void updateRepoImpl(RepoContext ctx)
         throws IntegrationException, InvalidChangeOperationException, RestApiException, IOException,
             OrmException {
-      // TODO(dborowitz): args.rw is needed because it's a CodeReviewRevWalk.
-      // When hoisting BatchUpdate into MergeOp, we will need to teach
-      // BatchUpdate how to produce CodeReviewRevWalks.
       if (args.mergeUtil.canFastForward(
           args.mergeSorter, args.mergeTip.getCurrentTip(), args.rw, toMerge)) {
         if (!rebaseAlways) {

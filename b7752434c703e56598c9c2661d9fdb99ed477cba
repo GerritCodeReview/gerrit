@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b7ee698_f7ec0052",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/StartStopDeamonIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-03T23:49:17Z",
+      "side": 1,
+      "message": "Missing license/copyright header",
+      "revId": "b7752434c703e56598c9c2661d9fdb99ed477cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "968d9d5e_968cb030",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/StartStopDeamonIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-03T23:49:17Z",
+      "side": 1,
+      "message": "Recently we started to name tests with names that describe the expected behaviour.  I.e. something like:\n\n daemonDoesNotLeakThreads",
+      "range": {
+        "startLine": 15,
+        "startChar": 14,
+        "endLine": 15,
+        "endChar": 54
+      },
+      "revId": "b7752434c703e56598c9c2661d9fdb99ed477cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

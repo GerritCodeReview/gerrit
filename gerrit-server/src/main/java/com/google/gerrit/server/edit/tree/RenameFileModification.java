@@ -52,4 +52,9 @@ public class RenameFileModification implements TreeModification {
       }
     }
   }
+
+  @Override
+  public String getFilePath() {
+    return newFilePath;
+  }
 }

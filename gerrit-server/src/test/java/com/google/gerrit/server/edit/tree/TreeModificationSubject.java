@@ -19,6 +19,8 @@ import static com.google.common.truth.Truth.assertAbout;
 import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
+import com.google.gerrit.truth.ListSubject;
+import java.util.List;
 
 public class TreeModificationSubject extends Subject<TreeModificationSubject, TreeModification> {
 
@@ -34,6 +36,12 @@ public class TreeModificationSubject extends Subject<TreeModificationSubject, Tr
 
   public static TreeModificationSubject assertThat(TreeModification treeModification) {
     return assertAbout(TREE_MODIFICATION_SUBJECT_FACTORY).that(treeModification);
+  }
+
+  public static ListSubject<TreeModificationSubject, TreeModification> assertThatList(
+      List<TreeModification> treeModifications) {
+    return ListSubject.assertThat(treeModifications, TreeModificationSubject::assertThat)
+        .named("treeModifications");
   }
 
   private TreeModificationSubject(

@@ -34,6 +34,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
@@ -68,12 +69,12 @@ public class ApplyFix implements RestModifyView<FixResource, Void> {
     ObjectId patchSetCommitId = ObjectId.fromString(patchSet.getRevision().get());
 
     try (Repository repository = gitRepositoryManager.openRepository(project)) {
-      TreeModification treeModification =
-          fixReplacementInterpreter.toTreeModification(
+      List<TreeModification> treeModifications =
+          fixReplacementInterpreter.toTreeModifications(
               repository, projectState, patchSetCommitId, fixResource.getFixReplacements());
       ChangeEdit changeEdit =
           changeEditModifier.combineWithModifiedPatchSetTree(
-              repository, revisionResource.getControl(), patchSet, treeModification);
+              repository, revisionResource.getControl(), patchSet, treeModifications);
       EditInfo editInfo = changeEditJson.toEditInfo(changeEdit, false);
       return Response.ok(editInfo);
     } catch (InvalidChangeOperationException e) {

@@ -251,9 +251,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       List<ChangeNotes> notes = new ArrayList<>();
       if (args.migration.enabled()) {
         for (Change.Id cid : changeIds) {
-          ChangeNotes cn = create(db, project, cid);
-          if (cn.getChange() != null && predicate.test(cn)) {
-            notes.add(cn);
+          try {
+            ChangeNotes cn = create(db, project, cid);
+            if (cn.getChange() != null && predicate.test(cn)) {
+              notes.add(cn);
+            }
+          } catch (NoSuchChangeException e) {
+            // Match ReviewDb behavior, returning not found; maybe the caller learned about it from
+            // a dangling patch set ref or something.
+            continue;
           }
         }
         return notes;

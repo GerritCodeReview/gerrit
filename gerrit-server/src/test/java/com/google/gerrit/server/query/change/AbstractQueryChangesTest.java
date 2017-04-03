@@ -105,6 +105,7 @@ import com.google.inject.util.Providers;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -115,6 +116,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -1709,9 +1711,28 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byCommitsOnBranchNotMerged() throws Exception {
+    TestRepository<Repo> tr = createProject("repo");
+    testByCommitsOnBranchNotMerged(tr, ImmutableSet.of());
+  }
+
+  @Test
+  public void byCommitsOnBranchNotMergedSkipsMissingChanges() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
+    ObjectId missing =
+        repo.branch(new PatchSet.Id(new Change.Id(987654), 1).toRefName())
+            .commit()
+            .message("No change for this commit")
+            .insertChangeId()
+            .create()
+            .copy();
+    testByCommitsOnBranchNotMerged(repo, ImmutableSet.of(missing));
+  }
+
+  private void testByCommitsOnBranchNotMerged(TestRepository<Repo> repo, Collection<ObjectId> extra)
+      throws Exception {
     int n = 10;
-    List<String> shas = new ArrayList<>(n);
+    List<String> shas = new ArrayList<>(n + extra.size());
+    extra.forEach(i -> shas.add(i.name()));
     List<Integer> expectedIds = new ArrayList<>(n);
     Branch.NameKey dest = null;
     for (int i = 0; i < n; i++) {

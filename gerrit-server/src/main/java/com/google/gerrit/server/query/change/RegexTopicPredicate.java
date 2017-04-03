@@ -26,7 +26,7 @@ class RegexTopicPredicate extends RegexPredicate<ChangeData> {
   private final RunAutomaton pattern;
 
   RegexTopicPredicate(Schema<ChangeData> schema, String re) {
-    super(FuzzyTopicPredicate.topicField(schema), re);
+    super(ExactTopicPredicate.topicField(schema), re);
 
     if (re.startsWith("^")) {
       re = re.substring(1);

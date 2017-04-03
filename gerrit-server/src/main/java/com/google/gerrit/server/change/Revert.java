@@ -39,6 +39,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
+import com.google.gerrit.server.git.Commits;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.send.RevertedSender;
@@ -153,8 +154,7 @@ public class Revert
     CurrentUser user = ctl.getUser();
     try (Repository git = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(git)) {
-      RevCommit commitToRevert =
-          revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
+      RevCommit commitToRevert = Commits.parse(revWalk, patch);
       if (commitToRevert.getParentCount() == 0) {
         throw new ResourceConflictException("Cannot revert initial commit");
       }

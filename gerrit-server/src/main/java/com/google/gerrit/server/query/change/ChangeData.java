@@ -58,6 +58,7 @@ import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.StarRef;
 import com.google.gerrit.server.change.MergeabilityCache;
+import com.google.gerrit.server.git.Commits;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -96,7 +97,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 public class ChangeData {
   private static final int BATCH_SIZE = 50;
@@ -301,7 +301,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, project, id);
+            null, null, project, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -309,6 +309,7 @@ public class ChangeData {
   private boolean lazyLoad = true;
   private final ReviewDb db;
   private final GitRepositoryManager repoManager;
+  private final Commits commits;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ProjectCache projectCache;
@@ -365,6 +366,7 @@ public class ChangeData {
   @AssistedInject
   private ChangeData(
       GitRepositoryManager repoManager,
+      Commits commits,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
       ProjectCache projectCache,
@@ -383,6 +385,7 @@ public class ChangeData {
       @Assisted Change.Id id) {
     this.db = db;
     this.repoManager = repoManager;
+    this.commits = commits;
     this.changeControlFactory = changeControlFactory;
     this.userFactory = userFactory;
     this.projectCache = projectCache;
@@ -403,6 +406,7 @@ public class ChangeData {
   @AssistedInject
   private ChangeData(
       GitRepositoryManager repoManager,
+      Commits commits,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
       ProjectCache projectCache,
@@ -420,6 +424,7 @@ public class ChangeData {
       @Assisted Change c) {
     this.db = db;
     this.repoManager = repoManager;
+    this.commits = commits;
     this.changeControlFactory = changeControlFactory;
     this.userFactory = userFactory;
     this.projectCache = projectCache;
@@ -441,6 +446,7 @@ public class ChangeData {
   @AssistedInject
   private ChangeData(
       GitRepositoryManager repoManager,
+      Commits commits,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
       ProjectCache projectCache,
@@ -458,6 +464,7 @@ public class ChangeData {
       @Assisted ChangeNotes cn) {
     this.db = db;
     this.repoManager = repoManager;
+    this.commits = commits;
     this.changeControlFactory = changeControlFactory;
     this.userFactory = userFactory;
     this.projectCache = projectCache;
@@ -480,6 +487,7 @@ public class ChangeData {
   @AssistedInject
   private ChangeData(
       GitRepositoryManager repoManager,
+      Commits commits,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
       ProjectCache projectCache,
@@ -497,6 +505,7 @@ public class ChangeData {
       @Assisted ChangeControl c) {
     this.db = db;
     this.repoManager = repoManager;
+    this.commits = commits;
     this.changeControlFactory = changeControlFactory;
     this.userFactory = userFactory;
     this.projectCache = projectCache;
@@ -520,6 +529,7 @@ public class ChangeData {
   @AssistedInject
   private ChangeData(
       GitRepositoryManager repoManager,
+      Commits commits,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
       ProjectCache projectCache,
@@ -540,6 +550,7 @@ public class ChangeData {
         "do not call createOnlyWhenNoteDbDisabled when NoteDb is enabled");
     this.db = db;
     this.repoManager = repoManager;
+    this.commits = commits;
     this.changeControlFactory = changeControlFactory;
     this.userFactory = userFactory;
     this.projectCache = projectCache;
@@ -855,15 +866,11 @@ public class ChangeData {
     if (ps == null) {
       return false;
     }
-    String sha1 = ps.getRevision().get();
-    try (Repository repo = repoManager.openRepository(project());
-        RevWalk walk = new RevWalk(repo)) {
-      RevCommit c = walk.parseCommit(ObjectId.fromString(sha1));
-      commitMessage = c.getFullMessage();
-      commitFooters = c.getFooterLines();
-      author = c.getAuthorIdent();
-      committer = c.getCommitterIdent();
-    }
+    RevCommit c = commits.parse(project(), ps);
+    commitMessage = c.getFullMessage();
+    commitFooters = c.getFooterLines();
+    author = c.getAuthorIdent();
+    committer = c.getCommitterIdent();
     return true;
   }
 

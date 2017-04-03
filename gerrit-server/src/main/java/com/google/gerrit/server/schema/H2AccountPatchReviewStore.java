@@ -95,6 +95,9 @@ public class H2AccountPatchReviewStore implements AccountPatchReviewStore, Lifec
     datasource.setMaxActive(50);
     datasource.setMinIdle(4);
     datasource.setMaxIdle(16);
+    long evictIdleTimeMs = 1000 * 60;
+    datasource.setMinEvictableIdleTimeMillis(evictIdleTimeMs);
+    datasource.setTimeBetweenEvictionRunsMillis(evictIdleTimeMs / 2);
     return datasource;
   }
 

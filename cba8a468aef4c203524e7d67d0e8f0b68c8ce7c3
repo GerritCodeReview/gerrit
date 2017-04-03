@@ -203,6 +203,30 @@
       "revId": "cba8a468aef4c203524e7d67d0e8f0b68c8ce7c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c475da37_3215b19c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-03T08:59:21Z",
+      "side": 1,
+      "message": "OK, but isn\u0027t inserter.newReader() creating a new ObjectReader instance and we must take care to close it?",
+      "parentUuid": "9cf60920_1bbec97d",
+      "range": {
+        "startLine": 39,
+        "startChar": 9,
+        "endLine": 39,
+        "endChar": 20
+      },
+      "revId": "cba8a468aef4c203524e7d67d0e8f0b68c8ce7c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

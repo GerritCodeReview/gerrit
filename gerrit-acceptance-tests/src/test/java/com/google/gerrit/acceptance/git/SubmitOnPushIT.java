@@ -326,25 +326,19 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   private void assertCommit(Project.NameKey project, String branch) throws Exception {
-    try (Repository r = repoManager.openRepository(project);
-        RevWalk rw = new RevWalk(r)) {
-      RevCommit c = rw.parseCommit(r.exactRef(branch).getObjectId());
-      assertThat(c.getShortMessage()).isEqualTo(PushOneCommit.SUBJECT);
-      assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
-      assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(admin.email);
-    }
+    RevCommit c = commits.parseFromExactRef(project, branch);
+    assertThat(c.getShortMessage()).isEqualTo(PushOneCommit.SUBJECT);
+    assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
+    assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(admin.email);
   }
 
   private void assertMergeCommit(String branch, String subject) throws Exception {
-    try (Repository r = repoManager.openRepository(project);
-        RevWalk rw = new RevWalk(r)) {
-      RevCommit c = rw.parseCommit(r.exactRef(branch).getObjectId());
-      assertThat(c.getParentCount()).isEqualTo(2);
-      assertThat(c.getShortMessage()).isEqualTo("Merge \"" + subject + "\"");
-      assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
-      assertThat(c.getCommitterIdent().getEmailAddress())
-          .isEqualTo(serverIdent.get().getEmailAddress());
-    }
+    RevCommit c = commits.parseFromExactRef(project, branch);
+    assertThat(c.getParentCount()).isEqualTo(2);
+    assertThat(c.getShortMessage()).isEqualTo("Merge \"" + subject + "\"");
+    assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
+    assertThat(c.getCommitterIdent().getEmailAddress())
+        .isEqualTo(serverIdent.get().getEmailAddress());
   }
 
   private void assertTag(Project.NameKey project, String branch, PushOneCommit.Tag tag)

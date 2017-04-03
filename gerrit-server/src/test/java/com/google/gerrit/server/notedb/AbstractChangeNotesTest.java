@@ -48,6 +48,7 @@ import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.Commits;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -94,6 +95,8 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   }
 
   @ConfigSuite.Parameter public Config testConfig;
+
+  @Inject protected Commits commits;
 
   private static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
 

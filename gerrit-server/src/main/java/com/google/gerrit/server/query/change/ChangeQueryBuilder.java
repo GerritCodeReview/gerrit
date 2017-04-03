@@ -51,6 +51,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.git.Commits;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.group.ListMembers;
@@ -193,6 +194,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final DynamicMap<ChangeHasOperandFactory> hasOperands;
     final DynamicMap<ChangeOperatorFactory> opFactories;
     final FieldDef.FillArgs fillArgs;
+    final Commits commits;
     final GitRepositoryManager repoManager;
     final GroupBackend groupBackend;
     final IdentifiedUser.GenericFactory userFactory;
@@ -232,6 +234,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AllProjectsName allProjectsName,
         AllUsersName allUsersName,
         PatchListCache patchListCache,
+        Commits commits,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
         Provider<ListChildProjects> listChildProjects,
@@ -264,6 +267,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           allProjectsName,
           allUsersName,
           patchListCache,
+          commits,
           repoManager,
           projectCache,
           listChildProjects,
@@ -298,6 +302,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AllProjectsName allProjectsName,
         AllUsersName allUsersName,
         PatchListCache patchListCache,
+        Commits commits,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
         Provider<ListChildProjects> listChildProjects,
@@ -328,6 +333,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.allProjectsName = allProjectsName;
       this.allUsersName = allUsersName;
       this.patchListCache = patchListCache;
+      this.commits = commits;
       this.repoManager = repoManager;
       this.projectCache = projectCache;
       this.listChildProjects = listChildProjects;
@@ -364,6 +370,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           allProjectsName,
           allUsersName,
           patchListCache,
+          commits,
           repoManager,
           projectCache,
           listChildProjects,

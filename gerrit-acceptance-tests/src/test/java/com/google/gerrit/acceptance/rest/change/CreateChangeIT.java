@@ -160,25 +160,19 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assume().that(notesMigration.readChanges()).isTrue();
 
     ChangeInfo c = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
-    try (Repository repo = repoManager.openRepository(project);
-        RevWalk rw = new RevWalk(repo)) {
-      RevCommit commit =
-          rw.parseCommit(repo.exactRef(changeMetaRef(new Change.Id(c._number))).getObjectId());
+    RevCommit commit = commits.parseFromExactRef(project, changeMetaRef(new Change.Id(c._number)));
+    assertThat(commit.getShortMessage()).isEqualTo("Create change");
 
-      assertThat(commit.getShortMessage()).isEqualTo("Create change");
+    PersonIdent expectedAuthor =
+        changeNoteUtil.newIdent(
+            accountCache.get(admin.id).getAccount(),
+            c.created,
+            serverIdent.get(),
+            AnonymousCowardNameProvider.DEFAULT);
+    assertThat(commit.getAuthorIdent()).isEqualTo(expectedAuthor);
 
-      PersonIdent expectedAuthor =
-          changeNoteUtil.newIdent(
-              accountCache.get(admin.id).getAccount(),
-              c.created,
-              serverIdent.get(),
-              AnonymousCowardNameProvider.DEFAULT);
-      assertThat(commit.getAuthorIdent()).isEqualTo(expectedAuthor);
-
-      assertThat(commit.getCommitterIdent())
-          .isEqualTo(new PersonIdent(serverIdent.get(), c.created));
-      assertThat(commit.getParentCount()).isEqualTo(0);
-    }
+    assertThat(commit.getCommitterIdent()).isEqualTo(new PersonIdent(serverIdent.get(), c.created));
+    assertThat(commit.getParentCount()).isEqualTo(0);
   }
 
   @Test
@@ -348,6 +342,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
       if (ref != null) {
         tip = walk.parseCommit(ref.getObjectId());
       }
+
       TestRepository<?> testSrcRepo = new TestRepository<>(repo);
       TestRepository<?>.BranchBuilder builder = testSrcRepo.branch("refs/heads/master");
       RevCommit revCommit =

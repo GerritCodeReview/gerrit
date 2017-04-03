@@ -313,12 +313,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
   }
 
   protected RevCommit parse(ObjectId id) throws Exception {
-    try (Repository repo = repoManager.openRepository(project);
-        RevWalk rw = new RevWalk(repo)) {
-      RevCommit c = rw.parseCommit(id);
-      rw.parseBody(c);
-      return c;
-    }
+    return commits.parse(project, id);
   }
 
   @Test

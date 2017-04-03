@@ -51,6 +51,7 @@ import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.data.SubmitLabelAttribute;
 import com.google.gerrit.server.data.SubmitRecordAttribute;
 import com.google.gerrit.server.data.TrackingIdAttribute;
+import com.google.gerrit.server.git.Commits;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -269,7 +270,7 @@ public class EventFactory {
 
   private void addDependsOn(RevWalk rw, ChangeAttribute ca, Change change, PatchSet currentPs)
       throws OrmException, IOException {
-    RevCommit commit = rw.parseCommit(ObjectId.fromString(currentPs.getRevision().get()));
+    RevCommit commit = Commits.parse(rw, currentPs);
     final List<String> parentNames = new ArrayList<>(commit.getParentCount());
     for (RevCommit p : commit.getParents()) {
       parentNames.add(p.name());

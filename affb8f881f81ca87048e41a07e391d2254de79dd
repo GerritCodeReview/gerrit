@@ -16,6 +16,24 @@
       "revId": "affb8f881f81ca87048e41a07e391d2254de79dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "707bd857_f2cd9104",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-03T18:23:53Z",
+      "side": 1,
+      "message": "This fixes all the links or at least all i could find that were broken using the implementation from I2b2d704fe33c90ea2f2a2183fc79897642a48175",
+      "parentUuid": "15bb4615_b222f7c3",
+      "revId": "affb8f881f81ca87048e41a07e391d2254de79dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

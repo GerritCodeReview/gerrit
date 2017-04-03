@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b431d640_5a51a1f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T19:22:38Z",
+      "side": 1,
+      "message": "Calling the change an attempt kind of sells the CL short (or otherwise doesn\u0027t instill too much confidence).\n\nCan you please change this to \"Speeds up\" and also provide numbers on the speedup factor?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "403d1e17818ec9a4a73ba9652ca4ee2c2f0b7af0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4e4afcb_61f2163d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T19:22:38Z",
+      "side": 1,
+      "message": "Is the delta in this file only nesting it inside the div? Or are other things changed? This diff is not so easy to read.",
+      "range": {
+        "startLine": 235,
+        "startChar": 4,
+        "endLine": 235,
+        "endChar": 37
+      },
+      "revId": "403d1e17818ec9a4a73ba9652ca4ee2c2f0b7af0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

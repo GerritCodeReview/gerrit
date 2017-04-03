@@ -516,16 +516,18 @@ public class ChangeInserter implements InsertChangeOp {
       RefControl refControl =
           projectControlFactory.controlFor(ctx.getProject(), ctx.getUser()).controlForRef(refName);
       String refName = psId.toRefName();
-      CommitReceivedEvent event =
+      try (CommitReceivedEvent event =
           new CommitReceivedEvent(
               new ReceiveCommand(ObjectId.zeroId(), commit.getId(), refName),
               refControl.getProjectControl().getProject(),
               change.getDest().get(),
+              ctx.getRevWalk().getObjectReader(),
               commit,
-              ctx.getIdentifiedUser());
-      commitValidatorsFactory
-          .create(validatePolicy, refControl, new NoSshInfo(), ctx.getRepository())
-          .validate(event);
+              ctx.getIdentifiedUser())) {
+        commitValidatorsFactory
+            .create(validatePolicy, refControl, new NoSshInfo(), ctx.getRepository())
+            .validate(event);
+      }
     } catch (CommitValidationException e) {
       throw new ResourceConflictException(e.getFullMessage());
     } catch (NoSuchProjectException e) {

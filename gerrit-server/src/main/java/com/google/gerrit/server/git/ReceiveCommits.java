@@ -2763,8 +2763,6 @@ public class ReceiveCommits {
 
     RevCommit c = rw.parseCommit(id);
     rw.parseBody(c);
-    CommitReceivedEvent receiveEvent =
-        new CommitReceivedEvent(cmd, project, ctl.getRefName(), c, user);
 
     CommitValidators.Policy policy;
     if (magicBranch != null
@@ -2775,7 +2773,8 @@ public class ReceiveCommits {
       policy = CommitValidators.Policy.RECEIVE_COMMITS;
     }
 
-    try {
+    try (CommitReceivedEvent receiveEvent =
+        new CommitReceivedEvent(cmd, project, ctl.getRefName(), rw.getObjectReader(), c, user)) {
       messages.addAll(
           commitValidatorsFactory.create(policy, ctl, sshInfo, repo).validate(receiveEvent));
     } catch (CommitValidationException e) {

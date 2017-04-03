@@ -45,6 +45,30 @@
       "revId": "403d1e17818ec9a4a73ba9652ca4ee2c2f0b7af0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c7acfda_21961c6a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-03T20:04:39Z",
+      "side": 1,
+      "message": "Yeah, the only differences are the nesting and removed event handlers.",
+      "parentUuid": "b4e4afcb_61f2163d",
+      "range": {
+        "startLine": 235,
+        "startChar": 4,
+        "endLine": 235,
+        "endChar": 37
+      },
+      "revId": "403d1e17818ec9a4a73ba9652ca4ee2c2f0b7af0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

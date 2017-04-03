@@ -304,6 +304,30 @@
       "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d30a4ec9_e18c8dab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-03T20:23:44Z",
+      "side": 1,
+      "message": "Do you mean something like\n\nreturn this.send(\u0027PUT\u0027, url, {file: path});\n\n?",
+      "parentUuid": "17c91002_93a22504",
+      "range": {
+        "startLine": 675,
+        "startChar": 4,
+        "endLine": 675,
+        "endChar": 18
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

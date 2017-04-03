@@ -328,6 +328,30 @@
       "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f9ff35f_70bb3a41",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-03T20:33:47Z",
+      "side": 1,
+      "message": "Actually, +1 to the name it has now. We use \u0027save\u0027 as the keyword for other fns in this interface that \u0027PUT\u0027 things.",
+      "parentUuid": "d30a4ec9_e18c8dab",
+      "range": {
+        "startLine": 675,
+        "startChar": 4,
+        "endLine": 675,
+        "endChar": 18
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

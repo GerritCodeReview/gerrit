@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50952463_1b39e1f5",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-03T06:35:13Z",
+      "side": 1,
+      "message": "Why not using the status field? WIP sounds to me like a status rather than a flag.",
+      "revId": "234225a9138b7f34e9982499aa2fc63600e55d6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

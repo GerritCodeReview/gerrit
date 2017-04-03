@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "bdc74bb7_32cfa5e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-04-03T22:24:03Z",
+      "side": 1,
+      "message": "Based on Stephen\u0027s Verified+1, I think we\u0027re good.",
+      "parentUuid": "fddf584a_f9e40e7a",
+      "revId": "bd778f8c011fe77449be62e87b080040cabd25f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8541ef9a_2d1f9eeb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 2

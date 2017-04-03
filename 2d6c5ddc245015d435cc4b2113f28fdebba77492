@@ -745,6 +745,24 @@
       "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e6ae9e1_f27daeb0",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T17:29:32Z",
+      "side": 1,
+      "message": "It seems to me to be cleaner as a GR-APP parameter rather than setting a global in the index. The initialization lifecycle methods on the app run before anything else, so there should not be a problem with the components that need this config.\n\nAdditionally, as a general rule, we should avoid rendering template keys inside script tags for security.\n\nI could be beneficial, if GR-APP can set something like ...\n\n this.$.restAPI.initCanonicalPath(this.canonicalPath);\n\n... for each component that will use it; thereby avoiding the Gerrit.* variable. I\u0027d like to explore this as follow up work.",
+      "parentUuid": "ac01b221_d05d672e",
+      "revId": "2d6c5ddc245015d435cc4b2113f28fdebba77492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

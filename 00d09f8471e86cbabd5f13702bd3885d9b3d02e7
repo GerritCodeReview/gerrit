@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "99639ed1_40c74fe7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T17:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa98a9e3_84ecfe55",
+      "range": {
+        "startLine": 38,
+        "startChar": 15,
+        "endLine": 38,
+        "endChar": 20
+      },
+      "revId": "00d09f8471e86cbabd5f13702bd3885d9b3d02e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94a8568c_34c9daa3",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
         "patchSetId": 9
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ecc44b44_257dc812",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T17:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94a8568c_34c9daa3",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 11
+      },
+      "revId": "00d09f8471e86cbabd5f13702bd3885d9b3d02e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e16f571d_6da2b104",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 9
@@ -59,6 +107,30 @@
       "writtenOn": "2017-04-01T05:54:59Z",
       "side": 1,
       "message": "Nit: unneeded final.",
+      "range": {
+        "startLine": 256,
+        "startChar": 35,
+        "endLine": 256,
+        "endChar": 40
+      },
+      "revId": "00d09f8471e86cbabd5f13702bd3885d9b3d02e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c497e35_924b0f8c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T17:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e16f571d_6da2b104",
       "range": {
         "startLine": 256,
         "startChar": 35,
@@ -177,6 +249,30 @@
       "writtenOn": "2017-04-01T05:54:59Z",
       "side": 1,
       "message": "Is this related?",
+      "range": {
+        "startLine": 117,
+        "startChar": 6,
+        "endLine": 117,
+        "endChar": 31
+      },
+      "revId": "00d09f8471e86cbabd5f13702bd3885d9b3d02e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05e349f6_f3759df8",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T17:29:32Z",
+      "side": 1,
+      "message": "Yes. This had assumed it would not be called with a null account, but when I fixed the tests for the attached/ready edits, I saw that it\u0027s being called directly from the test, and would fail on l.122 where it tries to use the null account.",
+      "parentUuid": "fbba20a3_ec6364bc",
       "range": {
         "startLine": 117,
         "startChar": 6,

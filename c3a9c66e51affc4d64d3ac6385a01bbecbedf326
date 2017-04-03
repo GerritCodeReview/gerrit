@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "521a0cf1_018b29ed",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T20:17:02Z",
+      "side": 1,
+      "message": "Why include the status in the query?",
+      "range": {
+        "startLine": 237,
+        "startChar": 6,
+        "endLine": 237,
+        "endChar": 58
+      },
+      "revId": "c3a9c66e51affc4d64d3ac6385a01bbecbedf326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c441868_395c453a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T20:17:02Z",
+      "side": 1,
+      "message": "Rather than double-encoding the project and branch, why not use the URL encoding behavior\u0027s `encodeURL` method?\n\n ... \u0027/q/project:\u0027 + encodeURL(project) ...",
+      "range": {
+        "startLine": 247,
+        "startChar": 29,
+        "endLine": 247,
+        "endChar": 63
+      },
+      "revId": "c3a9c66e51affc4d64d3ac6385a01bbecbedf326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41cd12cf_ae6c7a59",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T20:17:02Z",
+      "side": 1,
+      "message": "This line exceeds 80 characters.",
+      "range": {
+        "startLine": 247,
+        "startChar": 6,
+        "endLine": 247,
+        "endChar": 123
+      },
+      "revId": "c3a9c66e51affc4d64d3ac6385a01bbecbedf326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

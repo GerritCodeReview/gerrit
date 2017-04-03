@@ -16,6 +16,24 @@
       "revId": "234225a9138b7f34e9982499aa2fc63600e55d6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b50bb0f2_55c3bceb",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-03T06:40:48Z",
+      "side": 1,
+      "message": "Because then it would work in the same way as \"draft\", which we are trying to get rid of.\n\nWhen it\u0027s a state you can\u0027t for example abandon a draft (or WIP) change.",
+      "parentUuid": "50952463_1b39e1f5",
+      "revId": "234225a9138b7f34e9982499aa2fc63600e55d6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

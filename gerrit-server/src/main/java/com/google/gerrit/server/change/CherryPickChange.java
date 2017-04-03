@@ -64,6 +64,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -137,7 +138,8 @@ public class CherryPickChange {
         // created later on, to ensure the cherry-picked commit is flushed
         // before patch sets are updated.
         ObjectInserter oi = git.newObjectInserter();
-        CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(oi.newReader())) {
+        ObjectReader reader = oi.newReader();
+        CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(reader)) {
       Ref destRef = git.getRefDatabase().exactRef(ref);
       if (destRef == null) {
         throw new InvalidChangeOperationException(

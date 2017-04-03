@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4af91991_2f9f27fb",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-03T08:10:51Z",
+      "side": 1,
+      "message": "Setting a property to TRUE or FALSE sounds like more a PUT to me.\n\nPUT /changes/{change-id}/wip\n(body: true)\n\nPUT /changes/{change-id}/wip\n{body: false}\n\nGET /changes/{change-id}/wip\nfalse (or true)",
+      "revId": "2537490cdfff5502389dd49228e041a045610a31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc8244ad_c6ae9ba2",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-03T08:10:51Z",
+      "side": 1,
+      "message": "This requirement suggests that WIP isn\u0027t a flag but rather a state :-)",
+      "range": {
+        "startLine": 108,
+        "startChar": 77,
+        "endLine": 109,
+        "endChar": 72
+      },
+      "revId": "2537490cdfff5502389dd49228e041a045610a31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e83f562e_3771dc3e",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-03T08:10:51Z",
+      "side": 1,
+      "message": "What\u0027s the payload of those events?\nA change switching from WIP to ready would not trigger any existing CI integration systems (e.g. Jenkins) at the moment. This would need to be flagged to the relative communities as a breaking change.\n\nActually, what is OpenStack expecting to happen? Do they want CI on WIP changes or not?",
+      "revId": "2537490cdfff5502389dd49228e041a045610a31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab3ba175_390cb660",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-03T08:10:51Z",
+      "side": 1,
+      "message": "why not simply wip:true or wip:false ? Pending reviews is confusing. If you don\u0027t specify anything is wip:true for backward compatibility.",
+      "range": {
+        "startLine": 158,
+        "startChar": 48,
+        "endLine": 158,
+        "endChar": 68
+      },
+      "revId": "2537490cdfff5502389dd49228e041a045610a31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1669026_9aebe9e5",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-03T08:10:51Z",
+      "side": 1,
+      "message": "I would say just render them differently: a simple colour change on the line would work. I don\u0027t like the hiding option as it would suggest that WIP changes are invisible to other people, which is not the case.\n\nWIP changes and private changes are different things: draft are visible and should be visible as long as the people are aware that someone is still working on them.",
+      "range": {
+        "startLine": 164,
+        "startChar": 42,
+        "endLine": 164,
+        "endChar": 59
+      },
+      "revId": "2537490cdfff5502389dd49228e041a045610a31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a9323a3_cd4c1504",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-03T08:10:51Z",
+      "side": 1,
+      "message": "I believe the first approach was impacted by the fact of reusing a broken flow. Why not just fixing the flow?\n\nWhat\u0027s wrong in keeping the status approach but just in core and not as a plugin? \n\nUnderstanding the failures of the past helps building a better future implementation, isn\u0027t it ?",
+      "range": {
+        "startLine": 171,
+        "startChar": 12,
+        "endLine": 171,
+        "endChar": 35
+      },
+      "revId": "2537490cdfff5502389dd49228e041a045610a31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a2be927_b1bb1dee",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-03T08:10:51Z",
+      "side": 1,
+      "message": "Why do we want to restrict the ability to vote? As long as the people is warned that a change is WIP, they still can (if they wish) give opinions and flag problems with voting, isn\u0027t it?",
+      "range": {
+        "startLine": 185,
+        "startChar": 36,
+        "endLine": 185,
+        "endChar": 80
+      },
+      "revId": "2537490cdfff5502389dd49228e041a045610a31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

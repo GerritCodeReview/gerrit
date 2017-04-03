@@ -75,7 +75,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private MetricMaker metricMaker;
 
   @Test
-  public void getExternalIDs() throws Exception {
+  public void getExternalIds() throws Exception {
     Collection<ExternalId> expectedIds = accountCache.get(user.getId()).getExternalIds();
 
     List<AccountExternalIdInfo> expectedIdInfos = new ArrayList<>();
@@ -102,7 +102,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteExternalIDs() throws Exception {
+  public void deleteExternalIds() throws Exception {
     setApiUser(user);
     List<AccountExternalIdInfo> externalIds = gApi.accounts().self().getExternalIds();
 
@@ -128,7 +128,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteExternalIDs_Conflict() throws Exception {
+  public void deleteExternalIds_Conflict() throws Exception {
     List<String> toDelete = new ArrayList<>();
     String externalIdStr = "username:" + user.username;
     toDelete.add(externalIdStr);
@@ -139,7 +139,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteExternalIDs_UnprocessableEntity() throws Exception {
+  public void deleteExternalIds_UnprocessableEntity() throws Exception {
     List<String> toDelete = new ArrayList<>();
     String externalIdStr = "mailto:user@domain.com";
     toDelete.add(externalIdStr);

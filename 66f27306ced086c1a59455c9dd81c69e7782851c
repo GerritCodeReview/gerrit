@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fefe2aaf_a9b8387f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-03T06:46:58Z",
+      "side": 1,
+      "message": "Do you intend to do these in this change?\n\nI would say the polygerrit UI could be done separately.\n\nHow will the migration work?  Migrate existing draft changes to use the \u0027private\u0027 flag instead?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "66f27306ced086c1a59455c9dd81c69e7782851c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

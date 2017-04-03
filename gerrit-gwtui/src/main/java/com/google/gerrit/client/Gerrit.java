@@ -558,7 +558,7 @@ public class Gerrit implements EntryPoint {
       builder.setPort(Integer.parseInt(port));
     }
     String[] tokens = token.split("@", 2);
-    builder.setPath(tokens[0]);
+    builder.setPath(Location.getPath() + tokens[0]);
     if (tokens.length == 2) {
       builder.setHash(tokens[1]);
     }

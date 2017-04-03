@@ -53,6 +53,22 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="inline-diff-first">
+  <template>
+    <gr-diff-builder view-mode="SIDE_BY_SIDE" is-inline-diff=true inline-index=0>
+      <table id="diffTable"></table>
+    </gr-diff-builder>
+  </template>
+</test-fixture>
+
+<test-fixture id="inline-diff-other">
+  <template>
+    <gr-diff-builder view-mode="SIDE_BY_SIDE" is-inline-diff=true inline-index=1>
+      <table id="diffTable"></table>
+    </gr-diff-builder>
+  </template>
+</test-fixture>
+
 <script>
   suite('gr-diff-builder tests', function() {
     var element;
@@ -234,6 +250,61 @@ limitations under the License.
           GrDiffBuilder.Side.RIGHT), [{id: 'r5', line: 5,
           __commentSide: 'right'}]);
     });
+
+    suite('_preRenderThread for first of inline', function() {
+      var sandbox;
+      var element;
+
+      setup(function() {
+        sandbox = sinon.sandbox.create();
+        stub('gr-diff-builder', {
+          async: sandbox.stub(),
+        });
+        element = fixture('inline-diff-first');
+      });
+
+      // _preRenderThread is called from the async function.
+      test('async is called', function() {
+        assert.isTrue(element.async.called);
+      });
+    });
+
+    suite('_preRenderThread for other of inline diff', function() {
+      var sandbox;
+      var element;
+
+      setup(function() {
+        sandbox = sinon.sandbox.create();
+        stub('gr-diff-builder', {
+          async: sandbox.stub(),
+        });
+        element = fixture('inline-diff-other');
+      });
+
+      // _preRenderThread is called from the async function.
+      test('async is not called', function() {
+        assert.isFalse(element.async.called);
+      });
+    });
+
+    suite('_preRenderThread for non-inline', function() {
+      var sandbox;
+      var element;
+
+      setup(function() {
+        sandbox = sinon.sandbox.create();
+        stub('gr-diff-builder', {
+          async: sandbox.stub(),
+        });
+        element = fixture('basic');
+      });
+
+      // _preRenderThread is called from the async function.
+      test('async is not called', function() {
+        assert.isTrue(element.async.called);
+      });
+    });
+
 
     test('comment thread group creation', function() {
       var l3 = {id: 'l3', line: 3, updated: '2016-08-09 00:42:32.000000000',

@@ -313,6 +313,7 @@ limitations under the License.
         </div>
         <gr-diff
             no-auto-render
+            inline-index=[[index]]
             hidden="[[!_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
             project="[[change.project]]"
             commit="[[change.current_revision]]"

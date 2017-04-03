@@ -94,6 +94,8 @@ limitations under the License.
           isImageDiff: Boolean,
           baseImage: Object,
           revisionImage: Object,
+          isInlineDiff: Boolean,
+          inlineIndex: Number,
           _builder: Object,
           _groups: Array,
           _layers: Array,
@@ -118,9 +120,13 @@ limitations under the License.
             this.$.rangeLayer,
           ];
 
-          this.async(function() {
-            this._preRenderThread();
-          });
+          // In the case where we render multiple diffs in a change view, only
+          // call _preRenderThread once, as it slows down the dom-repeat.
+          if (!this.isInlineDiff || this.inlineIndex === 0) {
+            this.async(function() {
+              this._preRenderThread();
+            });
+          }
         },
 
         render: function(comments, prefs) {

@@ -352,6 +352,30 @@
       "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32d7a394_e7b181e1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-03T21:12:22Z",
+      "side": 1,
+      "message": "\u003e But im not sure what you mean by \"wouldn\u0027t it need a way to PUT the contents of the file?\"?\n\nBased on my reading of the documentation for that endpoint, the request is supposed to include the new content of the file as the body of the request. But the `saveChangeEdit` method doesn\u0027t have a parameter for the file contents.",
+      "parentUuid": "1f9ff35f_70bb3a41",
+      "range": {
+        "startLine": 675,
+        "startChar": 4,
+        "endLine": 675,
+        "endChar": 18
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

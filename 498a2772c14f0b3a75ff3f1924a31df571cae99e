@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d81151db_73092056",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-03T20:23:33Z",
+      "side": 1,
+      "message": "Nit: Please wrap lines \u003e 80ch.",
+      "revId": "498a2772c14f0b3a75ff3f1924a31df571cae99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -940,9 +940,9 @@ public class RevisionIT extends AbstractDaemonTest {
     recommend(r.getChangeId());
 
     // check if it's blocked to delete a vote on a non-current patch set.
+    setApiUser(admin);
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage("Cannot access on non-current patch set");
-    setApiUser(admin);
     gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().getName())

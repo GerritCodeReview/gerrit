@@ -178,6 +178,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
     @Override
     public void close() {
+      rw.getObjectReader().close();
       rw.close();
       if (close) {
         if (finalIns != null) {
@@ -295,10 +296,18 @@ public class NoteDbUpdateManager implements AutoCloseable {
   }
 
   private OpenRepo openRepo(Project.NameKey p) throws IOException {
-    Repository repo = repoManager.openRepository(p);
-    ObjectInserter ins = repo.newObjectInserter();
-    return new OpenRepo(
-        repo, new RevWalk(ins.newReader()), ins, new ChainedReceiveCommands(repo), true);
+    Repository repo = repoManager.openRepository(p); // Closed by OpenRepo#close.
+    ObjectInserter ins = repo.newObjectInserter(); // Closed by OpenRepo#close.
+    ObjectReader reader = ins.newReader(); // Not closed by OpenRepo#close.
+    try (RevWalk rw = new RevWalk(reader)) { // Doesn't escape OpenRepo constructor.
+      return new OpenRepo(repo, rw, ins, new ChainedReceiveCommands(repo), true) {
+        @Override
+        public void close() {
+          reader.close();
+          super.close();
+        }
+      };
+    }
   }
 
   private boolean isEmpty() {

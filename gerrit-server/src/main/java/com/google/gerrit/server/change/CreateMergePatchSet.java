@@ -56,6 +56,7 @@ import java.sql.Timestamp;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -126,7 +127,8 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
     Branch.NameKey dest = change.getDest();
     try (Repository git = gitManager.openRepository(project);
         ObjectInserter oi = git.newObjectInserter();
-        RevWalk rw = new RevWalk(oi.newReader())) {
+        ObjectReader reader = oi.newReader();
+        RevWalk rw = new RevWalk(reader)) {
 
       RevCommit sourceCommit = MergeUtil.resolveCommit(git, rw, merge.source);
       if (!projectControl.canReadCommit(db.get(), git, sourceCommit)) {

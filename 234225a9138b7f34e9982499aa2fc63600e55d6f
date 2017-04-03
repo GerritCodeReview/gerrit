@@ -70,6 +70,24 @@
       "revId": "234225a9138b7f34e9982499aa2fc63600e55d6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76cac3f5_334a7329",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-03T07:23:29Z",
+      "side": 1,
+      "message": "My comment was only on this change: you can see that if you introduce WIP as a flag, it would impact a lot more files :-)\n\nWill add the other comments on the Change #927245.",
+      "parentUuid": "92b7732c_e9c2ab49",
+      "revId": "234225a9138b7f34e9982499aa2fc63600e55d6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "aed049178ffb943591e47bac15a9b503fd2ccaf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbaf5d0_ae1e0993",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3441,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-03T09:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dc5df93_d1ce702d",
+      "range": {
+        "startLine": 3438,
+        "startChar": 0,
+        "endLine": 3441,
+        "endChar": 62
+      },
+      "revId": "aed049178ffb943591e47bac15a9b503fd2ccaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

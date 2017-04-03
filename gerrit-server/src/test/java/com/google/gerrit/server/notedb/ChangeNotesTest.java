@@ -689,12 +689,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.setAssignee(otherUserId);
     ObjectId result = update.commit();
     assertThat(result).isNotNull();
-    try (RevWalk rw = new RevWalk(repo)) {
-      RevCommit commit = rw.parseCommit(update.getResult());
-      rw.parseBody(commit);
-      String strIdent = otherUser.getName() + " <" + otherUserId + "@" + serverId + ">";
-      assertThat(commit.getFullMessage()).contains("Assignee: " + strIdent);
-    }
+    RevCommit commit = commits.parse(repo, update.getResult());
+    String strIdent = otherUser.getName() + " <" + otherUserId + "@" + serverId + ">";
+    assertThat(commit.getFullMessage()).contains("Assignee: " + strIdent);
   }
 
   @Test
@@ -749,11 +746,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     hashtags.add("tag2");
     update.setHashtags(hashtags);
     update.commit();
-    try (RevWalk walk = new RevWalk(repo)) {
-      RevCommit commit = walk.parseCommit(update.getResult());
-      walk.parseBody(commit);
-      assertThat(commit.getFullMessage()).contains("Hashtags: tag1,tag2\n");
-    }
+    RevCommit commit = commits.parse(repo, update.getResult());
+    assertThat(commit.getFullMessage()).contains("Hashtags: tag1,tag2\n");
   }
 
   @Test

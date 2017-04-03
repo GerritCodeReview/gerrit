@@ -44,6 +44,7 @@ import com.google.gerrit.server.edit.ChangeEditJson;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.edit.UnchangedCommitMessageException;
+import com.google.gerrit.server.git.Commits;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -59,7 +60,6 @@ import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
 
 @Singleton
@@ -473,7 +473,7 @@ public class ChangeEdits
   }
 
   public static class GetMessage implements RestReadView<ChangeResource> {
-    private final GitRepositoryManager repoManager;
+    private final Commits commits;
     private final ChangeEditUtil editUtil;
 
     @Option(
@@ -484,8 +484,8 @@ public class ChangeEdits
     private boolean base;
 
     @Inject
-    GetMessage(GitRepositoryManager repoManager, ChangeEditUtil editUtil) {
-      this.repoManager = repoManager;
+    GetMessage(Commits commits, ChangeEditUtil editUtil) {
+      this.commits = commits;
       this.editUtil = editUtil;
     }
 
@@ -493,21 +493,14 @@ public class ChangeEdits
     public BinaryResult apply(ChangeResource rsrc)
         throws AuthException, IOException, ResourceNotFoundException, OrmException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
-      String msg;
       if (edit.isPresent()) {
+        RevCommit commit;
         if (base) {
-          try (Repository repo = repoManager.openRepository(rsrc.getProject());
-              RevWalk rw = new RevWalk(repo)) {
-            RevCommit commit =
-                rw.parseCommit(
-                    ObjectId.fromString(edit.get().getBasePatchSet().getRevision().get()));
-            msg = commit.getFullMessage();
-          }
+          commit = commits.parse(rsrc.getProject(), edit.get().getBasePatchSet());
         } else {
-          msg = edit.get().getEditCommit().getFullMessage();
+          commit = edit.get().getEditCommit();
         }
-
-        return BinaryResult.create(msg)
+        return BinaryResult.create(commit.getFullMessage())
             .setContentType(FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE)
             .base64();
       }

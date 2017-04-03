@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.git.Commits;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.ComparisonType;
@@ -35,13 +36,13 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
 public class GetContent implements RestReadView<FileResource> {
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
+  private final Commits commits;
   private final PatchSetUtil psUtil;
   private final FileContentUtil fileContentUtil;
 
@@ -49,10 +50,12 @@ public class GetContent implements RestReadView<FileResource> {
   GetContent(
       Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
+      Commits commits,
       PatchSetUtil psUtil,
       FileContentUtil fileContentUtil) {
     this.db = db;
     this.gitManager = gitManager;
+    this.commits = commits;
     this.psUtil = psUtil;
     this.fileContentUtil = fileContentUtil;
   }
@@ -85,10 +88,8 @@ public class GetContent implements RestReadView<FileResource> {
       throw new NoSuchChangeException(changeId);
     }
 
-    try (Repository git = gitManager.openRepository(notes.getProjectName());
-        RevWalk revWalk = new RevWalk(git)) {
-      RevCommit commit = revWalk.parseCommit(ObjectId.fromString(ps.getRevision().get()));
-      return commit.getFullMessage();
+    try {
+      return commits.parse(notes.getProjectName(), ps).getFullMessage();
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchChangeException(changeId, e);
     }

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.junit.Assert.fail;
@@ -24,6 +25,7 @@ import com.github.rholder.retry.BlockStrategy;
 import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -125,6 +127,18 @@ public class ExternalIdIT extends AbstractDaemonTest {
     // "mailto:user@example.com" can be deleted while "username:user" can't.
     assertThat(results).hasSize(1);
     assertThat(results).containsExactlyElementsIn(expectedIds);
+  }
+
+  @Test
+  public void deleteExternalIdOfPreferredEmail() throws Exception {
+    String preferredEmail = gApi.accounts().self().get().email;
+    assertThat(preferredEmail).isNotNull();
+
+    gApi.accounts()
+        .self()
+        .deleteExternalIds(
+            ImmutableList.of(ExternalId.Key.create(SCHEME_MAILTO, preferredEmail).get()));
+    assertThat(gApi.accounts().self().get().email).isNull();
   }
 
   @Test

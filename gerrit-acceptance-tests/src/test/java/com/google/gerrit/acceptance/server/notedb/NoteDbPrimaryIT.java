@@ -76,10 +76,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -476,23 +474,18 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     assertThat(db.changes().get(id).getTopic()).isNotEqualTo("new-topic");
 
     migrator.migrateToReviewDbPrimary(id, null);
-    ObjectId metaId;
-    try (Repository repo = repoManager.openRepository(c.getProject());
-        RevWalk rw = new RevWalk(repo)) {
-      metaId = repo.exactRef(RefNames.changeMetaRef(id)).getObjectId();
-      RevCommit commit = rw.parseCommit(metaId);
-      rw.parseBody(commit);
-      assertThat(commit.getFullMessage())
-          .contains("Read-only-until: " + formatTime(serverIdent.get(), new Timestamp(0)));
-    }
+    RevCommit commit = commits.parseFromExactRef(c.getProject(), RefNames.changeMetaRef(id));
+    assertThat(commit.getFullMessage())
+        .contains("Read-only-until: " + formatTime(serverIdent.get(), new Timestamp(0)));
+
     NoteDbChangeState state = NoteDbChangeState.parse(db.changes().get(id));
     assertThat(state.getPrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
-    assertThat(state.getChangeMetaId()).isEqualTo(metaId);
+    assertThat(state.getChangeMetaId()).isEqualTo(commit);
     assertThat(gApi.changes().id(id.get()).topic()).isEqualTo("new-topic");
     assertThat(db.changes().get(id).getTopic()).isEqualTo("new-topic");
 
     ChangeNotes notes = notesFactory.create(db, project, id);
-    assertThat(notes.getRevision()).isEqualTo(metaId); // No rebuilding, change was up to date.
+    assertThat(notes.getRevision()).isEqualTo(commit); // No rebuilding, change was up to date.
     assertThat(notes.getReadOnlyUntil()).isNotNull();
 
     gApi.changes().id(id.get()).topic("reviewdb-topic");

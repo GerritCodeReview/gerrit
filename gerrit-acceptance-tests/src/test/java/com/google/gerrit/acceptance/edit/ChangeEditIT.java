@@ -67,11 +67,8 @@ import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -374,11 +371,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(updatedCommitMessage).isEqualTo(in.message);
 
     r = adminRestSession.getJsonAccept(urlEditMessage(changeId, true));
-    try (Repository repo = repoManager.openRepository(project);
-        RevWalk rw = new RevWalk(repo)) {
-      RevCommit commit = rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
-      assertThat(readContentFromJson(r)).isEqualTo(commit.getFullMessage());
-    }
+    RevCommit commit = commits.parse(project, ps);
+    assertThat(readContentFromJson(r)).isEqualTo(commit.getFullMessage());
 
     PublishChangeEditInput publishInput = new PublishChangeEditInput();
     publishInput.notify = NotifyHandling.NONE;

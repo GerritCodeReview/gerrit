@@ -34,6 +34,24 @@
       "revId": "affb8f881f81ca87048e41a07e391d2254de79dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cc686c8_9ab7b6fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-03T18:29:21Z",
+      "side": 1,
+      "message": "What I am asking is, what is the point of using this nonstandard footer? We already know from the git history that this commit depends on that other commit, so this is adding no information. If there is something that is worth explaining with words (like \"This fixes all the links that were broken in the initial implementation\"), then words are a better way to convey what you are trying to say.",
+      "parentUuid": "707bd857_f2cd9104",
+      "revId": "affb8f881f81ca87048e41a07e391d2254de79dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

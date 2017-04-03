@@ -285,6 +285,15 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void voteNotAllowedWithoutPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("is restricted");
+    gApi.changes().id(r.getChange().getId().get()).current().review(ReviewInput.approve());
+  }
+
+  @Test
   public void deleteDraft() throws Exception {
     PushOneCommit.Result r = createDraft();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).delete();

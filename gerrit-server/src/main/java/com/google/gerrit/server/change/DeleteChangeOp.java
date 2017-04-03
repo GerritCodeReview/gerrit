@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.Commits;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateReviewDb;
@@ -144,9 +145,8 @@ class DeleteChangeOp implements BatchUpdateOp {
     }
 
     RevWalk revWalk = ctx.getRevWalk();
-    ObjectId objectId = ObjectId.fromString(patchSet.getRevision().get());
     return revWalk.isMergedInto(
-        revWalk.parseCommit(objectId), revWalk.parseCommit(destinationRef.getObjectId()));
+        Commits.parse(revWalk, patchSet), revWalk.parseCommit(destinationRef.getObjectId()));
   }
 
   private void deleteChangeElementsFromDb(ChangeContext ctx, Change.Id id) throws OrmException {

@@ -47,6 +47,7 @@ import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ChangeSet;
+import com.google.gerrit.server.git.Commits;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeSuperSet;
@@ -458,10 +459,7 @@ public class Submit
     try (Repository repo = repoManager.openRepository(project);
         RevWalk walk = new RevWalk(repo)) {
       for (ChangeData change : changes) {
-        RevCommit commit =
-            walk.parseCommit(
-                ObjectId.fromString(
-                    psUtil.current(dbProvider.get(), change.notes()).getRevision().get()));
+        RevCommit commit = Commits.parse(walk, psUtil.current(dbProvider.get(), change.notes()));
         commits.put(change.getId(), commit);
       }
     }

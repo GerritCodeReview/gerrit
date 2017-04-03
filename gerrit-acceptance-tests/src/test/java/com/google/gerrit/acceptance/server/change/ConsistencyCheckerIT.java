@@ -45,6 +45,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ConsistencyChecker;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.git.Commits;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
@@ -62,6 +63,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -333,11 +337,12 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   public void duplicatePatchSetRevisions() throws Exception {
     ChangeControl ctl = insertChange();
     PatchSet ps1 = psUtil.current(db, ctl.getNotes());
-    String rev = ps1.getRevision().get();
+    ctl = incrementPatchSet(ctl, parseCommit(ps1));
 
-    ctl = incrementPatchSet(ctl, testRepo.getRevWalk().parseCommit(ObjectId.fromString(rev)));
-
-    assertProblems(ctl, null, problem("Multiple patch sets pointing to " + rev + ": [1, 2]"));
+    assertProblems(
+        ctl,
+        null,
+        problem("Multiple patch sets pointing to " + ps1.getRevision().get() + ": [1, 2]"));
   }
 
   @Test
@@ -390,10 +395,9 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   @Test
   public void newChangeIsMerged() throws Exception {
     ChangeControl ctl = insertChange();
-    String rev = psUtil.current(db, ctl.getNotes()).getRevision().get();
-    testRepo
-        .branch(ctl.getChange().getDest().get())
-        .update(testRepo.getRevWalk().parseCommit(ObjectId.fromString(rev)));
+    PatchSet ps = psUtil.current(db, ctl.getNotes());
+    String rev = ps.getRevision().get();
+    testRepo.branch(ctl.getChange().getDest().get()).update(parseCommit(ps));
 
     assertProblems(
         ctl,
@@ -410,10 +414,9 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   @Test
   public void newChangeIsMergedWithFix() throws Exception {
     ChangeControl ctl = insertChange();
-    String rev = psUtil.current(db, ctl.getNotes()).getRevision().get();
-    testRepo
-        .branch(ctl.getChange().getDest().get())
-        .update(testRepo.getRevWalk().parseCommit(ObjectId.fromString(rev)));
+    PatchSet ps = psUtil.current(db, ctl.getNotes());
+    String rev = ps.getRevision().get();
+    testRepo.branch(ctl.getChange().getDest().get()).update(parseCommit(ps));
 
     assertProblems(
         ctl,
@@ -436,10 +439,8 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   @Test
   public void extensionApiReturnsUpdatedValueAfterFix() throws Exception {
     ChangeControl ctl = insertChange();
-    String rev = psUtil.current(db, ctl.getNotes()).getRevision().get();
-    testRepo
-        .branch(ctl.getChange().getDest().get())
-        .update(testRepo.getRevWalk().parseCommit(ObjectId.fromString(rev)));
+    PatchSet ps = psUtil.current(db, ctl.getNotes());
+    testRepo.branch(ctl.getChange().getDest().get()).update(parseCommit(ps));
 
     ChangeInfo info = gApi.changes().id(ctl.getId().get()).info();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
@@ -451,10 +452,9 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   @Test
   public void expectedMergedCommitIsLatestPatchSet() throws Exception {
     ChangeControl ctl = insertChange();
-    String rev = psUtil.current(db, ctl.getNotes()).getRevision().get();
-    testRepo
-        .branch(ctl.getChange().getDest().get())
-        .update(testRepo.getRevWalk().parseCommit(ObjectId.fromString(rev)));
+    PatchSet ps = psUtil.current(db, ctl.getNotes());
+    String rev = ps.getRevision().get();
+    testRepo.branch(ctl.getChange().getDest().get()).update(parseCommit(ps));
 
     FixInput fix = new FixInput();
     fix.expectMergedAs = rev;
@@ -479,8 +479,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   @Test
   public void expectedMergedCommitNotMergedIntoDestination() throws Exception {
     ChangeControl ctl = insertChange();
-    String rev = psUtil.current(db, ctl.getNotes()).getRevision().get();
-    RevCommit commit = testRepo.getRevWalk().parseCommit(ObjectId.fromString(rev));
+    RevCommit commit = parseCommit(psUtil.current(db, ctl.getNotes()));
     testRepo.branch(ctl.getChange().getDest().get()).update(commit);
 
     FixInput fix = new FixInput();
@@ -502,8 +501,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   public void createNewPatchSetForExpectedMergeCommitWithNoChangeId() throws Exception {
     ChangeControl ctl = insertChange();
     String dest = ctl.getChange().getDest().get();
-    String rev = psUtil.current(db, ctl.getNotes()).getRevision().get();
-    RevCommit commit = testRepo.getRevWalk().parseCommit(ObjectId.fromString(rev));
+    RevCommit commit = parseCommit(psUtil.current(db, ctl.getNotes()));
 
     RevCommit mergedAs =
         testRepo.commit().parent(commit.getParent(0)).message(commit.getShortMessage()).create();
@@ -540,8 +538,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   public void createNewPatchSetForExpectedMergeCommitWithChangeId() throws Exception {
     ChangeControl ctl = insertChange();
     String dest = ctl.getChange().getDest().get();
-    String rev = psUtil.current(db, ctl.getNotes()).getRevision().get();
-    RevCommit commit = testRepo.getRevWalk().parseCommit(ObjectId.fromString(rev));
+    RevCommit commit = parseCommit(psUtil.current(db, ctl.getNotes()));
 
     RevCommit mergedAs =
         testRepo
@@ -592,9 +589,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     String rev1 = ps1.getRevision().get();
     ctl = incrementPatchSet(ctl);
     PatchSet ps2 = psUtil.current(db, ctl.getNotes());
-    testRepo
-        .branch(ctl.getChange().getDest().get())
-        .update(testRepo.getRevWalk().parseCommit(ObjectId.fromString(rev1)));
+    testRepo.branch(ctl.getChange().getDest().get()).update(parseCommit(ps1));
 
     FixInput fix = new FixInput();
     fix.expectMergedAs = rev1;
@@ -641,9 +636,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     PatchSet ps3 = psUtil.current(db, ctl.getNotes());
     assertThat(ps3.getId().get()).isEqualTo(3);
 
-    testRepo
-        .branch(ctl.getChange().getDest().get())
-        .update(testRepo.getRevWalk().parseCommit(ObjectId.fromString(rev2)));
+    testRepo.branch(ctl.getChange().getDest().get()).update(commit2);
 
     FixInput fix = new FixInput();
     fix.expectMergedAs = rev2;
@@ -686,9 +679,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     String rev2 = commit2.name();
     testRepo.branch(psId2.toRefName()).update(commit2);
 
-    testRepo
-        .branch(ctl.getChange().getDest().get())
-        .update(testRepo.getRevWalk().parseCommit(ObjectId.fromString(rev2)));
+    testRepo.branch(ctl.getChange().getDest().get()).update(commit2);
 
     FixInput fix = new FixInput();
     fix.expectMergedAs = rev2;
@@ -717,8 +708,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     ChangeControl ctl = insertChange();
     String dest = ctl.getChange().getDest().get();
     RevCommit parent = testRepo.branch(dest).commit().message("parent").create();
-    String rev = psUtil.current(db, ctl.getNotes()).getRevision().get();
-    RevCommit commit = testRepo.getRevWalk().parseCommit(ObjectId.fromString(rev));
+    RevCommit commit = parseCommit(psUtil.current(db, ctl.getNotes()));
     testRepo.branch(dest).update(commit);
 
     String badId = "I0000000000000000000000000000000000000000";
@@ -753,8 +743,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     ChangeControl ctl1 = insertChange();
     PatchSet.Id psId1 = psUtil.current(db, ctl1.getNotes()).getId();
     String dest = ctl1.getChange().getDest().get();
-    String rev = psUtil.current(db, ctl1.getNotes()).getRevision().get();
-    RevCommit commit = testRepo.getRevWalk().parseCommit(ObjectId.fromString(rev));
+    RevCommit commit = parseCommit(psUtil.current(db, ctl1.getNotes()));
     testRepo.branch(dest).update(commit);
 
     ChangeControl ctl2 = insertChange();
@@ -842,6 +831,12 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   private RevCommit patchSetCommit(PatchSet.Id psId) throws Exception {
     RevCommit c = testRepo.commit().parent(tip).message("Change " + psId).create();
     return testRepo.parseBody(c);
+  }
+
+  private RevCommit parseCommit(PatchSet ps)
+      throws IncorrectObjectTypeException, IOException, MissingObjectException,
+          RepositoryNotFoundException {
+    return Commits.parse(testRepo.getRevWalk(), ps);
   }
 
   private PatchSet insertMissingPatchSet(ChangeControl ctl, String rev) throws Exception {

@@ -23,7 +23,7 @@
       account: Object,
       links: {
         type: Array,
-        computed: '_getLinks(_switchAccountUrl)',
+        computed: '_getLinks(_switchAccountUrl, _path)',
       },
       topContent: {
         type: Array,
@@ -54,10 +54,10 @@
       this.unlisten(window, 'location-change', '_handleLocationChange');
     },
 
-    _getLinks: function(switchAccountUrl) {
+    _getLinks: function(switchAccountUrl, path) {
       var links = [{name: 'Settings', url: '/settings'}];
       if (switchAccountUrl) {
-        var replacements = {path: this._path};
+        var replacements = {path: path};
         var url = this._interpolateUrl(switchAccountUrl, replacements);
         links.push({name: 'Switch account', url: url});
       }

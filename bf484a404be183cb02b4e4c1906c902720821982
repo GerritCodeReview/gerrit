@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fbb1fbe_f6faec49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-04T12:50:07Z",
+      "side": 1,
+      "message": "This is reported against 2.12.x, should I move this change to stable-2.12 branch?\n\nI already have a commit for 2.12.x since we need it for our internal version at Ericsson. Yep, we are still running 2.12...",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "bf484a404be183cb02b4e4c1906c902720821982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

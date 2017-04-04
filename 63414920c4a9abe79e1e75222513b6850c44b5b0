@@ -567,6 +567,30 @@
       "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "590e1eb9_8a79c4c2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-04T18:22:00Z",
+      "side": 1,
+      "message": "Oh, i have no idea how to test the function as nothing calls it yet. But im unsure of how to do the tests too. Looking at for example saveChangeCommitMessageEdit in the tests which i would have copied how it did it as it is similar to how im doing it here. I doint see it in the tests though.",
+      "parentUuid": "49f02f12_093154a3",
+      "range": {
+        "startLine": 705,
+        "startChar": 6,
+        "endLine": 711,
+        "endChar": 7
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

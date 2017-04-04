@@ -94,6 +94,30 @@
       "revId": "fc0dbb8d76ec1f0320dd867c7374c0d7e6778fa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cee8330d_a9cca976",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-04T13:12:38Z",
+      "side": 1,
+      "message": "This https://gerrit-review.googlesource.com/#/c/101855/ should do the status: thing for branches only.",
+      "parentUuid": "4d72dfa8_b11347d5",
+      "range": {
+        "startLine": 230,
+        "startChar": 17,
+        "endLine": 230,
+        "endChar": 29
+      },
+      "revId": "fc0dbb8d76ec1f0320dd867c7374c0d7e6778fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

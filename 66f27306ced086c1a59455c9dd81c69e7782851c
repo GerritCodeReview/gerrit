@@ -22,6 +22,30 @@
       "revId": "66f27306ced086c1a59455c9dd81c69e7782851c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1797619_117c3092",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-04T06:41:24Z",
+      "side": 1,
+      "message": "Yes, PG UI should be addressed in a separte change. Now I understand why you are asking about the migration. It was lost during the rebase: [1].\n\nThe plant is to re-order the commits in this series, so that the basic support for the work-in-progress workflow is added first, and then this change (or even devided on smaller chunks, that would probably be needed for zeo-downtime migration on googlesource.com) can be configured as for how draft changes (and draft patch sets) should be migrated:\n\n* draft -\u003e private\n* draft -\u003e wip\n* draft -\u003e /dev/null \n\n* [1] https://gerrit-review.googlesource.com/#/c/97230/23/gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_144.java",
+      "parentUuid": "fefe2aaf_a9b8387f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "66f27306ced086c1a59455c9dd81c69e7782851c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

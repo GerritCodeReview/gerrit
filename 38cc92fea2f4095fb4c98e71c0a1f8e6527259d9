@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b35fb31f_ad5c52ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-04T17:12:39Z",
+      "side": 1,
+      "message": "My suggestion is to leave the name as it was \"canCreate()\"",
+      "parentUuid": "cf4766ca_53702f11",
+      "range": {
+        "startLine": 265,
+        "startChar": 16,
+        "endLine": 265,
+        "endChar": 37
+      },
+      "revId": "38cc92fea2f4095fb4c98e71c0a1f8e6527259d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7152edf_dba2cf60",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 3
@@ -143,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "1a6868a3_1ad686f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-04T17:12:39Z",
+      "side": 1,
+      "message": "I think it will be too complicated to have a series of functions that essentially perform the same thing but return different things.  Also, that pattern will not work for mroe complicated functions with more than one return value (unless the wrapping is done the other way, i.e. the boolean wrapping the String function).  I would change the existing function to return a String and not add a new one.",
+      "parentUuid": "2b4b00bd_05e5acd0",
+      "range": {
+        "startLine": 271,
+        "startChar": 22,
+        "endLine": 271,
+        "endChar": 41
+      },
+      "revId": "38cc92fea2f4095fb4c98e71c0a1f8e6527259d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62cf89b3_1b8f8581",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 3
@@ -178,6 +226,30 @@
       "side": 1,
       "message": "sure. I was trying to avoid changing all the functoins at the same time, because that ripples through the code base.\n\nDo you want me to update all of the boolean func that determine permissions?",
       "parentUuid": "62cf89b3_1b8f8581",
+      "range": {
+        "startLine": 275,
+        "startChar": 69,
+        "endLine": 275,
+        "endChar": 89
+      },
+      "revId": "38cc92fea2f4095fb4c98e71c0a1f8e6527259d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e26baf4_01a6044f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-04T17:12:39Z",
+      "side": 1,
+      "message": "I was not going as far as to suggest that you should change every function, althought it might be better if you did.  I think you should at least change the functions that you rely on.  This class is used a lot, and has a pattern that people understand and can follow.  We need to ensure that if we change this API, that we do it in a way that follows a pattern that people can still easily get.",
+      "parentUuid": "e8b14ce1_3ba20c7b",
       "range": {
         "startLine": 275,
         "startChar": 69,

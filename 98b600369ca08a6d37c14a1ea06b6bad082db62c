@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40766736_0214f871",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-04T09:55:30Z",
+      "side": 0,
+      "message": "This should have been kept, see https://gerrit-review.googlesource.com/96091.\n\nFixed in https://gerrit-review.googlesource.com/102154",
+      "range": {
+        "startLine": 137,
+        "startChar": 8,
+        "endLine": 138,
+        "endChar": 41
+      },
+      "revId": "98b600369ca08a6d37c14a1ea06b6bad082db62c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

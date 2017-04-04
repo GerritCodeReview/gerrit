@@ -22,6 +22,30 @@
       "revId": "5f3510f13519f561a013a1d0fc143521ad9a6f1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d871891_95022a3e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-04T15:19:14Z",
+      "side": 1,
+      "message": "I wont be able to replace this whole if statement but i can make it shorter. It seems doing that returns status:new if the change is open. It should be status:open. So i added a .replace to replace new with open.\n\nThanks, done.",
+      "parentUuid": "cd3e39c9_da53658e",
+      "range": {
+        "startLine": 236,
+        "startChar": 8,
+        "endLine": 236,
+        "endChar": 32
+      },
+      "revId": "5f3510f13519f561a013a1d0fc143521ad9a6f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

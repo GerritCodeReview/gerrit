@@ -324,7 +324,14 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
             Strings.emptyToNull(merge.strategy), mergeUtil.mergeStrategyName());
 
     return MergeUtil.createMergeCommit(
-        repo, oi, mergeTip, sourceCommit, mergeStrategy, authorIdent, commitMessage, rw);
+        oi,
+        repo.getConfig(),
+        mergeTip,
+        sourceCommit,
+        mergeStrategy,
+        authorIdent,
+        commitMessage,
+        rw);
   }
 
   private static ObjectId insert(ObjectInserter inserter, CommitBuilder commit)

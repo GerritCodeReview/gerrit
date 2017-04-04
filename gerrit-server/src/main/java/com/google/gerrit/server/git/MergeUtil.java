@@ -222,8 +222,8 @@ public class MergeUtil {
   }
 
   public CodeReviewCommit createCherryPickFromCommit(
-      Repository repo,
       ObjectInserter inserter,
+      Config repoConfig,
       RevCommit mergeTip,
       RevCommit originalCommit,
       PersonIdent cherryPickCommitterIdent,
@@ -234,7 +234,7 @@ public class MergeUtil {
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
           MergeIdenticalTreeException, MergeConflictException {
 
-    final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
+    final ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
 
     m.setBase(originalCommit.getParent(parentIndex));
     if (m.merge(mergeTip, originalCommit)) {
@@ -255,8 +255,8 @@ public class MergeUtil {
   }
 
   public static RevCommit createMergeCommit(
-      Repository repo,
       ObjectInserter inserter,
+      Config repoConfig,
       RevCommit mergeTip,
       RevCommit originalCommit,
       String mergeStrategy,
@@ -271,7 +271,7 @@ public class MergeUtil {
           "'" + originalCommit.getName() + "' has already been merged");
     }
 
-    Merger m = newMerger(repo, inserter, mergeStrategy);
+    Merger m = newMerger(inserter, repoConfig, mergeStrategy);
     if (m.merge(false, mergeTip, originalCommit)) {
       ObjectId tree = m.getResultTreeId();
 
@@ -486,7 +486,7 @@ public class MergeUtil {
     }
 
     try (ObjectInserter ins = new InMemoryInserter(repo)) {
-      return newThreeWayMerger(repo, ins).merge(new AnyObjectId[] {mergeTip, toMerge});
+      return newThreeWayMerger(ins, repo.getConfig()).merge(new AnyObjectId[] {mergeTip, toMerge});
     } catch (LargeObjectException e) {
       log.warn("Cannot merge due to LargeObjectException: " + toMerge.name());
       return false;
@@ -542,7 +542,7 @@ public class MergeUtil {
       // that on the current merge tip.
       //
       try (ObjectInserter ins = new InMemoryInserter(repo)) {
-        ThreeWayMerger m = newThreeWayMerger(repo, ins);
+        ThreeWayMerger m = newThreeWayMerger(ins, repo.getConfig());
         m.setBase(toMerge.getParent(0));
         return m.merge(mergeTip, toMerge);
       } catch (IOException e) {
@@ -575,14 +575,14 @@ public class MergeUtil {
   public CodeReviewCommit mergeOneCommit(
       PersonIdent author,
       PersonIdent committer,
-      Repository repo,
       CodeReviewRevWalk rw,
       ObjectInserter inserter,
+      Config repoConfig,
       Branch.NameKey destBranch,
       CodeReviewCommit mergeTip,
       CodeReviewCommit n)
       throws IntegrationException {
-    final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
+    ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
     try {
       if (m.merge(new AnyObjectId[] {mergeTip, n})) {
         return writeMergeCommit(
@@ -706,8 +706,8 @@ public class MergeUtil {
     }
   }
 
-  public ThreeWayMerger newThreeWayMerger(final Repository repo, final ObjectInserter inserter) {
-    return newThreeWayMerger(repo, inserter, mergeStrategyName());
+  public ThreeWayMerger newThreeWayMerger(ObjectInserter inserter, Config repoConfig) {
+    return newThreeWayMerger(inserter, repoConfig, mergeStrategyName());
   }
 
   public String mergeStrategyName() {
@@ -730,8 +730,8 @@ public class MergeUtil {
   }
 
   public static ThreeWayMerger newThreeWayMerger(
-      Repository repo, final ObjectInserter inserter, String strategyName) {
-    Merger m = newMerger(repo, inserter, strategyName);
+      ObjectInserter inserter, Config repoConfig, String strategyName) {
+    Merger m = newMerger(inserter, repoConfig, strategyName);
     checkArgument(
         m instanceof ThreeWayMerger,
         "merge strategy %s does not support three-way merging",
@@ -739,12 +739,10 @@ public class MergeUtil {
     return (ThreeWayMerger) m;
   }
 
-  public static Merger newMerger(
-      Repository repo, final ObjectInserter inserter, String strategyName) {
+  public static Merger newMerger(ObjectInserter inserter, Config repoConfig, String strategyName) {
     MergeStrategy strategy = MergeStrategy.get(strategyName);
     checkArgument(strategy != null, "invalid merge strategy: %s", strategyName);
-    Merger m = strategy.newMerger(repo, true);
-    m.setObjectInserter(
+    return strategy.newMerger(
         new ObjectInserter.Filter() {
           @Override
           protected ObjectInserter delegate() {
@@ -756,8 +754,8 @@ public class MergeUtil {
 
           @Override
           public void close() {}
-        });
-    return m;
+        },
+        repoConfig);
   }
 
   public void markCleanMerges(

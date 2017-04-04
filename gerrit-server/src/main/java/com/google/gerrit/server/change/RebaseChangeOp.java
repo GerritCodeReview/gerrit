@@ -261,7 +261,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
     }
 
     ThreeWayMerger merger =
-        newMergeUtil().newThreeWayMerger(ctx.getRepository(), ctx.getInserter());
+        newMergeUtil().newThreeWayMerger(ctx.getInserter(), ctx.getRepository().getConfig());
     merger.setBase(parentCommit);
     merger.merge(original, base);
 

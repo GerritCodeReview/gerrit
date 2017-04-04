@@ -495,6 +495,30 @@
       "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edcdac9d_6e70a10a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-04T17:49:55Z",
+      "side": 1,
+      "message": "saveChangeEdit: function(changeNum, path, contents) {\n    var url \u003d this.getChangeActionURL(changeNum, null, \u0027/edit/\u0027 + path);\n    return this.send(\u0027PUT\u0027, url, contents);\n  },\n\n...should work. I would definitely say that testing this is a requirement for this change to be merged, though.",
+      "parentUuid": "8512c385_54517931",
+      "range": {
+        "startLine": 705,
+        "startChar": 6,
+        "endLine": 711,
+        "endChar": 7
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -471,6 +471,30 @@
       "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8512c385_54517931",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-04T17:47:31Z",
+      "side": 1,
+      "message": "Oh thanks. Somethig like\n\n    saveChangeEdit: function(changeNum, path) {\n      var url \u003d this.getChangeActionURL(changeNum, null, \u0027/edit/\u0027 + path);\n      return this.send(\u0027PUT\u0027, url, contents);\n    },\n\n? or is",
+      "parentUuid": "7891ee20_09781599",
+      "range": {
+        "startLine": 705,
+        "startChar": 6,
+        "endLine": 711,
+        "endChar": 7
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

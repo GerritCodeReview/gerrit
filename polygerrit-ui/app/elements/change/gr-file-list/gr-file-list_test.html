@@ -637,10 +637,13 @@ limitations under the License.
       flushAsynchronousOperations();
       var fileRows =
           Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
+      // Because the label surrounds the input, the tap event is triggered
+      // there first.
+      var showHideLabel = fileRows[0].querySelector('label.show-hide');
       var showHideCheck = fileRows[0].querySelector(
           'input.show-hide[type="checkbox"]');
       assert.isNotOk(showHideCheck.checked);
-      MockInteractions.tap(showHideCheck);
+      MockInteractions.tap(showHideLabel);
       assert.isOk(showHideCheck.checked);
       assert.notEqual(element._expandedFilePaths.indexOf('myfile.txt'), -1);
     });
@@ -763,18 +766,18 @@ limitations under the License.
 
       // Remove href attribute so the app doesn't route to a diff view
       commitMsgFile.removeAttribute('href');
-      var hiddenChangeSpy = sandbox.spy(element, '_handleHiddenChange');
+      var togglePathSpy = sandbox.spy(element, '_togglePathExpanded');
 
       MockInteractions.tap(commitMsgFile);
       flushAsynchronousOperations();
-      assert(hiddenChangeSpy.notCalled, 'file is opened as diff view');
+      assert(togglePathSpy.notCalled, 'file is opened as diff view');
       assert.isNotOk(element.$$('.expanded'));
 
       element._userPrefs = {expand_inline_diffs: true};
       flushAsynchronousOperations();
       MockInteractions.tap(commitMsgFile);
       flushAsynchronousOperations();
-      assert(hiddenChangeSpy.calledOnce, 'file is expanded');
+      assert(togglePathSpy.calledOnce, 'file is expanded');
       assert.isOk(element.$$('.expanded'));
     });
 
@@ -812,32 +815,37 @@ limitations under the License.
       element.push('_expandedFilePaths', path);
     });
 
-    suite('_handleFileTap', function() {
+    suite('_handleFileListTap', function() {
       function testForModifier(modifier) {
         var e = {preventDefault: function() {}};
         e.detail = {sourceEvent: {}};
+        e.target = {
+          dataset: {path: '/test'},
+          classList: element.classList,
+        };
+
         e.detail.sourceEvent[modifier] = true;
 
-        var hiddenChangeStub = sandbox.stub(element, '_handleHiddenChange');
+        var togglePathStub = sandbox.stub(element, '_togglePathExpanded');
         element._userPrefs = { expand_inline_diffs: true };
 
-        element._handleFileTap(e);
-        assert.isFalse(hiddenChangeStub.called);
+        element._handleFileListTap(e);
+        assert.isFalse(togglePathStub.called);
 
         e.detail.sourceEvent[modifier] = false;
-        element._handleFileTap(e);
-        assert.equal(hiddenChangeStub.callCount, 1);
+        element._handleFileListTap(e);
+        assert.equal(togglePathStub.callCount, 1);
 
         element._userPrefs = { expand_inline_diffs: false };
-        element._handleFileTap(e);
-        assert.equal(hiddenChangeStub.callCount, 1);
+        element._handleFileListTap(e);
+        assert.equal(togglePathStub.callCount, 1);
       }
 
-      test('_handleFileTap meta', function() {
+      test('_handleFileListTap meta', function() {
         testForModifier('metaKey');
       });
 
-      test('_handleFileTap ctrl', function() {
+      test('_handleFileListTap ctrl', function() {
         testForModifier('ctrlKey');
       });
     });

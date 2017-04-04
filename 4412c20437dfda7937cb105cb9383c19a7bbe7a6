@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "db22a875_0c784c98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-04T15:10:51Z",
+      "side": 1,
+      "message": "If this change improves things, can you add some numbers to show this?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 2
+      },
+      "revId": "4412c20437dfda7937cb105cb9383c19a7bbe7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301ec818_1653fc30",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -82,6 +105,30 @@
       "writtenOn": "2016-11-28T23:53:46Z",
       "side": 1,
       "message": "Do we need to mention this here?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 55
+      },
+      "revId": "4412c20437dfda7937cb105cb9383c19a7bbe7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8ac662e_279fb500",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-04T15:10:51Z",
+      "side": 1,
+      "message": "I think what needs to be mentioned is any downsides or side affects of this.",
+      "parentUuid": "301ec818_3656f820",
       "range": {
         "startLine": 17,
         "startChar": 0,

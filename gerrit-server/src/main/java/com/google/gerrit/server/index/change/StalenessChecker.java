@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 
@@ -135,18 +136,33 @@ public class StalenessChecker {
 
   @VisibleForTesting
   static boolean reviewDbChangeIsStale(Change indexChange, @Nullable Change reviewDbChange) {
+    checkNotNull(indexChange);
+    if (reviewDbChange != null) {
+      checkArgument(
+          indexChange.getId().equals(reviewDbChange.getId()),
+          "mismatched change ID: %s != %s",
+          indexChange.getId(),
+          reviewDbChange.getId());
+    }
+    if (primaryStorageDiffers(indexChange, reviewDbChange)) {
+      return true; // Primary storage differs, definitely stale.
+    }
     if (reviewDbChange == null) {
       return false; // Nothing the caller can do.
     }
-    checkArgument(
-        indexChange.getId().equals(reviewDbChange.getId()),
-        "mismatched change ID: %s != %s",
-        indexChange.getId(),
-        reviewDbChange.getId());
     if (PrimaryStorage.of(reviewDbChange) != PrimaryStorage.REVIEW_DB) {
       return false; // Not a ReviewDb change, don't check rowVersion.
     }
     return reviewDbChange.getRowVersion() != indexChange.getRowVersion();
+  }
+
+  private static boolean primaryStorageDiffers(Change indexChange, @Nullable Change reviewDbChange) {
+    // If the change doesn't exist in ReviewDb, assume that it is NoteDb-only; this assumes that a
+    // caller would have thrown an exception and never gotten to this point if the change in fact
+    // didn't exist in NoteDb. Do *not* use PrimaryStorage.of(reviewDbChange), as that will return
+    // REVIEW_DB on a null input.
+    PrimaryStorage reviewDbStorage = reviewDbChange == null ? PrimaryStorage.NOTE_DB : null;
+    return reviewDbStorage != PrimaryStorage.of(checkNotNull(indexChange));
   }
 
   private SetMultimap<Project.NameKey, RefState> parseStates(ChangeData cd) {

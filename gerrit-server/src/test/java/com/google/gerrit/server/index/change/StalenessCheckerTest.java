@@ -332,6 +332,18 @@ public class StalenessCheckerTest extends GerritBaseTests {
     // Can't easily change row version to check true case.
   }
 
+  @Test
+  public void noteDbOnlyChange() throws Exception {
+    Change indexChange = newChange(P1, new Account.Id(1));
+    indexChange.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
+
+    Change reviewDbChange = clone(indexChange);
+    reviewDbChange.setNoteDbState(SHA1);
+
+    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, reviewDbChange)).isTrue();
+    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, null)).isTrue();
+  }
+
   private static Iterable<byte[]> byteArrays(String... strs) {
     return Stream.of(strs).map(s -> s != null ? s.getBytes(UTF_8) : null).collect(toList());
   }

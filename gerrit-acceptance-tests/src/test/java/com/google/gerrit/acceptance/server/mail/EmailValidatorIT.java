@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail.send;
+package com.google.gerrit.acceptance.server.mail;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
@@ -22,7 +22,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import org.junit.Test;
 
-public class ValidatorTest {
+import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
+
+public class EmailValidatorIT extends AbstractDaemonTest {
   private static final String UNSUPPORTED_PREFIX = "#! ";
 
   @Test

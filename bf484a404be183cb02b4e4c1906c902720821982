@@ -46,6 +46,30 @@
       "revId": "bf484a404be183cb02b4e4c1906c902720821982",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdff2960_91d4b28e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-04T13:22:53Z",
+      "side": 1,
+      "message": "Done, I uploaded the change for stable-2.12.\n\nFor the release, no promises but I will try to find time. I have been really busy with internal things lately but thing are getting under control so I should have more time for the open source.",
+      "parentUuid": "6aadb396_54f3ec85",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "bf484a404be183cb02b4e4c1906c902720821982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

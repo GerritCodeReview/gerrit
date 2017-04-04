@@ -67,8 +67,9 @@ public class ParserUtil {
 
   /** Check if string is an inline comment url on a patch set or the base */
   public static boolean isCommentUrl(String str, String changeUrl, Comment comment) {
-    return str.equals(filePath(changeUrl, comment) + "@" + comment.lineNbr)
-        || str.equals(filePath(changeUrl, comment) + "@a" + comment.lineNbr);
+    int lineNbr = comment.range == null ? comment.lineNbr : comment.range.startLine;
+    return str.equals(filePath(changeUrl, comment) + "@" + lineNbr)
+        || str.equals(filePath(changeUrl, comment) + "@a" + lineNbr);
   }
 
   /** Generate the fully qualified filepath */

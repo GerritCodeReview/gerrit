@@ -65,6 +65,21 @@ public class AbstractParserTest {
     return c;
   }
 
+  protected static Comment newRangeComment(String uuid, String file, String message, int line) {
+    Comment c =
+        new Comment(
+            new Comment.Key(uuid, file, 1),
+            new Account.Id(0),
+            new Timestamp(0L),
+            (short) 0,
+            message,
+            "",
+            false);
+    c.range = new Comment.Range(line, 1, line + 1, 1);
+    c.lineNbr = line + 1;
+    return c;
+  }
+
   /** Returns a MailMessage.Builder with all required fields populated. */
   protected static MailMessage.Builder newMailMessageBuilder() {
     MailMessage.Builder b = MailMessage.builder();
@@ -81,7 +96,7 @@ public class AbstractParserTest {
     comments.add(newComment("c1", "gerrit-server/test.txt", "comment", 0));
     comments.add(newComment("c2", "gerrit-server/test.txt", "comment", 2));
     comments.add(newComment("c3", "gerrit-server/test.txt", "comment", 3));
-    comments.add(newComment("c4", "gerrit-server/readme.txt", "comment", 3));
+    comments.add(newRangeComment("c4", "gerrit-server/readme.txt", "comment", 3));
     return comments;
   }
 }

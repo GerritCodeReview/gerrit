@@ -22,6 +22,30 @@
       "revId": "e3bca27d804cef46a793fd401873dd6743ab1470",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b43b88c_35549242",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-04T13:03:30Z",
+      "side": 1,
+      "message": "One thing we could do is to create a method in AbstractDaemonTest (resetOutgoingEmailValidator) that uses reflection to set DomainValidator#inUse to false (e.g. by calling DomainValidator#clearTLDOverrides). This isn\u0027t clean either, but it would move the hack from production code to test code.\n\nBut this has other side effects of course like making us more prone to issues when we update the library. Although, I think we would detect those fairly quickly as the tests would just fail on the upgrade change.",
+      "parentUuid": "05409102_d8068e1a",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 5
+      },
+      "revId": "e3bca27d804cef46a793fd401873dd6743ab1470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

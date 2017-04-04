@@ -38,14 +38,13 @@ public class ExtensionPanel extends FlowPanel {
     this(extensionPoint, new ArrayList<String>());
   }
 
-  public ExtensionPanel(GerritUiExtensionPoint extensionPoint,
-       List<String> panelNames) {
+  public ExtensionPanel(GerritUiExtensionPoint extensionPoint, List<String> panelNames) {
     this.extensionPoint = extensionPoint;
     this.contexts = create(panelNames);
   }
 
   private List<Context> create(List<String> panelNames) {
-    List<Context> contexts = new ArrayList<Context>();
+    List<Context> contexts = new ArrayList<>();
     for (Definition def : getOrderedDefs(panelNames)) {
       SimplePanel p = new SimplePanel();
       add(p);
@@ -58,31 +57,28 @@ public class ExtensionPanel extends FlowPanel {
     if (panelNames == null) {
       panelNames = Collections.emptyList();
     }
-    Map<String, List<Definition>> defsOrderedByName =
-        new LinkedHashMap<String, List<Definition>>();
+    Map<String, List<Definition>> defsOrderedByName = new LinkedHashMap<>();
     for (String name : panelNames) {
       defsOrderedByName.put(name, new ArrayList<Definition>());
     }
-    for (Definition def : Natives.asList(
-        Definition.get(extensionPoint.name()))) {
+    for (Definition def : Natives.asList(Definition.get(extensionPoint.name()))) {
       addDef(def, defsOrderedByName);
     }
-    List<Definition> orderedDefs = new ArrayList<Definition>();
+    List<Definition> orderedDefs = new ArrayList<>();
     for (List<Definition> defList : defsOrderedByName.values()) {
       orderedDefs.addAll(defList);
     }
     return orderedDefs;
   }
 
-  private static void addDef(Definition def,
-      Map<String, List<Definition>> defsOrderedByName) {
+  private static void addDef(Definition def, Map<String, List<Definition>> defsOrderedByName) {
     String panelName = def.getPanelName();
     if (panelName.equals(def.getPluginName() + ".undefined")) {
-        /* Handle a partially undefined panel name from the
-           javascript layer by generating a random panel name.
-           This maintains support for panels that do not provide a name. */
-      panelName = def.getPluginName() + "." + Long.toHexString(
-          Double.doubleToLongBits(Math.random()));
+      /* Handle a partially undefined panel name from the
+      javascript layer by generating a random panel name.
+      This maintains support for panels that do not provide a name. */
+      panelName =
+          def.getPluginName() + "." + Long.toHexString(Double.doubleToLongBits(Math.random()));
     }
     if (defsOrderedByName.containsKey(panelName)) {
       defsOrderedByName.get(panelName).add(def);
@@ -163,6 +159,7 @@ public class ExtensionPanel extends FlowPanel {
     protected Definition() {}
 
     public final native String getPanelName() /*-{ return this.pluginName + "." + this.name; }-*/;
+
     public final native String getPluginName() /*-{ return this.pluginName; }-*/;
   }
 

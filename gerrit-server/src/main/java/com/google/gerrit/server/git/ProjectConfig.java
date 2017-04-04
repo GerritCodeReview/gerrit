@@ -558,20 +558,22 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         loadPermissionRules(rc, ACCOUNTS, null, KEY_SAME_GROUP_VISIBILITY, groupsByName, false));
   }
 
-  private void loadExtensionPanelSections(Config rc) throws IOException {
+  private void loadExtensionPanelSections(Config rc) {
     Map<String, String> lowerNames = Maps.newHashMapWithExpectedSize(2);
     extensionPanelSections = Maps.newLinkedHashMap();
     for (String name : rc.getSubsections(EXTENSION_PANELS)) {
       String lower = name.toLowerCase();
       if (lowerNames.containsKey(lower)) {
-        error(new ValidationError(PROJECT_CONFIG, String.format(
-            "Extension Panels \"%s\" conflicts with \"%s\"",
-            name, lowerNames.get(lower))));
+        error(
+            new ValidationError(
+                PROJECT_CONFIG,
+                String.format(
+                    "Extension Panels \"%s\" conflicts with \"%s\"", name, lowerNames.get(lower))));
       }
       lowerNames.put(lower, name);
-      extensionPanelSections.put(name,
-          new ArrayList<String>(Arrays.asList(
-              rc.getStringList(EXTENSION_PANELS, name, KEY_PANEL))));
+      extensionPanelSections.put(
+          name,
+          new ArrayList<>(Arrays.asList(rc.getStringList(EXTENSION_PANELS, name, KEY_PANEL))));
     }
   }
 

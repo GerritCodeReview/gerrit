@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "27b5fe16_2ecb5a3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-04T12:41:48Z",
+      "side": 1,
+      "message": "Ah interesting! I am being very naive now, but looking at I2fb3fbc6e4db205d0a1aafdbc6b73a91b2e844ed and https://github.com/apache/commons-validator/commit/fe29c2dd861bfc0fe4c397f9f9b220b735ea4ce7 which seems to have pretty much all possible TLDs, is this really a use case?",
+      "parentUuid": "8555a593_42c3bba9",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "81e8dc2194c85062870cc80e9a0079b1b0d23f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc3fe470_334ce57a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
         "patchSetId": 6

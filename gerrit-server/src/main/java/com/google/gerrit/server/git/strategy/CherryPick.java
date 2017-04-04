@@ -105,8 +105,8 @@ public class CherryPick extends SubmitStrategy {
       try {
         newCommit =
             args.mergeUtil.createCherryPickFromCommit(
-                ctx.getRepository(),
                 ctx.getInserter(),
+                ctx.getRepository().getConfig(),
                 args.mergeTip.getCurrentTip(),
                 toMerge,
                 committer,
@@ -195,9 +195,9 @@ public class CherryPick extends SubmitStrategy {
             args.mergeUtil.mergeOneCommit(
                 myIdent,
                 myIdent,
-                ctx.getRepository(),
                 args.rw,
                 ctx.getInserter(),
+                ctx.getRepository().getConfig(),
                 args.destBranch,
                 mergeTip.getCurrentTip(),
                 toMerge);

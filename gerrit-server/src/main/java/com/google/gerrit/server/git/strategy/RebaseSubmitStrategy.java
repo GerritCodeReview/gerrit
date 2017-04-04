@@ -137,8 +137,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         try {
           newCommit =
               args.mergeUtil.createCherryPickFromCommit(
-                  ctx.getRepository(),
                   ctx.getInserter(),
+                  ctx.getRepository().getConfig(),
                   args.mergeTip.getCurrentTip(),
                   toMerge,
                   committer,
@@ -268,9 +268,9 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
             args.mergeUtil.mergeOneCommit(
                 caller,
                 caller,
-                ctx.getRepository(),
                 args.rw,
                 ctx.getInserter(),
+                ctx.getRepository().getConfig(),
                 args.destBranch,
                 mergeTip.getCurrentTip(),
                 toMerge);

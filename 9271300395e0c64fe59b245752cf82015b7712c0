@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9eb86684_d831c88c",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/index.html.soy",
+        "patchSetId": 34
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-04T18:36:54Z",
+      "side": 1,
+      "message": "This should not be needed now that GR-APP sets Gerrit.CANONICAL_PATH",
+      "revId": "9271300395e0c64fe59b245752cf82015b7712c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1df3126b_a6a4e5d3",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 34
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-04T18:36:54Z",
+      "side": 1,
+      "message": "This is repeated in many places. Can this be moved into a behavior with unit tests?\n\nEither a new, specialized behavior, or perhaps an existing one like RestClientBehavior if that is appropriate to load in the places this is used.\n\nThat way, with only one getBaseUrl method, there can be one suite of tests for them all.",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 6
+      },
+      "revId": "9271300395e0c64fe59b245752cf82015b7712c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "761c0e22_4db74abc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 34
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-04T18:36:54Z",
+      "side": 1,
+      "message": "This logic is also quite complex, can it just be the following?\n\n return window.Gerrit.CANONICAL_PATH || \u0027\u0027;",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 119,
+        "endChar": 16
+      },
+      "revId": "9271300395e0c64fe59b245752cf82015b7712c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "331470f0_44ee2dcb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 34
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-04T18:36:54Z",
+      "side": 1,
+      "message": "Nit: Each getBaseUrl method in this change exceeds 80 characters.",
+      "range": {
+        "startLine": 256,
+        "startChar": 4,
+        "endLine": 256,
+        "endChar": 14
+      },
+      "revId": "9271300395e0c64fe59b245752cf82015b7712c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

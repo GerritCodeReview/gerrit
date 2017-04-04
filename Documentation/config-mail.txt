@@ -1,6 +1,7 @@
 = Gerrit Code Review - Mail Templates
 
-Gerrit uses Closure Templates for the bulk of the standard mails it sends out.
+Gerrit uses link:https://developers.google.com/closure/templates/[Closure Templates]
+(Soy) for the bulk of the standard mails it sends out.
 There are builtin default templates which are used if they are not overridden.
 These defaults are also provided as examples so that administrators may copy
 them and easily modify them to tweak their contents.
@@ -229,10 +230,6 @@ The current patch set number.
 $patchSet.refname::
 +
 The refname of the patch set.
-
-== SEE ALSO
-
-* link:https://developers.google.com/closure/templates/[Closure Templates]
 
 GERRIT
 ------

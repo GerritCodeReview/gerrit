@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "beaf0b3d_45665e7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-04T12:48:06Z",
+      "side": 1,
+      "message": "Well, it doesn\u0027t allow \"local\" which is why it\u0027s added in the TLD override in OutgoingEmailValidator.\n\nThere\u0027s also the fact that the TLD list is updated more frequently than the commons-validator is released and upgraded in Gerrit.  So in case a new TLD is allowed by IANA, it should be possible for a Gerrit admin to add it in the override until we upgrade to a commons-validator version that supports it.",
+      "parentUuid": "27b5fe16_2ecb5a3a",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "81e8dc2194c85062870cc80e9a0079b1b0d23f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc3fe470_334ce57a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
         "patchSetId": 6

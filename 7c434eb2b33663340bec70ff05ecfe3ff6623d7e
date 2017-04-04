@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ac77cbf_506e10ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-04T17:03:47Z",
+      "side": 1,
+      "message": "By changing the name of this, you are changing the intent.  Previously callers of this need not care what conditions to look for when finding out if they can write to a project, now you have removed that abstraction.  This makes the code harder to understand and makes it harder to evolve in the future if there are other reasons to prevent writting to a ref.",
+      "range": {
+        "startLine": 235,
+        "startChar": 17,
+        "endLine": 235,
+        "endChar": 25
+      },
+      "revId": "7c434eb2b33663340bec70ff05ecfe3ff6623d7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

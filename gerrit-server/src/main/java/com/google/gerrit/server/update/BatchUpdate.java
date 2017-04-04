@@ -234,6 +234,7 @@ public abstract class BatchUpdate implements AutoCloseable {
   @Override
   public void close() {
     if (closeRepo) {
+      revWalk.getObjectReader().close();
       revWalk.close();
       inserter.close();
       repo.close();

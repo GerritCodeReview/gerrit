@@ -73,6 +73,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -271,7 +272,8 @@ public class RebuildNoteDb extends SiteProgram {
     pm.beginTask(FormatUtil.elide(project.get(), 50), allChanges.get(project).size());
     try (NoteDbUpdateManager manager = updateManagerFactory.create(project);
         ObjectInserter allUsersInserter = allUsersRepo.newObjectInserter();
-        RevWalk allUsersRw = new RevWalk(allUsersInserter.newReader())) {
+        ObjectReader reader = allUsersInserter.newReader();
+        RevWalk allUsersRw = new RevWalk(reader)) {
       manager.setAllUsersRepo(
           allUsersRepo, allUsersRw, allUsersInserter, new ChainedReceiveCommands(allUsersRepo));
       for (Change.Id changeId : allChanges.get(project)) {

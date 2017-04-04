@@ -536,6 +536,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("intopic:fixup", change4);
     assertQuery("topic:\"\"", change5);
     assertQuery("intopic:\"\"", change5);
+    assertQuery("intopic:^feature2.*", change4, change2);
+    assertQuery("intopic:{^.*feature2$}", change3, change2);
   }
 
   @Test

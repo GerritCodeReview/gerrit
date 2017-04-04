@@ -25,7 +25,7 @@ class RegexTopicPredicate extends ChangeRegexPredicate {
   private final RunAutomaton pattern;
 
   RegexTopicPredicate(String re) {
-    super(FUZZY_TOPIC, re);
+    super(EXACT_TOPIC, re);
 
     if (re.startsWith("^")) {
       re = re.substring(1);

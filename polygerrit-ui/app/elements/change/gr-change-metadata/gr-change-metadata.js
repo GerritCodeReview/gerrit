@@ -252,10 +252,10 @@
               ' status:' + this.encodeURL(status, false);
     },
 
-    _computeTopicHref: function(topic) {
-      var encodedTopic = encodeURIComponent('\"' + topic + '\"');
+    _computeTopicURL: function(topic) {
       return this.getBaseUrl() + '/q/topic:' +
-        encodeURIComponent(encodedTopic) + '+(status:open OR status:merged)';
+          this.encodeURL('"' + topic + '"', false) +
+            '+(status:open OR status:merged)';
     },
 
     _handleTopicRemoved: function() {

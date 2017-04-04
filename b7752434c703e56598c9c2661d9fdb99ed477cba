@@ -39,6 +39,52 @@
       "revId": "b7752434c703e56598c9c2661d9fdb99ed477cba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5b02d17_75d30186",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/StartStopDeamonIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-04T06:26:28Z",
+      "side": 1,
+      "message": "Nit: no final.",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 9
+      },
+      "revId": "b7752434c703e56598c9c2661d9fdb99ed477cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aae569bc_fe1142b8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/StartStopDeamonIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-04T06:26:28Z",
+      "side": 1,
+      "message": "Do we really need 50 iterations to detect the leaks? This takes 37 seconds on my laptop for just this single test:\n\n  bazel test gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/... --test_filter\u003dcom.google.gerrit.acceptance.pgm.StartStopDeamonIT.startAndStopGerritWithoutThreadLeaksTest\n  //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm:pgm PASSED in 37.1s\n\nReducing this to only 2 iterations imroved the perfomance to 8 seconds:\n\n  //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm:pgm PASSED in 8.0s\n\nAnother option to mark this test as manuell, and only run it explicitly from the CI?",
+      "range": {
+        "startLine": 17,
+        "startChar": 24,
+        "endLine": 17,
+        "endChar": 26
+      },
+      "revId": "b7752434c703e56598c9c2661d9fdb99ed477cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

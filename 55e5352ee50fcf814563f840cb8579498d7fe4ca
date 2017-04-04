@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "003c4dea_e3408e87",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-04T08:23:21Z",
+      "side": 1,
+      "message": "optional: That\u0027s a strange formatting. The other lines below insert a line break after ).",
+      "range": {
+        "startLine": 303,
+        "startChar": 51,
+        "endLine": 304,
+        "endChar": 17
+      },
+      "revId": "55e5352ee50fcf814563f840cb8579498d7fe4ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b790f35a_21a9cac6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-04T08:23:21Z",
+      "side": 1,
+      "message": "optional: This section could be removed.",
+      "range": {
+        "startLine": 109,
+        "startChar": 29,
+        "endLine": 110,
+        "endChar": 56
+      },
+      "revId": "55e5352ee50fcf814563f840cb8579498d7fe4ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

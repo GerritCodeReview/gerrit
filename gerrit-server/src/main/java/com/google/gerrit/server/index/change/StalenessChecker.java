@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 
@@ -135,14 +136,18 @@ public class StalenessChecker {
 
   @VisibleForTesting
   static boolean reviewDbChangeIsStale(Change indexChange, @Nullable Change reviewDbChange) {
+    checkNotNull(indexChange);
     if (reviewDbChange == null) {
-      return false; // Nothing the caller can do.
+      return true;
     }
     checkArgument(
         indexChange.getId().equals(reviewDbChange.getId()),
         "mismatched change ID: %s != %s",
         indexChange.getId(),
         reviewDbChange.getId());
+    if (PrimaryStorage.of(indexChange) != PrimaryStorage.of(reviewDbChange)) {
+      return true; // Primary storage differs, definitely stale.
+    }
     if (PrimaryStorage.of(reviewDbChange) != PrimaryStorage.REVIEW_DB) {
       return false; // Not a ReviewDb change, don't check rowVersion.
     }

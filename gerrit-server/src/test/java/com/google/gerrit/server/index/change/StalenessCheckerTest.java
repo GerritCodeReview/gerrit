@@ -321,11 +321,13 @@ public class StalenessCheckerTest extends GerritBaseTests {
     Change indexChange = newChange(P1, new Account.Id(1));
     indexChange.setNoteDbState(SHA1);
 
-    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, null)).isFalse();
+    // Change is missing from ReviewDb but present in index.
+    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, null)).isTrue();
 
+    // Change differs only in primary storage.
     Change noteDbPrimary = clone(indexChange);
     noteDbPrimary.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
-    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, noteDbPrimary)).isFalse();
+    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, noteDbPrimary)).isTrue();
 
     assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, clone(indexChange))).isFalse();
 

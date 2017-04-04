@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3f841403_78daa4d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-04T11:10:21Z",
+      "side": 1,
+      "message": "Will this be a blacklist feature where one could blacklist \u0027.blog\u0027 for instance?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "81e8dc2194c85062870cc80e9a0079b1b0d23f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc3fe470_334ce57a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
         "patchSetId": 6

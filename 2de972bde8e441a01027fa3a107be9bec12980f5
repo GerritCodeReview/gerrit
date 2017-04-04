@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "720702da_38372ec0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-04T17:59:54Z",
+      "side": 1,
+      "message": "sequence",
+      "range": {
+        "startLine": 460,
+        "startChar": 56,
+        "endLine": 460,
+        "endChar": 64
+      },
+      "revId": "2de972bde8e441a01027fa3a107be9bec12980f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -543,6 +543,30 @@
       "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49f02f12_093154a3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-04T18:04:20Z",
+      "side": 1,
+      "message": "Unit tests in gr-rest-api-interface_test.html, as well as running the function yourself locally and ensuring it functions as expected.\n\nWe aim to have every nontrivial function in PG covered by unit tests. Sometimes we miss that mark, but I think they\u0027re definitely warranted in this case.",
+      "parentUuid": "4d40281e_fb85b0da",
+      "range": {
+        "startLine": 705,
+        "startChar": 6,
+        "endLine": 711,
+        "endChar": 7
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

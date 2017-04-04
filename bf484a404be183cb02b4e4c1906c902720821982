@@ -22,6 +22,30 @@
       "revId": "bf484a404be183cb02b4e4c1906c902720821982",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6aadb396_54f3ec85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-04T12:53:52Z",
+      "side": 1,
+      "message": "If you have the commit, I see no harm in putting it on stable-2.12 and then merging it up.\n\nActually, I just realised now that there have been several commits done on stable-2.12 since 2.12.7.\n\nI wasn\u0027t intending to do a new 2.12.x release, but it might be worth doing it.  Do you want to do it?  If not I can try to find time next week.",
+      "parentUuid": "7fbb1fbe_f6faec49",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "bf484a404be183cb02b4e4c1906c902720821982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

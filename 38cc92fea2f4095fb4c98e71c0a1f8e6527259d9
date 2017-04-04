@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cc1a346_b5cd6ecf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-04T14:52:54Z",
+      "side": 1,
+      "message": "This function name is very confusing, it sounds like a factory method to create RejectionReasons.  Perhaps you should just stick with canCreate().",
+      "range": {
+        "startLine": 265,
+        "startChar": 16,
+        "endLine": 265,
+        "endChar": 37
+      },
+      "revId": "38cc92fea2f4095fb4c98e71c0a1f8e6527259d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7152edf_dba2cf60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-04T14:52:54Z",
+      "side": 1,
+      "message": "This codes in an assumption about canWrite() which defeats the utility of having a separate function for it.  It would be better to change canWrite to also return a reason.",
+      "range": {
+        "startLine": 267,
+        "startChar": 14,
+        "endLine": 267,
+        "endChar": 31
+      },
+      "revId": "38cc92fea2f4095fb4c98e71c0a1f8e6527259d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ac5cd3c_0b49a333",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-04T14:52:54Z",
+      "side": 1,
+      "message": "Here too I think it would be better to just stick with canPerform.",
+      "range": {
+        "startLine": 271,
+        "startChar": 22,
+        "endLine": 271,
+        "endChar": 41
+      },
+      "revId": "38cc92fea2f4095fb4c98e71c0a1f8e6527259d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62cf89b3_1b8f8581",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-04T14:52:54Z",
+      "side": 1,
+      "message": "canCreateCommit() should explain why.  \"cannot create commit\" is not the real reason (the user is not attempting to create a commit).",
+      "range": {
+        "startLine": 275,
+        "startChar": 69,
+        "endLine": 275,
+        "endChar": 89
+      },
+      "revId": "38cc92fea2f4095fb4c98e71c0a1f8e6527259d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26073b42_25fd3cc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-04T14:52:54Z",
+      "side": 1,
+      "message": "This could use a real reason (the user isn\u0027t really trying to create a commit).  I think the reason is something like \"commit is not visible to user\" (or maybe \"ref must point to a visible commit\")?",
+      "range": {
+        "startLine": 303,
+        "startChar": 17,
+        "endLine": 303,
+        "endChar": 38
+      },
+      "revId": "38cc92fea2f4095fb4c98e71c0a1f8e6527259d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d69a9b9_11b23728",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-04T14:52:54Z",
+      "side": 1,
+      "message": "s/is not/must point to/",
+      "range": {
+        "startLine": 320,
+        "startChar": 18,
+        "endLine": 320,
+        "endChar": 20
+      },
+      "revId": "38cc92fea2f4095fb4c98e71c0a1f8e6527259d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

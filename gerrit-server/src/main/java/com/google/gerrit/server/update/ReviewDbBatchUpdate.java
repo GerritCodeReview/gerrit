@@ -79,6 +79,7 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -401,16 +402,14 @@ class ReviewDbBatchUpdate extends BatchUpdate {
       }
 
       if (onSubmitValidators != null && commands != null && !commands.isEmpty()) {
-        // Validation of refs has to take place here and not at the beginning
-        // executeRefUpdates. Otherwise failing validation in a second
-        // BatchUpdate object will happen *after* first object's
-        // executeRefUpdates has finished, hence after first repo's refs have
-        // been updated, which is too late.
-        onSubmitValidators.validate(
-            project,
-            new ReadOnlyRepository(getRepository()),
-            ctx.getInserter().newReader(),
-            commands.getCommands());
+        try (ObjectReader reader = ctx.getInserter().newReader()) {
+          // Validation of refs has to take place here and not at the beginning
+          // executeRefUpdates. Otherwise failing validation in a second BatchUpdate object will
+          // happen *after* first object's executeRefUpdates has finished, hence after first repo's
+          // refs have been updated, which is too late.
+          onSubmitValidators.validate(
+              project, new ReadOnlyRepository(getRepository()), reader, commands.getCommands());
+        }
       }
 
       if (inserter != null) {

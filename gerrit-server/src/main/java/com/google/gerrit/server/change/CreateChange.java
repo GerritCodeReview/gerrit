@@ -76,6 +76,7 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -184,7 +185,8 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
     Project.NameKey project = rsrc.getNameKey();
     try (Repository git = gitManager.openRepository(project);
         ObjectInserter oi = git.newObjectInserter();
-        RevWalk rw = new RevWalk(oi.newReader())) {
+        ObjectReader reader = oi.newReader();
+        RevWalk rw = new RevWalk(reader)) {
       ObjectId parentCommit;
       List<String> groups;
       if (input.baseChange != null) {

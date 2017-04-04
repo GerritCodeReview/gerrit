@@ -41,6 +41,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -89,7 +90,8 @@ public class GetBlame implements RestReadView<FileResource> {
     Project.NameKey project = resource.getRevision().getChange().getProject();
     try (Repository repository = repoManager.openRepository(project);
         ObjectInserter ins = repository.newObjectInserter();
-        RevWalk revWalk = new RevWalk(ins.newReader())) {
+        ObjectReader reader = ins.newReader();
+        RevWalk revWalk = new RevWalk(reader)) {
       String refName =
           resource.getRevision().getEdit().isPresent()
               ? resource.getRevision().getEdit().get().getRefName()

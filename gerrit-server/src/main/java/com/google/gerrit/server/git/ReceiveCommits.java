@@ -1506,7 +1506,7 @@ public class ReceiveCommits {
 
     magicBranch.dest = new Branch.NameKey(project.getNameKey(), ref);
     magicBranch.ctl = projectControl.controlForRef(ref);
-    if (!magicBranch.ctl.canWrite()) {
+    if (!magicBranch.ctl.isActive()) {
       reject(cmd, "project is read only");
       return;
     }

@@ -227,12 +227,11 @@
     },
 
     _computeProjectURL: function(project) {
-      return '/q/status:open+project:' + this.encodeURL(project, false);
+      return '/q/project:' + this.encodeURL(project, false);
     },
 
-    _computeTopicHref: function(topic) {
-      var encodedTopic = encodeURIComponent('\"' + topic + '\"');
-      return '/q/topic:' + encodeURIComponent(encodedTopic) +
+    _computeTopicURL: function(topic) {
+      return '/q/topic:' + this.encodeURL(topic, false) +
           '+(status:open OR status:merged)';
     },
 

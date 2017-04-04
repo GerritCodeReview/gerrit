@@ -266,7 +266,7 @@ limitations under the License.
       });
 
       test('topic href has quotes', function() {
-        var hrefArr = element._computeTopicHref('test')
+        var hrefArr = element._computeTopicURL('test')
             .split('%2522'); // Double-escaped quote.
         assert.equal(hrefArr[1], 'test');
       });

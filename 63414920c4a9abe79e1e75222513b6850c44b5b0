@@ -519,6 +519,30 @@
       "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d40281e_fb85b0da",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-04T17:51:45Z",
+      "side": 1,
+      "message": "Thanks, how would i test it please as it isen\u0027t hooked up to the gui in polygerrit.",
+      "parentUuid": "edcdac9d_6e70a10a",
+      "range": {
+        "startLine": 705,
+        "startChar": 6,
+        "endLine": 711,
+        "endChar": 7
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

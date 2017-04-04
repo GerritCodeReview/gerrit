@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46799fdb_7c02e303",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-04T07:26:09Z",
+      "side": 1,
+      "message": "\"Work-in-progress\"?",
+      "range": {
+        "startLine": 85,
+        "startChar": 60,
+        "endLine": 85,
+        "endChar": 63
+      },
+      "revId": "a8ed2da82714c922573997a374ac841f19da5861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

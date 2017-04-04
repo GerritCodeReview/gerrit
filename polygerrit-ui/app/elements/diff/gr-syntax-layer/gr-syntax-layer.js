@@ -78,7 +78,7 @@
   };
 
   var CPP_DIRECTIVE_WITH_LT_PATTERN = /^\s*#(if|define).*</;
-  var CPP_WCHAR_PATTERN = /L\'.\'/g;
+  var CPP_WCHAR_PATTERN = /L\'(\\)?.\'/g;
   var JAVA_PARAM_ANNOT_PATTERN = /(@[^\s]+)\(([^)]+)\)/g;
   var GO_BACKSLASH_LITERAL = '\'\\\\\'';
   var GLOBAL_LT_PATTERN = /</g;
@@ -360,7 +360,7 @@
          * {#see https://github.com/isagalaev/highlight.js/issues/1412}
          */
         if (CPP_WCHAR_PATTERN.test(line)) {
-          line = line.replace(CPP_WCHAR_PATTERN, 'L"."');
+          line = line.replace(CPP_WCHAR_PATTERN, 'L"$1."');
         }
 
         return line;

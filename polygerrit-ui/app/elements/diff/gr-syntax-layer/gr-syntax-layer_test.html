@@ -456,6 +456,11 @@ limitations under the License.
       line = 'wchar_t myChar = L\'#\'';
       var expected = 'wchar_t myChar = L"."';
       assert.equal(element._workaround('cpp', line), expected);
+
+      // Converts wchar_t character literal with escape sequence to string.
+      line = 'wchar_t myChar = L\'\\"\'';
+      expected = 'wchar_t myChar = L"\\."';
+      assert.equal(element._workaround('cpp', line), expected);
     });
 
     test('workaround go backslash character literals', function() {

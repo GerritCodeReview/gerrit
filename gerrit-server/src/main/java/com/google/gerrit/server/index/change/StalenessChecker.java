@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 
@@ -135,15 +136,24 @@ public class StalenessChecker {
 
   @VisibleForTesting
   static boolean reviewDbChangeIsStale(Change indexChange, @Nullable Change reviewDbChange) {
+    checkNotNull(indexChange);
+    PrimaryStorage storageFromIndex = PrimaryStorage.of(indexChange);
+    PrimaryStorage storageFromReviewDb = PrimaryStorage.of(reviewDbChange);
     if (reviewDbChange == null) {
-      return false; // Nothing the caller can do.
+      if (storageFromIndex == PrimaryStorage.REVIEW_DB) {
+        return true; // Index says it should have been in ReviewDb, but it wasn't.
+      }
+      return false; // Not in ReviewDb, but that's ok.
     }
     checkArgument(
         indexChange.getId().equals(reviewDbChange.getId()),
         "mismatched change ID: %s != %s",
         indexChange.getId(),
         reviewDbChange.getId());
-    if (PrimaryStorage.of(reviewDbChange) != PrimaryStorage.REVIEW_DB) {
+    if (storageFromIndex != storageFromReviewDb) {
+      return true; // Primary storage differs, definitely stale.
+    }
+    if (storageFromReviewDb != PrimaryStorage.REVIEW_DB) {
       return false; // Not a ReviewDb change, don't check rowVersion.
     }
     return reviewDbChange.getRowVersion() != indexChange.getRowVersion();

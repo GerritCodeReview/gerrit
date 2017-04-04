@@ -46,6 +46,30 @@
       "revId": "fc0dbb8d76ec1f0320dd867c7374c0d7e6778fa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58271c4c_972d7072",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-04T10:12:16Z",
+      "side": 1,
+      "message": "We could do\n\nreturn \u0027/q/project:\u0027 + this.encodeURL(project, false);",
+      "parentUuid": "7d5bc1eb_fc5b5771",
+      "range": {
+        "startLine": 230,
+        "startChar": 17,
+        "endLine": 230,
+        "endChar": 29
+      },
+      "revId": "fc0dbb8d76ec1f0320dd867c7374c0d7e6778fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

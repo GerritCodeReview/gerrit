@@ -16,12 +16,16 @@ package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.info.ChangeInfo;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /** Cache of {@link ConfigInfo} objects by project name. */
@@ -47,6 +51,10 @@ public class ConfigInfoCache {
 
     public ThemeInfo getTheme() {
       return info.theme();
+    }
+
+    public List<String> getExtensionPanelNames(String extensionPoint) {
+      return Natives.asList(info.extensionPanelNames().get(extensionPoint));
     }
   }
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6779fb95_0b436077",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-04T08:28:10Z",
+      "side": 1,
+      "message": "Huh, this is indeed strange. Done.",
+      "parentUuid": "003c4dea_e3408e87",
+      "range": {
+        "startLine": 303,
+        "startChar": 51,
+        "endLine": 304,
+        "endChar": 17
+      },
+      "revId": "55e5352ee50fcf814563f840cb8579498d7fe4ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b790f35a_21a9cac6",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/ProjectConfigTest.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "55e5352ee50fcf814563f840cb8579498d7fe4ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d969479_54b592b4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-04T08:28:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b790f35a_21a9cac6",
+      "range": {
+        "startLine": 109,
+        "startChar": 29,
+        "endLine": 110,
+        "endChar": 56
+      },
+      "revId": "55e5352ee50fcf814563f840cb8579498d7fe4ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

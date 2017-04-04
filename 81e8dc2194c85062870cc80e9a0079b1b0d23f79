@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8555a593_42c3bba9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-04T12:34:59Z",
+      "side": 1,
+      "message": "The intention was to allow configurable additional TLDs that are not supported by the commons-validator.  A blacklist could also be possible.\n\nI\u0027ve also thought about maybe just dropping the usage of commons-validator for email address validation, but that means we\u0027d have to implement all the other validation ourselves.\n\nNote: there\u0027s already sendemail.allowrcpt which allows to whitelist domains.",
+      "parentUuid": "3f841403_78daa4d1",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "81e8dc2194c85062870cc80e9a0079b1b0d23f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc3fe470_334ce57a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
         "patchSetId": 6

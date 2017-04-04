@@ -95,6 +95,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return new ConfigInvalidException("Change " + changeId + ": " + String.format(fmt, args));
   }
 
+  @Nullable
   public static Change readOneReviewDbChange(ReviewDb db, Change.Id id) throws OrmException {
     return ReviewDbUtil.unwrapDb(db).changes().get(id);
   }

@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,18 +123,19 @@ public abstract class MailReceiver implements LifecycleListener {
   protected void dispatchMailProcessor(List<MailMessage> messages, boolean async) {
     for (MailMessage m : messages) {
       if (async) {
-        Callable<?> task =
-            () -> {
-              try {
-                mailProcessor.process(m);
-                requestDeletion(m.id());
-              } catch (OrmException e) {
-                log.error("Mail: Can't process message " + m.id() + " . Won't delete.", e);
-              }
-              return null;
-            };
         @SuppressWarnings("unused")
-        Future<?> possiblyIgnoredError = workQueue.getDefaultQueue().submit(task);
+        Future<?> possiblyIgnoredError =
+            workQueue
+                .getDefaultQueue()
+                .submit(
+                    () -> {
+                      try {
+                        mailProcessor.process(m);
+                        requestDeletion(m.id());
+                      } catch (OrmException e) {
+                        log.error("Mail: Can't process message " + m.id() + " . Won't delete.", e);
+                      }
+                    });
       } else {
         // Synchronous processing is used only in tests.
         try {

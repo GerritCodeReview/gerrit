@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cf4766ca_53702f11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-04T16:37:31Z",
+      "side": 1,
+      "message": "suggestions? maybe getCreateRejectionReason() ?",
+      "parentUuid": "3cc1a346_b5cd6ecf",
+      "range": {
+        "startLine": 265,
+        "startChar": 16,
+        "endLine": 265,
+        "endChar": 37
+      },
+      "revId": "38cc92fea2f4095fb4c98e71c0a1f8e6527259d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7152edf_dba2cf60",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-04T14:52:54Z",
       "side": 1,
       "message": "This codes in an assumption about canWrite() which defeats the utility of having a separate function for it.  It would be better to change canWrite to also return a reason.",
+      "range": {
+        "startLine": 267,
+        "startChar": 14,
+        "endLine": 267,
+        "endChar": 31
+      },
+      "revId": "38cc92fea2f4095fb4c98e71c0a1f8e6527259d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26f48fb7_66e01b2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-04T16:37:31Z",
+      "side": 1,
+      "message": "let me fix this in a separate CL.",
+      "parentUuid": "e7152edf_dba2cf60",
       "range": {
         "startLine": 267,
         "startChar": 14,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2b4b00bd_05e5acd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-04T16:37:31Z",
+      "side": 1,
+      "message": "you mean: stick with that name and have it return String, or  use the existing canPerform?",
+      "parentUuid": "1ac5cd3c_0b49a333",
+      "range": {
+        "startLine": 271,
+        "startChar": 22,
+        "endLine": 271,
+        "endChar": 41
+      },
+      "revId": "38cc92fea2f4095fb4c98e71c0a1f8e6527259d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62cf89b3_1b8f8581",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2017-04-04T14:52:54Z",
       "side": 1,
       "message": "canCreateCommit() should explain why.  \"cannot create commit\" is not the real reason (the user is not attempting to create a commit).",
+      "range": {
+        "startLine": 275,
+        "startChar": 69,
+        "endLine": 275,
+        "endChar": 89
+      },
+      "revId": "38cc92fea2f4095fb4c98e71c0a1f8e6527259d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8b14ce1_3ba20c7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-04T16:37:31Z",
+      "side": 1,
+      "message": "sure. I was trying to avoid changing all the functoins at the same time, because that ripples through the code base.\n\nDo you want me to update all of the boolean func that determine permissions?",
+      "parentUuid": "62cf89b3_1b8f8581",
       "range": {
         "startLine": 275,
         "startChar": 69,

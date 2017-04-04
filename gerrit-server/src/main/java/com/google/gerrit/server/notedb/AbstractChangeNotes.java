@@ -123,7 +123,10 @@ public abstract class AbstractChangeNotes<T> {
     this.args = checkNotNull(args);
     this.changeId = checkNotNull(changeId);
     this.primaryStorage = primaryStorage;
-    this.autoRebuild = primaryStorage == PrimaryStorage.REVIEW_DB && autoRebuild;
+    this.autoRebuild =
+        primaryStorage == PrimaryStorage.REVIEW_DB
+            && !args.migration.disableChangeReviewDb()
+            && autoRebuild;
   }
 
   public Change.Id getChangeId() {

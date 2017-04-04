@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "3b35b01a_7b2eb74f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-04T12:55:26Z",
+      "side": 1,
+      "message": "I\u0027m not sure that much detail is relevant for this commit.  I was going to add that in the actual commit that does it.\n\nOf course, before I even start that, I need to get this commit to work properly.  If you have any idea how to fix the problem, I would appreciate it.",
+      "parentUuid": "4aecebad_8d6a7a86",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "81e8dc2194c85062870cc80e9a0079b1b0d23f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc3fe470_334ce57a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
         "patchSetId": 6

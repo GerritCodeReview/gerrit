@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc3fe470_334ce57a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-04T10:42:33Z",
+      "side": 1,
+      "message": "If this try-catch is removed a whole bunch of tests fail because this constructor is being invoked more than once.",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 5
+      },
+      "revId": "81e8dc2194c85062870cc80e9a0079b1b0d23f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

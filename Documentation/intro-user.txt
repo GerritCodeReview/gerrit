@@ -771,7 +771,7 @@ screens, e.g. configured link:#dashboards[dashboards], quick.
 == Reply by Email
 
 Gerrit sends out email notifications to users and supports parsing back replies
-on some of them.
+on some of them (when link:config-gerrit.html#receiveemail[configured]).
 
 Gerrit supports replies on these notification emails:
 

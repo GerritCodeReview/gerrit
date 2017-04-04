@@ -3542,7 +3542,7 @@ Defaults to an empty string which means that receiving emails is disabled.
 The port the email server exposes for receiving emails.
 +
 Defaults to the industry standard for a given protocol and encryption:
-POP3: 110; POP3S: 995; IMAP: 143; IMAPS: 995.
+POP3: 110; POP3S: 995; IMAP: 143; IMAPS: 993.
 
 [[receiveemail.username]]receiveemail.username::
 +

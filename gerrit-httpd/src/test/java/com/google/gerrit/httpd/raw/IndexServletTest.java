@@ -14,12 +14,11 @@
 
 package com.google.gerrit.httpd.raw;
 
-import com.google.gerrit.common.Nullable;
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.template.soy.data.SoyMapData;
 import java.net.URISyntaxException;
 import org.junit.Test;
-
-import static com.google.common.truth.Truth.assertThat;
 
 public class IndexServletTest {
   @Test
@@ -38,8 +37,8 @@ public class IndexServletTest {
 
   @Test
   public void noPathAndCDN() throws URISyntaxException {
-    SoyMapData data = IndexServlet.getTemplateData("http://example.com/",
-        "http://my-cdn.com/foo/bar/");
+    SoyMapData data =
+        IndexServlet.getTemplateData("http://example.com/", "http://my-cdn.com/foo/bar/");
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("");
     assertThat(data.getSingle("staticResourcePath").stringValue())
         .isEqualTo("http://my-cdn.com/foo/bar/");
@@ -47,8 +46,8 @@ public class IndexServletTest {
 
   @Test
   public void pathAndCDN() throws URISyntaxException {
-    SoyMapData data = IndexServlet.getTemplateData("http://example.com/gerrit",
-        "http://my-cdn.com/foo/bar/");
+    SoyMapData data =
+        IndexServlet.getTemplateData("http://example.com/gerrit", "http://my-cdn.com/foo/bar/");
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("/gerrit");
     assertThat(data.getSingle("staticResourcePath").stringValue())
         .isEqualTo("http://my-cdn.com/foo/bar/");

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd3e39c9_da53658e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-04T14:35:26Z",
+      "side": 1,
+      "message": "Would it be easier to do something like:\n\n  status \u003d \u0027 status:\u0027 + tolower(this.change.status);",
+      "range": {
+        "startLine": 236,
+        "startChar": 8,
+        "endLine": 236,
+        "endChar": 32
+      },
+      "revId": "5f3510f13519f561a013a1d0fc143521ad9a6f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aa0e09b9_40dc2207",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/index.html.soy",
+        "patchSetId": 34
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-04T23:31:43Z",
+      "side": 1,
+      "message": "Actually we still need this as gr-app is loaded way down. Even after the rest api. So calling window.Gerrit.CANONICAL_PATH fails. It falls back to \u0027\u0027.",
+      "parentUuid": "9eb86684_d831c88c",
+      "revId": "9271300395e0c64fe59b245752cf82015b7712c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1df3126b_a6a4e5d3",
         "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
         "patchSetId": 34
@@ -30,6 +48,30 @@
       "writtenOn": "2017-04-04T18:36:54Z",
       "side": 1,
       "message": "This is repeated in many places. Can this be moved into a behavior with unit tests?\n\nEither a new, specialized behavior, or perhaps an existing one like RestClientBehavior if that is appropriate to load in the places this is used.\n\nThat way, with only one getBaseUrl method, there can be one suite of tests for them all.",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 6
+      },
+      "revId": "9271300395e0c64fe59b245752cf82015b7712c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "438822bc_9a736c6b",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 34
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-04T23:31:43Z",
+      "side": 1,
+      "message": "I\u0027ve moved it into a new file. I havent used this behvaour everywhere as in rest-client it dosen\u0027t define Polymer{ so i couldent use behavour there. But in most places i have migrated it to use this behavour.\n\nAlso how would i do the unit tests please?",
+      "parentUuid": "1df3126b_a6a4e5d3",
       "range": {
         "startLine": 135,
         "startChar": 4,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "13520230_d2f61d26",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 34
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-04T23:31:43Z",
+      "side": 1,
+      "message": "Yep, thanks, done.\n\nBut i have to do",
+      "parentUuid": "761c0e22_4db74abc",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 119,
+        "endChar": 16
+      },
+      "revId": "9271300395e0c64fe59b245752cf82015b7712c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "331470f0_44ee2dcb",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 34
@@ -76,6 +142,30 @@
       "writtenOn": "2017-04-04T18:36:54Z",
       "side": 1,
       "message": "Nit: Each getBaseUrl method in this change exceeds 80 characters.",
+      "range": {
+        "startLine": 256,
+        "startChar": 4,
+        "endLine": 256,
+        "endChar": 14
+      },
+      "revId": "9271300395e0c64fe59b245752cf82015b7712c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e53d8bfe_256f8246",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 34
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-04T23:31:43Z",
+      "side": 1,
+      "message": "Oh, thanks, done.",
+      "parentUuid": "331470f0_44ee2dcb",
       "range": {
         "startLine": 256,
         "startChar": 4,

@@ -22,8 +22,8 @@ import com.google.gerrit.common.Nullable;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.SoyMapData;
-import com.google.template.soy.tofu.SoyTofu;
 import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
+import com.google.template.soy.tofu.SoyTofu;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
@@ -39,10 +39,13 @@ public class IndexServlet extends HttpServlet {
     String resourcePath = "com/google/gerrit/httpd/raw/index.html.soy";
     SoyFileSet.Builder builder = SoyFileSet.builder();
     builder.add(Resources.getResource(resourcePath));
-    SoyTofu.Renderer renderer = builder.build().compileToTofu()
-        .newRenderer("com.google.gerrit.httpd.raw.Index")
-        .setContentKind(SanitizedContent.ContentKind.HTML)
-        .setData(getTemplateData(canonicalURL, cdnPath));
+    SoyTofu.Renderer renderer =
+        builder
+            .build()
+            .compileToTofu()
+            .newRenderer("com.google.gerrit.httpd.raw.Index")
+            .setContentKind(SanitizedContent.ContentKind.HTML)
+            .setData(getTemplateData(canonicalURL, cdnPath));
     indexSource = renderer.render().getBytes();
   }
 
@@ -75,8 +78,9 @@ public class IndexServlet extends HttpServlet {
 
     // The resource path must be typed as safe for use in a script src.
     // TODO(wyatta): Upgrade this to use an appropriate safe URL type.
-    SanitizedContent sanitizedStaticPath = UnsafeSanitizedContentOrdainer.ordainAsSafe(staticPath,
-        SanitizedContent.ContentKind.TRUSTED_RESOURCE_URI);
+    SanitizedContent sanitizedStaticPath =
+        UnsafeSanitizedContentOrdainer.ordainAsSafe(
+            staticPath, SanitizedContent.ContentKind.TRUSTED_RESOURCE_URI);
 
     return new SoyMapData(
         "canonicalPath", canonicalPath,

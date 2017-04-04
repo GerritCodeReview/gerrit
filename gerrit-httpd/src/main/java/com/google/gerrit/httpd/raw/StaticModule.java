@@ -33,7 +33,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Key;
-import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
@@ -252,8 +251,9 @@ public class StaticModule extends ServletModule {
     @Provides
     @Singleton
     @Named(POLYGERRIT_INDEX_SERVLET)
-    HttpServlet getPolyGerritUiIndexServlet(@CanonicalWebUrl @Nullable String canonicalUrl,
-        @GerritServerConfig Config cfg) throws URISyntaxException {
+    HttpServlet getPolyGerritUiIndexServlet(
+        @CanonicalWebUrl @Nullable String canonicalUrl, @GerritServerConfig Config cfg)
+        throws URISyntaxException {
       String cdnPath = cfg.getString("gerrit", null, "cdnPath");
       return new IndexServlet(canonicalUrl, cdnPath);
     }

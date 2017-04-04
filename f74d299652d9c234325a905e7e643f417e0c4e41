@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eed8ce48_034f41fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-04T12:43:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78b15812_968671fc",
+      "range": {
+        "startLine": 11,
+        "startChar": 17,
+        "endLine": 11,
+        "endChar": 23
+      },
+      "revId": "f74d299652d9c234325a905e7e643f417e0c4e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "497cee3e_825789d6",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-04T12:42:43Z",
       "side": 1,
       "message": "nit: extra space",
+      "range": {
+        "startLine": 510,
+        "startChar": 55,
+        "endLine": 510,
+        "endChar": 56
+      },
+      "revId": "f74d299652d9c234325a905e7e643f417e0c4e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b28622f0_710caaea",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-04T12:43:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "497cee3e_825789d6",
       "range": {
         "startLine": 510,
         "startChar": 55,

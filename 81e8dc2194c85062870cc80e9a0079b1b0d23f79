@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "4aecebad_8d6a7a86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-04T12:52:22Z",
+      "side": 1,
+      "message": "SGTM, thanks for explaining! Optionally, it might be worth citing those use cases in the commit message.",
+      "parentUuid": "beaf0b3d_45665e7b",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "81e8dc2194c85062870cc80e9a0079b1b0d23f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc3fe470_334ce57a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
         "patchSetId": 6

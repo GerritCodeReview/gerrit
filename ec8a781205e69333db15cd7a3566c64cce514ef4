@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72c41ea2_998d7e96",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-04T18:28:43Z",
+      "side": 1,
+      "message": "Please add a test for this method.",
+      "range": {
+        "startLine": 233,
+        "startChar": 4,
+        "endLine": 233,
+        "endChar": 21
+      },
+      "revId": "ec8a781205e69333db15cd7a3566c64cce514ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86100804_1b12f2b0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-04T18:28:43Z",
+      "side": 1,
+      "message": "Why are you lower casing and replacing when we already know that the string is `this.ChangeStatus.NEW`?\n\nYou can just set...\n\n status \u003d \u0027open\u0027;",
+      "range": {
+        "startLine": 236,
+        "startChar": 8,
+        "endLine": 236,
+        "endChar": 73
+      },
+      "revId": "ec8a781205e69333db15cd7a3566c64cce514ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2e6a3ad_3748ec6c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-04T18:28:43Z",
+      "side": 1,
+      "message": "Nit: Indent this line by one more level. Statement continuations should use four-space indent.",
+      "range": {
+        "startLine": 241,
+        "startChar": 8,
+        "endLine": 241,
+        "endChar": 53
+      },
+      "revId": "ec8a781205e69333db15cd7a3566c64cce514ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

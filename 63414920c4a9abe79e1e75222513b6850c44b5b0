@@ -591,6 +591,29 @@
       "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56c787da_1a25c050",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-04T21:07:17Z",
+      "side": 1,
+      "message": "Here\u0027s a good example of a test for a simple API send request.",
+      "range": {
+        "startLine": 571,
+        "startChar": 0,
+        "endLine": 583,
+        "endChar": 7
+      },
+      "revId": "63414920c4a9abe79e1e75222513b6850c44b5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

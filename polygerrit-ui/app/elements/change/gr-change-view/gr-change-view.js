@@ -528,7 +528,6 @@
 
         if (this.viewState.showReplyDialog) {
           this._openReplyDialog();
-          this.async(function() { this.$.replyOverlay.center(); }, 1);
           this.set('viewState.showReplyDialog', false);
         }
       }.bind(this));
@@ -542,7 +541,7 @@
         // another, so that the user's preference is restored.
         this.set('viewState.diffMode', null);
         this.set('_numFilesShown', DEFAULT_NUM_FILES_SHOWN);
-     }
+      }
       this.set('viewState.changeNum', this._changeNum);
       this.set('viewState.patchRange', this._patchRange);
     },
@@ -838,6 +837,8 @@
       this.$.replyOverlay.open().then(function() {
         this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
         this.$.replyDialog.open(opt_section);
+        Polymer.dom.flush();
+        this.$.replyOverlay.center();
       }.bind(this));
     },
 

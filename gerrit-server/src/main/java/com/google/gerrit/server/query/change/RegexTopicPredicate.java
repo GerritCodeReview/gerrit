@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.gerrit.server.index.change.ChangeField.FUZZY_TOPIC;
+import static com.google.gerrit.server.index.change.ChangeField.EXACT_TOPIC;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
@@ -25,7 +25,7 @@ class RegexTopicPredicate extends ChangeRegexPredicate {
   private final RunAutomaton pattern;
 
   RegexTopicPredicate(String re) {
-    super(FUZZY_TOPIC, re);
+    super(EXACT_TOPIC, re);
 
     if (re.startsWith("^")) {
       re = re.substring(1);

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "51f24b3a_52a83b75",
+        "filename": "polygerrit-ui/app/behaviors/base-url.html",
+        "patchSetId": 43
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-05T22:33:00Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e4758f46_3fd1cda0",
+      "revId": "e4cfad91e719b1d72ea9ae7221b3e958f63d9743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "058a58dc_8f8c1959",
         "filename": "polygerrit-ui/app/behaviors/base-url.html",
         "patchSetId": 43
@@ -30,6 +48,30 @@
       "writtenOn": "2017-04-05T21:34:32Z",
       "side": 1,
       "message": "This, should be called BaseUrlBehavior. Update the file name also.",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 13
+      },
+      "revId": "e4cfad91e719b1d72ea9ae7221b3e958f63d9743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28572190_ec076759",
+        "filename": "polygerrit-ui/app/behaviors/base-url.html",
+        "patchSetId": 43
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-05T22:33:00Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "058a58dc_8f8c1959",
       "range": {
         "startLine": 22,
         "startChar": 6,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "1a05f4bd_ee2d7032",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 43
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-05T22:33:00Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5dd54790_aed9a935",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 14
+      },
+      "revId": "e4cfad91e719b1d72ea9ae7221b3e958f63d9743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87a92a3e_1610a94e",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
         "patchSetId": 43
@@ -76,6 +142,30 @@
       "writtenOn": "2017-04-05T21:34:32Z",
       "side": 1,
       "message": "Why doesn\u0027t this file use the behavior?",
+      "range": {
+        "startLine": 193,
+        "startChar": 2,
+        "endLine": 195,
+        "endChar": 3
+      },
+      "revId": "e4cfad91e719b1d72ea9ae7221b3e958f63d9743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eee8bea_b6af8416",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 43
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-05T22:33:00Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "87a92a3e_1610a94e",
       "range": {
         "startLine": 193,
         "startChar": 2,
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "eee51ee5_61f18a25",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 43
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-05T22:33:00Z",
+      "side": 1,
+      "message": "Oh, didnt realise you could do Gerrit.BaseUrlBehavior.getBaseURL(); will test locally now.\n\nTested locally and works.\n\nThanks, done.",
+      "parentUuid": "29754d4b_46cba4ef",
+      "revId": "e4cfad91e719b1d72ea9ae7221b3e958f63d9743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f0d9267b_fe129699",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 43
@@ -116,6 +224,30 @@
       "writtenOn": "2017-04-05T21:34:32Z",
       "side": 1,
       "message": "If the new behavior is imported by gr-router.html, then you could just say ...\n\nvar base \u003d Gerrit.BaseUrlBehavior.getBaseURL();\nif (base) {\n  page.base(base);\n}\n\n... and avoid redefining this logic.",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 3
+      },
+      "revId": "e4cfad91e719b1d72ea9ae7221b3e958f63d9743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8bd313e_836d2958",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 43
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-05T22:33:00Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f0d9267b_fe129699",
       "range": {
         "startLine": 36,
         "startChar": 2,
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "f0807b34_39db961a",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 43
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-05T22:33:00Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a36b48fb_8a404eef",
+      "revId": "e4cfad91e719b1d72ea9ae7221b3e958f63d9743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2d943565_098628f2",
         "filename": "polygerrit-ui/app/elements/shared/gr-placeholder/gr-placeholder.js",
         "patchSetId": 43
@@ -156,6 +306,30 @@
       "writtenOn": "2017-04-05T21:34:32Z",
       "side": 1,
       "message": "Why doesn\u0027t this file use the behavior?",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "e4cfad91e719b1d72ea9ae7221b3e958f63d9743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04fc808c_e8e0fd1c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-placeholder/gr-placeholder.js",
+        "patchSetId": 43
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-05T22:33:00Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2d943565_098628f2",
       "range": {
         "startLine": 25,
         "startChar": 4,

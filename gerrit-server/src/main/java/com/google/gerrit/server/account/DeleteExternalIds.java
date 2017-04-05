@@ -24,12 +24,10 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -40,25 +38,19 @@ import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class DeleteExternalIds implements RestModifyView<AccountResource, List<String>> {
-  private final AccountByEmailCache accountByEmailCache;
-  private final AccountCache accountCache;
+  private final AccountManager accountManager;
   private final ExternalIds externalIds;
-  private final ExternalIdsUpdate.User externalIdsUpdateFactory;
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
 
   @Inject
   DeleteExternalIds(
-      AccountByEmailCache accountByEmailCache,
-      AccountCache accountCache,
+      AccountManager accountManager,
       ExternalIds externalIds,
-      ExternalIdsUpdate.User externalIdsUpdateFactory,
       Provider<CurrentUser> self,
       Provider<ReviewDb> dbProvider) {
-    this.accountByEmailCache = accountByEmailCache;
-    this.accountCache = accountCache;
+    this.accountManager = accountManager;
     this.externalIds = externalIds;
-    this.externalIdsUpdateFactory = externalIdsUpdateFactory;
     this.self = self;
     this.dbProvider = dbProvider;
   }
@@ -74,7 +66,6 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
       throw new BadRequestException("external IDs are required");
     }
 
-    Account.Id accountId = resource.getUser().getAccountId();
     Map<ExternalId.Key, ExternalId> externalIdMap =
         externalIds
             .byAccount(dbProvider.get(), resource.getUser().getAccountId())
@@ -100,12 +91,14 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
       }
     }
 
-    if (!toDelete.isEmpty()) {
-      externalIdsUpdateFactory.create().delete(dbProvider.get(), toDelete);
-      accountCache.evict(accountId);
-      for (ExternalId e : toDelete) {
-        accountByEmailCache.evict(e.email());
+    try {
+      for (ExternalId extId : toDelete) {
+        AuthRequest authRequest = new AuthRequest(extId.key());
+        authRequest.setEmailAddress(extId.email());
+        accountManager.unlink(extId.accountId(), authRequest);
       }
+    } catch (AccountException e) {
+      throw new ResourceConflictException(e.getMessage());
     }
 
     return Response.none();

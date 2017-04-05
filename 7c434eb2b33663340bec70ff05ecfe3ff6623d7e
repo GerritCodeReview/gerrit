@@ -46,6 +46,30 @@
       "revId": "7c434eb2b33663340bec70ff05ecfe3ff6623d7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fe04570_d77c8524",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-05T16:19:25Z",
+      "side": 1,
+      "message": "Currently read and write ability of projects is implemented by the tri state nature of projects \"active, read-only, hidden\".  The intent of having a canRead() and a canWrite() it to hide those states, so that there can be other ways to define this.  Perhaps we want to let plugins control whether projects can be read or written to, these methods would provide a place to do that.",
+      "parentUuid": "c97e5645_2218c153",
+      "range": {
+        "startLine": 235,
+        "startChar": 17,
+        "endLine": 235,
+        "endChar": 25
+      },
+      "revId": "7c434eb2b33663340bec70ff05ecfe3ff6623d7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

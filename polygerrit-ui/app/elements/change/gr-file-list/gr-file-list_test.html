@@ -337,7 +337,8 @@ limitations under the License.
       test('i key shows/hides selected inline diff', function() {
         sandbox.stub(element, '_expandedPathsChanged');
         flushAsynchronousOperations();
-        element.$.fileCursor.stops = element.diffs;
+        var files = Polymer.dom(element.root).querySelectorAll('.file-row');
+        element.$.fileCursor.stops = files;
         element.$.fileCursor.setCursorAtIndex(0);
         MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
         flushAsynchronousOperations();
@@ -676,6 +677,13 @@ limitations under the License.
         patchNum: '2',
       };
       element.$.fileCursor.setCursorAtIndex(0);
+      flushAsynchronousOperations();
+
+      // Tap on a file to generate the diff.
+      var row = Polymer.dom(element.root)
+          .querySelectorAll('.row:not(.header) label.show-hide')[0];
+
+      MockInteractions.tap(row);
       flushAsynchronousOperations();
       var diffDisplay = element.diffs[0];
       element._userPrefs = {default_diff_view: 'SIDE_BY_SIDE'};

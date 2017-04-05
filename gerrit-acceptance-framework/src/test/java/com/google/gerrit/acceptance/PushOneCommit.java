@@ -37,6 +37,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -120,6 +121,18 @@ public class PushOneCommit {
       this.message = message;
       this.tagger = tagger;
     }
+  }
+
+  private static AtomicInteger CHANGE_ID_COUNTER = new AtomicInteger();
+
+  private static String nextChangeId() {
+    // Tests use a variety of mechanisms for setting temporary timestamps, so we can't guarantee
+    // that the PersonIdent (or any other field used by the Change-Id generator) for any two test
+    // methods in the same acceptance test class are going to be different. But tests generally
+    // assume that Change-Ids are unique unless otherwise specified. So, don't even bother trying to
+    // reuse JGit's Change-Id generator, just do the simplest possible thing and convert a counter
+    // to hex.
+    return String.format("%040x", CHANGE_ID_COUNTER.incrementAndGet());
   }
 
   private final ChangeNotes.Factory notesFactory;
@@ -267,7 +280,7 @@ public class PushOneCommit {
     if (changeId != null) {
       commitBuilder = testRepo.amendRef("HEAD").insertChangeId(changeId.substring(1));
     } else {
-      commitBuilder = testRepo.branch("HEAD").commit().insertChangeId();
+      commitBuilder = testRepo.branch("HEAD").commit().insertChangeId(nextChangeId());
     }
     commitBuilder.message(subject).author(i).committer(new PersonIdent(i, testRepo.getDate()));
   }

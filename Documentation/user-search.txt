@@ -61,6 +61,11 @@ to include a unit suffix, for example `age:2d`:
 * mon, month, months (`1 month` is treated as `30 days`)
 * y, year, years (`1 year` is treated as `365 days`)
 
+[[assignee]]
+assignee:'USER'::
++
+Changes assigned to the given user.
+
 [[before_until]]
 before:'TIME'/until:'TIME'::
 +
@@ -289,11 +294,19 @@ has:unresolved::
 True if the change has unresolved comments.
 
 [[is]]
+is:assigned::
++
+True if the change has an assignee.
+
 [[is-starred]]
 is:starred::
 +
 Same as 'has:star', true if the change has been starred by the
 current user with the default label.
+
+is:unassigned::
++
+True if the change does not have an assignee.
 
 is:watched::
 +

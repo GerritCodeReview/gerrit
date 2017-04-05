@@ -482,8 +482,8 @@ followed by `topic=...`.
   $ git push origin HEAD:refs/heads/master -o topic=multi-master
 ----
 
-[[private changes]]
-== Private changes
+[[private-changes]]
+== Private Changes
 
 Private changes are changes that are only visible to their owners and
 reviewers. Private changes are useful in a number of cases:

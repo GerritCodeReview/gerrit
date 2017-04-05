@@ -514,6 +514,7 @@ public abstract class AbstractDaemonTest {
     }
     if (server != commonServer) {
       server.stop();
+      server = null;
     }
   }
 

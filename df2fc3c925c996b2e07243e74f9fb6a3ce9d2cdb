@@ -16,6 +16,24 @@
       "revId": "df2fc3c925c996b2e07243e74f9fb6a3ce9d2cdb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4ccf254_caf3fe40",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-05T15:29:07Z",
+      "side": 1,
+      "message": "Done, you were too fast :)",
+      "parentUuid": "1b9cf351_23adfc6b",
+      "revId": "df2fc3c925c996b2e07243e74f9fb6a3ce9d2cdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

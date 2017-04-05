@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1491330031 -0400\nnonce AIcUUg8DaLLjkBSXkucpgeoUS43qZEQWi4bQng+psQ9K4pLCmyAsOPR9a002DE45ieHDU+LPm8Wm\n\n0000000000000000000000000000000000000000 fc6299412c8c6679fa85534e65d0855e94d4f7d9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJY4+PvAAoJEF/XxZqaEoiMLQQP/RPbrIb2MJZ8d7Tt6cEqH7g4\n+1ox6Ye0+KHHH09L0lptRZr4saYMcnOsJOAgE+NNfU9jVWOBUj7hzsEJkPqDMXh8\nhLASZxfhUVg6/MCHgFpEolVLyrNMEPaxPV90hq6U76nO+Ap3Xz94388Zg1/VVzUh\nOgLpI8ibFfESlORk8M31DNQV4k3MP29Ql/ygefBGWigPzGfdA08tWlVMicrFtson\nHG4cxJF168B7IlhDfoT28WY4kZMOyhldAlSrtggk+G8+954qMIBiv3ETUdwBuVmm\nKtVR8VEfK7uxnmBhUHRulGDKrAaGce64kO4lGk80aFENB6w3dD4g4BaxOjGsshM7\nh0IqSLURLwItfXlLwi4W8ME74sprDeZwXNRiWxV3QCiOpkXpT4eADXkZxrejSdi0\n9aOrT6zQIMteMC3m0pL1bmpspdiy8WKsiSlg+hSXRCkyt4poaKqm28Wrjq2AtX07\nrn+/CqhstkWcY0q5pEku7GeLFXFG3hJt5xRSmjnk8cUFSOxE4G/BklimWkA0BDZH\n5dwy1QMUBhfTyFor3VWuh5nScerHmHMDYkCCyHLEDoxKSmjTnAsdivrPTNWifLUQ\nVhNPG9y+/CXCiIXVB6RKo4l07wVRAg7On98VGy/DA0vKl8VNWhA/MU3CuOeBVUZR\nNLeYw0qHOxs2Tt/Ouaqr\n\u003dP33D\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "be960420_f8142235",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-04-05T14:44:05Z",
+      "side": 1,
+      "message": "I\u0027d rather this be an assertion --- e.g.\n\n  if (args.migration.disableChangeReviewDb()) {\n    checkArgument(primaryStorage !\u003d REVIEW_DB, \"primary storage should be NOTE_DB for all changes\");\n  }\n\nsince trying to proceed with a primaryStorage \u003d\u003d REVIEW_DB change in disableChangeReviewDb state is not likely to succeed.",
+      "revId": "fc6299412c8c6679fa85534e65d0855e94d4f7d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

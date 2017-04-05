@@ -23,6 +23,30 @@
       "revId": "f150fa5e996223013599aed1499e4ec00d24947f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd1c7cd3_749241a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-05T12:47:32Z",
+      "side": 1,
+      "message": "If the external ID that contains the preferred email is deleted, the preferred email on the account is unset. This already worked when the external ID was deleted through the DeleteEmail REST endpoint, and [1] fixed it for the DeleteExternalIds REST endpoint.\n\nFor our internal code: If the external ID is moved to another account, the old account is marked as inactive. It keeps the preferred email although the corresponding external ID is now linked with another account. I think this is an inconsistency that we might want to fix, but it shouldn\u0027t harm if this account is ignored now, since it\u0027s an inactive account. If we turn it active again, we would also link the external ID back to it. So I think there should be no problem with this change.\n\n[1] https://gerrit-review.googlesource.com/101864",
+      "parentUuid": "3951725d_af843576",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "f150fa5e996223013599aed1499e4ec00d24947f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

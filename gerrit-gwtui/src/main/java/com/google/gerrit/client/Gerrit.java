@@ -598,7 +598,9 @@ public class Gerrit implements EntryPoint {
   }
 
   private static void updateUiLink(String token) {
-    uiSwitcherLink.setHref(getUiSwitcherUrl(token));
+    if (uiSwitcherLink != null) {
+      uiSwitcherLink.setHref(getUiSwitcherUrl(token));
+    }
   }
 
   private void onModuleLoad2(HostPageData hpd) {

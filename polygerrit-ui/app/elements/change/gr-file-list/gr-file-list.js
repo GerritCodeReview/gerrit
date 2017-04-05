@@ -785,6 +785,9 @@
       var timerName = 'Expand ' + newPaths.length + ' diffs';
       this.$.reporting.time(timerName);
 
+      // Required so that the newly created diff view is included in this.diffs.
+      Polymer.dom.flush();
+
       this._renderInOrder(newPaths, this.diffs, newPaths.length)
           .then(function() {
             this.$.reporting.timeEnd(timerName);

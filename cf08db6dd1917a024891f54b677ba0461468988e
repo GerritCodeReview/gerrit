@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e682a0b_2101fe7f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-05T05:54:40Z",
+      "side": 1,
+      "message": "I\u0027m not sure it makes sense for the diff builder to have knowledge of whether it\u0027s inline or what position it is in the list of inline diffs. My opinion is that the diff builder just deals with building diffs, whatever context it\u0027s run in.\n\nWould it make sense for the `_preRenderThread` optimization to become a public method on GR-DIFF? That way GR-FILE-LIST could just execute it on the first one and GR-DIFF-VIEW could just run it on its only diff.",
+      "range": {
+        "startLine": 97,
+        "startChar": 10,
+        "endLine": 98,
+        "endChar": 30
+      },
+      "revId": "cf08db6dd1917a024891f54b677ba0461468988e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

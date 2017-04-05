@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeTriplet;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Singleton
 public class ChangeFinder {
@@ -92,9 +94,18 @@ public class ChangeFinder {
 
   private List<ChangeControl> asChangeControls(List<ChangeData> cds, CurrentUser user)
       throws OrmException {
+    // Protect against Lucene returning a copy of the change from the open/closed subindexes. This
+    // is a special case of stale data in the index, when a delete from one index has flakily not
+    // been processed yet, but the add to the other index has. Normally, we just ignore staleness
+    // and return stale results, and downstream callers figure out how to deal with it. But in the
+    // specific case of ChangesCollection, returning two identical results would cause an immediate
+    // ResourceNotFoundException, which doesn't even give callers a chance to recover.
+    Set<Change.Id> seen = Sets.newHashSetWithExpectedSize(cds.size());
     List<ChangeControl> ctls = new ArrayList<>(cds.size());
     for (ChangeData cd : cds) {
-      ctls.add(cd.changeControl(user));
+      if (seen.add(cd.getId())) {
+        ctls.add(cd.changeControl(user));
+      }
     }
     return ctls;
   }

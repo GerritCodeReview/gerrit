@@ -233,13 +233,13 @@
     _computeBranchURL: function(project, branch) {
       var status;
       if (this.change.status == this.ChangeStatus.NEW) {
-        status = this.change.status.toLowerCase().replace('new', 'open');
+        status = 'open';
       } else {
         status = this.change.status.toLowerCase();
       }
       return '/q/project:' + this.encodeURL(project, false) +
-        ' branch:' +  this.encodeURL(branch, false) +
-          ' status:' + this.encodeURL(status, false);
+          ' branch:' +  this.encodeURL(branch, false) +
+              ' status:' + this.encodeURL(status, false);
     },
 
     _computeTopicHref: function(topic) {

@@ -34,12 +34,12 @@ public abstract class IndexConfig {
     return builder().build();
   }
 
-  public static IndexConfig fromConfig(Config cfg) {
+  public static Builder fromConfig(Config cfg) {
     Builder b = builder();
     setIfPresent(cfg, "maxLimit", b::maxLimit);
     setIfPresent(cfg, "maxPages", b::maxPages);
     setIfPresent(cfg, "maxTerms", b::maxTerms);
-    return b.build();
+    return b;
   }
 
   private static void setIfPresent(Config cfg, String name, IntConsumer setter) {
@@ -53,7 +53,8 @@ public abstract class IndexConfig {
     return new AutoValue_IndexConfig.Builder()
         .maxLimit(Integer.MAX_VALUE)
         .maxPages(Integer.MAX_VALUE)
-        .maxTerms(DEFAULT_MAX_TERMS);
+        .maxTerms(DEFAULT_MAX_TERMS)
+        .separateChangeSubIndexes(false);
   }
 
   @AutoValue.Builder
@@ -69,6 +70,8 @@ public abstract class IndexConfig {
     public abstract Builder maxTerms(int maxTerms);
 
     abstract int maxTerms();
+
+    public abstract Builder separateChangeSubIndexes(boolean separate);
 
     abstract IndexConfig autoBuild();
 
@@ -101,4 +104,9 @@ public abstract class IndexConfig {
    *     for performance reasons.
    */
   public abstract int maxTerms();
+
+  /**
+   * @return whether different subsets of changes may be stored in different physical sub-indexes.
+   */
+  public abstract boolean separateChangeSubIndexes();
 }

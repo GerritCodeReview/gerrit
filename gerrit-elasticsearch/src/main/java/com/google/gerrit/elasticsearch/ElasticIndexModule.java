@@ -68,6 +68,6 @@ public class ElasticIndexModule extends LifecycleModule {
   @Provides
   @Singleton
   IndexConfig getIndexConfig(@GerritServerConfig Config cfg) {
-    return IndexConfig.fromConfig(cfg);
+    return IndexConfig.fromConfig(cfg).separateChangeSubIndexes(true).build();
   }
 }

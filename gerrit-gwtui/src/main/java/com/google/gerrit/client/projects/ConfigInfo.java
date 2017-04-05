@@ -116,7 +116,8 @@ public class ConfigInfo extends JavaScriptObject {
 
   final native ThemeInfo theme() /*-{ return this.theme; }-*/;
 
-  final native NativeMap<JsArrayString> extensionPanelNames() /*-{ return this.extension_panel_names; }-*/;
+  final native NativeMap<JsArrayString>
+      extensionPanelNames() /*-{ return this.extension_panel_names; }-*/;
 
   protected ConfigInfo() {}
 

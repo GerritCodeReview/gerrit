@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ccf4eb83_7cd3cecb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/StartStopDeamonIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-05T01:14:19Z",
+      "side": 1,
+      "message": "Daemon",
+      "range": {
+        "startLine": 27,
+        "startChar": 22,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "495a0cc007e659c5e914d1b50c4fd1ae7c57e404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

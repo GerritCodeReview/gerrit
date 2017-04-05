@@ -25,6 +25,7 @@
     ],
 
     open: function() {
+      Polymer.dom.flush();
       return new Promise(function(resolve) {
         Polymer.IronOverlayBehaviorImpl.open.apply(this, arguments);
         this._awaitOpen(resolve);

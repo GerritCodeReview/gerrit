@@ -501,7 +501,7 @@ public abstract class AbstractDaemonTest {
     return GitUtil.cloneProject(p, inProcessProtocol.register(ctx, repo).toString());
   }
 
-  private void afterTest() throws Exception {
+  protected void afterTest() throws Exception {
     Transport.unregister(inProcessProtocol);
     for (Repository repo : toClose) {
       repo.close();

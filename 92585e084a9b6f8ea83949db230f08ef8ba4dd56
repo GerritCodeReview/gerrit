@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9a47ba2_026b84b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-05T20:28:24Z",
+      "side": 1,
+      "message": "This should probably explain that you are fixing a bad commit (and point to it).  See https://gerrit-review.googlesource.com/#/c/102230/",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "92585e084a9b6f8ea83949db230f08ef8ba4dd56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

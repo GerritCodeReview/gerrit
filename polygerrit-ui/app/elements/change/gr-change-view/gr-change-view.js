@@ -518,6 +518,9 @@
         if (this.viewState.showReplyDialog) {
           this._openReplyDialog();
           this.async(function() { this.$.replyOverlay.center(); }, 1);
+          // TODO(kaspern@): Find a better solution.
+          this.async(function() { this.$.replyOverlay.center(); }, 100);
+          this.async(function() { this.$.replyOverlay.center(); }, 1000);
           this.set('viewState.showReplyDialog', false);
         }
       }.bind(this));

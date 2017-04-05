@@ -63,7 +63,11 @@
     },
 
     _handleDropdownTap: function(e) {
-      this.$.dropdown.close();
+      // setTimeout is needed so that that the click event is fired before the
+      // dropdown closes (This was a bug for touch devices).
+      setTimeout(function(){
+        this.$.dropdown.close();
+      }.bind(this), 500);
     },
 
     _showDropdownTapHandler: function(e) {

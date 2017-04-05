@@ -16,6 +16,24 @@
       "revId": "1dfe43012b486c04a7a22ee1e4a54382473f2f02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bf8eba7_ff43d318",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-05T04:19:56Z",
+      "side": 1,
+      "message": "https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d5614",
+      "parentUuid": "a268a9d3_2d8b070e",
+      "revId": "1dfe43012b486c04a7a22ee1e4a54382473f2f02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

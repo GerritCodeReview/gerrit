@@ -55,7 +55,7 @@ public class MailIT extends AbstractDaemonTest {
     cfg.setString(RECEIVEEMAIL, null, "username", USERNAME);
     cfg.setString(RECEIVEEMAIL, null, "password", PASSWORD);
     cfg.setString(RECEIVEEMAIL, null, "protocol", "POP3");
-    cfg.setString(RECEIVEEMAIL, null, "fetchInterval", "99");
+    cfg.setString(RECEIVEEMAIL, null, "fetchInterval", "99s");
     return cfg;
   }
 
@@ -67,7 +67,7 @@ public class MailIT extends AbstractDaemonTest {
     cfg.setString(RECEIVEEMAIL, null, "username", USERNAME);
     cfg.setString(RECEIVEEMAIL, null, "password", PASSWORD);
     cfg.setString(RECEIVEEMAIL, null, "protocol", "IMAP");
-    cfg.setString(RECEIVEEMAIL, null, "fetchInterval", "99");
+    cfg.setString(RECEIVEEMAIL, null, "fetchInterval", "99s");
     return cfg;
   }
 

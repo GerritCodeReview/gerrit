@@ -297,8 +297,9 @@
         }
         return this._mapReviewer(reviewer);
       }.bind(this));
-      if (this.serverConfig.note_db_enabled) {
-        this.$$('#ccs').additions().forEach(function(reviewer) {
+      var ccsEl = this.$$('#ccs');
+      if (ccsEl) {
+        ccsEl.additions().forEach(function(reviewer) {
           if (reviewer.account) {
             accountAdditions[reviewer.account._account_id] = true;
           }

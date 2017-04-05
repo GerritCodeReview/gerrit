@@ -785,6 +785,8 @@
       var timerName = 'Expand ' + newPaths.length + ' diffs';
       this.$.reporting.time(timerName);
 
+      Polymer.dom.flush();
+
       this._renderInOrder(newPaths, this.diffs, newPaths.length)
           .then(function() {
             this.$.reporting.timeEnd(timerName);

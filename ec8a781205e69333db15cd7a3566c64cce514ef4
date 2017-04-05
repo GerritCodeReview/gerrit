@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6d9cc5b1_cd662d5f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-05T14:59:02Z",
+      "side": 1,
+      "message": "How would i do the tests please?",
+      "parentUuid": "72c41ea2_998d7e96",
+      "range": {
+        "startLine": 233,
+        "startChar": 4,
+        "endLine": 233,
+        "endChar": 21
+      },
+      "revId": "ec8a781205e69333db15cd7a3566c64cce514ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "86100804_1b12f2b0",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 19
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5af26c06_95b608de",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-05T14:59:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "86100804_1b12f2b0",
+      "range": {
+        "startLine": 236,
+        "startChar": 8,
+        "endLine": 236,
+        "endChar": 73
+      },
+      "revId": "ec8a781205e69333db15cd7a3566c64cce514ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b2e6a3ad_3748ec6c",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 19
@@ -59,6 +107,30 @@
       "writtenOn": "2017-04-04T18:28:43Z",
       "side": 1,
       "message": "Nit: Indent this line by one more level. Statement continuations should use four-space indent.",
+      "range": {
+        "startLine": 241,
+        "startChar": 8,
+        "endLine": 241,
+        "endChar": 53
+      },
+      "revId": "ec8a781205e69333db15cd7a3566c64cce514ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02905764_d917cf5e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-05T14:59:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b2e6a3ad_3748ec6c",
       "range": {
         "startLine": 241,
         "startChar": 8,

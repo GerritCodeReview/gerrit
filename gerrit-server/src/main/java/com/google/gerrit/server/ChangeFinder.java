@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeTriplet;
+import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -29,13 +31,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Singleton
 public class ChangeFinder {
+  private final IndexConfig indexConfig;
   private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
-  ChangeFinder(Provider<InternalChangeQuery> queryProvider) {
+  ChangeFinder(IndexConfig indexConfig, Provider<InternalChangeQuery> queryProvider) {
+    this.indexConfig = indexConfig;
     this.queryProvider = queryProvider;
   }
 
@@ -93,8 +98,24 @@ public class ChangeFinder {
   private List<ChangeControl> asChangeControls(List<ChangeData> cds, CurrentUser user)
       throws OrmException {
     List<ChangeControl> ctls = new ArrayList<>(cds.size());
+    if (!indexConfig.separateChangeSubIndexes()) {
+      for (ChangeData cd : cds) {
+        ctls.add(cd.changeControl(user));
+      }
+      return ctls;
+    }
+
+    // If an index implementation uses separate non-atomic subindexes, it's possible to temporarily
+    // observe a change as present in both subindexes, if this search is concurrent with a write.
+    // Dedup to avoid confusing the caller. We can choose an arbitrary ChangeData instance because
+    // the index results have no stored fields, so the data is already reloaded. (It's also possible
+    // that a change might appear in zero subindexes, but there's nothing we can do here to help
+    // this case.)
+    Set<Change.Id> seen = Sets.newHashSetWithExpectedSize(cds.size());
     for (ChangeData cd : cds) {
-      ctls.add(cd.changeControl(user));
+      if (seen.add(cd.getId())) {
+        ctls.add(cd.changeControl(user));
+      }
     }
     return ctls;
   }

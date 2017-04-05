@@ -84,7 +84,7 @@ public class LuceneIndexModule extends LifecycleModule {
   IndexConfig getIndexConfig(@GerritServerConfig Config cfg) {
     BooleanQuery.setMaxClauseCount(
         cfg.getInt("index", "maxTerms", BooleanQuery.getMaxClauseCount()));
-    return IndexConfig.fromConfig(cfg);
+    return IndexConfig.fromConfig(cfg).separateChangeSubIndexes(true).build();
   }
 
   private static class MultiVersionModule extends LifecycleModule {

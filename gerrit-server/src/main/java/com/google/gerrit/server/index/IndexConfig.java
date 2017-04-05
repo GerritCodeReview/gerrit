@@ -17,6 +17,7 @@ package com.google.gerrit.server.index;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.server.index.IndexModule.IndexType;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -33,19 +34,19 @@ public abstract class IndexConfig {
     return builder().build();
   }
 
-  public static IndexConfig fromConfig(Config cfg) {
+  public static Builder fromConfig(Config cfg) {
     Builder b = builder();
     return b.maxLimit(cfg.getInt("index", null, "maxLimit", b.maxLimit()))
         .maxPages(cfg.getInt("index", null, "maxPages", b.maxPages()))
-        .maxTerms(cfg.getInt("index", null, "maxTerms", b.maxTerms()))
-        .build();
+        .maxTerms(cfg.getInt("index", null, "maxTerms", b.maxTerms()));
   }
 
   public static Builder builder() {
     return new AutoValue_IndexConfig.Builder()
         .maxLimit(Integer.MAX_VALUE)
         .maxPages(Integer.MAX_VALUE)
-        .maxTerms(DEFAULT_MAX_TERMS);
+        .maxTerms(DEFAULT_MAX_TERMS)
+        .separateChangeSubIndexes(false);
   }
 
   @AutoValue.Builder
@@ -61,6 +62,8 @@ public abstract class IndexConfig {
     public abstract Builder maxTerms(int maxTerms);
 
     abstract int maxTerms();
+
+    public abstract Builder separateChangeSubIndexes(boolean separate);
 
     abstract IndexConfig autoBuild();
 
@@ -93,4 +96,9 @@ public abstract class IndexConfig {
    *     for performance reasons.
    */
   public abstract int maxTerms();
+
+  /**
+   * @return whether different subsets of changes may be stored in different physical sub-indexes.
+   */
+  public abstract boolean separateChangeSubIndexes();
 }

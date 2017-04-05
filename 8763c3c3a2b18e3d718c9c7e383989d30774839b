@@ -26,6 +26,23 @@
     },
     {
       "key": {
+        "uuid": "a33e4b10_6f01250b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-05T23:51:37Z",
+      "side": 1,
+      "message": "Add a reference to issue 5944?",
+      "revId": "8763c3c3a2b18e3d718c9c7e383989d30774839b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7e3c962_1e1cdd47",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
         "patchSetId": 1

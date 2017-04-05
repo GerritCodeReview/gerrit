@@ -24,8 +24,8 @@ import org.junit.Test;
 import org.junit.runner.Description;
 
 @Sandboxed
-public class StartStopDeamonIT extends AbstractDaemonTest {
-  Description suiteDescription = Description.createSuiteDescription(StartStopDeamonIT.class);
+public class StartStopDaemonIT extends AbstractDaemonTest {
+  Description suiteDescription = Description.createSuiteDescription(StartStopDaemonIT.class);
 
   @Test
   public void sandboxedDaemonDoesNotLeakThreads() throws Exception {

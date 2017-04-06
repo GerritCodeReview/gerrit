@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "939aec88_085f58e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-06T20:53:16Z",
+      "side": 1,
+      "message": "That was the Polymer team\u0027s interpretation of the issue.",
+      "parentUuid": "6d0eb023_f3af920f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "326c38049effd1d43a36eafaddf9e83792bad67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a859a75b_e36b36aa",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d344ee21_3b41077c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-06T20:53:16Z",
+      "side": 1,
+      "message": "The timeline analyzing what was happening during the process.",
+      "parentUuid": "a859a75b_e36b36aa",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 32
+      },
+      "revId": "326c38049effd1d43a36eafaddf9e83792bad67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c66936e_34a18b53",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -62,6 +110,24 @@
       "revId": "326c38049effd1d43a36eafaddf9e83792bad67c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e69ef9b9_8be705cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-06T20:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c66936e_34a18b53",
+      "revId": "326c38049effd1d43a36eafaddf9e83792bad67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -85,6 +151,30 @@
       "revId": "326c38049effd1d43a36eafaddf9e83792bad67c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "115d7669_bb0943fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-06T20:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03f89373_9e156f92",
+      "range": {
+        "startLine": 20,
+        "startChar": 30,
+        "endLine": 20,
+        "endChar": 63
+      },
+      "revId": "326c38049effd1d43a36eafaddf9e83792bad67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

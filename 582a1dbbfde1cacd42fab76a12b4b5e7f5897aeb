@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "066adad4_d3530200",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-06T19:38:29Z",
+      "side": 1,
+      "message": "OK, strange, this compile failure does not show up with \"bazel build gerrit\" or \"bazel build release\", why is that?  I have to specifically specify the test name for it to run it seems?  Why are these not at least built by default even if they aren\u0027t run?",
+      "parentUuid": "c0c11791_8a1ed590",
+      "range": {
+        "startLine": 374,
+        "startChar": 14,
+        "endLine": 374,
+        "endChar": 20
+      },
+      "revId": "582a1dbbfde1cacd42fab76a12b4b5e7f5897aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1474e28c_479870f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "38d4412d_d7952a1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-06T19:38:29Z",
+      "side": 1,
+      "message": "Rebase goof. Done.",
+      "parentUuid": "1474e28c_479870f7",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 13
+      },
+      "revId": "582a1dbbfde1cacd42fab76a12b4b5e7f5897aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16ccdfea_1854eba8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/Commits.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2017-04-06T16:56:05Z",
       "side": 1,
       "message": "should be final",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 9
+      },
+      "revId": "582a1dbbfde1cacd42fab76a12b4b5e7f5897aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20398246_b0c9bad6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/Commits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-06T19:38:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16ccdfea_1854eba8",
       "range": {
         "startLine": 74,
         "startChar": 2,

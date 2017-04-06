@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ce7d83e7_129bd766",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-06T23:18:27Z",
+      "side": 1,
+      "message": "The test targets are not compile dependencies of the gerrit target.\n\nA quick way to force compilation is to run the Eclipse project generation script:\n\n ./tools/eclipse/project.py\n\n(you don\u0027t need to actually have or be using Eclipse)",
+      "parentUuid": "066adad4_d3530200",
+      "range": {
+        "startLine": 374,
+        "startChar": 14,
+        "endLine": 374,
+        "endChar": 20
+      },
+      "revId": "582a1dbbfde1cacd42fab76a12b4b5e7f5897aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1474e28c_479870f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
         "patchSetId": 2

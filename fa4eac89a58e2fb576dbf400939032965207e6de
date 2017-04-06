@@ -16,6 +16,24 @@
       "revId": "fa4eac89a58e2fb576dbf400939032965207e6de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d49dc5d9_9b134f82",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-06T23:33:32Z",
+      "side": 1,
+      "message": "Oof, sick coding gone wrong. Done.",
+      "parentUuid": "d1ce522a_0ea2081b",
+      "revId": "fa4eac89a58e2fb576dbf400939032965207e6de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

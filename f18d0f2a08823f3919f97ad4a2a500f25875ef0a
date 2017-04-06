@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "202bb2c4_101683be",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-06T20:06:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9dda9976_4d7bf392",
+      "range": {
+        "startLine": 673,
+        "startChar": 4,
+        "endLine": 677,
+        "endChar": 6
+      },
+      "revId": "f18d0f2a08823f3919f97ad4a2a500f25875ef0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9585314f_f3f14be6",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 19
@@ -155,6 +179,30 @@
       "side": 1,
       "message": "Just removing this assert should be good enough.",
       "parentUuid": "0f7fe9ca_38b329ad",
+      "range": {
+        "startLine": 607,
+        "startChar": 8,
+        "endLine": 608,
+        "endChar": 21
+      },
+      "revId": "f18d0f2a08823f3919f97ad4a2a500f25875ef0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f4b2834_dde3c08f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-06T20:06:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d72882c1_5e2fb48a",
       "range": {
         "startLine": 607,
         "startChar": 8,

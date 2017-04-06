@@ -71,6 +71,54 @@
     },
     {
       "key": {
+        "uuid": "655939c1_31286dca",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-06T21:26:21Z",
+      "side": 1,
+      "message": "Switched to omitting the param.",
+      "parentUuid": "33ead005_82b4e4e6",
+      "range": {
+        "startLine": 587,
+        "startChar": 20,
+        "endLine": 587,
+        "endChar": 23
+      },
+      "revId": "fc34f3f61bb72bc7e73e7c86740981223cbabcc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2937f6af_a4b87acd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-06T21:26:21Z",
+      "side": 1,
+      "message": "This.async doesn\u0027t seem to work.",
+      "parentUuid": "d2dafc1d_bd924e19",
+      "range": {
+        "startLine": 587,
+        "startChar": 7,
+        "endLine": 587,
+        "endChar": 18
+      },
+      "revId": "fc34f3f61bb72bc7e73e7c86740981223cbabcc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34d229d3_a5f8ce6a",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
         "patchSetId": 1
@@ -82,6 +130,24 @@
       "writtenOn": "2017-04-06T19:04:33Z",
       "side": 1,
       "message": "Does the edit in this file solve the same problem?",
+      "revId": "fc34f3f61bb72bc7e73e7c86740981223cbabcc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ce55d0c_c6448c1e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-06T21:26:21Z",
+      "side": 1,
+      "message": "Yes, even though the bug was for the other issue I realized that we had the problem here as well.",
+      "parentUuid": "34d229d3_a5f8ce6a",
       "revId": "fc34f3f61bb72bc7e73e7c86740981223cbabcc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -108,6 +174,30 @@
       "revId": "fc34f3f61bb72bc7e73e7c86740981223cbabcc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e8f7c77_d9e8ac2d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-06T21:26:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8bc59e4_0bb3aa77",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 16
+      },
+      "revId": "fc34f3f61bb72bc7e73e7c86740981223cbabcc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fd543f7_534ab123",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/Exports.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-06T21:07:28Z",
+      "side": 1,
+      "message": "Please fix the raw type warning.",
+      "revId": "054d2b8ead5d9e33e40d1bb7fa915e5ae98cb630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

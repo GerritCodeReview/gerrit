@@ -16,6 +16,24 @@
       "revId": "ad71b98b7ecb73002c492815855a0a262b7a33ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "355d48d6_f9743035",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-06T22:36:26Z",
+      "side": 1,
+      "message": "I haven\u0027t noticed that being an issue. That shares the array between instances, and there\u0027s only ever one instance of this list. \n\nAll the same, I\u0027ll change it to avoid future unintended consquences. Good call.",
+      "parentUuid": "c46f9224_a221d94a",
+      "revId": "ad71b98b7ecb73002c492815855a0a262b7a33ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

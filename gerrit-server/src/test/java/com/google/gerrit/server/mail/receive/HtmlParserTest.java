@@ -49,7 +49,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
             null));
 
     List<Comment> comments = defaultComments();
-    List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, changeURL);
+    List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(3);
     assertChangeMessage("Looks good to me", parsedComments.get(0));
@@ -71,7 +71,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
             null));
 
     List<Comment> comments = defaultComments();
-    List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, changeURL);
+    List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(3);
     assertChangeMessage("Looks good to me", parsedComments.get(0));
@@ -85,7 +85,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
     b.htmlContent(newHtmlBody(null, null, null, null, null, null, null));
 
     List<Comment> comments = defaultComments();
-    List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, changeURL);
+    List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).isEmpty();
   }
@@ -98,7 +98,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
             null, null, null, "Also have a comment here.", "This is a nice file", null, null));
 
     List<Comment> comments = defaultComments();
-    List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, changeURL);
+    List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(2);
     assertFileComment("This is a nice file", parsedComments.get(0), comments.get(1).key.filename);

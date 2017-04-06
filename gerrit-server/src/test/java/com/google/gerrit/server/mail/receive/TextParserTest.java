@@ -40,7 +40,7 @@ public class TextParserTest extends AbstractParserTest {
     b.textContent("Looks good to me\n" + quotedFooter);
 
     List<Comment> comments = defaultComments();
-    List<MailComment> parsedComments = TextParser.parse(b.build(), comments, changeURL);
+    List<MailComment> parsedComments = TextParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(1);
     assertChangeMessage("Looks good to me", parsedComments.get(0));
@@ -61,7 +61,7 @@ public class TextParserTest extends AbstractParserTest {
             + quotedFooter);
 
     List<Comment> comments = defaultComments();
-    List<MailComment> parsedComments = TextParser.parse(b.build(), comments, changeURL);
+    List<MailComment> parsedComments = TextParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(3);
     assertChangeMessage("Looks good to me", parsedComments.get(0));
@@ -84,7 +84,7 @@ public class TextParserTest extends AbstractParserTest {
             + quotedFooter);
 
     List<Comment> comments = defaultComments();
-    List<MailComment> parsedComments = TextParser.parse(b.build(), comments, changeURL);
+    List<MailComment> parsedComments = TextParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(3);
     assertChangeMessage("Looks good to me", parsedComments.get(0));
@@ -98,7 +98,7 @@ public class TextParserTest extends AbstractParserTest {
     b.textContent(newPlaintextBody(null, null, null, null, null, null, null) + quotedFooter);
 
     List<Comment> comments = defaultComments();
-    List<MailComment> parsedComments = TextParser.parse(b.build(), comments, changeURL);
+    List<MailComment> parsedComments = TextParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).isEmpty();
   }
@@ -112,7 +112,7 @@ public class TextParserTest extends AbstractParserTest {
             + quotedFooter);
 
     List<Comment> comments = defaultComments();
-    List<MailComment> parsedComments = TextParser.parse(b.build(), comments, changeURL);
+    List<MailComment> parsedComments = TextParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(2);
     assertFileComment("This is a nice file", parsedComments.get(0), comments.get(1).key.filename);
@@ -135,7 +135,7 @@ public class TextParserTest extends AbstractParserTest {
             .replace("> ", ">> "));
 
     List<Comment> comments = defaultComments();
-    List<MailComment> parsedComments = TextParser.parse(b.build(), comments, changeURL);
+    List<MailComment> parsedComments = TextParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(3);
     assertChangeMessage("Looks good to me", parsedComments.get(0));
@@ -158,7 +158,7 @@ public class TextParserTest extends AbstractParserTest {
             + quotedFooter);
 
     List<Comment> comments = defaultComments();
-    List<MailComment> parsedComments = TextParser.parse(b.build(), comments, changeURL);
+    List<MailComment> parsedComments = TextParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(2);
     assertChangeMessage("Looks good to me", parsedComments.get(0));
@@ -184,7 +184,7 @@ public class TextParserTest extends AbstractParserTest {
         + "<noreply-gerritcodereview-qUgXfQecoDLHwp0MldAzig@google.com> wrote: \n"
         + "> Foo Bar has posted comments on this change. (  \n"
         + "> "
-        + changeURL
+        + CHANGE_URL
         + "/1 )\n"
         + "> \n"
         + "> Change subject: Test change\n"
@@ -196,7 +196,7 @@ public class TextParserTest extends AbstractParserTest {
         + "> (3 comments)\n"
         + "> \n"
         + "> "
-        + changeURL
+        + CHANGE_URL
         + "/1/gerrit-server/test.txt\n"
         + "> File  \n"
         + "> gerrit-server/test.txt:\n"
@@ -204,14 +204,14 @@ public class TextParserTest extends AbstractParserTest {
         + "> \n"
         + "> Patch Set #4:\n"
         + "> "
-        + changeURL
+        + CHANGE_URL
         + "/1/gerrit-server/test.txt\n"
         + "> \n"
         + "> Some comment"
         + "> \n"
         + (fc1 == null ? "" : fc1 + "\n")
         + "> "
-        + changeURL
+        + CHANGE_URL
         + "/1/gerrit-server/test.txt@2\n"
         + "> PS1, Line 2: throw new Exception(\"Object has unsupported: \" +\n"
         + ">               :             entry.getValue() +\n"
@@ -222,7 +222,7 @@ public class TextParserTest extends AbstractParserTest {
         + ">\n"
         + "> \n"
         + "> "
-        + changeURL
+        + CHANGE_URL
         + "/1/gerrit-server/test.txt@3\n"
         + "> PS1, Line 3: throw new Exception(\"Object has: \" +\n"
         + ">               :             entry.getValue().getClass() +\n"
@@ -232,14 +232,14 @@ public class TextParserTest extends AbstractParserTest {
         + (c2 == null ? "" : c2 + "\n")
         + "> \n"
         + "> "
-        + changeURL
+        + CHANGE_URL
         + "/1/gerrit-server/readme.txt\n"
         + "> File  \n"
         + "> gerrit-server/readme.txt:\n"
         + (f2 == null ? "" : f2 + "\n")
         + "> \n"
         + "> "
-        + changeURL
+        + CHANGE_URL
         + "/1/gerrit-server/readme.txt@3\n"
         + "> PS1, Line 3: E\n"
         + "> Should this be EEE like in other places?\n"

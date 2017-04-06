@@ -3,6 +3,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "0b8a50bd_deba041a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-06T13:07:31Z",
+      "side": 1,
+      "message": "Doesn\u0027t fit anymore.",
+      "range": {
+        "startLine": 45,
+        "startChar": 44,
+        "endLine": 46,
+        "endChar": 86
+      },
+      "revId": "8edd2250dca1a91b45e04da848bf51bd06c17d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c40829cd_46e57f10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-06T13:07:31Z",
+      "side": 1,
+      "message": "optional: Add a protected method to BatchUpdate which calls initRepository() and returns repoView. In addition, make repoView private. Thus, child classes must use the method and won\u0027t forget to call initRepository().",
+      "range": {
+        "startLine": 146,
+        "startChar": 6,
+        "endLine": 147,
+        "endChar": 44
+      },
+      "revId": "8edd2250dca1a91b45e04da848bf51bd06c17d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f639addb_0efc2e4c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java",
         "patchSetId": 1

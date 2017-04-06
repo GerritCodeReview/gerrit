@@ -29,7 +29,6 @@ import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.RebaseSorter;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.ChangeContext;
@@ -168,7 +167,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
                 // Bypass approval copier since SubmitStrategyOp copy all approvals
                 // later anyway.
                 .setCopyApprovals(false)
-                .setValidatePolicy(CommitValidators.Policy.NONE)
+                .setValidate(false)
                 .setCheckAddPatchSetPermission(false)
                 // RebaseAlways should set always modify commit message like
                 // Cherry-Pick strategy.

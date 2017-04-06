@@ -45,7 +45,6 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ConsistencyChecker;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
@@ -802,7 +801,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
       ins =
           changeInserterFactory
               .create(id, commit, dest)
-              .setValidatePolicy(CommitValidators.Policy.NONE)
+              .setValidate(false)
               .setNotify(NotifyHandling.NONE)
               .setFireRevisionCreated(false)
               .setSendMail(false);
@@ -826,7 +825,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
       ins =
           patchSetInserterFactory
               .create(ctl, nextPatchSetId(ctl), commit)
-              .setValidatePolicy(CommitValidators.Policy.NONE)
+              .setValidate(false)
               .setFireRevisionCreated(false)
               .setNotify(NotifyHandling.NONE);
       bu.addOp(ctl.getId(), ins).execute();

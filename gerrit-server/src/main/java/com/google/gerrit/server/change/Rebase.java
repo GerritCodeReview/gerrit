@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RebaseUtil.Base;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -111,8 +110,7 @@ public class Rebase
           rebaseFactory
               .create(control, rsrc.getPatchSet(), findBaseRev(repo, rw, rsrc, input))
               .setForceContentMerge(true)
-              .setFireRevisionCreated(true)
-              .setValidatePolicy(CommitValidators.Policy.GERRIT));
+              .setFireRevisionCreated(true));
       bu.execute();
     }
     return json.create(OPTIONS).format(change.getProject(), change.getId());

@@ -39,7 +39,9 @@ public class PluginLoader extends DialogBox {
     if (plugins == null || plugins.isEmpty()) {
       callback.onSuccess(VoidResult.create());
     }
-    plugins = plugins.stream().filter(p -> p.endsWith(".js")).collect(Collectors.toList());
+    if (plugins != null) {
+      plugins = plugins.stream().filter(p -> p.endsWith(".js")).collect(Collectors.toList());
+    }
     if (plugins.isEmpty()) {
       callback.onSuccess(VoidResult.create());
     } else {

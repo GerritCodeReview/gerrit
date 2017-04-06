@@ -384,6 +384,7 @@ limitations under the License.
                   change="[[_change]]"
                   has-parent="{{hasParent}}"
                   loading="{{_relatedChangesLoading}}"
+                  on-update="_updateRelatedChangeMaxHeight"
                   patch-num="[[_computeLatestPatchNum(_allPatchSets)]]">
               </gr-related-changes-list>
               <div

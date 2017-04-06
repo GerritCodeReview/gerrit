@@ -1118,7 +1118,8 @@
      * @desc new max height for the related changes section, shorter than
      * the existing change info height.
      */
-    _updateRelatedChangeMaxHeight: function() {
+    _updateRelatedChangeMaxHeight: function(opt_e) {
+      if (opt_e) { opt_e.stopPropagation(); }
       // Takes into account approximate height for the expand button and
       // bottom margin
       var extraHeight = 24;

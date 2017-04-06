@@ -51,7 +51,6 @@ import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
@@ -74,6 +73,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -100,6 +100,8 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificateIdent;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
@@ -180,6 +182,26 @@ public class AccountIT extends AbstractDaemonTest {
             .that(ru.delete())
             .isEqualTo(RefUpdate.Result.FORCED);
       }
+    }
+  }
+
+  @Test
+  public void create() throws Exception {
+    TestAccount foo = accounts.create("foo");
+    AccountInfo info = gApi.accounts().id(foo.id.get()).get();
+    assertThat(info.username).isEqualTo("foo");
+
+    // check user branch
+    try (Repository repo = repoManager.openRepository(allUsers);
+        RevWalk rw = new RevWalk(repo)) {
+      Ref ref = repo.exactRef(RefNames.refsUsers(foo.getId()));
+      assertThat(ref).isNotNull();
+      RevCommit c = rw.parseCommit(ref.getObjectId());
+      long timestampDiffMs =
+          Math.abs(
+              c.getCommitTime() * 1000L
+                  - accountCache.get(foo.getId()).getAccount().getRegisteredOn().getTime());
+      assertThat(timestampDiffMs).isAtMost(ChangeRebuilderImpl.MAX_WINDOW_MS);
     }
   }
 
@@ -553,7 +575,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @Sandboxed
   public void fetchUserBranch() throws Exception {
-    ensureUserBranchCreated(user);
+    setApiUser(user);
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers, user);
     String userRefName = RefNames.refsUsers(user.id);
@@ -603,8 +625,6 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void pushToUserBranch() throws Exception {
-    ensureUserBranchCreated(admin);
-
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
     allUsersRepo.reset("userRef");
@@ -617,8 +637,6 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void pushToUserBranchForReview() throws Exception {
-    ensureUserBranchCreated(admin);
-
     String userRefName = RefNames.refsUsers(admin.id);
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, userRefName + ":userRef");
@@ -640,8 +658,6 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void pushWatchConfigToUserBranch() throws Exception {
-    ensureUserBranchCreated(admin);
-
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
     allUsersRepo.reset("userRef");
@@ -683,8 +699,6 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @Sandboxed
   public void cannotDeleteUserBranch() throws Exception {
-    ensureUserBranchCreated(admin);
-
     grant(
         Permission.DELETE,
         allUsers,
@@ -707,8 +721,6 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @Sandboxed
   public void deleteUserBranchWithAccessDatabaseCapability() throws Exception {
-    ensureUserBranchCreated(admin);
-
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     grant(
         Permission.DELETE,
@@ -1018,13 +1030,5 @@ public class AccountIT extends AbstractDaemonTest {
   private void assertEmail(Set<Account.Id> accounts, TestAccount expectedAccount) {
     assertThat(accounts).hasSize(1);
     assertThat(Iterables.getOnlyElement(accounts)).isEqualTo(expectedAccount.getId());
-  }
-
-  private void ensureUserBranchCreated(TestAccount account) throws Exception {
-    // Change something in the user preferences to ensure that the user branch is created.
-    setApiUser(account);
-    GeneralPreferencesInfo input = new GeneralPreferencesInfo();
-    input.changesPerPage = GeneralPreferencesInfo.defaults().changesPerPage + 10;
-    gApi.accounts().self().setPreferences(input);
   }
 }

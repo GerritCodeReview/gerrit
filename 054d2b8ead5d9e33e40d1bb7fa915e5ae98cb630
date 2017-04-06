@@ -16,6 +16,24 @@
       "revId": "054d2b8ead5d9e33e40d1bb7fa915e5ae98cb630",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3079141_b601daea",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/Exports.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-06T21:27:58Z",
+      "side": 1,
+      "message": "How are we supposed to identify these?  The dev docs do not mention that we need to not have any eclipse warnings.  Is this really something that we should be requiring if we cannot test for it?\n\nI would like to be a good citizen, but I have to point out that is becoming extremely difficult to contribute and to review Gerrit code with an ever increasing manual style bar.  How is a reviewer supposed to catch stuff without an automated way?  Is that really how we want to waste our time?  I want to start reviewing more code, but it seems like reviewing code now means downloading it, running google-format, eclipse, and buildifier at least.  I am not in favor of enforcing this kind of bar for reviewers.",
+      "parentUuid": "8fd543f7_534ab123",
+      "revId": "054d2b8ead5d9e33e40d1bb7fa915e5ae98cb630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

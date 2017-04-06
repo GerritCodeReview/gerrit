@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0f7fe9ca_38b329ad",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-06T19:16:24Z",
+      "side": 1,
+      "message": "Oh how do i fix that please?",
+      "parentUuid": "2be6caf5_4c673f03",
+      "range": {
+        "startLine": 607,
+        "startChar": 8,
+        "endLine": 608,
+        "endChar": 21
+      },
+      "revId": "f18d0f2a08823f3919f97ad4a2a500f25875ef0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "53b908b5_d3717768",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 19
@@ -83,6 +107,30 @@
       "writtenOn": "2017-04-06T18:31:39Z",
       "side": 1,
       "message": "Please wrap lines \u003e 80ch.",
+      "range": {
+        "startLine": 599,
+        "startChar": 4,
+        "endLine": 611,
+        "endChar": 7
+      },
+      "revId": "f18d0f2a08823f3919f97ad4a2a500f25875ef0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10a45279_4b52c207",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-06T19:16:24Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "53b908b5_d3717768",
       "range": {
         "startLine": 599,
         "startChar": 4,

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b61dcdc2_04d47eb0",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:14:58Z",
+      "side": 1,
+      "message": "To avoid the problem we recently had with the `cancel` event, this might be called something more scoped, such as ...\n\n related-changes-list-update\n\n... or, better yet, keep the \"update\" name and only fire it in a way that doesn\u0027t bubble.",
+      "range": {
+        "startLine": 24,
+        "startChar": 14,
+        "endLine": 24,
+        "endChar": 20
+      },
+      "revId": "aca53cf49e0e9f0e17d2d94cbba13be12c773d1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daefb635_0530358b",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:14:58Z",
+      "side": 1,
+      "message": "Would it make sense to dispatch the event from the `_resultsChanged` observer? Or from a similar observer?\n\nThat way, all the new event functionality can be housed in one place, rather than distributed in each of the relevant REST response handlers.",
+      "range": {
+        "startLine": 83,
+        "startChar": 10,
+        "endLine": 83,
+        "endChar": 30
+      },
+      "revId": "aca53cf49e0e9f0e17d2d94cbba13be12c773d1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

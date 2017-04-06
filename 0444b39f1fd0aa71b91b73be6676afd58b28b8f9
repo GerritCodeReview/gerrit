@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ce155220_31d304b8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-06T23:20:56Z",
+      "side": 1,
+      "message": "Initially I used cancelable: true, which is why this is here. Thanks.",
+      "parentUuid": "f61ed583_a4b70cc9",
+      "revId": "0444b39f1fd0aa71b91b73be6676afd58b28b8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e6300f6_2e327671",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
         "patchSetId": 4
@@ -39,6 +57,30 @@
       "revId": "0444b39f1fd0aa71b91b73be6676afd58b28b8f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40d6fd38_0e38e637",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-06T23:20:56Z",
+      "side": 1,
+      "message": "Remnant from an earlier commit + attempt to solve this problem.",
+      "parentUuid": "0e6300f6_2e327671",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 8
+      },
+      "revId": "0444b39f1fd0aa71b91b73be6676afd58b28b8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

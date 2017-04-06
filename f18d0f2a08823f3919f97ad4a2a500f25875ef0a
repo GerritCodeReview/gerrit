@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9dda9976_4d7bf392",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-06T19:44:39Z",
+      "side": 1,
+      "message": "This function is actually already defined on #728.",
+      "range": {
+        "startLine": 673,
+        "startChar": 4,
+        "endLine": 677,
+        "endChar": 6
+      },
+      "revId": "f18d0f2a08823f3919f97ad4a2a500f25875ef0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9585314f_f3f14be6",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 19
@@ -49,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "8337bbf3_a8a1ff87",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-06T19:44:39Z",
+      "side": 1,
+      "message": "My mistake, I totally thought this was an object. Nevermind.",
+      "parentUuid": "403913a6_a397dc24",
+      "range": {
+        "startLine": 702,
+        "startChar": 8,
+        "endLine": 702,
+        "endChar": 28
+      },
+      "revId": "f18d0f2a08823f3919f97ad4a2a500f25875ef0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2be6caf5_4c673f03",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 19
@@ -84,6 +131,30 @@
       "side": 1,
       "message": "Oh how do i fix that please?",
       "parentUuid": "2be6caf5_4c673f03",
+      "range": {
+        "startLine": 607,
+        "startChar": 8,
+        "endLine": 608,
+        "endChar": 21
+      },
+      "revId": "f18d0f2a08823f3919f97ad4a2a500f25875ef0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d72882c1_5e2fb48a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-06T19:44:39Z",
+      "side": 1,
+      "message": "Just removing this assert should be good enough.",
+      "parentUuid": "0f7fe9ca_38b329ad",
       "range": {
         "startLine": 607,
         "startChar": 8,

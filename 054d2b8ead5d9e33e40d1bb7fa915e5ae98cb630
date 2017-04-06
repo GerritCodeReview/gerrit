@@ -52,6 +52,24 @@
       "revId": "054d2b8ead5d9e33e40d1bb7fa915e5ae98cb630",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bebbbdb8_47210293",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/Exports.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-06T21:45:30Z",
+      "side": 1,
+      "message": "If you can get them to be build errors, that would be great.  Can we somehow get the formatter to also be run on the whole tree as part of the build, and treat any changes that it would make as a build error?",
+      "parentUuid": "28be4938_ab0cb1db",
+      "revId": "054d2b8ead5d9e33e40d1bb7fa915e5ae98cb630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

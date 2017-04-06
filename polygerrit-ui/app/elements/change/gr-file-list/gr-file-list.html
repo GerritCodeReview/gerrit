@@ -237,7 +237,8 @@ limitations under the License.
           items="[[_shownFiles]]"
           id="files"
           as="file"
-          initial-count="[[_fileListIncrement]]">
+          initial-count="[[_fileListIncrement]]"
+          target-framerate="1">
         <div class="file-row row">
           <div class="reviewed" hidden$="[[!_loggedIn]]" hidden>
             <input type="checkbox" checked="[[file.isReviewed]]"
@@ -311,17 +312,21 @@ limitations under the License.
             </label>
           </div>
         </div>
-        <gr-diff
-            no-auto-render
-            hidden="[[!_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
-            project="[[change.project]]"
-            commit="[[change.current_revision]]"
-            change-num="[[changeNum]]"
-            patch-range="[[patchRange]]"
-            path="[[file.__path]]"
-            prefs="[[_diffPrefs]]"
-            project-config="[[projectConfig]]"
-            view-mode="[[_getDiffViewMode(diffViewMode, _userPrefs)]]"></gr-diff>
+        <template is="dom-if"
+            if="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]">
+          <gr-diff
+              no-auto-render
+              inline-index=[[index]]
+              hidden="[[!_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
+              project="[[change.project]]"
+              commit="[[change.current_revision]]"
+              change-num="[[changeNum]]"
+              patch-range="[[patchRange]]"
+              path="[[file.__path]]"
+              prefs="[[_diffPrefs]]"
+              project-config="[[projectConfig]]"
+              view-mode="[[_getDiffViewMode(diffViewMode, _userPrefs)]]"></gr-diff>
+        </template>
       </template>
     </div>
     <div class$="row totalChanges [[_computeExpandInlineClass(_userPrefs)]]">

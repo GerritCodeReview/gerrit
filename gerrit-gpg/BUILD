@@ -19,8 +19,8 @@ java_library(
     srcs = glob(["src/main/java/**/*.java"]),
     visibility = ["//visibility:public"],
     deps = DEPS + [
-        "//lib/bouncycastle:bcpg",
-        "//lib/bouncycastle:bcprov",
+        "//lib/bouncycastle:bcpg-neverlink",
+        "//lib/bouncycastle:bcprov-neverlink",
     ],
 )
 
@@ -32,9 +32,9 @@ java_library(
     srcs = TESTUTIL_SRCS,
     visibility = ["//visibility:public"],
     deps = DEPS + [
+        "//lib/bouncycastle:bcpg-neverlink",
+        "//lib/bouncycastle:bcprov-neverlink",
         ":gpg",
-        "//lib/bouncycastle:bcpg",
-        "//lib/bouncycastle:bcprov",
     ],
 )
 

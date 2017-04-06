@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4014481_554ebe53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_147.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-06T06:56:33Z",
+      "side": 1,
+      "message": "Trailing blank. Here and below.",
+      "range": {
+        "startLine": 24,
+        "startChar": 75,
+        "endLine": 24,
+        "endChar": 76
+      },
+      "revId": "7a8f1df05d7e5aa34c2c45e244f241f58282a5c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

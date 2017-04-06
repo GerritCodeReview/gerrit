@@ -70,6 +70,30 @@
       "revId": "66f27306ced086c1a59455c9dd81c69e7782851c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddd38f67_a76276cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-06T06:56:33Z",
+      "side": 1,
+      "message": "You are right, wip series doesn\u0027t need to depend on removal of draft workflow. I did it that way for convience purpose only. To not mess around with yet another concept for wip in the same code. But at least we need to implement the migration from draft to private or wip workflow. That why I switched the order of this changes.",
+      "parentUuid": "3cee0dc3_8f7699d5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "66f27306ced086c1a59455c9dd81c69e7782851c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

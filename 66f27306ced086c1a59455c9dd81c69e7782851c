@@ -46,6 +46,30 @@
       "revId": "66f27306ced086c1a59455c9dd81c69e7782851c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cee0dc3_8f7699d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-06T06:36:36Z",
+      "side": 1,
+      "message": "Does the wip series need to depend on this?  I don\u0027t see why we can\u0027t introduce wip in parallel to draft, like we already did with private changes.",
+      "parentUuid": "b1797619_117c3092",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "66f27306ced086c1a59455c9dd81c69e7782851c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

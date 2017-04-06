@@ -227,6 +227,69 @@
       "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0d0e557_f220519c",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:54:03Z",
+      "side": 1,
+      "message": "Since the GWT link has become more complex, I recommend creating a new method to generate GWT URLs instead of adding additional data bindings to the `href$\u003d`.\n\nSomething like...\n\n_computeGwtUrl: function(path) {\n  var base \u003d this.getBaseUrl();\n  var clientPath \u003d path.substring(base.length);\n  return base + \u0027/?polygerrit\u003d0#\u0027 + clientPath;\n},\n\nThat way, the gwtlink binding can use...\n\n \u003ca id\u003d\"gwtLink\" href$\u003d\"[[_computeGwtUrl(_path)]]\" rel\u003d\"external\"\u003eOld UI\u003c/a\u003e\n\n(Assuming that method correctly generates the URL.)\n\nI\u0027d also like to have a test for such a method.",
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7a9c0d1_79455937",
+        "filename": "polygerrit-ui/app/elements/shared/gr-placeholder/gr-placeholder.html",
+        "patchSetId": 45
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:54:03Z",
+      "side": 1,
+      "message": "The same applies to generating this GWT link.\n\nMaybe it would be worth adding the generateGwtUrl method to the `BaseUrlBehavior` itself since it\u0027s needed in two places.",
+      "range": {
+        "startLine": 48,
+        "startChar": 31,
+        "endLine": 48,
+        "endChar": 82
+      },
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae73589b_a8d1b32c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:54:03Z",
+      "side": 1,
+      "message": "Couldn\u0027t we get away with just omitting the baseURL from the cache key?",
+      "range": {
+        "startLine": 391,
+        "startChar": 36,
+        "endLine": 391,
+        "endChar": 53
+      },
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

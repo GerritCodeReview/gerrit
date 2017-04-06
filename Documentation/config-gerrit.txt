@@ -1027,7 +1027,7 @@ Default is true.
 Allow assignee workflow. If set to false, assignees will not be visible anywhere
 in UI.
 +
-Default is true.
+Default is false.
 
 [[change.submitLabel]]change.submitLabel::
 +

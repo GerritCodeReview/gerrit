@@ -30,7 +30,7 @@ public class GenericHtmlParserTest extends HtmlParserTest {
             + "<blockquote class=\"quote\" "
             + "<p>foobar <strong>posted comments</strong> on this change.</p>"
             + "<p><a href=\""
-            + changeURL
+            + CHANGE_URL
             + "/1\" "
             + "target=\"_blank\">View Change</a></p><div>Patch Set 2: CR-1\n"
             + "\n"
@@ -38,13 +38,13 @@ public class GenericHtmlParserTest extends HtmlParserTest {
             + "<p>"
             + // File #1: test.txt
             "<a href=\""
-            + changeURL
+            + CHANGE_URL
             + "/1/gerrit-server/test.txt\">"
             + "File gerrit-server/<wbr>test.txt:</a></p>"
             + commentBlock(f1)
             + "<li><p>"
             + "<a href=\""
-            + changeURL
+            + CHANGE_URL
             + "/1/gerrit-server/test.txt\">"
             + "Patch Set #2:</a> </p>"
             + "<blockquote><pre>Some inline comment from Gerrit</pre>"
@@ -53,7 +53,7 @@ public class GenericHtmlParserTest extends HtmlParserTest {
             + commentBlock(fc1)
             + "<li><p>"
             + "<a href=\""
-            + changeURL
+            + CHANGE_URL
             + "/1/gerrit-server/test.txt@2\">"
             + "Patch Set #2, Line 31:</a> </p>"
             + "<blockquote><pre>Some inline comment from Gerrit</pre>"
@@ -64,7 +64,7 @@ public class GenericHtmlParserTest extends HtmlParserTest {
             + // Inline comment #2
             "<li><p>"
             + "<a href=\""
-            + changeURL
+            + CHANGE_URL
             + "/1/gerrit-server/test.txt@3\">"
             + "Patch Set #2, Line 47:</a> </p>"
             + "<blockquote><pre>Some comment posted on Gerrit</pre>"
@@ -73,7 +73,7 @@ public class GenericHtmlParserTest extends HtmlParserTest {
             + commentBlock(c2)
             + "<li><p>"
             + "<a href=\""
-            + changeURL
+            + CHANGE_URL
             + "/1/gerrit-server/test.txt@115\">"
             + "Patch Set #2, Line 115:</a> <code>some code</code></p>"
             + "<p>some comment</p></li></ul></li>"
@@ -81,13 +81,13 @@ public class GenericHtmlParserTest extends HtmlParserTest {
             + "<li><p>"
             + // File #2: test.txt
             "<a href=\""
-            + changeURL
+            + CHANGE_URL
             + "/1/gerrit-server/readme.txt\">"
             + "File gerrit-server/<wbr>readme.txt:</a></p>"
             + commentBlock(f2)
             + "<li><p>"
             + "<a href=\""
-            + changeURL
+            + CHANGE_URL
             + "/1/gerrit-server/readme.txt@3\">"
             + "Patch Set #2, Line 31:</a> </p>"
             + "<blockquote><pre>Some inline comment from Gerrit</pre>"
@@ -100,7 +100,7 @@ public class GenericHtmlParserTest extends HtmlParserTest {
             + ""
             + // Footer
             "<p>To view, visit <a href=\""
-            + changeURL
+            + CHANGE_URL
             + "/1\">this change</a>. "
             + "To unsubscribe, visit <a href=\"https://someurl\">settings</a>."
             + "</p><p>Gerrit-MessageType: comment<br>"

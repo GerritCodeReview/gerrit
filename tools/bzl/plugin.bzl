@@ -12,7 +12,12 @@ load(
 
 PLUGIN_DEPS = ["//gerrit-plugin-api:lib"]
 
-PLUGIN_TEST_DEPS = ["//gerrit-acceptance-framework:lib"]
+PLUGIN_TEST_DEPS = [
+    "//gerrit-acceptance-framework:lib",
+    "//lib/bouncycastle:bcpg",
+    "//lib/bouncycastle:bcpkix",
+    "//lib/bouncycastle:bcprov",
+]
 
 def gerrit_plugin(
     name,

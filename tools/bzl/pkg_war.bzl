@@ -21,6 +21,9 @@ LIBS = [
     "//gerrit-war:log4j-config",
     "//gerrit-war:version",
     "//lib:postgresql",
+    "//lib/bouncycastle:bcpkix",
+    "//lib/bouncycastle:bcprov",
+    "//lib/bouncycastle:bcpg",
     "//lib/log:impl_log4j",
 ]
 

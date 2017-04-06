@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
@@ -48,7 +47,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 public class InitAdminUser implements InitStep {
   private final ConsoleUI ui;
   private final InitFlags flags;
-  private final AccountsUpdate accountsUpdate;
+  private final AccountsOnInit accounts;
   private final VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory;
   private final ExternalIdsOnInit externalIds;
   private SchemaFactory<ReviewDb> dbFactory;
@@ -58,12 +57,12 @@ public class InitAdminUser implements InitStep {
   InitAdminUser(
       InitFlags flags,
       ConsoleUI ui,
-      AccountsUpdate accountsUpdate,
+      AccountsOnInit accounts,
       VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory,
       ExternalIdsOnInit externalIds) {
     this.flags = flags;
     this.ui = ui;
-    this.accountsUpdate = accountsUpdate;
+    this.accounts = accounts;
     this.authorizedKeysFactory = authorizedKeysFactory;
     this.externalIds = externalIds;
   }
@@ -110,7 +109,7 @@ public class InitAdminUser implements InitStep {
           Account a = new Account(id, TimeUtil.nowTs());
           a.setFullName(name);
           a.setPreferredEmail(email);
-          accountsUpdate.insert(db, a);
+          accounts.insert(db, a);
 
           AccountGroupName adminGroupName =
               db.accountGroupNames().get(new AccountGroup.NameKey("Administrators"));

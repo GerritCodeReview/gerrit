@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "403913a6_a397dc24",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T18:37:42Z",
+      "side": 1,
+      "message": "Is a trailing comma needed here? I don\u0027t think it is.",
+      "parentUuid": "9585314f_f3f14be6",
+      "range": {
+        "startLine": 702,
+        "startChar": 8,
+        "endLine": 702,
+        "endChar": 28
+      },
+      "revId": "f18d0f2a08823f3919f97ad4a2a500f25875ef0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2be6caf5_4c673f03",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 19

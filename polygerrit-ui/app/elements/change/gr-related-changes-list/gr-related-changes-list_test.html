@@ -69,8 +69,8 @@ limitations under the License.
           },
           '9e593f6dcc2c0785a2ad2c895a34ad2aa9a0d8b6': {
             _number: 4,
-          }
-        }
+          },
+        },
       };
       var patchNum = 7;
       var relatedChanges = [
@@ -79,8 +79,8 @@ limitations under the License.
             commit: '2cebeedfb1e80f4b872d0a13ade529e70652c0c8',
             parents: [
               {
-                commit: '87ed20b241576b620bbaa3dfd47715ce6782b7dd'
-              }
+                commit: '87ed20b241576b620bbaa3dfd47715ce6782b7dd',
+              },
             ],
           },
         },
@@ -89,8 +89,8 @@ limitations under the License.
             commit: '87ed20b241576b620bbaa3dfd47715ce6782b7dd',
             parents: [
               {
-                commit: '6c71f9e86ba955a7e01e2088bce0050a90eb9fbb'
-              }
+                commit: '6c71f9e86ba955a7e01e2088bce0050a90eb9fbb',
+              },
             ],
           },
         },
@@ -99,8 +99,8 @@ limitations under the License.
             commit: '6c71f9e86ba955a7e01e2088bce0050a90eb9fbb',
             parents: [
               {
-                commit: 'b0ccb183494a8e340b8725a2dc553967d61e6dae'
-              }
+                commit: 'b0ccb183494a8e340b8725a2dc553967d61e6dae',
+              },
             ],
           },
         },
@@ -109,8 +109,8 @@ limitations under the License.
             commit: 'b0ccb183494a8e340b8725a2dc553967d61e6dae',
             parents: [
               {
-                commit: 'bf7884d695296ca0c91702ba3e2bc8df0f69a907'
-              }
+                commit: 'bf7884d695296ca0c91702ba3e2bc8df0f69a907',
+              },
             ],
           },
         },
@@ -119,8 +119,8 @@ limitations under the License.
             commit: 'bf7884d695296ca0c91702ba3e2bc8df0f69a907',
             parents: [
               {
-                commit: '613bc4f81741a559c6667ac08d71dcc3348f73ce'
-              }
+                commit: '613bc4f81741a559c6667ac08d71dcc3348f73ce',
+              },
             ],
           },
         },
@@ -129,11 +129,11 @@ limitations under the License.
             commit: '613bc4f81741a559c6667ac08d71dcc3348f73ce',
             parents: [
               {
-                commit: '455ed9cd27a16bf6991f04dcc57ef575dc4d5e75'
-              }
+                commit: '455ed9cd27a16bf6991f04dcc57ef575dc4d5e75',
+              },
             ],
           },
-        }
+        },
       ];
 
       var connectedChanges =
@@ -155,8 +155,8 @@ limitations under the License.
             commit: '2cebeedfb1e80f4b872d0a13ade529e70652c0c8',
             parents: [
               {
-                commit: '87ed20b241576b620bbaa3dfd47715ce6782b7dd'
-              }
+                commit: '87ed20b241576b620bbaa3dfd47715ce6782b7dd',
+              },
             ],
           },
         },
@@ -165,8 +165,8 @@ limitations under the License.
             commit: '87ed20b241576b620bbaa3dfd47715ce6782b7dd',
             parents: [
               {
-                commit: '6c71f9e86ba955a7e01e2088bce0050a90eb9fbb'
-              }
+                commit: '6c71f9e86ba955a7e01e2088bce0050a90eb9fbb',
+              },
             ],
           },
         },
@@ -175,8 +175,8 @@ limitations under the License.
             commit: '6c71f9e86ba955a7e01e2088bce0050a90eb9fbb',
             parents: [
               {
-                commit: 'b0ccb183494a8e340b8725a2dc553967d61e6dae'
-              }
+                commit: 'b0ccb183494a8e340b8725a2dc553967d61e6dae',
+              },
             ],
           },
         },
@@ -185,8 +185,8 @@ limitations under the License.
             commit: 'a3e5d9d4902b915a39e2efba5577211b9b3ebe7b',
             parents: [
               {
-                commit: '9e593f6dcc2c0785a2ad2c895a34ad2aa9a0d8b6'
-              }
+                commit: '9e593f6dcc2c0785a2ad2c895a34ad2aa9a0d8b6',
+              },
             ],
           },
         },
@@ -195,8 +195,8 @@ limitations under the License.
             commit: '9e593f6dcc2c0785a2ad2c895a34ad2aa9a0d8b6',
             parents: [
               {
-                commit: 'af815dac54318826b7f1fa468acc76349ffc588e'
-              }
+                commit: 'af815dac54318826b7f1fa468acc76349ffc588e',
+              },
             ],
           },
         },
@@ -205,11 +205,11 @@ limitations under the License.
             commit: 'af815dac54318826b7f1fa468acc76349ffc588e',
             parents: [
               {
-                commit: '58f76e406e24cb8b0f5d64c7f5ac1e8616d0a22c'
-              }
+                commit: '58f76e406e24cb8b0f5d64c7f5ac1e8616d0a22c',
+              },
             ],
           },
-        }
+        },
       ];
 
       connectedChanges =
@@ -251,7 +251,14 @@ limitations under the License.
             function() { return Promise.resolve(); });
       });
 
-      test('request conflicts if open and mergeable', function() {
+      test('request conflicts if open and mergeable', function(done) {
+        var updateHandler = function() {
+          element.removeEventListener('update', updateHandler);
+          assert.isTrue(conflictsStub.called);
+          done();
+        };
+        element.addEventListener('update', updateHandler);
+
         element.patchNum = 7;
         element.change = {
           change_id: 123,
@@ -259,7 +266,6 @@ limitations under the License.
           mergeable: true,
         };
         element.reload();
-        assert.isTrue(conflictsStub.called);
       });
 
       test('does not request conflicts if closed and mergeable', function() {
@@ -284,8 +290,7 @@ limitations under the License.
         assert.isFalse(conflictsStub.called);
       });
 
-      test('does not request conflicts if closed and not mergeable',
-          function() {
+      test('doesnt request conflicts if closed and not mergeable', function() {
         element.patchNum = 7;
         element.change = {
           change_id: 123,
@@ -312,6 +317,14 @@ limitations under the License.
       assert.equal(element._calculateHasParent(changeId, relatedChanges),
           true);
 
+    });
+
+    test('clear hides', function() {
+      element.loading = false;
+      element.hidden = false;
+      element.clear();
+      assert.isTrue(element.loading);
+      assert.isTrue(element.hidden);
     });
   });
 </script>

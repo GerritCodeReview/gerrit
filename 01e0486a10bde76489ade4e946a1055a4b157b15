@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f75cb30f_5b52f929",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-06T10:21:41Z",
+      "side": 1,
+      "message": "Not really, if they are mainstream features. In this case, from my experience with GerritHub users (20k) and projects (12k), the feature isn\u0027t the default choice for people.",
+      "parentUuid": "3cafe69c_b1fab061",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "01e0486a10bde76489ade4e946a1055a4b157b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e049790f_2d38ca8a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "01e0486a10bde76489ade4e946a1055a4b157b15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ec218b3_2134c967",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-06T10:21:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e049790f_2d38ca8a",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "01e0486a10bde76489ade4e946a1055a4b157b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8f19c5d3_65b9ba1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-06T10:21:41Z",
+      "side": 1,
+      "message": "Yes, it is  but typically you enable optional features as required, you don\u0027t disable them. Just look at the gerrit-review project and see what is the % of changes with and without it :-)",
+      "parentUuid": "6a3f4313_76a2827b",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 28
+      },
+      "revId": "01e0486a10bde76489ade4e946a1055a4b157b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f211e04_918dc687",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2017-04-06T10:15:48Z",
       "side": 1,
       "message": "And vice versa is true also, isn\u0027t it?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 61
+      },
+      "revId": "01e0486a10bde76489ade4e946a1055a4b157b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e616508_b92ab6ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-06T10:21:41Z",
+      "side": 1,
+      "message": "It depends if it is a mandatory / mainstream feature or just an option.",
+      "parentUuid": "4f211e04_918dc687",
       "range": {
         "startLine": 17,
         "startChar": 0,

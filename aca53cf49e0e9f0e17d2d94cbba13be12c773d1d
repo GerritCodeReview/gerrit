@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2297445d_a5227e35",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-06T20:15:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b61dcdc2_04d47eb0",
+      "range": {
+        "startLine": 24,
+        "startChar": 14,
+        "endLine": 24,
+        "endChar": 20
+      },
+      "revId": "aca53cf49e0e9f0e17d2d94cbba13be12c773d1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "daefb635_0530358b",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "aca53cf49e0e9f0e17d2d94cbba13be12c773d1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6acbd011_1925be38",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-06T20:15:57Z",
+      "side": 1,
+      "message": "Yes, I like that.",
+      "parentUuid": "daefb635_0530358b",
+      "range": {
+        "startLine": 83,
+        "startChar": 10,
+        "endLine": 83,
+        "endChar": 30
+      },
+      "revId": "aca53cf49e0e9f0e17d2d94cbba13be12c773d1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

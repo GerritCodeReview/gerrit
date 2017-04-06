@@ -93,8 +93,7 @@ limitations under the License.
         }
       }
     </style>
-    <div hidden$="[[!loading]]">Loading...</div>
-    <div hidden$="[[loading]]">
+    <div>
       <hr class="mobile">
       <section class="relatedChanges" hidden$="[[!_relatedResponse.changes.length]]" hidden>
         <h4>Relation chain</h4>
@@ -158,6 +157,7 @@ limitations under the License.
         </template>
       </section>
     </div>
+    <div hidden$="[[!loading]]">Loading...</div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-related-changes-list.js"></script>

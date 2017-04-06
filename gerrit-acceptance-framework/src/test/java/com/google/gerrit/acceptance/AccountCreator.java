@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -81,7 +82,12 @@ public class AccountCreator {
   }
 
   public synchronized TestAccount create(
-      String username, String email, String fullName, String... groups) throws Exception {
+      @Nullable String username,
+      @Nullable String email,
+      @Nullable String fullName,
+      String... groups)
+      throws Exception {
+
     TestAccount account = accounts.get(username);
     if (account != null) {
       return account;
@@ -90,8 +96,11 @@ public class AccountCreator {
       Account.Id id = new Account.Id(db.nextAccountId());
 
       List<ExternalId> extIds = new ArrayList<>(2);
-      String httpPass = "http-pass";
-      extIds.add(ExternalId.createUsername(username, id, httpPass));
+      String httpPass = null;
+      if (username != null) {
+        httpPass = "http-pass";
+        extIds.add(ExternalId.createUsername(username, id, httpPass));
+      }
 
       if (email != null) {
         extIds.add(ExternalId.createEmail(id, email));
@@ -114,28 +123,36 @@ public class AccountCreator {
       }
 
       KeyPair sshKey = null;
-      if (SshMode.useSsh()) {
+      if (SshMode.useSsh() && username != null) {
         sshKey = genSshKey();
         authorizedKeys.addKey(id, publicKey(sshKey, email));
         sshKeyCache.evict(username);
       }
 
-      accountCache.evictByUsername(username);
+      if (username != null) {
+        accountCache.evictByUsername(username);
+      }
       byEmailCache.evict(email);
 
       indexer.index(id);
 
       account = new TestAccount(id, username, email, fullName, sshKey, httpPass);
-      accounts.put(username, account);
+      if (username != null) {
+        accounts.put(username, account);
+      }
       return account;
     }
   }
 
-  public TestAccount create(String username, String group) throws Exception {
+  public TestAccount create(@Nullable String username, String group) throws Exception {
     return create(username, null, username, group);
   }
 
-  public TestAccount create(String username) throws Exception {
+  public TestAccount create() throws Exception {
+    return create(null);
+  }
+
+  public TestAccount create(@Nullable String username) throws Exception {
     return create(username, null, username, (String[]) null);
   }
 

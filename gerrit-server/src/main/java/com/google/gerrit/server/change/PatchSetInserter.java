@@ -88,7 +88,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   // Fields exposed as setters.
   private String message;
   private String description;
-  private CommitValidators.Policy validatePolicy = CommitValidators.Policy.GERRIT;
+  private boolean validate = true;
   private boolean checkAddPatchSetPermission = true;
   private boolean draft;
   private List<String> groups = Collections.emptyList();
@@ -146,8 +146,8 @@ public class PatchSetInserter implements BatchUpdateOp {
     return this;
   }
 
-  public PatchSetInserter setValidatePolicy(CommitValidators.Policy validate) {
-    this.validatePolicy = checkNotNull(validate);
+  public PatchSetInserter setValidate(boolean validate) {
+    this.validate = validate;
     return this;
   }
 
@@ -306,7 +306,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     if (checkAddPatchSetPermission && !origCtl.canAddPatchSet(ctx.getDb())) {
       throw new AuthException("cannot add patch set");
     }
-    if (validatePolicy == CommitValidators.Policy.NONE) {
+    if (!validate) {
       return;
     }
 
@@ -323,7 +323,7 @@ public class PatchSetInserter implements BatchUpdateOp {
             commitId,
             ctx.getIdentifiedUser())) {
       commitValidatorsFactory
-          .create(validatePolicy, origCtl.getRefControl(), new NoSshInfo(), ctx.getRepository())
+          .forGerritCommits(origCtl.getRefControl(), new NoSshInfo(), ctx.getRepository())
           .validate(event);
     } catch (CommitValidationException e) {
       throw new ResourceConflictException(e.getFullMessage());

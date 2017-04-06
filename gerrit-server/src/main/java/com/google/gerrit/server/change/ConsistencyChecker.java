@@ -44,7 +44,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -516,7 +515,7 @@ public class ConsistencyChecker {
         bu.addOp(
             ctl.getId(),
             inserter
-                .setValidatePolicy(CommitValidators.Policy.NONE)
+                .setValidate(false)
                 .setFireRevisionCreated(false)
                 .setNotify(NotifyHandling.NONE)
                 .setAllowClosed(true)

@@ -113,7 +113,7 @@ public class ChangeInserter implements InsertChangeOp {
   private String patchSetDescription;
   private boolean isPrivate;
   private List<String> groups = Collections.emptyList();
-  private CommitValidators.Policy validatePolicy = CommitValidators.Policy.GERRIT;
+  private boolean validate = true;
   private NotifyHandling notify = NotifyHandling.ALL;
   private ListMultimap<RecipientType, Account.Id> accountsToNotify = ImmutableListMultimap.of();
   private Set<Account.Id> reviewers;
@@ -238,8 +238,8 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
-  public ChangeInserter setValidatePolicy(CommitValidators.Policy validate) {
-    this.validatePolicy = checkNotNull(validate);
+  public ChangeInserter setValidate(boolean validate) {
+    this.validate = validate;
     return this;
   }
 
@@ -512,7 +512,7 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   private void validate(RepoContext ctx) throws IOException, ResourceConflictException {
-    if (validatePolicy == CommitValidators.Policy.NONE) {
+    if (!validate) {
       return;
     }
 
@@ -529,7 +529,7 @@ public class ChangeInserter implements InsertChangeOp {
               commitId,
               ctx.getIdentifiedUser())) {
         commitValidatorsFactory
-            .create(validatePolicy, refControl, new NoSshInfo(), ctx.getRepository())
+            .forGerritCommits(refControl, new NoSshInfo(), ctx.getRepository())
             .validate(event);
       }
     } catch (CommitValidationException e) {

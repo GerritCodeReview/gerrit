@@ -66,20 +66,6 @@ import org.slf4j.LoggerFactory;
 public class CommitValidators {
   private static final Logger log = LoggerFactory.getLogger(CommitValidators.class);
 
-  public enum Policy {
-    /** Use {@link Factory#forGerritCommits}. */
-    GERRIT,
-
-    /** Use {@link Factory#forReceiveCommits}. */
-    RECEIVE_COMMITS,
-
-    /** Use {@link Factory#forMergedCommits}. */
-    MERGED,
-
-    /** Do not validate commits. */
-    NONE
-  }
-
   @Singleton
   public static class Factory {
     private final PersonIdent gerritIdent;
@@ -103,23 +89,7 @@ public class CommitValidators {
           cfg != null ? cfg.getString("gerrit", null, "installCommitMsgHookCommand") : null;
     }
 
-    public CommitValidators create(
-        Policy policy, RefControl refControl, SshInfo sshInfo, Repository repo) throws IOException {
-      switch (policy) {
-        case RECEIVE_COMMITS:
-          return forReceiveCommits(refControl, sshInfo, repo);
-        case GERRIT:
-          return forGerritCommits(refControl, sshInfo, repo);
-        case MERGED:
-          return forMergedCommits(refControl);
-        case NONE:
-          return none();
-        default:
-          throw new IllegalArgumentException("unspported policy: " + policy);
-      }
-    }
-
-    private CommitValidators forReceiveCommits(
+    public CommitValidators forReceiveCommits(
         RefControl refControl, SshInfo sshInfo, Repository repo) throws IOException {
       try (RevWalk rw = new RevWalk(repo)) {
         NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, rw);
@@ -139,7 +109,7 @@ public class CommitValidators {
       }
     }
 
-    private CommitValidators forGerritCommits(
+    public CommitValidators forGerritCommits(
         RefControl refControl, SshInfo sshInfo, Repository repo) {
       return new CommitValidators(
           ImmutableList.of(
@@ -154,7 +124,7 @@ public class CommitValidators {
               new BlockExternalIdUpdateListener(allUsers)));
     }
 
-    private CommitValidators forMergedCommits(RefControl refControl) {
+    public CommitValidators forMergedCommits(RefControl refControl) {
       // Generally only include validators that are based on permissions of the
       // user creating a change for a merged commit; generally exclude
       // validators that would require amending the change in order to correct.
@@ -173,10 +143,6 @@ public class CommitValidators {
               new UploadMergesPermissionValidator(refControl),
               new AuthorUploaderValidator(refControl, canonicalWebUrl),
               new CommitterUploaderValidator(refControl, canonicalWebUrl)));
-    }
-
-    private CommitValidators none() {
-      return new CommitValidators(ImmutableList.<CommitValidationListener>of());
     }
   }
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7f32a45_634fbf89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-06T19:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd0de290_67473a97",
+      "revId": "11c6a3779a354a45bf417ab83f4fbf2774f305a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7b1224d_c33fd6e0",
         "filename": "VERSION",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2017-03-31T22:34:03Z",
       "side": 1,
       "message": "2.15",
+      "range": {
+        "startLine": 5,
+        "startChar": 20,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "11c6a3779a354a45bf417ab83f4fbf2774f305a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afbb828e_5532b738",
+        "filename": "VERSION",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-06T19:41:08Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be part of the change, removed",
+      "parentUuid": "a7b1224d_c33fd6e0",
       "range": {
         "startLine": 5,
         "startChar": 20,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "d4a31738_0336c8ee",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/PluginDefinedInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-06T19:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60426080_4ba3a360",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "11c6a3779a354a45bf417ab83f4fbf2774f305a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f48e060_cbbd20cd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2017-03-31T22:34:03Z",
       "side": 1,
       "message": "Not part of this change?",
+      "range": {
+        "startLine": 46,
+        "startChar": 14,
+        "endLine": 46,
+        "endChar": 43
+      },
+      "revId": "11c6a3779a354a45bf417ab83f4fbf2774f305a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc2c4f61_30750086",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-06T19:41:08Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "0f48e060_cbbd20cd",
       "range": {
         "startLine": 46,
         "startChar": 14,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "88cf4ddc_34dd2957",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-06T19:41:08Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "2e352df7_1c749e33",
+      "range": {
+        "startLine": 64,
+        "startChar": 56,
+        "endLine": 64,
+        "endChar": 68
+      },
+      "revId": "11c6a3779a354a45bf417ab83f4fbf2774f305a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af2427fd_4441c329",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
         "patchSetId": 2
@@ -122,6 +236,30 @@
       "writtenOn": "2017-03-31T22:34:03Z",
       "side": 1,
       "message": "Not part of this change?",
+      "range": {
+        "startLine": 99,
+        "startChar": 14,
+        "endLine": 99,
+        "endChar": 28
+      },
+      "revId": "11c6a3779a354a45bf417ab83f4fbf2774f305a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab521048_03829baa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-06T19:41:08Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "af2427fd_4441c329",
       "range": {
         "startLine": 99,
         "startChar": 14,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "21957b2d_6aaab1b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-06T19:41:08Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "14b749f1_12b52166",
+      "range": {
+        "startLine": 104,
+        "startChar": 36,
+        "endLine": 104,
+        "endChar": 50
+      },
+      "revId": "11c6a3779a354a45bf417ab83f4fbf2774f305a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "524c768d_762c6bb7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/OutputStreamQuery.java",
         "patchSetId": 2
@@ -168,6 +330,30 @@
       "writtenOn": "2017-03-31T22:34:03Z",
       "side": 1,
       "message": "Not part of this change?",
+      "range": {
+        "startLine": 26,
+        "startChar": 32,
+        "endLine": 26,
+        "endChar": 46
+      },
+      "revId": "11c6a3779a354a45bf417ab83f4fbf2774f305a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7034dbd_379972c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/OutputStreamQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-06T19:41:08Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "524c768d_762c6bb7",
       "range": {
         "startLine": 26,
         "startChar": 32,
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "82ffbaf4_d65b3920",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/OutputStreamQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-06T19:41:08Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "3d499449_0a93bf84",
+      "range": {
+        "startLine": 182,
+        "startChar": 14,
+        "endLine": 182,
+        "endChar": 28
+      },
+      "revId": "11c6a3779a354a45bf417ab83f4fbf2774f305a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9860e5ea_b453457f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryChanges.java",
         "patchSetId": 2
@@ -214,6 +424,30 @@
       "writtenOn": "2017-03-31T22:34:03Z",
       "side": 1,
       "message": "Not part of this change?",
+      "range": {
+        "startLine": 23,
+        "startChar": 32,
+        "endLine": 23,
+        "endChar": 46
+      },
+      "revId": "11c6a3779a354a45bf417ab83f4fbf2774f305a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "960a303f_14d4560b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-06T19:41:08Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "9860e5ea_b453457f",
       "range": {
         "startLine": 23,
         "startChar": 32,
@@ -249,6 +483,30 @@
     },
     {
       "key": {
+        "uuid": "9823edbc_dd07ee59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-06T19:41:08Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "fecdeb50_3b26e66e",
+      "range": {
+        "startLine": 40,
+        "startChar": 19,
+        "endLine": 40,
+        "endChar": 31
+      },
+      "revId": "11c6a3779a354a45bf417ab83f4fbf2774f305a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bb2fe49_46219b51",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryChanges.java",
         "patchSetId": 2
@@ -260,6 +518,30 @@
       "writtenOn": "2017-03-31T22:34:03Z",
       "side": 1,
       "message": "Not part of this change?",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 28
+      },
+      "revId": "11c6a3779a354a45bf417ab83f4fbf2774f305a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd031089_3be1274b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-06T19:41:08Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "0bb2fe49_46219b51",
       "range": {
         "startLine": 81,
         "startChar": 14,
@@ -295,6 +577,30 @@
     },
     {
       "key": {
+        "uuid": "c40012ad_4528c351",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-06T19:41:08Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "c7e00114_cc79f013",
+      "range": {
+        "startLine": 17,
+        "startChar": 32,
+        "endLine": 17,
+        "endChar": 46
+      },
+      "revId": "11c6a3779a354a45bf417ab83f4fbf2774f305a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fb899a3_e6f29b61",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
         "patchSetId": 2
@@ -318,6 +624,30 @@
     },
     {
       "key": {
+        "uuid": "5b9a9085_cc65fd4a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-06T19:41:08Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "5fb899a3_e6f29b61",
+      "range": {
+        "startLine": 30,
+        "startChar": 49,
+        "endLine": 30,
+        "endChar": 63
+      },
+      "revId": "11c6a3779a354a45bf417ab83f4fbf2774f305a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "350e106c_ee5b8dcb",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
         "patchSetId": 2
@@ -329,6 +659,30 @@
       "writtenOn": "2017-03-31T22:34:03Z",
       "side": 1,
       "message": "Not part of this change?",
+      "range": {
+        "startLine": 96,
+        "startChar": 14,
+        "endLine": 96,
+        "endChar": 28
+      },
+      "revId": "11c6a3779a354a45bf417ab83f4fbf2774f305a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2ce87e_1a288389",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-06T19:41:08Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "350e106c_ee5b8dcb",
       "range": {
         "startLine": 96,
         "startChar": 14,

@@ -22,7 +22,7 @@ public final class Exports {
   }
 
   /** Create an annotation to export based on a cannonical class name. */
-  public static Export named(Class clazz) {
+  public static Export named(Class<?> clazz) {
     return named(clazz.getCanonicalName());
   }
 

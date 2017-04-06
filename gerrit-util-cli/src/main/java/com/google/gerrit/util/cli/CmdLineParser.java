@@ -330,10 +330,12 @@ public class CmdLineParser {
       this.o = o;
     }
 
+    @Override
     public String name() {
       return getPrefixedName(prefix, o.name());
     }
 
+    @Override
     public String[] aliases() {
       String[] prefixedAliases = new String[o.aliases().length];
       for (int i = 0; i < prefixedAliases.length; i++) {
@@ -342,30 +344,38 @@ public class CmdLineParser {
       return prefixedAliases;
     }
 
+    @Override
     public String usage() {
       return o.usage();
     }
 
+    @Override
     public String metaVar() {
       return o.metaVar();
     }
 
+    @Override
     public boolean required() {
       return o.required();
     }
 
+    @Override
     public boolean hidden() {
       return o.hidden();
     }
 
+    @SuppressWarnings("rawtypes")
+    @Override
     public Class<? extends OptionHandler> handler() {
       return o.handler();
     }
 
+    @Override
     public String[] depends() {
       return o.depends();
     }
 
+    @Override
     public Class<? extends Annotation> annotationType() {
       return o.annotationType();
     }
@@ -389,7 +399,7 @@ public class CmdLineParser {
     // NOTE: Argument annotations on bean are ignored.
     public void parseWithPrefix(String prefix, Object bean) {
       // recursively process all the methods/fields.
-      for (Class c = bean.getClass(); c != null; c = c.getSuperclass()) {
+      for (Class<?> c = bean.getClass(); c != null; c = c.getSuperclass()) {
         for (Method m : c.getDeclaredMethods()) {
           Option o = m.getAnnotation(Option.class);
           if (o != null) {

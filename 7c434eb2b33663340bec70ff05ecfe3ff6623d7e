@@ -94,6 +94,30 @@
       "revId": "7c434eb2b33663340bec70ff05ecfe3ff6623d7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "914518bf_c78c2406",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-06T16:44:25Z",
+      "side": 1,
+      "message": "Unfortunately canWriteProject() once again seems to be changing the intent of the function, making it reflect implementation and not the intent.",
+      "parentUuid": "f0ced133_dd2e03f2",
+      "range": {
+        "startLine": 235,
+        "startChar": 17,
+        "endLine": 235,
+        "endChar": 25
+      },
+      "revId": "7c434eb2b33663340bec70ff05ecfe3ff6623d7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

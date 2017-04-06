@@ -17,6 +17,13 @@
   Polymer({
     is: 'gr-related-changes-list',
 
+    /**
+     * Fired when a network request returns with data that may cause a resize of
+     * the related-changes content.
+     *
+     * @event update
+     */
+
     properties: {
       change: Object,
       hasParent: {
@@ -57,6 +64,7 @@
 
     clear: function() {
       this.loading = true;
+      this.hidden = true;
     },
 
     reload: function() {
@@ -64,12 +72,13 @@
         return Promise.resolve();
       }
       this.loading = true;
+      this.hidden = false;
       var promises = [
         this._getRelatedChanges().then(function(response) {
           this._relatedResponse = response;
 
           this.hasParent = this._calculateHasParent(this.change.change_id,
-            response.changes);
+              response.changes);
 
         }.bind(this)),
         this._getSubmittedTogether().then(function(response) {
@@ -205,11 +214,12 @@
         submittedTogether,
         conflicts,
         cherryPicks,
-        sameTopic
+        sameTopic,
       ];
       for (var i = 0; i < results.length; i++) {
         if (results[i].length > 0) {
           this.hidden = false;
+          this.fire('update', null, {bubbles: false});
           return;
         }
       }

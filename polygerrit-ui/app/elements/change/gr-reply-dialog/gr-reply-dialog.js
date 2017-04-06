@@ -84,10 +84,6 @@
         type: Object,
         observer: '_reviewerPendingConfirmationUpdated',
       },
-      _labels: {
-        type: Array,
-        computed: '_computeLabels(change.labels.*, _account)',
-      },
       _owner: Object,
       _pendingConfirmationDetails: Object,
       _includeComments: {
@@ -268,7 +264,8 @@
       for (var label in this.permittedLabels) {
         if (!this.permittedLabels.hasOwnProperty(label)) { continue; }
 
-        var selectorEl = this.$$('iron-selector[data-label="' + label + '"]');
+        var selectorEl = this.$$('gr-labels').$$('iron-selector[data-label="' +
+            label + '"]');
 
         // The user may have not voted on this label.
         if (!selectorEl || !selectorEl.selectedItem) { continue; }
@@ -411,21 +408,6 @@
       if (total > 1) { return total + ' Drafts'; }
     },
 
-    _computeLabelValueTitle: function(labels, label, value) {
-      return labels[label] && labels[label].values[value];
-    },
-
-    _computeLabels: function(labelRecord) {
-      var labelsObj = labelRecord.base;
-      if (!labelsObj) { return []; }
-      return Object.keys(labelsObj).sort().map(function(key) {
-        return {
-          name: key,
-          value: this._getVoteForAccount(labelsObj, key, this._account),
-        };
-      }.bind(this));
-    },
-
     _getVoteForAccount: function(labels, labelName, account) {
       var votes = labels[labelName];
       if (votes.all && votes.all.length > 0) {
@@ -436,28 +418,6 @@
         }
       }
       return null;
-    },
-
-    _computeIndexOfLabelValue: function(labels, permittedLabels, label) {
-      if (!labels[label.name]) { return null; }
-      var labelValue = label.value;
-      var len = permittedLabels[label.name] != null ?
-          permittedLabels[label.name].length : 0;
-      for (var i = 0; i < len; i++) {
-        var val = parseInt(permittedLabels[label.name][i], 10);
-        if (val == labelValue) {
-          return i;
-        }
-      }
-      return null;
-    },
-
-    _computePermittedLabelValues: function(permittedLabels, label) {
-      return permittedLabels[label];
-    },
-
-    _computeAnyPermittedLabelValues: function(permittedLabels, label) {
-      return permittedLabels.hasOwnProperty(label);
     },
 
     _changeUpdated: function(changeRecord, owner, serverConfig) {

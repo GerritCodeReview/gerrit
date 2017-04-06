@@ -115,7 +115,8 @@ limitations under the License.
       element.set(['change', 'labels', 'Verified', 'all'],
           [{_account_id: 1, value: -1}]);
       flushAsynchronousOperations();
-      var selector = element.$$('iron-selector[data-label="Verified"]');
+      var selector = Polymer.dom(element.root).querySelectorAll('gr-labels')[0]
+          .$$('iron-selector[data-label="Verified"]');
       assert.equal(selector.selected, 0); // Index 0, value -1
       element.set(['change', 'labels', 'Verified', 'all'],
          [{_account_id: 1, value: 1}]);
@@ -201,14 +202,14 @@ limitations under the License.
       flush(function() {
         flush(function() {
           for (var label in element.permittedLabels) {
-            assert.ok(element.$$('iron-selector[data-label="' + label + '"]'),
-                label);
+            assert.ok(element.$$('gr-labels').$$('iron-selector[data-label="' +
+                label + '"]'), label);
           }
           element.draft = 'I wholeheartedly disapprove';
-          MockInteractions.tap(element.$$(
+          MockInteractions.tap(element.$$('gr-labels').$$(
               'iron-selector[data-label="Code-Review"] > ' +
               'gr-button[data-value="-1"]'));
-          MockInteractions.tap(element.$$(
+          MockInteractions.tap(element.$$('gr-labels').$$(
               'iron-selector[data-label="Verified"] > ' +
               'gr-button[data-value="-1"]'));
 
@@ -517,7 +518,8 @@ limitations under the License.
         // MockInteractions.tap() cause a race in some situations in shadow DOM.
         // The send button can be tapped before the others, causing the test to
         // fail.
-        MockInteractions.tap(element.$$(
+
+        MockInteractions.tap(element.$$('gr-labels').$$(
             'iron-selector[data-label="Verified"] > ' +
             'gr-button[data-value="-1"]'));
         MockInteractions.tap(element.$$('.send'));
@@ -551,7 +553,7 @@ limitations under the License.
 
       flushAsynchronousOperations();
 
-      var verifiedBtn = element.$$(
+      var verifiedBtn = element.$$('gr-labels').$$(
           'iron-selector[data-label="Verified"] > ' +
           'gr-button[data-value="-1"]');
 

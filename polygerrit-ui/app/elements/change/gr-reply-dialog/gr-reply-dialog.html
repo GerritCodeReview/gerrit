@@ -18,7 +18,6 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
-<link rel="import" href="../../../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
@@ -27,6 +26,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-storage/gr-storage.html">
 <link rel="import" href="../gr-account-list/gr-account-list.html">
+<link rel="import" href="../gr-labels/gr-labels.html">
 
 <dom-module id="gr-reply-dialog">
   <template>
@@ -105,38 +105,6 @@ limitations under the License.
       .message {
         border: none;
         width: 100%;
-      }
-      .labelContainer:not(:first-of-type) {
-        margin-top: .5em;
-      }
-      .labelName {
-        display: inline-block;
-        margin-right: .5em;
-        min-width: 7em;
-        text-align: right;
-        white-space: nowrap;
-        width: 25%;
-      }
-      .labelMessage {
-        color: #666;
-      }
-      iron-selector {
-        display: inline-flex;
-      }
-      iron-selector > gr-button {
-        margin-right: .25em;
-        min-width: 3.5em;
-      }
-      iron-selector > gr-button:first-of-type {
-        border-top-left-radius: 2px;
-        border-bottom-left-radius: 2px;
-      }
-      iron-selector > gr-button:last-of-type {
-        border-top-right-radius: 2px;
-        border-bottom-right-radius: 2px;
-      }
-      iron-selector > gr-button.iron-selected {
-        background-color: #ddd;
       }
       .draftsContainer {
         flex: 1;
@@ -244,25 +212,10 @@ limitations under the License.
             config="[[projectConfig.commentlinks]]"></gr-formatted-text>
       </section>
       <section class="labelsContainer">
-        <template is="dom-repeat" items="[[_labels]]" as="label">
-          <div class="labelContainer">
-            <span class="labelName">[[label.name]]</span>
-            <iron-selector data-label$="[[label.name]]"
-                selected="[[_computeIndexOfLabelValue(change.labels, permittedLabels, label)]]"
-                hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
-              <template is="dom-repeat"
-                  items="[[_computePermittedLabelValues(permittedLabels, label.name)]]"
-                  as="value">
-                <gr-button has-tooltip data-value$="[[value]]"
-                    title$="[[_computeLabelValueTitle(change.labels, label.name, value)]]">[[value]]</gr-button>
-              </template>
-            </iron-selector>
-            <span class="labelMessage"
-                hidden$="[[_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
-              You don't have permission to edit this label.
-            </span>
-          </div>
-        </template>
+        <gr-labels
+            account="[[_account]]"
+            change="[[change]]"
+            permitted-labels=[[permittedLabels]]></gr-labels>
       </section>
       <section class="draftsContainer" hidden$="[[_computeHideDraftList(diffDrafts)]]">
         <div class="includeComments">

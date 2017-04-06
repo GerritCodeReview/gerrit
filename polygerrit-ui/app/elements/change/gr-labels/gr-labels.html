@@ -1,0 +1,102 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<dom-module id="gr-labels">
+  <template>
+    <style>
+      .labelContainer:not(:first-of-type) {
+        margin-top: .5em;
+      }
+      .labelName {
+        display: inline-block;
+        margin-right: .5em;
+        min-width: 7em;
+        text-align: right;
+        white-space: nowrap;
+        width: 25%;
+      }
+      .labelMessage {
+        color: #666;
+      }
+
+      iron-selector > gr-button:first-of-type {
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
+      }
+      iron-selector > gr-button:last-of-type {
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+      }
+      iron-selector > gr-button.iron-selected {
+        background-color: #ddd;
+      }
+      gr-button {
+        min-width: 40px;
+      }
+      .placeholder {
+        width: 40px;
+        display: inline-block;
+      }
+      @media only screen and (max-width: 25em) {
+        :host {
+          text-align: center;
+        }
+        .labelName {
+          margin: 0;
+          text-align: center;
+          width: 100%;
+        }
+      }
+    </style>
+    <template is="dom-repeat" items="[[_labels]]" as="label">
+      <div class="labelContainer">
+        <span class="labelName">[[label.name]]</span>
+        <span id="spaces[[index]]"></span>
+        <iron-selector data-label$="[[label.name]]"
+            selected="[[_computeIndexOfLabelValue(change.labels, permittedLabels, label)]]"
+            hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
+          <template is="dom-repeat"
+              items="[[_computeBlankItems(permittedLabels, label.name)]]"
+              as="value">
+            <span class="placeholder">&nbsp;</span>
+          </template>
+          <template is="dom-repeat"
+              items="[[_computePermittedLabelValues(permittedLabels, label.name)]]"
+              as="value">
+            <gr-button has-tooltip data-value$="[[value]]"
+              title$="[[_computeLabelValueTitle(change.labels, label.name, value)]]">
+            [[value]]</gr-button>
+          </template>
+          <template is="dom-repeat"
+              items="[[_computeBlankItems(permittedLabels, label.name)]]"
+              as="value">
+            <span class="placeholder">&nbsp;</span>
+          </template>
+        </iron-selector>
+        <span class="labelMessage"
+            hidden$="[[_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
+          You don't have permission to edit this label.
+        </span>
+      </div>
+    </template>
+  </template>
+  <script src="gr-labels.js"></script>
+</dom-module>

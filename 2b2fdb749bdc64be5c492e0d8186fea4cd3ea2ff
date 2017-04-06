@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07c21654_54aca557",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-06T22:20:57Z",
+      "side": 1,
+      "message": "This broke Online Edit feature:\n\n  ConsoleLogger.java:32 TypeError: Cannot read property \u0027stream_1_g$\u0027 of null\n    at iSb_g$ (PluginLoader.java:42)\n    at dl_g$.Ol_g$ [as onModuleLoad2_0_g$] (Gerrit.java:683)\n    at Jo_g$.Ko_g$ [as onSuccess_9_g$] (Gerrit.java:526)\n    at Jo_g$.Lo_g$ [as onSuccess_0_g$] (Gerrit.java:479)\n    at ZIe_g$._Ie_g$ [as applySuccess_0_g$] (CallbackGroup.java:205)\n    at vIe_g$.DIe_g$ [as apply_5_g$] (CallbackGroup.java:129)\n    at vIe_g$.KIe_g$ [as success_1_g$] (CallbackGroup.java:109)\n    at ZIe_g$.bJe_g$ [as onSuccess_0_g$] (CallbackGroup.java:192)\n    at cMe_g$.eMe_g$ [as onSuccess_46_g$] (RestApi.java:506)\n    at mMe_g$.nMe_g$ [as execute_0_g$] (RestApi.java:173)\n    at hMe_g$.jMe_g$ [as onResponseReceived_0_g$] (RestApi.java:186)\n    at Kuh_g$.Nuh_g$ [as fireOnResponseReceived_0_g$] (Request.java:250)\n    at Uvh_g$.Vvh_g$ [as onReadyStateChange_0_g$] (RequestBuilder.java:412)\n    at XMLHttpRequest.\u003canonymous\u003e (XMLHttpRequest.java:329)\n    at ARf_g$ (Impl.java:239)\n    at DRf_g$ (Impl.java:291)\n    at XMLHttpRequest.\u003canonymous\u003e (Impl.java:77)\n\nThat\u0027s because, plugins is null, and on line 42 null..stream() is called. The online edit is affected, because, during host page load, in Gerrit.java: [1],\nonModuleLoad2(result); is ended with exception, and the loading sequence is interrupted, so that: [2] is not reached, and when you try no to open OnlineEditor, you get this exception, as: [3] editPrefs wasn\u0027t initialized:\n\n ConsoleLogger.java:32 TypeError: Cannot read property \u0027tabSize_1_g$\u0027 of undefined\n    at gT_g$ (EditPreferences.java:25)\n    at wce_g$.Gce_g$ [as onLoad_0_g$] (EditScreen.java:152)\n    at wce_g$.ip_g$ [as onAttach_0_g$] (Composite.java:190)\n    at wce_g$.Wb_g$ [as setParent_0_g$] (Widget.java:484)\n    at Te_g$.Je_g$ [as adopt_0_g$] (Panel.java:124)\n    at Te_g$.af_g$ [as setWidget_1_g$] (SimplePanel.java:160)\n    at Te_g$.We_g$ [as add_2_g$] (SimplePanel.java:69)\n    at yp_g$.up_g$ [as setView_0_g$] (ViewSite.java:62)\n    at pl_g$ (Gerrit.java:202)\n    at _j_g$.ak_g$ [as onSuccess_2_g$] (Dispatcher.java:541)\n    at JKf_g$.KKf_g$ [as execute_0_g$] (GWT.java:282)\n    at pTf_g$ (SchedulerImpl.java:50)\n    at VSf_g$ (SchedulerImpl.java:183)\n    at KSf_g$.QSf_g$ [as flushPostEventPumpCommands_0_g$] (SchedulerImpl.java:347)\n    at gTf_g$.hTf_g$ [as execute_1_g$] (SchedulerImpl.java:78)\n    at NSf_g$ (SchedulerImpl.java:141)\n    at ARf_g$ (Impl.java:239)\n    at DRf_g$ (Impl.java:291)\n    at Impl.java:77\n    at callback_0_g$ (SchedulerImpl.java:196)\n\nThis diff fixed online edit again: [4].\n\n* [1] https://github.com/GerritCodeReview/gerrit/blob/master/gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java#L509-L521\n* [2] https://github.com/GerritCodeReview/gerrit/blob/master/gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java#L519\n* [3] https://github.com/GerritCodeReview/gerrit/blob/master/gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java#L313-L315\n* [4] http://paste.openstack.org/show/605680/",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 17
+      },
+      "revId": "2b2fdb749bdc64be5c492e0d8186fea4cd3ea2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

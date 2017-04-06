@@ -10,8 +10,6 @@ def acceptance_tests(
     name = group,
     deps = deps + [
       '//gerrit-acceptance-tests:lib',
-      "//lib/bouncycastle:bcpkix",
-      "//lib/bouncycastle:bcpg",
     ],
     tags = labels + [
       'acceptance',

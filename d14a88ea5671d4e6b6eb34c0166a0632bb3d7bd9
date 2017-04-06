@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1491487821 -0400\nnonce AFMZ2GwKLzg+j1AIitxdP9o+WxJWou8Q8Lo0nh/NnE9e+nxGBzqTt23BMwDigd3zuigy+WOB6OWq\n\n0000000000000000000000000000000000000000 3a21aefd75872815125b4a7a2b21ba8813657fe1 refs/for/master%topic\u003dpre-fusion-2,r\u003daliceks,r\u003dekempin\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJY5kxNAAoJEF/XxZqaEoiMjpkQAK2UCHLczyEL1zLtKqE83VRA\nCsuPmPZJHTVTaLl0+T11XvJrGqBpC9tRM1YDEZuVmSbDS7L3H3gZHVYNwzV4AdMH\nYxKPsugdgCc+tKtmDo5NKmY2Y4P43fzLo+GmMAA+ZX4Tq8jTWPQuIAVBW8e0Cnvq\nKmudj7BxKjGJxE6HLyNgjdlwHPt4LLNFtB4KS2yy6+bAWx5qT95dUndsRWj6aKSb\nfIbUSXqt0K/u2+nsyiM9Gr0bBlRgAESsmGKmGySt9YZnvFdDWymQPQwn7+dbFVUy\nMjE3ekPp3+65DuA261xUQIuZtpgn8xg15tZ0uvFjzGeZ4nwIiIedJGB0Mb9nKWtZ\nbKo6IycoqBHIGirAcporkz45pFPwTtzmumZPUfpw3FKZqJmMLe5Ld5L5LjfLG3ZD\nAAjTHpfQJw14p0QUnW69Jc8hEd+RJuz47ECgySapxYwYnyTowICWfaCuiz9rvsLK\ng9+zDxVLctO0z6dHBSoMQvgJdBwNY9exQh2P8YlvzivO8nnGQShH79xIiAaWDegg\nYKaxkf7mJq8K6ugQ8VF7vfkHUnDHUlrTXu587y/kSD0gMWCGxXx9sz9rIVUjBAr1\n6LOOwS89xknL5mc9Ke9ji5jckitX9z5z0i9VCUrjBV+EtSyaZCxdYbcfXji7UjPF\nIRidcW3XFPqIS5EUHMmA\n\u003d1LHu\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f406a2dc_3fcab873",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-06T15:16:06Z",
+      "side": 1,
+      "message": "Is it intended to replace args.repo with ctx.getRepository() here and below?",
+      "range": {
+        "startLine": 139,
+        "startChar": 18,
+        "endLine": 139,
+        "endChar": 37
+      },
+      "revId": "d14a88ea5671d4e6b6eb34c0166a0632bb3d7bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

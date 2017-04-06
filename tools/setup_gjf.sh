@@ -33,8 +33,7 @@ name="google-java-format-$VERSION-all-deps.jar"
 url="https://github.com/google/google-java-format/releases/download/google-java-format-$VERSION/$name"
 "$root/tools/download_file.py" -o "$dir/$name" -u "$url" -v "$SHA1"
 
-launcher="$dir/google-java-format"
-cat > "$launcher" <<EOF
+setup=$(cat - <<EOF
 #!/bin/bash
 #
 # Copyright (C) 2017 The Android Open Source Project
@@ -61,6 +60,12 @@ function abs_script_dir_path {
     DIR=\$( cd -P \$( dirname "\$SOURCE" ) && pwd )
     echo \$DIR
 }
+EOF
+)
+
+launcher="$dir/google-java-format"
+cat > "$launcher" <<EOF
+$setup
 
 set -e
 
@@ -68,7 +73,55 @@ dir="\$(abs_script_dir_path "\$0")"
 exec java -jar "\$dir/$name" "\$@"
 EOF
 
-chmod +x "$launcher"
+differ=${launcher}-diff
+cat > "$differ" <<EOF
+$setup
+
+function run() { # args
+    java -jar "\$dir/google-java-format-1.3-all-deps.jar" "\${OPTIONS[@]}" "\$@"
+}
+
+function diff_one() { # file
+    local tmp=\$(mktemp)
+    run "\$1" > "\$tmp"
+    diff "\$1" "\$tmp" >&2
+    rm "\$tmp"
+}
+
+function diff_all() { # [files]...
+    local file rtn=0
+    for file in "\$@" ; do
+        diff_one "\$file" || rtn=\$?
+    done
+    return \$rtn
+}
+
+set -e
+
+dir="\$(abs_script_dir_path "\$0")"
+
+OPTIONS=()
+while [ \$# -gt 0 ] ; do
+    case "\$1" in
+       -|-i|-r|-replace|--replace*)
+               echo "\$1 option not supported for diff"
+               exit
+           ;;
+       -*) OPTIONS=("\${OPTIONS[@]}" "\$1") ;;
+       *) break ;;
+    esac
+    shift
+done
+
+if [ \$# -eq 0 ] ; then  # Usage
+    run
+    exit
+fi
+
+diff_all "\$@"
+EOF
+
+chmod +x "$launcher" "$differ"
 
 cat <<EOF
 Installed launcher script at $launcher

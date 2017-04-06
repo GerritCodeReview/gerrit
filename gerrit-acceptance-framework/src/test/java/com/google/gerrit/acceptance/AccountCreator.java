@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -52,6 +53,7 @@ public class AccountCreator {
   private final Map<String, TestAccount> accounts;
 
   private final SchemaFactory<ReviewDb> reviewDbProvider;
+  private final AccountsUpdate accountsUpdate;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final GroupCache groupCache;
   private final SshKeyCache sshKeyCache;
@@ -63,6 +65,7 @@ public class AccountCreator {
   @Inject
   AccountCreator(
       SchemaFactory<ReviewDb> schema,
+      AccountsUpdate accountsUpdate,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       GroupCache groupCache,
       SshKeyCache sshKeyCache,
@@ -72,6 +75,7 @@ public class AccountCreator {
       ExternalIdsUpdate.Server externalIdsUpdate) {
     accounts = new HashMap<>();
     reviewDbProvider = schema;
+    this.accountsUpdate = accountsUpdate;
     this.authorizedKeys = authorizedKeys;
     this.groupCache = groupCache;
     this.sshKeyCache = sshKeyCache;
@@ -110,7 +114,7 @@ public class AccountCreator {
       Account a = new Account(id, TimeUtil.nowTs());
       a.setFullName(fullName);
       a.setPreferredEmail(email);
-      db.accounts().insert(Collections.singleton(a));
+      accountsUpdate.insert(db, a);
 
       if (groups != null) {
         for (String n : groups) {

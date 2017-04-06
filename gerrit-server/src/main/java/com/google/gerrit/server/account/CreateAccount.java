@@ -69,6 +69,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
   private final AccountCache accountCache;
+  private final AccountsUpdate accountsUpdate;
   private final AccountIndexer indexer;
   private final AccountByEmailCache byEmailCache;
   private final AccountLoader.Factory infoLoader;
@@ -86,6 +87,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
       AccountCache accountCache,
+      AccountsUpdate accountsUpdate,
       AccountIndexer indexer,
       AccountByEmailCache byEmailCache,
       AccountLoader.Factory infoLoader,
@@ -100,6 +102,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
     this.accountCache = accountCache;
+    this.accountsUpdate = accountsUpdate;
     this.indexer = indexer;
     this.byEmailCache = byEmailCache;
     this.infoLoader = infoLoader;
@@ -172,7 +175,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     Account a = new Account(id, TimeUtil.nowTs());
     a.setFullName(input.name);
     a.setPreferredEmail(input.email);
-    db.accounts().insert(Collections.singleton(a));
+    accountsUpdate.insert(db, a);
 
     for (AccountGroup.Id groupId : groups) {
       AccountGroupMember m = new AccountGroupMember(new AccountGroupMember.Key(id, groupId));

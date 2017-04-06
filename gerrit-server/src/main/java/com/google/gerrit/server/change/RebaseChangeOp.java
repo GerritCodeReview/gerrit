@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.RebaseUtil.Base;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -61,7 +60,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   private ObjectId baseCommitId;
   private PersonIdent committerIdent;
   private boolean fireRevisionCreated = true;
-  private CommitValidators.Policy validate;
+  private boolean validate = true;
   private boolean checkAddPatchSetPermission = true;
   private boolean forceContentMerge;
   private boolean copyApprovals = true;
@@ -96,7 +95,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
     return this;
   }
 
-  public RebaseChangeOp setValidatePolicy(CommitValidators.Policy validate) {
+  public RebaseChangeOp setValidate(boolean validate) {
     this.validate = validate;
     return this;
   }
@@ -170,7 +169,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
             .setNotify(NotifyHandling.NONE)
             .setFireRevisionCreated(fireRevisionCreated)
             .setCopyApprovals(copyApprovals)
-            .setCheckAddPatchSetPermission(checkAddPatchSetPermission);
+            .setCheckAddPatchSetPermission(checkAddPatchSetPermission)
+            .setValidate(validate);
     if (postMessage) {
       patchSetInserter.setMessage(
           "Patch Set "
@@ -182,9 +182,6 @@ public class RebaseChangeOp implements BatchUpdateOp {
 
     if (base != null) {
       patchSetInserter.setGroups(base.patchSet().getGroups());
-    }
-    if (validate != null) {
-      patchSetInserter.setValidatePolicy(validate);
     }
     patchSetInserter.updateRepo(ctx);
   }

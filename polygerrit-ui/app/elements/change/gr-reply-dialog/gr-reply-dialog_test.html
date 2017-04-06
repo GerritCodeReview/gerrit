@@ -115,7 +115,9 @@ limitations under the License.
       element.set(['change', 'labels', 'Verified', 'all'],
           [{_account_id: 1, value: -1}]);
       flushAsynchronousOperations();
-      var selector = element.$$('iron-selector[data-label="Verified"]');
+      var selector =
+          Polymer.dom(element.root).querySelectorAll('gr-label-scores')[0]
+          .$$('iron-selector[data-label="Verified"]');
       assert.equal(selector.selected, 0); // Index 0, value -1
       element.set(['change', 'labels', 'Verified', 'all'],
          [{_account_id: 1, value: 1}]);
@@ -192,54 +194,40 @@ limitations under the License.
     });
 
     test('label picker', function(done) {
-      element.revisions = {};
-      element.patchNum = '';
-
-      // Async tick is needed because iron-selector content is distributed and
-      // distributed content requires an observer to be set up.
-      // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
-      flush(function() {
-        flush(function() {
-          for (var label in element.permittedLabels) {
-            assert.ok(element.$$('iron-selector[data-label="' + label + '"]'),
-                label);
-          }
-          element.draft = 'I wholeheartedly disapprove';
-          MockInteractions.tap(element.$$(
-              'iron-selector[data-label="Code-Review"] > ' +
-              'gr-button[data-value="-1"]'));
-          MockInteractions.tap(element.$$(
-              'iron-selector[data-label="Verified"] > ' +
-              'gr-button[data-value="-1"]'));
-
-          var saveReviewStub = sandbox.stub(element, '_saveReview',
-              function(review) {
-            assert.deepEqual(review, {
-              drafts: 'PUBLISH_ALL_REVISIONS',
-              labels: {
-                'Code-Review': -1,
-                'Verified': -1,
-              },
-              message: 'I wholeheartedly disapprove',
-              reviewers: [],
-            });
-            return Promise.resolve({ok: true});
-          });
-
-          element.addEventListener('send', function() {
-            assert.isFalse(element.disabled,
-                'Element should be enabled when done sending reply.');
-            assert.equal(element.draft.length, 0);
-            done();
-          });
-
-          // This is needed on non-Blink engines most likely due to the ways in
-          // which the dom-repeat elements are stamped.
-          flush(function() {
-            MockInteractions.tap(element.$$('.send'));
-            assert.isTrue(element.disabled);
-          });
+      element.draft = 'I wholeheartedly disapprove';
+      var saveReviewStub = sandbox.stub(element, '_saveReview',
+          function(review) {
+        assert.deepEqual(review, {
+          drafts: 'PUBLISH_ALL_REVISIONS',
+          labels: {
+            'Code-Review': -1,
+            'Verified': -1,
+          },
+          message: 'I wholeheartedly disapprove',
+          reviewers: [],
         });
+        return Promise.resolve({ok: true});
+      });
+
+      sandbox.stub(element.$.labelScores, 'getLabelValues', function() {
+        return {
+          'Code-Review': -1,
+          'Verified': -1,
+        };
+      });
+
+      element.addEventListener('send', function() {
+        assert.isFalse(element.disabled,
+            'Element should be enabled when done sending reply.');
+        assert.equal(element.draft.length, 0);
+        done();
+      });
+
+      // This is needed on non-Blink engines most likely due to the ways in
+      // which the dom-repeat elements are stamped.
+      flush(function() {
+        MockInteractions.tap(element.$$('.send'));
+        assert.isTrue(element.disabled);
       });
     });
 
@@ -517,7 +505,8 @@ limitations under the License.
         // MockInteractions.tap() cause a race in some situations in shadow DOM.
         // The send button can be tapped before the others, causing the test to
         // fail.
-        MockInteractions.tap(element.$$(
+
+        MockInteractions.tap(element.$$('gr-label-scores').$$(
             'iron-selector[data-label="Verified"] > ' +
             'gr-button[data-value="-1"]'));
         MockInteractions.tap(element.$$('.send'));
@@ -551,7 +540,7 @@ limitations under the License.
 
       flushAsynchronousOperations();
 
-      var verifiedBtn = element.$$(
+      var verifiedBtn = element.$$('gr-label-scores').$$(
           'iron-selector[data-label="Verified"] > ' +
           'gr-button[data-value="-1"]');
 

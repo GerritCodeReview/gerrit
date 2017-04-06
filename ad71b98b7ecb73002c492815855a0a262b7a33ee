@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c46f9224_a221d94a",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-06T22:23:16Z",
+      "side": 1,
+      "message": "I\u0027ve had problems in the past setting a value to an empty array without \n\nvalue: function() { return []; },\n\nIs this a problem here?",
+      "revId": "ad71b98b7ecb73002c492815855a0a262b7a33ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

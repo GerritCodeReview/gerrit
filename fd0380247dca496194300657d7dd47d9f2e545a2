@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f4f9efc_50553765",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-06T07:37:37Z",
+      "side": 1,
+      "message": "adds",
+      "range": {
+        "startLine": 9,
+        "startChar": 42,
+        "endLine": 9,
+        "endChar": 45
+      },
+      "revId": "fd0380247dca496194300657d7dd47d9f2e545a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8121fb6_221d60ac",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-06T07:37:37Z",
+      "side": 1,
+      "message": "`FALSE`",
+      "range": {
+        "startLine": 307,
+        "startChar": 17,
+        "endLine": 307,
+        "endChar": 22
+      },
+      "revId": "fd0380247dca496194300657d7dd47d9f2e545a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afedc11b_90add0c6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-06T07:37:37Z",
+      "side": 1,
+      "message": "This method is now unused and should be removed.",
+      "revId": "fd0380247dca496194300657d7dd47d9f2e545a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

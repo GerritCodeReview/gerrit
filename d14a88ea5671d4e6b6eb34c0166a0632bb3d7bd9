@@ -23,6 +23,30 @@
       "revId": "d14a88ea5671d4e6b6eb34c0166a0632bb3d7bd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb4e6795_814f8c70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-06T21:20:41Z",
+      "side": 1,
+      "message": "Post https://gerrit-review.googlesource.com/101830 they are guaranteed to be the same. My thinking is that as a matter of style callers should prefer to use the ones from ctx unless there is a reason not to. With args.rw, there is a reason not to because it is a CodeReviewRevWalk. But with the repo, it doesn\u0027t matter. And I was already editing this line.",
+      "parentUuid": "f406a2dc_3fcab873",
+      "range": {
+        "startLine": 139,
+        "startChar": 18,
+        "endLine": 139,
+        "endChar": 37
+      },
+      "revId": "d14a88ea5671d4e6b6eb34c0166a0632bb3d7bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

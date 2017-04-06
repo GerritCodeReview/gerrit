@@ -97,6 +97,8 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificateIdent;
 import org.junit.After;
 import org.junit.Assert;
@@ -175,6 +177,23 @@ public class AccountIT extends AbstractDaemonTest {
             .that(ru.delete())
             .isEqualTo(RefUpdate.Result.FORCED);
       }
+    }
+  }
+
+  @Test
+  public void create() throws Exception {
+    TestAccount foo = accounts.create("foo");
+    AccountInfo info = gApi.accounts().id(foo.id.get()).get();
+    assertThat(info.username).isEqualTo("foo");
+
+    // check user branch
+    try (Repository repo = repoManager.openRepository(allUsers);
+        RevWalk rw = new RevWalk(repo)) {
+      Ref ref = repo.exactRef(RefNames.refsUsers(foo.getId()));
+      assertThat(ref).isNotNull();
+      RevCommit c = rw.parseCommit(ref.getObjectId());
+      assertThat(c.getCommitTime())
+          .isEqualTo(accountCache.get(foo.getId()).getAccount().getRegisteredOn().getTime() / 1000);
     }
   }
 

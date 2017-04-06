@@ -1,0 +1,232 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27ac5ab6_ea387977",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 45
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:30:32Z",
+      "side": 1,
+      "message": "You should be able to recursively include this behavior in the rest-client-behavior like normal ...\n\nbehaviors: [\n  Gerrit.BaseUrlBehavior,\n],\n\n... and then just use this.getBaseUrl()",
+      "range": {
+        "startLine": 103,
+        "startChar": 15,
+        "endLine": 103,
+        "endChar": 57
+      },
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57d826fb_9dc11171",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 45
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:30:32Z",
+      "side": 1,
+      "message": "Imports should be alphabetized. This should appear before the other behaviors.",
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4be1787_48c5c18a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 45
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:30:32Z",
+      "side": 1,
+      "message": "Alphabetize imports. (Looks like it was already slightly out of order.)",
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30b13e13_986a4fdc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 45
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:30:32Z",
+      "side": 1,
+      "message": "Alphabetize import.",
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "765414ce_de9e1830",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.html",
+        "patchSetId": 45
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:30:32Z",
+      "side": 1,
+      "message": "Alphabetize import.",
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df838c52_5cb1cc2d",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:30:32Z",
+      "side": 1,
+      "message": "Nit: now that this array is multi-line, add a trailing comma.",
+      "range": {
+        "startLine": 22,
+        "startChar": 28,
+        "endLine": 22,
+        "endChar": 29
+      },
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "587ead98_e25403ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 45
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:30:32Z",
+      "side": 1,
+      "message": "Alphabetize import.",
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d881bb5_6089dbf3",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.html",
+        "patchSetId": 45
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:30:32Z",
+      "side": 1,
+      "message": "Alphabetize import.",
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4b225fd_840c3fc8",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:30:32Z",
+      "side": 1,
+      "message": "What is this doing? It looks like this removes the CANONICAL_PATH from the redirect URL. Is that right? Why is it doing this?",
+      "range": {
+        "startLine": 121,
+        "startChar": 6,
+        "endLine": 126,
+        "endChar": 14
+      },
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae760e44_02819520",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:30:32Z",
+      "side": 1,
+      "message": "Is this needed since this branch of the `if` only executes when `this.getBaseURL()` is an empty string?",
+      "range": {
+        "startLine": 127,
+        "startChar": 25,
+        "endLine": 127,
+        "endChar": 42
+      },
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "842f195f_e59b55b4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 45
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:30:32Z",
+      "side": 1,
+      "message": "Alphabetize imports.",
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcef5dec_65d58fc0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-06T19:30:32Z",
+      "side": 1,
+      "message": "Nit: this line now exceeds 80 characters.",
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

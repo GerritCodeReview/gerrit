@@ -1324,7 +1324,7 @@ public class ChangeScreen extends Screen {
     commit.set(commentLinkProcessor, info, revision);
     related.set(info, revision);
     reviewers.set(info);
-    if (Gerrit.info().change().showAssignee()) {
+    if (Gerrit.info().change().showAssignee() || Gerrit.info().change().showAssigneeSuggestOracle()) {
       assignee.set(info);
     } else {
       setVisible(assigneeRow, false);

@@ -70,6 +70,30 @@
       "revId": "7c434eb2b33663340bec70ff05ecfe3ff6623d7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0ced133_dd2e03f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-06T09:34:30Z",
+      "side": 1,
+      "message": "well, what about \n\n  canWriteProject\n  canReadProject\n\n(canWrite is a strange name. From its reading, I would assume that canWrite()\u003d\u003dtrue implies canPushWithForce(), since the former is a more general permission.)",
+      "parentUuid": "1fe04570_d77c8524",
+      "range": {
+        "startLine": 235,
+        "startChar": 17,
+        "endLine": 235,
+        "endChar": 25
+      },
+      "revId": "7c434eb2b33663340bec70ff05ecfe3ff6623d7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

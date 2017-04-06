@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0c11791_8a1ed590",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-06T16:56:05Z",
+      "side": 1,
+      "message": "Where is this defined?  I expected it to be in AbstractDaemonTest but that isn\u0027t modified in this commit.",
+      "range": {
+        "startLine": 374,
+        "startChar": 14,
+        "endLine": 374,
+        "endChar": 20
+      },
+      "revId": "582a1dbbfde1cacd42fab76a12b4b5e7f5897aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1474e28c_479870f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-06T16:56:05Z",
+      "side": 1,
+      "message": "Doesn\u0027t compile\n\n gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java:148: error: cannot find symbol\n    RevCommit revCommit \u003d Commits.parse(revWalk, patchSet);\n    ^\n  symbol:   class RevCommit\n  location: class DeleteChangeOp",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 13
+      },
+      "revId": "582a1dbbfde1cacd42fab76a12b4b5e7f5897aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16ccdfea_1854eba8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/Commits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-06T16:56:05Z",
+      "side": 1,
+      "message": "should be final",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 9
+      },
+      "revId": "582a1dbbfde1cacd42fab76a12b4b5e7f5897aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

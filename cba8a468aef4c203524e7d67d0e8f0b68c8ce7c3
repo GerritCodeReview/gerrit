@@ -118,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "ab4e253d_9eb860bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-06T21:24:37Z",
+      "side": 1,
+      "message": "I think this is actually unrelated, I will do it and add the comment in a separate change.",
+      "parentUuid": "865253d0_f352a397",
+      "range": {
+        "startLine": 363,
+        "startChar": 9,
+        "endLine": 363,
+        "endChar": 25
+      },
+      "revId": "cba8a468aef4c203524e7d67d0e8f0b68c8ce7c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b5fba37_2dadb662",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java",
         "patchSetId": 1

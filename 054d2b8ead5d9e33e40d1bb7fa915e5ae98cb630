@@ -34,6 +34,24 @@
       "revId": "054d2b8ead5d9e33e40d1bb7fa915e5ae98cb630",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28be4938_ab0cb1db",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/Exports.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-06T21:41:29Z",
+      "side": 1,
+      "message": "Yeah, you\u0027re right. I didn\u0027t realize we weren\u0027t already documenting our expectations, sorry about that.\n\nIt looks like it is not hard with bazel to pass -Xlint:* options to javac and treat the resulting warnings as build errors. A first pass looks like there is some noise, so I will try to whittle it down a bit tomorrow. For the automated formatters, we should just add that to GerritForge CI, that won\u0027t be hard.\n\nOf course, there are still some warnings that a human reviewer could feasibly pick up without the aid of a compiler, like usage of raw types :)",
+      "parentUuid": "d3079141_b601daea",
+      "revId": "054d2b8ead5d9e33e40d1bb7fa915e5ae98cb630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

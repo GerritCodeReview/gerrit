@@ -580,7 +580,11 @@
     },
 
     _handleFileTap: function(e) {
-      this.$.dropdown.close();
+      // async is needed so that that the click event is fired before the
+      // dropdown closes (This was a bug for touch devices).
+      this.async(function() {
+        this.$.dropdown.close();
+      }, 1);
     },
 
     _handleMobileSelectChange: function(e) {

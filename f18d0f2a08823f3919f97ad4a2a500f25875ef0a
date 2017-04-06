@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9585314f_f3f14be6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-06T18:31:39Z",
+      "side": 1,
+      "message": "Looks like you\u0027re missing trailing commas here and elsewhere in this file.",
+      "range": {
+        "startLine": 702,
+        "startChar": 8,
+        "endLine": 702,
+        "endChar": 28
+      },
+      "revId": "f18d0f2a08823f3919f97ad4a2a500f25875ef0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2be6caf5_4c673f03",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-06T18:31:39Z",
+      "side": 1,
+      "message": "Looks like this is the line that fails. \nRepro\u0027d locally:\n\n  \"AssertionError: expected {} to deeply equal \u0027\u003c?php\u0027\n      at Function.assert.deepEqual (http://localhost:8081/bower_components/chai/chai.js:2367:32)\n      at http://localhost:8081/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html:607:16\"\n\nI\u0027m fairly certain this specific instance of a request is never cached.",
+      "range": {
+        "startLine": 607,
+        "startChar": 8,
+        "endLine": 608,
+        "endChar": 21
+      },
+      "revId": "f18d0f2a08823f3919f97ad4a2a500f25875ef0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53b908b5_d3717768",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-06T18:31:39Z",
+      "side": 1,
+      "message": "Please wrap lines \u003e 80ch.",
+      "range": {
+        "startLine": 599,
+        "startChar": 4,
+        "endLine": 611,
+        "endChar": 7
+      },
+      "revId": "f18d0f2a08823f3919f97ad4a2a500f25875ef0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

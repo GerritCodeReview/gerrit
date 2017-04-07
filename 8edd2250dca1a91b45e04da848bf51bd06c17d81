@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "d51c9f33_95b2a0ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-07T15:56:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b8a50bd_deba041a",
+      "range": {
+        "startLine": 45,
+        "startChar": 44,
+        "endLine": 46,
+        "endChar": 86
+      },
+      "revId": "8edd2250dca1a91b45e04da848bf51bd06c17d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c40829cd_46e57f10",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
         "patchSetId": 1

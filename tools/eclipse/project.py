@@ -149,13 +149,15 @@ def gen_classpath(ext):
       gwt_lib.add(p)
       continue
 
-
     m = java_library.match(p)
     if m:
       src.add(m.group(1))
       # Exceptions: both source and lib
       if p.endswith('libquery_parser.jar') or \
          p.endswith('prolog/libcommon.jar'):
+        lib.add(p)
+      # JGit dependency from external repository
+      if 'gerrit-' not in p and 'jgit' in p:
         lib.add(p)
     else:
       # Don't mess up with Bazel internal test runner dependencies.

@@ -94,6 +94,30 @@
       "revId": "e66ac98ceb68b7f26c488de55f55f82dfb2d2018",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18a2470e_e0359107",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-07T16:18:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0e661a2_2d21a178",
+      "range": {
+        "startLine": 98,
+        "startChar": 39,
+        "endLine": 98,
+        "endChar": 48
+      },
+      "revId": "e66ac98ceb68b7f26c488de55f55f82dfb2d2018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

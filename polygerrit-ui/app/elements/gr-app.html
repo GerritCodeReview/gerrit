@@ -19,6 +19,8 @@ limitations under the License.
 <link rel="import" href="../styles/app-theme.html">
 <link rel="import" href="./plugins/gr-plugin-host/gr-plugin-host.html">
 
+<link rel="import" href="./admin/gr-admin-projects-view/gr-admin-project-view.html">
+<link rel="import" href="./admin/gr-admin-projects-view/gr-admin-projects-view.html">
 <link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
 
 <link rel="import" href="./core/gr-error-manager/gr-error-manager.html">
@@ -126,6 +128,12 @@ limitations under the License.
             params="[[params]]"
             on-account-detail-update="_handleAccountDetailUpdate">
         </gr-settings-view>
+      </template>
+      <template is="dom-if" if="[[_showProjectListView]]" restamp="true">
+        <gr-admin-projects-view
+            params="[[params]]"
+            view-state="{{_viewState.showProjectListView}}"
+            logged-in="[[_computeLoggedIn(_account)]]"></gr-admin-projects-view>
       </template>
       <template is="dom-if" if="[[_showAdminView]]" restamp="true">
         <gr-admin-view path="[[_path]]"></gr-admin-view>

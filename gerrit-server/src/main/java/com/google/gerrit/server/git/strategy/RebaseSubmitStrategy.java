@@ -42,6 +42,7 @@ import java.util.Collection;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
@@ -126,7 +127,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         }
         // RebaseAlways means we modify commit message.
         args.rw.parseBody(toMerge);
-        newPatchSetId = ChangeUtil.nextPatchSetId(args.repo, toMerge.change().currentPatchSetId());
+        newPatchSetId =
+            ChangeUtil.nextPatchSetId(ctx.getRepository(), toMerge.change().currentPatchSetId());
         RevCommit mergeTip = args.mergeTip.getCurrentTip();
         args.rw.parseBody(mergeTip);
         String cherryPickCmtMsg = args.mergeUtil.createCommitMessageOnSubmit(toMerge, mergeTip);
@@ -135,8 +137,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         try {
           newCommit =
               args.mergeUtil.createCherryPickFromCommit(
-                  args.repo,
-                  args.inserter,
+                  ctx.getRepository(),
+                  ctx.getInserter(),
                   args.mergeTip.getCurrentTip(),
                   toMerge,
                   committer,
@@ -266,9 +268,9 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
             args.mergeUtil.mergeOneCommit(
                 caller,
                 caller,
-                args.repo,
+                ctx.getRepository(),
                 args.rw,
-                args.inserter,
+                ctx.getInserter(),
                 args.destBranch,
                 mergeTip.getCurrentTip(),
                 toMerge);
@@ -300,11 +302,14 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
   }
 
   static boolean dryRun(
-      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
+      SubmitDryRun.Arguments args,
+      Repository repo,
+      CodeReviewCommit mergeTip,
+      CodeReviewCommit toMerge)
       throws IntegrationException {
     // Test for merge instead of cherry pick to avoid false negatives
     // on commit chains.
     return !args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)
-        && args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip, toMerge);
+        && args.mergeUtil.canMerge(args.mergeSorter, repo, mergeTip, toMerge);
   }
 }

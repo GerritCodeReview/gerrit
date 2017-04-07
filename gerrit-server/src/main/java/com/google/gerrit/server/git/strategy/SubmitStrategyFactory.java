@@ -32,7 +32,6 @@ import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Set;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.slf4j.Logger;
@@ -53,7 +52,6 @@ public class SubmitStrategyFactory {
   public SubmitStrategy create(
       SubmitType submitType,
       ReviewDb db,
-      Repository repo,
       CodeReviewRevWalk rw,
       RevFlag canMergeFlag,
       Set<RevCommit> alreadyAccepted,
@@ -76,7 +74,6 @@ public class SubmitStrategyFactory {
             rw,
             caller,
             mergeTip,
-            repo,
             canMergeFlag,
             db,
             alreadyAccepted,

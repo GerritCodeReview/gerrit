@@ -225,6 +225,13 @@ public abstract class ExternalId implements Serializable {
       throw invalidConfig(noteId, String.format("Invalid external id: %s", externalIdKeyStr));
     }
 
+    if (!externalIdKey.sha1().getName().equals(noteId)) {
+      throw invalidConfig(
+          noteId,
+          String.format(
+              "SHA1 of external ID %s does not match note ID %s", externalIdKeyStr, noteId));
+    }
+
     String email = externalIdConfig.getString(EXTERNAL_ID_SECTION, externalIdKeyStr, EMAIL_KEY);
     String password =
         externalIdConfig.getString(EXTERNAL_ID_SECTION, externalIdKeyStr, PASSWORD_KEY);

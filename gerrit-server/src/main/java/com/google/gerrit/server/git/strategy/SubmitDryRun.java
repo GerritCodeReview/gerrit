@@ -120,9 +120,9 @@ public class SubmitDryRun {
       case MERGE_IF_NECESSARY:
         return MergeIfNecessary.dryRun(args, tipCommit, toMergeCommit);
       case REBASE_IF_NECESSARY:
-        return RebaseIfNecessary.dryRun(args, tipCommit, toMergeCommit);
+        return RebaseIfNecessary.dryRun(args, repo, tipCommit, toMergeCommit);
       case REBASE_ALWAYS:
-        return RebaseAlways.dryRun(args, tipCommit, toMergeCommit);
+        return RebaseAlways.dryRun(args, repo, tipCommit, toMergeCommit);
       default:
         String errorMsg = "No submit strategy for: " + submitType;
         log.error(errorMsg);

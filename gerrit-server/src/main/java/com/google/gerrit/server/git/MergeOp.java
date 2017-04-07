@@ -519,7 +519,6 @@ public class MergeOp implements AutoCloseable {
             submitStrategyFactory.create(
                 submitting.submitType(),
                 db,
-                or.repo,
                 or.rw,
                 or.canMergeFlag,
                 getAlreadyAccepted(or, ob.oldTip),

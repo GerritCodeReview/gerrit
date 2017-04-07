@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2a9ca6d_64e116a0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-07T23:28:35Z",
+      "side": 1,
+      "message": "Looks like this is a new shade of gray. Is there an existing color that works here?",
+      "range": {
+        "startLine": 177,
+        "startChar": 26,
+        "endLine": 177,
+        "endChar": 33
+      },
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31d5e8e8_3e6d703e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-07T23:28:35Z",
+      "side": 1,
+      "message": "Where did this color come from? I\u0027d be hesitant to add new shades of blue. Would a medium-dark gray work such as `#666;`?",
+      "range": {
+        "startLine": 178,
+        "startChar": 15,
+        "endLine": 178,
+        "endChar": 22
+      },
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa28d113_afe2c902",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-07T23:28:35Z",
+      "side": 1,
+      "message": "IMO, bold is too heavy here. The header should feel lighter, like metadata around the diff. What do you think?",
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e3a82e6_d1856666",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-07T23:28:35Z",
+      "side": 1,
+      "message": "To specifically handle the case of renames, it looks to me like there\u0027s a more direct approach that doesn\u0027t cede as much formatting to the diff algorithm.\n\nFor example, it could test when the `diff.change_type \u003d\u003d\u003d \u0027RENAMED\u0027` and then, use Polymer bindings do something like:\n\n\u003cdiv id\u003d\"diffRenameHeader\" hidden$\u003d\"_isRename(diff.change_type)\"\u003e\n  \u003cdiv\u003e\n    Renamed from \u003ccode\u003e[[dif.meta_a.name]]\u003c/code\u003e\n  \u003c/div\u003e\n  \u003cdiv\u003e\n    to \u003ccode\u003e[[diff.meta_b.name]]\u003c/code\u003e.\n  \u003c/div\u003e\n\u003c/div\u003e\n\nThat way, you have tighter control over the wording and styles. (Better for future I18N, too.) It would also not need the \u0027index\u0027 \u0027+++\u0027 \u0027---\u0027 stuff below.)\n\nAs is, this diff header code will also display the file mode when it changes or when a file is deleted. Was that intended? There are nicer ways to show changes in the file mode also.",
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

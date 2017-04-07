@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7409cf21_3ab52d68",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior_test.html",
+        "patchSetId": 56
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1032567
+      },
+      "writtenOn": "2017-04-07T19:46:30Z",
+      "side": 1,
+      "message": "Should probably add a test that sets window.CANONICAL_PATH and calls getBaseUrl(). I only see a test for getting the default value.",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 45
+      },
+      "revId": "ae7990cfa7826e53f8b68db9f30780e90262fc8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

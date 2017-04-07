@@ -129,7 +129,7 @@ public final class Plugin extends JavaScriptObject {
     panel(extensionPoint.name(), wrap(entry), name);
   }
 
-  private native void panel(String i, JavaScriptObject e, String n)/*-{ this.panel(i, e, n) }-*/ ;
+  private native void panel(String i, JavaScriptObject e, String n) /*-{ this.panel(i, e, n) }-*/;
 
   protected Plugin() {}
 

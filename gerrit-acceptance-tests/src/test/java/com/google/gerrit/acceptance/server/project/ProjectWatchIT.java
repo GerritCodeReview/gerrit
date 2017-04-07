@@ -23,7 +23,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
@@ -39,7 +38,6 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -560,9 +558,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void deleteAllProjectWatchesIfWatchConfigIsTheOnlyFileInUserBranch() throws Exception {
     // Create account that has no files in its refs/users/ branch.
-    Account.Id id = new Account.Id(db.nextAccountId());
-    Account a = new Account(id, TimeUtil.nowTs());
-    db.accounts().insert(Collections.singleton(a));
+    Account.Id id = accounts.create().id;
 
     // Add a project watch so that a watch.config file in the refs/users/ branch is created.
     Map<ProjectWatchKey, Set<NotifyType>> watches = new HashMap<>();

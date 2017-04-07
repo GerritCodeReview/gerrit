@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+Showing the top match Last indexed 14 hours ago// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -547,6 +547,10 @@
         n: 10,  // Return max 10 results
         q: inputVal,
       });
+    },
+
+    getProjects: function() {
+      return this.fetchJSON('/projects/');
     },
 
     getSuggestedGroups: function(inputVal, opt_n, opt_errFn, opt_ctx) {

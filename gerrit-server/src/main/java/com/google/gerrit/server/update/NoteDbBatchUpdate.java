@@ -52,6 +52,7 @@ import java.util.TimeZone;
 import java.util.TreeMap;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -377,7 +378,8 @@ class NoteDbBatchUpdate extends BatchUpdate {
     // TODO(dborowitz): Teach NoteDbUpdateManager to allow reusing the same inserter and batch ref
     // update as in executeUpdateRepo.
     try (ObjectInserter ins = repo.newObjectInserter();
-        RevWalk rw = new RevWalk(ins.newReader());
+        ObjectReader reader = ins.newReader();
+        RevWalk rw = new RevWalk(reader);
         NoteDbUpdateManager updateManager =
             updateManagerFactory
                 .create(project)

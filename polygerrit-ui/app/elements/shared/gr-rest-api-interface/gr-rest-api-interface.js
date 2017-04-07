@@ -559,6 +559,13 @@
       });
     },
 
+    getProjects(projectsPerPage, opt_offset) {
+      var offset = opt_offset || 0;
+      return this._fetchSharedCacheURL(
+        `/projects/?d&n=${projectsPerPage}&S=${offset}`
+      );
+    },
+
     getSuggestedGroups(inputVal, opt_n, opt_errFn, opt_ctx) {
       const params = {s: inputVal};
       if (opt_n) { params.n = opt_n; }

@@ -173,8 +173,22 @@ limitations under the License.
         border-radius: .4em;
         background-color: #FF9AD2;
       }
+      #diffHeader {
+        background-color: #F9F9F9;
+        color: #2A00FF;
+        font-family: var(--monospace-font-family);
+        font-size: var(--font-size, 12px);
+        padding: 0.5em 0 0.5em 4em;
+      }
     </style>
     <style include="gr-theme-default"></style>
+    <div id="diffHeader" hidden$="[[_computeDiffHeaderHidden(_diffHeaderItems)]]">
+      <template
+          is="dom-repeat"
+          items="[[_diffHeaderItems]]">
+        <div>[[item]]</div>
+      </template>
+    </div>
     <div class$="[[_computeContainerClass(_loggedIn, viewMode, displayLine)]]"
         on-tap="_handleTap">
       <gr-diff-selection diff="[[_diff]]">

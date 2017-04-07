@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "fac1f447_71780daa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/OnSubmitValidators.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-07T15:56:33Z",
+      "side": 1,
+      "message": "No, we want to prevent implementations from messing with that RevWalk\u0027s internal state. Particularly for merges, it has very specific flags set that plugin authors should really not be touching.",
+      "parentUuid": "d8f1f934_19eb95b5",
+      "range": {
+        "startLine": 42,
+        "startChar": 9,
+        "endLine": 42,
+        "endChar": 47
+      },
+      "revId": "6852732693b92aeb403882ef8dada15a79afd1ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3665cd57_9343a603",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
         "patchSetId": 4
@@ -73,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "fb0103c0_eee4dadb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-07T15:56:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8693ea6a_7459e87f",
+      "range": {
+        "startLine": 316,
+        "startChar": 26,
+        "endLine": 316,
+        "endChar": 32
+      },
+      "revId": "6852732693b92aeb403882ef8dada15a79afd1ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34c7d569_f61b2d0c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
         "patchSetId": 4
@@ -117,6 +165,30 @@
       "revId": "6852732693b92aeb403882ef8dada15a79afd1ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66b10f3d_a8fdc2cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-07T15:56:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6267bfb_260bb23a",
+      "range": {
+        "startLine": 402,
+        "startChar": 26,
+        "endLine": 402,
+        "endChar": 32
+      },
+      "revId": "6852732693b92aeb403882ef8dada15a79afd1ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,13 +15,15 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.lib.Config;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,19 +33,24 @@ public class Schema_127 extends SchemaVersion {
   private static final int MAX_BATCH_SIZE = 1000;
 
   private final SitePaths sitePaths;
+  private final Config cfg;
 
   @Inject
-  Schema_127(Provider<Schema_126> prior, SitePaths sitePaths) {
+  Schema_127(Provider<Schema_126> prior,
+      SitePaths sitePaths,
+      @GerritServerConfig Config cfg) {
     super(prior);
     this.sitePaths = sitePaths;
+    this.cfg = cfg;
   }
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
-    String url = H2AccountPatchReviewStore.getUrl(sitePaths);
-    H2AccountPatchReviewStore.dropTableIfExists(url);
-    H2AccountPatchReviewStore.createTableIfNotExists(url);
-    try (Connection con = DriverManager.getConnection(url);
+    JdbcAccountPatchReviewStore jdbcAccountPatchReviewStore =
+        JdbcAccountPatchReviewStore.createAccountPatchReviewStore(cfg, sitePaths);
+    jdbcAccountPatchReviewStore.dropTableIfExists();
+    jdbcAccountPatchReviewStore.createTableIfNotExists();
+    try (Connection con = jdbcAccountPatchReviewStore.getConnection();
         PreparedStatement stmt =
             con.prepareStatement("INSERT INTO account_patch_reviews "
                 + "(account_id, change_id, patch_set_id, file_name) VALUES "
@@ -69,7 +76,7 @@ public class Schema_127 extends SchemaVersion {
         stmt.executeBatch();
       }
     } catch (SQLException e) {
-      throw H2AccountPatchReviewStore.convertError("insert", e);
+      throw jdbcAccountPatchReviewStore.convertError("insert", e);
     }
   }
 }

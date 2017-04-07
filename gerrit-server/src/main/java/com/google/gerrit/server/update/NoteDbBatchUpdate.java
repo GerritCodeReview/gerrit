@@ -142,8 +142,7 @@ class NoteDbBatchUpdate extends BatchUpdate {
   class ContextImpl implements Context {
     @Override
     public RepoView getRepoView() throws IOException {
-      initRepository();
-      return NoteDbBatchUpdate.this.repoView;
+      return NoteDbBatchUpdate.this.getRepoView();
     }
 
     @Override
@@ -190,8 +189,7 @@ class NoteDbBatchUpdate extends BatchUpdate {
 
     @Override
     public void addRefUpdate(ReceiveCommand cmd) throws IOException {
-      initRepository();
-      repoView.getCommands().add(cmd);
+      getRepoView().getCommands().add(cmd);
     }
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa65d33c_c9e7c0bb",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior.html",
+        "patchSetId": 50
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-07T17:26:43Z",
+      "side": 1,
+      "message": "Nit: since it\u0027s on the behavior, I suspect this should be public (no underscore in the name).",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 18
+      },
+      "revId": "ff64cecda1072d9ffa757da83cd6983ff228568e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

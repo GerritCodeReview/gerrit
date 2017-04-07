@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "c1e38a3d_4384715d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-07T14:03:30Z",
+      "side": 1,
+      "message": "Sigh. This was to work around bad behavior in Eclipse\u0027s resource warning checker. Putting @SuppressWarnings on the declaration of repo told me it was unnecessary, but this worked for some reason. Anyway, I just switched to putting it on the whole method. I think it\u0027s self-contained enough that the risk of ignoring the warning for a slightly broader scope is not great.",
+      "parentUuid": "2352a08f_7e789b51",
+      "range": {
+        "startLine": 223,
+        "startChar": 19,
+        "endLine": 223,
+        "endChar": 20
+      },
+      "revId": "e66ac98ceb68b7f26c488de55f55f82dfb2d2018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb0a464b_e92f8a20",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2017-04-07T08:32:12Z",
       "side": 1,
       "message": "optional: If we replace args.repo with ctx.getRepository() below, we should do the same here. I\u0027m wondering whether we can\u0027t get rid of SubmitStrategy.repo completely. The only other use is in RebaseSubmitStrategy which could also switch to ctx.getRepository().",
+      "range": {
+        "startLine": 98,
+        "startChar": 39,
+        "endLine": 98,
+        "endChar": 48
+      },
+      "revId": "e66ac98ceb68b7f26c488de55f55f82dfb2d2018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0e661a2_2d21a178",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-07T14:03:30Z",
+      "side": 1,
+      "message": "\u003e I\u0027m wondering whether we can\u0027t get rid of SubmitStrategy.repo completely. The only other use is in RebaseSubmitStrategy which could also switch to ctx.getRepository().\n\nNot quite, there\u0027s a little more work to do. But this is a good idea, I will do that cleanup in a separate change.",
+      "parentUuid": "eb0a464b_e92f8a20",
       "range": {
         "startLine": 98,
         "startChar": 39,

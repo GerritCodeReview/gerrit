@@ -89,6 +89,11 @@
         observer: '_viewModeObserver',
       },
       _diff: Object,
+      _diffHeaderItems: {
+        type: Array,
+        value: [],
+        computed: '_computeDiffHeaderItems(_diff.*)',
+      },
       _diffTableClass: {
         type: String,
         value: '',
@@ -336,7 +341,7 @@
       this._removeComment(comment, e.detail.patchNum);
     },
 
-    _removeComment: function(comment, opt_patchNum) {
+    _removeComment: function(comment) {
       var side = comment.__commentSide;
       this._removeCommentFromSide(comment, side);
     },
@@ -575,6 +580,21 @@
       for (var i = 0; i < threadEls.length; i++) {
         threadEls[i].projectConfig = projectConfig;
       }
+    },
+
+    _computeDiffHeaderItems: function(diffInfoRecord) {
+      var diffInfo = diffInfoRecord.base;
+      if (!diffInfo || !diffInfo.diff_header || diffInfo.binary) { return []; }
+      return diffInfo.diff_header.filter(function(item) {
+        return !(item.indexOf('diff --git ') == 0 ||
+            item.indexOf('index ') == 0 ||
+            item.indexOf('+++ ') == 0 ||
+            item.indexOf('--- ') == 0);
+      });
+    },
+
+    _computeDiffHeaderHidden: function(items) {
+      return items.length === 0;
     },
   });
 })();

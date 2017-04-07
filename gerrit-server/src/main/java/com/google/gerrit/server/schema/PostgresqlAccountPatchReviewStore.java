@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,10 +26,10 @@ import org.eclipse.jgit.lib.Config;
 import java.sql.SQLException;
 
 @Singleton
-public class H2AccountPatchReviewStore extends JdbcAccountPatchReviewStore {
+public class PostgresqlAccountPatchReviewStore extends JdbcAccountPatchReviewStore {
 
   @Inject
-  H2AccountPatchReviewStore(@GerritServerConfig Config cfg,
+  PostgresqlAccountPatchReviewStore(@GerritServerConfig Config cfg,
       SitePaths sitePaths) {
     super(cfg, sitePaths);
   }
@@ -37,10 +37,13 @@ public class H2AccountPatchReviewStore extends JdbcAccountPatchReviewStore {
   @Override
   public OrmException convertError(String op, SQLException err) {
     switch (getSQLStateInt(err)) {
-      case 23001: // UNIQUE CONSTRAINT VIOLATION
       case 23505: // DUPLICATE_KEY_1
         return new OrmDuplicateKeyException("ACCOUNT_PATCH_REVIEWS", err);
 
+      case 23514: // CHECK CONSTRAINT VIOLATION
+      case 23503: // FOREIGN KEY CONSTRAINT VIOLATION
+      case 23502: // NOT NULL CONSTRAINT VIOLATION
+      case 23001: // RESTRICT VIOLATION
       default:
         if (err.getCause() == null && err.getNextException() != null) {
           err.initCause(err.getNextException());

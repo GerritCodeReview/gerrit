@@ -38,11 +38,8 @@ public class PluginLoader extends DialogBox {
       List<String> plugins, int loadTimeout, AsyncCallback<VoidResult> callback) {
     if (plugins == null || plugins.isEmpty()) {
       callback.onSuccess(VoidResult.create());
-    }
-    plugins = plugins.stream().filter(p -> p.endsWith(".js")).collect(Collectors.toList());
-    if (plugins.isEmpty()) {
-      callback.onSuccess(VoidResult.create());
     } else {
+      plugins = plugins.stream().filter(p -> p.endsWith(".js")).collect(Collectors.toList());
       self = new PluginLoader(loadTimeout, callback);
       self.load(plugins);
       self.startTimers();

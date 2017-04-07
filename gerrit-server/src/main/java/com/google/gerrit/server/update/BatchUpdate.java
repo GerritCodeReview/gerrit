@@ -312,6 +312,11 @@ public abstract class BatchUpdate implements AutoCloseable {
     }
   }
 
+  protected RepoView getRepoView() throws IOException {
+    initRepository();
+    return getRepoView();
+  }
+
   protected CurrentUser getUser() {
     return user;
   }

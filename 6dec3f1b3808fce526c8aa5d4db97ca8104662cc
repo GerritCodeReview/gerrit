@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "06088f9e_5a74c522",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-07T23:42:16Z",
+      "side": 1,
+      "message": "The lightest shade of gray we use in the app (afaik) is #EEE, which is employed by the line number background. I thought that it looked a bit silly, so I went for something lighter. Here\u0027s a mock with background-color: #EEE;\n\nhttp://i.imgur.com/pR02yf2.png",
+      "parentUuid": "d2a9ca6d_64e116a0",
+      "range": {
+        "startLine": 177,
+        "startChar": 26,
+        "endLine": 177,
+        "endChar": 33
+      },
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "31d5e8e8_3e6d703e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-07T23:28:35Z",
       "side": 1,
       "message": "Where did this color come from? I\u0027d be hesitant to add new shades of blue. Would a medium-dark gray work such as `#666;`?",
+      "range": {
+        "startLine": 178,
+        "startChar": 15,
+        "endLine": 178,
+        "endChar": 22
+      },
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "777ad899_cb5eebc5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-07T23:42:16Z",
+      "side": 1,
+      "message": "This color came from the old UI. See:\nhttps://chromium-review.googlesource.com/#/c/452797/2/third_party/WebKit/LayoutTests/external/wpt/css-typed-om/CSSMatrixComponent-DOMMatrix-mutable-expected.txt\n\nI don\u0027t think gray is the right choice here. Here\u0027s a mockup with your suggestion:\nhttp://i.imgur.com/eB7w9qc.png\n\nI would be willing to find another color from the app to use, though.",
+      "parentUuid": "31d5e8e8_3e6d703e",
       "range": {
         "startLine": 178,
         "startChar": 15,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "7c266fe1_663efd58",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-07T23:42:16Z",
+      "side": 1,
+      "message": "Again, went with bold for direct feature replication. Definitely expected some discussion around this topic, though. Here\u0027s a mock with the non-bold text:\nhttp://i.imgur.com/uNXxQwt.png\n\nI\u0027m not sure what I like better. This is nice, but I think the bold looks good too.",
+      "parentUuid": "aa28d113_afe2c902",
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3e3a82e6_d1856666",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2017-04-07T23:28:35Z",
       "side": 1,
       "message": "To specifically handle the case of renames, it looks to me like there\u0027s a more direct approach that doesn\u0027t cede as much formatting to the diff algorithm.\n\nFor example, it could test when the `diff.change_type \u003d\u003d\u003d \u0027RENAMED\u0027` and then, use Polymer bindings do something like:\n\n\u003cdiv id\u003d\"diffRenameHeader\" hidden$\u003d\"_isRename(diff.change_type)\"\u003e\n  \u003cdiv\u003e\n    Renamed from \u003ccode\u003e[[dif.meta_a.name]]\u003c/code\u003e\n  \u003c/div\u003e\n  \u003cdiv\u003e\n    to \u003ccode\u003e[[diff.meta_b.name]]\u003c/code\u003e.\n  \u003c/div\u003e\n\u003c/div\u003e\n\nThat way, you have tighter control over the wording and styles. (Better for future I18N, too.) It would also not need the \u0027index\u0027 \u0027+++\u0027 \u0027---\u0027 stuff below.)\n\nAs is, this diff header code will also display the file mode when it changes or when a file is deleted. Was that intended? There are nicer ways to show changes in the file mode also.",
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab4ce795_6f830a52",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-07T23:42:16Z",
+      "side": 1,
+      "message": "-1 to that approach, IMO. My intention for this change was to replicate the logic found in GWT, which can be found here.\n\nhttps://gerrit.googlesource.com/gerrit/+/master/gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java#115\n\nIn general, I\u0027m definitely a fan of rethinking things like this, but in this case it seems like parity through replication is the right way to go.",
+      "parentUuid": "3e3a82e6_d1856666",
       "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -823,6 +823,30 @@
       "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c2daad5_cebb12e1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-07T18:36:08Z",
+      "side": 1,
+      "message": "I\u0027ve removed the base url from the cache now.",
+      "parentUuid": "03ccdc77_748ae107",
+      "range": {
+        "startLine": 391,
+        "startChar": 36,
+        "endLine": 391,
+        "endChar": 53
+      },
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

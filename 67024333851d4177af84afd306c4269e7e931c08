@@ -23,6 +23,30 @@
       "revId": "67024333851d4177af84afd306c4269e7e931c08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de8251fa_4f93e5f4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-07T06:19:37Z",
+      "side": 1,
+      "message": "Yes. If the username is not set, then account creator will not create an SSH key for that account (which would have been stored in the user branch and which prevented using of AccountCreator before).",
+      "parentUuid": "6f10a976_8604b331",
+      "range": {
+        "startLine": 560,
+        "startChar": 4,
+        "endLine": 561,
+        "endChar": 41
+      },
+      "revId": "67024333851d4177af84afd306c4269e7e931c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

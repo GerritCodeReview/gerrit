@@ -23,6 +23,30 @@
       "revId": "31ac1162aa61d893060075f0783a8fbf8ffae29b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9450b44_11b6b0ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-07T08:00:12Z",
+      "side": 1,
+      "message": "We don\u0027t have this logged (or at least we didn\u0027t find that log entry yet). But it turns out that the ArrayIndexOutOfBoundsException is not leaving Config.fromText(...). The exception we saw occurred in Config.StringReader#read(), but if you look into this method you can see that it directly catches the ArrayIndexOutOfBoundsException. It occurs if Config.fromText(\"\") is invoked, which is nothing bad and will just result in an empty Config. ExternalId#parse(...) would in this case throw a ConfigInvalidException which is already handled in ExternalIdReader#all().\n\nI would still keep this fix, because there is a theoretical possibility that another exception than ConfigInvalidException occurs during parsing external IDs and we should handle them. Will update the commit message in a minute.",
+      "parentUuid": "c46d6e9d_8af27f15",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "31ac1162aa61d893060075f0783a8fbf8ffae29b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

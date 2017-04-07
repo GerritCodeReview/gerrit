@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "09ba7054_ac675bc9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-07T15:56:40Z",
+      "side": 1,
+      "message": "Done.\n\n $ find . -name \\*.java | xargs grep \u0027new RevWalk.*newReader\u0027\n ./gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java:      this.rw \u003d new RevWalk(tempIns.newReader());\n ./gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java:    rw \u003d new RevWalk(inserter.newReader());\n ./gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java:      rw \u003d new RevWalk(oi.newReader());\n\nInspecting these remaining cases manually, they all call rw.getObjectReader().close().",
+      "parentUuid": "a97c43ff_e05b9a12",
+      "range": {
+        "startLine": 141,
+        "startChar": 33,
+        "endLine": 141,
+        "endChar": 56
+      },
+      "revId": "974c40ad83704cc8eec8310c4bf46a3cb48b426e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d332cb6_256fed8d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2017-04-07T14:53:03Z",
       "side": 1,
       "message": "reader should be closed, why not \u0027new RevWalk(repo)\u0027?",
+      "range": {
+        "startLine": 39,
+        "startChar": 21,
+        "endLine": 39,
+        "endChar": 41
+      },
+      "revId": "974c40ad83704cc8eec8310c4bf46a3cb48b426e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "684600e3_9d82b052",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-07T15:56:40Z",
+      "side": 1,
+      "message": "Closed.\n\nThe whole point of RepoView is it can view unflushed objects.",
+      "parentUuid": "5d332cb6_256fed8d",
       "range": {
         "startLine": 39,
         "startChar": 21,

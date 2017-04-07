@@ -48,12 +48,14 @@ public class RepoView {
   private final Repository repo;
   private final RevWalk rw;
   private final ObjectInserter inserter;
+  private final ObjectInserter inserterWrapper;
   private final ChainedReceiveCommands commands;
   private final boolean closeRepo;
 
   RepoView(GitRepositoryManager repoManager, Project.NameKey project) throws IOException {
     repo = repoManager.openRepository(project);
     inserter = repo.newObjectInserter();
+    inserterWrapper = new NonFlushingInserter(inserter);
     rw = new RevWalk(inserter.newReader());
     commands = new ChainedReceiveCommands(repo);
     closeRepo = true;
@@ -68,6 +70,7 @@ public class RepoView {
     this.repo = checkNotNull(repo);
     this.rw = checkNotNull(rw);
     this.inserter = checkNotNull(inserter);
+    inserterWrapper = new NonFlushingInserter(inserter);
     commands = new ChainedReceiveCommands(repo);
     closeRepo = false;
   }
@@ -193,7 +196,34 @@ public class RepoView {
     return inserter;
   }
 
+  ObjectInserter getInserterWrapper() {
+    return inserterWrapper;
+  }
+
   ChainedReceiveCommands getCommands() {
     return commands;
+  }
+
+  private static class NonFlushingInserter extends ObjectInserter.Filter {
+    private final ObjectInserter delegate;
+
+    private NonFlushingInserter(ObjectInserter delegate) {
+      this.delegate = delegate;
+    }
+
+    @Override
+    protected ObjectInserter delegate() {
+      return delegate;
+    }
+
+    @Override
+    public void flush() {
+      // Do nothing.
+    }
+
+    @Override
+    public void close() {
+      // Do nothing; the delegate is closed separately.
+    }
   }
 }

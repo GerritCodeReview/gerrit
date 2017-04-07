@@ -94,6 +94,30 @@
       "revId": "98ddc8a658b838451097e2e1f003ac753c102b9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5a2bf2a_6d7eb400",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 48
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-07T11:57:47Z",
+      "side": 1,
+      "message": "\u003e it will be displayed as addon to the status\n\nThat makes sense when there is another status shown, but for open/new changes the status is omitted and it\u0027s displayed as simply \"(Private)\"\n\nIt would be nice if this could be improved, but it\u0027s not critical.",
+      "parentUuid": "bccc3f97_500a229d",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "98ddc8a658b838451097e2e1f003ac753c102b9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

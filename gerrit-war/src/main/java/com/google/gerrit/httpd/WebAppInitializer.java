@@ -61,7 +61,7 @@ import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
-import com.google.gerrit.server.schema.H2AccountPatchReviewStore;
+import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
@@ -298,7 +298,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new LogFileCompressor.Module());
     modules.add(new EventBroker.Module());
-    modules.add(new H2AccountPatchReviewStore.Module());
+    modules.add(new JdbcAccountPatchReviewStore.Module(config));
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
     modules.add(new StreamEventsApiListener.Module());
     modules.add(new ReceiveCommitsExecutorModule());

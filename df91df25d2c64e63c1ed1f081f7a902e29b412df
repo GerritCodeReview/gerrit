@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbb0aae0_6a110516",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/Commits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-07T08:10:11Z",
+      "side": 1,
+      "message": "Remove this if it\u0027s not needed, or rework it so that the existing RevCommit gets parsed if necessary.",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 7
+      },
+      "revId": "df91df25d2c64e63c1ed1f081f7a902e29b412df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

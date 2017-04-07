@@ -308,6 +308,9 @@ limitations under the License.
         assert.isTrue(items[0].classList.contains('selected'));
         assert.isFalse(items[1].classList.contains('selected'));
         assert.isFalse(items[2].classList.contains('selected'));
+        // j with a modifier should not move the cursor.
+        MockInteractions.pressAndReleaseKeyOn(element, 74, 'shift', 'j');
+        assert.equal(element.$.fileCursor.index, 0);
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
         assert.equal(element.$.fileCursor.index, 1);
         assert.equal(element.selectedIndex, 1);
@@ -319,6 +322,9 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
         assert(showStub.lastCall.calledWith('/c/42/2/myfile.txt'),
             'Should navigate to /c/42/2/myfile.txt');
+        // k with a modifier should not move the cursor.
+        MockInteractions.pressAndReleaseKeyOn(element, 75, 'shift', 'k');
+        assert.equal(element.$.fileCursor.index, 2);
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         assert.equal(element.$.fileCursor.index, 1);

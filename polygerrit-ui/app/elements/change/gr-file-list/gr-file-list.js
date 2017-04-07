@@ -455,7 +455,10 @@
     },
 
     _handleDownKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+        return;
+      }
+
       e.preventDefault();
       if (this._showInlineDiffs) {
         this.$.diffCursor.moveDown();
@@ -466,7 +469,9 @@
     },
 
     _handleUpKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+        return;
+      }
 
       e.preventDefault();
       if (this._showInlineDiffs) {

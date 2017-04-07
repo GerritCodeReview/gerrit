@@ -41,6 +41,9 @@ link:pgm-passwd.html[passwd]::
 link:pgm-LocalUsernamesToLowerCase.html[LocalUsernamesToLowerCase]::
 	Convert the local username of every account to lower case.
 
+link:pgm-MigrateAccountPatchReviewDb.html[MigrateAccountPatchReviewDb]::
+	Migrates AccountPatchReviewDb from one database backend to another.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

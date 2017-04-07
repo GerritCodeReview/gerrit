@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1b69f53f_9fc0b497",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 45
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-07T17:50:12Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d1c4749c_371b3e77",
+      "range": {
+        "startLine": 103,
+        "startChar": 15,
+        "endLine": 103,
+        "endChar": 57
+      },
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "550b8647_299adbd5",
         "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
         "patchSetId": 45
@@ -424,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "5fafc9b8_e832256f",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-07T17:50:12Z",
+      "side": 1,
+      "message": "The prefix is added in the url. We only need it in front of /login/ not have it added to the path too. As the path will eventually get the prefix but it will redirect /r/login/r/path/ like that. Which then the redirect fails. but replacing the prefix at the end of the url. It looks like /r/login/path/",
+      "parentUuid": "ea7b53a7_987d6b87",
+      "range": {
+        "startLine": 121,
+        "startChar": 6,
+        "endLine": 126,
+        "endChar": 14
+      },
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ae760e44_02819520",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
         "patchSetId": 45
@@ -724,6 +772,30 @@
       "side": 1,
       "message": "In that case, why did you add base urls to the cache keys?",
       "parentUuid": "e8f74aa0_dfd0ee0f",
+      "range": {
+        "startLine": 391,
+        "startChar": 36,
+        "endLine": 391,
+        "endChar": 53
+      },
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03ccdc77_748ae107",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-07T17:50:12Z",
+      "side": 1,
+      "message": "I thougt that polygerrit would not work without updating those too. Should i remove it from cache?",
+      "parentUuid": "370456aa_ae257b4b",
       "range": {
         "startLine": 391,
         "startChar": 36,

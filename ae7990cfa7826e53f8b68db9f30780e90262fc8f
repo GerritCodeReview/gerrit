@@ -22,6 +22,29 @@
       "revId": "ae7990cfa7826e53f8b68db9f30780e90262fc8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a6be700_949eff17",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 56
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1032567
+      },
+      "writtenOn": "2017-04-07T19:53:48Z",
+      "side": 1,
+      "message": "Can this be removed too?",
+      "range": {
+        "startLine": 391,
+        "startChar": 36,
+        "endLine": 391,
+        "endChar": 53
+      },
+      "revId": "ae7990cfa7826e53f8b68db9f30780e90262fc8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

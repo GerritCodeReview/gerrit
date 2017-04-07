@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../styles/app-theme.html">
+<link rel="import" href="./admin/gr-admin-project-list/gr-admin-project-list.html">
 <link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
 <link rel="import" href="./change-list/gr-change-list-view/gr-change-list-view.html">
 <link rel="import" href="./change-list/gr-dashboard-view/gr-dashboard-view.html">
@@ -124,6 +125,11 @@ limitations under the License.
             params="[[params]]"
             on-account-detail-update="_handleAccountDetailUpdate">
         </gr-settings-view>
+      </template>
+      <template is="dom-if" if="[[_showProjectListView]]" restamp="true">
+        <gr-admin-project-list
+            params="[[params]]"
+            id="projectList"></gr-admin-project-list>
       </template>
       <template is="dom-if" if="[[_showAdminView]]" restamp="true">
         <gr-admin-view path="[[_path]]"></gr-admin-view>

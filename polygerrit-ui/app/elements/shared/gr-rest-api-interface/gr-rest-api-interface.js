@@ -549,6 +549,10 @@
       });
     },
 
+    getProjects: function() {
+      return this.fetchJSON('/projects/?d');
+    },
+
     getSuggestedGroups: function(inputVal, opt_n, opt_errFn, opt_ctx) {
       var params = {s: inputVal};
       if (opt_n) { params.n = opt_n; }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8d52ab6_19545752",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DelegatingClassLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-07T23:25:31Z",
+      "side": 1,
+      "message": "This is actually 64K minus one byte: 2^16-1\u003d0xFFFF\nAny reason why not exactly 64K (some weird trick)?\n\nReplace 0xFFFF with 1 \u003c\u003c 16?",
+      "range": {
+        "startLine": 70,
+        "startChar": 31,
+        "endLine": 70,
+        "endChar": 37
+      },
+      "revId": "4d980e8ed8b9acbba1cd26c0ee8321148c1f41bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

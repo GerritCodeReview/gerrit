@@ -1,0 +1,60 @@
+= MigrateAccountPatchReviewDb
+
+== NAME
+MigrateAccountPatchReviewDb - Migrates account patch review db from one to
+another.
+
+== SYNOPSIS
+[verse]
+--
+_java_ -jar gerrit.war MigrateAccountPatchReviewDb
+  -d <SITE_PATH>
+  [--sourceUrl] [--chunkSize]
+--
+
+== DESCRIPTION
+Migrates AccountPatchReviewDb from one to another. The AccountPatchReviewDb
+is a database used to store the user file reviewed flags.
+
+This task is only intended to be run if the configuration parameter
+link:config-gerrit.html#accountPatchReviewDb.url[accountPatchReviewDb.url]
+is changed.
+
+To migrate AccountPatchReviewDb:
+
+* Stop Gerrit
+* Configure new value for link:config-gerrit.html#accountPatchReviewDb.url[accountPatchReviewDb.url]
+* Migrate data using this task
+* Start Gerrit
+
+== OPTIONS
+
+-d::
+--sourceUrl::
+	Url of source database. Only need to be specified is source is not H2.
+
+--chunkSize::
+	Chunk size of fetching from source and push to target on each time.
+	Defaults to 100000.
+
+== CONTEXT
+This command can only be run on a server which has direct
+connectivity to the database.
+
+== EXAMPLES
+To migrate from h2 to another database:
+
+----
+	$ java -jar gerrit.war MigrateAccountPatchReviewDb
+----
+
+== SEE ALSO
+
+* Configuration parameter link:config-gerrit.html#accountPatchReviewDb.url[accountPatchReviewDb.url]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

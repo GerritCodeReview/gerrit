@@ -118,6 +118,30 @@
       "revId": "98ddc8a658b838451097e2e1f003ac753c102b9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fe73d4d_71936881",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 48
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-07T12:05:43Z",
+      "side": 1,
+      "message": "AFAIK this was intended for consistency. But yes, better ideas are welcome. As davido pointed out, this approach is also not scaling well.",
+      "parentUuid": "a5a2bf2a_6d7eb400",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "98ddc8a658b838451097e2e1f003ac753c102b9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

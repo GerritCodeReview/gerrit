@@ -22,6 +22,30 @@
       "revId": "98ddc8a658b838451097e2e1f003ac753c102b9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bccc3f97_500a229d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 48
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-07T11:37:29Z",
+      "side": 1,
+      "message": "Because it will be displayed as addon to the status, e.g. \"Merged (Private)\", \"Abandoned (Private)\"",
+      "parentUuid": "a5cc0198_d9c60fee",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "98ddc8a658b838451097e2e1f003ac753c102b9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

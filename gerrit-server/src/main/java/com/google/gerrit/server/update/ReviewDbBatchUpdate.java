@@ -113,8 +113,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
   class ContextImpl implements Context {
     @Override
     public RepoView getRepoView() throws IOException {
-      initRepository();
-      return ReviewDbBatchUpdate.this.repoView;
+      return ReviewDbBatchUpdate.this.getRepoView();
     }
 
     @Override

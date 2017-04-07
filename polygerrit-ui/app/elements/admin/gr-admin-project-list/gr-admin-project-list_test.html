@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-admin-project-list</title>
+
+<script src="../../../bower_components/page/page.js"></script>
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-admin-project-list.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-admin-project-list></gr-admin-project-list>
+  </template>
+</test-fixture>
+
+<script>
+
+  suite('gr-admin-project-list tests', () => {
+    let element;
+    let projects;
+    let value;
+
+    suite('list with projects', () => {
+      setup(done => {
+        projects = [
+          {
+            id: 'Gerrit',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'gitweb',
+                url: 'https://gitweb.example.com/Gerrit',
+              },
+            ],
+          },
+          {
+            id: 'test',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test',
+              },
+            ],
+          },
+        ];
+
+        stub('gr-rest-api-interface', {
+          getProjects(num, offset) {
+            return Promise.resolve(projects);
+          },
+        });
+
+        element = fixture('basic');
+        element._paramsChanged(value).then(() => { flush(done); });
+      });
+
+      test('test for gerrit project in the list', done => {
+        flush(() => {
+          assert.equal(element._projects[0].id, 'Gerrit');
+          done();
+        });
+      });
+
+      test('test for test project in the list', done => {
+        flush(() => {
+          assert.equal(element._projects[1].id, 'test');
+          done();
+        });
+      });
+
+      test('renders projects', done => {
+        flush(() => {
+          const rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
+          assert.equal(rows.length, 3);
+          done();
+        });
+      });
+    });
+
+    suite('test next and prev button', () => {
+      setup(done => {
+        projects = [
+          {
+            id: 'Gerrit',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'gitweb',
+                url: 'https://gitweb.example.com/Gerrit',
+              },
+            ],
+          },
+          {
+            id: 'test',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test',
+              },
+            ],
+          },
+          {
+            id: 'test2',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test2',
+              },
+            ],
+          },
+          {
+            id: 'test3',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test3',
+              },
+            ],
+          },
+          {
+            id: 'test4',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test4',
+              },
+            ],
+          },
+          {
+            id: 'test5',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test5',
+              },
+            ],
+          },
+          {
+            id: 'test6',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test6',
+              },
+            ],
+          },
+          {
+            id: 'test7',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test7',
+              },
+            ],
+          },
+          {
+            id: 'test8',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test8',
+              },
+            ],
+          },
+          {
+            id: 'test9',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test9',
+              },
+            ],
+          },
+          {
+            id: 'test10',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test10',
+              },
+            ],
+          },
+          {
+            id: 'test11',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test11',
+              },
+            ],
+          },
+          {
+            id: 'test12',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test12',
+              },
+            ],
+          },
+          {
+            id: 'test13',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test13',
+              },
+            ],
+          },
+          {
+            id: 'test14',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test14',
+              },
+            ],
+          },
+          {
+            id: 'test15',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test15',
+              },
+            ],
+          },
+          {
+            id: 'test16',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test16',
+              },
+            ],
+          },
+          {
+            id: 'test17',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test17',
+              },
+            ],
+          },
+          {
+            id: 'test18',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test18',
+              },
+            ],
+          },
+          {
+            id: 'test19',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test19',
+              },
+            ],
+          },
+          {
+            id: 'test20',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test20',
+              },
+            ],
+          },
+          {
+            id: 'test21',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test21',
+              },
+            ],
+          },
+          {
+            id: 'test22',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test22',
+              },
+            ],
+          },
+          {
+            id: 'test23',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test23',
+              },
+            ],
+          },
+          {
+            id: 'test24',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test24',
+              },
+            ],
+          },
+          {
+            id: 'test25',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test25',
+              },
+            ],
+          },
+          {
+            id: 'test26',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test26',
+              },
+            ],
+          },
+          {
+            id: 'test27',
+            state: 'ACTIVE',
+            web_links: [
+              {
+                name: 'diffusion',
+                url: 'https://phabricator.example.org/r/project/test27',
+              },
+            ],
+          },
+        ];
+
+        stub('gr-rest-api-interface', {
+          getProjects(num, offset) {
+            return Promise.resolve(projects);
+          },
+        });
+
+        element = fixture('basic');
+        element._paramsChanged(value).then(() => { flush(done); });
+      });
+
+      test('test next button', done => {
+        element._hideNextArrow('', projects);
+        flush(() => {
+          assert.isTrue(element._hideNextArrow, true);
+          done();
+        });
+      });
+
+      /*test('test for test project in the list', done => {
+        flush(() => {
+          assert.equal(element._projects[1].id, 'test');
+          done();
+        });
+      });
+
+      test('renders projects', done => {
+        flush(() => {
+          const rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
+          assert.equal(rows.length, 3);
+          done();
+        });
+      });*/
+    });
+  });
+</script>

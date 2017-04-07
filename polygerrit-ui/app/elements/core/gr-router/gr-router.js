@@ -108,6 +108,19 @@
       });
     });
 
+    page(/^\/admin\/projects(,(\d+))?(\/)?$/, loadUser, function(data) {
+      restAPI.getLoggedIn().then(function(loggedIn) {
+        if (loggedIn) {
+          app.params = {
+            view: 'gr-admin-project-list',
+            offset: data.params[1] || 0,
+          };
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
     page('/admin/(.*)', loadUser, function(data) {
       restAPI.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {

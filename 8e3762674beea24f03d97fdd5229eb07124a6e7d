@@ -33,6 +33,24 @@
       "revId": "8e3762674beea24f03d97fdd5229eb07124a6e7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9eb3385_8b608419",
+        "filename": "tools/bzl/plugin.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-07T05:35:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8823cf3f_d978d089",
+      "revId": "8e3762674beea24f03d97fdd5229eb07124a6e7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

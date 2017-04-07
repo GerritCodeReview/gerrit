@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b6cf196_c20c9317",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmitByRebase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-07T05:49:50Z",
+      "side": 1,
+      "message": "This is not equivalent.  This call to commits.parse simply returns the input id if it\u0027s an instance of RevCommit:\n\n    if (commit instanceof RevCommit) {\n      return (RevCommit) commit;\n    }\n\nand then when getParentCount() is called on it later, for example:\n\n assertThat(headParent1.getParentCount()).isEqualTo(1);\n\nthe implementation of gerParentCounts:\n\n  public final int getParentCount() {\n\t\treturn parents.length;\n\t}\n\ncauses NPE because parents is null.",
+      "range": {
+        "startLine": 316,
+        "startChar": 4,
+        "endLine": 316,
+        "endChar": 38
+      },
+      "revId": "45cc86036ddd007ac53fcc673208f1bf2438f1b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90b601fd_f154f516",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/Commits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-07T05:49:50Z",
+      "side": 1,
+      "message": "commit",
+      "range": {
+        "startLine": 136,
+        "startChar": 12,
+        "endLine": 136,
+        "endChar": 14
+      },
+      "revId": "45cc86036ddd007ac53fcc673208f1bf2438f1b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166ed85c_99158dc9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/Commits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-07T05:49:50Z",
+      "side": 1,
+      "message": "Removing this allows the SubmitByRebaseAlwaysIT tests to pass.",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 5
+      },
+      "revId": "45cc86036ddd007ac53fcc673208f1bf2438f1b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

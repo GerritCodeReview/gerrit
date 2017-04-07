@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8693ea6a_7459e87f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-07T14:39:37Z",
+      "side": 1,
+      "message": "please fix",
+      "parentUuid": "3665cd57_9343a603",
+      "range": {
+        "startLine": 316,
+        "startChar": 26,
+        "endLine": 316,
+        "endChar": 32
+      },
+      "revId": "6852732693b92aeb403882ef8dada15a79afd1ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34c7d569_f61b2d0c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
         "patchSetId": 4
@@ -60,6 +84,30 @@
       "writtenOn": "2017-04-07T10:38:33Z",
       "side": 1,
       "message": "Not used.",
+      "range": {
+        "startLine": 402,
+        "startChar": 26,
+        "endLine": 402,
+        "endChar": 32
+      },
+      "revId": "6852732693b92aeb403882ef8dada15a79afd1ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6267bfb_260bb23a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-07T14:39:37Z",
+      "side": 1,
+      "message": "please fix",
+      "parentUuid": "34c7d569_f61b2d0c",
       "range": {
         "startLine": 402,
         "startChar": 26,

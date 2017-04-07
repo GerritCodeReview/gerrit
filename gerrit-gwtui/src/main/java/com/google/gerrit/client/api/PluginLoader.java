@@ -40,10 +40,14 @@ public class PluginLoader extends DialogBox {
       callback.onSuccess(VoidResult.create());
     } else {
       plugins = plugins.stream().filter(p -> p.endsWith(".js")).collect(Collectors.toList());
-      self = new PluginLoader(loadTimeout, callback);
-      self.load(plugins);
-      self.startTimers();
-      self.center();
+      if (plugins.isEmpty()) {
+        callback.onSuccess(VoidResult.create());
+      } else {
+        self = new PluginLoader(loadTimeout, callback);
+        self.load(plugins);
+        self.startTimers();
+        self.center();
+      }
     }
   }
 

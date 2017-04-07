@@ -438,7 +438,11 @@ class ReviewDbBatchUpdate extends BatchUpdate {
       return;
     }
 
-    batchRefUpdate.execute(revWalk, NullProgressMonitor.INSTANCE);
+    // Force BatchRefUpdate to read newly referenced objects using a new RevWalk, rather than one
+    // that might have access to unflushed objects.
+    try (RevWalk updateRw = new RevWalk(repo)) {
+      batchRefUpdate.execute(updateRw, NullProgressMonitor.INSTANCE);
+    }
     boolean ok = true;
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
       if (cmd.getResult() != ReceiveCommand.Result.OK) {

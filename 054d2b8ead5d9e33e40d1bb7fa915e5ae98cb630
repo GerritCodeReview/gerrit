@@ -88,6 +88,24 @@
       "revId": "054d2b8ead5d9e33e40d1bb7fa915e5ae98cb630",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c757ab75_5751bc92",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/Exports.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-07T01:56:35Z",
+      "side": 1,
+      "message": "Han-Wen also started some work to automate the formatting during tests.\n\nhttps://gerrit-review.googlesource.com/#/c/100691/",
+      "parentUuid": "d3c38d0f_726d639c",
+      "revId": "054d2b8ead5d9e33e40d1bb7fa915e5ae98cb630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

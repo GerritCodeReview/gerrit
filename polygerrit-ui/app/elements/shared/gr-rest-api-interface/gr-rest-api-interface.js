@@ -549,6 +549,13 @@
       });
     },
 
+    getProjects: function(projectsPerPage, opt_offset) {
+      var offset = opt_offset || 0;
+      return this._fetchSharedCacheURL(
+        '/projects/?d&n=' + projectsPerPage + '&S=' + offset
+      );
+    },
+
     getSuggestedGroups: function(inputVal, opt_n, opt_errFn, opt_ctx) {
       var params = {s: inputVal};
       if (opt_n) { params.n = opt_n; }

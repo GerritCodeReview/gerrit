@@ -311,7 +311,7 @@ public class EventFactory {
     // set whose parent matches this patch set's revision.
     for (ChangeData cd :
         queryProvider.get().byProjectGroups(change.getProject(), currentPs.getGroups())) {
-      patchSets:
+      PATCH_SETS:
       for (PatchSet ps : cd.patchSets()) {
         RevCommit commit = rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
         for (RevCommit p : commit.getParents()) {
@@ -319,7 +319,7 @@ public class EventFactory {
             continue;
           }
           ca.neededBy.add(newNeededBy(checkNotNull(cd.change()), ps));
-          continue patchSets;
+          continue PATCH_SETS;
         }
       }
     }

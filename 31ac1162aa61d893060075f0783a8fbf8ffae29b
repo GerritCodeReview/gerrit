@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1491549156 +0200\nnonce AFMZ2Gx4NCAz2yR62yaEikaoQS9djR8H5fryawDkUayQpxLI1ipG2f/fNaWWQqD/0sInF0GBGPzq\n\n0000000000000000000000000000000000000000 31ac1162aa61d893060075f0783a8fbf8ffae29b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY5zvkAAoJEFG1/Zeg0O9RaQMH/2HDkiFAICK1fk0I3anRlhuV\n/f5UwHVOgiHZYEbvVI5gbiXlVeCIRkR2BhxIaOxGzOjlD9L6typO/+UI0onPzMOI\n95m3GH92e9kUD50rpOHmlLeZLJqeVFXdxhu0wWYSNkzP4r9V1lamGzahTcx/t0z2\nmOnTXMOI9F9phbKcZk1OQVAYu99bcAEIQh5rJbpyTHsaRI7U509FieUMdH1BaCyb\nvH6AhqiUVb2i0TBARBEKbG7qSCHYKrAwA7LDwGzQcosJY3VgwsAx0A2st2p4QPGP\nor+0qKJqB66+fyrZ/8HfIr3RP4Mcb7fUnVln4FAWjbH0oX2AQKlvcQK1Y30JvaA\u003d\n\u003dm9jL\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c46d6e9d_8af27f15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-07T07:48:42Z",
+      "side": 1,
+      "message": "On what external id was that failure? Can it be that we have a general problem here, and not able to save valid external ids in config file, and should for example use base 64 encoding (or similar) first?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "31ac1162aa61d893060075f0783a8fbf8ffae29b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

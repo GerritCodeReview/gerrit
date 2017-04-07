@@ -184,7 +184,7 @@ class NoteDbBatchUpdate extends BatchUpdate {
   private class RepoContextImpl extends ContextImpl implements RepoContext {
     @Override
     public ObjectInserter getInserter() throws IOException {
-      return getRepoView().getInserter();
+      return getRepoView().getInserterWrapper();
     }
 
     @Override

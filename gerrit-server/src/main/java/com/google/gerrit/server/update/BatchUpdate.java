@@ -332,11 +332,6 @@ public abstract class BatchUpdate implements AutoCloseable {
     return repoView.getRevWalk();
   }
 
-  protected ObjectInserter getObjectInserter() throws IOException {
-    initRepository();
-    return repoView.getInserter();
-  }
-
   public Map<String, ReceiveCommand> getRefUpdates() {
     return repoView != null ? repoView.getCommands().getCommands() : ImmutableMap.of();
   }

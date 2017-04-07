@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c06546c0_d5d14fe8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/Commits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-07T17:59:02Z",
+      "side": 1,
+      "message": "Of the methods in this class, this is the only one I\u0027m ok with.",
+      "revId": "b5350c21e7b30e3cc6f17157f733df82ad50d5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

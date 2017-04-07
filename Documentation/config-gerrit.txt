@@ -19,6 +19,21 @@ Sample `etc/gerrit.config`:
   directory = /var/cache/gerrit2
 ----
 
+[[accountPatchReviewDb]]
+=== Section accountPatchReviewDb
+
+[[accountPatchReviewDb.url]]accountPatchReviewDb.url::
++
+The url of accountPatchReviewDb. Supported types are `H2`, `POSTGRESQL`, and
+`MYSQL`.
++
+Default is to create H2 database in the db folder of the site path.
+
+----
+[accountPatchReviewDb]
+  url = jdbc:postgresql://<host>:<port>/<db_name>?user=<user>&password=<password>
+----
+
 [[accounts]]
 === Section accounts
 

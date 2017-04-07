@@ -156,7 +156,7 @@ public class ExternalIdReader {
             rw.getObjectReader().open(note.getData(), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
         try {
           extIds.add(ExternalId.parse(note.getName(), raw));
-        } catch (ConfigInvalidException e) {
+        } catch (Exception e) {
           log.error(String.format("Ignoring invalid external ID note %s", note.getName()), e);
         }
       }

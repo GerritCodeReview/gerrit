@@ -209,68 +209,85 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "user.readExternalIdsFromGit", value = "true")
+  public void readExternalIdsWhenInvalidExternalIdsExist() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    resetCurrentApiUser();
+
+    insertValidExternalIds();
+    insertInvalidButParsableExternalIds();
+
+    Set<ExternalId> parseableExtIds = externalIds.all(db);
+
+    insertNonParsableExternalIds();
+
+    Set<ExternalId> extIds = externalIds.all(db);
+    assertThat(extIds).containsExactlyElementsIn(parseableExtIds);
+
+    for (ExternalId parseableExtId : parseableExtIds) {
+      ExternalId extId = externalIds.get(db, parseableExtId.key());
+      assertThat(extId).isEqualTo(parseableExtId);
+    }
+  }
+
+  @Test
   public void checkConsistency() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     resetCurrentApiUser();
 
-    MutableInteger i = new MutableInteger();
-    ExternalIdsUpdate u = extIdsUpdate.create();
-
-    // create valid external IDs
-    u.insert(
-        db,
-        ExternalId.createWithPassword(
-            ExternalId.Key.parse(nextId(i)),
-            admin.id,
-            "admin.other@example.com",
-            "secret-password"));
-    u.insert(db, createExternalIdWithOtherCaseEmail(nextId(i)));
+    insertValidExternalIds();
 
     ConsistencyCheckInput input = new ConsistencyCheckInput();
     input.checkAccountExternalIdsInput = new CheckAccountExternalIdsInput();
     ConsistencyCheckInfo checkInfo = gApi.config().server().checkConsistency(input);
     assertThat(checkInfo.checkAccountExternalIdsResult.problems).isEmpty();
 
-    // create invalid external IDs
     Set<ConsistencyProblemInfo> expectedProblems = new HashSet<>();
-    try (Repository repo = repoManager.openRepository(allUsers);
-        RevWalk rw = new RevWalk(repo)) {
-      String externalId = nextId(i);
-      String noteId = insertExternalIdWithoutAccountId(repo, rw, externalId);
-      expectedProblems.add(
-          consistencyError(
-              "Invalid external ID config for note '"
-                  + noteId
-                  + "': Value for 'externalId."
-                  + externalId
-                  + ".accountId' is missing, expected account ID"));
+    expectedProblems.addAll(insertInvalidButParsableExternalIds());
+    expectedProblems.addAll(insertNonParsableExternalIds());
 
-      externalId = nextId(i);
-      noteId = insertExternalIdWithKeyThatDoesntMatchNoteId(repo, rw, externalId);
-      expectedProblems.add(
-          consistencyError(
-              "Invalid external ID config for note '"
-                  + noteId
-                  + "': SHA1 of external ID '"
-                  + externalId
-                  + "' does not match note ID '"
-                  + noteId
-                  + "'"));
+    checkInfo = gApi.config().server().checkConsistency(input);
+    assertThat(checkInfo.checkAccountExternalIdsResult.problems).hasSize(expectedProblems.size());
+    assertThat(checkInfo.checkAccountExternalIdsResult.problems)
+        .containsExactlyElementsIn(expectedProblems);
+  }
 
-      noteId = insertExternalIdWithInvalidConfig(repo, rw, nextId(i));
-      expectedProblems.add(
-          consistencyError(
-              "Invalid external ID config for note '" + noteId + "': Invalid line in config file"));
+  @Test
+  public void checkConsistencyNotAllowed() throws Exception {
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to run consistency checks");
+    gApi.config().server().checkConsistency(new ConsistencyCheckInput());
+  }
 
-      noteId = insertExternalIdWithEmptyNote(repo, rw, nextId(i));
-      expectedProblems.add(
-          consistencyError(
-              "Invalid external ID config for note '"
-                  + noteId
-                  + "': Expected exactly 1 'externalId' section, found 0"));
-    }
+  private ConsistencyProblemInfo consistencyError(String message) {
+    return new ConsistencyProblemInfo(ConsistencyProblemInfo.Status.ERROR, message);
+  }
 
-    ExternalId extIdForNonExistingAccount = createExternalIdForNonExistingAccount(nextId(i));
+  private void insertValidExternalIds() throws IOException, ConfigInvalidException, OrmException {
+    MutableInteger i = new MutableInteger();
+    String scheme = "valid";
+    ExternalIdsUpdate u = extIdsUpdate.create();
+
+    // create valid external IDs
+    u.insert(
+        db,
+        ExternalId.createWithPassword(
+            ExternalId.Key.parse(nextId(scheme, i)),
+            admin.id,
+            "admin.other@example.com",
+            "secret-password"));
+    u.insert(db, createExternalIdWithOtherCaseEmail(nextId(scheme, i)));
+  }
+
+  private Set<ConsistencyProblemInfo> insertInvalidButParsableExternalIds()
+      throws IOException, ConfigInvalidException, OrmException {
+    MutableInteger i = new MutableInteger();
+    String scheme = "invalid";
+    ExternalIdsUpdate u = extIdsUpdate.create();
+
+    Set<ConsistencyProblemInfo> expectedProblems = new HashSet<>();
+    ExternalId extIdForNonExistingAccount =
+        createExternalIdForNonExistingAccount(nextId(scheme, i));
     u.insert(db, extIdForNonExistingAccount);
     expectedProblems.add(
         consistencyError(
@@ -279,7 +296,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 + "' belongs to account that doesn't exist: "
                 + extIdForNonExistingAccount.accountId().get()));
 
-    ExternalId extIdWithInvalidEmail = createExternalIdWithInvalidEmail(nextId(i));
+    ExternalId extIdWithInvalidEmail = createExternalIdWithInvalidEmail(nextId(scheme, i));
     u.insert(db, extIdWithInvalidEmail);
     expectedProblems.add(
         consistencyError(
@@ -288,7 +305,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 + "' has an invalid email: "
                 + extIdWithInvalidEmail.email()));
 
-    ExternalId extIdWithDuplicateEmail = createExternalIdWithDuplicateEmail(nextId(i));
+    ExternalId extIdWithDuplicateEmail = createExternalIdWithDuplicateEmail(nextId(scheme, i));
     u.insert(db, extIdWithDuplicateEmail);
     expectedProblems.add(
         consistencyError(
@@ -308,21 +325,52 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 + extIdWithBadPassword.key().get()
                 + "' has an invalid password: unrecognized algorithm"));
 
-    checkInfo = gApi.config().server().checkConsistency(input);
-    assertThat(checkInfo.checkAccountExternalIdsResult.problems).hasSize(expectedProblems.size());
-    assertThat(checkInfo.checkAccountExternalIdsResult.problems)
-        .containsExactlyElementsIn(expectedProblems);
+    return expectedProblems;
   }
 
-  @Test
-  public void checkConsistencyNotAllowed() throws Exception {
-    exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to run consistency checks");
-    gApi.config().server().checkConsistency(new ConsistencyCheckInput());
-  }
+  private Set<ConsistencyProblemInfo> insertNonParsableExternalIds() throws IOException {
+    MutableInteger i = new MutableInteger();
+    String scheme = "corrupt";
 
-  private ConsistencyProblemInfo consistencyError(String message) {
-    return new ConsistencyProblemInfo(ConsistencyProblemInfo.Status.ERROR, message);
+    Set<ConsistencyProblemInfo> expectedProblems = new HashSet<>();
+    try (Repository repo = repoManager.openRepository(allUsers);
+        RevWalk rw = new RevWalk(repo)) {
+      String externalId = nextId(scheme, i);
+      String noteId = insertExternalIdWithoutAccountId(repo, rw, externalId);
+      expectedProblems.add(
+          consistencyError(
+              "Invalid external ID config for note '"
+                  + noteId
+                  + "': Value for 'externalId."
+                  + externalId
+                  + ".accountId' is missing, expected account ID"));
+
+      externalId = nextId(scheme, i);
+      noteId = insertExternalIdWithKeyThatDoesntMatchNoteId(repo, rw, externalId);
+      expectedProblems.add(
+          consistencyError(
+              "Invalid external ID config for note '"
+                  + noteId
+                  + "': SHA1 of external ID '"
+                  + externalId
+                  + "' does not match note ID '"
+                  + noteId
+                  + "'"));
+
+      noteId = insertExternalIdWithInvalidConfig(repo, rw, nextId(scheme, i));
+      expectedProblems.add(
+          consistencyError(
+              "Invalid external ID config for note '" + noteId + "': Invalid line in config file"));
+
+      noteId = insertExternalIdWithEmptyNote(repo, rw, nextId(scheme, i));
+      expectedProblems.add(
+          consistencyError(
+              "Invalid external ID config for note '"
+                  + noteId
+                  + "': Expected exactly 1 'externalId' section, found 0"));
+    }
+
+    return expectedProblems;
   }
 
   private ExternalId createExternalIdWithOtherCaseEmail(String externalId) {
@@ -427,8 +475,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
         "non-hashed-password-is-not-allowed");
   }
 
-  private static String nextId(MutableInteger i) {
-    return "foo:bar" + ++i.value;
+  private static String nextId(String scheme, MutableInteger i) {
+    return scheme + ":foo" + ++i.value;
   }
 
   @Test

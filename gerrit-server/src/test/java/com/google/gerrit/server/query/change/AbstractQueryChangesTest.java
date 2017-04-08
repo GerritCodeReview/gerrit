@@ -579,6 +579,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byTopicRegex() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+
+    ChangeInserter ins1 = newChangeWithTopic(repo, "feature1");
+    Change change1 = insert(repo, ins1);
+
+    ChangeInserter ins2 = newChangeWithTopic(repo, "Cherrypick-feature1");
+    Change change2 = insert(repo, ins2);
+
+    ChangeInserter ins3 = newChangeWithTopic(repo, "feature1-fixup");
+    Change change3 = insert(repo, ins3);
+
+    assertQuery("intopic:^feature1.*", change3, change1);
+    assertQuery("intopic:{^.*feature1$}", change2, change1);
+  }
+
+  @Test
   public void byMessageExact() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     RevCommit commit1 = repo.parseBody(repo.commit().message("one").create());

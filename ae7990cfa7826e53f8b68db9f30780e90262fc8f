@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "239d8282_3eebcbbe",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior_test.html",
+        "patchSetId": 56
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-08T17:46:56Z",
+      "side": 1,
+      "message": "Actually done now :)",
+      "parentUuid": "6834b4fd_381a3ed3",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 45
+      },
+      "revId": "ae7990cfa7826e53f8b68db9f30780e90262fc8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a6be700_949eff17",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 56

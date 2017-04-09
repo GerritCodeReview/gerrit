@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d906a75f_db21a6d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-09T21:53:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ceea1dbd_2b360b50",
+      "range": {
+        "startLine": 14,
+        "startChar": 55,
+        "endLine": 14,
+        "endChar": 62
+      },
+      "revId": "43ddefaccc8a464f404d0d2d5720f609dfff3b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25e4c33f_e1e4ecd2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-09T05:08:02Z",
       "side": 1,
       "message": "I think this is a bit misleading. The assignee operators are still available; disabling this option only prevents the oracle from suggesting them.",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 46
+      },
+      "revId": "43ddefaccc8a464f404d0d2d5720f609dfff3b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "531c504f_8eede8d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-09T21:53:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25e4c33f_e1e4ecd2",
       "range": {
         "startLine": 15,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0143e564_f5697fe3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-09T21:53:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d652a279_81d3eafa",
+      "range": {
+        "startLine": 18,
+        "startChar": 39,
+        "endLine": 18,
+        "endChar": 41
+      },
+      "revId": "43ddefaccc8a464f404d0d2d5720f609dfff3b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0de2f03e_ca30601d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -82,6 +154,30 @@
       "writtenOn": "2017-04-09T05:08:02Z",
       "side": 1,
       "message": "I think this is also a bit misleading.  Even when these options are disabled, the assignee related REST endpoints will still work, and the searches will still work if manually entered.",
+      "range": {
+        "startLine": 22,
+        "startChar": 14,
+        "endLine": 22,
+        "endChar": 51
+      },
+      "revId": "43ddefaccc8a464f404d0d2d5720f609dfff3b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4f91c34_e1b8966a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-09T21:53:13Z",
+      "side": 1,
+      "message": "Yes, you could search for it, however, the assignee is hidden everywhere, including the change screen. How should one be able to use the feature?",
+      "parentUuid": "0de2f03e_ca30601d",
       "range": {
         "startLine": 22,
         "startChar": 14,

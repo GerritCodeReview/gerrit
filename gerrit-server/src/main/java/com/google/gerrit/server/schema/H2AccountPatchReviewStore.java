@@ -15,6 +15,8 @@
 package com.google.gerrit.server.schema;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -40,9 +42,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+
 import javax.sql.DataSource;
 
 @Singleton
@@ -246,21 +247,35 @@ public class H2AccountPatchReviewStore
   }
 
   @Override
-  public Collection<String> findReviewed(PatchSet.Id psId, Account.Id accountId)
-      throws OrmException {
+  public Optional<PatchSetWithReviewedFiles> findReviewed(PatchSet.Id psId,
+      Account.Id accountId) throws OrmException {
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
-            con.prepareStatement("SELECT FILE_NAME FROM ACCOUNT_PATCH_REVIEWS "
-                + "WHERE ACCOUNT_ID = ? AND CHANGE_ID = ? AND PATCH_SET_ID = ?")) {
+            con.prepareStatement(
+                "SELECT PATCH_SET_ID, FILE_NAME FROM ACCOUNT_PATCH_REVIEWS APR1 "
+                    + "WHERE ACCOUNT_ID = ? AND CHANGE_ID = ? AND PATCH_SET_ID = "
+                    + "(SELECT MAX(PATCH_SET_ID) FROM ACCOUNT_PATCH_REVIEWS APR2 WHERE "
+                    + "APR1.ACCOUNT_ID = APR2.ACCOUNT_ID "
+                    + "AND APR1.CHANGE_ID = APR2.CHANGE_ID "
+                    + "AND PATCH_SET_ID <= ?)")) {
       stmt.setInt(1, accountId.get());
       stmt.setInt(2, psId.getParentKey().get());
       stmt.setInt(3, psId.get());
       try (ResultSet rs = stmt.executeQuery()) {
-        List<String> files = new ArrayList<>();
-        while (rs.next()) {
-          files.add(rs.getString("FILE_NAME"));
+        if (rs.next()) {
+          PatchSet.Id id = new PatchSet.Id(psId.getParentKey(),
+              rs.getInt("PATCH_SET_ID"));
+          ImmutableSet.Builder<String> builder = ImmutableSet.builder();
+          do {
+            builder.add(rs.getString("FILE_NAME"));
+          } while (rs.next());
+
+          return Optional.of(
+              AccountPatchReviewStore.PatchSetWithReviewedFiles.create(
+                  id, builder.build()));
         }
-        return files;
+
+        return Optional.absent();
       }
     } catch (SQLException e) {
       throw convertError("select", e);

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ceea1dbd_2b360b50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-09T05:08:02Z",
+      "side": 1,
+      "message": "controls",
+      "range": {
+        "startLine": 14,
+        "startChar": 55,
+        "endLine": 14,
+        "endChar": 62
+      },
+      "revId": "43ddefaccc8a464f404d0d2d5720f609dfff3b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25e4c33f_e1e4ecd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-09T05:08:02Z",
+      "side": 1,
+      "message": "I think this is a bit misleading. The assignee operators are still available; disabling this option only prevents the oracle from suggesting them.",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 46
+      },
+      "revId": "43ddefaccc8a464f404d0d2d5720f609dfff3b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d652a279_81d3eafa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-09T05:08:02Z",
+      "side": 1,
+      "message": "in",
+      "range": {
+        "startLine": 18,
+        "startChar": 39,
+        "endLine": 18,
+        "endChar": 41
+      },
+      "revId": "43ddefaccc8a464f404d0d2d5720f609dfff3b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0de2f03e_ca30601d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-09T05:08:02Z",
+      "side": 1,
+      "message": "I think this is also a bit misleading.  Even when these options are disabled, the assignee related REST endpoints will still work, and the searches will still work if manually entered.",
+      "range": {
+        "startLine": 22,
+        "startChar": 14,
+        "endLine": 22,
+        "endChar": 51
+      },
+      "revId": "43ddefaccc8a464f404d0d2d5720f609dfff3b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

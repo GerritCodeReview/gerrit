@@ -16,6 +16,24 @@
       "revId": "2d2deed83fc1048bf4b0d3b5e20389ccd10a66e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c78da237_b19c2c80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-09T11:13:59Z",
+      "side": 1,
+      "message": "Thanks, Done, https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d5966",
+      "parentUuid": "795ffc09_9b597e52",
+      "revId": "2d2deed83fc1048bf4b0d3b5e20389ccd10a66e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

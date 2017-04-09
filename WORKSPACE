@@ -201,8 +201,8 @@ maven_jar(
 
 maven_jar(
     name = "juniversalchardet",
-    artifact = "com.googlecode.juniversalchardet:juniversalchardet:1.0.3",
-    sha1 = "cd49678784c46aa8789c060538e0154013bb421b",
+    artifact = "com.github.albfernandez:juniversalchardet:2.0.0",
+    sha1 = "28c59f58f5adcc307604602e2aa89e2aca14c554",
 )
 
 SLF4J_VERS = "1.7.7"

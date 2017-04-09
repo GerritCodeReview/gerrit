@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -34,6 +35,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.change.AccountPatchReviewStore.PatchSetWithReviewedFiles;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -58,6 +60,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -228,35 +231,25 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       }
 
       Account.Id userId = user.getAccountId();
-      Collection<String> r = accountPatchReviewStore.get()
-          .findReviewed(resource.getPatchSet().getId(), userId);
+      PatchSet patchSetId = resource.getPatchSet();
+      Optional<PatchSetWithReviewedFiles> o = accountPatchReviewStore.get()
+          .findReviewed(patchSetId.getId(), userId);
 
-      if (r.isEmpty() && 1 < resource.getPatchSet().getPatchSetId()) {
-        for (PatchSet ps : reversePatchSets(resource)) {
-          Collection<String> o =
-              accountPatchReviewStore.get().findReviewed(ps.getId(), userId);
-          if (!o.isEmpty()) {
-            try {
-              r = copy(Sets.newHashSet(o), ps.getId(), resource, userId);
-            } catch (IOException | PatchListNotAvailableException e) {
-              log.warn("Cannot copy patch review flags", e);
-            }
-            break;
-          }
+      if (o.isPresent()) {
+        PatchSetWithReviewedFiles res = o.get();
+        if (res.patchSetId.equals(patchSetId.getId())) {
+          return res.files;
+        }
+
+        try {
+          return copy(Sets.newHashSet(res.files), res.patchSetId, resource,
+              userId);
+        } catch (IOException | PatchListNotAvailableException e) {
+          log.warn("Cannot copy patch review flags", e);
         }
       }
 
-      return r;
-    }
-
-    private List<PatchSet> reversePatchSets(RevisionResource resource)
-        throws OrmException {
-      Collection<PatchSet> patchSets =
-          psUtil.byChange(db.get(), resource.getNotes());
-      List<PatchSet> list = (patchSets instanceof List) ?
-          (List<PatchSet>) patchSets
-          : new ArrayList<>(patchSets);
-      return Lists.reverse(list);
+      return Collections.emptyList();
     }
 
     private List<String> copy(Set<String> paths, PatchSet.Id old,

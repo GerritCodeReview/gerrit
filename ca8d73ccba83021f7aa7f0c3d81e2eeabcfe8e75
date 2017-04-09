@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a2e2ff1_37c7fbcd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-09T11:06:47Z",
+      "side": 1,
+      "message": "Note that when this is merged to stable-2.4 it will need reworking to use the native Java 8 Optional",
+      "revId": "ca8d73ccba83021f7aa7f0c3d81e2eeabcfe8e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

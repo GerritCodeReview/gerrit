@@ -18,3 +18,27 @@ java_library(
     visibility = ["//visibility:public"],
     exports = ["@bcpkix//jar"],
 )
+
+java_library(
+    name = "bcprov-neverlink",
+    data = ["//lib:LICENSE-bouncycastle"],
+    neverlink = 1,
+    visibility = ["//visibility:public"],
+    exports = ["@bcprov//jar"],
+)
+
+java_library(
+    name = "bcpg-neverlink",
+    data = ["//lib:LICENSE-bouncycastle"],
+    neverlink = 1,
+    visibility = ["//visibility:public"],
+    exports = ["@bcpg//jar"],
+)
+
+java_library(
+    name = "bcpkix-neverlink",
+    data = ["//lib:LICENSE-bouncycastle"],
+    neverlink = 1,
+    visibility = ["//visibility:public"],
+    exports = ["@bcpkix//jar"],
+)

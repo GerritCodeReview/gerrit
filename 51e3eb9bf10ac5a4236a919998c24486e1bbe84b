@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f211575_c06f5709",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-10T08:23:05Z",
+      "side": 1,
+      "message": "What about calling this \"showAssigneeInChangeScreen\" ?",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "51e3eb9bf10ac5a4236a919998c24486e1bbe84b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fc5ec77_73219c93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-10T08:23:05Z",
+      "side": 1,
+      "message": "That isn\u0027t clear from the variable name.",
+      "range": {
+        "startLine": 12,
+        "startChar": 38,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "51e3eb9bf10ac5a4236a919998c24486e1bbe84b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "780a71e1_e50c6be8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-10T08:23:05Z",
+      "side": 1,
+      "message": "+1",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "51e3eb9bf10ac5a4236a919998c24486e1bbe84b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4e643aa_7106c2a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-10T08:23:05Z",
+      "side": 1,
+      "message": "Again confusing IMHO.",
+      "range": {
+        "startLine": 16,
+        "startChar": 10,
+        "endLine": 16,
+        "endChar": 37
+      },
+      "revId": "51e3eb9bf10ac5a4236a919998c24486e1bbe84b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

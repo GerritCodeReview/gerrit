@@ -67,6 +67,30 @@
     },
     {
       "key": {
+        "uuid": "9f0eba20_3ea5e418",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-10T13:08:55Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "091abc04_3642df9d",
+      "range": {
+        "startLine": 165,
+        "startChar": 22,
+        "endLine": 165,
+        "endChar": 28
+      },
+      "revId": "d67d17c2d1981df03c05c2b0eae0393e345cb00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e002c5ec_4192cabc",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/update/RepoViewTest.java",
         "patchSetId": 5

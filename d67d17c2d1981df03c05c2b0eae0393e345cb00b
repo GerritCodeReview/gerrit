@@ -91,6 +91,30 @@
     },
     {
       "key": {
+        "uuid": "35b03aa3_be566f38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-10T14:09:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f0eba20_3ea5e418",
+      "range": {
+        "startLine": 165,
+        "startChar": 22,
+        "endLine": 165,
+        "endChar": 28
+      },
+      "revId": "d67d17c2d1981df03c05c2b0eae0393e345cb00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e002c5ec_4192cabc",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/update/RepoViewTest.java",
         "patchSetId": 5
@@ -158,6 +182,30 @@
       "revId": "d67d17c2d1981df03c05c2b0eae0393e345cb00b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b00642f_0380b286",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/update/RepoViewTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-10T14:09:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb644086_67a3bd42",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 22
+      },
+      "revId": "d67d17c2d1981df03c05c2b0eae0393e345cb00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

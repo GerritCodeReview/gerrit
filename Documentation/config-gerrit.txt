@@ -1022,24 +1022,12 @@ performance improvements by reducing the number of refs in the repo.
 +
 Default is true.
 
-[[change.showAssignee]]change.showAssignee::
+[[change.showAssigneeInChangesTable]]change.showAssigneeInChangesTable::
 +
 Show assignee field in changes table. If set to false, assignees will
 not be visible in changes table.
 +
 Default is false.
-
-[[change.showAssigneeSuggestOracle]]change.showAssigneeSuggestOracle::
-+
-Allow assignee to be search-able through the changes search box.
-If set to false, assignees search predicates will not be suggested
-in the changes search box.
-+
-NOTE: When both showAssignee and showAssigneeSuggestOracle are both
-set to false, the assignee field would not be shown anywhere in Gerrit,
-disabling the access to the feature.
-+
-Default is true.
 
 [[change.submitLabel]]change.submitLabel::
 +

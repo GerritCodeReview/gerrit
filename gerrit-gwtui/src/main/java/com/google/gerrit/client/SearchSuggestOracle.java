@@ -157,11 +157,9 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
       suggestions.add("hashtag:");
     }
 
-    if (Gerrit.info().change().showAssigneeSuggestOracle()) {
-      suggestions.add("is:assigned");
-      suggestions.add("is:unassigned");
-      suggestions.add("assignee:");
-    }
+    suggestions.add("is:assigned");
+    suggestions.add("is:unassigned");
+    suggestions.add("assignee:");
 
     suggestions.add("AND");
     suggestions.add("OR");

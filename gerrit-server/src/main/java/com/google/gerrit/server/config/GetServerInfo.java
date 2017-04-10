@@ -206,11 +206,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.allowDrafts = toBoolean(cfg.getBoolean("change", "allowDrafts", true));
     boolean hasAssigneeInIndex =
         indexes.getSearchIndex().getSchema().hasField(ChangeField.ASSIGNEE);
-    info.showAssignee =
-        toBoolean(cfg.getBoolean("change", "showAssignee", false) && hasAssigneeInIndex);
-    info.showAssigneeSuggestOracle =
-        toBoolean(
-            cfg.getBoolean("change", "showAssigneeSuggestOracle", true) && hasAssigneeInIndex);
+    info.showAssigneeInChangesTable =
+        toBoolean(cfg.getBoolean("change", "showAssigneeInChangesTable", false) && hasAssigneeInIndex);
     info.largeChange = cfg.getInt("change", "largeChange", 500);
     info.replyTooltip =
         Optional.ofNullable(cfg.getString("change", null, "replyTooltip")).orElse("Reply and score")

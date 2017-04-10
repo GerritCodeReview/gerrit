@@ -47,6 +47,30 @@
       "revId": "29fd1f7364a96e6bc021d71240be9d390978ba88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eeba0142_4a70b252",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-10T11:43:23Z",
+      "side": 1,
+      "message": "Ah I see now. I didn\u0027t notice the \"rather than one\" part as my window is still optimized for 80 char columns, and exactly this piece was cut off :-/",
+      "parentUuid": "e8100180_a140435b",
+      "range": {
+        "startLine": 361,
+        "startChar": 7,
+        "endLine": 361,
+        "endChar": 51
+      },
+      "revId": "29fd1f7364a96e6bc021d71240be9d390978ba88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

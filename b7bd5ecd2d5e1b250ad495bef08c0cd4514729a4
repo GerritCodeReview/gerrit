@@ -22,6 +22,30 @@
       "revId": "b7bd5ecd2d5e1b250ad495bef08c0cd4514729a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82891327_4aeb2ad3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-10T19:34:57Z",
+      "side": 1,
+      "message": "I believe that viewState would be reset with a full-app refresh, though it would solve the issue of just navigating to/from diffs/change views.  \n\nI think it really depends on if we want state to remain with a full app refresh/coming back on a new day, or just in the current session.  It might be helpful if the state was preserved longer than viewState would allow, but I think this could be an interesting discussion.",
+      "parentUuid": "796b3881_2be7cff8",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "b7bd5ecd2d5e1b250ad495bef08c0cd4514729a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

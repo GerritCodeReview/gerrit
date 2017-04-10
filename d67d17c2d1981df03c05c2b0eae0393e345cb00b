@@ -43,6 +43,30 @@
     },
     {
       "key": {
+        "uuid": "091abc04_3642df9d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-10T13:03:50Z",
+      "side": 1,
+      "message": "I don\u0027t think I want to change the behavior, this is pretty close to optimal in terms of eliminating code duplication in the body of getRefs, and it\u0027s not like this is a public API.. But I agree the name could be better. \"updateRefIfApplicable\" would be fine by me. Or maybe \"updateRefIfPrefixMatches\"?",
+      "parentUuid": "b5ffa51e_3e5cef8e",
+      "range": {
+        "startLine": 165,
+        "startChar": 22,
+        "endLine": 165,
+        "endChar": 28
+      },
+      "revId": "d67d17c2d1981df03c05c2b0eae0393e345cb00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e002c5ec_4192cabc",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/update/RepoViewTest.java",
         "patchSetId": 5

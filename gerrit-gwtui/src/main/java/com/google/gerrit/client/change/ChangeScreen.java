@@ -1346,11 +1346,7 @@ public class ChangeScreen extends Screen {
     commit.set(commentLinkProcessor, info, revision);
     related.set(info, revision);
     reviewers.set(info);
-    if (Gerrit.info().change().showAssignee()) {
-      assignee.set(info);
-    } else {
-      setVisible(assigneeRow, false);
-    }
+    assignee.set(info);
     if (Gerrit.isNoteDbEnabled()) {
       hashtags.set(info, revision);
     } else {

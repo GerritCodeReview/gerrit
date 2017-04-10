@@ -70,7 +70,7 @@ public class ServerInfo extends JavaScriptObject {
 
     public final native String replyTooltip() /*-{ return this.reply_tooltip; }-*/;
 
-    public final native boolean showAssignee() /*-{ return this.show_assignee || false; }-*/;
+    public final native boolean showAssigneeInChangesTable() /*-{ return this.show_assignee_in_changes_table || false; }-*/;
 
     public final native int updateDelay() /*-{ return this.update_delay || 0; }-*/;
 

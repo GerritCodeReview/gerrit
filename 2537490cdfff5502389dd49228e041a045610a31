@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "715330b7_3dc0cdbf",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-10T20:43:51Z",
+      "side": 1,
+      "message": "Although WIP and Merged are mutually exclusive, that isn\u0027t sufficient evidence of a status value.\n\nA WIP change *can* be abandoned. If a WIP change is abandoned and then restored, it should be restored as a WIP change. If WIP were a status, then we would require additional complication to enforce in the transitions between statuses, taking status history into account.",
+      "parentUuid": "bc8244ad_c6ae9ba2",
+      "range": {
+        "startLine": 108,
+        "startChar": 77,
+        "endLine": 109,
+        "endChar": 72
+      },
+      "revId": "2537490cdfff5502389dd49228e041a045610a31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e83f562e_3771dc3e",
         "filename": "Documentation/proposal-wip.md",
         "patchSetId": 19
@@ -59,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "98157d29_17920d11",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-10T20:43:51Z",
+      "side": 1,
+      "message": "Speaking for Chromium, CI on WIP changes is desirable. I alluded to this in the \"Alternatives considered\" section.\n\nIMO Jenkins on gerrit-review should disregard WIP and continue operating as it currently does. I suppose other projects or users may have a different preference.",
+      "parentUuid": "e83f562e_3771dc3e",
+      "revId": "2537490cdfff5502389dd49228e041a045610a31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab3ba175_390cb660",
         "filename": "Documentation/proposal-wip.md",
         "patchSetId": 19
@@ -70,6 +112,30 @@
       "writtenOn": "2017-04-03T08:10:51Z",
       "side": 1,
       "message": "why not simply wip:true or wip:false ? Pending reviews is confusing. If you don\u0027t specify anything is wip:true for backward compatibility.",
+      "range": {
+        "startLine": 158,
+        "startChar": 48,
+        "endLine": 158,
+        "endChar": 68
+      },
+      "revId": "2537490cdfff5502389dd49228e041a045610a31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "add55315_793eb177",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-10T20:43:51Z",
+      "side": 1,
+      "message": "You prefer your own WIP changes to be mixed with changes actively under review in the \"Outgoing reviews\" section of your dashboard?",
+      "parentUuid": "ab3ba175_390cb660",
       "range": {
         "startLine": 158,
         "startChar": 48,
@@ -105,6 +171,30 @@
     },
     {
       "key": {
+        "uuid": "46f6b8b6_22a74ddf",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-10T20:43:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b1669026_9aebe9e5",
+      "range": {
+        "startLine": 164,
+        "startChar": 42,
+        "endLine": 164,
+        "endChar": 59
+      },
+      "revId": "2537490cdfff5502389dd49228e041a045610a31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a9323a3_cd4c1504",
         "filename": "Documentation/proposal-wip.md",
         "patchSetId": 19
@@ -128,6 +218,30 @@
     },
     {
       "key": {
+        "uuid": "b38e52c9_2e95f957",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-10T20:43:51Z",
+      "side": 1,
+      "message": "Status should remain simple and have limited values. Once Draft is eliminated, we have a nice simple status model:\n\nInitial status: New\nNew: can be Merged or Abandoned\nAbandoned: can be restored to New\nMerged: permanent end state\n\nIf we add WIP to the mix, the model gets complicated:\n\nInitial status: New or WIP\nNew: can be WIP, Merged, or Abandoned\nWIP: can be New or Abandoned\nAbandoned: can be restored to New or WIP, depending on previous value of status\nMerged: permanent end state",
+      "parentUuid": "0a9323a3_cd4c1504",
+      "range": {
+        "startLine": 171,
+        "startChar": 12,
+        "endLine": 171,
+        "endChar": 35
+      },
+      "revId": "2537490cdfff5502389dd49228e041a045610a31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a2be927_b1bb1dee",
         "filename": "Documentation/proposal-wip.md",
         "patchSetId": 19
@@ -139,6 +253,30 @@
       "writtenOn": "2017-04-03T08:10:51Z",
       "side": 1,
       "message": "Why do we want to restrict the ability to vote? As long as the people is warned that a change is WIP, they still can (if they wish) give opinions and flag problems with voting, isn\u0027t it?",
+      "range": {
+        "startLine": 185,
+        "startChar": 36,
+        "endLine": 185,
+        "endChar": 80
+      },
+      "revId": "2537490cdfff5502389dd49228e041a045610a31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e28f0ec_92641c5c",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-10T20:43:51Z",
+      "side": 1,
+      "message": "It\u0027s only this dedicated WIP label that would have an owner-only restriction on it (if we pursued this alternative). Existing reviewers and CI systems should still be able to vote or comment, regardless of WIP.",
+      "parentUuid": "9a2be927_b1bb1dee",
       "range": {
         "startLine": 185,
         "startChar": 36,

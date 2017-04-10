@@ -90,6 +90,30 @@
     },
     {
       "key": {
+        "uuid": "909a20cb_165ef875",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/update/RepoViewTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-10T13:06:48Z",
+      "side": 1,
+      "message": "\"tr\" for a TestRepository is a convention used elsewhere, like \"rw\" for RevWalk or \"oi\" for ObjectInserter. It might not be immediately obvious to someone coming to Gerrit for the first time, but you both read and write it so often when you become familiar with the code that I don\u0027t think it hurts readability in the long haul.",
+      "parentUuid": "e002c5ec_4192cabc",
+      "range": {
+        "startLine": 38,
+        "startChar": 28,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "d67d17c2d1981df03c05c2b0eae0393e345cb00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb644086_67a3bd42",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/update/RepoViewTest.java",
         "patchSetId": 5

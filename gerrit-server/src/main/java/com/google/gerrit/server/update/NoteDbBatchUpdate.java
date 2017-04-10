@@ -52,6 +52,7 @@ import java.util.TimeZone;
 import java.util.TreeMap;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -81,11 +82,10 @@ class NoteDbBatchUpdate extends BatchUpdate {
     setRequestIds(updates, requestId);
 
     try {
-      Order order = getOrder(updates);
+      Order order = getOrder(updates, listener);
       // TODO(dborowitz): Fuse implementations to use a single BatchRefUpdate between phases. Note
-      // that we will still need to respect the order, since it also dictates the order in which
-      // listener methods are called. We can revisit this later, particularly since the only user of
-      // BatchUpdateListener is MergeOp, which only uses one order.
+      // that we may still need to respect the order, since op implementations may make assumptions
+      // about the order in which their methods are called.
       switch (order) {
         case REPO_BEFORE_DB:
           for (NoteDbBatchUpdate u : updates) {
@@ -105,15 +105,12 @@ class NoteDbBatchUpdate extends BatchUpdate {
           for (NoteDbBatchUpdate u : updates) {
             u.reindexChanges(u.executeChangeOps(dryrun), dryrun);
           }
-          listener.afterUpdateChanges();
           for (NoteDbBatchUpdate u : updates) {
             u.executeUpdateRepo();
           }
-          listener.afterUpdateRepos();
           for (NoteDbBatchUpdate u : updates) {
             u.executeRefUpdates(dryrun);
           }
-          listener.afterUpdateRefs();
           break;
         default:
           throw new IllegalStateException("invalid execution order: " + order);
@@ -356,7 +353,11 @@ class NoteDbBatchUpdate extends BatchUpdate {
       return;
     }
 
-    batchRefUpdate.execute(revWalk, NullProgressMonitor.INSTANCE);
+    // Force BatchRefUpdate to read newly referenced objects using a new RevWalk, rather than one
+    // that might have access to unflushed objects.
+    try (RevWalk updateRw = new RevWalk(repo)) {
+      batchRefUpdate.execute(updateRw, NullProgressMonitor.INSTANCE);
+    }
     boolean ok = true;
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
       if (cmd.getResult() != ReceiveCommand.Result.OK) {
@@ -377,7 +378,8 @@ class NoteDbBatchUpdate extends BatchUpdate {
     // TODO(dborowitz): Teach NoteDbUpdateManager to allow reusing the same inserter and batch ref
     // update as in executeUpdateRepo.
     try (ObjectInserter ins = repo.newObjectInserter();
-        RevWalk rw = new RevWalk(ins.newReader());
+        ObjectReader reader = ins.newReader();
+        RevWalk rw = new RevWalk(reader);
         NoteDbUpdateManager updateManager =
             updateManagerFactory
                 .create(project)

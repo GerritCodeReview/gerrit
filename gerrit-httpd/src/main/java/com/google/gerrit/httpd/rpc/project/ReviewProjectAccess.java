@@ -37,7 +37,6 @@ import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -147,7 +146,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       bu.insertChange(
           changeInserterFactory
               .create(changeId, commit, RefNames.REFS_CONFIG)
-              .setValidatePolicy(CommitValidators.Policy.NONE)
+              .setValidate(false)
               .setUpdateRef(false)); // Created by commitToNewRef.
       bu.execute();
     } catch (UpdateException | RestApiException e) {

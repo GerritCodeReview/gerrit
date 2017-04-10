@@ -29,7 +29,6 @@ import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.RebaseSorter;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.ChangeContext;
@@ -42,6 +41,7 @@ import java.util.Collection;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
@@ -126,7 +126,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         }
         // RebaseAlways means we modify commit message.
         args.rw.parseBody(toMerge);
-        newPatchSetId = ChangeUtil.nextPatchSetId(args.repo, toMerge.change().currentPatchSetId());
+        newPatchSetId =
+            ChangeUtil.nextPatchSetId(ctx.getRepository(), toMerge.change().currentPatchSetId());
         RevCommit mergeTip = args.mergeTip.getCurrentTip();
         args.rw.parseBody(mergeTip);
         String cherryPickCmtMsg = args.mergeUtil.createCommitMessageOnSubmit(toMerge, mergeTip);
@@ -135,8 +136,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         try {
           newCommit =
               args.mergeUtil.createCherryPickFromCommit(
-                  args.repo,
-                  args.inserter,
+                  ctx.getInserter(),
+                  ctx.getRepository().getConfig(),
                   args.mergeTip.getCurrentTip(),
                   toMerge,
                   committer,
@@ -161,12 +162,12 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
             args.psUtil.get(ctx.getDb(), toMerge.getControl().getNotes(), toMerge.getPatchsetId());
         rebaseOp =
             args.rebaseFactory
-                .create(toMerge.getControl(), origPs, args.mergeTip.getCurrentTip().name())
+                .create(toMerge.getControl(), origPs, args.mergeTip.getCurrentTip())
                 .setFireRevisionCreated(false)
                 // Bypass approval copier since SubmitStrategyOp copy all approvals
                 // later anyway.
                 .setCopyApprovals(false)
-                .setValidatePolicy(CommitValidators.Policy.NONE)
+                .setValidate(false)
                 .setCheckAddPatchSetPermission(false)
                 // RebaseAlways should set always modify commit message like
                 // Cherry-Pick strategy.
@@ -266,9 +267,9 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
             args.mergeUtil.mergeOneCommit(
                 caller,
                 caller,
-                args.repo,
                 args.rw,
-                args.inserter,
+                ctx.getInserter(),
+                ctx.getRepository().getConfig(),
                 args.destBranch,
                 mergeTip.getCurrentTip(),
                 toMerge);
@@ -300,11 +301,14 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
   }
 
   static boolean dryRun(
-      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
+      SubmitDryRun.Arguments args,
+      Repository repo,
+      CodeReviewCommit mergeTip,
+      CodeReviewCommit toMerge)
       throws IntegrationException {
     // Test for merge instead of cherry pick to avoid false negatives
     // on commit chains.
     return !args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)
-        && args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip, toMerge);
+        && args.mergeUtil.canMerge(args.mergeSorter, repo, mergeTip, toMerge);
   }
 }

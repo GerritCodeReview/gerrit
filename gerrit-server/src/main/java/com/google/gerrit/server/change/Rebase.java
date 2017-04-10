@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RebaseUtil.Base;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -48,6 +47,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -108,27 +108,32 @@ public class Rebase
       bu.addOp(
           change.getId(),
           rebaseFactory
-              .create(control, rsrc.getPatchSet(), findBaseRev(rw, rsrc, input))
+              .create(control, rsrc.getPatchSet(), findBaseRev(repo, rw, rsrc, input))
               .setForceContentMerge(true)
-              .setFireRevisionCreated(true)
-              .setValidatePolicy(CommitValidators.Policy.GERRIT));
+              .setFireRevisionCreated(true));
       bu.execute();
     }
     return json.create(OPTIONS).format(change.getProject(), change.getId());
   }
 
-  private String findBaseRev(RevWalk rw, RevisionResource rsrc, RebaseInput input)
-      throws AuthException, ResourceConflictException, OrmException, IOException,
-          NoSuchChangeException {
+  private ObjectId findBaseRev(
+      Repository repo, RevWalk rw, RevisionResource rsrc, RebaseInput input)
+      throws RestApiException, OrmException, IOException, NoSuchChangeException {
+    Branch.NameKey destRefKey = rsrc.getChange().getDest();
     if (input == null || input.base == null) {
-      return null;
+      return rebaseUtil.findBaseRevision(rsrc.getPatchSet(), destRefKey, repo, rw);
     }
 
     Change change = rsrc.getChange();
     String str = input.base.trim();
     if (str.equals("")) {
-      // remove existing dependency to other patch set
-      return change.getDest().get();
+      // Remove existing dependency to other patch set.
+      Ref destRef = repo.exactRef(destRefKey.get());
+      if (destRef == null) {
+        throw new ResourceConflictException(
+            "can't rebase onto tip of branch " + destRefKey.get() + "; branch doesn't exist");
+      }
+      return destRef.getObjectId();
     }
 
     @SuppressWarnings("resource")
@@ -159,7 +164,7 @@ public class Rebase
               + baseChange.getKey()
               + " is a descendant of the current change - recursion not allowed");
     }
-    return base.patchSet().getRevision().get();
+    return ObjectId.fromString(base.patchSet().getRevision().get());
   }
 
   private boolean isMergedInto(RevWalk rw, PatchSet base, PatchSet tip) throws IOException {

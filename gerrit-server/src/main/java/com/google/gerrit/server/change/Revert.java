@@ -40,7 +40,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -200,7 +199,6 @@ public class Revert
         ChangeInserter ins =
             changeInserterFactory
                 .create(changeId, revertCommit, ctl.getChange().getDest().get())
-                .setValidatePolicy(CommitValidators.Policy.GERRIT)
                 .setTopic(changeToRevert.getTopic());
         ins.setMessage("Uploaded patch set 1.");
 

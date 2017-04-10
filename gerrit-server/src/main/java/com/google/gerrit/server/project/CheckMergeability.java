@@ -92,7 +92,7 @@ public class CheckMergeability implements RestReadView<BranchResource> {
     try (Repository git = gitManager.openRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(git);
         ObjectInserter inserter = new InMemoryInserter(git)) {
-      Merger m = MergeUtil.newMerger(git, inserter, strategy);
+      Merger m = MergeUtil.newMerger(inserter, git.getConfig(), strategy);
 
       Ref destRef = git.getRefDatabase().exactRef(resource.getRef());
       if (destRef == null) {

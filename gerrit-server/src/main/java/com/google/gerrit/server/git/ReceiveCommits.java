@@ -2147,7 +2147,7 @@ public class ReceiveCommits {
               .setTopic(magicBranch.topic)
               .setPrivate(magicBranch.isPrivate)
               // Changes already validated in validateNewCommits.
-              .setValidatePolicy(CommitValidators.Policy.NONE);
+              .setValidate(false);
 
       if (magicBranch.draft) {
         ins.setDraft(magicBranch.draft);
@@ -2507,7 +2507,8 @@ public class ReceiveCommits {
 
     private void newPatchSet() throws IOException {
       RevCommit newCommit = rp.getRevWalk().parseCommit(newCommitId);
-      psId = ChangeUtil.nextPatchSetId(allRefs, notes.getChange().currentPatchSetId());
+      psId =
+          ChangeUtil.nextPatchSetIdFromAllRefsMap(allRefs, notes.getChange().currentPatchSetId());
       info = patchSetInfoFactory.get(rp.getRevWalk(), newCommit, psId);
       cmd = new ReceiveCommand(ObjectId.zeroId(), newCommitId, psId.toRefName());
     }
@@ -2764,19 +2765,17 @@ public class ReceiveCommits {
     RevCommit c = rw.parseCommit(id);
     rw.parseBody(c);
 
-    CommitValidators.Policy policy;
-    if (magicBranch != null
-        && cmd.getRefName().equals(magicBranch.cmd.getRefName())
-        && magicBranch.merged) {
-      policy = CommitValidators.Policy.MERGED;
-    } else {
-      policy = CommitValidators.Policy.RECEIVE_COMMITS;
-    }
-
     try (CommitReceivedEvent receiveEvent =
         new CommitReceivedEvent(cmd, project, ctl.getRefName(), rw.getObjectReader(), c, user)) {
-      messages.addAll(
-          commitValidatorsFactory.create(policy, ctl, sshInfo, repo).validate(receiveEvent));
+      boolean isMerged =
+          magicBranch != null
+              && cmd.getRefName().equals(magicBranch.cmd.getRefName())
+              && magicBranch.merged;
+      CommitValidators validators =
+          isMerged
+              ? commitValidatorsFactory.forMergedCommits(ctl)
+              : commitValidatorsFactory.forReceiveCommits(ctl, sshInfo, repo);
+      messages.addAll(validators.validate(receiveEvent));
     } catch (CommitValidationException e) {
       logDebug("Commit validation failed on {}", c.name());
       messages.addAll(e.getMessages());

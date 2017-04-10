@@ -216,6 +216,6 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
             mergeUtilFactory.create(projectControl.getProjectState()).mergeStrategyName());
 
     return MergeUtil.createMergeCommit(
-        git, oi, mergeTip, sourceCommit, mergeStrategy, author, commitMsg, rw);
+        oi, git.getConfig(), mergeTip, sourceCommit, mergeStrategy, author, commitMsg, rw);
   }
 }

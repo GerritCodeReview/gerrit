@@ -53,7 +53,6 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -252,10 +251,7 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
       }
 
       Change.Id changeId = new Change.Id(seq.nextChangeId());
-      ChangeInserter ins =
-          changeInserterFactory
-              .create(changeId, c, refName)
-              .setValidatePolicy(CommitValidators.Policy.GERRIT);
+      ChangeInserter ins = changeInserterFactory.create(changeId, c, refName);
       ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));
       String topic = input.topic;
       if (topic != null) {
@@ -324,7 +320,14 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
             Strings.emptyToNull(merge.strategy), mergeUtil.mergeStrategyName());
 
     return MergeUtil.createMergeCommit(
-        repo, oi, mergeTip, sourceCommit, mergeStrategy, authorIdent, commitMessage, rw);
+        oi,
+        repo.getConfig(),
+        mergeTip,
+        sourceCommit,
+        mergeStrategy,
+        authorIdent,
+        commitMessage,
+        rw);
   }
 
   private static ObjectId insert(ObjectInserter inserter, CommitBuilder commit)

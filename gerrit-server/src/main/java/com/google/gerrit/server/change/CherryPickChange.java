@@ -40,7 +40,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectState;
@@ -193,8 +192,8 @@ public class CherryPickChange {
             mergeUtilFactory
                 .create(projectState)
                 .createCherryPickFromCommit(
-                    git,
                     oi,
+                    git.getConfig(),
                     mergeTip,
                     commitToCherryPick,
                     committerIdent,
@@ -291,11 +290,7 @@ public class CherryPickChange {
       throws OrmException, IOException {
     Change.Id changeId = new Change.Id(seq.nextChangeId());
     ChangeInserter ins =
-        changeInserterFactory
-            .create(changeId, cherryPickCommit, refName)
-            .setValidatePolicy(CommitValidators.Policy.GERRIT)
-            .setTopic(topic);
-
+        changeInserterFactory.create(changeId, cherryPickCommit, refName).setTopic(topic);
     ins.setMessage(messageForDestinationChange(ins.getPatchSetId(), sourceBranch, sourceCommit));
     bu.insertChange(ins);
     return changeId;

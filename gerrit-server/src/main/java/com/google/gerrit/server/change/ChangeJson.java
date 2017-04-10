@@ -1212,7 +1212,7 @@ public class ChangeJson {
     out.uploader = accountLoader.get(in.getUploader());
     out.draft = in.isDraft() ? true : null;
     out.fetch = makeFetchMap(ctl, in);
-    out.kind = changeKindCache.getChangeKind(repo, rw, cd, in);
+    out.kind = changeKindCache.getChangeKind(rw, repo != null ? repo.getConfig() : null, cd, in);
     out.description = in.getDescription();
 
     boolean setCommit = has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT));

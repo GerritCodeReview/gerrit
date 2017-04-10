@@ -61,9 +61,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 
@@ -92,7 +90,6 @@ public abstract class SubmitStrategy {
           CodeReviewRevWalk rw,
           IdentifiedUser caller,
           MergeTip mergeTip,
-          Repository repo,
           RevFlag canMergeFlag,
           ReviewDb db,
           Set<RevCommit> alreadyAccepted,
@@ -127,8 +124,6 @@ public abstract class SubmitStrategy {
     final CommitStatus commitStatus;
     final IdentifiedUser caller;
     final MergeTip mergeTip;
-    final ObjectInserter inserter;
-    final Repository repo;
     final RevFlag canMergeFlag;
     final ReviewDb db;
     final Set<RevCommit> alreadyAccepted;
@@ -169,7 +164,6 @@ public abstract class SubmitStrategy {
         @Assisted CodeReviewRevWalk rw,
         @Assisted IdentifiedUser caller,
         @Assisted MergeTip mergeTip,
-        @Assisted Repository repo,
         @Assisted RevFlag canMergeFlag,
         @Assisted ReviewDb db,
         @Assisted Set<RevCommit> alreadyAccepted,
@@ -202,8 +196,6 @@ public abstract class SubmitStrategy {
       this.rw = rw;
       this.caller = caller;
       this.mergeTip = mergeTip;
-      this.inserter = checkNotNull(rw.getObjectReader().getCreatedFromInserter());
-      this.repo = repo;
       this.canMergeFlag = canMergeFlag;
       this.db = db;
       this.alreadyAccepted = alreadyAccepted;

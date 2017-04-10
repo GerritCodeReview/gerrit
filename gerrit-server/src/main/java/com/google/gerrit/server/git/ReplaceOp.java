@@ -198,8 +198,8 @@ public class ReplaceOp implements BatchUpdateOp {
     changeKind =
         changeKindCache.getChangeKind(
             projectControl.getProject().getNameKey(),
-            ctx.getRepository(),
             ctx.getRevWalk(),
+            ctx.getRepository().getConfig(),
             priorCommitId,
             commitId);
 

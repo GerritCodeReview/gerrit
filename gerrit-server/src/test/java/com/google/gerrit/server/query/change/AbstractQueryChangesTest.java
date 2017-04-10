@@ -74,7 +74,6 @@ import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -1986,7 +1985,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ChangeInserter ins =
         changeFactory
             .create(id, commit, branch)
-            .setValidatePolicy(CommitValidators.Policy.NONE)
+            .setValidate(false)
             .setStatus(status)
             .setTopic(topic);
     return ins;
@@ -2031,7 +2030,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .create(ctl, new PatchSet.Id(c.getId(), n), commit)
             .setNotify(NotifyHandling.NONE)
             .setFireRevisionCreated(false)
-            .setValidatePolicy(CommitValidators.Policy.NONE);
+            .setValidate(false);
     try (BatchUpdate bu = updateFactory.create(db, c.getProject(), user, TimeUtil.nowTs());
         ObjectInserter oi = repo.getRepository().newObjectInserter()) {
       bu.setRepository(repo.getRepository(), repo.getRevWalk(), oi);

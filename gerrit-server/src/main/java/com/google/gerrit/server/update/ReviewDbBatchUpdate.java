@@ -269,7 +269,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     }
     setRequestIds(updates, requestId);
     try {
-      Order order = getOrder(updates);
+      Order order = getOrder(updates, listener);
       boolean updateChangesInParallel = getUpdateChangesInParallel(updates);
       switch (order) {
         case REPO_BEFORE_DB:
@@ -290,15 +290,12 @@ class ReviewDbBatchUpdate extends BatchUpdate {
           for (ReviewDbBatchUpdate u : updates) {
             u.reindexChanges(u.executeChangeOps(updateChangesInParallel, dryrun));
           }
-          listener.afterUpdateChanges();
           for (ReviewDbBatchUpdate u : updates) {
             u.executeUpdateRepo();
           }
-          listener.afterUpdateRepos();
           for (ReviewDbBatchUpdate u : updates) {
             u.executeRefUpdates(dryrun);
           }
-          listener.afterUpdateRefs();
           break;
         default:
           throw new IllegalStateException("invalid execution order: " + order);
@@ -438,7 +435,11 @@ class ReviewDbBatchUpdate extends BatchUpdate {
       return;
     }
 
-    batchRefUpdate.execute(revWalk, NullProgressMonitor.INSTANCE);
+    // Force BatchRefUpdate to read newly referenced objects using a new RevWalk, rather than one
+    // that might have access to unflushed objects.
+    try (RevWalk updateRw = new RevWalk(repo)) {
+      batchRefUpdate.execute(updateRw, NullProgressMonitor.INSTANCE);
+    }
     boolean ok = true;
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
       if (cmd.getResult() != ReceiveCommand.Result.OK) {

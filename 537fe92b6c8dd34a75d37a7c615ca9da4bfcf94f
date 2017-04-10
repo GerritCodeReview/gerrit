@@ -240,6 +240,30 @@
     },
     {
       "key": {
+        "uuid": "b4e81c3d_53814d84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountPatchReviewStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-10T23:18:47Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s worth the extra complication.  Let\u0027s just wait until the Google internal solution is ready.",
+      "parentUuid": "aa931969_69725d65",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 100,
+        "endChar": 37
+      },
+      "revId": "537fe92b6c8dd34a75d37a7c615ca9da4bfcf94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20f47974_4788e09a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
         "patchSetId": 3

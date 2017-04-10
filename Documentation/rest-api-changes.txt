@@ -2107,7 +2107,7 @@ Only the change owner, a project owner, or an administrator may fix changes.
   }
 ----
 
-[[Mark-private]]
+[[mark-private]]
 === Mark Private
 --
 'PUT /changes/link:#change-id[\{change-id\}]/private'

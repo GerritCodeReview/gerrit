@@ -22,6 +22,30 @@
       "revId": "4d980e8ed8b9acbba1cd26c0ee8321148c1f41bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4d1d9bd_b0971733",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DelegatingClassLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1028987
+      },
+      "writtenOn": "2017-04-10T21:03:05Z",
+      "side": 1,
+      "message": "Nothing magical, just a buffer. PS3 removes this method and uses ByteStreams.toByteArray() instead.",
+      "parentUuid": "c8d52ab6_19545752",
+      "range": {
+        "startLine": 70,
+        "startChar": 31,
+        "endLine": 70,
+        "endChar": 37
+      },
+      "revId": "4d980e8ed8b9acbba1cd26c0ee8321148c1f41bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c455cd25_654ca095",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-10T22:39:39Z",
+      "side": 1,
+      "message": "In issue 5877, it\u0027s also suggested that we increase this value to something in the 200-400 range. Do you want to do that in this change also?",
+      "range": {
+        "startLine": 25,
+        "startChar": 32,
+        "endLine": 25,
+        "endChar": 34
+      },
+      "revId": "dd67f924b8508af644ed492a5702c9cbd233b5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b6f6471_e73cc394",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-10T22:39:39Z",
+      "side": 1,
+      "message": "Does this reset to the default when the change is different?",
+      "range": {
+        "startLine": 195,
+        "startChar": 6,
+        "endLine": 196,
+        "endChar": 65
+      },
+      "revId": "dd67f924b8508af644ed492a5702c9cbd233b5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

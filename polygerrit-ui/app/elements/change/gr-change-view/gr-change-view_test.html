@@ -374,8 +374,11 @@ limitations under the License.
       };
       element.viewState.changeNum = null;
       element.viewState.diffMode = 'UNIFIED';
+      assert.equal(element.viewState.numFilesShown, 75);
+      element._numFilesShown = 150;
       flushAsynchronousOperations();
       assert.equal(element.viewState.diffMode, 'UNIFIED');
+      assert.equal(element.viewState.numFilesShown, 150);
 
       element._changeNum = '1';
       element.params = {changeNum: '1'};
@@ -390,6 +393,7 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isNull(element.viewState.diffMode);
       assert.equal(element.viewState.changeNum, '2');
+      assert.isNull(element.viewState.numFilesShown);
     });
 
     test('patch num change', function(done) {

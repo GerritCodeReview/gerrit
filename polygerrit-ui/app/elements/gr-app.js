@@ -101,6 +101,7 @@
           selectedFileIndex: 0,
           showReplyDialog: false,
           diffMode: null,
+          numFilesShown: null,
         },
         changeListView: {
           query: null,

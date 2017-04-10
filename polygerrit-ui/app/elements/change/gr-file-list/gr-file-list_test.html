@@ -60,6 +60,7 @@ limitations under the License.
         reload: function() { return Promise.resolve(); },
       });
       element = fixture('basic');
+      element.numFilesShown = 75;
       saveStub = sandbox.stub(element, '_saveReviewedState',
           function() { return Promise.resolve(); });
     });
@@ -738,7 +739,7 @@ limitations under the License.
           arr.push({__path: 'myfile.txt'});
         });
         element._files = arr;
-        element._numFilesShown = arr.length;
+        element.numFilesShown = arr.length;
         assert.isFalse(computeSpy.lastCall.returnValue);
         done();
       });

@@ -94,6 +94,30 @@
       "revId": "974c40ad83704cc8eec8310c4bf46a3cb48b426e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b287493e_d4ac8140",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-10T07:31:48Z",
+      "side": 1,
+      "message": "Right.",
+      "parentUuid": "684600e3_9d82b052",
+      "range": {
+        "startLine": 39,
+        "startChar": 21,
+        "endLine": 39,
+        "endChar": 41
+      },
+      "revId": "974c40ad83704cc8eec8310c4bf46a3cb48b426e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,2 +1,1 @@
-def external_plugin_deps():
-    pass
+automerger/external_plugin_deps.bzl

@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "8342a2ef_f84fd70f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountPatchReviewStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-10T11:45:28Z",
+      "side": 1,
+      "message": "Unfortunately this isn\u0027t as straight-forward as I thought, might also take longer.",
+      "parentUuid": "2d8dea03_4f68fee1",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 100,
+        "endChar": 37
+      },
+      "revId": "537fe92b6c8dd34a75d37a7c615ca9da4bfcf94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20f47974_4788e09a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
         "patchSetId": 3

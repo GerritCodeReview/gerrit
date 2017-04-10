@@ -73,7 +73,7 @@ public class ServerInfo extends JavaScriptObject {
     public final native boolean showAssignee() /*-{ return this.show_assignee || false; }-*/;
 
     public final native boolean
-        showAssigneeSuggestOracle() /*-{ return this.show_assignee_suggest_oracle || false; }-*/;
+        showAssigneeInChangeTable() /*-{ return this.show_assignee_in_change_table || false; }-*/;
 
     public final native int updateDelay() /*-{ return this.update_delay || 0; }-*/;
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "013f8314_3984cae5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-10T09:40:51Z",
+      "side": 1,
+      "message": "Can we just replace all of this with change.showAssigneeInChangeTable which defaults to false, and when enabled will show the assignee in the change table?  And make it so that the assignee is always shown in the change screen and the oracle always suggests the operators.\n\nI.e. rather than \"disable the workflow\" it becomes \"disable that extra column in the change list\".",
+      "range": {
+        "startLine": 1025,
+        "startChar": 0,
+        "endLine": 1042,
+        "endChar": 17
+      },
+      "revId": "7c662f9c1db91d93935757d21f15d6978edfdd37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

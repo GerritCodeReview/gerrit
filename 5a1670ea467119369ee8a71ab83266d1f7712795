@@ -377,6 +377,29 @@
     },
     {
       "key": {
+        "uuid": "4837c52a_81fc1b78",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-10T22:29:58Z",
+      "side": 1,
+      "message": "I believe this expects the canonical path to appear at the start of\n\n window.location.pathname\n\nInstead of the nested replace on the following lines, can this just use\n\n \u0027/\u0027 + window.location.pathname.substring(this.getBaseUrl().length) +\n\n...? It should also include a comment that explains how the canonical path needs to be removed from the redirect path.",
+      "range": {
+        "startLine": 123,
+        "startChar": 12,
+        "endLine": 123,
+        "endChar": 36
+      },
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f4b225fd_840c3fc8",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
         "patchSetId": 45
@@ -838,6 +861,30 @@
       "side": 1,
       "message": "I\u0027ve removed the base url from the cache now.",
       "parentUuid": "03ccdc77_748ae107",
+      "range": {
+        "startLine": 391,
+        "startChar": 36,
+        "endLine": 391,
+        "endChar": 53
+      },
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "721160c1_8b3fba1b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-10T22:29:58Z",
+      "side": 1,
+      "message": "Did you? I still see it in Patch 62.",
+      "parentUuid": "3c2daad5_cebb12e1",
       "range": {
         "startLine": 391,
         "startChar": 36,

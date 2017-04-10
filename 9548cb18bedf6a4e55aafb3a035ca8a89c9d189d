@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ee1f872_6911a937",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 62
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-10T22:29:58Z",
+      "side": 1,
+      "message": "Nit: URL",
+      "range": {
+        "startLine": 7,
+        "startChar": 41,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "9548cb18bedf6a4e55aafb3a035ca8a89c9d189d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cacc83e_b7dad3f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 62
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-10T22:29:58Z",
+      "side": 1,
+      "message": "Nit: URLs",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "9548cb18bedf6a4e55aafb3a035ca8a89c9d189d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e22f49ec_c8c87e13",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior_test.html",
+        "patchSetId": 62
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-10T22:29:58Z",
+      "side": 1,
+      "message": "Nit: this line exceeds 80 characters.",
+      "revId": "9548cb18bedf6a4e55aafb3a035ca8a89c9d189d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3528beb2_ca5039b2",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 62
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-10T22:29:58Z",
+      "side": 1,
+      "message": "Nit: this line exceeds 80 characters.",
+      "revId": "9548cb18bedf6a4e55aafb3a035ca8a89c9d189d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "665199ac_980d1c0b",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 62
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-10T22:29:58Z",
+      "side": 1,
+      "message": "mark",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 93
+      },
+      "revId": "9548cb18bedf6a4e55aafb3a035ca8a89c9d189d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

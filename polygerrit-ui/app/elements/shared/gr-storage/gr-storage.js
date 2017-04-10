@@ -17,6 +17,9 @@
   // Date cutoff is one day:
   var DRAFT_MAX_AGE = 24 * 60 * 60 * 1000;
 
+  // Date cutoff is 5 days for files shown:
+  var FILES_SHOWN_MAX_AGE = 5 * 24 * 60 * 60 * 1000;
+
   // Clean up old entries no more frequently than one day.
   var CLEANUP_THROTTLE_INTERVAL = 24 * 60 * 60 * 1000;
 
@@ -25,6 +28,7 @@
 
     properties: {
       _lastCleanup: Number,
+      _lastFileCleanup: Number,
       _storage: {
         type: Object,
         value: function() {
@@ -35,6 +39,20 @@
         type: Boolean,
         value: false,
       },
+    },
+
+    getNumFilesShown: function(change_id) {
+      this._cleanupNumFilesShown();
+      var key = 'numFilesShown:' + change_id;
+      return this._getObject(key);
+    },
+
+    setNumFilesShown: function(change_id, value) {
+      var key = 'numFilesShown:' + change_id;
+      return this._setObject(key, {
+        value: value,
+        lastAccessed: Date.now(),
+      });
     },
 
     getDraftComment: function(location) {
@@ -85,6 +103,25 @@
         if (key.indexOf('draft:') === 0) {
           draft = this._getObject(key);
           if (Date.now() - draft.updated > DRAFT_MAX_AGE) {
+            this._storage.removeItem(key);
+          }
+        }
+      }
+    },
+
+    _cleanupNumFilesShown: function() {
+      // Throttle cleanup to the throttle interval.
+      if (this._lastFileCleanup &&
+          Date.now() - this._lastFileCleanup < CLEANUP_THROTTLE_INTERVAL) {
+        return;
+      }
+      this._lastFileCleanup = Date.now();
+
+      var value;
+      for (var key in this._storage) {
+        if (key.indexOf('numFilesShown:') === 0) {
+          value = this._getObject(key);
+          if (Date.now() - value.lastAccessed > FILES_SHOWN_MAX_AGE) {
             this._storage.removeItem(key);
           }
         }

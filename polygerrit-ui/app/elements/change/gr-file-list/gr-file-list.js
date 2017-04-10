@@ -17,6 +17,8 @@
   // Maximum length for patch set descriptions.
   var PATCH_DESC_MAX_LENGTH = 500;
 
+  var DEFAULT_NUM_FILES_SHOWN = 75;
+
   var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
 
   var FileStatus = {
@@ -74,7 +76,7 @@
       _showInlineDiffs: Boolean,
       _numFilesShown: {
         type: Number,
-        value: 75,
+        value: DEFAULT_NUM_FILES_SHOWN,
       },
       _patchChange: {
         type: Object,
@@ -83,7 +85,7 @@
       _fileListIncrement: {
         type: Number,
         readOnly: true,
-        value: 75,
+         value: 75,
       },
       _hideChangeTotals: {
         type: Boolean,
@@ -144,6 +146,8 @@
       this._collapseAllDiffs();
       var promises = [];
       var _this = this;
+
+      this._numFilesShown = this._getNumFilesShown();
 
       promises.push(this._getFiles().then(function(files) {
         _this._files = files;
@@ -669,6 +673,23 @@
       return this._isFileExpanded(path, expandedFilesRecord) ? '▼' : '◀';
     },
 
+    _getNumFilesShown: function() {
+      var numFilesShown =
+          this.$.storage.getNumFilesShown(this.change.change_id);
+      var value;
+
+      if (numFilesShown) {
+        // Setting num files shown again updates the last accessed property so
+        // that the value is not prematurely removed from local storage
+        this.$.storage.setNumFilesShown(
+            this.change.change_id, numFilesShown.value);
+
+        value = numFilesShown.value;
+      }
+
+      return value || DEFAULT_NUM_FILES_SHOWN;
+    },
+
     _computeFilesShown: function(numFilesShown, files) {
       return files.base.slice(0, numFilesShown);
     },
@@ -702,6 +723,8 @@
 
     _incrementNumFilesShown: function() {
       this._numFilesShown += this._fileListIncrement;
+      this.$.storage.setNumFilesShown(
+          this.change.change_id, this._numFilesShown);
     },
 
     _computeFileListButtonHidden: function(numFilesShown, files) {
@@ -722,6 +745,8 @@
 
     _showAllFiles: function() {
       this._numFilesShown = this._files.length;
+      this.$.storage.setNumFilesShown(
+            this.change.change_id, this._numFilesShown);
     },
 
     _updateSelected: function(patchRange) {

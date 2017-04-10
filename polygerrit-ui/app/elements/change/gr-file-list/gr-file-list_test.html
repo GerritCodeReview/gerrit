@@ -925,5 +925,32 @@ limitations under the License.
           done();
         });
     });
+
+    test('_getNumFilesShown logged in', function() {
+      element.change = {change_id: 123};
+      element.patchRange = {
+          basePatchNum: 'PARENT',
+          patchNum: '2',
+        };
+      var getFilesStub =
+          sandbox.stub(element.$.storage, 'getNumFilesShown');
+      var setFilesStub =
+          sandbox.stub(element.$.storage, 'setNumFilesShown');
+
+      element._getNumFilesShown();
+      assert.isTrue(getFilesStub.calledWithExactly(element.change.change_id));
+      assert.isFalse(setFilesStub.called);
+      assert.equal(element._numFilesShown, 75);
+
+      element._incrementNumFilesShown();
+      assert.isTrue(setFilesStub.called);
+      assert.equal(element._numFilesShown, 150);
+
+      element._getNumFilesShown();
+      assert.isTrue(getFilesStub.calledWithExactly(element.change.change_id));
+      assert.isTrue(setFilesStub.calledWithExactly(
+          element.change.change_id, 150));
+      assert.equal(element._numFilesShown, 150);
+    });
   });
 </script>

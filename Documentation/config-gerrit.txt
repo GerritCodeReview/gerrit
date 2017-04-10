@@ -1028,12 +1028,12 @@ performance improvements by reducing the number of refs in the repo.
 +
 Default is true.
 
-[[change.showAssignee]]change.showAssignee::
+[[change.showAssigneeInChangesTable]]change.showAssigneeInChangesTable::
 +
-Allow assignee workflow. If set to false, assignees will not be visible anywhere
-in UI.
+Show assignee field in changes table. If set to false, assignees will
+not be visible in changes table.
 +
-Default is true.
+Default is false.
 
 [[change.submitLabel]]change.submitLabel::
 +

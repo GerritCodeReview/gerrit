@@ -156,7 +156,6 @@ public class MyPreferencesScreen extends SettingsScreen {
       dateTimePanel.add(timeFormat);
     }
     highlightAssigneeInChangeTable = new CheckBox(Util.C.highlightAssigneeInChangeTable());
-    highlightAssigneeInChangeTable.setEnabled(Gerrit.info().change().showAssignee());
     relativeDateInChangeTable = new CheckBox(Util.C.showRelativeDateInChangeTable());
     sizeBarInChangeTable = new CheckBox(Util.C.showSizeBarInChangeTable());
     legacycidInChangeTable = new CheckBox(Util.C.showLegacycidInChangeTable());
@@ -290,7 +289,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     maximumPageSize.setEnabled(on);
     dateFormat.setEnabled(on);
     timeFormat.setEnabled(on);
-    highlightAssigneeInChangeTable.setEnabled(Gerrit.info().change().showAssignee());
+    highlightAssigneeInChangeTable.setEnabled(on);
     relativeDateInChangeTable.setEnabled(on);
     sizeBarInChangeTable.setEnabled(on);
     legacycidInChangeTable.setEnabled(on);

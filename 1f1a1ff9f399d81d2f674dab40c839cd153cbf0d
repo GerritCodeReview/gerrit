@@ -39,6 +39,30 @@
       "revId": "1f1a1ff9f399d81d2f674dab40c839cd153cbf0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8fed93ee_af688ff0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewersOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-10T12:54:45Z",
+      "side": 1,
+      "message": "Done. I\u0027ve made all of these private and use an AutoValue class to expose the results that are needed elsewhere.",
+      "parentUuid": "6e6fce49_ce7d4ad6",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 58
+      },
+      "revId": "1f1a1ff9f399d81d2f674dab40c839cd153cbf0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

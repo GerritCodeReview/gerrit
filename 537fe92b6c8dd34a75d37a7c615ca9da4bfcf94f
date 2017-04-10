@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "9e26bc2d_4ecefb73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountPatchReviewStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-10T12:22:25Z",
+      "side": 1,
+      "message": "Merging this now will allow 2.13.8 to be released sooner.  I was hoping to release it today or tomorrow and didn\u0027t expect this change to cause delay :(\n\nAside from this change the only other change on stable-2.13 is the JGit 4.5.2 upgrade. On stable-2.14 we already use 4.7.0 which includes the fixes that went into 4.5.2.  And I don\u0027t anticipate any more changes going to stable-2.13.\n\nSo we don\u0027t really need to do a merge up to stable-2.14 yet.  We can leave it on stable-2.13 until your internal fix is ready.",
+      "parentUuid": "38c65f93_b2b72fda",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 100,
+        "endChar": 37
+      },
+      "revId": "537fe92b6c8dd34a75d37a7c615ca9da4bfcf94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20f47974_4788e09a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
         "patchSetId": 3

@@ -17,7 +17,7 @@ package com.google.gerrit.extensions.common;
 public class ChangeConfigInfo {
   public Boolean allowBlame;
   public Boolean showAssignee;
-  public Boolean showAssigneeSuggestOracle;
+  public Boolean showAssigneeInChangeTable;
   public Boolean allowDrafts;
   public int largeChange;
   public String replyLabel;

@@ -80,7 +80,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     super(Util.C.changeItemHelp());
     columns = BASE_COLUMNS;
     labelNames = Collections.emptyList();
-    showAssignee = Gerrit.info().change().showAssignee();
+	showAssignee = Gerrit.info().change().showAssignee() &&
+			Gerrit.info().change().showAssigneeInChangeTable();
     showLegacyId = Gerrit.getUserPreferences().legacycidInChangeTable();
 
     if (Gerrit.isSignedIn()) {

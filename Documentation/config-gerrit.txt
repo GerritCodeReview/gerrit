@@ -1024,22 +1024,22 @@ Default is true.
 
 [[change.showAssignee]]change.showAssignee::
 +
-Show assignee field in changes table. If set to false, assignees will
-not be visible in changes table.
-+
-Default is false.
-
-[[change.showAssigneeSuggestOracle]]change.showAssigneeSuggestOracle::
-+
-Allow assignee to be search-able through the changes search box.
-If set to false, assignees search predicates will not be suggested
-in the changes search box.
-+
-NOTE: When both showAssignee and showAssigneeSuggestOracle are both
-set to false, the assignee field would not be shown anywhere in Gerrit,
-disabling the access to the feature.
+Enable assignee workflow in the UI.
+Show assignee field in change screen and suggest assignee search predicate
+in changes search box. If set to false, no assignee fields will be visible.
+When false overrides change.showAssigneeInChangeTable.
 +
 Default is true.
+
+[[change.showAssigneeInChangeTable]]change.showAssigneeInChangeTable::
++
+Allow assignee to have it's own field in the change table.
+If set to false, there will be no column in the change table visualizing the
+value of the assignee field.
++
+NOTE: When change.showAssignee is set to false it overrides this configuration.
++
+Default is false.
 
 [[change.submitLabel]]change.submitLabel::
 +

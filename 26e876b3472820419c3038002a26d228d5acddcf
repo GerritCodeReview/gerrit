@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4c2e790_f7aed4b4",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-10T11:00:09Z",
+      "side": 1,
+      "message": "can\u0027t we use this one instead?\n\n  https://github.com/google/google-java-format/blob/master/scripts/google-java-format-diff.py",
+      "range": {
+        "startLine": 76,
+        "startChar": 9,
+        "endLine": 76,
+        "endChar": 17
+      },
+      "revId": "26e876b3472820419c3038002a26d228d5acddcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

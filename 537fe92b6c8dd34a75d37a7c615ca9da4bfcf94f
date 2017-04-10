@@ -216,6 +216,30 @@
     },
     {
       "key": {
+        "uuid": "aa931969_69725d65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountPatchReviewStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-10T12:25:08Z",
+      "side": 1,
+      "message": "Would it be an option to submit this change and merge it on master, but revert it on Google side, until it\u0027s implemented for different backend?\n\nAnother option to unblock stable 2.13.8 release: restore the old code and the old method in this interface (and throw non implemented exception here), and add an configuration option:\n\n  change.optimizedReviewedRetrieval\n\nand set it to be true per default.",
+      "parentUuid": "c5f6628f_26d1df6a",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 100,
+        "endChar": 37
+      },
+      "revId": "537fe92b6c8dd34a75d37a7c615ca9da4bfcf94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20f47974_4788e09a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
         "patchSetId": 3

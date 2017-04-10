@@ -72,6 +72,33 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addByEmailAndById() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    AccountInfo byEmail = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
+    AccountInfo byId = new AccountInfo(user.id.get());
+
+    for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
+      PushOneCommit.Result r = createChange();
+
+      AddReviewerInput inputByEmail = new AddReviewerInput();
+      inputByEmail.reviewer = toRfcAddressString(byEmail);
+      inputByEmail.state = state;
+      gApi.changes().id(r.getChangeId()).addReviewer(inputByEmail);
+
+      AddReviewerInput inputById = new AddReviewerInput();
+      inputById.reviewer = user.email;
+      inputById.state = state;
+      gApi.changes().id(r.getChangeId()).addReviewer(inputById);
+
+      ChangeInfo info =
+          gApi.changes().id(r.getChangeId()).get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+      assertThat(info.reviewers).isEqualTo(ImmutableMap.of(state, ImmutableList.of(byId, byEmail)));
+      // All reviewers (both by id and by email) should be removable
+      assertThat(info.removableReviewers).isEqualTo(ImmutableList.of(byId, byEmail));
+    }
+  }
+
+  @Test
   public void removeByEmail() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
     AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");

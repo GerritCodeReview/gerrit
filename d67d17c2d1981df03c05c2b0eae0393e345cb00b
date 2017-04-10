@@ -17,6 +17,75 @@
       "revId": "d67d17c2d1981df03c05c2b0eae0393e345cb00b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5ffa51e_3e5cef8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RepoView.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-10T12:54:25Z",
+      "side": 1,
+      "message": "optional: I am not completely happy with this method. Three aspects bug me:\n- The method uses an output parameter instead of a return value.\n- The method only updates a reference when a condition is fulfilled which isn\u0027t obvious from the signature of the method.\n- The name of the method suggests that we only put references while the implementation also removes some of them.\n\nI see that especially the first one might not be that easy to change as references are also removed. To address the last aspect, we could choose another name (e.g. \u0027updateRef\u0027) for the method. We could do the same for the second aspect (e.g. append \u0027IfApplicable\u0027 to the name) or move the filtering outside of the method.",
+      "range": {
+        "startLine": 165,
+        "startChar": 22,
+        "endLine": 165,
+        "endChar": 28
+      },
+      "revId": "d67d17c2d1981df03c05c2b0eae0393e345cb00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e002c5ec_4192cabc",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/update/RepoViewTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-10T12:54:25Z",
+      "side": 1,
+      "message": "optional: Could we rename it to \u0027testRepo\u0027 or something similar? As it\u0027s used throughout the test class, I would prefer a more meaningful and pronounceable name.",
+      "range": {
+        "startLine": 38,
+        "startChar": 28,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "d67d17c2d1981df03c05c2b0eae0393e345cb00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb644086_67a3bd42",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/update/RepoViewTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-10T12:54:25Z",
+      "side": 1,
+      "message": "optional: Why don\u0027t we use \u0027repo\u0027 directly (here and in line 59) as we do in the rest of the class?",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 22
+      },
+      "revId": "d67d17c2d1981df03c05c2b0eae0393e345cb00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

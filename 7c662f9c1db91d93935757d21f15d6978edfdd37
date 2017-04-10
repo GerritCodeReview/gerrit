@@ -22,6 +22,30 @@
       "revId": "7c662f9c1db91d93935757d21f15d6978edfdd37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e1a209a_399b8093",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-10T09:43:19Z",
+      "side": 1,
+      "message": "Exactly my proposal: +1 from me.\n\nLet me get a change in that direction, which would make everybody\u0027s lives easier.",
+      "parentUuid": "013f8314_3984cae5",
+      "range": {
+        "startLine": 1025,
+        "startChar": 0,
+        "endLine": 1042,
+        "endChar": 17
+      },
+      "revId": "7c662f9c1db91d93935757d21f15d6978edfdd37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

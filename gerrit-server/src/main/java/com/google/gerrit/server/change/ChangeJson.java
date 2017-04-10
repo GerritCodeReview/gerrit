@@ -528,14 +528,15 @@ public class ChangeJson {
       }
 
       out.reviewers = new HashMap<>();
-      for (Map.Entry<ReviewerStateInternal, Map<Account.Id, Timestamp>> e :
-          cd.reviewers().asTable().rowMap().entrySet()) {
-        out.reviewers.put(e.getKey().asReviewerState(), toAccountInfo(e.getValue().keySet()));
-      }
-      for (Map.Entry<ReviewerStateInternal, Map<Address, Timestamp>> e :
-          cd.reviewersByEmail().asTable().rowMap().entrySet()) {
-        out.reviewers.put(
-            e.getKey().asReviewerState(), toAccountInfoByEmail(e.getValue().keySet()));
+      for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
+        if (state == ReviewerStateInternal.REMOVED) {
+          continue;
+        }
+        Collection<AccountInfo> reviewers = toAccountInfo(cd.reviewers().byState(state));
+        reviewers.addAll(toAccountInfoByEmail(cd.reviewersByEmail().byState(state)));
+        if (!reviewers.isEmpty()) {
+          out.reviewers.put(state.asReviewerState(), reviewers);
+        }
       }
 
       out.removableReviewers = removableReviewers(ctl, out);

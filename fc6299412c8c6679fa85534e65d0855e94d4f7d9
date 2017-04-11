@@ -17,6 +17,24 @@
       "revId": "fc6299412c8c6679fa85534e65d0855e94d4f7d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2120c042_f89c4dfd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-11T15:08:17Z",
+      "side": 1,
+      "message": "I agree that this is an unfortunate state to be in. However, the whole reason for this series in the first place is we have changes that are stale in the index, and that stale value says primaryStorage \u003d\u003d REVIEW_DB, and we need to handle those gracefully. Right now the specific way in which we fail to handle them gracefully is we throw an exception during rebuilding. This change makes it so  that we continue using the stale value, which is the correct (well, more correct) behavior when the change came in from the index.\n\nThere is probably a discussion to be had about whether we should continue supporting ChangeNotes.Factory#createFromIndexedChange, basically pretending that we have a ChangeNotes even though it really just has some stale data. But that is a much larger change.",
+      "parentUuid": "be960420_f8142235",
+      "revId": "fc6299412c8c6679fa85534e65d0855e94d4f7d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

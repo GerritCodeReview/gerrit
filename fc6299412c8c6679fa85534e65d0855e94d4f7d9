@@ -35,6 +35,24 @@
       "revId": "fc6299412c8c6679fa85534e65d0855e94d4f7d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72500664_360639a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-11T18:33:42Z",
+      "side": 1,
+      "message": "\u003e There is probably a discussion to be had about whether we should continue supporting ChangeNotes.Factory#createFromIndexedChange, basically pretending that we have a ChangeNotes even though it really just has some stale data. But that is a much larger change.\n\nI spent like an hour trying to disentangle this. It\u0027s deeply involved with ChangeControl, and I am not sure it\u0027s worth the effort to do in advance of further ChangeControl refactoring that\u0027s coming with the PermissionBackend stuff. But I will keep it in mind.",
+      "parentUuid": "2120c042_f89c4dfd",
+      "revId": "fc6299412c8c6679fa85534e65d0855e94d4f7d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

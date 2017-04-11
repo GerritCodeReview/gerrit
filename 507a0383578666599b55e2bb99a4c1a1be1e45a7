@@ -47,6 +47,30 @@
       "revId": "507a0383578666599b55e2bb99a4c1a1be1e45a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2de6184a_5d4188b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-11T19:37:48Z",
+      "side": 1,
+      "message": "Fixed BundleWriter upstream: https://git.eclipse.org/r/94864\n\nI still do not think this issue should block this change.",
+      "parentUuid": "3c04ba4c_ea00b148",
+      "range": {
+        "startLine": 172,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 22
+      },
+      "revId": "507a0383578666599b55e2bb99a4c1a1be1e45a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

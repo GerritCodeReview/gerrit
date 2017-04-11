@@ -42,7 +42,7 @@ class EqualsLabelPredicate extends ChangeIndexPredicate {
   private final AccountGroup.UUID group;
 
   EqualsLabelPredicate(LabelPredicate.Args args, String label, int expVal, Account.Id account) {
-    super(args.field, ChangeField.formatLabel(label, expVal, account));
+    super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account));
     this.ccFactory = args.ccFactory;
     this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;

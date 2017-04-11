@@ -299,13 +299,8 @@ public class ChangeField {
                 return Sets.newHashSet(a.trackingFooters.extract(footers).values());
               });
 
-  /** List of labels on the current patch set. */
-  @Deprecated
-  public static final FieldDef<ChangeData, Iterable<String>> LABEL =
-      exact(ChangeQueryBuilder.FIELD_LABEL).buildRepeatable(cd -> getLabels(cd, false));
-
   /** List of labels on the current patch set including change owner votes. */
-  public static final FieldDef<ChangeData, Iterable<String>> LABEL2 =
+  public static final FieldDef<ChangeData, Iterable<String>> LABEL =
       exact("label2").buildRepeatable(cd -> getLabels(cd, true));
 
   private static Iterable<String> getLabels(ChangeData cd, boolean owners) throws OrmException {

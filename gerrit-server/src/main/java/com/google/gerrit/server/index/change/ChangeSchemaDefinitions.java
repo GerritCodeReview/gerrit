@@ -22,75 +22,53 @@ import com.google.gerrit.server.query.change.ChangeData;
 
 public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated
-  static final Schema<ChangeData> V32 =
+  static final Schema<ChangeData> V39 =
       schema(
-          ChangeField.LEGACY_ID,
+          ChangeField.ADDED,
+          ChangeField.APPROVAL,
+          ChangeField.ASSIGNEE,
+          ChangeField.AUTHOR,
+          ChangeField.CHANGE,
+          ChangeField.COMMENT,
+          ChangeField.COMMENTBY,
+          ChangeField.COMMIT,
+          ChangeField.COMMITTER,
+          ChangeField.COMMIT_MESSAGE,
+          ChangeField.DELETED,
+          ChangeField.DELTA,
+          ChangeField.DRAFTBY,
+          ChangeField.EDITBY,
+          ChangeField.EXACT_COMMIT,
+          ChangeField.EXACT_TOPIC,
+          ChangeField.FILE_PART,
+          ChangeField.FUZZY_TOPIC,
+          ChangeField.GROUP,
+          ChangeField.HASHTAG,
+          ChangeField.HASHTAG_CASE_AWARE,
           ChangeField.ID,
-          ChangeField.STATUS,
+          ChangeField.LABEL,
+          ChangeField.LEGACY_ID,
+          ChangeField.MERGEABLE,
+          ChangeField.OWNER,
+          ChangeField.PATCH_SET,
+          ChangeField.PATH,
           ChangeField.PROJECT,
           ChangeField.PROJECTS,
           ChangeField.REF,
-          ChangeField.EXACT_TOPIC,
-          ChangeField.FUZZY_TOPIC,
-          ChangeField.UPDATED,
-          ChangeField.FILE_PART,
-          ChangeField.PATH,
-          ChangeField.OWNER,
-          ChangeField.COMMIT,
-          ChangeField.TR,
-          ChangeField.LABEL,
-          ChangeField.COMMIT_MESSAGE,
-          ChangeField.COMMENT,
-          ChangeField.CHANGE,
-          ChangeField.APPROVAL,
-          ChangeField.MERGEABLE,
-          ChangeField.ADDED,
-          ChangeField.DELETED,
-          ChangeField.DELTA,
-          ChangeField.HASHTAG,
-          ChangeField.COMMENTBY,
-          ChangeField.PATCH_SET,
-          ChangeField.GROUP,
-          ChangeField.SUBMISSIONID,
-          ChangeField.EDITBY,
+          ChangeField.REF_STATE,
+          ChangeField.REF_STATE_PATTERN,
           ChangeField.REVIEWEDBY,
-          ChangeField.EXACT_COMMIT,
-          ChangeField.AUTHOR,
-          ChangeField.COMMITTER,
-          ChangeField.DRAFTBY,
-          ChangeField.HASHTAG_CASE_AWARE,
+          ChangeField.REVIEWER,
           ChangeField.STAR,
           ChangeField.STARBY,
-          ChangeField.REVIEWER);
-
-  @Deprecated static final Schema<ChangeData> V33 = schema(V32, ChangeField.ASSIGNEE);
-
-  @Deprecated
-  static final Schema<ChangeData> V34 =
-      new Schema.Builder<ChangeData>()
-          .add(V33)
-          .remove(ChangeField.LABEL)
-          .add(ChangeField.LABEL2)
-          .build();
-
-  @Deprecated
-  static final Schema<ChangeData> V35 =
-      schema(
-          V34,
-          ChangeField.SUBMIT_RECORD,
+          ChangeField.STATUS,
           ChangeField.STORED_SUBMIT_RECORD_LENIENT,
-          ChangeField.STORED_SUBMIT_RECORD_STRICT);
-
-  @Deprecated
-  static final Schema<ChangeData> V36 =
-      schema(V35, ChangeField.REF_STATE, ChangeField.REF_STATE_PATTERN);
-
-  @Deprecated static final Schema<ChangeData> V37 = schema(V36);
-
-  @Deprecated
-  static final Schema<ChangeData> V38 = schema(V37, ChangeField.UNRESOLVED_COMMENT_COUNT);
-
-  @Deprecated static final Schema<ChangeData> V39 = schema(V38);
+          ChangeField.STORED_SUBMIT_RECORD_STRICT,
+          ChangeField.SUBMISSIONID,
+          ChangeField.SUBMIT_RECORD,
+          ChangeField.TR,
+          ChangeField.UNRESOLVED_COMMENT_COUNT,
+          ChangeField.UPDATED);
 
   @Deprecated static final Schema<ChangeData> V40 = schema(V39, ChangeField.PRIVATE);
 

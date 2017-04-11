@@ -141,6 +141,30 @@
       "revId": "dd67f924b8508af644ed492a5702c9cbd233b5c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9152579_dae42773",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-11T19:29:03Z",
+      "side": 1,
+      "message": "Ah you\u0027re right. I wasn\u0027t testing that scenario properly. Changed so that instead of setting the viewState in L544, we change the numFilesShown property, which triggers the viewState to also update via the observer.",
+      "parentUuid": "3527a7c8_fbcaebd5",
+      "range": {
+        "startLine": 195,
+        "startChar": 6,
+        "endLine": 196,
+        "endChar": 65
+      },
+      "revId": "dd67f924b8508af644ed492a5702c9cbd233b5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

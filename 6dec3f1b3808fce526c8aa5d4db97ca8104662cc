@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "3d35953b_213e4116",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-11T00:11:01Z",
+      "side": 1,
+      "message": "The former SGTM.",
+      "parentUuid": "70bc86be_3977422a",
+      "range": {
+        "startLine": 178,
+        "startChar": 15,
+        "endLine": 178,
+        "endChar": 22
+      },
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa28d113_afe2c902",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 1
@@ -221,6 +245,24 @@
     },
     {
       "key": {
+        "uuid": "fcf96515_9a4138ff",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-11T00:11:01Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "e23ede54_1d17521f",
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e3a82e6_d1856666",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 1
@@ -268,6 +310,24 @@
       "side": 1,
       "message": "\u003e In general, I\u0027m definitely a fan of rethinking things like this, but in this case it seems like parity through replication is the right way to go.\n\nI\u0027m curious why recreating the GWT style is so important in this case. It seems to me like the rename-specific approach is comparably complex and has the advantage of more formatting control.",
       "parentUuid": "ab4ce795_6f830a52",
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c30f4158_5291bbee",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-11T00:11:01Z",
+      "side": 1,
+      "message": "I think that it\u0027s likely that this text isn\u0027t just relevant in cases where the file is renamed. In fact, I\u0027d bet that if we just write code for that case, we\u0027ll receive additional bug reports for the other situations when more users of the old UI migrate.",
+      "parentUuid": "33350da8_b549cbfb",
       "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

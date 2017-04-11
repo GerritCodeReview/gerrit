@@ -22,6 +22,7 @@
   var COMMENT_SAVE = 'Saving... Try again after all comments are saved.';
 
   var MIN_LINES_FOR_COMMIT_COLLAPSE = 30;
+  var DEFAULT_NUM_FILES_SHOWN = 75;
 
   // Maximum length for patch set descriptions.
   var PATCH_DESC_MAX_LENGTH = 500;
@@ -68,7 +69,10 @@
         type: Object,
         value: function() { return document.body; },
       },
-
+      _numFilesShown: {
+        type: Number,
+        observer: '_numFilesShownChanged',
+      },
       _account: {
         type: Object,
         value: {},
@@ -187,6 +191,9 @@
           }.bind(this));
         }
       }.bind(this));
+
+      this._numFilesShown = this.viewState.numFilesShown ?
+          this.viewState.numFilesShown : DEFAULT_NUM_FILES_SHOWN;
 
       this.addEventListener('comment-save', this._handleCommentSave.bind(this));
       this.addEventListener('comment-discard',
@@ -471,6 +478,10 @@
       }
     },
 
+    _numFilesShownChanged: function(numFilesShown) {
+      this.viewState.numFilesShown = numFilesShown;
+    },
+
     _maybeScrollToMessage: function() {
       var msgPrefix = '#message-';
       var hash = window.location.hash;
@@ -530,7 +541,8 @@
         // Reset the diff mode to null when navigating from one change to
         // another, so that the user's preference is restored.
         this.set('viewState.diffMode', null);
-      }
+        this.set('_numFilesShown', DEFAULT_NUM_FILES_SHOWN);
+     }
       this.set('viewState.changeNum', this._changeNum);
       this.set('viewState.patchRange', this._patchRange);
     },

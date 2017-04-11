@@ -72,9 +72,9 @@
       _userPrefs: Object,
       _localPrefs: Object,
       _showInlineDiffs: Boolean,
-      _numFilesShown: {
+      numFilesShown: {
         type: Number,
-        value: 75,
+        notify: true,
       },
       _patchChange: {
         type: Object,
@@ -95,7 +95,7 @@
       },
       _shownFiles: {
         type: Array,
-        computed: '_computeFilesShown(_numFilesShown, _files.*)',
+        computed: '_computeFilesShown(numFilesShown, _files.*)',
       },
       // Caps the number of files that can be shown and have the 'show diffs' /
       // 'hide diffs' buttons still be functional.
@@ -701,7 +701,7 @@
     },
 
     _incrementNumFilesShown: function() {
-      this._numFilesShown += this._fileListIncrement;
+      this.numFilesShown += this._fileListIncrement;
     },
 
     _computeFileListButtonHidden: function(numFilesShown, files) {
@@ -721,7 +721,7 @@
     },
 
     _showAllFiles: function() {
-      this._numFilesShown = this._files.length;
+      this.numFilesShown = this._files.length;
     },
 
     _updateSelected: function(patchRange) {

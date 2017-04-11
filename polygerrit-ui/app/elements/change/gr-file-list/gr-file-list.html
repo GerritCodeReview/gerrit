@@ -362,14 +362,14 @@ limitations under the License.
     <gr-button
         class="fileListButton"
         id="incrementButton"
-        hidden$="[[_computeFileListButtonHidden(_numFilesShown, _files)]]"
+        hidden$="[[_computeFileListButtonHidden(numFilesShown, _files)]]"
         link on-tap="_incrementNumFilesShown">
-      [[_computeIncrementText(_numFilesShown, _files)]]
+      [[_computeIncrementText(numFilesShown, _files)]]
     </gr-button>
     <gr-button
         class="fileListButton"
         id="showAllButton"
-        hidden$="[[_computeFileListButtonHidden(_numFilesShown, _files)]]"
+        hidden$="[[_computeFileListButtonHidden(numFilesShown, _files)]]"
         link on-tap="_showAllFiles">
       [[_computeShowAllText(_files)]]
     </gr-button>

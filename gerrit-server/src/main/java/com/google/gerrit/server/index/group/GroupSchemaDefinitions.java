@@ -21,8 +21,7 @@ import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.SchemaDefinitions;
 
 public class GroupSchemaDefinitions extends SchemaDefinitions<AccountGroup> {
-  @Deprecated
-  static final Schema<AccountGroup> V1 =
+  static final Schema<AccountGroup> V2 =
       schema(
           GroupField.ID,
           GroupField.UUID,
@@ -31,8 +30,6 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<AccountGroup> {
           GroupField.NAME_PART,
           GroupField.DESCRIPTION,
           GroupField.IS_VISIBLE_TO_ALL);
-
-  static final Schema<AccountGroup> V2 = schema(V1);
 
   public static final GroupSchemaDefinitions INSTANCE = new GroupSchemaDefinitions();
 

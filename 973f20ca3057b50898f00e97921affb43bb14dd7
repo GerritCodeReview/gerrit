@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29d082be_1355814c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-11T21:58:52Z",
+      "side": 1,
+      "message": "Commit message needs an update.",
+      "revId": "973f20ca3057b50898f00e97921affb43bb14dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92adb4bd_5e12b771",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-11T21:58:52Z",
+      "side": 1,
+      "message": "Curious if the flush is needed or if it\u0027s for good measure?",
+      "range": {
+        "startLine": 531,
+        "startChar": 12,
+        "endLine": 531,
+        "endChar": 32
+      },
+      "revId": "973f20ca3057b50898f00e97921affb43bb14dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fa8d56b_a8e3c3c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-11T21:58:52Z",
+      "side": 1,
+      "message": "Hmm ... brainstorming: would it be cleaner to just do this inside the already-existing `then`-callback of `_openReplyDialog`?\n\nLike, that way, you could just call `_openReplyDialog` and expect it to do everything that\u0027s needed.",
+      "range": {
+        "startLine": 532,
+        "startChar": 12,
+        "endLine": 532,
+        "endChar": 41
+      },
+      "revId": "973f20ca3057b50898f00e97921affb43bb14dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fa6ddef_3c044661",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-11T21:58:52Z",
+      "side": 1,
+      "message": "IMO, this can be set outside of the then, since it just prevents the reply dialog from opening by default on the next change view.",
+      "range": {
+        "startLine": 533,
+        "startChar": 12,
+        "endLine": 533,
+        "endChar": 57
+      },
+      "revId": "973f20ca3057b50898f00e97921affb43bb14dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

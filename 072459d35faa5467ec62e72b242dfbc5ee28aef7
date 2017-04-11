@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74883a45_42bc5320",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-11T07:58:20Z",
+      "side": 1,
+      "message": "Add an assertion that reviewInput contains more than one entry?",
+      "revId": "072459d35faa5467ec62e72b242dfbc5ee28aef7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

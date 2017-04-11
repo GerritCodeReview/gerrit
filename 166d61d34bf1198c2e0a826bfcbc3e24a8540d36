@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f1257968_c7268201",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-11T21:54:41Z",
+      "side": 1,
+      "message": "I do like this way more than my solution. I\u0027m skeptical as to whether this completely addresses the race condition, but we will see.",
+      "parentUuid": "8c057f3c_77939323",
+      "range": {
+        "startLine": 519,
+        "startChar": 10,
+        "endLine": 520,
+        "endChar": 70
+      },
+      "revId": "166d61d34bf1198c2e0a826bfcbc3e24a8540d36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a6ba2fc_3da7a1f4",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "166d61d34bf1198c2e0a826bfcbc3e24a8540d36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9202cd5_fd031a50",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-11T21:54:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a6ba2fc_3da7a1f4",
+      "range": {
+        "startLine": 829,
+        "startChar": 6,
+        "endLine": 829,
+        "endChar": 50
+      },
+      "revId": "166d61d34bf1198c2e0a826bfcbc3e24a8540d36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

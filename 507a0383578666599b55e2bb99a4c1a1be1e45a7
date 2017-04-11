@@ -23,6 +23,30 @@
       "revId": "507a0383578666599b55e2bb99a4c1a1be1e45a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c04ba4c_ea00b148",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-11T19:08:35Z",
+      "side": 1,
+      "message": "Arrgh. Good catch. It shouldn\u0027t be, this was a copy/paste error. Unfortunately it exposes a new issue: BundleWriter must take a Repository, it can\u0027t take an ObjectReader that reads unflushed objects.\n\nI removed this and replaced the flushToFinalInserter call during dryrun with a flush and a TODO. This is not a regression, since SubmitPreview has (apparently) always required intermediate flushing like this.",
+      "parentUuid": "52e03af8_e74d9096",
+      "range": {
+        "startLine": 172,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 22
+      },
+      "revId": "507a0383578666599b55e2bb99a4c1a1be1e45a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

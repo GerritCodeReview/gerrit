@@ -19,7 +19,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
 public class DeletedPredicate extends IntegerRangeChangePredicate {
-  DeletedPredicate(String value) throws QueryParseException {
+  public DeletedPredicate(String value) throws QueryParseException {
     super(ChangeField.DELETED, value);
   }
 

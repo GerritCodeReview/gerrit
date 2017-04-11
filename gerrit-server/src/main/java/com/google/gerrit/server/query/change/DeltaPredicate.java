@@ -19,7 +19,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
 public class DeltaPredicate extends IntegerRangeChangePredicate {
-  DeltaPredicate(String value) throws QueryParseException {
+  public DeltaPredicate(String value) throws QueryParseException {
     super(ChangeField.DELTA, value);
   }
 

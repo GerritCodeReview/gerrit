@@ -22,7 +22,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gwtorm.server.OrmException;
 
-class CommitPredicate extends ChangeIndexPredicate {
+public class CommitPredicate extends ChangeIndexPredicate {
   static FieldDef<ChangeData, ?> commitField(String id) {
     if (id.length() == OBJECT_ID_STRING_LENGTH) {
       return EXACT_COMMIT;
@@ -30,7 +30,7 @@ class CommitPredicate extends ChangeIndexPredicate {
     return COMMIT;
   }
 
-  CommitPredicate(String id) {
+  public CommitPredicate(String id) {
     super(commitField(id), id);
   }
 

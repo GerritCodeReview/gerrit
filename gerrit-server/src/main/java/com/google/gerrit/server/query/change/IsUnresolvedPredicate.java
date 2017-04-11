@@ -19,11 +19,11 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
 public class IsUnresolvedPredicate extends IntegerRangeChangePredicate {
-  IsUnresolvedPredicate() throws QueryParseException {
+  public IsUnresolvedPredicate() throws QueryParseException {
     this(">0");
   }
 
-  IsUnresolvedPredicate(String value) throws QueryParseException {
+  public IsUnresolvedPredicate(String value) throws QueryParseException {
     super(ChangeField.UNRESOLVED_COMMENT_COUNT, value);
   }
 

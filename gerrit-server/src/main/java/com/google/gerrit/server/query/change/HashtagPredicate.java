@@ -18,8 +18,8 @@ import com.google.gerrit.server.change.HashtagsUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-class HashtagPredicate extends ChangeIndexPredicate {
-  HashtagPredicate(String hashtag) {
+public class HashtagPredicate extends ChangeIndexPredicate {
+  public HashtagPredicate(String hashtag) {
     super(ChangeField.HASHTAG, HashtagsUtil.cleanupHashtag(hashtag));
   }
 

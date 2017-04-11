@@ -19,8 +19,8 @@ import static com.google.gerrit.server.index.change.ChangeField.EXACT_TOPIC;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
 
-class ExactTopicPredicate extends ChangeIndexPredicate {
-  ExactTopicPredicate(String topic) {
+public class ExactTopicPredicate extends ChangeIndexPredicate {
+  public ExactTopicPredicate(String topic) {
     super(EXACT_TOPIC, topic);
   }
 

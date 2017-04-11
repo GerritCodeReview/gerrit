@@ -19,8 +19,8 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
 /** Predicate over Change-Id strings (aka Change.Key). */
-class ChangeIdPredicate extends ChangeIndexPredicate {
-  ChangeIdPredicate(String id) {
+public class ChangeIdPredicate extends ChangeIndexPredicate {
+  public ChangeIdPredicate(String id) {
     super(ChangeField.ID, ChangeQueryBuilder.FIELD_CHANGE, id);
   }
 

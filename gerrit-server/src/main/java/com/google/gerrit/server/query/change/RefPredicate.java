@@ -18,8 +18,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-class RefPredicate extends ChangeIndexPredicate {
-  RefPredicate(String ref) {
+public class RefPredicate extends ChangeIndexPredicate {
+  public RefPredicate(String ref) {
     super(ChangeField.REF, ref);
   }
 

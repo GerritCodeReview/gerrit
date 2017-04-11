@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8c038e9f_8aaf0ff6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-11T00:00:10Z",
+      "side": 1,
+      "message": "Yeah, you\u0027ve convinced for #F9F9F9.",
+      "parentUuid": "06088f9e_5a74c522",
+      "range": {
+        "startLine": 177,
+        "startChar": 26,
+        "endLine": 177,
+        "endChar": 33
+      },
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31d5e8e8_3e6d703e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 1
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "70bc86be_3977422a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-11T00:00:10Z",
+      "side": 1,
+      "message": "What about #2A00FF from the \"String\" syntax highlight?\n\nAnother option if we go with the formatting style I suggested below is to use the default color for \"Renamed from\" and \"to\", but set the old and new names in appropriate red and green colors respectively.",
+      "parentUuid": "777ad899_cb5eebc5",
+      "range": {
+        "startLine": 178,
+        "startChar": 15,
+        "endLine": 178,
+        "endChar": 22
+      },
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aa28d113_afe2c902",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 1
@@ -131,6 +179,24 @@
     },
     {
       "key": {
+        "uuid": "e23ede54_1d17521f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-11T00:00:10Z",
+      "side": 1,
+      "message": "I think bold is wrong here, since the content doesn\u0027t need emphasis and too much bold text is typographically kinda harsh.",
+      "parentUuid": "7c266fe1_663efd58",
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3e3a82e6_d1856666",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 1
@@ -160,6 +226,24 @@
       "side": 1,
       "message": "-1 to that approach, IMO. My intention for this change was to replicate the logic found in GWT, which can be found here.\n\nhttps://gerrit.googlesource.com/gerrit/+/master/gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java#115\n\nIn general, I\u0027m definitely a fan of rethinking things like this, but in this case it seems like parity through replication is the right way to go.",
       "parentUuid": "3e3a82e6_d1856666",
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33350da8_b549cbfb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-11T00:00:10Z",
+      "side": 1,
+      "message": "\u003e In general, I\u0027m definitely a fan of rethinking things like this, but in this case it seems like parity through replication is the right way to go.\n\nI\u0027m curious why recreating the GWT style is so important in this case. It seems to me like the rename-specific approach is comparably complex and has the advantage of more formatting control.",
+      "parentUuid": "ab4ce795_6f830a52",
       "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

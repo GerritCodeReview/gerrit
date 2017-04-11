@@ -34,6 +34,24 @@
       "revId": "1dfe43012b486c04a7a22ee1e4a54382473f2f02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27e45743_64d3a0bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1013527
+      },
+      "writtenOn": "2017-04-11T03:23:44Z",
+      "side": 1,
+      "message": "So topic name may contain spaces. Got quotes back. Is there any list of topics to see?",
+      "parentUuid": "2bf8eba7_ff43d318",
+      "revId": "1dfe43012b486c04a7a22ee1e4a54382473f2f02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

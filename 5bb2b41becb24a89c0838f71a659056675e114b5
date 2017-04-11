@@ -22,6 +22,30 @@
       "revId": "5bb2b41becb24a89c0838f71a659056675e114b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05e2707c_91798283",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-11T13:13:42Z",
+      "side": 1,
+      "message": "Done. Uppercased it initially since SNAPTSHOT was also upper cased.",
+      "parentUuid": "72662356_456278c6",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "5bb2b41becb24a89c0838f71a659056675e114b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

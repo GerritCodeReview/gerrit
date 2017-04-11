@@ -22,6 +22,30 @@
       "revId": "26e876b3472820419c3038002a26d228d5acddcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c78451d_1590a388",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2017-04-11T03:50:41Z",
+      "side": 1,
+      "message": "That looks good to me. Suggestions for how to get it onto a user\u0027s machine? It doesn\u0027t look to be included in the jar but there does seem to be a matching version tag in the git repo. Separate download?",
+      "parentUuid": "a4c2e790_f7aed4b4",
+      "range": {
+        "startLine": 76,
+        "startChar": 9,
+        "endLine": 76,
+        "endChar": 17
+      },
+      "revId": "26e876b3472820419c3038002a26d228d5acddcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -79,6 +79,7 @@ public class PluginLoader implements LifecycleListener {
 
   private final Path pluginsDir;
   private final Path dataDir;
+  private final Path tempDir;
   private final PluginGuiceEnvironment env;
   private final ServerInformationImpl srvInfoImpl;
   private final PluginUser.Factory pluginUserFactory;
@@ -107,6 +108,7 @@ public class PluginLoader implements LifecycleListener {
       UniversalServerPluginProvider pluginFactory) {
     pluginsDir = sitePaths.plugins_dir;
     dataDir = sitePaths.data_dir;
+    tempDir = sitePaths.tmp_dir;
     env = pe;
     srvInfoImpl = sii;
     pluginUserFactory = puf;
@@ -325,8 +327,34 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
+  private void removeStalePluginFiles() {
+    DirectoryStream.Filter<Path> filter =
+        new DirectoryStream.Filter<Path>() {
+          @Override
+          public boolean accept(Path entry) throws IOException {
+            return entry.getFileName().toString().startsWith("plugin_");
+          }
+        };
+    try (DirectoryStream<Path> files = Files.newDirectoryStream(tempDir, filter)) {
+      for (Path file : files) {
+        log.info("Removing stale plugin file: " + file.toFile().getName());
+        try {
+          Files.delete(file);
+        } catch (IOException e) {
+          log.error(
+              String.format(
+                  "Failed to remove stale plugin file %s: %s",
+                  file.toFile().getName(), e.getMessage()));
+        }
+      }
+    } catch (IOException e) {
+      log.warn("Unable to discover stale plugin files: " + e.getMessage());
+    }
+  }
+
   @Override
   public synchronized void start() {
+    removeStalePluginFiles();
     log.info("Loading plugins from " + pluginsDir.toAbsolutePath());
     srvInfoImpl.state = ServerInformation.State.STARTUP;
     rescan();

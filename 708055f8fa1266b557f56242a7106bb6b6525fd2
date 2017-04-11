@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eed8fa52_1e6ae8c3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 64
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-11T21:38:31Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "edafa8ff_a165d1d4",
+      "revId": "708055f8fa1266b557f56242a7106bb6b6525fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8bd0794_a1a23b34",
         "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.js",
         "patchSetId": 64
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-11T21:24:50Z",
       "side": 1,
       "message": "This line exceeds 80 characters.",
+      "revId": "708055f8fa1266b557f56242a7106bb6b6525fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22839453_e5f0e51f",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.js",
+        "patchSetId": 64
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-11T21:38:31Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e8bd0794_a1a23b34",
       "revId": "708055f8fa1266b557f56242a7106bb6b6525fd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "fbd658ea_f36e4369",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 64
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-11T21:38:31Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "36cd9c1a_06455718",
+      "revId": "708055f8fa1266b557f56242a7106bb6b6525fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5bb1da0c_91bc3c02",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 64
@@ -64,6 +118,24 @@
       "writtenOn": "2017-04-11T21:24:50Z",
       "side": 1,
       "message": "Based on the way this is used in `locationChanged`, it looks like this method should remove the canonical path from the return value.",
+      "revId": "708055f8fa1266b557f56242a7106bb6b6525fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1716450f_74398d8e",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 64
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-11T21:38:31Z",
+      "side": 1,
+      "message": "\u0027/\u0027 + window.location.pathname.substring(this.getBaseUrl().length) + ?",
+      "parentUuid": "5bb1da0c_91bc3c02",
       "revId": "708055f8fa1266b557f56242a7106bb6b6525fd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

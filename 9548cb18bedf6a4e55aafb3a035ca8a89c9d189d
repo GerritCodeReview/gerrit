@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "40950fc0_bd55573d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 62
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-11T13:29:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9cacc83e_b7dad3f3",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "9548cb18bedf6a4e55aafb3a035ca8a89c9d189d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff737f15_8b1939e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 62
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-11T13:29:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2ee1f872_6911a937",
+      "range": {
+        "startLine": 7,
+        "startChar": 41,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "9548cb18bedf6a4e55aafb3a035ca8a89c9d189d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e22f49ec_c8c87e13",
         "filename": "polygerrit-ui/app/behaviors/base-url-behavior_test.html",
         "patchSetId": 62
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "fd0c175d_d4f9c8a3",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior_test.html",
+        "patchSetId": 62
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-11T13:29:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e22f49ec_c8c87e13",
+      "revId": "9548cb18bedf6a4e55aafb3a035ca8a89c9d189d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3528beb2_ca5039b2",
         "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
         "patchSetId": 62
@@ -76,6 +142,24 @@
       "writtenOn": "2017-04-10T22:29:58Z",
       "side": 1,
       "message": "Nit: this line exceeds 80 characters.",
+      "revId": "9548cb18bedf6a4e55aafb3a035ca8a89c9d189d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7d61892_8fecabf4",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 62
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-11T13:29:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3528beb2_ca5039b2",
       "revId": "9548cb18bedf6a4e55aafb3a035ca8a89c9d189d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

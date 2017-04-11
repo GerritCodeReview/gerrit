@@ -400,6 +400,30 @@
     },
     {
       "key": {
+        "uuid": "94c8c138_7e809a2b",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-11T13:29:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4837c52a_81fc1b78",
+      "range": {
+        "startLine": 123,
+        "startChar": 12,
+        "endLine": 123,
+        "endChar": 36
+      },
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f4b225fd_840c3fc8",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
         "patchSetId": 45
@@ -885,6 +909,30 @@
       "side": 1,
       "message": "Did you? I still see it in Patch 62.",
       "parentUuid": "3c2daad5_cebb12e1",
+      "range": {
+        "startLine": 391,
+        "startChar": 36,
+        "endLine": 391,
+        "endChar": 53
+      },
+      "revId": "5a1670ea467119369ee8a71ab83266d1f7712795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36ec5e0d_7daad0de",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-11T13:29:17Z",
+      "side": 1,
+      "message": "Oh i see now.",
+      "parentUuid": "721160c1_8b3fba1b",
       "range": {
         "startLine": 391,
         "startChar": 36,

@@ -20,6 +20,7 @@ import com.google.inject.Singleton;
 import eu.medsea.mimeutil.MimeException;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -87,6 +88,23 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
         log.warn("Unable to determine MIME type from content", e);
       }
     }
+    return getMimeType(mimeTypes, path);
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public MimeType getMimeType(final String path, final InputStream is) {
+    Set<MimeType> mimeTypes = new HashSet<>();
+    try {
+      mimeTypes.addAll(mimeUtil.getMimeTypes(is));
+    } catch (MimeException e) {
+      log.warn("Unable to determine MIME type from content", e);
+    }
+    return getMimeType(mimeTypes, path);
+  }
+
+  @SuppressWarnings("unchecked")
+  private MimeType getMimeType(Set<MimeType> mimeTypes, final String path) {
     try {
       mimeTypes.addAll(mimeUtil.getMimeTypes(path));
     } catch (MimeException e) {

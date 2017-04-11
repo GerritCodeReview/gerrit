@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "87ac5d05_97c6e84a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-11T16:21:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "64cd243e_722d5c14",
+      "range": {
+        "startLine": 25,
+        "startChar": 32,
+        "endLine": 25,
+        "endChar": 34
+      },
+      "revId": "dd67f924b8508af644ed492a5702c9cbd233b5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b6f6471_e73cc394",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Every time a change view is loaded, attached is called (and detached is called every time we navigate away).  If we are on the same change view as last time, the viewState will be set to where we left off. If we are on a new change view, the viewState is null.",
       "parentUuid": "4b6f6471_e73cc394",
+      "range": {
+        "startLine": 195,
+        "startChar": 6,
+        "endLine": 196,
+        "endChar": 65
+      },
+      "revId": "dd67f924b8508af644ed492a5702c9cbd233b5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3527a7c8_fbcaebd5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-11T16:21:20Z",
+      "side": 1,
+      "message": "But if you\u0027re already viewing the change view and click one of the related changes, doesn\u0027t it just modify the parameters to the change view that is already shown? Does `attached` get called again in that case?",
+      "parentUuid": "cdd4e087_1dbb1fc0",
       "range": {
         "startLine": 195,
         "startChar": 6,

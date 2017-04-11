@@ -24,13 +24,13 @@ import com.google.gerrit.server.query.IsVisibleToPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
-  private final Provider<ReviewDb> db;
-  private final ChangeNotes.Factory notesFactory;
-  private final ChangeControl.GenericFactory changeControl;
-  private final CurrentUser user;
+public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
+  protected final Provider<ReviewDb> db;
+  protected final ChangeNotes.Factory notesFactory;
+  protected final ChangeControl.GenericFactory changeControl;
+  protected final CurrentUser user;
 
-  ChangeIsVisibleToPredicate(
+  public ChangeIsVisibleToPredicate(
       Provider<ReviewDb> db,
       ChangeNotes.Factory notesFactory,
       ChangeControl.GenericFactory changeControlFactory,

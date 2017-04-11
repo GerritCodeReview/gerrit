@@ -19,12 +19,12 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-class ProjectPredicate extends ChangeIndexPredicate {
-  ProjectPredicate(String id) {
+public class ProjectPredicate extends ChangeIndexPredicate {
+  public ProjectPredicate(String id) {
     super(ChangeField.PROJECT, id);
   }
 
-  Project.NameKey getValueKey() {
+  protected Project.NameKey getValueKey() {
     return new Project.NameKey(getValue());
   }
 

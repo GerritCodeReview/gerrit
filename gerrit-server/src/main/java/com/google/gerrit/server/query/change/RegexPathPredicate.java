@@ -19,8 +19,8 @@ import com.google.gerrit.server.util.RegexListSearcher;
 import com.google.gwtorm.server.OrmException;
 import java.util.List;
 
-class RegexPathPredicate extends ChangeRegexPredicate {
-  RegexPathPredicate(String re) {
+public class RegexPathPredicate extends ChangeRegexPredicate {
+  public RegexPathPredicate(String re) {
     super(ChangeField.PATH, re);
   }
 

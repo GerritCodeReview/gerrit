@@ -19,15 +19,15 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-class OwnerPredicate extends ChangeIndexPredicate {
-  private final Account.Id id;
+public class OwnerPredicate extends ChangeIndexPredicate {
+  protected final Account.Id id;
 
-  OwnerPredicate(Account.Id id) {
+  public OwnerPredicate(Account.Id id) {
     super(ChangeField.OWNER, id.toString());
     this.id = id;
   }
 
-  Account.Id getAccountId() {
+  protected Account.Id getAccountId() {
     return id;
   }
 

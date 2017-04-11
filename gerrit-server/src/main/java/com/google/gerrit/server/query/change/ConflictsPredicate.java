@@ -45,19 +45,19 @@ import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
-class ConflictsPredicate extends OrPredicate<ChangeData> {
+public class ConflictsPredicate extends OrPredicate<ChangeData> {
   // UI code may depend on this string, so use caution when changing.
-  private static final String TOO_MANY_FILES = "too many files to find conflicts";
+  protected static final String TOO_MANY_FILES = "too many files to find conflicts";
 
-  private final String value;
+  protected final String value;
 
-  ConflictsPredicate(Arguments args, String value, List<Change> changes)
+  public ConflictsPredicate(Arguments args, String value, List<Change> changes)
       throws QueryParseException, OrmException {
     super(predicates(args, value, changes));
     this.value = value;
   }
 
-  private static List<Predicate<ChangeData>> predicates(
+  public static List<Predicate<ChangeData>> predicates(
       final Arguments args, String value, List<Change> changes)
       throws QueryParseException, OrmException {
     int indexTerms = 0;
@@ -160,7 +160,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
     return changePredicates;
   }
 
-  private static List<String> listFiles(Change c, Arguments args, ChangeDataCache changeDataCache)
+  public static List<String> listFiles(Change c, Arguments args, ChangeDataCache changeDataCache)
       throws OrmException {
     try (Repository repo = args.repoManager.openRepository(c.getProject());
         RevWalk rw = new RevWalk(repo)) {
@@ -200,17 +200,17 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
     return ChangeQueryBuilder.FIELD_CONFLICTS + ":" + value;
   }
 
-  private static class ChangeDataCache {
-    private final Change change;
-    private final Provider<ReviewDb> db;
-    private final ChangeData.Factory changeDataFactory;
-    private final ProjectCache projectCache;
+  public static class ChangeDataCache {
+    protected final Change change;
+    protected final Provider<ReviewDb> db;
+    protected final ChangeData.Factory changeDataFactory;
+    protected final ProjectCache projectCache;
 
-    private ObjectId testAgainst;
-    private ProjectState projectState;
-    private Iterable<ObjectId> alreadyAccepted;
+    protected ObjectId testAgainst;
+    protected ProjectState projectState;
+    protected Iterable<ObjectId> alreadyAccepted;
 
-    ChangeDataCache(
+    public ChangeDataCache(
         Change change,
         Provider<ReviewDb> db,
         ChangeData.Factory changeDataFactory,
@@ -221,7 +221,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
       this.projectCache = projectCache;
     }
 
-    ObjectId getTestAgainst() throws OrmException {
+    protected ObjectId getTestAgainst() throws OrmException {
       if (testAgainst == null) {
         testAgainst =
             ObjectId.fromString(
@@ -230,7 +230,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
       return testAgainst;
     }
 
-    ProjectState getProjectState() {
+    protected ProjectState getProjectState() {
       if (projectState == null) {
         projectState = projectCache.get(change.getProject());
         if (projectState == null) {
@@ -240,7 +240,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
       return projectState;
     }
 
-    Iterable<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
+    protected Iterable<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
       if (alreadyAccepted == null) {
         alreadyAccepted = SubmitDryRun.getAlreadyAccepted(repo);
       }

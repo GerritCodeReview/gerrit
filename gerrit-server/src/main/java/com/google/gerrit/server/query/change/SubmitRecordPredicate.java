@@ -23,8 +23,8 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
 import java.util.Set;
 
-class SubmitRecordPredicate extends ChangeIndexPredicate {
-  static Predicate<ChangeData> create(
+public class SubmitRecordPredicate extends ChangeIndexPredicate {
+  public static Predicate<ChangeData> create(
       String label, SubmitRecord.Label.Status status, Set<Account.Id> accounts) {
     String lowerLabel = label.toLowerCase();
     if (accounts == null || accounts.isEmpty()) {

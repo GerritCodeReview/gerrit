@@ -18,10 +18,10 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-class AssigneePredicate extends ChangeIndexPredicate {
-  private final Account.Id id;
+public class AssigneePredicate extends ChangeIndexPredicate {
+  protected final Account.Id id;
 
-  AssigneePredicate(Account.Id id) {
+  public AssigneePredicate(Account.Id id) {
     super(ChangeField.ASSIGNEE, id.toString());
     this.id = id;
   }

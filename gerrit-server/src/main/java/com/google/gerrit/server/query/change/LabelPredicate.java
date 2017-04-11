@@ -33,19 +33,19 @@ import java.util.List;
 import java.util.Set;
 
 public class LabelPredicate extends OrPredicate<ChangeData> {
-  private static final int MAX_LABEL_VALUE = 4;
+  protected static final int MAX_LABEL_VALUE = 4;
 
-  static class Args {
-    final ProjectCache projectCache;
-    final PermissionBackend permissionBackend;
-    final ChangeControl.GenericFactory ccFactory;
-    final IdentifiedUser.GenericFactory userFactory;
-    final Provider<ReviewDb> dbProvider;
-    final String value;
-    final Set<Account.Id> accounts;
-    final AccountGroup.UUID group;
+  protected static class Args {
+    protected final ProjectCache projectCache;
+    protected final PermissionBackend permissionBackend;
+    protected final ChangeControl.GenericFactory ccFactory;
+    protected final IdentifiedUser.GenericFactory userFactory;
+    protected final Provider<ReviewDb> dbProvider;
+    protected final String value;
+    protected final Set<Account.Id> accounts;
+    protected final AccountGroup.UUID group;
 
-    private Args(
+    protected Args(
         ProjectCache projectCache,
         PermissionBackend permissionBackend,
         ChangeControl.GenericFactory ccFactory,
@@ -65,21 +65,21 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     }
   }
 
-  private static class Parsed {
-    private final String label;
-    private final String test;
-    private final int expVal;
+  protected static class Parsed {
+    protected final String label;
+    protected final String test;
+    protected final int expVal;
 
-    private Parsed(String label, String test, int expVal) {
+    protected Parsed(String label, String test, int expVal) {
       this.label = label;
       this.test = test;
       this.expVal = expVal;
     }
   }
 
-  private final String value;
+  protected final String value;
 
-  LabelPredicate(
+  public LabelPredicate(
       ChangeQueryBuilder.Arguments a,
       String value,
       Set<Account.Id> accounts,
@@ -98,7 +98,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     this.value = value;
   }
 
-  private static List<Predicate<ChangeData>> predicates(Args args) {
+  protected static List<Predicate<ChangeData>> predicates(Args args) {
     String v = args.value;
     Parsed parsed = null;
 
@@ -138,14 +138,14 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     return r;
   }
 
-  private static Predicate<ChangeData> onePredicate(Args args, String label, int expVal) {
+  protected static Predicate<ChangeData> onePredicate(Args args, String label, int expVal) {
     if (expVal != 0) {
       return equalsLabelPredicate(args, label, expVal);
     }
     return noLabelQuery(args, label);
   }
 
-  private static Predicate<ChangeData> noLabelQuery(Args args, String label) {
+  protected static Predicate<ChangeData> noLabelQuery(Args args, String label) {
     List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(2 * MAX_LABEL_VALUE);
     for (int i = 1; i <= MAX_LABEL_VALUE; i++) {
       r.add(equalsLabelPredicate(args, label, i));
@@ -154,7 +154,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     return not(or(r));
   }
 
-  private static Predicate<ChangeData> equalsLabelPredicate(Args args, String label, int expVal) {
+  protected static Predicate<ChangeData> equalsLabelPredicate(Args args, String label, int expVal) {
     if (args.accounts == null || args.accounts.isEmpty()) {
       return new EqualsLabelPredicate(args, label, expVal, null);
     }

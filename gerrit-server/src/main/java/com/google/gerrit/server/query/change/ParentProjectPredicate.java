@@ -28,10 +28,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class ParentProjectPredicate extends OrPredicate<ChangeData> {
-  private final String value;
+public class ParentProjectPredicate extends OrPredicate<ChangeData> {
+  protected final String value;
 
-  ParentProjectPredicate(
+  public ParentProjectPredicate(
       ProjectCache projectCache,
       Provider<ListChildProjects> listChildProjects,
       Provider<CurrentUser> self,
@@ -40,7 +40,7 @@ class ParentProjectPredicate extends OrPredicate<ChangeData> {
     this.value = value;
   }
 
-  private static List<Predicate<ChangeData>> predicates(
+  protected static List<Predicate<ChangeData>> predicates(
       ProjectCache projectCache,
       Provider<ListChildProjects> listChildProjects,
       Provider<CurrentUser> self,

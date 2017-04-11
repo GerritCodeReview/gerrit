@@ -25,14 +25,14 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 import java.util.stream.Stream;
 
-class ReviewerPredicate extends ChangeIndexPredicate {
-  static Predicate<ChangeData> forState(
+public class ReviewerPredicate extends ChangeIndexPredicate {
+  protected static Predicate<ChangeData> forState(
       Arguments args, Account.Id id, ReviewerStateInternal state) {
     checkArgument(state != ReviewerStateInternal.REMOVED, "can't query by removed reviewer");
     return create(args, new ReviewerPredicate(state, id));
   }
 
-  static Predicate<ChangeData> reviewer(Arguments args, Account.Id id) {
+  protected static Predicate<ChangeData> reviewer(Arguments args, Account.Id id) {
     Predicate<ChangeData> p;
     if (args.notesMigration.readChanges()) {
       // With NoteDb, Reviewer/CC are clearly distinct states, so only choose reviewer.
@@ -45,14 +45,14 @@ class ReviewerPredicate extends ChangeIndexPredicate {
     return create(args, p);
   }
 
-  static Predicate<ChangeData> cc(Arguments args, Account.Id id) {
+  protected static Predicate<ChangeData> cc(Arguments args, Account.Id id) {
     // As noted above, CC is nebulous without NoteDb, but it certainly doesn't make sense to return
     // Reviewers for cc:foo. Most likely this will just not match anything, but let the index sort
     // it out.
     return create(args, new ReviewerPredicate(ReviewerStateInternal.CC, id));
   }
 
-  private static Predicate<ChangeData> anyReviewerState(Account.Id id) {
+  protected static Predicate<ChangeData> anyReviewerState(Account.Id id) {
     return Predicate.or(
         Stream.of(ReviewerStateInternal.values())
             .filter(s -> s != ReviewerStateInternal.REMOVED)
@@ -60,8 +60,8 @@ class ReviewerPredicate extends ChangeIndexPredicate {
             .collect(toList()));
   }
 
-  private final ReviewerStateInternal state;
-  private final Account.Id id;
+  protected final ReviewerStateInternal state;
+  protected final Account.Id id;
 
   private ReviewerPredicate(ReviewerStateInternal state, Account.Id id) {
     super(ChangeField.REVIEWER, ChangeField.getReviewerFieldValue(state, id));
@@ -69,7 +69,7 @@ class ReviewerPredicate extends ChangeIndexPredicate {
     this.id = id;
   }
 
-  Account.Id getAccountId() {
+  protected Account.Id getAccountId() {
     return id;
   }
 

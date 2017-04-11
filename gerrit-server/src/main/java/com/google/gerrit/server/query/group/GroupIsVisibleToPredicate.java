@@ -23,10 +23,11 @@ import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 
 public class GroupIsVisibleToPredicate extends IsVisibleToPredicate<AccountGroup> {
-  private final GroupControl.GenericFactory groupControlFactory;
-  private final CurrentUser user;
+  protected final GroupControl.GenericFactory groupControlFactory;
+  protected final CurrentUser user;
 
-  GroupIsVisibleToPredicate(GroupControl.GenericFactory groupControlFactory, CurrentUser user) {
+  public GroupIsVisibleToPredicate(
+      GroupControl.GenericFactory groupControlFactory, CurrentUser user) {
     super(AccountQueryBuilder.FIELD_VISIBLETO, describe(user));
     this.groupControlFactory = groupControlFactory;
     this.user = user;

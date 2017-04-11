@@ -25,14 +25,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-class IsReviewedPredicate extends ChangeIndexPredicate {
-  private static final Account.Id NOT_REVIEWED = new Account.Id(ChangeField.NOT_REVIEWED);
+public class IsReviewedPredicate extends ChangeIndexPredicate {
+  protected static final Account.Id NOT_REVIEWED = new Account.Id(ChangeField.NOT_REVIEWED);
 
-  static Predicate<ChangeData> create() {
+  public static Predicate<ChangeData> create() {
     return Predicate.not(new IsReviewedPredicate(NOT_REVIEWED));
   }
 
-  static Predicate<ChangeData> create(Collection<Account.Id> ids) {
+  public static Predicate<ChangeData> create(Collection<Account.Id> ids) {
     List<Predicate<ChangeData>> predicates = new ArrayList<>(ids.size());
     for (Account.Id id : ids) {
       predicates.add(new IsReviewedPredicate(id));
@@ -40,7 +40,7 @@ class IsReviewedPredicate extends ChangeIndexPredicate {
     return Predicate.or(predicates);
   }
 
-  private final Account.Id id;
+  protected final Account.Id id;
 
   private IsReviewedPredicate(Account.Id id) {
     super(REVIEWEDBY, Integer.toString(id.get()));

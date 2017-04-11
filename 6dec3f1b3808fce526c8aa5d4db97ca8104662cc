@@ -331,6 +331,24 @@
       "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c7cb85f_5417a050",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-11T00:19:12Z",
+      "side": 1,
+      "message": "I expect so too! Issue 5884 asks for file mode changes, for example. Probably more.\n\nWhen we do support future header information, we could format it nicely as well, though, right? Especially considering that it\u0027s already parsed and provided in the diff response.",
+      "parentUuid": "c30f4158_5291bbee",
+      "revId": "6dec3f1b3808fce526c8aa5d4db97ca8104662cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

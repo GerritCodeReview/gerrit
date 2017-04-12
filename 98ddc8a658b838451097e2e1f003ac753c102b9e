@@ -142,6 +142,29 @@
       "revId": "98ddc8a658b838451097e2e1f003ac753c102b9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eda08913_4b21aa1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 48
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-12T04:23:06Z",
+      "side": 1,
+      "message": "I think this is what prevents adding users as reviewer on a change at the same time as pushing it with %private\n\nWhen the change inserter adds reviewers, it filters out the ones that can\u0027t see the change.",
+      "range": {
+        "startLine": 203,
+        "startChar": 4,
+        "endLine": 205,
+        "endChar": 5
+      },
+      "revId": "98ddc8a658b838451097e2e1f003ac753c102b9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

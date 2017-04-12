@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ca69425c_3d323d45",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-12T06:39:34Z",
+      "side": 1,
+      "message": "Because then we have to set it in multiple places.\n\nNote that this patten is also used in for example LuceneChangeIndex to force creation of the indexes in RAM.",
+      "parentUuid": "c5fa4617_9c31bcf5",
+      "revId": "55b0798907aad3a6532a82132b3fb37339434fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3daf513e_87949520",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-12T06:31:38Z",
       "side": 1,
       "message": "Exception is swallowed here and we could lose track of why commitWithin was set to zero. Possibly a follow up fix?",
+      "revId": "55b0798907aad3a6532a82132b3fb37339434fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d209291c_8cc7a045",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-12T06:39:34Z",
+      "side": 1,
+      "message": "This doesn\u0027t necessarily set it to 0.  Only to 0 if it was not specified (as a long rather than time unit) in the config.\n\nBut yes, this could be improved.",
+      "parentUuid": "3daf513e_87949520",
       "revId": "55b0798907aad3a6532a82132b3fb37339434fd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

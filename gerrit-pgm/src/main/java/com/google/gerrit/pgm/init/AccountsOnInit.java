@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -29,6 +30,7 @@ import java.nio.file.Path;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
@@ -56,6 +58,21 @@ public class AccountsOnInit {
         AccountsUpdate.createUserBranch(repo, oi, serverIdent, serverIdent, account);
       }
     }
+  }
+
+  public boolean hasAnyAccount() throws IOException {
+    File path = getPath();
+    if (path != null) {
+      try (Repository repo = new FileRepository(path)) {
+        for (Ref ref : repo.getRefDatabase().getRefs(RefNames.REFS_USERS).values()) {
+          if (RefNames.REFS_USERS_DEFAULT.equals(ref.getName())) {
+            continue;
+          }
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private File getPath() {

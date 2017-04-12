@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db8511c1_7a725cd0",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T18:26:27Z",
+      "side": 1,
+      "message": "Do you think it would be a good idea to add an identifier or a class to the \u003cp\u003e you want to style? I know there aren\u0027t any in the DOM yet, but it seems smart to avoid any unintentional styling of things in the future.",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 96,
+        "endChar": 7
+      },
+      "revId": "a75ddb1d3b6308c1d8e309d588b2cb88cad71a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

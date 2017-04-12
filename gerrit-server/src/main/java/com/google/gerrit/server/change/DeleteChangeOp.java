@@ -43,7 +43,6 @@ import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
 
 class DeleteChangeOp implements BatchUpdateOp {
   static boolean allowDrafts(Config cfg) {
@@ -173,7 +172,7 @@ class DeleteChangeOp implements BatchUpdateOp {
     String prefix = new PatchSet.Id(id, 1).toRefName();
     prefix = prefix.substring(0, prefix.length() - 1);
     for (Map.Entry<String, ObjectId> e : ctx.getRepoView().getRefs(prefix).entrySet()) {
-      ctx.addRefUpdate(new ReceiveCommand(e.getValue(), ObjectId.zeroId(), prefix + e.getKey()));
+      ctx.addRefUpdate(e.getValue(), ObjectId.zeroId(), prefix + e.getKey());
     }
   }
 }

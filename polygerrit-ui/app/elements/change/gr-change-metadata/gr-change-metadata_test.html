@@ -199,6 +199,7 @@ limitations under the License.
         element.change = {
           _number: 'the number',
           change_id: 'the id',
+          actions: [],
           topic: 'the topic',
           status: 'NEW',
           submit_type: 'CHERRY_PICK',
@@ -285,8 +286,15 @@ limitations under the License.
           _account_id: 1,
           name: 'bojack',
         };
+        var change = {
+          actions: {
+            assignee: {enabled: false},
+          },
+          assignee: dummyAccount,
+        };
         var deleteStub;
         var setStub;
+
         setup(function() {
           deleteStub = sandbox.stub(element.$.restAPI, 'deleteAssignee');
           setStub = sandbox.stub(element.$.restAPI, 'setAssignee');
@@ -312,6 +320,17 @@ limitations under the License.
           assert.equal(element.change.assignee, undefined);
           element.set('_assignee', []);
           assert.isTrue(deleteStub.calledOnce);
+        });
+
+        test('_computeAssigneeReadOnly', function() {
+          var mutable = false;
+          assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
+          mutable = true;
+          assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
+          change.actions.assignee.enabled = true;
+          assert.isFalse(element._computeAssigneeReadOnly(mutable, change));
+          mutable = false;
+          assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
         });
       });
     });

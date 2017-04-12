@@ -152,6 +152,12 @@
       return !mutable || !change.actions.topic || !change.actions.topic.enabled;
     },
 
+    _computeAssigneeReadOnly: function(mutable, change) {
+      return !mutable ||
+          !change.actions.assignee ||
+          !change.actions.assignee.enabled;
+    },
+
     _computeTopicPlaceholder: function(_topicReadOnly) {
       return _topicReadOnly ? 'No Topic' : 'Click to add topic';
     },
@@ -238,8 +244,8 @@
         status = this.change.status.toLowerCase();
       }
       return '/q/project:' + this.encodeURL(project, false) +
-          ' branch:' +  this.encodeURL(branch, false) +
-              ' status:' + this.encodeURL(status, false);
+          ' branch:' + this.encodeURL(branch, false) +
+          ' status:' + this.encodeURL(status, false);
     },
 
     _computeTopicHref: function(topic) {

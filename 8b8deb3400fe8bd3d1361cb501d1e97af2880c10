@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "39a2f9da_99efb00b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-12T23:49:28Z",
+      "side": 1,
+      "message": "\u003e Not only that, diff_header is an array of lines, not a string, so we\u0027d have to join(\u0027\\n\u0027).\n\nHah. I forgot it was an array of strings. So the filter could do something like...\n\n.filter(function(item) {\n  return DIFF_HEADER_PATTERN.test(item);\n})\n\n...but that\u0027s fine.\n\nI guess it just feels weird and brittle to do have text-filtering code to parse out diff headers when the relevant information is already parsed out and provided by the backend. Setting aside the formatting and the way it appears on non-rename diffs.",
+      "parentUuid": "ca384842_a5fe275e",
+      "range": {
+        "startLine": 588,
+        "startChar": 13,
+        "endLine": 588,
+        "endChar": 40
+      },
+      "revId": "8b8deb3400fe8bd3d1361cb501d1e97af2880c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "875d2494_1f5c2d28",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 3

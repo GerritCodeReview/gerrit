@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ca384842_a5fe275e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T23:16:39Z",
+      "side": 1,
+      "message": "This is really clever, but I question whether we should do it. It\u0027s very non-self-documenting, and constantizing out the regex would lead to some strange name like \u0027DIFF_LINE_FILTER_REGEX\u0027 or something. What we\u0027re really logically doing here is filtering an array, and the performance concerns are minimal, so I\u0027d personally prefer to keep it as explicit as possible.\n\nNot only that, diff_header is an array of lines, not a string, so we\u0027d have to join(\u0027\\n\u0027).",
+      "parentUuid": "02a62cba_1c4005ae",
+      "range": {
+        "startLine": 588,
+        "startChar": 13,
+        "endLine": 588,
+        "endChar": 40
+      },
+      "revId": "8b8deb3400fe8bd3d1361cb501d1e97af2880c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "875d2494_1f5c2d28",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "8b8deb3400fe8bd3d1361cb501d1e97af2880c10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35bfc096_d8cb6ef7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T23:16:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "875d2494_1f5c2d28",
+      "range": {
+        "startLine": 589,
+        "startChar": 45,
+        "endLine": 589,
+        "endChar": 47
+      },
+      "revId": "8b8deb3400fe8bd3d1361cb501d1e97af2880c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

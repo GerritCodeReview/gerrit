@@ -45,7 +45,7 @@
 
     tr.appendChild(this._createElement('td'));
     tr.appendChild(this._createImageCell(
-          this._revisionImage, 'right', section));
+        this._revisionImage, 'right', section));
 
     section.appendChild(tr);
   };
@@ -61,13 +61,13 @@
         this._updateImageLabel(section, className, image);
       }.bind(this);
       imageEl.src = 'data:' + image.type + ';base64, ' + image.body;
-      imageEl.addEventListener('error', function(e) {
+      imageEl.addEventListener('error', function() {
         imageEl.remove();
         td.textContent = '[Image failed to load]';
       });
       td.appendChild(imageEl);
-    return td;
     }
+    return td;
   };
 
   GrDiffBuilderImage.prototype._updateImageLabel =
@@ -86,7 +86,8 @@
 
     var addNamesInLabel = false;
 
-    if (this._baseImage._name !== this._revisionImage._name) {
+    if (this._baseImage && this._revisionImage &&
+        this._baseImage._name !== this._revisionImage._name) {
       addNamesInLabel = true;
     }
 

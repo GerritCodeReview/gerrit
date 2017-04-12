@@ -34,6 +34,10 @@
         type: Boolean,
         computed: '_computeTopicReadOnly(mutable, change)',
       },
+      _assigneeReadOnly: {
+        type: Boolean,
+        computed: '_computeAssigneeReadOnly(mutable, change)',
+      },
       _showReviewersByState: {
         type: Boolean,
         computed: '_computeShowReviewersByState(serverConfig)',
@@ -152,6 +156,12 @@
       return !mutable || !change.actions.topic || !change.actions.topic.enabled;
     },
 
+    _computeAssigneeReadOnly: function(mutable, change) {
+      return !mutable ||
+          !change.actions.assignee ||
+          !change.actions.assignee.enabled;
+    },
+
     _computeTopicPlaceholder: function(_topicReadOnly) {
       return _topicReadOnly ? 'No Topic' : 'Click to add topic';
     },
@@ -238,8 +248,8 @@
         status = this.change.status.toLowerCase();
       }
       return '/q/project:' + this.encodeURL(project, false) +
-          ' branch:' +  this.encodeURL(branch, false) +
-              ' status:' + this.encodeURL(status, false);
+          ' branch:' + this.encodeURL(branch, false) +
+          ' status:' + this.encodeURL(status, false);
     },
 
     _computeTopicHref: function(topic) {

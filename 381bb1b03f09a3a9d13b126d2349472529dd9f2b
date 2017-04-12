@@ -95,6 +95,30 @@
       "revId": "381bb1b03f09a3a9d13b126d2349472529dd9f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d4693d3_b1b44ec4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-12T15:17:34Z",
+      "side": 1,
+      "message": "If we make sure to close all loop holes here, shouldn\u0027t we also ensure that all non-closed NoteDbBatchUpdateManagers (of the remaining ChangeHandles) are closed if an exception is thrown in NoteDbBatchUpdateManager#execute for e.g. the first ChangeHandle or in NoteDbBatchUpdate#executeChangeOps for the last ChangeHandle? Maybe we should rather add a try-finally to NoteDbBatchUpdate#execute which encloses the switch-statement and call close() on all handles after they are fully processed. If they were already closed because of a successful operation, calling close() should be a no-op.",
+      "parentUuid": "9619eb29_19588923",
+      "range": {
+        "startLine": 421,
+        "startChar": 5,
+        "endLine": 425,
+        "endChar": 5
+      },
+      "revId": "381bb1b03f09a3a9d13b126d2349472529dd9f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

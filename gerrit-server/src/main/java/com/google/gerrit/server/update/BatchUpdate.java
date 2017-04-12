@@ -17,12 +17,14 @@ package com.google.gerrit.server.update;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableMultiset.toImmutableMultiset;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Multiset;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -129,6 +131,7 @@ public abstract class BatchUpdate implements AutoCloseable {
         boolean dryRun)
         throws UpdateException, RestApiException {
       checkNotNull(listener);
+      checkSameProject(updates);
       // It's safe to downcast all members of the input collection in this case, because the only
       // way a caller could have gotten any BatchUpdates in the first place is to call the create
       // method above, which always returns instances of the type we expect. Just to be safe,
@@ -143,6 +146,15 @@ public abstract class BatchUpdate implements AutoCloseable {
             (ImmutableList) ImmutableList.copyOf(updates);
         ReviewDbBatchUpdate.execute(reviewDbUpdates, listener, requestId, dryRun);
       }
+    }
+
+    private static void checkSameProject(Collection<BatchUpdate> updates) {
+      Multiset<Project.NameKey> projectCounts =
+          updates.stream().map(u -> u.project).collect(toImmutableMultiset());
+      checkArgument(
+          projectCounts.entrySet().size() == updates.size(),
+          "updates must all be for different projects, got: %s",
+          projectCounts);
     }
   }
 

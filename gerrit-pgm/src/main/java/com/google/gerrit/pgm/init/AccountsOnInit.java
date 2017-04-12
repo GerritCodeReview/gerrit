@@ -21,6 +21,7 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmException;
@@ -57,6 +58,17 @@ public class AccountsOnInit {
         PersonIdent serverIdent = new GerritPersonIdentProvider(flags.cfg).get();
         AccountsUpdate.createUserBranch(repo, oi, serverIdent, serverIdent, account);
       }
+    }
+  }
+
+  public boolean hasAnyAccount() throws IOException {
+    File path = getPath();
+    if (path == null) {
+      return false;
+    }
+
+    try (Repository repo = new FileRepository(path)) {
+      return Accounts.hasAnyAccount(repo);
     }
   }
 

@@ -52,6 +52,7 @@ public class AccountManager {
   private static final Logger log = LoggerFactory.getLogger(AccountManager.class);
 
   private final SchemaFactory<ReviewDb> schema;
+  private final Accounts accounts;
   private final AccountsUpdate.Server accountsUpdateFactory;
   private final AccountCache byIdCache;
   private final AccountByEmailCache byEmailCache;
@@ -68,6 +69,7 @@ public class AccountManager {
   @Inject
   AccountManager(
       SchemaFactory<ReviewDb> schema,
+      Accounts accounts,
       AccountsUpdate.Server accountsUpdateFactory,
       AccountCache byIdCache,
       AccountByEmailCache byEmailCache,
@@ -80,6 +82,7 @@ public class AccountManager {
       ExternalIds externalIds,
       ExternalIdsUpdate.Server externalIdsUpdateFactory) {
     this.schema = schema;
+    this.accounts = accounts;
     this.accountsUpdateFactory = accountsUpdateFactory;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
@@ -226,8 +229,7 @@ public class AccountManager {
     account.setFullName(who.getDisplayName());
     account.setPreferredEmail(extId.email());
 
-    boolean isFirstAccount =
-        awaitsFirstAccountCheck.getAndSet(false) && db.accounts().anyAccounts().toList().isEmpty();
+    boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
 
     try {
       AccountsUpdate accountsUpdate = accountsUpdateFactory.create();

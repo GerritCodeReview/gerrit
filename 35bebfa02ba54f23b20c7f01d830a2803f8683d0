@@ -332,6 +332,30 @@
     },
     {
       "key": {
+        "uuid": "1615cb7e_e45ca726",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-12T14:10:28Z",
+      "side": 1,
+      "message": "I agree that returning a map isn\u0027t worth it. During my previous review I overlooked that the results are aggregated according to changeId and thus only one future is started per change. In addition, I wasn\u0027t sure whether the specified NoteDbBatchUpdates always target different repos. As you mentioned that in a comment above, I don\u0027t think we should change anything.\nHaving the method named \u0027startIndexFuturePerChange\u0027 might have helped me but that is a bit more verbose. For ChangesHandle, I could only think of AggregatedChangeResults, which would require the method \u0027execute\u0027 to be renamed to \u0027updateAllRefsInRepo\u0027 to make sense. The current names are also fine for me, though.",
+      "parentUuid": "df582f0e_17d137d7",
+      "range": {
+        "startLine": 95,
+        "startChar": 32,
+        "endLine": 95,
+        "endChar": 53
+      },
+      "revId": "35bebfa02ba54f23b20c7f01d830a2803f8683d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "454d3ece_59c4b237",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
         "patchSetId": 7

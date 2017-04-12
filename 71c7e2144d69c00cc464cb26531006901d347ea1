@@ -1,0 +1,383 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24ccb8cc_9f39efb2",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Please put behavior files and tests in their own folder.",
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09b05e75_46a4438a",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Nit: Alphabetize imports.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 62
+      },
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a8c217a_d4c319cd",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Remove empty blank line.",
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62a61fe0_a6c72664",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Please write tests for these functions.",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 6
+      },
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93faabf2_b9a65a02",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Why not move the changeBaseUrl and changePath functions into the base-url-behavior in the first place?",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 5
+      },
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42392a4f_81d2fa7c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Nit: Alphabetize imports.",
+      "range": {
+        "startLine": 16,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 73
+      },
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "721f84bf_8c0cc560",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Nit: Alphabetize imports.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 75
+      },
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88280d68_a7a04ca7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Nit: Alphabetize imports.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 71
+      },
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7be5830_2f923e50",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Nit: Alphabetize imports.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 71
+      },
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52e56872_f0a1fed6",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Nit: Alphabetize imports.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 68
+      },
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0ac905a_42a5874a",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Nit: Alphabetize imports.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 68
+      },
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a77ccc4_d66ac81f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Nit: Alphabetize imports.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 68
+      },
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c7ea3af_2919f0bf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Nit: Alphabetize imports.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 71
+      },
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2d43f43_290bd4d1",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Nit: Alphabetize imports.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 98
+      },
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de8a5534_63683c6a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-link/gr-account-link.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Nit: Alphabetize imports.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 68
+      },
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "909a0c85_154c75ed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Nit: Alphabetize imports.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 68
+      },
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc9358e2_a1df17a0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-placeholder/gr-placeholder.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:46:49Z",
+      "side": 1,
+      "message": "Nit: Alphabetize imports.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 68
+      },
+      "revId": "71c7e2144d69c00cc464cb26531006901d347ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

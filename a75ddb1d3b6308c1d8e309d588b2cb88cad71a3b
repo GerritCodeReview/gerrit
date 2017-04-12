@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "36c54b2b_c281d9c2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-12T18:57:54Z",
+      "side": 1,
+      "message": "Am I supposed to infer from this that these are the only supported footers? If so, please be explicit. If not, either:\n\n* list them here\n* list them somewhere else and link to them here\n* explicitly describe how to find footers for a particular message",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 163,
+        "endChar": 39
+      },
+      "revId": "a75ddb1d3b6308c1d8e309d588b2cb88cad71a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db8511c1_7a725cd0",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
         "patchSetId": 2

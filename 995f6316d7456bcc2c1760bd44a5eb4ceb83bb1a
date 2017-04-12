@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53c293e9_db5ec394",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-12T06:46:54Z",
+      "side": 1,
+      "message": "\"that is\"\n\nthis was already fixed in PS4 but then removed in PS5",
+      "range": {
+        "startLine": 91,
+        "startChar": 32,
+        "endLine": 91,
+        "endChar": 36
+      },
+      "revId": "995f6316d7456bcc2c1760bd44a5eb4ceb83bb1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

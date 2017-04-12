@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c841c5bb_6cfd6dde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-12T16:27:20Z",
+      "side": 1,
+      "message": "Nit: this wording is awkward. Maybe\n\n With this change `_openReplyDialog` centers the dialog after it\u0027s opened.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 30
+      },
+      "revId": "5d449ccc9293bd6b0cea633ef35e5513ee1b06a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "368ee743_b9f5345f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 840,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-12T16:27:20Z",
+      "side": 1,
+      "message": "Can remove this line. Since the previous `.then` callback doesn\u0027t return a promise this double `.then` chain is equivalent to a single function.",
+      "revId": "5d449ccc9293bd6b0cea633ef35e5513ee1b06a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

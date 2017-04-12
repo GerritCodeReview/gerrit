@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "f28195da_b0136e16",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-12T16:27:20Z",
+      "side": 1,
+      "message": "Like what? Is there something specific I should watch out for?",
+      "parentUuid": "183d51e3_594d534c",
+      "range": {
+        "startLine": 531,
+        "startChar": 12,
+        "endLine": 531,
+        "endChar": 32
+      },
+      "revId": "973f20ca3057b50898f00e97921affb43bb14dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fa8d56b_a8e3c3c8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 3

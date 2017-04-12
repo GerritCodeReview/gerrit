@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "552b6678_6aa44bd5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ReindexAfterUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-12T10:36:02Z",
+      "side": 1,
+      "message": "nit: unnecessary empty line",
+      "revId": "bde8a37c54c238d4ee8c4c9ef9e724eb3767ec9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

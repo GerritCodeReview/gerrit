@@ -66,8 +66,8 @@
         td.textContent = '[Image failed to load]';
       });
       td.appendChild(imageEl);
-    return td;
     }
+    return td;
   };
 
   GrDiffBuilderImage.prototype._updateImageLabel =
@@ -86,7 +86,8 @@
 
     var addNamesInLabel = false;
 
-    if (this._baseImage._name !== this._revisionImage._name) {
+    if (this._baseImage && this._revisionImage &&
+        this._baseImage._name !== this._revisionImage._name) {
       addNamesInLabel = true;
     }
 

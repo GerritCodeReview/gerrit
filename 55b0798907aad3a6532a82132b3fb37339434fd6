@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5fa4617_9c31bcf5",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-12T06:31:38Z",
+      "side": 1,
+      "message": "Why not setting this in the tests setup?",
+      "revId": "55b0798907aad3a6532a82132b3fb37339434fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3daf513e_87949520",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-12T06:31:38Z",
+      "side": 1,
+      "message": "Exception is swallowed here and we could lose track of why commitWithin was set to zero. Possibly a follow up fix?",
+      "revId": "55b0798907aad3a6532a82132b3fb37339434fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

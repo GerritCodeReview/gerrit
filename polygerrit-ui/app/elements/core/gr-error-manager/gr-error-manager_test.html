@@ -49,10 +49,31 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('show auth error', function(done) {
+    test('does not show auth error on 403 by default', function(done) {
       var showAuthErrorStub = sandbox.stub(element, '_showAuthErrorAlert');
-      element.fire('server-error', {response: {status: 403}});
-      element.$.restAPI.getLoggedIn.lastCall.returnValue.then(function() {
+      var responseText = Promise.resolve('server says no.');
+      element.fire('server-error',
+          {response: {status: 403, text: function() { return responseText; }}}
+      );
+      Promise.all([
+        element.$.restAPI.getLoggedIn.lastCall.returnValue,
+        responseText,
+      ]).then(function() {
+          assert.isFalse(showAuthErrorStub.calledOnce);
+          done();
+      });
+    });
+
+    test('shows auth error on 403 and Authentication required', function(done) {
+      var showAuthErrorStub = sandbox.stub(element, '_showAuthErrorAlert');
+      var responseText = Promise.resolve('Authentication required\n');
+      element.fire('server-error',
+          {response: {status: 403, text: function() { return responseText; }}}
+      );
+      Promise.all([
+        element.$.restAPI.getLoggedIn.lastCall.returnValue,
+        responseText,
+      ]).then(function() {
         assert.isTrue(showAuthErrorStub.calledOnce);
         done();
       });
@@ -71,7 +92,10 @@ limitations under the License.
       element.fire('server-error', {response: {status: 500, text: textSpy}});
 
       assert.isTrue(textSpy.called);
-      textSpy.lastCall.returnValue.then(function() {
+      Promise.all([
+        element.$.restAPI.getLoggedIn.lastCall.returnValue,
+        textSpy.lastCall.returnValue,
+      ]).then(function() {
         assert.isTrue(showAlertStub.calledOnce);
         assert.isTrue(showAlertStub.lastCall.calledWithExactly(
             'Server error: ZOMG'));
@@ -87,7 +111,10 @@ limitations under the License.
       element.fire('server-error', {response: {status: 500, text: textSpy}});
 
       assert.isTrue(textSpy.called);
-      textSpy.lastCall.returnValue.then(function() {
+      Promise.all([
+        element.$.restAPI.getLoggedIn.lastCall.returnValue,
+        textSpy.lastCall.returnValue,
+      ]).then(function() {
         assert.isFalse(showAlertStub.called);
         done();
       });
@@ -112,8 +139,14 @@ limitations under the License.
           function() { return Promise.resolve(true); });
       var toastSpy = sandbox.spy(element, '_createToastAlert');
       var windowOpen = sandbox.stub(window, 'open');
-      element.fire('server-error', {response: {status: 403}});
-      element.$.restAPI.getLoggedIn.lastCall.returnValue.then(function() {
+      var responseText = Promise.resolve('Authentication required\n');
+      element.fire('server-error',
+          {response: {status: 403, text: function() { return responseText; }}}
+      );
+      Promise.all([
+        element.$.restAPI.getLoggedIn.lastCall.returnValue,
+        responseText,
+      ]).then(function() {
         assert.isTrue(toastSpy.called);
         var toast = toastSpy.lastCall.returnValue;
         assert.isOk(toast);

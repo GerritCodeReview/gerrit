@@ -20,6 +20,7 @@
   var SIGN_IN_WIDTH_PX = 690;
   var SIGN_IN_HEIGHT_PX = 500;
   var TOO_MANY_FILES = 'too many files to find conflicts';
+  var AUTHENTICATION_REQUIRED = 'Authentication required\n';
 
   Polymer({
     is: 'gr-error-manager',
@@ -73,21 +74,21 @@
     },
 
     _handleServerError: function(e) {
-      if (e.detail.response.status === 403) {
-        this._getLoggedIn().then(function(loggedIn) {
-          if (loggedIn) {
-            // The app was logged at one point and is now getting auth errors.
-            // This indicates the auth token is no longer valid.
-            this._showAuthErrorAlert('Auth error', 'Refresh credentials.');
-          }
-        }.bind(this));
-      } else {
-        e.detail.response.text().then(function(text) {
-          if (!this._shouldSuppressError(text)) {
-            this._showAlert('Server error: ' + text);
-          }
-        }.bind(this));
-      }
+      Promise.all([
+        e.detail.response.text(), this._getLoggedIn()
+      ]).then(function(values) {
+        var text = values[0];
+        var loggedIn = values[1];
+        if (e.detail.response.status === 403 &&
+            loggedIn &&
+            text === AUTHENTICATION_REQUIRED) {
+          // The app was logged at one point and is now getting auth errors.
+          // This indicates the auth token is no longer valid.
+          this._showAuthErrorAlert('Auth error', 'Refresh credentials.');
+        } else if (!this._shouldSuppressError(text)) {
+          this._showAlert('Server error: ' + text);
+        }
+      }.bind(this));
     },
 
     _handleShowAlert: function(e) {

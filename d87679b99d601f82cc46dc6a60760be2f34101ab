@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f241c031_917e0189",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:33:08Z",
+      "side": 1,
+      "message": "Nit: Improper indentation",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 50
+      },
+      "revId": "d87679b99d601f82cc46dc6a60760be2f34101ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdb54cd4_658e116a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:33:08Z",
+      "side": 1,
+      "message": "Nit: Unused variable.",
+      "range": {
+        "startLine": 64,
+        "startChar": 49,
+        "endLine": 64,
+        "endChar": 50
+      },
+      "revId": "d87679b99d601f82cc46dc6a60760be2f34101ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43bc0cdf_0ae014e8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:33:08Z",
+      "side": 1,
+      "message": "Nit: Improper indentation",
+      "range": {
+        "startLine": 525,
+        "startChar": 12,
+        "endLine": 527,
+        "endChar": 0
+      },
+      "revId": "d87679b99d601f82cc46dc6a60760be2f34101ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e69a345e_de4ad93a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-12T22:33:08Z",
+      "side": 1,
+      "message": "Nit: Improper indentation",
+      "range": {
+        "startLine": 564,
+        "startChar": 12,
+        "endLine": 565,
+        "endChar": 70
+      },
+      "revId": "d87679b99d601f82cc46dc6a60760be2f34101ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

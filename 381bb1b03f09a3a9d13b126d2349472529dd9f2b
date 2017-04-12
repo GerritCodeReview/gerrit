@@ -143,6 +143,30 @@
       "revId": "381bb1b03f09a3a9d13b126d2349472529dd9f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a60c5d9d_f6814f5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-12T15:49:40Z",
+      "side": 1,
+      "message": "I was referring to NoteDbUpdateManager#close being a no-op after the first call. ;-)",
+      "parentUuid": "0b273445_fd1e17c7",
+      "range": {
+        "startLine": 421,
+        "startChar": 5,
+        "endLine": 425,
+        "endChar": 5
+      },
+      "revId": "381bb1b03f09a3a9d13b126d2349472529dd9f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

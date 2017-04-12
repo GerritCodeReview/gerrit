@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "89a57c05_2a7233c1",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-12T07:02:27Z",
+      "side": 1,
+      "message": "True, good for now but is a \"smell\" of a near future refactoring needed IMHO :-)",
+      "parentUuid": "ca69425c_3d323d45",
+      "revId": "55b0798907aad3a6532a82132b3fb37339434fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3daf513e_87949520",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "This doesn\u0027t necessarily set it to 0.  Only to 0 if it was not specified (as a long rather than time unit) in the config.\n\nBut yes, this could be improved.",
       "parentUuid": "3daf513e_87949520",
+      "revId": "55b0798907aad3a6532a82132b3fb37339434fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3900ad3b_fcd26481",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-12T07:02:27Z",
+      "side": 1,
+      "message": "Oh yes, I see. Is a way to default to millis when the unit isn\u0027t specified. Yes, it could be improved in a further follow-up change, not here.",
+      "parentUuid": "d209291c_8cc7a045",
       "revId": "55b0798907aad3a6532a82132b3fb37339434fd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

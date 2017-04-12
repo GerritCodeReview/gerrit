@@ -41,9 +41,6 @@ public interface AccountAccess extends Access<Account, Account.Id> {
   ResultSet<Account> suggestByPreferredEmail(String nameA, String nameB, int limit)
       throws OrmException;
 
-  @Query("LIMIT 1")
-  ResultSet<Account> anyAccounts() throws OrmException;
-
   @Query("ORDER BY accountId LIMIT ?")
   ResultSet<Account> firstNById(int n) throws OrmException;
 

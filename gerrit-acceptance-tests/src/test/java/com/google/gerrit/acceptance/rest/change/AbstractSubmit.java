@@ -762,7 +762,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
             assertThat(args.getCommands()).containsKey(master);
             ReceiveCommand cmd = args.getCommands().get(master);
             ObjectId newMasterId = cmd.getNewId();
-            try (Repository repo = repoManager.openRepository(project)) {
+            try (Repository repo = repoManager.openRepository(args.getProject())) {
               assertThat(repo.exactRef(master).getObjectId()).isEqualTo(cmd.getOldId());
               assertThat(args.getRef(master)).hasValue(newMasterId);
               args.getRevWalk().parseBody(args.getRevWalk().parseCommit(newMasterId));

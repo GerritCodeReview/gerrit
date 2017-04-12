@@ -513,6 +513,10 @@ The change will remain private on subsequent pushes until you specify
 the `remove-private` option. Alternatively, the web UI provides buttons
 to mark a change private and non-private again.
 
+When pushing a private change with a commit that is authored by another
+user, the other user will not be automatically added as a reviewer and
+must be explicitly added.
+
 For CI systems that must verify private changes, a special permission
 can be granted
 (link:access-control.html#category_view_private_changes[View Private Changes]).

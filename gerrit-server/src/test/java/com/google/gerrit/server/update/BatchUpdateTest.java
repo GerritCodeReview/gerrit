@@ -39,7 +39,6 @@ import com.google.inject.util.Providers;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -122,9 +121,7 @@ public class BatchUpdateTest {
           new RepoOnlyOp() {
             @Override
             public void updateRepo(RepoContext ctx) throws Exception {
-              ctx.addRefUpdate(
-                  new ReceiveCommand(
-                      masterCommit.getId(), branchCommit.getId(), "refs/heads/master"));
+              ctx.addRefUpdate(masterCommit.getId(), branchCommit.getId(), "refs/heads/master");
             }
           });
       bu.execute();

@@ -207,9 +207,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   public void updateRepo(RepoContext ctx)
       throws AuthException, ResourceConflictException, IOException, OrmException {
     validate(ctx);
-    ctx.addRefUpdate(
-        new ReceiveCommand(
-            ObjectId.zeroId(), commitId, getPatchSetId().toRefName(), ReceiveCommand.Type.CREATE));
+    ctx.addRefUpdate(ObjectId.zeroId(), commitId, getPatchSetId().toRefName());
   }
 
   @Override

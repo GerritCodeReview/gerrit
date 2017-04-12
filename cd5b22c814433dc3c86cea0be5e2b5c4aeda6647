@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a84ff03e_41d1b555",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-12T15:16:19Z",
+      "side": 1,
+      "message": "The search index is initialized in LifecycleListener.start callback.\n\nThis fix highlights that maybe there is a deeper issue. Should search index be available before LifecycleListener.start is called?\n\nIf we want to keep initializing search index in LifecycleListener.start method, then we need to protect every usage of search index to handle null, which is what this change is doing. But, is it the right way to handle null in this case, simply not reindex after an update? This could be minor issue but this will result in some change not getting reindexed even though they should have been.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 72
+      },
+      "revId": "cd5b22c814433dc3c86cea0be5e2b5c4aeda6647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -88,7 +88,7 @@ public class InitAdminUser implements InitStep {
     }
 
     try (ReviewDb db = dbFactory.open()) {
-      if (db.accounts().anyAccounts().toList().isEmpty()) {
+      if (!accounts.hasAnyAccount()) {
         ui.header("Gerrit Administrator");
         if (ui.yesno(true, "Create administrator user")) {
           Account.Id id = new Account.Id(db.nextAccountId());

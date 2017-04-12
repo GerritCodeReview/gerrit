@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -244,6 +245,9 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
   @Test
   public void repairChangeStateAfterFailure() throws Exception {
+    // In NoteDb-only mode, repo and meta updates are atomic (at least in InMemoryRepository).
+    assume().that(notesMigration.disableChangeReviewDb()).isFalse();
+
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());

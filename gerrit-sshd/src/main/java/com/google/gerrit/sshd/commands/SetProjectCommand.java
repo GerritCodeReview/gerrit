@@ -14,8 +14,6 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -35,7 +33,6 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(name = "set-project", description = "Change a project's settings")
 final class SetProjectCommand extends SshCommand {
   private static final Logger log = LoggerFactory.getLogger(SetProjectCommand.class);
@@ -153,6 +150,9 @@ final class SetProjectCommand extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    if (!projectControl.isOwner()) {
+      throw new UnloggedFailure(1, "restricted to project owner");
+    }
     Project ctlProject = projectControl.getProject();
     Project.NameKey nameKey = ctlProject.getNameKey();
     String name = ctlProject.getName();

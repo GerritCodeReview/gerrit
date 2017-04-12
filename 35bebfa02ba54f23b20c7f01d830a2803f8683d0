@@ -1,4 +1,189 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1491937646 -0400\nnonce AFMZ2Gw5hAkjquK1rfajHEp5lysuYxgIwlVpoykZEgLB+4Z0yUMNMimcaAUdjW9B89SO8anDVlAg\n\n0000000000000000000000000000000000000000 35bebfa02ba54f23b20c7f01d830a2803f8683d0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJY7SluAAoJEF/XxZqaEoiMK5MP+gPD38ZtMiwqx40jLsqkG2kl\n8G7DByuUQb5JbRHXkEvkHegut/mfP8tAV6JsqoxnhSGupGuBIQRJnZU8ubTflUf/\n3vkvFW8nvXr7fN6RkadyroyGy1tT7txaSw7rv4BNVPysV0MaSWjxDxZa5j8Nr2kN\nRbglxvFZZPOg52Tz3KRS7r2uQjCU2GsI0FmaBXAGpH0AQ08ThEHPkeS7zXR6hek1\n0WC0DtbHzX1GDkeHxIv3j3UZDXB2xGd8Fn3QM6lsEIbzHfqQ2cvdwbx4T8+zIr/S\ns8tldpjJrRYWYdvblkUQVQRBu9n5/T7gPY8GiZg02YQLjxZbKxYkv85HhmHahFQ4\nSG+Jo8eMrx8W87pQvQnnK8zzsQvqwWIZQkMaw6AvX2HSYp8i8JxbYXb7unowJtvh\nGxTEUAocdKXYIu0dYMzHchqkZn5Th1Wn66EkZfFA/SBuB0R6pbB9HlAK2yHB2i/p\nt9jQfiGcGlt7HoC9K8Bgrg4FLXw8rHxWkt0wZ+vksI5t4F4FU+0uU7WaDay0kySK\nYFV3X6nRh6zQZ/bzn43hZvhW+dwhcey12nveFl8H/YX1HU5i4n/v7p2cPYreFvPm\n6mAXGO3TCywmXe7zzM2n8TSDzWeUtEcCWAntcdBOvj44JMW5lWLC1OHtpNUqYjyG\n1Qn18/k0u7DtwV3V6KhO\n\u003dcV0U\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3409a94_b3bdc01c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbOnlyIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-12T12:23:55Z",
+      "side": 1,
+      "message": "optional: Either use orElse(ObjectId.zeroId()) or check that a value is present before using it.",
+      "range": {
+        "startLine": 62,
+        "startChar": 38,
+        "endLine": 62,
+        "endChar": 43
+      },
+      "revId": "35bebfa02ba54f23b20c7f01d830a2803f8683d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e93f9ebc_3ecf9dd3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbOnlyIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-12T12:23:55Z",
+      "side": 1,
+      "message": "optional: orElse(ObjectId.zeroId())",
+      "range": {
+        "startLine": 73,
+        "startChar": 53,
+        "endLine": 73,
+        "endChar": 58
+      },
+      "revId": "35bebfa02ba54f23b20c7f01d830a2803f8683d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61b7a47a_0633a61b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbOnlyIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-12T12:23:55Z",
+      "side": 1,
+      "message": "optional: Can we be absolutely sure that updateChange() is always called after updateRepo() even in the future? If not, we will get a NullPointerException here. We could init newId with ObjectId.zeroId() to prevent that.",
+      "range": {
+        "startLine": 80,
+        "startChar": 66,
+        "endLine": 80,
+        "endChar": 71
+      },
+      "revId": "35bebfa02ba54f23b20c7f01d830a2803f8683d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ca431f7_f709fbd4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbOnlyIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-12T12:23:55Z",
+      "side": 1,
+      "message": "optional: orElse(ObjectId.zeroId())",
+      "range": {
+        "startLine": 97,
+        "startChar": 38,
+        "endLine": 97,
+        "endChar": 43
+      },
+      "revId": "35bebfa02ba54f23b20c7f01d830a2803f8683d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9879daa1_2ba2d917",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbOnlyIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-12T12:23:55Z",
+      "side": 1,
+      "message": "optional alternative: With com.google.gerrit.truth.OptionalSubject instead of com.google.common.truth.OptionalSubject, this code could be\n\n Optional\u003cObjectId\u003e master2 \u003d getRef(master);\n assertThat(master2).value().isNotEqualTo(master1);\n\n(My intention is to propose our version of OptionalSubject to the Truth team but I first have to clarify any legal issues.)",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 46
+      },
+      "revId": "35bebfa02ba54f23b20c7f01d830a2803f8683d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43b0c3c1_20960e14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-12T12:23:55Z",
+      "side": 1,
+      "message": "optional: Did I understand it correctly that with this change we update all necessary reference updates in one batch for one NoteDbBatchUpdate but have a separation between the NoteDbBatchUpdates?",
+      "range": {
+        "startLine": 94,
+        "startChar": 12,
+        "endLine": 94,
+        "endChar": 24
+      },
+      "revId": "35bebfa02ba54f23b20c7f01d830a2803f8683d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d576c858_bf2e481b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-12T12:23:55Z",
+      "side": 1,
+      "message": "optional: Can we be sure that all futures target different changes?",
+      "range": {
+        "startLine": 95,
+        "startChar": 32,
+        "endLine": 95,
+        "endChar": 53
+      },
+      "revId": "35bebfa02ba54f23b20c7f01d830a2803f8683d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "454d3ece_59c4b237",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-12T12:23:55Z",
+      "side": 1,
+      "message": "optional: Shouldn\u0027t we keep the previous execution order and call afterUpdateRefs() before afterUpdateChanges()?",
+      "range": {
+        "startLine": 98,
+        "startChar": 10,
+        "endLine": 98,
+        "endChar": 37
+      },
+      "revId": "35bebfa02ba54f23b20c7f01d830a2803f8683d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

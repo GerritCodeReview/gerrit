@@ -30,8 +30,9 @@
 
   var REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-  function GrDiffBuilder(diff, comments, prefs, outputEl, layers) {
+  function GrDiffBuilder(diff, comments, prefs, outputEl, layers, diffPath) {
     this._diff = diff;
+    this._diffPath = diffPath;
     this._comments = comments;
     this._prefs = prefs;
     this._outputEl = outputEl;
@@ -392,6 +393,7 @@
     } else if (line.type === GrDiffLine.Type.BOTH || line.type === type) {
       td.classList.add('lineNum');
       td.setAttribute('data-value', number);
+      td.setAttribute('data-path', this._diffPath);
     }
     return td;
   };

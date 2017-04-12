@@ -149,8 +149,8 @@
       this._fixSide();
     },
 
-    moveToLineNumber: function(number, side) {
-      var row = this._findRowByNumber(number, side);
+    moveToLineNumber: function(number, side, opt_fileName) {
+      var row = this._findRowByNumberAndFile(number, side, opt_fileName);
       if (row) {
         this.side = side;
         this.$.cursorManager.setCursor(row);
@@ -376,11 +376,15 @@
       }
     },
 
-    _findRowByNumber: function(targetNumber, side) {
+    _findRowByNumberAndFile: function(targetNumber, side, opt_fileName) {
       var stops = this.$.cursorManager.stops;
       var selector;
       for (var i = 0; i < stops.length; i++) {
         selector = '.lineNum.' + side + '[data-value="' + targetNumber + '"]';
+
+        if (opt_fileName) {
+          selector = selector +  '[data-path="' + opt_fileName + '"]';
+        }
         if (stops[i].querySelector(selector)) {
           return stops[i];
         }

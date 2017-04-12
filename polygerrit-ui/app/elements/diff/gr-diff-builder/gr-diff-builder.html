@@ -89,6 +89,7 @@ limitations under the License.
 
         properties: {
           diff: Object,
+          diffPath: String,
           viewMode: String,
           comments: Object,
           isImageDiff: Boolean,
@@ -251,10 +252,12 @@ limitations under the License.
                 this.diffElement, this.baseImage, this.revisionImage);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
             return new GrDiffBuilderSideBySide(
-                diff, comments, prefs, this.diffElement, this._layers);
+                diff, comments, prefs, this.diffElement, this._layers,
+                this.diffPath);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
             return new GrDiffBuilderUnified(
-                diff, comments, prefs, this.diffElement, this._layers);
+                diff, comments, prefs, this.diffElement, this._layers,
+                this.diffPath);
           }
           throw Error('Unsupported diff view mode: ' + this.viewMode);
         },

@@ -52,12 +52,16 @@ class GerritIndexWriterConfig {
             / m);
     luceneConfig.setMaxBufferedDocs(
         cfg.getInt("index", name, "maxBufferedDocs", IndexWriterConfig.DEFAULT_MAX_BUFFERED_DOCS));
-    try {
-      commitWithinMs =
-          ConfigUtil.getTimeUnit(
-              cfg, "index", name, "commitWithin", MILLISECONDS.convert(5, MINUTES), MILLISECONDS);
-    } catch (IllegalArgumentException e) {
-      commitWithinMs = cfg.getLong("index", name, "commitWithin", 0);
+    if (LuceneIndexModule.isInMemoryTest(cfg)) {
+      commitWithinMs = 0;
+    } else {
+      try {
+        commitWithinMs =
+            ConfigUtil.getTimeUnit(
+                cfg, "index", name, "commitWithin", MILLISECONDS.convert(5, MINUTES), MILLISECONDS);
+      } catch (IllegalArgumentException e) {
+        commitWithinMs = cfg.getLong("index", name, "commitWithin", 0);
+      }
     }
   }
 

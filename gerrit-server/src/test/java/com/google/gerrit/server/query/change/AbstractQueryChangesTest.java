@@ -876,38 +876,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void updatedOrderWithMinuteResolution() throws Exception {
-    resetTimeWithClockStep(2, MINUTES);
-    TestRepository<Repo> repo = createProject("repo");
-    ChangeInserter ins1 = newChange(repo);
-    Change change1 = insert(repo, ins1);
-    Change change2 = insert(repo, newChange(repo));
-
-    assertThat(lastUpdatedMs(change1)).isLessThan(lastUpdatedMs(change2));
-    assertQuery("status:new", change2, change1);
-
-    gApi.changes().id(change1.getId().get()).topic("new-topic");
-    change1 = notesFactory.create(db, change1.getProject(), change1.getId()).getChange();
-
-    assertThat(lastUpdatedMs(change1)).isGreaterThan(lastUpdatedMs(change2));
-    assertThat(lastUpdatedMs(change1) - lastUpdatedMs(change2))
-        .isGreaterThan(MILLISECONDS.convert(1, MINUTES));
-
-    // change1 moved to the top.
-    assertQuery("status:new", change1, change2);
-  }
-
-  @Test
-  public void updatedOrderWithSubMinuteResolution() throws Exception {
+  public void updatedOrder() throws Exception {
     resetTimeWithClockStep(1, SECONDS);
-
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo);
     Change change1 = insert(repo, ins1);
     Change change2 = insert(repo, newChange(repo));
 
     assertThat(lastUpdatedMs(change1)).isLessThan(lastUpdatedMs(change2));
-
     assertQuery("status:new", change2, change1);
 
     gApi.changes().id(change1.getId().get()).topic("new-topic");
@@ -915,7 +891,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertThat(lastUpdatedMs(change1)).isGreaterThan(lastUpdatedMs(change2));
     assertThat(lastUpdatedMs(change1) - lastUpdatedMs(change2))
-        .isLessThan(MILLISECONDS.convert(1, MINUTES));
+        .isAtLeast(MILLISECONDS.convert(1, SECONDS));
 
     // change1 moved to the top.
     assertQuery("status:new", change1, change2);

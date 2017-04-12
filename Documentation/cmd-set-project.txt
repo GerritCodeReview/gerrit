@@ -26,7 +26,7 @@ The command is argument-safe, that is, if no argument is given the
 previous settings are kept intact.
 
 == ACCESS
-Caller must be a member of the privileged 'Administrators' group.
+Caller must be an owner of the given project.
 
 == SCRIPTING
 This command is intended to be used in scripts.

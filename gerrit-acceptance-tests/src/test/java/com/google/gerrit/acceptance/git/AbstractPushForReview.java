@@ -378,8 +378,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushPrivateChange() throws Exception {
     // Push a private change.
-    PushOneCommit.Result r = pushTo("refs/for/master%private");
+    PushOneCommit.Result r = pushTo("refs/for/master%private,r=" + user.email);
     r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, null, user);
     assertThat(r.getChange().change().isPrivate()).isTrue();
 
     // Pushing a new patch set without --private doesn't remove the privacy flag from the change.
@@ -410,9 +411,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushForMasterAsDraft() throws Exception {
     // create draft by pushing to 'refs/drafts/'
-    PushOneCommit.Result r = pushTo("refs/drafts/master");
+    PushOneCommit.Result r = pushTo("refs/drafts/master%r=" + user.email);
     r.assertOkStatus();
-    r.assertChange(Change.Status.DRAFT, null);
+    r.assertChange(Change.Status.DRAFT, null, user);
 
     // create draft by using 'draft' option
     r = pushTo("refs/for/master%draft");

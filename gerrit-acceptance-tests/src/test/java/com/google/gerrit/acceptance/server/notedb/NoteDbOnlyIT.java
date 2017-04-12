@@ -40,7 +40,6 @@ import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -71,7 +70,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
           public void updateRepo(RepoContext ctx) throws IOException {
             ObjectId oldId = ctx.getRepoView().getRef(backup).orElse(ObjectId.zeroId());
             newId = ctx.getRepoView().getRef(master).get();
-            ctx.addRefUpdate(new ReceiveCommand(oldId, newId, backup));
+            ctx.addRefUpdate(oldId, newId, backup);
           }
 
           @Override

@@ -67,7 +67,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -919,7 +918,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
           new BatchUpdateOp() {
             @Override
             public void updateRepo(RepoContext ctx) throws IOException {
-              ctx.addRefUpdate(new ReceiveCommand(oldId, newId, dest));
+              ctx.addRefUpdate(oldId, newId, dest);
             }
 
             @Override

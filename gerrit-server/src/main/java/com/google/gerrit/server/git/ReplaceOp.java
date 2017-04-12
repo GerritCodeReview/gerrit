@@ -71,7 +71,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
-import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -211,7 +210,7 @@ public class ReplaceOp implements BatchUpdateOp {
     }
 
     if (updateRef) {
-      ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(), commitId, patchSetId.toRefName()));
+      ctx.addRefUpdate(ObjectId.zeroId(), commitId, patchSetId.toRefName());
     }
   }
 

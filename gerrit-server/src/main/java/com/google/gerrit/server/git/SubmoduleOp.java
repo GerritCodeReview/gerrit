@@ -63,7 +63,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.RefSpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +81,7 @@ public class SubmoduleOp {
     public void updateRepo(RepoContext ctx) throws Exception {
       CodeReviewCommit c = composeGitlinksCommit(branch);
       if (c != null) {
-        ctx.addRefUpdate(new ReceiveCommand(c.getParent(0), c, branch.get()));
+        ctx.addRefUpdate(c.getParent(0), c, branch.get());
         addBranchTip(branch, c);
       }
     }

@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.update;
 
-import java.io.IOException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.transport.ReceiveCommand;
+
+import java.io.IOException;
 
 /** Context for performing the {@link BatchUpdateOp#updateRepo} phase. */
 public interface RepoContext extends Context {
@@ -31,10 +33,28 @@ public interface RepoContext extends Context {
   /**
    * Add a command to the pending list of commands.
    *
-   * <p>This method is the only way of updating refs in the repository from a {@link BatchUpdateOp}.
+   * <p>Adding commands to the {@code RepoContext} is the only way of updating refs in the
+   * repository from a {@link BatchUpdateOp}.
    *
    * @param cmd ref update command.
    * @throws IOException if an error occurred opening the repo.
    */
   void addRefUpdate(ReceiveCommand cmd) throws IOException;
+
+  /**
+   * Add a command to the pending list of commands.
+   *
+   * <p>Adding commands to the {@code RepoContext} is the only way of updating refs in the
+   * repository from a {@link BatchUpdateOp}.
+   *
+   * @param oldId the old object ID; must not be null. Use {@link ObjectId#zeroId()} for ref
+   *     creation.
+   * @param newId the new object ID; must not be null. Use {@link ObjectId#zeroId()} for ref
+   *     deletion.
+   * @param refName the ref name.
+   * @throws IOException if an error occurred opening the repo.
+   */
+  default void addRefUpdate(ObjectId oldId, ObjectId newId, String refName) throws IOException {
+    addRefUpdate(new ReceiveCommand(oldId, newId, refName));
+  }
 }

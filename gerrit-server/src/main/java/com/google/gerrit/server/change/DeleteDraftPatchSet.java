@@ -47,7 +47,6 @@ import java.io.IOException;
 import java.util.Collection;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.transport.ReceiveCommand;
 
 @Singleton
 public class DeleteDraftPatchSet
@@ -133,10 +132,9 @@ public class DeleteDraftPatchSet
         return;
       }
       ctx.addRefUpdate(
-          new ReceiveCommand(
-              ObjectId.fromString(patchSet.getRevision().get()),
-              ObjectId.zeroId(),
-              patchSet.getRefName()));
+          ObjectId.fromString(patchSet.getRevision().get()),
+          ObjectId.zeroId(),
+          patchSet.getRefName());
     }
 
     private void deleteDraftPatchSet(PatchSet patchSet, ChangeContext ctx) throws OrmException {

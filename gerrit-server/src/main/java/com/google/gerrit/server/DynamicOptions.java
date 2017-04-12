@@ -100,7 +100,7 @@ public class DynamicOptions {
    */
   public DynamicOptions(Object bean, DynamicMap<DynamicBean> dynamicBeans) {
     this.bean = bean;
-    beansByPlugin = new HashMap<String, DynamicBean>();
+    beansByPlugin = new HashMap<>();
     for (String plugin : dynamicBeans.plugins()) {
       Provider<DynamicBean> provider =
           dynamicBeans.byPlugin(plugin).get(bean.getClass().getCanonicalName());

@@ -46,6 +46,7 @@ import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.BundleWriter;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.kohsuke.args4j.Option;
@@ -145,9 +146,9 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
         MergeOpRepoManager orm = mergeOp.getMergeOpRepoManager();
         for (Project.NameKey p : mergeOp.getAllProjects()) {
           OpenRepo or = orm.getRepo(p);
-          BundleWriter bw = new BundleWriter(or.getRepo());
+          BundleWriter bw = new BundleWriter(or.getCodeReviewRevWalk().getObjectReader());
           bw.setObjectCountCallback(null);
-          bw.setPackConfig(null);
+          bw.setPackConfig(new PackConfig(or.getRepo()));
           Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates().values();
           for (ReceiveCommand r : refs) {
             bw.include(r.getRefName(), r.getNewId());

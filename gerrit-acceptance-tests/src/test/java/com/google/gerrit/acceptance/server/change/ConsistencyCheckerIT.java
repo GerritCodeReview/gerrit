@@ -41,6 +41,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ConsistencyChecker;
 import com.google.gerrit.server.change.PatchSetInserter;
@@ -90,6 +91,8 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
   @Inject private Sequences sequences;
 
+  @Inject private AccountsUpdate.Server accountsUpdate;
+
   private RevCommit tip;
   private Account.Id adminId;
   private ConsistencyChecker checker;
@@ -119,7 +122,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   public void missingOwner() throws Exception {
     TestAccount owner = accounts.create("missing");
     ChangeControl ctl = insertChange(owner);
-    db.accounts().deleteKeys(singleton(owner.getId()));
+    accountsUpdate.create().deleteByKey(db, owner.getId());
 
     assertProblems(ctl, null, problem("Missing change owner: " + owner.getId()));
   }

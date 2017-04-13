@@ -232,12 +232,13 @@ public class AccountManager {
         awaitsFirstAccountCheck.getAndSet(false) && db.accounts().anyAccounts().toList().isEmpty();
 
     try {
-      accountsUpdateFactory.create().upsert(db, account);
+      AccountsUpdate accountsUpdate = accountsUpdateFactory.create();
+      accountsUpdate.upsert(db, account);
 
       ExternalId existingExtId = externalIds.get(db, extId.key());
       if (existingExtId != null && !existingExtId.accountId().equals(extId.accountId())) {
         // external ID is assigned to another account, do not overwrite
-        db.accounts().delete(Collections.singleton(account));
+        accountsUpdate.delete(db, account);
         throw new AccountException(
             "Cannot assign external ID \""
                 + extId.key().get()
@@ -345,7 +346,7 @@ public class AccountManager {
       // such an account cannot be used for uploading changes,
       // this is why the best we can do here is to fail early and cleanup
       // the database
-      db.accounts().delete(Collections.singleton(account));
+      accountsUpdateFactory.create().delete(db, account);
       externalIdsUpdateFactory.create().delete(db, extId);
       throw new AccountUserNameException(errorMessage, e);
     }

@@ -38,6 +38,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountByEmailCache;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.CommentAdded;
@@ -71,6 +72,7 @@ import org.slf4j.LoggerFactory;
 public class MailProcessor {
   private static final Logger log = LoggerFactory.getLogger(MailProcessor.class);
 
+  private final Accounts accounts;
   private final AccountByEmailCache accountByEmailCache;
   private final BatchUpdate.Factory buf;
   private final ChangeMessagesUtil changeMessagesUtil;
@@ -88,6 +90,7 @@ public class MailProcessor {
 
   @Inject
   public MailProcessor(
+      Accounts accounts,
       AccountByEmailCache accountByEmailCache,
       BatchUpdate.Factory buf,
       ChangeMessagesUtil changeMessagesUtil,
@@ -102,6 +105,7 @@ public class MailProcessor {
       ApprovalsUtil approvalsUtil,
       CommentAdded commentAdded,
       @CanonicalWebUrl Provider<String> canonicalUrl) {
+    this.accounts = accounts;
     this.accountByEmailCache = accountByEmailCache;
     this.buf = buf;
     this.changeMessagesUtil = changeMessagesUtil;
@@ -144,16 +148,16 @@ public class MailProcessor {
       return;
     }
 
-    Set<Account.Id> accounts = accountByEmailCache.get(metadata.author);
-    if (accounts.size() != 1) {
+    Set<Account.Id> accountIds = accountByEmailCache.get(metadata.author);
+    if (accountIds.size() != 1) {
       log.error(
           String.format(
               "Address %s could not be matched to a unique account. It was matched to %s. Will delete message.",
-              metadata.author, accounts));
+              metadata.author, accountIds));
       return;
     }
-    Account.Id account = accounts.iterator().next();
-    if (!reviewDb.get().accounts().get(account).isActive()) {
+    Account.Id account = accountIds.iterator().next();
+    if (!accounts.get(reviewDb.get(), account).isActive()) {
       log.warn(String.format("Mail: Account %s is inactive. Will delete message.", account));
       return;
     }

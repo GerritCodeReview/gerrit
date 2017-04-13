@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e64a93bd_99bb8e07",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-13T17:28:51Z",
+      "side": 1,
+      "message": "`.bind` isn\u0027t needed since this uses `.async`.",
+      "range": {
+        "startLine": 696,
+        "startChar": 7,
+        "endLine": 696,
+        "endChar": 18
+      },
+      "revId": "79a5984fef7e2b8ffdd999a29b9d3c3178023f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de9013b4_7d18c033",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-13T17:28:51Z",
+      "side": 1,
+      "message": "Can this and `_updateDiffCursor` use `Polymer.dom.flush()` instead of async? What is the async for?",
+      "range": {
+        "startLine": 700,
+        "startChar": 6,
+        "endLine": 700,
+        "endChar": 29
+      },
+      "revId": "79a5984fef7e2b8ffdd999a29b9d3c3178023f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02096e2a_10d6d203",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-13T17:28:51Z",
+      "side": 1,
+      "message": "Is the target the diff and not the line element or some other node?\n\nWould it make sense to send the path in the event detail like number and side? That way we don\u0027t have to depend on the target being the expected element.",
+      "range": {
+        "startLine": 778,
+        "startChar": 10,
+        "endLine": 778,
+        "endChar": 24
+      },
+      "revId": "79a5984fef7e2b8ffdd999a29b9d3c3178023f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6323d5c_a29afce9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-13T17:28:51Z",
+      "side": 1,
+      "message": "The result here is that it adds an attribute node to each diff line.",
+      "revId": "79a5984fef7e2b8ffdd999a29b9d3c3178023f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dbf3f9b_33f21da4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-13T17:28:51Z",
+      "side": 1,
+      "message": "Is this the reason path attributes are added to each diff line? As I noted above, this is potentially a very expensive way to label lines with their paths.\n\nThe diff cursor has a list of diffs. If it\u0027s searching for a specific line in a specific diff (given by a path) can it just look for the diff in its `diffs` array and find the diff with that path first? Then it can search that diff for the specific line.",
+      "range": {
+        "startLine": 386,
+        "startChar": 35,
+        "endLine": 386,
+        "endChar": 44
+      },
+      "revId": "79a5984fef7e2b8ffdd999a29b9d3c3178023f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a90b53d_b7e5850c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-13T17:28:51Z",
+      "side": 1,
+      "message": "This file has a lot of whitespace changes that aren\u0027t in the PG style. Is this the result of a linter?",
+      "revId": "79a5984fef7e2b8ffdd999a29b9d3c3178023f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

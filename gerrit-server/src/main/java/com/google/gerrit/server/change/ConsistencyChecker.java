@@ -44,6 +44,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.PatchSetState;
@@ -105,6 +106,7 @@ public class ConsistencyChecker {
 
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeNotes.Factory notesFactory;
+  private final Accounts accounts;
   private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
   private final GitRepositoryManager repoManager;
   private final PatchSetInfoFactory patchSetInfoFactory;
@@ -134,6 +136,7 @@ public class ConsistencyChecker {
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeNotes.Factory notesFactory,
+      Accounts accounts,
       DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
       GitRepositoryManager repoManager,
       PatchSetInfoFactory patchSetInfoFactory,
@@ -142,6 +145,7 @@ public class ConsistencyChecker {
       Provider<CurrentUser> user,
       Provider<ReviewDb> db,
       RetryHelper retryHelper) {
+    this.accounts = accounts;
     this.accountPatchReviewStore = accountPatchReviewStore;
     this.changeControlFactory = changeControlFactory;
     this.db = db;
@@ -219,7 +223,7 @@ public class ConsistencyChecker {
 
   private void checkOwner() {
     try {
-      if (db.get().accounts().get(change().getOwner()) == null) {
+      if (accounts.get(db.get(), change().getOwner()) == null) {
         problem("Missing change owner: " + change().getOwner());
       }
     } catch (OrmException e) {

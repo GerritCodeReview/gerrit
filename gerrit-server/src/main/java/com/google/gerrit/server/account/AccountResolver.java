@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 @Singleton
 public class AccountResolver {
   private final Realm realm;
+  private final Accounts accounts;
   private final AccountByEmailCache byEmail;
   private final AccountCache byId;
   private final Provider<InternalAccountQuery> accountQueryProvider;
@@ -40,10 +41,12 @@ public class AccountResolver {
   @Inject
   AccountResolver(
       Realm realm,
+      Accounts accounts,
       AccountByEmailCache byEmail,
       AccountCache byId,
       Provider<InternalAccountQuery> accountQueryProvider) {
     this.realm = realm;
+    this.accounts = accounts;
     this.byEmail = byEmail;
     this.byId = byId;
     this.accountQueryProvider = accountQueryProvider;
@@ -116,7 +119,7 @@ public class AccountResolver {
   }
 
   private boolean exists(ReviewDb db, Account.Id id) throws OrmException {
-    return db.accounts().get(id) != null;
+    return accounts.get(db, id) != null;
   }
 
   /**

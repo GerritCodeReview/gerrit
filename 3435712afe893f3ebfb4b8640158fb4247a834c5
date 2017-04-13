@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "29ce4834_944dc411",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T08:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8371de4d_473c3f06",
+      "range": {
+        "startLine": 104,
+        "startChar": 63,
+        "endLine": 104,
+        "endChar": 72
+      },
+      "revId": "3435712afe893f3ebfb4b8640158fb4247a834c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98751d11_2c6fdfba",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 1

@@ -494,12 +494,22 @@ public abstract class AbstractDaemonTest {
 
   protected TestRepository<InMemoryRepository> cloneProject(
       Project.NameKey p, TestAccount testAccount) throws Exception {
+    return GitUtil.cloneProject(p, registerRepoConnection(p, testAccount));
+  }
+
+  /**
+   * Register a repository connection over the test protocol.
+   *
+   * @return a URI string that can be used to connect to this repository for both fetch and push.
+   * */
+  protected String registerRepoConnection(
+      Project.NameKey p, TestAccount testAccount) throws Exception {
     InProcessProtocol.Context ctx =
         new InProcessProtocol.Context(
             reviewDbProvider, identifiedUserFactory, testAccount.getId(), p);
     Repository repo = repoManager.openRepository(p);
     toClose.add(repo);
-    return GitUtil.cloneProject(p, inProcessProtocol.register(ctx, repo).toString());
+    return inProcessProtocol.register(ctx, repo).toString();
   }
 
   protected void afterTest() throws Exception {

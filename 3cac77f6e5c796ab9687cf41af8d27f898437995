@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3003a757_69f88bc6",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 71
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-13T00:00:15Z",
+      "side": 1,
+      "message": "This has a test. See https://gerrit-review.googlesource.com/#/c/101733/72/polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior_test.html please.",
+      "parentUuid": "a4e218a9_78b19217",
+      "revId": "3cac77f6e5c796ab9687cf41af8d27f898437995",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "80605643_5f16ac00",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
         "patchSetId": 71
@@ -30,6 +48,30 @@
       "writtenOn": "2017-04-12T23:45:14Z",
       "side": 1,
       "message": "These imports are not in alphabetical order.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 73
+      },
+      "revId": "3cac77f6e5c796ab9687cf41af8d27f898437995",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d7ede01_bbc3ac58",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 71
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-13T00:00:15Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "80605643_5f16ac00",
       "range": {
         "startLine": 16,
         "startChar": 0,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "aa8eada4_e231a8ea",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 71
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-13T00:00:15Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b95a1883_a7481ec5",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 86
+      },
+      "revId": "3cac77f6e5c796ab9687cf41af8d27f898437995",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "74c6b383_1f94e5d6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 71
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "25e71a79_ea95d74e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 71
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-13T00:00:15Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "74c6b383_1f94e5d6",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 86
+      },
+      "revId": "3cac77f6e5c796ab9687cf41af8d27f898437995",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ddad7100_575b53e7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
         "patchSetId": 71
@@ -99,6 +189,30 @@
       "writtenOn": "2017-04-12T23:45:14Z",
       "side": 1,
       "message": "These imports are not in alphabetical order.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 104
+      },
+      "revId": "3cac77f6e5c796ab9687cf41af8d27f898437995",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c4eb537_f564364e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 71
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-13T00:00:15Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ddad7100_575b53e7",
       "range": {
         "startLine": 17,
         "startChar": 0,

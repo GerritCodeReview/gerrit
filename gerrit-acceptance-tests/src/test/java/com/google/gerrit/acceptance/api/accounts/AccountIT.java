@@ -41,6 +41,7 @@ import com.google.common.io.BaseEncoding;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.data.Permission;
@@ -535,6 +536,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Sandboxed
   public void fetchUserBranch() throws Exception {
     // change something in the user preferences to ensure that the user branch
     // is created

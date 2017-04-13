@@ -369,6 +369,8 @@ limitations under the License.
     <gr-button
         class="fileListButton"
         id="showAllButton"
+        has-tooltip="[[_computeWarnShowAll(_files)]]"
+        title$="[[_computeShowAllWarning(_files)]]"
         hidden$="[[_computeFileListButtonHidden(numFilesShown, _files)]]"
         link on-tap="_showAllFiles">
       [[_computeShowAllText(_files)]]

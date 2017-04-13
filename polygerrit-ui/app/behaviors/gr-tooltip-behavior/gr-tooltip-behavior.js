@@ -20,7 +20,10 @@
   var TooltipBehavior = {
 
     properties: {
-      hasTooltip: Boolean,
+      hasTooltip: {
+        type: Boolean,
+        observer: '_setupTooltipListeners',
+      },
 
       _isTouchDevice: {
         type: Boolean,
@@ -30,21 +33,25 @@
       },
       _tooltip: Element,
       _titleText: String,
-    },
-
-    attached: function() {
-      if (!this.hasTooltip) { return; }
-
-      this.addEventListener('mouseenter', this._handleShowTooltip.bind(this));
-      this.addEventListener('mouseleave', this._handleHideTooltip.bind(this));
-      this.addEventListener('tap', this._handleHideTooltip.bind(this));
-
-      this.listen(window, 'scroll', '_handleWindowScroll');
+      _hasSetupTooltipListeners: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     detached: function() {
       this._handleHideTooltip();
       this.unlisten(window, 'scroll', '_handleWindowScroll');
+    },
+
+    _setupTooltipListeners: function() {
+      if (this._hasSetupTooltipListeners || !this.hasTooltip) { return; }
+      this._hasSetupTooltipListeners = true;
+
+      this.addEventListener('mouseenter', this._handleShowTooltip.bind(this));
+      this.addEventListener('mouseleave', this._handleHideTooltip.bind(this));
+      this.addEventListener('tap', this._handleHideTooltip.bind(this));
+      this.listen(window, 'scroll', '_handleWindowScroll');
     },
 
     _handleShowTooltip: function(e) {

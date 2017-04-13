@@ -224,9 +224,11 @@
     },
 
     _selectLine: function(el) {
+      debugger
       this.fire('line-selected', {
         side: el.classList.contains('left') ? DiffSide.LEFT : DiffSide.RIGHT,
         number: el.getAttribute('data-value'),
+        path: this.path,
       });
     },
 

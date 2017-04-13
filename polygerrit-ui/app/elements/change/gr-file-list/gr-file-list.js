@@ -686,18 +686,20 @@
       }
     },
 
+    _updateDiffCursor: function() {
+      var diffElements = Polymer.dom(this.root).querySelectorAll('gr-diff');
+
+      // Overwrite the cursor's list of diffs:
+      this.$.diffCursor.splice.apply(this.$.diffCursor,
+          ['diffs', 0, this.$.diffCursor.diffs.length].concat(diffElements));
+      Polymer.dom.flush();
+    },
+
     _filesChanged: function() {
-      this.async(function() {
-        var diffElements = Polymer.dom(this.root).querySelectorAll('gr-diff');
-
-        // Overwrite the cursor's list of diffs:
-        this.$.diffCursor.splice.apply(this.$.diffCursor,
-            ['diffs', 0, this.$.diffCursor.diffs.length].concat(diffElements));
-
-        var files = Polymer.dom(this.root).querySelectorAll('.file-row');
-        this.$.fileCursor.stops = files;
-        this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
-      }.bind(this), 1);
+      var files = Polymer.dom(this.root).querySelectorAll('.file-row');
+      this.$.fileCursor.stops = files;
+      this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
+      Polymer.dom.flush();
     },
 
     _incrementNumFilesShown: function() {
@@ -769,6 +771,11 @@
       return expandedFilesRecord.base.indexOf(path) !== -1;
     },
 
+    _onLineSelected: function(e, detail) {
+      this.$.diffCursor.moveToLineNumber(detail.number, detail.side,
+          detail.path);
+    },
+
     /**
      * Handle splices to the list of expanded file paths. If there are any new
      * entries in the expanded list, then render each diff corresponding in
@@ -798,6 +805,8 @@
             this.$.reporting.timeEnd(timerName);
             this.$.diffCursor.handleDiffUpdate();
           }.bind(this));
+      this._updateDiffCursor();
+      this.$.diffCursor.handleDiffUpdate();
     },
 
     /**

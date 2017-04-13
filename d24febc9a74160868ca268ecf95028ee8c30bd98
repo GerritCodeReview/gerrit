@@ -93,6 +93,30 @@
       "revId": "d24febc9a74160868ca268ecf95028ee8c30bd98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ae9ba9_19022ae9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-13T03:58:43Z",
+      "side": 1,
+      "message": "There are several ways to do it.  The way I would do it is reset to origin/master, do the other change and make a new commit, and then cherry pick this commit back on top of it.",
+      "parentUuid": "0b3c6499_5a305cda",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 44
+      },
+      "revId": "d24febc9a74160868ca268ecf95028ee8c30bd98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

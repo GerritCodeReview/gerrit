@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.accounts;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
@@ -44,6 +45,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -99,6 +101,8 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushCertificateIdent;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -680,6 +684,50 @@ public class AccountIT extends AbstractDaemonTest {
         String.format(
             "%s: Invalid project watch of account %d for project %s: %s",
             WatchConfig.WATCH_CONFIG, admin.getId().get(), project.get(), invalidNotifyValue));
+  }
+
+  @Test
+  @Sandboxed
+  public void cannotDeleteUserBranch() throws Exception {
+    grant(
+        Permission.DELETE,
+        allUsers,
+        RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}",
+        true,
+        REGISTERED_USERS);
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    String userRef = RefNames.refsUsers(admin.id);
+    PushResult r = deleteRef(allUsersRepo, userRef);
+    RemoteRefUpdate refUpdate = r.getRemoteUpdate(userRef);
+    assertThat(refUpdate.getStatus()).isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+    assertThat(refUpdate.getMessage()).contains("Not allowed to delete user branch.");
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(userRef)).isNotNull();
+    }
+  }
+
+  @Test
+  @Sandboxed
+  public void deleteUserBranchWithAccessDatabaseCapability() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    grant(
+        Permission.DELETE,
+        allUsers,
+        RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}",
+        true,
+        REGISTERED_USERS);
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    String userRef = RefNames.refsUsers(admin.id);
+    PushResult r = deleteRef(allUsersRepo, userRef);
+    RemoteRefUpdate refUpdate = r.getRemoteUpdate(userRef);
+    assertThat(refUpdate.getStatus()).isEqualTo(RemoteRefUpdate.Status.OK);
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(userRef)).isNull();
+    }
   }
 
   @Test

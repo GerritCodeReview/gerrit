@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ab1ad025_8ebd111c",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-13T21:58:14Z",
+      "side": 1,
+      "message": "This may be invoked before element is attached or ready.\n\nYou could use an observer for _hasTooltip and isAttached, and _hasSetupTooltipListeners isn\u0027t needed this way.\n\nHere\u0027s an example:\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js#34",
+      "revId": "1483dea7f85b9200be3c85d42b2cd54ba7a636ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16c8fa19_16fd0bf4",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 1

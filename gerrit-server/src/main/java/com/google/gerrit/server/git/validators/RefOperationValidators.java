@@ -14,10 +14,13 @@
 package com.google.gerrit.server.git.validators;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.events.RefReceivedEvent;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -42,15 +45,18 @@ public class RefOperationValidators {
         update.getExpectedOldObjectId(), update.getNewObjectId(), update.getName(), type);
   }
 
-  private final RefReceivedEvent event;
+  private final AllUsersName allUsersName;
   private final DynamicSet<RefOperationValidationListener> refOperationValidationListeners;
+  private final RefReceivedEvent event;
 
   @Inject
   RefOperationValidators(
+      AllUsersName allUsersName,
       DynamicSet<RefOperationValidationListener> refOperationValidationListeners,
       @Assisted Project project,
       @Assisted IdentifiedUser user,
       @Assisted ReceiveCommand cmd) {
+    this.allUsersName = allUsersName;
     this.refOperationValidationListeners = refOperationValidationListeners;
     event = new RefReceivedEvent();
     event.command = cmd;
@@ -59,11 +65,13 @@ public class RefOperationValidators {
   }
 
   public List<ValidationMessage> validateForRefOperation() throws RefOperationValidationException {
-
     List<ValidationMessage> messages = new ArrayList<>();
     boolean withException = false;
+    List<RefOperationValidationListener> listeners = new ArrayList<>();
+    listeners.add(new DisallowDeletionOfUserBranches(allUsersName));
+    refOperationValidationListeners.forEach(l -> listeners.add(l));
     try {
-      for (RefOperationValidationListener listener : refOperationValidationListeners) {
+      for (RefOperationValidationListener listener : listeners) {
         messages.addAll(listener.onRefOperation(event));
       }
     } catch (ValidationException e) {
@@ -93,6 +101,28 @@ public class RefOperationValidators {
     @Override
     public boolean apply(ValidationMessage input) {
       return input.isError();
+    }
+  }
+
+  private static class DisallowDeletionOfUserBranches implements RefOperationValidationListener {
+    private final AllUsersName allUsersName;
+
+    DisallowDeletionOfUserBranches(AllUsersName allUsersName) {
+      this.allUsersName = allUsersName;
+    }
+
+    @Override
+    public List<ValidationMessage> onRefOperation(RefReceivedEvent refEvent)
+        throws ValidationException {
+      if (refEvent.project.getNameKey().equals(allUsersName)
+          && (refEvent.command.getRefName().startsWith(RefNames.REFS_USERS)
+              && !refEvent.command.getRefName().equals(RefNames.REFS_USERS_DEFAULT))
+          && refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {
+        if (!refEvent.user.getCapabilities().canAccessDatabase()) {
+          throw new ValidationException("Not allowed to delete user branch.");
+        }
+      }
+      return ImmutableList.of();
     }
   }
 }

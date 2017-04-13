@@ -235,7 +235,7 @@
     },
 
     _computeProjectURL: function(project) {
-      return this.getBaseUrl() + '/q/status:open+project:' +
+      return this.getBaseUrl() + '/q/project:' +
         this.encodeURL(project, false);
     },
 

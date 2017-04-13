@@ -21,15 +21,14 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.SiteIndexer;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,17 +44,17 @@ import org.slf4j.LoggerFactory;
 public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, AccountIndex> {
   private static final Logger log = LoggerFactory.getLogger(AllAccountsIndexer.class);
 
-  private final SchemaFactory<ReviewDb> schemaFactory;
   private final ListeningExecutorService executor;
+  private final Accounts accounts;
   private final AccountCache accountCache;
 
   @Inject
   AllAccountsIndexer(
-      SchemaFactory<ReviewDb> schemaFactory,
       @IndexExecutor(BATCH) ListeningExecutorService executor,
+      Accounts accounts,
       AccountCache accountCache) {
-    this.schemaFactory = schemaFactory;
     this.executor = executor;
+    this.accounts = accounts;
     this.accountCache = accountCache;
   }
 
@@ -67,7 +66,7 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
     List<Account.Id> ids;
     try {
       ids = collectAccounts(progress);
-    } catch (OrmException e) {
+    } catch (IOException e) {
       log.error("Error collecting accounts", e);
       return new SiteIndexer.Result(sw, false, 0, 0);
     }
@@ -113,13 +112,12 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
     return new SiteIndexer.Result(sw, ok.get(), done.get(), failed.get());
   }
 
-  private List<Account.Id> collectAccounts(ProgressMonitor progress) throws OrmException {
+  private List<Account.Id> collectAccounts(ProgressMonitor progress) throws IOException {
     progress.beginTask("Collecting accounts", ProgressMonitor.UNKNOWN);
     List<Account.Id> ids = new ArrayList<>();
-    try (ReviewDb db = schemaFactory.open()) {
-      for (Account account : db.accounts().all()) {
-        ids.add(account.getId());
-      }
+    for (Account.Id accountId : accounts.allIds()) {
+      ids.add(accountId);
+      progress.update(1);
     }
     progress.endTask();
     return ids;

@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "08d3ca1a_ef4a0d3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-04-13T08:48:46Z",
+      "side": 1,
+      "message": "optional: Change the name to \u0027checkDifferentProjects\u0027 or \u0027checkDistinctProjects\u0027 to use a similar naming as Preconditions, which expresses the desired state in the method name.",
+      "range": {
+        "startLine": 151,
+        "startChar": 24,
+        "endLine": 151,
+        "endChar": 40
+      },
+      "revId": "682f0f3522500331ce5476c8aa76708f979dfd0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ebdffb1_0879f08c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
         "patchSetId": 1

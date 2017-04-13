@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "19cdb935_7bc8ecdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-13T13:36:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5737e05e_535d488c",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "94e56b235821e70a3250c8d8bccdc8fcf71c619f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0202937d_75ab5b2d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-13T13:29:19Z",
       "side": 1,
       "message": "\"This lets us clone .. in an integration test\"",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "94e56b235821e70a3250c8d8bccdc8fcf71c619f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9491206c_97780da8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-13T13:36:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0202937d_75ab5b2d",
       "range": {
         "startLine": 12,
         "startChar": 0,
@@ -82,6 +130,54 @@
       "writtenOn": "2017-04-13T13:29:19Z",
       "side": 1,
       "message": "don\u0027t start sentence with \"And\".  Say\n\n  A and B\n\nor \n\n  A. B",
+      "range": {
+        "startLine": 13,
+        "startChar": 47,
+        "endLine": 13,
+        "endChar": 50
+      },
+      "revId": "94e56b235821e70a3250c8d8bccdc8fcf71c619f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d2476a8_bc45b4f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-13T13:36:09Z",
+      "side": 1,
+      "message": "No. Actually, I just want clone between two repositories which are managed by GitRepositoryManager.",
+      "parentUuid": "4080adfe_d8ffae51",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 6
+      },
+      "revId": "94e56b235821e70a3250c8d8bccdc8fcf71c619f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84005281_c8f0ec8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-13T13:36:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "049cf06a_2f09b7c1",
       "range": {
         "startLine": 13,
         "startChar": 47,

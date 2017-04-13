@@ -16,8 +16,8 @@ tasks.
 == Gerrit Release Type
 
 Here are some guidelines on release approaches depending on the
-type of release you want to make (`stable-fix`, `stable`, `RC0`,
-`RC1`...).
+type of release you want to make (`stable-fix`, `stable`, `rc0`,
+`rc1`...).
 
 [[stable]]
 === Stable
@@ -27,19 +27,19 @@ need to undergo some stabilization before releasing the final release.
 
 * Propose the release with any plans/objectives to the mailing list
 
-* Create a Gerrit `RC0`
+* Create a Gerrit `rc0`
 
-* If needed create a Gerrit `RC1`
+* If needed create a Gerrit `rc1`
 
 [NOTE]
 You may let in a few features to this release
 
-* If needed create a Gerrit `RC2`
+* If needed create a Gerrit `rc2`
 
 [NOTE]
 There should be no new features in this release, only bug fixes
 
-* Finally create the `stable` release (no `RC`)
+* Finally create the `stable` release (no `rc`)
 
 
 === Stable-Fix
@@ -101,7 +101,7 @@ The subprojects to be released are:
 
 For each subproject do:
 
-* Check the dependency to the Subproject in the Gerrit parent `pom.xml`:
+* Check the dependency to the Subproject in the Gerrit parent `WORKSPACE`:
 +
 If a `SNAPSHOT` version of the subproject is referenced the subproject
 needs to be released so that Gerrit can reference a released version of
@@ -117,7 +117,7 @@ for the Subproject in `WORKSPACE` to the released version.
 [[update-versions]]
 === Update Versions and Create Release Tag
 
-Before doing the release build, the `GERRIT_VERSION` in the `VERSION`
+Before doing the release build, the `GERRIT_VERSION` in the `version.bzl`
 file must be updated, e.g. change it from `2.5-SNAPSHOT` to `2.5`.
 
 In addition the version must be updated in a number of pom.xml files.
@@ -383,7 +383,7 @@ for the next release.
 Use the `version` tool to set the version in the `version.bzl` file:
 
 ----
- ./tools/version.py 2.11-SNAPSHOT
+ ./tools/version.py 2.16-SNAPSHOT
 ----
 
 Verify that the changes made by the tool are sane, then commit them, push

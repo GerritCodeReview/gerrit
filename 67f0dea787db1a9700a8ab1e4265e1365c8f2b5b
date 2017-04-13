@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3a33af2d_b001faaf",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-13T20:00:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f523ff74_1f7f608c",
+      "range": {
+        "startLine": 97,
+        "startChar": 8,
+        "endLine": 97,
+        "endChar": 36
+      },
+      "revId": "67f0dea787db1a9700a8ab1e4265e1365c8f2b5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec83160_fe35ee7d",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager_test.html",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "67f0dea787db1a9700a8ab1e4265e1365c8f2b5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cac28a6d_b444c9e2",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-13T20:00:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec83160_fe35ee7d",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 116,
+        "endChar": 36
+      },
+      "revId": "67f0dea787db1a9700a8ab1e4265e1365c8f2b5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

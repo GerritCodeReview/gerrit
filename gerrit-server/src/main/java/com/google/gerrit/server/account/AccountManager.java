@@ -193,7 +193,7 @@ public class AccountManager {
     }
 
     if (toUpdate != null) {
-      db.accounts().update(Collections.singleton(toUpdate));
+      accountsUpdateFactory.create().update(db, toUpdate);
     }
 
     if (newEmail != null && !newEmail.equals(oldEmail)) {
@@ -379,7 +379,7 @@ public class AccountManager {
           Account a = accounts.get(db, to);
           if (a.getPreferredEmail() == null) {
             a.setPreferredEmail(who.getEmailAddress());
-            db.accounts().update(Collections.singleton(a));
+            accountsUpdateFactory.create().update(db, a);
           }
         }
 
@@ -449,7 +449,7 @@ public class AccountManager {
           if (a.getPreferredEmail() != null
               && a.getPreferredEmail().equals(who.getEmailAddress())) {
             a.setPreferredEmail(null);
-            db.accounts().update(Collections.singleton(a));
+            accountsUpdateFactory.create().update(db, a);
           }
           byEmailCache.evict(who.getEmailAddress());
           byIdCache.evict(from);

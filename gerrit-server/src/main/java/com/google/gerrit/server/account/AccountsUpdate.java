@@ -145,6 +145,11 @@ public class AccountsUpdate {
     createUserBranchIfNeeded(account);
   }
 
+  /** Updates the account. */
+  public void update(ReviewDb db, Account account) throws OrmException {
+    db.accounts().update(ImmutableSet.of(account));
+  }
+
   /** Deletes the account. */
   public void delete(ReviewDb db, Account account) throws OrmException, IOException {
     db.accounts().delete(ImmutableSet.of(account));

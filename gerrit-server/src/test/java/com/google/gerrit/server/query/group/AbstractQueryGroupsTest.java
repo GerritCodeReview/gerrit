@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.group;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.groups.Groups.QueryRequest;
@@ -34,6 +33,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -75,6 +75,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   @Rule public final TestName testName = new TestName();
 
   @Inject protected Accounts accounts;
+
+  @Inject protected AccountsUpdate.Server accountsUpdate;
 
   @Inject protected AccountCache accountCache;
 
@@ -322,7 +324,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
       a.setFullName(fullName);
       a.setPreferredEmail(email);
       a.setActive(active);
-      db.accounts().update(ImmutableList.of(a));
+      accountsUpdate.create().update(db, a);
       accountCache.evict(id);
       return id;
     }

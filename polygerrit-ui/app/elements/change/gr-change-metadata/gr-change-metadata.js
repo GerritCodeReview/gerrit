@@ -207,23 +207,25 @@
       return isNewChange && hasLabels;
     },
 
-    _computeSubmitStatus: function(labels) {
+    _computeMissingLabels: function(labels) {
       var missingLabels = [];
-      var output = '';
       for (var label in labels) {
         var obj = labels[label];
         if (!obj.optional && !obj.approved) {
           missingLabels.push(label);
         }
       }
-      if (missingLabels.length) {
-        output += 'Needs ';
-        output += missingLabels.join(' and ');
-        output += missingLabels.length > 1 ? ' labels' : ' label';
-      } else {
-        output = 'Ready to submit';
-      }
-      return output;
+      return missingLabels;
+    },
+
+    _computeMissingLabelsHeader: function(labels) {
+      return 'Needs label' +
+          (this._computeMissingLabels(labels).length > 1 ? 's' : '') +
+          ':';
+    },
+
+    _showMissingLabels: function(labels) {
+      return !!this._computeMissingLabels(labels).length;
     },
 
     _computeProjectURL: function(project) {

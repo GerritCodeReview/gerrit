@@ -146,6 +146,7 @@ public class AccountCacheImpl implements AccountCache {
 
   static class ByIdLoader extends CacheLoader<Account.Id, AccountState> {
     private final SchemaFactory<ReviewDb> schema;
+    private final Accounts accounts;
     private final GroupCache groupCache;
     private final GeneralPreferencesLoader loader;
     private final LoadingCache<String, Optional<Account.Id>> byName;
@@ -155,11 +156,13 @@ public class AccountCacheImpl implements AccountCache {
     @Inject
     ByIdLoader(
         SchemaFactory<ReviewDb> sf,
+        Accounts accounts,
         GroupCache groupCache,
         GeneralPreferencesLoader loader,
         @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername,
         Provider<WatchConfig.Accessor> watchConfig,
         ExternalIds externalIds) {
+      this.accounts = accounts;
       this.schema = sf;
       this.groupCache = groupCache;
       this.loader = loader;
@@ -182,7 +185,7 @@ public class AccountCacheImpl implements AccountCache {
 
     private AccountState load(final ReviewDb db, final Account.Id who)
         throws OrmException, IOException, ConfigInvalidException {
-      Account account = db.accounts().get(who);
+      Account account = accounts.get(db, who);
       if (account == null) {
         // Account no longer exists? They are anonymous.
         return missing(who);

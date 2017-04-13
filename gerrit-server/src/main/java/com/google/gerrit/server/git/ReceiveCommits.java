@@ -83,6 +83,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -297,6 +298,7 @@ public class ReceiveCommits {
   private final Sequences seq;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory notesFactory;
+  private final Accounts accounts;
   private final AccountResolver accountResolver;
   private final PermissionBackend permissionBackend;
   private final PermissionBackend.ForProject permissions;
@@ -371,6 +373,7 @@ public class ReceiveCommits {
       Sequences seq,
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory notesFactory,
+      Accounts accounts,
       AccountResolver accountResolver,
       PermissionBackend permissionBackend,
       CmdLineParser.Factory optionParserFactory,
@@ -410,6 +413,7 @@ public class ReceiveCommits {
     this.seq = seq;
     this.queryProvider = queryProvider;
     this.notesFactory = notesFactory;
+    this.accounts = accounts;
     this.accountResolver = accountResolver;
     this.permissionBackend = permissionBackend;
     this.optionParserFactory = optionParserFactory;
@@ -2692,7 +2696,7 @@ public class ReceiveCommits {
 
         if (defaultName && user.hasEmailAddress(c.getCommitterIdent().getEmailAddress())) {
           try {
-            Account a = db.accounts().get(user.getAccountId());
+            Account a = accounts.get(db, user.getAccountId());
             if (a != null && Strings.isNullOrEmpty(a.getFullName())) {
               a.setFullName(c.getCommitterIdent().getName());
               db.accounts().update(Collections.singleton(a));

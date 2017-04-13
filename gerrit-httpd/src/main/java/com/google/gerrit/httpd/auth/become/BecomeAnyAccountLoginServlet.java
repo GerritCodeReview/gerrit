@@ -230,7 +230,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
       return null;
     }
     try (ReviewDb db = schema.open()) {
-      return auth(db.accounts().get(id));
+      return auth(accounts.get(db, id));
     } catch (OrmException e) {
       getServletContext().log("cannot query database", e);
       return null;

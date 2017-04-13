@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a31c1b13_0ab0252c",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 72
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-13T00:17:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5c4922ad_fda97c3b",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 70
+      },
+      "revId": "76345941111a51b64729ac9f4318e4fe6d1a1e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5ecd9205_edf08dcd",
         "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior_test.html",
         "patchSetId": 72
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-13T00:11:41Z",
       "side": 1,
       "message": "Please group scripts with scripts and links with links, leaving one space between each type of tag.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 9
+      },
+      "revId": "76345941111a51b64729ac9f4318e4fe6d1a1e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03214c9f_4f519ea1",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior_test.html",
+        "patchSetId": 72
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-13T00:17:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5ecd9205_edf08dcd",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d97b0468_1053bfb0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 72
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-13T00:17:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "fc467fe7_ecef0769",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 100
+      },
+      "revId": "76345941111a51b64729ac9f4318e4fe6d1a1e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e2e19d13_8edf7196",
         "filename": "polygerrit-ui/app/elements/gr-app_test.html",
         "patchSetId": 72
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "46587809_8dd46e90",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.html",
+        "patchSetId": 72
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-13T00:17:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e2e19d13_8edf7196",
+      "range": {
+        "startLine": 75,
+        "startChar": 8,
+        "endLine": 76,
+        "endChar": 92
+      },
+      "revId": "76345941111a51b64729ac9f4318e4fe6d1a1e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "803a1c3a_da1c2d4e",
         "filename": "polygerrit-ui/app/elements/gr-app_test.html",
         "patchSetId": 72
@@ -105,6 +201,30 @@
       "writtenOn": "2017-04-13T00:11:41Z",
       "side": 1,
       "message": "Please wrap lines \u003e 80ch.",
+      "range": {
+        "startLine": 92,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 103
+      },
+      "revId": "76345941111a51b64729ac9f4318e4fe6d1a1e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "804fa0d9_019da13e",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.html",
+        "patchSetId": 72
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-13T00:17:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "803a1c3a_da1c2d4e",
       "range": {
         "startLine": 92,
         "startChar": 8,

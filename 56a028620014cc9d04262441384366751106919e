@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "083afc30_ddbe6f6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-13T06:31:02Z",
+      "side": 1,
+      "message": "I also think, that something such fundamental and non optional like AccountPatchReviewStore should be provided by Gerrit core, even for different databases dialects.",
+      "revId": "56a028620014cc9d04262441384366751106919e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e423b5a_ab9016e5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-13T06:31:02Z",
+      "side": 1,
+      "message": "One issue, you may have with this is a dependency on the dialect specific drivers. Wehn ReviewDb is retired, there wouldnÄt be dialect specific driver son the classpath, yet here you introduces such dependency. This should be clarifigued. Also already now, if someone decides to mix databases, using postgresql with ReviewDb and MySQL (or MariaDB) with accountPatchReviewDb, this wouldn\u0027t work, bcause we do not ship the MySQl driver in gerrit WAR. IOW., you should implicitly tell the user about this hidden dependency, and explain how to resolve that.",
+      "range": {
+        "startLine": 27,
+        "startChar": 59,
+        "endLine": 28,
+        "endChar": 8
+      },
+      "revId": "56a028620014cc9d04262441384366751106919e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a9ed367_657f84e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-13T06:31:02Z",
+      "side": 1,
+      "message": "I find it very confusing that this class is left as non abstract. And in fact, in Schema_127 it is even instantiated.\nBut then the overrides with dialect specific implementation of some relevant parts of this store (currently only convertError) are missed.\n\nIdeally, we wouldn\u0027t need such a factory, and Guice injector would provide us a right instance according to configuration, like in real gerrit process, but I think this is wiring issue in SiteProgram, right?\n\nStill, I would try to make this class abstract, and provide a public static factory method that would create a right instance in Schema_127, something like:\n\n  public static JdbcAccountPatchReviewStore createAccountPatchReviewStore(...) {\n    if \u003cpostgresql\u003e\n        return new PostgresqlAccountPatchReviewStore(...)\n     else ...\n  }\n\n@Singleton on the class and @Inject annotation on ctor should never be used on this class, only on derived classes.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 40
+      },
+      "revId": "56a028620014cc9d04262441384366751106919e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23171d9a_745fc642",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-13T06:31:02Z",
+      "side": 1,
+      "message": "Can\u0027t this be keeped in H2AccountPatchReviewStore?",
+      "revId": "56a028620014cc9d04262441384366751106919e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "419d83c7_e3245561",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-13T06:31:02Z",
+      "side": 1,
+      "message": "This should be H2AccountPatchReviewStore?",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 84
+      },
+      "revId": "56a028620014cc9d04262441384366751106919e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5face3ca_2e3527ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-13T06:31:02Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be needed and would be a mistake if this class is instantiated and missed the overrides in the derived \n dialect specific classes classes.",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 9
+      },
+      "revId": "56a028620014cc9d04262441384366751106919e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

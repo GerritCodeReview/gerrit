@@ -26,6 +26,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
+<link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
 
 <dom-module id="gr-file-list">
   <template>
@@ -366,13 +367,18 @@ limitations under the License.
         link on-tap="_incrementNumFilesShown">
       [[_computeIncrementText(numFilesShown, _files)]]
     </gr-button>
-    <gr-button
-        class="fileListButton"
-        id="showAllButton"
-        hidden$="[[_computeFileListButtonHidden(numFilesShown, _files)]]"
-        link on-tap="_showAllFiles">
-      [[_computeShowAllText(_files)]]
-    </gr-button>
+    <gr-tooltip-content
+        has-tooltip="[[_computeWarnShowAll(_files)]]"
+        show-icon="[[_computeWarnShowAll(_files)]]"
+        title$="[[_computeShowAllWarning(_files)]]">
+      <gr-button
+          class="fileListButton"
+          id="showAllButton"
+          hidden$="[[_computeFileListButtonHidden(numFilesShown, _files)]]"
+          link on-tap="_showAllFiles">
+        [[_computeShowAllText(_files)]]
+      </gr-button><!--
+ --></gr-tooltip-content>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
     <gr-diff-cursor id="diffCursor"></gr-diff-cursor>

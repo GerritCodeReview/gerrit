@@ -116,5 +116,11 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isTrue(element._handleHideTooltip.called);
     });
+
+    test('sets up listeners when has-tooltip is changed', function() {
+      var addListenerStub = sandbox.stub(element, 'addEventListener');
+      element.hasTooltip = true;
+      assert.isTrue(addListenerStub.called);
+    });
   });
 </script>

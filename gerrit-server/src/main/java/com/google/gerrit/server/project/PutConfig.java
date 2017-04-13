@@ -22,9 +22,11 @@ import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -90,10 +92,9 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   }
 
   @Override
-  public ConfigInfo apply(ProjectResource rsrc, ConfigInput input)
-      throws ResourceNotFoundException, BadRequestException, ResourceConflictException {
+  public ConfigInfo apply(ProjectResource rsrc, ConfigInput input) throws RestApiException {
     if (!rsrc.getControl().isOwner()) {
-      throw new ResourceNotFoundException(rsrc.getName());
+      throw new AuthException("restricted to project owner");
     }
     return apply(rsrc.getControl(), input);
   }

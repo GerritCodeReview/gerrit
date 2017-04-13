@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b632045e_c59b6993",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-13T08:17:00Z",
+      "side": 1,
+      "message": "You cannot replace pom.xml with WORKSPACE for these three dependencies. I only migrated prolog-cafe to Bazel.  gwtjsonrpc and gwtorm are still Maven based.",
+      "range": {
+        "startLine": 104,
+        "startChar": 63,
+        "endLine": 104,
+        "endChar": 72
+      },
+      "revId": "3435712afe893f3ebfb4b8640158fb4247a834c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98751d11_2c6fdfba",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-13T08:17:00Z",
+      "side": 1,
+      "message": "This is stale. I missed t adapt that as Buck driven build was removed. The file is called version.bzl.",
+      "range": {
+        "startLine": 120,
+        "startChar": 60,
+        "endLine": 121,
+        "endChar": 4
+      },
+      "revId": "3435712afe893f3ebfb4b8640158fb4247a834c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a99a8da_ba49f859",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-13T08:17:00Z",
+      "side": 1,
+      "message": "Why ae you mixing stable release with a candidate in this diff? Above 2.15 (old 2.5) is used, here you started to use -rc0. Keeps it consistent. Here and below.",
+      "range": {
+        "startLine": 129,
+        "startChar": 25,
+        "endLine": 129,
+        "endChar": 29
+      },
+      "revId": "3435712afe893f3ebfb4b8640158fb4247a834c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

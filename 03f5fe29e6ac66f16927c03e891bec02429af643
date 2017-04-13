@@ -260,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "dd631519_5dad5527",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-13T09:33:55Z",
+      "side": 1,
+      "message": "OK, no need to change.",
+      "parentUuid": "f87484ec_a3b35c57",
+      "range": {
+        "startLine": 197,
+        "startChar": 6,
+        "endLine": 202,
+        "endChar": 59
+      },
+      "revId": "03f5fe29e6ac66f16927c03e891bec02429af643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37436a53_d1f7477e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 5
@@ -471,6 +495,30 @@
       "side": 1,
       "message": "It can be when this is invoked from PostReview. I moved the check there.",
       "parentUuid": "8b0ae976_378cf0be",
+      "range": {
+        "startLine": 244,
+        "startChar": 6,
+        "endLine": 244,
+        "endChar": 27
+      },
+      "revId": "03f5fe29e6ac66f16927c03e891bec02429af643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47018d09_ae57922f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewersOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-13T09:33:55Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it then be better to keep the null check here and remove it from PostReviewers and PostReview? 1 place to check instead of 2?",
+      "parentUuid": "94efa601_d8d50cdb",
       "range": {
         "startLine": 244,
         "startChar": 6,

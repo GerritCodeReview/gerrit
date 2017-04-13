@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8ae90dcf_76a08ffe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-13T21:49:18Z",
+      "side": 1,
+      "message": "Oh yeah, you\u0027re right.",
+      "parentUuid": "d4010872_9e91c2c2",
+      "revId": "56bdd70a7ef12dc1801e6ddf05424bfb46745ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65723437_840cdf32",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "2ba7420c_bee44b27",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-13T21:49:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65723437_840cdf32",
+      "range": {
+        "startLine": 379,
+        "startChar": 58,
+        "endLine": 379,
+        "endChar": 70
+      },
+      "revId": "56bdd70a7ef12dc1801e6ddf05424bfb46745ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0a030a0_8b49fede",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2017-04-13T20:41:08Z",
       "side": 1,
       "message": "Why not ...\n\n this.path\n\n... ?",
+      "range": {
+        "startLine": 230,
+        "startChar": 14,
+        "endLine": 230,
+        "endChar": 43
+      },
+      "revId": "56bdd70a7ef12dc1801e6ddf05424bfb46745ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4da085a_341cec23",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-13T21:49:18Z",
+      "side": 1,
+      "message": "yeah that makes more sense :)",
+      "parentUuid": "b0a030a0_8b49fede",
       "range": {
         "startLine": 230,
         "startChar": 14,

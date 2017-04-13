@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4010872_9e91c2c2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-13T20:41:08Z",
+      "side": 1,
+      "message": "I think that now that you don\u0027t find cursor stops by file path, modifications to this and the next two builder files is no longer needed.",
+      "revId": "56bdd70a7ef12dc1801e6ddf05424bfb46745ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65723437_840cdf32",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-13T20:41:08Z",
+      "side": 1,
+      "message": "Nitpick: Since it\u0027s for the path, `filteName` might suggest that it\u0027s only for the last component of the path.\n\nMaybe name it...\n\n opt_path",
+      "range": {
+        "startLine": 379,
+        "startChar": 58,
+        "endLine": 379,
+        "endChar": 70
+      },
+      "revId": "56bdd70a7ef12dc1801e6ddf05424bfb46745ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0a030a0_8b49fede",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-13T20:41:08Z",
+      "side": 1,
+      "message": "Why not ...\n\n this.path\n\n... ?",
+      "range": {
+        "startLine": 230,
+        "startChar": 14,
+        "endLine": 230,
+        "endChar": 43
+      },
+      "revId": "56bdd70a7ef12dc1801e6ddf05424bfb46745ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

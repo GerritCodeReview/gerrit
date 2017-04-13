@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -91,9 +92,10 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
 
   @Override
   public ConfigInfo apply(ProjectResource rsrc, ConfigInput input)
-      throws ResourceNotFoundException, BadRequestException, ResourceConflictException {
+      throws ResourceNotFoundException, BadRequestException, ResourceConflictException,
+          AuthException {
     if (!rsrc.getControl().isOwner()) {
-      throw new ResourceNotFoundException(rsrc.getName());
+      throw new AuthException("restricted to project owner");
     }
     return apply(rsrc.getControl(), input);
   }

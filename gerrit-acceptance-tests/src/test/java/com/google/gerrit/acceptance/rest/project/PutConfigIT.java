@@ -26,15 +26,21 @@ import com.google.gerrit.reviewdb.client.Project;
 import org.junit.Test;
 
 public class PutConfigIT extends AbstractDaemonTest {
+
   @Test
   public void putConfigNotFound() throws Exception {
     // inexistent project
     RestResponse r = userRestSession.put("/projects/inexistentProject/config", new ConfigInput());
     r.assertNotFound();
     r.consume();
+  }
+
+  @Test
+  public void putConfigForbidden() throws Exception {
     // existent project but user not owner
-    r = userRestSession.put("/projects/" + project.get() + "/config", new ConfigInput());
-    r.assertNotFound();
+    RestResponse r =
+        userRestSession.put("/projects/" + project.get() + "/config", new ConfigInput());
+    r.assertForbidden();
     r.consume();
   }
 

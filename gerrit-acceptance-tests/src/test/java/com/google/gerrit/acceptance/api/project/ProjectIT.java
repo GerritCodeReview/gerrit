@@ -25,6 +25,8 @@ import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -106,7 +108,7 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void description() throws Exception {
+  public void descriptionChangeCausesRefUpdate() throws Exception {
     RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
     assertThat(gApi.projects().name(project.get()).description()).isEmpty();
     DescriptionInput in = new DescriptionInput();
@@ -120,7 +122,19 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void config() throws Exception {
+  public void descriptionIsDeletedWhenNotSpecified() throws Exception {
+    assertThat(gApi.projects().name(project.get()).description()).isEmpty();
+    DescriptionInput in = new DescriptionInput();
+    in.description = "new project description";
+    gApi.projects().name(project.get()).description(in);
+    assertThat(gApi.projects().name(project.get()).description()).isEqualTo(in.description);
+    in.description = null;
+    gApi.projects().name(project.get()).description(in);
+    assertThat(gApi.projects().name(project.get()).description()).isEmpty();
+  }
+
+  @Test
+  public void configChangeCausesRefUpdate() throws Exception {
     RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
 
     ConfigInfo info = gApi.projects().name(project.get()).config();
@@ -135,5 +149,69 @@ public class ProjectIT extends AbstractDaemonTest {
     RevCommit updatedHead = getRemoteHead(project, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         project.get(), RefNames.REFS_CONFIG, initialHead, updatedHead);
+  }
+
+  @Test
+  public void setConfig() throws Exception {
+    ConfigInput input = createTestConfigInput();
+    ConfigInfo info = gApi.projects().name(project.get()).config(input);
+    assertThat(info.description).isEqualTo(input.description);
+    assertThat(info.useContributorAgreements.configuredValue)
+        .isEqualTo(input.useContributorAgreements);
+    assertThat(info.useContentMerge.configuredValue).isEqualTo(input.useContentMerge);
+    assertThat(info.useSignedOffBy.configuredValue).isEqualTo(input.useSignedOffBy);
+    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
+        .isEqualTo(input.createNewChangeForAllNotInTarget);
+    assertThat(info.requireChangeId.configuredValue).isEqualTo(input.requireChangeId);
+    assertThat(info.rejectImplicitMerges.configuredValue).isEqualTo(input.rejectImplicitMerges);
+    assertThat(info.enableReviewerByEmail.configuredValue).isEqualTo(input.enableReviewerByEmail);
+    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
+        .isEqualTo(input.createNewChangeForAllNotInTarget);
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo(input.maxObjectSizeLimit);
+    assertThat(info.submitType).isEqualTo(input.submitType);
+    assertThat(info.state).isEqualTo(input.state);
+  }
+
+  @Test
+  public void setPartialConfig() throws Exception {
+    ConfigInput input = createTestConfigInput();
+    ConfigInfo info = gApi.projects().name(project.get()).config(input);
+
+    ConfigInput partialInput = new ConfigInput();
+    partialInput.useContributorAgreements = InheritableBoolean.FALSE;
+    info = gApi.projects().name(project.get()).config(partialInput);
+
+    assertThat(info.description).isNull();
+    assertThat(info.useContributorAgreements.configuredValue)
+        .isEqualTo(partialInput.useContributorAgreements);
+    assertThat(info.useContentMerge.configuredValue).isEqualTo(input.useContentMerge);
+    assertThat(info.useSignedOffBy.configuredValue).isEqualTo(input.useSignedOffBy);
+    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
+        .isEqualTo(input.createNewChangeForAllNotInTarget);
+    assertThat(info.requireChangeId.configuredValue).isEqualTo(input.requireChangeId);
+    assertThat(info.rejectImplicitMerges.configuredValue).isEqualTo(input.rejectImplicitMerges);
+    assertThat(info.enableReviewerByEmail.configuredValue).isEqualTo(input.enableReviewerByEmail);
+    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
+        .isEqualTo(input.createNewChangeForAllNotInTarget);
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo(input.maxObjectSizeLimit);
+    assertThat(info.submitType).isEqualTo(input.submitType);
+    assertThat(info.state).isEqualTo(input.state);
+  }
+
+  private ConfigInput createTestConfigInput() {
+    ConfigInput input = new ConfigInput();
+    input.description = "some description";
+    input.useContributorAgreements = InheritableBoolean.TRUE;
+    input.useContentMerge = InheritableBoolean.TRUE;
+    input.useSignedOffBy = InheritableBoolean.TRUE;
+    input.createNewChangeForAllNotInTarget = InheritableBoolean.TRUE;
+    input.requireChangeId = InheritableBoolean.TRUE;
+    input.rejectImplicitMerges = InheritableBoolean.TRUE;
+    input.enableReviewerByEmail = InheritableBoolean.TRUE;
+    input.createNewChangeForAllNotInTarget = InheritableBoolean.TRUE;
+    input.maxObjectSizeLimit = "5m";
+    input.submitType = SubmitType.CHERRY_PICK;
+    input.state = ProjectState.HIDDEN;
+    return input;
   }
 }

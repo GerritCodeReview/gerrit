@@ -207,7 +207,7 @@ public class AccountManager {
 
   private Account load(Account toUpdate, Account.Id accountId, ReviewDb db) throws OrmException {
     if (toUpdate == null) {
-      toUpdate = db.accounts().get(accountId);
+      toUpdate = accounts.get(db, accountId);
       if (toUpdate == null) {
         throw new OrmException("Account " + accountId + " has been deleted");
       }
@@ -376,7 +376,7 @@ public class AccountManager {
             .insert(ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
 
         if (who.getEmailAddress() != null) {
-          Account a = db.accounts().get(to);
+          Account a = accounts.get(db, to);
           if (a.getPreferredEmail() == null) {
             a.setPreferredEmail(who.getEmailAddress());
             db.accounts().update(Collections.singleton(a));
@@ -445,7 +445,7 @@ public class AccountManager {
         externalIdsUpdateFactory.create().delete(extId);
 
         if (who.getEmailAddress() != null) {
-          Account a = db.accounts().get(from);
+          Account a = accounts.get(db, from);
           if (a.getPreferredEmail() != null
               && a.getPreferredEmail().equals(who.getEmailAddress())) {
             a.setPreferredEmail(null);

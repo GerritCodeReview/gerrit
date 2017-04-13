@@ -37,6 +37,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -74,6 +75,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   @Rule public final TestName testName = new TestName();
+
+  @Inject protected Accounts accounts;
 
   @Inject protected AccountCache accountCache;
 
@@ -384,7 +387,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
     // update account in the database so that account index is stale
     String newName = "Test User";
-    Account account = db.accounts().get(new Account.Id(user1._accountId));
+    Account account = accounts.get(db, new Account.Id(user1._accountId));
     account.setFullName(newName);
     db.accounts().update(Collections.singleton(account));
 
@@ -467,7 +470,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       if (email != null) {
         accountManager.link(id, AuthRequest.forEmail(email));
       }
-      Account a = db.accounts().get(id);
+      Account a = accounts.get(db, id);
       a.setFullName(fullName);
       a.setPreferredEmail(email);
       a.setActive(active);

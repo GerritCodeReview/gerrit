@@ -16,6 +16,24 @@
       "revId": "443c6b0e27b272969e3e9f26e7ada5439afdf349",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56cb86b2_ce52f8ac",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-13T10:21:58Z",
+      "side": 1,
+      "message": "This is the documented behavior.\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-input",
+      "parentUuid": "0cafc7be_7df9bfdb",
+      "revId": "443c6b0e27b272969e3e9f26e7ada5439afdf349",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

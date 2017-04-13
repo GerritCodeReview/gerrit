@@ -38,6 +38,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
@@ -71,6 +72,8 @@ import org.junit.Test;
 
 /** Unit tests for {@link GerritPublicKeyChecker}. */
 public class GerritPublicKeyCheckerTest {
+  @Inject private Accounts accounts;
+
   @Inject private AccountCache accountCache;
 
   @Inject private AccountManager accountManager;
@@ -115,7 +118,7 @@ public class GerritPublicKeyCheckerTest {
     db = schemaFactory.open();
     schemaCreator.create(db);
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
-    Account userAccount = db.accounts().get(userId);
+    Account userAccount = accounts.get(db, userId);
     // Note: does not match any key in TestKeys.
     userAccount.setPreferredEmail("user@example.com");
     db.accounts().update(ImmutableList.of(userAccount));

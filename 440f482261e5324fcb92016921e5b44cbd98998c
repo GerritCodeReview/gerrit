@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3b2753e2_cd83e11f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-13T23:47:12Z",
+      "side": 1,
+      "message": "Please add a footer referring to the corresponding issue in the tracker:\n\n  Feature: Issue 5999",
+      "revId": "440f482261e5324fcb92016921e5b44cbd98998c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34cf7de3_73e6a031",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 2

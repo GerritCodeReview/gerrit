@@ -26,7 +26,9 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Ref;
@@ -42,6 +44,21 @@ public class Accounts {
   Accounts(GitRepositoryManager repoManager, AllUsersName allUsersName) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+  }
+
+  /**
+   * Returns all account IDs.
+   *
+   * @return all account IDs
+   */
+  public Set<Account.Id> allIds() throws IOException {
+    Set<Account.Id> accountIds = new HashSet<>();
+    readUserRefs(
+        r -> {
+          accountIds.add(r.accountId());
+          return true;
+        });
+    return accountIds;
   }
 
   /**

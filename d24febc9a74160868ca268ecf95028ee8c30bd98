@@ -141,6 +141,30 @@
       "revId": "d24febc9a74160868ca268ecf95028ee8c30bd98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36fda38b_a8b502d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-13T05:22:19Z",
+      "side": 1,
+      "message": "If you do another commit that contains something in this commit, and then cherry pick this commit on top of it, then git will apply only the difference.\n\nSo, if you do the topic links change in a separate commit, and then cherry pick this on top, this one will only have the changes by project link diff.",
+      "parentUuid": "c7876c0c_5680b16d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 44
+      },
+      "revId": "d24febc9a74160868ca268ecf95028ee8c30bd98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

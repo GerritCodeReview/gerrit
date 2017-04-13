@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8371de4d_473c3f06",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-13T08:23:13Z",
+      "side": 1,
+      "message": "This refers to how we include the subproject into Gerrit, so changing it to WORKSPACE is correct.\n\nThat said, this entire section is stale and should probably be removed.  We no longer make releases of these components in step with gerrit; they are independent projects that are updated and released separately.",
+      "parentUuid": "b632045e_c59b6993",
+      "range": {
+        "startLine": 104,
+        "startChar": 63,
+        "endLine": 104,
+        "endChar": 72
+      },
+      "revId": "3435712afe893f3ebfb4b8640158fb4247a834c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98751d11_2c6fdfba",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 1
@@ -130,6 +154,30 @@
       "writtenOn": "2017-04-13T08:22:18Z",
       "side": 1,
       "message": "Done",
+      "parentUuid": "6a99a8da_ba49f859",
+      "range": {
+        "startLine": 129,
+        "startChar": 25,
+        "endLine": 129,
+        "endChar": 29
+      },
+      "revId": "3435712afe893f3ebfb4b8640158fb4247a834c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b655cd0_a50451d5",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-13T08:23:13Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to change these at all.  The examples are old, but changing them for each release is overkill.",
       "parentUuid": "6a99a8da_ba49f859",
       "range": {
         "startLine": 129,

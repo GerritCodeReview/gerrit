@@ -59,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "fa76990e_3c287537",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-13T13:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e423b5a_ab9016e5",
+      "range": {
+        "startLine": 27,
+        "startChar": 59,
+        "endLine": 28,
+        "endChar": 8
+      },
+      "revId": "56a028620014cc9d04262441384366751106919e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a9ed367_657f84e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
         "patchSetId": 2
@@ -106,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "1ab78b61_0c4759af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-13T13:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a9ed367_657f84e4",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 40
+      },
+      "revId": "56a028620014cc9d04262441384366751106919e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23171d9a_745fc642",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
         "patchSetId": 2
@@ -117,6 +165,24 @@
       "writtenOn": "2017-04-13T06:31:02Z",
       "side": 1,
       "message": "Can\u0027t this be keeped in H2AccountPatchReviewStore?",
+      "revId": "56a028620014cc9d04262441384366751106919e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69415f1f_a0d4e5be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-13T13:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23171d9a_745fc642",
       "revId": "56a028620014cc9d04262441384366751106919e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -146,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "7f4b9cba_07ef71be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-13T13:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "419d83c7_e3245561",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 84
+      },
+      "revId": "56a028620014cc9d04262441384366751106919e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5face3ca_2e3527ad",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
         "patchSetId": 2
@@ -157,6 +247,30 @@
       "writtenOn": "2017-04-13T06:31:02Z",
       "side": 1,
       "message": "This shouldn\u0027t be needed and would be a mistake if this class is instantiated and missed the overrides in the derived \n dialect specific classes classes.",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 9
+      },
+      "revId": "56a028620014cc9d04262441384366751106919e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f9726_2974d7c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-13T13:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5face3ca_2e3527ad",
       "range": {
         "startLine": 96,
         "startChar": 2,

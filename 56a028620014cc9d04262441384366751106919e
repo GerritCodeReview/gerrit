@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a4f380ad_73ea2a97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-13T09:35:11Z",
+      "side": 1,
+      "message": "Thanks for working on this topic.",
+      "revId": "56a028620014cc9d04262441384366751106919e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "083afc30_ddbe6f6a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

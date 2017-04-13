@@ -46,6 +46,30 @@
       "revId": "cd5b22c814433dc3c86cea0be5e2b5c4aeda6647",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "719e6af6_3572af65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-13T23:00:19Z",
+      "side": 1,
+      "message": "Hm, this might actually be caused by something in our fork.",
+      "parentUuid": "5abe4d22_cac5a398",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 72
+      },
+      "revId": "cd5b22c814433dc3c86cea0be5e2b5c4aeda6647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

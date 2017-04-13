@@ -25,16 +25,17 @@ import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -54,8 +55,10 @@ import org.w3c.dom.Element;
 @SuppressWarnings("serial")
 @Singleton
 class BecomeAnyAccountLoginServlet extends HttpServlet {
-  private final SchemaFactory<ReviewDb> schema;
   private final DynamicItem<WebSession> webSession;
+  private final SchemaFactory<ReviewDb> schema;
+  private final Accounts accounts;
+  private final AccountCache accountCache;
   private final AccountManager accountManager;
   private final SiteHeaderFooter headers;
   private final InternalAccountQuery accountQuery;
@@ -64,11 +67,15 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   BecomeAnyAccountLoginServlet(
       DynamicItem<WebSession> ws,
       SchemaFactory<ReviewDb> sf,
+      Accounts a,
+      AccountCache ac,
       AccountManager am,
       SiteHeaderFooter shf,
       InternalAccountQuery aq) {
     webSession = ws;
     schema = sf;
+    accounts = a;
+    accountCache = ac;
     accountManager = am;
     headers = shf;
     accountQuery = aq;
@@ -149,8 +156,8 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
 
     Element userlistElement = HtmlDomUtil.find(doc, "userlist");
     try (ReviewDb db = schema.open()) {
-      ResultSet<Account> accounts = db.accounts().firstNById(100);
-      for (Account a : accounts) {
+      for (Account.Id accountId : accounts.firstNIds(100)) {
+        Account a = accountCache.get(accountId).getAccount();
         String displayName;
         if (a.getUserName() != null) {
           displayName = a.getUserName();
@@ -159,7 +166,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
         } else if (a.getPreferredEmail() != null) {
           displayName = a.getPreferredEmail();
         } else {
-          displayName = a.getId().toString();
+          displayName = accountId.toString();
         }
 
         Element linkElement = doc.createElement("a");

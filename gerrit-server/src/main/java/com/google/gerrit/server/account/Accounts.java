@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.account;
 
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
@@ -21,7 +24,9 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Repository;
 
 /** Class to access accounts. */
@@ -37,6 +42,16 @@ public class Accounts {
   }
 
   /**
+   * Returns the first n account IDs.
+   *
+   * @param n the number of account IDs that should be returned
+   * @return first n account IDs
+   */
+  public List<Account.Id> firstNIds(int n) throws IOException {
+    return readUserRefs().sorted(comparing(id -> id.get())).limit(n).collect(toList());
+  }
+
+  /**
    * Checks if any account exists.
    *
    * @return {@code true} if at least one account exists, otherwise {@code false}
@@ -48,13 +63,21 @@ public class Accounts {
   }
 
   public static boolean hasAnyAccount(Repository repo) throws IOException {
+    return readUserRefs(repo).findAny().isPresent();
+  }
+
+  private Stream<Account.Id> readUserRefs() throws IOException {
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      return readUserRefs(repo);
+    }
+  }
+
+  private static Stream<Account.Id> readUserRefs(Repository repo) throws IOException {
     return repo.getRefDatabase()
         .getRefs(RefNames.REFS_USERS)
         .values()
         .stream()
         .map(r -> Account.Id.fromRef(r.getName()))
-        .filter(Objects::nonNull)
-        .findAny()
-        .isPresent();
+        .filter(Objects::nonNull);
   }
 }

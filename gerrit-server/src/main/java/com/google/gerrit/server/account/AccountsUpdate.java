@@ -211,22 +211,27 @@ public class AccountsUpdate {
 
   private void deleteUserBranch(Account.Id accountId) throws IOException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
-      String refName = RefNames.refsUsers(accountId);
-      Ref ref = repo.exactRef(refName);
-      if (ref == null) {
-        return;
-      }
+      deleteUserBranch(repo, committerIdent, accountId);
+    }
+  }
 
-      RefUpdate ru = repo.updateRef(refName);
-      ru.setExpectedOldObjectId(ref.getObjectId());
-      ru.setNewObjectId(ObjectId.zeroId());
-      ru.setForceUpdate(true);
-      ru.setRefLogIdent(committerIdent);
-      ru.setRefLogMessage("Delete Account", true);
-      Result result = ru.delete();
-      if (result != Result.FORCED) {
-        throw new IOException(String.format("Failed to delete ref %s: %s", refName, result.name()));
-      }
+  public static void deleteUserBranch(
+      Repository repo, PersonIdent refLogIdent, Account.Id accountId) throws IOException {
+    String refName = RefNames.refsUsers(accountId);
+    Ref ref = repo.exactRef(refName);
+    if (ref == null) {
+      return;
+    }
+
+    RefUpdate ru = repo.updateRef(refName);
+    ru.setExpectedOldObjectId(ref.getObjectId());
+    ru.setNewObjectId(ObjectId.zeroId());
+    ru.setForceUpdate(true);
+    ru.setRefLogIdent(refLogIdent);
+    ru.setRefLogMessage("Delete Account", true);
+    Result result = ru.delete();
+    if (result != Result.FORCED) {
+      throw new IOException(String.format("Failed to delete ref %s: %s", refName, result.name()));
     }
   }
 }

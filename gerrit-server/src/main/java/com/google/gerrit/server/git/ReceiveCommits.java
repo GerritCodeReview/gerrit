@@ -85,6 +85,7 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -301,6 +302,7 @@ public class ReceiveCommits {
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory notesFactory;
   private final Accounts accounts;
+  private final AccountsUpdate.Server accountsUpdate;
   private final AccountResolver accountResolver;
   private final PermissionBackend permissionBackend;
   private final PermissionBackend.ForProject permissions;
@@ -376,6 +378,7 @@ public class ReceiveCommits {
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory notesFactory,
       Accounts accounts,
+      AccountsUpdate.Server accountsUpdate,
       AccountResolver accountResolver,
       PermissionBackend permissionBackend,
       CmdLineParser.Factory optionParserFactory,
@@ -416,6 +419,7 @@ public class ReceiveCommits {
     this.queryProvider = queryProvider;
     this.notesFactory = notesFactory;
     this.accounts = accounts;
+    this.accountsUpdate = accountsUpdate;
     this.accountResolver = accountResolver;
     this.permissionBackend = permissionBackend;
     this.optionParserFactory = optionParserFactory;
@@ -2744,7 +2748,7 @@ public class ReceiveCommits {
             Account a = accounts.get(db, user.getAccountId());
             if (a != null && Strings.isNullOrEmpty(a.getFullName())) {
               a.setFullName(c.getCommitterIdent().getName());
-              db.accounts().update(Collections.singleton(a));
+              accountsUpdate.create().update(db, a);
               user.getAccount().setFullName(a.getFullName());
               accountCache.evict(a.getId());
             }

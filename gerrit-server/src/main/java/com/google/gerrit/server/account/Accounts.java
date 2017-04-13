@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -26,6 +27,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Repository;
 
@@ -39,6 +41,15 @@ public class Accounts {
   Accounts(GitRepositoryManager repoManager, AllUsersName allUsersName) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+  }
+
+  /**
+   * Returns all account IDs.
+   *
+   * @return all account IDs
+   */
+  public Set<Account.Id> allIds() throws IOException {
+    return readUserRefs().collect(toSet());
   }
 
   /**

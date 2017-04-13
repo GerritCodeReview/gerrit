@@ -101,7 +101,7 @@ The subprojects to be released are:
 
 For each subproject do:
 
-* Check the dependency to the Subproject in the Gerrit parent `pom.xml`:
+* Check the dependency to the Subproject in the Gerrit parent `WORKSPACE`:
 +
 If a `SNAPSHOT` version of the subproject is referenced the subproject
 needs to be released so that Gerrit can reference a released version of
@@ -118,7 +118,7 @@ for the Subproject in `WORKSPACE` to the released version.
 === Update Versions and Create Release Tag
 
 Before doing the release build, the `GERRIT_VERSION` in the `VERSION`
-file must be updated, e.g. change it from `2.5-SNAPSHOT` to `2.5`.
+file must be updated, e.g. change it from `2.15-SNAPSHOT` to `2.15`.
 
 In addition the version must be updated in a number of pom.xml files.
 
@@ -126,19 +126,19 @@ To do this run the `./tools/version.py` script and provide the new
 version as parameter, e.g.:
 
 ----
-  ./tools/version.py 2.5
+  ./tools/version.py 2.15-rc0
 ----
 
 Commit the changes and create the release tag on the new commit:
 
 ----
-  git tag -a v2.5
+  git tag -a v2.15-rc0
 ----
 
 Tag the plugins:
 
 ----
-  git submodule foreach git tag -a v2.5
+  git submodule foreach git tag -a v2.15-rc0
 ----
 
 [[build-gerrit]]
@@ -282,11 +282,11 @@ gerrit-releases bucket in the Google cloud storage console]
 [[push-stable]]
 ==== Push the Stable Branch
 
-* Create the stable branch `stable-2.5` in the `gerrit` project via the
+* Create the stable branch `stable-2.15` in the `gerrit` project via the
 link:https://gerrit-review.googlesource.com/#/admin/projects/gerrit,branches[
 Gerrit Web UI] or by push.
 
-* Push the commits done on `stable-2.5` to `refs/for/stable-2.5` and
+* Push the commits done on `stable-2.15` to `refs/for/stable-2.15` and
 get them merged
 
 
@@ -296,13 +296,13 @@ get them merged
 Push the new Release Tag:
 
 ----
-  git push gerrit-review tag v2.5
+  git push gerrit-review tag v2.15-rc0
 ----
 
 Push the new Release Tag on the plugins:
 
 ----
-  git submodule foreach git push gerrit-review tag v2.5
+  git submodule foreach git push gerrit-review tag v2.15-rc0
 ----
 
 
@@ -339,11 +339,11 @@ homepage project] to change the version numbers to the new version.
 Update the issues by hand. There is no script for this.
 
 Our current process is an issue should be updated to say `Status =
-Submitted, FixedIn-2.5` once the change is submitted, but before the
+Submitted, FixedIn-2.15` once the change is submitted, but before the
 release.
 
 After the release is actually made, you can search in Google Code for
-`Status=Submitted FixedIn=2.5` and then batch update these changes
+`Status=Submitted FixedIn=2.15` and then batch update these changes
 to say `Status=Released`. Make sure the pulldown says `All Issues`
 because `Status=Submitted` is considered a closed issue.
 
@@ -383,7 +383,7 @@ for the next release.
 Use the `version` tool to set the version in the `version.bzl` file:
 
 ----
- ./tools/version.py 2.11-SNAPSHOT
+ ./tools/version.py 2.16-SNAPSHOT
 ----
 
 Verify that the changes made by the tool are sane, then commit them, push

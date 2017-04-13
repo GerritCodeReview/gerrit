@@ -23,6 +23,7 @@ limitations under the License.
 <script src="../../../bower_components/page/page.js"></script>
 <script src="../../../scripts/util.js"></script>
 
+<link rel="import" href="../../shared/gr-rest-api-interface/mock-diff-response_test.html">
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-file-list.html">
 
@@ -925,6 +926,182 @@ limitations under the License.
           assert.equal(reviewStub.callCount, 3);
           done();
         });
+    });
+  });
+
+  suite('gr-file-list inline diff tests', function() {
+    var element;
+    var sandbox;
+    var saveStub;
+
+    var setupDiff = function(diff) {
+      var mock = document.createElement('mock-diff-response');
+      diff._diff = mock.diffResponse;
+      diff._comments = {
+        left: [],
+        right: [],
+      };
+      diff.prefs = {
+        context: 10,
+        tab_size: 8,
+        font_size: 12,
+        line_length: 100,
+        cursor_blink_rate: 0,
+        line_wrapping: false,
+        intraline_difference: true,
+        show_line_endings: true,
+        show_tabs: true,
+        show_whitespace_errors: true,
+        syntax_highlighting: true,
+        auto_hide_diff_table_header: true,
+        theme: 'DEFAULT',
+        ignore_whitespace: 'IGNORE_NONE',
+      };
+      diff._renderDiffTable();
+    };
+
+    var renderAndGetNewDiffs = function(index) {
+      var diffs =
+          Polymer.dom(element.root).querySelectorAll('gr-diff');
+
+      for (var i = index; i < diffs.length; i++ ) {
+        setupDiff(diffs[i]);
+      }
+
+      element._updateDiffCursor();
+      element.$.diffCursor.handleDiffUpdate();
+      return diffs;
+    }
+
+    setup(function() {
+      sandbox = sinon.sandbox.create();
+      stub('gr-rest-api-interface', {
+        getLoggedIn: function() { return Promise.resolve(true); },
+        getPreferences: function() { return Promise.resolve({}); },
+      });
+      stub('gr-date-formatter', {
+        _loadTimeFormat: function() { return Promise.resolve(''); },
+      });
+      stub('gr-diff', {
+        reload: function() { return Promise.resolve(); },
+      });
+      element = fixture('basic');
+      element.numFilesShown = 75;
+      element._files = [
+        {__path: '/COMMIT_MSG', lines_inserted: 9},
+        {
+          __path: 'file_added_in_rev2.txt',
+          lines_inserted: 1,
+          lines_deleted: 1,
+          size_delta: 10,
+          size: 100,
+        },
+        {
+          __path: 'myfile.txt',
+          lines_inserted: 1,
+          lines_deleted: 1,
+          size_delta: 10,
+          size: 100,
+        },
+      ];
+      element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
+      element._loggedIn = true;
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
+      sandbox.stub(window, 'fetch', function() {
+        return Promise.resolve();
+      })
+      saveStub = sandbox.stub(element, '_saveReviewedState',
+          function() { return Promise.resolve(); });
+      flushAsynchronousOperations();
+    });
+
+    teardown(function() {
+      sandbox.restore();
+    });
+
+    test('cursor with individually opened files', function() {
+      var fileRows =
+          Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
+      element.$.fileCursor.stops = fileRows;
+      element.$.fileCursor.setCursorAtIndex(0);
+
+      MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
+      flushAsynchronousOperations();
+      var diffs = renderAndGetNewDiffs(0);
+      var diffStops = diffs[0].getCursorStops();
+
+      // 1 diff should be rendered.
+      assert.equal(diffs.length, 1);
+
+      // No line number is selected.
+      assert.isFalse(diffStops[10].classList.contains('target-row'));
+
+      // Tapping content on a line selects the line number.
+      MockInteractions.tap(Polymer.dom(
+          diffStops[10]).querySelectorAll('.contentText')[0]);
+      flushAsynchronousOperations();
+      assert.isTrue(diffStops[10].classList.contains('target-row'));
+
+      // Keyboard shortcuts are still moving the file cursor, not the diff
+      // cursor.
+      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+      flushAsynchronousOperations();
+      assert.isTrue(diffStops[10].classList.contains('target-row'));
+      assert.isFalse(diffStops[11].classList.contains('target-row'));
+
+      // The file cusor is now at 1.
+      assert.equal(element.$.fileCursor.index, 1);
+      MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
+      flushAsynchronousOperations();
+
+      var diffs = renderAndGetNewDiffs(1);
+      // Two diffs should be rendered.
+      assert.equal(diffs.length, 2);
+      var diffStopsFirst = diffs[0].getCursorStops();
+      var diffStopsSecond = diffs[1].getCursorStops();
+
+      // The line on the first diff is stil selected
+      assert.isTrue(diffStopsFirst[10].classList.contains('target-row'));
+      assert.isFalse(diffStopsSecond[10].classList.contains('target-row'));
+    });
+
+    test('cursor with toggle all files', function() {
+      var fileRows =
+          Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
+      element.$.fileCursor.stops = fileRows;
+      element.$.fileCursor.setCursorAtIndex(0);
+
+      MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
+      flushAsynchronousOperations();
+
+      var diffs = renderAndGetNewDiffs(0);
+      var diffStops = diffs[0].getCursorStops();
+
+      // 1 diff should be rendered.
+      assert.equal(diffs.length, 3);
+
+      // No line number is selected.
+      assert.isFalse(diffStops[10].classList.contains('target-row'));
+
+      // Tapping content on a line selects the line number.
+      MockInteractions.tap(Polymer.dom(
+          diffStops[10]).querySelectorAll('.contentText')[0]);
+      flushAsynchronousOperations();
+      assert.isTrue(diffStops[10].classList.contains('target-row'));
+
+      // Keyboard shortcuts are still moving the file cursor, not the diff
+      // cursor.
+      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+      flushAsynchronousOperations();
+      assert.isFalse(diffStops[10].classList.contains('target-row'));
+      assert.isTrue(diffStops[11].classList.contains('target-row'));
+
+      // The file cusor is still at 0.
+      assert.equal(element.$.fileCursor.index, 0);
     });
   });
 </script>

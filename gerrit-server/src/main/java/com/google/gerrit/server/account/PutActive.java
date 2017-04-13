@@ -28,7 +28,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
@@ -69,7 +68,6 @@ public class PutActive implements RestModifyView<AccountResource, Input> {
     if (a == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    dbProvider.get().accounts().update(Collections.singleton(a));
     byIdCache.evict(a.getId());
     return alreadyActive.get() ? Response.ok("") : Response.created("");
   }

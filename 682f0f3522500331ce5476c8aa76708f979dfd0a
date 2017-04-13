@@ -94,6 +94,30 @@
       "revId": "682f0f3522500331ce5476c8aa76708f979dfd0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02877890_4d86e315",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-13T23:04:57Z",
+      "side": 1,
+      "message": "Are we assuming the project names are logged elsewhere?  I thought it might be more useful to log here which project is included more than once.\n\nBut if it\u0027s useful for you like this, I\u0027m fine with it.",
+      "parentUuid": "5298c7bb_e1d0dd32",
+      "range": {
+        "startLine": 156,
+        "startChar": 54,
+        "endLine": 156,
+        "endChar": 62
+      },
+      "revId": "682f0f3522500331ce5476c8aa76708f979dfd0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -29,6 +29,11 @@ limitations under the License.
       gr-linked-text.pre {
         margin: 0 0 1.4em 0;
       }
+      p,
+      ul,
+      blockquote {
+        max-width: var(--gr-formatted-text-prose-max-width, none);
+      }
       :host.noTrailingMargin p:last-child,
       :host.noTrailingMargin ul:last-child,
       :host.noTrailingMargin blockquote:last-child,

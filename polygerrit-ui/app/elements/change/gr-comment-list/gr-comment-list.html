@@ -18,6 +18,11 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 
+<!--
+  The custom CSS property `--gr-formatted-text-prose-max-width` controls the max
+  width of formatted text blocks that are not code.
+-->
+
 <dom-module id="gr-comment-list">
   <template>
     <style>
@@ -42,7 +47,7 @@ limitations under the License.
       }
       .message {
         flex: 1;
-        max-width: 80ch;
+        --gr-formatted-text-prose-max-width: 80ch;
       }
     </style>
     <template is="dom-repeat" items="[[_computeFilesFromComments(comments)]]" as="file">

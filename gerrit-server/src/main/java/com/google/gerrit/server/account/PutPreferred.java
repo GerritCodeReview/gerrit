@@ -29,7 +29,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Singleton
@@ -79,7 +78,6 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
     if (a == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    dbProvider.get().accounts().update(Collections.singleton(a));
     byIdCache.evict(a.getId());
     return alreadyPreferred.get() ? Response.ok("") : Response.created("");
   }

@@ -110,6 +110,11 @@
         value: function() { return []; },
       },
 
+      _suggestionEls: {
+        type: Array,
+        value: function() { return []; },
+      },
+
       _index: Number,
 
       _disableSuggestions: {
@@ -178,6 +183,8 @@
           return;
         }
         this._suggestions = suggestions;
+        Polymer.dom.flush();
+        this._suggestionEls = this.$.suggestions.querySelectorAll('li')
         this.$.cursor.moveToStart();
         if (this._index === -1) {
           this.value = null;
@@ -191,11 +198,6 @@
 
     _computeClass: function(borderless) {
       return borderless ? 'borderless' : '';
-    },
-
-    _getSuggestionElems: function() {
-      Polymer.dom.flush();
-      return this.$.suggestions.querySelectorAll('li');
     },
 
     /**

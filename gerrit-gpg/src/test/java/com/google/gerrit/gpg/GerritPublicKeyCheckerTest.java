@@ -39,6 +39,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
@@ -73,6 +74,8 @@ import org.junit.Test;
 /** Unit tests for {@link GerritPublicKeyChecker}. */
 public class GerritPublicKeyCheckerTest {
   @Inject private Accounts accounts;
+
+  @Inject private AccountsUpdate.Server accountsUpdate;
 
   @Inject private AccountCache accountCache;
 
@@ -121,7 +124,7 @@ public class GerritPublicKeyCheckerTest {
     Account userAccount = accounts.get(db, userId);
     // Note: does not match any key in TestKeys.
     userAccount.setPreferredEmail("user@example.com");
-    db.accounts().update(ImmutableList.of(userAccount));
+    accountsUpdate.create().update(db, userAccount);
     user = reloadUser();
 
     requestContext.setContext(

@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts.QueryRequest;
@@ -38,6 +37,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -54,7 +54,6 @@ import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
@@ -77,6 +76,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   @Rule public final TestName testName = new TestName();
 
   @Inject protected Accounts accounts;
+
+  @Inject protected AccountsUpdate.Server accountsUpdate;
 
   @Inject protected AccountCache accountCache;
 
@@ -389,7 +390,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     String newName = "Test User";
     Account account = accounts.get(db, new Account.Id(user1._accountId));
     account.setFullName(newName);
-    db.accounts().update(Collections.singleton(account));
+    accountsUpdate.create().update(db, account);
 
     assertQuery("name:" + quote(user1.name), user1);
     assertQuery("name:" + quote(newName));
@@ -474,7 +475,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       a.setFullName(fullName);
       a.setPreferredEmail(email);
       a.setActive(active);
-      db.accounts().update(ImmutableList.of(a));
+      accountsUpdate.create().update(db, a);
       accountCache.evict(id);
       return id;
     }

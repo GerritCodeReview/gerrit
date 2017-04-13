@@ -38,7 +38,8 @@ limitations under the License.
       .title {
         color: #666;
         font-weight: bold;
-        white-space: nowrap;
+        max-width: 20em;
+        word-break: break-word;
       }
       gr-account-link {
         max-width: 20ch;
@@ -86,6 +87,9 @@ limitations under the License.
       }
       section.topic {
         @apply(--change-metadata-topic);
+      }
+      #missingLabels {
+        padding-left: 1.5em;
       }
       @media screen and (max-width: 50em), screen and (min-width: 75em) {
         :host {
@@ -246,7 +250,19 @@ limitations under the License.
       <section>
         <span class="title">Label Status</span>
         <span class="value labelStatus">
-          [[_computeSubmitStatus(change.labels)]]
+          <div hidden$="[[!_showMissingLabels(change.labels)]]">
+            [[_computeMissingLabelsHeader(change.labels)]]
+            <ul id="missingLabels">
+              <template
+                  is="dom-repeat"
+                  items="[[_computeMissingLabels(change.labels)]]">
+                <li>[[item]]</li>
+              </template>
+            </ul>
+          </div>
+          <div hidden$="[[_showMissingLabels(change.labels)]]">
+            Ready to submit
+          </div>
         </span>
       </section>
     </template>

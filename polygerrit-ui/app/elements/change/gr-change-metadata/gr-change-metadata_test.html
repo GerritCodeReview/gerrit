@@ -89,18 +89,20 @@ limitations under the License.
 
     test('computes submit status', function() {
       var labels = {};
-      assert.equal(element._computeSubmitStatus(labels), 'Ready to submit');
+      assert.isFalse(element._showMissingLabels(labels));
       labels = {test: {}};
-      assert.equal(element._computeSubmitStatus(labels), 'Needs test label');
+      assert.isTrue(element._showMissingLabels(labels));
+      assert.deepEqual(element._computeMissingLabels(labels), ['test']);
       labels.test.approved = true;
-      assert.equal(element._computeSubmitStatus(labels), 'Ready to submit');
+      assert.isFalse(element._showMissingLabels(labels));
       labels.test.approved = false;
       labels.test.optional = true;
-      assert.equal(element._computeSubmitStatus(labels), 'Ready to submit');
+      assert.isFalse(element._showMissingLabels(labels));
       labels.test.optional = false;
       labels.test2 = {};
-      assert.equal(element._computeSubmitStatus(labels),
-          'Needs test and test2 labels');
+      assert.isTrue(element._showMissingLabels(labels));
+      assert.deepEqual(element._computeMissingLabels(labels),
+          ['test', 'test2']);
     });
 
     test('weblinks hidden when no weblinks', function() {

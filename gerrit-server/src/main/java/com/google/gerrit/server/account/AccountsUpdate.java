@@ -36,6 +36,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
@@ -144,6 +145,18 @@ public class AccountsUpdate {
     createUserBranchIfNeeded(account);
   }
 
+  /** Deletes the account. */
+  public void delete(ReviewDb db, Account account) throws OrmException, IOException {
+    db.accounts().delete(ImmutableSet.of(account));
+    deleteUserBranch(account.getId());
+  }
+
+  /** Deletes the account. */
+  public void deleteByKey(ReviewDb db, Account.Id accountId) throws OrmException, IOException {
+    db.accounts().deleteKeys(ImmutableSet.of(accountId));
+    deleteUserBranch(accountId);
+  }
+
   private void createUserBranchIfNeeded(Account account) throws IOException {
     try (Repository repo = repoManager.openRepository(allUsersName);
         ObjectInserter oi = repo.newObjectInserter()) {
@@ -194,5 +207,26 @@ public class AccountsUpdate {
 
   private static ObjectId emptyTree(ObjectInserter oi) throws IOException {
     return oi.insert(Constants.OBJ_TREE, new byte[] {});
+  }
+
+  private void deleteUserBranch(Account.Id accountId) throws IOException {
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      String refName = RefNames.refsUsers(accountId);
+      Ref ref = repo.exactRef(refName);
+      if (ref == null) {
+        return;
+      }
+
+      RefUpdate ru = repo.updateRef(refName);
+      ru.setExpectedOldObjectId(ref.getObjectId());
+      ru.setNewObjectId(ObjectId.zeroId());
+      ru.setForceUpdate(true);
+      ru.setRefLogIdent(committerIdent);
+      ru.setRefLogMessage("Delete Account", true);
+      Result result = ru.delete();
+      if (result != Result.FORCED) {
+        throw new IOException(String.format("Failed to delete ref %s: %s", refName, result.name()));
+      }
+    }
   }
 }

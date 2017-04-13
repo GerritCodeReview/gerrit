@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -196,6 +197,15 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo(input.maxObjectSizeLimit);
     assertThat(info.submitType).isEqualTo(input.submitType);
     assertThat(info.state).isEqualTo(input.state);
+  }
+
+  @Test
+  public void nonOwnerCannotSetConfig() throws Exception {
+    ConfigInput input = createTestConfigInput();
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("restricted to project owner");
+    gApi.projects().name(project.get()).config(input);
   }
 
   private ConfigInput createTestConfigInput() {

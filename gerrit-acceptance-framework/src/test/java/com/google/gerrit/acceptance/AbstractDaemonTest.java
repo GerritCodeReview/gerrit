@@ -501,9 +501,9 @@ public abstract class AbstractDaemonTest {
    * Register a repository connection over the test protocol.
    *
    * @return a URI string that can be used to connect to this repository for both fetch and push.
-   * */
-  protected String registerRepoConnection(
-      Project.NameKey p, TestAccount testAccount) throws Exception {
+   */
+  protected String registerRepoConnection(Project.NameKey p, TestAccount testAccount)
+      throws Exception {
     InProcessProtocol.Context ctx =
         new InProcessProtocol.Context(
             reviewDbProvider, identifiedUserFactory, testAccount.getId(), p);

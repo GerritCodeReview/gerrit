@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8f00f5e_0eff3a70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-13T18:14:29Z",
+      "side": 1,
+      "message": "This probably should be new ArrayList\u003c\u003e.  Can you verify that there are not other instances of this?",
+      "range": {
+        "startLine": 105,
+        "startChar": 22,
+        "endLine": 105,
+        "endChar": 39
+      },
+      "revId": "8d3eee4e369fbb2a0e53234f3d136b799abc16ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

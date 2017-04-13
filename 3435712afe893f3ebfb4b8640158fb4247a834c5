@@ -188,6 +188,30 @@
       "revId": "3435712afe893f3ebfb4b8640158fb4247a834c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdaedc61_1babd5c3",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T08:25:20Z",
+      "side": 1,
+      "message": "I didn\u0027t change them for the version number but for indicating that \u0027rc\u0027 should be lower case. I undid this modification and lowercased the \u0027rc\u0027 in the respective section instead.",
+      "parentUuid": "7b655cd0_a50451d5",
+      "range": {
+        "startLine": 129,
+        "startChar": 25,
+        "endLine": 129,
+        "endChar": 29
+      },
+      "revId": "3435712afe893f3ebfb4b8640158fb4247a834c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

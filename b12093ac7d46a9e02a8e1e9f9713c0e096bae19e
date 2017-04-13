@@ -23,6 +23,30 @@
       "revId": "b12093ac7d46a9e02a8e1e9f9713c0e096bae19e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d45a897_9cbd9d8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-13T12:07:21Z",
+      "side": 1,
+      "message": "This is fine for now.",
+      "parentUuid": "7a8092b6_0ffd7e4c",
+      "range": {
+        "startLine": 10,
+        "startChar": 26,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "b12093ac7d46a9e02a8e1e9f9713c0e096bae19e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

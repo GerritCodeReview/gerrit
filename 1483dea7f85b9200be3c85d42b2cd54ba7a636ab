@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "906bf3ef_c9b798f7",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-13T23:18:40Z",
+      "side": 1,
+      "message": "I\u0027m a little confused about what\u0027s happening here. It gets returned if there\u0027s no tooltip. If there isn\u0027t, then setupToolTipListeners is called, but that gets returned if there is no tooltip. Maybe nothing has to happen on attached then?",
+      "revId": "1483dea7f85b9200be3c85d42b2cd54ba7a636ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ab1ad025_8ebd111c",
         "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
         "patchSetId": 1
@@ -48,6 +65,30 @@
       "writtenOn": "2017-04-13T21:34:53Z",
       "side": 1,
       "message": "Maybe this should be larger, such as 5000, or maybe 10000?",
+      "range": {
+        "startLine": 19,
+        "startChar": 32,
+        "endLine": 19,
+        "endChar": 36
+      },
+      "revId": "1483dea7f85b9200be3c85d42b2cd54ba7a636ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba51460a_d5eee4d0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-13T23:18:40Z",
+      "side": 1,
+      "message": "I think definitely under 10,000. I\u0027d rather show the warning and have it be fast than vice versa. I think 1000 is reasonable, unless it feels really fast all the time.",
+      "parentUuid": "16c8fa19_16fd0bf4",
       "range": {
         "startLine": 19,
         "startChar": 32,

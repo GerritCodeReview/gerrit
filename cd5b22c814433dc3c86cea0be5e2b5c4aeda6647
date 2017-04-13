@@ -22,6 +22,30 @@
       "revId": "cd5b22c814433dc3c86cea0be5e2b5c4aeda6647",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5abe4d22_cac5a398",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-13T19:31:48Z",
+      "side": 1,
+      "message": "Yeah, I agree, it feels like there is a deeper issue here. First of all, what Hugo says, why is the index not available at this time?\n\nAlso, what in the heck is triggering ReindexAfterUpdate before all the LifecycleListeners have started? That should only be triggered when a ref update happens, but what would be writing to refs during startup?",
+      "parentUuid": "a84ff03e_41d1b555",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 72
+      },
+      "revId": "cd5b22c814433dc3c86cea0be5e2b5c4aeda6647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

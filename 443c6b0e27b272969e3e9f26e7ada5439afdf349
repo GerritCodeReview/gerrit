@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0cafc7be_7df9bfdb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-13T09:47:04Z",
+      "side": 1,
+      "message": ":( this looks rather like a bug to me, but it\u0027s not needed to fix in this change",
+      "revId": "443c6b0e27b272969e3e9f26e7ada5439afdf349",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

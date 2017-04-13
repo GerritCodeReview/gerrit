@@ -19,8 +19,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.index.FieldDef;
-import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.OrPredicate;
@@ -37,7 +35,6 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
   private static final int MAX_LABEL_VALUE = 4;
 
   static class Args {
-    final FieldDef<ChangeData, ?> field;
     final ProjectCache projectCache;
     final ChangeControl.GenericFactory ccFactory;
     final IdentifiedUser.GenericFactory userFactory;
@@ -47,7 +44,6 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     final AccountGroup.UUID group;
 
     private Args(
-        FieldDef<ChangeData, ?> field,
         ProjectCache projectCache,
         ChangeControl.GenericFactory ccFactory,
         IdentifiedUser.GenericFactory userFactory,
@@ -55,7 +51,6 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
         String value,
         Set<Account.Id> accounts,
         AccountGroup.UUID group) {
-      this.field = field;
       this.projectCache = projectCache;
       this.ccFactory = ccFactory;
       this.userFactory = userFactory;
@@ -80,7 +75,6 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
 
   private final String value;
 
-  @SuppressWarnings("deprecation")
   LabelPredicate(
       ChangeQueryBuilder.Arguments a,
       String value,
@@ -89,7 +83,6 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     super(
         predicates(
             new Args(
-                a.getSchema().getField(ChangeField.LABEL2, ChangeField.LABEL).get(),
                 a.projectCache,
                 a.changeControlGenericFactory,
                 a.userFactory,

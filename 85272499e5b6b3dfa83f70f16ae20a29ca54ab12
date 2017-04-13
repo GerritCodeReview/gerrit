@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e51e309_0dd312ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-13T02:01:40Z",
+      "side": 1,
+      "message": "calls",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "85272499e5b6b3dfa83f70f16ae20a29ca54ab12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00e73f7b_3699a3d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-13T02:01:40Z",
+      "side": 1,
+      "message": "This can probably be replaced with RestApiException",
+      "range": {
+        "startLine": 95,
+        "startChar": 13,
+        "endLine": 96,
+        "endChar": 23
+      },
+      "revId": "85272499e5b6b3dfa83f70f16ae20a29ca54ab12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

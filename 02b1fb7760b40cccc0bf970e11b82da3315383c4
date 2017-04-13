@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1492008869 +0200\nnonce AFMZ2GzK6xcehskg7cp6Ky1OEG9IkllLdc2en6nixc/aqvBgvSRA2grQl1r+21LM49kfX75kzGHV\n\n0000000000000000000000000000000000000000 02b1fb7760b40cccc0bf970e11b82da3315383c4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY7j+lAAoJEFG1/Zeg0O9RDK0H+gNbpJBP3AQ0K2Q6l/q7YCZ/\nzrBHiuXbKqbtrT3+hg4ye07W+L5elbx41Cn2H+KzoKwhu1HiLCELH4FViEFYb6dq\ne/SUvGxNTNcHdU+gxv2D3fGoFPjrrjHtneZIG5iEc/Ia4q3UQxd313SeE/830hu/\nskbt3mFvHB4qf7MKGu01sKhR2w+RiJDaTlkVjWr9sF5TuUzgjOtgM/RKJA6pHPtM\n6DRbrD8YjXuschyQJ15r28P3zJXJ69Z8ZwaRD+YF98q6xgT4+H2UQaOA25gn6vci\njurfn4ID/43WQECAgbyWBk596ytzILFE/GD83wjPnnoxS74Um8a0SD0BPiVraWI\u003d\n\u003do2BB\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb75f176_95a1b5b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-13T10:32:07Z",
+      "side": 1,
+      "message": "Unrelated to this commit, but the name of this variable is a bit odd.",
+      "range": {
+        "startLine": 234,
+        "startChar": 29,
+        "endLine": 234,
+        "endChar": 52
+      },
+      "revId": "02b1fb7760b40cccc0bf970e11b82da3315383c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

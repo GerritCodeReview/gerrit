@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ba72bb17_11ced391",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T08:22:18Z",
+      "side": 1,
+      "message": "This sounds like it is about Gerrit\u0027s pom.xml, which does not exist anymore?",
+      "parentUuid": "b632045e_c59b6993",
+      "range": {
+        "startLine": 104,
+        "startChar": 63,
+        "endLine": 104,
+        "endChar": 72
+      },
+      "revId": "3435712afe893f3ebfb4b8640158fb4247a834c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98751d11_2c6fdfba",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f8e87c2a_bca69d6f",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T08:22:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98751d11_2c6fdfba",
+      "range": {
+        "startLine": 120,
+        "startChar": 60,
+        "endLine": 121,
+        "endChar": 4
+      },
+      "revId": "3435712afe893f3ebfb4b8640158fb4247a834c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a99a8da_ba49f859",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2017-04-13T08:17:00Z",
       "side": 1,
       "message": "Why ae you mixing stable release with a candidate in this diff? Above 2.15 (old 2.5) is used, here you started to use -rc0. Keeps it consistent. Here and below.",
+      "range": {
+        "startLine": 129,
+        "startChar": 25,
+        "endLine": 129,
+        "endChar": 29
+      },
+      "revId": "3435712afe893f3ebfb4b8640158fb4247a834c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c272ca14_0c127090",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T08:22:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a99a8da_ba49f859",
       "range": {
         "startLine": 129,
         "startChar": 25,

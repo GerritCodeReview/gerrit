@@ -69,6 +69,7 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
@@ -140,6 +141,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Inject protected Accounts accounts;
+  @Inject protected AccountsUpdate.Server accountsUpdate;
   @Inject protected AccountManager accountManager;
   @Inject protected AllUsersName allUsersName;
   @Inject protected BatchUpdate.Factory updateFactory;
@@ -196,7 +198,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     Account userAccount = accounts.get(db, userId);
     userAccount.setPreferredEmail("user@example.com");
-    db.accounts().update(ImmutableList.of(userAccount));
+    accountsUpdate.create().update(db, userAccount);
     user = userFactory.create(userId);
     requestContext.setContext(newRequestContext(userAccount.getId()));
   }

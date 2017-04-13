@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb4299e5_72359943",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-13T17:51:19Z",
+      "side": 1,
+      "message": "Looks like read only is being set to *not* read only. Is this a mistake? Or maybe it\u0027s just confusing naming?",
+      "range": {
+        "startLine": 135,
+        "startChar": 26,
+        "endLine": 135,
+        "endChar": 27
+      },
+      "revId": "2c78b5721b6ad8ca0328c72e1b6aca8240c0ddb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8f1ece5_0184ab0b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-13T17:51:19Z",
+      "side": 1,
+      "message": "Why use an intermediate property rather than just the compute expression here?\n\n _computeAssigneeReadOnly(mutable, change)",
+      "range": {
+        "startLine": 135,
+        "startChar": 27,
+        "endLine": 135,
+        "endChar": 44
+      },
+      "revId": "2c78b5721b6ad8ca0328c72e1b6aca8240c0ddb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

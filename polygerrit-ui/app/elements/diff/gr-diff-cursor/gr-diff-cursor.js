@@ -149,8 +149,8 @@
       this._fixSide();
     },
 
-    moveToLineNumber: function(number, side) {
-      var row = this._findRowByNumber(number, side);
+    moveToLineNumber: function(number, side, opt_path) {
+      var row = this._findRowByNumberAndFile(number, side, opt_path);
       if (row) {
         this.side = side;
         this.$.cursorManager.setCursor(row);
@@ -376,8 +376,16 @@
       }
     },
 
-    _findRowByNumber: function(targetNumber, side) {
-      var stops = this.$.cursorManager.stops;
+    _findRowByNumberAndFile: function(targetNumber, side, opt_path) {
+      var stops;
+      if (opt_path) {
+        var diff = this.diffs.filter(function(diff) {
+          return diff.path === opt_path;
+        })[0];
+        stops = diff.getCursorStops();
+      } else {
+        stops = this.$.cursorManager.stops;
+      }
       var selector;
       for (var i = 0; i < stops.length; i++) {
         selector = '.lineNum.' + side + '[data-value="' + targetNumber + '"]';

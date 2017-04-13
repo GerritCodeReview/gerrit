@@ -19,8 +19,10 @@ import static java.util.stream.Collectors.toList;
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -44,6 +46,10 @@ public class Accounts {
   Accounts(GitRepositoryManager repoManager, AllUsersName allUsersName) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+  }
+
+  public Account get(ReviewDb db, Account.Id accountId) throws OrmException {
+    return db.accounts().get(accountId);
   }
 
   /**

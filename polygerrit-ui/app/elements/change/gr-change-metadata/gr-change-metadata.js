@@ -227,7 +227,7 @@
     },
 
     _computeProjectURL: function(project) {
-      return '/q/status:open+project:' + this.encodeURL(project, false);
+      return '/q/project:' + this.encodeURL(project, false);
     },
 
     _computeBranchURL: function(project, branch) {

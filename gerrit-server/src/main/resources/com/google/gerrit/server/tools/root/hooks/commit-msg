@@ -188,3 +188,13 @@ _gen_ChangeId() {
 
 
 add_ChangeId
+
+# Calls other hooks inside .git/hooks/commit-msg.d/
+SOURCE="${BASH_SOURCE[0]}"
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+if [ "$(basename $DIR)" == "hooks" ]; then
+	# Presence of commit-msg.d tells other hooks that they can use it
+	mkdir -p "$DIR/commit-msg.d" 2>/dev/null || true
+	set -e
+	find $DIR/commit-msg.d/ -type f -print0 2>/dev/null | xargs -I '{}' bash -c '{}'
+fi

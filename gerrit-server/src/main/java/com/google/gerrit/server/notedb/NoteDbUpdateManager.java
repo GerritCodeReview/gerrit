@@ -455,15 +455,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     return draftIds;
   }
 
-  public void flush() throws IOException {
-    if (changeRepo != null) {
-      changeRepo.flush();
-    }
-    if (allUsersRepo != null) {
-      allUsersRepo.flush();
-    }
-  }
-
   @Nullable
   public BatchRefUpdate execute() throws OrmException, IOException {
     return execute(false);

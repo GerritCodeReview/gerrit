@@ -22,6 +22,30 @@
       "revId": "794e335b6e6c9bd0faf8e29beff476f5a840e247",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "244a65ba_7667aba9",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetProjectCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-13T02:12:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9371676_47f54e53",
+      "range": {
+        "startLine": 153,
+        "startChar": 32,
+        "endLine": 153,
+        "endChar": 36
+      },
+      "revId": "794e335b6e6c9bd0faf8e29beff476f5a840e247",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

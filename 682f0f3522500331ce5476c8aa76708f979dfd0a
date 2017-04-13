@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "e493b043_6dc0f1b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-13T14:24:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08d3ca1a_ef4a0d3a",
+      "range": {
+        "startLine": 151,
+        "startChar": 24,
+        "endLine": 151,
+        "endChar": 40
+      },
+      "revId": "682f0f3522500331ce5476c8aa76708f979dfd0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ebdffb1_0879f08c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2017-04-13T00:42:33Z",
       "side": 1,
       "message": "Is this information useful?",
+      "range": {
+        "startLine": 156,
+        "startChar": 54,
+        "endLine": 156,
+        "endChar": 62
+      },
+      "revId": "682f0f3522500331ce5476c8aa76708f979dfd0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5298c7bb_e1d0dd32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-13T14:24:54Z",
+      "side": 1,
+      "message": "Sure. One way I can envision this happening: a bug results in creating two BatchUpdates for a superproject, one for a directly submitted change, and one for the submodule update. Seeing that the specific project with 2 updates is the superproject would definitely give a hint as to the cause.",
+      "parentUuid": "7ebdffb1_0879f08c",
       "range": {
         "startLine": 156,
         "startChar": 54,

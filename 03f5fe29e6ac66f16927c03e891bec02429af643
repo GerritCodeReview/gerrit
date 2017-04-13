@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5eb50083_92f39a0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T09:19:27Z",
+      "side": 1,
+      "message": "I removed this entirely (plus the consecutive for loop). This code used the results but never executed the op. Hence it was always an empty list and we can spare the code.",
+      "parentUuid": "379f2bc8_8dd53939",
+      "range": {
+        "startLine": 1076,
+        "startChar": 8,
+        "endLine": 1078,
+        "endChar": 9
+      },
+      "revId": "03f5fe29e6ac66f16927c03e891bec02429af643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16c7b3b1_d701eaa6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2017-04-13T08:21:10Z",
       "side": 1,
       "message": "nit: Format with google style formatter.",
+      "revId": "03f5fe29e6ac66f16927c03e891bec02429af643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62c9c7a1_44932112",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T09:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16c7b3b1_d701eaa6",
       "revId": "03f5fe29e6ac66f16927c03e891bec02429af643",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "cf80b2f4_f12dd0b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T09:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b3e7dc5_ad8435f8",
+      "revId": "03f5fe29e6ac66f16927c03e891bec02429af643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd4596fe_18d5a574",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 5
@@ -70,6 +130,30 @@
       "writtenOn": "2017-04-13T08:21:10Z",
       "side": 1,
       "message": "never thrown",
+      "range": {
+        "startLine": 187,
+        "startChar": 45,
+        "endLine": 187,
+        "endChar": 56
+      },
+      "revId": "03f5fe29e6ac66f16927c03e891bec02429af643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2f04880_7d6211cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T09:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd4596fe_18d5a574",
       "range": {
         "startLine": 187,
         "startChar": 45,
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "b8c5f3fd_5219eedd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T09:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e475ab92_840593a4",
+      "range": {
+        "startLine": 193,
+        "startChar": 8,
+        "endLine": 193,
+        "endChar": 16
+      },
+      "revId": "03f5fe29e6ac66f16927c03e891bec02429af643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dd244e1_a469978d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 5
@@ -116,6 +224,30 @@
       "writtenOn": "2017-04-13T08:21:10Z",
       "side": 1,
       "message": "Move this into the try block, then you don\u0027t need to check if accountId is null",
+      "range": {
+        "startLine": 197,
+        "startChar": 6,
+        "endLine": 202,
+        "endChar": 59
+      },
+      "revId": "03f5fe29e6ac66f16927c03e891bec02429af643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f87484ec_a3b35c57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T09:19:27Z",
+      "side": 1,
+      "message": "dborowitz@ suggested only having things in the try that can throw and keep everything else out as it makes it easier to distinguish where the exception comes from. Should I change it?",
+      "parentUuid": "6dd244e1_a469978d",
       "range": {
         "startLine": 197,
         "startChar": 6,
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "e3cdf216_1fe1b0f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T09:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37436a53_d1f7477e",
+      "range": {
+        "startLine": 228,
+        "startChar": 45,
+        "endLine": 228,
+        "endChar": 56
+      },
+      "revId": "03f5fe29e6ac66f16927c03e891bec02429af643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71a4b757_22c78032",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewersOp.java",
         "patchSetId": 5
@@ -168,6 +324,24 @@
     },
     {
       "key": {
+        "uuid": "15aac22e_7904e68c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewersOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T09:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71a4b757_22c78032",
+      "revId": "03f5fe29e6ac66f16927c03e891bec02429af643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9972692_dc44dc1f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewersOp.java",
         "patchSetId": 5
@@ -179,6 +353,30 @@
       "writtenOn": "2017-04-13T08:21:10Z",
       "side": 1,
       "message": "nit: use the same order as in the constructor",
+      "range": {
+        "startLine": 94,
+        "startChar": 2,
+        "endLine": 108,
+        "endChar": 72
+      },
+      "revId": "03f5fe29e6ac66f16927c03e891bec02429af643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce0b911d_da0a082a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewersOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T09:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9972692_dc44dc1f",
       "range": {
         "startLine": 94,
         "startChar": 2,
@@ -214,6 +412,30 @@
     },
     {
       "key": {
+        "uuid": "31c74697_d1680f02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewersOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T09:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "523a11aa_75ab3062",
+      "range": {
+        "startLine": 113,
+        "startChar": 25,
+        "endLine": 113,
+        "endChar": 32
+      },
+      "revId": "03f5fe29e6ac66f16927c03e891bec02429af643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b0ae976_378cf0be",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewersOp.java",
         "patchSetId": 5
@@ -237,6 +459,30 @@
     },
     {
       "key": {
+        "uuid": "94efa601_d8d50cdb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewersOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T09:19:27Z",
+      "side": 1,
+      "message": "It can be when this is invoked from PostReview. I moved the check there.",
+      "parentUuid": "8b0ae976_378cf0be",
+      "range": {
+        "startLine": 244,
+        "startChar": 6,
+        "endLine": 244,
+        "endChar": 27
+      },
+      "revId": "03f5fe29e6ac66f16927c03e891bec02429af643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d735039_843d0948",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewersOp.java",
         "patchSetId": 5
@@ -248,6 +494,30 @@
       "writtenOn": "2017-04-13T08:21:10Z",
       "side": 1,
       "message": "better something like this:\n\npublic Result getResult() {\n  checkState(opResult !\u003d null, \"Batch update wasn\u0027t executed yet\");\n  return opResult;\n}",
+      "range": {
+        "startLine": 259,
+        "startChar": 2,
+        "endLine": 262,
+        "endChar": 3
+      },
+      "revId": "03f5fe29e6ac66f16927c03e891bec02429af643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14af1495_fa2c7831",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewersOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-13T09:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d735039_843d0948",
       "range": {
         "startLine": 259,
         "startChar": 2,

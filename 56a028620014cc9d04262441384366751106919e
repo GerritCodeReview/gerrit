@@ -82,6 +82,30 @@
     },
     {
       "key": {
+        "uuid": "9a388217_488e7770",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-13T12:19:41Z",
+      "side": 1,
+      "message": "Let me do this in the next PS.\nIn schema_127, I did not find a way to make injection of this class work. It is wiring issue, however, I do not know where.",
+      "parentUuid": "2a9ed367_657f84e4",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 40
+      },
+      "revId": "56a028620014cc9d04262441384366751106919e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23171d9a_745fc642",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
         "patchSetId": 2

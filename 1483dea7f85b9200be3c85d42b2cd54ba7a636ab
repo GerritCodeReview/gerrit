@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "22dc9681_47a17d15",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-13T22:30:11Z",
+      "side": 1,
+      "message": "Will this break if it\u0027s called before the element is attached?",
+      "parentUuid": "ab1ad025_8ebd111c",
+      "revId": "1483dea7f85b9200be3c85d42b2cd54ba7a636ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16c8fa19_16fd0bf4",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 1

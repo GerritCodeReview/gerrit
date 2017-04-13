@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1492082314 +0200\nnonce AFMZ2Gz+t1CGzjhJNLJK0eQzu3/iIUwdFeJMlGwBJbLQwJvL+PFYGlGAPli+JVrJQJ5HoZ1XkxYI\n\n0000000000000000000000000000000000000000 07ac230f025f6a3ba59d27bf76ef229b5b52fb6d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY716KAAoJEFG1/Zeg0O9R2dAH/jiyXDYla5+nUWTzMEUWz4eZ\nY/SmcBnIHQKAYTZc7+4cgoj3lhng5x8qKfnSYBMQTtNTjMYXM+AIH7cSGTMydYva\n/XvouwsxGcTRMPcDYb6GgOJXH7JVbwM0L5/zIC3RKQkM+vVVypseSAkxtM5rWdpk\navnM29zTHVcRFF8OOCxOTnBtqmOx6Belf1NZVPTau3/rrFnPBS8yrXLh2X3e7bb2\nO7hnd5clK/R1uSnvmkiF0hxjBiPKZwrLcnj0GiVUF89+MPxdvzMDgvYauO3cvC9R\nYpfe/+VLsRoBe6aoBamTpAB3yiMTr2wk0qneD/LH0T0TuCDLkC7FM+63O0vpXbs\u003d\n\u003dcMga\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a8092b6_0ffd7e4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-13T12:04:06Z",
+      "side": 1,
+      "message": "What about a forced rewrite of the branch with empty content?",
+      "range": {
+        "startLine": 10,
+        "startChar": 26,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "b12093ac7d46a9e02a8e1e9f9713c0e096bae19e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

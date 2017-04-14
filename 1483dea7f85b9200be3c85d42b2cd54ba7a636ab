@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "60b401e4_02590476",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-14T00:22:47Z",
+      "side": 1,
+      "message": "\u003e Maybe nothing has to happen on attached then?\n\nYou are correct, it works without the attached lifecycle callback. Removed.",
+      "parentUuid": "906bf3ef_c9b798f7",
+      "revId": "1483dea7f85b9200be3c85d42b2cd54ba7a636ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab1ad025_8ebd111c",
         "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
         "patchSetId": 1
@@ -98,6 +116,30 @@
       "revId": "1483dea7f85b9200be3c85d42b2cd54ba7a636ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30f834ab_e8246fe0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-14T00:22:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ba51460a_d5eee4d0",
+      "range": {
+        "startLine": 19,
+        "startChar": 32,
+        "endLine": 19,
+        "endChar": 36
+      },
+      "revId": "1483dea7f85b9200be3c85d42b2cd54ba7a636ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

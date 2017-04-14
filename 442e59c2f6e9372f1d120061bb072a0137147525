@@ -34,6 +34,47 @@
       "revId": "442e59c2f6e9372f1d120061bb072a0137147525",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de16eaf8_7ab542db",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-14T18:31:41Z",
+      "side": 1,
+      "message": "Yup, that\u0027s a standard Polymer feature, though not yet used by us.\nhttps://www.polymer-project.org/2.0/docs/devguide/custom-css-properties#use-a-custom-properties-api-to-style-an-element\n\nOnly other place I can suggest is to make a site-wide default (app-theme? app/styles/something?) and then override it when needed.\nAs of now, formatted text wouldn\u0027t have max width by default - but that\u0027s likely to be intentional.",
+      "parentUuid": "87330e7e_28763734",
+      "revId": "442e59c2f6e9372f1d120061bb072a0137147525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39447be3_53407ea8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-14T18:31:41Z",
+      "side": 1,
+      "message": "I see Polymer commonly uses element name as a prefix to custom CSS variables.\nWhat about naming this one as gr-formatted-text-prose-max-width?\n\nAlso, `prose` is a bit ambiguous, but I don\u0027t have a better suggestion.",
+      "range": {
+        "startLine": 35,
+        "startChar": 23,
+        "endLine": 35,
+        "endChar": 43
+      },
+      "revId": "442e59c2f6e9372f1d120061bb072a0137147525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

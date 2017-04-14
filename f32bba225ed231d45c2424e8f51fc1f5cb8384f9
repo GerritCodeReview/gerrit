@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9e734203_7ea4155e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-14T16:53:17Z",
+      "side": 1,
+      "message": "Output from all plugins does go under the one \"plugin\" attribute. Each plugin will have a list of attributes. I added sample output, hopefully that will clarify",
+      "parentUuid": "02978429_51c4f053",
+      "range": {
+        "startLine": 745,
+        "startChar": 58,
+        "endLine": 746,
+        "endChar": 37
+      },
+      "revId": "f32bba225ed231d45c2424e8f51fc1f5cb8384f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "405818c1_e653610f",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7
@@ -36,6 +60,24 @@
       "writtenOn": "2017-04-14T02:55:08Z",
       "side": 1,
       "message": "Add an example of what it looks like in the query json output?",
+      "revId": "f32bba225ed231d45c2424e8f51fc1f5cb8384f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "913ab4ed_97534066",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 1033742
+      },
+      "writtenOn": "2017-04-14T16:53:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "405818c1_e653610f",
       "revId": "f32bba225ed231d45c2424e8f51fc1f5cb8384f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

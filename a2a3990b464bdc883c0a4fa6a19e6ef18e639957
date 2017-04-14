@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "df975086_ec0b52bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-14T18:51:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9ceadb1_fe1170a9",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "a2a3990b464bdc883c0a4fa6a19e6ef18e639957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54c7d9bd_d85bbb50",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "687217dd_7264d245",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-14T18:51:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54c7d9bd_d85bbb50",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "a2a3990b464bdc883c0a4fa6a19e6ef18e639957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcfe256b_beb6b04d",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
         "patchSetId": 1
@@ -62,6 +110,24 @@
       "revId": "a2a3990b464bdc883c0a4fa6a19e6ef18e639957",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1a8d901_5c2794ea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-14T18:51:46Z",
+      "side": 1,
+      "message": "I\u0027d prefer to keep an extra property than to deal with element availability and readiness.\n\nFor example, suggestions arrive after element is detached.",
+      "parentUuid": "bcfe256b_beb6b04d",
+      "revId": "a2a3990b464bdc883c0a4fa6a19e6ef18e639957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

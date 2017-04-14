@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5d59c6c_465054c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-14T18:22:15Z",
+      "side": 1,
+      "message": "Is there a relevant issue?",
+      "revId": "256fb8da7dcc2946decc51206c1ebbbe9695289a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43937300_3150f7d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-14T18:22:15Z",
+      "side": 1,
+      "message": "Also not your code, but I don\u0027t think this is ever used.",
+      "range": {
+        "startLine": 935,
+        "startChar": 4,
+        "endLine": 935,
+        "endChar": 17
+      },
+      "revId": "256fb8da7dcc2946decc51206c1ebbbe9695289a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b6c8de9_d0435407",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-14T18:22:15Z",
+      "side": 1,
+      "message": "Not your code, but looks like this is a var redefinition from #1035.",
+      "range": {
+        "startLine": 1062,
+        "startChar": 6,
+        "endLine": 1062,
+        "endChar": 10
+      },
+      "revId": "256fb8da7dcc2946decc51206c1ebbbe9695289a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

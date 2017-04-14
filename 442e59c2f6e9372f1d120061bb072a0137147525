@@ -16,6 +16,24 @@
       "revId": "442e59c2f6e9372f1d120061bb072a0137147525",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdad8a5c_ca094681",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-14T18:30:32Z",
+      "side": 1,
+      "message": "This is the standard way that custom CSS properties are initialized [1]. In a few places we set them programatically in JS, but in this case the desired value is static so there is no need for JS.\n\nI think of this property like a specialized version of `max-width`. You can see on the left that the whole formatted text block was given a max width, but it\u0027s changed to use this more specific version.\n\n\u003e it seems like it might make sense to do so elsewhere\n\nWhere else would you expect to set it? This and the GR-COMMENT-LIST are the only places we were setting the maximum width to `80ch` (using the vanilla `max-width` property).\n\n* [1] https://www.polymer-project.org/2.0/docs/devguide/custom-css-properties",
+      "parentUuid": "87330e7e_28763734",
+      "revId": "442e59c2f6e9372f1d120061bb072a0137147525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

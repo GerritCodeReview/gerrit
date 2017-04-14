@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "28065a36_3016896e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-14T22:13:41Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "69701cf3_612c9b51",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 9
+      },
+      "revId": "52cf035dfe7dcd9731b9545ea0ca3805e2c1ecb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "441181cb_d46d43b7",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-14T21:51:03Z",
       "side": 1,
       "message": "What\u0027s the reason for adding this import?",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 86
+      },
+      "revId": "52cf035dfe7dcd9731b9545ea0ca3805e2c1ecb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d27fa2c_a2b0853d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-14T22:13:41Z",
+      "side": 1,
+      "message": "It was so the above could overide it in here. So calling getBaseUrl() would correctly return the prefix we set. But it may work with your idea below.",
+      "parentUuid": "441181cb_d46d43b7",
       "range": {
         "startLine": 29,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "af98dd0c_ebb0878e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-14T22:13:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c565a521_3776033a",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 7
+      },
+      "revId": "52cf035dfe7dcd9731b9545ea0ca3805e2c1ecb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fa022334_97fe87db",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2017-04-14T21:51:03Z",
       "side": 1,
       "message": "I\u0027m not sure this test is needed, as it\u0027s identical to the one just above it -- unless I\u0027m confused.",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 208,
+        "endChar": 9
+      },
+      "revId": "52cf035dfe7dcd9731b9545ea0ca3805e2c1ecb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6aa2eed_5b9407d5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-14T22:13:41Z",
+      "side": 1,
+      "message": "Woops sorry. I initially was going to do it here. But then found i could do it above.",
+      "parentUuid": "fa022334_97fe87db",
       "range": {
         "startLine": 199,
         "startChar": 6,

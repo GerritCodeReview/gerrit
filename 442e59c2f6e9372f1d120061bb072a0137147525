@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "28ce087f_cec22eba",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-14T19:24:21Z",
+      "side": 1,
+      "message": "Thanks for the explanation!",
+      "parentUuid": "de16eaf8_7ab542db",
+      "revId": "442e59c2f6e9372f1d120061bb072a0137147525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39447be3_53407ea8",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
         "patchSetId": 1

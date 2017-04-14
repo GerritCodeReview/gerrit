@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69701cf3_612c9b51",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-14T21:51:03Z",
+      "side": 1,
+      "message": "Let\u0027s find a way to get rid of this.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 9
+      },
+      "revId": "52cf035dfe7dcd9731b9545ea0ca3805e2c1ecb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "441181cb_d46d43b7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-14T21:51:03Z",
+      "side": 1,
+      "message": "What\u0027s the reason for adding this import?",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 86
+      },
+      "revId": "52cf035dfe7dcd9731b9545ea0ca3805e2c1ecb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c565a521_3776033a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-14T21:51:03Z",
+      "side": 1,
+      "message": "Instead of modifying this test, let\u0027s create another one that\u0027s almost identical. Maybe something like...\n\n  test(\u0027_computeNavLink with path\u0027, function() {\n    window.CANONICAL_PATH \u003d \u0027/r\u0027;\n    var query \u003d \u0027status:open\u0027;\n    var offset \u003d 0;\n    var direction \u003d 1;\n    var changesPerPage \u003d 5;\n    assert.equal(\n        element._computeNavLink(query, offset, direction, changesPerPage),\n        \u0027/r/q/status:open,5\u0027);\n    direction \u003d -1;\n    assert.equal(\n        element._computeNavLink(query, offset, direction, changesPerPage),\n        \u0027/r/q/status:open\u0027);\n    offset \u003d 5;\n    direction \u003d 1;\n    assert.equal(\n        element._computeNavLink(query, offset, direction, changesPerPage),\n        \u0027/r/q/status:open,10\u0027);\n  });\n\n...and remove the setting of the canonical path in the whole test.",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 7
+      },
+      "revId": "52cf035dfe7dcd9731b9545ea0ca3805e2c1ecb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa022334_97fe87db",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-14T21:51:03Z",
+      "side": 1,
+      "message": "I\u0027m not sure this test is needed, as it\u0027s identical to the one just above it -- unless I\u0027m confused.",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 208,
+        "endChar": 9
+      },
+      "revId": "52cf035dfe7dcd9731b9545ea0ca3805e2c1ecb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

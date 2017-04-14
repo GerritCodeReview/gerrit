@@ -303,6 +303,7 @@ limitations under the License.
       var commitSpy = sandbox.spy(element, '_commit');
       element._focused = true;
       element._suggestions = [{name: 'first suggestion'}];
+      Polymer.dom.flush();
       assert.isFalse(element.$.suggestions.hasAttribute('hidden'));
       MockInteractions.tap(element.$$('#suggestions li:first-child'));
       flushAsynchronousOperations();

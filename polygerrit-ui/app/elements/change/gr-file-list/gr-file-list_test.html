@@ -933,6 +933,7 @@ limitations under the License.
     var element;
     var sandbox;
     var saveStub;
+    var fileRows;
 
     var setupDiff = function(diff) {
       var mock = document.createElement('mock-diff-response');
@@ -964,14 +965,14 @@ limitations under the License.
       var diffs =
           Polymer.dom(element.root).querySelectorAll('gr-diff');
 
-      for (var i = index; i < diffs.length; i++ ) {
+      for (var i = index; i < diffs.length; i++) {
         setupDiff(diffs[i]);
       }
 
       element._updateDiffCursor();
       element.$.diffCursor.handleDiffUpdate();
       return diffs;
-    }
+    };
 
     setup(function() {
       sandbox = sinon.sandbox.create();
@@ -1013,9 +1014,15 @@ limitations under the License.
       };
       sandbox.stub(window, 'fetch', function() {
         return Promise.resolve();
-      })
+      });
       saveStub = sandbox.stub(element, '_saveReviewedState',
           function() { return Promise.resolve(); });
+
+      flushAsynchronousOperations();
+      fileRows =
+          Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
+      element.$.fileCursor.stops = fileRows;
+      element.$.fileCursor.setCursorAtIndex(0);
     });
 
     teardown(function() {
@@ -1023,12 +1030,6 @@ limitations under the License.
     });
 
     test('cursor with individually opened files', function() {
-      flushAsynchronousOperations();
-      var fileRows =
-          Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
-      element.$.fileCursor.stops = fileRows;
-      element.$.fileCursor.setCursorAtIndex(0);
-
       MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, null, 'i');
       flushAsynchronousOperations();
       var diffs = renderAndGetNewDiffs(0);
@@ -1048,14 +1049,14 @@ limitations under the License.
 
       // Keyboard shortcuts are still moving the file cursor, not the diff
       // cursor.
-      MockInteractions.pressAndReleaseKeyOn(fileRows[0], 74, null, 'j');
+      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
       flushAsynchronousOperations();
       assert.isTrue(diffStops[10].classList.contains('target-row'));
       assert.isFalse(diffStops[11].classList.contains('target-row'));
 
       // The file cusor is now at 1.
       assert.equal(element.$.fileCursor.index, 1);
-      MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, null, 'i');
+      MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
       flushAsynchronousOperations();
 
       var diffs = renderAndGetNewDiffs(1);
@@ -1070,12 +1071,6 @@ limitations under the License.
     });
 
     test('cursor with toggle all files', function() {
-      flushAsynchronousOperations();
-      var fileRows =
-          Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
-      element.$.fileCursor.stops = fileRows;
-      element.$.fileCursor.setCursorAtIndex(0);
-
       MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, 'shift', 'i');
       flushAsynchronousOperations();
 
@@ -1103,6 +1098,72 @@ limitations under the License.
 
       // The file cusor is still at 0.
       assert.equal(element.$.fileCursor.index, 0);
+    });
+
+    suite('n key presses', function() {
+      var nKeySpy;
+      var nextCommentStub;
+      var nextChunkStub;
+      setup(function() {
+        nKeySpy = sandbox.spy(element, '_handleNKey');
+        nextCommentStub = sandbox.stub(element.$.diffCursor,
+            'moveToNextCommentThread');
+        nextChunkStub = sandbox.stub(element.$.diffCursor,
+            'moveToNextChunk');
+      });
+      test('n key with all files expanded and no shift key', function() {
+        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, null, 'i');
+        flushAsynchronousOperations();
+
+        // Handle N key should return before calling diff cursor functions.
+        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+        assert.isTrue(nKeySpy.called);
+        assert.isFalse(nextCommentStub.called);
+
+        // This is also called in diffCursor.moveToFirstChunk.
+        assert.equal(nextChunkStub.callCount, 1);
+        assert.isFalse(!!element._showInlineDiffs);
+      });
+
+      test('n key with all files expanded and shift key', function() {
+        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, null, 'i');
+        flushAsynchronousOperations();
+
+        MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
+        assert.isTrue(nKeySpy.called);
+        assert.isFalse(nextCommentStub.called);
+
+        // This is also called in diffCursor.moveToFirstChunk.
+        assert.equal(nextChunkStub.callCount, 1);
+        assert.isFalse(!!element._showInlineDiffs);
+
+      });
+
+      test('n key without all files expanded and shift key', function() {
+        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, 'shift', 'i');
+        flushAsynchronousOperations();
+
+        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+        assert.isTrue(nKeySpy.called);
+        assert.isFalse(nextCommentStub.called);
+
+        // This is also called in diffCursor.moveToFirstChunk.
+        assert.equal(nextChunkStub.callCount, 2);
+        assert.isTrue(element._showInlineDiffs);
+      });
+
+      test('n key without all files expanded and no shift key', function() {
+        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, 'shift', 'i');
+        flushAsynchronousOperations();
+
+        MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
+        assert.isTrue(nKeySpy.called);
+        assert.isTrue(nextCommentStub.called);
+
+        // This is also called in diffCursor.moveToFirstChunk.
+        assert.equal(nextChunkStub.callCount, 1);
+        assert.isTrue(element._showInlineDiffs);
+      });
     });
   });
 </script>

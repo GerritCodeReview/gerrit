@@ -22,6 +22,11 @@ limitations under the License.
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 
+<script>
+  window.CANONICAL_PATH = '/r';
+</script>
+
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-list-view.html">
 
@@ -87,6 +92,22 @@ limitations under the License.
       assert.equal(
           element._computeNavLink(query, offset, direction, changesPerPage),
           '/q/status:open,10');
+
+      // Same test but with base url
+      offset = 0;
+      direction = 1;
+      assert.equal(
+          element._computeNavLink(query, offset, direction, changesPerPage),
+          element.getBaseUrl() + '/q/status:open,5');
+      direction = -1;
+      assert.equal(
+          element._computeNavLink(query, offset, direction, changesPerPage),
+          element.getBaseUrl() + '/q/status:open');
+      offset = 5;
+      direction = 1;
+      assert.equal(
+          element._computeNavLink(query, offset, direction, changesPerPage),
+          element.getBaseUrl() + '/q/status:open,10');
     });
 
     test('_hidePrevArrow', function() {
@@ -181,6 +202,17 @@ limitations under the License.
       });
 
       test('Change ID with multiple search results searches', function() {
+        sandbox.stub(element, '_getChanges')
+            .returns(Promise.resolve([{}, {}]));
+        var stub = sandbox.stub(page, 'show');
+
+        element.params = {view: 'gr-change-list-view', query: CHANGE_ID};
+        flushAsynchronousOperations();
+
+        assert.isFalse(stub.called);
+      });
+
+      test('computeNavLink with url prefix', function() {
         sandbox.stub(element, '_getChanges')
             .returns(Promise.resolve([{}, {}]));
         var stub = sandbox.stub(page, 'show');

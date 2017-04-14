@@ -527,11 +527,13 @@
 
     _handleNKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
+          this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) {
+        return;
+      }
       if (!this._showInlineDiffs) { return; }
 
       e.preventDefault();
-      if (e.shiftKey) {
+      if (this.isModifierPressed(e, 'shiftKey')) {
         this.$.diffCursor.moveToNextCommentThread();
       } else {
         this.$.diffCursor.moveToNextChunk();
@@ -540,11 +542,13 @@
 
     _handlePKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
+          this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) {
+        return;
+      }
       if (!this._showInlineDiffs) { return; }
 
       e.preventDefault();
-      if (e.shiftKey) {
+      if (this.isModifierPressed(e, 'shiftKey')) {
         this.$.diffCursor.moveToPreviousCommentThread();
       } else {
         this.$.diffCursor.moveToPreviousChunk();

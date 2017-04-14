@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19760fef_b797565d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-14T22:32:30Z",
+      "side": 1,
+      "message": "Why are we creating commit-msg.d?",
+      "range": {
+        "startLine": 197,
+        "startChar": 1,
+        "endLine": 197,
+        "endChar": 41
+      },
+      "revId": "e78ab44e9f05755aa08c8c21cb25a302555b02ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08d2ee8d_204a2533",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-14T22:32:30Z",
+      "side": 1,
+      "message": "Should you use the xargs -0 as well?\n\nOverall in my experience it isn\u0027t a good idea to use it in this way, unless you\u0027re sure that find will always find something.",
+      "range": {
+        "startLine": 199,
+        "startChar": 33,
+        "endLine": 199,
+        "endChar": 40
+      },
+      "revId": "e78ab44e9f05755aa08c8c21cb25a302555b02ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

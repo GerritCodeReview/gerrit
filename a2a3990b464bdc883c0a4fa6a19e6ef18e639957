@@ -146,6 +146,24 @@
       "revId": "a2a3990b464bdc883c0a4fa6a19e6ef18e639957",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8aee702a_1223afe4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-14T20:52:28Z",
+      "side": 1,
+      "message": "I simply don\u0027t know internals of web components, Polymer, and shady dom polyfills enough to be sure that this.$.cursor.stops is reliable in this case.\n\nI\u0027m quite certain that Polymer would make sure binding doesn\u0027t explode, regardless on the moment it\u0027s being updated.\n\nI don\u0027t feel strongly, though.",
+      "parentUuid": "5386038c_a5bb608f",
+      "revId": "a2a3990b464bdc883c0a4fa6a19e6ef18e639957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

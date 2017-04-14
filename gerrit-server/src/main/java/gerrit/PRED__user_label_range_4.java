@@ -20,7 +20,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
+import com.googlecode.prolog_cafe.exceptions.JavaException;
 import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.exceptions.SystemException;
@@ -74,15 +76,16 @@ class PRED__user_label_range_4 extends Predicate.P4 {
     }
     CurrentUser user = (CurrentUser) ((JavaObjectTerm) a2).object();
 
-    ChangeData cd = StoredValues.CHANGE_DATA.get(engine);
-    LabelType type = cd.getLabelTypes().byLabel(label);
-    if (type == null) {
-      return engine.fail();
-    }
-
     Set<LabelPermission.WithValue> can;
     try {
+      ChangeData cd = StoredValues.CHANGE_DATA.get(engine);
+      LabelType type = cd.getLabelTypes().byLabel(label);
+      if (type == null) {
+        return engine.fail();
+      }
       can = StoredValues.PERMISSION_BACKEND.get(engine).user(user).change(cd).test(type);
+    } catch (OrmException err) {
+      throw new JavaException(this, 1, err);
     } catch (PermissionBackendException err) {
       SystemException se = new SystemException(err.getMessage());
       se.initCause(err);

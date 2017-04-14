@@ -84,7 +84,7 @@ public abstract class PrologTestCase extends GerritBaseTests {
    *
    * @param env Prolog environment.
    */
-  protected void setUpEnvironment(PrologEnvironment env) {}
+  protected void setUpEnvironment(PrologEnvironment env) throws Exception {}
 
   private PrologMachineCopy newMachine() {
     BufferingPrologControl ctl = new BufferingPrologControl();
@@ -115,7 +115,7 @@ public abstract class PrologTestCase extends GerritBaseTests {
     return env.execute(Prolog.BUILTIN, "clause", head, new VariableTerm());
   }
 
-  public void runPrologBasedTests() {
+  public void runPrologBasedTests() throws Exception {
     int errors = 0;
     long start = TimeUtil.nowMs();
 

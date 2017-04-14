@@ -21,7 +21,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
+import com.googlecode.prolog_cafe.exceptions.JavaException;
 import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.exceptions.SystemException;
@@ -80,19 +82,20 @@ class PRED__check_user_label_3 extends Predicate.P3 {
     }
     short val = (short) ((IntegerTerm) a3).intValue();
 
-    ChangeData cd = StoredValues.CHANGE_DATA.get(engine);
-    LabelType type = cd.getLabelTypes().byLabel(label);
-    if (type == null) {
-      return engine.fail();
-    }
-
     try {
+      ChangeData cd = StoredValues.CHANGE_DATA.get(engine);
+      LabelType type = cd.getLabelTypes().byLabel(label);
+      if (type == null) {
+        return engine.fail();
+      }
       StoredValues.PERMISSION_BACKEND
           .get(engine)
           .user(user)
           .change(cd)
           .check(new LabelPermission.WithValue(type, val));
       return cont;
+    } catch (OrmException err) {
+      throw new JavaException(this, 1, err);
     } catch (AuthException err) {
       return engine.fail();
     } catch (PermissionBackendException err) {

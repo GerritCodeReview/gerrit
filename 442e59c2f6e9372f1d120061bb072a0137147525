@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "b12fc1a5_66d2fe4b",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-14T19:32:37Z",
+      "side": 1,
+      "message": "\u003e As of now, formatted text wouldn\u0027t have max width by default - but that\u0027s likely to be intentional.\n\nYes, that\u0027s intentional. The idea is to have a somewhat-abstract, Shadow-DOM-safe way to style something particular to the way the component works.",
+      "parentUuid": "28ce087f_cec22eba",
+      "revId": "442e59c2f6e9372f1d120061bb072a0137147525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39447be3_53407ea8",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
         "patchSetId": 1
@@ -93,6 +111,30 @@
       "revId": "442e59c2f6e9372f1d120061bb072a0137147525",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abb7bdec_d7d944b0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-14T19:32:37Z",
+      "side": 1,
+      "message": "\u003e What about naming this one as gr-formatted-text-prose-max-width?\n\nDone.\n\n\u003e Also, `prose` is a bit ambiguous, but I don\u0027t have a better suggestion.\n\nI added a comment as well to disambiguate the weird use of the word \"Prose\".\n\nGoing forward we may want to establish a JSDoc-like format to describe how custom CSS properties work in HTML comments. (Assuming we have more of these in the future.)",
+      "parentUuid": "39447be3_53407ea8",
+      "range": {
+        "startLine": 35,
+        "startChar": 23,
+        "endLine": 35,
+        "endChar": 43
+      },
+      "revId": "442e59c2f6e9372f1d120061bb072a0137147525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -128,6 +128,24 @@
       "revId": "a2a3990b464bdc883c0a4fa6a19e6ef18e639957",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5386038c_a5bb608f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-14T19:18:51Z",
+      "side": 1,
+      "message": "\u003e For example, suggestions arrive after element is detached.\n\nIs there an error if suggestions arrive after detachment? If the element\u0027s JS implementation has not be GC\u0027d and is handling REST responses then I\u0027d expect that neither has the DOM.\n\nSince `_suggestionEls` is only used to populate stops, and it\u0027s only assigned here, then isn\u0027t assigning `this.$.cursor.stops` equivalent? Is there a case where it isn\u0027t equivalent?",
+      "parentUuid": "c1a8d901_5c2794ea",
+      "revId": "a2a3990b464bdc883c0a4fa6a19e6ef18e639957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

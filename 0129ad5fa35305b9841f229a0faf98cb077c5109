@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16957d70_3c8c0cf9",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-14T19:22:58Z",
+      "side": 1,
+      "message": "Yeah, seems you are correct.",
+      "parentUuid": "29fad104_9843955f",
+      "range": {
+        "startLine": 695,
+        "startChar": 6,
+        "endLine": 695,
+        "endChar": 26
+      },
+      "revId": "0129ad5fa35305b9841f229a0faf98cb077c5109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11f1ae38_4b4f1840",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-14T18:54:21Z",
       "side": 1,
       "message": "Optional: I wonder if this can be given a more-specific name to differentiate it from the top-level suite above. Maybe something like...\n\n* gr-file-list integration tests\n* gr-file-list inline diff tests\n\nMaybe there isn\u0027t a good specific name for it going forward though.",
+      "range": {
+        "startLine": 932,
+        "startChar": 9,
+        "endLine": 932,
+        "endChar": 27
+      },
+      "revId": "0129ad5fa35305b9841f229a0faf98cb077c5109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fd0a32f_d5ec2c70",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-14T19:22:58Z",
+      "side": 1,
+      "message": "Yeah, agreed. Changed to inline diff tests.",
+      "parentUuid": "11f1ae38_4b4f1840",
       "range": {
         "startLine": 932,
         "startChar": 9,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "44032c91_a6c689cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-14T19:22:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11ceda1a_0566b4aa",
+      "range": {
+        "startLine": 1026,
+        "startChar": 6,
+        "endLine": 1026,
+        "endChar": 36
+      },
+      "revId": "0129ad5fa35305b9841f229a0faf98cb077c5109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3ef9f3d_8726afdf",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 6
@@ -82,6 +154,30 @@
       "writtenOn": "2017-04-14T18:54:21Z",
       "side": 1,
       "message": "Why are these part of the test? Shouldn\u0027t the element be doing this already? Also, would this hide an error if the element is failing to set the stops correctly?",
+      "range": {
+        "startLine": 1029,
+        "startChar": 6,
+        "endLine": 1030,
+        "endChar": 47
+      },
+      "revId": "0129ad5fa35305b9841f229a0faf98cb077c5109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d130d50a_720ba601",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-14T19:22:58Z",
+      "side": 1,
+      "message": "Yeah, I need to look into this one more. It was done in many of the other tests in this suite and without this, it appears that the stops don\u0027t exists (they are an empty array).",
+      "parentUuid": "b3ef9f3d_8726afdf",
       "range": {
         "startLine": 1029,
         "startChar": 6,

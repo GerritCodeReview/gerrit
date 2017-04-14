@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1491899177 +0200\nnonce AFMZ2Gy6UbikPKFA9k/EMAbOan136Qkhcf6R/bfyTUCb4btyN9thyyAiltj53mO5YJZpTI5+/a81\n\n0000000000000000000000000000000000000000 2747f7a98479f11501df764f0fc6bafb5b18bc0f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEbBAABAgAGBQJY7JMpAAoJEFG1/Zeg0O9RHE0H92V6OaIXAG06V1t19dW4XzQR\n5uZJHYaptpv4PeDQFup5hP1Rx6tN1qMUjNICp6wqAyq1N/dtC1UVWVQf6utZPHL1\noXA0qWPtbfAz8nhKQA+jT695MCjN9AtCdxUWYQ6N5W5+HO1VqYWRGDOnhheokgEr\n9i37k/QoeEGX/DupciBaSkHAluoKQRShFnJp90FFBiPPIkv9iCuiOxyWmMhWBJwL\npiTINONb/EEz6jsaCmT93T3Ego2OoT1jPRryegBg7j4/f5XRqoA9E3tQI+9GGrTM\nulPNH37DN32DjhZE0N9DLV8apjGXrwLCMvZMTGIJG5wL7MzrhBJRuAFWBSWLeQ\u003d\u003d\n\u003d+/24\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f12ead27_3d170d3e",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-14T13:36:08Z",
+      "side": 1,
+      "message": "This doesn\u0027t feel very JSONy. At the very least it should be lower_with_underscores. Also, most places in the REST API we don\u0027t include \"input\" in key names even when we define the type of the input object to be something named \"input\". So perhaps \"check_account_external_ids\"?",
+      "range": {
+        "startLine": 159,
+        "startChar": 5,
+        "endLine": 159,
+        "endChar": 32
+      },
+      "revId": "fa8c3e764d1e3647fad0a3774940fb2ef0cd0b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb184a34_2885a68f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/ConsistencyCheckInfo.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-14T13:36:08Z",
+      "side": 1,
+      "message": "final?",
+      "revId": "fa8c3e764d1e3647fad0a3774940fb2ef0cd0b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bcf4ad1_fb992287",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/Module.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-14T13:36:08Z",
+      "side": 1,
+      "message": "Is \".consistency\" necessary? Are we going to have other kinds of checks? For changes, this endpoint is just called \"/check\".",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 70
+      },
+      "revId": "fa8c3e764d1e3647fad0a3774940fb2ef0cd0b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

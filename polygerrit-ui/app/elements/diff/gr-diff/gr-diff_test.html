@@ -853,5 +853,38 @@ limitations under the License.
         });
       });
     });
+
+    suite('diff header', function() {
+      setup(function() {
+        element._diff = {
+            meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
+            meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
+                lines: 560},
+            diff_header: [],
+            intraline_status: 'OK',
+            change_type: 'MODIFIED',
+            content: [{skip: 66}],
+          };
+      });
+
+      test('hidden', function() {
+        assert.equal(element._diffHeaderItems.length, 0);
+        element.push('_diff.diff_header', 'diff --git a/test.jpg b/test.jpg');
+        assert.equal(element._diffHeaderItems.length, 0);
+        element.push('_diff.diff_header', 'index 2adc47d..f9c2f2c 100644');
+        assert.equal(element._diffHeaderItems.length, 0);
+        element.push('_diff.diff_header', '--- a/test.jpg');
+        assert.equal(element._diffHeaderItems.length, 0);
+        element.push('_diff.diff_header', '+++ b/test.jpg');
+        assert.equal(element._diffHeaderItems.length, 0);
+        element.push('_diff.diff_header', 'test');
+        assert.equal(element._diffHeaderItems.length, 1);
+        flushAsynchronousOperations();
+
+        assert.equal(element.$.diffHeader.textContent.trim(), 'test');
+        element.set('_diff.binary', true);
+        assert.equal(element._diffHeaderItems.length, 0);
+      });
+    });
   });
 </script>

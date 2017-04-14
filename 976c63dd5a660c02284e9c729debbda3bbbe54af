@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1492090387 +0200\nnonce AFMZ2GxaK6PgVbkKtMXBe3/TgRrFZ1eubpODTkiAacDh0JmqH/mBn26FrMLMT+IqNWXCzB9mr3uv\n\n0000000000000000000000000000000000000000 c835847114d1683f690dba6a16a067cc3017f327 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY734TAAoJEFG1/Zeg0O9Rd/cH/0P5wupV4o8zy/mxji5M13Wh\nL3ZNDxlBn6IF/KVSPcAjcugpJoPnvi8tNb6Yqj2VMAS+UUFPzCBQE3uKf1ZZI1xM\nMh/fjZ67GPaaj9Ln1XMLJR8bDxKefDVrxDwEUGU7JDhAF9ZOBph8MRO29TagXdCB\nXYXL9pchhhqDV4dDakPZFWGhGhsF3jnFtl4RvWzq1RiEHakRGpfb7AAm+B2yQ1iV\nCy25XyMYLTLtK2ExPhpcHwDT4Z4QogX+bbEpiu+Co5xQD4lt8JMq22pZFc6Dx5Wy\nrV8bND+K96snqyIl0XIRuuUcw5lQJOQ86UWH3mjlkuG1/Zum5PkMfDUxU6xAdJE\u003d\n\u003dD6ln\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ed7fde0_e58dc3f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_147.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-14T02:51:37Z",
+      "side": 1,
+      "message": "\"user branches for non-existing accounts\"?\n\nOtherwise people might wonder why we\u0027re trying to delete user branches.",
+      "range": {
+        "startLine": 71,
+        "startChar": 47,
+        "endLine": 71,
+        "endChar": 60
+      },
+      "revId": "976c63dd5a660c02284e9c729debbda3bbbe54af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

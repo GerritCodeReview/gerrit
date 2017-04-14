@@ -3,8 +3,8 @@ RESOURCES = glob(["src/test/resources/**/*"])
 java_library(
     name = "lib",
     testonly = 1,
-    resources = RESOURCES,
     srcs = ["src/test/java/com/google/gerrit/acceptance/Dummy.java"],
+    resources = RESOURCES,
     visibility = ["//visibility:public"],
     exports = [
         "//gerrit-acceptance-framework:lib",

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02978429_51c4f053",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-14T02:55:08Z",
+      "side": 1,
+      "message": "Does the output from all plugins go under one \"plugin\" attribute?\n\nWhat happens if multiple plugins provide the same attribute name?",
+      "range": {
+        "startLine": 745,
+        "startChar": 58,
+        "endLine": 746,
+        "endChar": 37
+      },
+      "revId": "f32bba225ed231d45c2424e8f51fc1f5cb8384f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "405818c1_e653610f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-14T02:55:08Z",
+      "side": 1,
+      "message": "Add an example of what it looks like in the query json output?",
+      "revId": "f32bba225ed231d45c2424e8f51fc1f5cb8384f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

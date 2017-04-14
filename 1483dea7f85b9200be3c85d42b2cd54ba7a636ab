@@ -140,6 +140,30 @@
       "revId": "1483dea7f85b9200be3c85d42b2cd54ba7a636ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65f28e20_ef2a45b3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-14T20:29:41Z",
+      "side": 1,
+      "message": "Yeah Becky has the domain knowledge here, but maybe even lower would be okay. I think we would rather warn a user of something that doesn\u0027t happen than not warn them and have lockups.",
+      "parentUuid": "30f834ab_e8246fe0",
+      "range": {
+        "startLine": 19,
+        "startChar": 32,
+        "endLine": 19,
+        "endChar": 36
+      },
+      "revId": "1483dea7f85b9200be3c85d42b2cd54ba7a636ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

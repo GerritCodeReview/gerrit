@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab7a80e0_bfb77a04",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-14T18:56:16Z",
+      "side": 1,
+      "message": "Line break after \u003d, please.",
+      "range": {
+        "startLine": 123,
+        "startChar": 41,
+        "endLine": 123,
+        "endChar": 42
+      },
+      "revId": "1eb26b8a9432002309c3b5f64f43dcd5d58b5b8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

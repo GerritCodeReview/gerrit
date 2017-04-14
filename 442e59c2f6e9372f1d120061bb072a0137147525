@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87330e7e_28763734",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-14T18:15:45Z",
+      "side": 1,
+      "message": "Is this what sets the --gr-max-prose-width variable? If it\u0027s just setting a variable, it seems like it might make sense to do so elsewhere (also, I didn\u0027t know you could set vars in this way?)",
+      "revId": "442e59c2f6e9372f1d120061bb072a0137147525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

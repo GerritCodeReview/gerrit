@@ -62,11 +62,11 @@ limitations under the License.
     test('url is properly encoded', function() {
       assert.equal(element._computeNavLink(
           'status:open project:platform/frameworks/base', 0, -1, 25),
-          '/q/status:open+project:platform%252Fframeworks%252Fbase'
+          '/r/q/status:open+project:platform%252Fframeworks%252Fbase'
       );
       assert.equal(element._computeNavLink(
           'status:open project:platform/frameworks/base', 0, 1, 25),
-          '/q/status:open+project:platform%252Fframeworks%252Fbase,25'
+          '/r/q/status:open+project:platform%252Fframeworks%252Fbase,25'
       );
     });
 
@@ -87,6 +87,26 @@ limitations under the License.
       assert.equal(
           element._computeNavLink(query, offset, direction, changesPerPage),
           '/q/status:open,10');
+    });
+
+    test('_computeNavLink with path', function() {
+      window.CANONICAL_PATH = '/r';
+      var query = 'status:open';
+      var offset = 0;
+      var direction = 1;
+      var changesPerPage = 5;
+      assert.equal(
+          element._computeNavLink(query, offset, direction, changesPerPage),
+          '/r/q/status:open,5');
+      direction = -1;
+      assert.equal(
+          element._computeNavLink(query, offset, direction, changesPerPage),
+          '/r/q/status:open');
+      offset = 5;
+      direction = 1;
+      assert.equal(
+          element._computeNavLink(query, offset, direction, changesPerPage),
+          '/r/q/status:open,10');
     });
 
     test('_hidePrevArrow', function() {
@@ -181,6 +201,17 @@ limitations under the License.
       });
 
       test('Change ID with multiple search results searches', function() {
+        sandbox.stub(element, '_getChanges')
+            .returns(Promise.resolve([{}, {}]));
+        var stub = sandbox.stub(page, 'show');
+
+        element.params = {view: 'gr-change-list-view', query: CHANGE_ID};
+        flushAsynchronousOperations();
+
+        assert.isFalse(stub.called);
+      });
+
+      test('computeNavLink with url prefix', function() {
         sandbox.stub(element, '_getChanges')
             .returns(Promise.resolve([{}, {}]));
         var stub = sandbox.stub(page, 'show');

@@ -28,7 +28,11 @@
      * @event title-change
      */
 
-    behaviors: [Gerrit.URLEncodingBehavior],
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+      Gerrit.URLEncodingBehavior,
+    ],
+
     properties: {
       /**
        * URL params passed from the router.
@@ -140,7 +144,7 @@
       offset = +(offset || 0);
       var newOffset = Math.max(0, offset + (changesPerPage * direction));
       // Double encode URI component.
-      var href = '/q/' + this.encodeURL(query, false);
+      var href = this.getBaseUrl() + '/q/' + this.encodeURL(query, false);
       if (newOffset > 0) {
         href += ',' + newOffset;
       }

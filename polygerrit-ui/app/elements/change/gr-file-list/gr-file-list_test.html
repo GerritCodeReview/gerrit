@@ -60,13 +60,22 @@ limitations under the License.
         reload: function() { return Promise.resolve(); },
       });
       element = fixture('basic');
-      element.numFilesShown = 75;
+      element.numFilesShown = 200;
       saveStub = sandbox.stub(element, '_saveReviewedState',
           function() { return Promise.resolve(); });
     });
 
     teardown(function() {
       sandbox.restore();
+    });
+
+    test('correct number of files are shown', function() {
+      element._files = _.times(500, function(i) {
+          return {__path: '/file' + i, lines_inserted: 9}; });
+      flushAsynchronousOperations();
+      assert.equal(
+          Polymer.dom(element.root).querySelectorAll('.file-row').length,
+          element.numFilesShown);
     });
 
     test('get file list', function(done) {

@@ -300,9 +300,9 @@ class GitwebServlet extends HttpServlet {
       p.print("      ('review',$r,'commitdiff');\n");
       p.print("}\n");
       p.print("if ($cgi->param('hb')) {\n");
-      p.print("  add_review_link($cgi->param('hb'));\n");
+      p.print("  add_review_link(scalar $cgi->param('hb'));\n");
       p.print("} elsif ($cgi->param('h')) {\n");
-      p.print("  add_review_link($cgi->param('h'));\n");
+      p.print("  add_review_link(scalar $cgi->param('h'));\n");
       p.print("} else {\n");
       p.print("  add_review_link();\n");
       p.print("}\n");

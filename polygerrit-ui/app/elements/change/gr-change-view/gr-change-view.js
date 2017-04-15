@@ -22,7 +22,7 @@
   var COMMENT_SAVE = 'Saving... Try again after all comments are saved.';
 
   var MIN_LINES_FOR_COMMIT_COLLAPSE = 30;
-  var DEFAULT_NUM_FILES_SHOWN = 75;
+  var DEFAULT_NUM_FILES_SHOWN = 200;
 
   // Maximum length for patch set descriptions.
   var PATCH_DESC_MAX_LENGTH = 500;

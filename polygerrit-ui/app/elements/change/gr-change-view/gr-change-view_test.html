@@ -374,8 +374,8 @@ limitations under the License.
       };
       element.viewState.changeNum = null;
       element.viewState.diffMode = 'UNIFIED';
-      assert.equal(element.viewState.numFilesShown, 75);
-      assert.equal(element._numFilesShown, 75);
+      assert.equal(element.viewState.numFilesShown, 200);
+      assert.equal(element._numFilesShown, 200);
       element._numFilesShown = 150;
       flushAsynchronousOperations();
       assert.equal(element.viewState.diffMode, 'UNIFIED');
@@ -394,8 +394,8 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isNull(element.viewState.diffMode);
       assert.equal(element.viewState.changeNum, '2');
-      assert.equal(element.viewState.numFilesShown, 75);
-      assert.equal(element._numFilesShown, 75);
+      assert.equal(element.viewState.numFilesShown, 200);
+      assert.equal(element._numFilesShown, 200);
     });
 
     test('patch num change', function(done) {

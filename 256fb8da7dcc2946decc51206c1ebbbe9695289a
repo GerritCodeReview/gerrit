@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "8b5d2cf2_88279f9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-15T01:14:26Z",
+      "side": 1,
+      "message": "Actually, just created a new issue. updating.",
+      "parentUuid": "f75eb40e_8d6b9570",
+      "revId": "256fb8da7dcc2946decc51206c1ebbbe9695289a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43937300_3150f7d9",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 3
@@ -60,6 +78,30 @@
     },
     {
       "key": {
+        "uuid": "3168e944_9b8095cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-15T01:14:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43937300_3150f7d9",
+      "range": {
+        "startLine": 935,
+        "startChar": 4,
+        "endLine": 935,
+        "endChar": 17
+      },
+      "revId": "256fb8da7dcc2946decc51206c1ebbbe9695289a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b6c8de9_d0435407",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 3
@@ -80,6 +122,30 @@
       "revId": "256fb8da7dcc2946decc51206c1ebbbe9695289a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "367fa2b0_cf3de616",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-15T01:14:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b6c8de9_d0435407",
+      "range": {
+        "startLine": 1062,
+        "startChar": 6,
+        "endLine": 1062,
+        "endChar": 10
+      },
+      "revId": "256fb8da7dcc2946decc51206c1ebbbe9695289a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

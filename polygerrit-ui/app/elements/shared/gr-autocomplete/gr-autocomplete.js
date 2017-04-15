@@ -184,7 +184,7 @@
         }
         this._suggestions = suggestions;
         Polymer.dom.flush();
-        this._suggestionEls = this.$.suggestions.querySelectorAll('li')
+        this._suggestionEls = this.$.suggestions.querySelectorAll('li');
         this.$.cursor.moveToStart();
         if (this._index === -1) {
           this.value = null;

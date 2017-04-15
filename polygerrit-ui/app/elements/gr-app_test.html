@@ -72,10 +72,8 @@ limitations under the License.
       element._path = '/test/path';
       flush(function() {
         var gwtLink = element.$$('#gwtLink');
-        assert.equal(
-          gwtLink.href,
-          'http://' + location.host + element.getBaseUrl() + '/?polygerrit=0#/test/path'
-        );
+        assert.equal(gwtLink.href, 'http://' + location.host +
+            element.getBaseUrl() + '/?polygerrit=0#/test/path');
         done();
       });
     });

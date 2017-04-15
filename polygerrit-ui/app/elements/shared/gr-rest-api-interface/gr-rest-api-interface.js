@@ -911,7 +911,8 @@
     },
 
     _fetchB64File: function(url) {
-      return fetch(this.getBaseUrl() + url, {credentials: 'same-origin'}).then(function(response) {
+      return fetch(this.getBaseUrl() + url, {credentials: 'same-origin'}).then(
+            function(response) {
         var type = response.headers.get('X-FYI-Content-Type');
         return response.text()
           .then(function(text) {

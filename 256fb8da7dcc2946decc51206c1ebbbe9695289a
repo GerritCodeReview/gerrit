@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f75eb40e_8d6b9570",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-15T00:23:57Z",
+      "side": 1,
+      "message": "Well, I discovered this issue when investigating https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d5977 though it\u0027s a separate cause. I\u0027m not sure if I should include that one or not?",
+      "parentUuid": "e5d59c6c_465054c9",
+      "revId": "256fb8da7dcc2946decc51206c1ebbbe9695289a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "43937300_3150f7d9",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 3

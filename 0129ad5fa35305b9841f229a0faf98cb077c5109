@@ -187,6 +187,30 @@
       "revId": "0129ad5fa35305b9841f229a0faf98cb077c5109",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aeb3c76_45062403",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-15T01:02:15Z",
+      "side": 1,
+      "message": "Addressed this issue. It was two things-- first was I needed to add a Polymer.dom.flush at the beginning of _filesChanged, so that the dom nodes exist to set as stops.\n\nSecondly, in the tests, I have to set an initial selectedIndex, which in reality is passed from the viewState object.",
+      "parentUuid": "d130d50a_720ba601",
+      "range": {
+        "startLine": 1029,
+        "startChar": 6,
+        "endLine": 1030,
+        "endChar": 47
+      },
+      "revId": "0129ad5fa35305b9841f229a0faf98cb077c5109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

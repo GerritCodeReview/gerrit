@@ -27,7 +27,9 @@
   <meta name="description" content="Gerrit Code Review">{\n}
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">{\n}
 
-  <script>window.CANONICAL_PATH = '{$canonicalPath}';</script>{\n}
+  {if $canonicalPath != ''}
+    <script>window.CANONICAL_PATH = '{$canonicalPath}';</script>{\n}
+  {/if}
 
   // SourceCodePro fonts are used in styles/fonts.css
   // @see https://github.com/w3c/preload/issues/32 regarding crossorigin
@@ -40,5 +42,5 @@
   <link rel="import" href="{$staticResourcePath}/elements/gr-app.html">{\n}
 
   <body unresolved>{\n}
-  <gr-app id="app" canonical-path="{$canonicalPath}"></gr-app>{\n}
+  <gr-app id="app"></gr-app>{\n}
 {/template}

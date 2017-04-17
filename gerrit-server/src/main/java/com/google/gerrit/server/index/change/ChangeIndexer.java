@@ -107,7 +107,7 @@ public class ChangeIndexer {
   private final ListeningExecutorService executor;
   private final DynamicSet<ChangeIndexedListener> indexedListeners;
   private final StalenessChecker stalenessChecker;
-  private final boolean reindexAfterIndexUpdate;
+  private final boolean autoReindexIfStale;
 
   @AssistedInject
   ChangeIndexer(
@@ -131,7 +131,7 @@ public class ChangeIndexer {
     this.indexedListeners = indexedListeners;
     this.stalenessChecker = stalenessChecker;
     this.batchExecutor = batchExecutor;
-    this.reindexAfterIndexUpdate = reindexAfterIndexUpdate(cfg);
+    this.autoReindexIfStale = autoReindexIfStale(cfg);
     this.index = index;
     this.indexes = null;
   }
@@ -158,13 +158,13 @@ public class ChangeIndexer {
     this.indexedListeners = indexedListeners;
     this.stalenessChecker = stalenessChecker;
     this.batchExecutor = batchExecutor;
-    this.reindexAfterIndexUpdate = reindexAfterIndexUpdate(cfg);
+    this.autoReindexIfStale = autoReindexIfStale(cfg);
     this.index = null;
     this.indexes = indexes;
   }
 
-  private static boolean reindexAfterIndexUpdate(Config cfg) {
-    return cfg.getBoolean("index", null, "testReindexAfterUpdate", true);
+  private static boolean autoReindexIfStale(Config cfg) {
+    return cfg.getBoolean("index", null, "testAutoReindexIfStale", true);
   }
 
   /**
@@ -221,7 +221,7 @@ public class ChangeIndexer {
     // and fix the staleness. It doesn't matter which order the two
     // reindexIfStale calls actually execute in; we are guaranteed that at least
     // one of them will execute after the second index write, (4).
-    reindexAfterIndexUpdate(cd);
+    autoReindexIfStale(cd);
   }
 
   private void fireChangeIndexedEvent(int id) {
@@ -253,7 +253,7 @@ public class ChangeIndexer {
   public void index(ReviewDb db, Change change) throws IOException, OrmException {
     index(newChangeData(db, change));
     // See comment in #index(ChangeData).
-    reindexAfterIndexUpdate(change.getProject(), change.getId());
+    autoReindexIfStale(change.getProject(), change.getId());
   }
 
   /**
@@ -268,7 +268,7 @@ public class ChangeIndexer {
     ChangeData cd = newChangeData(db, project, changeId);
     index(cd);
     // See comment in #index(ChangeData).
-    reindexAfterIndexUpdate(cd);
+    autoReindexIfStale(cd);
   }
 
   /**
@@ -304,16 +304,16 @@ public class ChangeIndexer {
     return submit(new ReindexIfStaleTask(project, id), batchExecutor);
   }
 
-  private void reindexAfterIndexUpdate(ChangeData cd) throws IOException {
+  private void autoReindexIfStale(ChangeData cd) throws IOException {
     try {
-      reindexAfterIndexUpdate(cd.project(), cd.getId());
+      autoReindexIfStale(cd.project(), cd.getId());
     } catch (OrmException e) {
       throw new IOException(e);
     }
   }
 
-  private void reindexAfterIndexUpdate(Project.NameKey project, Change.Id id) {
-    if (reindexAfterIndexUpdate) {
+  private void autoReindexIfStale(Project.NameKey project, Change.Id id) {
+    if (autoReindexIfStale) {
       // Don't retry indefinitely; if this fails the change will be stale.
       @SuppressWarnings("unused")
       Future<?> possiblyIgnoredError = reindexIfStale(project, id);

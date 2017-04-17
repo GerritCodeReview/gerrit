@@ -70,6 +70,30 @@
       "revId": "68ca37a616e06c3c8a921f4a6dd792b93030d572",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e759933_d7071e98",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T23:32:56Z",
+      "side": 1,
+      "message": "Oh so like if (!!base)?",
+      "parentUuid": "c8d35b3c_0c15eba5",
+      "range": {
+        "startLine": 37,
+        "startChar": 11,
+        "endLine": 37,
+        "endChar": 13
+      },
+      "revId": "68ca37a616e06c3c8a921f4a6dd792b93030d572",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

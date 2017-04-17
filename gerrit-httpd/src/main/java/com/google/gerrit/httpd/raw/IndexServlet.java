@@ -37,7 +37,7 @@ public class IndexServlet extends HttpServlet {
   private final byte[] indexSource;
 
   IndexServlet(String canonicalURL, @Nullable String cdnPath) throws URISyntaxException {
-    String resourcePath = "com/google/gerrit/httpd/raw/index.html.soy";
+    String resourcePath = "com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy";
     SoyFileSet.Builder builder = SoyFileSet.builder();
     builder.add(Resources.getResource(resourcePath));
     SoyTofu.Renderer renderer =

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47305bea_2d401aaf",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-17T18:35:00Z",
+      "side": 1,
+      "message": "Nit: Remove unnecessary whitespace",
+      "revId": "f634d70c3ffb5c2ff74853d6fad9d92bd79cddd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

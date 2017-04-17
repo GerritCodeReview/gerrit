@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d9e054c_1d0d5ffd",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-17T17:47:59Z",
+      "side": 1,
+      "message": "You could probably put some of the parameters on this line.",
+      "revId": "a6f50aad607e6349d719731867a470dcc378ff4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

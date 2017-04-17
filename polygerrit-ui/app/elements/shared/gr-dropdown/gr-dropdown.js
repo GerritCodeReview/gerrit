@@ -23,6 +23,12 @@
      * @event tap-item-<id>
      */
 
+    /**
+     * Fired when a non-link dropdown item is tapped.
+     *
+     * @event tap-item
+     */
+
     properties: {
       items: Array,
       topContent: Object,
@@ -93,7 +99,13 @@
 
     _handleItemTap: function(e) {
       var id = e.target.getAttribute('data-id');
+      var item = this.items.find(function(item) {
+        return item.id === id;
+      });
       if (id && this.disabledIds.indexOf(id) === -1) {
+        if (item) {
+          this.dispatchEvent(new CustomEvent('tap-item', {detail: item}));
+        }
         this.dispatchEvent(new CustomEvent('tap-item-' + id));
       }
     },

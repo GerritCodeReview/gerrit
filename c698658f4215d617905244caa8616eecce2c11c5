@@ -1,0 +1,481 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "daea887f_f65a0bf1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "The component and it\u0027s directory should have the same name.",
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d465733_ec54e72f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "Nit: why use the cell class instead of just `td`? Especially since the next ruleset uses `th`.",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 13
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07c9d423_e305c66a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "Since this is the same as the first ruleset (which also uses `:host`) they should all go together.\n\nBut I don\u0027t think there is a need to set the font-size in this case. The font-size of the project list should remain the default.",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 7
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ae18004_d05e47b7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "Since the only elements that have the `topHeader` class are the TH elements, why not just add this to the `th { ... }` ruleset above?",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 16
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdc0c2f8_b423b2df",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": ".groupHeader is not used.",
+      "range": {
+        "startLine": 45,
+        "startChar": 6,
+        "endLine": 45,
+        "endChar": 18
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feb03b23_b45ec987",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "The same applies to this ruleset: incorporate into the `th { ... }` ruleset.",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 7
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db3e575e_a46d8e9a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "Neither the `noChanges` nor the `keyboard` classes are used.",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 7
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7bf2f03_a3da6786",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "This class is unused.",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 16
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e7fbce1_df4a309a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "Why have you added this media query?",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 48
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29314903_ddfeb2ad",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "Remove this, leave the font size as the default.\n\nAlthough I\u0027m confused as to why you would make the text larger when the screen becomes smaller.",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 68,
+        "endChar": 9
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87a4a91b_4b2c92ae",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "This style block is *for* the project list element, I\u0027d expect this selector to never work. This is what the `:host` selector is supposed to do.",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 31
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e76df36e_ff7d8898",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "Why hide columns?",
+      "range": {
+        "startLine": 77,
+        "startChar": 9,
+        "endLine": 82,
+        "endChar": 9
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc02eed5_7cece352",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "Why have you added this media query?",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 7
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ae2c074_2585dd76",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "It looks like this section was copy-pasted from gr-file-list. Is that intended? Why is this here?",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 7
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b01ea2ac_a5ffcfc6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "Since this is an array, it should be plural:\n\n _projects",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 14
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be37fb78_3d3e904c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be setting the projects array rather than returning?",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 20
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a457d62_4edfdd43",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "Don\u0027t use intermediate underscores in method names, but since it is only used by this element, it should have an underscore-prefix. This should be named something like...\n\n _computeWeblinkUrl\n\nThe same is true for the following method, it should be called something like\n\n _computeWeblinkName",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 15
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58144bd1_8c462613",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "We do not yet support ES6, so don\u0027t use `for..of` iterator loops.",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 47
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81790f9a_2e2550ae",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "The parameter that gets passed into these methods is the a single project, but this parameter name suggests that it\u0027s the projects array.",
+      "range": {
+        "startLine": 53,
+        "startChar": 27,
+        "endLine": 53,
+        "endChar": 35
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abeff170_dac69b02",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "Besides being ES6 (which we don\u0027t yet support) this method throws an error that prevents the project list from rendering.",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 23
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70efacd2_3e4a4bc7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-17T17:37:00Z",
+      "side": 1,
+      "message": "Why not use\n\n _fetchSharedCacheURL\n\nto take advantage of caching?",
+      "range": {
+        "startLine": 553,
+        "startChar": 18,
+        "endLine": 553,
+        "endChar": 27
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

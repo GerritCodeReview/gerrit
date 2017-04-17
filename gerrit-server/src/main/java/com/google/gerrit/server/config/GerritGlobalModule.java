@@ -132,7 +132,7 @@ import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.UploadValidationListener;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.GroupModule;
-import com.google.gerrit.server.index.change.ReindexAfterUpdate;
+import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.ListMailFilter;
 import com.google.gerrit.server.mail.MailFilter;
@@ -330,7 +330,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), GarbageCollectorListener.class);
     DynamicSet.setOf(binder(), HeadUpdatedListener.class);
     DynamicSet.setOf(binder(), UsageDataPublishedListener.class);
-    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ReindexAfterUpdate.class);
+    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ReindexAfterRefUpdate.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
         .to(ProjectConfigEntry.UpdateChecker.class);
     DynamicSet.setOf(binder(), EventListener.class);

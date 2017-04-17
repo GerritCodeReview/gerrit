@@ -44,8 +44,8 @@ import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
-  private static final Logger log = LoggerFactory.getLogger(ReindexAfterUpdate.class);
+public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
+  private static final Logger log = LoggerFactory.getLogger(ReindexAfterRefUpdate.class);
 
   private final OneOffRequestContext requestContext;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -55,7 +55,7 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
   private final ListeningExecutorService executor;
 
   @Inject
-  ReindexAfterUpdate(
+  ReindexAfterRefUpdate(
       OneOffRequestContext requestContext,
       Provider<InternalChangeQuery> queryProvider,
       ChangeIndexer.Factory indexerFactory,

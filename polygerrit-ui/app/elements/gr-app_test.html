@@ -27,7 +27,7 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <gr-app id="app" canonical-path="/abc/def/ghi"></gr-app>
+    <gr-app id="app"></gr-app>
   </template>
 </test-fixture>
 
@@ -106,10 +106,6 @@ limitations under the License.
         assert.deepEqual(element.$.plugins.config, pluginConfig);
         done();
       });
-    });
-
-    test('canonical-path', function() {
-      assert.equal(Gerrit.CANONICAL_PATH, '/abc/def/ghi');
     });
   });
 </script>

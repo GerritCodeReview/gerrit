@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b907e7da_072b65c2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-17T17:58:43Z",
+      "side": 1,
+      "message": "Nit: Might be able to do this a bit neater with lodash.\n\n  element._files \u003d _.times(500, function(i) { return {__path: \u0027/file\u0027 + i, lines_inserted: 9}; });\n\nI may have gotten that slightly wrong, docs are here: https://lodash.com/docs/4.17.4#times",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 32
+      },
+      "revId": "f9c55c2ef5888b12ff03e2404bcc0faa3e0d04a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4d608f2_6a9dc5a8",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-17T17:58:43Z",
+      "side": 1,
+      "message": "Nit: Remove extra blank line",
+      "revId": "f9c55c2ef5888b12ff03e2404bcc0faa3e0d04a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

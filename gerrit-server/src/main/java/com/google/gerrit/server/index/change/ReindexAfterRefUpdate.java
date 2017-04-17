@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider.QueueType;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -41,6 +42,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,9 +55,11 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
   private final ChangeIndexCollection indexes;
   private final ChangeNotes.Factory notesFactory;
   private final ListeningExecutorService executor;
+  private final boolean enabled;
 
   @Inject
   ReindexAfterRefUpdate(
+      @GerritServerConfig Config cfg,
       OneOffRequestContext requestContext,
       Provider<InternalChangeQuery> queryProvider,
       ChangeIndexer.Factory indexerFactory,
@@ -68,11 +72,13 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     this.indexes = indexes;
     this.notesFactory = notesFactory;
     this.executor = executor;
+    this.enabled = cfg.getBoolean("index", null, "reindexAfterRefUpdate", true);
   }
 
   @Override
   public void onGitReferenceUpdated(final Event event) {
-    if (event.getRefName().startsWith(RefNames.REFS_CHANGES)
+    if (!enabled
+        || event.getRefName().startsWith(RefNames.REFS_CHANGES)
         || event.getRefName().startsWith(RefNames.REFS_DRAFT_COMMENTS)
         || event.getRefName().startsWith(RefNames.REFS_USERS)) {
       return;

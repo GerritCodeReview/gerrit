@@ -16,7 +16,7 @@
 
   // Maximum length for patch set descriptions.
   var PATCH_DESC_MAX_LENGTH = 500;
-
+  var WARN_SHOW_ALL_THRESHOLD = 1000;
   var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
 
   var FileStatus = {
@@ -719,6 +719,16 @@
     _computeShowAllText: function(files) {
       if (!files) { return ''; }
       return 'Show all ' + files.length + ' files';
+    },
+
+    _computeWarnShowAll: function(files) {
+      return files.length > WARN_SHOW_ALL_THRESHOLD;
+    },
+
+    _computeShowAllWarning: function(files) {
+      if (!this._computeWarnShowAll(files)) { return ''; }
+      return 'Warning: showing all ' + files.length +
+          ' files may take several seconds.';
     },
 
     _showAllFiles: function() {

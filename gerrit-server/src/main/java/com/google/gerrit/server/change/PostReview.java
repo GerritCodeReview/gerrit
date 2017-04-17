@@ -242,9 +242,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         // Prevent notifications because setting reviewers is batched.
         reviewerInput.notify = NotifyHandling.NONE;
 
-        PostReviewers.Addition result =
-            postReviewers.prepareApplication(revision.getChangeResource(), reviewerInput, true);
-        reviewerJsonResults.put(reviewerInput.reviewer, result.result);
+        try {
+          PostReviewers.Addition result =
+              postReviewers.prepareApplication(revision.getChangeResource(), reviewerInput, true);
+          reviewerJsonResults.put(reviewerInput.reviewer, result.result);
+        } catch (UnprocessableEntityException e) {
+          reviewerJsonResults.put(reviewerInput.reviewer, AddReviewerResult(
+                reviewerInput.reviewer, e.getMessage()))
+        }
         if (result.result.error != null) {
           hasError = true;
           continue;

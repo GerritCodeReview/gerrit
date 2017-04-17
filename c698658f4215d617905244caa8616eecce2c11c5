@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "b964bb49_d8a046e4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0d465733_ec54e72f",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 13
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "07c9d423_e305c66a",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
         "patchSetId": 19
@@ -53,6 +77,30 @@
       "writtenOn": "2017-04-17T17:37:00Z",
       "side": 1,
       "message": "Since this is the same as the first ruleset (which also uses `:host`) they should all go together.\n\nBut I don\u0027t think there is a need to set the font-size in this case. The font-size of the project list should remain the default.",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 7
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dae6bd0_96d1fa74",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "07c9d423_e305c66a",
       "range": {
         "startLine": 41,
         "startChar": 6,
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "ccc8fe8e_ac35a03b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6ae18004_d05e47b7",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 16
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cdc0c2f8_b423b2df",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
         "patchSetId": 19
@@ -99,6 +171,30 @@
       "writtenOn": "2017-04-17T17:37:00Z",
       "side": 1,
       "message": ".groupHeader is not used.",
+      "range": {
+        "startLine": 45,
+        "startChar": 6,
+        "endLine": 45,
+        "endChar": 18
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1751bc03_de9caba1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "cdc0c2f8_b423b2df",
       "range": {
         "startLine": 45,
         "startChar": 6,
@@ -134,6 +230,30 @@
     },
     {
       "key": {
+        "uuid": "ecb7d38b_8700d3c4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "feb03b23_b45ec987",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 7
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db3e575e_a46d8e9a",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
         "patchSetId": 19
@@ -145,6 +265,30 @@
       "writtenOn": "2017-04-17T17:37:00Z",
       "side": 1,
       "message": "Neither the `noChanges` nor the `keyboard` classes are used.",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 7
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db6ef50a_cf74dc76",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "db3e575e_a46d8e9a",
       "range": {
         "startLine": 53,
         "startChar": 6,
@@ -180,6 +324,30 @@
     },
     {
       "key": {
+        "uuid": "7153cc57_be5ae0b6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d7bf2f03_a3da6786",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 16
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e7fbce1_df4a309a",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
         "patchSetId": 19
@@ -191,6 +359,30 @@
       "writtenOn": "2017-04-17T17:37:00Z",
       "side": 1,
       "message": "Why have you added this media query?",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 48
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "323b14e2_b02dc073",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Oh no reason. I can remove this. Thanks, done.",
+      "parentUuid": "2e7fbce1_df4a309a",
       "range": {
         "startLine": 65,
         "startChar": 6,
@@ -226,6 +418,30 @@
     },
     {
       "key": {
+        "uuid": "3fe98d70_694b79aa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "29314903_ddfeb2ad",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 68,
+        "endChar": 9
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87a4a91b_4b2c92ae",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
         "patchSetId": 19
@@ -237,6 +453,30 @@
       "writtenOn": "2017-04-17T17:37:00Z",
       "side": 1,
       "message": "This style block is *for* the project list element, I\u0027d expect this selector to never work. This is what the `:host` selector is supposed to do.",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 31
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc9f7832_fb89c8de",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "87a4a91b_4b2c92ae",
       "range": {
         "startLine": 69,
         "startChar": 8,
@@ -272,6 +512,30 @@
     },
     {
       "key": {
+        "uuid": "6cd617a7_24eb8211",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Oh no reason. I can remove this. Thanks, done.",
+      "parentUuid": "e76df36e_ff7d8898",
+      "range": {
+        "startLine": 77,
+        "startChar": 9,
+        "endLine": 82,
+        "endChar": 9
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cc02eed5_7cece352",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
         "patchSetId": 19
@@ -283,6 +547,30 @@
       "writtenOn": "2017-04-17T17:37:00Z",
       "side": 1,
       "message": "Why have you added this media query?",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 7
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71c5c188_a5d54c43",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Following how the other styles did it. But i\u0027ve removed it now. Thanks, done.",
+      "parentUuid": "cc02eed5_7cece352",
       "range": {
         "startLine": 88,
         "startChar": 6,
@@ -318,6 +606,30 @@
     },
     {
       "key": {
+        "uuid": "841b56e7_2034ab53",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "This is for the data in the table. So that the links do not show blue. And dont underline unless hovering over it.",
+      "parentUuid": "7ae2c074_2585dd76",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 7
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b01ea2ac_a5ffcfc6",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
         "patchSetId": 19
@@ -329,6 +641,30 @@
       "writtenOn": "2017-04-17T17:37:00Z",
       "side": 1,
       "message": "Since this is an array, it should be plural:\n\n _projects",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 14
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8821be80_6ebf2e89",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b01ea2ac_a5ffcfc6",
       "range": {
         "startLine": 21,
         "startChar": 6,
@@ -364,6 +700,30 @@
     },
     {
       "key": {
+        "uuid": "a570c01e_c4fb4bd3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "be37fb78_3d3e904c",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 20
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a457d62_4edfdd43",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
         "patchSetId": 19
@@ -375,6 +735,30 @@
       "writtenOn": "2017-04-17T17:37:00Z",
       "side": 1,
       "message": "Don\u0027t use intermediate underscores in method names, but since it is only used by this element, it should have an underscore-prefix. This should be named something like...\n\n _computeWeblinkUrl\n\nThe same is true for the following method, it should be called something like\n\n _computeWeblinkName",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 15
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2ae5acf_9fa01c7d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4a457d62_4edfdd43",
       "range": {
         "startLine": 46,
         "startChar": 4,
@@ -410,6 +794,30 @@
     },
     {
       "key": {
+        "uuid": "dafe4bc6_ea871435",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Oh, what do i change this too?",
+      "parentUuid": "58144bd1_8c462613",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 47
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "81790f9a_2e2550ae",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
         "patchSetId": 19
@@ -433,6 +841,30 @@
     },
     {
       "key": {
+        "uuid": "2891cf2c_3f991be9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "81790f9a_2e2550ae",
+      "range": {
+        "startLine": 53,
+        "startChar": 27,
+        "endLine": 53,
+        "endChar": 35
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "abeff170_dac69b02",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
         "patchSetId": 19
@@ -444,6 +876,30 @@
       "writtenOn": "2017-04-17T17:37:00Z",
       "side": 1,
       "message": "Besides being ES6 (which we don\u0027t yet support) this method throws an error that prevents the project list from rendering.",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 23
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f5dc853_3c0cd3e9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T19:16:07Z",
+      "side": 1,
+      "message": "Oh it works for me. What should i do instead of using es6 please? I search over a couple of days on google for what i wanted to do. This was the only thing that popped up.",
+      "parentUuid": "abeff170_dac69b02",
       "range": {
         "startLine": 54,
         "startChar": 6,

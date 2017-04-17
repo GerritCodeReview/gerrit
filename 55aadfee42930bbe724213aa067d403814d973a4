@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67c54e90_367a9476",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T20:32:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d947c4b6_31b7f5a6",
+      "range": {
+        "startLine": 670,
+        "startChar": 6,
+        "endLine": 674,
+        "endChar": 8
+      },
+      "revId": "55aadfee42930bbe724213aa067d403814d973a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b5743a6_30840da3",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 23
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-17T18:45:05Z",
       "side": 1,
       "message": "You can\u0027t resolve a promise with multiple properties, afaik. I\u0027m not sure why this is working.\n\nTry putting these values into an object, here and below in getResponseObject. We want the stubs to properly imitate the actual response object.\n\nCitation: http://stackoverflow.com/questions/28703625/how-do-you-properly-return-multiple-values-from-a-promise",
+      "range": {
+        "startLine": 601,
+        "startChar": 8,
+        "endLine": 601,
+        "endChar": 50
+      },
+      "revId": "55aadfee42930bbe724213aa067d403814d973a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b97b9529_dc8928fd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T20:32:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6b5743a6_30840da3",
       "range": {
         "startLine": 601,
         "startChar": 8,

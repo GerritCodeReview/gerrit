@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc97f977_fd0bb763",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-17T23:34:27Z",
+      "side": 1,
+      "message": "Wait, this shouldn\u0027t be necessary. \u0027\u0027 \u003d\u003d false in Javascript.\n\nWhere are you seeing this issue arise?",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 0
+      },
+      "revId": "fc75eaae1001819f8ef30204e56f7fb82a77bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "644ceb6a_c3b7996b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-04-17T15:41:18Z",
+      "side": 1,
+      "message": "It\u0027s not obvious that this is the plugin name, maybe make it:\n\n   \"name\" : \"myplugin-name\"\n\nAnd since ordering is indeterminate, maybe we should put it first just to make the example look better?",
+      "range": {
+        "startLine": 793,
+        "startChar": 19,
+        "endLine": 793,
+        "endChar": 26
+      },
+      "revId": "3c36f4e901e2833f2bd0cb408e4c764207c8728e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -34,7 +34,7 @@
   };
 
   var base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
-  if (base) {
+  if (base != '') {
     page.base(base);
   }
 

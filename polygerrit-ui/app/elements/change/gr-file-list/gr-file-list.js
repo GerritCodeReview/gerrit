@@ -80,11 +80,7 @@
         type: Object,
         computed: '_calculatePatchChange(_files)',
       },
-      _fileListIncrement: {
-        type: Number,
-        readOnly: true,
-        value: 75,
-      },
+      fileListIncrement: Number,
       _hideChangeTotals: {
         type: Boolean,
         computed: '_shouldHideChangeTotals(_patchChange)',
@@ -702,7 +698,7 @@
     },
 
     _incrementNumFilesShown: function() {
-      this.numFilesShown += this._fileListIncrement;
+      this.numFilesShown += this.fileListIncrement;
     },
 
     _computeFileListButtonHidden: function(numFilesShown, files) {
@@ -712,7 +708,7 @@
     _computeIncrementText: function(numFilesShown, files) {
       if (!files) { return ''; }
       var text =
-          Math.min(this._fileListIncrement, files.length - numFilesShown);
+          Math.min(this.fileListIncrement, files.length - numFilesShown);
       return 'Show ' + text + ' more';
     },
 

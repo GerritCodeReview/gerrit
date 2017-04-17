@@ -33,6 +33,11 @@
     });
   };
 
+  GrChangeActionsInterface.prototype.setActionOverflow = function(type, key,
+      overflow) {
+    return this._el.setActionOverflow(type, key, overflow);
+  };
+
   GrChangeActionsInterface.prototype.setActionHidden = function(type, key,
       hidden) {
     return this._el.setActionHidden(type, key, hidden);

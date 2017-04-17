@@ -70,6 +70,30 @@
       "revId": "fc75eaae1001819f8ef30204e56f7fb82a77bc05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c43ae80_63e5e221",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-17T23:41:57Z",
+      "side": 1,
+      "message": "Ok I will abandon. Thanks.",
+      "parentUuid": "70621032_dcdd6659",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 0
+      },
+      "revId": "fc75eaae1001819f8ef30204e56f7fb82a77bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

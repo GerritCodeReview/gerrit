@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3376088c_ac074044",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 34
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-18T23:12:36Z",
+      "side": 1,
+      "message": "This block is still formatted incorrectly. Try...\n\n      element.saveChangeEdit(change_num, file_name, file_contents).then(\n          function() {\n            assert.isTrue(element.send.calledWith(\u0027PUT\u0027, \n                \u0027/changes/\u0027 + change_num + \u0027/edit/\u0027 + file_name, \n                file_contents));\n            done();\n          }\n      );",
+      "range": {
+        "startLine": 609,
+        "startChar": 6,
+        "endLine": 619,
+        "endChar": 8
+      },
+      "revId": "141739855ee17ab9ca9276f719f34f4f72099a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

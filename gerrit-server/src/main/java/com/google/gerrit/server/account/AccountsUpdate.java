@@ -24,6 +24,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -31,6 +32,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.function.Consumer;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -148,6 +150,29 @@ public class AccountsUpdate {
   /** Updates the account. */
   public void update(ReviewDb db, Account account) throws OrmException {
     db.accounts().update(ImmutableSet.of(account));
+  }
+
+  /**
+   * Gets the account and updates it atomically.
+   *
+   * @param db ReviewDb
+   * @param accountId ID of the account
+   * @param consumer consumer to update the account, only invoked if the account exists
+   * @return the updated account, {@code null} if the account doesn't exist
+   * @throws OrmException if updating the account fails
+   */
+  public Account atomicUpdate(ReviewDb db, Account.Id accountId, Consumer<Account> consumer)
+      throws OrmException {
+    return db.accounts()
+        .atomicUpdate(
+            accountId,
+            new AtomicUpdate<Account>() {
+              @Override
+              public Account update(Account a) {
+                consumer.accept(a);
+                return a;
+              }
+            });
   }
 
   /** Deletes the account. */

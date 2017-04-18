@@ -70,6 +70,30 @@
       "revId": "37bdb41bd7416af4ccfa889b88b5a7aa0d78bf17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e557b657_c391da89",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-18T14:24:41Z",
+      "side": 1,
+      "message": "Yes, it\u0027s intended to get rid of gwtorm for Gerrit core. \nIt\u0027s okay to use gwtorm for storing the reviewed flags, but then this should rather be done in a plugin.",
+      "parentUuid": "d77c9e11_7e90d24b",
+      "range": {
+        "startLine": 27,
+        "startChar": 33,
+        "endLine": 28,
+        "endChar": 8
+      },
+      "revId": "37bdb41bd7416af4ccfa889b88b5a7aa0d78bf17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

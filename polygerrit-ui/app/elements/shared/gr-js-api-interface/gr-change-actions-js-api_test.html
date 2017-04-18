@@ -155,5 +155,25 @@ breaking changes to gr-change-actions won’t be noticed.
         });
       });
     });
+
+    test('change actions priority', function(done) {
+      var key1 = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
+      var key2 = changeActions.add(changeActions.ActionType.CHANGE, 'Squanch?');
+      flush(function() {
+        var buttons =
+            Polymer.dom(element.root).querySelectorAll('[data-action-key]');
+        assert.equal(buttons[0].getAttribute('data-action-key'), key1);
+        assert.equal(buttons[1].getAttribute('data-action-key'), key2);
+        changeActions.setActionPriority(
+            changeActions.ActionType.REVISION, key1, 10);
+        flush(function() {
+          buttons =
+              Polymer.dom(element.root).querySelectorAll('[data-action-key]');
+          assert.equal(buttons[0].getAttribute('data-action-key'), key2);
+          assert.equal(buttons[1].getAttribute('data-action-key'), key1);
+          done();
+        });
+      });
+    });
   });
 </script>

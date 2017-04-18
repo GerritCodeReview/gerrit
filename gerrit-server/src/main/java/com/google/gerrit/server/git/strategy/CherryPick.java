@@ -37,7 +37,6 @@ import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class CherryPick extends SubmitStrategy {
 
@@ -135,7 +134,7 @@ public class CherryPick extends SubmitStrategy {
       args.mergeTip.moveTipTo(newCommit, newCommit);
       args.commitStatus.put(newCommit);
 
-      ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(), newCommit, psId.toRefName()));
+      ctx.addRefUpdate(ObjectId.zeroId(), newCommit, psId.toRefName());
       patchSetInfo = args.patchSetInfoFactory.get(ctx.getRevWalk(), newCommit, psId);
     }
 

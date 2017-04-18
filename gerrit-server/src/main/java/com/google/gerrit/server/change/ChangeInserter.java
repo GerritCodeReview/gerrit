@@ -341,7 +341,7 @@ public class ChangeInserter implements InsertChangeOp {
       return;
     }
     if (updateRefCommand == null) {
-      ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(), commitId, psId.toRefName()));
+      ctx.addRefUpdate(ObjectId.zeroId(), commitId, psId.toRefName());
     } else {
       ctx.addRefUpdate(updateRefCommand);
     }

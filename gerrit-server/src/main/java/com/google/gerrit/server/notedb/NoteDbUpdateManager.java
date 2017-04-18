@@ -505,11 +505,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     } else {
       // OpenRepo buffers objects separately; caller may assume that objects are available in the
       // inserter it previously passed via setChangeRepo.
-      // TODO(dborowitz): This should be flushToFinalInserter to avoid flushing objects to the
-      // underlying repo during a dry run. However, the only user of this is PreviewSubmit, which
-      // uses BundleWriter, which only takes a Repository so it can't read unflushed objects. Fix
-      // BundleWriter, then fix this call.
-      or.flush();
+      or.flushToFinalInserter();
     }
 
     BatchRefUpdate bru = or.repo.getRefDatabase().newBatchUpdate();

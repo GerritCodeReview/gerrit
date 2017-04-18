@@ -43,7 +43,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.ReceiveCommand;
 
 /** This strategy covers RebaseAlways and RebaseIfNecessary ones. */
 public class RebaseSubmitStrategy extends SubmitStrategy {
@@ -156,8 +155,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
           toMerge.setStatusCode(SKIPPED_IDENTICAL_TREE);
           return;
         }
-        ctx.addRefUpdate(
-            new ReceiveCommand(ObjectId.zeroId(), newCommit, newPatchSetId.toRefName()));
+        ctx.addRefUpdate(ObjectId.zeroId(), newCommit, newPatchSetId.toRefName());
       } else {
         // Stale read of patch set is ok; see comments in RebaseChangeOp.
         PatchSet origPs =

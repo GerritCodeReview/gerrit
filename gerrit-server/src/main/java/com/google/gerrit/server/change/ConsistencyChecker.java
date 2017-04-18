@@ -76,7 +76,6 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -504,8 +503,7 @@ public class ConsistencyChecker {
               new BatchUpdateOp() {
                 @Override
                 public void updateRepo(RepoContext ctx) throws IOException {
-                  ctx.addRefUpdate(
-                      new ReceiveCommand(commit, ObjectId.zeroId(), psIdToDelete.toRefName()));
+                  ctx.addRefUpdate(commit, ObjectId.zeroId(), psIdToDelete.toRefName());
                 }
               });
           if (!reuseOldPsId) {

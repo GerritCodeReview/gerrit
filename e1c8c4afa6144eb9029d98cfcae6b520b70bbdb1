@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87985dae_32a06df1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-18T00:21:40Z",
+      "side": 1,
+      "message": "These two functions have a \u0027path\u0027 parameter that is never used. Should \u0027path\u0027 be used somewhere? Or should the parameter be dropped?",
+      "range": {
+        "startLine": 676,
+        "startChar": 0,
+        "endLine": 689,
+        "endChar": 0
+      },
+      "revId": "e1c8c4afa6144eb9029d98cfcae6b520b70bbdb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96f230ad_5f6ca8fc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-18T00:21:40Z",
+      "side": 1,
+      "message": "Double indent here.",
+      "range": {
+        "startLine": 604,
+        "startChar": 6,
+        "endLine": 604,
+        "endChar": 8
+      },
+      "revId": "e1c8c4afa6144eb9029d98cfcae6b520b70bbdb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ac06562_3bdb7dd8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-18T00:21:40Z",
+      "side": 1,
+      "message": "Double indent here, and for the corresponding function body.",
+      "range": {
+        "startLine": 610,
+        "startChar": 6,
+        "endLine": 610,
+        "endChar": 8
+      },
+      "revId": "e1c8c4afa6144eb9029d98cfcae6b520b70bbdb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

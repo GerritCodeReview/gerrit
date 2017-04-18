@@ -3387,6 +3387,11 @@ Sets a review on a revision.
 The review must be provided in the request body as a
 link:#review-input[ReviewInput] entity.
 
+A review cannot be set on a change edit. Trying to post a review for a
+change edit fails with `409 Conflict`.
+
+This API method can be used to set labels:
+
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/review HTTP/1.0
@@ -3422,8 +3427,9 @@ link:#review-input[ReviewInput] entity.
   }
 ----
 
-As response a link:#review-info[ReviewInfo] entity is returned that
-describes the applied labels.
+As response a link:#review-info[ReviewResult] entity is returned that
+describes the applied labels and any added reviewers (e.g. yourself,
+if you set a label but weren't previously a reviewer on this CL).
 
 .Response
 ----
@@ -3439,11 +3445,8 @@ describes the applied labels.
   }
 ----
 
-A review cannot be set on a change edit. Trying to post a review for a
-change edit fails with `409 Conflict`.
-
-It is also possible to add one or more reviewers to a change simultaneously
-with a review.
+It is also possible to add one or more reviewers or CCs
+to a change simultaneously with a review.
 
 .Request
 ----
@@ -3451,16 +3454,14 @@ with a review.
   Content-Type: application/json; charset=UTF-8
 
   {
-    "message": "Looks good to me, but Jane and John should also take a look.",
-    "labels": {
-      "Code-Review": 1
-    },
+    "message": "I don't have context here, Jane and maybe John should take a look.",
     "reviewers": [
       {
         "reviewer": "jane.roe@example.com"
       },
       {
-        "reviewer": "john.doe@example.com"
+        "reviewer": "john.doe@example.com",
+        "state": "CC"
       }
     ]
   }
@@ -3468,8 +3469,8 @@ with a review.
 
 Each element of the `reviewers` list is an instance of
 link:#reviewer-input[ReviewerInput]. The corresponding result of
-adding each reviewer will be returned in a list of
-link:#add-reviewer-result[AddReviewerResult].
+adding each reviewer will be returned in a map of inputs to
+link:#add-reviewer-result[AddReviewerResult]s.
 
 .Response
 ----
@@ -3479,36 +3480,45 @@ link:#add-reviewer-result[AddReviewerResult].
 
   )]}'
   {
-    "labels": {
-      "Code-Review": 1
-    },
-    "reviewers": [
-      {
+    "reviewers": {
+      "jane.roe@example.com": {
         "input": "jane.roe@example.com",
-        "approvals": {
-          "Verified": " 0",
-          "Code-Review": " 0"
-        },
-        "_account_id": 1000097,
-        "name": "Jane Roe",
-        "email": "jane.roe@example.com"
+        "reviewers": [
+          {
+            "input": "jane.roe@example.com",
+            "approvals": {
+              "Verified": " 0",
+              "Code-Review": " 0"
+            },
+            "_account_id": 1000097,
+            "name": "Jane Roe",
+            "email": "jane.roe@example.com"
+          },
+        ]
       },
-      {
+      "john.doe@example.com": {
         "input": "john.doe@example.com",
-        "approvals": {
-          "Verified": " 0",
-          "Code-Review": " 0"
-        },
-        "_account_id": 1000096,
-        "name": "John Doe",
-        "email": "john.doe@example.com"
+        "ccs": [
+          {
+            "input": "john.doe@example.com",
+            "approvals": {
+              "Verified": " 0",
+              "Code-Review": " 0"
+            },
+            "_account_id": 1000096,
+            "name": "John Doe",
+            "email": "john.doe@example.com"
+          }
+        ]
       }
-    ]
+    }
   }
 ----
 
 If there are any errors returned for reviewers, the entire review request will
-be rejected with `400 Bad Request`.
+be rejected with `400 Bad Request`. None of the entries will have the
+`reviewers` or `ccs` field set, and those which specifically failed will have
+the `errors` field set containing details of why they failed.
 
 .Error Response
 ----
@@ -3523,6 +3533,13 @@ be rejected with `400 Bad Request`.
         "input": "MyProjectVerifiers",
         "error": "The group My Group has 15 members. Do you want to add them all as reviewers?",
         "confirm": true
+      },
+      "jane.roe@example.com": {
+        "input": "jane.roe@example.com",
+        "error": "Account of jane.roe@example.com is inactive."
+      },
+      "john.doe@example.com": {
+        "input": "john.doe@example.com"
       }
     }
   }
@@ -6273,6 +6290,23 @@ have been granted `labelAs-NAME` permission for all keys of labels.
 |`reviewers`              |optional|
 A list of link:rest-api-changes.html#reviewer-input[ReviewerInput]
 representing reviewers that should be added to the change.
+|============================
+
+[[review-result]]
+=== ReviewResult
+The `ReviewResult` entity contains information regarding the updates
+that were made to a review.
+
+[options="header",cols="1,^1,5"]
+|============================
+|Field Name               ||Description
+|`labels`                 |optional|
+Map of labels to values after the review was posted. Null if any reviewer
+additions were rejected.
+|`reviewers`              |optional|
+Map of account or group identifier to
+link:rest-api-changes.html#add-reviewer-result representing outcome of
+adding as a reviewer. Null if no reviewer additions were requested.
 |============================
 
 [[reviewer-info]]

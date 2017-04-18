@@ -38,6 +38,11 @@
     return this._el.setActionOverflow(type, key, overflow);
   };
 
+  GrChangeActionsInterface.prototype.setActionOrder = function(type, key,
+      order) {
+    return this._el.setActionOrder(type, key, order);
+  };
+
   GrChangeActionsInterface.prototype.setActionHidden = function(type, key,
       hidden) {
     return this._el.setActionHidden(type, key, hidden);

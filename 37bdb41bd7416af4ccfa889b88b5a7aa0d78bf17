@@ -94,6 +94,46 @@
       "revId": "37bdb41bd7416af4ccfa889b88b5a7aa0d78bf17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc465245_170d0787",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-18T18:57:53Z",
+      "side": 1,
+      "message": "required options are usually better provided as (positional) arguments.\nChange @Option to @Argument?",
+      "range": {
+        "startLine": 29,
+        "startChar": 65,
+        "endLine": 29,
+        "endChar": 81
+      },
+      "revId": "37bdb41bd7416af4ccfa889b88b5a7aa0d78bf17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae20415d_72d82bbc",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-18T18:57:53Z",
+      "side": 1,
+      "message": "Shouldn\u0027t target URL be taken from gerrit.config:accountPatchReviewDb.url?\nAt least it should be possible to take targetUrl from gerrit.config instead of having to provide\nit explicitly.",
+      "revId": "37bdb41bd7416af4ccfa889b88b5a7aa0d78bf17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "420ea1bc_37c6b947",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3393,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-18T00:42:53Z",
+      "side": 1,
+      "message": "The \"This\" here should be drawn out explicitly, otherwise it reads like you\u0027re relating to the previous paragraph about 409 Conflict.",
+      "revId": "5008a7135a6a406bcb22f08778777c2cdede1222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac768425_0eca8386",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-18T00:42:53Z",
+      "side": 1,
+      "message": "Syntax error, missing semicolon.",
+      "revId": "5008a7135a6a406bcb22f08778777c2cdede1222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f3eebfd_943adb0f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-18T00:42:53Z",
+      "side": 1,
+      "message": "You\u0027re referencing result from the try block earlier, which is no longer in scope. You should declare result ahead of the try block.",
+      "revId": "5008a7135a6a406bcb22f08778777c2cdede1222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

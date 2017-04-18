@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "2104aeae_e0986f1f",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-18T08:01:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f12ead27_3d170d3e",
+      "range": {
+        "startLine": 159,
+        "startChar": 5,
+        "endLine": 159,
+        "endChar": 32
+      },
+      "revId": "fa8c3e764d1e3647fad0a3774940fb2ef0cd0b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb184a34_2885a68f",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/ConsistencyCheckInfo.java",
         "patchSetId": 11
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "bd746f0a_2aa867e3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/ConsistencyCheckInfo.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-18T08:01:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb184a34_2885a68f",
+      "revId": "fa8c3e764d1e3647fad0a3774940fb2ef0cd0b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3bcf4ad1_fb992287",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/Module.java",
         "patchSetId": 11
@@ -54,6 +96,30 @@
       "writtenOn": "2017-04-14T13:36:08Z",
       "side": 1,
       "message": "Is \".consistency\" necessary? Are we going to have other kinds of checks? For changes, this endpoint is just called \"/check\".",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 70
+      },
+      "revId": "fa8c3e764d1e3647fad0a3774940fb2ef0cd0b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3c7b8fa_20ee7b27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/Module.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-18T08:01:04Z",
+      "side": 1,
+      "message": "Yeah, I was thinking that maybe we want to have other checks one day. But maybe we won\u0027t. Changed it to just \u0027check\u0027.\n\nDone.",
+      "parentUuid": "3bcf4ad1_fb992287",
       "range": {
         "startLine": 39,
         "startChar": 0,

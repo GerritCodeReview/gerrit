@@ -22,6 +22,30 @@
       "revId": "fea441b8a120190840fbcec6dfbb65e9f7b50c30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fe6e91d_c0e0d523",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-18T14:38:54Z",
+      "side": 0,
+      "message": "Ah never mind, I see it\u0027s a parameter. Should be okay.",
+      "parentUuid": "75020fdc_380297c1",
+      "range": {
+        "startLine": 558,
+        "startChar": 4,
+        "endLine": 558,
+        "endChar": 21
+      },
+      "revId": "fea441b8a120190840fbcec6dfbb65e9f7b50c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

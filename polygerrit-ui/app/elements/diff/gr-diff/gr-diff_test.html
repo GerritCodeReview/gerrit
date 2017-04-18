@@ -577,6 +577,43 @@ limitations under the License.
             element.reload();
           });
         });
+
+        test('does not render disallowed image type', function(done) {
+          var mockDiff = {
+            meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg-evil',
+                lines: 560},
+            intraline_status: 'OK',
+            change_type: 'DELETED',
+            diff_header: [
+              'diff --git a/carrot.jpg b/carrot.jpg',
+              'index f9c2f2c..0000000 100644',
+              '--- a/carrot.jpg',
+              '+++ /dev/null',
+              'Binary files differ',
+            ],
+            content: [{skip: 66}],
+            binary: true,
+          };
+          mockFile1.type = 'image/jpeg-evil';
+
+          stubs.push(sandbox.stub(element, '_getDiff',
+              function() { return Promise.resolve(mockDiff); }));
+
+          element.addEventListener('render', function() {
+            // Recognizes that it should be an image diff.
+            assert.isTrue(element.isImageDiff);
+            assert.instanceOf(
+                element.$.diffBuilder._builder, GrDiffBuilderImage);
+            var leftImage = element.$.diffTable.querySelector('td.left img');
+            assert.isNotOk(leftImage);
+            done();
+          });
+
+          element.$.restAPI.getDiffPreferences().then(function(prefs) {
+            element.prefs = prefs;
+            element.reload();
+          });
+        });
       });
 
       test('_handleTap lineNum', function(done) {

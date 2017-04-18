@@ -17,6 +17,8 @@
   // Prevent redefinition.
   if (window.GrDiffBuilderImage) { return; }
 
+  var IMAGE_MIME_PATTERN = /^image\/(bmp|gif|jpeg|jpg|png|tiff|webp)$/;
+
   function GrDiffBuilderImage(diff, comments, prefs, outputEl, baseImage,
       revisionImage) {
     GrDiffBuilderSideBySide.call(this, diff, comments, prefs, outputEl, []);
@@ -53,7 +55,7 @@
   GrDiffBuilderImage.prototype._createImageCell =
       function(image, className, section) {
     var td = this._createElement('td', className);
-    if (image) {
+    if (image && IMAGE_MIME_PATTERN.test(image.type)) {
       var imageEl = this._createElement('img');
       imageEl.onload = function() {
         image._height = imageEl.naturalHeight;

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "f43866e6_0197b8d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-18T13:46:41Z",
+      "side": 1,
+      "message": "Reworked the description now that we understand the problem better.",
+      "parentUuid": "81d29cb7_a24ac49c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "8763c3c3a2b18e3d718c9c7e383989d30774839b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a33e4b10_6f01250b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "484550b4_73780788",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-18T13:46:41Z",
+      "side": 1,
+      "message": "No longer necessary since that issue is fixed.",
+      "parentUuid": "a33e4b10_6f01250b",
+      "revId": "8763c3c3a2b18e3d718c9c7e383989d30774839b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7e3c962_1e1cdd47",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
         "patchSetId": 1
@@ -54,6 +96,24 @@
       "writtenOn": "2017-04-05T17:32:53Z",
       "side": 1,
       "message": "Add a TODO and reference to the outstanding Lucene issue implementation?",
+      "revId": "8763c3c3a2b18e3d718c9c7e383989d30774839b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e86d41bc_5ec395f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-18T13:46:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7e3c962_1e1cdd47",
       "revId": "8763c3c3a2b18e3d718c9c7e383989d30774839b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

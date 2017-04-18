@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "aeb4ab93_a8ac63c3",
+        "filename": "Documentation/dev-plugin-pg-styling.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-18T21:53:14Z",
+      "side": 1,
+      "message": "So, if a plugin wants two style only two different elements in two different named \"insertion points\" it needs to define two different style modules in separate files.\n\n(In addition to that, the plugin author has to learn the weird DOM-MODULE element, as well as :root and --css-mixin-name CSS constructs for something so simple.)\n\nThis feels like a lot of overhead. It seems to me that the power of allowing the user to write raw CSS is that they can write their own arbitray selectors, for example\n\ndiv.someClass:active,\nspan.someOtherClass:hover,\ngr-button {\n  --css-mixin-name: {\n    property: value;\n  }\n}\n\nIs this the motivation for allowing CSS to be written using DOM-MODULEs? If so, then maybe the docs should include examples of that. How stable could a plugin author expect their CSS selectors to be?\n\nOtherwise -- without the power of arbitrary selectors -- as a plugin author, if I read this I might wonder why I can\u0027t just provide a single JSON object that describes the style changes I want my plugin to do and let the plugin system figure out how to apply them.\n\nplugin.registerStyles({\n  \u0027some-endpoint\u0027: {\n    \u0027some-component\u0027: {\n      \u0027padding-left\u0027: \u002710px\u0027,\n    },\n  },\n  \u0027some-other-component\u0027: {\n    // ...\n  }\n});",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 3
+      },
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdae214f_40413cf6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-18T21:53:14Z",
+      "side": 1,
+      "message": "This file has an odd name. Is the suffix meant as an integration test to be separate from the regular test? Have we added any of those in PG?",
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "86b244c2_d43b1f5f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
         "patchSetId": 7
@@ -19,6 +59,126 @@
         "endLine": 111,
         "endChar": 13
       },
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c7c0baf_79db99b3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-18T21:53:14Z",
+      "side": 1,
+      "message": "This diff is very hard to read. Can you describe what\u0027s being changed here?\n\nIt looks to me like there is more being done here than wrapping the content in an external-style element.",
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca2de90b_f154c197",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-18T21:53:14Z",
+      "side": 1,
+      "message": "Where does this element come from?",
+      "range": {
+        "startLine": 22,
+        "startChar": 5,
+        "endLine": 22,
+        "endChar": 20
+      },
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29d52097_6f7bd679",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-18T21:53:14Z",
+      "side": 1,
+      "message": "Just an idea: what if this were a behavior? That way, it wouldn\u0027t need to increase the nesting depth in the markup.",
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39cacd4e_edfeec3b",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-18T21:53:14Z",
+      "side": 1,
+      "message": "This check shouldn\u0027t be needed if it\u0027s guarding a map.",
+      "range": {
+        "startLine": 33,
+        "startChar": 28,
+        "endLine": 33,
+        "endChar": 51
+      },
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b62d4c3_b4e8cbed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-18T21:53:14Z",
+      "side": 1,
+      "message": "I believe the meaning of these two parameters is:\n* insertionPointName - the named scope for the styles.\n* moduleName - the URL to the style module.\n\nIs that right? Would it make sense if they were named the following instead?:\n* moduleName\n* moduleUrl",
+      "range": {
+        "startLine": 58,
+        "startChar": 15,
+        "endLine": 58,
+        "endChar": 45
+      },
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96cccd2c_dfc5c272",
+        "filename": "polygerrit-ui/doc/gr-plugin-styling.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-18T21:53:14Z",
+      "side": 1,
+      "message": "Is this file a dupe of the documentation added elsewhere in this change? Why are there two files?",
       "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

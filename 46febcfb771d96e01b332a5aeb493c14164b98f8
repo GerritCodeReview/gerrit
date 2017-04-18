@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "904e9fbb_9bc0c50f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-18T19:55:28Z",
+      "side": 1,
+      "message": "Sp.",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 11
+      },
+      "revId": "46febcfb771d96e01b332a5aeb493c14164b98f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a440c55c_3f29828f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-18T19:55:28Z",
+      "side": 1,
+      "message": "Bug?",
+      "revId": "46febcfb771d96e01b332a5aeb493c14164b98f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c879032_490e4cda",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 29
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-18T19:55:28Z",
+      "side": 1,
+      "message": "Line \u003e80ch.",
+      "range": {
+        "startLine": 611,
+        "startChar": 14,
+        "endLine": 612,
+        "endChar": 83
+      },
+      "revId": "46febcfb771d96e01b332a5aeb493c14164b98f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

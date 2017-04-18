@@ -170,7 +170,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     void flush() throws IOException {
       flushToFinalInserter();
       finalIns.flush();
-      tempIns.clear();
     }
 
     void flushToFinalInserter() throws IOException {
@@ -178,6 +177,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
       for (InsertedObject obj : tempIns.getInsertedObjects()) {
         finalIns.insert(obj.type(), obj.data().toByteArray());
       }
+      tempIns.clear();
     }
 
     @Override
@@ -453,15 +453,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
       }
     }
     return draftIds;
-  }
-
-  public void flush() throws IOException {
-    if (changeRepo != null) {
-      changeRepo.flush();
-    }
-    if (allUsersRepo != null) {
-      allUsersRepo.flush();
-    }
   }
 
   @Nullable

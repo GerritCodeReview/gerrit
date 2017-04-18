@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed933189_ca0e4561",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 31
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-18T20:28:41Z",
+      "side": 1,
+      "message": "This entire block is indented one level too many.",
+      "range": {
+        "startLine": 611,
+        "startChar": 14,
+        "endLine": 614,
+        "endChar": 21
+      },
+      "revId": "a830cc4c6711a2ae05e9dc0e0f086e3261f491ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

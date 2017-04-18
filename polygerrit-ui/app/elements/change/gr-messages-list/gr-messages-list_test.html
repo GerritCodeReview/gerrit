@@ -87,13 +87,13 @@ limitations under the License.
 
       assert.isFalse(element.$.messageControlsContainer.hasAttribute('hidden'));
       assert.equal(getMessages().length, 20);
-      assert.equal(element.$.incrementMessagesBtn.innerText,
+      assert.equal(element.$.incrementMessagesBtn.innerText.trim(),
           'Show 5 more');
       MockInteractions.tap(element.$.incrementMessagesBtn);
       flushAsynchronousOperations();
 
       assert.equal(getMessages().length, 25);
-      assert.equal(element.$.incrementMessagesBtn.innerText,
+      assert.equal(element.$.incrementMessagesBtn.innerText.trim(),
           'Show 1 more');
       MockInteractions.tap(element.$.incrementMessagesBtn);
       flushAsynchronousOperations();
@@ -399,6 +399,18 @@ limitations under the License.
       var messageEls = getMessages();
       assert.equal(messageEls.length, 1);
       assert.equal(messageEls[0].message.message, messages[0].message);
+    });
+
+    test('hide increment text if increment >= total remaining', function() {
+      // Test with stubbed return values, as _numRemaining and _getDelta have
+      // their own tests.
+      sandbox.stub(element, '_getDelta').returns(5);
+      var remainingStub = sandbox.stub(element, '_numRemaining').returns(6);
+      assert.isFalse(element._computeIncrementHidden(null, null, null));
+      remainingStub.restore();
+
+      sandbox.stub(element, '_numRemaining').returns(4);
+      assert.isTrue(element._computeIncrementHidden(null, null, null));
     });
   });
 

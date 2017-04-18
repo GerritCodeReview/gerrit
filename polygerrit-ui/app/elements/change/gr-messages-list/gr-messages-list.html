@@ -77,11 +77,14 @@ limitations under the License.
       <gr-button id="oldMessagesBtn" link on-tap="_handleShowAllTap">
           [[_computeNumMessagesText(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]
       </gr-button>
-      /
-      <gr-button id="incrementMessagesBtn" link
-          on-tap="_handleIncrementShownMessages">
-        [[_computeIncrementText(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]
-      </gr-button>
+      <span
+        hidden$="[[_computeIncrementHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]">
+        /
+        <gr-button id="incrementMessagesBtn" link
+            on-tap="_handleIncrementShownMessages">
+          [[_computeIncrementText(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]
+        </gr-button>
+      </span>
     </span>
     <template
         is="dom-repeat"

@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21febbc5_29f4d062",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-18T23:41:00Z",
+      "side": 1,
+      "message": "Nit: Class names should be camelCase. In this case, since this is the projects-list, this class can just be \"name\". The same is true of\n\n project-description → description\n\nand\n\n repository-browser → repositoryBrowser",
+      "range": {
+        "startLine": 96,
+        "startChar": 19,
+        "endLine": 96,
+        "endChar": 31
+      },
+      "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4831fbaa_42919837",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-18T23:41:00Z",
+      "side": 1,
+      "message": "Nit: this line can be wrapped to fit in under 80 chars.\n\n\u003ctd class\u003d\"project-name\"\u003e\n  \u003ca href$\u003d\"[[getUrl(item.id)]]\"\u003e[[item.id]]\u003c/a\u003e\n\u003c/td\u003e\n\nThe same is true of l.104.",
+      "range": {
+        "startLine": 102,
+        "startChar": 10,
+        "endLine": 102,
+        "endChar": 86
+      },
+      "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af539352_16d3cbbc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-18T23:41:00Z",
+      "side": 1,
+      "message": "Since the return value isn\u0027t used, this should be\n\n this._projects \u003d [];\n return;",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 16
+      },
+      "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "503c0624_383bd541",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-18T23:41:00Z",
+      "side": 1,
+      "message": "Nit: the keys variable is not needed, IMO. This can just be\n\nthis._projects \u003d Object.keys(projects)\n    .map(function(key) { return projects[key]; });",
+      "range": {
+        "startLine": 38,
+        "startChar": 25,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91a50061_2a3a39da",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-18T23:41:00Z",
+      "side": 1,
+      "message": "The web_links may not be defined on projects. For example, on my local development server, I don\u0027t have web_links configured and this throws an error, which prevents the project list from rendering.\n\nIn the GWT UI, the repository browser column is just blank when there are no web_links. I think this should do that also.",
+      "range": {
+        "startLine": 47,
+        "startChar": 34,
+        "endLine": 47,
+        "endChar": 51
+      },
+      "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50894a43_b0204e5a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-18T23:41:00Z",
+      "side": 1,
+      "message": "I question why these two methods use loops at all: they iterate over the web links and they merely grab the last one that is listed on that project object.\n\nIt could equivalently be\n\n return project.web_links[project.web_links.length - 1].name;\n\nBut, more importantly, why is it only interested in the last weblink? Shouldn\u0027t it be interested in a specific weblink, such as the one named \"gitiles\"?",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 23
+      },
+      "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

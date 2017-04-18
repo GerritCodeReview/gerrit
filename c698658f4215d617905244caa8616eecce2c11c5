@@ -630,6 +630,30 @@
     },
     {
       "key": {
+        "uuid": "4442da5e_fe95e04f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-18T23:41:00Z",
+      "side": 1,
+      "message": "For that you only need ..\n\na {\n  color: var(--default-text-color);\n  text-decoration: none;\n}\na:hover {\n  text-decoration: underline;\n}\n\n.. not all of this.",
+      "parentUuid": "841b56e7_2034ab53",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 7
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b01ea2ac_a5ffcfc6",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
         "patchSetId": 19

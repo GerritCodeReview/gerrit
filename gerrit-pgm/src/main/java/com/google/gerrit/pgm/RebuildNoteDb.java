@@ -48,7 +48,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.DummyIndexModule;
-import com.google.gerrit.server.index.change.ReindexAfterUpdate;
+import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -212,7 +212,7 @@ public class RebuildNoteDb extends SiteProgram {
           public void configure() {
             install(dbInjector.getInstance(BatchProgramModule.class));
             DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
-                .to(ReindexAfterUpdate.class);
+                .to(ReindexAfterRefUpdate.class);
             install(new DummyIndexModule());
             factory(ChangeResource.Factory.class);
           }

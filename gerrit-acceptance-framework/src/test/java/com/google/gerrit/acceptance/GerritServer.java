@@ -228,6 +228,7 @@ public class GerritServer {
     cfg.setInt("sshd", null, "commandStartThreads", 1);
     cfg.setInt("receive", null, "threadPoolSize", 1);
     cfg.setInt("index", null, "threads", 1);
+    cfg.setBoolean("index", null, "reindexAfterRefUpdate", false);
   }
 
   private static Injector createTestInjector(Daemon daemon) throws Exception {

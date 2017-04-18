@@ -2613,6 +2613,19 @@ are the same.
 +
 Defaults to 1024.
 
+[[index.reindexAfterRefUpdate]]index.reindexAfterRefUpdate::
++
+Whether to reindex all affected open changes after a ref is updated. This
+includes reindexing all open changes to recompute the "mergeable" bit every time
+the destination branch moves, as well as reindexing changes to take into account
+new project configuration (e.g. label definitions).
++
+Leaving this enabled may result in fresher results, but may cause performance
+problems if there are lots of open changes on a project whose branches advance
+frequently.
++
+Defaults to true.
+
 ==== Lucene configuration
 
 Open and closed changes are indexed in separate indexes named

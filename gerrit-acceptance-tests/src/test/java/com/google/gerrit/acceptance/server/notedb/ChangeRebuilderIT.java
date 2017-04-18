@@ -120,7 +120,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // unintentional auto-rebuilding of the change in NoteDb during the read
     // path of the reindex-if-stale check. For the purposes of this test, we
     // want precise control over when auto-rebuilding happens.
-    cfg.setBoolean("index", null, "testReindexAfterUpdate", false);
+    cfg.setBoolean("index", null, "testAutoReindexIfStale", false);
 
     return cfg;
   }

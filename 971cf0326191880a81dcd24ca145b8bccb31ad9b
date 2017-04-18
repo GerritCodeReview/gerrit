@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86b244c2_d43b1f5f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-18T19:49:58Z",
+      "side": 1,
+      "message": "Weird styling here.",
+      "range": {
+        "startLine": 109,
+        "startChar": 10,
+        "endLine": 111,
+        "endChar": 13
+      },
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

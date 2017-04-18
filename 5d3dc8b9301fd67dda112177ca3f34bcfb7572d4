@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21a901af_1521ce2d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-18T22:15:43Z",
+      "side": 1,
+      "message": "Few others worth considering:\nimage/svg+xml\nimage/webp\n\nAlso, wouldn\u0027t /^image\\// be enough?",
+      "range": {
+        "startLine": 17,
+        "startChar": 41,
+        "endLine": 17,
+        "endChar": 45
+      },
+      "revId": "5d3dc8b9301fd67dda112177ca3f34bcfb7572d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

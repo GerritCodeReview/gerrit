@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "04a6a037_b5ebf78d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-18T20:21:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6ae1da85_87a789b8",
+      "range": {
+        "startLine": 693,
+        "startChar": 9,
+        "endLine": 693,
+        "endChar": 42
+      },
+      "revId": "e414931157cbd7d4ba8da918d609c2e6fe97f2b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "abac9474_f9bf47ab",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 30
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-18T20:11:42Z",
       "side": 1,
       "message": "Doesn\u0027t look like this extra level of indentation is needed.",
+      "range": {
+        "startLine": 700,
+        "startChar": 10,
+        "endLine": 701,
+        "endChar": 34
+      },
+      "revId": "e414931157cbd7d4ba8da918d609c2e6fe97f2b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a36606c6_4c4029be",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-18T20:21:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "abac9474_f9bf47ab",
       "range": {
         "startLine": 700,
         "startChar": 10,

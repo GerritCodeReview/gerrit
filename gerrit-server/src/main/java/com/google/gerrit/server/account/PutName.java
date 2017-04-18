@@ -30,7 +30,6 @@ import com.google.gerrit.server.account.PutName.Input;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -47,6 +46,7 @@ public class PutName implements RestModifyView<AccountResource, Input> {
   private final Realm realm;
   private final PermissionBackend permissionBackend;
   private final Provider<ReviewDb> dbProvider;
+  private final AccountsUpdate.Server accountsUpdate;
   private final AccountCache byIdCache;
 
   @Inject
@@ -55,11 +55,13 @@ public class PutName implements RestModifyView<AccountResource, Input> {
       Realm realm,
       PermissionBackend permissionBackend,
       Provider<ReviewDb> dbProvider,
+      AccountsUpdate.Server accountsUpdate,
       AccountCache byIdCache) {
     this.self = self;
     this.realm = realm;
     this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
+    this.accountsUpdate = accountsUpdate;
     this.byIdCache = byIdCache;
   }
 
@@ -84,25 +86,16 @@ public class PutName implements RestModifyView<AccountResource, Input> {
     }
 
     String newName = input.name;
-    Account a =
-        dbProvider
-            .get()
-            .accounts()
-            .atomicUpdate(
-                user.getAccountId(),
-                new AtomicUpdate<Account>() {
-                  @Override
-                  public Account update(Account a) {
-                    a.setFullName(newName);
-                    return a;
-                  }
-                });
-    if (a == null) {
+    Account account =
+        accountsUpdate
+            .create()
+            .atomicUpdate(dbProvider.get(), user.getAccountId(), a -> a.setFullName(newName));
+    if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    byIdCache.evict(a.getId());
-    return Strings.isNullOrEmpty(a.getFullName())
-        ? Response.<String>none()
-        : Response.ok(a.getFullName());
+    byIdCache.evict(account.getId());
+    return Strings.isNullOrEmpty(account.getFullName())
+        ? Response.none()
+        : Response.ok(account.getFullName());
   }
 }

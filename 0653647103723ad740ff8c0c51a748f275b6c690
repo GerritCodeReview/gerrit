@@ -22,6 +22,30 @@
       "revId": "0653647103723ad740ff8c0c51a748f275b6c690",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be7f2b49_93cee2b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-18T14:59:08Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nI went with the 1.9.1 release.",
+      "parentUuid": "4a482b56_0f455b81",
+      "range": {
+        "startLine": 9,
+        "startChar": 24,
+        "endLine": 9,
+        "endChar": 91
+      },
+      "revId": "0653647103723ad740ff8c0c51a748f275b6c690",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

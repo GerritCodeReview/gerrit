@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.DeleteActive.Input;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -39,13 +38,18 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
   public static class Input {}
 
   private final Provider<ReviewDb> dbProvider;
+  private final AccountsUpdate.Server accountsUpdate;
   private final AccountCache byIdCache;
   private final Provider<IdentifiedUser> self;
 
   @Inject
   DeleteActive(
-      Provider<ReviewDb> dbProvider, AccountCache byIdCache, Provider<IdentifiedUser> self) {
+      Provider<ReviewDb> dbProvider,
+      AccountsUpdate.Server accountsUpdate,
+      AccountCache byIdCache,
+      Provider<IdentifiedUser> self) {
     this.dbProvider = dbProvider;
+    this.accountsUpdate = accountsUpdate;
     this.byIdCache = byIdCache;
     this.self = self;
   }
@@ -58,30 +62,26 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
     }
 
     AtomicBoolean alreadyInactive = new AtomicBoolean(false);
-    Account a =
-        dbProvider
-            .get()
-            .accounts()
+    Account account =
+        accountsUpdate
+            .create()
             .atomicUpdate(
+                dbProvider.get(),
                 rsrc.getUser().getAccountId(),
-                new AtomicUpdate<Account>() {
-                  @Override
-                  public Account update(Account a) {
-                    if (!a.isActive()) {
-                      alreadyInactive.set(true);
-                    } else {
-                      a.setActive(false);
-                    }
-                    return a;
+                a -> {
+                  if (!a.isActive()) {
+                    alreadyInactive.set(true);
+                  } else {
+                    a.setActive(false);
                   }
                 });
-    if (a == null) {
+    if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }
     if (alreadyInactive.get()) {
       throw new ResourceConflictException("account not active");
     }
-    byIdCache.evict(a.getId());
+    byIdCache.evict(account.getId());
     return Response.none();
   }
 }

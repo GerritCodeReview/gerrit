@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e2fbbb7_5d973afb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-18T17:48:49Z",
+      "side": 1,
+      "message": "Can we file a bug for the issue and link it here?",
+      "revId": "cc070188b0aa1c10a636e44ca236270769cd5220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "400d14f6_6c5d7188",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-18T17:48:49Z",
+      "side": 1,
+      "message": "Weird style nit here. This isn\u0027t _explicit_ style policy, but we have no rule against starting multiline params on the same line as the function like the gerrit team, and I kinda prefer them because it reduces use of horizontal space. Something like...\n\n    window.open(this.getBaseUrl() +\n        \u0027/login/%3FcloseAfterLogin\u0027, \u0027_blank\u0027, options.join(\u0027,\u0027));\n\n...is what I would do, but it\u0027s personal preference.",
+      "range": {
+        "startLine": 214,
+        "startChar": 6,
+        "endLine": 217,
+        "endChar": 8
+      },
+      "revId": "cc070188b0aa1c10a636e44ca236270769cd5220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

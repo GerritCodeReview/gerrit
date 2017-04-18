@@ -327,5 +327,11 @@
       var total = this._numRemaining(visibleMessages, messages, hideAutomated);
       return total === 1 ? 'Show 1 message' : 'Show all ' + total + ' messages';
     },
+
+    _computeIncrementHidden: function(visibleMessages, messages,
+        hideAutomated) {
+      var total = this._numRemaining(visibleMessages, messages, hideAutomated);
+      return total <= this._getDelta(visibleMessages, messages, hideAutomated);
+    },
   });
 })();

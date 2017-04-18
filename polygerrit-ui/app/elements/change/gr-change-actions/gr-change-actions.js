@@ -87,6 +87,14 @@
     method: 'POST',
   };
 
+  var ActionPriority = {
+    CHANGE: 2,
+    DEFAULT: 0,
+    PRIMARY: 3,
+    REVIEW: -3,
+    REVISION: 1,
+  };
+
   Polymer({
     is: 'gr-change-actions',
 
@@ -149,7 +157,8 @@
       _allActionValues: {
         type: Array,
         computed: '_computeAllActions(actions.*, revisionActions.*,' +
-            'primaryActionKeys.*, _additionalActions.*, change)',
+            'primaryActionKeys.*, _additionalActions.*, change, ' +
+            '_actionPriorityOverrides.*)',
       },
       _topLevelActions: {
         type: Array,
@@ -180,6 +189,10 @@
           ];
           return value;
         },
+      },
+      _actionPriorityOverrides: {
+        type: Array,
+        value: function() { return []; },
       },
       _additionalActions: {
         type: Array,
@@ -276,6 +289,25 @@
         this.splice('_overflowActions', index, 1);
       } else if (overflow) {
         this.push('_overflowActions', action);
+      }
+    },
+
+    setActionPriority: function(type, key, priority) {
+      if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
+        throw Error('Invalid action type given: ' + type);
+      }
+      var index = this._actionPriorityOverrides.findIndex(function(action) {
+        return action.type === type && action.key === key;
+      });
+      var action = {
+        type: type,
+        key: key,
+        priority: priority,
+      };
+      if (index !== -1) {
+        this.set('_actionPriorityOverrides', index, action);
+      } else {
+        this.push('_actionPriorityOverrides', action);
       }
     },
 
@@ -764,10 +796,12 @@
      * @param {splices} primariesRecord
      * @param {splices} additionalActionsRecord
      * @param {Object} change The change object.
+     * @param {Object} priorityOverridesRecord
      * @return {Array}
      */
     _computeAllActions: function(changeActionsRecord, revisionActionsRecord,
-        primariesRecord, additionalActionsRecord, change) {
+        primariesRecord, additionalActionsRecord, change,
+        priorityOverridesRecord) {
       var revisionActionValues = this._getActionValues(revisionActionsRecord,
           primariesRecord, additionalActionsRecord, ActionType.REVISION);
       var changeActionValues = this._getActionValues(changeActionsRecord,
@@ -778,36 +812,43 @@
       }
       return revisionActionValues
           .concat(changeActionValues)
-          .sort(this._actionComparator);
+          .sort(this._actionComparator.bind(this));
+    },
+
+    _getActionPriority: function(action) {
+      if (action.__type && action.__key) {
+        var overrideAction = this._actionPriorityOverrides.find(function(i) {
+          return i.type === action.__type && i.key === action.__key;
+        });
+
+        if (overrideAction !== undefined) {
+          return overrideAction.priority;
+        }
+      }
+      if (action.__key === 'review') {
+        return ActionPriority.REVIEW;
+      } else if (action.__primary) {
+        return ActionPriority.PRIMARY;
+      } else if (action.__type === ActionType.CHANGE) {
+        return ActionPriority.CHANGE;
+      } else if (action.__type === ActionType.REVISION) {
+        return ActionPriority.REVISION;
+      }
+      return ActionPriority.DEFAULT;
     },
 
     /**
      * Sort comparator to define the order of change actions.
      */
     _actionComparator: function(actionA, actionB) {
-      // The code review action always appears first.
-      if (actionA.__key === 'review') {
-        return -1;
-      } else if (actionB.__key === 'review') {
-        return 1;
+      var priorityDelta = this._getActionPriority(actionA) -
+          this._getActionPriority(actionB);
+      // Sort by the button label if same priority.
+      if (priorityDelta === 0) {
+        return actionA.label > actionB.label ? 1 : -1;
+      } else {
+        return priorityDelta;
       }
-
-      // Primary actions always appear last.
-      if (actionA.__primary) {
-        return 1;
-      } else if (actionB.__primary) {
-        return -1;
-      }
-
-      // Change actions appear before revision actions.
-     if (actionA.__type === 'change' && actionB.__type === 'revision') {
-        return 1;
-      } else if (actionA.__type === 'revision' && actionB.__type === 'change') {
-        return -1;
-      }
-
-      // Otherwise, sort by the button label.
-      return actionA.label > actionB.label ? 1 : -1;
     },
 
     _computeTopLevelActions: function(actionRecord, hiddenActionsRecord,

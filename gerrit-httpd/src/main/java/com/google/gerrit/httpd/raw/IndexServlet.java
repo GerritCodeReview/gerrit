@@ -47,7 +47,7 @@ public class IndexServlet extends HttpServlet {
             .newRenderer("com.google.gerrit.httpd.raw.Index")
             .setContentKind(SanitizedContent.ContentKind.HTML)
             .setData(getTemplateData(canonicalURL, cdnPath));
-    indexSource = renderer.render().getBytes();
+    indexSource = renderer.render().getBytes(UTF_8);
   }
 
   @Override

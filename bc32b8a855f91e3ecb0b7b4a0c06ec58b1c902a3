@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d128041f_83cf5922",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-18T17:55:57Z",
+      "side": 1,
+      "message": "Sorry, one last nit: too much indent here.\n\nHopefully our style will become clearer when I finish integrating a linter. For now, this is our style guide (minus the stuff about ES6)\n\nhttps://google.github.io/styleguide/jsguide.html",
+      "range": {
+        "startLine": 215,
+        "startChar": 6,
+        "endLine": 215,
+        "endChar": 14
+      },
+      "revId": "bc32b8a855f91e3ecb0b7b4a0c06ec58b1c902a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75020fdc_380297c1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-18T14:37:41Z",
+      "side": 0,
+      "message": "This should be kept here.",
+      "range": {
+        "startLine": 558,
+        "startChar": 4,
+        "endLine": 558,
+        "endChar": 21
+      },
+      "revId": "fea441b8a120190840fbcec6dfbb65e9f7b50c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

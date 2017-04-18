@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "107aafff_771063b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-18T12:20:22Z",
+      "side": 1,
+      "message": "Done in followup",
+      "parentUuid": "3027a4a7_ee89c22f",
+      "range": {
+        "startLine": 173,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 22
+      },
+      "revId": "4a0681ac8800dcebb2ff02be6eaf8599815d54ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc01fc56_8eec9474",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2017-04-13T16:28:10Z",
       "side": 1,
       "message": "optional as unrelated: I just noticed that this method never seems to be called. Should we remove it?",
+      "range": {
+        "startLine": 458,
+        "startChar": 14,
+        "endLine": 458,
+        "endChar": 19
+      },
+      "revId": "4a0681ac8800dcebb2ff02be6eaf8599815d54ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07f902ef_b43d6747",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-18T12:20:22Z",
+      "side": 1,
+      "message": "Done in followup",
+      "parentUuid": "cc01fc56_8eec9474",
       "range": {
         "startLine": 458,
         "startChar": 14,

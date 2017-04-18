@@ -127,5 +127,26 @@ limitations under the License.
       MockInteractions.keyDownOn(element, 75, 'alt', 'k');
       assert.isTrue(spy.lastCall.returnValue);
     });
+
+    test('isModifierPressed returns accurate value', function() {
+      var spy = sandbox.spy(element, 'isModifierPressed');
+      element._handleKey = function(e) {
+        element.isModifierPressed(e, 'shiftKey');
+      };
+      MockInteractions.keyDownOn(element, 75, 'shift', 'k');
+      assert.isTrue(spy.lastCall.returnValue);
+      MockInteractions.keyDownOn(element, 75, null, 'k');
+      assert.isFalse(spy.lastCall.returnValue);
+      MockInteractions.keyDownOn(element, 75, 'ctrl', 'k');
+      assert.isFalse(spy.lastCall.returnValue);
+      MockInteractions.keyDownOn(element, 75, null, 'k');
+      assert.isFalse(spy.lastCall.returnValue);
+      MockInteractions.keyDownOn(element, 75, 'meta', 'k');
+      assert.isFalse(spy.lastCall.returnValue);
+      MockInteractions.keyDownOn(element, 75, null, 'k');
+      assert.isFalse(spy.lastCall.returnValue);
+      MockInteractions.keyDownOn(element, 75, 'alt', 'k');
+      assert.isFalse(spy.lastCall.returnValue);
+    });
   });
 </script>

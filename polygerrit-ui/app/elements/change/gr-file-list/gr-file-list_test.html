@@ -941,7 +941,6 @@ limitations under the License.
   suite('gr-file-list inline diff tests', function() {
     var element;
     var sandbox;
-    var saveStub;
 
     var setupDiff = function(diff) {
       var mock = document.createElement('mock-diff-response');
@@ -1024,8 +1023,6 @@ limitations under the License.
       sandbox.stub(window, 'fetch', function() {
         return Promise.resolve();
       });
-      saveStub = sandbox.stub(element, '_saveReviewedState',
-          function() { return Promise.resolve(); });
       flushAsynchronousOperations();
     });
 
@@ -1063,7 +1060,7 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
       flushAsynchronousOperations();
 
-      var diffs = renderAndGetNewDiffs(1);
+      diffs = renderAndGetNewDiffs(1);
       // Two diffs should be rendered.
       assert.equal(diffs.length, 2);
       var diffStopsFirst = diffs[0].getCursorStops();
@@ -1102,6 +1099,74 @@ limitations under the License.
 
       // The file cusor is still at 0.
       assert.equal(element.$.fileCursor.index, 0);
+    });
+
+    suite('n key presses', function() {
+      var nKeySpy;
+      var nextCommentStub;
+      var nextChunkStub;
+      var fileRows;
+      setup(function() {
+        nKeySpy = sandbox.spy(element, '_handleNKey');
+        nextCommentStub = sandbox.stub(element.$.diffCursor,
+            'moveToNextCommentThread');
+        nextChunkStub = sandbox.stub(element.$.diffCursor,
+            'moveToNextChunk');
+        fileRows =
+            Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
+      });
+      test('n key with all files expanded and no shift key', function() {
+        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, null, 'i');
+        flushAsynchronousOperations();
+
+        // Handle N key should return before calling diff cursor functions.
+        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+        assert.isTrue(nKeySpy.called);
+        assert.isFalse(nextCommentStub.called);
+
+        // This is also called in diffCursor.moveToFirstChunk.
+        assert.equal(nextChunkStub.callCount, 1);
+        assert.isFalse(!!element._showInlineDiffs);
+      });
+
+      test('n key with all files expanded and shift key', function() {
+        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, null, 'i');
+        flushAsynchronousOperations();
+
+        MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
+        assert.isTrue(nKeySpy.called);
+        assert.isFalse(nextCommentStub.called);
+
+        // This is also called in diffCursor.moveToFirstChunk.
+        assert.equal(nextChunkStub.callCount, 1);
+        assert.isFalse(!!element._showInlineDiffs);
+      });
+
+      test('n key without all files expanded and shift key', function() {
+        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, 'shift', 'i');
+        flushAsynchronousOperations();
+
+        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+        assert.isTrue(nKeySpy.called);
+        assert.isFalse(nextCommentStub.called);
+
+        // This is also called in diffCursor.moveToFirstChunk.
+        assert.equal(nextChunkStub.callCount, 2);
+        assert.isTrue(element._showInlineDiffs);
+      });
+
+      test('n key without all files expanded and no shift key', function() {
+        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, 'shift', 'i');
+        flushAsynchronousOperations();
+
+        MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
+        assert.isTrue(nKeySpy.called);
+        assert.isTrue(nextCommentStub.called);
+
+        // This is also called in diffCursor.moveToFirstChunk.
+        assert.equal(nextChunkStub.callCount, 1);
+        assert.isTrue(element._showInlineDiffs);
+      });
     });
   });
 </script>

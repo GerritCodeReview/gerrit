@@ -71,6 +71,30 @@
       "revId": "56bbfef7d6484441004ba537113f580c1cde074f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0b8ba6d_15b9cdb5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-18T14:58:55Z",
+      "side": 1,
+      "message": "OK, now I see it.  In the previous version 0 was special-cased in the checkLimit method.",
+      "parentUuid": "ba7f7e6f_61544b97",
+      "range": {
+        "startLine": 38,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 17
+      },
+      "revId": "56bbfef7d6484441004ba537113f580c1cde074f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

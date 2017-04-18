@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c6a5537_437b0037",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-18T17:42:31Z",
+      "side": 1,
+      "message": "Thanks for all of your contributions! I just made this post to Paladox in another change, I\u0027m gonna quote it here. We don\u0027t have an explicit contributor guide or policy for PolyGerrit yet, but...\n\n\u003e We generally aim to have a Monorail bug associated with each change we make, for documentation purposes. It generally consists of making a brief description of the bug, associating it with the correct component (in this case, Polygerrit),\nassigning it a priority, and some other stuff that may or may not be applicable in the future. Would you be willing to adopt this workflow?",
+      "revId": "fcb2e7a1a787b9e734ed47c98aab0bd35e817315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6be7431_65ce60ee",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-18T17:42:31Z",
+      "side": 1,
+      "message": "It looks like this line doesn\u0027t need to be wrapped anymore.",
+      "range": {
+        "startLine": 238,
+        "startChar": 47,
+        "endLine": 239,
+        "endChar": 39
+      },
+      "revId": "fcb2e7a1a787b9e734ed47c98aab0bd35e817315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

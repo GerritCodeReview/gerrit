@@ -108,6 +108,22 @@
       });
     });
 
+    page('/admin/projects/', loadUser, function(data) {
+      data.params.view = 'gr-admin-view';
+      app.params = data.params;
+    });
+
+    page('/admin/(.*)', loadUser, function(data) {
+      restAPI.getLoggedIn().then(function(loggedIn) {
+        if (loggedIn) {
+          data.params.view = 'gr-admin-view';
+          app.params = data.params;
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
     page('/admin/(.*)', loadUser, function(data) {
       restAPI.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {

@@ -46,6 +46,30 @@
       "revId": "37bdb41bd7416af4ccfa889b88b5a7aa0d78bf17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d77c9e11_7e90d24b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-18T14:22:10Z",
+      "side": 1,
+      "message": "If we want to support same database as reviewDB, should we consider depending on gwtorm?\n\nI thought that it was on purpose that Edwin copied the H2 error code handling from gwtorm to core so gwtorm dependency could be dropped.",
+      "parentUuid": "f0191c93_c935705b",
+      "range": {
+        "startLine": 27,
+        "startChar": 33,
+        "endLine": 28,
+        "endChar": 8
+      },
+      "revId": "37bdb41bd7416af4ccfa889b88b5a7aa0d78bf17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

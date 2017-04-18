@@ -54,7 +54,7 @@ public class GerritCommonTest extends PrologTestCase {
   }
 
   @Override
-  protected void setUpEnvironment(PrologEnvironment env) {
+  protected void setUpEnvironment(PrologEnvironment env) throws Exception {
     LabelTypes labelTypes = new LabelTypes(Arrays.asList(Util.codeReview(), Util.verified()));
     ChangeData cd = EasyMock.createMock(ChangeData.class);
     expect(cd.getLabelTypes()).andStubReturn(labelTypes);
@@ -63,12 +63,12 @@ public class GerritCommonTest extends PrologTestCase {
   }
 
   @Test
-  public void gerritCommon() {
+  public void gerritCommon() throws Exception {
     runPrologBasedTests();
   }
 
   @Test
-  public void reductionLimit() throws CompileException {
+  public void reductionLimit() throws Exception {
     PrologEnvironment env = envFactory.create(machine);
     setUpEnvironment(env);
 

@@ -758,8 +758,8 @@ public class ChangeData {
     return change;
   }
 
-  public LabelTypes getLabelTypes() {
-    return changeControl.getLabelTypes();
+  public LabelTypes getLabelTypes() throws OrmException {
+    return changeControl().getLabelTypes();
   }
 
   public ChangeNotes notes() throws OrmException {

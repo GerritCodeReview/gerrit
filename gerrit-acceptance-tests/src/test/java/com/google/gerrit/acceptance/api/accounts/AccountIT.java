@@ -553,12 +553,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @Sandboxed
   public void fetchUserBranch() throws Exception {
-    // change something in the user preferences to ensure that the user branch
-    // is created
-    setApiUser(user);
-    GeneralPreferencesInfo input = new GeneralPreferencesInfo();
-    input.changesPerPage = GeneralPreferencesInfo.defaults().changesPerPage + 10;
-    gApi.accounts().self().setPreferences(input);
+    ensureUserBranchCreated(user);
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers, user);
     String userRefName = RefNames.refsUsers(user.id);
@@ -608,11 +603,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void pushToUserBranch() throws Exception {
-    // change something in the user preferences to ensure that the user branch
-    // is created
-    GeneralPreferencesInfo input = new GeneralPreferencesInfo();
-    input.changesPerPage = GeneralPreferencesInfo.defaults().changesPerPage + 10;
-    gApi.accounts().self().setPreferences(input);
+    ensureUserBranchCreated(admin);
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
@@ -626,11 +617,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void pushToUserBranchForReview() throws Exception {
-    // change something in the user preferences to ensure that the user branch
-    // is created
-    GeneralPreferencesInfo input = new GeneralPreferencesInfo();
-    input.changesPerPage = GeneralPreferencesInfo.defaults().changesPerPage + 10;
-    gApi.accounts().self().setPreferences(input);
+    ensureUserBranchCreated(admin);
 
     String userRefName = RefNames.refsUsers(admin.id);
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
@@ -653,11 +640,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void pushWatchConfigToUserBranch() throws Exception {
-    // change something in the user preferences to ensure that the user branch
-    // is created
-    GeneralPreferencesInfo input = new GeneralPreferencesInfo();
-    input.changesPerPage = GeneralPreferencesInfo.defaults().changesPerPage + 10;
-    gApi.accounts().self().setPreferences(input);
+    ensureUserBranchCreated(admin);
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
@@ -700,6 +683,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @Sandboxed
   public void cannotDeleteUserBranch() throws Exception {
+    ensureUserBranchCreated(admin);
+
     grant(
         Permission.DELETE,
         allUsers,
@@ -722,6 +707,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @Sandboxed
   public void deleteUserBranchWithAccessDatabaseCapability() throws Exception {
+    ensureUserBranchCreated(admin);
+
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     grant(
         Permission.DELETE,
@@ -1031,5 +1018,13 @@ public class AccountIT extends AbstractDaemonTest {
   private void assertEmail(Set<Account.Id> accounts, TestAccount expectedAccount) {
     assertThat(accounts).hasSize(1);
     assertThat(Iterables.getOnlyElement(accounts)).isEqualTo(expectedAccount.getId());
+  }
+
+  private void ensureUserBranchCreated(TestAccount account) throws Exception {
+    // Change something in the user preferences to ensure that the user branch is created.
+    setApiUser(account);
+    GeneralPreferencesInfo input = new GeneralPreferencesInfo();
+    input.changesPerPage = GeneralPreferencesInfo.defaults().changesPerPage + 10;
+    gApi.accounts().self().setPreferences(input);
   }
 }

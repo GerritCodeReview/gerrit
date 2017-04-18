@@ -223,6 +223,50 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void reviewerAndCCReceiveSameEmail() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+
+    PushOneCommit.Result r = createChange();
+    for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
+      for (int i = 0; i < 10; i++) {
+        AddReviewerInput input = new AddReviewerInput();
+        input.reviewer = String.format("%s-%s@gerritcodereview.com", state, i);
+        input.state = state;
+        gApi.changes().id(r.getChangeId()).addReviewer(input);
+      }
+    }
+
+    // Also add user as a regular reviewer
+    AddReviewerInput input = new AddReviewerInput();
+    input.reviewer = user.email;
+    input.state = ReviewerState.REVIEWER;
+    gApi.changes().id(r.getChangeId()).addReviewer(input);
+
+    sender.clear();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    // Assert that only one email was sent out to everyone
+    assertThat(sender.getMessages()).hasSize(1);
+  }
+
+  @Test
+  public void addingMultipleReviewersAndCCsAtOnceSendsOnlyOneEmail() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+
+    PushOneCommit.Result r = createChange();
+    ReviewInput reviewInput = new ReviewInput();
+    for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
+      for (int i = 0; i < 10; i++) {
+        reviewInput.reviewer(String.format("%s-%s@gerritcodereview.com", state, i), state, true);
+      }
+    }
+    assertThat(reviewInput.reviewers).hasSize(20);
+
+    sender.clear();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(reviewInput);
+    assertThat(sender.getMessages()).hasSize(1);
+  }
+
+  @Test
   public void rejectMissingEmail() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
     PushOneCommit.Result r = createChange();

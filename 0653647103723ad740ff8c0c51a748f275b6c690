@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a482b56_0f455b81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-18T14:53:50Z",
+      "side": 1,
+      "message": "Maybe better to link to:\n\nhttps://github.com/Polymer/polymer/releases/tag/v1.8.1\n\n?",
+      "range": {
+        "startLine": 9,
+        "startChar": 24,
+        "endLine": 9,
+        "endChar": 91
+      },
+      "revId": "0653647103723ad740ff8c0c51a748f275b6c690",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -47,6 +47,30 @@
       "revId": "56bbfef7d6484441004ba537113f580c1cde074f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba7f7e6f_61544b97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-18T14:54:07Z",
+      "side": 1,
+      "message": "getInt would return 0, but then the build() method is invoking checkLimit which expects the limit to be greater 0 (see below line 77), so 0 would result in an IllegalArgumentException there, wouldn\u0027t it?",
+      "parentUuid": "c1013b97_72c11ca8",
+      "range": {
+        "startLine": 38,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 17
+      },
+      "revId": "56bbfef7d6484441004ba537113f580c1cde074f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "37bdb41bd7416af4ccfa889b88b5a7aa0d78bf17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0191c93_c935705b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-18T10:35:23Z",
+      "side": 1,
+      "message": "Ideally, yes we should.\nFor us, the plan is to use Postgres when we upgrade to 2.13.\nMysql is the proof of concept that the sql language we used for accountPatchReview is jdbc friendly, can be used for other dbs too.\nMysql and postgres are the ones we tested.\nWe can add more on the request base.",
+      "parentUuid": "ca93a91e_2e502cf9",
+      "range": {
+        "startLine": 27,
+        "startChar": 33,
+        "endLine": 28,
+        "endChar": 8
+      },
+      "revId": "37bdb41bd7416af4ccfa889b88b5a7aa0d78bf17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

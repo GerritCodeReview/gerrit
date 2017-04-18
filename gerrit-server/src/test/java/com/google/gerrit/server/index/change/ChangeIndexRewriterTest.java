@@ -58,7 +58,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
     indexes = new ChangeIndexCollection();
     indexes.setSearchIndex(index);
     queryBuilder = new FakeQueryBuilder(indexes);
-    rewrite = new ChangeIndexRewriter(indexes, IndexConfig.create(0, 0, 3));
+    rewrite = new ChangeIndexRewriter(indexes, IndexConfig.builder().maxPages(3).build());
   }
 
   @Test

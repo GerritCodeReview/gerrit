@@ -30,29 +30,51 @@ public abstract class IndexConfig {
   private static final int DEFAULT_MAX_TERMS = 1024;
 
   public static IndexConfig createDefault() {
-    return create(0, 0, DEFAULT_MAX_TERMS);
+    return builder().build();
   }
 
   public static IndexConfig fromConfig(Config cfg) {
-    return create(
-        cfg.getInt("index", null, "maxLimit", 0),
-        cfg.getInt("index", null, "maxPages", 0),
-        cfg.getInt("index", null, "maxTerms", 0));
+    Builder b = builder();
+    return b.maxLimit(cfg.getInt("index", null, "maxLimit", b.maxLimit()))
+        .maxPages(cfg.getInt("index", null, "maxPages", b.maxPages()))
+        .maxTerms(cfg.getInt("index", null, "maxTerms", b.maxTerms()))
+        .build();
   }
 
-  public static IndexConfig create(int maxLimit, int maxPages, int maxTerms) {
-    return new AutoValue_IndexConfig(
-        checkLimit(maxLimit, "maxLimit", Integer.MAX_VALUE),
-        checkLimit(maxPages, "maxPages", Integer.MAX_VALUE),
-        checkLimit(maxTerms, "maxTerms", DEFAULT_MAX_TERMS));
+  public static Builder builder() {
+    return new AutoValue_IndexConfig.Builder()
+        .maxLimit(Integer.MAX_VALUE)
+        .maxPages(Integer.MAX_VALUE)
+        .maxTerms(DEFAULT_MAX_TERMS);
   }
 
-  private static int checkLimit(int limit, String name, int defaultValue) {
-    if (limit == 0) {
-      return defaultValue;
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder maxLimit(int maxLimit);
+
+    abstract int maxLimit();
+
+    public abstract Builder maxPages(int maxPages);
+
+    abstract int maxPages();
+
+    public abstract Builder maxTerms(int maxTerms);
+
+    abstract int maxTerms();
+
+    abstract IndexConfig autoBuild();
+
+    public IndexConfig build() {
+      IndexConfig cfg = autoBuild();
+      checkLimit(cfg.maxLimit(), "maxLimit");
+      checkLimit(cfg.maxPages(), "maxPages");
+      checkLimit(cfg.maxTerms(), "maxTerms");
+      return cfg;
     }
+  }
+
+  private static void checkLimit(int limit, String name) {
     checkArgument(limit > 0, "%s must be positive: %s", name, limit);
-    return limit;
   }
 
   /**

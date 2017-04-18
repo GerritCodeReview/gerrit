@@ -818,6 +818,30 @@
     },
     {
       "key": {
+        "uuid": "e1db8a07_d3d9c844",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-18T23:22:18Z",
+      "side": 1,
+      "message": "I figured out the non es6 one now. Thanks, done.",
+      "parentUuid": "dafe4bc6_ea871435",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 47
+      },
+      "revId": "c698658f4215d617905244caa8616eecce2c11c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "81790f9a_2e2550ae",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js",
         "patchSetId": 19

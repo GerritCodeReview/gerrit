@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutName.Input;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -43,6 +42,7 @@ public class PutName implements RestModifyView<AccountResource, Input> {
   private final Provider<CurrentUser> self;
   private final Realm realm;
   private final Provider<ReviewDb> dbProvider;
+  private final AccountsUpdate.Server accountsUpdate;
   private final AccountCache byIdCache;
 
   @Inject
@@ -50,10 +50,12 @@ public class PutName implements RestModifyView<AccountResource, Input> {
       Provider<CurrentUser> self,
       Realm realm,
       Provider<ReviewDb> dbProvider,
+      AccountsUpdate.Server accountsUpdate,
       AccountCache byIdCache) {
     this.self = self;
     this.realm = realm;
     this.dbProvider = dbProvider;
+    this.accountsUpdate = accountsUpdate;
     this.byIdCache = byIdCache;
   }
 
@@ -78,25 +80,21 @@ public class PutName implements RestModifyView<AccountResource, Input> {
     }
 
     String newName = input.name;
-    Account a =
-        dbProvider
-            .get()
-            .accounts()
+    Account account =
+        accountsUpdate
+            .create()
             .atomicUpdate(
+                dbProvider.get(),
                 user.getAccountId(),
-                new AtomicUpdate<Account>() {
-                  @Override
-                  public Account update(Account a) {
-                    a.setFullName(newName);
-                    return a;
-                  }
+                a -> {
+                  a.setFullName(newName);
                 });
-    if (a == null) {
+    if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    byIdCache.evict(a.getId());
-    return Strings.isNullOrEmpty(a.getFullName())
+    byIdCache.evict(account.getId());
+    return Strings.isNullOrEmpty(account.getFullName())
         ? Response.<String>none()
-        : Response.ok(a.getFullName());
+        : Response.ok(account.getFullName());
   }
 }

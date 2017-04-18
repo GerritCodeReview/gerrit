@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutPreferred.Input;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -37,12 +36,18 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
 
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
+  private final AccountsUpdate.Server accountsUpdate;
   private final AccountCache byIdCache;
 
   @Inject
-  PutPreferred(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider, AccountCache byIdCache) {
+  PutPreferred(
+      Provider<CurrentUser> self,
+      Provider<ReviewDb> dbProvider,
+      AccountsUpdate.Server accountsUpdate,
+      AccountCache byIdCache) {
     this.self = self;
     this.dbProvider = dbProvider;
+    this.accountsUpdate = accountsUpdate;
     this.byIdCache = byIdCache;
   }
 
@@ -58,27 +63,23 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
   public Response<String> apply(IdentifiedUser user, String email)
       throws ResourceNotFoundException, OrmException, IOException {
     AtomicBoolean alreadyPreferred = new AtomicBoolean(false);
-    Account a =
-        dbProvider
-            .get()
-            .accounts()
+    Account account =
+        accountsUpdate
+            .create()
             .atomicUpdate(
+                dbProvider.get(),
                 user.getAccountId(),
-                new AtomicUpdate<Account>() {
-                  @Override
-                  public Account update(Account a) {
-                    if (email.equals(a.getPreferredEmail())) {
-                      alreadyPreferred.set(true);
-                    } else {
-                      a.setPreferredEmail(email);
-                    }
-                    return a;
+                a -> {
+                  if (email.equals(a.getPreferredEmail())) {
+                    alreadyPreferred.set(true);
+                  } else {
+                    a.setPreferredEmail(email);
                   }
                 });
-    if (a == null) {
+    if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    byIdCache.evict(a.getId());
+    byIdCache.evict(account.getId());
     return alreadyPreferred.get() ? Response.ok("") : Response.created("");
   }
 }

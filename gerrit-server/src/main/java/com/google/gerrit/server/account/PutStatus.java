@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutStatus.Input;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -46,12 +45,18 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
 
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
+  private final AccountsUpdate.Server accountsUpdate;
   private final AccountCache byIdCache;
 
   @Inject
-  PutStatus(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider, AccountCache byIdCache) {
+  PutStatus(
+      Provider<CurrentUser> self,
+      Provider<ReviewDb> dbProvider,
+      AccountsUpdate.Server accountsUpdate,
+      AccountCache byIdCache) {
     this.self = self;
     this.dbProvider = dbProvider;
+    this.accountsUpdate = accountsUpdate;
     this.byIdCache = byIdCache;
   }
 
@@ -71,23 +76,21 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
     }
 
     String newStatus = input.status;
-    Account a =
-        dbProvider
-            .get()
-            .accounts()
+    Account account =
+        accountsUpdate
+            .create()
             .atomicUpdate(
+                dbProvider.get(),
                 user.getAccountId(),
-                new AtomicUpdate<Account>() {
-                  @Override
-                  public Account update(Account a) {
-                    a.setStatus(Strings.nullToEmpty(newStatus));
-                    return a;
-                  }
+                a -> {
+                  a.setStatus(Strings.nullToEmpty(newStatus));
                 });
-    if (a == null) {
+    if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    byIdCache.evict(a.getId());
-    return Strings.isNullOrEmpty(a.getStatus()) ? Response.none() : Response.ok(a.getStatus());
+    byIdCache.evict(account.getId());
+    return Strings.isNullOrEmpty(account.getStatus())
+        ? Response.none()
+        : Response.ok(account.getStatus());
   }
 }

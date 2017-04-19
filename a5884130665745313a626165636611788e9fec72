@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ae71e570_631a1504",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-19T20:10:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6c623ca7_243c2f0c",
+      "range": {
+        "startLine": 39,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 31
+      },
+      "revId": "a5884130665745313a626165636611788e9fec72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63f3cbda_e801bd7e",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
         "patchSetId": 28
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-19T18:52:14Z",
       "side": 1,
       "message": "This class is not used.",
+      "range": {
+        "startLine": 65,
+        "startChar": 13,
+        "endLine": 65,
+        "endChar": 34
+      },
+      "revId": "a5884130665745313a626165636611788e9fec72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00125dde_c0760d66",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-19T20:10:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "63f3cbda_e801bd7e",
       "range": {
         "startLine": 65,
         "startChar": 13,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "bfdf963a_58ef5a90",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-19T20:10:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d981f17e_d45efa78",
+      "range": {
+        "startLine": 70,
+        "startChar": 12,
+        "endLine": 70,
+        "endChar": 85
+      },
+      "revId": "a5884130665745313a626165636611788e9fec72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b689982_7811a06d",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
         "patchSetId": 28
@@ -82,6 +154,30 @@
       "writtenOn": "2017-04-19T18:52:14Z",
       "side": 1,
       "message": "Nit: since this method is only called from this component, prefix it with an underscore.\n\n _loadData",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 12
+      },
+      "revId": "a5884130665745313a626165636611788e9fec72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62133e87_a1b7df21",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-19T20:10:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7b689982_7811a06d",
       "range": {
         "startLine": 32,
         "startChar": 4,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "1529d0a8_bb6be81c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-19T20:10:34Z",
+      "side": 1,
+      "message": "Yep, Thanks, done.",
+      "parentUuid": "f696b11a_e9bb1e46",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 39,
+        "endChar": 58
+      },
+      "revId": "a5884130665745313a626165636611788e9fec72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e86f68d1_e6a86a17",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
         "patchSetId": 28
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "78b538eb_2663ac0e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-19T20:10:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e86f68d1_e6a86a17",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 10
+      },
+      "revId": "a5884130665745313a626165636611788e9fec72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da28199a_acf4b397",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 28
@@ -151,6 +295,30 @@
       "writtenOn": "2017-04-19T18:52:14Z",
       "side": 1,
       "message": "Is this route needed? It looks to me like it works the same without this.",
+      "range": {
+        "startLine": 133,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 7
+      },
+      "revId": "a5884130665745313a626165636611788e9fec72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5da6d722_6d46d1d1",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-19T20:10:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "da28199a_acf4b397",
       "range": {
         "startLine": 133,
         "startChar": 4,

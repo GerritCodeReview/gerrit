@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1491552219 +0200\nnonce AFMZ2GyjmJXRwpB62Lx3g9jAkyV5qB5CD6nM9Pym1xGKE/3rhlp257uLPK6fLvEQqzO+j4CCtIMb\n\n0000000000000000000000000000000000000000 c250dcd9d07394f06091076f5abbdb8635d13cc8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY50fbAAoJEFG1/Zeg0O9RwO0IAKe+819mIQNhlkvaqsuRg6O0\nO7bpU4xfp5cILX4inPq/71tqjCPtdaiQZm9jj4xsq6a0gE2ZxyHGHU+Rg+U4pX0l\nYniPArQlvrrmSOCwRQcQZL8i/JUDZjSGkSsuhZp2F+Uv7un9L6p8uyfKDMMFQvCq\nQX3yJNLC1L2AEJCCPH74qmsp5UoPicCEG4Wl+plmgpYOcS455v0087dGZ52GEYzI\njdzOof71SRRuStAL/CzqIatILxYE06yc0m0EdciUGtqOOtGQrzIqJ8J+L1tGQkbB\nexVHY9/RNRoPzOah4i4x9739WSjhNbgPBgSCvMeZzTwBprzLd28ssYmJbfy9x8Q\u003d\n\u003dJgAu\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba51c64d_047a4add",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T16:40:13Z",
+      "side": 1,
+      "message": "Maybe just Exception? Not clear why we would want to catch Errors.",
+      "range": {
+        "startLine": 159,
+        "startChar": 17,
+        "endLine": 159,
+        "endChar": 26
+      },
+      "revId": "c250dcd9d07394f06091076f5abbdb8635d13cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

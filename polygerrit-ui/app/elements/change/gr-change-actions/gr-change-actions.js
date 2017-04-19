@@ -64,6 +64,7 @@
     'abandon': 'Abandoning...',
     'cherrypick': 'Cherry-Picking...',
     'delete': 'Deleting...',
+    'private': 'Working...',
     'publish': 'Publishing...',
     'rebase': 'Rebasing...',
     'restore': 'Restoring...',
@@ -379,6 +380,12 @@
 
     _getActionValues: function(actionsChangeRecord, primariesChangeRecord,
         additionalActionsChangeRecord, type) {
+      if (this.change.is_private == true) {
+        ChangeActions.UNMARK_PRIVATE = 'private';
+      } else {
+        ChangeActions.MARK_PRIVATE = 'private';
+      }
+
       if (!actionsChangeRecord || !primariesChangeRecord) { return []; }
 
       var actions = actionsChangeRecord.base || {};
@@ -391,7 +398,17 @@
         actions[a].__key = a;
         actions[a].__type = type;
         actions[a].__primary = primaryActionKeys.indexOf(a) !== -1;
-        if (actions[a].label === 'Delete') {
+        if (this.change.is_private === true &&
+              actions[a].label === 'Mark private'
+        ) {
+          actions[a].label = 'Unmark Private';
+          actions[a].method = 'DELETE';
+        } else if (this.change.is_private === false &&
+                     actions[a].label === 'Unmark Private'
+        ) {
+          actions[a].label = 'Mark Private';
+          actions[a].method = 'PUT';
+        } else if (actions[a].label === 'Delete') {
           // This label is common within change and revision actions. Make it
           // more explicit to the user.
           if (type === ActionType.CHANGE) {
@@ -645,6 +662,10 @@
               } else {
                 page.show(this.changePath(this.changeNum));
               }
+              break;
+            case ChangeActions.MARK_PRIVATE:
+            case ChangeActions.UNMARK_PRIVATE:
+              page.show('/c/' + this.change._number);
               break;
             default:
               this.dispatchEvent(new CustomEvent('reload-change',

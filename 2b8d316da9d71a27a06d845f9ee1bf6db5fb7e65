@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "51bc5bde_53bc902e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-19T15:19:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cdf0d33_1f583124",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "2b8d316da9d71a27a06d845f9ee1bf6db5fb7e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5e77b06e_039b1f3f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_147.java",
         "patchSetId": 8
@@ -61,6 +85,24 @@
       "writtenOn": "2017-04-19T14:21:38Z",
       "side": 1,
       "message": "I think you want to .filter(Objects::nonNull) after this step, on the off chance there are garbage refs in there, which will return null from Account.Id.fromRef. At that point you don\u0027t need the .filter on the previous line, since it\u0027ll return null for REFS_USERS_DEFAULT as well.",
+      "revId": "2b8d316da9d71a27a06d845f9ee1bf6db5fb7e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bce8e6f5_98128636",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_147.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-19T15:19:01Z",
+      "side": 1,
+      "message": "Good idea.\n\nDone.",
+      "parentUuid": "5e77b06e_039b1f3f",
       "revId": "2b8d316da9d71a27a06d845f9ee1bf6db5fb7e65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

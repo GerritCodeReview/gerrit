@@ -14,7 +14,9 @@
 
 package com.google.gerrit.elasticsearch;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexModule;
@@ -31,6 +33,10 @@ import org.eclipse.jgit.lib.Config;
 public class ElasticIndexModule extends LifecycleModule {
   private final int threads;
   private final Map<String, Integer> singleVersions;
+
+  public static ElasticIndexModule singleVersionAllLatest() {
+    return new ElasticIndexModule(ImmutableMap.<String, Integer>of(), 0);
+  }
 
   public static ElasticIndexModule singleVersionWithExplicitVersions(
       Map<String, Integer> versions, int threads) {

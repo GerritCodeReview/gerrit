@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13a9439a_01efd2d5",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T18:58:17Z",
+      "side": 1,
+      "message": "To consider: I believe you can wrap these expressions also:\n\n\u003cspan hidden$\u003d\"[[_computeIncrementHidden(_visibleMessages,\n                                          _processedMessages,\n                                          _hideAutomated,\n                                          _visibleMessages.length)]]\"\u003e\n\nOtherwise the hidden$ should be indented one more level.",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 125
+      },
+      "revId": "b67bb73221ece6b6b678458129ac56acce1adebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

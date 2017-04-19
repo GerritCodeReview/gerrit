@@ -1,0 +1,212 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
+<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
+<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
+<link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-editable-content/gr-editable-content.html">
+<link rel="import" href="../../shared/gr-select/gr-select.html">
+
+<dom-module id="gr-inline-edit">
+  <template>
+    <style>
+      :host {
+        background-color: var(--view-background-color);
+        display: block;
+      }
+      header,
+      .subHeader {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+      }
+      header {
+        padding: .75em var(--default-horizontal-margin);
+      }
+      .patchRangeLeft {
+        display: flex;
+      }
+      .navLink:not([href]),
+      .downloadLink:not([href]) {
+        color: #999;
+      }
+      .navLinks {
+        white-space: nowrap;
+      }
+      .reviewed {
+        display: inline-block;
+        margin: 0 .25em;
+        vertical-align: .15em;
+      }
+      .jumpToFileContainer {
+        display: inline-block;
+      }
+      .mobile {
+        display: none;
+      }
+      .downArrow {
+        display: inline-block;
+        font-size: .6em;
+        vertical-align: middle;
+      }
+      .dropdown-trigger {
+        color: #00e;
+        cursor: pointer;
+        padding: 0;
+      }
+      iron-dropdown {
+        position: absolute;
+      }
+      .dropdown-content {
+        background-color: #fff;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+      }
+      .dropdown-content a {
+        cursor: pointer;
+        display: block;
+        font-weight: normal;
+        padding: .3em .5em;
+      }
+      .dropdown-content a:before {
+        color: #ccc;
+        content: attr(data-key-nav);
+        display: inline-block;
+        margin-right: .5em;
+        width: .3em;
+      }
+      .dropdown-content a:hover {
+        background-color: #00e;
+        color: #fff;
+      }
+      .dropdown-content a[selected] {
+        color: #000;
+        font-weight: bold;
+        pointer-events: none;
+        text-decoration: none;
+      }
+      .dropdown-content a[selected]:hover {
+        background-color: #fff;
+        color: #000;
+      }
+      gr-button {
+        font: inherit;
+        padding: .3em 0;
+        text-decoration: none;
+      }
+      .loading {
+        padding: 0 var(--default-horizontal-margin) 1em;
+        color: #666;
+      }
+      .subHeader {
+        flex-wrap: wrap;
+        margin: 0 var(--default-horizontal-margin) .75em;
+      }
+      .subHeader > div {
+        margin-top: .25em;
+      }
+      .prefsButton {
+        text-align: right;
+      }
+      .separator {
+        margin: 0 .25em;
+      }
+      @media screen and (max-width: 50em) {
+        header {
+          padding: .5em var(--default-horizontal-margin);
+        }
+        .dash {
+          display: none;
+        }
+        .desktop {
+          display: none;
+        }
+        .fileNav {
+          align-items: flex-start;
+          display: flex;
+          margin: 0 .25em;
+        }
+        .fullFileName {
+          display: block;
+          font-size: .9em;
+          font-style: italic;
+          min-width: 50%;
+          padding: 0 .1em;
+          text-align: center;
+          width: 100%;
+          word-wrap: break-word;
+        }
+        .reviewed {
+          vertical-align: -.1em;
+        }
+        .mobileJumpToFileContainer {
+          display: block;
+          width: 100%;
+        }
+        .mobileJumpToFileContainer select {
+          width: 100%;
+        }
+        .mobileNavLink {
+          color: #000;
+          font-size: 1.5em;
+          font-weight: bold;
+          text-decoration: none;
+        }
+        .mobileNavLink:not([href]) {
+          color: #bbb;
+        }
+      }
+    </style>
+    <header>
+      <h3>
+        <!--<a href$="[[_computeChangePath(_changeNum, _patchRange.*, _change.revisions)]]">-->
+          [[_changeNum]]<!--</a>--><span>:</span>
+        <span>[[_change.subject]]</span>
+      </h3>
+    </header>
+              <gr-button link
+                 on-tap="_handleEditEditContent"
+                  hidden$="[[_hideEditEditContent]]">Edit</gr-button>
+    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+    <div hidden$="[[_loading]]" hidden>
+      <gr-editable-content id="editChangeEditor"
+           editing="[[_editingEditChange]]"
+           content="{{_editChange.change}}">
+      </gr-editable-content>
+      <!--<gr-diff
+          id="diff"
+          project="[[_change.project]]"
+          commit="[[_change.current_revision]]"
+          is-image-diff="{{_isImageDiff}}"
+          files-weblinks="{{_filesWeblinks}}"
+          change-num="[[_changeNum]]"
+          patch-range="[[_patchRange]]"
+          path="[[_path]]"
+          prefs="[[_prefs]]"
+          project-config="[[_projectConfig]]"
+          view-mode="[[_diffMode]]"
+          on-line-selected="_onLineSelected">
+      </gr-diff>-->
+    </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+    <gr-storage id="storage"></gr-storage>
+  </template>
+  <script src="gr-inline-edit.js"></script>
+</dom-module>

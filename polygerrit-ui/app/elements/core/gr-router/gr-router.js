@@ -162,6 +162,47 @@
       app.params = params;
     });
 
+    // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>,edit.
+    page(/^\/c\/edit\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, function(ctx) {
+      // Parameter order is based on the regex group number matched.
+      var params = {
+        changeNum: ctx.params[0],
+        basePatchNum: ctx.params[2],
+        patchNum: ctx.params[4],
+        path: ctx.params[5],
+        view: 'gr-inline-edit',
+      };
+      // Don't allow diffing the same patch number against itself.
+      if (params.basePatchNum === params.patchNum) {
+        // TODO(kaspern): Utilize gr-url-encoding-behavior.html when the router
+        // is replaced with a Polymer counterpart.
+        // @see Issue 4255 regarding double-encoding.
+        var path = encodeURIComponent(encodeURIComponent(params.path));
+        // @see Issue 4577 regarding more readable URLs.
+        path = path.replace(/%252F/g, '/');
+        path = path.replace(/%2520/g, '+');
+
+        page.redirect('/c/edit/' +
+            encodeURIComponent(params.changeNum) +
+            '/' +
+            encodeURIComponent(params.patchNum) +
+            '/' +
+            path);
+        return;
+      }
+
+      // Check if path has an '@' which indicates it was using GWT style line
+      // numbers. Even if the filename had an '@' in it, it would have already
+      // been URI encoded. Redirect to hash version of path.
+      if (ctx.path.indexOf('@') !== -1) {
+        page.redirect(ctx.path.replace('@', '#'));
+        return;
+      }
+
+      normalizePatchRangeParams(params);
+      app.params = params;
+    });
+
     // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
     page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, function(ctx) {
       // Parameter order is based on the regex group number matched.

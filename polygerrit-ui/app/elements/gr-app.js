@@ -119,6 +119,7 @@
 
     _viewChanged: function(view) {
       this.$.errorView.hidden = true;
+      this.set('_showInlineEdit', view === 'gr-inline-edit');
       this.set('_showChangeListView', view === 'gr-change-list-view');
       this.set('_showDashboardView', view === 'gr-dashboard-view');
       this.set('_showChangeView', view === 'gr-change-view');

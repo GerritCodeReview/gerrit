@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e872e875_7faac060",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T16:38:58Z",
+      "side": 1,
+      "message": "This class is effectively immutable, so I think @AutoValue would be a good fit.",
+      "revId": "1d73427588b1264f61b695a86a0e098f22db89c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2316b5be_0b68cc13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T16:38:58Z",
+      "side": 1,
+      "message": "Ideally this is ImmtuableList\u003cString\u003e",
+      "revId": "1d73427588b1264f61b695a86a0e098f22db89c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21580dc1_2d3e1a5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T16:38:58Z",
+      "side": 1,
+      "message": "Looks like this file needs google-java-format-ing",
+      "revId": "1d73427588b1264f61b695a86a0e098f22db89c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

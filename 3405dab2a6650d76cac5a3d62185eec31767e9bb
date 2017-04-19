@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "77bd6b59_db68b9ad",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-19T20:35:29Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "637491bd_3d2a51c2",
+      "range": {
+        "startLine": 66,
+        "startChar": 37,
+        "endLine": 66,
+        "endChar": 41
+      },
+      "revId": "3405dab2a6650d76cac5a3d62185eec31767e9bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "44d8f1dc_935969bf",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
         "patchSetId": 30
@@ -36,6 +60,24 @@
       "writtenOn": "2017-04-19T20:18:34Z",
       "side": 1,
       "message": "If there are no weblinks, then we should also hide the link element. Something like\n\n \u003ca href$\u003d\"[[_computeWeblinkUrl(item)]]\" hidden$\u003d\"[[!item.web_links]]\"\u003e",
+      "revId": "3405dab2a6650d76cac5a3d62185eec31767e9bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfa29579_a902a6ca",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-19T20:35:29Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "44d8f1dc_935969bf",
       "revId": "3405dab2a6650d76cac5a3d62185eec31767e9bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

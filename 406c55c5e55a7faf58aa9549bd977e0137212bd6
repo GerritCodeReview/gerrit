@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be75a7d3_063d357b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T19:55:39Z",
+      "side": 1,
+      "message": "Sp: Previously",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "406c55c5e55a7faf58aa9549bd977e0137212bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6627db20_f029224e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T19:55:39Z",
+      "side": 1,
+      "message": "Nit:\n\n Bug: Issue 5426",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 15
+      },
+      "revId": "406c55c5e55a7faf58aa9549bd977e0137212bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8175b7e_fc8314d0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T19:55:39Z",
+      "side": 1,
+      "message": "Nit: with the additional indentation level, this can be wrapped under 80 ch (and a couple places below).",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 81
+      },
+      "revId": "406c55c5e55a7faf58aa9549bd977e0137212bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cda3327_768d7a33",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T19:55:39Z",
+      "side": 1,
+      "message": "Nice. Seems to me that this is a better home for this code anyway.",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 15
+      },
+      "revId": "406c55c5e55a7faf58aa9549bd977e0137212bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2fd8aae3_4af67915",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T19:55:39Z",
+      "side": 1,
+      "message": "Since this is the gr-diff-preferences element, I think this can be called just \"open\".",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 13
+      },
+      "revId": "406c55c5e55a7faf58aa9549bd977e0137212bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf405733_9bf6d061",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T19:55:39Z",
+      "side": 1,
+      "message": "Nit: remove extra blank line.",
+      "revId": "406c55c5e55a7faf58aa9549bd977e0137212bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e0152fa_ec244adf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T19:55:39Z",
+      "side": 1,
+      "message": "These are indented too far.",
+      "range": {
+        "startLine": 279,
+        "startChar": 16,
+        "endLine": 281,
+        "endChar": 68
+      },
+      "revId": "406c55c5e55a7faf58aa9549bd977e0137212bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15a01032_0019cd59",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T19:55:39Z",
+      "side": 1,
+      "message": "TIL!",
+      "range": {
+        "startLine": 361,
+        "startChar": 4,
+        "endLine": 361,
+        "endChar": 19
+      },
+      "revId": "406c55c5e55a7faf58aa9549bd977e0137212bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

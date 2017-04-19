@@ -14,11 +14,10 @@
 
 package com.google.gerrit.server.update;
 
+import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.transport.ReceiveCommand;
-
-import java.io.IOException;
 
 /** Context for performing the {@link BatchUpdateOp#updateRepo} phase. */
 public interface RepoContext extends Context {

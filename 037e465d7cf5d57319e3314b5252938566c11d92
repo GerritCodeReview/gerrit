@@ -1,0 +1,308 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd5c937c_3b0f7aea",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-19T17:30:26Z",
+      "side": 1,
+      "message": "gr-labels sound too generic.\nI\u0027m not sure what\u0027s the best, maybe gr-label-scores, or something like that?",
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffc785dc_5489f2ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-19T17:30:26Z",
+      "side": 1,
+      "message": "Any particular reason not to use em?\nSame for the placeholder",
+      "range": {
+        "startLine": 52,
+        "startChar": 19,
+        "endLine": 52,
+        "endChar": 23
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32f715b8_53a981d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-19T17:30:26Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be _permittedLabelsChanged?",
+      "range": {
+        "startLine": 26,
+        "startChar": 19,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d191df4_a4840c75",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-19T17:30:26Z",
+      "side": 1,
+      "message": "Any particular reason not to use this.labels?",
+      "range": {
+        "startLine": 32,
+        "startChar": 33,
+        "endLine": 32,
+        "endChar": 39
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a88faa5_b6607e0e",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-19T17:30:26Z",
+      "side": 1,
+      "message": "computed function definition listens to account changes (#22), but it\u0027s not used. \nIs that intentional?",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 18
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b668e8c0_88b68714",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-19T17:30:26Z",
+      "side": 1,
+      "message": "parseInt(value, 10)",
+      "range": {
+        "startLine": 61,
+        "startChar": 17,
+        "endLine": 61,
+        "endChar": 32
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ca868a5_e640590e",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-19T17:30:26Z",
+      "side": 1,
+      "message": "get?\n\nshouldn\u0027t `compute` prefix be used for computed properties?\nSame for other non-computed function using compute prefix.",
+      "range": {
+        "startLine": 75,
+        "startChar": 5,
+        "endLine": 75,
+        "endChar": 12
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f8060df_f91a464a",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-19T17:30:26Z",
+      "side": 1,
+      "message": "👍",
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afda1c8f_9b0f1b28",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-19T17:30:26Z",
+      "side": 1,
+      "message": "😩\n\nWhy do we have to flush /before/ the test?\nWould this work?\n\nsetup(function(done) {\n  // setup code here\n  flush(done);\n});",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 26
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce1d6468_d2493f9b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-19T17:30:26Z",
+      "side": 1,
+      "message": "👍",
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be887a04_60eb0c6c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-19T17:30:26Z",
+      "side": 1,
+      "message": "aren\u0027t permittedLabels defined on the change?",
+      "range": {
+        "startLine": 218,
+        "startChar": 31,
+        "endLine": 218,
+        "endChar": 46
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "247e3069_2b2c0dd9",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-19T17:30:26Z",
+      "side": 1,
+      "message": "I\u0027d vote for giving gr-labels an id and using $. notation.",
+      "range": {
+        "startLine": 267,
+        "startChar": 30,
+        "endLine": 267,
+        "endChar": 45
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb08ff6b_36b37070",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-19T17:30:26Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this all go into gr-labels?",
+      "range": {
+        "startLine": 264,
+        "startChar": 6,
+        "endLine": 285,
+        "endChar": 7
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4c31626_0341e7b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-19T17:30:26Z",
+      "side": 1,
+      "message": "This is potentially dead code.",
+      "range": {
+        "startLine": 411,
+        "startChar": 4,
+        "endLine": 411,
+        "endChar": 22
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

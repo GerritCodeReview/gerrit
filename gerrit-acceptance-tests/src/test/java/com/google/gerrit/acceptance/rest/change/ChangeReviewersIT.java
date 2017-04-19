@@ -29,6 +29,9 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.NotifyInfo;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -679,6 +682,47 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     addReviewer(r.getChangeId(), admin.email);
     changeLabels = getChangeLabels(r.getChangeId());
     assertThat(changeLabels.get(crLabel).all).isNull();
+  }
+
+  @Test
+  public void notifyDetailsWorkOnPostReview() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount userToNotify = createAccounts(1, "notify-details-post-review").get(0);
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.reviewer(user.email, ReviewerState.REVIEWER, true);
+    reviewInput.notify = NotifyHandling.NONE;
+
+    List<String> accountsToNotify = new ArrayList<>();
+    accountsToNotify.add(userToNotify.email);
+
+    reviewInput.notifyDetails = new HashMap<>();
+    reviewInput.notifyDetails.put(RecipientType.TO, new NotifyInfo(accountsToNotify));
+
+    sender.clear();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(reviewInput);
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(userToNotify.emailAddress);
+  }
+
+  @Test
+  public void notifyDetailsWorkOnPostReviewers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount userToNotify = createAccounts(1, "notify-details-post-reviewers").get(0);
+
+    List<String> accountsToNotify = new ArrayList<>();
+    accountsToNotify.add(userToNotify.email);
+
+    AddReviewerInput addReviewer = new AddReviewerInput();
+    addReviewer.reviewer = user.email;
+    addReviewer.notify = NotifyHandling.NONE;
+    addReviewer.notifyDetails = new HashMap<>();
+    addReviewer.notifyDetails.put(RecipientType.TO, new NotifyInfo(accountsToNotify));
+
+    sender.clear();
+    gApi.changes().id(r.getChangeId()).addReviewer(addReviewer);
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(userToNotify.emailAddress);
   }
 
   private AddReviewerResult addReviewer(String changeId, String reviewer) throws Exception {

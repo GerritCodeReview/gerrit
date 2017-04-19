@@ -22,6 +22,30 @@
       "revId": "dd17b5857885e2399d304c2e0f565b82b544a5ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "686d7ed4_c141712c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-04-19T15:29:58Z",
+      "side": 1,
+      "message": "I think that will link to https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d713194\nThis bug is in Chromium\u0027s tracker.",
+      "parentUuid": "d8eb2875_d1beb7e2",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "dd17b5857885e2399d304c2e0f565b82b544a5ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

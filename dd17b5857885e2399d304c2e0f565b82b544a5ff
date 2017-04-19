@@ -46,6 +46,29 @@
       "revId": "dd17b5857885e2399d304c2e0f565b82b544a5ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e68cef9_ce4b102a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-19T15:36:14Z",
+      "side": 1,
+      "message": "Dosent there need to be a ; and same for below?",
+      "range": {
+        "startLine": 814,
+        "startChar": 68,
+        "endLine": 814,
+        "endChar": 69
+      },
+      "revId": "dd17b5857885e2399d304c2e0f565b82b544a5ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

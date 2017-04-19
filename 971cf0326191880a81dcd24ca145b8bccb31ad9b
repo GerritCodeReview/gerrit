@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4060ca83_af5bfec0",
+        "filename": "Documentation/dev-plugin-pg-styling.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T17:00:06Z",
+      "side": 1,
+      "message": "To be clear, I don\u0027t mean this comment to be a blocker, but I\u0027m trying to encode my qualms about exposing this style of API to plugin authors.",
+      "parentUuid": "aeb4ab93_a8ac63c3",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 3
+      },
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fdae214f_40413cf6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
         "patchSetId": 7

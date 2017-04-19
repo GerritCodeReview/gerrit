@@ -46,6 +46,8 @@
   // TODO(davido): Add the rest of the change actions.
   var ChangeActions = {
     ABANDON: 'abandon',
+    MARK_PRIVATE: 'private',
+    UNMARK_PRIVATE: 'private',
     DELETE: '/',
     RESTORE: 'restore',
     REVERT: 'revert',
@@ -62,6 +64,8 @@
 
   var ActionLoadingLabels = {
     'abandon': 'Abandoning...',
+    'private': 'Marking change as private...',
+    'unmark private': 'Un marking change as private...',
     'cherrypick': 'Cherry-Picking...',
     'delete': 'Deleting...',
     'publish': 'Publishing...',

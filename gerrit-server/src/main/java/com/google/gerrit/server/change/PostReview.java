@@ -243,7 +243,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         reviewerInput.notify = NotifyHandling.NONE;
 
         PostReviewers.Addition result =
-            postReviewers.prepareApplication(revision.getChangeResource(), reviewerInput, true);
+            postReviewers.prepareApplication( revision.getChangeResource(), reviewerInput, true);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
         if (result.result.error != null) {
           hasError = true;

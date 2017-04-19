@@ -158,7 +158,12 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
   public Addition prepareApplication(
       ChangeResource rsrc, AddReviewerInput input, boolean allowGroup)
-      throws OrmException, RestApiException, IOException {
+      throws OrmException, IOException, BadRequestException {
+    // TODO: remove BadRequestException from the list of exceptions thrown.
+    // The only situation in which this method throws BadRequestException is
+    // when it fails to resolve one or more of the accounts specified in
+    // input.notifyDetails. Adding exception handling around the notify
+    // handling should be done at some point.
     boolean allowByEmail = projectCache.checkedGet(rsrc.getProject()).isEnableReviewerByEmail();
 
     Addition byAccountId = addByAccountId(rsrc, input, allowGroup, allowByEmail);
@@ -188,49 +193,41 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   @Nullable
   private Addition addByAccountId(
       ChangeResource rsrc, AddReviewerInput input, boolean allowGroup, boolean allowByEmail)
-      throws OrmException, RestApiException {
+      throws OrmException, BadRequestException {
     Account.Id accountId = null;
     try {
       accountId = accounts.parse(input.reviewer).getAccountId();
-    } catch (UnprocessableEntityException e) {
+    } catch (RestApiException e) {
       if (!allowGroup && !allowByEmail) {
-        throw new UnprocessableEntityException(
+        return fail(
+            input.reviewer,
             MessageFormat.format(ChangeMessages.get().reviewerNotFoundUser, input.reviewer));
       }
     }
-    if (accountId != null) {
-      return putAccount(
-          input.reviewer,
-          reviewerFactory.create(rsrc, accountId),
-          input.state(),
-          input.notify,
-          notifyUtil.resolveAccounts(input.notifyDetails));
+    if (accountId == null) {
+      return null;
     }
-    return null;
+    return putAccount(
+        input.reviewer,
+        reviewerFactory.create(rsrc, accountId),
+        input.state(),
+        input.notify,
+        notifyUtil.resolveAccounts(input.notifyDetails));
   }
 
   @Nullable
   private Addition addWholeGroup(
       ChangeResource rsrc, AddReviewerInput input, boolean allowGroup, boolean allowByEmail)
-      throws OrmException, RestApiException, IOException {
+      throws OrmException, IOException, BadRequestException {
     if (!allowGroup) {
       return null;
     }
-
-    try {
-      return putGroup(rsrc, input);
-    } catch (UnprocessableEntityException e) {
-      if (!allowByEmail) {
-        throw new UnprocessableEntityException(
-            MessageFormat.format(ChangeMessages.get().reviewerNotFoundUserOrGroup, input.reviewer));
-      }
-    }
-    return null;
+    return putGroup(rsrc, input);
   }
 
   @Nullable
   private Addition addByEmail(ChangeResource rsrc, AddReviewerInput input)
-      throws OrmException, RestApiException {
+      throws OrmException, BadRequestException {
     return putAccountByEmail(
         input.reviewer,
         rsrc,
@@ -244,8 +241,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       ReviewerResource rsrc,
       ReviewerState state,
       NotifyHandling notify,
-      ListMultimap<RecipientType, Account.Id> accountsToNotify)
-      throws UnprocessableEntityException {
+      ListMultimap<RecipientType, Account.Id> accountsToNotify) {
     Account member = rsrc.getReviewerUser().getAccount();
     ChangeControl control = rsrc.getReviewerControl();
     if (isValidReviewer(member, control)) {
@@ -259,9 +255,13 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
           accountsToNotify);
     }
     if (member.isActive()) {
-      throw new UnprocessableEntityException(String.format("Change not visible to %s", reviewer));
+      return fail(
+          reviewer,
+          MessageFormat.format(ChangeMessages.get().reviewerCantSeeChange, reviewer));
     }
-    throw new UnprocessableEntityException(String.format("Account of %s is inactive.", reviewer));
+    return fail(
+        reviewer,
+        MessageFormat.format(ChangeMessages.get().reviewerInactive, reviewer));
   }
 
   private Addition putAccountByEmail(
@@ -270,29 +270,50 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       ReviewerState state,
       NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
-      throws UnprocessableEntityException, OrmException, BadRequestException {
+      throws OrmException {
     if (!rsrc.getControl().forUser(anonymousProvider.get()).isVisible(dbProvider.get())) {
-      throw new BadRequestException("change is not publicly visible");
+      return fail(
+          reviewer,
+          MessageFormat.format(ChangeMessages.get().reviewerCantSeeChange, reviewer));
     }
     if (!migration.readChanges()) {
-      throw new BadRequestException("feature only supported in NoteDb");
+      return fail(
+          reviewer,
+          MessageFormat.format(ChangeMessages.get().reviewerNotFoundUser, reviewer));
     }
     Address adr;
     try {
       adr = Address.parse(reviewer);
     } catch (IllegalArgumentException e) {
-      throw new UnprocessableEntityException(String.format("email invalid %s", reviewer));
+      return fail(
+          reviewer,
+          MessageFormat.format(ChangeMessages.get().reviewerInvalid, reviewer));
     }
     if (!OutgoingEmailValidator.isValid(adr.getEmail())) {
-      throw new UnprocessableEntityException(String.format("email invalid %s", reviewer));
+      return fail(
+          reviewer,
+          MessageFormat.format(ChangeMessages.get().reviewerInvalid, reviewer));
     }
     return new Addition(
         reviewer, rsrc, null, ImmutableList.of(adr), state, notify, accountsToNotify);
   }
 
   private Addition putGroup(ChangeResource rsrc, AddReviewerInput input)
-      throws RestApiException, OrmException, IOException {
-    GroupDescription.Basic group = groupsCollection.parseInternal(input.reviewer);
+      throws OrmException, IOException, BadRequestException {
+    GroupDescription.Basic group = null;
+    try {
+      group = groupsCollection.parseInternal(input.reviewer);
+    } catch (UnprocessableEntityException e) {
+      return fail(
+          input.reviewer,
+          MessageFormat.format(ChangeMessages.get().reviewerNotFoundGroup, input.reviewer));
+    }
+    if (group == null) {
+      return fail(
+          input.reviewer,
+          MessageFormat.format(ChangeMessages.get().reviewerNotFoundGroup, input.reviewer));
+    }
+
     if (!isLegalReviewerGroup(group.getGroupUUID())) {
       return fail(
           input.reviewer,
@@ -308,9 +329,11 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
               .create(control.getUser())
               .listAccounts(group.getGroupUUID(), control.getProject().getNameKey());
     } catch (NoSuchGroupException e) {
-      throw new UnprocessableEntityException(e.getMessage());
+      return fail(
+          input.reviewer,
+          MessageFormat.format(ChangeMessages.get().reviewerNotFoundGroup, group.getName()));
     } catch (NoSuchProjectException e) {
-      throw new BadRequestException(e.getMessage());
+      return fail(input.reviewer, e.getMessage());
     }
 
     // if maxAllowed is set to 0, it is allowed to add any number of

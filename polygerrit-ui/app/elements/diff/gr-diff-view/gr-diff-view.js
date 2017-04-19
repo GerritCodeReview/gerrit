@@ -363,7 +363,7 @@
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      this._openPrefs();
+      this.$.diffPreferences.open();
     },
 
     _navToChangeView: function() {
@@ -387,15 +387,6 @@
       if (!url) { return; }
 
       page.show(this._computeNavLinkURL(path, fileList, direction));
-    },
-
-    _openPrefs: function() {
-      this.$.prefsOverlay.open().then(function() {
-        var diffPreferences = this.$.diffPreferences;
-        var focusStops = diffPreferences.getFocusStops();
-        this.$.prefsOverlay.setFocusStops(focusStops);
-        this.$.diffPreferences.resetFocus();
-      }.bind(this));
     },
 
     /**
@@ -599,7 +590,7 @@
 
     _handlePrefsTap: function(e) {
       e.preventDefault();
-      this._openPrefs();
+      this.$.diffPreferences.open();
     },
 
     _handlePrefsSave: function(e) {
@@ -615,15 +606,6 @@
       }.bind(this)).catch(function(err) {
         el.disabled = false;
       }.bind(this));
-    },
-
-    _saveDiffPreferences: function() {
-      return this.$.restAPI.saveDiffPreferences(this._prefs);
-    },
-
-    _handlePrefsCancel: function(e) {
-      e.stopPropagation();
-      this.$.prefsOverlay.close();
     },
 
     /**

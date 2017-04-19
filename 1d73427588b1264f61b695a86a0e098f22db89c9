@@ -50,6 +50,24 @@
       "revId": "1d73427588b1264f61b695a86a0e098f22db89c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be2abc0a_ff0fb8ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-19T16:41:25Z",
+      "side": 1,
+      "message": "Note, that this CL was uploaded to the 2.13 branch.",
+      "parentUuid": "21580dc1_2d3e1a5d",
+      "revId": "1d73427588b1264f61b695a86a0e098f22db89c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

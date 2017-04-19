@@ -48,6 +48,8 @@
     ABANDON: 'abandon',
     DELETE: '/',
     IGNORE: 'ignore',
+    PRIVATE: 'private',
+    PRIVATE_DELETE: 'private.delete',
     RESTORE: 'restore',
     REVERT: 'revert',
     UNIGNORE: 'unignore',
@@ -106,6 +108,9 @@
     __primary: false,
     __type: 'revision',
   };
+
+  var MARK_PRIVATE_LABEL = 'Mark private';
+  var UNMARK_PRIVATE_LABEL = 'Unmark private';
 
   Polymer({
     is: 'gr-change-actions',
@@ -215,6 +220,14 @@
             {
               type: ActionType.CHANGE,
               key: ChangeActions.UNIGNORE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.PRIVATE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.PRIVATE_DELETE,
             },
           ];
           return value;

@@ -379,6 +379,12 @@
 
     _getActionValues: function(actionsChangeRecord, primariesChangeRecord,
         additionalActionsChangeRecord, type) {
+      if (this.change.is_private == true) {
+        ChangeActions.UNMARK_PRIVATE = 'private';
+      } else {
+        ChangeActions.MARK_PRIVATE = 'private';
+      }
+
       if (!actionsChangeRecord || !primariesChangeRecord) { return []; }
 
       var actions = actionsChangeRecord.base || {};
@@ -391,7 +397,11 @@
         actions[a].__key = a;
         actions[a].__type = type;
         actions[a].__primary = primaryActionKeys.indexOf(a) !== -1;
-        if (actions[a].label === 'Delete') {
+        if (this.change.is_private == true && actions[a].label === 'Mark private') {
+          actions[a].label = 'Unmark Private';
+        } else if (this.change.is_private == false && actions[a].label === 'Mark private') {
+          actions[a].label = 'Mark Private';
+        } else if (actions[a].label === 'Delete') {
           // This label is common within change and revision actions. Make it
           // more explicit to the user.
           if (type === ActionType.CHANGE) {
@@ -400,6 +410,7 @@
             actions[a].label += ' Revision';
           }
         }
+
         // Triggers a re-render by ensuring object inequality.
         // TODO(andybons): Polyfill for Object.assign.
         result.push(Object.assign({}, actions[a]));
@@ -419,6 +430,11 @@
     },
 
     _computeLoadingLabel: function(action) {
+      if (this.change.is_private == true) {
+        ActionLoadingLabels['private'] = 'Unmarking change as private...';
+      } else {
+        ActionLoadingLabels['private'] = 'Marking change as private...';
+      }
       return ActionLoadingLabels[action] || 'Working...';
     },
 
@@ -471,6 +487,14 @@
         });
         this._fireAction(
             this._prependSlash(key), action, true, action.payload);
+      } else if (key === ChangeActions.MARK_PRIVATE) {
+        var cleanupFn = this._setLoadingOnButtonWithKey('private');
+        this._send('PUT', '', '/private', false, cleanupFn)
+                   .then(this._handleResponse.bind(this, 'private'));
+      } else if (key === ChangeActions.UNMARK_PRIVATE) {
+        var cleanupFn = this._setLoadingOnButtonWithKey('private');
+        this._send('DELETE', '', '/private', false, cleanupFn)
+                   .then(this._handleResponse.bind(this, 'private'));
       } else {
         this._fireAction(this._prependSlash(key), this.actions[key], false);
       }
@@ -645,6 +669,11 @@
               } else {
                 page.show(this.changePath(this.changeNum));
               }
+              break;
+            case ChangeActions.MARK_PRIVATE:
+            case ChangeActions.UNMARK_PRIVATE:
+              location.reload();
+              page.show('/c/' + this.change._number);
               break;
             default:
               this.dispatchEvent(new CustomEvent('reload-change',

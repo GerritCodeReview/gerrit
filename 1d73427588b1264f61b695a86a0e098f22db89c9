@@ -68,6 +68,24 @@
       "revId": "1d73427588b1264f61b695a86a0e098f22db89c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cb639d1_c5b34381",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T16:41:59Z",
+      "side": 1,
+      "message": "Ah, I missed that, thanks.",
+      "parentUuid": "be2abc0a_ff0fb8ac",
+      "revId": "1d73427588b1264f61b695a86a0e098f22db89c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

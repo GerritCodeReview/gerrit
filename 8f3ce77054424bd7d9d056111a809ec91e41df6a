@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1491294077 +0200\nnonce AIcUUg+2T984rIFb8hLU9LtVUccQR7rb1m0rhWSxtCu/dJsIx6pE1R75e8zCDdqOQbfhxp+iZ596\n\n0000000000000000000000000000000000000000 8f3ce77054424bd7d9d056111a809ec91e41df6a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY41d9AAoJEFG1/Zeg0O9R0IkIAITwIGXNATcXWfzWOSZWT7hw\nVrVuF9YgDnWbbBcoSMXoSQwpLQzeg1n7HUBk0GrWG2IotPuJKbzrwFFDM19Hj5nN\nmVaONf24lglq2Bra1HuJxvzBEDQMCa2LTLpBhQ4xiCjkuCWftDIgZAjz96rMQevU\nQ1sjCuD6cvIvK0B1G/cMP155fjQuaggYWFyFN5zlU8mJbhyaCepLkHV3H02yXDr2\noGzbBz4ExEEjPZcCriuUc5xxLwkP96GwBSQisc4Q4tuov8l4aAv4Dn+2osNZmRNC\nXmDmTXhA3HM0cLy5HFoQmHupyCrNe5k/oXS+ggedcnaCD34EGWX7SUrF1FxxZao\u003d\n\u003d00E0\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd33b46b_c970724d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-19T08:13:08Z",
+      "side": 1,
+      "message": "nit: \"string\".",
+      "range": {
+        "startLine": 11,
+        "startChar": 57,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "8f3ce77054424bd7d9d056111a809ec91e41df6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab643cb6_377c1bfb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-19T08:13:08Z",
+      "side": 1,
+      "message": "I guess you want to move this into the loop? Or it will always be true after it\u0027s set in line#79.",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 28
+      },
+      "revId": "8f3ce77054424bd7d9d056111a809ec91e41df6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

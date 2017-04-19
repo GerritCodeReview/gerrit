@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1492604321 +0200\nnonce AFMZ2Gx1Pj9/eJI7mGZVzOgY9oTfFU/DvYvuUWlJMJZsMTPreCc5UnTqDMgxvTlpK39YXMItQgwH\n\n0000000000000000000000000000000000000000 056f5c0e77bb9e362317115a5226918fb2ed00f8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY91WhAAoJEFG1/Zeg0O9RlS8H/34vTQuhJ5eh4ijqEyhKtN74\npmfwYcpwdHcCwJOnug/qxFsThfU+MGMVRJU0PuKnX6QzUci3Qm+GcHH1ntVq/Hnl\nnGntvpV3VE8PLns4p8uLJB3c5JHjMLO0hUS40A/ATIHJEMIm/PwC9baZt9sUUOnU\nqghrsrj1I9jCPzqDZyaO/0JYSw1LgHPRUVgxAdgwcUKcSC8Idr5JdcwC61x9ymGB\nD3O0VJ9wyAW6wUkDxYt/SKA2cfbvw9HO2cD/OwbJTbID5qcIbuZi6AHrX7Oc6MnQ\nhELzntFOFX13A2DeBDdut7n7u6smsP+uaGXfFG4msKGzGVdUVTU0A03wxHFJXjQ\u003d\n\u003dZsP+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "76836528_43307d7a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/AccountsOnInit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T14:25:14Z",
+      "side": 1,
+      "message": "I think this would be easier to read with streams:\n\n return repo.getRefDatabase()\n     .getRefs(REFS_USERS)\n     .values()\n     .stream()\n     .anyMatch(r -\u003e !r.getName().equals(REFS_USERS_DEFAULT);",
+      "revId": "016a88f5bc603495ffd224522d53c5ff50e33bf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "263f2747_1ad22241",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T14:25:14Z",
+      "side": 1,
+      "message": "This is the same logic as in the init case, yes? Maybe extract a public static version of it that takes a Repository, so you can reuse it from init?\n\nAlso, same comment as in init, this would be cleaner with streams.",
+      "revId": "016a88f5bc603495ffd224522d53c5ff50e33bf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -513,6 +513,87 @@ limitations under the License.
       });
     });
 
+    suite('mark change private', function() {
+      var fireActionStub;
+
+      setup(function() {
+        fireActionStub = sandbox.stub(element, '_fireAction');
+        privateAction = {
+          __key: 'private',
+          __type: 'change',
+          __primary: false,
+          method: 'PUT',
+          label: 'Mark private',
+          title: 'Working...',
+          enabled: true,
+        };
+        element.actions = {
+          private: privateAction,
+        };
+        return element.reload();
+      });
+
+      teardown(function() {
+        fireActionStub.restore();
+      });
+
+      test('private change', function(done) {
+        element.change.is_private = false;
+        element.changeNum = '2';
+        element.patchNum = '2';
+        flush(function() {
+          var privateChangeButton =
+              element.$$('gr-button[data-action-key="private"]');
+          MockInteractions.tap(privateChangeButton);
+          assert.deepEqual(fireActionStub.lastCall.args, [
+            '/private', privateAction, false
+          ]);
+          done();
+        });
+      });
+    });
+
+    suite('unmark private change', function() {
+      var fireActionStub;
+
+      setup(function() {
+        fireActionStub = sinon.stub(element, '_fireAction');
+        unmarkPrivateAction = {
+          __key: 'private',
+          __type: 'change',
+          __primary: false,
+          method: 'DELETE',
+          label: 'Unmark Private',
+          title: 'Working...',
+          enabled: true,
+        };
+        element.actions = {
+          private: unmarkPrivateAction,
+        };
+        return element.reload();
+      });
+
+      teardown(function() {
+        fireActionStub.restore();
+      });
+
+      test('unmark the private change', function(done) {
+        element.change.is_private = true;
+        element.changeNum = '2';
+        element.patchNum = '2';
+        flush(function() {
+          var unmarkPrivateChangeButton =
+              element.$$('gr-button[data-action-key="private"]');
+          assert.ok(unmarkPrivateChangeButton);
+          MockInteractions.tap(unmarkPrivateChangeButton);
+          assert.deepEqual(fireActionStub.lastCall.args, [
+            '/private', unmarkPrivateAction, false
+          ]);
+          done();
+        });
+      });
+    });
+
     suite('delete change', function() {
       var fireActionStub;
       var deleteAction;

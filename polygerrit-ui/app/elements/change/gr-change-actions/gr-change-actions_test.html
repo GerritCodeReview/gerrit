@@ -513,6 +513,106 @@ limitations under the License.
       });
     });
 
+    suite('mark change private', function() {
+      var fireActionStub;
+
+      setup(function() {
+        fireActionStub = sandbox.stub(element, '_fireAction');
+
+        var privateAction = {
+          __key: 'private',
+          __type: 'change',
+          __primary: false,
+          method: 'POST',
+          label: 'Mark private',
+          title: 'Working...',
+          enabled: true,
+        };
+
+        element.actions = {
+          'private': privateAction,
+        };
+
+        element.change.is_private = false;
+
+        element.changeNum = '2';
+        element.patchNum = '2';
+
+        return element.reload();
+      });
+
+      test('make sure the mark private change button is not outside of the ' +
+           'overflow menu', function(done) {
+        flush(function() {
+          assert.isNotOk(element.$$('[data-action-key="private"]'));
+          done();
+        });
+      });
+
+      test('private change', function(done) {
+        flush(function() {
+          assert.isOk(
+            element.$.moreActions.$$('span[data-id="private-change"]'));
+          element.setActionOverflow('change', 'private', false);
+          flushAsynchronousOperations();
+          assert.isOk(element.$$('[data-action-key="private"]'));
+          assert.isNotOk(
+            element.$.moreActions.$$('span[data-id="private-change"]'));
+          done();
+        });
+      });
+    });
+
+    suite('unmark private change', function() {
+      var fireActionStub;
+
+      setup(function() {
+        fireActionStub = sandbox.stub(element, '_fireAction');
+
+        var unmarkPrivateAction = {
+          __key: 'private.delete',
+          __type: 'change',
+          __primary: false,
+          method: 'POST',
+          label: 'Unmark private',
+          title: 'Working...',
+          enabled: true,
+        };
+
+        element.actions = {
+          'private.delete': unmarkPrivateAction,
+        };
+
+        element.change.is_private = true;
+
+        element.changeNum = '2';
+        element.patchNum = '2';
+
+        return element.reload();
+      });
+
+      test('make sure the unmark private change button is not outside of the ' +
+           'overflow menu', function(done) {
+        flush(function() {
+          assert.isNotOk(element.$$('[data-action-key="private.delete"]'));
+          done();
+        });
+      });
+
+      test('unmark the private change', function(done) {
+        flush(function() {
+          assert.isOk(
+            element.$.moreActions.$$('span[data-id="private.delete-change"]'));
+          element.setActionOverflow('change', 'private.delete', false);
+          flushAsynchronousOperations();
+          assert.isOk(element.$$('[data-action-key="private.delete"]'));
+          assert.isNotOk(
+            element.$.moreActions.$$('span[data-id="private.delete-change"]'));
+          done();
+        });
+      });
+    });
+
     suite('delete change', function() {
       var fireActionStub;
       var deleteAction;

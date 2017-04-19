@@ -48,6 +48,7 @@
     ABANDON: 'abandon',
     DELETE: '/',
     IGNORE: 'ignore',
+    PRIVATE: 'private',
     RESTORE: 'restore',
     REVERT: 'revert',
     UNIGNORE: 'unignore',
@@ -215,6 +216,10 @@
             {
               type: ActionType.CHANGE,
               key: ChangeActions.UNIGNORE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.PRIVATE,
             },
           ];
           return value;
@@ -480,6 +485,9 @@
         additionalActionsChangeRecord, type) {
       if (!actionsChangeRecord || !primariesChangeRecord) { return []; }
 
+      var MAKE_PRIVATE_LABEL = 'Make private';
+      var MAKE_PUBLIC_LABEL = 'Make public';
+
       var actions = actionsChangeRecord.base || {};
       var primaryActionKeys = primariesChangeRecord.base || [];
       var result = [];
@@ -490,7 +498,17 @@
         actions[a].__key = a;
         actions[a].__type = type;
         actions[a].__primary = primaryActionKeys.indexOf(a) !== -1;
-        if (actions[a].label === 'Delete') {
+        if (this.change.is_private &&
+            actions[a].label === 'Mark private' ||
+            this.change.is_private &&
+            actions[a].label === MAKE_PRIVATE_LABEL) {
+          actions[a].label = MAKE_PUBLIC_LABEL;
+          actions[a].method = 'DELETE';
+        } else if (!this.change.is_private &&
+            actions[a].label === MAKE_PUBLIC_LABEL) {
+          actions[a].label = MAKE_PRIVATE_LABEL;
+          actions[a].method = 'PUT';
+        } else if (actions[a].label === 'Delete') {
           // This label is common within change and revision actions. Make it
           // more explicit to the user.
           if (type === ActionType.CHANGE) {
@@ -785,6 +803,9 @@
             } else {
               page.show(this.changePath(this.changeNum));
             }
+            break;
+          case ChangeActions.PRIVATE:
+            page.show('/c/' + this.change._number);
             break;
           default:
             this.dispatchEvent(new CustomEvent('reload-change',

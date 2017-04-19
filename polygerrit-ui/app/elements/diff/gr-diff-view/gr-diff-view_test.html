@@ -111,8 +111,8 @@ limitations under the License.
           'Should navigate to /c/42/');
       assert.equal(element.changeViewState.selectedFileIndex, 0);
 
-      var showPrefsStub = sandbox.stub(element.$.prefsOverlay, 'open',
-          function() { return Promise.resolve({}); });
+      var showPrefsStub = sandbox.stub(element.$.diffPreferences.$.prefsOverlay,
+          'open', function() { return Promise.resolve({}); });
 
       MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
       assert(showPrefsStub.calledOnce);
@@ -143,22 +143,6 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'esc');
       assert(computeContainerClassStub.lastCall.calledWithExactly(
           false, 'SIDE_BY_SIDE', false));
-    });
-
-    test('saving diff preferences', function() {
-      var savePrefs = sandbox.stub(element, '_handlePrefsSave');
-      var cancelPrefs = sandbox.stub(element, '_handlePrefsCancel');
-      element.$.diffPreferences._handleSave();
-      assert(savePrefs.calledOnce);
-      assert(cancelPrefs.notCalled);
-    });
-
-    test('cancelling diff preferences', function() {
-      var savePrefs = sandbox.stub(element, '_handlePrefsSave');
-      var cancelPrefs = sandbox.stub(element, '_handlePrefsCancel');
-      element.$.diffPreferences._handleCancel();
-      assert(cancelPrefs.calledOnce);
-      assert(savePrefs.notCalled);
     });
 
     test('keyboard shortcuts with patch range', function() {

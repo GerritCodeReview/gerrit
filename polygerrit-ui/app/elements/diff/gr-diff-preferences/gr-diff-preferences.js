@@ -17,18 +17,6 @@
   Polymer({
     is: 'gr-diff-preferences',
 
-    /**
-     * Fired when the user presses the save button.
-     *
-     * @event save
-     */
-
-    /**
-     * Fired when the user presses the cancel button.
-     *
-     * @event cancel
-     */
-
     properties: {
       prefs: {
         type: Object,
@@ -106,14 +94,43 @@
       this.set('_newPrefs.line_wrapping', Polymer.dom(e).rootTarget.checked);
     },
 
-    _handleSave: function() {
+    _handleSave: function(e) {
+      e.stopPropagation();
       this.prefs = this._newPrefs;
       this.localPrefs = this._newLocalPrefs;
-      this.fire('save', null, {bubbles: false});
+      var el = Polymer.dom(e).rootTarget;
+      el.disabled = true;
+      this.$.storage.savePreferences(this._localPrefs);
+      this._saveDiffPreferences().then(function(response) {
+        el.disabled = false;
+        if (!response.ok) { return response; }
+
+        this.$.prefsOverlay.close();
+      }.bind(this)).catch(function(err) {
+        el.disabled = false;
+      }.bind(this));
     },
 
-    _handleCancel: function() {
-      this.fire('cancel', null, {bubbles: false});
+    _handleCancel: function(e) {
+      e.stopPropagation();
+      this.$.prefsOverlay.close();
+    },
+
+    _handlePrefsTap: function(e) {
+      e.preventDefault();
+      this._openPrefs();
+    },
+
+    open: function() {
+      this.$.prefsOverlay.open().then(function() {
+        var focusStops = this.getFocusStops();
+        this.$.prefsOverlay.setFocusStops(focusStops);
+        this.resetFocus();
+      }.bind(this));
+    },
+
+    _saveDiffPreferences: function() {
+      return this.$.restAPI.saveDiffPreferences(this.prefs);
     },
   });
 })();

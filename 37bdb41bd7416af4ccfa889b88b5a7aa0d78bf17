@@ -134,6 +134,24 @@
       "revId": "37bdb41bd7416af4ccfa889b88b5a7aa0d78bf17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39da9a4e_5d903fa2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-19T12:17:57Z",
+      "side": 1,
+      "message": "+1 and I would also make the sourceUrl optional and consider the source to be h2 if not specified.",
+      "parentUuid": "ae20415d_72d82bbc",
+      "revId": "37bdb41bd7416af4ccfa889b88b5a7aa0d78bf17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -21,6 +21,7 @@
     SUBMIT_CHANGE: 'submitchange',
     COMMIT_MSG_EDIT: 'commitmsgedit',
     COMMENT: 'comment',
+    EDIT_CONTENT: 'edit',
     REVERT: 'revert',
     POST_REVERT: 'postrevert',
   };
@@ -139,6 +140,18 @@
           function(cb) {
             try {
               cb(change, msg);
+            } catch (err) {
+              console.error(err);
+            }
+          }
+      );
+    },
+
+    handleEditContent: function(change, path, content) {
+      this._getEventCallbacks(EventType.EDIT_CONTENT).forEach(
+          function(cb) {
+            try {
+              cb(change, path, content);
             } catch (err) {
               console.error(err);
             }

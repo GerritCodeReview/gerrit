@@ -32,6 +32,7 @@ limitations under the License.
 <link rel="import" href="./change-list/gr-dashboard-view/gr-dashboard-view.html">
 <link rel="import" href="./change/gr-change-view/gr-change-view.html">
 <link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
+<link rel="import" href="./edit/gr-inline-edit/gr-inline-edit.html">
 <link rel="import" href="./settings/gr-cla-view/gr-cla-view.html">
 <link rel="import" href="./settings/gr-registration-dialog/gr-registration-dialog.html">
 <link rel="import" href="./settings/gr-settings-view/gr-settings-view.html">
@@ -109,6 +110,9 @@ limitations under the License.
             account="[[_account]]"
             params="[[params]]"
             view-state="{{_viewState.dashboardView}}"></gr-dashboard-view>
+      </template>
+      <template is="dom-if" if="[[_showInlineEdit]]" restamp="true">
+        <gr-inline-edit params="[[params]]"></gr-inline-edit>
       </template>
       <template is="dom-if" if="[[_showChangeView]]" restamp="true">
         <gr-change-view

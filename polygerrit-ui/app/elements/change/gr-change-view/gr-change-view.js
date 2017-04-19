@@ -258,6 +258,14 @@
       return false;
     },
 
+    _privateEdit: function(change) {
+      if (change == true) {
+        return '(Private)';
+      }
+
+      return '';
+    },
+
     _handleCommentSave: function(e) {
       if (!e.target.comment.__draft) { return; }
 

@@ -809,8 +809,13 @@
           var changePath = path.split('.');
           var labelPath = changePath.splice(0, changePath.length - 2);
           var labelDict = this.get(labelPath);
-          if (labelDict.approved &&
-              labelDict.approved._account_id === removed._account_id) {
+          var approvedMatch = (
+              labelDict.approved &&
+              labelDict.approved._account_id === removed._account_id)
+          var recommendedMatch = (
+              labelDict.recommended &&
+              labelDict.recommended._account_id === removed._account_id)
+          if (approvedMatch || recommendedMatch) {
             this._reload();
             return;
           }

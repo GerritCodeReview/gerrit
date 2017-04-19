@@ -258,6 +258,10 @@
       return false;
     },
 
+    _privateEdit: function(isPrivate) {
+      return isPrivate ? '(Private)' : '';
+    },
+
     _handleCommentSave: function(e) {
       if (!e.target.comment.__draft) { return; }
 

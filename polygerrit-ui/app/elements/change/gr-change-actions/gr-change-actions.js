@@ -107,6 +107,14 @@
     __type: 'revision',
   };
 
+  var PRIVATE = {
+    MARK_PRIVATE: 'private',
+    UNMARK_PRIVATE: 'private.delete',
+  };
+
+  var MARK_PRIVATE_LABEL = 'Mark private';
+  var UNMARK_PRIVATE_LABEL = 'Unmark private';
+
   Polymer({
     is: 'gr-change-actions',
 
@@ -215,6 +223,14 @@
             {
               type: ActionType.CHANGE,
               key: ChangeActions.UNIGNORE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: PRIVATE.MARK_PRIVATE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: PRIVATE.UNMARK_PRIVATE,
             },
           ];
           return value;
@@ -480,6 +496,12 @@
         additionalActionsChangeRecord, type) {
       if (!actionsChangeRecord || !primariesChangeRecord) { return []; }
 
+      if (this.change.is_private) {
+        ChangeActions.UNMARK_PRIVATE = PRIVATE.UNMARK_PRIVATE;
+      } else if (!this.change.is_private) {
+        ChangeActions.MARK_PRIVATE = PRIVATE.MARK_PRIVATE;
+      }
+
       var actions = actionsChangeRecord.base || {};
       var primaryActionKeys = primariesChangeRecord.base || [];
       var result = [];
@@ -490,7 +512,15 @@
         actions[a].__key = a;
         actions[a].__type = type;
         actions[a].__primary = primaryActionKeys.indexOf(a) !== -1;
-        if (actions[a].label === 'Delete') {
+        if (this.change.is_private &&
+            actions[a].label === MARK_PRIVATE_LABEL) {
+          actions[a].label = UNMARK_PRIVATE_LABEL;
+          actions[a].method = 'POST';
+        } else if (!this.change.is_private &&
+                   actions[a].label === UNMARK_PRIVATE_LABEL) {
+          actions[a].label = MARK_PRIVATE_LABEL;
+          actions[a].method = 'POST';
+        } else if (actions[a].label === 'Delete') {
           // This label is common within change and revision actions. Make it
           // more explicit to the user.
           if (type === ActionType.CHANGE) {

@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c93ec49f_8dc69ae6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-19T22:02:27Z",
+      "side": 1,
+      "message": "I think it\u0027s subtle and the majority of Gerrit users would be confused about this setting option/question, or may need to study the source code of gerrit core or oauth-plugin-provider to really understand what is this option about and what it should be set to and what are the consequences.\n\nAt least in OAUTH use case I would like to raise the question whether the deafault of value of auth.gitBasicAuthPolicy \u003d `OAUTH` for auth.type \u003d OAUTH was a right choice? Currently it\u0027s `OAUTH` when it is not set, but only single plugin cfoauth implements it, and even for this plugin, defaulting to auth.gitBasicAuthPolicy \u003d \u0027HTTP\u0027 would work for this plugin as well.\n\nSo, one option would be to change the default, in which case at least for auth.type \u003d oauth, we would not need explicitly ask for auth.gitBasicAuthPolicy, the default would be good enough and just work out of the box and would be also backwards compatible, like it worked before upcoming 2.14 release.\n\nIOW, just revert this line: [1] from this CL and restore the base version and default to HTTP for auth.type \u003d OAUTH:\n\n  GitBasicAuthPolicy defaultAuthPolicy \u003d\n        isLdapAuthType() ? GitBasicAuthPolicy.LDAP : GitBasicAuthPolicy.HTTP;\n\nHow is this sounds?\n\n* [1] https://gerrit-review.googlesource.com/#/c/99079/5/gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java@137",
+      "range": {
+        "startLine": 11,
+        "startChar": 24,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "d7df23eaebe666f30312f297ac448758241fbf51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9eaa0fdf_c8a55c07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-19T22:02:27Z",
+      "side": 1,
+      "message": "Nit: double space.",
+      "range": {
+        "startLine": 14,
+        "startChar": 39,
+        "endLine": 14,
+        "endChar": 41
+      },
+      "revId": "d7df23eaebe666f30312f297ac448758241fbf51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02932504_f2b0a234",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-19T22:02:27Z",
+      "side": 1,
+      "message": "Can you expand the documentation on OAUTH value for auth.type section and add an reference to auth.gitBasicAuthPolicy, like it done in LDAP. Currently it\u0027s only stating that:\n\n* \"Git clients may send OAuth 2 access tokens instead of passwords in the Basic authentication header.\"\n\nI think it could be clarified, that for \"Git/HTTP authentication\" password can be used as well, and how to set it up.",
+      "revId": "d7df23eaebe666f30312f297ac448758241fbf51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2a2f486_a87ff3f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-19T22:02:27Z",
+      "side": 1,
+      "message": "Nit: Before Change-id. Usually, it\u0027s called Bug: Issue 6034",
+      "revId": "d7df23eaebe666f30312f297ac448758241fbf51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43b738eb_9445b61f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-19T22:02:27Z",
+      "side": 1,
+      "message": "It unconditionally ask to assign one of the values for  GitBasicAuthPolicy enum to the auth.gitBasicAuthPolicy:\n\n  Git/HTTP authentication        [HTTP/?]: ?\n       Supported options are:\n         http\n         ldap\n         http_ldap\n         oauth\n\nBut in case of auth scheme OAuth, only two options make really sense: http or oauth. Currently only single plugin, that I\u0027m aware of, cfoauth, supports oauth-token authentication. And for other plugins settings it to oauth would effectivel disable password based \"Git/HTTP authentication\". I think it\u0027s not clear from the question above.\n\nI think that the opposite also true, that for LDAP auth schemes, \"oauth\" wouldn\u0027t ever make any sense. Should we check for the selected auth scheme and try to restrict the choice to ones that make sense?\n\nAlso in case of OAuth, would it make sense to specifically mention, that setting \"Git/HTTP authentication\" to \"oauth\" would make sense then and only then, when the provider-plugin actually suports that?",
+      "range": {
+        "startLine": 85,
+        "startChar": 71,
+        "endLine": 85,
+        "endChar": 94
+      },
+      "revId": "d7df23eaebe666f30312f297ac448758241fbf51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

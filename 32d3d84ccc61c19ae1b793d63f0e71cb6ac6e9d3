@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "4d01e5be_bcef625b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/AccountsOnInit.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-19T15:19:41Z",
+      "side": 1,
+      "message": "Ack, would be nice to have.",
+      "parentUuid": "0b14c959_0cfaf82a",
+      "revId": "32d3d84ccc61c19ae1b793d63f0e71cb6ac6e9d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a0ca7aa_f1c5e455",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/AccountsOnInit.java",
         "patchSetId": 9
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "4d1d87e7_2cd07262",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/AccountsOnInit.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-19T15:19:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a0ca7aa_f1c5e455",
+      "revId": "32d3d84ccc61c19ae1b793d63f0e71cb6ac6e9d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f829dddd_d07be352",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountsUpdate.java",
         "patchSetId": 9
@@ -48,6 +84,24 @@
       "writtenOn": "2017-04-19T14:11:55Z",
       "side": 1,
       "message": "In the insert case, should it be an error if the branch already exists? Or maybe silently overwrite it?",
+      "revId": "32d3d84ccc61c19ae1b793d63f0e71cb6ac6e9d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "646237c9_c6ef5b14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-19T15:19:41Z",
+      "side": 1,
+      "message": "Good point. It should fail in this case.\n\nDone.",
+      "parentUuid": "f829dddd_d07be352",
       "revId": "32d3d84ccc61c19ae1b793d63f0e71cb6ac6e9d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

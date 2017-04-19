@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
@@ -86,9 +87,9 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.schema = schema;
     this.gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     this.queryBuilder = new ElasticQueryBuilder();
-    String protocol = getRequiredConfigOption(cfg, "protocol");
-    String hostname = getRequiredConfigOption(cfg, "hostname");
-    String port = getRequiredConfigOption(cfg, "port");
+    String protocol = MoreObjects.firstNonNull(cfg.getString("index", null, "protocol"), "http");
+    String hostname = MoreObjects.firstNonNull(cfg.getString("index", null, "hostname"), "localhost");
+    String port = String.valueOf(cfg.getInt("index", null, "port", 9200));
 
     this.indexName =
         String.format(
@@ -205,12 +206,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       }
     }
     return builder.endObject().string();
-  }
-
-  private String getRequiredConfigOption(Config cfg, String name) {
-    String option = cfg.getString("index", null, name);
-    checkState(!Strings.isNullOrEmpty(option), "index." + name + " must be supplied");
-    return option;
   }
 
   private String buildUrl(String protocol, String hostname, String port) {

@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import static com.google.gerrit.pgm.init.api.InitUtil.dnOf;
 
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -78,12 +79,16 @@ class InitAuth implements InitStep {
           break;
         }
 
+      case LDAP:
+      case OAUTH:
+        {
+          auth.select("Git/HTTP authentication", "gitBasicAuthPolicy", GitBasicAuthPolicy.HTTP);
+          break;
+        }
       case CLIENT_SSL_CERT_LDAP:
       case CUSTOM_EXTENSION:
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-      case LDAP:
       case LDAP_BIND:
-      case OAUTH:
       case OPENID:
       case OPENID_SSO:
         break;

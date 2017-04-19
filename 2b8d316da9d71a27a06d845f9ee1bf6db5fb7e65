@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1492604321 +0200\nnonce AFMZ2Gx1Pj9/eJI7mGZVzOgY9oTfFU/DvYvuUWlJMJZsMTPreCc5UnTqDMgxvTlpK39YXMItQgwH\n\n0000000000000000000000000000000000000000 056f5c0e77bb9e362317115a5226918fb2ed00f8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY91WhAAoJEFG1/Zeg0O9RlS8H/34vTQuhJ5eh4ijqEyhKtN74\npmfwYcpwdHcCwJOnug/qxFsThfU+MGMVRJU0PuKnX6QzUci3Qm+GcHH1ntVq/Hnl\nnGntvpV3VE8PLns4p8uLJB3c5JHjMLO0hUS40A/ATIHJEMIm/PwC9baZt9sUUOnU\nqghrsrj1I9jCPzqDZyaO/0JYSw1LgHPRUVgxAdgwcUKcSC8Idr5JdcwC61x9ymGB\nD3O0VJ9wyAW6wUkDxYt/SKA2cfbvw9HO2cD/OwbJTbID5qcIbuZi6AHrX7Oc6MnQ\nhELzntFOFX13A2DeBDdut7n7u6smsP+uaGXfFG4msKGzGVdUVTU0A03wxHFJXjQ\u003d\n\u003dZsP+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf9d15be_4b014503",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T14:21:38Z",
+      "side": 1,
+      "message": "I feel like I\u0027m missing some context here. What would cause branches to stay when accounts were deleted? Could this continue to happen even after the one-off schema upgrade runs to clean them up? Is the problem that we never even attempted to delete the branches prior to this series? In that case I guess a one-off upgrade would solve the problem. But either way please flesh this description out a bit.",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "2b8d316da9d71a27a06d845f9ee1bf6db5fb7e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e77b06e_039b1f3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_147.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T14:21:38Z",
+      "side": 1,
+      "message": "I think you want to .filter(Objects::nonNull) after this step, on the off chance there are garbage refs in there, which will return null from Account.Id.fromRef. At that point you don\u0027t need the .filter on the previous line, since it\u0027ll return null for REFS_USERS_DEFAULT as well.",
+      "revId": "2b8d316da9d71a27a06d845f9ee1bf6db5fb7e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

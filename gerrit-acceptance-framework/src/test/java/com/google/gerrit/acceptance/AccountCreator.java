@@ -53,7 +53,7 @@ public class AccountCreator {
   private final Map<String, TestAccount> accounts;
 
   private final SchemaFactory<ReviewDb> reviewDbProvider;
-  private final AccountsUpdate accountsUpdate;
+  private final AccountsUpdate.Server accountsUpdate;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final GroupCache groupCache;
   private final SshKeyCache sshKeyCache;
@@ -65,7 +65,7 @@ public class AccountCreator {
   @Inject
   AccountCreator(
       SchemaFactory<ReviewDb> schema,
-      AccountsUpdate accountsUpdate,
+      AccountsUpdate.Server accountsUpdate,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       GroupCache groupCache,
       SshKeyCache sshKeyCache,
@@ -114,7 +114,7 @@ public class AccountCreator {
       Account a = new Account(id, TimeUtil.nowTs());
       a.setFullName(fullName);
       a.setPreferredEmail(email);
-      accountsUpdate.insert(db, a);
+      accountsUpdate.create().insert(db, a);
 
       if (groups != null) {
         for (String n : groups) {

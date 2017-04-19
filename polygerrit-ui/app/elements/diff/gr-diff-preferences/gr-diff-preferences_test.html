@@ -35,9 +35,15 @@ limitations under the License.
 <script>
   suite('gr-diff-preferences tests', function() {
     var element;
+    var sandbox;
 
     setup(function() {
+      sandbox = sinon.sandbox.create();
       element = fixture('basic');
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('model changes', function() {
@@ -92,18 +98,25 @@ limitations under the License.
       savePrefs.restore();
     });
 
-    test('events', function(done) {
-      var savePromise = new Promise(function(resolve) {
-        element.addEventListener('save', function() { resolve(); });
-      });
-      var cancelPromise = new Promise(function(resolve) {
-        element.addEventListener('cancel', function() { resolve(); });
-      });
-      Promise.all([savePromise, cancelPromise]).then(function() {
-        done();
-      });
+    test('save button', function() {
+      element.prefs = {
+        font_size: '11',
+      };
+      element._newPrefs = {
+        font_size: '12',
+      };
+      var saveStub = sandbox.stub(element.$.restAPI, 'saveDiffPreferences',
+          function() { return Promise.resolve(); });
+
       MockInteractions.tap(element.$$('gr-button[primary]'));
+      assert.deepEqual(element.prefs, element._newPrefs);
+      assert.deepEqual(saveStub.lastCall.args[0], element._newPrefs);
+    });
+
+    test('cancel button', function() {
+      var closeStub = sandbox.stub(element.$.prefsOverlay, 'close');
       MockInteractions.tap(element.$$('gr-button:not([primary])'));
+      assert.isTrue(closeStub.called);
     });
   });
 </script>

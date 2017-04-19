@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "889686ba_45590d98",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-19T00:04:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "21febbc5_29f4d062",
+      "range": {
+        "startLine": 96,
+        "startChar": 19,
+        "endLine": 96,
+        "endChar": 31
+      },
+      "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4831fbaa_42919837",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
         "patchSetId": 23
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-18T23:41:00Z",
       "side": 1,
       "message": "Nit: this line can be wrapped to fit in under 80 chars.\n\n\u003ctd class\u003d\"project-name\"\u003e\n  \u003ca href$\u003d\"[[getUrl(item.id)]]\"\u003e[[item.id]]\u003c/a\u003e\n\u003c/td\u003e\n\nThe same is true of l.104.",
+      "range": {
+        "startLine": 102,
+        "startChar": 10,
+        "endLine": 102,
+        "endChar": 86
+      },
+      "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae844dba_24c694fe",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-19T00:04:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4831fbaa_42919837",
       "range": {
         "startLine": 102,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b392b999_cd8500f2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-19T00:04:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "af539352_16d3cbbc",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 16
+      },
+      "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "503c0624_383bd541",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
         "patchSetId": 23
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "2916e478_484a8f13",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-19T00:04:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "503c0624_383bd541",
+      "range": {
+        "startLine": 38,
+        "startChar": 25,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91a50061_2a3a39da",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
         "patchSetId": 23
@@ -105,6 +201,30 @@
       "writtenOn": "2017-04-18T23:41:00Z",
       "side": 1,
       "message": "The web_links may not be defined on projects. For example, on my local development server, I don\u0027t have web_links configured and this throws an error, which prevents the project list from rendering.\n\nIn the GWT UI, the repository browser column is just blank when there are no web_links. I think this should do that also.",
+      "range": {
+        "startLine": 47,
+        "startChar": 34,
+        "endLine": 47,
+        "endChar": 51
+      },
+      "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f71871fc_fd668e6d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-19T00:04:13Z",
+      "side": 1,
+      "message": "Thanks i think i did this correctly by doing\n\n      if (!project.web_links) {\n        return \u0027\u0027;\n      }",
+      "parentUuid": "91a50061_2a3a39da",
       "range": {
         "startLine": 47,
         "startChar": 34,

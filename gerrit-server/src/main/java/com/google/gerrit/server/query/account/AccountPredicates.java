@@ -55,6 +55,13 @@ public class AccountPredicates {
         AccountField.EMAIL, AccountQueryBuilder.FIELD_EMAIL, email.toLowerCase());
   }
 
+  static Predicate<AccountState> preferredEmail(String email) {
+    return new AccountPredicate(
+        AccountField.PREFERRED_EMAIL,
+        AccountQueryBuilder.FIELD_PREFERRED_EMAIL,
+        email.toLowerCase());
+  }
+
   static Predicate<AccountState> equalsName(String name) {
     return new AccountPredicate(
         AccountField.NAME_PART, AccountQueryBuilder.FIELD_NAME, name.toLowerCase());

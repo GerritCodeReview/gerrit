@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "4cdf0d33_1f583124",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-19T14:25:50Z",
+      "side": 1,
+      "message": "Exactly. So far we didn\u0027t bother to delete user branches when accounts were deleted. This gets only fixed by [1]. After [1] this should no longer happen.\n\nThis change IS the one-off upgrade to do the cleanup. I will update the commit message to make this clearer.\n\n[1] https://gerrit-review.googlesource.com/103442",
+      "parentUuid": "bf9d15be_4b014503",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "2b8d316da9d71a27a06d845f9ee1bf6db5fb7e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5e77b06e_039b1f3f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_147.java",
         "patchSetId": 8

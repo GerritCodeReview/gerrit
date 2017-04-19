@@ -142,6 +142,30 @@
       "revId": "8f3ce77054424bd7d9d056111a809ec91e41df6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc51c276_74ea7b8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-19T08:19:27Z",
+      "side": 1,
+      "message": "Yes it shouldn\u0027t be in the loop, thanks for noticing.\n\nDone.",
+      "parentUuid": "d67f82a6_e6168b4d",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 28
+      },
+      "revId": "8f3ce77054424bd7d9d056111a809ec91e41df6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

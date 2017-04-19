@@ -622,16 +622,22 @@
     },
 
     _computeChangeStatus: function(change, patchNum) {
-      var statusString;
+      var statusString,
+          private_change;
+      if (this._change.is_private) {
+        private_change = ' (Private)';
+      } else {
+        private_change = '';
+      }
       if (change.status === this.ChangeStatus.NEW) {
         var rev = this.getRevisionByPatchNum(change.revisions, patchNum);
         if (rev && rev.draft === true) {
-          statusString = 'Draft';
+          statusString = 'Draft' + private_change;
         }
       } else {
-        statusString = this.changeStatusString(change);
+        statusString = this.changeStatusString(change) + private_change;
       }
-      return statusString || '';
+      return statusString || '' + private_change;
     },
 
     _computeShowCommitInfo: function(changeStatus, current_revision) {

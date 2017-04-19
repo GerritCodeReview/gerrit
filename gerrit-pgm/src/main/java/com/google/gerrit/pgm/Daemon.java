@@ -432,7 +432,7 @@ public class Daemon extends SiteProgram {
       case LUCENE:
         return LuceneIndexModule.latestVersionWithOnlineUpgrade();
       case ELASTICSEARCH:
-        return ElasticIndexModule.latestVersionWithOnlineUpgrade();
+        return ElasticIndexModule.singleVersionAllLatest();
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }

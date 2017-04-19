@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbb36baa_eb520212",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3536,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-19T09:01:41Z",
+      "side": 1,
+      "message": "Why is this in the response?  It was not in the example request.",
+      "range": {
+        "startLine": 3532,
+        "startChar": 6,
+        "endLine": 3536,
+        "endChar": 8
+      },
+      "revId": "d60285f0f84eb7bce5f4228038bad33b7040aad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a27c4ae1_757e7061",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6308,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-19T09:01:41Z",
+      "side": 1,
+      "message": "This link is missing the [description] part.",
+      "range": {
+        "startLine": 6308,
+        "startChar": 0,
+        "endLine": 6308,
+        "endChar": 46
+      },
+      "revId": "d60285f0f84eb7bce5f4228038bad33b7040aad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

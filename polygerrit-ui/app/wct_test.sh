@@ -36,10 +36,10 @@ module.exports = {
         'sauce': {
           'disabled': true,
           'browsers': [
-            'OS X 10.11/chrome',
+            'OS X 10.12/chrome',
             'Windows 10/chrome',
             'Linux/firefox',
-            'OS X 10.11/safari',
+            'OS X 10.12/safari',
             'Windows 10/microsoftedge'
           ]
         }

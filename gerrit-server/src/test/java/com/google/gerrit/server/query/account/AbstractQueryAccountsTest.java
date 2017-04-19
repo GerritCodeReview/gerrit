@@ -208,6 +208,20 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   @Test
+  public void byPreferredemail() throws Exception {
+    String emailPrefix = name("prefix-");
+    AccountInfo user1 = newAccountWithEmail("user1", emailPrefix + "user1@example.com");
+    AccountInfo user2 = newAccountWithEmail("user2", emailPrefix + "user2@example.com");
+    newAccountWithEmail("user3", name("user3@example.com"));
+
+    assertQuery("preferredemail:" + user1.email, user1);
+    assertQuery("preferredemail:" + user1.email.toUpperCase(), user1);
+
+    assertQuery("preferredemail:" + emailPrefix, user1, user2);
+    assertQuery("preferredemail:" + emailPrefix.toUpperCase(), user1, user2);
+  }
+
+  @Test
   public void byUsername() throws Exception {
     AccountInfo user1 = newAccount("myuser");
 

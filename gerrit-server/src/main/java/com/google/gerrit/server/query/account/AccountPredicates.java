@@ -33,13 +33,14 @@ public class AccountPredicates {
 
   static Predicate<AccountState> defaultPredicate(String query) {
     // Adapt the capacity of this list when adding more default predicates.
-    List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(3);
+    List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(4);
     Integer id = Ints.tryParse(query);
     if (id != null) {
       preds.add(id(new Account.Id(id)));
     }
     preds.add(equalsName(query));
     preds.add(username(query));
+    preds.add(preferredEmail(query));
     // Adapt the capacity of the "predicates" list when adding more default
     // predicates.
     return Predicate.or(preds);
@@ -53,6 +54,13 @@ public class AccountPredicates {
   static Predicate<AccountState> email(String email) {
     return new AccountPredicate(
         AccountField.EMAIL, AccountQueryBuilder.FIELD_EMAIL, email.toLowerCase());
+  }
+
+  static Predicate<AccountState> preferredEmail(String email) {
+    return new AccountPredicate(
+        AccountField.PREFERRED_EMAIL,
+        AccountQueryBuilder.FIELD_PREFERRED_EMAIL,
+        email.toLowerCase());
   }
 
   static Predicate<AccountState> equalsName(String name) {

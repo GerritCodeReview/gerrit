@@ -36,6 +36,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   public static final String FIELD_EMAIL = "email";
   public static final String FIELD_LIMIT = "limit";
   public static final String FIELD_NAME = "name";
+  public static final String FIELD_PREFERRED_EMAIL = "preferredemail";
   public static final String FIELD_USERNAME = "username";
   public static final String FIELD_VISIBLETO = "visibleto";
 
@@ -82,6 +83,11 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   @Operator
   public Predicate<AccountState> email(String email) {
     return AccountPredicates.email(email);
+  }
+
+  @Operator
+  public Predicate<AccountState> preferredemail(String email) {
+    return AccountPredicates.preferredEmail(email);
   }
 
   @Operator

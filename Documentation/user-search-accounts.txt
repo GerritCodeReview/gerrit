@@ -27,7 +27,13 @@ text with no operator, which will match against a variety of fields.
 email:'EMAIL'::
 +
 Matches accounts that have the email address 'EMAIL' or an email
-address that starts with 'EMAIL'.
+address that starts with 'EMAIL' (case-insensitive).
+
+[[preferredemail]]
+preferredemail:'EMAIL'::
++
+Matches accounts that have the preferred email address 'EMAIL' or a
+preferred email address that starts with 'EMAIL' (case-insensitive).
 
 [[is]]
 [[is-active]]

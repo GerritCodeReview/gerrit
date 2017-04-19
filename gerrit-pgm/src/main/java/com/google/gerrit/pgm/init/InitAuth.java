@@ -14,9 +14,11 @@
 
 package com.google.gerrit.pgm.init;
 
+import static com.google.gerrit.extensions.client.GitBasicAuthPolicy.*;
 import static com.google.gerrit.pgm.init.api.InitUtil.dnOf;
 
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -24,6 +26,9 @@ import com.google.gerrit.pgm.init.api.Section;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /** Initialize the {@code auth} configuration section. */
 @Singleton
@@ -78,12 +83,35 @@ class InitAuth implements InitStep {
           break;
         }
 
+      case LDAP:
+        {
+          auth.select(
+              "Git/HTTP authentication",
+              "gitBasicAuthPolicy",
+              GitBasicAuthPolicy.HTTP.toString(),
+              authPolicies(HTTP, LDAP));
+          break;
+        }
+      case OAUTH:
+        {
+          String gitBasicAuth =
+              auth.select(
+                  "Git/HTTP authentication",
+                  "gitBasicAuthPolicy",
+                  GitBasicAuthPolicy.HTTP.toString(),
+                  authPolicies(HTTP, OAUTH));
+
+          if (gitBasicAuth.equals(GitBasicAuthPolicy.OAUTH)) {
+            ui.message(
+                "*WARNING* Please make sure that your chosen OAuth provider\n"
+                    + "supports Git token authentication.\n");
+          }
+          break;
+        }
       case CLIENT_SSL_CERT_LDAP:
       case CUSTOM_EXTENSION:
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-      case LDAP:
       case LDAP_BIND:
-      case OAUTH:
       case OPENID:
       case OPENID_SSO:
         break;
@@ -123,6 +151,14 @@ class InitAuth implements InitStep {
       case OPENID_SSO:
         break;
     }
+  }
+
+  private static Set<String> authPolicies(GitBasicAuthPolicy... policy) {
+    return Arrays.asList(policy)
+        .stream()
+        .map(GitBasicAuthPolicy::name)
+        .map(String::toLowerCase)
+        .collect(Collectors.toSet());
   }
 
   private void initSignedPush() {

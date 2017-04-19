@@ -16,7 +16,7 @@ package com.google.gerrit.pgm.init.api;
 
 import com.google.gerrit.common.Die;
 import java.io.Console;
-import java.lang.reflect.InvocationTargetException;
+import java.util.EnumSet;
 import java.util.Set;
 
 /** Console based interaction with the invoking user. */
@@ -35,20 +35,6 @@ public abstract class ConsoleUI {
   /** Constructs an exception indicating the user aborted the operation. */
   protected static Die abort() {
     return new Die("aborted by user");
-  }
-
-  /** Obtain all values from an enumeration. */
-  @SuppressWarnings("unchecked")
-  protected static <T extends Enum<?>> T[] all(final T value) {
-    try {
-      return (T[]) value.getDeclaringClass().getMethod("values").invoke(null);
-    } catch (IllegalArgumentException
-        | NoSuchMethodException
-        | InvocationTargetException
-        | IllegalAccessException
-        | SecurityException e) {
-      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
-    }
   }
 
   /** @return true if this is a batch UI that has no user interaction. */
@@ -95,7 +81,7 @@ public abstract class ConsoleUI {
   }
 
   /** Prompt the user to make a choice from an enumeration's values. */
-  public abstract <T extends Enum<?>> T readEnum(T def, String fmt, Object... args);
+  public abstract <T extends Enum<?>, A extends EnumSet<? extends T>> T readEnum(T def, A options, String fmt, Object... args);
 
   private static class Interactive extends ConsoleUI {
     private final Console console;
@@ -208,9 +194,8 @@ public abstract class ConsoleUI {
     }
 
     @Override
-    public <T extends Enum<?>> T readEnum(T def, String fmt, Object... args) {
+    public <T extends Enum<?>, A extends EnumSet<? extends T>> T readEnum(T def, A options, String fmt, Object... args) {
       final String prompt = String.format(fmt, args);
-      final T[] options = all(def);
       for (; ; ) {
         String r = console.readLine("%-30s [%s/?]: ", prompt, def.toString());
         if (r == null) {
@@ -277,7 +262,7 @@ public abstract class ConsoleUI {
     }
 
     @Override
-    public <T extends Enum<?>> T readEnum(T def, String fmt, Object... args) {
+    public <T extends Enum<?>, A extends EnumSet<? extends T>> T readEnum(T def, A options, String fmt, Object... args) {
       return def;
     }
 

@@ -59,7 +59,11 @@ def _main():
                       help='gerrit server URL')
     parser.add_option('-b', '--basic-auth', dest='basic_auth',
                       action='store_true',
-                      help='use HTTP basic authentication instead of digest')
+                      help='(deprecated) use HTTP basic authentication instead'
+                      ' of digest')
+    parser.add_option('-d', '--digest-auth', dest='digest_auth',
+                      action='store_true',
+                      help='use HTTP digest authentication instead of basic')
     parser.add_option('-n', '--dry-run', dest='dry_run',
                       action='store_true',
                       help='enable dry-run mode: show stale changes but do '
@@ -115,10 +119,10 @@ def _main():
     message = "Abandoning after %s %s or more of inactivity." % \
         (match.group(1), match.group(2))
 
-    if options.basic_auth:
-        auth_type = HTTPBasicAuthFromNetrc
-    else:
+    if options.digest_auth:
         auth_type = HTTPDigestAuthFromNetrc
+    else:
+        auth_type = HTTPBasicAuthFromNetrc
 
     try:
         auth = auth_type(url=options.gerrit_url)

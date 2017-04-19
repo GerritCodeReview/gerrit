@@ -47,6 +47,7 @@
   var ChangeActions = {
     ABANDON: 'abandon',
     DELETE: '/',
+    PRIVATE: 'private',
     RESTORE: 'restore',
     REVERT: 'revert',
   };
@@ -480,7 +481,15 @@
         actions[a].__key = a;
         actions[a].__type = type;
         actions[a].__primary = primaryActionKeys.indexOf(a) !== -1;
-        if (actions[a].label === 'Delete') {
+        if (this.change.is_private &&
+            actions[a].label === 'Mark private') {
+          actions[a].label = 'Unmark Private';
+          actions[a].method = 'DELETE';
+        } else if (!this.change.is_private &&
+            actions[a].label === 'Unmark Private') {
+          actions[a].label = 'Mark Private';
+          actions[a].method = 'PUT';
+        } else if (actions[a].label === 'Delete') {
           // This label is common within change and revision actions. Make it
           // more explicit to the user.
           if (type === ActionType.CHANGE) {
@@ -761,6 +770,7 @@
     _handleResponse: function(action, response) {
       if (!response) { return; }
       return this.$.restAPI.getResponseObject(response).then(function(obj) {
+<<<<<<< HEAD
         switch (action.__key) {
           case ChangeActions.REVERT:
             this._setLabelValuesOnRevert(obj.change_id);
@@ -781,6 +791,31 @@
                 {detail: {action: action.__key}, bubbles: false}));
             break;
         }
+=======
+          switch (action.__key) {
+            case ChangeActions.REVERT:
+              this._setLabelValuesOnRevert(obj.change_id);
+              /* falls through */
+            case RevisionActions.CHERRYPICK:
+              page.show(this.changePath(obj._number));
+              break;
+            case ChangeActions.DELETE:
+            case RevisionActions.DELETE:
+              if (action.__type === ActionType.CHANGE) {
+                page.show('/');
+              } else {
+                page.show(this.changePath(this.changeNum));
+              }
+              break;
+            case ChangeActions.PRIVATE:
+              page.show('/c/' + this.change._number);
+              break;
+            default:
+              this.dispatchEvent(new CustomEvent('reload-change',
+                  {detail: {action: action.__key}, bubbles: false}));
+              break;
+          }
+>>>>>>> b7c73820e1... PolyGerrit: Add support for private changes
       }.bind(this));
     },
 

@@ -1,4 +1,62 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1492604321 +0200\nnonce AFMZ2Gx1Pj9/eJI7mGZVzOgY9oTfFU/DvYvuUWlJMJZsMTPreCc5UnTqDMgxvTlpK39YXMItQgwH\n\n0000000000000000000000000000000000000000 056f5c0e77bb9e362317115a5226918fb2ed00f8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY91WhAAoJEFG1/Zeg0O9RlS8H/34vTQuhJ5eh4ijqEyhKtN74\npmfwYcpwdHcCwJOnug/qxFsThfU+MGMVRJU0PuKnX6QzUci3Qm+GcHH1ntVq/Hnl\nnGntvpV3VE8PLns4p8uLJB3c5JHjMLO0hUS40A/ATIHJEMIm/PwC9baZt9sUUOnU\nqghrsrj1I9jCPzqDZyaO/0JYSw1LgHPRUVgxAdgwcUKcSC8Idr5JdcwC61x9ymGB\nD3O0VJ9wyAW6wUkDxYt/SKA2cfbvw9HO2cD/OwbJTbID5qcIbuZi6AHrX7Oc6MnQ\nhELzntFOFX13A2DeBDdut7n7u6smsP+uaGXfFG4msKGzGVdUVTU0A03wxHFJXjQ\u003d\n\u003dZsP+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "af46921a_dd64fe5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T14:37:16Z",
+      "side": 1,
+      "message": "This interface is very awkward. You can do what you need with just native stream operations:\n\n private Stream\u003cUserRef\u003e readUserRefs() {\n   try (Repository repo \u003d ...) {\n     return repo.getRefDatabase()\n         .getRefs(REFS_USERS)\n         .values()\n         .stream()\n         .filter(r -\u003e !REFS_USERS_DEFAULT.equals(r.getName()))\n         .map(UserRef::create);\n   }\n }\n \n public List\u003cAccount.Id\u003e firstNIds(int n) {\n   return readUserRefs()\n       .sorted(comparing(ur -\u003e ur.accountId().get()))\n       .limit(n)\n       .collect(toList());\n }\n \n public boolean hasAnyAccount() {\n   return readUserRefs().findFirst().isPresent();\n }\n\n\nHonestly given what you\u0027re doing here you don\u0027t even need the UserRef class, you can just use a Stream\u003cAccount.Id\u003e. But if there is some use case later in this series where you need the Ref, then it\u0027s fine to leave.",
+      "revId": "342bc5d264bc41a75bb8c313a3ff631f802d215e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "537e0740_dc8b801a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T14:37:16Z",
+      "side": 1,
+      "message": "You should never have to write a comparator that looks like this :)\n\nSince UserRef implements Comparable, you can just do .sorted()\n\nBut personally, I would rather UserRef not implement Comparable, because implementing compareTo is always error-prone (although this is about as easy a case as it gets, and you did it correctly :). Instead I would do .sorted(comparing(ur -\u003e ur.accountId().get())",
+      "range": {
+        "startLine": 95,
+        "startChar": 45,
+        "endLine": 95,
+        "endChar": 73
+      },
+      "revId": "342bc5d264bc41a75bb8c313a3ff631f802d215e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28f6a017_8dda6540",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T14:37:16Z",
+      "side": 1,
+      "message": "Since this isn\u0027t @Nullable, you\u0027ll get NPE if there are any garbage refs under refs/users. Might want to return null from UserRef#create in this case and then .filter(Objects::nonNull) when streaming.",
+      "revId": "342bc5d264bc41a75bb8c313a3ff631f802d215e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

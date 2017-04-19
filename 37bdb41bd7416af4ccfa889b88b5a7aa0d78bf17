@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "fae521ee_16f496a1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-19T14:13:18Z",
+      "side": 1,
+      "message": "Done.\nIt becomes optional too.",
+      "parentUuid": "dc465245_170d0787",
+      "range": {
+        "startLine": 29,
+        "startChar": 65,
+        "endLine": 29,
+        "endChar": 81
+      },
+      "revId": "37bdb41bd7416af4ccfa889b88b5a7aa0d78bf17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ae20415d_72d82bbc",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
         "patchSetId": 6
@@ -149,6 +173,42 @@
       "side": 1,
       "message": "+1 and I would also make the sourceUrl optional and consider the source to be h2 if not specified.",
       "parentUuid": "ae20415d_72d82bbc",
+      "revId": "37bdb41bd7416af4ccfa889b88b5a7aa0d78bf17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f4ee27b_4d2d16c4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-19T14:13:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae20415d_72d82bbc",
+      "revId": "37bdb41bd7416af4ccfa889b88b5a7aa0d78bf17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87057cdb_c6f50dc8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-19T14:13:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39da9a4e_5d903fa2",
       "revId": "37bdb41bd7416af4ccfa889b88b5a7aa0d78bf17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

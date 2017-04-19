@@ -48,6 +48,8 @@
     ABANDON: 'abandon',
     DELETE: '/',
     IGNORE: 'ignore',
+    PRIVATE: 'private',
+    PRIVATE_DELETE: 'private.delete',
     RESTORE: 'restore',
     REVERT: 'revert',
     UNIGNORE: 'unignore',
@@ -216,6 +218,14 @@
             {
               type: ActionType.CHANGE,
               key: ChangeActions.UNIGNORE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.PRIVATE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.PRIVATE_DELETE,
             },
           ];
           return value;

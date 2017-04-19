@@ -159,6 +159,10 @@
       return this.$.restAPI.getLoggedIn();
     },
 
+    _privateEdit: function(isPrivate) {
+      return isPrivate ? '(Private)' : '';
+    },
+
     _getProjectConfig: function(project) {
       return this.$.restAPI.getProjectConfig(project).then(
           function(config) {

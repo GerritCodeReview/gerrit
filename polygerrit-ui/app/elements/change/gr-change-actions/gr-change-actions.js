@@ -48,6 +48,7 @@
     ABANDON: 'abandon',
     DELETE: '/',
     IGNORE: 'ignore',
+    PRIVATE: 'private',
     RESTORE: 'restore',
     REVERT: 'revert',
     UNIGNORE: 'unignore',
@@ -106,6 +107,9 @@
     __primary: false,
     __type: 'revision',
   };
+
+  var MARK_PRIVATE_LABEL = 'Mark private';
+  var UNMARK_PRIVATE_LABEL = 'Unmark private';
 
   Polymer({
     is: 'gr-change-actions',
@@ -215,6 +219,10 @@
             {
               type: ActionType.CHANGE,
               key: ChangeActions.UNIGNORE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.PRIVATE,
             },
           ];
           return value;
@@ -490,7 +498,15 @@
         actions[a].__key = a;
         actions[a].__type = type;
         actions[a].__primary = primaryActionKeys.indexOf(a) !== -1;
-        if (actions[a].label === 'Delete') {
+        if (this.change.is_private &&
+            actions[a].label === MARK_PRIVATE_LABEL) {
+          actions[a].label = UNMARK_PRIVATE_LABEL;
+          actions[a].method = 'DELETE';
+        } else if (!this.change.is_private &&
+                   actions[a].label === UNMARK_PRIVATE_LABEL) {
+          actions[a].label = MARK_PRIVATE_LABEL;
+          actions[a].method = 'PUT';
+        } else if (actions[a].label === 'Delete') {
           // This label is common within change and revision actions. Make it
           // more explicit to the user.
           if (type === ActionType.CHANGE) {

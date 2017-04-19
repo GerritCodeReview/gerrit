@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c177d474_1fb70713",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T17:50:49Z",
+      "side": 1,
+      "message": "Instead of using this to override the MENU_ACTION_KEYS constant, can this just be initialized with `cherrypick` and `delete`. That way ...\n* this could just be called `_overflowActions`, and ...\n* the info for which actions are overflowed is stored in one place rather than two.",
+      "range": {
+        "startLine": 173,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 30
+      },
+      "revId": "ecdfa82b6ea181285308a8a05400e6cad9202652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7841e180_535e5786",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T17:50:49Z",
+      "side": 1,
+      "message": "Why are dots not allowed? The array syntax of `this.set` allows dots in the data path, but is there another place that needs them to not be dots?\n\nThis restriction here basically means that plugins cannot change the overflow of any actions that have dots in their keys.",
+      "range": {
+        "startLine": 267,
+        "startChar": 6,
+        "endLine": 269,
+        "endChar": 7
+      },
+      "revId": "ecdfa82b6ea181285308a8a05400e6cad9202652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "048102fb_1ae56bde",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T17:50:49Z",
+      "side": 1,
+      "message": "Following the first `if` of this method, at this point, the type is already known to be either ...\n\n ActionType.CHANGE\n\n... or ...\n\n ActionType.REVISION\n\n... neither of which have dots in their values. This check looks redundant.",
+      "range": {
+        "startLine": 270,
+        "startChar": 6,
+        "endLine": 272,
+        "endChar": 7
+      },
+      "revId": "ecdfa82b6ea181285308a8a05400e6cad9202652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

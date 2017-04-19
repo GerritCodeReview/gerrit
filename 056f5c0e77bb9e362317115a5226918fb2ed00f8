@@ -1,4 +1,85 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1492604321 +0200\nnonce AFMZ2Gx1Pj9/eJI7mGZVzOgY9oTfFU/DvYvuUWlJMJZsMTPreCc5UnTqDMgxvTlpK39YXMItQgwH\n\n0000000000000000000000000000000000000000 056f5c0e77bb9e362317115a5226918fb2ed00f8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY91WhAAoJEFG1/Zeg0O9RlS8H/34vTQuhJ5eh4ijqEyhKtN74\npmfwYcpwdHcCwJOnug/qxFsThfU+MGMVRJU0PuKnX6QzUci3Qm+GcHH1ntVq/Hnl\nnGntvpV3VE8PLns4p8uLJB3c5JHjMLO0hUS40A/ATIHJEMIm/PwC9baZt9sUUOnU\nqghrsrj1I9jCPzqDZyaO/0JYSw1LgHPRUVgxAdgwcUKcSC8Idr5JdcwC61x9ymGB\nD3O0VJ9wyAW6wUkDxYt/SKA2cfbvw9HO2cD/OwbJTbID5qcIbuZi6AHrX7Oc6MnQ\nhELzntFOFX13A2DeBDdut7n7u6smsP+uaGXfFG4msKGzGVdUVTU0A03wxHFJXjQ\u003d\n\u003dZsP+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfe9b79a_12f7b204",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T14:44:10Z",
+      "side": 1,
+      "message": "So IIUC, by using Consumer, you are losing the ability to cancel the transaction by returning null. I guess based on the existing usages, this is ok, and should we need it at some point in the future, we can add it back. Does that sound right?",
+      "revId": "056f5c0e77bb9e362317115a5226918fb2ed00f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3440522_814bb0d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutName.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T14:44:10Z",
+      "side": 1,
+      "message": "Unnecessary braces",
+      "range": {
+        "startLine": 95,
+        "startChar": 22,
+        "endLine": 95,
+        "endChar": 0
+      },
+      "revId": "056f5c0e77bb9e362317115a5226918fb2ed00f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a6b8765_9493bbae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutName.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T14:44:10Z",
+      "side": 1,
+      "message": "Optional: While you\u0027re here, this shouldn\u0027t be necessary in Java 8.",
+      "range": {
+        "startLine": 103,
+        "startChar": 19,
+        "endLine": 103,
+        "endChar": 27
+      },
+      "revId": "056f5c0e77bb9e362317115a5226918fb2ed00f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e5fc64e_b2ac146d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutStatus.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T14:44:10Z",
+      "side": 1,
+      "message": "Unnecessary braces",
+      "revId": "056f5c0e77bb9e362317115a5226918fb2ed00f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

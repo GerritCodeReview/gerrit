@@ -48,6 +48,7 @@
     ABANDON: 'abandon',
     DELETE: '/',
     IGNORE: 'ignore',
+    PRIVATE: 'private',
     RESTORE: 'restore',
     REVERT: 'revert',
     UNIGNORE: 'unignore',
@@ -215,6 +216,10 @@
             {
               type: ActionType.CHANGE,
               key: ChangeActions.UNIGNORE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.PRIVATE,
             },
           ];
           return value;
@@ -490,7 +495,15 @@
         actions[a].__key = a;
         actions[a].__type = type;
         actions[a].__primary = primaryActionKeys.indexOf(a) !== -1;
-        if (actions[a].label === 'Delete') {
+        if (this.change.is_private &&
+            actions[a].label === 'Mark private') {
+          actions[a].label = 'Unmark Private';
+          actions[a].method = 'DELETE';
+        } else if (!this.change.is_private &&
+            actions[a].label === 'Unmark Private') {
+          actions[a].label = 'Mark Private';
+          actions[a].method = 'PUT';
+        } else if (actions[a].label === 'Delete') {
           // This label is common within change and revision actions. Make it
           // more explicit to the user.
           if (type === ActionType.CHANGE) {
@@ -785,6 +798,9 @@
             } else {
               page.show(this.changePath(this.changeNum));
             }
+            break;
+          case ChangeActions.PRIVATE:
+            page.show('/c/' + this.change._number);
             break;
           default:
             this.dispatchEvent(new CustomEvent('reload-change',

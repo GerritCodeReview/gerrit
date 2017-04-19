@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "ad0a9786_5af497d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-19T08:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd33b46b_c970724d",
+      "range": {
+        "startLine": 11,
+        "startChar": 57,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "8f3ce77054424bd7d9d056111a809ec91e41df6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab643cb6_377c1bfb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2017-04-19T08:13:08Z",
       "side": 1,
       "message": "I guess you want to move this into the loop? Or it will always be true after it\u0027s set in line#79.",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 28
+      },
+      "revId": "8f3ce77054424bd7d9d056111a809ec91e41df6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c791a6d5_0bfa72ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-19T08:15:26Z",
+      "side": 1,
+      "message": "It will always be true after it is set in l. 79.",
+      "parentUuid": "ab643cb6_377c1bfb",
       "range": {
         "startLine": 68,
         "startChar": 6,

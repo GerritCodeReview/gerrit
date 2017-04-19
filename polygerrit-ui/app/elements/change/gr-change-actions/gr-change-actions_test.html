@@ -256,6 +256,46 @@ limitations under the License.
       });
     });
 
+    test('make change private', function(done) {
+      element.change = {
+        revisions: {
+          rev1: {_number: 1},
+          rev2: {_number: 2},
+        },
+        is_private: true,
+      };
+      element.patchNum = '2';
+      flush(function() {
+        var privateChangeButton = element.$$('gr-button[data-action-key="private"]');
+        assert.ok(privateChangeButton);
+        MockInteractions.tap(privateChangeButton);
+        // Upon success it should fire the reload-change event.
+        element.addEventListener('reload-change', function(e) {
+          done();
+        });
+      });
+    });
+
+    test('unmark change as private', function(done) {
+      element.change = {
+        revisions: {
+          rev1: {_number: 1},
+          rev2: {_number: 2},
+        },
+        is_private: false,
+      };
+      element.patchNum = '2';
+      flush(function() {
+        var unmarkPrivateChange = element.$$('gr-button[data-action-key="private"]');
+        assert.ok(unmarkPrivateChange);
+        MockInteractions.tap(unmarkPrivateChange);
+        // Upon success it should fire the reload-change event.
+        element.addEventListener('reload-change', function(e) {
+          done();
+        });
+      });
+    });
+
     test('chain state', function() {
       assert.equal(element._hasKnownChainState, false);
       element.hasParent = true;

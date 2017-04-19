@@ -23,12 +23,17 @@ import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.NotifyInfo;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -679,6 +684,40 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     addReviewer(r.getChangeId(), admin.email);
     changeLabels = getChangeLabels(r.getChangeId());
     assertThat(changeLabels.get(crLabel).all).isNull();
+  }
+
+  @Test
+  public void notifyDetailsWorkOnPostReview() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount userToNotify = createAccounts(1, "notify-details-post-review").get(0);
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.reviewer(user.email, ReviewerState.REVIEWER, true);
+    reviewInput.notify = NotifyHandling.NONE;
+    reviewInput.notifyDetails =
+        ImmutableMap.of(RecipientType.TO, new NotifyInfo(ImmutableList.of(userToNotify.email)));
+
+    sender.clear();
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(userToNotify.emailAddress);
+  }
+
+  @Test
+  public void notifyDetailsWorkOnPostReviewers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount userToNotify = createAccounts(1, "notify-details-post-reviewers").get(0);
+
+    AddReviewerInput addReviewer = new AddReviewerInput();
+    addReviewer.reviewer = user.email;
+    addReviewer.notify = NotifyHandling.NONE;
+    addReviewer.notifyDetails =
+        ImmutableMap.of(RecipientType.TO, new NotifyInfo(ImmutableList.of(userToNotify.email)));
+
+    sender.clear();
+    gApi.changes().id(r.getChangeId()).addReviewer(addReviewer);
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(userToNotify.emailAddress);
   }
 
   private AddReviewerResult addReviewer(String changeId, String reviewer) throws Exception {

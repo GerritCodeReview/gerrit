@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1492527593 +0200\nnonce AFMZ2Gx22owlkBoab1/IoKP+BKLyMq2HcSI3EooWy2TB88K4hiTYGfuwQFat3I6C3549qYOFCm4C\n\n0000000000000000000000000000000000000000 cf220c8a1f353a4435730d2d7132eebbe05e3894 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY9inpAAoJEFG1/Zeg0O9RgFIH/jXKllzwHZmkniFLOuaXZvoZ\n12NdzBCmTkDMPAfcV89OviT50L3tyfvjidicFNKd6yfhtqnKDcwicUXWRHBBAJmW\n7vSH7eJa1T3kX/IizS2+QS21J+TqvDALAmIIjLT5qj6b4HkUfijLVa/e7NY/Bn7w\n3dbhV/CaC1r4RE4HJAHDAUH5HrCq39u24QS1T72aUraD0VdkhzeiMOsABLwHhnq7\nWvl5dpFXgI1ksjUcBHE+igoOrXwSpAcOFJrthklSv2tndra++aRwnZAzGfNZUx2H\ngEGhTJ06Y49pLtl8EkxOFfj2U0DJ+RlIA8bWeo0KxgRNVLtybW2mmf1y7zVt7RY\u003d\n\u003diXDb\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c79aeeb8_d4f31795",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-19T07:25:39Z",
+      "side": 1,
+      "message": "Optional: this can be replaced with a simpler lambda expression.\n\na -\u003e {\n  consumer.accept(a);\n  return a;\n}",
+      "range": {
+        "startLine": 169,
+        "startChar": 12,
+        "endLine": 175,
+        "endChar": 13
+      },
+      "revId": "cf220c8a1f353a4435730d2d7132eebbe05e3894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

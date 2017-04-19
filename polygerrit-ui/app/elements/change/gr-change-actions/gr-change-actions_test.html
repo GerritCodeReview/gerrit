@@ -523,6 +523,80 @@ limitations under the License.
       });
     });
 
+    suite('mark change private', function() {
+      var alertStub;
+      var fireActionStub;
+
+      setup(function() {
+        fireActionStub = sinon.stub(element, '_fireAction');
+        alertStub = sinon.stub(window, 'alert');
+        element.actions = {
+          private: {
+            method: 'POST',
+            label: 'Mark private',
+            title: 'Working...',
+            enabled: true,
+          },
+        };
+        return element.reload();
+      });
+
+      teardown(function() {
+        alertStub.restore();
+        fireActionStub.restore();
+      });
+
+      test('private change', function(done) {
+        element.change.is_private = false;
+        element.changeNum = '2';
+        element.patchNum = '2';
+        flush(function() {
+          var privateChangeButton =
+              element.$$('gr-button[data-action-key="private"]');
+          assert.ok(privateChangeButton);
+          MockInteractions.tap(privateChangeButton);
+          done();
+        });
+      });
+    });
+
+    suite('unmark private change', function() {
+      var alertStub;
+      var fireActionStub;
+
+      setup(function() {
+        fireActionStub = sinon.stub(element, '_fireAction');
+        alertStub = sinon.stub(window, 'alert');
+        element.actions = {
+          private: {
+            method: 'POST',
+            label: 'Unmark Private',
+            title: 'Working...',
+            enabled: true,
+          },
+        };
+        return element.reload();
+      });
+
+      teardown(function() {
+        alertStub.restore();
+        fireActionStub.restore();
+      });
+
+      test('unmark the private change', function(done) {
+        element.change.is_private = true;
+        element.changeNum = '2';
+        element.patchNum = '2';
+        flush(function() {
+          var unmarkPrivateChangeButton =
+              element.$$('gr-button[data-action-key="private"]');
+          assert.ok(unmarkPrivateChangeButton);
+          MockInteractions.tap(unmarkPrivateChangeButton);
+          done();
+        });
+      });
+    });
+
     suite('delete change', function() {
       var fireActionStub;
       var deleteAction;

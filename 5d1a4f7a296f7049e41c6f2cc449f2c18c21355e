@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "41da646c_73c34abb",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-19T19:45:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ab560d0_be40af08",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 22
+      },
+      "revId": "5d1a4f7a296f7049e41c6f2cc449f2c18c21355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "509edab8_0a402e36",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
         "patchSetId": 7
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "4ac47464_df521bb0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-19T19:45:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "509edab8_0a402e36",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 14
+      },
+      "revId": "5d1a4f7a296f7049e41c6f2cc449f2c18c21355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "991ddd69_329ed7e7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-19T19:45:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "113aabf8_296128f3",
+      "range": {
+        "startLine": 39,
+        "startChar": 15,
+        "endLine": 39,
+        "endChar": 20
+      },
+      "revId": "5d1a4f7a296f7049e41c6f2cc449f2c18c21355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1008d0e8_c20b0e9a",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
         "patchSetId": 7
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "b2242511_c5e8e1a6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-19T19:45:36Z",
+      "side": 1,
+      "message": "No.\nIf it fails, what I did in the test is dropping the table.",
+      "parentUuid": "1008d0e8_c20b0e9a",
+      "revId": "5d1a4f7a296f7049e41c6f2cc449f2c18c21355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d9555b2_13415619",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
         "patchSetId": 7
@@ -99,6 +189,30 @@
       "writtenOn": "2017-04-19T16:08:41Z",
       "side": 1,
       "message": "rows.size()\n\nis more precise as selectRows is not guaranteed to return \"limit\" rows.",
+      "range": {
+        "startLine": 69,
+        "startChar": 16,
+        "endLine": 69,
+        "endChar": 21
+      },
+      "revId": "5d1a4f7a296f7049e41c6f2cc449f2c18c21355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f4fa6dc_08ae4718",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-19T19:45:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d9555b2_13415619",
       "range": {
         "startLine": 69,
         "startChar": 16,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "8153257c_acab0443",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-19T19:45:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3bff0f8_7d4500e2",
+      "range": {
+        "startLine": 334,
+        "startChar": 30,
+        "endLine": 334,
+        "endChar": 53
+      },
+      "revId": "5d1a4f7a296f7049e41c6f2cc449f2c18c21355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be2119a9_1c2a4aec",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
         "patchSetId": 7
@@ -145,6 +283,30 @@
       "writtenOn": "2017-04-19T16:08:41Z",
       "side": 1,
       "message": "The way how this is implemented will create a connection and a prepared statement for each call to this method. Another possibility would be to select all rows and wrap the result set into a class which provides selectRows method to return the next chunk of rows from the same result set.",
+      "range": {
+        "startLine": 336,
+        "startChar": 0,
+        "endLine": 337,
+        "endChar": 32
+      },
+      "revId": "5d1a4f7a296f7049e41c6f2cc449f2c18c21355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "521c3f4f_48e12f20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-19T19:45:36Z",
+      "side": 1,
+      "message": "I did not wrap it into a class.\nBut I use one connection and one statement now.\nThis part of the logic is moved to migrate class since it is used only there.",
+      "parentUuid": "be2119a9_1c2a4aec",
       "range": {
         "startLine": 336,
         "startChar": 0,
@@ -174,6 +336,24 @@
     },
     {
       "key": {
+        "uuid": "81bae95f_7a8ff1f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-19T19:45:36Z",
+      "side": 1,
+      "message": "Tried. H2 is not so happy with the syntax.\nPostgres is fine.\nhttps://groups.google.com/forum/#!topic/h2-database/74fLW0QleA0",
+      "parentUuid": "0851b5e3_4f93d91b",
+      "revId": "5d1a4f7a296f7049e41c6f2cc449f2c18c21355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ccaeeb09_34948781",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
         "patchSetId": 7
@@ -197,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "9ba850ae_d137ca38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-19T19:45:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccaeeb09_34948781",
+      "range": {
+        "startLine": 361,
+        "startChar": 12,
+        "endLine": 361,
+        "endChar": 14
+      },
+      "revId": "5d1a4f7a296f7049e41c6f2cc449f2c18c21355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e99cf1dd_53411f70",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
         "patchSetId": 7
@@ -208,6 +412,24 @@
       "writtenOn": "2017-04-19T16:08:41Z",
       "side": 1,
       "message": "One connection (and one PreparedStatement for insert) should to the target DB should be enough for the whole migration.",
+      "revId": "5d1a4f7a296f7049e41c6f2cc449f2c18c21355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33e0b06f_c9df58e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2017-04-19T19:45:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e99cf1dd_53411f70",
       "revId": "5d1a4f7a296f7049e41c6f2cc449f2c18c21355e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

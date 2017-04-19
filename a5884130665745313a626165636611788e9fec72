@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c623ca7_243c2f0c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T18:52:14Z",
+      "side": 1,
+      "message": "Nit: alphabetize",
+      "range": {
+        "startLine": 39,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 31
+      },
+      "revId": "a5884130665745313a626165636611788e9fec72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63f3cbda_e801bd7e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T18:52:14Z",
+      "side": 1,
+      "message": "This class is not used.",
+      "range": {
+        "startLine": 65,
+        "startChar": 13,
+        "endLine": 65,
+        "endChar": 34
+      },
+      "revId": "a5884130665745313a626165636611788e9fec72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d981f17e_d45efa78",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T18:52:14Z",
+      "side": 1,
+      "message": "Wrap this one too.",
+      "range": {
+        "startLine": 70,
+        "startChar": 12,
+        "endLine": 70,
+        "endChar": 85
+      },
+      "revId": "a5884130665745313a626165636611788e9fec72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b689982_7811a06d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T18:52:14Z",
+      "side": 1,
+      "message": "Nit: since this method is only called from this component, prefix it with an underscore.\n\n _loadData",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 12
+      },
+      "revId": "a5884130665745313a626165636611788e9fec72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f696b11a_e9bb1e46",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T18:52:14Z",
+      "side": 1,
+      "message": "I just noticed an issue with the project list response:\n\nLooks like the project\u0027s ID is being used as the name, but in the REST response, the project ID is URI-encoded. For instance, if a project name has a slash in its name, such as\n\n foo/bar\n\n... then the ID of the project comes back as ...\n\n foo%2Fbar\n\nThe encoded version of the name should not be what is displayed. We want to display the key.\n\nI\u0027d recommend setting the key in this map. Something like...\n\nthis._projects \u003d Object.keys(projects)\n    .map(function(key) {\n      var project \u003d projects[key];\n      project.name \u003d key;\n      return project;\n    });\n\nAnd then the bindings in the HTML should refer to `name` rather than `id` when displaying the project name.\n\nDoes that make sense?",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 39,
+        "endChar": 58
+      },
+      "revId": "a5884130665745313a626165636611788e9fec72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e86f68d1_e6a86a17",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T18:52:14Z",
+      "side": 1,
+      "message": "Nit: since this method is only called from this component, prefix it with an underscore.\n\n _getUrl",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 10
+      },
+      "revId": "a5884130665745313a626165636611788e9fec72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da28199a_acf4b397",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-19T18:52:14Z",
+      "side": 1,
+      "message": "Is this route needed? It looks to me like it works the same without this.",
+      "range": {
+        "startLine": 133,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 7
+      },
+      "revId": "a5884130665745313a626165636611788e9fec72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

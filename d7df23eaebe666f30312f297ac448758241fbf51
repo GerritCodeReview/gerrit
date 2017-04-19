@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6567bd63_4df06ca1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-19T22:16:18Z",
+      "side": 1,
+      "message": "This was not intentional but a consequence of the removal of HTTP Digest Authentication. Previously when gitBasicAuth was true, OAuth was already configured for Git/HTTP security.",
+      "parentUuid": "c93ec49f_8dc69ae6",
+      "range": {
+        "startLine": 11,
+        "startChar": 24,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "d7df23eaebe666f30312f297ac448758241fbf51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9eaa0fdf_c8a55c07",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-19T22:02:27Z",
       "side": 1,
       "message": "Nit: double space.",
+      "range": {
+        "startLine": 14,
+        "startChar": 39,
+        "endLine": 14,
+        "endChar": 41
+      },
+      "revId": "d7df23eaebe666f30312f297ac448758241fbf51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "179e913e_73e4f373",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-19T22:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9eaa0fdf_c8a55c07",
       "range": {
         "startLine": 14,
         "startChar": 39,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "bcfeb762_2faa2628",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-19T22:16:18Z",
+      "side": 1,
+      "message": "Yes, I\u0027ll do in a follow-up change.",
+      "parentUuid": "02932504_f2b0a234",
+      "revId": "d7df23eaebe666f30312f297ac448758241fbf51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2a2f486_a87ff3f7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "d269f1a1_a346ddff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-19T22:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2a2f486_a87ff3f7",
+      "revId": "d7df23eaebe666f30312f297ac448758241fbf51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43b738eb_9445b61f",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
         "patchSetId": 1
@@ -93,6 +177,30 @@
       "writtenOn": "2017-04-19T22:02:27Z",
       "side": 1,
       "message": "It unconditionally ask to assign one of the values for  GitBasicAuthPolicy enum to the auth.gitBasicAuthPolicy:\n\n  Git/HTTP authentication        [HTTP/?]: ?\n       Supported options are:\n         http\n         ldap\n         http_ldap\n         oauth\n\nBut in case of auth scheme OAuth, only two options make really sense: http or oauth. Currently only single plugin, that I\u0027m aware of, cfoauth, supports oauth-token authentication. And for other plugins settings it to oauth would effectivel disable password based \"Git/HTTP authentication\". I think it\u0027s not clear from the question above.\n\nI think that the opposite also true, that for LDAP auth schemes, \"oauth\" wouldn\u0027t ever make any sense. Should we check for the selected auth scheme and try to restrict the choice to ones that make sense?\n\nAlso in case of OAuth, would it make sense to specifically mention, that setting \"Git/HTTP authentication\" to \"oauth\" would make sense then and only then, when the provider-plugin actually suports that?",
+      "range": {
+        "startLine": 85,
+        "startChar": 71,
+        "endLine": 85,
+        "endChar": 94
+      },
+      "revId": "d7df23eaebe666f30312f297ac448758241fbf51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54c9f300_44550f2c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-19T22:16:18Z",
+      "side": 1,
+      "message": "Oh yes, let me enable LDAP and OAuth with conditions.\n\nWith regards to asking the plugin if it supports OAuth or not, it is tricky as we haven\u0027t loaded the plugins yet.\n\nWe could add a warning if they chose the \"OAuth\" to check the provider\u0027s documentation to make sure that the plugins supports it.",
+      "parentUuid": "43b738eb_9445b61f",
       "range": {
         "startLine": 85,
         "startChar": 71,

@@ -328,8 +328,10 @@ limitations under the License.
                   server-config="[[serverConfig]]"></gr-commit-info><!--
          --></template><!--
          -->)<!--
+         --><span tabindex="0">[[_privateChanges(_change)]]</span><!--
        --></template><!--
        --><span hidden$="[[!_change.work_in_progress]]"> (Work in progress)</span><!--
+       --><span hidden$="[[!_change.is_private]]"> (Private)</span><!--
        -->: [[_change.subject]]
         </span>
       </div>

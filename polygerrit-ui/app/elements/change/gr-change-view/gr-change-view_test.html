@@ -735,6 +735,46 @@ limitations under the License.
       assert.equal(status, 'Merge Conflict');
     });
 
+    test('change status private', () => {
+      element._changeNum = '1';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        is_private: true,
+      };
+      const status = element._privateChanges(element._change);
+      assert.equal(status, ' (Private)');
+    });
+
+    test('change status without private', () => {
+      element._changeNum = '1';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        is_private: false,
+      };
+      const status = element._privateChanges(element._change);
+      assert.equal(status, '');
+    });
+
     test('change status merged', () => {
       element._changeNum = '1';
       element._patchRange = {

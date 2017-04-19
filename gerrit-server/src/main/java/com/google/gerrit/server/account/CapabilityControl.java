@@ -87,24 +87,9 @@ public class CapabilityControl {
     return canEmailReviewers;
   }
 
-  /** @return true if the user can modify an account for another user. */
-  public boolean canModifyAccount() {
-    return canPerform(GlobalCapability.MODIFY_ACCOUNT) || canAdministrateServer();
-  }
-
   /** @return true if the user can view all accounts. */
   public boolean canViewAllAccounts() {
     return canPerform(GlobalCapability.VIEW_ALL_ACCOUNTS) || canAdministrateServer();
-  }
-
-  /** @return true if the user can perform basic server maintenance. */
-  public boolean canMaintainServer() {
-    return canPerform(GlobalCapability.MAINTAIN_SERVER) || canAdministrateServer();
-  }
-
-  /** @return true if the user can view the entire queue. */
-  public boolean canViewQueue() {
-    return canPerform(GlobalCapability.VIEW_QUEUE) || canMaintainServer();
   }
 
   /** @return true if the user can access the database (with gsql). */
@@ -238,24 +223,23 @@ public class CapabilityControl {
         return canAdministrateServer();
       case EMAIL_REVIEWERS:
         return canEmailReviewers();
-      case MAINTAIN_SERVER:
-        return canMaintainServer();
-      case MODIFY_ACCOUNT:
-        return canModifyAccount();
       case VIEW_ALL_ACCOUNTS:
         return canViewAllAccounts();
-      case VIEW_QUEUE:
-        return canViewQueue();
 
       case FLUSH_CACHES:
       case KILL_TASK:
       case RUN_GC:
       case VIEW_CACHES:
-        return canPerform(perm.permissionName()) || canMaintainServer();
+      case VIEW_QUEUE:
+        return canPerform(perm.permissionName())
+            || canPerform(GlobalCapability.MAINTAIN_SERVER)
+            || canAdministrateServer();
 
       case CREATE_ACCOUNT:
       case CREATE_GROUP:
       case CREATE_PROJECT:
+      case MAINTAIN_SERVER:
+      case MODIFY_ACCOUNT:
       case STREAM_EVENTS:
       case VIEW_CONNECTIONS:
       case VIEW_PLUGINS:

@@ -634,6 +634,17 @@
       return statusString || '';
     },
 
+    _privateChanges: function(change) {
+      var privateChange;
+      if (change.is_private) {
+        privateChange = ' (Private)';
+      } else {
+        privateChange = '';
+      }
+
+      return privateChange;
+    },
+
     _computeShowCommitInfo: function(changeStatus, current_revision) {
       return changeStatus === 'Merged' && current_revision;
     },

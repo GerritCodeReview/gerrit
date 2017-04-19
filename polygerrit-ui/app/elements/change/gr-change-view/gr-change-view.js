@@ -641,6 +641,10 @@
       return statusString;
     },
 
+    _privateChanges(change) {
+      return change.is_private ? ' (Private)' : '';
+    },
+
     _computeShowCommitInfo(changeStatus, current_revision) {
       return changeStatus === 'Merged' && current_revision;
     },

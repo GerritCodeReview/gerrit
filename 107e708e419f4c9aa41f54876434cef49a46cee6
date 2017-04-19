@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1492613453 +0200\nnonce AFMZ2GzFm2NeoGteL0CKee8zIdSmBo9nIU480FWYZHKnSUTFlzYvg2JmpvH0KmZpMNf5Y/BQZKsz\n\n0000000000000000000000000000000000000000 107e708e419f4c9aa41f54876434cef49a46cee6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJY93lNAAoJEFG1/Zeg0O9R1d4H/3Oyvb0IUBgHk98pa8/eTzr3\nneBiSNWrvU3VsVteTAjgudydJa2p+VRLeF2cSM97yid25wsohp1ojYaEz3NU0oXb\n9FHMETbmMn18ofldm4g4alCP7OfJ6Wy/1h4oFx5XpPfFfA1efPLLKkU/jZHZ0aW8\ngZ+PXslqZ8U642hC2G5yFJRwo4XhdrVQOmw0xxGUmJVThGdfTr0QPmQX1TKyCFNG\nV1ZVk0BgwXIBbsUeL+ryYvv2CxUK1j0ccFpnx05Fy/AS7X8BzSbmsHkF5tPKgiQV\nkpUmIbPYvzNw0E7bA+AnyJgujwOsTd+TsHupE+HbiK3T9eqSNXkQW617pEFaDB8\u003d\n\u003dwnDO\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3e6611d_4920ab0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-19T16:25:26Z",
+      "side": 1,
+      "message": "Can you elaborate on the use case here? Why do we want to search by preferred email as opposed to any email?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "107e708e419f4c9aa41f54876434cef49a46cee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

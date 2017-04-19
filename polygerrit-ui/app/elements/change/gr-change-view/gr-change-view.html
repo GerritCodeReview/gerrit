@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../diff/gr-diff-preferences/gr-diff-preferences.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -72,6 +73,9 @@ limitations under the License.
         flex: 1;
         font-size: 1.2em;
         font-weight: bold;
+      }
+      .prefsButton {
+        float: right;
       }
       gr-change-star {
         margin-right: .25em;
@@ -453,9 +457,16 @@ limitations under the License.
                   read-only="[[_descriptionReadOnly]]"
                   on-changed="_handleDescriptionChanged"></gr-editable-label>
             </span>
+            <span id="diffPrefsContainer"
+                hidden$="[[_computePrefsButtonHidden(_loggedIn)]]">
+              <gr-button link
+                  class="prefsButton desktop"
+                  on-tap="_handlePrefsTap">Diff Preferences</gr-button>
+            </span>
           </div>
         </div>
         <gr-file-list id="fileList"
+            diff-prefs={{_diffPrefs}}
             change="[[_change]]"
             change-num="[[_changeNum]]"
             patch-range="{{_patchRange}}"

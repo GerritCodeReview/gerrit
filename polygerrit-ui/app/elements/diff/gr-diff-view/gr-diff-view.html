@@ -264,7 +264,8 @@ limitations under the License.
             <option value="SIDE_BY_SIDE">Side By Side</option>
             <option value="UNIFIED_DIFF">Unified</option>
           </select>
-          <span hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]">
+          <span id="diffPrefsContainer"
+              hidden$="[[_computePrefsButtonHidden(_loggedIn)]]">
             <span class="preferences desktop">
               <span
                   hidden$="[[_computeModeSelectHidden(_isImageDiff)]]">/</span>

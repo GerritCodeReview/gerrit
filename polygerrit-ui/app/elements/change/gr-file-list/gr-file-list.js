@@ -68,7 +68,10 @@
         value: function() { return []; },
       },
       _diffAgainst: String,
-      _diffPrefs: Object,
+      diffPrefs: {
+        type: Object,
+        notify: true,
+      },
       _userPrefs: Object,
       _localPrefs: Object,
       _showInlineDiffs: Boolean,
@@ -157,7 +160,7 @@
 
       this._localPrefs = this.$.storage.getPreferences();
       promises.push(this._getDiffPreferences().then(function(prefs) {
-        this._diffPrefs = prefs;
+        this.diffPrefs = prefs;
       }.bind(this)));
 
       promises.push(this._getPreferences().then(function(prefs) {

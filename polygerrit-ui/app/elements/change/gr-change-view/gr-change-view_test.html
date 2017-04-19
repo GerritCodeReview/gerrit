@@ -38,7 +38,7 @@ limitations under the License.
     var element;
     var sandbox;
     var showStub;
-    var TEST_SCROLL_TOP_PX = 100;
+  var TEST_SCROLL_TOP_PX = 100;
 
     setup(function() {
       sandbox = sinon.sandbox.create();
@@ -156,6 +156,39 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element, 68, null, 'd');
         assert.isTrue(stub.called);
       });
+    });
+
+    test('Diff preferences hidden when no prefs or logged out',
+        function() {
+      element._loggedIn = false;
+      flushAsynchronousOperations();
+      assert.isTrue(element.$.diffPrefsContainer.hidden);
+
+      element._loggedIn = true;
+      flushAsynchronousOperations();
+      assert.isTrue(element.$.diffPrefsContainer.hidden);
+
+      element._loggedIn = false;
+      element._diffPrefs = {'font_size': '12'};
+      flushAsynchronousOperations();
+      assert.isTrue(element.$.diffPrefsContainer.hidden);
+
+      element._loggedIn = true;
+      flushAsynchronousOperations();
+      assert.isFalse(element.$.diffPrefsContainer.hidden);
+    });
+
+    test('prefsButton opens gr-diff-preferences', function() {
+      var handlePrefsTapSpy = sandbox.spy(element, '_handlePrefsTap');
+      var overlayOpenStub = sandbox.stub(element.$.fileList.$.diffPreferences,
+          'open');
+      var prefsButton = Polymer.dom(element.root).querySelectorAll(
+          '.prefsButton')[0];
+
+      MockInteractions.tap(prefsButton);
+
+      assert.isTrue(handlePrefsTapSpy.called);
+      assert.isTrue(overlayOpenStub.called);
     });
 
     test('_computeDescriptionReadOnly', function() {

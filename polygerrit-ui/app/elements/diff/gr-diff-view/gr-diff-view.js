@@ -556,8 +556,8 @@
       return path == currentPath;
     },
 
-    _computePrefsButtonHidden: function(prefs, loggedIn) {
-      return !loggedIn || !prefs;
+    _computePrefsButtonHidden: function(loggedIn) {
+      return !loggedIn || !this._prefs;
     },
 
     _computeKeyNav: function(path, selectedPath, fileList) {

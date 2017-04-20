@@ -16,34 +16,34 @@ package com.google.gerrit.server.query;
 
 /** Predicate to filter a field by matching integer value. */
 public abstract class IntPredicate<T> extends OperatorPredicate<T> {
-  private final int value;
+  private int intValue;
 
-  public IntPredicate(final String name, final String value) {
+  public IntPredicate(String name, String value) {
     super(name, value);
-    this.value = Integer.parseInt(value);
+    this.intValue = Integer.parseInt(value);
   }
 
-  public IntPredicate(final String name, final int value) {
-    super(name, String.valueOf(value));
-    this.value = value;
+  public IntPredicate(String name, int intValue) {
+    super(name, String.valueOf(intValue));
+    this.intValue = intValue;
   }
 
   public int intValue() {
-    return value;
+    return intValue;
   }
 
   @Override
   public int hashCode() {
-    return getOperator().hashCode() * 31 + value;
+    return getOperator().hashCode() * 31 + intValue;
   }
 
   @Override
-  public boolean equals(final Object other) {
+  public boolean equals(Object other) {
     if (other == null) {
       return false;
     }
     if (getClass() == other.getClass()) {
-      final IntPredicate<?> p = (IntPredicate<?>) other;
+      IntPredicate<?> p = (IntPredicate<?>) other;
       return getOperator().equals(p.getOperator()) && intValue() == p.intValue();
     }
     return false;

@@ -65,6 +65,29 @@
     },
     {
       "key": {
+        "uuid": "82116a40_6a7a6b86",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-20T06:07:21Z",
+      "side": 1,
+      "message": "You have imported it statically, so that can be just HTTP, here and below.",
+      "range": {
+        "startLine": 91,
+        "startChar": 14,
+        "endLine": 91,
+        "endChar": 37
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "681ac209_4c61e1fb",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
         "patchSetId": 4
@@ -81,6 +104,29 @@
         "startChar": 33,
         "endLine": 92,
         "endChar": 37
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82df5983_c564226b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-20T06:07:21Z",
+      "side": 1,
+      "message": "On second thought, enum -\u003e string comversions here seem to be wrong. The better approach would be to provide new Section#select() method that accepts EnumSet\u003c?\u003e as filter criteria and returns the selected Enum value back:\n\n  public \u003cT extends Enum\u003c?\u003e\u003e T select(String title, String name, T defValue, EnumSet\u003c?\u003e allowedValues) {...\n\nThen you would invoke it like this:\n\n  GitBasicAuthPolicy gitBasicAuth \u003d auth.select(\n                  \"Git/HTTP authentication\",\n                  \"gitBasicAuthPolicy\",\n                  HTTP,\n                  EnumSet.of(HTTP, OAUTH);\n\nand could compare the returned value as enum directly:\n\n  if (gitBasicAuth \u003d\u003d OAUTH) {...",
+      "range": {
+        "startLine": 97,
+        "startChar": 10,
+        "endLine": 98,
+        "endChar": 26
       },
       "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

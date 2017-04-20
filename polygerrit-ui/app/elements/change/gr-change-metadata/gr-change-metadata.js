@@ -196,16 +196,22 @@
       this._xhrPromise =
           this.$.restAPI.deleteVote(this.change.id, accountID, labelName)
           .then(function(response) {
-        if (!response.ok) { return response; }
-
-        var labels = this.change.labels[labelName].all || [];
-        for (var i = 0; i < labels.length; i++) {
-          if (labels[i]._account_id === accountID) {
-            this.splice(['change.labels', labelName, 'all'], i, 1);
-            break;
-          }
-        }
-      }.bind(this));
+            if (!response.ok) { return response; }
+            var label = this.change.labels[labelName];
+            var labels = label.all || [];
+            for (var i = 0; i < labels.length; i++) {
+              if (labels[i]._account_id === accountID) {
+                for (var key in label) {
+                  if (label.hasOwnProperty(key) &&
+                      label[key]._account_id === accountID) {
+                    this.set(['change.labels', labelName, key], null);
+                  }
+                }
+                this.splice(['change.labels', labelName, 'all'], i, 1);
+                break;
+              }
+            }
+          }.bind(this));
     },
 
     _computeShowLabelStatus: function(change) {

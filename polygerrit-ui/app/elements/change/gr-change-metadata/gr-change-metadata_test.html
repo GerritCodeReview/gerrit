@@ -244,8 +244,9 @@ limitations under the License.
           {
             _account_id: 1,
             name: 'bojack',
-          }
+          },
         ];
+        element.change.labels.test.recommended = {_account_id: 1};
         element.mutable = true;
         flushAsynchronousOperations();
         var button = element.$$('gr-account-chip').$$('gr-button');
@@ -256,6 +257,7 @@ limitations under the License.
           assert.deepEqual(path, ['change.labels', 'test', 'all']);
           assert.equal(index, 0);
           assert.equal(length, 1);
+          assert.notOk(element.change.labels.test.recommended);
           spliceStub.restore();
           done();
         });

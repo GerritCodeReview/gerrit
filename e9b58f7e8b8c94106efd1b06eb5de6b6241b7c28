@@ -22,6 +22,30 @@
       "revId": "e9b58f7e8b8c94106efd1b06eb5de6b6241b7c28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b732d035_5509034b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-20T09:13:10Z",
+      "side": 1,
+      "message": "I wanted to ... but I would go over the 1st line columns limits ;-(",
+      "parentUuid": "369f44ee_c255fc9b",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "e9b58f7e8b8c94106efd1b06eb5de6b6241b7c28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

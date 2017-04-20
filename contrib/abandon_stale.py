@@ -28,8 +28,7 @@
 Fetches a list of open changes that have not been updated since a
 given age in months or years (default 6 months), and then abandons them.
 
-Assumes that the user's credentials are in the .netrc file.  Supports
-either basic or digest authentication.
+Assumes that the user's credentials are in the .netrc file.
 
 Example to abandon changes that have not been updated for 3 months:
 
@@ -48,7 +47,7 @@ import re
 import sys
 
 from pygerrit2.rest import GerritRestAPI
-from pygerrit2.rest.auth import HTTPBasicAuthFromNetrc, HTTPDigestAuthFromNetrc
+from pygerrit2.rest.auth import HTTPBasicAuthFromNetrc
 
 
 def _main():
@@ -57,9 +56,6 @@ def _main():
                       metavar='URL',
                       default=None,
                       help='gerrit server URL')
-    parser.add_option('-b', '--basic-auth', dest='basic_auth',
-                      action='store_true',
-                      help='use HTTP basic authentication instead of digest')
     parser.add_option('-n', '--dry-run', dest='dry_run',
                       action='store_true',
                       help='enable dry-run mode: show stale changes but do '
@@ -115,11 +111,7 @@ def _main():
     message = "Abandoning after %s %s or more of inactivity." % \
         (match.group(1), match.group(2))
 
-    if options.basic_auth:
-        auth_type = HTTPBasicAuthFromNetrc
-    else:
-        auth_type = HTTPDigestAuthFromNetrc
-
+    auth_type = HTTPBasicAuthFromNetrc
     try:
         auth = auth_type(url=options.gerrit_url)
         gerrit = GerritRestAPI(url=options.gerrit_url, auth=auth)

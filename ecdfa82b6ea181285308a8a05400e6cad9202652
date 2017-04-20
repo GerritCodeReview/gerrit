@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "33b61930_767e1dc9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T01:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c177d474_1fb70713",
+      "range": {
+        "startLine": 173,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 30
+      },
+      "revId": "ecdfa82b6ea181285308a8a05400e6cad9202652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7841e180_535e5786",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3787ffd6_48d55a39",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T01:01:03Z",
+      "side": 1,
+      "message": "I believe this.set treat dots as property separators, and computed properties aren\u0027t triggered if they preset.\n\nSince dots aren\u0027t used anywhere anyway, so it\u0027s okay I guess.\nThis can be revisited later if it becomes an issue.",
+      "parentUuid": "7841e180_535e5786",
+      "range": {
+        "startLine": 267,
+        "startChar": 6,
+        "endLine": 269,
+        "endChar": 7
+      },
+      "revId": "ecdfa82b6ea181285308a8a05400e6cad9202652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "048102fb_1ae56bde",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "ecdfa82b6ea181285308a8a05400e6cad9202652",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1b67144_9f3c94b9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T01:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "048102fb_1ae56bde",
+      "range": {
+        "startLine": 270,
+        "startChar": 6,
+        "endLine": 272,
+        "endChar": 7
+      },
+      "revId": "ecdfa82b6ea181285308a8a05400e6cad9202652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

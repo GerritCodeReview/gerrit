@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0868f30_219b63e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-20T05:31:12Z",
+      "side": 1,
+      "message": "A verb is missing here, e.g.: Initialize|set|assign.",
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90bd8689_421cf302",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-20T05:31:12Z",
+      "side": 1,
+      "message": "Nit: According to our style we do not use wildcard imports.",
+      "range": {
+        "startLine": 17,
+        "startChar": 68,
+        "endLine": 17,
+        "endChar": 70
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5827cae6_b7e8f730",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-20T05:31:12Z",
+      "side": 1,
+      "message": "name(), to be consistent with the way you lowcased the values in authPolicies method below.",
+      "range": {
+        "startLine": 91,
+        "startChar": 38,
+        "endLine": 91,
+        "endChar": 48
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "681ac209_4c61e1fb",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-20T05:31:12Z",
+      "side": 1,
+      "message": "You missed to include HTTP_LDAP to allowed values.",
+      "range": {
+        "startLine": 92,
+        "startChar": 33,
+        "endLine": 92,
+        "endChar": 37
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a58e983_6cc33560",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-20T05:31:12Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 101,
+        "startChar": 42,
+        "endLine": 101,
+        "endChar": 50
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12801c08_1baa310b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-20T05:31:12Z",
+      "side": 1,
+      "message": "This is repeated from the line 92 above. Would it be clearer, if you would use EnumSet\u003cGitBasicAuthPolicy\u003e? e.g.: add a variable:\n\n  EnumSet\u003cGitBasicAuthPolicy\u003e allowedGitBasicAuth \u003d EnumSet.of(HTTP);\n\nand extend it with allowed values per specific auth.type value:\n\n  allowedGitBasicAuth.add(OAUTH);",
+      "range": {
+        "startLine": 102,
+        "startChar": 31,
+        "endLine": 102,
+        "endChar": 35
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2388899d_fb4d6b71",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-20T05:31:12Z",
+      "side": 1,
+      "message": "Type mismatch and always false. You probably meant:\n\n  gitBasicAuth.equalsIgnoreCase(GitBasicAuthPolicy.OAUTH.name()",
+      "range": {
+        "startLine": 104,
+        "startChar": 14,
+        "endLine": 104,
+        "endChar": 59
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bebfff3c_a1591ba4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-20T05:31:12Z",
+      "side": 1,
+      "message": "If you would pass here EnumSet\u003cGitBasicAuthPolicy\u003e subset, as suggested above, this would just be:\n\n  subset.stream()...",
+      "range": {
+        "startLine": 157,
+        "startChar": 11,
+        "endLine": 157,
+        "endChar": 32
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d38fbee3_fe19fc13",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-20T05:31:12Z",
+      "side": 1,
+      "message": "Nit: We always import collectors statically.",
+      "range": {
+        "startLine": 161,
+        "startChar": 17,
+        "endLine": 161,
+        "endChar": 35
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

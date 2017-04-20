@@ -16,6 +16,24 @@
       "revId": "df661db86a4f3f1445a4f792e49587d5777aae56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23663f8b_4982d253",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-20T16:27:32Z",
+      "side": 1,
+      "message": "This is a guard against prototype modification. Realistically probably unnecessary, but definitely doesn\u0027t hurt.\n\nhttp://stackoverflow.com/questions/12735778/for-in-and-hasownproperty",
+      "parentUuid": "7783bea0_a4372aca",
+      "revId": "df661db86a4f3f1445a4f792e49587d5777aae56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

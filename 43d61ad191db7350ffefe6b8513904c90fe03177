@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b36af06_19c4e318",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-20T08:54:36Z",
+      "side": 1,
+      "message": "Since we are already doing a larger rewrite of this part of the code, it would be good to include this in the same change rather than leaving a TODO.",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 45
+      },
+      "revId": "43d61ad191db7350ffefe6b8513904c90fe03177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4274387b_8f08345a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-20T08:54:36Z",
+      "side": 1,
+      "message": "Both of those parameters aren\u0027t needed in addByEmail. We only reach this point of the code if we should add a reviewer by email of possible. Also allowByGroup isn\u0027t used at all in that method. Just adding it for consistency seems superfluous.",
+      "range": {
+        "startLine": 179,
+        "startChar": 35,
+        "endLine": 179,
+        "endChar": 59
+      },
+      "revId": "43d61ad191db7350ffefe6b8513904c90fe03177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "409e31fc_06b8cd1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-20T08:54:36Z",
+      "side": 1,
+      "message": "Strictly speaking, this isn\u0027t correct. You catch a RestApiException which is the super class for both UnprocessableEntityException and AuthException. reviewerNotFoundUser only applies to the first case. Although AuthException will never occur since adding reviewers is an authenticated endoint.\n\nI would write it as:\n\n  try {\n  } catch (UnprocessableEntityException | AuthException e) {\n    // AuthException won\u0027t occur since user is authenticated at this point\n    ...\n  }\n\nThis should make it clearer for future readers.",
+      "range": {
+        "startLine": 204,
+        "startChar": 54,
+        "endLine": 204,
+        "endChar": 74
+      },
+      "revId": "43d61ad191db7350ffefe6b8513904c90fe03177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3b32fcf_b1bdb9b0",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/change/ChangeMessages.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-20T08:54:36Z",
+      "side": 1,
+      "message": "We should be able to remove this as we can\u0027t say that this was the root cause of the failure since also identifying the input as an account failed before we checked if it identifies a group.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 53
+      },
+      "revId": "43d61ad191db7350ffefe6b8513904c90fe03177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

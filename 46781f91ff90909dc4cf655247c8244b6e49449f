@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1952982_f22b7604",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T18:45:57Z",
+      "side": 1,
+      "message": "Sorry, I just realized scores, values, and votes in fact mean the same thing.\nIdeally, we should use one word instead of three, at least interface-wise - for element name and its public methods.\n\nNice to have, but not required.",
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e313898_e137f5df",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T18:45:57Z",
+      "side": 1,
+      "message": "+2 instead of +4 for indentation here.",
+      "range": {
+        "startLine": 107,
+        "startChar": 6,
+        "endLine": 107,
+        "endChar": 10
+      },
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44eb6d4e_ec5b909e",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T18:45:57Z",
+      "side": 1,
+      "message": "Elements are tapped above, but there are no asserts here. Please add some.\nAlso, remember that taps may trigger async actions.",
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7205b88b_024cdbde",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T18:45:57Z",
+      "side": 1,
+      "message": "tbh, I think this test doesn\u0027t make much sense now, since it\u0027s testing internal structure of another element (gr-label-scores)\n\nI\u0027d move in gr-label-scores_test, or remove if similar one already exists.",
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

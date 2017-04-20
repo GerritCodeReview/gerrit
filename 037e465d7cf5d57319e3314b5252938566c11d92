@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "05c5e7f6_bab04b32",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T18:45:57Z",
+      "side": 1,
+      "message": "Doh..\nWhy do we have font-size in px in gr-button?\nThat\u0027s clearly out of the context for this change though, just a side note.",
+      "parentUuid": "9a5d4737_a9b9841b",
+      "range": {
+        "startLine": 52,
+        "startChar": 19,
+        "endLine": 52,
+        "endChar": 23
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32f715b8_53a981d2",
         "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
         "patchSetId": 1
@@ -119,6 +143,30 @@
       "side": 1,
       "message": "You mean just rename the function?",
       "parentUuid": "32f715b8_53a981d2",
+      "range": {
+        "startLine": 26,
+        "startChar": 19,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93cd4522_fafe6749",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T18:45:57Z",
+      "side": 1,
+      "message": "Yes, sorry - I should\u0027ve been explicit.",
+      "parentUuid": "aa172090_d7b66156",
       "range": {
         "startLine": 26,
         "startChar": 19,
@@ -178,6 +226,30 @@
     },
     {
       "key": {
+        "uuid": "3d623ece_42899d45",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T18:45:57Z",
+      "side": 1,
+      "message": "\u003e  I don\u0027t think that labelsObj is the same as what ends up being this._labels.\n\nIf that\u0027s true, this probably should be fixed - maybe later. I hope it\u0027s not.\n\nIt seems the only reason for this parameter to exist is because this function is being called from _computeLabels, which uses change record instead (labelRecord.base) of property.\nTBH, I don\u0027t it\u0027s of any difference in this case, and it could be simply replaced with this.change.labels.\n\nAnyways, it\u0027s just a bit awkward, but not criminal. Up to you.",
+      "parentUuid": "bf5ccbaa_94679abb",
+      "range": {
+        "startLine": 32,
+        "startChar": 33,
+        "endLine": 32,
+        "endChar": 39
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a88faa5_b6607e0e",
         "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
         "patchSetId": 1
@@ -222,6 +294,30 @@
       "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8516b93_5680761a",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T18:45:57Z",
+      "side": 1,
+      "message": "Mmm, I guess labels will be recomputed when account changes (login/logout). It\u0027s just not immediately obvious, and probably worth a comment or at least account being added to this function.",
+      "parentUuid": "2f4ce6d9_eecb1b7b",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 18
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {
@@ -319,6 +415,30 @@
     },
     {
       "key": {
+        "uuid": "25b30f5d_4edb8500",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T18:45:57Z",
+      "side": 1,
+      "message": "I believe this is a complex observer, rather than a computed property:\nhttps://www.polymer-project.org/2.0/docs/devguide/observers\n\nIt\u0027s not a major issue, but for the sake of consistency/clarity probably worth keeping _computeX format for computed properties only.",
+      "parentUuid": "5bae63f5_a98f6778",
+      "range": {
+        "startLine": 75,
+        "startChar": 5,
+        "endLine": 75,
+        "endChar": 12
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9f8060df_f91a464a",
         "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels_test.html",
         "patchSetId": 1
@@ -371,6 +491,30 @@
       "side": 1,
       "message": "Tested locally on safari... seems to work",
       "parentUuid": "afda1c8f_9b0f1b28",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 26
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "833ba207_7cc56846",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T18:45:57Z",
+      "side": 1,
+      "message": "Sweet! -2 wrapping functions.",
+      "parentUuid": "8ca7a28e_47b94b2e",
       "range": {
         "startLine": 108,
         "startChar": 0,
@@ -444,6 +588,30 @@
       "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc1be08d_aa26fa4a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T18:45:57Z",
+      "side": 1,
+      "message": "So, we\u0027re duplicating the data, essentially.\nI personally vote for de-duplicating the data.\n\nAwkward, but not criminal. Up to you.",
+      "parentUuid": "f3592842_76642c48",
+      "range": {
+        "startLine": 218,
+        "startChar": 31,
+        "endLine": 218,
+        "endChar": 46
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

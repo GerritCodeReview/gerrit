@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b63a8e8d_2c68166d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T18:45:57Z",
+      "side": 0,
+      "message": "I love the smell of deleted code in the morning.",
+      "revId": "87df78a64899f794abfad47a7963cadb0341fe46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

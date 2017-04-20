@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.restapi;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS;
@@ -115,6 +116,7 @@ import com.google.gson.stream.MalformedJsonException;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -638,40 +640,21 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static Type inputType(RestModifyView<RestResource, Object> m) {
-    Type inputType = extractInputType(m.getClass());
-    if (inputType == null) {
-      throw new IllegalStateException(
-          String.format(
-              "View %s does not correctly implement %s",
-              m.getClass(), RestModifyView.class.getSimpleName()));
-    }
-    return inputType;
-  }
+    // MyModifyView implements RestModifyView<SomeResource, MyInput>
+    TypeLiteral<?> typeLiteral = TypeLiteral.get(m.getClass());
 
-  @SuppressWarnings("rawtypes")
-  private static Type extractInputType(Class clazz) {
-    for (Type t : clazz.getGenericInterfaces()) {
-      if (t instanceof ParameterizedType
-          && ((ParameterizedType) t).getRawType() == RestModifyView.class) {
-        return ((ParameterizedType) t).getActualTypeArguments()[1];
-      }
-    }
+    // RestModifyView<SomeResource, MyInput>
+    // This is smart enough to resolve even when there are intervening subclasses, even if they have
+    // reordered type arguments.
+    TypeLiteral<?> supertypeLiteral = typeLiteral.getSupertype(RestModifyView.class);
 
-    if (clazz.getSuperclass() != null) {
-      Type i = extractInputType(clazz.getSuperclass());
-      if (i != null) {
-        return i;
-      }
-    }
-
-    for (Class t : clazz.getInterfaces()) {
-      Type i = extractInputType(t);
-      if (i != null) {
-        return i;
-      }
-    }
-
-    return null;
+    Type supertype = supertypeLiteral.getType();
+    checkState(
+        supertype instanceof ParameterizedType,
+        "supertype of %s is not parameterized: %s",
+        typeLiteral,
+        supertypeLiteral);
+    return ((ParameterizedType) supertype).getActualTypeArguments()[1];
   }
 
   private Object parseRequest(HttpServletRequest req, Type type)

@@ -31,17 +31,18 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-class EqualsLabelPredicate extends ChangeIndexPredicate {
-  private final ProjectCache projectCache;
-  private final PermissionBackend permissionBackend;
-  private final IdentifiedUser.GenericFactory userFactory;
-  private final Provider<ReviewDb> dbProvider;
-  private final String label;
-  private final int expVal;
-  private final Account.Id account;
-  private final AccountGroup.UUID group;
+public class EqualsLabelPredicate extends ChangeIndexPredicate {
+  protected final ProjectCache projectCache;
+  protected final PermissionBackend permissionBackend;
+  protected final IdentifiedUser.GenericFactory userFactory;
+  protected final Provider<ReviewDb> dbProvider;
+  protected final String label;
+  protected final int expVal;
+  protected final Account.Id account;
+  protected final AccountGroup.UUID group;
 
-  EqualsLabelPredicate(LabelPredicate.Args args, String label, int expVal, Account.Id account) {
+  public EqualsLabelPredicate(
+      LabelPredicate.Args args, String label, int expVal, Account.Id account) {
     super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account));
     this.permissionBackend = args.permissionBackend;
     this.projectCache = args.projectCache;
@@ -91,7 +92,7 @@ class EqualsLabelPredicate extends ChangeIndexPredicate {
     return false;
   }
 
-  private static LabelType type(LabelTypes types, String toFind) {
+  protected static LabelType type(LabelTypes types, String toFind) {
     if (types.byLabel(toFind) != null) {
       return types.byLabel(toFind);
     }
@@ -104,7 +105,7 @@ class EqualsLabelPredicate extends ChangeIndexPredicate {
     return null;
   }
 
-  private boolean match(ChangeData cd, short value, Account.Id approver, LabelType type) {
+  protected boolean match(ChangeData cd, short value, Account.Id approver, LabelType type) {
     if (value != expVal) {
       return false;
     }

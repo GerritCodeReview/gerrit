@@ -18,8 +18,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-class ProjectPrefixPredicate extends ChangeIndexPredicate {
-  ProjectPrefixPredicate(String prefix) {
+public class ProjectPrefixPredicate extends ChangeIndexPredicate {
+  public ProjectPrefixPredicate(String prefix) {
     super(ChangeField.PROJECTS, prefix);
   }
 

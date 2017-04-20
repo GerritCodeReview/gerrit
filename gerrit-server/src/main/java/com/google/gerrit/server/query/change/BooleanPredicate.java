@@ -18,10 +18,10 @@ import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gwtorm.server.OrmException;
 
-class BooleanPredicate extends ChangeIndexPredicate {
-  private final FillArgs args;
+public class BooleanPredicate extends ChangeIndexPredicate {
+  protected final FillArgs args;
 
-  BooleanPredicate(FieldDef<ChangeData, String> field, FillArgs args) {
+  public BooleanPredicate(FieldDef<ChangeData, String> field, FillArgs args) {
     super(field, "1");
     this.args = args;
   }

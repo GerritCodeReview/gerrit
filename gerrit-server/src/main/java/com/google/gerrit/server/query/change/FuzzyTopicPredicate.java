@@ -24,10 +24,10 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
-class FuzzyTopicPredicate extends ChangeIndexPredicate {
-  private final ChangeIndex index;
+public class FuzzyTopicPredicate extends ChangeIndexPredicate {
+  protected final ChangeIndex index;
 
-  FuzzyTopicPredicate(String topic, ChangeIndex index) {
+  public FuzzyTopicPredicate(String topic, ChangeIndex index) {
     super(FUZZY_TOPIC, topic);
     this.index = index;
   }

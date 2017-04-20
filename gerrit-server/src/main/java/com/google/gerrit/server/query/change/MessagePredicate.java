@@ -22,10 +22,10 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
 /** Predicate to match changes that contains specified text in commit messages body. */
-class MessagePredicate extends ChangeIndexPredicate {
-  private final ChangeIndex index;
+public class MessagePredicate extends ChangeIndexPredicate {
+  protected final ChangeIndex index;
 
-  MessagePredicate(ChangeIndex index, String value) {
+  public MessagePredicate(ChangeIndex index, String value) {
     super(ChangeField.COMMIT_MESSAGE, value);
     this.index = index;
   }

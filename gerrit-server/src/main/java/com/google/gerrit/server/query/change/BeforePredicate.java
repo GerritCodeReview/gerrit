@@ -20,9 +20,9 @@ import com.google.gwtorm.server.OrmException;
 import java.util.Date;
 
 public class BeforePredicate extends TimestampRangeChangePredicate {
-  private final Date cut;
+  protected final Date cut;
 
-  BeforePredicate(String value) throws QueryParseException {
+  public BeforePredicate(String value) throws QueryParseException {
     super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_BEFORE, value);
     cut = parse(value);
   }

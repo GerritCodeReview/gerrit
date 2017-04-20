@@ -21,10 +21,10 @@ import com.google.gwtorm.server.OrmException;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 
-class RegexTopicPredicate extends ChangeRegexPredicate {
-  private final RunAutomaton pattern;
+public class RegexTopicPredicate extends ChangeRegexPredicate {
+  protected final RunAutomaton pattern;
 
-  RegexTopicPredicate(String re) {
+  public RegexTopicPredicate(String re) {
     super(EXACT_TOPIC, re);
 
     if (re.startsWith("^")) {

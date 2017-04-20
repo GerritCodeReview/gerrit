@@ -18,10 +18,10 @@ import java.util.Collection;
 
 /** Predicate to filter a field by matching value. */
 public abstract class OperatorPredicate<T> extends Predicate<T> {
-  private final String name;
-  private final String value;
+  protected final String name;
+  protected final String value;
 
-  protected OperatorPredicate(final String name, final String value) {
+  public OperatorPredicate(final String name, final String value) {
     this.name = name;
     this.value = value;
   }

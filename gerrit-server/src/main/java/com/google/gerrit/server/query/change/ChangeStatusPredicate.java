@@ -36,9 +36,9 @@ import java.util.TreeMap;
  * <p>Status names are looked up by prefix case-insensitively.
  */
 public final class ChangeStatusPredicate extends ChangeIndexPredicate {
-  private static final TreeMap<String, Predicate<ChangeData>> PREDICATES;
-  private static final Predicate<ChangeData> CLOSED;
-  private static final Predicate<ChangeData> OPEN;
+  protected static final TreeMap<String, Predicate<ChangeData>> PREDICATES;
+  protected static final Predicate<ChangeData> CLOSED;
+  protected static final Predicate<ChangeData> OPEN;
 
   static {
     PREDICATES = new TreeMap<>();
@@ -84,9 +84,9 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
     return CLOSED;
   }
 
-  private final Change.Status status;
+  protected final Change.Status status;
 
-  ChangeStatusPredicate(Change.Status status) {
+  public ChangeStatusPredicate(Change.Status status) {
     super(ChangeField.STATUS, canonicalize(status));
     this.status = status;
   }

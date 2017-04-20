@@ -24,12 +24,12 @@ import org.eclipse.jgit.revwalk.FooterLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class TrackingIdPredicate extends ChangeIndexPredicate {
+public class TrackingIdPredicate extends ChangeIndexPredicate {
   private static final Logger log = LoggerFactory.getLogger(TrackingIdPredicate.class);
 
-  private final TrackingFooters trackingFooters;
+  protected final TrackingFooters trackingFooters;
 
-  TrackingIdPredicate(TrackingFooters trackingFooters, String trackingId) {
+  public TrackingIdPredicate(TrackingFooters trackingFooters, String trackingId) {
     super(ChangeField.TR, trackingId);
     this.trackingFooters = trackingFooters;
   }

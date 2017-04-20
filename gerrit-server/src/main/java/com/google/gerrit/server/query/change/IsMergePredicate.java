@@ -24,7 +24,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class IsMergePredicate extends ChangeOperatorPredicate {
-  private final Arguments args;
+  protected final Arguments args;
 
   public IsMergePredicate(Arguments args, String value) {
     super(ChangeQueryBuilder.FIELD_MERGE, value);

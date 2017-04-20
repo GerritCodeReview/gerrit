@@ -21,10 +21,10 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
-class CommentPredicate extends ChangeIndexPredicate {
-  private final ChangeIndex index;
+public class CommentPredicate extends ChangeIndexPredicate {
+  protected final ChangeIndex index;
 
-  CommentPredicate(ChangeIndex index, String value) {
+  public CommentPredicate(ChangeIndex index, String value) {
     super(ChangeField.COMMENT, value);
     this.index = index;
   }

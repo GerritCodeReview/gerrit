@@ -19,7 +19,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
 public class AddedPredicate extends IntegerRangeChangePredicate {
-  AddedPredicate(String value) throws QueryParseException {
+  public AddedPredicate(String value) throws QueryParseException {
     super(ChangeField.ADDED, value);
   }
 

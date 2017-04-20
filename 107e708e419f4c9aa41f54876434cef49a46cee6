@@ -23,6 +23,30 @@
       "revId": "107e708e419f4c9aa41f54876434cef49a46cee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "752e5f13_d6d613b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-20T09:25:58Z",
+      "side": 1,
+      "message": "Hah, you got me. I was trying to obfuscate the real motivation for this change...\n\nDone.",
+      "parentUuid": "d3e6611d_4920ab0c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "107e708e419f4c9aa41f54876434cef49a46cee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

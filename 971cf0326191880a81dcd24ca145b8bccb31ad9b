@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "29fbe029_e85367a8",
+        "filename": "Documentation/dev-plugin-pg-styling.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T19:27:18Z",
+      "side": 1,
+      "message": "\u003e So, if a plugin wants two style only two different elements in two different named \"insertion points\" it needs to define two different style modules in separate files.\n\nTwo modules - yes, two files - not required.\nImported .html may contain any number of modules - that\u0027s what vulcanize does.\n\nSo another approach I was thinking about was not to use :root and @apply and use plain CSS.\nIn theory, this should do the same, with this change:\n\n\u003cdom-module id\u003d\"my-plugin-style\"\u003e\n  \u003ctemplate\u003e\n    \u003cstyle\u003e\n      section.assignee,\n      section.topic,\n      section.strategy,\n      section.labelStatus {\n        display: none;\n      }\n    \u003c/style\u003e\n  \u003c/template\u003e\n\u003c/dom-module\u003e\n\nUnfortunately, Polymer doesn\u0027t property apply such styles to the Shady DOM:\nhttp://stackoverflow.com/questions/35149624/dynamically-inject-shared-styles-in-polymer-element-polymer-1-2-3\nI investigated this route for a little while, since it seemed cleaner, but ended up with too much Polymer hacking to make it work.\n\nIt probably would be possible to start with :root and @apply approach, and eventually deprecate them in favor of abovementioned CSS.\n\nWhat do you think?",
+      "parentUuid": "4060ca83_af5bfec0",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 3
+      },
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fdae214f_40413cf6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
         "patchSetId": 7

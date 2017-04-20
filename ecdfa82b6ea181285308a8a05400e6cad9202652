@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "09aeb8cb_2ed8aae7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-20T23:22:08Z",
+      "side": 1,
+      "message": "Oh! I stand corrected. I hadn\u0027t realized Polymer was broken in that way. Good example.\n\nMaybe, instead of an object it should be an array of objects with key properties, and they can be updated by index.\n\nI misunderstood the way that Polymer handles dots in data-paths, but it still seems weird to impose this restriction on change actions just because of how the overrides are stored in Polymer.\n\nOn the other hand, dots in action keys may be super rare, so it might also make sense to just file an issue \u0026 TODO comment to upgrade the way action keys are handled internally.",
+      "parentUuid": "6d603bd4_adb33f2c",
+      "range": {
+        "startLine": 267,
+        "startChar": 6,
+        "endLine": 269,
+        "endChar": 7
+      },
+      "revId": "ecdfa82b6ea181285308a8a05400e6cad9202652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "048102fb_1ae56bde",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 3

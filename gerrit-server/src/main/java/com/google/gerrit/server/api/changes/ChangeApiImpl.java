@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.api.changes;
 
+import com.google.common.base.Throwables;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -391,8 +392,8 @@ class ChangeApiImpl implements ChangeApi {
     in.topic = topic;
     try {
       putTopic.apply(change, in);
-    } catch (UpdateException | PermissionBackendException e) {
-      throw new RestApiException("Cannot set topic", e);
+    } catch (Exception e) {
+      throwRestApiException("Cannot set topic", e);
     }
   }
 
@@ -584,5 +585,11 @@ class ChangeApiImpl implements ChangeApi {
     } catch (IOException | OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot index change", e);
     }
+  }
+
+  private static void throwRestApiException(String msg, Exception e) throws RestApiException {
+    Throwables.throwIfInstanceOf(e, RestApiException.class);
+    Throwables.throwIfUnchecked(e);
+    throw new RestApiException(msg, e);
   }
 }

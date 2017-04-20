@@ -19,7 +19,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.RetryingRestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -34,6 +34,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -41,10 +42,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class PutTopic implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
+public class PutTopic extends RetryingRestModifyView<ChangeResource, Input, Response<String>>
+    implements UiAction<ChangeResource> {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeMessagesUtil cmUtil;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final TopicEdited topicEdited;
 
   public static class Input {
@@ -55,29 +56,27 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>, UiAction
   PutTopic(
       Provider<ReviewDb> dbProvider,
       ChangeMessagesUtil cmUtil,
-      BatchUpdate.Factory batchUpdateFactory,
+      RetryHelper retryHelper,
       TopicEdited topicEdited) {
+    super(retryHelper);
     this.dbProvider = dbProvider;
     this.cmUtil = cmUtil;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.topicEdited = topicEdited;
   }
 
   @Override
-  public Response<String> apply(ChangeResource req, Input input)
+  protected Response<String> applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource req, Input input)
       throws UpdateException, RestApiException, PermissionBackendException {
     req.permissions().check(ChangePermission.EDIT_TOPIC_NAME);
-
     Op op = new Op(input != null ? input : new Input());
     try (BatchUpdate u =
-        batchUpdateFactory.create(
+        updateFactory.create(
             dbProvider.get(), req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {
       u.addOp(req.getId(), op);
       u.execute();
     }
-    return Strings.isNullOrEmpty(op.newTopicName)
-        ? Response.<String>none()
-        : Response.ok(op.newTopicName);
+    return Strings.isNullOrEmpty(op.newTopicName) ? Response.none() : Response.ok(op.newTopicName);
   }
 
   private class Op implements BatchUpdateOp {

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4dac3693_e6f59561",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/Section.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-20T08:32:29Z",
+      "side": 1,
+      "message": "Done in PS7",
+      "parentUuid": "ffd65edc_62d49d4a",
+      "revId": "e091a7eb487b4b5cc39f3a08f351c60a9c2669a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb25a6be_a56196c5",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/Section.java",
         "patchSetId": 5
@@ -53,6 +71,48 @@
         "endLine": 118,
         "endChar": 134
       },
+      "revId": "e091a7eb487b4b5cc39f3a08f351c60a9c2669a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c0cd585_d5cde0f7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/Section.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-20T08:32:29Z",
+      "side": 1,
+      "message": "Good point, some cleanup can be done.",
+      "parentUuid": "74492b90_3d2bb1a4",
+      "range": {
+        "startLine": 118,
+        "startChar": 127,
+        "endLine": 118,
+        "endChar": 134
+      },
+      "revId": "e091a7eb487b4b5cc39f3a08f351c60a9c2669a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67902ae4_30822e65",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/Section.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-20T08:32:29Z",
+      "side": 1,
+      "message": "Done in PS7",
+      "parentUuid": "eb25a6be_a56196c5",
       "revId": "e091a7eb487b4b5cc39f3a08f351c60a9c2669a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

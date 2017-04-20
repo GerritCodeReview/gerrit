@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "17120ed5_bb54e7ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-20T08:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0868f30_219b63e0",
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90bd8689_421cf302",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2017-04-20T05:31:12Z",
       "side": 1,
       "message": "Nit: According to our style we do not use wildcard imports.",
+      "range": {
+        "startLine": 17,
+        "startChar": 68,
+        "endLine": 17,
+        "endChar": 70
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd792d8d_24964bb9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-20T08:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90bd8689_421cf302",
       "range": {
         "startLine": 17,
         "startChar": 68,
@@ -134,6 +176,30 @@
     },
     {
       "key": {
+        "uuid": "84b7e1eb_1b666718",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-20T08:19:26Z",
+      "side": 1,
+      "message": "Seems more a wider refactoring, but let me try that :-)",
+      "parentUuid": "82df5983_c564226b",
+      "range": {
+        "startLine": 97,
+        "startChar": 10,
+        "endLine": 98,
+        "endChar": 26
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a58e983_6cc33560",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
         "patchSetId": 4
@@ -145,6 +211,30 @@
       "writtenOn": "2017-04-20T05:31:12Z",
       "side": 1,
       "message": "Same here.",
+      "range": {
+        "startLine": 101,
+        "startChar": 42,
+        "endLine": 101,
+        "endChar": 50
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8c39e23_cabe0da6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-20T08:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a58e983_6cc33560",
       "range": {
         "startLine": 101,
         "startChar": 42,
@@ -180,6 +270,30 @@
     },
     {
       "key": {
+        "uuid": "43a243b1_234193bf",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-20T08:19:26Z",
+      "side": 1,
+      "message": "Not really, it is better to list the allowed options and make the code more readable.",
+      "parentUuid": "12801c08_1baa310b",
+      "range": {
+        "startLine": 102,
+        "startChar": 31,
+        "endLine": 102,
+        "endChar": 35
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2388899d_fb4d6b71",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
         "patchSetId": 4
@@ -191,6 +305,30 @@
       "writtenOn": "2017-04-20T05:31:12Z",
       "side": 1,
       "message": "Type mismatch and always false. You probably meant:\n\n  gitBasicAuth.equalsIgnoreCase(GitBasicAuthPolicy.OAUTH.name()",
+      "range": {
+        "startLine": 104,
+        "startChar": 14,
+        "endLine": 104,
+        "endChar": 59
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "272a19b1_f01b4258",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-20T08:19:26Z",
+      "side": 1,
+      "message": "Using EnumSet\u003c\u003e this becomes a simple \u003d\u003d",
+      "parentUuid": "2388899d_fb4d6b71",
       "range": {
         "startLine": 104,
         "startChar": 14,
@@ -226,6 +364,30 @@
     },
     {
       "key": {
+        "uuid": "44fa64fc_4d90a4fa",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-20T08:19:26Z",
+      "side": 1,
+      "message": "All this function will go.",
+      "parentUuid": "bebfff3c_a1591ba4",
+      "range": {
+        "startLine": 157,
+        "startChar": 11,
+        "endLine": 157,
+        "endChar": 32
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d38fbee3_fe19fc13",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
         "patchSetId": 4
@@ -237,6 +399,30 @@
       "writtenOn": "2017-04-20T05:31:12Z",
       "side": 1,
       "message": "Nit: We always import collectors statically.",
+      "range": {
+        "startLine": 161,
+        "startChar": 17,
+        "endLine": 161,
+        "endChar": 35
+      },
+      "revId": "4d18a6f8986c33ff7f79b3a0b20ccc8ee96f1a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d941ea_64ebf26a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-20T08:19:26Z",
+      "side": 1,
+      "message": "Same",
+      "parentUuid": "d38fbee3_fe19fc13",
       "range": {
         "startLine": 161,
         "startChar": 17,

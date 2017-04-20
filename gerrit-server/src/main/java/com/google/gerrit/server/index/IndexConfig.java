@@ -17,6 +17,7 @@ package com.google.gerrit.server.index;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.auto.value.AutoValue;
+import java.util.function.IntConsumer;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -30,29 +31,61 @@ public abstract class IndexConfig {
   private static final int DEFAULT_MAX_TERMS = 1024;
 
   public static IndexConfig createDefault() {
-    return create(0, 0, DEFAULT_MAX_TERMS);
+    return builder().build();
   }
 
-  public static IndexConfig fromConfig(Config cfg) {
-    return create(
-        cfg.getInt("index", null, "maxLimit", 0),
-        cfg.getInt("index", null, "maxPages", 0),
-        cfg.getInt("index", null, "maxTerms", 0));
+  public static Builder fromConfig(Config cfg) {
+    Builder b = builder();
+    setIfPresent(cfg, "maxLimit", b::maxLimit);
+    setIfPresent(cfg, "maxPages", b::maxPages);
+    setIfPresent(cfg, "maxTerms", b::maxTerms);
+    return b;
   }
 
-  public static IndexConfig create(int maxLimit, int maxPages, int maxTerms) {
-    return new AutoValue_IndexConfig(
-        checkLimit(maxLimit, "maxLimit", Integer.MAX_VALUE),
-        checkLimit(maxPages, "maxPages", Integer.MAX_VALUE),
-        checkLimit(maxTerms, "maxTerms", DEFAULT_MAX_TERMS));
-  }
-
-  private static int checkLimit(int limit, String name, int defaultValue) {
-    if (limit == 0) {
-      return defaultValue;
+  private static void setIfPresent(Config cfg, String name, IntConsumer setter) {
+    int n = cfg.getInt("index", null, name, 0);
+    if (n != 0) {
+      setter.accept(n);
     }
+  }
+
+  public static Builder builder() {
+    return new AutoValue_IndexConfig.Builder()
+        .maxLimit(Integer.MAX_VALUE)
+        .maxPages(Integer.MAX_VALUE)
+        .maxTerms(DEFAULT_MAX_TERMS)
+        .separateChangeSubIndexes(false);
+  }
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder maxLimit(int maxLimit);
+
+    abstract int maxLimit();
+
+    public abstract Builder maxPages(int maxPages);
+
+    abstract int maxPages();
+
+    public abstract Builder maxTerms(int maxTerms);
+
+    abstract int maxTerms();
+
+    public abstract Builder separateChangeSubIndexes(boolean separate);
+
+    abstract IndexConfig autoBuild();
+
+    public IndexConfig build() {
+      IndexConfig cfg = autoBuild();
+      checkLimit(cfg.maxLimit(), "maxLimit");
+      checkLimit(cfg.maxPages(), "maxPages");
+      checkLimit(cfg.maxTerms(), "maxTerms");
+      return cfg;
+    }
+  }
+
+  private static void checkLimit(int limit, String name) {
     checkArgument(limit > 0, "%s must be positive: %s", name, limit);
-    return limit;
   }
 
   /**
@@ -71,4 +104,9 @@ public abstract class IndexConfig {
    *     for performance reasons.
    */
   public abstract int maxTerms();
+
+  /**
+   * @return whether different subsets of changes may be stored in different physical sub-indexes.
+   */
+  public abstract boolean separateChangeSubIndexes();
 }

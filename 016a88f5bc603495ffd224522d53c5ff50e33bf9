@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "d5e4c7e9_a66f09f8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/AccountsOnInit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-20T07:29:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76836528_43307d7a",
+      "revId": "016a88f5bc603495ffd224522d53c5ff50e33bf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "263f2747_1ad22241",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
         "patchSetId": 11
@@ -31,6 +49,24 @@
       "writtenOn": "2017-04-19T14:25:14Z",
       "side": 1,
       "message": "This is the same logic as in the init case, yes? Maybe extract a public static version of it that takes a Repository, so you can reuse it from init?\n\nAlso, same comment as in init, this would be cleaner with streams.",
+      "revId": "016a88f5bc603495ffd224522d53c5ff50e33bf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e22bb5c8_e957dbb5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-20T07:29:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "263f2747_1ad22241",
       "revId": "016a88f5bc603495ffd224522d53c5ff50e33bf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "de5b07e4_cbd58292",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-20T00:34:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd5c937c_3b0f7aea",
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffc785dc_5489f2ad",
         "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.html",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "9a5d4737_a9b9841b",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-20T00:34:04Z",
+      "side": 1,
+      "message": "The reason is that the font size is different in the gr-button, so ems don\u0027t actually align the two.",
+      "parentUuid": "ffc785dc_5489f2ad",
+      "range": {
+        "startLine": 52,
+        "startChar": 19,
+        "endLine": 52,
+        "endChar": 23
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32f715b8_53a981d2",
         "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2017-04-19T17:30:26Z",
       "side": 1,
       "message": "shouldn\u0027t this be _permittedLabelsChanged?",
+      "range": {
+        "startLine": 26,
+        "startChar": 19,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa172090_d7b66156",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-20T00:34:04Z",
+      "side": 1,
+      "message": "You mean just rename the function?",
+      "parentUuid": "32f715b8_53a981d2",
       "range": {
         "startLine": 26,
         "startChar": 19,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "bf5ccbaa_94679abb",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-20T00:34:04Z",
+      "side": 1,
+      "message": "This function was copied from before, but I don\u0027t think they are the same.\n\nin the computeLabels function: I don\u0027t think that labelsObj is the same as what ends up being this._labels.\n\n_computeLabels: function(labelRecord) {\n      var labelsObj \u003d labelRecord.base;\n      if (!labelsObj) { return []; }\n      return Object.keys(labelsObj).sort().map(function(key) {\n        return {\n          name: key,\n          value: this._getVoteForAccount(labelsObj, key, this.account),\n        };\n      }.bind(this));\n    },",
+      "parentUuid": "7d191df4_a4840c75",
+      "range": {
+        "startLine": 32,
+        "startChar": 33,
+        "endLine": 32,
+        "endChar": 39
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9a88faa5_b6607e0e",
         "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
         "patchSetId": 1
@@ -108,6 +198,30 @@
       "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f4ce6d9_eecb1b7b",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-20T00:34:04Z",
+      "side": 1,
+      "message": "I believe it is intentional (though this was a copy/paste function)- so that this isn\u0027t triggered for logged out users.",
+      "parentUuid": "9a88faa5_b6607e0e",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 18
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "bb41161b_94b11892",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-20T00:34:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b668e8c0_88b68714",
+      "range": {
+        "startLine": 61,
+        "startChar": 17,
+        "endLine": 61,
+        "endChar": 32
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ca868a5_e640590e",
         "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
         "patchSetId": 1
@@ -145,6 +283,30 @@
       "writtenOn": "2017-04-19T17:30:26Z",
       "side": 1,
       "message": "get?\n\nshouldn\u0027t `compute` prefix be used for computed properties?\nSame for other non-computed function using compute prefix.",
+      "range": {
+        "startLine": 75,
+        "startChar": 5,
+        "endLine": 75,
+        "endChar": 12
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bae63f5_a98f6778",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-20T00:34:04Z",
+      "side": 1,
+      "message": "isn\u0027t it a computed property?\n\n\u003ciron-selector data-label$\u003d\"[[label.name]]\"\n            selected\u003d\"[[_computeIndexOfLabelValue(change.labels, permittedLabels, label)]]\"\n            hidden$\u003d\"[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]\"\u003e",
+      "parentUuid": "0ca868a5_e640590e",
       "range": {
         "startLine": 75,
         "startChar": 5,
@@ -197,6 +359,30 @@
     },
     {
       "key": {
+        "uuid": "8ca7a28e_47b94b2e",
+        "filename": "polygerrit-ui/app/elements/change/gr-labels/gr-labels_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-20T00:34:04Z",
+      "side": 1,
+      "message": "Tested locally on safari... seems to work",
+      "parentUuid": "afda1c8f_9b0f1b28",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 26
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce1d6468_d2493f9b",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
         "patchSetId": 1
@@ -237,6 +423,30 @@
     },
     {
       "key": {
+        "uuid": "f3592842_76642c48",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-20T00:34:04Z",
+      "side": 1,
+      "message": "Yeah, but they are set to the property for the reply dialog in gr-change-view:\n\n \u003cgr-reply-dialog id\u003d\"replyDialog\"\n          change\u003d\"{{_change}}\"\n          patch-num\u003d\"[[_computeLatestPatchNum(_allPatchSets)]]\"\n          permitted-labels\u003d\"[[_change.permitted_labels]]\"",
+      "parentUuid": "be887a04_60eb0c6c",
+      "range": {
+        "startLine": 218,
+        "startChar": 31,
+        "endLine": 218,
+        "endChar": 46
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "247e3069_2b2c0dd9",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1
@@ -257,6 +467,30 @@
       "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a19061d2_88e3859e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-20T00:34:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "247e3069_2b2c0dd9",
+      "range": {
+        "startLine": 267,
+        "startChar": 30,
+        "endLine": 267,
+        "endChar": 45
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -283,6 +517,30 @@
     },
     {
       "key": {
+        "uuid": "e66d13cb_2d9ac212",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-20T00:34:04Z",
+      "side": 1,
+      "message": "Yeah, I think that makes sense. Added a getLabelValues function.",
+      "parentUuid": "bb08ff6b_36b37070",
+      "range": {
+        "startLine": 264,
+        "startChar": 6,
+        "endLine": 285,
+        "endChar": 7
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4c31626_0341e7b1",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1
@@ -303,6 +561,30 @@
       "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "798d2e3c_352b46db",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-20T00:34:04Z",
+      "side": 1,
+      "message": "Yeah, it is after adding getLabelValues as you suggested.",
+      "parentUuid": "f4c31626_0341e7b1",
+      "range": {
+        "startLine": 411,
+        "startChar": 4,
+        "endLine": 411,
+        "endChar": 22
+      },
+      "revId": "037e465d7cf5d57319e3314b5252938566c11d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

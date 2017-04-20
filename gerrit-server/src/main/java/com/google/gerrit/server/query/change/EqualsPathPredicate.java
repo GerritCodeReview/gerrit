@@ -20,11 +20,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class EqualsPathPredicate extends ChangeIndexPredicate {
-  protected final String value;
-
   public EqualsPathPredicate(String fieldName, String value) {
     super(ChangeField.PATH, fieldName, value);
-    this.value = value;
   }
 
   @Override

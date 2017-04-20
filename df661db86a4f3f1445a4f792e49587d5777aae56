@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7783bea0_a4372aca",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-20T14:33:05Z",
+      "side": 1,
+      "message": "Wouldn\u0027t label.hasOwnProperty(key) always be true because the for look is for \"key in label\"?",
+      "revId": "df661db86a4f3f1445a4f792e49587d5777aae56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

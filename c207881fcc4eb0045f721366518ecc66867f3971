@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "5f437e45_ce7fdfc8",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1035927
+      },
+      "writtenOn": "2017-04-20T18:47:01Z",
+      "side": 1,
+      "message": "I think we should rethink this sentence. Usability is for humans in general and it applies to all. Without it a tool is unusable. I think what you might have meant here is Visual design aspect of the tool.",
+      "range": {
+        "startLine": 3,
+        "startChar": 65,
+        "endLine": 4,
+        "endChar": 35
+      },
+      "revId": "c207881fcc4eb0045f721366518ecc66867f3971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fe569ec_6f73c28a",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1035927
+      },
+      "writtenOn": "2017-04-20T18:47:01Z",
+      "side": 1,
+      "message": "I think we should also add that the following:\n- primary actions are typically positive ones and a button that performs a destructive action eg., delete or remove should not be made primary actions even if they are very important.\n- primary actions can also be the most frequently used action on the UI",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 92
+      },
+      "revId": "c207881fcc4eb0045f721366518ecc66867f3971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d06040a2_d00dc9d9",
         "filename": "Documentation/dev-ux.txt",
         "patchSetId": 4
@@ -22,6 +68,144 @@
       "revId": "c207881fcc4eb0045f721366518ecc66867f3971",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5db84b78_d1b14a25",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1035927
+      },
+      "writtenOn": "2017-04-20T18:47:01Z",
+      "side": 1,
+      "message": "or are represented using icons",
+      "range": {
+        "startLine": 20,
+        "startChar": 54,
+        "endLine": 20,
+        "endChar": 71
+      },
+      "revId": "c207881fcc4eb0045f721366518ecc66867f3971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7ed7ecb_d23d7a2f",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1035927
+      },
+      "writtenOn": "2017-04-20T18:47:01Z",
+      "side": 1,
+      "message": "must visually stand out by using a prominent color for them or color that can easily be distinguished from the colors of other components on the UI",
+      "range": {
+        "startLine": 23,
+        "startChar": 18,
+        "endLine": 23,
+        "endChar": 32
+      },
+      "revId": "c207881fcc4eb0045f721366518ecc66867f3971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c12e1fba_86fd307d",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1035927
+      },
+      "writtenOn": "2017-04-20T18:47:01Z",
+      "side": 1,
+      "message": "or information that act on",
+      "range": {
+        "startLine": 25,
+        "startChar": 41,
+        "endLine": 25,
+        "endChar": 48
+      },
+      "revId": "c207881fcc4eb0045f721366518ecc66867f3971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15707fe8_068608f1",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1035927
+      },
+      "writtenOn": "2017-04-20T18:47:01Z",
+      "side": 1,
+      "message": "I think an example will be useful here",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 29,
+        "endChar": 30
+      },
+      "revId": "c207881fcc4eb0045f721366518ecc66867f3971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65ae2bbf_e92ad4ba",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1035927
+      },
+      "writtenOn": "2017-04-20T18:47:01Z",
+      "side": 1,
+      "message": "Again a few example of loading indicators will be useful",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 8
+      },
+      "revId": "c207881fcc4eb0045f721366518ecc66867f3971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e81143b5_5b74d2c8",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1035927
+      },
+      "writtenOn": "2017-04-20T18:47:01Z",
+      "side": 1,
+      "message": "This is a good one!",
+      "range": {
+        "startLine": 50,
+        "startChar": 29,
+        "endLine": 50,
+        "endChar": 47
+      },
+      "revId": "c207881fcc4eb0045f721366518ecc66867f3971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

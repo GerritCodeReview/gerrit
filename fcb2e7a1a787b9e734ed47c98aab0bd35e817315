@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6347e1dc_3ac95e34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-20T16:53:02Z",
+      "side": 1,
+      "message": "I totally see what you\u0027re saying. I\u0027ve documented your criticism, and I think every point you made is a valid one. We as a team are meeting up the entirety of next week, and one of our goals is to create some sort of contributor guidelines and automatic code checking.\n\nAs to this specific change, I think it\u0027s small enough that it isn\u0027t a big deal. In the future, though, it would be good to have a little bit more description in the commit message, e.g. \u0027Previously, the link to project on the change view linked only open changes. This was not adequate because ______. Now, it links to a query for all changes.\u0027\n\nThanks again for your contribution.",
+      "parentUuid": "d6e3da04_aa8a5746",
+      "revId": "fcb2e7a1a787b9e734ed47c98aab0bd35e817315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6be7431_65ce60ee",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 2
@@ -72,6 +90,30 @@
       "side": 1,
       "message": "I am not sure. It looks like exactly 80 characters long, but considering newline it is longer.",
       "parentUuid": "c6be7431_65ce60ee",
+      "range": {
+        "startLine": 238,
+        "startChar": 47,
+        "endLine": 239,
+        "endChar": 39
+      },
+      "revId": "fcb2e7a1a787b9e734ed47c98aab0bd35e817315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0ba80dc_974510e3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-20T16:53:02Z",
+      "side": 1,
+      "message": "No big deal, then.",
+      "parentUuid": "7e1b18ba_7ac166ff",
       "range": {
         "startLine": 238,
         "startChar": 47,

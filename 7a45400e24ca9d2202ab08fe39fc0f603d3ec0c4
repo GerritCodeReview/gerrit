@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dac5f46_2361862c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-20T23:04:58Z",
+      "side": 0,
+      "message": "Removing this seems to cause the problem I had with the other _computePrefsButtonHidden method. Why does this need to go?\n\nShould this._prefs be initialized to `null` (as opposed to `undefined`) so that it still gets called when the preferences don\u0027t load?",
+      "range": {
+        "startLine": 559,
+        "startChar": 40,
+        "endLine": 559,
+        "endChar": 45
+      },
+      "revId": "7a45400e24ca9d2202ab08fe39fc0f603d3ec0c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

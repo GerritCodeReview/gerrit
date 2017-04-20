@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "655407cd_81b5eea8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-20T23:04:58Z",
+      "side": 1,
+      "message": "Note: This adds the button to the area of the change view that is supposed to be patch-specific (the shaded gray rectangle). But the preferences span all patches.\n\nOn the other hand, it looks good there, and I\u0027m not sure where else it should go.",
+      "range": {
+        "startLine": 460,
+        "startChar": 12,
+        "endLine": 465,
+        "endChar": 19
+      },
+      "revId": "e21efeb126d598979ea96c774eb4fbd91b1cb2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c58c117_0442b587",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-20T23:04:58Z",
+      "side": 1,
+      "message": "Cool that this correctly re-renders the diffs when the prefs are changed!\n\nHowever, there is a side effect: changes to preferences it cause simultaneous re-render on every open diff.\n\nWe render diffs sequentially instead of simultaneously because the changes with many complex diffs used to lock-up the browser when you click [Expand all]. So if you open such a change, wait for all diffs to render sequentially and then edit the preferences I expect the browser will lock up because they all render at once.\n\nWe hadn\u0027t run into this issue before because the prefs modal had only appeared in the single diff view.\n\nI can think of a couple fixes:\n* Instead of the end-to-end 2-way binding for preferences, we could update the preferences on each gr-diff sequentially (each time waiting for the previous diff to finish re-render).\n* Alternatively, for diffs that are inline, disable the way they automatically listen for preferences changes (with a property like ignore-prefs-chanegs or something). Then, when the file list detects a change to the preferences object, it does the sequential re-render using `GR-FILE-LIST#_renderInOrder` or similar.\n\nThe first option seems kind of hacky. The second one feels better because it takes advantage of the existing sequential render system. Maybe you can think of a different approach too.",
+      "revId": "e21efeb126d598979ea96c774eb4fbd91b1cb2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bd93c32_2888c527",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-20T23:04:58Z",
+      "side": 1,
+      "message": "Because this method only depends on logged in (but not this._diffPrefs) it would never show up for me. It did start appearing when I passed _diffPrefs in the binding though.",
+      "revId": "e21efeb126d598979ea96c774eb4fbd91b1cb2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ef06c33_452cd6fe",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-20T23:04:58Z",
+      "side": 1,
+      "message": "Indentation.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 2
+      },
+      "revId": "e21efeb126d598979ea96c774eb4fbd91b1cb2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6af81aba_12d86292",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-20T21:37:17Z",
+      "side": 1,
+      "message": "Maybe these values ought to be constants.\n\n ActionPriority.REVIEW",
+      "range": {
+        "startLine": 796,
+        "startChar": 15,
+        "endLine": 796,
+        "endChar": 17
+      },
+      "revId": "22f91bf461cbf3c44afb767949ab03ea821aa9f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "137395e4_de33650c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-20T21:37:17Z",
+      "side": 1,
+      "message": "Is this value a delta or a priority? If it\u0027s a delta, what\u0027s a delta against? Can this just be renamed to \"priority\"?",
+      "range": {
+        "startLine": 811,
+        "startChar": 10,
+        "endLine": 811,
+        "endChar": 41
+      },
+      "revId": "22f91bf461cbf3c44afb767949ab03ea821aa9f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

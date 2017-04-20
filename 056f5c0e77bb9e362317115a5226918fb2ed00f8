@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ce4baded_c54652d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-20T08:19:27Z",
+      "side": 1,
+      "message": "Sounds fine.",
+      "parentUuid": "dfe9b79a_12f7b204",
+      "revId": "056f5c0e77bb9e362317115a5226918fb2ed00f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a3440522_814bb0d9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutName.java",
         "patchSetId": 5
@@ -31,6 +49,30 @@
       "writtenOn": "2017-04-19T14:44:10Z",
       "side": 1,
       "message": "Unnecessary braces",
+      "range": {
+        "startLine": 95,
+        "startChar": 22,
+        "endLine": 95,
+        "endChar": 0
+      },
+      "revId": "056f5c0e77bb9e362317115a5226918fb2ed00f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "856f9d4e_d0dcbcbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutName.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-20T08:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3440522_814bb0d9",
       "range": {
         "startLine": 95,
         "startChar": 22,
@@ -66,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "c3ed8b36_e4003eba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutName.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-20T08:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a6b8765_9493bbae",
+      "range": {
+        "startLine": 103,
+        "startChar": 19,
+        "endLine": 103,
+        "endChar": 27
+      },
+      "revId": "056f5c0e77bb9e362317115a5226918fb2ed00f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e5fc64e_b2ac146d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutStatus.java",
         "patchSetId": 5
@@ -77,6 +143,24 @@
       "writtenOn": "2017-04-19T14:44:10Z",
       "side": 1,
       "message": "Unnecessary braces",
+      "revId": "056f5c0e77bb9e362317115a5226918fb2ed00f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17f28218_29dc9bc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutStatus.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-20T08:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e5fc64e_b2ac146d",
       "revId": "056f5c0e77bb9e362317115a5226918fb2ed00f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

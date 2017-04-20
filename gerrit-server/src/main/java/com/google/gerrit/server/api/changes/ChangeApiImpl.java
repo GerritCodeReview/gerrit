@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.api.changes;
 
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -435,8 +437,8 @@ class ChangeApiImpl implements ChangeApi {
     in.topic = topic;
     try {
       putTopic.apply(change, in);
-    } catch (UpdateException | PermissionBackendException e) {
-      throw new RestApiException("Cannot set topic", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set topic", e);
     }
   }
 

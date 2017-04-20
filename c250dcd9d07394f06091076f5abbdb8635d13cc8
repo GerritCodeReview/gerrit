@@ -23,6 +23,30 @@
       "revId": "c250dcd9d07394f06091076f5abbdb8635d13cc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc1147cd_7d8cf3c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-20T08:47:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba51c64d_047a4add",
+      "range": {
+        "startLine": 159,
+        "startChar": 17,
+        "endLine": 159,
+        "endChar": 26
+      },
+      "revId": "c250dcd9d07394f06091076f5abbdb8635d13cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

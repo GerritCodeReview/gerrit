@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0be76578_4e375ae6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-20T08:43:05Z",
+      "side": 1,
+      "message": "Even shorter, this could be expressed as:\n\n  EnumSet.complementOf(EnumSet.of(OAUTH))",
+      "range": {
+        "startLine": 93,
+        "startChar": 14,
+        "endLine": 93,
+        "endChar": 47
+      },
+      "revId": "77c238a64f49bf61ad016c2067150e90f7d60072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

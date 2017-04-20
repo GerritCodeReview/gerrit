@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "54cfbb32_ebf8d89e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-20T07:56:04Z",
+      "side": 1,
+      "message": "Thanks for the suggestion. This indeed turns out to be much easier.\n\nDone",
+      "parentUuid": "af46921a_dd64fe5d",
+      "revId": "342bc5d264bc41a75bb8c313a3ff631f802d215e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "537e0740_dc8b801a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
         "patchSetId": 12
@@ -43,6 +61,30 @@
     },
     {
       "key": {
+        "uuid": "b67e4c1b_d0861de9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-20T07:56:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "537e0740_dc8b801a",
+      "range": {
+        "startLine": 95,
+        "startChar": 45,
+        "endLine": 95,
+        "endChar": 73
+      },
+      "revId": "342bc5d264bc41a75bb8c313a3ff631f802d215e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28f6a017_8dda6540",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
         "patchSetId": 12
@@ -54,6 +96,24 @@
       "writtenOn": "2017-04-19T14:37:16Z",
       "side": 1,
       "message": "Since this isn\u0027t @Nullable, you\u0027ll get NPE if there are any garbage refs under refs/users. Might want to return null from UserRef#create in this case and then .filter(Objects::nonNull) when streaming.",
+      "revId": "342bc5d264bc41a75bb8c313a3ff631f802d215e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cfb059f_68b8e8b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-20T07:56:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28f6a017_8dda6540",
       "revId": "342bc5d264bc41a75bb8c313a3ff631f802d215e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

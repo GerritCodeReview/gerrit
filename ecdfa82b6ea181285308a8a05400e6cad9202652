@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "6d603bd4_adb33f2c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-20T23:10:46Z",
+      "side": 1,
+      "message": "I guess I\u0027ll need to rework the change to work around this requirement, but meanwhile here\u0027s JSBin that show\u0027s the problem:\nhttp://jsbin.com/lelego/3/edit?html,output",
+      "parentUuid": "b6e9bc15_45983e0c",
+      "range": {
+        "startLine": 267,
+        "startChar": 6,
+        "endLine": 269,
+        "endChar": 7
+      },
+      "revId": "ecdfa82b6ea181285308a8a05400e6cad9202652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "048102fb_1ae56bde",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 3

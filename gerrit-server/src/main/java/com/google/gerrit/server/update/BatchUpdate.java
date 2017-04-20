@@ -107,6 +107,7 @@ public abstract class BatchUpdate implements AutoCloseable {
     private final FusedNoteDbBatchUpdate.AssistedFactory fusedNoteDbBatchUpdateFactory;
     private final UnfusedNoteDbBatchUpdate.AssistedFactory unfusedNoteDbBatchUpdateFactory;
 
+    // TODO(dborowitz): Make this non-injectable to force all callers to use RetryHelper.
     @Inject
     Factory(
         NotesMigration migration,

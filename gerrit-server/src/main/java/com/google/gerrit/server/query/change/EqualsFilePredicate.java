@@ -28,11 +28,8 @@ public class EqualsFilePredicate extends ChangeIndexPredicate {
     return Predicate.or(eqPath, new EqualsFilePredicate(value));
   }
 
-  protected final String value;
-
   private EqualsFilePredicate(String value) {
     super(ChangeField.FILE_PART, ChangeQueryBuilder.FIELD_FILE, value);
-    this.value = value;
   }
 
   @Override

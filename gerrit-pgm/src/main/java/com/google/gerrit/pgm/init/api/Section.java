@@ -22,6 +22,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.Set;
 
 /** Helper to edit a section of the configuration files. */
@@ -110,15 +111,28 @@ public class Section {
     return site.resolve(string(title, name, defValue));
   }
 
-  public <T extends Enum<?>> T select(final String title, final String name, final T defValue) {
+  public <T extends Enum<?>, E extends EnumSet<? extends T>> T select(
+      String title, String name, T defValue) {
     return select(title, name, defValue, false);
   }
 
-  public <T extends Enum<?>> T select(
-      final String title, final String name, final T defValue, final boolean nullIfDefault) {
+  public <T extends Enum<?>, E extends EnumSet<? extends T>> T select(
+      String title, String name, T defValue, boolean nullIfDefault) {
+    @SuppressWarnings("unchecked")
+    E allowedValues = (E) EnumSet.allOf(defValue.getClass());
+    return select(title, name, defValue, allowedValues, nullIfDefault);
+  }
+
+  public <T extends Enum<?>, E extends EnumSet<? extends T>> T select(
+      String title, String name, T defValue, E allowedValues) {
+    return select(title, name, defValue, allowedValues, false);
+  }
+
+  public <T extends Enum<?>, A extends EnumSet<? extends T>> T select(
+      String title, String name, T defValue, A allowedValues, final boolean nullIfDefault) {
     final boolean set = get(name) != null;
     T oldValue = flags.cfg.getEnum(section, subsection, name, defValue);
-    T newValue = ui.readEnum(oldValue, "%s", title);
+    T newValue = ui.readEnum(oldValue, allowedValues, "%s", title);
     if (nullIfDefault && newValue == defValue) {
       newValue = null;
     }

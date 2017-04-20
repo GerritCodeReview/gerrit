@@ -20,6 +20,9 @@ import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Streams;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.TimeUtil;
@@ -28,23 +31,37 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevSort;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
 public class NoteDbOnlyIT extends AbstractDaemonTest {
-  @Inject private BatchUpdate.Factory batchUpdateFactory;
+  @Inject private BatchUpdate.Factory globalBatchUpdateFactory;
+  @Inject private RetryHelper retryHelper;
 
   @Before
   public void setUp() throws Exception {
@@ -81,7 +98,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
           }
         };
 
-    try (BatchUpdate bu = newBatchUpdate()) {
+    try (BatchUpdate bu = newBatchUpdate(globalBatchUpdateFactory)) {
       bu.addOp(id, backupMasterOp);
       bu.execute();
     }
@@ -97,7 +114,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
     assertThat(master2).isNotEqualTo(master1);
     int msgCount = getMessages(id).size();
 
-    try (BatchUpdate bu = newBatchUpdate()) {
+    try (BatchUpdate bu = newBatchUpdate(globalBatchUpdateFactory)) {
       // This time, we attempt to back up master, but we fail during updateChange.
       bu.addOp(id, backupMasterOp);
       String msg = "Change is bad";
@@ -122,9 +139,187 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
     assertThat(getMessages(id)).hasSize(msgCount);
   }
 
-  private BatchUpdate newBatchUpdate() {
-    return batchUpdateFactory.create(
-        db, project, identifiedUserFactory.create(user.getId()), TimeUtil.nowTs());
+  @Test
+  public void retryOnLockFailureWithAtomicUpdates() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+    String master = "refs/heads/master";
+    ObjectId initial;
+    try (Repository repo = repoManager.openRepository(project)) {
+      ((InMemoryRepository) repo).setPerformsAtomicTransactions(true);
+      initial = repo.exactRef(master).getObjectId();
+    }
+
+    AtomicInteger updateRepoCalledCount = new AtomicInteger();
+    AtomicInteger updateChangeCalledCount = new AtomicInteger();
+    AtomicInteger afterUpdateReposCalledCount = new AtomicInteger();
+
+    String result =
+        retryHelper.execute(
+            batchUpdateFactory -> {
+              try (BatchUpdate bu = newBatchUpdate(batchUpdateFactory)) {
+                bu.addOp(
+                    id,
+                    new UpdateRefAndAddMessageOp(
+                        updateChangeCalledCount, afterUpdateReposCalledCount));
+                batchUpdateFactory.execute(
+                    ImmutableList.of(bu),
+                    new ConcurrentWritingListener(updateRepoCalledCount),
+                    null,
+                    false);
+              }
+              return "Done";
+            });
+
+    assertThat(result).isEqualTo("Done");
+    assertThat(updateRepoCalledCount.get()).isEqualTo(2);
+    assertThat(updateChangeCalledCount.get()).isEqualTo(2);
+    assertThat(afterUpdateReposCalledCount.get()).isEqualTo(2);
+
+    List<String> messages = getMessages(id);
+    assertThat(Iterables.getLast(messages)).isEqualTo(UpdateRefAndAddMessageOp.CHANGE_MESSAGE);
+    assertThat(Collections.frequency(messages, UpdateRefAndAddMessageOp.CHANGE_MESSAGE))
+        .isEqualTo(1);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      // Op lost the race, so the other writer's commit happened first. Then op retried and wrote
+      // its commit with the other writer's commit as parent.
+      assertThat(commitMessages(repo, initial, repo.exactRef(master).getObjectId()))
+          .containsExactly(
+              ConcurrentWritingListener.MSG_PREFIX + "1", UpdateRefAndAddMessageOp.COMMIT_MESSAGE)
+          .inOrder();
+    }
+  }
+
+  @Test
+  public void noRetryOnLockFailureWithoutAtomicUpdates() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+    String master = "refs/heads/master";
+    ObjectId initial;
+    try (Repository repo = repoManager.openRepository(project)) {
+      ((InMemoryRepository) repo).setPerformsAtomicTransactions(false);
+      initial = repo.exactRef(master).getObjectId();
+    }
+
+    AtomicInteger updateRepoCalledCount = new AtomicInteger();
+    AtomicInteger updateChangeCalledCount = new AtomicInteger();
+    AtomicInteger afterUpdateReposCalledCount = new AtomicInteger();
+
+    try {
+      retryHelper.execute(
+          batchUpdateFactory -> {
+            try (BatchUpdate bu = newBatchUpdate(batchUpdateFactory)) {
+              bu.addOp(
+                  id,
+                  new UpdateRefAndAddMessageOp(
+                      updateChangeCalledCount, afterUpdateReposCalledCount));
+              batchUpdateFactory.execute(
+                  ImmutableList.of(bu),
+                  new ConcurrentWritingListener(updateRepoCalledCount),
+                  null,
+                  false);
+            }
+            return null;
+          });
+      assert_().fail("expected UpdateException");
+    } catch (UpdateException e) {
+      // Expected.
+    }
+
+    assertThat(updateRepoCalledCount.get()).isEqualTo(1);
+    assertThat(updateChangeCalledCount.get()).isEqualTo(1);
+    assertThat(afterUpdateReposCalledCount.get()).isEqualTo(1);
+
+    // Out of the 2 commands in the BatchRefUpdate, the meta update succeeded.
+    List<String> messages = getMessages(id);
+    assertThat(Iterables.getLast(messages)).isEqualTo(UpdateRefAndAddMessageOp.CHANGE_MESSAGE);
+    assertThat(Collections.frequency(messages, UpdateRefAndAddMessageOp.CHANGE_MESSAGE))
+        .isEqualTo(1);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      // Op lost the race, so the other writer's commit happened first. Op didn't retry, because the
+      // ref updates weren't atomic, so it didn't throw LockFailureException on failure.
+      assertThat(commitMessages(repo, initial, repo.exactRef(master).getObjectId()))
+          .containsExactly(ConcurrentWritingListener.MSG_PREFIX + "1");
+    }
+  }
+
+  private class ConcurrentWritingListener implements BatchUpdateListener {
+    static final String MSG_PREFIX = "Other writer ";
+
+    private final AtomicInteger calledCount;
+
+    private ConcurrentWritingListener(AtomicInteger calledCount) {
+      this.calledCount = calledCount;
+    }
+
+    @Override
+    public void afterUpdateRepos() throws Exception {
+      // Reopen repo and update ref, to simulate a concurrent write in another
+      // thread. Only do this the first time the listener is called.
+      if (calledCount.getAndIncrement() > 0) {
+        return;
+      }
+      try (Repository repo = repoManager.openRepository(project);
+          RevWalk rw = new RevWalk(repo);
+          ObjectInserter ins = repo.newObjectInserter()) {
+        String master = "refs/heads/master";
+        ObjectId oldId = repo.exactRef(master).getObjectId();
+        ObjectId newId = newCommit(rw, ins, oldId, MSG_PREFIX + calledCount.get());
+        ins.flush();
+        RefUpdate ru = repo.updateRef(master);
+        ru.setExpectedOldObjectId(oldId);
+        ru.setNewObjectId(newId);
+        assertThat(ru.update(rw)).isEqualTo(RefUpdate.Result.FAST_FORWARD);
+      }
+    }
+  }
+
+  private class UpdateRefAndAddMessageOp implements BatchUpdateOp {
+    static final String COMMIT_MESSAGE = "A commit";
+    static final String CHANGE_MESSAGE = "A change message";
+
+    private final AtomicInteger updateRepoCalledCount;
+    private final AtomicInteger updateChangeCalledCount;
+
+    private UpdateRefAndAddMessageOp(
+        AtomicInteger updateRepoCalledCount, AtomicInteger updateChangeCalledCount) {
+      this.updateRepoCalledCount = updateRepoCalledCount;
+      this.updateChangeCalledCount = updateChangeCalledCount;
+    }
+
+    @Override
+    public void updateRepo(RepoContext ctx) throws Exception {
+      String master = "refs/heads/master";
+      ObjectId oldId = ctx.getRepoView().getRef(master).get();
+      ObjectId newId = newCommit(ctx.getRevWalk(), ctx.getInserter(), oldId, COMMIT_MESSAGE);
+      ctx.addRefUpdate(oldId, newId, master);
+      updateRepoCalledCount.incrementAndGet();
+    }
+
+    @Override
+    public boolean updateChange(ChangeContext ctx) throws Exception {
+      ctx.getUpdate(ctx.getChange().currentPatchSetId()).setChangeMessage(CHANGE_MESSAGE);
+      updateChangeCalledCount.incrementAndGet();
+      return true;
+    }
+  }
+
+  private ObjectId newCommit(RevWalk rw, ObjectInserter ins, ObjectId parent, String msg)
+      throws IOException {
+    PersonIdent ident = serverIdent.get();
+    CommitBuilder cb = new CommitBuilder();
+    cb.setParentId(parent);
+    cb.setTreeId(rw.parseCommit(parent).getTree());
+    cb.setMessage(msg);
+    cb.setAuthor(ident);
+    cb.setCommitter(ident);
+    return ins.insert(Constants.OBJ_COMMIT, cb.build());
+  }
+
+  private BatchUpdate newBatchUpdate(BatchUpdate.Factory buf) {
+    return buf.create(db, project, identifiedUserFactory.create(user.getId()), TimeUtil.nowTs());
   }
 
   private Optional<ObjectId> getRef(String name) throws Exception {
@@ -141,5 +336,16 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
         .stream()
         .map(m -> m.message)
         .collect(toList());
+  }
+
+  private static List<String> commitMessages(
+      Repository repo, ObjectId fromExclusive, ObjectId toInclusive) throws Exception {
+    try (RevWalk rw = new RevWalk(repo)) {
+      rw.markStart(rw.parseCommit(toInclusive));
+      rw.markUninteresting(rw.parseCommit(fromExclusive));
+      rw.sort(RevSort.REVERSE);
+      rw.setRetainBody(true);
+      return Streams.stream(rw).map(c -> c.getShortMessage()).collect(toList());
+    }
   }
 }

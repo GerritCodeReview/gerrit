@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "84598cf5_7803929b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-21T11:56:58Z",
+      "side": 1,
+      "message": "I was thinking of that but I was going to get it working before filling one then I forgot too.",
+      "parentUuid": "a52da3e7_23d6a1ea",
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9938bedc_9e589251",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 7
@@ -89,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "63fa77d3_465a388c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-21T11:56:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4a6c284f_7f56d8c3",
+      "range": {
+        "startLine": 400,
+        "startChar": 8,
+        "endLine": 402,
+        "endChar": 92
+      },
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a72df9b_4dfbbbf9",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 7
@@ -100,6 +142,24 @@
       "writtenOn": "2017-04-21T10:25:19Z",
       "side": 1,
       "message": "Remove empty newline.",
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df23b368_4f049428",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-21T11:56:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2a72df9b_4dfbbbf9",
       "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -129,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "1df3d28d_2b732a1b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-21T11:56:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c187575f_23320a2f",
+      "range": {
+        "startLine": 433,
+        "startChar": 6,
+        "endLine": 437,
+        "endChar": 7
+      },
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f4d96e72_5a30ee6f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 7
@@ -146,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "d02d7e6f_7453f226",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-21T11:56:58Z",
+      "side": 1,
+      "message": "Oh how do I make it a proper format please?",
+      "parentUuid": "f4d96e72_5a30ee6f",
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc81bb23_71a7fe0d",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 7
@@ -157,6 +259,30 @@
       "writtenOn": "2017-04-21T10:25:19Z",
       "side": 1,
       "message": "Why can we not use the _fireAction function?",
+      "range": {
+        "startLine": 496,
+        "startChar": 8,
+        "endLine": 497,
+        "endChar": 69
+      },
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cca982a9_75e09bff",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-21T11:56:58Z",
+      "side": 1,
+      "message": "Using that worked for setting the change to private but didn\u0027t for deleting the private.",
+      "parentUuid": "bc81bb23_71a7fe0d",
       "range": {
         "startLine": 496,
         "startChar": 8,

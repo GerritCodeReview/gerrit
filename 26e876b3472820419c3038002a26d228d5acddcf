@@ -70,6 +70,30 @@
       "revId": "26e876b3472820419c3038002a26d228d5acddcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c067c08_aaefbc13",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1028987
+      },
+      "writtenOn": "2017-04-21T15:39:14Z",
+      "side": 1,
+      "message": "No, those are two different tools.\n\nThat python script reads input from a unified diff and reformats all the changed\nlines.\n\nThis script outputs the diff that would be caused by running google-java-diff for all files specified on the command line.",
+      "parentUuid": "72f0859e_77f3c47e",
+      "range": {
+        "startLine": 76,
+        "startChar": 9,
+        "endLine": 76,
+        "endChar": 17
+      },
+      "revId": "26e876b3472820419c3038002a26d228d5acddcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

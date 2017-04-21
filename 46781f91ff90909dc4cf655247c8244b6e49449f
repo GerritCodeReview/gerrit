@@ -2,6 +2,109 @@
   "comments": [
     {
       "key": {
+        "uuid": "cb7f25ca_204c4fb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-21T20:46:51Z",
+      "side": 1,
+      "message": "If the label values need to wrap, does it still make sense for them to be aligned? I\u0027d be curious to see a screenshot of wrapping labels.",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 34
+      },
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef7ad0ea_47483cbc",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-21T20:46:51Z",
+      "side": 1,
+      "message": "Minor nit: would it make sense to give each `.labelContainer` a `bottom-margin`and remove it from the `:last-of-type` or `:last-child`?\n\n.labelContainer {\n  margin-bottom: .5em;\n}\n.labelContainer:last-child {\n  margin-bottom: 0;\n}\n\nJust because negative-assertions in CSS rules can get unwieldy sometimes.",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 7
+      },
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e036b566_f37f34d4",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-21T20:46:51Z",
+      "side": 1,
+      "message": "Nit: remove blank line.",
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bf38320_266cfaf9",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-21T20:46:51Z",
+      "side": 1,
+      "message": "Nit: out of order properties. Same in the following ruleset, and in the `.placeholder` ruleset.",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 42,
+        "endChar": 39
+      },
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58332747_8e142d49",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-21T20:46:51Z",
+      "side": 1,
+      "message": "Does this make placeholders to the left and to the right of the selector buttons? Why would they be needed on the right?",
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d1952982_f22b7604",
         "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.js",
         "patchSetId": 2

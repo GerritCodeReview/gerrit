@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78f1cbcd_5c6014ad",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-21T16:38:44Z",
+      "side": 1,
+      "message": "Good catch. Can these be ...\n\n \u0026lt;\n\n... and ...\n\n \u0026gt;\n\n...respectively? Those versions of the HTML entities are a little more recognizable.",
+      "range": {
+        "startLine": 284,
+        "startChar": 68,
+        "endLine": 284,
+        "endChar": 71
+      },
+      "revId": "4624b6ba539ff2aab292d09df86bfe7c18cb46ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

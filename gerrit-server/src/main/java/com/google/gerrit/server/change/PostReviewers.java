@@ -238,6 +238,9 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
           accountsToNotify);
     }
     if (!member.isActive()) {
+      if (allowByEmail && state == CC) {
+        return null;
+      }
       return fail(reviewer, MessageFormat.format(ChangeMessages.get().reviewerInactive, reviewer));
     }
     return fail(

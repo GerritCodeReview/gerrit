@@ -70,6 +70,30 @@
       "revId": "5e05a089f8a5aec2ede16f2340aff5cbc179b8f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d84b452d_e37be845",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-21T21:30:59Z",
+      "side": 1,
+      "message": "If it becomes optional here, should it be negated?\n\n opt_excludeComments\n opt_keepComments\n opt_doNotSendComments\n\nFrom a plugin\u0027s perspective, should the default behavior (when the optional parameter is omitted) be to send comments or not? I lean towards not, but I thought I\u0027d bring it up.\n\n\u003e I just gave it the same name as it is given in [..] where it is optional.\n\nWhere do you see that that parameter is optional? I wonder if it\u0027s intended as a required param. It definitely makes sense for it to be optional here though.",
+      "parentUuid": "2bfa74ed_a6ede693",
+      "range": {
+        "startLine": 25,
+        "startChar": 51,
+        "endLine": 25,
+        "endChar": 66
+      },
+      "revId": "5e05a089f8a5aec2ede16f2340aff5cbc179b8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -16,10 +16,14 @@ package com.google.gerrit.server.mail.send;
 
 import static org.apache.commons.validator.routines.DomainValidator.ArrayType.GENERIC_PLUS;
 
-import com.google.inject.Singleton;
 import java.lang.reflect.Method;
+
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.apache.commons.validator.routines.DomainValidator;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,15 +31,16 @@ import org.slf4j.LoggerFactory;
 public class OutgoingEmailValidator {
   private static final Logger log = LoggerFactory.getLogger(OutgoingEmailValidator.class);
 
-  OutgoingEmailValidator() {
+  @Inject
+  OutgoingEmailValidator(@GerritServerConfig Config config) {
     try {
-      initializeMailValidator();
+      initializeMailValidator(config);
     } catch (IllegalStateException e) {
       // Should only happen in tests, where the OutgoingEmailValidator
       // is instantiated repeatedly.
       log.error("Failed to update TLD override: " + e.getMessage());
       resetMailValidator();
-      initializeMailValidator();
+      initializeMailValidator(config);
     }
   }
 
@@ -43,8 +48,13 @@ public class OutgoingEmailValidator {
     return EmailValidator.getInstance(true, true).isValid(addr);
   }
 
-  private void initializeMailValidator() {
-    DomainValidator.updateTLDOverride(GENERIC_PLUS, new String[] {"local"});
+  private void initializeMailValidator(Config config) {
+    String[] allowTLD = config.getStringList("sendemail", null, "allowTLD");
+    if (allowTLD.length != 0) {
+      DomainValidator.updateTLDOverride(GENERIC_PLUS, allowTLD);
+    } else {
+      DomainValidator.updateTLDOverride(GENERIC_PLUS, new String[] {"local"});
+    }
   }
 
   private void resetMailValidator() {

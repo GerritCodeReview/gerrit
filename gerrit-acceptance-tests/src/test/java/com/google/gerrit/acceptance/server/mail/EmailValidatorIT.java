@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.inject.Inject;
 import java.io.BufferedReader;
@@ -33,6 +34,13 @@ public class EmailValidatorIT extends AbstractDaemonTest {
   @Test
   public void validateLocalDomain() throws Exception {
     assertThat(validator.isValid("foo@bar.local")).isTrue();
+    assertThat(validator.isValid("foo@foo.example")).isFalse();
+  }
+
+  @Test
+  @GerritConfig(name = "sendemail.strictValidation", value = "false")
+  public void testCustomTopLevelDomainNotStrict() throws Exception {
+    assertThat(validator.isValid("foo@bar.example")).isTrue();
   }
 
   @Test

@@ -94,6 +94,30 @@
       "revId": "5e05a089f8a5aec2ede16f2340aff5cbc179b8f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8794597c_aa4c40de",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-04-21T21:51:10Z",
+      "side": 1,
+      "message": "According to https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#review-input , the default behavior of the API is to *delete* all of the draft comments. Which seems a little bit crazy to me.\n\nWhen a user opens the Reply dialog and clicks Reply, their drafts are published by default. Since the plugin is operating via the UI on the users\u0027 behalf, I think it should have the same default. You should have to pass an argument to prevent it.\n\nI see no reason to negate it -- directly passing through the argument that the underlying js function wants seems to be the most readable to me.",
+      "parentUuid": "d84b452d_e37be845",
+      "range": {
+        "startLine": 25,
+        "startChar": 51,
+        "endLine": 25,
+        "endChar": 66
+      },
+      "revId": "5e05a089f8a5aec2ede16f2340aff5cbc179b8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

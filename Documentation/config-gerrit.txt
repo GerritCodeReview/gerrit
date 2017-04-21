@@ -3792,6 +3792,12 @@ Gerrit can parse back a user's reply.
 Defaults to an empty string which adds <<sendemail.from,sendemail.from>> as
 Reply-To if inbound email is enabled and the review's author otherwise.
 
+[[sendemail.allowTLD]]sendemail.allowTLD::
++
+List of custom TLDs to allow sending emails to in addition to those specified
+in the link:http://data.iana.org/TLD/[IANA list]. If not specified, defaults
+to "local".
+
 [[site]]
 === Section site
 

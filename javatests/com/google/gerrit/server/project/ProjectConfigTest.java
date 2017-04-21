@@ -18,12 +18,15 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.RoleSection;
+import com.google.gerrit.common.data.RoleSection.RolePermission;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -570,6 +573,40 @@ public class ProjectConfigTest extends GerritBaseTests {
             new ValidationError(
                 "project.config: Error in pattern \"(bugs#?)(d+)\" in commentlink.bugzilla.match: "
                     + "commentlink.bugzilla must have either link or html"));
+  	}
+
+  public void readRoleSections() throws Exception {
+    RevCommit rev =
+        tr.commit(
+            tr.tree(
+                tr.file(
+                    "project.config",
+                    tr.blob(
+                        "" //
+                            + "[role \"developer\"]\n" //
+                            + "  permission = push  +force\n" // Separated by 2 space characters
+                            + "  permission = read\n" //
+                            + "  permission = label-verified -1..+1\n" //
+                            + "[role \"reviewer\"]\n" //
+                            + "  permission = label-code-review -2..+2\n")) //
+                ));
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+
+    Map<String, RoleSection> roles = cfg.getRoles();
+    assertThat(roles.values().size()).isEqualTo(2);
+    assertThat(roles.get("developer").getRolePermissions().size()).isEqualTo(3);
+    assertThat(roles.get("reviewer").getRolePermissions().size()).isEqualTo(1);
+    Map<String, RolePermission> permissions = Maps.newHashMap();
+    for (RolePermission perm : roles.get("developer").getRolePermissions()) {
+      permissions.put(perm.getPermissionName(), perm);
+    }
+    RolePermission pushPermission = permissions.get("push");
+    assertThat(pushPermission.getForce()).isTrue();
+    assertThat(pushPermission.hasRange()).isFalse();
+    RolePermission verifiedPermission = permissions.get("label-verified");
+    assertThat(verifiedPermission.getRangeString()).isEqualTo("-1..+1");
   }
 
   private ProjectConfig read(RevCommit rev) throws IOException, ConfigInvalidException {

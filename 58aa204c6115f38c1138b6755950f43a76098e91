@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c02625a6_a0d8a187",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-21T21:25:22Z",
+      "side": 1,
+      "message": "Just return null at end of catch block.",
+      "revId": "58aa204c6115f38c1138b6755950f43a76098e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "487a609c_1d66e39d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-21T21:25:22Z",
+      "side": 1,
+      "message": "Can also just return null at end of catch block here.",
+      "revId": "58aa204c6115f38c1138b6755950f43a76098e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dff0e711_9b754aa1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-21T21:25:22Z",
+      "side": 1,
+      "message": "Add a comment about depending on NoteDb for this feature here.",
+      "revId": "58aa204c6115f38c1138b6755950f43a76098e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

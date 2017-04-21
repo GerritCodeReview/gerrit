@@ -120,6 +120,7 @@ limitations under the License.
                 name="[[_computePermissionName(section.id, permission, permissionValues, capabilities)]]"
                 permission="{{permission}}"
                 labels="[[labels]]"
+                roles="[[roles]]"
                 section="[[section.id]]"
                 editing="[[editing]]"
                 groups="[[groups]]">
@@ -128,11 +129,11 @@ limitations under the License.
           <div id="addPermission">
             Add permission:
             <select id="permissionSelect">
-              <!-- called with a third parameter so that permissions update
+              <!-- called with a fifth parameter so that permissions update
                   after a new section is added. -->
               <template
                   is="dom-repeat"
-                  items="[[_computePermissions(section.id, capabilities, labels, section.value.permissions.*)]]">
+                  items="[[_computePermissions(section.id, capabilities, labels, roles, section.value.permissions.*)]]">
                 <option value="[[item.value.id]]">[[item.value.name]]</option>
               </template>
             </select>

@@ -100,6 +100,7 @@
       /** @type {?} */
       _inheritsFrom: Object,
       _labels: Object,
+      _roles: Object,
       _local: Object,
       _editing: {
         type: Boolean,
@@ -180,7 +181,7 @@
       promises.push(this.$.restAPI.getRepo(repo, errFn)
           .then(res => {
             if (!res) { return Promise.resolve(); }
-
+            this._roles = res.roles;
             return res.labels;
           }));
 

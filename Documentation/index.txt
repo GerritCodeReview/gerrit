@@ -35,6 +35,7 @@
 == Project Management
 . link:project-configuration.html[Project Configuration]
 .. link:config-labels.html[Review Labels]
+.. link:config-roles.html[Access Roles]
 .. link:config-project-config.html[Project Configuration File Format]
 . link:access-control.html[Access Controls]
 . Multi-project management

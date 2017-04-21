@@ -48,7 +48,6 @@ class Actions extends Composite {
     "revert",
     "submit",
     "topic",
-    "private",
     "/",
   };
 
@@ -65,9 +64,6 @@ class Actions extends Composite {
   private AbandonAction abandonAction;
 
   @UiField Button deleteChange;
-
-  @UiField Button markPrivate;
-  @UiField Button unmarkPrivate;
 
   @UiField Button restore;
   private RestoreAction restoreAction;
@@ -126,11 +122,6 @@ class Actions extends Composite {
       a2b(actions, "restore", restore);
       a2b(actions, "revert", revert);
       a2b(actions, "followup", followUp);
-      if (info.isPrivate()) {
-        a2b(actions, "private", unmarkPrivate);
-      } else {
-        a2b(actions, "private", markPrivate);
-      }
       for (String id : filterNonCore(actions)) {
         add(new ActionButton(info, actions.get(id)));
       }
@@ -199,16 +190,6 @@ class Actions extends Composite {
     if (Window.confirm(Resources.C.deleteChange())) {
       ChangeActions.delete(changeId, deleteChange);
     }
-  }
-
-  @UiHandler("markPrivate")
-  void onMarkPrivate(@SuppressWarnings("unused") ClickEvent e) {
-    ChangeActions.markPrivate(changeId, markPrivate);
-  }
-
-  @UiHandler("unmarkPrivate")
-  void onUnmarkPrivate(@SuppressWarnings("unused") ClickEvent e) {
-    ChangeActions.unmarkPrivate(changeId, unmarkPrivate);
   }
 
   @UiHandler("restore")

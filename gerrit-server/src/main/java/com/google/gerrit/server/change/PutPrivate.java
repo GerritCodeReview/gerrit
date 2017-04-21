@@ -70,8 +70,8 @@ public class PutPrivate
   @Override
   public Description getDescription(ChangeResource rsrc) {
     return new UiAction.Description()
-        .setLabel("Mark private")
+        .setLabel("Mark Private")
         .setTitle("Mark change as private")
-        .setVisible(rsrc.getControl().isOwner());
+        .setVisible(!rsrc.getChange().isPrivate() && rsrc.getControl().isOwner());
   }
 }

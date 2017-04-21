@@ -40,6 +40,10 @@ class DefaultActions {
     return new GerritCallback<JavaScriptObject>() {
       @Override
       public void onSuccess(JavaScriptObject in) {
+        if (in == null) {
+          Gerrit.display(target);
+        }
+
         UiResult result = asUiResult(in);
         if (result.alert() != null) {
           Window.alert(result.alert());

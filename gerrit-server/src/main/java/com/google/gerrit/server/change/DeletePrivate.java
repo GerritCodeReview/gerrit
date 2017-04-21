@@ -71,8 +71,8 @@ public class DeletePrivate
   @Override
   public Description getDescription(ChangeResource rsrc) {
     return new UiAction.Description()
-        .setLabel("Unmark private")
+        .setLabel("Unmark Private")
         .setTitle("Unmark change as private")
-        .setVisible(rsrc.getControl().isOwner());
+        .setVisible(rsrc.getChange().isPrivate() && rsrc.getControl().isOwner());
   }
 }

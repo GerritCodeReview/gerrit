@@ -3422,7 +3422,7 @@ link:#review-input[ReviewInput] entity.
   }
 ----
 
-As response a link:#review-info[ReviewInfo] entity is returned that
+As response a link:#review-info[ReviewResult] entity is returned that
 describes the applied labels.
 
 .Response
@@ -6273,6 +6273,24 @@ have been granted `labelAs-NAME` permission for all keys of labels.
 |`reviewers`              |optional|
 A list of link:rest-api-changes.html#reviewer-input[ReviewerInput]
 representing reviewers that should be added to the change.
+|============================
+
+[[review-result]]
+=== ReviewResult
+The `ReviewResult` entity contains information regarding the updates
+that were made to a review.
+
+[options="header",cols="1,^1,5"]
+|============================
+|Field Name               ||Description
+|`labels`                 |optional|
+Map of labels to values after the review was posted. Null if any reviewer
+additions were rejected.
+|`reviewers`              |optional|
+Map of account or group identifier to
+link:rest-api-changes.html#add-reviewer-result[AddReviewerResult]
+representing the outcome of adding as a reviewer.
+Absent if no reviewer additions were requested.
 |============================
 
 [[reviewer-info]]

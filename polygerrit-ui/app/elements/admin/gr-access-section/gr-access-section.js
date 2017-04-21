@@ -30,6 +30,7 @@
   const REFS_NAME = 'refs/';
   const ON_BEHALF_OF = '(On Behalf Of)';
   const LABEL = 'Label';
+  const ROLE = 'Role';
 
   Polymer({
     is: 'gr-access-section',
@@ -44,6 +45,7 @@
       },
       groups: Object,
       labels: Object,
+      roles: Object,
       editing: {
         type: Boolean,
         value: false,
@@ -112,14 +114,17 @@
       }
     },
 
-    _computePermissions(name, capabilities, labels) {
+    _computePermissions(name, capabilities, labels, roles) {
       let allPermissions;
       if (name === GLOBAL_NAME) {
         allPermissions = this.toSortedArray(capabilities);
       } else {
         const labelOptions = this._computeLabelOptions(labels);
-        allPermissions = labelOptions.concat(
-            this.toSortedArray(this.permissionValues));
+        const roleOptions = this._computeRoleOptions(roles);
+        allPermissions = this.toSortedArray(this.permissionValues).concat(
+          labelOptions,
+          roleOptions
+        )
       }
       return allPermissions.filter(permission => {
         return !this.section.value.permissions[permission.id];
@@ -128,6 +133,21 @@
 
     _computeHideEditClass(section) {
       return section.id === 'GLOBAL_CAPABILITIES' ? 'hide' : '';
+    },
+
+    _computeRoleOptions(roles) {
+      if (!roles) { return []; }
+      const roleOptions = [];
+      for (const roleName of Object.keys(roles)) {
+        roleOptions.push({
+          id: 'role-' + roleName,
+          value: {
+            name: `${ROLE} ${roleName}`,
+            id: 'role-' + roleName,
+          }
+        })
+      }
+      return roleOptions;
     },
 
     _computeLabelOptions(labels) {
@@ -162,6 +182,8 @@
           behalfOf = ON_BEHALF_OF;
         }
         return `${LABEL} ${permission.value.label}${behalfOf}`;
+      } else if (permission.value.role) {
+        return `${ROLE} ${permission.value.role}`;
       }
     },
 

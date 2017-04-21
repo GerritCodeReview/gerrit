@@ -16,10 +16,13 @@ package com.google.gerrit.server.mail.send;
 
 import static org.apache.commons.validator.routines.DomainValidator.ArrayType.GENERIC_PLUS;
 
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.lang.reflect.Method;
 import org.apache.commons.validator.routines.DomainValidator;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +30,11 @@ import org.slf4j.LoggerFactory;
 public class OutgoingEmailValidator {
   private static final Logger log = LoggerFactory.getLogger(OutgoingEmailValidator.class);
 
-  OutgoingEmailValidator() {
+  private final boolean strict;
+
+  @Inject
+  OutgoingEmailValidator(@GerritServerConfig Config config) {
+    this.strict = config.getBoolean("sendEmail", "strictValidation", true);
     try {
       initializeMailValidator();
     } catch (IllegalStateException e) {
@@ -40,7 +47,7 @@ public class OutgoingEmailValidator {
   }
 
   public boolean isValid(String addr) {
-    return EmailValidator.getInstance(true, true).isValid(addr);
+    return strict ? EmailValidator.getInstance(true, true).isValid(addr) : true;
   }
 
   private void initializeMailValidator() {

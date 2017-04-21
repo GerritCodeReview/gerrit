@@ -3792,6 +3792,13 @@ Gerrit can parse back a user's reply.
 Defaults to an empty string which adds <<sendemail.from,sendemail.from>> as
 Reply-To if inbound email is enabled and the review's author otherwise.
 
+[[sendemail.strictValidation]]sendemail.strictValidation::
++
+If set to true, email addresses are validated with
+link:https://commons.apache.org/proper/commons-validator/[commons-validator].
++
+Defaults to true.
+
 [[site]]
 === Section site
 

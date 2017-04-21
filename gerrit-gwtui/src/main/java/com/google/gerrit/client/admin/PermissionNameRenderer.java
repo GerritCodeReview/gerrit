@@ -43,6 +43,8 @@ class PermissionNameRenderer implements Renderer<String> {
       return AdminMessages.I.labelAs(Permission.extractLabel(varName));
     } else if (Permission.isLabel(varName)) {
       return AdminMessages.I.label(Permission.extractLabel(varName));
+    } else if (Permission.isRole(varName)) {
+      return AdminMessages.I.role(Permission.extractRole((varName)));
     }
 
     String desc = permissions.get(varName);

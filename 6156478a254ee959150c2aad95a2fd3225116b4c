@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b96e39bd_2e42abd4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-21T09:51:13Z",
+      "side": 1,
+      "message": "I will need to re test locally when I\u0027m near a pc to see if doing that will also work.\n\nThanks.",
+      "parentUuid": "9938bedc_9e589251",
+      "range": {
+        "startLine": 402,
+        "startChar": 76,
+        "endLine": 402,
+        "endChar": 80
+      },
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "771ee6b7_8c629354",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-21T08:16:46Z",
       "side": 1,
       "message": "Should there be a leading space on this string?",
+      "range": {
+        "startLine": 263,
+        "startChar": 15,
+        "endLine": 263,
+        "endChar": 26
+      },
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5796106_bbf908f8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-21T09:51:13Z",
+      "side": 1,
+      "message": "You mean like \u0027 (Private)\u0027?",
+      "parentUuid": "771ee6b7_8c629354",
       "range": {
         "startLine": 263,
         "startChar": 15,

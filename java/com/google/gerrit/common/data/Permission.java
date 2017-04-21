@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -43,6 +44,7 @@ public class Permission implements Comparable<Permission> {
   public static final String READ = "read";
   public static final String REBASE = "rebase";
   public static final String REMOVE_REVIEWER = "removeReviewer";
+  public static final String ROLE = "role-";
   public static final String SUBMIT = "submit";
   public static final String SUBMIT_AS = "submitAs";
   public static final String VIEW_PRIVATE_CHANGES = "viewPrivateChanges";
@@ -83,6 +85,21 @@ public class Permission implements Comparable<Permission> {
     LABEL_AS_INDEX = NAMES_LC.indexOf(Permission.LABEL_AS.toLowerCase());
   }
 
+  public static Permission copy(Permission orig) {
+    Permission pCopy = new Permission(orig.getName());
+    pCopy.exclusiveGroup = orig.exclusiveGroup;
+    for (PermissionRule rule : orig.getRules()) {
+      PermissionRule rCopy = new PermissionRule(rule.group);
+      pCopy.add(rCopy);
+      rCopy.setAction(rule.action);
+      if (rule.hasRange()) {
+        rCopy.setRange(rule.getMin(), rule.getMax());
+      }
+      rCopy.setForce(rule.getForce());
+    }
+    return pCopy;
+  }
+
   /** @return true if the name is recognized as a permission name. */
   public static boolean isPermission(String varName) {
     return isLabel(varName) || isLabelAs(varName) || NAMES_LC.contains(varName.toLowerCase());
@@ -105,6 +122,27 @@ public class Permission implements Comparable<Permission> {
   /** @return permission name for the given review label. */
   public static String forLabel(String labelName) {
     return LABEL + labelName;
+  }
+
+  /** @return true if the permission is a permission role. */
+  public static boolean isRole(String varName) {
+    return ROLE.length() < varName.length() && varName.startsWith(ROLE);
+  }
+
+  /**
+   * @return The name of the role to expand permission from if the permission is a permission role,
+   *     otherwise null
+   */
+  @Nullable
+  public static String extractRole(String perm) {
+    if (isRole(perm)) {
+      return perm.substring(ROLE.length());
+    }
+    return null;
+  }
+
+  public static String forRole(String roleName) {
+    return ROLE + roleName;
   }
 
   /** @return permission name to apply a label for another user. */
@@ -144,6 +182,10 @@ public class Permission implements Comparable<Permission> {
 
   public String getLabel() {
     return extractLabel(getName());
+  }
+
+  public String getRole() {
+    return extractRole(getName());
   }
 
   public Boolean getExclusiveGroup() {

@@ -18,11 +18,13 @@ import java.util.Objects;
 
 public class PermissionInfo {
   public String label;
+  public String role;
   public Boolean exclusive;
   public Map<String, PermissionRuleInfo> rules;
 
-  public PermissionInfo(String label, Boolean exclusive) {
+  public PermissionInfo(String label, String role, Boolean exclusive) {
     this.label = label;
+    this.role = role;
     this.exclusive = exclusive;
   }
 

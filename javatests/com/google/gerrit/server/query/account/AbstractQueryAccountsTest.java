@@ -656,7 +656,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     in.add = new HashMap<>();
 
     AccessSectionInfo a = new AccessSectionInfo();
-    PermissionInfo p = new PermissionInfo(null, null);
+    PermissionInfo p = new PermissionInfo(null, null, null);
     p.rules =
         ImmutableMap.of(group.id, new PermissionRuleInfo(PermissionRuleInfo.Action.BLOCK, false));
     a.permissions = ImmutableMap.of("read", p);

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.common.data.Permission.extractRole;
+import static com.google.gerrit.common.data.Permission.isRole;
 import static com.google.gerrit.common.data.PermissionRule.Action.ALLOW;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -28,6 +30,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.common.data.RoleSection;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ThemeInfo;
@@ -296,22 +299,48 @@ public class ProjectState {
     }
   }
 
-  /** Get the sections that pertain only to this project. */
+  /**
+   * Get the sections that pertain only to this project. Expand the roles from RoleSections defined
+   * in this or parent projects.
+   */
   List<SectionMatcher> getLocalAccessSections() {
+    return getLocalAccessSections(getAllRoleSections());
+  }
+
+  /*
+   * Get the sections that pertains to this project.
+   * Expand the roles from the supplied RoleSections.
+   */
+  private List<SectionMatcher> getLocalAccessSections(Map<String, RoleSection> roles) {
     List<SectionMatcher> sm = localAccessSections;
     if (sm == null) {
       Collection<AccessSection> fromConfig = config.getAccessSections();
+      List<Permission> rolePermissions = Lists.newArrayList();
+
       sm = new ArrayList<>(fromConfig.size());
       for (AccessSection section : fromConfig) {
-        if (isAllProjects) {
-          List<Permission> copy = Lists.newArrayListWithCapacity(section.getPermissions().size());
-          for (Permission p : section.getPermissions()) {
-            if (Permission.canBeOnAllProjects(section.getName(), p.getName())) {
-              copy.add(p);
+        List<Permission> permissionsCopy =
+            Lists.newArrayListWithCapacity(section.getPermissions().size());
+        for (Permission p : section.getPermissions()) {
+          if (isRole(p.getName())) {
+            if (roles != null && roles.containsKey(Permission.extractRole(p.getName()))) {
+              rolePermissions.add(p);
             }
+            continue;
           }
-          section = new AccessSection(section.getName());
-          section.setPermissions(copy);
+          Permission pCopy = Permission.copy(p);
+          if (isAllProjects) {
+            if (Permission.canBeOnAllProjects(section.getName(), pCopy.getName())) {
+              permissionsCopy.add(pCopy);
+            }
+          } else {
+            permissionsCopy.add(pCopy);
+          }
+        }
+        section = new AccessSection(section.getName());
+        section.setPermissions(permissionsCopy);
+        for (Permission role : rolePermissions) {
+          expandRolePermission(section, role, roles);
         }
 
         SectionMatcher matcher = SectionMatcher.wrap(getNameKey(), section);
@@ -324,20 +353,71 @@ public class ProjectState {
     return sm;
   }
 
+  private void expandRolePermission(
+      AccessSection as, Permission forRole, Map<String, RoleSection> roles) {
+
+    RoleSection rt = roles.get(extractRole(forRole.getName()));
+    if (rt == null) {
+      return;
+    }
+    AccessSection expanded = new AccessSection(as.getName());
+    // For each permission configured for the role
+    for (RoleSection.RolePermission rolePerm : rt.getRolePermissions()) {
+      if (isAllProjects
+          && !Permission.canBeOnAllProjects(as.getName(), rolePerm.getPermissionName())) {
+        continue;
+      }
+      // Get a permission for the permission configured in the role
+      Permission perm = expanded.getPermission(rolePerm.getPermissionName(), true);
+      // For each rule configured for the role-permission
+      for (PermissionRule roleRule : forRole.getRules()) {
+        // Create a new rule for the permission configured in the role-permission
+        PermissionRule rule = perm.getRule(roleRule.getGroup(), true);
+        if (rolePerm.hasRange()) {
+          rule.setRange(rolePerm.getRangeString());
+        }
+        rule.setForce(rolePerm.getForce());
+        // Add the rule to the expanded permission
+        perm.add(rule);
+      }
+    }
+    as.mergeFrom(expanded);
+  }
+
   /**
    * Obtain all local and inherited sections. This collection is looked up dynamically and is not
    * cached. Callers should try to cache this result per-request as much as possible.
    */
   public List<SectionMatcher> getAllSections() {
+    Map<String, RoleSection> roles = getAllRoleSections();
     if (isAllProjects) {
-      return getLocalAccessSections();
+      return getLocalAccessSections(roles);
     }
 
     List<SectionMatcher> all = new ArrayList<>();
     for (ProjectState s : tree()) {
-      all.addAll(s.getLocalAccessSections());
+      all.addAll(s.getLocalAccessSections(roles));
     }
     return all;
+  }
+
+  public Map<String, RoleSection> getAllRoleSections() {
+    if (isAllProjects) {
+      return config.getRoles();
+    }
+    Map<String, RoleSection> all = new HashMap<>();
+    for (ProjectState s : tree()) {
+      for (RoleSection rs : s.getLocalRoleSections().values()) {
+        if (!all.containsKey(rs.getName())) {
+          all.put(rs.getName(), rs);
+        }
+      }
+    }
+    return all;
+  }
+
+  Map<String, RoleSection> getLocalRoleSections() {
+    return config.getRoles();
   }
 
   /**

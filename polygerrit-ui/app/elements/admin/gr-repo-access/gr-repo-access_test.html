@@ -99,7 +99,27 @@ limitations under the License.
           },
         },
       },
-    };
+      roles: {
+          'developer': {
+            permissions: [
+              {
+                permission: 'createReview',
+                force: false
+              },
+              {
+                permission: 'addPatchSet',
+                force: false
+              },
+              {
+                permission: 'label-code-review',
+                force: false,
+                range: "-2..+2"
+              }
+            ]
+          }
+        }
+      };
+
     const capabilitiesRes = {
       accessDatabase: {
         id: 'accessDatabase',
@@ -155,6 +175,7 @@ limitations under the License.
         assert.deepEqual(element._sections,
             element.toSortedArray(accessRes.local));
         assert.deepEqual(element._labels, repoRes.labels);
+        assert.deepEqual(element._roles, repoRes.roles)
         assert.equal(getComputedStyle(element.$$('.weblinks')).display,
             'block');
         return element._repoChanged('Another New Repo');
@@ -298,6 +319,7 @@ limitations under the License.
         element._groups = JSON.parse(JSON.stringify(accessRes.groups));
         element._capabilities = JSON.parse(JSON.stringify(capabilitiesRes));
         element._labels = JSON.parse(JSON.stringify(repoRes.labels));
+        element._roles = JSON.parse(JSON.stringify(repoRes.roles));
         flushAsynchronousOperations();
       });
 
@@ -536,6 +558,7 @@ limitations under the License.
         };
         element.$$('gr-access-section')._handleAddPermission();
         flushAsynchronousOperations();
+        let what = element._computeAddAndRemove();
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
         // Add a new rule to the new permission.

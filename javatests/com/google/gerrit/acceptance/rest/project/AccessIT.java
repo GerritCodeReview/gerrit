@@ -641,7 +641,7 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   private PermissionInfo newPermissionInfo() {
-    PermissionInfo p = new PermissionInfo(null, null);
+    PermissionInfo p = new PermissionInfo(null, null, null);
     p.rules = new HashMap<>();
     return p;
   }

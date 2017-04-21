@@ -222,6 +222,9 @@ public class AccessSectionEditor extends Composite
       for (LabelType t : projectAccess.getLabelTypes().getLabelTypes()) {
         addPermission(Permission.forLabelAs(t.getName()), perms);
       }
+      for (String rn : projectAccess.getRoleNames()) {
+        addPermission(Permission.forRole(rn), perms);
+      }
       for (String varName : AdminConstants.I.permissionNames().keySet()) {
         addPermission(varName, perms);
       }

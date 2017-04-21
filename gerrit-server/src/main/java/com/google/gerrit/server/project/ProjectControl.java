@@ -563,4 +563,8 @@ public class ProjectControl {
       throw new PermissionBackendException(perm + " unsupported");
     }
   }
+
+  public Set<String> getRoleNames() {
+    return state.getAllRoleSections().keySet();
+  }
 }

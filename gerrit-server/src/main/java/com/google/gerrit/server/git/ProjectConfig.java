@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.common.data.Permission.isPermission;
+import static com.google.gerrit.common.data.Permission.isRole;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
@@ -39,6 +40,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.common.data.RoleSection;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -88,6 +90,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static final String PROJECT = "project";
   private static final String KEY_DESCRIPTION = "description";
+
+  private static final String ROLE = "role";
+  private static final String KEY_PERMISSION = "permission";
 
   public static final String ACCESS = "access";
   private static final String KEY_INHERIT_FROM = "inheritFrom";
@@ -173,6 +178,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Project project;
   private AccountsSection accountsSection;
   private GroupList groupList;
+  private Map<String, RoleSection> roleMap;
   private Map<String, AccessSection> accessSections;
   private BranchOrderSection branchOrderSection;
   private Map<String, ContributorAgreement> contributorAgreements;
@@ -276,6 +282,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public Collection<AccessSection> getAccessSections() {
     return sort(accessSections.values());
+  }
+
+  public Map<String, RoleSection> getRoles() {
+    return roleMap;
   }
 
   public BranchOrderSection getBranchOrderSection() {
@@ -530,6 +540,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
     loadAccountsSection(rc, groupsByName);
     loadContributorAgreements(rc, groupsByName);
+    loadRoles(rc);
     loadAccessSections(rc, groupsByName);
     loadBranchOrderSection(rc);
     loadNotifySections(rc, groupsByName);
@@ -672,6 +683,29 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
+  private void loadRoles(Config rc) {
+    roleMap = new HashMap<>();
+    RoleSection rt;
+    for (String roleName : rc.getSubsections(ROLE)) {
+      rt = new RoleSection(roleName);
+      for (String rp : rc.getStringList(ROLE, roleName, KEY_PERMISSION)) {
+        try {
+          RoleSection.RolePermission rolePerm = RoleSection.toRolePermission(rp);
+          if (isPermission(rolePerm.getPermissionName())) {
+            rt.addRolePermission(rolePerm);
+          }
+        } catch (IllegalArgumentException iax) {
+          error(
+              new ValidationError(
+                  PROJECT_CONFIG,
+                  "role section \"" + roleName + "\" has invalid range \"" + rp + "\""));
+          continue;
+        }
+      }
+      roleMap.put(roleName, rt);
+    }
+  }
+
   private void loadAccessSections(Config rc, Map<String, GroupReference> groupsByName) {
     accessSections = new HashMap<>();
     sectionsWithUnknownPermissions = new HashSet<>();
@@ -690,7 +724,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
         for (String varName : rc.getNames(ACCESS, refName)) {
           String convertedName = convertLegacyPermission(varName);
-          if (isPermission(convertedName)) {
+          if (isPermission(convertedName) || isRole(convertedName)) {
             Permission perm = as.getPermission(convertedName, true);
             loadPermissionRules(
                 rc,
@@ -772,7 +806,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
                     + notRule.getMessage()));
         continue;
       }
-
       GroupReference ref = groupsByName.get(rule.getGroup().getName());
       if (ref == null) {
         // The group wasn't mentioned in the groups table, so there is

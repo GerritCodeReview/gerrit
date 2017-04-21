@@ -44,6 +44,7 @@ public class Permission implements Comparable<Permission> {
   public static final String READ = "read";
   public static final String REBASE = "rebase";
   public static final String REMOVE_REVIEWER = "removeReviewer";
+  public static final String ROLE = "role-";
   public static final String SUBMIT = "submit";
   public static final String SUBMIT_AS = "submitAs";
   public static final String VIEW_DRAFTS = "viewDrafts";
@@ -87,6 +88,20 @@ public class Permission implements Comparable<Permission> {
     LABEL_AS_INDEX = NAMES_LC.indexOf(Permission.LABEL_AS.toLowerCase());
   }
 
+  public static Permission copy(Permission orig) {
+    Permission pCopy = new Permission(orig.getName());
+    for (PermissionRule rule : orig.getRules()) {
+      PermissionRule rCopy = new PermissionRule(rule.group);
+      pCopy.add(rCopy);
+      rCopy.setAction(rule.action);
+      if (rule.hasRange()) {
+        rCopy.setRange(rule.getMin(), rule.getMax());
+      }
+      rCopy.setForce(rule.getForce());
+    }
+    return pCopy;
+  }
+
   /** @return true if the name is recognized as a permission name. */
   public static boolean isPermission(String varName) {
     return isLabel(varName) || isLabelAs(varName) || NAMES_LC.contains(varName.toLowerCase());
@@ -109,6 +124,22 @@ public class Permission implements Comparable<Permission> {
   /** @return permission name for the given review label. */
   public static String forLabel(String labelName) {
     return LABEL + labelName;
+  }
+
+  /** @return true if the permission is a permission role. */
+  public static boolean isRole(String varName) {
+      return varName.startsWith(ROLE) && ROLE.length() < varName.length();
+  }
+
+  /**
+   * @return The name of the role to expand permission from if the permission is a permission role,
+   *     otherwise null
+   */
+  public static String getRoleName(Permission perm) {
+    if (isRole(perm.getName())) {
+      return perm.getName().substring(ROLE.length());
+    }
+    return null;
   }
 
   /** @return permission name to apply a label for another user. */

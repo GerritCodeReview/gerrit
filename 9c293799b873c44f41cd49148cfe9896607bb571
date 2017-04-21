@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aaf761c_622e7b18",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 6334,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-21T07:15:56Z",
+      "side": 1,
+      "message": "nit: Absent",
+      "range": {
+        "startLine": 6334,
+        "startChar": 0,
+        "endLine": 6334,
+        "endChar": 4
+      },
+      "revId": "9c293799b873c44f41cd49148cfe9896607bb571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5709a70_72d671a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-21T07:15:56Z",
+      "side": 1,
+      "message": "Please reformat this file with google-java-format:\n\n  git ls-files | grep java$ | xargs google-java-format -i",
+      "revId": "9c293799b873c44f41cd49148cfe9896607bb571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0545b7f_b15688f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-21T07:15:56Z",
+      "side": 1,
+      "message": "nit: switch those. It is easier to read when the if checks for !member.isActive() and the body of the if deals with a case releated to the condition.\n\n    if (!member.isActive()) {\n      return fail(\n          reviewer, MessageFormat.format(ChangeMessages.get().reviewerInactive, reviewer));\n    }\n    return fail(reviewer, MessageFormat.format(ChangeMessages.get().reviewerCantSeeChange, reviewer));",
+      "range": {
+        "startLine": 239,
+        "startChar": 4,
+        "endLine": 243,
+        "endChar": 97
+      },
+      "revId": "9c293799b873c44f41cd49148cfe9896607bb571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

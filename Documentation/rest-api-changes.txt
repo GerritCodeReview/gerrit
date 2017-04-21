@@ -6383,6 +6383,9 @@ contains the push certificate provided by the user when uploading this
 patch set as a link:#push-certificate-info[PushCertificateInfo] entity.
 This field is always set if the option is requested; if no push
 certificate was provided, it is set to an empty object.
+|`description` |optional|
+The description of this patchset, as displayed in the patchset
+selector menu. May be null if no description is set.
 |===========================
 
 [[robot-comment-info]]

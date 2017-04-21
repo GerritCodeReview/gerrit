@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "342ef24b_6b368782",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-04-21T15:35:16Z",
+      "side": 1,
+      "message": "(1) could easily be split. I\u0027ve uploaded another CL for that and removed it from this one: https://gerrit-review.googlesource.com/104190\n(2) and (3) should not be -- I think it is a bad idea to update implementation and documentation of that implementation at separate times.",
+      "parentUuid": "32661919_ba023d86",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "9c293799b873c44f41cd49148cfe9896607bb571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0aaf761c_622e7b18",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9df2bab5_f69d13ef",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 6334,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-04-21T15:35:16Z",
+      "side": 1,
+      "message": "Done, in https://gerrit-review.googlesource.com/104190.",
+      "parentUuid": "0aaf761c_622e7b18",
+      "range": {
+        "startLine": 6334,
+        "startChar": 0,
+        "endLine": 6334,
+        "endChar": 4
+      },
+      "revId": "9c293799b873c44f41cd49148cfe9896607bb571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5709a70_72d671a3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 11
@@ -62,6 +110,24 @@
       "revId": "9c293799b873c44f41cd49148cfe9896607bb571",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e73352ac_7b68a10d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-04-21T15:35:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5709a70_72d671a3",
+      "revId": "9c293799b873c44f41cd49148cfe9896607bb571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -85,6 +151,30 @@
       "revId": "9c293799b873c44f41cd49148cfe9896607bb571",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dab21c2_e0e15fa3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-04-21T15:35:16Z",
+      "side": 1,
+      "message": "This is untouched by my CL, but happy to change it while I\u0027m here. Done.",
+      "parentUuid": "a0545b7f_b15688f3",
+      "range": {
+        "startLine": 239,
+        "startChar": 4,
+        "endLine": 243,
+        "endChar": 97
+      },
+      "revId": "9c293799b873c44f41cd49148cfe9896607bb571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

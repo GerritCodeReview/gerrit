@@ -329,6 +329,30 @@
       "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fbbb9df_64c8643a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-21T16:53:50Z",
+      "side": 1,
+      "message": "Oh, but wont the whitelist break if the json had for example\n\n    \"web_links\": [\n      {\n        \"name\": \"diffusion\",\n        \"url\": \"https://phabricator.wikimedia.org/r/project/3d2png/deploy\"\n      }\n    ]\n\nSince we use phabricators diffusion and not gitweb or gitiles.\n\nIt works for me.",
+      "parentUuid": "26743ee3_daf1dd94",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 23
+      },
+      "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

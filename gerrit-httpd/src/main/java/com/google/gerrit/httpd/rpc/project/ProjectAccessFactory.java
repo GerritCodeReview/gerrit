@@ -226,6 +226,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     detail.setConfigVisible(canWriteProjectConfig || checkReadConfig);
     detail.setGroupInfo(buildGroupInfo(local));
     detail.setLabelTypes(projectState.getLabelTypes());
+    detail.setRoleNames(projectState.getAllRoleSections().keySet());
     detail.setFileHistoryLinks(getConfigFileLogLinks(projectName.get()));
     return detail;
   }

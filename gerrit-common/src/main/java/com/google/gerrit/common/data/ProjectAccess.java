@@ -32,6 +32,7 @@ public class ProjectAccess {
   protected Map<String, String> capabilities;
   protected Map<AccountGroup.UUID, GroupInfo> groupInfo;
   protected List<WebLinkInfoCommon> fileHistoryLinks;
+  private Set<String> roleNames;
 
   public ProjectAccess() {}
 
@@ -138,5 +139,13 @@ public class ProjectAccess {
 
   public List<WebLinkInfoCommon> getFileHistoryLinks() {
     return fileHistoryLinks;
+  }
+
+  public void setRoleNames(Set<String> names) {
+    roleNames = names;
+  }
+
+  public Set<String> getRoleNames() {
+    return roleNames;
   }
 }

@@ -89,6 +89,7 @@ limitations under the License.
             default_value: 0,
           },
         };
+        element.roles = {};
         element._updateSection(element.section);
         flushAsynchronousOperations();
       });
@@ -180,7 +181,7 @@ limitations under the License.
         // existing permissions.
         let name = 'GLOBAL_CAPABILITIES';
         assert.deepEqual(element._computePermissions(name, element.capabilities,
-            element.labels), expectedPermissions);
+            element.labels, element.roles), expectedPermissions);
 
         // Uses the capabilities array to come up with possible values.
         assert.isTrue(element.toSortedArray.lastCall.
@@ -190,7 +191,7 @@ limitations under the License.
         // For everything else, include possible label values before filtering.
         name = 'refs/for/*';
         assert.deepEqual(element._computePermissions(name, element.capabilities,
-            element.labels), labelOptions.concat(expectedPermissions));
+            element.labels, element.roles), labelOptions.concat(expectedPermissions));
 
         // Uses permissionValues (defined in gr-access-behavior) to come up with
         // possible values.
@@ -316,6 +317,7 @@ limitations under the License.
             default_value: 0,
           },
         };
+        element.roles = {};
       });
       suite('Global section', () => {
         setup(() => {

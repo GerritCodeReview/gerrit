@@ -100,6 +100,7 @@
       /** @type {?} */
       _inheritsFrom: Object,
       _labels: Object,
+      _roles: Object,
       _local: Object,
       _editing: {
         type: Boolean,
@@ -180,17 +181,17 @@
       promises.push(this.$.restAPI.getRepo(repo, errFn)
           .then(res => {
             if (!res) { return Promise.resolve(); }
-
-            return res.labels;
+            return res;
           }));
 
       promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
         this._isAdmin = isAdmin;
       }));
 
-      return Promise.all(promises).then(([sections, capabilities, labels]) => {
+      return Promise.all(promises).then(([sections, capabilities, repo]) => {
         this._capabilities = capabilities;
-        this._labels = labels;
+        this._labels = repo.labels;
+        this._roles = repo.roles || {};
         this._sections = sections;
         this._loading = false;
       });

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9628ec50_3deca630",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-21T12:01:42Z",
+      "side": 1,
+      "message": "Filled https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d6042",
+      "parentUuid": "84598cf5_7803929b",
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9938bedc_9e589251",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 7

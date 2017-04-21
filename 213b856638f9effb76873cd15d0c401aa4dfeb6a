@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6c1b44b_77431926",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-21T01:09:33Z",
+      "side": 1,
+      "message": "Nit: Indent one more level.",
+      "revId": "213b856638f9effb76873cd15d0c401aa4dfeb6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "444e1d5f_f091c644",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-21T01:09:33Z",
+      "side": 1,
+      "message": "Nit: Wrap this line under 80ch.",
+      "revId": "213b856638f9effb76873cd15d0c401aa4dfeb6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

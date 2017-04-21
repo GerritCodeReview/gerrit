@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 public class PermissionRule implements Comparable<PermissionRule> {
+  public static final String RANGE_REGEX = "^([+-]?\\d+)\\.\\.([+-]?\\d+)$";
   public static final String FORCE_PUSH = "Force Push";
   public static final String FORCE_EDIT = "Force Edit";
 
@@ -88,6 +89,17 @@ public class PermissionRule implements Comparable<PermissionRule> {
 
   public Integer getMax() {
     return max;
+  }
+
+  public void setRange(String range) throws IllegalArgumentException {
+    if (range.matches(RANGE_REGEX)) {
+      int dotdot = range.indexOf("..");
+      int min = parseInt(range.substring(0, dotdot));
+      int max = parseInt(range.substring(dotdot + 2));
+      setRange(min, max);
+    } else {
+      throw new IllegalArgumentException("Invalid range: " + range);
+    }
   }
 
   public void setRange(int newMin, int newMax) {
@@ -241,12 +253,9 @@ public class PermissionRule implements Comparable<PermissionRule> {
       int sp = src.indexOf(' ');
       String range = src.substring(0, sp);
 
-      if (range.matches("^([+-]?\\d+)\\.\\.([+-]?\\d+)$")) {
-        int dotdot = range.indexOf("..");
-        int min = parseInt(range.substring(0, dotdot));
-        int max = parseInt(range.substring(dotdot + 2));
-        rule.setRange(min, max);
-      } else {
+      try {
+        rule.setRange(range);
+      } catch (IllegalArgumentException iax) {
         throw new IllegalArgumentException("Invalid range in rule: " + orig);
       }
 

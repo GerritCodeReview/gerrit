@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43564c54_fe10d138",
+        "filename": "contrib/abandon_stale.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-21T05:12:33Z",
+      "side": 0,
+      "message": "Support for digest should be kept for backwards compatibility with previous gerrit versions.",
+      "range": {
+        "startLine": 31,
+        "startChar": 61,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "1d19038e0cd8f64fe737b796b88b7f2acf95d7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

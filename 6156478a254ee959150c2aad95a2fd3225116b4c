@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a52da3e7_23d6a1ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-21T10:25:19Z",
+      "side": 1,
+      "message": "Is there a tracking bug for adding private changes to PolyGerrit? If not, we should make one.",
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9938bedc_9e589251",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 7
@@ -46,6 +63,109 @@
       "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a6c284f_7f56d8c3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-21T10:25:19Z",
+      "side": 1,
+      "message": "Make sure to wrap lines \u003e80ch.",
+      "range": {
+        "startLine": 400,
+        "startChar": 8,
+        "endLine": 402,
+        "endChar": 92
+      },
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a72df9b_4dfbbbf9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-21T10:25:19Z",
+      "side": 1,
+      "message": "Remove empty newline.",
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c187575f_23320a2f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-21T10:25:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure I like this label, it results in a ludicrously wide button. Could we stick with the standard \u0027working\u0027?",
+      "range": {
+        "startLine": 433,
+        "startChar": 6,
+        "endLine": 437,
+        "endChar": 7
+      },
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4d96e72_5a30ee6f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-21T10:25:19Z",
+      "side": 1,
+      "message": "Improper formatting for chained function calls, here and below.",
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc81bb23_71a7fe0d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-21T10:25:19Z",
+      "side": 1,
+      "message": "Why can we not use the _fireAction function?",
+      "range": {
+        "startLine": 496,
+        "startChar": 8,
+        "endLine": 497,
+        "endChar": 69
+      },
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {
@@ -141,6 +261,29 @@
       "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dca55530_4a51c902",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-21T10:25:19Z",
+      "side": 1,
+      "message": "Strict equality please.",
+      "range": {
+        "startLine": 163,
+        "startChar": 17,
+        "endLine": 163,
+        "endChar": 19
+      },
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

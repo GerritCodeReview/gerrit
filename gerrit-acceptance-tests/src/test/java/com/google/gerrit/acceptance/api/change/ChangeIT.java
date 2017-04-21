@@ -54,6 +54,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -90,7 +91,6 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -1062,23 +1062,27 @@ public class ChangeIT extends AbstractDaemonTest {
     setApiUser(admin);
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("Change not visible to " + user.email);
-    gApi.changes().id(result.getChangeId()).addReviewer(in);
+    AddReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+
+    assertThat(r.input).isEqualTo(user.email);
+    assertThat(r.error).contains("does not have permission to see this change");
+    assertThat(r.reviewers).isNull();
   }
 
   @Test
   public void addReviewerThatIsInactive() throws Exception {
-    PushOneCommit.Result r = createChange();
+    PushOneCommit.Result result = createChange();
 
     String username = name("new-user");
     gApi.accounts().create(username).setActive(false);
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = username;
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("Account of " + username + " is inactive.");
-    gApi.changes().id(r.getChangeId()).addReviewer(in);
+    AddReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+
+    assertThat(r.input).isEqualTo(username);
+    assertThat(r.error).contains("identifies an inactive account");
+    assertThat(r.reviewers).isNull();
   }
 
   @Test

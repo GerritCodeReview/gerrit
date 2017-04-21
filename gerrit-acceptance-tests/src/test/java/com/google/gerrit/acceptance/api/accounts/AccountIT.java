@@ -413,10 +413,7 @@ public class AccountIT extends AbstractDaemonTest {
     List<String> emails =
         ImmutableList.of(
             "new.email@example.com",
-            "new.email@example.systems",
-
-            // Not in the list of TLDs but added to override in OutgoingEmailValidator
-            "new.email@example.local");
+            "new.email@example.systems");
     Set<String> currentEmails = getEmails();
     for (String email : emails) {
       assertThat(currentEmails).doesNotContain(email);

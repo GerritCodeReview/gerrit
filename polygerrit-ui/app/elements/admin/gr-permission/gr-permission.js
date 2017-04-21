@@ -48,6 +48,10 @@
         type: Object,
         computed: '_computeLabel(permission, labels)',
       },
+      _role: {
+        type: Object,
+        computed: '_computeRole(permission, roles)',
+      },
       _groupFilter: String,
       _query: {
         type: Function,
@@ -152,6 +156,18 @@
     _handleUndoRemove() {
       this._deleted = false;
       delete this.permission.value.deleted;
+    },
+
+    _computeRole(permission, roles) {
+      if (!permission.value.role) { return; }
+
+      const roleName = permission.value.role;
+
+      if (!roles[roleName]) { return; }
+      const role = {
+        name: labelName
+      }
+      return role;
     },
 
     _computeLabel(permission, labels) {

@@ -322,7 +322,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
     AccessSectionInfo accessSectionInfo = new AccessSectionInfo();
     accessSectionInfo.permissions = new HashMap<>();
     for (Permission p : section.getPermissions()) {
-      PermissionInfo pInfo = new PermissionInfo(p.getLabel(), p.getExclusiveGroup() ? true : null);
+      PermissionInfo pInfo =
+          new PermissionInfo(p.getLabel(), p.getRole(), p.getExclusiveGroup() ? true : null);
       pInfo.rules = new HashMap<>();
       for (PermissionRule r : p.getRules()) {
         PermissionRuleInfo info =

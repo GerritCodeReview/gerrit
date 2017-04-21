@@ -27,4 +27,5 @@ public class ProjectInfo {
   public Map<String, String> branches;
   public List<WebLinkInfo> webLinks;
   public Map<String, LabelTypeInfo> labels;
+  public Map<String, RoleTypeInfo> roles;
 }

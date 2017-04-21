@@ -19,8 +19,12 @@ import static java.util.stream.Collectors.toMap;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.common.data.RoleSection;
+import com.google.gerrit.common.data.RoleSection.RolePermission;
 import com.google.gerrit.extensions.common.LabelTypeInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.common.RolePermissionInfo;
+import com.google.gerrit.extensions.common.RoleTypeInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
@@ -28,8 +32,10 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class ProjectJson {
@@ -53,6 +59,21 @@ public class ProjectJson {
       labelInfo.defaultValue = t.getDefaultValue();
       info.labels.put(t.getName(), labelInfo);
     }
+    Map<String, RoleTypeInfo> roles = null;
+    for (RoleSection rs : projectState.getAllRoleSections().values()) {
+      if (roles == null) roles = new HashMap<>();
+      RoleTypeInfo roleInfo = new RoleTypeInfo();
+      roleInfo.permissions = new ArrayList<>();
+      for (RolePermission rp : rs.getRolePermissions()) {
+        RolePermissionInfo rpi = new RolePermissionInfo();
+        rpi.permission = rp.getPermissionName();
+        rpi.force = rp.getForce();
+        rpi.range = rp.getRangeString() != null ? rp.getRangeString() : null;
+        roleInfo.permissions.add(rpi);
+      }
+      roles.put(rs.getName(), roleInfo);
+    }
+    info.roles = roles;
 
     return info;
   }

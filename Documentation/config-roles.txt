@@ -1,0 +1,77 @@
+= Gerrit Code Review - Access Roles
+
+To be able to reuse typical access configuration you can group
+permissions in roles that are defined in the project.config.
+These roles can then be used in access configuration just like
+the default permissions.
+
+[[role_custom]]
+== Customized Roles
+
+Site administrators and project owners can define their own roles,
+or override roles inherited from parent projects like so:
+
+----
+[role "my-role"]
+  permission = role-permission
+  permission = role permission
+----
+
+[[role_permission]]
+=== Role Permission
+
+----
+PERMISSION [RANGE | FORCE]
+----
+
+A role permissions consist of a permission and an option. The option
+can be one of force ("+force") and a range (f.i. "-2..+2").
+The force option is honored when the permission is "push" and the
+range option is only allowed for permissions that have
+a range.
+
+[[role_inheritance]]
+=== Inheritance
+
+Roles are inherited from parent projects. A child project may add,
+override, or remove labels defined in its parents.
+
+Overriding a role in a child project overrides all its properties and
+values. It is not possible to modify an inherited role by adding
+properties in the child project's configuration; all properties from
+the parent definition must be redefined in the child.
+
+[[role_example]]
+=== Example
+
+To define a new role:
+
+----
+  [role "developer"]
+      permission = read
+      permission = push +push
+      permission = label-Code-Review -2..+1
+----
+
+When used in the access control:
+
+----
+  [access "refs/heads/develop"]
+      role-developer = group the-developers
+----
+
+It will be equivalent to the configuration:
+
+----
+  [access "refs/heads/develop"]
+      read = group the-developers
+      push = +push group the-developers
+      label-Code-Review = -2..+1 group the-developers
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

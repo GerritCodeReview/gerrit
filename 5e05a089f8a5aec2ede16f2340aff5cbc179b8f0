@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11df7cc1_d03146e2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2017-04-21T20:56:07Z",
+      "side": 1,
+      "message": "Is this optional? If so, then it should be named `opt_includeComments`",
+      "range": {
+        "startLine": 25,
+        "startChar": 51,
+        "endLine": 25,
+        "endChar": 66
+      },
+      "revId": "5e05a089f8a5aec2ede16f2340aff5cbc179b8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

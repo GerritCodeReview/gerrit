@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a48d4ed_b98fc091",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DynamicOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-22T04:32:27Z",
+      "side": 1,
+      "message": "Can\u0027t it be fixed without suppressing?",
+      "range": {
+        "startLine": 117,
+        "startChar": 2,
+        "endLine": 117,
+        "endChar": 32
+      },
+      "revId": "bf7b7d4152ecb203e84bb67ddd5e55ba3d8c1b88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

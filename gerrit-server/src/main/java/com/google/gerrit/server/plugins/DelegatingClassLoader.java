@@ -15,8 +15,6 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.io.ByteStreams;
-
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -30,6 +28,7 @@ public class DelegatingClassLoader extends ClassLoader {
     this.target = target;
   }
 
+  @Override
   public Class<?> findClass(String name) throws ClassNotFoundException {
     String path = name.replace('.', '/') + ".class";
     InputStream resource = target.getResourceAsStream(path);
@@ -43,6 +42,7 @@ public class DelegatingClassLoader extends ClassLoader {
     throw new ClassNotFoundException(name);
   }
 
+  @Override
   public URL getResource(String name) {
     URL rtn = getParent().getResource(name);
     if (rtn == null) {
@@ -51,6 +51,7 @@ public class DelegatingClassLoader extends ClassLoader {
     return rtn;
   }
 
+  @Override
   public Enumeration<URL> getResources(String name) throws IOException {
     Enumeration<URL> rtn = getParent().getResources(name);
     if (rtn == null) {
@@ -59,6 +60,7 @@ public class DelegatingClassLoader extends ClassLoader {
     return rtn;
   }
 
+  @Override
   public InputStream getResourceAsStream(String name) {
     InputStream rtn = getParent().getResourceAsStream(name);
     if (rtn == null) {

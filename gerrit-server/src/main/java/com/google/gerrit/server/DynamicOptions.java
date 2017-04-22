@@ -104,7 +104,7 @@ public class DynamicOptions {
   public DynamicOptions(Object bean, Injector injector, DynamicMap<DynamicBean> dynamicBeans) {
     this.bean = bean;
     this.injector = injector;
-    beansByPlugin = new HashMap<String, DynamicBean>();
+    beansByPlugin = new HashMap<>();
     for (String plugin : dynamicBeans.plugins()) {
       Provider<DynamicBean> provider =
           dynamicBeans.byPlugin(plugin).get(bean.getClass().getCanonicalName());
@@ -114,6 +114,7 @@ public class DynamicOptions {
     }
   }
 
+  @SuppressWarnings("unchecked")
   public DynamicBean getDynamicBean(Object bean, DynamicBean dynamicBean) {
     ClassLoader coreCl = getClass().getClassLoader();
     ClassLoader beanCl = bean.getClass().getClassLoader();

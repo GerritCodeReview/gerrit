@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d599625_b9c6d0f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-22T14:43:22Z",
+      "side": 1,
+      "message": "Nit: some lines is longer then max. 73 chars.",
+      "revId": "647c783b053b875fc3ee5923eba3250f6b7d285e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94460dac_8a63eee3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-22T14:43:22Z",
+      "side": 1,
+      "message": "Right, but, as you can see in the code, the core actions have special treatment:\n\n  private static final String[] CORE \u003d {\n    \"abandon\",\n    \"assignee\",\n    \"cherrypick\",\n    \"description\",\n    \"followup\",\n    \"hashtags\",\n    \"publish\",\n    \"rebase\",\n    \"restore\",\n    \"revert\",\n    \"submit\",\n    \"topic\",\n    \"private\",\n    \"/\",\n  };\n\nOne reason, we do that, is to have some different handling for some actions, like position them on the different parts of the change screen or providing modal dialogs on click events etc. IOW, for the core actions we take care not in the generic way, like we do for plugin actions. I\u0027m not strictly against to handle mark/unmark private actions differently as all other core actions. If we decide to do that, i would prefer to clarify the previous statement, that we are starting to handle some core actions differently.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 36
+      },
+      "revId": "647c783b053b875fc3ee5923eba3250f6b7d285e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

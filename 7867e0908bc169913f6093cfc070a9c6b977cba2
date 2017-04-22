@@ -1,0 +1,245 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26f8c6af_cc780f72",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-22T07:04:50Z",
+      "side": 1,
+      "message": "This logic is confusing here.\n\nI see, that there were number of suggestions during the review.\n\nTo check my understanding: 99% of the use case would not provide sourceUrl option, but it cannot be consumed from the gerrit.config, because we require here that the targetUrl defined there.\n\nThen why you try to construct it with:\n\n JdbcAccountPatchReviewStore.createAccountPatchReviewStore(cfg, null);\n\nin both cases? I don\u0027t like the null for site path and duplicating the logic for H2 URL construction. Can\u0027t we let it to be created in the JdbcAccountPatchReviewStore#getUrl method? My suggestion would be:\n\n* 1. source data source: construct fake config with optionally set custom source url and real site path instance and call the method JdbcAccountPatchReviewStore#createAccountPatchReviewStore. This way we avoid passing null null as site path parameter and also wouldn\u0027t mess around with H2 URL construction on our own, and mention the table name in migrate code path.\n* 2. target data source: check that the accountPatchReviewDb.url was set in gerrit.config (like you already doing in the latest ps) and just pass the real config instance to the JdbcAccountPatchReviewStore#createAccountPatchReviewStore. No need to construct and populate the dummy config instance in this code path.",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 50
+      },
+      "revId": "7867e0908bc169913f6093cfc070a9c6b977cba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5f7712b_f5941711",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-22T07:04:50Z",
+      "side": 1,
+      "message": "At this point user could provide a database with non empty  account_patch_reviews table. The only protection for now against inserting the same records multiple times is the primary index violation constraint, in which case wil would just throw a scare exceptions on the user. We may want to be less error prone, by checking whether the table is non empty and abort the execution otherwise.",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 63
+      },
+      "revId": "7867e0908bc169913f6093cfc070a9c6b977cba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2cd20af9_4f5f483a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-22T07:04:50Z",
+      "side": 1,
+      "message": "private static.",
+      "range": {
+        "startLine": 93,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 9
+      },
+      "revId": "7867e0908bc169913f6093cfc070a9c6b977cba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfecec0e_ae484d85",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-22T07:04:50Z",
+      "side": 1,
+      "message": "Is immutable and could use AutoValue.",
+      "range": {
+        "startLine": 99,
+        "startChar": 22,
+        "endLine": 99,
+        "endChar": 25
+      },
+      "revId": "7867e0908bc169913f6093cfc070a9c6b977cba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e565610_2020f856",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-22T07:04:50Z",
+      "side": 1,
+      "message": "private static",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 8
+      },
+      "revId": "7867e0908bc169913f6093cfc070a9c6b977cba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31026927_c6894aa1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-22T07:04:50Z",
+      "side": 1,
+      "message": "private static.",
+      "range": {
+        "startLine": 124,
+        "startChar": 2,
+        "endLine": 124,
+        "endChar": 8
+      },
+      "revId": "7867e0908bc169913f6093cfc070a9c6b977cba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ced8a0e4_b69940e1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-22T07:04:50Z",
+      "side": 1,
+      "message": "Collections variables shouldn\u0027t use null semantic. Looks like this condition is always false in this code path. Remove or add a check instead.",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 128,
+        "endChar": 5
+      },
+      "revId": "7867e0908bc169913f6093cfc070a9c6b977cba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac0abc4_924fee02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-22T07:04:50Z",
+      "side": 1,
+      "message": "Nit: Unneeded new line.",
+      "revId": "7867e0908bc169913f6093cfc070a9c6b977cba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8055fed0_1fa74a7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-22T07:04:50Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "7867e0908bc169913f6093cfc070a9c6b977cba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69f0a91b_076ca03f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-22T07:04:50Z",
+      "side": 1,
+      "message": "private static.",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 9
+      },
+      "revId": "7867e0908bc169913f6093cfc070a9c6b977cba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e47465ac_a9b66edc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-22T07:04:50Z",
+      "side": 1,
+      "message": "This needs to be rebased.",
+      "range": {
+        "startLine": 282,
+        "startChar": 10,
+        "endLine": 282,
+        "endChar": 72
+      },
+      "revId": "7867e0908bc169913f6093cfc070a9c6b977cba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

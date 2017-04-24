@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2ec958b_3fa5ee12",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersionDiscovery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-24T14:57:49Z",
+      "side": 1,
+      "message": "client should be shutdown after usage",
+      "range": {
+        "startLine": 34,
+        "startChar": 31,
+        "endLine": 34,
+        "endChar": 37
+      },
+      "revId": "26fc4d66809c7f6de5507262f83c0532fe1bd402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

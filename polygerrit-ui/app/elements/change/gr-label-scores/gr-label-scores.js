@@ -104,8 +104,8 @@
       var labelValue = label.value;
       var len = permittedLabels[label.name] != null ?
           permittedLabels[label.name].length : 0;
-      var numberBlanks = this._computeBlankItems(permittedLabels, label.name)
-          .length;
+      var numberBlanks =
+          this._computeBlankItems(permittedLabels, label.name, 'start').length;
       for (var i = 0; i < len; i++) {
         var val = parseInt(permittedLabels[label.name][i], 10);
         if (val == labelValue) {
@@ -119,10 +119,16 @@
       return permittedLabels[label];
     },
 
-    _computeBlankItems: function(permittedLabels, label) {
+    _computeBlankItems: function(permittedLabels, label, side) {
+      if (!permittedLabels[label]) { return []; }
       var startPosition = this._labelValues[parseInt(
           permittedLabels[label][0])];
-      return new Array(startPosition);
+      if (side === 'start') {
+        return new Array(startPosition);
+      }
+      var endPosition = this._labelValues[parseInt(
+          permittedLabels[label][permittedLabels[label].length - 1])];
+      return new Array(Object.keys(this._labelValues).length - endPosition - 1);
     },
 
     _computeAnyPermittedLabelValues: function(permittedLabels, label) {

@@ -417,7 +417,7 @@ public class RefControl {
   }
 
   /** @return true if this user can view private changes. */
-  public boolean canViewPrivateChanges() {
+  boolean canViewPrivateChanges() {
     return canPerform(Permission.VIEW_PRIVATE_CHANGES);
   }
 

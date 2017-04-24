@@ -17,6 +17,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
@@ -121,6 +122,11 @@ public class RefOperationValidators {
         if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {
           if (!refEvent.user.getCapabilities().canAccessDatabase()) {
             throw new ValidationException("Not allowed to create user branch.");
+          }
+          if (Account.Id.fromRef(refEvent.command.getRefName()) == null) {
+            throw new ValidationException(
+                String.format(
+                    "Not allowed to create non-user branch under %s.", RefNames.REFS_USERS));
           }
         }
         if (refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {

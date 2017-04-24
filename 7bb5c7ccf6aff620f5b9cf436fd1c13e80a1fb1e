@@ -200,6 +200,30 @@
       "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65be821a_a76033b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_150.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T10:19:12Z",
+      "side": 1,
+      "message": "I just discussed this with Dave. We can\u0027t reindex changes during a schema migration, but we may add a new index schema version to ensure that the online reindexer does the job after Gerrit was started. Until the online reindexes is done, the index may return wrong results for changes that were migrated, but that\u0027s the best we can do.",
+      "parentUuid": "6c3f5a75_fcf60a01",
+      "range": {
+        "startLine": 49,
+        "startChar": 5,
+        "endLine": 49,
+        "endChar": 70
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

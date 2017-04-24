@@ -30,7 +30,8 @@ and
   AutoAnnotation_Commands_named cannot be resolved to a type
 ----
 
-In Eclipse, choose 'Import existing project' and select the `gerrit` project
+First, generate Eclipse project by running `tools/eclipse/project.py` script.
+Then, in Eclipse, choose 'Import existing project' and select the `gerrit` project
 from the current working directory.
 
 Expand the `gerrit` project, right-click on the `eclipse-out` folder, select

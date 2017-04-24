@@ -313,6 +313,30 @@
     },
     {
       "key": {
+        "uuid": "9ef0fbf0_1347044d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-24T07:59:33Z",
+      "side": 1,
+      "message": "Hmm, you seem to be right. Let\u0027s use that function for marking private, and then send a modified action object to the function for marking unprivate. Something like...\n\n      } else if (key \u003d\u003d\u003d ChangeActions.MARK_PRIVATE) {\n        var action \u003d this._allActionValues.find(function(o) {\n          return o.__key \u003d\u003d\u003d key;\n        });\n        this._fireAction(\n            this._prependSlash(key), action, true, action.payload);\n      } else if (key \u003d\u003d\u003d ChangeActions.UNMARK_PRIVATE) {\n        var action \u003d this._allActionValues.find(function(o) {\n          return o.__key \u003d\u003d\u003d key;\n        });\n        action.method \u003d \u0027DELETE\u0027;\n        this._fireAction(\n            this._prependSlash(key), action, true, action.payload);\n      }",
+      "parentUuid": "cca982a9_75e09bff",
+      "range": {
+        "startLine": 496,
+        "startChar": 8,
+        "endLine": 497,
+        "endChar": 69
+      },
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "771ee6b7_8c629354",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 7

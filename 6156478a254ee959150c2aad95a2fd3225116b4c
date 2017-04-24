@@ -337,6 +337,30 @@
     },
     {
       "key": {
+        "uuid": "56499b8f_789e24f4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-24T10:00:07Z",
+      "side": 1,
+      "message": "Hi, I figured out a better solution, see https://gerrit-review.googlesource.com/#/c/104011/15/polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js@401\n\nIt uses less code and allows us to use the fireAction from below this.\n\nI tested locally and pressing mark private works then pressing unmark private works too :)",
+      "parentUuid": "9ef0fbf0_1347044d",
+      "range": {
+        "startLine": 496,
+        "startChar": 8,
+        "endLine": 497,
+        "endChar": 69
+      },
+      "revId": "6156478a254ee959150c2aad95a2fd3225116b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "771ee6b7_8c629354",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 7

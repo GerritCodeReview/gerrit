@@ -16,6 +16,24 @@
       "revId": "332af1c5ea487b4ca4a0863f33f6b34b8abdcba5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18eac72b_a1a1bdd7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-24T12:28:49Z",
+      "side": 1,
+      "message": "I think both are fine. It\u0027s not a particularly expensive function call, and since this is already a bandaid I think the sooner we get the dialog centered the better.",
+      "parentUuid": "bbd59462_a35f887b",
+      "revId": "332af1c5ea487b4ca4a0863f33f6b34b8abdcba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

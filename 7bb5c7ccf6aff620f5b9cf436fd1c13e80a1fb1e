@@ -225,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "51c501a3_b810872a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PatchSetState.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T15:03:19Z",
+      "side": 1,
+      "message": "Discussed again in person with Dave anf Edwin. That wouldn\u0027t make sense to implement this in NoteDb rewrite step, but still keep Consistency checker marking the changes as Deleted. Postpone the removal PatchSetState.DELETED to later, when we know how to do history re-write with BatchUpdate.",
+      "parentUuid": "276ef8c5_ed536464",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 10
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5151070_9b9ff67f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 35

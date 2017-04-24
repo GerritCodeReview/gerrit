@@ -36,7 +36,10 @@ limitations under the License.
 <script>
   suite('gr-change-actions tests', function() {
     var element;
+    var sandbox;
     setup(function() {
+      sandbox = sinon.sandbox.create();
+
       stub('gr-rest-api-interface', {
         getChangeRevisionActions: function() {
           return Promise.resolve({
@@ -98,6 +101,10 @@ limitations under the License.
         },
       };
       return element.reload();
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('_shouldHideActions', function() {
@@ -220,6 +227,8 @@ limitations under the License.
     });
 
     test('submit change', function(done) {
+      sandbox.stub(element, 'fetchIsLatestKnown',
+          function() { return Promise.resolve(true); });
       element.change = {
         revisions: {
           rev1: {_number: 1},
@@ -241,17 +250,15 @@ limitations under the License.
     });
 
     test('submit change with plugin hook', function(done) {
-      var canSubmitStub = sinon.stub(element, '_canSubmitChange',
+      sandbox.stub(element, '_canSubmitChange',
           function() { return false; });
-      var fireActionStub = sinon.stub(element, '_fireAction');
+      var fireActionStub = sandbox.stub(element, '_fireAction');
       flush(function() {
         var submitButton = element.$$('gr-button[data-action-key="submit"]');
         assert.ok(submitButton);
         MockInteractions.tap(submitButton);
         assert.equal(fireActionStub.callCount, 0);
 
-        canSubmitStub.restore();
-        fireActionStub.restore();
         done();
       });
     });
@@ -284,7 +291,7 @@ limitations under the License.
     });
 
     test('rebase change', function(done) {
-      var fireActionStub = sinon.stub(element, '_fireAction');
+      var fireActionStub = sandbox.stub(element, '_fireAction');
       flush(function() {
         var rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
         MockInteractions.tap(rebaseButton);
@@ -315,7 +322,6 @@ limitations under the License.
         assert.deepEqual(fireActionStub.lastCall.args,
           ['/rebase', rebaseAction, true, {base: ''}]);
 
-        fireActionStub.restore();
         done();
       });
     });
@@ -342,13 +348,8 @@ limitations under the License.
       var alertStub;
 
       setup(function() {
-        fireActionStub = sinon.stub(element, '_fireAction');
-        alertStub = sinon.stub(window, 'alert');
-      });
-
-      teardown(function() {
-        alertStub.restore();
-        fireActionStub.restore();
+        fireActionStub = sandbox.stub(element, '_fireAction');
+        alertStub = sandbox.stub(window, 'alert');
       });
 
       test('works', function() {
@@ -452,8 +453,8 @@ limitations under the License.
       var fireActionStub;
 
       setup(function() {
-        fireActionStub = sinon.stub(element, '_fireAction');
-        alertStub = sinon.stub(window, 'alert');
+        fireActionStub = sandbox.stub(element, '_fireAction');
+        alertStub = sandbox.stub(window, 'alert');
         element.actions = {
           revert: {
             method: 'POST',
@@ -465,29 +466,20 @@ limitations under the License.
         return element.reload();
       });
 
-      teardown(function() {
-        alertStub.restore();
-        fireActionStub.restore();
-      });
-
       test('revert change with plugin hook', function(done) {
         element.change = {
           current_revision: 'abc1234',
         };
         var newRevertMsg = 'Modified revert msg';
-        var modifyRevertMsgStub = sinon.stub(element, '_modifyRevertMsg',
+        sandbox.stub(element, '_modifyRevertMsg',
             function() { return newRevertMsg; });
-        var populateRevertMsgStub = sinon.stub(
-            element.$.confirmRevertDialog, 'populateRevertMessage',
+        sandbox.stub(element.$.confirmRevertDialog, 'populateRevertMessage',
             function() { return 'original msg'; });
         flush(function() {
           var revertButton = element.$$('gr-button[data-action-key="revert"]');
           MockInteractions.tap(revertButton);
 
           assert.equal(element.$.confirmRevertDialog.message, newRevertMsg);
-
-          populateRevertMsgStub.restore();
-          modifyRevertMsgStub.restore();
           done();
         });
       });
@@ -496,8 +488,7 @@ limitations under the License.
         element.change = {
           current_revision: 'abc1234',
         };
-        var populateRevertMsgStub = sinon.stub(
-            element.$.confirmRevertDialog, 'populateRevertMessage',
+        sandbox.stub(element.$.confirmRevertDialog, 'populateRevertMessage',
             function() { return 'original msg'; });
         var revertButton = element.$$('gr-button[data-action-key="revert"]');
         MockInteractions.tap(revertButton);
@@ -519,7 +510,6 @@ limitations under the License.
           '/revert', action, false, {
             message: 'foo message',
           }]);
-        populateRevertMsgStub.restore();
       });
     });
 
@@ -528,7 +518,7 @@ limitations under the License.
       var deleteAction;
 
       setup(function() {
-        fireActionStub = sinon.stub(element, '_fireAction');
+        fireActionStub = sandbox.stub(element, '_fireAction');
         element.change = {
           current_revision: 'abc1234',
         };
@@ -541,10 +531,6 @@ limitations under the License.
         element.actions = {
           '/': deleteAction,
         };
-      });
-
-      teardown(function() {
-        fireActionStub.restore();
       });
 
       test('does not delete on action', function() {
@@ -638,7 +624,7 @@ limitations under the License.
       });
 
       test('approves when taped', function() {
-        var fireActionStub = sinon.stub(element, '_fireAction');
+        var fireActionStub = sandbox.stub(element, '_fireAction');
         MockInteractions.tap(
             element.$$('gr-button[data-action-key=\'review\']'));
         flushAsynchronousOperations();
@@ -646,7 +632,6 @@ limitations under the License.
         assert.isTrue(fireActionStub.calledWith('/review'));
         var payload = fireActionStub.lastCall.args[3];
         assert.deepEqual(payload.labels, {foo: '+1'});
-        fireActionStub.restore();
       });
 
       test('not added when multiple labels are required', function() {

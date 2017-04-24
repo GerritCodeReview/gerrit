@@ -50,7 +50,10 @@ public class SchemaUpdater {
 
   @Inject
   SchemaUpdater(
-      SchemaFactory<ReviewDb> schema, SitePaths site, SchemaCreator creator, Injector parent) {
+      @ReviewDbFactory SchemaFactory<ReviewDb> schema,
+      SitePaths site,
+      SchemaCreator creator,
+      Injector parent) {
     this.schema = schema;
     this.site = site;
     this.creator = creator;

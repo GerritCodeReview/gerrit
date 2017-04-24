@@ -44,7 +44,7 @@ public class ConfigNotesMigration extends NotesMigration {
     }
   }
 
-  private static final String NOTE_DB = "noteDb";
+  public static final String SECTION_NOTE_DB = "noteDb";
 
   // All of these names must be reflected in the allowed set in checkConfig.
   private static final String DISABLE_REVIEW_DB = "disableReviewDb";
@@ -62,9 +62,9 @@ public class ConfigNotesMigration extends NotesMigration {
             READ.toLowerCase(),
             WRITE.toLowerCase(),
             SEQUENCE.toLowerCase());
-    for (String t : cfg.getSubsections(NOTE_DB)) {
+    for (String t : cfg.getSubsections(SECTION_NOTE_DB)) {
       checkArgument(keys.contains(t.toLowerCase()), "invalid NoteDb table: %s", t);
-      for (String key : cfg.getNames(NOTE_DB, t)) {
+      for (String key : cfg.getNames(SECTION_NOTE_DB, t)) {
         checkArgument(allowed.contains(key.toLowerCase()), "invalid NoteDb key: %s.%s", t, key);
       }
     }
@@ -72,8 +72,11 @@ public class ConfigNotesMigration extends NotesMigration {
 
   public static Config allEnabledConfig() {
     Config cfg = new Config();
-    cfg.setBoolean(NOTE_DB, CHANGES.key(), WRITE, true);
-    cfg.setBoolean(NOTE_DB, CHANGES.key(), READ, true);
+    cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), WRITE, true);
+    cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), READ, true);
+    cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), SEQUENCE, true);
+    cfg.setString(SECTION_NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.NOTE_DB.name());
+    cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, true);
     return cfg;
   }
 
@@ -87,18 +90,19 @@ public class ConfigNotesMigration extends NotesMigration {
   public ConfigNotesMigration(@GerritServerConfig Config cfg) {
     checkConfig(cfg);
 
-    writeChanges = cfg.getBoolean(NOTE_DB, CHANGES.key(), WRITE, false);
-    readChanges = cfg.getBoolean(NOTE_DB, CHANGES.key(), READ, false);
+    writeChanges = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), WRITE, false);
+    readChanges = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), READ, false);
 
     // Reading change sequence numbers from NoteDb is not the default even if
     // reading changes themselves is. Once this is enabled, it's not easy to
     // undo: ReviewDb might hand out numbers that have already been assigned by
     // NoteDb. This decision for the default may be reevaluated later.
-    readChangeSequence = cfg.getBoolean(NOTE_DB, CHANGES.key(), SEQUENCE, false);
+    readChangeSequence = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), SEQUENCE, false);
 
     changePrimaryStorage =
-        cfg.getEnum(NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.REVIEW_DB);
-    disableChangeReviewDb = cfg.getBoolean(NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, false);
+        cfg.getEnum(SECTION_NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.REVIEW_DB);
+    disableChangeReviewDb =
+        cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, false);
 
     checkArgument(
         !(disableChangeReviewDb && changePrimaryStorage != PrimaryStorage.NOTE_DB),

@@ -529,6 +529,9 @@
 
         if (this.viewState.showReplyDialog) {
           this._openReplyDialog();
+          // TODO(kaspern@): Find a better signal for when to call center.
+          this.async(function() { this.$.replyOverlay.center(); }, 100);
+          this.async(function() { this.$.replyOverlay.center(); }, 1000);
           this.set('viewState.showReplyDialog', false);
         }
       }.bind(this));

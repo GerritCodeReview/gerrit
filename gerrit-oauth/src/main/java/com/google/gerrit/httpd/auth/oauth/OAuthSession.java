@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.auth.oauth;
 
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
@@ -154,8 +155,9 @@ class OAuthSession {
 
     webSession.get().login(arsp, true);
     String suffix = redirectToken.substring(OAuthWebFilter.GERRIT_LOGIN.length() + 1);
+    suffix = CharMatcher.anyOf("/").trimLeadingFrom(Url.decode(suffix));
     StringBuilder rdr = new StringBuilder(urlProvider.get(req));
-    rdr.append(Url.decode(suffix));
+    rdr.append(suffix);
     rsp.sendRedirect(rdr.toString());
   }
 

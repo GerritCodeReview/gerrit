@@ -22,6 +22,30 @@
       "revId": "ca1c967a6850315e95cd0d87ab0dd74b4dfc7512",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13b40606_fc6e2607",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/JestClientBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-24T10:45:45Z",
+      "side": 1,
+      "message": "it can\u0027t be private since we are accessing it from AbstractElasticIndex, this is micro optimization so that we don\u0027t read this from config file over and over again.",
+      "parentUuid": "0b7f873f_38230cd6",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 7
+      },
+      "revId": "ca1c967a6850315e95cd0d87ab0dd74b4dfc7512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

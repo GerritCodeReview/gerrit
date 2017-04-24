@@ -58,6 +58,33 @@
     ],
   }];
 
+  var DOCUMENTATION_LINKS = [
+	  {
+	    url: '/Documentation/index.html',
+	    name: 'Table of Contents',
+	  },
+	  {
+	    url: '/Documentation/user-search.html',
+	    name: 'Searching',
+	  },
+	  {
+	    url: '/Documentation/user-upload.html',
+	    name: 'Uploading',
+	  },
+	  {
+		 url: '/Documentation/access-control.html',
+		 name: 'Access Control',
+	  },
+	  {
+      url: '/Documentation/rest-api.html',
+      name: 'REST API',
+	  },
+	  {
+	    url: '/Documentation/intro-project-owner.html',
+		  name: 'Project Owner Guide',
+	  },
+	];
+
   Polymer({
     is: 'gr-main-header',
 
@@ -82,9 +109,15 @@
           return DEFAULT_LINKS;
         },
       },
+      _documentationLinks: {
+          type: Array,
+          value: function() {
+            return DOCUMENTATION_LINKS;
+          },
+        },
       _links: {
         type: Array,
-        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks)',
+        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks, _documentationLinks)',
       },
       _loginURL: {
         type: String,
@@ -137,7 +170,7 @@
       return '//' + window.location.host + this.getBaseUrl() + path;
     },
 
-    _computeLinks: function(defaultLinks, userLinks, adminLinks) {
+    _computeLinks: function(defaultLinks, userLinks, adminLinks, documentationLinks) {
       var links = defaultLinks.slice();
       if (userLinks && userLinks.length > 0) {
         links.push({
@@ -151,6 +184,10 @@
           links: adminLinks,
         });
       }
+      links.push({
+          title: 'Documentation',
+          links: documentationLinks,
+        })
       return links;
     },
 

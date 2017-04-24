@@ -568,7 +568,7 @@ limitations under the License.
     test('related changes are updated and new patch selected after rebase',
         function(done) {
       element._changeNum = '42';
-      sandbox.stub(element, '_computeLatestPatchNum', function() {
+      sandbox.stub(element, 'computeLatestPatchNum', function() {
         return 1;
       });
       sandbox.stub(element, '_reload',

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f2c14a0_e3f12539",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WorkInProgressOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T08:01:16Z",
+      "side": 1,
+      "message": "Should this be m.isEmpty()?\n\nShould we return before creating the ChangeMessage if m.isEmpty()?",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 24
+      },
+      "revId": "8deddb2fa7ad93d4ef287a93e9793bac43d111e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,6 +14,10 @@
 
 package com.google.gerrit.elasticsearch;
 
+import java.util.Map;
+
+import org.eclipse.jgit.lib.Config;
+
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexConfig;
@@ -25,8 +29,6 @@ import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import java.util.Map;
-import org.eclipse.jgit.lib.Config;
 
 public class ElasticIndexModule extends LifecycleModule {
   private final int threads;
@@ -62,7 +64,11 @@ public class ElasticIndexModule extends LifecycleModule {
             .build(GroupIndex.Factory.class));
 
     install(new IndexModule(threads));
-    install(new SingleVersionModule(singleVersions));
+    if (singleVersions == null) {
+      listener().to(ElasticVersionManager.class);
+    } else {
+      install(new SingleVersionModule(singleVersions));
+    }
   }
 
   @Provides

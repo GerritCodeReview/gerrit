@@ -70,6 +70,30 @@
       "revId": "7b5bbd76e5b952831aed97df521a03ebc374cbb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdc12f53_3626fc0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-24T12:51:32Z",
+      "side": 1,
+      "message": "It\u0027s not related to which classes change the config.  The problem is that even though this class is a Singleton its constructor is getting invoked multiple times when running tests.",
+      "parentUuid": "c178a20e_7f992d4a",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 5
+      },
+      "revId": "7b5bbd76e5b952831aed97df521a03ebc374cbb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

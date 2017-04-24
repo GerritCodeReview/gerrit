@@ -230,7 +230,7 @@ class ReceiveCommits {
             + "'Force Push' flag set to delete references."),
     DELETE_CHANGES("Cannot delete from '" + REFS_CHANGES + "'"),
     CODE_REVIEW(
-        "You need 'Push' rights to upload code review requests.\n"
+        "You need 'Create Review' rights to upload code review requests.\n"
             + "Verify that you are pushing to the right branch.");
 
     private final String value;

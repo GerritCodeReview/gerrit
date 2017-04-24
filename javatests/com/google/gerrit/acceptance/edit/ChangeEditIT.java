@@ -694,7 +694,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> userTestRepo = cloneProject(p, user);
 
     // Block default permission
-    block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
+    block(p, "refs/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
 
     // Create change as user
     PushOneCommit push = pushFactory.create(db, user.getIdent(), userTestRepo);

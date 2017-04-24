@@ -132,7 +132,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     // First 2 changes are merged, which means the tags pointing to them are
     // visible.
-    allow("refs/for/refs/heads/*", Permission.SUBMIT, admins);
+    grant(project, "refs/heads/*", Permission.SUBMIT, true);
     PushOneCommit.Result mr =
         pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master%submit");
     mr.assertOkStatus();

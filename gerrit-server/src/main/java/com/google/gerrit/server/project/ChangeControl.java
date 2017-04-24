@@ -379,12 +379,7 @@ public class ChangeControl {
   }
 
   /** Is this user a reviewer for the change? */
-  public boolean isReviewer(ReviewDb db) throws OrmException {
-    return isReviewer(db, null);
-  }
-
-  /** Is this user a reviewer for the change? */
-  public boolean isReviewer(ReviewDb db, @Nullable ChangeData cd) throws OrmException {
+  private boolean isReviewer(ReviewDb db, @Nullable ChangeData cd) throws OrmException {
     if (getUser().isIdentifiedUser()) {
       Collection<Account.Id> results = changeData(db, cd).reviewers().all();
       return results.contains(getUser().getAccountId());

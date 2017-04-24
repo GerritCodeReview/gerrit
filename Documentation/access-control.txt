@@ -555,6 +555,22 @@ global capabilities, which is the same as being able to administrate
 the Gerrit server (e.g. the user could assign the `Administrate Server`
 capability to the own account).
 
+[[category_create_review]]
+==== Create Review
+
+The `Create Review` access right granted on the namespace
+`refs/heads/BRANCH` permits the user to upload a non-merge
+commit to the project's `refs/{for,publish}/BRANCH` namespace,
+creating a new change for code review.
+
+A user must be able to clone or fetch the project in order to create
+a new commit on their local system, so in practice they must also
+have the `Read` access granted to upload a change.
+
+For an open source, public Gerrit installation, it is common to grant
+`Create Review` for `+refs/heads/*+` to `Registered Users` in the
+`All-Projects` ACL.  For more private installations, its common to
+grant `Create Review` for `+refs/heads/*+` to all users of a project.
 
 [[category_push]]
 === Push
@@ -587,29 +603,6 @@ The push category is primarily useful for projects that only want to
 take advantage of Gerrit's access control features and do not need
 its code review functionality.  Projects that need to require code
 reviews should not grant this category.
-
-
-[[category_push_review]]
-==== Upload To Code Review
-
-The `Push` access right granted on the namespace
-`refs/for/refs/heads/BRANCH` permits the user to upload a non-merge
-commit to the project's `refs/for/BRANCH` namespace, creating a new
-change for code review.
-
-A user must be able to clone or fetch the project in order to create
-a new commit on their local system, so in practice they must also
-have the `Read` access granted to upload a change.
-
-For an open source, public Gerrit installation, it is common to grant
-`Push` for `+refs/for/refs/heads/*+` to `Registered Users` in the
-`All-Projects` ACL.  For more private installations, its common to
-grant `Push` for `+refs/for/refs/heads/*+` to all users of a project.
-
-* Force option
-+
-The force option has no function when granted to a branch in the
-`+refs/for/refs/heads/*+` namespace.
 
 
 [[category_add_patch_set]]
@@ -895,7 +888,7 @@ any changes.
 Suggested access rights to grant:
 
 * xref:category_read[`Read`] on 'refs/heads/\*' and 'refs/tags/*'
-* xref:category_push[`Push`] to 'refs/for/refs/heads/*'
+* xref:category_create_review[`Create Review`] to 'refs/heads/*'
 * link:config-labels.html#label_Code-Review[`Code-Review`] with range '-1' to '+1' for 'refs/heads/*'
 
 If it's desired to have the possibility to upload temporarily hidden
@@ -923,7 +916,7 @@ exclusively.
 Suggested access rights to grant:
 
 * xref:category_read[`Read`] on 'refs/heads/\*' and 'refs/tags/*'
-* xref:category_push[`Push`] to 'refs/for/refs/heads/*'
+* xref:category_push[`Create Review`] to 'refs/heads/*'
 * xref:category_push_merge[`Push merge commit`] to 'refs/for/refs/heads/*'
 * xref:category_forge_author[`Forge Author Identity`] to 'refs/heads/*'
 * link:config-labels.html#label_Code-Review[`Label: Code-Review`] with range '-2' to '+2' for 'refs/heads/*'
@@ -984,8 +977,7 @@ Suggested access rights to grant, that won't block changes:
 Optional access rights to grant:
 
 * link:config-labels.html#label_Code-Review[`Label: Code-Review`] with range '-1' to '+1' for 'refs/heads/*'
-* xref:category_push[`Push`] to 'refs/for/refs/heads/*'
-
+* xref:category_push[`Create Review`] to 'refs/heads/*'
 
 [[examples_integrator]]
 === Integrator

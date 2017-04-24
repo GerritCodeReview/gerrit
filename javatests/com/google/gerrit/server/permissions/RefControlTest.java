@@ -11,10 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.common.data.Permission.CREATE_REVIEW;
 import static com.google.gerrit.common.data.Permission.EDIT_TOPIC_NAME;
 import static com.google.gerrit.common.data.Permission.LABEL;
 import static com.google.gerrit.common.data.Permission.OWNER;
@@ -390,10 +390,10 @@ public class RefControlTest {
   @Test
   public void inheritRead_SingleBranchDeniesUpload() {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
-    allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
+    allow(parent, CREATE_REVIEW, REGISTERED_USERS, "refs/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/foobar");
     doNotInherit(local, READ, "refs/heads/foobar");
-    doNotInherit(local, PUSH, "refs/for/refs/heads/foobar");
+    doNotInherit(local, CREATE_REVIEW, "refs/heads/foobar");
 
     ProjectControl u = user(local);
     assertCanUpload(u);
@@ -403,7 +403,7 @@ public class RefControlTest {
 
   @Test
   public void blockPushDrafts() {
-    allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
+    allow(parent, CREATE_REVIEW, REGISTERED_USERS, "refs/*");
     block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
     allow(local, PUSH, REGISTERED_USERS, "refs/drafts/*");
 
@@ -432,7 +432,7 @@ public class RefControlTest {
   @Test
   public void inheritRead_SingleBranchDoesNotOverrideInherited() {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
-    allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
+    allow(parent, CREATE_REVIEW, REGISTERED_USERS, "refs/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/foobar");
 
     ProjectControl u = user(local);
@@ -503,7 +503,7 @@ public class RefControlTest {
   public void cannotUploadToAnyRef() {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     allow(local, READ, DEVS, "refs/heads/*");
-    allow(local, PUSH, DEVS, "refs/for/refs/heads/*");
+    allow(local, CREATE_REVIEW, DEVS, "refs/heads/*");
 
     ProjectControl u = user(local);
     assertCannotUpload(u);

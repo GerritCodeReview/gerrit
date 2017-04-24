@@ -20,6 +20,22 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.LsRemoteCommand;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
+import org.junit.Before;
+import org.junit.Test;
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -51,20 +67,6 @@ import com.google.gerrit.testutil.DisabledReviewDb;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.LsRemoteCommand;
-import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
-import org.junit.Before;
-import org.junit.Test;
 
 @NoHttpd
 public class RefAdvertisementIT extends AbstractDaemonTest {
@@ -119,7 +121,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     // First 2 changes are merged, which means the tags pointing to them are
     // visible.
-    allow(Permission.SUBMIT, admins, "refs/for/refs/heads/*");
+    grant(Permission.SUBMIT, project, "refs/heads/*", true, admins);
+
     PushOneCommit.Result mr =
         pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master%submit");
     mr.assertOkStatus();

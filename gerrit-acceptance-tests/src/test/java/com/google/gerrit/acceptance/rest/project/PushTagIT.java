@@ -23,12 +23,6 @@ import static com.google.gerrit.acceptance.rest.project.PushTagIT.TagType.ANNOTA
 import static com.google.gerrit.acceptance.rest.project.PushTagIT.TagType.LIGHTWEIGHT;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
-import com.google.common.base.MoreObjects;
-import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GitUtil;
-import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.reviewdb.client.RefNames;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
@@ -36,6 +30,13 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.common.base.MoreObjects;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GitUtil;
+import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.reviewdb.client.RefNames;
 
 @NoHttpd
 public class PushTagIT extends AbstractDaemonTest {
@@ -220,7 +221,7 @@ public class PushTagIT extends AbstractDaemonTest {
     }
 
     if (!newCommit) {
-      grant(Permission.SUBMIT, project, "refs/for/refs/heads/master", false, REGISTERED_USERS);
+      grant(Permission.SUBMIT, project, "refs/heads/master", true, REGISTERED_USERS);
       pushHead(testRepo, "refs/for/master%submit");
     }
 

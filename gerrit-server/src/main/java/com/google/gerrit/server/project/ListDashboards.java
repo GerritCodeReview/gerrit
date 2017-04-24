@@ -19,12 +19,20 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BlobBasedConfig;
@@ -41,40 +49,54 @@ class ListDashboards implements RestReadView<ProjectResource> {
   private static final Logger log = LoggerFactory.getLogger(ListDashboards.class);
 
   private final GitRepositoryManager gitManager;
+  private final PermissionBackend permissionBackend;
+  private final Provider<CurrentUser> user;
 
   @Option(name = "--inherited", usage = "include inherited dashboards")
   private boolean inherited;
 
   @Inject
-  ListDashboards(GitRepositoryManager gitManager) {
+  ListDashboards(
+      GitRepositoryManager gitManager,
+      PermissionBackend permissionBackend,
+      Provider<CurrentUser> user) {
     this.gitManager = gitManager;
+    this.permissionBackend = permissionBackend;
+    this.user = user;
   }
 
   @Override
-  public List<?> apply(ProjectResource resource) throws ResourceNotFoundException, IOException {
-    ProjectControl ctl = resource.getControl();
-    String project = ctl.getProject().getName();
+  public List<?> apply(ProjectResource rsrc)
+      throws ResourceNotFoundException, IOException, PermissionBackendException {
+    String project = rsrc.getName();
     if (!inherited) {
-      return scan(resource.getControl(), project, true);
+      return scan(rsrc.getControl(), project, true);
     }
 
     List<List<DashboardInfo>> all = new ArrayList<>();
     boolean setDefault = true;
-    for (ProjectState ps : ctl.getProjectState().tree()) {
-      ctl = ps.controlFor(ctl.getUser());
-      if (ctl.isVisible()) {
-        List<DashboardInfo> list = scan(ctl, project, setDefault);
-        for (DashboardInfo d : list) {
-          if (d.isDefault != null && Boolean.TRUE.equals(d.isDefault)) {
-            setDefault = false;
-          }
+    for (ProjectState ps : tree(rsrc)) {
+      List<DashboardInfo> list = scan(ps.controlFor(user.get()), project, setDefault);
+      for (DashboardInfo d : list) {
+        if (d.isDefault != null && Boolean.TRUE.equals(d.isDefault)) {
+          setDefault = false;
         }
-        if (!list.isEmpty()) {
-          all.add(list);
-        }
+      }
+      if (!list.isEmpty()) {
+        all.add(list);
       }
     }
     return all;
+  }
+
+  private Collection<ProjectState> tree(ProjectResource rsrc) throws PermissionBackendException {
+    Map<Project.NameKey, ProjectState> tree = new LinkedHashMap<>();
+    for (ProjectState ps : rsrc.getProjectState().tree()) {
+      tree.put(ps.getProject().getNameKey(), ps);
+    }
+    tree.keySet()
+        .retainAll(permissionBackend.user(user).filter(ProjectPermission.ACCESS, tree.keySet()));
+    return tree.values();
   }
 
   private List<DashboardInfo> scan(ProjectControl ctl, String project, boolean setDefault)

@@ -14,65 +14,61 @@
 
 package com.google.gerrit.server.project;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Singleton
 public class SuggestParentCandidates {
-  private final ProjectControl.Factory projectControlFactory;
   private final ProjectCache projectCache;
-  private final AllProjectsName allProject;
+  private final PermissionBackend permissionBackend;
+  private final Provider<CurrentUser> user;
+  private final AllProjectsName allProjects;
 
   @Inject
   SuggestParentCandidates(
-      final ProjectControl.Factory projectControlFactory,
-      final ProjectCache projectCache,
-      final AllProjectsName allProject) {
-    this.projectControlFactory = projectControlFactory;
+      ProjectCache projectCache,
+      PermissionBackend permissionBackend,
+      Provider<CurrentUser> user,
+      AllProjectsName allProjects) {
     this.projectCache = projectCache;
-    this.allProject = allProject;
+    this.permissionBackend = permissionBackend;
+    this.user = user;
+    this.allProjects = allProjects;
   }
 
-  public List<Project.NameKey> getNameKeys() throws NoSuchProjectException {
-    List<Project> pList = getProjects();
-    final List<Project.NameKey> nameKeys = new ArrayList<>(pList.size());
-    for (Project p : pList) {
-      nameKeys.add(p.getNameKey());
-    }
-    return nameKeys;
+  public List<Project.NameKey> getNameKeys() throws PermissionBackendException {
+    return permissionBackend
+        .user(user)
+        .filter(ProjectPermission.ACCESS, parents())
+        .stream()
+        .sorted()
+        .collect(toList());
   }
 
-  public List<Project> getProjects() throws NoSuchProjectException {
-    Set<Project> projects =
-        new TreeSet<>(
-            new Comparator<Project>() {
-              @Override
-              public int compare(Project o1, Project o2) {
-                return o1.getName().compareTo(o2.getName());
-              }
-            });
+  private Set<Project.NameKey> parents() {
+    Set<Project.NameKey> parents = new HashSet<>();
     for (Project.NameKey p : projectCache.all()) {
-      try {
-        final ProjectControl control = projectControlFactory.controlFor(p);
-        final Project.NameKey parentK = control.getProject().getParent();
-        if (parentK != null) {
-          ProjectControl pControl = projectControlFactory.controlFor(parentK);
-          if (pControl.isVisible() || pControl.isOwner()) {
-            projects.add(pControl.getProject());
-          }
+      ProjectState ps = projectCache.get(p);
+      if (ps != null) {
+        Project.NameKey parent = ps.getProject().getParent();
+        if (parent != null) {
+          parents.add(parent);
         }
-      } catch (NoSuchProjectException e) {
-        continue;
       }
     }
-    projects.add(projectControlFactory.controlFor(allProject).getProject());
-    return new ArrayList<>(projects);
+    parents.add(allProjects);
+    return parents;
   }
 }

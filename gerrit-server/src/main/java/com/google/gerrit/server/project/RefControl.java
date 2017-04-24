@@ -154,7 +154,7 @@ public class RefControl {
   }
 
   /** @return true if this user can add a new patch set to this ref */
-  public boolean canAddPatchSet() {
+  boolean canAddPatchSet() {
     return projectControl
             .controlForRef("refs/for/" + getRefName())
             .canPerform(Permission.ADD_PATCH_SET)
@@ -170,7 +170,7 @@ public class RefControl {
   }
 
   /** @return true if this user can rebase changes on this ref */
-  public boolean canRebase() {
+  boolean canRebase() {
     return canPerform(Permission.REBASE) && canWrite();
   }
 
@@ -188,7 +188,7 @@ public class RefControl {
   }
 
   /** @return true if the user can update the reference as a fast-forward. */
-  public boolean canUpdate() {
+  private boolean canUpdate() {
     if (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner()) {
       // Pushing requires being at least project owner, in addition to push.
       // Pushing configuration changes modifies the access control
@@ -200,7 +200,7 @@ public class RefControl {
       // this why for the AllProjects project we allow administrators to push
       // configuration changes if they have push without being project owner.
       if (!(projectControl.getProjectState().isAllProjects()
-          && getUser().getCapabilities().canAdministrateServer())) {
+          && getUser().getCapabilities().isAdmin_DoNotUse())) {
         return false;
       }
     }
@@ -208,7 +208,7 @@ public class RefControl {
   }
 
   /** @return true if the user can rewind (force push) the reference. */
-  public boolean canForceUpdate() {
+  private boolean canForceUpdate() {
     if (!canWrite()) {
       return false;
     }
@@ -227,7 +227,7 @@ public class RefControl {
       case UNKNOWN:
       case WEB_BROWSER:
       default:
-        return getUser().getCapabilities().canAdministrateServer()
+        return getUser().getCapabilities().isAdmin_DoNotUse()
             || (isOwner() && !isForceBlocked(Permission.PUSH));
     }
   }
@@ -373,7 +373,7 @@ public class RefControl {
       case UNKNOWN:
       case WEB_BROWSER:
       default:
-        return getUser().getCapabilities().canAdministrateServer()
+        return getUser().getCapabilities().isAdmin_DoNotUse()
             || (isOwner() && !isForceBlocked(Permission.PUSH))
             || canPushWithForce()
             || canPerform(Permission.DELETE);
@@ -412,7 +412,7 @@ public class RefControl {
   }
 
   /** @return true if this user can view draft changes. */
-  public boolean canViewDrafts() {
+  boolean canViewDrafts() {
     return canPerform(Permission.VIEW_DRAFTS);
   }
 
@@ -422,17 +422,17 @@ public class RefControl {
   }
 
   /** @return true if this user can publish draft changes. */
-  public boolean canPublishDrafts() {
+  boolean canPublishDrafts() {
     return canPerform(Permission.PUBLISH_DRAFTS);
   }
 
   /** @return true if this user can delete draft changes. */
-  public boolean canDeleteDrafts() {
+  boolean canDeleteDrafts() {
     return canPerform(Permission.DELETE_DRAFTS);
   }
 
   /** @return true if this user can delete their own changes. */
-  public boolean canDeleteOwnChanges() {
+  boolean canDeleteOwnChanges() {
     return canPerform(Permission.DELETE_OWN_CHANGES);
   }
 
@@ -451,12 +451,12 @@ public class RefControl {
   }
 
   /** @return true if this user can force edit topic names. */
-  public boolean canForceEditTopicName() {
+  boolean canForceEditTopicName() {
     return canForcePerform(Permission.EDIT_TOPIC_NAME);
   }
 
   /** All value ranges of any allowed label permission. */
-  public List<PermissionRange> getLabelRanges(boolean isChangeOwner) {
+  List<PermissionRange> getLabelRanges(boolean isChangeOwner) {
     List<PermissionRange> r = new ArrayList<>();
     for (Map.Entry<String, List<PermissionRule>> e : relevant.getDeclaredPermissions()) {
       if (Permission.isLabel(e.getKey())) {
@@ -477,12 +477,12 @@ public class RefControl {
   }
 
   /** The range of permitted values associated with a label permission. */
-  public PermissionRange getRange(String permission) {
+  PermissionRange getRange(String permission) {
     return getRange(permission, false);
   }
 
   /** The range of permitted values associated with a label permission. */
-  public PermissionRange getRange(String permission, boolean isChangeOwner) {
+  PermissionRange getRange(String permission, boolean isChangeOwner) {
     if (Permission.hasRange(permission)) {
       return toRange(permission, access(permission, isChangeOwner));
     }

@@ -127,7 +127,7 @@ public class GroupControl {
     return user.isInternalUser()
         || groupBackend.isVisibleToAll(group.getGroupUUID())
         || user.getEffectiveGroups().contains(group.getGroupUUID())
-        || user.getCapabilities().canAdministrateServer()
+        || user.getCapabilities().isAdmin_DoNotUse()
         || isOwner();
   }
 
@@ -139,7 +139,7 @@ public class GroupControl {
       AccountGroup.UUID ownerUUID = accountGroup.getOwnerGroupUUID();
       isOwner =
           getUser().getEffectiveGroups().contains(ownerUUID)
-              || getUser().getCapabilities().canAdministrateServer();
+              || getUser().getCapabilities().isAdmin_DoNotUse();
     }
     return isOwner;
   }

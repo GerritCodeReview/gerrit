@@ -300,7 +300,7 @@ public class ProjectApiImpl implements ProjectApi {
   public ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException {
     try {
       return setAccess.apply(checkExists(), p);
-    } catch (IOException e) {
+    } catch (IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot put access rights", e);
     }
   }
@@ -378,14 +378,18 @@ public class ProjectApiImpl implements ProjectApi {
   public List<ProjectInfo> children(boolean recursive) throws RestApiException {
     ListChildProjects list = children.list();
     list.setRecursive(recursive);
-    return list.apply(checkExists());
+    try {
+      return list.apply(checkExists());
+    } catch (PermissionBackendException e) {
+      throw new RestApiException("Cannot list children", e);
+    }
   }
 
   @Override
   public ChildProjectApi child(String name) throws RestApiException {
     try {
       return childApi.create(children.parse(checkExists(), IdString.fromDecoded(name)));
-    } catch (IOException e) {
+    } catch (IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot parse child project", e);
     }
   }

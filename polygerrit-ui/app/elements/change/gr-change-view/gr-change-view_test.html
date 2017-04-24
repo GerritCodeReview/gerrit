@@ -158,6 +158,28 @@ limitations under the License.
       });
     });
 
+    test('_computeReadyForReview', function() {
+      var accountA = {_account_id: 1};
+      var accountB = {_account_id: 2};
+      var readyChangeByA = {
+        owner: {_account_id: accountA._account_id},
+        work_in_progress: false,
+      };
+      var wipChangeByA = {
+        owner: {_account_id: accountA._account_id},
+        work_in_progress: true,
+      };
+      var ready = function(loggedIn, change, opt_account) {
+        return element._computeReadyForReview(loggedIn, change, opt_account);
+      };
+      assert.equal(ready(false, readyChangeByA), true);
+      assert.equal(ready(false, wipChangeByA), true);
+      assert.equal(ready(true, readyChangeByA, accountA), true);
+      assert.equal(ready(true, readyChangeByA, accountB), true);
+      assert.equal(ready(true, wipChangeByA, accountA), false);
+      assert.equal(ready(true, wipChangeByA, accountB), true);
+    });
+
     test('_computeDescriptionReadOnly', function() {
       assert.equal(element._computeDescriptionReadOnly(false,
           {owner: {_account_id: 1}}, {_account_id: 1}), true);
@@ -309,21 +331,23 @@ limitations under the License.
     });
 
     test('reply button has updated count when there are drafts', function() {
-      var replyButton = element.$$('gr-button.reply');
-      assert.ok(replyButton);
-      assert.equal(replyButton.textContent, 'Reply');
+      var getLabel = element._computeReplyButtonLabel;
 
-      element._diffDrafts = null;
-      assert.equal(replyButton.textContent, 'Reply');
+      assert.equal(getLabel(null, false), 'Reply');
+      assert.equal(getLabel(null, true), 'Start review');
 
-      element._diffDrafts = {};
-      assert.equal(replyButton.textContent, 'Reply');
+      var changeRecord = {base: null};
+      assert.equal(getLabel(changeRecord, false), 'Reply');
 
-      element._diffDrafts = {
+      changeRecord.base = {};
+      assert.equal(getLabel(changeRecord, false), 'Reply');
+
+      changeRecord.base = {
         'file1.txt': [{}],
         'file2.txt': [{}, {}],
       };
-      assert.equal(replyButton.textContent, 'Reply (3)');
+      assert.equal(getLabel(changeRecord, false), 'Reply (3)');
+      assert.equal(getLabel(changeRecord, true), 'Start review');
     });
 
     test('comment events properly update diff drafts', function() {

@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0cc5ddf_a3918883",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 35
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T09:53:24Z",
+      "side": 0,
+      "message": "Should we have a schema migration that removes this from preferences.config files in the user branches?",
+      "range": {
+        "startLine": 1257,
+        "startChar": 6,
+        "endLine": 1260,
+        "endChar": 8
+      },
+      "revId": "faae06930bf0864baaf90e67ca8c16628f8c154c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8d0a157_f365ce1c",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T09:53:24Z",
+      "side": 0,
+      "message": "Should the schema migration cleanup project.config files and remove this permission if it is assigned?",
+      "range": {
+        "startLine": 49,
+        "startChar": 43,
+        "endLine": 49,
+        "endChar": 55
+      },
+      "revId": "faae06930bf0864baaf90e67ca8c16628f8c154c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af0bb493_97ffcb64",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T09:53:24Z",
+      "side": 0,
+      "message": "Should we keep these methods in API for a while and rather mark them deprecated and let them throw an exception, so that existing implementations like the Gerrit-REST-Client don\u0027t break?\n\nSame fore RevisionApi.",
+      "revId": "faae06930bf0864baaf90e67ca8c16628f8c154c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d819216_06c4c880",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeConfigInfo.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T09:53:24Z",
+      "side": 0,
+      "message": "Should we keep the draft fields in the JSON for some time and rather deprecate them to not break existing clients?\n\nSame for other draft fields in JSON.",
+      "revId": "faae06930bf0864baaf90e67ca8c16628f8c154c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c85fd01_a13ce4c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/data/PatchSetAttribute.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T09:53:24Z",
+      "side": 0,
+      "message": "Mark deprecated and keep it for a while for backward compatibility?",
+      "revId": "faae06930bf0864baaf90e67ca8c16628f8c154c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f946499_3bdae0b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ReplacePatchSetSender.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T09:53:24Z",
+      "side": 0,
+      "message": "This should be kept.",
+      "revId": "faae06930bf0864baaf90e67ca8c16628f8c154c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

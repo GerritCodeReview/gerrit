@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad3175a9_e336614d",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 35
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T09:53:24Z",
+      "side": 1,
+      "message": "Maybe just remove this block completely.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 45
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "109f19f5_f29593ff",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 35
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T09:53:24Z",
+      "side": 1,
+      "message": "Should not be added a second time.",
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82e7ffb2_69b9703b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 1285,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T09:53:24Z",
+      "side": 1,
+      "message": "nit: brackets around this are not needed",
+      "range": {
+        "startLine": 1285,
+        "startChar": 8,
+        "endLine": 1285,
+        "endChar": 23
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5662814_f9fe55ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T09:53:24Z",
+      "side": 1,
+      "message": "not needed?",
+      "range": {
+        "startLine": 257,
+        "startChar": 4,
+        "endLine": 257,
+        "endChar": 40
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e427674d_107350bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PatchSetState.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T09:53:24Z",
+      "side": 1,
+      "message": "Can this also be removed? If there are no draft patch sets, patch sets can no longer be deleted, right?",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 10
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5151070_9b9ff67f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T09:53:24Z",
+      "side": 1,
+      "message": "[optional] We may remove this method and use isVisible(db) instead.",
+      "range": {
+        "startLine": 222,
+        "startChar": 2,
+        "endLine": 225,
+        "endChar": 3
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b2ee841_7daca5f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_150.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T09:53:24Z",
+      "side": 1,
+      "message": "I would vote for using PRIVATE as default :)\nbut not insisting...",
+      "range": {
+        "startLine": 38,
+        "startChar": 77,
+        "endLine": 38,
+        "endChar": 80
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2beb51c_bee80b6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_150.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T09:53:24Z",
+      "side": 1,
+      "message": "isPrivate?",
+      "range": {
+        "startLine": 47,
+        "startChar": 64,
+        "endLine": 47,
+        "endChar": 74
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c3f5a75_fcf60a01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_150.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T09:53:24Z",
+      "side": 1,
+      "message": "I\u0027m afraid we need to reindex the changes afterwards, don\u0027t we?",
+      "range": {
+        "startLine": 49,
+        "startChar": 5,
+        "endLine": 49,
+        "endChar": 70
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

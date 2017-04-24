@@ -51,6 +51,7 @@ import com.google.gerrit.testutil.DisabledReviewDb;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -119,7 +120,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     // First 2 changes are merged, which means the tags pointing to them are
     // visible.
-    allow(Permission.SUBMIT, admins, "refs/for/refs/heads/*");
+    grant(Permission.SUBMIT, project, "refs/heads/*", true, admins);
+
     PushOneCommit.Result mr =
         pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master%submit");
     mr.assertOkStatus();

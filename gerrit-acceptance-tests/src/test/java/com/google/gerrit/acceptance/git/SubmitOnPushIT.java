@@ -33,6 +33,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
+
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -49,7 +50,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void submitOnPush() throws Exception {
-    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
+    grant(Permission.SUBMIT, project, "refs/heads/master", true);
     PushOneCommit.Result r = pushTo("refs/for/master%submit");
     r.assertOkStatus();
     r.assertChange(Change.Status.MERGED, null, admin);
@@ -59,7 +60,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void submitOnPushWithTag() throws Exception {
-    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
+    grant(Permission.SUBMIT, project, "refs/heads/master", true);
     grant(Permission.CREATE, project, "refs/tags/*");
     grant(Permission.PUSH, project, "refs/tags/*");
     PushOneCommit.Tag tag = new PushOneCommit.Tag("v1.0");
@@ -75,7 +76,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void submitOnPushWithAnnotatedTag() throws Exception {
-    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
+    grant(Permission.SUBMIT, project, "refs/heads/master", true);
     grant(Permission.PUSH, project, "refs/tags/*");
     PushOneCommit.AnnotatedTag tag =
         new PushOneCommit.AnnotatedTag("v1.0", "annotation", admin.getIdent());
@@ -91,7 +92,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void submitOnPushToRefsMetaConfig() throws Exception {
-    grant(Permission.SUBMIT, project, "refs/for/refs/meta/config");
+    grant(Permission.SUBMIT, project, "refs/meta/config", true);
 
     git().fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config")).call();
     testRepo.reset(RefNames.REFS_CONFIG);
@@ -109,7 +110,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     push("refs/heads/master", "one change", "a.txt", "some content");
     testRepo.reset(objectId);
 
-    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
+    grant(Permission.SUBMIT, project, "refs/heads/master", true);
     PushOneCommit.Result r =
         push("refs/for/master%submit", "other change", "a.txt", "other content");
     r.assertErrorStatus();
@@ -125,7 +126,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     push(master, "one change", "a.txt", "some content");
     testRepo.reset(objectId);
 
-    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
+    grant(Permission.SUBMIT, project, "refs/heads/master", true);
     PushOneCommit.Result r =
         push("refs/for/master%submit", "other change", "b.txt", "other content");
     r.assertOkStatus();
@@ -138,7 +139,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         push("refs/for/master", PushOneCommit.SUBJECT, "a.txt", "some content");
 
-    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
+    grant(Permission.SUBMIT, project, "refs/heads/master", true);
     r =
         push(
             "refs/for/master%submit",

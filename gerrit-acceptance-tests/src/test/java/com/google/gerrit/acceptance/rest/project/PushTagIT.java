@@ -220,7 +220,7 @@ public class PushTagIT extends AbstractDaemonTest {
     }
 
     if (!newCommit) {
-      grant(Permission.SUBMIT, project, "refs/for/refs/heads/master", false, REGISTERED_USERS);
+      grant(Permission.SUBMIT, project, "refs/heads/master", true, REGISTERED_USERS);
       pushHead(testRepo, "refs/for/master%submit");
     }
 

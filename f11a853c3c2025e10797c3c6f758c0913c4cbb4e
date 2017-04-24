@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14897236_0fb1814b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-24T15:57:15Z",
+      "side": 0,
+      "message": "We lose backwards compatibility here.  We need a commit in Gerrit that can honor both refs/for/* and create review so we can run that version in our multi-master servers while we modify the refs/meta/config to migrate from refs/for/* to create review.\n\nRemoving these cases has to happen later.",
+      "range": {
+        "startLine": 152,
+        "startChar": 95,
+        "endLine": 152,
+        "endChar": 0
+      },
+      "revId": "f11a853c3c2025e10797c3c6f758c0913c4cbb4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

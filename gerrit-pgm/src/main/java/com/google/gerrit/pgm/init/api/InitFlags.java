@@ -31,6 +31,9 @@ public class InitFlags {
   /** Recursively delete the site path if initialization fails. */
   public boolean deleteOnFailure;
 
+  /** Site is being newly created */
+  public boolean isNew;
+
   /** Run the daemon (and open the web UI in a browser) after initialization. */
   public boolean autoStart;
 

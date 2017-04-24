@@ -38,6 +38,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Guice;
+import com.google.inject.Key;
 import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 import java.io.FileNotFoundException;
@@ -82,7 +83,10 @@ public class SchemaUpdaterTest {
                 new FactoryModule() {
                   @Override
                   protected void configure() {
-                    bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).toInstance(db);
+                    TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
+                        new TypeLiteral<SchemaFactory<ReviewDb>>() {};
+                    bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
+                    bind(Key.get(schemaFactory, ReviewDbFactory.class)).toInstance(db);
                     bind(SitePaths.class).toInstance(paths);
 
                     Config cfg = new Config();

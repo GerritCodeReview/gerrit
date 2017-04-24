@@ -62,7 +62,11 @@ public class ElasticIndexModule extends LifecycleModule {
             .build(GroupIndex.Factory.class));
 
     install(new IndexModule(threads));
-    install(new SingleVersionModule(singleVersions));
+    if (singleVersions == null) {
+      listener().to(ElasticVersionManager.class);
+    } else {
+      install(new SingleVersionModule(singleVersions));
+    }
   }
 
   @Provides

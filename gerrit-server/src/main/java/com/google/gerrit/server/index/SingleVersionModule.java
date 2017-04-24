@@ -14,6 +14,12 @@
 
 package com.google.gerrit.server.index;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+
+import org.eclipse.jgit.lib.Config;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -24,10 +30,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import org.eclipse.jgit.lib.Config;
+import com.google.inject.util.Providers;
 
 @Singleton
 public class SingleVersionModule extends LifecycleModule {
@@ -44,7 +47,7 @@ public class SingleVersionModule extends LifecycleModule {
     listener().to(SingleVersionListener.class);
     bind(new TypeLiteral<Map<String, Integer>>() {})
         .annotatedWith(Names.named(SINGLE_VERSIONS))
-        .toInstance(singleVersions);
+        .toProvider(Providers.of(singleVersions));
   }
 
   @Singleton

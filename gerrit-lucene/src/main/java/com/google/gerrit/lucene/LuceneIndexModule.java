@@ -14,6 +14,11 @@
 
 package com.google.gerrit.lucene;
 
+import java.util.Map;
+
+import org.apache.lucene.search.BooleanQuery;
+import org.eclipse.jgit.lib.Config;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -26,9 +31,6 @@ import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import java.util.Map;
-import org.apache.lucene.search.BooleanQuery;
-import org.eclipse.jgit.lib.Config;
 
 public class LuceneIndexModule extends LifecycleModule {
   public static LuceneIndexModule singleVersionAllLatest(int threads) {

@@ -117,18 +117,22 @@ limitations under the License.
         url: '/admin/groups',
         name: 'Groups',
       }];
+      val docLinks = {
+    	  name: 'MyDocs',
+    	  url: '/Documentation/index.html',
+      };
 
       assert.deepEqual(
-          element._computeLinks(defaultLinks, [], []), defaultLinks);
+          element._computeLinks(defaultLinks, [], [], docLinks), defaultLinks.concat(docLinks));
       assert.deepEqual(
-          element._computeLinks(defaultLinks, userLinks, adminLinks),
+          element._computeLinks(defaultLinks, userLinks, adminLinks, docLinks),
           defaultLinks.concat({
             title: 'Your',
             links: userLinks,
           }, {
             title: 'Admin',
             links: adminLinks,
-          }));
-    });
+          }, docLinks
+      ));
   });
 </script>

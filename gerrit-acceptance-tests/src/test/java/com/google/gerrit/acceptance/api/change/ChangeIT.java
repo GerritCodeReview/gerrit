@@ -2135,7 +2135,7 @@ public class ChangeIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> userTestRepo = cloneProject(p, user);
 
     // Block default permission
-    block(Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/for/*", p);
+    block(Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/heads/*", p);
 
     // Create change as admin
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);
@@ -2179,7 +2179,7 @@ public class ChangeIT extends AbstractDaemonTest {
     TestRepository<?> adminTestRepo = cloneProject(project, admin);
 
     // Block default permission
-    block(Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/for/*", p);
+    block(Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/heads/*", p);
 
     // Create change as admin
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);
@@ -2230,7 +2230,7 @@ public class ChangeIT extends AbstractDaemonTest {
     TestRepository<?> userTestRepo = cloneProject(p, user);
 
     // Block default permission
-    block(Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/for/*", p);
+    block(Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/heads/*", p);
 
     // Create change as admin
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);

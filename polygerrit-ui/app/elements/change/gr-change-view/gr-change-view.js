@@ -73,6 +73,10 @@
         type: Object,
         value: {},
       },
+      _canStartReview: {
+        type: Boolean,
+        computed: '_computeCanStartReview(_loggedIn, _change.work_in_progress, _change.owner, _account)',
+      },
       _comments: Object,
       _change: {
         type: Object,
@@ -127,12 +131,16 @@
       _replyButtonLabel: {
         type: String,
         value: 'Reply',
-        computed: '_computeReplyButtonLabel(_diffDrafts.*)',
+        computed: '_computeReplyButtonLabel(_diffDrafts.*, _canStartReview)',
       },
       _selectedPatchSet: String,
       _initialLoadComplete: {
         type: Boolean,
         value: false,
+      },
+      _readyForReview: {
+        type: Boolean,
+        computed: '_computeReadyForReview(_loggedIn, _change, _ account)',
       },
       _descriptionReadOnly: {
         type: Boolean,
@@ -709,13 +717,13 @@
       return result;
     },
 
-    _computeReplyButtonLabel: function(changeRecord) {
+    _computeReplyButtonLabel: function(changeRecord, canStartReview) {
       var drafts = (changeRecord && changeRecord.base) || {};
       var draftCount = Object.keys(drafts).reduce(function(count, file) {
         return count + drafts[file].length;
       }, 0);
 
-      var label = 'Reply';
+      var label = canStartReview ? 'Start review' : 'Reply';
       if (draftCount > 0) {
         label += ' (' + draftCount + ')';
       }
@@ -1050,6 +1058,15 @@
           return rev;
         }
       }
+    },
+
+    _computeCanStartReview: function(loggedIn, workInProgress, owner, account) {
+      return loggedIn && workInProgress && owner._account_id === account._account_id;
+    },
+
+    _computeReadyForReview: function(loggedIn, change, account) {
+      return !loggedIn || account._account_id !== change.owner._account_id ||
+          !change.work_in_progress;
     },
 
     _computeDescriptionReadOnly: function(loggedIn, change, account) {

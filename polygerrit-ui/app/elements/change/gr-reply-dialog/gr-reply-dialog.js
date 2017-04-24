@@ -77,8 +77,16 @@
       permittedLabels: Object,
       serverConfig: Object,
       projectConfig: Object,
+      readyForReview: {
+        type: Boolean,
+        value: true,
+      },
 
       _account: Object,
+      _canBeStarted: {
+        type: Boolean,
+        computed: '_computeCanBeStarted(readyForReview, change.owner, _account)',
+      },
       _ccs: Array,
       _ccPendingConfirmation: {
         type: Object,
@@ -87,6 +95,10 @@
       _labels: {
         type: Array,
         computed: '_computeLabels(change.labels.*, _account)',
+      },
+      _messagePlaceholder: {
+        type: String,
+        computed: '_computeMessagePlaceholder(readyForReview, change.owner, _account)',
       },
       _owner: Object,
       _pendingConfirmationDetails: Object,
@@ -426,6 +438,18 @@
       }.bind(this));
     },
 
+    _computeCanBeStarted: function(readyForReview, owner, account) {
+      return readyForReview && account._account_id === owner._account_id;
+    },
+
+    _computeMessagePlaceholder: function(readyForReview, owner, account) {
+      if (this._computeCanBeStarted(readyForReview, owner, account)) {
+        return 'Say something nice to your reviewers...';
+      } else {
+        return 'Say something nice...';
+      }
+    },
+
     _getVoteForAccount: function(labels, labelName, account) {
       var votes = labels[labelName];
       if (votes.all && votes.all.length > 0) {
@@ -542,16 +566,31 @@
           this.serverConfig);
     },
 
-    _sendTapHandler: function(e) {
+    _saveTapHandler: function(e) {
       e.preventDefault();
       this.send(this._includeComments).then(function(keepReviewers) {
         this._purgeReviewersPendingRemove(false, keepReviewers);
       }.bind(this));
     },
 
+    _sendTapHandler: function(e) {
+      e.preventDefault();
+      // TODO(logan): combine into just send
+      this._startReview()
+        .then(this.send.bind(this))
+        .then(this._purgeReviewersPendingRemove.bind(this));
+    },
+
     _saveReview: function(review, opt_errFn) {
       return this.$.restAPI.saveChangeReview(this.change._number, this.patchNum,
           review, opt_errFn);
+    },
+
+    _startReview: function() {
+      if (!this._canBeStarted) {
+        return Promise.resolve();
+      }
+      return this.$.restAPI.startReview(this.change._number);
     },
 
     _reviewerPendingConfirmationUpdated: function(reviewer) {

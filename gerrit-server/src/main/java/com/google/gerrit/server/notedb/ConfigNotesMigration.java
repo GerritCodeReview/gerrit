@@ -48,6 +48,7 @@ public class ConfigNotesMigration extends NotesMigration {
 
   // All of these names must be reflected in the allowed set in checkConfig.
   private static final String DISABLE_REVIEW_DB = "disableReviewDb";
+  private static final String FUSE_UPDATES = "fuseUpdates";
   private static final String PRIMARY_STORAGE = "primaryStorage";
   private static final String READ = "read";
   private static final String SEQUENCE = "sequence";
@@ -77,6 +78,8 @@ public class ConfigNotesMigration extends NotesMigration {
     cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), SEQUENCE, true);
     cfg.setString(SECTION_NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.NOTE_DB.name());
     cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, true);
+    // TODO(dborowitz): Set to true when FileRepository supports it.
+    cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), FUSE_UPDATES, false);
     return cfg;
   }
 
@@ -85,6 +88,7 @@ public class ConfigNotesMigration extends NotesMigration {
   private final boolean readChangeSequence;
   private final PrimaryStorage changePrimaryStorage;
   private final boolean disableChangeReviewDb;
+  private final boolean fuseUpdates;
 
   @Inject
   public ConfigNotesMigration(@GerritServerConfig Config cfg) {
@@ -103,6 +107,7 @@ public class ConfigNotesMigration extends NotesMigration {
         cfg.getEnum(SECTION_NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.REVIEW_DB);
     disableChangeReviewDb =
         cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, false);
+    fuseUpdates = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), FUSE_UPDATES, false);
 
     checkArgument(
         !(disableChangeReviewDb && changePrimaryStorage != PrimaryStorage.NOTE_DB),
@@ -132,5 +137,10 @@ public class ConfigNotesMigration extends NotesMigration {
   @Override
   public boolean disableChangeReviewDb() {
     return disableChangeReviewDb;
+  }
+
+  @Override
+  public boolean fuseUpdates() {
+    return fuseUpdates;
   }
 }

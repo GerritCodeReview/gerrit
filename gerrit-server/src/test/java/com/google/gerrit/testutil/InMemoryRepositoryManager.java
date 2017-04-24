@@ -19,18 +19,22 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedSet;
+import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.inject.Inject;
+
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedSet;
+
 /** Repository manager that uses in-memory repositories. */
 public class InMemoryRepositoryManager implements GitRepositoryManager {
   public static InMemoryRepository newRepository(Project.NameKey name) {
-    return new Repo(name);
+    return new Repo(new TestNotesMigration(), name);
   }
 
   public static class Description extends DfsRepositoryDescription {
@@ -49,11 +53,15 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   public static class Repo extends InMemoryRepository {
     private String description;
 
-    private Repo(Project.NameKey name) {
+    private Repo(NotesMigration notesMigration, Project.NameKey name) {
       super(new Description(name));
-      // TODO(dborowitz): Allow atomic transactions when this is supported:
-      // https://git.eclipse.org/r/#/c/61841/2/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java@313
-      setPerformsAtomicTransactions(false);
+      // Normally, mimic the behavior of JGit FileRepository, the standard Gerrit repository
+      // backend, and don't support atomic ref updates. The exception is when we're testing with
+      // fused ref updates, which requires atomic ref updates to function.
+      //
+      // TODO(dborowitz): Change to match the behavior of JGit FileRepository after fixing
+      // https://bugs.eclipse.org/bugs/show_bug.cgi?id=515678
+      setPerformsAtomicTransactions(notesMigration.fuseUpdates());
     }
 
     @Override
@@ -72,7 +80,18 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  private Map<String, Repo> repos = new HashMap<>();
+  private final NotesMigration notesMigration;
+  private final Map<String, Repo> repos;
+
+  public InMemoryRepositoryManager() {
+    this(new TestNotesMigration());
+  }
+
+  @Inject
+  InMemoryRepositoryManager(NotesMigration notesMigration) {
+    this.notesMigration = notesMigration;
+    this.repos = new HashMap<>();
+  }
 
   @Override
   public synchronized Repo openRepository(Project.NameKey name) throws RepositoryNotFoundException {
@@ -89,7 +108,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
         throw new RepositoryCaseMismatchException(name);
       }
     } catch (RepositoryNotFoundException e) {
-      repo = new Repo(name);
+      repo = new Repo(notesMigration, name);
       repos.put(normalize(name), repo);
     }
     return repo;

@@ -83,6 +83,19 @@ public abstract class NotesMigration {
   public abstract boolean disableChangeReviewDb();
 
   /**
+   * Fuse meta ref updates in the same batch as code updates.
+   *
+   * <p>When set, each {@link com.google.gerrit.server.update.BatchUpdate} results in a single
+   * {@link org.eclipse.jgit.lib.BatchRefUpdate} to update both code and meta refs atomically.
+   * Setting this option with a repository backend that does not support atomic transactions ({@link
+   * org.eclipse.jgit.lib.RefDatabase#performsAtomicTransactions()}) is a configuration error, and
+   * all updates will fail at runtime.
+   *
+   * <p>Has no effect if {@link #disableChangeReviewDb()} is false.
+   */
+  public abstract boolean fuseUpdates();
+
+  /**
    * Whether to fail when reading any data from NoteDb.
    *
    * <p>Used in conjunction with {@link #readChanges()} for tests.

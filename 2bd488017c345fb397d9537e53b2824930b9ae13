@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e6cdd27_d9248cac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-24T08:09:57Z",
+      "side": 1,
+      "message": "Should this now be a generic message?  I.e. just let the original AuthException get thrown instead of catching an rethrowing?",
+      "range": {
+        "startLine": 287,
+        "startChar": 6,
+        "endLine": 288,
+        "endChar": 90
+      },
+      "revId": "2bd488017c345fb397d9537e53b2824930b9ae13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

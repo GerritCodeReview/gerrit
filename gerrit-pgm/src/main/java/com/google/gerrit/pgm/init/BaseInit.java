@@ -129,6 +129,7 @@ public class BaseInit extends SiteProgram {
     init.flags.dev = isDev() && init.site.isNew;
     init.flags.skipPlugins = skipPlugins();
     init.flags.deleteCaches = getDeleteCaches();
+    init.flags.isNew = init.site.isNew;
 
     final SiteRun run;
     try {

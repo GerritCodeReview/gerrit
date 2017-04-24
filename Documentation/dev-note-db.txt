@@ -43,6 +43,9 @@ config snippet in your `gerrit.config`:
   disableReviewDb = true
 ----
 
+This is the configuration that will be produced if you enable experimental
+NoteDb support on a new site with `init`.
+
 
 For an example NoteDb change, poke around at this one:
 ----

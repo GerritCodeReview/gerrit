@@ -786,6 +786,26 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   @Sandboxed
+  public void cannotCreateNonUserBranchUnderRefsUsersWithAccessDatabaseCapability()
+      throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
+
+    String userRef = RefNames.REFS_USERS + "foo";
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
+    Result r = push.to(userRef);
+    r.assertErrorStatus();
+    assertThat(r.getMessage()).contains("Not allowed to create non-user branch under refs/users/.");
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(userRef)).isNull();
+    }
+  }
+
+  @Test
+  @Sandboxed
   public void createDefaultUserBranch() throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       assertThat(repo.exactRef(RefNames.REFS_USERS_DEFAULT)).isNull();

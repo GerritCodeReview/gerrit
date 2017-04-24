@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fd5ac3e5_c339e400",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-24T16:07:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "eb68bc0f_b43e1d62",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 28
+      },
+      "revId": "205616e5ca01461316af88d94871cf85ef566f29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9c617b09_505d2fb0",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 17
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-24T15:41:12Z",
       "side": 1,
       "message": "Why do we need this?",
+      "range": {
+        "startLine": 445,
+        "startChar": 6,
+        "endLine": 449,
+        "endChar": 7
+      },
+      "revId": "205616e5ca01461316af88d94871cf85ef566f29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "364f8724_8aec34ee",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-24T16:07:33Z",
+      "side": 1,
+      "message": "Not needed, i\u0027ve moved it to the top and merged it into one so it\u0027s ChangeActions.PRIVATE",
+      "parentUuid": "9c617b09_505d2fb0",
       "range": {
         "startLine": 445,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "71464b3b_f3f60a2f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-24T16:07:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2ff2b85c_a0783888",
+      "range": {
+        "startLine": 463,
+        "startChar": 34,
+        "endLine": 463,
+        "endChar": 43
+      },
+      "revId": "205616e5ca01461316af88d94871cf85ef566f29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f252916f_9b76cb62",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 17
@@ -82,6 +154,30 @@
       "writtenOn": "2017-04-24T15:53:50Z",
       "side": 1,
       "message": "Use not instead of `\u003d\u003d\u003d false`.\n\n !this.change.is_private",
+      "range": {
+        "startLine": 467,
+        "startChar": 19,
+        "endLine": 467,
+        "endChar": 51
+      },
+      "revId": "205616e5ca01461316af88d94871cf85ef566f29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab528976_012990aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-24T16:07:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f252916f_9b76cb62",
       "range": {
         "startLine": 467,
         "startChar": 19,

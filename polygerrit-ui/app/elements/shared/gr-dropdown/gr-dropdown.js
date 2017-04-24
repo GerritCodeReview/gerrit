@@ -87,6 +87,13 @@
       return this._computeURLHelper(host, path);
     },
 
+    _computeLinkURL: function(link) {
+      if (!!link.target) {
+        return link.url;
+      }
+      return this._computeRelativeURL(link.url);
+    },
+
     _handleItemTap: function(e) {
       var id = e.target.getAttribute('data-id');
       if (id && this.disabledIds.indexOf(id) === -1) {

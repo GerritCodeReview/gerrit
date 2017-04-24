@@ -130,5 +130,35 @@ limitations under the License.
             links: adminLinks,
           }));
     });
+
+    test('documentation links', function() {
+      var docLinks = [
+        {
+          name: 'Table of Contents',
+          url: '/Documentation/index.html',
+        },
+      ];
+
+      assert.deepEqual(element._computeDocLinks(null, docLinks), []);
+      assert.deepEqual(element._computeDocLinks('', docLinks), []);
+      assert.deepEqual(element._computeDocLinks('base', null), []);
+      assert.deepEqual(element._computeDocLinks('base', []), []);
+
+      assert.deepEqual(
+          element._computeDocLinks('base', docLinks),
+          [{
+            name: 'Table of Contents',
+            target: '_blank',
+            url: 'base/Documentation/index.html',
+          }]);
+
+      assert.deepEqual(
+          element._computeDocLinks('base/', docLinks),
+          [{
+            name: 'Table of Contents',
+            target: '_blank',
+            url: 'base/Documentation/index.html',
+          }]);
+    });
   });
 </script>

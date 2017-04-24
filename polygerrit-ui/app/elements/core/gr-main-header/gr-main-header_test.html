@@ -130,5 +130,26 @@ limitations under the License.
             links: adminLinks,
           }));
     });
+
+    test('documentation links', function() {
+      var defaultLinks = [{
+        title: 'Faves',
+        links: [{
+          name: 'Pinterest',
+          url: 'https://pinterest.com',
+        }],
+      }];
+      var documentationLinks = [{
+        name: 'Gerrit',
+        url: 'https://gerrit-review.googlesource.com/Documentation/index.html',
+      }];
+
+      assert.deepEqual(
+          element._computeLinks(defaultLinks, [], [], documentationLinks),
+          defaultLinks.concat({
+            title: 'Documentation',
+            links: documentationLinks,
+          }));
+    });
   });
 </script>

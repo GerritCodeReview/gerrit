@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f63c4fb_8d1e10dd",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/AccountIndexedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-24T14:38:54Z",
+      "side": 1,
+      "message": "I was wondering if we need a method for account deleted, like on the ChangeIndexedListener, but it looks like the account index implementation doesn\u0027t support deleting?",
+      "revId": "682171fc817fbb56e5d916af76d9a7dbd0b2309d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

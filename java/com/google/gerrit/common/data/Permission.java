@@ -24,6 +24,7 @@ public class Permission implements Comparable<Permission> {
   public static final String ABANDON = "abandon";
   public static final String ADD_PATCH_SET = "addPatchSet";
   public static final String CREATE = "create";
+  public static final String CREATE_REVIEW = "createReview";
   public static final String CREATE_SIGNED_TAG = "createSignedTag";
   public static final String CREATE_TAG = "createTag";
   public static final String DELETE = "delete";
@@ -55,6 +56,7 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(ABANDON.toLowerCase());
     NAMES_LC.add(ADD_PATCH_SET.toLowerCase());
     NAMES_LC.add(CREATE.toLowerCase());
+    NAMES_LC.add(CREATE_REVIEW.toLowerCase());
     NAMES_LC.add(CREATE_SIGNED_TAG.toLowerCase());
     NAMES_LC.add(CREATE_TAG.toLowerCase());
     NAMES_LC.add(DELETE.toLowerCase());

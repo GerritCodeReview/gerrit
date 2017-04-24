@@ -58,6 +58,33 @@
     ],
   }];
 
+  var DOCUMENTATION_LINKS = [
+    {
+      url : '/index.html',
+      name : 'Table of Contents',
+    },
+    {
+      url : '/user-search.html',
+      name : 'Searching',
+    },
+    {
+      url : '/user-upload.html',
+      name : 'Uploading',
+    },
+    {
+      url : '/access-control.html',
+      name : 'Access Control',
+    },
+    {
+      url : '/rest-api.html',
+      name : 'REST API',
+    },
+    {
+      url : '/intro-project-owner.html',
+      name : 'Project Owner Guide',
+    }
+  ];
+
   Polymer({
     is: 'gr-main-header',
 
@@ -82,9 +109,19 @@
           return DEFAULT_LINKS;
         },
       },
+      _docLinks: {
+        type: Object,
+        value: function() {
+          return DOCUMENTATION_LINKS;
+        },
+      },
+      _docBaseUrl: {
+        type: String,
+        value: null,
+      },
       _links: {
         type: Array,
-        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks)',
+        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks, _docBaseUrl, _docLinks)',
       },
       _loginURL: {
         type: String,
@@ -106,6 +143,7 @@
 
     attached: function() {
       this._loadAccount();
+      this._loadConfig();
       this.listen(window, 'location-change', '_handleLocationChange');
     },
 
@@ -137,7 +175,7 @@
       return '//' + window.location.host + this.getBaseUrl() + path;
     },
 
-    _computeLinks: function(defaultLinks, userLinks, adminLinks) {
+    _computeLinks: function(defaultLinks, userLinks, adminLinks, docBaseUrl, docLinks) {
       var links = defaultLinks.slice();
       if (userLinks && userLinks.length > 0) {
         links.push({
@@ -151,14 +189,46 @@
           links: adminLinks,
         });
       }
+      var computedDocLinks = this._computeDocLinks(docBaseUrl, docLinks);
+      if (computedDocLinks && computedDocLinks.length) {
+        links.push({
+          title: 'Documentation',
+          links: computedDocLinks,
+        });
+      }
       return links;
     },
 
+    _computeDocLinks: function(docBaseUrl, docLinks) {
+      if (!docBaseUrl || !docLinks) {
+        return [];
+      }
+      return docLinks.map(function(link) {
+        var url = docBaseUrl;
+        if (url && url[url.length - 1] === '/') {
+          url = url.substring(0, url.length - 1);
+        }
+        return {
+          url: url + link.url,
+          name: link.name,
+          target: '_blank',
+        };
+      });
+    },
+
     _loadAccount: function() {
-      this.$.restAPI.getAccount().then(function(account) {
+      return this.$.restAPI.getAccount().then(function(account) {
         this._account = account;
         this.$.accountContainer.classList.toggle('loggedIn', account != null);
         this.$.accountContainer.classList.toggle('loggedOut', account == null);
+      }.bind(this));
+    },
+
+    _loadConfig: function() {
+      return this.$.restAPI.getConfig().then(function(config) {
+        if (config && config.gerrit) {
+          this._docBaseUrl = config.gerrit.doc_url;
+        }
       }.bind(this));
     },
 

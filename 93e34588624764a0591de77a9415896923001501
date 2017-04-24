@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1493040120 +0200\nnonce AFMZ2GyhZeeszCYPBDM6o+pTV08rq5Zz1gOcwPD21bb9BsKLRhKYfsSBIkntgzNUcC+K3YF7HoBN\n\n0000000000000000000000000000000000000000 93e34588624764a0591de77a9415896923001501 refs/for/master%r\u003dekempin,r\u003dsop@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlj9+/gACgkQX9fFmpoS\niIzyxw//cMRO04enWNpHFcJbkk8S+6ZZVT8hidL1t9SuYqShDwgE8xKMwb8ROY9K\nN1Dm8Slq8TUrNNwv9j3r2CucurhF0/TwTNfGrVrJsqn7TPrOPo15whjPdBkkucll\nuY11pMZguj/5hoN5OA9PbV/ZMs8Jm3neOfgDomWI6ckVSO8H5hSQOn+XBCG81awO\nUs5P4+Wf5FBR0vdjfm3xqrROxqUyrveBABysH1l/pEsmEEDJyuSBEsShw/t38E4/\nc2xF61+YCOCeDzVQ654tt8Kh3gyJABXEP2EZ4vykhuULkEKcEUW31LNgpk+oIn0K\nJEs+6AdFHjPH7eD0RrTlMOs+rXoU1hPmej/WOoW/qBpn7/8NlEtm8IfUDr+is655\nVylfpbVBpfQeCsxKm4Z2Ivim2jdj2shqdLC+9VIF1g7jokM30SQ7EbE1szk5J/iy\nmHlH0QOqLb/WxlnEGSZzP+vH6omQnmBeHB3w/IbDLLqaT5oOE2k00b0obddxyNSJ\n7nXnjrokb6A0WRXQU0MUw8aKoecdFGkrF4oE/2g83YHSWzdH6/MSykAhHT6OnFBs\nIrHMuvES/Wh343Ko2cpY2X13JjN0yjm3gE6ncC/cBQLvMvWfEudq/T+V7h17awic\nG0CMYIFnBBZ277n2EJZkWjbecM16CdDh4hKNvEljH6M3ANKqt9w\u003d\n\u003dfVT8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "496c28a8_ae5273dd",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-24T13:49:34Z",
+      "side": 1,
+      "message": "This seemed like a good idea at the time, but it\u0027s the cause of the test failures. I will split out this and the associated test fixes into a separate change.",
+      "revId": "93e34588624764a0591de77a9415896923001501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.AgreementSignupListener;
 import com.google.gerrit.extensions.events.ChangeAbandonedListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
@@ -319,6 +320,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), PostReceiveHook.class);
     DynamicSet.setOf(binder(), PreUploadHook.class);
     DynamicSet.setOf(binder(), PostUploadHook.class);
+    DynamicSet.setOf(binder(), AccountIndexedListener.class);
     DynamicSet.setOf(binder(), ChangeIndexedListener.class);
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
     DynamicSet.setOf(binder(), ProjectDeletedListener.class);

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -27,8 +28,11 @@ class SetPrivateOp implements BatchUpdateOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) {
+  public boolean updateChange(ChangeContext ctx) throws ResourceConflictException {
     Change change = ctx.getChange();
+    if (change.getStatus() == Change.Status.MERGED) {
+      throw new ResourceConflictException("change is merged");
+    }
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     change.setPrivate(isPrivate);
     change.setLastUpdatedOn(ctx.getWhen());

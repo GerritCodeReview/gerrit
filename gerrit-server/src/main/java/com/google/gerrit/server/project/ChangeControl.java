@@ -220,11 +220,6 @@ public class ChangeControl {
     if (getChange().getStatus() == Change.Status.DRAFT && !isDraftVisible(db, cd)) {
       return false;
     }
-    return isRefVisible();
-  }
-
-  /** Can the user see this change? Does not account for draft status */
-  public boolean isRefVisible() {
     return getRefControl().isVisible();
   }
 
@@ -365,7 +360,7 @@ public class ChangeControl {
   }
 
   /** Is this user the owner of the change? */
-  public boolean isOwner() {
+  private boolean isOwner() {
     if (getUser().isIdentifiedUser()) {
       Account.Id id = getUser().asIdentifiedUser().getAccountId();
       return id.equals(getChange().getOwner());
@@ -374,7 +369,7 @@ public class ChangeControl {
   }
 
   /** Is this user assigned to this change? */
-  public boolean isAssignee() {
+  private boolean isAssignee() {
     Account.Id currentAssignee = notes.getChange().getAssignee();
     if (currentAssignee != null && getUser().isIdentifiedUser()) {
       Account.Id id = getUser().getAccountId();
@@ -384,12 +379,7 @@ public class ChangeControl {
   }
 
   /** Is this user a reviewer for the change? */
-  public boolean isReviewer(ReviewDb db) throws OrmException {
-    return isReviewer(db, null);
-  }
-
-  /** Is this user a reviewer for the change? */
-  public boolean isReviewer(ReviewDb db, @Nullable ChangeData cd) throws OrmException {
+  private boolean isReviewer(ReviewDb db, @Nullable ChangeData cd) throws OrmException {
     if (getUser().isIdentifiedUser()) {
       Collection<Account.Id> results = changeData(db, cd).reviewers().all();
       return results.contains(getUser().getAccountId());
@@ -487,7 +477,7 @@ public class ChangeControl {
         || getUser().isInternalUser();
   }
 
-  public boolean isPrivateVisible(ReviewDb db, ChangeData cd) throws OrmException {
+  private boolean isPrivateVisible(ReviewDb db, ChangeData cd) throws OrmException {
     return isOwner()
         || isReviewer(db, cd)
         || getRefControl().canViewPrivateChanges()

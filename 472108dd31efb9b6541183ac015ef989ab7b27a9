@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c61f85_fdad1b77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T07:37:56Z",
+      "side": 1,
+      "message": "[optional] since the type is boolean and not Boolean just remove the if and do the same for setting is Private above",
+      "range": {
+        "startLine": 376,
+        "startChar": 4,
+        "endLine": 378,
+        "endChar": 5
+      },
+      "revId": "472108dd31efb9b6541183ac015ef989ab7b27a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7e8aa63_66cdf6b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T07:37:56Z",
+      "side": 1,
+      "message": "I think this should done the same way as above for isPrivate:\n\n   } else if (Boolean.TRUE.toString().equalsIgnoreCase(raw)) {\n      workInProgress \u003d true;\n      return;\n    } else if (Boolean.FALSE.toString().equalsIgnoreCase(raw)) {\n      workInProgress \u003d false;\n      return;\n    }\n    throw invalidFooter(FOOTER_WORK_IN_PROGRESS, raw);\n\nThis ensures that checking for true/false is case-insensitive and that any other value is rejected as invalid.",
+      "range": {
+        "startLine": 982,
+        "startChar": 4,
+        "endLine": 982,
+        "endChar": 47
+      },
+      "revId": "472108dd31efb9b6541183ac015ef989ab7b27a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

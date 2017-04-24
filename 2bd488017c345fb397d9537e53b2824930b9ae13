@@ -22,6 +22,30 @@
       "revId": "2bd488017c345fb397d9537e53b2824930b9ae13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2f743ff_439194e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-24T08:14:20Z",
+      "side": 1,
+      "message": "Yea, I think we can do that. You can\u0027t be project owner in All-Projects anyway, so you should be admin to be making any changes to all-projects, let alone global capabilities.",
+      "parentUuid": "7e6cdd27_d9248cac",
+      "range": {
+        "startLine": 287,
+        "startChar": 6,
+        "endLine": 288,
+        "endChar": 90
+      },
+      "revId": "2bd488017c345fb397d9537e53b2824930b9ae13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

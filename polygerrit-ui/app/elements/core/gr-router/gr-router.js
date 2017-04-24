@@ -33,16 +33,16 @@
     getReporting().pageLoaded();
   };
 
-  var base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
-  if (base) {
-    page.base(base);
-  }
-
   window.addEventListener('WebComponentsReady', function() {
     getReporting().timeEnd('WebComponentsReady');
   });
 
   function startRouter() {
+    var base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
+    if (base) {
+      page.base(base);
+    }
+
     var restAPI = document.createElement('gr-rest-api-interface');
     var reporting = getReporting();
 

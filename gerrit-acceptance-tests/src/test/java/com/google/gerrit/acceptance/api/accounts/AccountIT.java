@@ -750,6 +750,60 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   @Sandboxed
+  public void cannotCreateUserBranch() throws Exception {
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
+
+    String userRef = RefNames.refsUsers(new Account.Id(db.nextAccountId()));
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), allUsersRepo).to(userRef);
+    r.assertErrorStatus();
+    assertThat(r.getMessage()).contains("Not allowed to create user branch.");
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(userRef)).isNull();
+    }
+  }
+
+  @Test
+  @Sandboxed
+  public void createUserBranchWithAccessDatabaseCapability() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
+
+    String userRef = RefNames.refsUsers(new Account.Id(db.nextAccountId()));
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    pushFactory.create(db, admin.getIdent(), allUsersRepo).to(userRef).assertOkStatus();
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(userRef)).isNotNull();
+    }
+  }
+
+  @Test
+  @Sandboxed
+  public void createDefaultUserBranch() throws Exception {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(RefNames.REFS_USERS_DEFAULT)).isNull();
+    }
+
+    grant(allUsers, RefNames.REFS_USERS_DEFAULT, Permission.CREATE);
+    grant(allUsers, RefNames.REFS_USERS_DEFAULT, Permission.PUSH);
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    pushFactory
+        .create(db, admin.getIdent(), allUsersRepo)
+        .to(RefNames.REFS_USERS_DEFAULT)
+        .assertOkStatus();
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(RefNames.REFS_USERS_DEFAULT)).isNotNull();
+    }
+  }
+
+  @Test
+  @Sandboxed
   public void cannotDeleteUserBranch() throws Exception {
     grant(
         allUsers,

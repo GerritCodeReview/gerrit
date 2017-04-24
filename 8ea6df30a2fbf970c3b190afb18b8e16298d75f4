@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80f9d392_6752a968",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-24T08:55:28Z",
+      "side": 1,
+      "message": "optional: inline this in the next line?",
+      "range": {
+        "startLine": 252,
+        "startChar": 8,
+        "endLine": 252,
+        "endChar": 49
+      },
+      "revId": "8ea6df30a2fbf970c3b190afb18b8e16298d75f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

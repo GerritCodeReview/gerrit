@@ -703,6 +703,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
                 groupsByName,
                 perm,
                 Permission.hasRange(convertedName));
+            if (migrateRefsFor(as, perm)) {
+              if (isRefsForExclusively(refName)) {
+                // Since the ref only applies on refs/for/* and no other
+                // namespaces, we can remove the old permission.
+                remove(as, perm);
+              }
+            }
           } else {
             sectionsWithUnknownPermissions.add(as.getName());
           }
@@ -720,6 +727,36 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       loadPermissionRules(
           rc, CAPABILITY, null, varName, groupsByName, perm, GlobalCapability.hasRange(varName));
     }
+  }
+
+  private boolean isRefsForExclusively(String refName) {
+    return refName.startsWith("refs/for/");
+  }
+
+  private boolean isRefsFor(String refName) {
+    return refName.startsWith("refs/for/") || refName.startsWith("refs/*");
+  }
+
+  private String unRefsFor(String refName) {
+    if (!isRefsFor(refName)) {
+      return refName;
+    }
+    if (refName.equals("refs/*") || refName.equals("refs/for/*")) {
+      return "refs/*";
+    }
+    return refName.substring("refs/for/".length());
+  }
+
+  private boolean migrateRefsFor(AccessSection as, Permission perm) {
+    String refName = as.getName();
+    if (isRefsFor(refName) && perm.getName().equals(Permission.PUSH)) {
+      AccessSection migratedAs = getAccessSection(unRefsFor(refName), true);
+      Permission convertedPerm = migratedAs.getPermission(Permission.CREATE_REVIEW, true);
+      convertedPerm.setExclusiveGroup(perm.getExclusiveGroup());
+      convertedPerm.addAll(perm.getRules());
+      return true;
+    }
+    return false;
   }
 
   private boolean isValidRegex(String refPattern) {

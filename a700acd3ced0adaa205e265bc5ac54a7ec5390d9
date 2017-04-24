@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f82b446f_0b40f617",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/JestClientBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-24T14:40:20Z",
+      "side": 1,
+      "message": "Eclipse\u0027s organize imports orders these differently to google-java-format.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 47
+      },
+      "revId": "a700acd3ced0adaa205e265bc5ac54a7ec5390d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "7b5bbd76e5b952831aed97df521a03ebc374cbb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c178a20e_7f992d4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-24T12:27:34Z",
+      "side": 1,
+      "message": "Is this automation (@Before and @After) needed? I agree that it would be nice, but we might get away with calling it manually from the methods that change the DomainValidator config? Right now there are only two such tests and there is a good chance that there might never be more than a hand full.\n\nOur does this result in the same problem?",
+      "parentUuid": "b1c47e29_7ecbfba7",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 5
+      },
+      "revId": "7b5bbd76e5b952831aed97df521a03ebc374cbb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

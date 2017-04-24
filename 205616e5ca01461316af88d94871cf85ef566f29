@@ -45,6 +45,52 @@
       "revId": "205616e5ca01461316af88d94871cf85ef566f29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ff2b85c_a0783888",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-24T15:53:50Z",
+      "side": 1,
+      "message": "Unnecessary `\u003d\u003d\u003d true`",
+      "range": {
+        "startLine": 463,
+        "startChar": 34,
+        "endLine": 463,
+        "endChar": 43
+      },
+      "revId": "205616e5ca01461316af88d94871cf85ef566f29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f252916f_9b76cb62",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-24T15:53:50Z",
+      "side": 1,
+      "message": "Use not instead of `\u003d\u003d\u003d false`.\n\n !this.change.is_private",
+      "range": {
+        "startLine": 467,
+        "startChar": 19,
+        "endLine": 467,
+        "endChar": 51
+      },
+      "revId": "205616e5ca01461316af88d94871cf85ef566f29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

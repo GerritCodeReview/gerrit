@@ -22,6 +22,30 @@
       "revId": "7b5bbd76e5b952831aed97df521a03ebc374cbb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1c47e29_7ecbfba7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-24T11:54:39Z",
+      "side": 1,
+      "message": "I couldn\u0027t get this to work properly when it was in the AbstractDaemonTest, either in an @Before or @After annotated class.",
+      "parentUuid": "8d7b0944_06aa0468",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 5
+      },
+      "revId": "7b5bbd76e5b952831aed97df521a03ebc374cbb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

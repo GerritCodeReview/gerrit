@@ -27,6 +27,7 @@ public class TestNotesMigration extends NotesMigration {
   private volatile boolean writeChanges;
   private volatile PrimaryStorage changePrimaryStorage = PrimaryStorage.REVIEW_DB;
   private volatile boolean disableChangeReviewDb;
+  private volatile boolean fuseUpdates;
   private volatile boolean failOnLoad;
 
   public TestNotesMigration() {
@@ -53,6 +54,11 @@ public class TestNotesMigration extends NotesMigration {
   @Override
   public boolean disableChangeReviewDb() {
     return disableChangeReviewDb;
+  }
+
+  @Override
+  public boolean fuseUpdates() {
+    return fuseUpdates;
   }
 
   // Increase visbility from superclass, as tests may want to check whether
@@ -87,6 +93,11 @@ public class TestNotesMigration extends NotesMigration {
     return this;
   }
 
+  public TestNotesMigration setFuseUpdates(boolean fuseUpdates) {
+    this.fuseUpdates = fuseUpdates;
+    return this;
+  }
+
   public TestNotesMigration setFailOnLoad(boolean failOnLoad) {
     this.failOnLoad = failOnLoad;
     return this;
@@ -103,24 +114,35 @@ public class TestNotesMigration extends NotesMigration {
         setReadChanges(true);
         setChangePrimaryStorage(PrimaryStorage.REVIEW_DB);
         setDisableChangeReviewDb(false);
+        setFuseUpdates(false);
         break;
       case WRITE:
         setWriteChanges(true);
         setReadChanges(false);
         setChangePrimaryStorage(PrimaryStorage.REVIEW_DB);
         setDisableChangeReviewDb(false);
+        setFuseUpdates(false);
         break;
       case PRIMARY:
         setWriteChanges(true);
         setReadChanges(true);
         setChangePrimaryStorage(PrimaryStorage.NOTE_DB);
         setDisableChangeReviewDb(false);
+        setFuseUpdates(false);
         break;
       case DISABLE_CHANGE_REVIEW_DB:
         setWriteChanges(true);
         setReadChanges(true);
         setChangePrimaryStorage(PrimaryStorage.NOTE_DB);
         setDisableChangeReviewDb(true);
+        setFuseUpdates(false);
+        break;
+      case FUSED:
+        setWriteChanges(true);
+        setReadChanges(true);
+        setChangePrimaryStorage(PrimaryStorage.NOTE_DB);
+        setDisableChangeReviewDb(true);
+        setFuseUpdates(true);
         break;
       case CHECK:
       case OFF:
@@ -129,6 +151,7 @@ public class TestNotesMigration extends NotesMigration {
         setReadChanges(false);
         setChangePrimaryStorage(PrimaryStorage.REVIEW_DB);
         setDisableChangeReviewDb(false);
+        setFuseUpdates(false);
         break;
     }
     return this;
@@ -139,6 +162,7 @@ public class TestNotesMigration extends NotesMigration {
     setReadChanges(other.readChanges());
     setChangePrimaryStorage(other.changePrimaryStorage());
     setDisableChangeReviewDb(other.disableChangeReviewDb());
+    setFuseUpdates(other.fuseUpdates());
     return this;
   }
 }

@@ -31,7 +31,6 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
-import com.google.gerrit.testutil.NoteDbMode;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.EnumSet;
@@ -48,11 +47,12 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    assume().that(NoteDbMode.get()).isEqualTo(NoteDbMode.DISABLE_CHANGE_REVIEW_DB);
+    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
   }
 
   @Test
   public void updateChangeFailureRollsBackRefUpdate() throws Exception {
+    assume().that(notesMigration.fuseUpdates()).isTrue();
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getChange().getId();
 

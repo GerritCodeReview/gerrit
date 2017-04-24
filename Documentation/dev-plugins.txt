@@ -392,7 +392,11 @@ Garbage collection ran on a project
 
 * `com.google.gerrit.server.extensions.events.ChangeIndexedListener`:
 +
-Update of the secondary index
+Update of the change secondary index
+
+* `com.google.gerrit.server.extensions.events.AccountIndexedListener`:
++
+Update of the account secondary index
 
 * `com.google.gerrit.httpd.WebLoginListener`:
 +

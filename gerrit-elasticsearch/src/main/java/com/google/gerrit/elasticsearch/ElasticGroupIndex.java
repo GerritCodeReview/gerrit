@@ -78,9 +78,10 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       Provider<GroupCache> groupCache,
+      JestClientBuilder clientBuilder,
       @Assisted Schema<AccountGroup> schema) {
     // No parts of FillArgs are currently required, just use null.
-    super(cfg, null, sitePaths, schema, GROUPS_PREFIX);
+    super(cfg, null, sitePaths, schema, clientBuilder, GROUPS_PREFIX);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema);
   }

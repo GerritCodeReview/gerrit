@@ -1107,5 +1107,24 @@
       return this.send('DELETE',
           this.getChangeActionURL(changeNum, null, '/assignee'));
     },
+
+    startWorkInProgress: function(changeNum, opt_message) {
+      var payload = {};
+      if (opt_message) {
+        payload.message = opt_message;
+      }
+      var url = this.getChangeActionURL(changeNum, null, '/wip');
+      return this.send('POST', url, payload)
+          .then(function(response) {
+            if (response.status === 204) {
+              return 'Change marked as Work In Progress.';
+            }
+          });
+    },
+
+    startReview: function(changeNum, review) {
+      return this.send(
+          'POST', this.getChangeActionURL(changeNum, null, '/ready'), review);
+    },
   });
 })();

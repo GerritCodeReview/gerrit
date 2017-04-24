@@ -162,6 +162,7 @@ class ProjectControl {
   boolean canPushToAtLeastOneRef() {
     return canPerformOnAnyRef(Permission.PUSH)
         || canPerformOnAnyRef(Permission.CREATE_TAG)
+        || canPerformOnAnyRef(Permission.CREATE_REVIEW)
         || isOwner();
   }
 

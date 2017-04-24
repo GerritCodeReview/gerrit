@@ -896,7 +896,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     PushResult pr =
         GitUtil.pushHead(testRepo, "refs/for/foo%base=" + rBase.getCommit().name(), false, false);
-    assertThat(pr.getMessages()).contains("changes: new: 1, refs: 1, done");
+
+    if (notesMigration.fuseUpdates()) {
+      // InMemoryRepository's atomic BatchRefUpdate implementation doesn't update the progress
+      // monitor. That's fine, we just care that there was at least one new change and no errors.
+      assertThat(pr.getMessages()).contains("changes: new: 1, done");
+    } else {
+      assertThat(pr.getMessages()).contains("changes: new: 1, refs: 1, done");
+    }
 
     assertTwoChangesWithSameRevision(r);
   }

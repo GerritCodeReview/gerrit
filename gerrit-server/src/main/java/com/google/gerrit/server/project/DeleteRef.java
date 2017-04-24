@@ -170,6 +170,7 @@ public class DeleteRef {
   private void deleteMultipleRefs(Repository r)
       throws OrmException, IOException, ResourceConflictException {
     BatchRefUpdate batchUpdate = r.getRefDatabase().newBatchUpdate();
+    batchUpdate.setAtomic(false);
     List<String> refs =
         prefix == null
             ? refsToDelete

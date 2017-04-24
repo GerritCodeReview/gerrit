@@ -335,6 +335,7 @@ limitations under the License.
                 commit-num="[[_commitInfo.commit]]"
                 patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
                 commit-message="[[_latestCommitMessage]]"
+                ready-for-review="[[_readyForReview]]"
                 on-reload-change="_handleReloadChange"></gr-change-actions>
           </div>
           <hr class="mobile">
@@ -502,7 +503,14 @@ limitations under the License.
           on-send="_handleReplySent"
           on-cancel="_handleReplyCancel"
           on-autogrow="_handleReplyAutogrow"
-          hidden$="[[!_loggedIn]]">Reply</gr-reply-dialog>
+          hidden$="[[!_loggedIn]]">
+        <template is="dom-if" if="[[_canStartReview]]">
+          Start Review
+        </template>
+        <template is="dom-if" if="[[!_canStartReview]]">
+          Reply
+        </template>
+      </gr-reply-dialog>
     </gr-overlay>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

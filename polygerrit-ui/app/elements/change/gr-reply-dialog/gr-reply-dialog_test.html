@@ -693,5 +693,24 @@ limitations under the License.
 
       assert.isTrue(cancelHandler.called);
     });
+
+    test('_computeMessagePlaceholder', function() {
+      var accountA = {_account_id: 1};
+      var accountB = {_account_id: 2};
+      var readyMsg = 'Say something nice...';
+      var startMsg = 'Say something nice to your reviewers...';
+      assert.equal(
+          element._computeMessagePlaceholder(false, accountA, accountA),
+          readyMsg);
+      assert.equal(
+          element._computeMessagePlaceholder(false, accountA, accountB),
+          readyMsg);
+      assert.equal(
+          element._computeMessagePlaceholder(true, accountA, accountA),
+          startMsg);
+      assert.equal(
+          element._computeMessagePlaceholder(true, accountA, accountB),
+          readyMsg);
+    });
   });
 </script>

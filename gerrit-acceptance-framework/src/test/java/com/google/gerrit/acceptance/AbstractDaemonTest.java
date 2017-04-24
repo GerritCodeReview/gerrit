@@ -348,7 +348,6 @@ public abstract class AbstractDaemonTest {
     }
 
     server.getTestInjector().injectMembers(this);
-    notesMigration.setFromEnv();
     Transport.register(inProcessProtocol);
     toClose = Collections.synchronizedList(new ArrayList<Repository>());
     admin = accounts.admin();
@@ -528,6 +527,7 @@ public abstract class AbstractDaemonTest {
       server.stop();
       server = null;
     }
+    notesMigration.resetFromEnv();
   }
 
   protected TestRepository<?>.CommitBuilder commitBuilder() throws Exception {

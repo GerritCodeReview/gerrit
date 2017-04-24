@@ -31,11 +31,13 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
+
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -45,18 +47,15 @@ import org.junit.Test;
 
 public class BatchUpdateTest {
   @Inject private AccountManager accountManager;
-
   @Inject private IdentifiedUser.GenericFactory userFactory;
-
-  @Inject private InMemoryDatabase schemaFactory;
-
+  @Inject private SchemaFactory<ReviewDb> schemaFactory;
   @Inject private InMemoryRepositoryManager repoManager;
-
   @Inject private SchemaCreator schemaCreator;
-
   @Inject private ThreadLocalRequestContext requestContext;
-
   @Inject private BatchUpdate.Factory batchUpdateFactory;
+
+  // Only for use in setting up/tearing down injector; other users should use schemaFactory.
+  @Inject private InMemoryDatabase inMemoryDatabase;
 
   private LifecycleManager lifecycle;
   private ReviewDb db;
@@ -72,8 +71,10 @@ public class BatchUpdateTest {
     lifecycle.add(injector);
     lifecycle.start();
 
+    try (ReviewDb underlyingDb = inMemoryDatabase.getDatabase().open()) {
+      schemaCreator.create(underlyingDb);
+    }
     db = schemaFactory.open();
-    schemaCreator.create(db);
     Account.Id userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     user = userFactory.create(userId);
 
@@ -108,7 +109,7 @@ public class BatchUpdateTest {
     if (db != null) {
       db.close();
     }
-    InMemoryDatabase.drop(schemaFactory);
+    InMemoryDatabase.drop(inMemoryDatabase);
   }
 
   @Test

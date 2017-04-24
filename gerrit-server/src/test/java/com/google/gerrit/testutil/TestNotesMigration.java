@@ -29,7 +29,9 @@ public class TestNotesMigration extends NotesMigration {
   private volatile boolean disableChangeReviewDb;
   private volatile boolean failOnLoad;
 
-  public TestNotesMigration() {}
+  public TestNotesMigration() {
+    resetFromEnv();
+  }
 
   @Override
   public boolean readChanges() {
@@ -94,7 +96,7 @@ public class TestNotesMigration extends NotesMigration {
     return setReadChanges(enabled).setWriteChanges(enabled);
   }
 
-  public TestNotesMigration setFromEnv() {
+  public TestNotesMigration resetFromEnv() {
     switch (NoteDbMode.get()) {
       case READ_WRITE:
         setWriteChanges(true);

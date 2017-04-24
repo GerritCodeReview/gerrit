@@ -46,13 +46,14 @@ limitations under the License.
         margin-bottom: .5em;
       }
       .rightControls {
+        align-items: center;
         display: flex;
         flex-wrap: wrap;
         font-weight: normal;
         justify-content: flex-end;
       }
       .separator {
-        margin: 0 .25em;
+        margin: 0 .1em;
       }
       .reviewed,
       .status {
@@ -161,6 +162,12 @@ limitations under the License.
       .mobile {
         display: none;
       }
+      .buttonsContainer {
+        padding-right: 1em;
+      }
+      .buttonsContainer gr-button {
+        padding-right: .5em;
+      }
       @media screen and (max-width: 50em) {
         .desktop {
           display: none;
@@ -194,44 +201,46 @@ limitations under the License.
     <header>
       <div>Files</div>
       <div class="rightControls">
-        <template is="dom-if"
-            if="[[_fileListActionsVisible(_shownFiles.*, _maxFilesForBulkActions)]]">
-          <gr-button link on-tap="_expandAllDiffs">Show diffs</gr-button>
-          <span class="separator">/</span>
-          <gr-button link on-tap="_collapseAllDiffs">Hide diffs</gr-button>
-        </template>
-        <template is="dom-if"
-            if="[[!_fileListActionsVisible(_shownFiles.*, _maxFilesForBulkActions)]]">
-          <div class="warning">
-            Bulk actions disabled because there are too many files.
-          </div>
-        </template>
-        <span class="separator">/</span>
-        <select
-            id="modeSelect"
-            is="gr-select"
-            bind-value="{{diffViewMode}}">
-          <option value="SIDE_BY_SIDE">Side By Side</option>
-          <option value="UNIFIED_DIFF">Unified</option>
-        </select>
-        <span class="separator">/</span>
-        <label>
-          Diff against
-          <select id="patchChange" bind-value="{{_diffAgainst}}" is="gr-select"
-              class="patchSetSelect" on-change="_handlePatchChange">
-            <option value="PARENT">Base</option>
-            <template
-                is="dom-repeat"
-                items="[[_computePatchSets(revisions.*, patchRange.*)]]"
-                as="patchNum">
-              <option value$="[[patchNum.num]]"
-                  disabled$="[[_computePatchSetDisabled(patchNum.num, patchRange.patchNum)]]">
-                [[patchNum.num]]
-                [[patchNum.desc]]
-              </option>
-            </template>
+        <div class="buttonsContainer">
+          <template is="dom-if"
+              if="[[_fileListActionsVisible(_shownFiles.*, _maxFilesForBulkActions)]]">
+            <gr-button small on-tap="_expandAllDiffs">Show diffs</gr-button>
+            <gr-button small on-tap="_collapseAllDiffs">Hide diffs</gr-button>
+          </template>
+          <template is="dom-if"
+              if="[[!_fileListActionsVisible(_shownFiles.*, _maxFilesForBulkActions)]]">
+            <div class="warning">
+              Bulk actions disabled because there are too many files.
+            </div>
+          </template>
+        </div>
+        <span>
+          <select
+              id="modeSelect"
+              is="gr-select"
+              bind-value="{{diffViewMode}}">
+            <option value="SIDE_BY_SIDE">Side By Side</option>
+            <option value="UNIFIED_DIFF">Unified</option>
           </select>
-        </label>
+          <span class="separator">/</span>
+          <label>
+            Diff against
+            <select id="patchChange" bind-value="{{_diffAgainst}}" is="gr-select"
+                class="patchSetSelect" on-change="_handlePatchChange">
+              <option value="PARENT">Base</option>
+              <template
+                  is="dom-repeat"
+                  items="[[_computePatchSets(revisions.*, patchRange.*)]]"
+                  as="patchNum">
+                <option value$="[[patchNum.num]]"
+                    disabled$="[[_computePatchSetDisabled(patchNum.num, patchRange.patchNum)]]">
+                  [[patchNum.num]]
+                  [[patchNum.desc]]
+                </option>
+              </template>
+            </select>
+          </label>
+        </span>
       </div>
     </header>
     <div on-tap="_handleFileListTap">

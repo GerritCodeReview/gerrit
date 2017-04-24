@@ -22,6 +22,10 @@
         type: Boolean,
         reflectToAttribute: true,
       },
+      small: {
+        type: Boolean,
+        reflectToAttribute: true,
+      },
       disabled: {
         type: Boolean,
         observer: '_disabledChanged',

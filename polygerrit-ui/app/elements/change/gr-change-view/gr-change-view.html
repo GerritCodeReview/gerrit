@@ -217,6 +217,9 @@ limitations under the License.
         margin-left: 1em;
         padding-top: var(--related-change-btn-top-padding, 0);
       }
+      .downloadContainer {
+        padding-left: 1em;
+      }
       @media screen and (max-width: 50em) {
         .mobile {
           display: block;
@@ -352,7 +355,8 @@ limitations under the License.
                       config="[[_projectConfig.commentlinks]]"
                       remove-zero-width-space></gr-linked-text>
                 </gr-editable-content>
-                <gr-button link
+                <gr-button
+                    small
                     class="editCommitMessage"
                     on-tap="_handleEditCommitMessage"
                     hidden$="[[_hideEditCommitMessage]]">Edit</gr-button>
@@ -371,7 +375,7 @@ limitations under the License.
                   class="collapseToggleContainer"
                   hidden$="[[_computeCommitToggleHidden(_latestCommitMessage)]]">
                 <gr-button
-                    link
+                    small
                     id="commitCollapseToggleButton"
                     class="collapseToggleButton"
                     on-tap="_toggleCommitCollapsed">
@@ -393,7 +397,7 @@ limitations under the License.
                   class="collapseToggleContainer"
                   hidden$="[[_computeRelatedChangesToggleHidden(_relatedChangesLoading)]]">
                 <gr-button
-                    link
+                    small
                     id="relatedChangesToggleButton"
                     class="collapseToggleButton"
                     on-tap="_toggleRelatedChangesCollapsed">
@@ -437,12 +441,6 @@ limitations under the License.
               /
               <a href$="[[getBaseUrl()]]/c/[[_change._number]]">Go to latest patch set</a>
             </span>
-            <span class="downloadContainer desktop">
-              /
-              <gr-button link
-                  class="download"
-                  on-tap="_handleDownloadTap">Download</gr-button>
-            </span>
             <span class="descriptionContainer">
               /
               <gr-editable-label
@@ -452,6 +450,11 @@ limitations under the License.
                   placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"
                   read-only="[[_descriptionReadOnly]]"
                   on-changed="_handleDescriptionChanged"></gr-editable-label>
+            </span>
+            <span class="downloadContainer desktop">
+              <gr-button small
+                  class="download"
+                  on-tap="_handleDownloadTap">Download patch set</gr-button>
             </span>
           </div>
         </div>

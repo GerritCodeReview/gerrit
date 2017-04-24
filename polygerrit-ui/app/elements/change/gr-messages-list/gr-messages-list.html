@@ -32,7 +32,6 @@ limitations under the License.
         margin-bottom: .35em;
       }
       .header,
-      #messageControlsContainer,
       gr-message {
         padding: 0 var(--default-horizontal-margin);
       }
@@ -50,21 +49,20 @@ limitations under the License.
         justify-content: center;
       }
       #messageControlsContainer gr-button {
-        padding: 0.4em;
+        margin: .5em .25em .5em .25em;
       }
     </style>
     <div class="header">
       <h3>Messages</h3>
       <div class="messageListControls">
-        <gr-button id="collapse-messages" link
+        <gr-button id="collapse-messages" small
             on-tap="_handleExpandCollapseTap">
           [[_computeExpandCollapseMessage(_expanded)]]
         </gr-button>
         <span
             id="automatedMessageToggleContainer"
             hidden$="[[!_hasAutomatedMessages(messages)]]">
-          /
-          <gr-button id="automatedMessageToggle" link
+          <gr-button id="automatedMessageToggle" small
               on-tap="_handleAutomatedMessageToggleTap">
             [[_computeAutomatedToggleText(_hideAutomated)]]
           </gr-button>
@@ -74,13 +72,12 @@ limitations under the License.
     <span
         id="messageControlsContainer"
         hidden$="[[_computeShowHideTextHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]">
-      <gr-button id="oldMessagesBtn" link on-tap="_handleShowAllTap">
+      <gr-button id="oldMessagesBtn" small on-tap="_handleShowAllTap">
           [[_computeNumMessagesText(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]
       </gr-button>
       <span
           hidden$="[[_computeIncrementHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]">
-        /
-        <gr-button id="incrementMessagesBtn" link
+        <gr-button id="incrementMessagesBtn" small
             on-tap="_handleIncrementShownMessages">
           [[_computeIncrementText(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]
         </gr-button>

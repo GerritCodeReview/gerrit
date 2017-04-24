@@ -50,21 +50,26 @@ limitations under the License.
       .remove {
         font-size: .9em;
       }
+      .reviewersContainer {
+        padding-bottom: 0.3em;
+      }
       @media screen and (max-width: 50em), screen and (min-width: 75em) {
         gr-account-chip:first-of-type {
           margin-top: 0;
         }
       }
     </style>
-    <template is="dom-repeat" items="[[_reviewers]]" as="reviewer">
-      <gr-account-chip class="reviewer" account="[[reviewer]]"
-          on-remove="_handleRemove"
-          removable="[[_computeCanRemoveReviewer(reviewer, mutable)]]">
-      </gr-account-chip>
-    </template>
+    <div class="reviewersContainer" hidden$="[[!_reviewers.length]]">
+      <template is="dom-repeat" items="[[_reviewers]]" as="reviewer">
+        <gr-account-chip class="reviewer" account="[[reviewer]]"
+            on-remove="_handleRemove"
+            removable="[[_computeCanRemoveReviewer(reviewer, mutable)]]">
+        </gr-account-chip>
+      </template>
+    </div>
     <div class="controlsContainer" hidden$="[[!mutable]]">
       <gr-button
-          link
+          small
           id="addReviewer"
           class="addReviewer"
           on-tap="_handleAddTap">[[_addLabel]]</gr-button>

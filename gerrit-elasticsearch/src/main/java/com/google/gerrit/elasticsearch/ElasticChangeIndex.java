@@ -22,6 +22,19 @@ import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STA
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.codec.binary.Base64;
+import org.eclipse.jgit.lib.Config;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -58,23 +71,13 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Bulk;
 import io.searchbox.core.Bulk.Builder;
 import io.searchbox.core.Search;
 import io.searchbox.core.search.sort.Sort;
 import io.searchbox.core.search.sort.Sort.Sorting;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import org.apache.commons.codec.binary.Base64;
-import org.eclipse.jgit.lib.Config;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Secondary index implementation using Elasticsearch. */
 class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
@@ -107,8 +110,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       ChangeData.Factory changeDataFactory,
       FillArgs fillArgs,
       SitePaths sitePaths,
+      JestClientBuilder clientBuilder,
       @Assisted Schema<ChangeData> schema) {
-    super(cfg, fillArgs, sitePaths, schema, CHANGES_PREFIX);
+    super(cfg, fillArgs, sitePaths, schema, clientBuilder, CHANGES_PREFIX);
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     mapping = new ChangeMapping(schema);

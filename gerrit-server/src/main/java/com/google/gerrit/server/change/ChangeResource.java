@@ -22,6 +22,7 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -82,6 +83,13 @@ public class ChangeResource implements RestResource, HasETag {
 
   public Change.Id getId() {
     return getControl().getId();
+  }
+
+  /** @return true if {@link #getUser()} is the change's owner. */
+  public boolean isUserOwner() {
+    CurrentUser user = getControl().getUser();
+    Account.Id owner = getChange().getOwner();
+    return user.isIdentifiedUser() && user.asIdentifiedUser().getAccountId().equals(owner);
   }
 
   public Change getChange() {

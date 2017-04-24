@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -45,7 +46,7 @@ public class PutPrivate
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException {
-    if (!rsrc.getControl().isOwner()) {
+    if (!rsrc.isUserOwner()) {
       throw new AuthException("not allowed to mark private");
     }
 
@@ -69,9 +70,13 @@ public class PutPrivate
 
   @Override
   public Description getDescription(ChangeResource rsrc) {
+    Change change = rsrc.getChange();
     return new UiAction.Description()
         .setLabel("Mark private")
         .setTitle("Mark change as private")
-        .setVisible(rsrc.getControl().isOwner());
+        .setVisible(
+            !change.isPrivate()
+                && change.getStatus() != Change.Status.MERGED
+                && rsrc.isUserOwner());
   }
 }

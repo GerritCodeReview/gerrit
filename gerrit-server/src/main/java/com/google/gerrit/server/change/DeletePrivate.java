@@ -46,7 +46,7 @@ public class DeletePrivate
   @Override
   public Response<String> apply(ChangeResource rsrc, DeletePrivate.Input input)
       throws RestApiException, UpdateException {
-    if (!rsrc.getControl().isOwner()) {
+    if (!rsrc.isUserOwner()) {
       throw new AuthException("not allowed to unmark private");
     }
 
@@ -73,6 +73,6 @@ public class DeletePrivate
     return new UiAction.Description()
         .setLabel("Unmark private")
         .setTitle("Unmark change as private")
-        .setVisible(rsrc.getControl().isOwner());
+        .setVisible(rsrc.getChange().isPrivate() && rsrc.isUserOwner());
   }
 }

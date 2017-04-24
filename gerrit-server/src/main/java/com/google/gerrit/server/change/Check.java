@@ -25,7 +25,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -51,8 +50,7 @@ public class Check
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, FixInput input)
       throws RestApiException, OrmException, PermissionBackendException {
-    ChangeControl ctl = rsrc.getControl();
-    if (!ctl.isOwner() && !ctl.getProjectControl().isOwner()) {
+    if (!rsrc.isUserOwner() && !rsrc.getControl().getProjectControl().isOwner()) {
       permissionBackend.user(user).check(GlobalPermission.MAINTAIN_SERVER);
     }
     return Response.withMustRevalidate(newChangeJson().fix(input).format(rsrc));

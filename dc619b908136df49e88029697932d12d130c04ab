@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a15cebac_c2939e37",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-24T11:57:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "41d4aca0_8e85c22c",
+      "range": {
+        "startLine": 383,
+        "startChar": 33,
+        "endLine": 383,
+        "endChar": 35
+      },
+      "revId": "dc619b908136df49e88029697932d12d130c04ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "088a85a8_adda33e4",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 15
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-24T10:15:39Z",
       "side": 1,
       "message": "Nice work! This is much cleaner than the previous solution. One issue -- this doesn\u0027t adhere to our style guidelines I linked to you before.\n\n        if (this.change.is_private \u003d\u003d\u003d true \u0026\u0026\n            actions[a].label \u003d\u003d\u003d \u0027Mark private\u0027) {\n          actions[a].label \u003d \u0027Unmark Private\u0027;\n          actions[a].method \u003d \u0027DELETE\u0027;\n        } else if (this.change.is_private \u003d\u003d\u003d false \u0026\u0026\n            actions[a].label \u003d\u003d\u003d \u0027Unmark Private\u0027) {\n          actions[a].label \u003d \u0027Mark Private\u0027;\n          actions[a].method \u003d \u0027PUT\u0027;\n        } else if (actions[a].label \u003d\u003d\u003d \u0027Delete\u0027) {",
+      "range": {
+        "startLine": 401,
+        "startChar": 8,
+        "endLine": 411,
+        "endChar": 51
+      },
+      "revId": "dc619b908136df49e88029697932d12d130c04ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a65bf31a_36992e73",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-24T11:57:49Z",
+      "side": 1,
+      "message": "Thanks, done. :)",
+      "parentUuid": "088a85a8_adda33e4",
       "range": {
         "startLine": 401,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b49656b9_38c0e253",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-24T11:57:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0f911afc_1266231a",
+      "range": {
+        "startLine": 261,
+        "startChar": 27,
+        "endLine": 261,
+        "endChar": 33
+      },
+      "revId": "dc619b908136df49e88029697932d12d130c04ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "149781f6_a02da301",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 15
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "8d9ba776_0c5356e1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-24T11:57:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "149781f6_a02da301",
+      "range": {
+        "startLine": 262,
+        "startChar": 6,
+        "endLine": 266,
+        "endChar": 16
+      },
+      "revId": "dc619b908136df49e88029697932d12d130c04ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a5f70b4f_df02b86c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 15
@@ -105,6 +201,30 @@
       "writtenOn": "2017-04-24T10:15:39Z",
       "side": 1,
       "message": "Let\u0027s rework this function, the same as in gr-change-view.js.",
+      "range": {
+        "startLine": 162,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 0
+      },
+      "revId": "dc619b908136df49e88029697932d12d130c04ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1ea3033_681957ba",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-24T11:57:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a5f70b4f_df02b86c",
       "range": {
         "startLine": 162,
         "startChar": 4,

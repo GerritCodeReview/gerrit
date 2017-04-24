@@ -333,7 +333,7 @@ limitations under the License.
                 change-num="[[_changeNum]]"
                 change-status="[[_change.status]]"
                 commit-num="[[_commitInfo.commit]]"
-                patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
+                patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
                 commit-message="[[_latestCommitMessage]]"
                 on-reload-change="_handleReloadChange"></gr-change-actions>
           </div>
@@ -386,7 +386,7 @@ limitations under the License.
                   has-parent="{{hasParent}}"
                   loading="{{_relatedChangesLoading}}"
                   on-update="_updateRelatedChangeMaxHeight"
-                  patch-num="[[_computeLatestPatchNum(_allPatchSets)]]">
+                  patch-num="[[computeLatestPatchNum(_allPatchSets)]]">
               </gr-related-changes-list>
               <div
                   id="relatedChangesToggle"
@@ -423,7 +423,7 @@ limitations under the License.
                     disabled$="[[_computePatchSetDisabled(patchNum.num, _patchRange.basePatchNum)]]">
                   [[patchNum.num]]
                   /
-                  [[_computeLatestPatchNum(_allPatchSets)]]
+                  [[computeLatestPatchNum(_allPatchSets)]]
                   [[_computePatchSetDescription(_change, patchNum.num)]]
                 </option>
               </template>
@@ -494,7 +494,7 @@ limitations under the License.
         with-backdrop>
       <gr-reply-dialog id="replyDialog"
           change="{{_change}}"
-          patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
+          patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
           permitted-labels="[[_change.permitted_labels]]"
           diff-drafts="[[_diffDrafts]]"
           server-config="[[serverConfig]]"

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c806a624_74738570",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-24T12:16:33Z",
+      "side": 1,
+      "message": "nit: unnecessary blank line",
+      "revId": "07ca74cada1b1c15f06743d24e168fa1fea660cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

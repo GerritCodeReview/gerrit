@@ -94,6 +94,30 @@
       "revId": "7b5bbd76e5b952831aed97df521a03ebc374cbb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c941b547_2baa4db9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-24T13:08:37Z",
+      "side": 1,
+      "message": "Actually, this is not needed any more, since I abandoned the idea of overriding the TLD list in favor of just disabling \"strict\" validation.",
+      "parentUuid": "fdc12f53_3626fc0a",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 5
+      },
+      "revId": "7b5bbd76e5b952831aed97df521a03ebc374cbb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

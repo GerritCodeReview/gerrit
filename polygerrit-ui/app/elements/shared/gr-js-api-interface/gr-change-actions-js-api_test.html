@@ -130,11 +130,47 @@ breaking changes to gr-change-actions won’t be noticed.
         var button = element.$$('[data-action-key="' + key + '"]');
         assert.isOk(button);
         assert.isFalse(button.hasAttribute('hidden'));
-        changeActions.setActionHidden(changeActions.ActionType.REVISION, key,
-            true);
+        changeActions.setActionHidden(
+            changeActions.ActionType.REVISION, key, true);
         flush(function() {
           var button = element.$$('[data-action-key="' + key + '"]');
           assert.isNotOk(button);
+          done();
+        });
+      });
+    });
+
+    test('move action button to overflow', function(done) {
+      var key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
+      flush(function() {
+        assert.isTrue(element.$.moreActions.hidden);
+        assert.isOk(element.$$('[data-action-key="' + key + '"]'));
+        changeActions.setActionOverflow(
+            changeActions.ActionType.REVISION, key, true);
+        flush(function() {
+          assert.isNotOk(element.$$('[data-action-key="' + key + '"]'));
+          assert.isFalse(element.$.moreActions.hidden);
+          assert.strictEqual(element.$.moreActions.items[0].name, 'Bork!');
+          done();
+        });
+      });
+    });
+
+    test('change actions priority', function(done) {
+      var key1 = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
+      var key2 = changeActions.add(changeActions.ActionType.CHANGE, 'Squanch?');
+      flush(function() {
+        var buttons =
+            Polymer.dom(element.root).querySelectorAll('[data-action-key]');
+        assert.equal(buttons[0].getAttribute('data-action-key'), key1);
+        assert.equal(buttons[1].getAttribute('data-action-key'), key2);
+        changeActions.setActionPriority(
+            changeActions.ActionType.REVISION, key1, 10);
+        flush(function() {
+          buttons =
+              Polymer.dom(element.root).querySelectorAll('[data-action-key]');
+          assert.equal(buttons[0].getAttribute('data-action-key'), key2);
+          assert.equal(buttons[1].getAttribute('data-action-key'), key1);
           done();
         });
       });

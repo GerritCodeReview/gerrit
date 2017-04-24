@@ -135,7 +135,8 @@ limitations under the License.
 
     test('hide menu action', function(done) {
       flush(function() {
-        var buttonEl = element.$.moreActions.$$('span[data-id="delete"]');
+        var buttonEl =
+            element.$.moreActions.$$('span[data-id="delete-revision"]');
         assert.isOk(buttonEl);
         assert.throws(element.setActionHidden.bind(element, 'invalid type'));
         element.setActionHidden(element.ActionType.CHANGE,
@@ -145,13 +146,15 @@ limitations under the License.
             element.ChangeActions.DELETE, true);
         assert.lengthOf(element._hiddenActions, 1);
         flush(function() {
-          var buttonEl = element.$.moreActions.$$('span[data-id="delete"]');
+          var buttonEl =
+              element.$.moreActions.$$('span[data-id="delete-revision"]');
           assert.isNotOk(buttonEl);
 
           element.setActionHidden(element.ActionType.CHANGE,
             element.RevisionActions.DELETE, false);
           flush(function() {
-            var buttonEl = element.$.moreActions.$$('span[data-id="delete"]');
+            var buttonEl =
+                element.$.moreActions.$$('span[data-id="delete-revision"]');
             assert.isOk(buttonEl);
             done();
           });
@@ -174,7 +177,7 @@ limitations under the License.
     test('delete buttons have explicit labels', function(done) {
       flush(function() {
         var deleteItems = element.$.moreActions.items.filter(function(item) {
-          return item.id === 'delete';
+          return item.id.indexOf('delete') === 0;
         });
         assert.equal(deleteItems.length, 2);
         assert.notEqual(deleteItems[0].name, deleteItems[1].name);
@@ -204,16 +207,15 @@ limitations under the License.
     test('_actionComparator sort order', function() {
       var actions = [
         {label: '123', __type: 'change', __key: 'review'},
-        {label: 'abc', __type: 'revision'},
+        {label: 'abc-ro', __type: 'revision'},
         {label: 'abc', __type: 'change'},
         {label: 'def', __type: 'change'},
-        {label: 'def', __type: 'change', __primary: true},
+        {label: 'def-p', __type: 'change', __primary: true},
       ];
 
       var result = actions.slice();
       result.reverse();
-      result.sort(element._actionComparator);
-
+      result.sort(element._actionComparator.bind(element));
       assert.deepEqual(result, actions);
     });
 
@@ -414,7 +416,8 @@ limitations under the License.
 
     test('_setLoadingOnButtonWithKey top-level', function() {
       var key = 'rebase';
-      var cleanup = element._setLoadingOnButtonWithKey(key);
+      var type = 'revision';
+      var cleanup = element._setLoadingOnButtonWithKey(type, key);
       assert.equal(element._actionLoadingMessage, 'Rebasing...');
 
       var button = element.$$('[data-action-key="' + key + '"]');
@@ -432,7 +435,8 @@ limitations under the License.
 
     test('_setLoadingOnButtonWithKey overflow menu', function() {
       var key = 'cherrypick';
-      var cleanup = element._setLoadingOnButtonWithKey(key);
+      var type = 'revision';
+      var cleanup = element._setLoadingOnButtonWithKey(type, key);
       assert.equal(element._actionLoadingMessage, 'Cherry-Picking...');
       assert.include(element._disabledMenuActions, 'cherrypick');
       assert.isFunction(cleanup);
@@ -726,6 +730,28 @@ limitations under the License.
         flushAsynchronousOperations();
         var approveButton = element.$$('gr-button[data-action-key=\'review\']');
         assert.equal(approveButton.getAttribute('data-label'), 'bar+2');
+      });
+    });
+
+    suite('setActionOverflow', function() {
+      test('move action from overflow', function() {
+        assert.isNotOk(element.$$('[data-action-key="cherrypick"]'));
+        assert.strictEqual(
+            element.$.moreActions.items[0].id, 'cherrypick-revision');
+        element.setActionOverflow('revision', 'cherrypick', false);
+        flushAsynchronousOperations();
+        assert.isOk(element.$$('[data-action-key="cherrypick"]'));
+        assert.notEqual(
+            element.$.moreActions.items[0].id, 'cherrypick-revision');
+      });
+
+      test('move action to overflow', function() {
+        assert.isOk(element.$$('[data-action-key="submit"]'));
+        element.setActionOverflow('revision', 'submit', true);
+        flushAsynchronousOperations();
+        assert.isNotOk(element.$$('[data-action-key="submit"]'));
+        assert.strictEqual(
+            element.$.moreActions.items[3].id, 'submit-revision');
       });
     });
   });

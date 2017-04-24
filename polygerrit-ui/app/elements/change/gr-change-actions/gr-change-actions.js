@@ -87,14 +87,13 @@
     method: 'POST',
   };
 
-  /**
-   * Keys for actions to appear in the overflow menu rather than the top-level
-   * set of action buttons.
-   */
-  var MENU_ACTION_KEYS = [
-    'cherrypick',
-    '/', // '/' is the key for the delete action.
-  ];
+  var ActionPriority = {
+    CHANGE: 2,
+    DEFAULT: 0,
+    PRIMARY: 3,
+    REVIEW: -3,
+    REVISION: 1,
+  };
 
   Polymer({
     is: 'gr-change-actions',
@@ -158,16 +157,42 @@
       _allActionValues: {
         type: Array,
         computed: '_computeAllActions(actions.*, revisionActions.*,' +
-            'primaryActionKeys.*, _additionalActions.*, change)',
+            'primaryActionKeys.*, _additionalActions.*, change, ' +
+            '_actionPriorityOverrides.*)',
       },
       _topLevelActions: {
         type: Array,
         computed: '_computeTopLevelActions(_allActionValues.*, ' +
-            '_hiddenActions.*)',
+            '_hiddenActions.*, _overflowActions.*)',
       },
       _menuActions: {
         type: Array,
-        computed: '_computeMenuActions(_allActionValues.*, _hiddenActions.*)',
+        computed: '_computeMenuActions(_allActionValues.*, _hiddenActions.*, ' +
+            '_overflowActions.*)',
+      },
+      _overflowActions: {
+        type: Array,
+        value: function() {
+          var value = [
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.DELETE,
+            },
+            {
+              type: ActionType.REVISION,
+              key: RevisionActions.DELETE,
+            },
+            {
+              type: ActionType.REVISION,
+              key: RevisionActions.CHERRYPICK,
+            }
+          ];
+          return value;
+        },
+      },
+      _actionPriorityOverrides: {
+        type: Array,
+        value: function() { return []; },
       },
       _additionalActions: {
         type: Array,
@@ -227,7 +252,8 @@
         enabled: true,
         label: label,
         __type: type,
-        __key: ADDITIONAL_ACTION_KEY_PREFIX + Math.random().toString(36),
+        __key: ADDITIONAL_ACTION_KEY_PREFIX +
+            Math.random().toString(36).substr(2),
       };
       this.push('_additionalActions', action);
       return action.__key;
@@ -247,6 +273,42 @@
         this._indexOfActionButtonWithKey(key),
         prop,
       ], value);
+    },
+
+    setActionOverflow: function(type, key, overflow) {
+      if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
+        throw Error('Invalid action type given: ' + type);
+      }
+      var index = this._getActionOverflowIndex(type, key);
+      var action = {
+        type: type,
+        key: key,
+        overflow: overflow,
+      };
+      if (!overflow && index !== -1) {
+        this.splice('_overflowActions', index, 1);
+      } else if (overflow) {
+        this.push('_overflowActions', action);
+      }
+    },
+
+    setActionPriority: function(type, key, priority) {
+      if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
+        throw Error('Invalid action type given: ' + type);
+      }
+      var index = this._actionPriorityOverrides.findIndex(function(action) {
+        return action.type === type && action.key === key;
+      });
+      var action = {
+        type: type,
+        key: key,
+        priority: priority,
+      };
+      if (index !== -1) {
+        this.set('_actionPriorityOverrides', index, action);
+      } else {
+        this.push('_actionPriorityOverrides', action);
+      }
     },
 
     setActionHidden: function(type, key, hidden) {
@@ -459,20 +521,46 @@
         return;
       }
       var type = el.getAttribute('data-action-type');
-      if (type === ActionType.REVISION) {
-        this._handleRevisionAction(key);
-      } else if (key === ChangeActions.REVERT) {
-        this.showRevertDialog();
-      } else if (key === ChangeActions.ABANDON) {
-        this._showActionDialog(this.$.confirmAbandonDialog);
-      } else if (key === QUICK_APPROVE_ACTION.key) {
-        var action = this._allActionValues.find(function(o) {
-          return o.key === key;
-        });
-        this._fireAction(
-            this._prependSlash(key), action, true, action.payload);
-      } else {
-        this._fireAction(this._prependSlash(key), this.actions[key], false);
+      this._handleAction(type, key);
+    },
+
+    _handleOveflowItemTap: function(e) {
+      this._handleAction(e.detail.action.__type, e.detail.action.__key);
+    },
+
+    _handleAction: function(type, key) {
+      switch (type) {
+        case ActionType.REVISION:
+          this._handleRevisionAction(key);
+          break;
+        case ActionType.CHANGE:
+          this._handleChangeAction(key);
+          break;
+        default:
+          this._fireAction(this._prependSlash(key), this.actions[key], false);
+      }
+    },
+
+    _handleChangeAction: function(key) {
+      switch (key) {
+        case ChangeActions.REVERT:
+          this.showRevertDialog();
+          break;
+        case ChangeActions.ABANDON:
+          this._showActionDialog(this.$.confirmAbandonDialog);
+          break;
+        case QUICK_APPROVE_ACTION.key:
+          var action = this._allActionValues.find(function(o) {
+            return o.key === key;
+          });
+          this._fireAction(
+              this._prependSlash(key), action, true, action.payload);
+          break;
+        case ChangeActions.DELETE:
+          this._handleDeleteTap();
+          break;
+        default:
+          this._fireAction(this._prependSlash(key), this.actions[key], false);
       }
     },
 
@@ -480,6 +568,12 @@
       switch (key) {
         case RevisionActions.REBASE:
           this._showActionDialog(this.$.confirmRebase);
+          break;
+        case RevisionActions.DELETE:
+          this._handleDeleteConfirm();
+          break;
+        case RevisionActions.CHERRYPICK:
+          this._handleCherrypickTap();
           break;
         case RevisionActions.SUBMIT:
           if (!this._canSubmitChange()) {
@@ -577,11 +671,17 @@
       this._fireAction('/', this.actions[ChangeActions.DELETE], false);
     },
 
-    _setLoadingOnButtonWithKey: function(key) {
+    _getActionOverflowIndex: function(type, key) {
+      return this._overflowActions.findIndex(function(action) {
+        return action.type === type && action.key === key;
+      });
+    },
+
+    _setLoadingOnButtonWithKey: function(type, key) {
       this._actionLoadingMessage = this._computeLoadingLabel(key);
 
       // If the action appears in the overflow menu.
-      if (MENU_ACTION_KEYS.indexOf(key) !== -1) {
+      if (this._getActionOverflowIndex(type, key) !== -1) {
         this.push('_disabledMenuActions', key === '/' ? 'delete' : key);
         return function() {
           this._actionLoadingMessage = null;
@@ -601,8 +701,8 @@
     },
 
     _fireAction: function(endpoint, action, revAction, opt_payload) {
-      var cleanupFn = this._setLoadingOnButtonWithKey(action.__key);
-
+      var cleanupFn =
+          this._setLoadingOnButtonWithKey(action.__type, action.__key);
       this._send(action.method, opt_payload, endpoint, revAction, cleanupFn)
           .then(this._handleResponse.bind(this, action));
     },
@@ -696,10 +796,12 @@
      * @param {splices} primariesRecord
      * @param {splices} additionalActionsRecord
      * @param {Object} change The change object.
+     * @param {Object} priorityOverridesRecord
      * @return {Array}
      */
     _computeAllActions: function(changeActionsRecord, revisionActionsRecord,
-        primariesRecord, additionalActionsRecord, change) {
+        primariesRecord, additionalActionsRecord, change,
+        priorityOverridesRecord) {
       var revisionActionValues = this._getActionValues(revisionActionsRecord,
           primariesRecord, additionalActionsRecord, ActionType.REVISION);
       var changeActionValues = this._getActionValues(changeActionsRecord,
@@ -710,58 +812,69 @@
       }
       return revisionActionValues
           .concat(changeActionValues)
-          .sort(this._actionComparator);
+          .sort(this._actionComparator.bind(this));
+    },
+
+    _getActionPriority: function(action) {
+      if (action.__type && action.__key) {
+        var overrideAction = this._actionPriorityOverrides.find(function(i) {
+          return i.type === action.__type && i.key === action.__key;
+        });
+
+        if (overrideAction !== undefined) {
+          return overrideAction.priority;
+        }
+      }
+      if (action.__key === 'review') {
+        return ActionPriority.REVIEW;
+      } else if (action.__primary) {
+        return ActionPriority.PRIMARY;
+      } else if (action.__type === ActionType.CHANGE) {
+        return ActionPriority.CHANGE;
+      } else if (action.__type === ActionType.REVISION) {
+        return ActionPriority.REVISION;
+      }
+      return ActionPriority.DEFAULT;
     },
 
     /**
      * Sort comparator to define the order of change actions.
      */
     _actionComparator: function(actionA, actionB) {
-      // The code review action always appears first.
-      if (actionA.__key === 'review') {
-        return -1;
-      } else if (actionB.__key === 'review') {
-        return 1;
+      var priorityDelta = this._getActionPriority(actionA) -
+          this._getActionPriority(actionB);
+      // Sort by the button label if same priority.
+      if (priorityDelta === 0) {
+        return actionA.label > actionB.label ? 1 : -1;
+      } else {
+        return priorityDelta;
       }
-
-      // Primary actions always appear last.
-      if (actionA.__primary) {
-        return 1;
-      } else if (actionB.__primary) {
-        return -1;
-      }
-
-      // Change actions appear before revision actions.
-     if (actionA.__type === 'change' && actionB.__type === 'revision') {
-        return 1;
-      } else if (actionA.__type === 'revision' && actionB.__type === 'change') {
-        return -1;
-      }
-
-      // Otherwise, sort by the button label.
-      return actionA.label > actionB.label ? 1 : -1;
     },
 
-    _computeTopLevelActions: function(actionRecord, hiddenActionsRecord) {
+    _computeTopLevelActions: function(actionRecord, hiddenActionsRecord,
+        overflowActionsRecord) {
       var hiddenActions = hiddenActionsRecord.base || [];
       return actionRecord.base.filter(function(a) {
-        return MENU_ACTION_KEYS.indexOf(a.__key) === -1 &&
-                hiddenActions.indexOf(a.__key) === -1;
-      });
+        var overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
+        return !overflow && hiddenActions.indexOf(a.__key) === -1;
+      }.bind(this));
     },
 
-    _computeMenuActions: function(actionRecord, hiddenActionsRecord) {
+    _computeMenuActions: function(actionRecord, hiddenActionsRecord,
+        overflowActionsRecord) {
       var hiddenActions = hiddenActionsRecord.base || [];
-      return actionRecord.base
-          .filter(function(a) {
-            return MENU_ACTION_KEYS.indexOf(a.__key) !== -1 &&
-                hiddenActions.indexOf(a.__key) === -1;
-          })
-          .map(function(action) {
-            var key = action.__key;
-            if (key === '/') { key = 'delete'; }
-            return {name: action.label, id: key, };
-          });
+      return actionRecord.base.filter(function(a) {
+        var overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
+        return overflow && hiddenActions.indexOf(a.__key) === -1;
+      }.bind(this)).map(function(action) {
+        var key = action.__key;
+        if (key === '/') { key = 'delete'; }
+        return {
+          name: action.label,
+          id: key + '-' + action.__type,
+          action: action,
+        };
+      });
     },
   });
 })();

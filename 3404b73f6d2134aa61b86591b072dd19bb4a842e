@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2c14fe6_30676858",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T08:07:49Z",
+      "side": 1,
+      "message": "FOOTER_WORK_IN_PROGRESS",
+      "range": {
+        "startLine": 988,
+        "startChar": 24,
+        "endLine": 988,
+        "endChar": 38
+      },
+      "revId": "3404b73f6d2134aa61b86591b072dd19bb4a842e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

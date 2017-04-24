@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d7b0944_06aa0468",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-24T11:47:53Z",
+      "side": 1,
+      "message": "Can this be moved out of the production code path and called from the tests wherever needed?\n\nFor example: Make resetMailValidator public and annotate it with @VisibleForTesting and then call it before or after your newly added tests.\n\nFrom what I see it should never be needed inside a Gerrit instance, since it has to be restarted when the config changes (to create a new Singleton).",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 5
+      },
+      "revId": "7b5bbd76e5b952831aed97df521a03ebc374cbb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

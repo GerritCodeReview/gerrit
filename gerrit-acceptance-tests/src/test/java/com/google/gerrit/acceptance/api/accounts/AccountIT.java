@@ -43,6 +43,7 @@ import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
@@ -746,6 +747,60 @@ public class AccountIT extends AbstractDaemonTest {
         String.format(
             "%s: Invalid project watch of account %d for project %s: %s",
             WatchConfig.WATCH_CONFIG, admin.getId().get(), project.get(), invalidNotifyValue));
+  }
+
+  @Test
+  @Sandboxed
+  public void cannotCreateUserBranch() throws Exception {
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
+
+    String userRef = RefNames.refsUsers(new Account.Id(db.nextAccountId()));
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
+    Result r = push.to(userRef);
+    r.assertErrorStatus();
+    assertThat(r.getMessage()).contains("Not allowed to create user branch.");
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(userRef)).isNull();
+    }
+  }
+
+  @Test
+  @Sandboxed
+  public void createUserBranchWithAccessDatabaseCapability() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
+
+    String userRef = RefNames.refsUsers(new Account.Id(db.nextAccountId()));
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
+    push.to(userRef).assertOkStatus();
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(userRef)).isNotNull();
+    }
+  }
+
+  @Test
+  @Sandboxed
+  public void createDefaultUserBranch() throws Exception {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(RefNames.REFS_USERS_DEFAULT)).isNull();
+    }
+
+    grant(allUsers, RefNames.REFS_USERS_DEFAULT, Permission.CREATE);
+    grant(allUsers, RefNames.REFS_USERS_DEFAULT, Permission.PUSH);
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
+    push.to(RefNames.REFS_USERS_DEFAULT).assertOkStatus();
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(RefNames.REFS_USERS_DEFAULT)).isNotNull();
+    }
   }
 
   @Test

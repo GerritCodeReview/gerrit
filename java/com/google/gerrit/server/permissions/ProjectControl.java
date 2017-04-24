@@ -162,6 +162,7 @@ class ProjectControl {
   boolean canPushToAtLeastOneRef() {
     return canPerformOnAnyRef(Permission.PUSH)
         || canPerformOnAnyRef(Permission.CREATE_TAG)
+        || canPerformOnAnyRef(Permission.CREATE_REVIEW)
         || isOwner();
   }
 
@@ -207,16 +208,7 @@ class ProjectControl {
   }
 
   private boolean canCreateChanges() {
-    for (SectionMatcher matcher : access()) {
-      AccessSection section = matcher.getSection();
-      if (section.getName().startsWith("refs/for/")) {
-        Permission permission = section.getPermission(Permission.PUSH);
-        if (permission != null && controlForRef(section.getName()).canPerform(Permission.PUSH)) {
-          return true;
-        }
-      }
-    }
-    return false;
+    return canPerformOnAnyRef(Permission.CREATE_REVIEW);
   }
 
   private boolean isDeclaredOwner() {

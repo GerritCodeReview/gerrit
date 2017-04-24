@@ -167,6 +167,7 @@ public class AllProjectsCreator {
 
       grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin);
       grant(config, all, Permission.READ, admin, anonymous);
+      grant(config, all, Permission.CREATE_REVIEW, registered);
       grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
 
       if (batch != null) {
@@ -194,7 +195,6 @@ public class AllProjectsCreator {
       grant(config, tags, Permission.CREATE_TAG, admin, owners);
       grant(config, tags, Permission.CREATE_SIGNED_TAG, admin, owners);
 
-      grant(config, magic, Permission.PUSH, registered);
       grant(config, magic, Permission.PUSH_MERGE, registered);
 
       meta.getPermission(Permission.READ, true).setExclusiveGroup(true);

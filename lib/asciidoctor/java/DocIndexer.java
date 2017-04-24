@@ -18,13 +18,13 @@ import com.google.gerrit.server.documentation.Constants;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -81,7 +81,7 @@ public class DocIndexer {
       return;
     }
 
-    try (JarOutputStream jar = new JarOutputStream(new FileOutputStream(outFile))) {
+    try (JarOutputStream jar = new JarOutputStream(Files.newOutputStream(Paths.get(outFile)))) {
       byte[] compressedIndex = zip(index());
       JarEntry entry = new JarEntry(String.format("%s/%s", Constants.PACKAGE, Constants.INDEX_ZIP));
       entry.setSize(compressedIndex.length);
@@ -106,7 +106,7 @@ public class DocIndexer {
 
         String title;
         try (BufferedReader titleReader =
-            new BufferedReader(new InputStreamReader(new FileInputStream(file), UTF_8))) {
+            new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath()), UTF_8))) {
           title = titleReader.readLine();
           if (title != null && title.startsWith("[[")) {
             // Generally the first line of the txt is the title. In a few cases the

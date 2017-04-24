@@ -24,7 +24,6 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -55,10 +54,7 @@ public class Index implements RestModifyView<ChangeResource, Input> {
   @Override
   public Response<?> apply(ChangeResource rsrc, Input input)
       throws IOException, AuthException, OrmException, PermissionBackendException {
-    ChangeControl ctl = rsrc.getControl();
-    if (!ctl.isOwner()) {
-      permissionBackend.user(user).check(GlobalPermission.MAINTAIN_SERVER);
-    }
+    permissionBackend.user(user).check(GlobalPermission.MAINTAIN_SERVER);
     indexer.index(db.get(), rsrc.getChange());
     return Response.none();
   }

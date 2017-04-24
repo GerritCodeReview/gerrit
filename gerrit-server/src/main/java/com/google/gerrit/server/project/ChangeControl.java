@@ -360,7 +360,7 @@ public class ChangeControl {
   }
 
   /** Is this user the owner of the change? */
-  public boolean isOwner() {
+  private boolean isOwner() {
     if (getUser().isIdentifiedUser()) {
       Account.Id id = getUser().asIdentifiedUser().getAccountId();
       return id.equals(getChange().getOwner());

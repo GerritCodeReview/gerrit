@@ -14,7 +14,6 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
@@ -88,7 +87,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     this.queryBuilder = new ElasticQueryBuilder();
     String protocol = MoreObjects.firstNonNull(cfg.getString("index", null, "protocol"), "http");
-    String hostname = MoreObjects.firstNonNull(cfg.getString("index", null, "hostname"), "localhost");
+    String hostname =
+        MoreObjects.firstNonNull(cfg.getString("index", null, "hostname"), "localhost");
     String port = String.valueOf(cfg.getInt("index", null, "port", 9200));
 
     this.indexName =

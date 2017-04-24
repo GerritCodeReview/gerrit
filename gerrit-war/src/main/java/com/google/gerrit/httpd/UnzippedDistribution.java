@@ -20,10 +20,10 @@ import static com.google.gerrit.pgm.init.InitPlugins.PLUGIN_DIR;
 import com.google.gerrit.pgm.init.PluginsDistribution;
 import com.google.inject.Singleton;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletContext;
@@ -45,7 +45,7 @@ class UnzippedDistribution implements PluginsDistribution {
       for (File p : list) {
         String pluginJarName = p.getName();
         String pluginName = pluginJarName.substring(0, pluginJarName.length() - JAR.length());
-        try (InputStream in = new FileInputStream(p)) {
+        try (InputStream in = Files.newInputStream(p.toPath())) {
           processor.process(pluginName, in);
         }
       }

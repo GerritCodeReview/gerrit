@@ -15,12 +15,12 @@
 import com.google.common.io.ByteStreams;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -162,7 +162,7 @@ public class AsciiDoctor {
     if (bazel) {
       renderFiles(inputFiles, null);
     } else {
-      try (ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile))) {
+      try (ZipOutputStream zip = new ZipOutputStream(Files.newOutputStream(Paths.get(zipFile)))) {
         renderFiles(inputFiles, zip);
 
         File[] cssFiles =
@@ -199,7 +199,7 @@ public class AsciiDoctor {
 
   public static void zipFile(File file, String name, ZipOutputStream zip) throws IOException {
     zip.putNextEntry(new ZipEntry(name));
-    try (FileInputStream input = new FileInputStream(file)) {
+    try (InputStream input = Files.newInputStream(file.toPath())) {
       ByteStreams.copy(input, zip);
     }
     zip.closeEntry();

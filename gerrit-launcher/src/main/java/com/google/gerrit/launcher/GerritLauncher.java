@@ -20,9 +20,9 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -293,7 +293,7 @@ public final class GerritLauncher {
   private static void extractJar(ZipFile zf, ZipEntry ze, SortedMap<String, URL> jars)
       throws IOException {
     File tmp = createTempFile(safeName(ze), ".jar");
-    try (FileOutputStream out = new FileOutputStream(tmp);
+    try (OutputStream out = Files.newOutputStream(tmp.toPath());
         InputStream in = zf.getInputStream(ze)) {
       byte[] buf = new byte[4096];
       int n;
@@ -414,7 +414,7 @@ public final class GerritLauncher {
     if (src != null) {
       try (InputStream in = src.getLocation().openStream()) {
         final File tmp = createTempFile("gerrit_", ".zip");
-        try (FileOutputStream out = new FileOutputStream(tmp)) {
+        try (OutputStream out = Files.newOutputStream(tmp.toPath())) {
           final byte[] buf = new byte[4096];
           int n;
           while ((n = in.read(buf, 0, buf.length)) > 0) {

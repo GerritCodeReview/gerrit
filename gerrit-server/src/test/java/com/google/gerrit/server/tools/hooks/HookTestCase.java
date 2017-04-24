@@ -54,10 +54,11 @@ import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.io.ByteStreams;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -119,7 +120,7 @@ public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
       try (InputStream in = url.openStream()) {
         hook = File.createTempFile("hook_", ".sh");
         cleanup.add(hook);
-        try (FileOutputStream out = new FileOutputStream(hook)) {
+        try (OutputStream out = Files.newOutputStream(hook.toPath())) {
           ByteStreams.copy(in, out);
         }
       }

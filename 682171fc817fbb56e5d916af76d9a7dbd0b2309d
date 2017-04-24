@@ -16,6 +16,24 @@
       "revId": "682171fc817fbb56e5d916af76d9a7dbd0b2309d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc97ef3c_c397943b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/AccountIndexedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-24T14:40:11Z",
+      "side": 1,
+      "message": "Exact, you cannot delete an account",
+      "parentUuid": "4f63c4fb_8d1e10dd",
+      "revId": "682171fc817fbb56e5d916af76d9a7dbd0b2309d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

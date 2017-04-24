@@ -22,6 +22,30 @@
       "revId": "f67e4ca04d784bbf9fee6a3259c49bbf0af0f9fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b86258a_18b1d1c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutPrivate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-24T14:50:22Z",
+      "side": 1,
+      "message": "Thanks. I like my version better. Maybe that change can rebase on this.",
+      "parentUuid": "33b5f018_17fedbec",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 31
+      },
+      "revId": "f67e4ca04d784bbf9fee6a3259c49bbf0af0f9fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

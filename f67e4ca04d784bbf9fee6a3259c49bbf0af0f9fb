@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33b5f018_17fedbec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutPrivate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:29:09Z",
+      "side": 1,
+      "message": "It was already done something similar in this change [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/104154/",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 31
+      },
+      "revId": "f67e4ca04d784bbf9fee6a3259c49bbf0af0f9fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

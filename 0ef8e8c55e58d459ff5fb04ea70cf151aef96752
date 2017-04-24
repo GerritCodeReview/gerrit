@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3fa1479c_d6f726b0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 3289,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T09:40:25Z",
+      "side": 1,
+      "message": "It was removed, but, missed to update the documentation.",
+      "parentUuid": "d117d79a_00e0f05a",
+      "range": {
+        "startLine": 3289,
+        "startChar": 45,
+        "endLine": 3289,
+        "endChar": 59
+      },
+      "revId": "0ef8e8c55e58d459ff5fb04ea70cf151aef96752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17febce0_b21bb0f6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
         "patchSetId": 31
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-24T08:39:33Z",
       "side": 1,
       "message": "Missing in this change?",
+      "range": {
+        "startLine": 38,
+        "startChar": 44,
+        "endLine": 38,
+        "endChar": 54
+      },
+      "revId": "0ef8e8c55e58d459ff5fb04ea70cf151aef96752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfc2aba8_4875f636",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T09:40:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17febce0_b21bb0f6",
       "range": {
         "startLine": 38,
         "startChar": 44,

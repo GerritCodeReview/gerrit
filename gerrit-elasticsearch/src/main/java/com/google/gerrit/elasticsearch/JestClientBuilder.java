@@ -14,17 +14,20 @@
 
 package com.google.gerrit.elasticsearch;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
+
+import org.eclipse.jgit.lib.Config;
+
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import io.searchbox.client.JestClientFactory;
 import io.searchbox.client.config.HttpClientConfig;
 import io.searchbox.client.http.JestHttpClient;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.concurrent.TimeUnit;
-import org.eclipse.jgit.lib.Config;
 
 @Singleton
 class JestClientBuilder {
@@ -60,7 +63,8 @@ class JestClientBuilder {
     factory.setHttpClientConfig(
         new HttpClientConfig.Builder(url)
             .multiThreaded(true)
-            .discoveryEnabled(!refresh)
+            // Temporary disable servers discovery. We can enable it again when we can wait for it to finish
+            .discoveryEnabled(false)
             .discoveryFrequency(1L, TimeUnit.MINUTES)
             .build());
     return (JestHttpClient) factory.getObject();

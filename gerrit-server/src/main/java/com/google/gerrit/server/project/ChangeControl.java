@@ -482,7 +482,7 @@ public class ChangeControl {
         || getUser().isInternalUser();
   }
 
-  public boolean isPrivateVisible(ReviewDb db, ChangeData cd) throws OrmException {
+  private boolean isPrivateVisible(ReviewDb db, ChangeData cd) throws OrmException {
     return isOwner()
         || isReviewer(db, cd)
         || getRefControl().canViewPrivateChanges()

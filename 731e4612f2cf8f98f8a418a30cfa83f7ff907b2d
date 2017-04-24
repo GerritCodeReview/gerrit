@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2f40b7b_365d5df3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-24T15:00:06Z",
+      "side": 1,
+      "message": "we usually put the assisted parameter last",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 46
+      },
+      "revId": "731e4612f2cf8f98f8a418a30cfa83f7ff907b2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef347fb5_9293fe47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-24T15:00:06Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 34
+      },
+      "revId": "731e4612f2cf8f98f8a418a30cfa83f7ff907b2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

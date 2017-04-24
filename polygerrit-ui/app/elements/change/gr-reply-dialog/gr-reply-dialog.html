@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
+<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
@@ -52,8 +53,7 @@ limitations under the License.
         width: 100%;
       }
       .peopleContainer,
-      .labelsContainer,
-      .actionsContainer {
+      .labelsContainer {
         flex-shrink: 0;
       }
       .peopleContainer {
@@ -113,13 +113,23 @@ limitations under the License.
       .draftsContainer h3 {
         margin-top: .25em;
       }
-      .actionsContainer {
-        display: flex;
-        justify-content: space-between;
-      }
       .action:link,
       .action:visited {
         color: #00e;
+      }
+      #checkingStatusLabel,
+      #notLatestLabel {
+        margin-left: 1em;
+      }
+      #checkingStatusLabel {
+        color: #444;
+        font-style: italic;
+      }
+      #notLatestLabel {
+        color: red;
+      }
+      #cancelButton {
+        float:right;
       }
       @media screen and (max-width: 50em) {
         :host {
@@ -232,8 +242,22 @@ limitations under the License.
             patch-num="[[patchNum]]"
             hidden$="[[!_includeComments]]"></gr-comment-list>
       </section>
-      <section class="actionsContainer">
-        <gr-button primary class="action send" on-tap="_sendTapHandler">Send</gr-button>
+      <section>
+        <gr-button
+            primary
+            disabled="[[!_isState(knownLatestState, 'latest')]]"
+            class="action send"
+            on-tap="_sendTapHandler">Send</gr-button>
+        <span
+            id="checkingStatusLabel"
+            hidden$="[[!_isState(knownLatestState, 'checking')]]">
+          Checking whether patch [[patchNum]] is latest...
+        </span>
+        <span
+            id="notLatestLabel"
+            hidden$="[[!_isState(knownLatestState, 'not-latest')]]">
+          Patch [[patchNum]] is not latest. Please reload.
+        </span>
         <gr-button
             id="cancelButton"
             class="action cancel"

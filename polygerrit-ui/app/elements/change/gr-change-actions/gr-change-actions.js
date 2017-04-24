@@ -110,6 +110,10 @@
      * @event <action key>-tap
      */
 
+    /**
+     * @event show-alert
+     */
+
     properties: {
       change: Object,
       actions: {
@@ -213,6 +217,7 @@
     RevisionActions: RevisionActions,
 
     behaviors: [
+      Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,
     ],
 
@@ -766,13 +771,25 @@
 
     _send: function(method, payload, actionEndpoint, revisionAction,
         cleanupFn, opt_errorFn) {
-      var url = this.$.restAPI.getChangeActionURL(this.changeNum,
-          revisionAction ? this.patchNum : null, actionEndpoint);
-      return this.$.restAPI.send(method, url, payload,
-          this._handleResponseError, this).then(function(response) {
-            cleanupFn.call(this);
-            return response;
-      }.bind(this));
+      return this.fetchIsLatestKnown(this.change, this.$.restAPI)
+          .then(function(isLatest) {
+            if (!isLatest) {
+              this.fire('show-alert', {
+                  message: 'Cannot set label: a newer patch has been ' +
+                      'uploaded to this change. Please reload.',
+              });
+              cleanupFn();
+              return Promise.resolve();
+            }
+
+            var url = this.$.restAPI.getChangeActionURL(this.changeNum,
+              revisionAction ? this.patchNum : null, actionEndpoint);
+            return this.$.restAPI.send(method, url, payload,
+                this._handleResponseError, this).then(function(response) {
+                  cleanupFn.call(this);
+                  return response;
+            }.bind(this));
+          }.bind(this));
     },
 
     _handleAbandonTap: function() {

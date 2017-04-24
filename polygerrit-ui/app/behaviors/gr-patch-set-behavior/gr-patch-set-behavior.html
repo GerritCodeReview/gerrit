@@ -36,6 +36,40 @@ limitations under the License.
         }
       }
     },
+
+    computeAllPatchSets: function(change) {
+      var patchNums = [];
+      for (var commit in change.revisions) {
+        if (change.revisions.hasOwnProperty(commit)) {
+          patchNums.push({
+            num: change.revisions[commit]._number,
+            desc: change.revisions[commit].description,
+          });
+        }
+      }
+      return patchNums.sort(function(a, b) { return a.num - b.num; });
+    },
+
+    computeLatestPatchNum: function(allPatchSets) {
+      return allPatchSets[allPatchSets.length - 1].num;
+    },
+
+    /**
+     * Check whether there is no newer patch than the latest patche that was
+     * available when this change was loaded.
+     * @return {Promise} A promise that yields true if the latest patch has been
+     *     loaded, and false if a newer patch has been uploaded in the meantime.
+     */
+    fetchIsLatestKnown: function(change, restAPI) {
+      var knownLatest = this.computeLatestPatchNum(
+          this.computeAllPatchSets(change));
+      return restAPI.getChangeDetail(change._number)
+          .then(function(detail) {
+            var actualLatest = this.computeLatestPatchNum(
+                this.computeAllPatchSets(detail));
+            return actualLatest <= knownLatest;
+          }.bind(this));
+    },
   };
 
   window.Gerrit = window.Gerrit || {};

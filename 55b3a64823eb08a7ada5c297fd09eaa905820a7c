@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c697370_7f477cc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-24T15:45:34Z",
+      "side": 1,
+      "message": "We need an explanation why we need this change. @davido, can you explain why we need this?",
+      "revId": "55b3a64823eb08a7ada5c297fd09eaa905820a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

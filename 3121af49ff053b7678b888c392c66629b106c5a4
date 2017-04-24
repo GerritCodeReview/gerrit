@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "24fcb0ff_5da3ddc9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T08:06:24Z",
+      "side": 1,
+      "message": "Add an assert to verify that the tag on the message was set correctly?",
+      "revId": "3121af49ff053b7678b888c392c66629b106c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f8de5e1_7030eaab",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T08:06:24Z",
+      "side": 1,
+      "message": "here too",
+      "revId": "3121af49ff053b7678b888c392c66629b106c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab7dfcfe_37db2c08",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 14
@@ -13,6 +47,30 @@
       "writtenOn": "2017-04-06T08:08:32Z",
       "side": 1,
       "message": "Is it worth providing one that doesn\u0027t take a message?",
+      "range": {
+        "startLine": 90,
+        "startChar": 7,
+        "endLine": 90,
+        "endChar": 40
+      },
+      "revId": "3121af49ff053b7678b888c392c66629b106c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92945a3c_53bc3f06",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T08:06:24Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "ab7dfcfe_37db2c08",
       "range": {
         "startLine": 90,
         "startChar": 7,

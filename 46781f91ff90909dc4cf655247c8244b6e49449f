@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "35194829_2089cc6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-24T08:05:33Z",
+      "side": 1,
+      "message": "Because I added the media query for moving the text above the labels, I don\u0027t anticipate them wrapping often, but without that they definitely did. Because labels can be arbitrary, I believe this is a safer approach than left margin.",
+      "parentUuid": "cb7f25ca_204c4fb2",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 34
+      },
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef7ad0ea_47483cbc",
         "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-21T20:46:51Z",
       "side": 1,
       "message": "Minor nit: would it make sense to give each `.labelContainer` a `bottom-margin`and remove it from the `:last-of-type` or `:last-child`?\n\n.labelContainer {\n  margin-bottom: .5em;\n}\n.labelContainer:last-child {\n  margin-bottom: 0;\n}\n\nJust because negative-assertions in CSS rules can get unwieldy sometimes.",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 7
+      },
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1337c77f_6917694e",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-24T08:05:33Z",
+      "side": 1,
+      "message": "this was a copy-paste, but sure :)",
+      "parentUuid": "ef7ad0ea_47483cbc",
       "range": {
         "startLine": 25,
         "startChar": 6,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "0d8d56c7_8c606d0d",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-24T08:05:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e036b566_f37f34d4",
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bf38320_266cfaf9",
         "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
         "patchSetId": 2
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "b78d84d4_4d7ad97a",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-24T08:05:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bf38320_266cfaf9",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 42,
+        "endChar": 39
+      },
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58332747_8e142d49",
         "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
         "patchSetId": 2
@@ -99,6 +189,24 @@
       "writtenOn": "2017-04-21T20:46:51Z",
       "side": 1,
       "message": "Does this make placeholders to the left and to the right of the selector buttons? Why would they be needed on the right?",
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64338b56_e1d8ac80",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-24T08:05:33Z",
+      "side": 1,
+      "message": "They are needed on the right in the case of the mobile view-- because the labels are centered, so they need to be on the right as well in order to center properly.",
+      "parentUuid": "58332747_8e142d49",
       "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -145,6 +253,30 @@
     },
     {
       "key": {
+        "uuid": "f250dfc7_1eb8cd93",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-24T08:05:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e313898_e137f5df",
+      "range": {
+        "startLine": 107,
+        "startChar": 6,
+        "endLine": 107,
+        "endChar": 10
+      },
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44eb6d4e_ec5b909e",
         "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores_test.html",
         "patchSetId": 2
@@ -162,6 +294,24 @@
     },
     {
       "key": {
+        "uuid": "43d6c993_a88c4315",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-24T08:05:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44eb6d4e_ec5b909e",
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7205b88b_024cdbde",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 2
@@ -176,6 +326,24 @@
       "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe725f4e_5a4f6339",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-24T08:05:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7205b88b_024cdbde",
+      "revId": "46781f91ff90909dc4cf655247c8244b6e49449f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

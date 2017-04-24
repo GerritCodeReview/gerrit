@@ -915,7 +915,7 @@ public class ChangeIT extends AbstractDaemonTest {
     revision.submit();
 
     grant(project, "refs/heads/master", Permission.REBASE, false, REGISTERED_USERS);
-    block("refs/for/*", Permission.PUSH, REGISTERED_USERS);
+    block("refs/*", Permission.CREATE_REVIEW, REGISTERED_USERS);
 
     // Rebase the second
     String changeId = r2.getChangeId();
@@ -937,7 +937,7 @@ public class ChangeIT extends AbstractDaemonTest {
     revision.review(ReviewInput.approve());
     revision.submit();
 
-    block("refs/for/*", Permission.PUSH, REGISTERED_USERS);
+    block("refs/*", Permission.CREATE_REVIEW, REGISTERED_USERS);
 
     // Rebase the second
     String changeId = r2.getChangeId();
@@ -2660,7 +2660,7 @@ public class ChangeIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> userTestRepo = cloneProject(p, user);
 
     // Block default permission
-    block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
+    block(p, "refs/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
 
     // Create change as admin
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);
@@ -2704,7 +2704,7 @@ public class ChangeIT extends AbstractDaemonTest {
     TestRepository<?> adminTestRepo = cloneProject(project, admin);
 
     // Block default permission
-    block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
+    block(p, "refs/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
 
     // Create change as admin
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);
@@ -3270,7 +3270,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Project.NameKey p = createProject("addPatchSetEdit");
     TestRepository<InMemoryRepository> userTestRepo = cloneProject(p, user);
     // Block default permission
-    block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
+    block(p, "refs/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
     // Create change as user
     PushOneCommit push = pushFactory.create(db, user.getIdent(), userTestRepo);
     PushOneCommit.Result r = push.to("refs/for/master");

@@ -29,7 +29,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.util.Providers;
 import java.util.Collection;
@@ -97,9 +96,7 @@ class RefControl {
 
   /** @return true if this user can add a new patch set to this ref */
   boolean canAddPatchSet() {
-    return projectControl
-        .controlForRef(MagicBranch.NEW_CHANGE + refName)
-        .canPerform(Permission.ADD_PATCH_SET);
+    return canPerform(Permission.ADD_PATCH_SET);
   }
 
   /** @return true if this user can rebase changes on this ref */
@@ -148,12 +145,12 @@ class RefControl {
   }
 
   private boolean canUpload() {
-    return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH);
+    return canPerform(Permission.CREATE_REVIEW);
   }
 
   /** @return true if this user can submit merge patch sets to this ref */
   private boolean canUploadMerges() {
-    return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH_MERGE);
+    return canPerform(Permission.PUSH_MERGE);
   }
 
   /** @return true if the user can update the reference as a fast-forward. */
@@ -503,10 +500,7 @@ class RefControl {
           return canPerform(perm.permissionName().get());
 
         case UPDATE_BY_SUBMIT:
-          return projectControl
-                  .controlForRef(MagicBranch.NEW_CHANGE + refName)
-                  .canSubmit(true, false)
-              || projectControl.controlForRef(refName).canSubmit(true, true);
+          return projectControl.controlForRef(refName).canSubmit(true, true);
 
         case READ_PRIVATE_CHANGES:
           return canPerform(Permission.VIEW_PRIVATE_CHANGES);

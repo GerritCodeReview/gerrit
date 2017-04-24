@@ -161,8 +161,8 @@ public class MoveChangeIT extends AbstractDaemonTest {
         new Branch.NameKey(r.getChange().change().getProject(), "blocked_branch");
     createBranch(newBranch);
     block(
-        "refs/for/" + newBranch.get(),
-        Permission.PUSH,
+        newBranch.get(),
+        Permission.CREATE_REVIEW,
         systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
     exception.expect(AuthException.class);
     exception.expectMessage("move not permitted");

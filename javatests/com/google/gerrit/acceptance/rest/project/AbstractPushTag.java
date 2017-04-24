@@ -207,7 +207,7 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     }
 
     if (!newCommit) {
-      grant(project, "refs/for/refs/heads/master", Permission.SUBMIT, false, REGISTERED_USERS);
+      grant(project, "refs/heads/master", Permission.SUBMIT, true, REGISTERED_USERS);
       pushHead(testRepo, "refs/for/master%submit");
     }
 

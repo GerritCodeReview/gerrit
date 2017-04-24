@@ -26,9 +26,6 @@ java_library(
     ],
 )
 
-# Java REST client for Elasticsearch.
-VERSION = "0.1.7"
-
 java_library(
     name = "jest-common",
     data = ["//lib:LICENSE-Apache2.0"],

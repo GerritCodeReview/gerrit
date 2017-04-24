@@ -10,8 +10,8 @@ runtime debugging environment.
 [[setup]]
 == Project Setup
 
-In your Eclipse installation's `eclipse.ini` file, add the following line in
-the `vmargs` section:
+In your Eclipse installation's link:https://wiki.eclipse.org/Eclipse.ini[`eclipse.ini`] file,
+add the following line in the `vmargs` section:
 
 ----
   -DmaxCompiledUnitsAtOnce=10000

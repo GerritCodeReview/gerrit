@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e95b65b9_3d5a7fa1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2094,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T08:14:16Z",
+      "side": 1,
+      "message": "Ah, it\u0027s in a follow-up change:\n  https://gerrit-review.googlesource.com/101861",
+      "parentUuid": "cc12f611_2fe6ec0b",
+      "range": {
+        "startLine": 2093,
+        "startChar": 46,
+        "endLine": 2094,
+        "endChar": 52
+      },
+      "revId": "cdd579d56df59f1352d35bdff01eb2ab2c8c3fd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb1c26e1_5993748d",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7

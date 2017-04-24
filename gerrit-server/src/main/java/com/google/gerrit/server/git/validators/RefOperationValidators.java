@@ -68,7 +68,7 @@ public class RefOperationValidators {
     List<ValidationMessage> messages = new ArrayList<>();
     boolean withException = false;
     List<RefOperationValidationListener> listeners = new ArrayList<>();
-    listeners.add(new DisallowDeletionOfUserBranches(allUsersName));
+    listeners.add(new DisallowCreationAndDeletionOfUserBranches(allUsersName));
     refOperationValidationListeners.forEach(l -> listeners.add(l));
     try {
       for (RefOperationValidationListener listener : listeners) {
@@ -104,10 +104,11 @@ public class RefOperationValidators {
     }
   }
 
-  private static class DisallowDeletionOfUserBranches implements RefOperationValidationListener {
+  private static class DisallowCreationAndDeletionOfUserBranches
+      implements RefOperationValidationListener {
     private final AllUsersName allUsersName;
 
-    DisallowDeletionOfUserBranches(AllUsersName allUsersName) {
+    DisallowCreationAndDeletionOfUserBranches(AllUsersName allUsersName) {
       this.allUsersName = allUsersName;
     }
 
@@ -116,10 +117,16 @@ public class RefOperationValidators {
         throws ValidationException {
       if (refEvent.project.getNameKey().equals(allUsersName)
           && (refEvent.command.getRefName().startsWith(RefNames.REFS_USERS)
-              && !refEvent.command.getRefName().equals(RefNames.REFS_USERS_DEFAULT))
-          && refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {
-        if (!refEvent.user.getCapabilities().canAccessDatabase()) {
-          throw new ValidationException("Not allowed to delete user branch.");
+              && !refEvent.command.getRefName().equals(RefNames.REFS_USERS_DEFAULT))) {
+        if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {
+          if (!refEvent.user.getCapabilities().canAccessDatabase()) {
+            throw new ValidationException("Not allowed to create user branch.");
+          }
+        }
+        if (refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {
+          if (!refEvent.user.getCapabilities().canAccessDatabase()) {
+            throw new ValidationException("Not allowed to delete user branch.");
+          }
         }
       }
       return ImmutableList.of();

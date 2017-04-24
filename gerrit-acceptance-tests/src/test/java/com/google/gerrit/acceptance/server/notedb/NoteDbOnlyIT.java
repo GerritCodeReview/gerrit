@@ -48,7 +48,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    assume().that(NoteDbMode.get()).isEqualTo(NoteDbMode.DISABLE_CHANGE_REVIEW_DB);
+    assume().that(NoteDbMode.get()).isEqualTo(NoteDbMode.FUSED);
   }
 
   @Test

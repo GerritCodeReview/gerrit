@@ -302,11 +302,10 @@ public class ProjectControl {
   public boolean canUpload() {
     for (SectionMatcher matcher : access()) {
       AccessSection section = matcher.section;
-      if (section.getName().startsWith("refs/for/")) {
-        Permission permission = section.getPermission(Permission.PUSH);
-        if (permission != null && controlForRef(section.getName()).canPerform(Permission.PUSH)) {
-          return true;
-        }
+      Permission permission = section.getPermission(Permission.CREATE_REVIEW);
+      if (permission != null &&
+          controlForRef(section.getName()).canPerform(Permission.CREATE_REVIEW)) {
+        return true;
       }
     }
     return false;
@@ -342,7 +341,8 @@ public class ProjectControl {
 
   /** @return true if the user can upload to at least one reference */
   public Capable canPushToAtLeastOneRef() {
-    if (!canPerformOnAnyRef(Permission.PUSH) && !canPerformOnAnyRef(Permission.CREATE_TAG)) {
+    if (!canPerformOnAnyRef(Permission.PUSH) && !canPerformOnAnyRef(Permission.CREATE_TAG)
+        && !canPerformOnAnyRef(Permission.CREATE_REVIEW)) {
       String pName = state.getProject().getName();
       return new Capable("Upload denied for project '" + pName + "'");
     }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.common.data.Permission.CREATE_REVIEW;
 import static com.google.gerrit.common.data.Permission.EDIT_TOPIC_NAME;
 import static com.google.gerrit.common.data.Permission.LABEL;
 import static com.google.gerrit.common.data.Permission.OWNER;
@@ -393,30 +394,6 @@ public class RefControlTest {
   }
 
   @Test
-  public void inheritRead_SingleBranchDeniesUpload() {
-    allow(parent, READ, REGISTERED_USERS, "refs/*");
-    allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
-    allow(local, READ, REGISTERED_USERS, "refs/heads/foobar");
-    doNotInherit(local, READ, "refs/heads/foobar");
-    doNotInherit(local, PUSH, "refs/for/refs/heads/foobar");
-
-    ProjectControl u = user(local);
-    assertCanUpload(u);
-    assertCanUpload("refs/heads/master", u);
-    assertCannotUpload("refs/heads/foobar", u);
-  }
-
-  @Test
-  public void blockPushDrafts() {
-    allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
-    block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
-
-    ProjectControl u = user(local);
-    assertCanUpload("refs/heads/master", u);
-    assertBlocked(PUSH, "refs/drafts/refs/heads/master", u);
-  }
-
-  @Test
   public void blockPushDraftsUnblockAdmin() {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
     allow(parent, PUSH, ADMIN, "refs/drafts/*");
@@ -430,7 +407,7 @@ public class RefControlTest {
   @Test
   public void inheritRead_SingleBranchDoesNotOverrideInherited() {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
-    allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
+    allow(parent, CREATE_REVIEW, REGISTERED_USERS, "refs/heads/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/foobar");
 
     ProjectControl u = user(local);

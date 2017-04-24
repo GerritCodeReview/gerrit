@@ -144,28 +144,26 @@ public class RefControl {
   }
 
   /**
-   * Determines whether the user can upload a change to the ref controlled by this object.
+   * Determines whether the user can upload a change to the ref controlled by
+   * this object.
    *
-   * @return {@code true} if the user specified can upload a change to the Git ref
+   * @return {@code true} if the user specified can upload a change to the Git
+   *         ref
    */
   public boolean canUpload() {
-    return projectControl.controlForRef("refs/for/" + getRefName()).canPerform(Permission.PUSH)
+    return canPerform(Permission.CREATE_REVIEW)
         && canWrite();
   }
 
   /** @return true if this user can add a new patch set to this ref */
-  boolean canAddPatchSet() {
-    return projectControl
-            .controlForRef("refs/for/" + getRefName())
-            .canPerform(Permission.ADD_PATCH_SET)
+  public boolean canAddPatchSet() {
+    return canPerform(Permission.ADD_PATCH_SET)
         && canWrite();
   }
 
   /** @return true if this user can submit merge patch sets to this ref */
   public boolean canUploadMerges() {
-    return projectControl
-            .controlForRef("refs/for/" + getRefName())
-            .canPerform(Permission.PUSH_MERGE)
+    return canPerform(Permission.PUSH_MERGE)
         && canWrite();
   }
 

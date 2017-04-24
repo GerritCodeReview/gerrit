@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f59640a_7ff08922",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-24T14:35:05Z",
+      "side": 1,
+      "message": "I don\u0027t think this is sufficient. Looks like the null comes from the other constructor and then gatherResults won\u0027t have caller populated when its creating the PermissionBackend.ForChange instance.",
+      "range": {
+        "startLine": 416,
+        "startChar": 57,
+        "endLine": 416,
+        "endChar": 0
+      },
+      "revId": "19c7d3e4873eae10d693bf7ed90dd679d4e10a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -138,7 +138,9 @@ limitations under the License.
                   hidden$="[[link.url]]">[[link.name]]</span>
               <a
                   class="itemAction"
-                  href$="[[_computeRelativeURL(link.url)]]"
+                  href$="[[_computeLinkURL(link)]]"
+                  rel$="[[_computeLinkRel(link)]]"
+                  target$="[[link.target]]"
                   hidden$="[[!link.url]]">[[link.name]]</a>
             </li>
           </template>

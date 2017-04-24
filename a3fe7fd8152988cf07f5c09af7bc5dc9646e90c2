@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85586cc7_3af2ac8f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T21:26:03Z",
+      "side": 1,
+      "message": "Since this change was merged: [1] this file has a lot of conflicts and needs to be rebased.\n\n* [1] https://gerrit-review.googlesource.com/103854",
+      "revId": "a3fe7fd8152988cf07f5c09af7bc5dc9646e90c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -193,7 +193,7 @@ limitations under the License.
             id="textarea"
             class="message"
             autocomplete="on"
-            placeholder="Say something nice..."
+            placeholder=[[_messagePlaceholder]]
             disabled="{{disabled}}"
             rows="4"
             max-rows="15"
@@ -233,7 +233,12 @@ limitations under the License.
             hidden$="[[!_includeComments]]"></gr-comment-list>
       </section>
       <section class="actionsContainer">
-        <gr-button primary class="action send" on-tap="_sendTapHandler">Send</gr-button>
+        <gr-button primary class="action send" on-tap="_sendTapHandler">
+          [[_sendButtonLabel]]
+        </gr-button>
+        <template is="dom-if" if="[[canBeStarted]]">
+          <gr-button class="action save" on-tap="_saveTapHandler">Save</gr-button>
+        </template>
         <gr-button
             id="cancelButton"
             class="action cancel"

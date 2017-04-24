@@ -22,6 +22,30 @@
       "revId": "f11a853c3c2025e10797c3c6f758c0913c4cbb4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd8eae3c_ecd9d616",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-04-24T19:15:19Z",
+      "side": 0,
+      "message": "The migration plan looks like this:\n\nDeploy Change #1:\n* Add \"Create Review\" (not effective) on projects where needed\n* Add \"Add Patch Set\" and \"Push Merge\" on refs/heads/* (keep the corresponding access rights on refs/for/*)\n\nDeploy Change #2 (this change):\n* Remove the old push, add patch set and push merges that points at refs/for/*.\n\nThis way it is possible to migrate without downtime. I ran it quickly by Edwin and he thought it could work.\n\nI think this is the best way forward, the problem with honoring both Create Review on refs/heads/* and also Push on refs/for/* will make quite a few test cases fail. It may also be problematic in regards to block rules.",
+      "parentUuid": "14897236_0fb1814b",
+      "range": {
+        "startLine": 152,
+        "startChar": 95,
+        "endLine": 152,
+        "endChar": 0
+      },
+      "revId": "f11a853c3c2025e10797c3c6f758c0913c4cbb4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

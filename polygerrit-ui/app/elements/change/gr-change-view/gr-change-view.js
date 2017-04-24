@@ -119,7 +119,7 @@
       _currentRevisionActions: Object,
       _allPatchSets: {
         type: Array,
-        computed: '_computeAllPatchSets(_change, _change.revisions.*)',
+        computed: 'computeAllPatchSets(_change, _change.revisions.*)',
       },
       _loggedIn: {
         type: Boolean,
@@ -418,7 +418,7 @@
 
       if (this._initialLoadComplete && patchChanged) {
         if (patchRange.patchNum == null) {
-          patchRange.patchNum = this._computeLatestPatchNum(this._allPatchSets);
+          patchRange.patchNum = this.computeLatestPatchNum(this._allPatchSets);
         }
         this._patchRange = patchRange;
         this._reloadPatchNumDependentResources().then(function() {
@@ -553,7 +553,7 @@
           this._patchRange.basePatchNum || 'PARENT');
       this.set('_patchRange.patchNum',
           this._patchRange.patchNum ||
-              this._computeLatestPatchNum(this._allPatchSets));
+              this.computeLatestPatchNum(this._allPatchSets));
 
       this._updateSelected();
 
@@ -575,7 +575,7 @@
           currentPatchNum =
               this._change.revisions[this._change.current_revision]._number;
         } else {
-          currentPatchNum = this._computeLatestPatchNum(this._allPatchSets);
+          currentPatchNum = this.computeLatestPatchNum(this._allPatchSets);
         }
         if (patchNum === currentPatchNum &&
             this._patchRange.basePatchNum === 'PARENT') {
@@ -655,13 +655,9 @@
       return CHANGE_ID_ERROR.MISSING;
     },
 
-    _computeLatestPatchNum: function(allPatchSets) {
-      return allPatchSets[allPatchSets.length - 1].num;
-    },
-
     _computePatchInfoClass: function(patchNum, allPatchSets) {
       if (parseInt(patchNum, 10) ===
-          this._computeLatestPatchNum(allPatchSets)) {
+          this.computeLatestPatchNum(allPatchSets)) {
         return '';
       }
       return 'patchInfo--oldPatchSet';
@@ -677,19 +673,6 @@
     _computePatchSetDisabled: function(patchNum, basePatchNum) {
       basePatchNum = basePatchNum === 'PARENT' ? 0 : basePatchNum;
       return parseInt(patchNum, 10) <= parseInt(basePatchNum, 10);
-    },
-
-    _computeAllPatchSets: function(change) {
-      var patchNums = [];
-      for (var commit in change.revisions) {
-        if (change.revisions.hasOwnProperty(commit)) {
-          patchNums.push({
-            num: change.revisions[commit]._number,
-            desc: change.revisions[commit].description,
-          });
-        }
-      }
-      return patchNums.sort(function(a, b) { return a.num - b.num; });
     },
 
     _computeLabelNames: function(labels) {
@@ -935,7 +918,7 @@
 
     _getLatestCommitMessage: function() {
       return this.$.restAPI.getChangeCommitInfo(this._changeNum,
-          this._computeLatestPatchNum(this._allPatchSets)).then(
+          this.computeLatestPatchNum(this._allPatchSets)).then(
               function(commitInfo) {
                 this._latestCommitMessage =
                     this._prepareCommitMsgForLinkify(commitInfo.message);

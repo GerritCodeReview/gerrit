@@ -34,5 +34,50 @@ limitations under the License.
       assert.deepEqual(get(revisions, 2), revisions[2]);
       assert.equal(get(revisions, '3'), undefined);
     });
+
+    test('fetchIsLatestKnown on latest', function(done) {
+      var knownChange = {
+        revisions: {
+          sha1: {description: 'patch 1', _number: 1},
+          sha2: {description: 'patch 2', _number: 2},
+        },
+      };
+      var mockRestApi = {
+        getChangeDetail: function() {
+          return Promise.resolve(knownChange);
+        },
+      };
+      Gerrit.PatchSetBehavior.fetchIsLatestKnown(knownChange, mockRestApi)
+          .then(function(isLatest) {
+            assert.isTrue(isLatest);
+            done();
+          });
+    });
+
+    test('fetchIsLatestKnown not on latest', function(done) {
+      var knownChange = {
+        revisions: {
+          sha1: {description: 'patch 1', _number: 1},
+          sha2: {description: 'patch 2', _number: 2},
+        },
+      };
+      var actualChange = {
+        revisions: {
+          sha1: {description: 'patch 1', _number: 1},
+          sha2: {description: 'patch 2', _number: 2},
+          sha3: {description: 'patch 3', _number: 3},
+        },
+      };
+      var mockRestApi = {
+        getChangeDetail: function() {
+          return Promise.resolve(actualChange);
+        },
+      };
+      Gerrit.PatchSetBehavior.fetchIsLatestKnown(knownChange, mockRestApi)
+          .then(function(isLatest) {
+            assert.isFalse(isLatest);
+            done();
+          });
+    });
   });
 </script>

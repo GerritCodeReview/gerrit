@@ -28,6 +28,12 @@
     CC: 'CC',
   };
 
+  var LatestPatchState = {
+    LATEST: 'latest',
+    CHECKING: 'checking',
+    NOT_LATEST: 'not-latest',
+  };
+
   Polymer({
     is: 'gr-reply-dialog',
 
@@ -48,6 +54,10 @@
      * a change in size for the dialog.
      *
      * @event autogrow
+     */
+
+    /**
+     * @event show-alert
      */
 
     properties: {
@@ -77,6 +87,7 @@
       permittedLabels: Object,
       serverConfig: Object,
       projectConfig: Object,
+      knownLatestState: String,
 
       _account: Object,
       _ccs: Array,
@@ -113,6 +124,7 @@
 
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
+      Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,
     ],
 
@@ -137,6 +149,13 @@
     },
 
     open: function(opt_focusTarget) {
+      this.knownLatestState = LatestPatchState.CHECKING;
+      this.fetchIsLatestKnown(this.change, this.$.restAPI)
+          .then(function(isUpToDate) {
+            this.knownLatestState = isUpToDate ?
+                LatestPatchState.LATEST : LatestPatchState.NOT_LATEST;
+          }.bind(this));
+
       this._focusOn(opt_focusTarget);
       if (!this.draft || !this.draft.length) {
         this.draft = this._loadStoredDraft();
@@ -256,6 +275,12 @@
     },
 
     send: function(includeComments) {
+      if (this.knownLatestState === 'not-latest') {
+        this.fire('show-alert',
+            {message: 'Cannot reply to non-latest patch.'});
+        return;
+      }
+
       var labels = this.$.labelScores.getLabelValues();
 
       var obj = {
@@ -544,6 +569,10 @@
       this.debounce('autogrow', function() {
         this.fire('autogrow');
       });
+    },
+
+    _isState: function(knownLatestState, value) {
+      return knownLatestState === value;
     },
   });
 })();

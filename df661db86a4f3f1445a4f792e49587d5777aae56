@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b0f9a946_8b3c5935",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-24T17:16:19Z",
+      "side": 1,
+      "message": "What are the pros and cons for reloading the labels from the server? I suppose, practically this means reloading the change.",
+      "parentUuid": "ca46ba34_7c7d07d4",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "df661db86a4f3f1445a4f792e49587d5777aae56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7783bea0_a4372aca",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 1

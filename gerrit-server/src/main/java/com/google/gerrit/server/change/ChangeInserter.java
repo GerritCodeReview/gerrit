@@ -363,9 +363,7 @@ public class ChangeInserter implements InsertChangeOp {
     update.setBranch(change.getDest().get());
     update.setTopic(change.getTopic());
     update.setPsDescription(patchSetDescription);
-    if (isPrivate) {
-      update.setPrivate(isPrivate);
-    }
+    update.setPrivate(isPrivate);
 
     boolean draft = status == Change.Status.DRAFT;
     List<String> newGroups = groups;

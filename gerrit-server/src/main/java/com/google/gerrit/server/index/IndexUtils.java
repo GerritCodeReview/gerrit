@@ -43,6 +43,15 @@ public final class IndexUtils {
     }
   }
 
+  public static boolean getReady(SitePaths sitePaths, String name, int version) throws IOException {
+    try {
+      GerritIndexStatus cfg = new GerritIndexStatus(sitePaths);
+      return cfg.getReady(name, version);
+    } catch (ConfigInvalidException e) {
+      throw new IOException(e);
+    }
+  }
+
   public static Set<String> accountFields(QueryOptions opts) {
     Set<String> fs = opts.fields();
     return fs.contains(AccountField.ID.getName())

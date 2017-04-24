@@ -35,6 +35,9 @@ public enum NoteDbMode {
   /** All change tables are entirely disabled. */
   DISABLE_CHANGE_REVIEW_DB(true),
 
+  /** All change tables are entirely disabled, and code/meta ref updates are fused. */
+  FUSED(true),
+
   /**
    * Run tests with NoteDb disabled, then convert ReviewDb to NoteDb and check that the results
    * match.

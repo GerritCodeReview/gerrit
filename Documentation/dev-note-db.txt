@@ -32,8 +32,8 @@ same repository as code changes.
 - Storing the rest of account data is a work in progress.
 - Storing group data is a work in progress.
 
-To match the current configuration of `googlesource.com`, paste the following
-config snippet in your `gerrit.config`:
+To more or less match the current configuration of `googlesource.com`, paste
+the following config snippet in your `gerrit.config`:
 
 ----
 [noteDb "changes"]
@@ -96,6 +96,11 @@ previous options, unless otherwise noted.
   implementation of the `rebuild-note-db` program does not do this. +
   In this phase, it would be possible to delete the Changes tables out from
   under a running server with no effect.
+- `noteDb.changes.fuseUpdates=true`: Code and meta updates within a single
+  repository are fused into a single atomic `BatchRefUpdate`, so they either
+  all succeed or all fail. This mode is only possible on a backend that
+  supports atomic ref updates, which notably excludes the default file repository
+  backend.
 
 [[migration]]
 == Migration

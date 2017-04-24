@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0791f9b_1d17eb2b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-24T22:42:34Z",
+      "side": 1,
+      "message": "Doh, we really need to make gr-button to not require wrapping for trival styling.",
+      "revId": "4bd506655670cf42cd32a1b859fe6aa1d734a7a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "310045c4_2014c8c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-24T22:42:34Z",
+      "side": 1,
+      "message": "Doh, this is messy...",
+      "revId": "4bd506655670cf42cd32a1b859fe6aa1d734a7a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

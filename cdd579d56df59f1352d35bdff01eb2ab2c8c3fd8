@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc12f611_2fe6ec0b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2094,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T08:10:18Z",
+      "side": 1,
+      "message": "Which change implemented this, did I miss it?",
+      "range": {
+        "startLine": 2093,
+        "startChar": 46,
+        "endLine": 2094,
+        "endChar": 52
+      },
+      "revId": "cdd579d56df59f1352d35bdff01eb2ab2c8c3fd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb1c26e1_5993748d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-24T08:10:18Z",
+      "side": 1,
+      "message": "remove this? Gerrit doesn\u0027t know if a reviewer is human or not",
+      "range": {
+        "startLine": 2113,
+        "startChar": 3,
+        "endLine": 2113,
+        "endChar": 8
+      },
+      "revId": "cdd579d56df59f1352d35bdff01eb2ab2c8c3fd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

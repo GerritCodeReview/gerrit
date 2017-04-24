@@ -76,7 +76,7 @@ limitations under the License.
             selected="[[_computeIndexOfLabelValue(change.labels, permittedLabels, label)]]"
             hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
           <template is="dom-repeat"
-              items="[[_computeBlankItems(permittedLabels, label.name)]]"
+              items="[[_computeBlankItemsBeginning(permittedLabels, label.name)]]"
               as="value">
             <span class="placeholder">&nbsp;</span>
           </template>
@@ -88,7 +88,7 @@ limitations under the License.
             [[value]]</gr-button>
           </template>
           <template is="dom-repeat"
-              items="[[_computeBlankItems(permittedLabels, label.name)]]"
+              items="[[_computeBlankItemsEnd(permittedLabels, label.name)]]"
               as="value">
             <span class="placeholder">&nbsp;</span>
           </template>

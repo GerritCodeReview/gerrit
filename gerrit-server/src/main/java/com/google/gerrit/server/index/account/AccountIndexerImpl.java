@@ -16,6 +16,8 @@ package com.google.gerrit.server.index.account;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.events.AccountIndexedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -34,19 +36,28 @@ public class AccountIndexerImpl implements AccountIndexer {
   }
 
   private final AccountCache byIdCache;
+  private final DynamicSet<AccountIndexedListener> indexedListener;
   private final AccountIndexCollection indexes;
   private final AccountIndex index;
 
   @AssistedInject
-  AccountIndexerImpl(AccountCache byIdCache, @Assisted AccountIndexCollection indexes) {
+  AccountIndexerImpl(
+      AccountCache byIdCache,
+      @Assisted AccountIndexCollection indexes,
+      DynamicSet<AccountIndexedListener> indexedListener) {
     this.byIdCache = byIdCache;
+    this.indexedListener = indexedListener;
     this.indexes = indexes;
     this.index = null;
   }
 
   @AssistedInject
-  AccountIndexerImpl(AccountCache byIdCache, @Assisted AccountIndex index) {
+  AccountIndexerImpl(
+      AccountCache byIdCache,
+      @Assisted AccountIndex index,
+      DynamicSet<AccountIndexedListener> indexedListener) {
     this.byIdCache = byIdCache;
+    this.indexedListener = indexedListener;
     this.indexes = null;
     this.index = index;
   }
@@ -55,6 +66,13 @@ public class AccountIndexerImpl implements AccountIndexer {
   public void index(Account.Id id) throws IOException {
     for (Index<?, AccountState> i : getWriteIndexes()) {
       i.replace(byIdCache.get(id));
+    }
+    fireAccountIndexedEvent(id.get());
+  }
+
+  private void fireAccountIndexedEvent(int id) {
+    for (AccountIndexedListener listener : indexedListener) {
+      listener.onAccountIndexed(id);
     }
   }
 

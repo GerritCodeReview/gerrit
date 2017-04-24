@@ -30,14 +30,11 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.google.inject.util.Providers;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,6 +45,7 @@ public class ActionJson {
   private final Revisions revisions;
   private final ChangeJson.Factory changeJsonFactory;
   private final ChangeResource.Factory changeResourceFactory;
+  private final UiActions uiActions;
   private final DynamicMap<RestView<ChangeResource>> changeViews;
   private final DynamicSet<ActionVisitor> visitorSet;
 
@@ -56,11 +54,13 @@ public class ActionJson {
       Revisions revisions,
       ChangeJson.Factory changeJsonFactory,
       ChangeResource.Factory changeResourceFactory,
+      UiActions uiActions,
       DynamicMap<RestView<ChangeResource>> changeViews,
       DynamicSet<ActionVisitor> visitorSet) {
     this.revisions = revisions;
     this.changeJsonFactory = changeJsonFactory;
     this.changeResourceFactory = changeResourceFactory;
+    this.uiActions = uiActions;
     this.changeViews = changeViews;
     this.visitorSet = visitorSet;
   }
@@ -162,9 +162,9 @@ public class ActionJson {
       return out;
     }
 
-    Provider<CurrentUser> userProvider = Providers.of(ctl.getUser());
     FluentIterable<UiAction.Description> descs =
-        UiActions.from(changeViews, changeResourceFactory.create(ctl), userProvider);
+        uiActions.from(changeViews, changeResourceFactory.create(ctl));
+
     // The followup action is a client-side only operation that does not
     // have a server side handler. It must be manually registered into the
     // resulting action map.
@@ -198,10 +198,10 @@ public class ActionJson {
     if (!rsrc.getControl().getUser().isIdentifiedUser()) {
       return ImmutableMap.of();
     }
+
     Map<String, ActionInfo> out = new LinkedHashMap<>();
-    Provider<CurrentUser> userProvider = Providers.of(rsrc.getControl().getUser());
     ACTION:
-    for (UiAction.Description d : UiActions.from(revisions, rsrc, userProvider)) {
+    for (UiAction.Description d : uiActions.from(revisions, rsrc)) {
       ActionInfo actionInfo = new ActionInfo(d);
       for (ActionVisitor visitor : visitors) {
         if (!visitor.visit(d.getId(), actionInfo, changeInfo, revisionInfo)) {

@@ -16,12 +16,16 @@ package com.google.gerrit.sshd;
 
 import com.google.common.base.Throwables;
 import com.google.common.util.concurrent.Atomics;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.permissions.GlobalOrPluginPermission;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
@@ -30,14 +34,17 @@ import org.apache.sshd.server.Environment;
 public class AliasCommand extends BaseCommand {
   private final DispatchCommandProvider root;
   private final CurrentUser currentUser;
+  private final PermissionBackend permissionBackend;
   private final CommandName command;
   private final AtomicReference<Command> atomicCmd;
 
   AliasCommand(
       @CommandName(Commands.ROOT) DispatchCommandProvider root,
+      PermissionBackend permissionBackend,
       CurrentUser currentUser,
       CommandName command) {
     this.root = root;
+    this.permissionBackend = permissionBackend;
     this.currentUser = currentUser;
     this.command = command;
     this.atomicCmd = Atomics.newReference();
@@ -47,7 +54,7 @@ public class AliasCommand extends BaseCommand {
   public void start(Environment env) throws IOException {
     try {
       begin(env);
-    } catch (UnloggedFailure e) {
+    } catch (Failure e) {
       String msg = e.getMessage();
       if (!msg.endsWith("\n")) {
         msg += "\n";
@@ -58,7 +65,7 @@ public class AliasCommand extends BaseCommand {
     }
   }
 
-  private void begin(Environment env) throws UnloggedFailure, IOException {
+  private void begin(Environment env) throws IOException, Failure {
     Map<String, CommandProvider> map = root.getMap();
     for (String name : chain(command)) {
       CommandProvider p = map.get(name);
@@ -103,17 +110,16 @@ public class AliasCommand extends BaseCommand {
     }
   }
 
-  private void checkRequiresCapability(Command cmd) throws UnloggedFailure {
-    RequiresCapability rc = cmd.getClass().getAnnotation(RequiresCapability.class);
-    if (rc != null) {
-      CapabilityControl ctl = currentUser.getCapabilities();
-      if (!ctl.canPerform(rc.value()) && !ctl.canAdministrateServer()) {
-        String msg =
-            String.format(
-                "fatal: %s does not have \"%s\" capability.",
-                currentUser.getUserName(), rc.value());
-        throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
+  private void checkRequiresCapability(Command cmd) throws Failure {
+    try {
+      Set<GlobalOrPluginPermission> check = GlobalPermission.fromAnnotation(cmd.getClass());
+      try {
+        permissionBackend.user(currentUser).checkAny(check);
+      } catch (AuthException err) {
+        throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, "fatal: " + err.getMessage());
       }
+    } catch (PermissionBackendException err) {
+      throw new Failure(1, "fatal: permissions unavailable", err);
     }
   }
 

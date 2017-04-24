@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "96ead781_25d41bbf",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 35
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:52:56Z",
+      "side": 0,
+      "message": "Good point. Will be done in a follow-up change.",
+      "parentUuid": "a0cc5ddf_a3918883",
+      "range": {
+        "startLine": 1257,
+        "startChar": 6,
+        "endLine": 1260,
+        "endChar": 8
+      },
+      "revId": "faae06930bf0864baaf90e67ca8c16628f8c154c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8d0a157_f365ce1c",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
         "patchSetId": 35
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-24T09:53:24Z",
       "side": 0,
       "message": "Should the schema migration cleanup project.config files and remove this permission if it is assigned?",
+      "range": {
+        "startLine": 49,
+        "startChar": 43,
+        "endLine": 49,
+        "endChar": 55
+      },
+      "revId": "faae06930bf0864baaf90e67ca8c16628f8c154c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb17a8dc_62d1d2f8",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:52:56Z",
+      "side": 0,
+      "message": "Good point. Will be done in a follow-up change.",
+      "parentUuid": "b8d0a157_f365ce1c",
       "range": {
         "startLine": 49,
         "startChar": 43,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "e64edb77_08189159",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:52:56Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "af0bb493_97ffcb64",
+      "revId": "faae06930bf0864baaf90e67ca8c16628f8c154c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d819216_06c4c880",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeConfigInfo.java",
         "patchSetId": 35
@@ -76,6 +142,24 @@
       "writtenOn": "2017-04-24T09:53:24Z",
       "side": 0,
       "message": "Should we keep the draft fields in the JSON for some time and rather deprecate them to not break existing clients?\n\nSame for other draft fields in JSON.",
+      "revId": "faae06930bf0864baaf90e67ca8c16628f8c154c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfac2a47_c1299774",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeConfigInfo.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:52:56Z",
+      "side": 0,
+      "message": "Not sure, it is needed. We release new gerrit version and announce, that draft workflow was removed.",
+      "parentUuid": "1d819216_06c4c880",
       "revId": "faae06930bf0864baaf90e67ca8c16628f8c154c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "da5b8484_491403b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/data/PatchSetAttribute.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:52:56Z",
+      "side": 0,
+      "message": "I think this is not needed.",
+      "parentUuid": "3c85fd01_a13ce4c8",
+      "revId": "faae06930bf0864baaf90e67ca8c16628f8c154c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f946499_3bdae0b6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ReplacePatchSetSender.java",
         "patchSetId": 35
@@ -110,6 +212,24 @@
       "writtenOn": "2017-04-24T09:53:24Z",
       "side": 0,
       "message": "This should be kept.",
+      "revId": "faae06930bf0864baaf90e67ca8c16628f8c154c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b55f29b_965776c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ReplacePatchSetSender.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:52:56Z",
+      "side": 0,
+      "message": "It was done twice, i keep it only once, but swapped the order.",
+      "parentUuid": "8f946499_3bdae0b6",
       "revId": "faae06930bf0864baaf90e67ca8c16628f8c154c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

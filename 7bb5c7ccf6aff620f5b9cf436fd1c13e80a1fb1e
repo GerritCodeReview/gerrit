@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cdebe14b_715c4336",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 35
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:52:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad3175a9_e336614d",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 45
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "109f19f5_f29593ff",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
         "patchSetId": 35
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "9c9c4eaf_b11ec02b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 35
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:52:56Z",
+      "side": 1,
+      "message": "Wrong rebase, Done.",
+      "parentUuid": "109f19f5_f29593ff",
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82e7ffb2_69b9703b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 35
@@ -53,6 +95,30 @@
       "writtenOn": "2017-04-24T09:53:24Z",
       "side": 1,
       "message": "nit: brackets around this are not needed",
+      "range": {
+        "startLine": 1285,
+        "startChar": 8,
+        "endLine": 1285,
+        "endChar": 23
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e555065_b909f054",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 1285,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:52:56Z",
+      "side": 1,
+      "message": "Wrong rebase, done.",
+      "parentUuid": "82e7ffb2_69b9703b",
       "range": {
         "startLine": 1285,
         "startChar": 8,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "2c919305_0e36cd0f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:52:56Z",
+      "side": 1,
+      "message": "Good catch, done.",
+      "parentUuid": "b5662814_f9fe55ae",
+      "range": {
+        "startLine": 257,
+        "startChar": 4,
+        "endLine": 257,
+        "endChar": 40
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e427674d_107350bb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PatchSetState.java",
         "patchSetId": 35
@@ -99,6 +189,30 @@
       "writtenOn": "2017-04-24T09:53:24Z",
       "side": 1,
       "message": "Can this also be removed? If there are no draft patch sets, patch sets can no longer be deleted, right?",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 10
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "276ef8c5_ed536464",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PatchSetState.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:52:56Z",
+      "side": 1,
+      "message": "Discussed with Dave: we want to get rid of this state.  Currently it\u0027s used in two different places as representation in NoteDb:\n\n* Human deleted draft patch sets in NoteDb; We should consider to rewrite the history and remove all patch sets in this state from the NotesDb.\n* Consistency checker set this state, in case a patch set is found that is referencing a non existing commit. The new approach would be to re-write the history in this case too.",
+      "parentUuid": "e427674d_107350bb",
       "range": {
         "startLine": 21,
         "startChar": 2,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "b54d08fb_bf95b4b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:52:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5151070_9b9ff67f",
+      "range": {
+        "startLine": 222,
+        "startChar": 2,
+        "endLine": 225,
+        "endChar": 3
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b2ee841_7daca5f1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_150.java",
         "patchSetId": 35
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "c0851c5e_e9d3e568",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_150.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:52:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b2ee841_7daca5f1",
+      "range": {
+        "startLine": 38,
+        "startChar": 77,
+        "endLine": 38,
+        "endChar": 80
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2beb51c_bee80b6c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_150.java",
         "patchSetId": 35
@@ -168,6 +330,30 @@
       "writtenOn": "2017-04-24T09:53:24Z",
       "side": 1,
       "message": "isPrivate?",
+      "range": {
+        "startLine": 47,
+        "startChar": 64,
+        "endLine": 47,
+        "endChar": 74
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9eb45bf2_e5053ebd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_150.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:52:56Z",
+      "side": 1,
+      "message": "Actually this one was correct, but the \"workInProgress\" was wrong. It should be work_in_progress.",
+      "parentUuid": "b2beb51c_bee80b6c",
       "range": {
         "startLine": 47,
         "startChar": 64,
@@ -215,6 +401,30 @@
       "side": 1,
       "message": "I just discussed this with Dave. We can\u0027t reindex changes during a schema migration, but we may add a new index schema version to ensure that the online reindexer does the job after Gerrit was started. Until the online reindexes is done, the index may return wrong results for changes that were migrated, but that\u0027s the best we can do.",
       "parentUuid": "6c3f5a75_fcf60a01",
+      "range": {
+        "startLine": 49,
+        "startChar": 5,
+        "endLine": 49,
+        "endChar": 70
+      },
+      "revId": "7bb5c7ccf6aff620f5b9cf436fd1c13e80a1fb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81090687_0f0023ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_150.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-24T14:52:56Z",
+      "side": 1,
+      "message": "I bumped the index version.",
+      "parentUuid": "65be821a_a76033b9",
       "range": {
         "startLine": 49,
         "startChar": 5,

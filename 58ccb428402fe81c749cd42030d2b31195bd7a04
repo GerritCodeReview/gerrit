@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3f880e8_dddc23ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-25T07:05:53Z",
+      "side": 1,
+      "message": "Optional naming nits: typically \"start\" is used as the counterpart to \"end\".\n\nI also wonder if ti they can be combined into one function that takes \"start\" or \"end\" as a parameter.\n\n _computeBlankItems(permittedLabels, label.name, \u0027start\u0027);\n _computeBlankItems(permittedLabels, label.name, \u0027end\u0027);",
+      "range": {
+        "startLine": 79,
+        "startChar": 23,
+        "endLine": 79,
+        "endChar": 50
+      },
+      "revId": "58ccb428402fe81c749cd42030d2b31195bd7a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac559215_2bcaa814",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-25T07:05:53Z",
+      "side": 1,
+      "message": "Regarding my above comment, maybe combine these two with something like ...\n\n_computeBlankItems: function(permittedLabels, label, side) {\n  if (!permittedLabels[label]) { return []; }\n  var startPosition \u003d this._labelValues[parseInt(\n      permittedLabels[label][0])];\n  if (side \u003d\u003d\u003d \u0027start\u0027) {\n    return new Array(startPosition);\n  }\n  var endPosition \u003d this._labelValues[parseInt(\n      permittedLabels[label][permittedLabels[label].length - 1])];\n  return new Array(Object.keys(this._labelValues).length - endPosition - 1);\n},\n\n... since the \"end\" version has to call the \"start\" version anyway.",
+      "range": {
+        "startLine": 122,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 6
+      },
+      "revId": "58ccb428402fe81c749cd42030d2b31195bd7a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

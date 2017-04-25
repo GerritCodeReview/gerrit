@@ -216,7 +216,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.replyLabel =
         Optional.ofNullable(cfg.getString("change", null, "replyLabel")).orElse("Reply") + "\u2026";
     info.updateDelay =
-        (int) ConfigUtil.getTimeUnit(cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS);
+        (int) ConfigUtil.getTimeUnit(cfg, "change", null, "updateDelay", 300, TimeUnit.SECONDS);
     info.submitWholeTopic = Submit.wholeTopicEnabled(cfg);
     return info;
   }

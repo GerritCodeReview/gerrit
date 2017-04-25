@@ -168,7 +168,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.change.largeChange).isEqualTo(500);
     assertThat(i.change.replyTooltip).startsWith("Reply and score");
     assertThat(i.change.replyLabel).isEqualTo("Reply\u2026");
-    assertThat(i.change.updateDelay).isEqualTo(30);
+    assertThat(i.change.updateDelay).isEqualTo(300);
 
     // download
     assertThat(i.download.archives).containsExactly("tar", "tbz2", "tgz", "txz");

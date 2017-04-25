@@ -20,6 +20,7 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../scripts/util.js"></script>
 
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-main-header.html">
@@ -41,6 +42,7 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getConfig: function() { return Promise.resolve({}); },
+        probePath: function(path) { return Promise.resolve(false); },
       });
       stub('gr-main-header', {
         _loadAccount: function() {},
@@ -135,29 +137,37 @@ limitations under the License.
       var docLinks = [
         {
           name: 'Table of Contents',
-          url: '/Documentation/index.html',
+          url: '/index.html',
         },
       ];
 
-      assert.deepEqual(element._computeDocLinks(null, docLinks), []);
-      assert.deepEqual(element._computeDocLinks('', docLinks), []);
-      assert.deepEqual(element._computeDocLinks('base', null), []);
-      assert.deepEqual(element._computeDocLinks('base', []), []);
+      assert.deepEqual(element._computeDocLinks(false, null, docLinks), []);
+      assert.deepEqual(element._computeDocLinks(false, '', docLinks), []);
+      assert.deepEqual(element._computeDocLinks(false, 'base', null), []);
+      assert.deepEqual(element._computeDocLinks(false, 'base', []), []);
 
       assert.deepEqual(
-          element._computeDocLinks('base', docLinks),
+          element._computeDocLinks(false, 'base', docLinks),
           [{
             name: 'Table of Contents',
             target: '_blank',
-            url: 'base/Documentation/index.html',
+            url: 'base/index.html',
           }]);
 
       assert.deepEqual(
-          element._computeDocLinks('base/', docLinks),
+          element._computeDocLinks(true, 'base/', docLinks),
           [{
             name: 'Table of Contents',
             target: '_blank',
-            url: 'base/Documentation/index.html',
+            url: 'base/index.html',
+          }]);
+
+      assert.deepEqual(
+          element._computeDocLinks(true, null, docLinks),
+          [{
+            name: 'Table of Contents',
+            target: '_blank',
+            url: '/Documentation/index.html',
           }]);
     });
   });

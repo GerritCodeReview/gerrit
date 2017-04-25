@@ -119,9 +119,14 @@
         type: String,
         value: null,
       },
+      _docProbeSuccessful: {
+        type: Boolean,
+        value: false,
+      },
       _links: {
         type: Array,
-        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks, _docBaseUrl, _docLinks)',
+        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks, ' +
+            '_docProbeSuccessful, _docBaseUrl, _docLinks)',
       },
       _loginURL: {
         type: String,
@@ -175,7 +180,8 @@
       return '//' + window.location.host + this.getBaseUrl() + path;
     },
 
-    _computeLinks: function(defaultLinks, userLinks, adminLinks, docBaseUrl, docLinks) {
+    _computeLinks: function(defaultLinks, userLinks, adminLinks,
+        docProbeSuccessful, docBaseUrl, docLinks) {
       var links = defaultLinks.slice();
       if (userLinks && userLinks.length > 0) {
         links.push({
@@ -189,7 +195,8 @@
           links: adminLinks,
         });
       }
-      var computedDocLinks = this._computeDocLinks(docBaseUrl, docLinks);
+      var computedDocLinks = this._computeDocLinks(
+          docProbeSuccessful, docBaseUrl, docLinks);
       if (computedDocLinks && computedDocLinks.length) {
         links.push({
           title: 'Documentation',
@@ -199,12 +206,16 @@
       return links;
     },
 
-    _computeDocLinks: function(docBaseUrl, docLinks) {
-      if (!docBaseUrl || !docLinks) {
+    _computeDocLinks: function(docProbeSuccessful, docBaseUrl, docLinks) {
+      var baseUrl = docBaseUrl;
+      if (!baseUrl && docProbeSuccessful) {
+        baseUrl = '/Documentation';
+      }
+      if (!baseUrl || !docLinks) {
         return [];
       }
       return docLinks.map(function(link) {
-        var url = docBaseUrl;
+        var url = baseUrl;
         if (url && url[url.length - 1] === '/') {
           url = url.substring(0, url.length - 1);
         }
@@ -225,11 +236,24 @@
     },
 
     _loadConfig: function() {
-      return this.$.restAPI.getConfig().then(function(config) {
+      var promises = [];
+      promises.push(this.$.restAPI.getConfig().then(function(config) {
         if (config && config.gerrit) {
           this._docBaseUrl = config.gerrit.doc_url;
         }
+      }.bind(this)));
+      promises.push(this._probeDocLink('/Documentation/index.html'));
+      return Promise.all(promises);
+    },
+
+    _probeDocLink: function(path) {
+      this.$.restAPI.probePath(path).then(function(ok) {
+        this._docProbeSuccessful = ok;
       }.bind(this));
+    },
+
+    _fetchHead: function(path) {
+      return fetch(new Request(path, {method: 'HEAD'}));
     },
 
     _accountLoaded: function(account) {

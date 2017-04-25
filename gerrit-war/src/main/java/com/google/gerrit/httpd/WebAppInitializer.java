@@ -52,6 +52,7 @@ import com.google.gerrit.server.git.GitRepositoryManagerModule;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.validators.RateLimiterModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
@@ -325,6 +326,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
     modules.add(new StartupChecks.Module());
+    modules.add(new RateLimiterModule());
 
     // Index module shutdown must happen before work queue shutdown, otherwise
     // work queue can get stuck waiting on index futures that will never return.

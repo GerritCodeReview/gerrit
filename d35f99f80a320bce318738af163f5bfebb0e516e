@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "44e4ceab_c18f5a6c",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-25T09:19:45Z",
+      "side": 1,
+      "message": "Now that I\u0027ve moved the doclink computation into its own method, yeah, we no longer need this property for testing.",
+      "parentUuid": "c4d9da66_f325d6ea",
+      "range": {
+        "startLine": 112,
+        "startChar": 6,
+        "endLine": 117,
+        "endChar": 8
+      },
+      "revId": "d35f99f80a320bce318738af163f5bfebb0e516e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9804f7f5_c58e04f3",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.html",
         "patchSetId": 12
@@ -45,6 +69,30 @@
       "revId": "d35f99f80a320bce318738af163f5bfebb0e516e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b96360d_6fee032b",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-25T09:19:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9804f7f5_c58e04f3",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 161,
+        "endChar": 14
+      },
+      "revId": "d35f99f80a320bce318738af163f5bfebb0e516e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

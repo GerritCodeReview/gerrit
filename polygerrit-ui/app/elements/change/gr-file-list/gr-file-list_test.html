@@ -664,21 +664,29 @@ limitations under the License.
         revisions: {
           rev1: {_number: 1},
           rev2: {_number: 2},
-          rev3: {_number: 3},
+          rev3: {_number: 'edit', basePatchNum: 2},
+          rev4: {_number: 3},
         },
       };
+      element.revisions = [
+        {_number: 1},
+        {_number: 2},
+        {_number: 'edit', basePatchNum: 2},
+        {_number: 3},
+      ];
+
       flush(() => {
         const selectEl = element.$.patchChange;
         assert.equal(selectEl.nativeSelect.value, 'PARENT');
         assert.isTrue(element.$$('option[value="3"]').hasAttribute('disabled'));
         selectEl.addEventListener('change', () => {
-          assert.equal(selectEl.nativeSelect.value, '2');
-          assert(navStub.lastCall.calledWithExactly(element.change, '3', '2'),
-              'Should navigate to /c/42/2..3');
+          assert.equal(selectEl.nativeSelect.value, 'edit');
+          assert(navStub.lastCall.calledWithExactly(element.change, '3', 'edit'),
+              'Should navigate to /c/42/edit..3');
           navStub.restore();
           done();
         });
-        selectEl.nativeSelect.value = '2';
+        selectEl.nativeSelect.value = 'edit';
         element.fire('change', {}, {node: selectEl.nativeSelect});
       });
     });

@@ -14,30 +14,35 @@
 
 package com.google.gerrit.elasticsearch;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.eclipse.jgit.lib.Config;
+
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import io.searchbox.client.JestClientFactory;
 import io.searchbox.client.config.HttpClientConfig;
 import io.searchbox.client.http.JestHttpClient;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.concurrent.TimeUnit;
-import org.eclipse.jgit.lib.Config;
 
 @Singleton
 class JestClientBuilder {
 
-  private final String url;
+  private final List<String> urls;
 
   final boolean refresh;
 
   @Inject
   JestClientBuilder(@GerritServerConfig Config cfg) {
     String protocol = MoreObjects.firstNonNull(cfg.getString("index", null, "protocol"), "http");
-    String hostname =
-        MoreObjects.firstNonNull(cfg.getString("index", null, "hostname"), "localhost");
+    String[] hostnames =
+        MoreObjects.firstNonNull(cfg.getStringList("index", null, "hostname"), new String[] {"localhost"});
     String port = String.valueOf(cfg.getInt("index", null, "port", 9200));
 
     // By default Elasticsearch has a 1s delay before changes are available in
@@ -52,13 +57,16 @@ class JestClientBuilder {
     // documented.
     this.refresh = cfg.getBoolean("index", "elasticsearch", "test", false);
 
-    this.url = buildUrl(protocol, hostname, port);
+    this.urls = new ArrayList<>(hostnames.length);
+    for (String hostname : hostnames) {
+      this.urls.add(buildUrl(protocol, hostname, port));
+    }
   }
 
   JestHttpClient build() {
     JestClientFactory factory = new JestClientFactory();
     factory.setHttpClientConfig(
-        new HttpClientConfig.Builder(url)
+        new HttpClientConfig.Builder(urls)
             .multiThreaded(true)
             // Temporary disable servers discovery. We can enable it again when we can wait for it to finish
             .discoveryEnabled(false)

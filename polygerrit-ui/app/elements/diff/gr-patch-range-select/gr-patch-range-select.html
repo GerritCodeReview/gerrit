@@ -63,7 +63,7 @@ limitations under the License.
     <span class="patchRange">
       <select id="rightPatchSelect" bind-value="{{_rightSelected}}"
           on-change="_handlePatchChange" is="gr-select">
-        <template is="dom-repeat" items="{{availablePatches}}" as="patchNum">
+        <template is="dom-repeat" items="[[availablePatches]]" as="patchNum">
           <option value$="[[patchNum]]"
               disabled$="[[_computeRightDisabled(patchNum, patchRange)]]">
             [[patchNum]]

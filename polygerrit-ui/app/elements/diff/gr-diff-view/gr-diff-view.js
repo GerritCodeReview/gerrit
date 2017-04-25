@@ -457,7 +457,25 @@
 
       promises.push(this._getChangeDetail(this._changeNum));
 
-      Promise.all(promises).then(function() {
+      if (this._patchRange.patchNum === 'edit' ||
+          this._patchRange.basePatchNum === 'edit') {
+        // TODO(davido): Load change edit
+        promises.push(this.$.restAPI.getChangeEdit(this._changeNum));
+      }
+
+      Promise.all(promises).then(function(results) {
+        var editInfo, editResult;
+        // TODO(davido): Move this code to some better place (behaviour?)
+        editResult = results[3];
+        if (editResult) {
+          editInfo = {};
+          editInfo.commit = editResult.commit;
+          editInfo.basePatchSetNumber = editResult.base_patch_set_number;
+          editInfo._number = 0;
+
+          //this._change.revisions[editInfo.name] = editInfo;
+          this.set('_change.revisions.' + editInfo.commit.commit, editInfo);
+        }
         this._loading = false;
         this.$.diff.reload();
       }.bind(this));
@@ -511,12 +529,48 @@
       return patchStr;
     },
 
-    _computeAvailablePatches: function(revisions) {
-      var patchNums = [];
-      for (var rev in revisions) {
-        patchNums.push(revisions[rev]._number);
+    _computeAvailablePatches: function(revs) {
+      var revisions = [], patchNums = [], editParent;
+
+      for (var revision in revs) {
+        var object = this._change.revisions[revision];
+        revisions.push(object);
       }
-      return patchNums.sort(function(a, b) { return a - b; });
+
+      // Optional
+      editParent = this._findEditParent(revisions);
+
+      revisions = revisions.sort(function(a, b) {
+        var num = function(r) {
+          return r._number !== 0 ? 2 * (r._number - 1) + 1 : 2 * editParent;
+        }
+
+        return num(a) - num(b);
+      });
+
+      revisions.forEach(function(commit) {
+        patchNums.push(commit._number === 0 ? 'edit' : commit._number);
+      });
+      return patchNums;
+    },
+
+    _findEditParent: function(revisions) {
+      var revisionInfo = this._findEditParentRevision(revisions);
+      return revisionInfo == null ? -1 : revisionInfo._number;
+    },
+
+    _findEditParentRevision: function(revisions) {
+      var editInfo = revisions.find(function(revisionInfo) {
+        return revisionInfo._number === 0;
+      });
+
+      if (!editInfo) {
+        return null;
+      }
+
+      return revisions.find(function(revisionInfo) {
+        return revisionInfo._number === editInfo.basePatchSetNumber;
+      });
     },
 
     _getChangePath: function(changeNum, patchRange, revisions) {

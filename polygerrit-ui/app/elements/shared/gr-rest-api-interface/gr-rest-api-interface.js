@@ -452,6 +452,7 @@
     },
 
     getChangeActionURL: function(changeNum, opt_patchNum, endpoint) {
+      var patchNum = opt_patchNum;
       return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
     },
 
@@ -664,6 +665,11 @@
         opt_ctx) {
       var url = this.getChangeActionURL(changeNum, patchNum, '/review');
       return this.send('POST', url, review, opt_errFn, opt_ctx);
+    },
+
+    getChangeEdit: function(changeNum) {
+      return this.fetchJSON(
+          this.getChangeActionURL(changeNum, null, '/edit/?download-commands'));
     },
 
     getFileInChangeEdit: function(changeNum, path) {

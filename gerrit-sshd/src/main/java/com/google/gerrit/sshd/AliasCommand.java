@@ -16,9 +16,9 @@ package com.google.gerrit.sshd;
 
 import com.google.common.base.Throwables;
 import com.google.common.util.concurrent.Atomics;
+import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.permissions.GlobalOrPluginPermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;

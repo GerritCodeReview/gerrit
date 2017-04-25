@@ -36,10 +36,12 @@ public interface Server {
 
   ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) throws RestApiException;
 
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
+  AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException;
+
+    /**
+     * A default implementation which allows source compatibility when adding new methods to the
+     * interface.
+     */
   class NotImplemented implements Server {
     @Override
     public String getVersion() {
@@ -75,5 +77,10 @@ public interface Server {
     public ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) {
       throw new NotImplementedException();
     }
+
+      @Override
+      public AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException {
+        throw new NotImplementedException();
+      }
   }
 }

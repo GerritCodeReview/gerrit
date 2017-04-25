@@ -183,6 +183,47 @@ is returned that contains detected consistency problems.
   }
 ----
 
+
+[[check-consistency]]
+=== Check Consistency
+--
+'POST /config/server/check'
+--
+
+Runs access checks for other users.
+
+Input for the access checks that should be run must be provided in
+the request body inside a
+link:#access-check-input[AccessCheckInput] entity.
+
+.Request
+----
+  POST /config/server/check HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  '{ "project": "medium",
+     "account": "Kristen.Burns@gerritcodereview.com",
+     "ref": "refs/heads/secret/bla"
+   }
+----
+
+As result a link:#access-check-info[AccessCheckInfo] entity
+is returned that details read access of the given project for the
+given user.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    TODO
+  ]
+----
+
+
+
 [[confirm-email]]
 === Confirm Email
 --
@@ -1266,6 +1307,34 @@ The ID of the task (hex string).
 [[json-entities]]
 == JSON Entities
 
+[[access-check-info]]
+=== AccessCheckInfo
+The `AccessCheckInfo` entity is the result of a
+a access check.
+
+[options="header",cols="1,^1,5"]
+|=========================================
+|Field Name                  |Description
+|`status`|The HTTP status code for the access.
+200 means success, 403 means denied and 404 means the project does not
+exist.
+|`message`|A clarifying message.
+=========================================
+
+[[access-check-input]]
+=== AccessCheckInput
+The `AccessCheckInput` entity is a tuple of (account, project)  or
+(account, project, ref) for which we want to check access.
+
+[options="header",cols="1,^1,5"]
+|=========================================
+|Field Name                  ||Description
+|`account`||The account for which to check access
+|`project`||The project for which to check access
+|`ref`|optional|The refname for which to check access
+=========================================
+
+
 [[auth-info]]
 === AuthInfo
 The `AuthInfo` entity contains information about the authentication
@@ -1456,6 +1525,7 @@ Input for the account external ID consistency check as
 link:#check-account-external-ids-input[CheckAccountExternalIdsInput]
 entity.
 |=========================================
+
 
 [[consistency-problem-info]]
 === ConsistencyProblemInfo

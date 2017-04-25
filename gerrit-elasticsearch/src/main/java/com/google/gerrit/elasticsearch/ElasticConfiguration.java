@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -33,9 +34,28 @@ class ElasticConfiguration {
   private static final String DEFAULT_PROTOCOL = "http";
 
   final List<String> urls;
+  final String username;
+  final String password;
+  final boolean requestCompression;
+  final long connectionTimeout;
+  final long maxConnectionIdleTime;
+  final TimeUnit maxConnectionIdleUnit = TimeUnit.MILLISECONDS;
+  final int maxTotalConnection;
+  final int readTimeout;
 
   @Inject
   ElasticConfiguration(@GerritServerConfig Config cfg) {
+    this.username = cfg.getString("index", null, "username");
+    this.password = cfg.getString("index", null, "password");
+    this.requestCompression = cfg.getBoolean("index", null, "requestCompression", false);
+    this.connectionTimeout =
+        cfg.getTimeUnit("index", null, "connectionTimeout", 3000, TimeUnit.MILLISECONDS);
+    this.maxConnectionIdleTime =
+        cfg.getTimeUnit("index", null, "maxConnectionIdleTime", 3000, TimeUnit.MILLISECONDS);
+    this.maxTotalConnection = cfg.getInt("index", null, "maxTotalConnection", 1);
+    this.readTimeout =
+        (int) cfg.getTimeUnit("index", null, "readTimeout", 3000, TimeUnit.MICROSECONDS);
+
     Set<String> subsections = cfg.getSubsections("elasticsearch");
     if (subsections.isEmpty()) {
       this.urls = Arrays.asList(buildUrl(DEFAULT_PROTOCOL, DEFAULT_HOST, DEFAULT_PORT));

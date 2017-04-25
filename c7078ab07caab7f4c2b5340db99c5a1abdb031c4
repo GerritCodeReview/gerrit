@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1493124039 +0200\nnonce AFMZ2GxTpM8nYIR23b6viWdQKkHk5kmGB6frWpzaS7ilJ+KEnYqHsbppSwBZdsU2E++wV7nijK8S\n\n0000000000000000000000000000000000000000 c7078ab07caab7f4c2b5340db99c5a1abdb031c4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlj/Q8cACgkQX9fFmpoS\niIxmRBAAscYQ4C8ZsYr5a1avw64vGoZRDriyIlTU9s0O7ojlv1xqA184ZMrJ6clM\nkn4IGeSc6tE5xPNU+4OqYG3PSmZY99h3W0vyu6XdKwDwTT0FSjw8VHo+1YgJTtEY\nIoQvXJfHmP+3+nSxOMq5Eq/9l6UEVgmRkXBDzNZAt+8LPf9ito9Wo3d1dnqcEomG\nGR5UXYts7npjCHAX9T5z4BC+zANDUQXBcxrGWwMPcL/87GKREoN+aBC8zgKfBCX8\nOm66pJXS3yc46Tc2Zmz+aId3Knh7LU5ZQSkaUh/fknALZV1mLd91kaFgBnvK502p\nze19FtWiF6vhlmIULMLYwAtm+k27IevOObm9gnXWaayNVbXDOhr/X6agAyxsA0iH\n0o17OlRKF05nOZ2paP+m0X3EL4bwvlgcfFJPiCd37rn7ue4qG69ERwJvinGzY/MO\nKsWqqGfsYY8zDzjt+v60dkZXkZRvb7EfqNp3CBXKMa9WZkXTC2iD61qMC5B0az3g\nNl6yxf9KdIEjeNyJ59LhZ8/6Gm/wpXHkBC8QKn27wnvgpJQ34UmSB9w4Ew7roMO/\nz95mcoq3oaygBmyXkIn0xsCkVJvVkSpo1GG5Gws4k+AB/pI30lv8xtTj1b3I3Z5Z\nc5jk6r/uLwMdreFCvo2EMGKHM0Nt/4Y0LikINjda93++hN/aRV4\u003d\n\u003dfZMC\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "211126b9_6b31d447",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-25T20:19:52Z",
+      "side": 1,
+      "message": "How do I get this wrong every single time :(\n\nhttps://gerrit-review.googlesource.com/104610",
+      "revId": "c7078ab07caab7f4c2b5340db99c5a1abdb031c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

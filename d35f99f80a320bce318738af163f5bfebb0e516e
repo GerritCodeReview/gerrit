@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4d9da66_f325d6ea",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-25T08:48:26Z",
+      "side": 1,
+      "message": "Because neither _docLinks nor DOCUMENTATION_LINKS change, can we just use DOCUMENTATION_LINKS directly and skip the property definition?",
+      "range": {
+        "startLine": 112,
+        "startChar": 6,
+        "endLine": 117,
+        "endChar": 8
+      },
+      "revId": "d35f99f80a320bce318738af163f5bfebb0e516e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9804f7f5_c58e04f3",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-25T08:48:26Z",
+      "side": 1,
+      "message": "Optional nit: these can be wrapped a little more nicely.\n\nassert.deepEqual( element._computeDocLinks(\u0027base\u0027, docLinks), [{\n  name: \u0027Table of Contents\u0027,\n  target: \u0027_blank\u0027,\n  url: \u0027base/Documentation/index.html\u0027,\n}]);\n\nassert.deepEqual(element._computeDocLinks(\u0027base/\u0027, docLinks), [{\n  name: \u0027Table of Contents\u0027,\n  target: \u0027_blank\u0027,\n  url: \u0027base/Documentation/index.html\u0027,\n}]);",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 161,
+        "endChar": 14
+      },
+      "revId": "d35f99f80a320bce318738af163f5bfebb0e516e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

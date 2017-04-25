@@ -49,8 +49,10 @@ public class GerritServerTests extends GerritBaseTests {
       };
 
   public void beforeTest() throws Exception {
-    notesMigration = new TestNotesMigration().setFromEnv();
+    notesMigration = new TestNotesMigration();
   }
 
-  public void afterTest() {}
+  public void afterTest() {
+    notesMigration.resetFromEnv();
+  }
 }

@@ -38,7 +38,17 @@
 
   {let $ulStyle kind="css"}
     list-style: none;
-    padding-left: 20px;
+    padding: 0;
+  {/let}
+
+  {let $fileLiStyle kind="css"}
+    margin: 0;
+    padding: 0;
+  {/let}
+
+  {let $commentLiStyle kind="css"}
+    margin: 0;
+    padding: 0 0 0 16px;
   {/let}
 
   {let $voteStyle kind="css"}
@@ -104,14 +114,14 @@
 
   <ul style="{$ulStyle}">
     {foreach $group in $commentFiles}
-      <li>
+      <li style="{$fileLiStyle}">
         <p>
           <a href="{$group.link}">{$group.title}:</a>
         </p>
 
         <ul style="{$ulStyle}">
           {foreach $comment in $group.comments}
-            <li>
+            <li style="{$commentLiStyle}">
               {if $comment.isRobotComment}
                 <p style="{$commentHeaderStyle}">
                   Robot Comment from{sp}

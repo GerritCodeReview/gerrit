@@ -220,8 +220,10 @@
 
     _loadConfig: function() {
       this.$.restAPI.getConfig().then(function(config) {
-        if (config && config.gerrit) {
+        if (config && config.gerrit && config.gerrit.doc_url) {
           this._docBaseUrl = config.gerrit.doc_url;
+        } else if (config && config.gerrit && config.gerrit.doc_search) {
+          this._docBaseUrl = config.gerrit.doc_search;
         }
         if (!this._docBaseUrl) {
           return this._probeDocLink('/Documentation/index.html');

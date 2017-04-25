@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4a5b282_8318198d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-25T09:09:18Z",
+      "side": 1,
+      "message": "Please update .gitconfig with the full name",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 15
+      },
+      "revId": "8e5d475bc96f9f29b09c945e84e5e5c94a36d685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da98dd84_d3d5314f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1567,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-25T09:09:18Z",
+      "side": 1,
+      "message": "tab",
+      "range": {
+        "startLine": 1567,
+        "startChar": 0,
+        "endLine": 1567,
+        "endChar": 5
+      },
+      "revId": "8e5d475bc96f9f29b09c945e84e5e5c94a36d685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

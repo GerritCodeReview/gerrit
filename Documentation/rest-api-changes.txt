@@ -5949,7 +5949,9 @@ This value may be outside the range specified in permitted_labels.
 |===========================
 |Field Name    ||Description
 |`all`         |optional|List of all approvals for this label as a list
-of link:#approval-info[ApprovalInfo] entities.
+of link:#approval-info[ApprovalInfo] entities. Items in this list may
+not represent actual votes cast by users; if a user votes on any label,
+a corresponding ApprovalInfo will appear in this list for all labels.
 |`values`      |optional|A map of all values that are allowed for this
 label. The map maps the values ("`-2`", "`-1`", " `0`", "`+1`", "`+2`")
 to the value descriptions.

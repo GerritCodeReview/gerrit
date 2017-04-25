@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "0f629ece_4109e902",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-25T16:56:13Z",
+      "side": 1,
+      "message": "The question is not if this is valid or not, or generate incorrect change or not.\nFrom my point of view, this is a part of plugin API contract: `labelchange` is supposed to be supplied with consistent change object, regardless of the origin - is it generated from REST API response or via UI code replicating it to avoid network request.\n\nSo at the very least, please provide a direct comment stating that UI code replicates server-side one. This would fix the issue, however this offers no protection from regressions.\nBetter, write an integration test.\nEven better, re-request change from the server.",
+      "parentUuid": "a5d21826_13f3128e",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "df661db86a4f3f1445a4f792e49587d5777aae56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7783bea0_a4372aca",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 1

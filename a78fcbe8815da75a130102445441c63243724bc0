@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38001782_3caa54c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-25T09:42:32Z",
+      "side": 1,
+      "message": "Use query selectors to get the button element and check the text.",
+      "range": {
+        "startLine": 232,
+        "startChar": 8,
+        "endLine": 233,
+        "endChar": 32
+      },
+      "revId": "a78fcbe8815da75a130102445441c63243724bc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a93b0dbe_141342b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-25T09:42:32Z",
+      "side": 1,
+      "message": "Use MockInteractions to emulate a tap.",
+      "range": {
+        "startLine": 234,
+        "startChar": 8,
+        "endLine": 234,
+        "endChar": 43
+      },
+      "revId": "a78fcbe8815da75a130102445441c63243724bc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "442917bc_d3c232f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-25T09:42:32Z",
+      "side": 1,
+      "message": "Add an event listener to reload the change.",
+      "range": {
+        "startLine": 237,
+        "startChar": 8,
+        "endLine": 239,
+        "endChar": 11
+      },
+      "revId": "a78fcbe8815da75a130102445441c63243724bc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

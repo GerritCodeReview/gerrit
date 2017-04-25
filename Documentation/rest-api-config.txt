@@ -141,7 +141,7 @@ As result a link:#server-info[ServerInfo] entity is returned.
 [[check-consistency]]
 === Check Consistency
 --
-'POST /config/server/check'
+'POST /config/server/check.consistency'
 --
 
 Runs consistency checks and returns detected problems.
@@ -152,7 +152,7 @@ link:#consistency-check-input[ConsistencyCheckInput] entity.
 
 .Request
 ----
-  POST /config/server/check HTTP/1.0
+  POST /config/server/check.consistency HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   {

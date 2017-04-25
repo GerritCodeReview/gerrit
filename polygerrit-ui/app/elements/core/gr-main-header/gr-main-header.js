@@ -220,7 +220,7 @@
 
     _loadConfig: function() {
       this.$.restAPI.getConfig().then(function(config) {
-        if (config && config.gerrit) {
+        if (config && config.gerrit && config.gerrit.doc_url) {
           this._docBaseUrl = config.gerrit.doc_url;
         }
         if (!this._docBaseUrl) {
@@ -230,9 +230,9 @@
     },
 
     _probeDocLink: function(path) {
-      return this.$.restAPI.probePath(path).then(function(ok) {
+      return this.$.restAPI.probePath(this.getBaseUrl() + path).then(function(ok) {
         if (ok) {
-          this._docBaseUrl = '/Documentation';
+          this._docBaseUrl = this.getBaseUrl() + '/Documentation';
         } else {
           this._docBaseUrl = null;
         }

@@ -476,7 +476,7 @@ public class ReceiveCommits {
     // If the user lacks READ permission, some references may be filtered and hidden from view.
     // Check objects mentioned inside the incoming pack file are reachable from visible refs.
     try {
-      permissions.check(ProjectPermission.READ);
+      permissionBackend.user(user).project(project.getNameKey()).check(ProjectPermission.READ);
     } catch (AuthException e) {
       rp.setCheckReferencedObjectsAreReachable(receiveConfig.checkReferencedObjectsAreReachable);
     }

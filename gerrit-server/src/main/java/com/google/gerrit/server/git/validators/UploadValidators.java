@@ -65,7 +65,15 @@ public class UploadValidators implements PreUploadHook {
   @Override
   public void onBeginNegotiateRound(
       UploadPack up, Collection<? extends ObjectId> wants, int cntOffered)
-      throws ServiceMayNotContinueException {}
+      throws ServiceMayNotContinueException {
+    for (UploadValidationListener validator : uploadValidationListeners) {
+      try {
+        validator.onBeginNegotiate(repository, project, remoteHost, up, wants, cntOffered);
+      } catch (ValidationException e) {
+        throw new UploadValidationException(e.getMessage());
+      }
+    }
+  }
 
   @Override
   public void onEndNegotiateRound(

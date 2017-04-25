@@ -79,7 +79,8 @@
     _computeDownloadCommands(change, patchNum, _selectedScheme) {
       let commandObj;
       for (const rev in change.revisions) {
-        if (change.revisions[rev]._number === parseInt(patchNum, 10) &&
+        if ((change.revisions[rev]._number === parseInt(patchNum, 10) ||
+            (change.revisions[rev]._number === 0 && patchNum === 'edit')) &&
             change.revisions[rev].fetch.hasOwnProperty(_selectedScheme)) {
           commandObj = change.revisions[rev].fetch[_selectedScheme].commands;
           break;
@@ -126,9 +127,10 @@
     },
 
     _computeSchemes(change, patchNum) {
-      for (const rev of Object.values(change.revisions || {})) {
-        if (rev._number === parseInt(patchNum, 10)) {
-          const fetch = rev.fetch;
+      for (const rev in change.revisions) {
+        if (change.revisions[rev]._number === parseInt(patchNum, 10) ||
+            (change.revisions[rev]._number === 0 && patchNum === 'edit')) {
+          const fetch = change.revisions[rev].fetch;
           if (fetch) {
             return Object.keys(fetch).sort();
           }

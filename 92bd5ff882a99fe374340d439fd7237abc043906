@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f3352daf_a8913ac9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/EmailValidatorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-25T13:41:58Z",
+      "side": 1,
+      "message": "Added tests for both those cases.",
+      "parentUuid": "aa4c47b7_0a3be231",
+      "revId": "92bd5ff882a99fe374340d439fd7237abc043906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "636971c6_a5454bc7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
         "patchSetId": 3
@@ -96,6 +114,30 @@
       "side": 1,
       "message": "I think that would be great. They can still set \u0027local\u0027 using the new config option.",
       "parentUuid": "3781a1f4_bae6879d",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 39
+      },
+      "revId": "92bd5ff882a99fe374340d439fd7237abc043906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc1cf2c6_2570e814",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-25T13:41:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00e48240_50baac33",
       "range": {
         "startLine": 41,
         "startChar": 4,

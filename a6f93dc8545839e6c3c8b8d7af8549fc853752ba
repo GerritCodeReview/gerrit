@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c4a2105_b295c843",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-25T19:39:02Z",
+      "side": 1,
+      "message": "test.access endpoint?",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a517417b_a79652c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-25T19:39:02Z",
+      "side": 1,
+      "message": "PermissionBackendException means an internal backend failure that likely has nothing to do with this user (e.g. RPC timeout). Just add it to the throws declaration of your apply method. The REST API server will catch the exception and return a generic 500 internal server error after logging the stack trace.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 5
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "635a505c_212c3749",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-25T19:39:02Z",
+      "side": 1,
+      "message": "don\u0027t initialize this. The compiler can then prove we either successfully set it in the try block, or abort the method in the catch.",
+      "range": {
+        "startLine": 95,
+        "startChar": 25,
+        "endLine": 95,
+        "endChar": 0
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d5c1c83_89e48543",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-25T19:39:02Z",
+      "side": 1,
+      "message": "Project.NameKey",
+      "range": {
+        "startLine": 109,
+        "startChar": 30,
+        "endLine": 109,
+        "endChar": 37
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80c08e97_27c25574",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-25T19:39:02Z",
+      "side": 1,
+      "message": "PermissionBackend.ForProject perm \u003d permissionBackend.user(user).project(key);\nif (!perm.testOrFalse(ProjectPermission.ACCESS))",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 40
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76f8ae8d_94e25ae8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-25T19:39:02Z",
+      "side": 1,
+      "message": "if (!perm.ref(input.ref).testOrFalse(RefPermission.READ))",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 50
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d441853_4d2f0f06",
+        "filename": "plugins/replication",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-25T19:39:02Z",
+      "side": 1,
+      "message": "unexpected staging of plugin?",
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -17,6 +17,24 @@
       "revId": "93e34588624764a0591de77a9415896923001501",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8c63658_ca902f41",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-25T10:31:34Z",
+      "side": 1,
+      "message": "David Ostrovsky suggested that we keep setPerformsAtomicTransactions(false) in all cases except GERRIT_NOTEDB\u003dfused, to match the existing JGit RefDirectory behavior. I agree. As a result, this change now contains a few more test fixes.",
+      "parentUuid": "496c28a8_ae5273dd",
+      "revId": "93e34588624764a0591de77a9415896923001501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

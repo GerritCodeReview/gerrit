@@ -65,6 +65,7 @@ import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.validators.RateLimiterModule;
 import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
@@ -418,6 +419,7 @@ public class Daemon extends SiteProgram {
     if (!slave) {
       modules.add(new ChangeCleanupRunner.Module());
     }
+    modules.add(new RateLimiterModule());
     return cfgInjector.createChildInjector(modules);
   }
 

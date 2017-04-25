@@ -69,6 +69,30 @@
       "revId": "8e5d475bc96f9f29b09c945e84e5e5c94a36d685",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98ba2036_84974fe8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1567,
+      "author": {
+        "id": 1016208
+      },
+      "writtenOn": "2017-04-25T09:38:05Z",
+      "side": 1,
+      "message": "Tab replaced with spaces.\nDone.",
+      "parentUuid": "da98dd84_d3d5314f",
+      "range": {
+        "startLine": 1567,
+        "startChar": 0,
+        "endLine": 1567,
+        "endChar": 5
+      },
+      "revId": "8e5d475bc96f9f29b09c945e84e5e5c94a36d685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

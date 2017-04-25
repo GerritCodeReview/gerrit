@@ -18,9 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.junit.Test;
 
 public class LfsPluginServletTest {
+  private static final String[] URL_PREFIXES = new String[] {
+      "/", "/a/", "/p/", "/a/p/"
+  };
 
   @Test
   public void noLfsEndPoint_noMatch() {
@@ -32,15 +36,33 @@ public class LfsPluginServletTest {
 
     doesNotMatch(p, "/info/lfs/objects/batch");
     doesNotMatch(p, "/info/lfs/objects/batch/foo");
+    doesNotMatch(p, "/info/lfs/locks");
+    doesNotMatch(p, "/info/lfs/locks/verify");
+    doesNotMatch(p, "/info/lfs/locks/unlock");
+    doesNotMatch(p, "/info/lfs/locks/lock_id/unlock");
   }
 
   @Test
   public void matchingLfsEndpoint_projectNameCaptured() {
     Pattern p = Pattern.compile(LfsPluginServlet.URL_REGEX);
-    matches(p, "/foo/bar/info/lfs/objects/batch", "foo/bar");
-    matches(p, "/a/foo/bar/info/lfs/objects/batch", "foo/bar");
-    matches(p, "/p/foo/bar/info/lfs/objects/batch", "foo/bar");
-    matches(p, "/a/p/foo/bar/info/lfs/objects/batch", "foo/bar");
+    testProjectGetsMatched(p, "foo/bar/info/lfs/objects/batch", "foo/bar");
+    testProjectGetsMatched(p, "foo/bar/info/lfs/locks", "foo/bar");
+    testProjectGetsMatched(p, "foo/bar/info/lfs/locks/verify", "foo/bar");
+    testProjectAndLockIdGetMatched(p, "foo/bar/info/lfs/locks/lock_id/unlock",
+        "foo/bar", "lock_id");
+  }
+
+  private void testProjectAndLockIdGetMatched(Pattern p, String url,
+      String expectedProject, String expectedLockId) {
+    for (String prefix : URL_PREFIXES) {
+      matches(p, prefix + url, expectedProject, expectedLockId);
+    }
+  }
+
+  private void testProjectGetsMatched(Pattern p, String url, String expected) {
+    for (String prefix : URL_PREFIXES) {
+      matches(p, prefix + url, expected);
+    }
   }
 
   private void doesNotMatch(Pattern p, String input) {
@@ -52,5 +74,13 @@ public class LfsPluginServletTest {
     Matcher m = p.matcher(input);
     assertThat(m.matches()).isTrue();
     assertThat(m.group(1)).isEqualTo(expectedProjectName);
+  }
+
+  private void matches(Pattern p, String input, String expectedProjectName,
+      String expectedLockId) {
+    Matcher m = p.matcher(input);
+    assertThat(m.matches()).isTrue();
+    assertThat(m.group(1)).isEqualTo(expectedProjectName);
+    assertThat(m.group(2)).isEqualTo(expectedLockId);
   }
 }

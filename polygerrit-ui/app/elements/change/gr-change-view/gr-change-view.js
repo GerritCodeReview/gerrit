@@ -338,6 +338,9 @@
     },
 
     _handlePatchChange: function(e) {
+      if (e.target.value === 'edit') {
+        return 0;
+      }
       this._changePatchNum(parseInt(e.target.value, 10), true);
     },
 
@@ -429,7 +432,7 @@
 
       if (this._initialLoadComplete && patchChanged) {
         if (patchRange.patchNum == null) {
-          patchRange.patchNum = this.computeLatestPatchNum(this._allPatchSets);
+          patchRange.patchNum = this.computeLatestPatchName(this._allPatchSets);
         }
         this._patchRange = patchRange;
         this._reloadPatchNumDependentResources().then(function() {
@@ -567,7 +570,7 @@
           this._patchRange.basePatchNum || 'PARENT');
       this.set('_patchRange.patchNum',
           this._patchRange.patchNum ||
-              this.computeLatestPatchNum(this._allPatchSets));
+              this.computeStrictLatestPatchNum(this._allPatchSets));
 
       this._updateSelected();
 
@@ -889,38 +892,52 @@
     },
 
     _getChangeDetail: function() {
-      return this.$.restAPI.getChangeDetail(this._changeNum,
-          this._handleGetChangeDetailError.bind(this)).then(
-              function(change) {
-                // Issue 4190: Coalesce missing topics to null.
-                if (!change.topic) { change.topic = null; }
-                if (!change.reviewer_updates) {
-                  change.reviewer_updates = null;
-                }
-                var latestRevisionSha = this._getLatestRevisionSHA(change);
-                var currentRevision = change.revisions[latestRevisionSha];
-                if (currentRevision.commit && currentRevision.commit.message) {
-                  this._latestCommitMessage = this._prepareCommitMsgForLinkify(
-                      currentRevision.commit.message);
-                } else {
-                  this._latestCommitMessage = null;
-                }
-                var lineHeight = getComputedStyle(this).lineHeight;
-                this._lineHeight = lineHeight.slice(0, lineHeight.length - 2);
+      const detailCompletes = this.$.restAPI.getChangeDetail(
+          this._changeNum, this._handleGetChangeDetailError.bind(this));
+      const editCompletes = this._getEdit();
 
-                this._change = change;
-                if (!this._patchRange || !this._patchRange.patchNum ||
-                    this._patchRange.patchNum === currentRevision._number) {
-                  // CommitInfo.commit is optional, and may need patching.
-                  if (!currentRevision.commit.commit) {
-                    currentRevision.commit.commit = latestRevisionSha;
-                  }
-                  this._commitInfo = currentRevision.commit;
-                  this._currentRevisionActions =
-                      this._updateRebaseAction(currentRevision.actions);
-                  // TODO: Fetch and process files.
-                }
-              }.bind(this));
+      return Promise.all([detailCompletes, editCompletes]).then(r => {
+        const [change, edit] = r;
+        if (edit) {
+          change.revisions[edit.commit.commit] = {
+            _number: 0,
+            basePatchSetNumber: edit.base_patch_set_number,
+            commit: edit.commit,
+            fetch: edit.fetch,
+          };
+        }
+
+        // Issue 4190: Coalesce missing topics to null.
+        if (!change.topic) {
+          change.topic = null;
+        }
+        if (!change.reviewer_updates) {
+          change.reviewer_updates = null;
+        }
+        var latestRevisionSha = this._getLatestRevisionSHA(change);
+        var currentRevision = change.revisions[latestRevisionSha];
+        if (currentRevision.commit && currentRevision.commit.message) {
+          this._latestCommitMessage = this._prepareCommitMsgForLinkify(
+              currentRevision.commit.message);
+        } else {
+          this._latestCommitMessage = null;
+        }
+        var lineHeight = getComputedStyle(this).lineHeight;
+        this._lineHeight = lineHeight.slice(0, lineHeight.length - 2);
+
+        this._change = change;
+        if (!this._patchRange || !this._patchRange.patchNum ||
+            this._patchRange.patchNum === currentRevision._number) {
+          // CommitInfo.commit is optional, and may need patching.
+          if (!currentRevision.commit.commit) {
+            currentRevision.commit.commit = latestRevisionSha;
+          }
+          this._commitInfo = currentRevision.commit;
+          this._currentRevisionActions =
+              this._updateRebaseAction(currentRevision.actions);
+          // TODO: Fetch and process files.
+        }
+      });
     },
 
     _getComments: function() {
@@ -928,6 +945,10 @@
           function(comments) {
             this._comments = comments;
           }.bind(this));
+    },
+
+    _getEdit: function() {
+      return this.$.restAPI.getChangeEdit(this._changeNum, true);
     },
 
     _getLatestCommitMessage: function() {
@@ -990,7 +1011,6 @@
         this._getProjectConfig();
       }.bind(this));
       this._getComments();
-
       if (this._patchRange.patchNum) {
         return Promise.all([
           this._reloadPatchNumDependentResources(),

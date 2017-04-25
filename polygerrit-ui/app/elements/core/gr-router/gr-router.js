@@ -139,7 +139,7 @@
     }
 
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>].
-    page(/^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?$/, function(ctx) {
+    page(/^\/c\/(\d+)\/?(((\d+|edit)(\.\.(\d+|edit))?))?$/, function(ctx) {
       // Parameter order is based on the regex group number matched.
       var params = {
         changeNum: ctx.params[0],
@@ -163,7 +163,7 @@
     });
 
     // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
-    page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, function(ctx) {
+    page(/^\/c\/(\d+)\/((\d+|edit)(\.\.(\d+|edit))?)\/(.+)/, function(ctx) {
       // Parameter order is based on the regex group number matched.
       var params = {
         changeNum: ctx.params[0],

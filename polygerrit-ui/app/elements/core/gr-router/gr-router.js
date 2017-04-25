@@ -306,18 +306,26 @@
       if (params.basePatchNum &&
           patchNumEquals(params.basePatchNum, params.patchNum)) {
         params.basePatchNum = null;
-        history.replaceState(null, null, generateUrl(params));
       } else if (params.basePatchNum && !params.patchNum) {
         params.patchNum = params.basePatchNum;
         params.basePatchNum = null;
       }
+      // In GWTUI, edits are represented in URLs with either 0 or 'edit'.
+      if (params.basePatchNum + '' === '0') {
+        params.basePatchNum = 'edit';
+      }
+      if (params.patchNum + '' === '0') {
+        params.patchNum = 'edit';
+      }
+      history.replaceState(null, null, generateUrl(params));
     };
 
     // Matches
-    // /c/<project>/+/<changeNum>/[<basePatchNum>..][<patchNum>]/[path].
+    // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..][<patchNum|edit>]/[path].
     // TODO(kaspern): Migrate completely to project based URLs, with backwards
     // compatibility for change-only.
-    page(/^\/c\/([^\/]+)\/\+\/(\d+)(\/?((\d+)(\.\.(\d+))?(\/(.+))?))?\/?$/,
+    // eslint-disable-next-line max-len
+    page(/^\/c\/([^\/]+)\/\+\/(\d+)(\/?((\d+|edit)(\.\.(\d+|edit))?(\/(.+))?))?\/?$/,
         ctx => {
           // Parameter order is based on the regex group number matched.
           const params = {
@@ -335,7 +343,7 @@
         });
 
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
-    page(/^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?\/?$/, ctx => {
+    page(/^\/c\/(\d+)\/?(((\d+|edit)(\.\.(\d+|edit))?))?\/?$/, ctx => {
       // Parameter order is based on the regex group number matched.
       const params = {
         changeNum: ctx.params[0],
@@ -349,7 +357,7 @@
     });
 
     // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
-    page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, ctx => {
+    page(/^\/c\/(\d+)\/((\d+|edit)(\.\.(\d+|edit))?)\/(.+)/, ctx => {
       // Check if path has an '@' which indicates it was using GWT style line
       // numbers. Even if the filename had an '@' in it, it would have already
       // been URI encoded. Redirect to hash version of path.

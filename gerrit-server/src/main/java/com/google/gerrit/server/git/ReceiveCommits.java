@@ -1564,17 +1564,9 @@ public class ReceiveCommits {
     }
 
     if (magicBranch.draft) {
-      if (!receiveConfig.allowDrafts) {
         errors.put(Error.CODE_REVIEW, ref);
-        reject(cmd, "draft workflow is disabled");
+        reject(cmd, "Creation of draft refs is not allowed.");
         return;
-      } else if (projectControl
-          .controlForRef(MagicBranch.NEW_DRAFT_CHANGE + ref)
-          .isBlocked(Permission.PUSH)) {
-        errors.put(Error.CODE_REVIEW, ref);
-        reject(cmd, "cannot upload drafts");
-        return;
-      }
     }
 
     if (!magicBranch.ctl.canUpload()) {

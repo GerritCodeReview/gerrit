@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import com.google.gerrit.extensions.api.lfs.LfsDefinitions;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.httpd.resources.ResourceKey;
 import com.google.gerrit.httpd.resources.ResourceWeigher;
@@ -33,7 +34,7 @@ public class HttpPluginModule extends ServletModule {
     serveRegex("^/(?:a/)?plugins/(.*)?$").with(HttpPluginServlet.class);
 
     bind(LfsPluginServlet.class);
-    serveRegex(LfsPluginServlet.URL_REGEX).with(LfsPluginServlet.class);
+    serveRegex(LfsDefinitions.LFS_URL_REGEX).with(LfsPluginServlet.class);
 
     bind(StartPluginListener.class)
         .annotatedWith(UniqueAnnotations.create())

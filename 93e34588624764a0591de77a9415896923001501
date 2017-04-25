@@ -104,6 +104,30 @@
       "revId": "93e34588624764a0591de77a9415896923001501",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a232c228_f092cf84",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/TestNotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-25T12:21:42Z",
+      "side": 1,
+      "message": "This comment is stale, please ignore.",
+      "parentUuid": "3cccf47a_f7f4e07b",
+      "range": {
+        "startLine": 30,
+        "startChar": 27,
+        "endLine": 30,
+        "endChar": 38
+      },
+      "revId": "93e34588624764a0591de77a9415896923001501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -998,7 +998,7 @@ requests per second and requires ~10% CPU.
 +
 If 0 the update polling is disabled.
 +
-Default is 30 seconds.
+Default is 5 minutes.
 
 [[change.allowBlame]]change.allowBlame::
 +

@@ -3,6 +3,7 @@ package(
 )
 
 load("//tools/bzl:genrule2.bzl", "genrule2")
+load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_library", "closure_js_binary")
 load(
     "//tools/bzl:js.bzl",
     "bower_component_bundle",
@@ -12,7 +13,8 @@ load(
 )
 
 vulcanize(
-    name = "gr-app",
+    name = "vulcanize",
+    html_name = "gr-app",
     srcs = glob(
         [
             "**/*.html",
@@ -27,6 +29,28 @@ vulcanize(
     ),
     app = "elements/gr-app.html",
     deps = ["//polygerrit-ui:polygerrit_components.bower_components"],
+)
+
+closure_js_library(
+    name = "closure_lib",
+    srcs = ["vulcanized.js"],
+    deps = [
+        "//polygerrit-ui/app/externs:polymer",
+        "@io_bazel_rules_closure//closure/library",
+    ],
+    suppress = [
+        "JSC_BAD_JSDOC_ANNOTATION",
+        "JSC_TYPE_PARSE_ERROR",
+        "JSC_MISPLACED_MSG_ANNOTATION",
+    ],
+    language = "ECMASCRIPT6",
+)
+
+closure_js_binary(
+    name = "gr-app",
+    deps = [":closure_lib"],
+    compilation_level = "WHITESPACE_ONLY",
+    defs = ["--polymer_pass"],
 )
 
 filegroup(
@@ -49,6 +73,7 @@ genrule2(
         "//lib/js:highlightjs_files",
         ":top_sources",
         ":css_sources",
+        ":vulcanize",
         ":gr-app",
         # we extract from the zip, but depend on the component for license checking.
         "@webcomponentsjs//:zipfile",

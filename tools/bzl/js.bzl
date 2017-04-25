@@ -359,6 +359,7 @@ _vulcanize_rule = rule(
             ".ico",
         ]),
         "pkg": attr.string(mandatory = True),
+        "html_name": attr.string(mandatory = True),
         "_run_npm": attr.label(
             default = Label("//tools/js:run_npm_binary.py"),
             allow_single_file = True,
@@ -372,9 +373,10 @@ _vulcanize_rule = rule(
             allow_single_file = True,
         ),
     },
+
     outputs = {
-        "html": "%{name}.html",
-        "js": "%{name}.js",
+        "html": "%{html_name}.html",
+        "js": "%{name}d.js",
     },
 )
 

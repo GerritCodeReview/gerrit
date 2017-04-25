@@ -296,6 +296,13 @@ public class RestApiServlet extends HttpServlet {
           if (path.isEmpty()) {
             checkPreconditions(req);
           }
+          String topLevelRedirect = topLevelRedirect(rsrc, id, path);
+          if (topLevelRedirect != null) {
+            CacheHeaders.setNotCacheable(res);
+            res.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+            res.setHeader("Location", topLevelRedirect);
+            return;
+          }
         } catch (ResourceNotFoundException e) {
           if (rc instanceof AcceptsCreate
               && path.isEmpty()
@@ -1075,14 +1082,52 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
+  protected String topLevelRedirect(RestResource rsrc, IdString id, Iterable<IdString> path) {
+    // To be overwritten by the resource servlets if the resource needs a top-level redirect such
+    // as a change in the resource identifier.
+    return null;
+  }
+
+  private enum PathParserState {
+    PRE_DELIMITER,
+    DELIMITER,
+    POST_DELIMITER
+  }
+
   private static List<IdString> splitPath(HttpServletRequest req) {
     String path = RequestUtil.getEncodedPathInfo(req);
     if (Strings.isNullOrEmpty(path)) {
       return Collections.emptyList();
     }
     List<IdString> out = new ArrayList<>();
-    for (String p : Splitter.on('/').split(path)) {
-      out.add(IdString.fromUrl(p));
+    Iterable<String> splitted = Splitter.on('/').split(path);
+    if (Iterables.contains(splitted, "+")) {
+      PathParserState state = PathParserState.PRE_DELIMITER;
+      StringBuilder b = new StringBuilder();
+      for (String p : splitted) {
+        if (p.equals("+")) {
+          state = PathParserState.DELIMITER;
+        }
+        switch (state) {
+          case PRE_DELIMITER:
+            b.append(p);
+            break;
+          case DELIMITER:
+            if (p.equals("+")) {
+              b.append("/+/");
+            } else {
+              b.append(p);
+              out.add(IdString.fromUrl(b.toString()));
+              state = PathParserState.POST_DELIMITER;
+            }
+            break;
+          case POST_DELIMITER:
+            out.add(IdString.fromUrl(p));
+            break;
+        }
+      }
+    } else {
+      splitted.forEach(p -> out.add(IdString.fromUrl(p)));
     }
     if (out.size() > 0 && out.get(out.size() - 1).isEmpty()) {
       out.remove(out.size() - 1);

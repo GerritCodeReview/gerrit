@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Change;
@@ -57,6 +59,22 @@ public class ChangeFinder {
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
+
+    // Try project/+/numericChangeId
+    if (!id.isEmpty()) {
+      int lastDel = id.lastIndexOf("/+/");
+      if (lastDel > 0) {
+        String project = id.substring(0, lastDel);
+        Integer maybeNumericChangeId = Ints.tryParse(id.substring(lastDel + "/+/".length()));
+        if (maybeNumericChangeId != null) {
+          List<ChangeControl> ctls =
+              asChangeControls(query.byLegacyChangeId(new Change.Id(maybeNumericChangeId)), user);
+          return ctls.stream()
+              .filter(c -> c.getProject().getName().equals(project))
+              .collect(toList());
+        }
+      }
+    }
 
     // Try legacy id
     if (!id.isEmpty() && id.charAt(0) != '0') {

@@ -284,7 +284,7 @@ public class GerritServer {
     httpAddress = new InetSocketAddress(uri.getHost(), uri.getPort());
   }
 
-  String getUrl() {
+  public String getUrl() {
     return url;
   }
 

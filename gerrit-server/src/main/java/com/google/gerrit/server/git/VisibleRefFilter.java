@@ -22,6 +22,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -35,10 +36,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -62,7 +61,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   private final ReviewDb reviewDb;
   private final boolean showMetadata;
   private String userEditPrefix;
-  private Set<Change.Id> visibleChanges;
+  private Map<Change.Id, Branch.NameKey> visibleChanges;
 
   public VisibleRefFilter(
       TagCache tagCache,
@@ -221,26 +220,29 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         visibleChanges = visibleChangesBySearch();
       }
     }
-    return visibleChanges.contains(changeId);
+    return visibleChanges.containsKey(changeId);
   }
 
   private boolean visibleEdit(String name) {
-    if (userEditPrefix != null && name.startsWith(userEditPrefix)) {
-      Change.Id id = Change.Id.fromEditRefPart(name);
-      if (id != null) {
-        return visible(id);
-      }
+    Change.Id id = Change.Id.fromEditRefPart(name);
+    // Initialize if it wasn't yet
+    if (visibleChanges == null) {
+      visible(id);
+    }
+    if (id != null) {
+      return (userEditPrefix != null && name.startsWith(userEditPrefix) && visible(id))
+          || projectCtl.controlForRef(visibleChanges.get(id)).isEditVisible();
     }
     return false;
   }
 
-  private Set<Change.Id> visibleChangesBySearch() {
+  private Map<Change.Id, Branch.NameKey> visibleChangesBySearch() {
     Project project = projectCtl.getProject();
     try {
-      Set<Change.Id> visibleChanges = new HashSet<>();
+      Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
       for (ChangeData cd : changeCache.getChangeData(reviewDb, project.getNameKey())) {
         if (projectCtl.controlForIndexedChange(cd.change()).isVisible(reviewDb, cd)) {
-          visibleChanges.add(cd.getId());
+          visibleChanges.put(cd.getId(), cd.change().getDest());
         }
       }
       return visibleChanges;
@@ -250,24 +252,24 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
               + project.getName()
               + ", assuming no changes are visible",
           e);
-      return Collections.emptySet();
+      return Collections.emptyMap();
     }
   }
 
-  private Set<Change.Id> visibleChangesByScan() {
+  private Map<Change.Id, Branch.NameKey> visibleChangesByScan() {
     Project.NameKey project = projectCtl.getProject().getNameKey();
     try {
-      Set<Change.Id> visibleChanges = new HashSet<>();
+      Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
       for (ChangeNotes cn : changeNotesFactory.scan(db, reviewDb, project)) {
         if (projectCtl.controlFor(cn).isVisible(reviewDb)) {
-          visibleChanges.add(cn.getChangeId());
+          visibleChanges.put(cn.getChangeId(), cn.getChange().getDest());
         }
       }
       return visibleChanges;
     } catch (IOException | OrmException e) {
       log.error(
           "Cannot load changes for project " + project + ", assuming no changes are visible", e);
-      return Collections.emptySet();
+      return Collections.emptyMap();
     }
   }
 

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ed3ff16_cfbe53af",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-25T15:51:51Z",
+      "side": 1,
+      "message": "Check Access?",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 21
+      },
+      "revId": "678bab8e9781b9b261ad12d55a7b4fb47f88db99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf102187_6c86b200",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-25T15:51:51Z",
+      "side": 1,
+      "message": "check.access?",
+      "range": {
+        "startLine": 190,
+        "startChar": 21,
+        "endLine": 190,
+        "endChar": 26
+      },
+      "revId": "678bab8e9781b9b261ad12d55a7b4fb47f88db99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1660d4f2_a96dffae",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1313,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-25T15:51:51Z",
+      "side": 1,
+      "message": "of an",
+      "range": {
+        "startLine": 1312,
+        "startChar": 43,
+        "endLine": 1313,
+        "endChar": 1
+      },
+      "revId": "678bab8e9781b9b261ad12d55a7b4fb47f88db99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6691a60_2b27c8db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/config/ServerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-25T15:51:51Z",
+      "side": 1,
+      "message": "access",
+      "range": {
+        "startLine": 138,
+        "startChar": 47,
+        "endLine": 138,
+        "endChar": 58
+      },
+      "revId": "678bab8e9781b9b261ad12d55a7b4fb47f88db99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

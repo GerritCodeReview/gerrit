@@ -18,15 +18,17 @@ import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 
+import java.io.IOException;
+import java.util.Set;
+
+import org.eclipse.jgit.errors.ConfigInvalidException;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.group.GroupField;
-import java.io.IOException;
-import java.util.Set;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public final class IndexUtils {
   public static final ImmutableMap<String, String> CUSTOM_CHAR_MAPPING =
@@ -38,15 +40,6 @@ public final class IndexUtils {
       GerritIndexStatus cfg = new GerritIndexStatus(sitePaths);
       cfg.setReady(name, version, ready);
       cfg.save();
-    } catch (ConfigInvalidException e) {
-      throw new IOException(e);
-    }
-  }
-
-  public static boolean getReady(SitePaths sitePaths, String name, int version) throws IOException {
-    try {
-      GerritIndexStatus cfg = new GerritIndexStatus(sitePaths);
-      return cfg.getReady(name, version);
     } catch (ConfigInvalidException e) {
       throw new IOException(e);
     }

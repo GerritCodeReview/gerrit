@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a2464299_63012805",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-25T14:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "217c64c0_c40b81d6",
+      "range": {
+        "startLine": 116,
+        "startChar": 6,
+        "endLine": 119,
+        "endChar": 8
+      },
+      "revId": "a75ad6290ffd4b288be5c32defbac982aa6c4320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1341501b_64a07e74",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-25T13:43:40Z",
       "side": 1,
       "message": "Should this include the canonical path?\n\n this.getBaseUrl() + path\n\nI\u0027m not sure whether documentation will be served from there if it\u0027s a non-root server.",
+      "range": {
+        "startLine": 1057,
+        "startChar": 31,
+        "endLine": 1057,
+        "endChar": 35
+      },
+      "revId": "a75ad6290ffd4b288be5c32defbac982aa6c4320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca2a92fd_06e680ea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1057,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-25T14:31:25Z",
+      "side": 1,
+      "message": "I haven\u0027t verified but I don\u0027t think the GWT UI accounts for the base URL either.",
+      "parentUuid": "1341501b_64a07e74",
       "range": {
         "startLine": 1057,
         "startChar": 31,

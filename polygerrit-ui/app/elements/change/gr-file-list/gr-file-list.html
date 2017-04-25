@@ -234,7 +234,7 @@ limitations under the License.
                   items="[[computeAllPatchSets(change)]]"
                   as="patchNum">
                 <option
-                    disabled$="[[_computePatchSetDisabled(patchNum.num, patchRange.patchNum)]]"
+                    disabled$="[[_computePatchSetDisabled(patchNum.num, patchRange.patchNum, revisions)]]"
                     value$="[[patchNum.num]]">
                   [[patchNum.num]]
                   [[patchNum.desc]]

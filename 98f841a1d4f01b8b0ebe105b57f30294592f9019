@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de393d90_09ae18a7",
+        "filename": "polygerrit-ui/app/externs/polymer-1.0.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-25T15:27:34Z",
+      "side": 1,
+      "message": "Should this go in lib/ so its handled like our other dependencies?",
+      "range": {
+        "startLine": 2,
+        "startChar": 47,
+        "endLine": 2,
+        "endChar": 0
+      },
+      "revId": "98f841a1d4f01b8b0ebe105b57f30294592f9019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

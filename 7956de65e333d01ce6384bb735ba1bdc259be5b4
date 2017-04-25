@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a6f123f0_7ae83e85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-25T12:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1fca81d_2459a7f9",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "7956de65e333d01ce6384bb735ba1bdc259be5b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75f082b1_745e49d2",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2017-04-25T09:51:29Z",
       "side": 1,
       "message": "Document that for each hostname, the same port and other config values are reused.\n\nOr should we allow to have different port etc per host?  Is that a likely use case?",
+      "revId": "7956de65e333d01ce6384bb735ba1bdc259be5b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca0f5ea0_fb98316a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2684,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-25T12:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75f082b1_745e49d2",
       "revId": "7956de65e333d01ce6384bb735ba1bdc259be5b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

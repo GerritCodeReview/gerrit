@@ -41,6 +41,7 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getConfig: function() { return Promise.resolve({}); },
+        probePath: function(path) { return Promise.resolve(false); },
       });
       stub('gr-main-header', {
         _loadAccount: function() {},
@@ -135,25 +136,31 @@ limitations under the License.
       var docLinks = [
         {
           name: 'Table of Contents',
-          url: '/Documentation/index.html',
+          url: '/index.html',
         },
       ];
 
-      assert.deepEqual(element._getDocLinks(null, docLinks), []);
-      assert.deepEqual(element._getDocLinks('', docLinks), []);
-      assert.deepEqual(element._getDocLinks('base', null), []);
-      assert.deepEqual(element._getDocLinks('base', []), []);
+      assert.deepEqual(element._getDocLinks(false, null, docLinks), []);
+      assert.deepEqual(element._getDocLinks(false, '', docLinks), []);
+      assert.deepEqual(element._getDocLinks(false, 'base', null), []);
+      assert.deepEqual(element._getDocLinks(false, 'base', []), []);
 
-      assert.deepEqual(element._getDocLinks('base', docLinks), [{
+      assert.deepEqual(element._getDocLinks(false, 'base', docLinks), [{
         name: 'Table of Contents',
         target: '_blank',
-        url: 'base/Documentation/index.html',
+        url: 'base/index.html',
       }]);
 
-      assert.deepEqual(element._getDocLinks('base/', docLinks), [{
+      assert.deepEqual(element._getDocLinks(true, 'base/', docLinks), [{
         name: 'Table of Contents',
         target: '_blank',
-        url: 'base/Documentation/index.html',
+        url: 'base/index.html',
+      }]);
+
+      assert.deepEqual(element._getDocLinks(true, null, docLinks), [{
+        name: 'Table of Contents',
+        target: '_blank',
+        url: '/Documentation/index.html',
       }]);
     });
   });

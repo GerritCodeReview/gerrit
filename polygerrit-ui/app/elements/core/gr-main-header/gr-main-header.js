@@ -113,10 +113,14 @@
         type: String,
         value: null,
       },
+      _docProbeSuccessful: {
+        type: Boolean,
+        value: false,
+      },
       _links: {
         type: Array,
-        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks,' +
-            '_docBaseUrl)',
+        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks, ' +
+            '_docProbeSuccessful, _docBaseUrl)',
       },
       _loginURL: {
         type: String,
@@ -170,7 +174,8 @@
       return '//' + window.location.host + this.getBaseUrl() + path;
     },
 
-    _computeLinks: function(defaultLinks, userLinks, adminLinks, docBaseUrl) {
+    _computeLinks: function(defaultLinks, userLinks, adminLinks,
+        docProbeSuccessful, docBaseUrl) {
       var links = defaultLinks.slice();
       if (userLinks && userLinks.length > 0) {
         links.push({
@@ -184,7 +189,8 @@
           links: adminLinks,
         });
       }
-      var docLinks = this._getDocLinks(docBaseUrl, DOCUMENTATION_LINKS);
+      var docLinks = this._getDocLinks(
+          docProbeSuccessful, docBaseUrl, DOCUMENTATION_LINKS);
       if (docLinks.length) {
         links.push({
           title: 'Documentation',
@@ -194,12 +200,16 @@
       return links;
     },
 
-    _getDocLinks: function(docBaseUrl, docLinks) {
-      if (!docBaseUrl || !docLinks) {
+    _getDocLinks: function(docProbeSuccessful, docBaseUrl, docLinks) {
+      var baseUrl = docBaseUrl;
+      if (!baseUrl && docProbeSuccessful) {
+        baseUrl = '/Documentation';
+      }
+      if (!baseUrl || !docLinks) {
         return [];
       }
       return docLinks.map(function(link) {
-        var url = docBaseUrl;
+        var url = baseUrl;
         if (url && url[url.length - 1] === '/') {
           url = url.substring(0, url.length - 1);
         }
@@ -220,10 +230,20 @@
     },
 
     _loadConfig: function() {
-      return this.$.restAPI.getConfig().then(function(config) {
+      this.$.restAPI.getConfig().then(function(config) {
         if (config && config.gerrit) {
           this._docBaseUrl = config.gerrit.doc_url;
         }
+        if (!this._docBaseUrl) {
+          return this._probeDocLink('/Documentation/index.html');
+        }
+      }.bind(this));
+    },
+
+    _probeDocLink: function(path) {
+      return this.$.restAPI.probePath(path).then(function(ok) {
+        this._docBaseUrl = null;
+        this._docProbeSuccessful = ok;
       }.bind(this));
     },
 

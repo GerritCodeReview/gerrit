@@ -121,7 +121,6 @@ public class ChangeInserter implements InsertChangeOp {
   private Set<Account.Id> extraCC;
   private Map<String, Short> approvals;
   private RequestScopePropagator requestScopePropagator;
-  private ReceiveCommand updateRefCommand;
   private boolean fireRevisionCreated;
   private boolean sendMail;
   private boolean updateRef;
@@ -170,7 +169,6 @@ public class ChangeInserter implements InsertChangeOp {
     this.reviewers = Collections.emptySet();
     this.extraCC = Collections.emptySet();
     this.approvals = Collections.emptyMap();
-    this.updateRefCommand = null;
     this.fireRevisionCreated = true;
     this.sendMail = true;
     this.updateRef = true;
@@ -310,10 +308,6 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
-  public void setUpdateRefCommand(ReceiveCommand cmd) {
-    updateRefCommand = cmd;
-  }
-
   public void setPushCertificate(String cert) {
     pushCert = cert;
   }
@@ -347,11 +341,7 @@ public class ChangeInserter implements InsertChangeOp {
     if (!updateRef) {
       return;
     }
-    if (updateRefCommand == null) {
-      ctx.addRefUpdate(ObjectId.zeroId(), commitId, psId.toRefName());
-    } else {
-      ctx.addRefUpdate(updateRefCommand);
-    }
+    ctx.addRefUpdate(ObjectId.zeroId(), commitId, psId.toRefName());
   }
 
   @Override

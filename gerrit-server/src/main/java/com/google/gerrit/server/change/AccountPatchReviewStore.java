@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtorm.server.OrmException;
@@ -30,6 +33,19 @@ import java.util.Collection;
  * <p>For a multi-master setup the store must replicate the data between the masters.
  */
 public interface AccountPatchReviewStore {
+
+  /** Represents patch set id with reviewed files. */
+  @AutoValue
+  abstract class PatchSetWithReviewedFiles {
+    abstract PatchSet.Id patchSetId();
+
+    abstract ImmutableSet<String> files();
+
+    public static PatchSetWithReviewedFiles create(PatchSet.Id id, ImmutableSet<String> files) {
+      return new AutoValue_AccountPatchReviewStore_PatchSetWithReviewedFiles(id, files);
+    }
+  }
+
   /**
    * Marks the given file in the given patch set as reviewed by the given user.
    *
@@ -72,12 +88,15 @@ public interface AccountPatchReviewStore {
   void clearReviewed(PatchSet.Id psId) throws OrmException;
 
   /**
-   * Returns the paths of all files in the given patch set the have been reviewed by the given user.
+   * Find the latest patch set, that is smaller or equals to the given patch set, where at least,
+   * one file has been reviewed by the given user.
    *
    * @param psId patch set ID
    * @param accountId account ID of the user
-   * @return the paths of all files in the given patch set the have been reviewed by the given user
+   * @return optionally, all files the have been reviewed by the given user that belong to the patch
+   *     set that is smaller or equals to the given patch set
    * @throws OrmException thrown if accessing the reviewed flags failed
    */
-  Collection<String> findReviewed(PatchSet.Id psId, Account.Id accountId) throws OrmException;
+  Optional<PatchSetWithReviewedFiles> findReviewed(PatchSet.Id psId, Account.Id accountId)
+      throws OrmException;
 }

@@ -19,6 +19,11 @@ import static com.google.gerrit.server.index.FieldDef.integer;
 import static com.google.gerrit.server.index.FieldDef.prefix;
 import static com.google.gerrit.server.index.FieldDef.timestamp;
 
+import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.Locale;
+import java.util.Set;
+
 import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
@@ -27,10 +32,6 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.SchemaUtil;
-import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.Set;
 
 /** Secondary index schemas for accounts. */
 public class AccountField {
@@ -61,6 +62,8 @@ public class AccountField {
 
   public static final FieldDef<AccountState, String> FULL_NAME =
       exact("full_name").build(a -> a.getAccount().getFullName());
+
+  public static final FieldDef<AccountState, String> ELASTIC_ONLINE = exact("elastic_online").build(a -> "reindex work");
 
   public static final FieldDef<AccountState, String> ACTIVE =
       exact("inactive").build(a -> a.getAccount().isActive() ? "1" : "0");

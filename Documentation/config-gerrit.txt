@@ -2680,6 +2680,54 @@ change index named 'gerrit1_changes_0001'.
 +
 Not set by default.
 
+[[index.username]]index.username::
++
+Username used to connect to Elasticsearch.
++
+Not set by default.
+
+[[index.password]]index.password::
++
+Password used to connect to Elasticsearch.
++
+Not set by default.
+
+[[index.requestCompression]]index.requestCompression::
++
+Enable request compression.
++
+Defaults to `false`.
+
+[[index.connectionTimeout]]index.connectionTimeout::
++
+How long should Gerrit waits for connection.
++
+The value is in the usual time-unit format like "1 m", "5 m".
++
+Defaults to `5 m`
+
+[[index.maxConnectionIdleTime]]index.maxConnectionIdleTime::
++
+How long connection can stay in idle.
++
+The value is in the usual time-unit format like "1 m", "5 m".
++
+Defaults to `5 m`
+
+[[index.maxTotalConnection]]index.maxTotalConnection::
++
+How many connections can be spawn simultaneously.
++
+Defaults to `1`
+
+[[index.maxReadTimeout]]index.maxReadTimeout::
++
+Timeout for the read operation.
++
+The value is in the usual time-unit format like "1 m", "5 m".
++
+Defaults to `5 m`
+
 [[elasticsearch.name.protocol]]elasticsearch.name.protocol::
 +
 Elasticsearch server protocol [http|https].

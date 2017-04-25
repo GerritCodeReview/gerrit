@@ -41,6 +41,7 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getConfig: function() { return Promise.resolve({}); },
+        probePath: function(path) { return Promise.resolve(false); },
       });
       stub('gr-main-header', {
         _loadAccount: function() {},
@@ -135,7 +136,7 @@ limitations under the License.
       var docLinks = [
         {
           name: 'Table of Contents',
-          url: '/Documentation/index.html',
+          url: '/index.html',
         },
       ];
 
@@ -147,13 +148,13 @@ limitations under the License.
       assert.deepEqual(element._getDocLinks('base', docLinks), [{
         name: 'Table of Contents',
         target: '_blank',
-        url: 'base/Documentation/index.html',
+        url: 'base/index.html',
       }]);
 
       assert.deepEqual(element._getDocLinks('base/', docLinks), [{
         name: 'Table of Contents',
         target: '_blank',
-        url: 'base/Documentation/index.html',
+        url: 'base/index.html',
       }]);
     });
   });

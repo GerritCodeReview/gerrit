@@ -21,7 +21,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Capable;
-import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -29,7 +28,6 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -102,7 +100,6 @@ public class CreateChange
   private final ChangeJson.Factory jsonFactory;
   private final ChangeFinder changeFinder;
   private final PatchSetUtil psUtil;
-  private final boolean allowDrafts;
   private final MergeUtil.Factory mergeUtilFactory;
   private final SubmitType submitType;
   private final NotifyUtil notifyUtil;
@@ -138,7 +135,6 @@ public class CreateChange
     this.jsonFactory = json;
     this.changeFinder = changeFinder;
     this.psUtil = psUtil;
-    this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
     this.submitType = config.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
     this.mergeUtilFactory = mergeUtilFactory;
     this.notifyUtil = notifyUtil;
@@ -159,16 +155,6 @@ public class CreateChange
 
     if (Strings.isNullOrEmpty(input.subject)) {
       throw new BadRequestException("commit message must be non-empty");
-    }
-
-    if (input.status != null) {
-      if (input.status != ChangeStatus.NEW && input.status != ChangeStatus.DRAFT) {
-        throw new BadRequestException("unsupported change status");
-      }
-
-      if (!allowDrafts && input.status == ChangeStatus.DRAFT) {
-        throw new MethodNotAllowedException("draft workflow is disabled");
-      }
     }
 
     String refName = RefNames.fullName(input.branch);
@@ -261,7 +247,6 @@ public class CreateChange
         topic = Strings.emptyToNull(topic.trim());
       }
       ins.setTopic(topic);
-      ins.setDraft(input.status == ChangeStatus.DRAFT);
       ins.setPrivate(input.isPrivate != null && input.isPrivate);
       ins.setWorkInProgress(input.workInProgress != null && input.workInProgress);
       ins.setGroups(groups);

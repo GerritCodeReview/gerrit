@@ -49,7 +49,6 @@ import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
@@ -94,7 +93,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 /** Parses a query string meant to be applied to change objects. */
@@ -218,7 +216,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final StarredChangesUtil starredChangesUtil;
     final SubmitDryRun submitDryRun;
     final TrackingFooters trackingFooters;
-    final boolean allowsDrafts;
 
     private final Provider<CurrentUser> self;
 
@@ -255,7 +252,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
-        @GerritServerConfig Config cfg,
         NotesMigration notesMigration) {
       this(
           db,
@@ -288,7 +284,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           listMembers,
           starredChangesUtil,
           accountCache,
-          cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true),
           notesMigration);
     }
 
@@ -323,7 +318,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
-        boolean allowsDrafts,
         NotesMigration notesMigration) {
       this.db = db;
       this.queryProvider = queryProvider;
@@ -354,7 +348,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.listMembers = listMembers;
       this.starredChangesUtil = starredChangesUtil;
       this.accountCache = accountCache;
-      this.allowsDrafts = allowsDrafts;
       this.hasOperands = hasOperands;
       this.notesMigration = notesMigration;
     }
@@ -391,7 +384,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           listMembers,
           starredChangesUtil,
           accountCache,
-          allowsDrafts,
           notesMigration);
     }
 
@@ -589,7 +581,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("cc".equalsIgnoreCase(value)) {
-      return ReviewerPredicate.cc(args, self());
+      return ReviewerPredicate.cc(self());
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
@@ -1292,7 +1284,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (args.index.getSchema().hasField(ChangeField.REVIEWER_BY_EMAIL)) {
       Address address = Address.tryParse(who);
       if (address != null) {
-        reviewerByEmailPredicate = ReviewerByEmailPredicate.forState(args, address, state);
+        reviewerByEmailPredicate = ReviewerByEmailPredicate.forState(address, state);
       }
     }
 
@@ -1304,7 +1296,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
             Predicate.or(
                 accounts
                     .stream()
-                    .map(id -> ReviewerPredicate.forState(args, id, state))
+                    .map(id -> ReviewerPredicate.forState(id, state))
                     .collect(toList()));
       }
     } catch (QueryParseException e) {

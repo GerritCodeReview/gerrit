@@ -1107,5 +1107,12 @@
       return this.send('DELETE',
           this.getChangeActionURL(changeNum, null, '/assignee'));
     },
+
+    probePath: function(path) {
+      return fetch(new Request(path, {method: 'HEAD'}))
+        .then(function(response) {
+          return response.ok;
+        });
+    },
   });
 })();

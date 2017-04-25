@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1493116344 -0400\nnonce AFMZ2GzUaJr7ARvW7cB10yeY/vw782Yx+m0nCicPmMFpc7KUR+Spmu9jps+UuGlf3FGZDJnjhknt\n\n0000000000000000000000000000000000000000 0ef8c834d093a2317ee2712347bf9987575a08b2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJY/yW4AAoJEF/XxZqaEoiMR/8QANVWb9uTTk+6I4PWaF9FfWkx\nxE6j7MdBA2Nmrq+5Qq/MmxYv9XJxR38cUDPiCzvYt8SR4vVxlQfHXm+Qub/Bgbqh\n1L0IN3aQuFlLRU1N/M58IUlSbW9vep/eot3nbiMEH5JY+TfskTWTwBymgtK+MtKK\nT8KQH13HiLoOkRNX4L/pyyqHb7F6bbN+SNEsPLboqFP1JaFCw+gVv5XHCYiXzCda\nZKSDHpqSNVP+8pXMWxtGbxVlb3bxhxfp08MuBbenB5QVm4BWZlLkNP+WIBizrz8Z\nnnK89tepCpHICuHouD5rh4PQ0hiBZLyZtfv/R9tf9IPCtULe5H4YqmGpYJXrlf7I\nH9Z92d3RRvIJcRkc7TP30puds2D0IsXDkcj0N4c7Qn0vKLn/O5mGaxs0kD4nuvCI\n/XXHqwK6ycfOUvVtCOdybskSu9FqkWRvmWBdJkUMaCmg0XVHcec+9sgHvZG+4NRr\nBUWgaotBlGLS45rkbBewYLD9xQQ7CamsK1RiPzSy3gew/XNiynxbhDqaG/DFYJvQ\n8q+VQ73JVK/2jvbgTxDafBjLaCxiViqdAN53txQufAOoyHsb+fnlXjNCBdyFxwf8\nUrxbdFcwoVI/DWuImWH4t8ym0KOs75+znYJnaFDUqNLBSRX+0l9AUh8N60pXyq+S\nSq1EekmaaFC5dynjl0DJ\n\u003dRQ2u\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a8ee478_f3e5baba",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-25T12:20:38Z",
+      "side": 1,
+      "message": "Alternatively, you could be honest and add this line below:\n\n  fuseUpdates \u003d true\n\nAnd may be add in addition: \"don\u0027t try it at home\"?",
+      "range": {
+        "startLine": 35,
+        "startChar": 3,
+        "endLine": 35,
+        "endChar": 15
+      },
+      "revId": "0ef8c834d093a2317ee2712347bf9987575a08b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d608e05c_2b4b9ebb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbOnlyIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-25T12:20:38Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we be able to this tests for both modes: DISABLE_CHANGE_REVIEW_DB and NoteDbMode.FUSED?",
+      "range": {
+        "startLine": 51,
+        "startChar": 46,
+        "endLine": 51,
+        "endChar": 62
+      },
+      "revId": "0ef8c834d093a2317ee2712347bf9987575a08b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b5e6b37_2db6c558",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteRef.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-25T12:20:38Z",
+      "side": 1,
+      "message": "Why it can not be set to true?",
+      "revId": "0ef8c834d093a2317ee2712347bf9987575a08b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

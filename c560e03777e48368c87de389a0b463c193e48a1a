@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "34e84954_9edda95a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-25T09:23:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "046a3808_b82fcb3b",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "c560e03777e48368c87de389a0b463c193e48a1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7eeb26e_b6bd31d3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-25T09:18:38Z",
       "side": 1,
       "message": "enabled",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 9,
+        "endChar": 31
+      },
+      "revId": "c560e03777e48368c87de389a0b463c193e48a1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ad47ad5_bfec6eab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-25T09:23:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7eeb26e_b6bd31d3",
       "range": {
         "startLine": 9,
         "startChar": 25,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "588977d2_5191ac9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-25T09:23:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c83e8e1_9fb0d6fb",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "c560e03777e48368c87de389a0b463c193e48a1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c786ac1_e0198962",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "39d58f56_9d3d2c66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-25T09:23:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c786ac1_e0198962",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 16
+      },
+      "revId": "c560e03777e48368c87de389a0b463c193e48a1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8462d932_c79ff33a",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/JestClientBuilder.java",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2017-04-25T09:16:20Z",
       "side": 1,
       "message": "long line?",
+      "range": {
+        "startLine": 63,
+        "startChar": 12,
+        "endLine": 63,
+        "endChar": 108
+      },
+      "revId": "c560e03777e48368c87de389a0b463c193e48a1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f51eaae6_0a344a59",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/JestClientBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-25T09:23:23Z",
+      "side": 1,
+      "message": "google-java-format doesn\u0027t modify this line and I would prefer to keep this in one line",
+      "parentUuid": "8462d932_c79ff33a",
       "range": {
         "startLine": 63,
         "startChar": 12,

@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de990153_e623c003",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersionDiscovery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-25T10:16:47Z",
+      "side": 1,
+      "message": "new GetAliases.Builder().addIndex(name + \"*\").build()",
+      "range": {
+        "startLine": 45,
+        "startChar": 39,
+        "endLine": 45,
+        "endChar": 54
+      },
+      "revId": "49e0274f657526ef06f9a8897149db4029b306ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2984ada4_9f68cfff",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersionDiscovery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-25T10:16:47Z",
+      "side": 1,
+      "message": "entry.getKey().replace(name,\"\")",
+      "range": {
+        "startLine": 52,
+        "startChar": 21,
+        "endLine": 52,
+        "endChar": 28
+      },
+      "revId": "49e0274f657526ef06f9a8897149db4029b306ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9cf319c_fd5d6a17",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-25T10:16:47Z",
+      "side": 1,
+      "message": "Move to inside if clause. No need to create it if it won\u0027t be used.",
+      "range": {
+        "startLine": 149,
+        "startChar": 4,
+        "endLine": 149,
+        "endChar": 76
+      },
+      "revId": "49e0274f657526ef06f9a8897149db4029b306ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93c49f51_c4a97116",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-25T10:16:47Z",
+      "side": 1,
+      "message": "missing @param name",
+      "revId": "49e0274f657526ef06f9a8897149db4029b306ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ad52221_e45d0fd0",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-25T10:16:47Z",
+      "side": 1,
+      "message": "missing @param name",
+      "revId": "49e0274f657526ef06f9a8897149db4029b306ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71169e0f_a20a5aa0",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-25T10:16:47Z",
+      "side": 1,
+      "message": "activated",
+      "range": {
+        "startLine": 181,
+        "startChar": 31,
+        "endLine": 181,
+        "endChar": 39
+      },
+      "revId": "49e0274f657526ef06f9a8897149db4029b306ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afe962c5_1aa6bff5",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-25T10:16:47Z",
+      "side": 1,
+      "message": "Since you are actually checking if \"reindexer\" is latest version \"isLatestIndexVersion\" or similar could be a better name.",
+      "range": {
+        "startLine": 195,
+        "startChar": 18,
+        "endLine": 195,
+        "endChar": 45
+      },
+      "revId": "49e0274f657526ef06f9a8897149db4029b306ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea0e3889_55f0ec9d",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-25T10:16:47Z",
+      "side": 1,
+      "message": "void\nOr, since it\u0027s only used once, don\u0027t wrap in a method.",
+      "range": {
+        "startLine": 245,
+        "startChar": 10,
+        "endLine": 245,
+        "endChar": 28
+      },
+      "revId": "49e0274f657526ef06f9a8897149db4029b306ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4293865_06316e50",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-25T10:16:47Z",
+      "side": 1,
+      "message": "Unintended import?",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 71
+      },
+      "revId": "49e0274f657526ef06f9a8897149db4029b306ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

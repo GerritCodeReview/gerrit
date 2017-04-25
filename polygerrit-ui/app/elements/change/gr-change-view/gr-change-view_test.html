@@ -58,6 +58,10 @@ limitations under the License.
     });
 
     suite('keyboard shortcuts', () => {
+      setup(() => {
+        sandbox.stub(element, '_updateSortedRevisions');
+      });
+
       test('S should toggle the CL star', () => {
         const starStub = sandbox.stub(element.$.changeStar, 'toggleStar');
         MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');
@@ -233,6 +237,12 @@ limitations under the License.
     });
 
     test('_computePatchSetDisabled', () => {
+      element._sortedRevisions = [
+        {_number: 1},
+        {_number: 2},
+        {_number: element.EDIT_NAME, basePatchNum: 2},
+        {_number: 3},
+      ];
       let basePatchNum = 'PARENT';
       let patchNum = 1;
       assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
@@ -241,6 +251,12 @@ limitations under the License.
       assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
           true);
       patchNum = 2;
+      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
+          false);
+      basePatchNum = element.EDIT_NAME;
+      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
+          true);
+      patchNum = '3';
       assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
           false);
     });
@@ -470,6 +486,7 @@ limitations under the License.
     });
 
     test('change num change', () => {
+      sandbox.stub(element, '_updateSortedRevisions');
       element._changeNum = null;
       element._patchRange = {
         basePatchNum: 'PARENT',
@@ -852,6 +869,37 @@ limitations under the License.
       });
     });
 
+    test('edit is added to change', () => {
+      sandbox.stub(element, '_changeChanged');
+      sandbox.stub(element, '_upgradeUrl');
+      sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
+        return Promise.resolve({
+          id: '123456789',
+          labels: {},
+          current_revision: 'foo',
+          revisions: {foo: {commit: {}}},
+        });
+      });
+      sandbox.stub(element, '_getEdit', () => {
+        return Promise.resolve({
+          base_patch_set_number: 1,
+          commit: {commit: 'bar'},
+        });
+      });
+
+      return element._getChangeDetail().then(() => {
+        const revs = element._change.revisions;
+        assert.equal(Object.keys(revs).length, 2);
+        assert.deepEqual(revs['foo'], {commit: {commit: 'foo'}});
+        assert.deepEqual(revs['bar'], {
+          _number: element.EDIT_NAME,
+          basePatchNum: 1,
+          commit: {commit: 'bar'},
+          fetch: undefined,
+        });
+      });
+    });
+
     test('reply dialog focus can be controlled', () => {
       const FocusTarget = element.$.replyDialog.FocusTarget;
       const openStub = sandbox.stub(element, '_openReplyDialog');
@@ -966,6 +1014,7 @@ limitations under the License.
     suite('reply dialog tests', () => {
       setup(() => {
         sandbox.stub(element.$.replyDialog, '_draftChanged');
+        sandbox.stub(element, '_updateSortedRevisions');
         sandbox.stub(element.$.replyDialog, 'fetchIsLatestKnown',
             () => { return Promise.resolve(true); });
         element._change = {labels: {}};

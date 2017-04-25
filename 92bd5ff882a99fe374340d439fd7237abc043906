@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aa4c47b7_0a3be231",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/EmailValidatorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-25T13:23:37Z",
+      "side": 1,
+      "message": "Do you mean something like \"foo@a\"?  Or \"foo@bar.a\"?",
+      "parentUuid": "2fddb475_d5ff9ae4",
+      "revId": "92bd5ff882a99fe374340d439fd7237abc043906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "636971c6_a5454bc7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
         "patchSetId": 3

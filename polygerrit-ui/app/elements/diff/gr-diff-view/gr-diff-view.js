@@ -109,6 +109,7 @@
     behaviors: [
       Gerrit.BaseUrlBehavior,
       Gerrit.KeyboardShortcutBehavior,
+      Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,
       Gerrit.URLEncodingBehavior,
     ],
@@ -458,10 +459,23 @@
 
       promises.push(this._getChangeDetail(this._changeNum));
 
-      Promise.all(promises).then(function() {
+      if (this._patchRange.patchNum === 'edit' ||
+          this._patchRange.basePatchNum === 'edit') {
+        promises.push(this.$.restAPI.getChangeEdit(this._changeNum));
+      }
+
+      Promise.all(promises).then(r => {
+        const [, , , edit] = r;
+        if (edit) {
+          this.set('_change.revisions.' + edit.commit.commit, {
+            _number: 0,
+            basePatchSetNumber: edit.base_patch_set_number,
+            commit: edit.commit,
+          });
+        }
         this._loading = false;
         this.$.diff.reload();
-      }.bind(this));
+      });
 
       this._loadCommentMap().then(function(commentMap) {
         this._commentMap = commentMap;
@@ -512,12 +526,9 @@
       return patchStr;
     },
 
-    _computeAvailablePatches: function(revisions) {
-      var patchNums = [];
-      for (var rev in revisions) {
-        patchNums.push(revisions[rev]._number);
-      }
-      return patchNums.sort(function(a, b) { return a - b; });
+    _computeAvailablePatches(revs) {
+      return this.sortRevisions(Object.values(revs)).map(e =>
+          e._number === 0 ? 'edit' : e._number);
     },
 
     _getChangePath: function(changeNum, patchRange, revisions) {

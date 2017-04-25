@@ -36,6 +36,8 @@ public interface Server {
 
   ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) throws RestApiException;
 
+  AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -73,6 +75,11 @@ public interface Server {
 
     @Override
     public ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException {
       throw new NotImplementedException();
     }
   }

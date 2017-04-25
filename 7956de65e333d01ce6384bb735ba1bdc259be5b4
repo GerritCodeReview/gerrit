@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d1fca81d_2459a7f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-25T10:52:55Z",
+      "side": 1,
+      "message": "Allow to",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "7956de65e333d01ce6384bb735ba1bdc259be5b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75f082b1_745e49d2",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2

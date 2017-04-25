@@ -18,6 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.searchbox.client.JestClientFactory;
 import io.searchbox.client.config.HttpClientConfig;
+import io.searchbox.client.config.HttpClientConfig.Builder;
 import io.searchbox.client.http.JestHttpClient;
 import java.util.concurrent.TimeUnit;
 
@@ -32,12 +33,22 @@ class JestClientBuilder {
 
   JestHttpClient build() {
     JestClientFactory factory = new JestClientFactory();
-    factory.setHttpClientConfig(
+    Builder builder =
         new HttpClientConfig.Builder(cfg.urls)
             .multiThreaded(true)
             .discoveryEnabled(false)
-            .discoveryFrequency(1L, TimeUnit.MINUTES)
-            .build());
+            .connTimeout((int) cfg.connectionTimeout)
+            .maxConnectionIdleTime(cfg.maxConnectionIdleTime, cfg.maxConnectionIdleUnit)
+            .maxTotalConnection(cfg.maxTotalConnection)
+            .readTimeout(cfg.readTimeout)
+            .requestCompressionEnabled(cfg.requestCompression)
+            .discoveryFrequency(1L, TimeUnit.MINUTES);
+
+    if (cfg.username != null && cfg.password != null) {
+      builder.defaultCredentials(cfg.username, cfg.password);
+    }
+
+    factory.setHttpClientConfig(builder.build());
     return (JestHttpClient) factory.getObject();
   }
 }

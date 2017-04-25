@@ -19,6 +19,12 @@ import static java.util.stream.Collectors.toList;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.eclipse.jgit.lib.Config;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
@@ -35,6 +41,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.protobuf.ProtobufCodec;
+
 import io.searchbox.client.JestResult;
 import io.searchbox.client.http.JestHttpClient;
 import io.searchbox.core.Bulk;
@@ -42,10 +49,6 @@ import io.searchbox.core.Delete;
 import io.searchbox.indices.CreateIndex;
 import io.searchbox.indices.DeleteIndex;
 import io.searchbox.indices.IndicesExists;
-import java.io.IOException;
-import java.util.List;
-import org.eclipse.jgit.lib.Config;
-import org.elasticsearch.common.xcontent.XContentBuilder;
 
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static <T> List<T> decodeProtos(
@@ -83,7 +86,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.indexName =
         String.format(
             "%s%s%04d",
-            Strings.nullToEmpty(cfg.getString("index", null, "prefix")),
+            Strings.nullToEmpty(cfg.getString("elasticsearch", null, "prefix")),
             indexName,
             schema.getVersion());
     this.client = clientBuilder.build();

@@ -52,7 +52,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -1564,17 +1563,9 @@ public class ReceiveCommits {
     }
 
     if (magicBranch.draft) {
-      if (!receiveConfig.allowDrafts) {
-        errors.put(Error.CODE_REVIEW, ref);
-        reject(cmd, "draft workflow is disabled");
-        return;
-      } else if (projectControl
-          .controlForRef(MagicBranch.NEW_DRAFT_CHANGE + ref)
-          .isBlocked(Permission.PUSH)) {
-        errors.put(Error.CODE_REVIEW, ref);
-        reject(cmd, "cannot upload drafts");
-        return;
-      }
+      errors.put(Error.CODE_REVIEW, ref);
+      reject(cmd, "Creation of draft refs is not allowed.");
+      return;
     }
 
     if (!magicBranch.ctl.canUpload()) {

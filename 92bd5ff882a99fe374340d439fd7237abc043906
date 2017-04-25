@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2fddb475_d5ff9ae4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/EmailValidatorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1040172
+      },
+      "writtenOn": "2017-04-25T12:26:42Z",
+      "side": 1,
+      "message": "Are sure this also supports one-letter TLDs? Even if by convention TLD should have minimum two letters, but one letter works fine everywhere (except Gerrit until now ;p)",
+      "revId": "92bd5ff882a99fe374340d439fd7237abc043906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "636971c6_a5454bc7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
         "patchSetId": 3

@@ -2677,7 +2677,10 @@ Defaults to `http`.
 
 [[index.hostname]]index.hostname::
 +
-Elasticsearch server hostname.
+Elasticsearch server hostname(s).
+
+To configure multiple Elasticsearch servers provide multiple
+`index.hostname` entries.
 
 Defaults to `localhost`.
 

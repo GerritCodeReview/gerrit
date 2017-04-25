@@ -96,7 +96,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
             .defaultIndex(indexName)
             .defaultType(ACCOUNTS)
             .addAction(insert(ACCOUNTS, as))
-            .refresh(refresh)
+            .refresh(true)
             .build();
     JestResult result = client.execute(bulk);
     if (!result.isSucceeded()) {

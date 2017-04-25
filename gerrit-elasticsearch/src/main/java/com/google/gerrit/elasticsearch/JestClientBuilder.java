@@ -16,6 +16,8 @@ package com.google.gerrit.elasticsearch;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.lib.Config;
@@ -31,40 +33,27 @@ import io.searchbox.client.http.JestHttpClient;
 
 @Singleton
 class JestClientBuilder {
-
-  private final String url;
-
-  final boolean refresh;
+  private final List<String> urls;
 
   @Inject
   JestClientBuilder(@GerritServerConfig Config cfg) {
     String protocol = MoreObjects.firstNonNull(cfg.getString("index", null, "protocol"), "http");
-    String hostname =
-        MoreObjects.firstNonNull(cfg.getString("index", null, "hostname"), "localhost");
+    String[] hostnames =
+        MoreObjects.firstNonNull(
+            cfg.getStringList("index", null, "hostname"), new String[] {"localhost"});
     String port = String.valueOf(cfg.getInt("index", null, "port", 9200));
 
-    // By default Elasticsearch has a 1s delay before changes are available in
-    // the index.  Setting refresh(true) on calls to the index makes the index
-    // refresh immediately.
-    //
-    // Discovery should be disabled during test mode to prevent spurious
-    // connection failures caused by the client starting up and being ready
-    // before the test node.
-    //
-    // This setting should only be set to true during testing, and is not
-    // documented.
-    this.refresh = cfg.getBoolean("index", "elasticsearch", "test", false);
-
-    this.url = buildUrl(protocol, hostname, port);
+    this.urls = new ArrayList<>(hostnames.length);
+    for (String hostname : hostnames) {
+      this.urls.add(buildUrl(protocol, hostname, port));
+    }
   }
 
   JestHttpClient build() {
     JestClientFactory factory = new JestClientFactory();
     factory.setHttpClientConfig(
-        new HttpClientConfig.Builder(url)
+        new HttpClientConfig.Builder(urls)
             .multiThreaded(true)
-            // Temporary disable servers discovery.
-            // We can enable it again when we can wait for it to finish
             .discoveryEnabled(false)
             .discoveryFrequency(1L, TimeUnit.MINUTES)
             .build());

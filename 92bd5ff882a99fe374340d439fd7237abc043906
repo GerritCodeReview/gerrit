@@ -22,6 +22,30 @@
       "revId": "92bd5ff882a99fe374340d439fd7237abc043906",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3781a1f4_bae6879d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-25T10:16:54Z",
+      "side": 1,
+      "message": "If sendemail.allowtld is not configured, we have to call updateTLDOverride anyway to set the default \"local\" value.\n\nOr do you prefer to change the default behaviour to not support \"local\"?  Then we need to document that for any users who depend on it (shouldn\u0027t be many).",
+      "parentUuid": "636971c6_a5454bc7",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 39
+      },
+      "revId": "92bd5ff882a99fe374340d439fd7237abc043906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

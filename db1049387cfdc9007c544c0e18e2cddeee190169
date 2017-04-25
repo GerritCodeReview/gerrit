@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bae1a42_e2d2b86f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-25T11:54:19Z",
+      "side": 1,
+      "message": "Maybe just \"Download patch\" or \"Download\"?",
+      "range": {
+        "startLine": 101,
+        "startChar": 12,
+        "endLine": 101,
+        "endChar": 30
+      },
+      "revId": "db1049387cfdc9007c544c0e18e2cddeee190169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80d5c64b_4f9eef56",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-25T11:54:19Z",
+      "side": 1,
+      "message": "Since this is intended to be captured by the hosting element, can we disable bubbling to avoid naming conflicts?",
+      "range": {
+        "startLine": 811,
+        "startChar": 6,
+        "endLine": 811,
+        "endChar": 32
+      },
+      "revId": "db1049387cfdc9007c544c0e18e2cddeee190169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

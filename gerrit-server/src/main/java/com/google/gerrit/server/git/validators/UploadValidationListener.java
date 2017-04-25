@@ -42,6 +42,7 @@ public interface UploadValidationListener {
    * @param repository The repository
    * @param project The project
    * @param remoteHost Remote address/hostname of the user
+   * @param up the UploadPack instance being processed
    * @param wants The list of wanted objects. These may be RevObject or
    *        RevCommit if the processor parsed them. Implementors should not rely
    *        on the values being parsed.
@@ -55,4 +56,22 @@ public interface UploadValidationListener {
       String remoteHost, UploadPack up, Collection<? extends ObjectId> wants,
       Collection<? extends ObjectId> haves)
       throws ValidationException;
+
+  /**
+   * Invoked before negotiation round is started.
+   *
+   * @param repository The repository
+   * @param project The project
+   * @param remoteHost Remote address/hostname of the user
+   * @param up the UploadPack instance being processed
+   * @param wants The list of wanted objects. These may be RevObject or
+   *        RevCommit if the processor parsed them. Implementors should not rely
+   *        on the values being parsed.
+   * @param cntOffered number of objects the client has offered.
+   * @throws ValidationException to block the upload and send a message back to
+   *         the end-user over the client's protocol connection.
+   */
+  void onBeginNegotiate(Repository repository, Project project,
+      String remoteHost, UploadPack up, Collection<? extends ObjectId> wants,
+      int cntOffered) throws ValidationException;
 }

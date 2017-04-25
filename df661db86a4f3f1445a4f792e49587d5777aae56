@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9c5f69ad_2152e14d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-25T07:09:53Z",
+      "side": 1,
+      "message": "Yes they are.\n\nThis is functionally the same as reloading the label values from the server -- it doesn\u0027t accomplish anything that affects our PG code, it just helps fix a bug in the chromium plugin like I mentioned.\n\nI don\u0027t see any way that this could ever result in an incorrect change object, as it removes one property from a specific label, and a user can never have multiple votes in the same label.",
+      "parentUuid": "b0f9a946_8b3c5935",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "df661db86a4f3f1445a4f792e49587d5777aae56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7783bea0_a4372aca",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 1

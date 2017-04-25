@@ -30,15 +30,23 @@
         observer: '_updateSelected',
       },
       revisions: Object,
+      _sortedRevisions: Array,
       _rightSelected: String,
       _leftSelected: String,
     },
+
+    observers: ['_updateSortedRevisions(revisions.*)'],
 
     behaviors: [Gerrit.PatchSetBehavior],
 
     _updateSelected() {
       this._rightSelected = this.patchRange.patchNum;
       this._leftSelected = this.patchRange.basePatchNum;
+    },
+
+    _updateSortedRevisions(revisionsRecord) {
+      const revisions = revisionsRecord.base;
+      this._sortedRevisions = this.sortRevisions(Object.values(revisions));
     },
 
     _handlePatchChange(e) {
@@ -52,13 +60,21 @@
       e.target.blur();
     },
 
+    _findSortedIndex(patchNum) {
+      const findNum = rev => rev._number + '' === patchNum + '';
+      return this._sortedRevisions.findIndex(findNum);
+    },
+
     _computeLeftDisabled(patchNum, patchRange) {
-      return parseInt(patchNum, 10) >= parseInt(patchRange.patchNum, 10);
+      return this._findSortedIndex(patchNum) >=
+          this._findSortedIndex(patchRange.patchNum);
     },
 
     _computeRightDisabled(patchNum, patchRange) {
       if (patchRange.basePatchNum == 'PARENT') { return false; }
-      return parseInt(patchNum, 10) <= parseInt(patchRange.basePatchNum, 10);
+
+      return this._findSortedIndex(patchNum) <=
+          this._findSortedIndex(patchRange.basePatchNum);
     },
 
     // On page load, the dom-if for options getting added occurs after

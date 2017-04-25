@@ -111,11 +111,10 @@
       },
       _docBaseUrl: {
         type: String,
-        value: null,
       },
       _links: {
         type: Array,
-        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks,' +
+        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks, ' +
             '_docBaseUrl)',
       },
       _loginURL: {
@@ -220,9 +219,22 @@
     },
 
     _loadConfig: function() {
-      return this.$.restAPI.getConfig().then(function(config) {
+      this.$.restAPI.getConfig().then(function(config) {
         if (config && config.gerrit) {
           this._docBaseUrl = config.gerrit.doc_url;
+        }
+        if (!this._docBaseUrl) {
+          return this._probeDocLink('/Documentation/index.html');
+        }
+      }.bind(this));
+    },
+
+    _probeDocLink: function(path) {
+      return this.$.restAPI.probePath(path).then(function(ok) {
+        if (ok) {
+          this._docBaseUrl = '/Documentation';
+        } else {
+          this._docBaseUrl = null;
         }
       }.bind(this));
     },

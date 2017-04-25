@@ -49,11 +49,27 @@ limitations under the License.
       assert.isTrue(element.$.dropdown.opened);
     });
 
-    test('_computeRelativeURL', function() {
+    test('_computeURLHelper', function() {
       var path = '/test';
       var host = 'http://www.testsite.com';
       var computedPath = element._computeURLHelper(host, path);
       assert.equal(computedPath, '//http://www.testsite.com/test');
+    });
+
+    test('link URLs', function() {
+      assert.equal(
+          element._computeLinkURL({url: '/test'}),
+          '//' + window.location.host + '/test');
+      assert.equal(
+          element._computeLinkURL({url: '/test', target: '_blank'}),
+          '/test');
+    });
+
+    test('link rel', function() {
+      assert.isNull(element._computeLinkRel({url: '/test'}));
+      assert.equal(
+          element._computeLinkRel({url: '/test', target: '_blank'}),
+          'noopener');
     });
 
     test('_getClassIfBold', function() {

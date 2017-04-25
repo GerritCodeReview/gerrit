@@ -63,7 +63,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private final FillArgs fillArgs;
   private final SitePaths sitePaths;
 
-  protected final boolean refresh;
   protected final String indexName;
   protected final JestHttpClient client;
   protected final Gson gson;
@@ -87,7 +86,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
             Strings.nullToEmpty(cfg.getString("index", null, "prefix")),
             indexName,
             schema.getVersion());
-    this.refresh = clientBuilder.refresh;
     this.client = clientBuilder.build();
   }
 
@@ -108,7 +106,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   @Override
   public void delete(K c) throws IOException {
-    Bulk bulk = addActions(new Bulk.Builder(), c).refresh(refresh).build();
+    Bulk bulk = addActions(new Bulk.Builder(), c).refresh(true).build();
     JestResult result = client.execute(bulk);
     if (!result.isSucceeded()) {
       throw new IOException(

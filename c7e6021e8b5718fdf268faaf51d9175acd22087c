@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7b94308_18458468",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-04-25T14:27:16Z",
+      "side": 1,
+      "message": "DomainValidator *almost* allows us to avoid this. isValid checks operate on an instance, so we should be able to save an instance as a local variable and only override the TLD list on that instance.\n\n... except updateTLDOverride is static, defeating that.\n\nhttps://issues.apache.org/jira/browse/VALIDATOR-326 seems relevant, though it\u0027s for allowing all well formed TLDs instead of a whitelist.",
+      "revId": "c7e6021e8b5718fdf268faaf51d9175acd22087c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

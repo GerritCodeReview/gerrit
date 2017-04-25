@@ -21,6 +21,7 @@ import com.google.gerrit.client.api.ExtensionSettingsScreen;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.MenuScreen;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,7 +47,8 @@ public abstract class SettingsScreen extends MenuScreen {
     if (Gerrit.info().auth().isHttpPasswordSettingsEnabled()) {
       linkByGerrit(Util.C.tabHttpAccess(), PageLinks.SETTINGS_HTTP_PASSWORD);
     }
-    if (Gerrit.info().auth().isOAuth()) {
+    if (Gerrit.info().auth().isOAuth()
+        && Gerrit.info().auth().gitBasicAuthPolicy() == GitBasicAuthPolicy.OAUTH) {
       linkByGerrit(Util.C.tabOAuthToken(), PageLinks.SETTINGS_OAUTH_TOKEN);
     }
     if (Gerrit.info().gerrit().editGpgKeys()) {

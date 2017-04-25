@@ -84,7 +84,8 @@ public class AuthInfo extends JavaScriptObject {
   }
 
   public final boolean isHttpPasswordSettingsEnabled() {
-    return gitBasicAuthPolicy() != GitBasicAuthPolicy.LDAP;
+    return gitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP
+        || gitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP_LDAP;
   }
 
   public final GitBasicAuthPolicy gitBasicAuthPolicy() {

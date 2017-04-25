@@ -129,6 +129,24 @@
       "revId": "0ef8c834d093a2317ee2712347bf9987575a08b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6802bf_286f460a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteRef.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-25T13:28:32Z",
+      "side": 1,
+      "message": "Thanks for clarifying.",
+      "parentUuid": "ca06bfd8_ae531daf",
+      "revId": "0ef8c834d093a2317ee2712347bf9987575a08b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

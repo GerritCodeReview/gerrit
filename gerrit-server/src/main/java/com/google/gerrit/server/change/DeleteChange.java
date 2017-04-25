@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.DeleteChange.Input;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -37,7 +36,6 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, Response<?>>
@@ -48,7 +46,6 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
   private final Provider<DeleteChangeOp> opProvider;
   private final Provider<CurrentUser> user;
   private final PermissionBackend permissionBackend;
-  private final boolean allowDrafts;
 
   @Inject
   public DeleteChange(
@@ -56,14 +53,12 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
       RetryHelper retryHelper,
       Provider<DeleteChangeOp> opProvider,
       Provider<CurrentUser> user,
-      PermissionBackend permissionBackend,
-      @GerritServerConfig Config cfg) {
+      PermissionBackend permissionBackend) {
     super(retryHelper);
     this.db = db;
     this.opProvider = opProvider;
     this.user = user;
     this.permissionBackend = permissionBackend;
-    this.allowDrafts = DeleteChangeOp.allowDrafts(cfg);
   }
 
   @Override
@@ -72,8 +67,8 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
       throws RestApiException, UpdateException, PermissionBackendException {
     if (rsrc.getChange().getStatus() == Change.Status.MERGED) {
       throw new MethodNotAllowedException("delete not permitted");
-    } else if (!allowDrafts && rsrc.getChange().getStatus() == Change.Status.DRAFT) {
-      // If drafts are disabled, only an administrator can delete a draft.
+    } else if (rsrc.getChange().getStatus() == Change.Status.DRAFT) {
+      // Only an administrator can delete a draft.
       try {
         permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
       } catch (AuthException e) {
@@ -115,11 +110,7 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
         return false;
 
       case DRAFT:
-        if (allowDrafts) {
-          // Drafts can only be deleted if the server has drafts enabled.
-          return true;
-        }
-        // If drafts are disabled, only administrators may delete.
+        // Only administrators may delete.
         return permissionBackend.user(user).testOrFalse(GlobalPermission.ADMINISTRATE_SERVER);
     }
     return false;

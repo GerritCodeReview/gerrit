@@ -1458,8 +1458,6 @@ section.
 |`allow_blame`        |not set if `false`|
 link:config-gerrit.html#change.allowBlame[Whether blame on side by side diff is
 allowed].
-|`allow_drafts`       |not set if `false`|
-link:config-gerrit.html#change.allowDrafts[Whether draft workflow is
 allowed].
 |`large_change`       ||
 link:config-gerrit.html#change.largeChange[Number of changed lines from

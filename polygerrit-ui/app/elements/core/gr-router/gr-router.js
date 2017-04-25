@@ -309,10 +309,11 @@
     }
 
     // Matches
-    // /c/<project>/+/<changeNum>/[<basePatchNum>..][<patchNum>]/[path].
+    // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..][<patchNum|edit>]/[path].
     // TODO(kaspern): Migrate completely to project based URLs, with backwards
     // compatibility for change-only.
-    page(/^\/c\/([^\/]+)\/\+\/(\d+)(\/?((\d+)(\.\.(\d+))?(\/(.+))?))?\/?$/,
+    // eslint-disable-next-line max-length
+    page(/^\/c\/([^\/]+)\/\+\/(\d+)(\/?((\d+|edit)(\.\.(\d+|edit))?(\/(.+))?))?\/?$/,
         ctx => {
           // Parameter order is based on the regex group number matched.
           const params = {
@@ -343,7 +344,7 @@
         });
 
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>].
-    page(/^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?$/, ctx => {
+    page(/^\/c\/(\d+)\/?(((\d+|edit)(\.\.(\d+|edit))?))?$/, ctx => {
       // Parameter order is based on the regex group number matched.
       const params = {
         changeNum: ctx.params[0],
@@ -367,7 +368,7 @@
     });
 
     // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
-    page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, ctx => {
+    page(/^\/c\/(\d+)\/((\d+|edit)(\.\.(\d+|edit))?)\/(.+)/, ctx => {
       // Parameter order is based on the regex group number matched.
       const params = {
         changeNum: ctx.params[0],

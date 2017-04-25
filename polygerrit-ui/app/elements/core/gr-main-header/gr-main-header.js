@@ -60,28 +60,34 @@
 
   var DOCUMENTATION_LINKS = [
     {
-      url : '/index.html',
+      url : window.Gerrit.BaseUrlBehavior.getBaseUrl() + '/Documentation/index.html',
       name : 'Table of Contents',
+      target: '_blank',
     },
     {
-      url : '/user-search.html',
+      url : window.Gerrit.BaseUrlBehavior.getBaseUrl() + '/Documentation/user-search.html',
       name : 'Searching',
+      target: '_blank',
     },
     {
-      url : '/user-upload.html',
+      url : window.Gerrit.BaseUrlBehavior.getBaseUrl() + '/Documentation/user-upload.html',
       name : 'Uploading',
+      target: '_blank',
     },
     {
-      url : '/access-control.html',
+      url : window.Gerrit.BaseUrlBehavior.getBaseUrl() + '/Documentation/access-control.html',
       name : 'Access Control',
+      target: '_blank',
     },
     {
-      url : '/rest-api.html',
+      url : window.Gerrit.BaseUrlBehavior.getBaseUrl() + '/Documentation/rest-api.html',
       name : 'REST API',
+      target: '_blank',
     },
     {
-      url : '/intro-project-owner.html',
+      url : window.Gerrit.BaseUrlBehavior.getBaseUrl() + '/Documentation/intro-project-owner.html',
       name : 'Project Owner Guide',
+      target: '_blank',
     }
   ];
 
@@ -103,6 +109,7 @@
         type: Array,
         value: function() { return []; },
       },
+      _config: Boolean,
       _defaultLinks: {
         type: Array,
         value: function() {
@@ -183,31 +190,13 @@
           links: adminLinks,
         });
       }
-      var docLinks = this._getDocLinks(docBaseUrl, DOCUMENTATION_LINKS);
-      if (docLinks.length) {
+      if (this._config && docBaseUrl && docBaseUrl.length > 0) {
         links.push({
           title: 'Documentation',
-          links: docLinks,
+          links: docBaseUrl,
         });
       }
       return links;
-    },
-
-    _getDocLinks: function(docBaseUrl, docLinks) {
-      if (!docBaseUrl || !docLinks) {
-        return [];
-      }
-      return docLinks.map(function(link) {
-        var url = docBaseUrl;
-        if (url && url[url.length - 1] === '/') {
-          url = url.substring(0, url.length - 1);
-        }
-        return {
-          url: url + link.url,
-          name: link.name,
-          target: '_blank',
-        };
-      });
     },
 
     _loadAccount: function() {
@@ -219,23 +208,8 @@
     },
 
     _loadConfig: function() {
-      this.$.restAPI.getConfig().then(function(config) {
-        if (config && config.gerrit) {
-          this._docBaseUrl = config.gerrit.doc_url;
-        }
-        if (!this._docBaseUrl) {
-          return this._probeDocLink('/Documentation/index.html');
-        }
-      }.bind(this));
-    },
-
-    _probeDocLink: function(path) {
-      return this.$.restAPI.probePath(path).then(function(ok) {
-        if (ok) {
-          this._docBaseUrl = '/Documentation';
-        } else {
-          this._docBaseUrl = null;
-        }
+      return this.$.restAPI.getConfig().then(function(config) {
+        this._config = config.gerrit.doc_search;
       }.bind(this));
     },
 

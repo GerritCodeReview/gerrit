@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fc5e308_bc5c2db7",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-25T19:15:50Z",
+      "side": 1,
+      "message": "I doint see that defined in /config/server/info json. I only see doc_search.",
+      "range": {
+        "startLine": 225,
+        "startChar": 43,
+        "endLine": 225,
+        "endChar": 50
+      },
+      "revId": "f4a0eeb648e525985361860718ae1a068dbd5a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

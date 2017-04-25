@@ -39,6 +39,9 @@ limitations under the License.
      * @return {Object} The correspondent revision obj from {revisions}
      */
     getRevisionByPatchNum(revisions, patchNum) {
+      if (patchNum === 'edit') {
+        patchNum = 0;
+      }
       patchNum = parseInt(patchNum, 10);
       for (const rev in revisions) {
         if (revisions.hasOwnProperty(rev) &&
@@ -46,6 +49,59 @@ limitations under the License.
           return revisions[rev];
         }
       }
+    },
+
+    /**
+     * Find change edit base revision if change edit exists.
+     *
+     * @param {Array} revisions The revisions array
+     * @return {Object} change edit parent revision or null
+     * if change edit doesn't exist
+     */
+    findEditParentRevision(revisions) {
+      const editInfo = revisions.find(info => {
+        return info._number === 0;
+      });
+
+      if (!editInfo) {
+        return null;
+      }
+
+      return revisions.find(info => {
+        return info._number === editInfo.basePatchSetNumber;
+      });
+    },
+
+    /**
+     * Find change edit base patch set number if change edit exists.
+     *
+     * @param {Array} revisions The revisions array
+     * @return {Number} change edit patch set number or -1
+     */
+    findEditParentPatchNum(revisions) {
+      const revisionInfo = this.findEditParentRevision(revisions);
+      return revisionInfo == null ? -1 : revisionInfo._number;
+    },
+
+    /**
+     * Sort given revisions array according to the patch set number. The sort
+     * algorithm is change edit aware. Change edit has patch set number equals
+     * 0, but must appear after the patch set it was based on. Example: change
+     * edit is based on patch set 2, and another patch set was uploaded after
+     * change edit creation, the sorted order should be: 1, 2, (0|edit), 3.
+     *
+     * @param {Array} revisions The revisions array
+     * @return {Array} The sorted {revisions} array
+     */
+    sortRevisions(revisions) {
+      const editParent = this.findEditParentPatchNum(revisions);
+      return revisions.sort((a, b) => {
+        const num = r => {
+          return r._number !== 0 ? 2 * (r._number - 1) + 1 : 2 * editParent;
+        };
+
+        return num(a) - num(b);
+      });
     },
 
     /**
@@ -65,16 +121,17 @@ limitations under the License.
      */
     computeAllPatchSets(change) {
       if (!change) { return []; }
-      const patchNums = [];
-      for (const commit in change.revisions) {
-        if (change.revisions.hasOwnProperty(commit)) {
-          patchNums.push({
-            num: change.revisions[commit]._number,
-            desc: change.revisions[commit].description,
+      let patchNums = [];
+      if (change.revisions &&
+        Object.keys(change.revisions).length) {
+        patchNums =
+          this.sortRevisions(Object.values(change.revisions)).map(e => {
+            return {
+              num: e._number === 0 ? 'edit' : e._number,
+              desc: e.description,
+            };
           });
-        }
       }
-      patchNums.sort((a, b) => { return a.num - b.num; });
       return this._computeWipForPatchSets(change, patchNums);
     },
 
@@ -113,7 +170,24 @@ limitations under the License.
 
     computeLatestPatchNum(allPatchSets) {
       if (!allPatchSets || !allPatchSets.length) { return undefined; }
+      const lastCandidate = allPatchSets[allPatchSets.length - 1].num;
+      // Edit patch set is always based on parent revision.
+      if (lastCandidate === 'edit') {
+        return allPatchSets[allPatchSets.length - 2].num;
+      }
+      return lastCandidate;
+    },
+
+    computeStrictLatestPatchNum(allPatchSets) {
       return allPatchSets[allPatchSets.length - 1].num;
+    },
+
+    computeLatestPatchName(allPatchSets) {
+      const lastCandidate = allPatchSets[allPatchSets.length - 1].num;
+      if (lastCandidate === 'edit') {
+        return 0;
+      }
+      return lastCandidate;
     },
 
     /**

@@ -121,6 +121,11 @@ public class RefControl {
     return isVisible;
   }
 
+  /** Can this user see other users change edits? */
+  public boolean isEditVisible() {
+    return canViewPrivateChanges();
+  }
+
   /** True if this reference is visible by all REGISTERED_USERS */
   public boolean isVisibleByRegisteredUsers() {
     List<PermissionRule> access = relevant.getPermission(Permission.READ);

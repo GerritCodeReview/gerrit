@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7cfb31e_0d515915",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-25T12:52:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "faed824c_15f4aaf7",
+      "range": {
+        "startLine": 245,
+        "startChar": 6,
+        "endLine": 245,
+        "endChar": 69
+      },
+      "revId": "922bd570cfb71ff526fe19fce6c040b127ed974a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84fd886b_17e52cf5",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-25T08:33:45Z",
       "side": 1,
       "message": "Nice.",
+      "range": {
+        "startLine": 1057,
+        "startChar": 37,
+        "endLine": 1057,
+        "endChar": 53
+      },
+      "revId": "922bd570cfb71ff526fe19fce6c040b127ed974a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4db5c9fd_f06e2ee0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1057,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-25T12:52:35Z",
+      "side": 1,
+      "message": "Just copying GWT UI. :)",
+      "parentUuid": "84fd886b_17e52cf5",
       "range": {
         "startLine": 1057,
         "startChar": 37,

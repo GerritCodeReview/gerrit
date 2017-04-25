@@ -181,6 +181,7 @@
         value: true,
       },
       _updateCheckTimerHandle: Number,
+      _sortedRevisions: Array,
     },
 
     behaviors: [
@@ -195,6 +196,7 @@
     observers: [
       '_labelsChanged(_change.labels.*)',
       '_paramsAndChangeChanged(params, _change)',
+      '_updateSortedRevisions(_change.revisions.*)',
     ],
 
     keyBindings: {
@@ -241,6 +243,11 @@
       if (this._updateCheckTimerHandle) {
         this._cancelUpdateCheckTimer();
       }
+    },
+
+    _updateSortedRevisions(revisionsRecord) {
+      const revisions = revisionsRecord.base;
+      this._sortedRevisions = this.sortRevisions(Object.values(revisions));
     },
 
     _computePrefsButtonHidden(prefs, loggedIn) {
@@ -684,13 +691,15 @@
     /**
      * Determines if a patch number should be disabled based on value of the
      * basePatchNum from gr-file-list.
-     * @param {Number} patchNum Patch number available in dropdown
-     * @param {Number|String} basePatchNum Base patch number from file list
-     * @return {Boolean}
+     * @param {number} patchNum Patch number available in dropdown
+     * @param {number|string} basePatchNum Base patch number from file list
+     * @return {boolean}
      */
     _computePatchSetDisabled(patchNum, basePatchNum) {
-      basePatchNum = basePatchNum === 'PARENT' ? 0 : basePatchNum;
-      return parseInt(patchNum, 10) <= parseInt(basePatchNum, 10);
+      if (basePatchNum === 'PARENT') { return false; }
+
+      return this.findSortedIndex(patchNum, this._sortedRevisions) <=
+          this.findSortedIndex(basePatchNum, this._sortedRevisions);
     },
 
     _computeLabelNames(labels) {
@@ -901,12 +910,24 @@
     },
 
     _getChangeDetail() {
-      return this.$.restAPI.getChangeDetail(this._changeNum,
-          this._handleGetChangeDetailError.bind(this)).then(change => {
+      const detailCompletes = this.$.restAPI.getChangeDetail(
+          this._changeNum, this._handleGetChangeDetailError.bind(this));
+      const editCompletes = this._getEdit();
+
+      return Promise.all([detailCompletes, editCompletes])
+          .then(([change, edit]) => {
             if (!change) {
               return '';
             }
             this._upgradeUrl(change, this.params);
+            if (edit) {
+              change.revisions[edit.commit.commit] = {
+                _number: this.EDIT_NAME,
+                basePatchNum: edit.base_patch_set_number,
+                commit: edit.commit,
+                fetch: edit.fetch,
+              };
+            }
             // Issue 4190: Coalesce missing topics to null.
             if (!change.topic) { change.topic = null; }
             if (!change.reviewer_updates) {
@@ -950,6 +971,10 @@
       return this.$.restAPI.getDiffComments(this._changeNum).then(comments => {
         this._comments = comments;
       });
+    },
+
+    _getEdit() {
+      return this.$.restAPI.getChangeEdit(this._changeNum, true);
     },
 
     _getLatestCommitMessage() {

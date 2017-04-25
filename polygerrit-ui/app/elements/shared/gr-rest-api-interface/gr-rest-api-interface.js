@@ -619,10 +619,10 @@
       return this.fetchJSON(
           this.getChangeActionURL(changeNum, patchNum, '/actions')).then(
           revisionActions => {
-                // The rebase button on change screen is always enabled.
+            // The rebase button on change screen is always enabled.
             if (revisionActions.rebase) {
               revisionActions.rebase.rebaseOnCurrent =
-                      !!revisionActions.rebase.enabled;
+                  !!revisionActions.rebase.enabled;
               revisionActions.rebase.enabled = true;
             }
             return revisionActions;
@@ -822,6 +822,16 @@
       const url = this.getChangeActionURL(changeNum, patchNum, '/review');
       return this.awaitPendingDiffDrafts()
           .then(() => this.send('POST', url, review, opt_errFn, opt_ctx));
+    },
+
+    getChangeEdit(changeNum, opt_download_commands) {
+      return this.getLoggedIn().then(loggedIn => {
+        return loggedIn ?
+          this.fetchJSON(
+              this.getChangeActionURL(changeNum, null, '/edit/'), null, null,
+              opt_download_commands ? {'download-commands': true} : null) :
+          false;
+      });
     },
 
     getFileInChangeEdit(changeNum, path) {

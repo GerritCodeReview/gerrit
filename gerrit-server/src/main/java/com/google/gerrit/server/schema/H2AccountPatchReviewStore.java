@@ -130,20 +130,20 @@ public class H2AccountPatchReviewStore implements AccountPatchReviewStore, Lifec
 
   private static void doCreateTable(Statement stmt) throws SQLException {
     stmt.executeUpdate(
-        "CREATE TABLE IF NOT EXISTS ACCOUNT_PATCH_REVIEWS ("
-            + "ACCOUNT_ID INTEGER DEFAULT 0 NOT NULL, "
-            + "CHANGE_ID INTEGER DEFAULT 0 NOT NULL, "
-            + "PATCH_SET_ID INTEGER DEFAULT 0 NOT NULL, "
-            + "FILE_NAME VARCHAR(255) DEFAULT '' NOT NULL, "
-            + "CONSTRAINT PRIMARY_KEY_ACCOUNT_PATCH_REVIEWS "
-            + "PRIMARY KEY (ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME)"
+        "CREATE TABLE IF NOT EXISTS account_patch_reviews ("
+            + "account_id INTEGER DEFAULT 0 NOT NULL, "
+            + "change_id INTEGER DEFAULT 0 NOT NULL, "
+            + "patch_set_id INTEGER DEFAULT 0 NOT NULL, "
+            + "file_name VARCHAR(255) DEFAULT '' NOT NULL, "
+            + "CONSTRAINT primary_key_account_patch_reviews "
+            + "PRIMARY KEY (account_id, change_id, patch_set_id, file_name)"
             + ")");
   }
 
   public static void dropTableIfExists(String url) throws OrmException {
     try (Connection con = DriverManager.getConnection(url);
         Statement stmt = con.createStatement()) {
-      stmt.executeUpdate("DROP TABLE IF EXISTS ACCOUNT_PATCH_REVIEWS");
+      stmt.executeUpdate("DROP TABLE IF EXISTS account_patch_reviews");
     } catch (SQLException e) {
       throw convertError("create", e);
     }
@@ -158,8 +158,8 @@ public class H2AccountPatchReviewStore implements AccountPatchReviewStore, Lifec
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
-                "INSERT INTO ACCOUNT_PATCH_REVIEWS "
-                    + "(ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME) VALUES "
+                "INSERT INTO account_patch_reviews "
+                    + "(account_id, change_id, patch_set_id, file_name) VALUES "
                     + "(?, ?, ?, ?)")) {
       stmt.setInt(1, accountId.get());
       stmt.setInt(2, psId.getParentKey().get());
@@ -186,8 +186,8 @@ public class H2AccountPatchReviewStore implements AccountPatchReviewStore, Lifec
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
-                "INSERT INTO ACCOUNT_PATCH_REVIEWS "
-                    + "(ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME) VALUES "
+                "INSERT INTO account_patch_reviews "
+                    + "(account_id, change_id, patch_set_id, file_name) VALUES "
                     + "(?, ?, ?, ?)")) {
       for (String path : paths) {
         stmt.setInt(1, accountId.get());
@@ -212,9 +212,9 @@ public class H2AccountPatchReviewStore implements AccountPatchReviewStore, Lifec
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
-                "DELETE FROM ACCOUNT_PATCH_REVIEWS "
-                    + "WHERE ACCOUNT_ID = ? AND CHANGE_ID + ? AND "
-                    + "PATCH_SET_ID = ? AND FILE_NAME = ?")) {
+                "DELETE FROM account_patch_reviews "
+                    + "WHERE account_id = ? AND change_id = ? AND "
+                    + "patch_set_id = ? AND file_name = ?")) {
       stmt.setInt(1, accountId.get());
       stmt.setInt(2, psId.getParentKey().get());
       stmt.setInt(3, psId.get());
@@ -230,8 +230,8 @@ public class H2AccountPatchReviewStore implements AccountPatchReviewStore, Lifec
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
-                "DELETE FROM ACCOUNT_PATCH_REVIEWS "
-                    + "WHERE CHANGE_ID + ? AND PATCH_SET_ID = ?")) {
+                "DELETE FROM account_patch_reviews "
+                    + "WHERE change_id = ? AND patch_set_id = ?")) {
       stmt.setInt(1, psId.getParentKey().get());
       stmt.setInt(2, psId.get());
       stmt.executeUpdate();
@@ -246,8 +246,8 @@ public class H2AccountPatchReviewStore implements AccountPatchReviewStore, Lifec
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
-                "SELECT FILE_NAME FROM ACCOUNT_PATCH_REVIEWS "
-                    + "WHERE ACCOUNT_ID = ? AND CHANGE_ID = ? AND PATCH_SET_ID = ?")) {
+                "SELECT FILE_NAME FROM account_patch_reviews "
+                    + "WHERE account_id = ? AND change_id = ? AND patch_set_id = ?")) {
       stmt.setInt(1, accountId.get());
       stmt.setInt(2, psId.getParentKey().get());
       stmt.setInt(3, psId.get());
@@ -267,13 +267,13 @@ public class H2AccountPatchReviewStore implements AccountPatchReviewStore, Lifec
     switch (getSQLStateInt(err)) {
       case 23001: // UNIQUE CONSTRAINT VIOLATION
       case 23505: // DUPLICATE_KEY_1
-        return new OrmDuplicateKeyException("ACCOUNT_PATCH_REVIEWS", err);
+        return new OrmDuplicateKeyException("account_patch_reviews", err);
 
       default:
         if (err.getCause() == null && err.getNextException() != null) {
           err.initCause(err.getNextException());
         }
-        return new OrmException(op + " failure on ACCOUNT_PATCH_REVIEWS", err);
+        return new OrmException(op + " failure on account_patch_reviews", err);
     }
   }
 

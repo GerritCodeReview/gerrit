@@ -111,6 +111,7 @@
         value() { return []; },
       },
       _displayLine: Boolean,
+      _sortedRevisions: Array,
     },
 
     behaviors: [
@@ -121,6 +122,7 @@
     observers: [
       '_expandedPathsChanged(_expandedFilePaths.splices)',
       '_setReviewedFiles(_shownFiles, _files, _reviewed.*, _loggedIn)',
+      '_updateSortedRevisions(revisions.*)',
     ],
 
     keyBindings: {
@@ -182,6 +184,16 @@
       this.$.diffPreferences.open();
     },
 
+    _updateSortedRevisions(revisionsRecord) {
+      const revisions = revisionsRecord.base;
+      this._sortedRevisions = this.sortRevisions(Object.values(revisions));
+    },
+
+    _findSortedIndex(patchNum) {
+      const findNum = rev => rev._number + '' === patchNum + '';
+      return this._sortedRevisions.findIndex(findNum);
+    },
+
     _calculatePatchChange(files) {
       const filesNoCommitMsg = files.filter(files => {
         return files.__path !== '/COMMIT_MSG';
@@ -216,7 +228,8 @@
     },
 
     _computePatchSetDisabled(patchNum, currentPatchNum) {
-      return parseInt(patchNum, 10) >= parseInt(currentPatchNum, 10);
+      return this._findSortedIndex(patchNum) >=
+          this._findSortedIndex(currentPatchNum);
     },
 
     _togglePathExpanded(path) {

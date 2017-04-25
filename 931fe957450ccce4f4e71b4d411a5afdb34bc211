@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fa8aacb_29119490",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/GlobalOrPluginPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-25T15:32:07Z",
+      "side": 1,
+      "message": "this causes a javadoc warning.\n\nfixed in https://gerrit-review.googlesource.com/104570",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 29
+      },
+      "revId": "931fe957450ccce4f4e71b4d411a5afdb34bc211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

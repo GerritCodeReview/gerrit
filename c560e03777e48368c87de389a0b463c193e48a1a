@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "046a3808_b82fcb3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-25T09:18:38Z",
+      "side": 1,
+      "message": "Temporarily",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "c560e03777e48368c87de389a0b463c193e48a1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7eeb26e_b6bd31d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-25T09:18:38Z",
+      "side": 1,
+      "message": "enabled",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 9,
+        "endChar": 31
+      },
+      "revId": "c560e03777e48368c87de389a0b463c193e48a1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c83e8e1_9fb0d6fb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

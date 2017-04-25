@@ -450,7 +450,7 @@
 
       if (this._initialLoadComplete && patchChanged) {
         if (patchRange.patchNum == null) {
-          patchRange.patchNum = this.computeLatestPatchNum(this._allPatchSets);
+          patchRange.patchNum = this.computeLatestPatchName(this._allPatchSets);
         }
         this._patchRange = patchRange;
         this._reloadPatchNumDependentResources().then(() => {
@@ -585,7 +585,7 @@
           this._patchRange.basePatchNum || 'PARENT');
       this.set('_patchRange.patchNum',
           this._patchRange.patchNum ||
-              this.computeLatestPatchNum(this._allPatchSets));
+              this.computeStrictLatestPatchNum(this._allPatchSets));
 
       this._updateSelected();
 
@@ -950,6 +950,10 @@
           comments => {
             this._comments = comments;
           });
+    },
+
+    _getEdit() {
+      return this.$.restAPI.getChangeEdit(this._changeNum, true);
     },
 
     _getLatestCommitMessage() {

@@ -15,6 +15,8 @@
 package com.google.gerrit.server.api.config;
 
 import com.google.gerrit.common.Version;
+import com.google.gerrit.extensions.api.config.AccessCheckInfo;
+import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.config.Server;
@@ -22,6 +24,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.config.CheckAccess;
 import com.google.gerrit.server.config.CheckConsistency;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.GetDiffPreferences;
@@ -29,6 +32,7 @@ import com.google.gerrit.server.config.GetPreferences;
 import com.google.gerrit.server.config.GetServerInfo;
 import com.google.gerrit.server.config.SetDiffPreferences;
 import com.google.gerrit.server.config.SetPreferences;
+import com.google.gwtorm.server.Access;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -43,6 +47,7 @@ public class ServerImpl implements Server {
   private final SetDiffPreferences setDiffPreferences;
   private final GetServerInfo getServerInfo;
   private final Provider<CheckConsistency> checkConsistency;
+  private final Provider<CheckAccess> checkAccess;
 
   @Inject
   ServerImpl(
@@ -51,13 +56,16 @@ public class ServerImpl implements Server {
       GetDiffPreferences getDiffPreferences,
       SetDiffPreferences setDiffPreferences,
       GetServerInfo getServerInfo,
-      Provider<CheckConsistency> checkConsistency) {
+      Provider<CheckConsistency> checkConsistency,
+      Provider<CheckAccess> checkAccess
+) {
     this.getPreferences = getPreferences;
     this.setPreferences = setPreferences;
     this.getDiffPreferences = getDiffPreferences;
     this.setDiffPreferences = setDiffPreferences;
     this.getServerInfo = getServerInfo;
     this.checkConsistency = checkConsistency;
+    this.checkAccess = checkAccess;
   }
 
   @Override
@@ -118,6 +126,16 @@ public class ServerImpl implements Server {
       return checkConsistency.get().apply(new ConfigResource(), in);
     } catch (IOException e) {
       throw new RestApiException("Cannot check consistency", e);
+    }
+  }
+
+
+  @Override
+  public AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException {
+    try {
+      return checkAccess.get().apply(new ConfigResource(), in);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot check access", e);
     }
   }
 }

@@ -459,8 +459,9 @@ limitations under the License.
               <select>
                 <template is="dom-repeat" items="[[_allPatchSets]]"
                     as="patchNum">
-                  <option value$="[[patchNum.num]]"
-                      disabled$="[[_computePatchSetDisabled(patchNum.num, _patchRange.basePatchNum)]]">
+                  <option
+                      value$="[[patchNum.num]]"
+                      disabled$="[[_computePatchSetDisabled(patchNum.num, _patchRange.basePatchNum, _sortedRevisions)]]">
                     [[patchNum.num]]
                     /
                     [[computeLatestPatchNum(_allPatchSets)]]

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07aed9fc_32307587",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticIndexVersionDiscovery.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-25T14:57:59Z",
+      "side": 1,
+      "message": "Still think it\u0027s unnecessary to store the result of entry.getKey() in a variable, especially since the variable is named \u0027key\u0027.",
+      "range": {
+        "startLine": 46,
+        "startChar": 8,
+        "endLine": 46,
+        "endChar": 36
+      },
+      "revId": "e38efd8b647aeb798f812d03ce861871d627f53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

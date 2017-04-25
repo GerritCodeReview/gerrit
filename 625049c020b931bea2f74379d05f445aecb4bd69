@@ -22,6 +22,30 @@
       "revId": "625049c020b931bea2f74379d05f445aecb4bd69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a44f531b_0c13e335",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-25T13:14:41Z",
+      "side": 1,
+      "message": "Yes, but we already use them for permission deny in the REST API. So this actually makes that straightforward to use, and hard to forget to check the result of a check() call was really successful and not a permission denial.\n\nMeaning most calls of check() in REST API code would have had to write:\n\n  if (!check(foo)) {\n    throw new AuthException(\"you cannot foo\");\n  }\n\nto get the right error code back to the client/browser. By making the PermissionBackend API throw instead, you can avoid this. And better avoid this:\n\n  check(foo);\n  // Didn\u0027t check the return value. Allow everyone!",
+      "parentUuid": "e7d49dc2_60b3e5eb",
+      "range": {
+        "startLine": 136,
+        "startChar": 45,
+        "endLine": 136,
+        "endChar": 56
+      },
+      "revId": "625049c020b931bea2f74379d05f445aecb4bd69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -25,14 +25,11 @@ import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testutil.ConfigSuite;
 import java.util.EnumSet;
-import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -151,119 +148,6 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     } else {
       assertSubmittedTogether(id1);
       assertSubmittedTogether(id2);
-    }
-  }
-
-  @Test
-  public void hiddenDraftInTopic() throws Exception {
-    RevCommit initialHead = getRemoteHead();
-    RevCommit a = commitBuilder().add("a", "1").message("change 1").create();
-    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
-    String id1 = getChangeId(a);
-
-    testRepo.reset(initialHead);
-    commitBuilder().add("b", "2").message("invisible change").create();
-    pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
-
-    setApiUser(user);
-    SubmittedTogetherInfo result =
-        gApi.changes().id(id1).submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
-
-    if (isSubmitWholeTopicEnabled()) {
-      assertThat(result.changes).hasSize(1);
-      assertThat(result.changes.get(0).changeId).isEqualTo(id1);
-      assertThat(result.nonVisibleChanges).isEqualTo(1);
-    } else {
-      assertThat(result.changes).isEmpty();
-      assertThat(result.nonVisibleChanges).isEqualTo(0);
-    }
-  }
-
-  @Test
-  public void hiddenDraftInTopicOldApi() throws Exception {
-    RevCommit initialHead = getRemoteHead();
-    RevCommit a = commitBuilder().add("a", "1").message("change 1").create();
-    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
-    String id1 = getChangeId(a);
-
-    testRepo.reset(initialHead);
-    commitBuilder().add("b", "2").message("invisible change").create();
-    pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
-
-    setApiUser(user);
-    if (isSubmitWholeTopicEnabled()) {
-      exception.expect(AuthException.class);
-      exception.expectMessage("change would be submitted with a change that you cannot see");
-      gApi.changes().id(id1).submittedTogether();
-    } else {
-      List<ChangeInfo> result = gApi.changes().id(id1).submittedTogether();
-      assertThat(result).isEmpty();
-    }
-  }
-
-  @Test
-  public void draftPatchSetInTopic() throws Exception {
-    RevCommit initialHead = getRemoteHead();
-    RevCommit a1 = commitBuilder().add("a", "1").message("change 1").create();
-    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
-    String id1 = getChangeId(a1);
-
-    testRepo.reset(initialHead);
-    RevCommit parent = commitBuilder().message("parent").create();
-    pushHead(testRepo, "refs/for/master", false);
-    String parentId = getChangeId(parent);
-
-    // TODO(jrn): use insertChangeId(id1) once jgit TestRepository accepts
-    // the leading "I".
-    commitBuilder()
-        .insertChangeId(id1.substring(1))
-        .add("a", "2")
-        .message("draft patch set on change 1")
-        .create();
-    pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
-
-    testRepo.reset(initialHead);
-    RevCommit b = commitBuilder().message("change with same topic").create();
-    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
-    String id2 = getChangeId(b);
-
-    if (isSubmitWholeTopicEnabled()) {
-      setApiUser(user);
-      assertSubmittedTogether(id2, id2, id1);
-      setApiUser(admin);
-      assertSubmittedTogether(id2, id2, id1, parentId);
-    } else {
-      setApiUser(user);
-      assertSubmittedTogether(id2);
-      setApiUser(admin);
-      assertSubmittedTogether(id2);
-    }
-  }
-
-  @Test
-  public void doNotRevealVisibleAncestorOfHiddenDraft() throws Exception {
-    RevCommit initialHead = getRemoteHead();
-    commitBuilder().message("parent").create();
-    pushHead(testRepo, "refs/for/master", false);
-
-    commitBuilder().message("draft").create();
-    pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
-
-    testRepo.reset(initialHead);
-    RevCommit change = commitBuilder().message("same topic").create();
-    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
-    String id = getChangeId(change);
-
-    setApiUser(user);
-    SubmittedTogetherInfo result =
-        gApi.changes().id(id).submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
-    if (isSubmitWholeTopicEnabled()) {
-      assertThat(result.changes).hasSize(1);
-      assertThat(result.changes.get(0).changeId).isEqualTo(id);
-      assertThat(result.nonVisibleChanges).isEqualTo(2);
-    } else {
-      assertThat(result.changes).isEmpty();
-      assertThat(result.nonVisibleChanges).isEqualTo(0);
     }
   }
 

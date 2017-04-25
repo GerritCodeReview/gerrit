@@ -216,7 +216,9 @@
     },
 
     _computePatchSetDisabled(patchNum, currentPatchNum) {
-      return parseInt(patchNum, 10) >= parseInt(currentPatchNum, 10);
+      // TODO(kaspern): Implement logic for having edit as a base patch set.
+      if (patchNum === 'edit') { return patchNum !== currentPatchNum; }
+      return patchNum + '' >= currentPatchNum + '';
     },
 
     _togglePathExpanded(path) {

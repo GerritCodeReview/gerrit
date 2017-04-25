@@ -482,20 +482,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitDraftChange() throws Exception {
-    PushOneCommit.Result draft = createDraftChange();
-    Change.Id num = draft.getChange().getId();
-    submitWithConflict(
-        draft.getChangeId(),
-        "Failed to submit 1 change due to the following problems:\n"
-            + "Change "
-            + num
-            + ": Change "
-            + num
-            + " is draft");
-  }
-
-  @Test
   public void submitWorkInProgressChange() throws Exception {
     PushOneCommit.Result change = createWorkInProgressChange();
     Change.Id num = change.getChange().getId();
@@ -509,22 +495,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
             + " is work in progress");
   }
 
-  @Test
-  public void submitDraftPatchSet() throws Exception {
-    PushOneCommit.Result change = createChange();
-    PushOneCommit.Result draft = amendChangeAsDraft(change.getChangeId());
-    Change.Id num = draft.getChange().getId();
-
-    submitWithConflict(
-        draft.getChangeId(),
-        "Failed to submit 1 change due to the following problems:\n"
-            + "Change "
-            + num
-            + ": submit rule error: "
-            + "Cannot submit draft patch sets");
-  }
-
-  @Test
   public void submitWithHiddenBranchInSameTopic() throws Exception {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
     PushOneCommit.Result visible = createChange("refs/for/master/" + name("topic"));

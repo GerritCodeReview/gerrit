@@ -219,7 +219,7 @@ public class H2AccountPatchReviewStore
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement("DELETE FROM ACCOUNT_PATCH_REVIEWS "
-                + "WHERE ACCOUNT_ID = ? AND CHANGE_ID + ? AND "
+                + "WHERE ACCOUNT_ID = ? AND CHANGE_ID = ? AND "
                 + "PATCH_SET_ID = ? AND FILE_NAME = ?")) {
       stmt.setInt(1, accountId.get());
       stmt.setInt(2, psId.getParentKey().get());
@@ -236,7 +236,7 @@ public class H2AccountPatchReviewStore
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement("DELETE FROM ACCOUNT_PATCH_REVIEWS "
-                + "WHERE CHANGE_ID + ? AND PATCH_SET_ID = ?")) {
+                + "WHERE CHANGE_ID = ? AND PATCH_SET_ID = ?")) {
       stmt.setInt(1, psId.getParentKey().get());
       stmt.setInt(2, psId.get());
       stmt.executeUpdate();

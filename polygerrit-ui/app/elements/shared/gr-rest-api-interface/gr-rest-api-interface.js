@@ -630,6 +630,12 @@
       return this.send('POST', url, review, opt_errFn, opt_ctx);
     },
 
+    getChangeEdit(changeNum, opt_download_commands) {
+      return this.fetchJSON(
+          this.getChangeActionURL(changeNum, null, '/edit/'), null, null,
+          opt_download_commands ? {'download-commands': true} : null);
+    },
+
     getFileInChangeEdit(changeNum, path) {
       return this.send('GET',
           this.getChangeActionURL(changeNum, null,

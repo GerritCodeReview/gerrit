@@ -254,7 +254,7 @@ limitations under the License.
               change-num="[[_changeNum]]"
               patch-range="[[_patchRange]]"
               files-weblinks="[[_filesWeblinks]]"
-              available-patches="[[_computeAvailablePatches(_change.revisions)]]"
+              available-patches="[[_computeAvailablePatches(_change.revisions, _change.revisions.*)]]"
               revisions="[[_change.revisions]]">
           </gr-patch-range-select>
           <span class="download desktop">

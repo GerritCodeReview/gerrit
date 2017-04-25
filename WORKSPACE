@@ -4,6 +4,37 @@ load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
 load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
+http_archive(
+    name = "io_bazel_rules_closure",
+    strip_prefix = "rules_closure-0.4.1",
+    sha256 = "ba5e2e10cdc4027702f96e9bdc536c6595decafa94847d08ae28c6cb48225124",
+    url = "http://bazel-mirror.storage.googleapis.com/github.com/bazelbuild/rules_closure/archive/0.4.1.tar.gz",
+)
+
+http_file(
+    name = "polymer_closure",
+    sha256 = "5a589bdba674e1fec7188e9251c8624ebf2d4d969beb6635f9148f420d1e08b1",
+    url = "https://raw.githubusercontent.com/google/closure-compiler/775609aad61e14aef289ebec4bfc09ad88877f9e/contrib/externs/polymer-1.0.js",
+)
+
+load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
+
+# Prevent redundant loading of dependencies.
+closure_repositories(
+    omit_aopalliance=True,
+    omit_args4j=True,
+    omit_jsr305=True,
+    omit_gson=True,
+    omit_guava=True,
+    omit_guice=True,
+    omit_soy=True,
+    omit_icu4j=True,
+    omit_asm=True,
+    omit_asm_analysis=True,
+    omit_asm_commons=True,
+    omit_asm_util=True,
+)
+
 ANTLR_VERS = "3.5.2"
 
 maven_jar(

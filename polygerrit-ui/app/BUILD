@@ -3,6 +3,7 @@ package(
 )
 
 load("//tools/bzl:genrule2.bzl", "genrule2")
+load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_library", "closure_js_binary")
 load(
     "//tools/bzl:js.bzl",
     "bower_component_bundle",
@@ -29,6 +30,31 @@ vulcanize(
     deps = ["//polygerrit-ui:polygerrit_components.bower_components"],
 )
 
+closure_js_library(
+    name = "closure_lib",
+    srcs = ["gr-app.js"],
+    deps = [
+        "//lib/polymer_externs:polymer_closure",
+        "@io_bazel_rules_closure//closure/library",
+    ],
+    suppress = [
+        "JSC_BAD_JSDOC_ANNOTATION",
+        "JSC_TYPE_PARSE_ERROR",
+        "JSC_MISPLACED_MSG_ANNOTATION",
+    ],
+    language = "ECMASCRIPT6",
+)
+
+closure_js_binary(
+    name = "closure_bin",
+    deps = [":closure_lib"],
+    # Known issue: Closure compilation not compatible with Polymer behaviors.
+    # See: https://github.com/google/closure-compiler/issues/2042
+    compilation_level = "WHITESPACE_ONLY",
+    defs = ["--polymer_pass"],
+    language = "ECMASCRIPT3",
+)
+
 filegroup(
     name = "top_sources",
     srcs = [
@@ -42,6 +68,14 @@ filegroup(
     srcs = glob(["styles/**/*.css"]),
 )
 
+filegroup(
+    name = "app_sources",
+    srcs = [
+        "gr-app.html",
+        "closure_bin.js",
+    ],
+)
+
 genrule2(
     name = "polygerrit_ui",
     srcs = [
@@ -49,7 +83,9 @@ genrule2(
         "//lib/js:highlightjs_files",
         ":top_sources",
         ":css_sources",
+        ":app_sources",
         ":gr-app",
+        ":closure_bin",
         # we extract from the zip, but depend on the component for license checking.
         "@webcomponentsjs//:zipfile",
         "//lib/js:webcomponentsjs",
@@ -57,7 +93,7 @@ genrule2(
     outs = ["polygerrit_ui.zip"],
     cmd = " && ".join([
         "mkdir -p $$TMP/polygerrit_ui/{styles,fonts,bower_components/{highlightjs,webcomponentsjs},elements}",
-        "cp $(locations :gr-app) $$TMP/polygerrit_ui/elements/",
+        "for f in $(locations :app_sources); do ext=$${f##*.}; cp -p $$f $$TMP/polygerrit_ui/elements/gr-app.$$ext; done",
         "cp $(locations //lib/fonts:sourcecodepro) $$TMP/polygerrit_ui/fonts/",
         "for f in $(locations :top_sources); do cp $$f $$TMP/polygerrit_ui/; done",
         "for f in $(locations :css_sources); do cp $$f $$TMP/polygerrit_ui/styles; done",

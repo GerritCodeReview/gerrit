@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b0a13dc_5e6444bf",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-25T09:29:38Z",
+      "side": 1,
+      "message": "Since this is the var to store the links, \"compute\" shouldn\u0027t appear in the name.\n\n docLinks",
+      "range": {
+        "startLine": 187,
+        "startChar": 10,
+        "endLine": 187,
+        "endChar": 26
+      },
+      "revId": "6e567c45938a4c18b7c877195284cb21cd50195e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4eb894e_fae82920",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-25T09:29:38Z",
+      "side": 1,
+      "message": "There is no path where computeDocLinks returns a falsy value, so this can be\n\n if (computeDocLinks.length) {",
+      "range": {
+        "startLine": 189,
+        "startChar": 10,
+        "endLine": 189,
+        "endChar": 53
+      },
+      "revId": "6e567c45938a4c18b7c877195284cb21cd50195e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baccc017_28be62f9",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-25T09:29:38Z",
+      "side": 1,
+      "message": "Minor nit: compute is usually used in a method name that\u0027s intended for Polymer bindings. Since this is only called by JS directly, it could also be named\n\n _getDocLinks\n\nBut \"compute\" is not a blocking issue.",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 198,
+        "endChar": 20
+      },
+      "revId": "6e567c45938a4c18b7c877195284cb21cd50195e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

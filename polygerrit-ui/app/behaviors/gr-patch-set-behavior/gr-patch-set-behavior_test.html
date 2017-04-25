@@ -173,5 +173,63 @@ limitations under the License.
       assert.isTrue(equals('edit', 'edit'));
       assert.isTrue(equals('PARENT', 'PARENT'));
     });
+
+    test('findEditParentRevision', () => {
+      const findParent = Gerrit.PatchSetBehavior.findEditParentRevision;
+      let revisions = [
+        {_number: 0},
+        {_number: 1},
+        {_number: 2},
+      ];
+      assert.strictEqual(findParent(revisions), null);
+
+      revisions = [...revisions, {_number: 'edit', basePatchNum: 3}];
+      assert.strictEqual(findParent(revisions), null);
+
+      revisions = [...revisions, {_number: 3}];
+      assert.deepEqual(findParent(revisions), {_number: 3});
+    });
+
+    test('findEditParentPatchNum', () => {
+      const findNum = Gerrit.PatchSetBehavior.findEditParentPatchNum;
+      let revisions = [
+        {_number: 0},
+        {_number: 1},
+        {_number: 2},
+      ];
+      assert.equal(findNum(revisions), -1);
+
+      revisions =
+          [...revisions, {_number: 'edit', basePatchNum: 3}, {_number: 3}];
+      assert.deepEqual(findNum(revisions), 3);
+    });
+
+    test('sortRevisions', () => {
+      const sort = Gerrit.PatchSetBehavior.sortRevisions;
+      const revisions = [
+        {_number: 0},
+        {_number: 2},
+        {_number: 1},
+      ];
+      const sorted = [
+        {_number: 0},
+        {_number: 1},
+        {_number: 2},
+      ];
+
+      assert.deepEqual(sort(revisions), sorted);
+
+      // Edit patchset should follow directly after its basePatchNum.
+      revisions.push({_number: 'edit', basePatchNum: 2});
+      sorted.push({_number: 'edit', basePatchNum: 2});
+      assert.deepEqual(sort(revisions), sorted);
+
+      revisions[3].basePatchNum = 0;
+      const edit = sorted.pop();
+      edit.basePatchNum = 0;
+      // Edit patchset should be at index 1.
+      sorted.splice(1, 0, edit);
+      assert.deepEqual(sort(revisions), sorted);
+    });
   });
 </script>

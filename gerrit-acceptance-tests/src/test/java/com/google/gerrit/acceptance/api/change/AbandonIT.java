@@ -108,17 +108,6 @@ public class AbandonIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void abandonDraft() throws Exception {
-    PushOneCommit.Result r = createDraftChange();
-    String changeId = r.getChangeId();
-    assertThat(info(changeId).status).isEqualTo(ChangeStatus.DRAFT);
-
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("draft changes cannot be abandoned");
-    gApi.changes().id(changeId).abandon();
-  }
-
-  @Test
   @GerritConfig(name = "changeCleanup.abandonAfter", value = "1w")
   public void abandonInactiveOpenChanges() throws Exception {
     TestTimeUtil.resetWithClockStep(1, SECONDS);

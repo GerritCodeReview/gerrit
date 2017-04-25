@@ -17,7 +17,6 @@ package com.google.gerrit.extensions.common;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.extensions.client.ChangeStatus;
 import java.util.Map;
 
 public class ChangeInput {
@@ -26,7 +25,6 @@ public class ChangeInput {
   public String subject;
 
   public String topic;
-  public ChangeStatus status;
   public Boolean isPrivate;
   public Boolean workInProgress;
   public String baseChange;

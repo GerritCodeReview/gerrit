@@ -24,7 +24,6 @@ import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
@@ -34,7 +33,6 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
-import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -43,7 +41,6 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -51,13 +48,11 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeAlreadyMergedException;
-import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -69,11 +64,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CreateChangeIT extends AbstractDaemonTest {
-  @ConfigSuite.Config
-  public static Config allowDraftsDisabled() {
-    return allowDraftsDisabledConfig();
-  }
-
   @BeforeClass
   public static void setTimeForTesting() {
     TestTimeUtil.resetWithClockStep(1, SECONDS);
@@ -100,14 +90,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createEmptyChange_InvalidStatus() throws Exception {
-    ChangeInput ci = newChangeInput(ChangeStatus.MERGED);
-    assertCreateFails(ci, BadRequestException.class, "unsupported change status");
-  }
-
-  @Test
   public void createNewChange() throws Exception {
-    assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+    assertCreateSucceeds(newChangeInput());
   }
 
   @Test
@@ -117,7 +101,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
     // check that watcher is notified
     setApiUser(admin);
-    assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+    assertCreateSucceeds(newChangeInput());
 
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
@@ -127,7 +111,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
     // check that watcher is not notified if notify=NONE
     sender.clear();
-    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    ChangeInput input = newChangeInput();
     input.notify = NotifyHandling.NONE;
     assertCreateSucceeds(input);
     assertThat(sender.getMessages()).isEmpty();
@@ -135,9 +119,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createNewChangeSignedOffByFooter() throws Exception {
-    assume().that(isAllowDrafts()).isTrue();
     setSignedOffByFooter();
-    ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+    ChangeInfo info = assertCreateSucceeds(newChangeInput());
     String message = info.revisions.get(info.currentRevision).commit.message;
     assertThat(message)
         .contains(
@@ -146,28 +129,15 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createNewDraftChange() throws Exception {
-    assume().that(isAllowDrafts()).isTrue();
-    assertCreateSucceeds(newChangeInput(ChangeStatus.DRAFT));
-  }
-
-  @Test
-  public void createNewDraftChangeNotAllowed() throws Exception {
-    assume().that(isAllowDrafts()).isFalse();
-    ChangeInput ci = newChangeInput(ChangeStatus.DRAFT);
-    assertCreateFails(ci, MethodNotAllowedException.class, "draft workflow is disabled");
-  }
-
-  @Test
   public void createNewPrivateChange() throws Exception {
-    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    ChangeInput input = newChangeInput();
     input.isPrivate = true;
     assertCreateSucceeds(input);
   }
 
   @Test
   public void createNewWorkInProgressChange() throws Exception {
-    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    ChangeInput input = newChangeInput();
     input.workInProgress = true;
     assertCreateSucceeds(input);
   }
@@ -178,7 +148,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
         changeInTwoBranches("invisible-branch", "a.txt", "visible-branch", "b.txt");
     block(project, "refs/heads/invisible-branch", READ, REGISTERED_USERS);
 
-    ChangeInput in = newChangeInput(ChangeStatus.NEW);
+    ChangeInput in = newChangeInput();
     in.branch = "visible-branch";
     in.baseChange = results.get("invisible-branch").getChangeId();
     assertCreateFails(
@@ -190,7 +160,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     changeInTwoBranches("invisible-branch", "a.txt", "branchB", "b.txt");
     block(project, "refs/heads/invisible-branch", READ, REGISTERED_USERS);
 
-    ChangeInput in = newChangeInput(ChangeStatus.NEW);
+    ChangeInput in = newChangeInput();
     in.branch = "invisible-branch";
     assertCreateFails(in, ResourceNotFoundException.class, "");
   }
@@ -199,7 +169,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
   public void noteDbCommit() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
 
-    ChangeInfo c = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+    ChangeInfo c = assertCreateSucceeds(newChangeInput());
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commit =
@@ -380,13 +350,12 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(revInfo.commit.message).isEqualTo(input.message + "\n");
   }
 
-  private ChangeInput newChangeInput(ChangeStatus status) {
+  private ChangeInput newChangeInput() {
     ChangeInput in = new ChangeInput();
     in.project = project.get();
     in.branch = "master";
     in.subject = "Empty change";
     in.topic = "support-gerrit-workflow-in-browser";
-    in.status = status;
     return in;
   }
 
@@ -396,13 +365,10 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(out.branch).isEqualTo(in.branch);
     assertThat(out.subject).isEqualTo(in.subject);
     assertThat(out.topic).isEqualTo(in.topic);
-    assertThat(out.status).isEqualTo(in.status);
     assertThat(out.isPrivate).isEqualTo(in.isPrivate);
     assertThat(out.workInProgress).isEqualTo(in.workInProgress);
     assertThat(out.revisions).hasSize(1);
     assertThat(out.submitted).isNull();
-    Boolean draft = Iterables.getOnlyElement(out.revisions.values()).draft;
-    assertThat(booleanToDraftStatus(draft)).isEqualTo(in.status);
     return out;
   }
 
@@ -412,13 +378,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
     exception.expect(errType);
     exception.expectMessage(errSubstring);
     gApi.changes().create(in);
-  }
-
-  private ChangeStatus booleanToDraftStatus(Boolean draft) {
-    if (draft == null) {
-      return ChangeStatus.NEW;
-    }
-    return draft ? ChangeStatus.DRAFT : ChangeStatus.NEW;
   }
 
   // TODO(davido): Expose setting of account preferences in the API
@@ -441,7 +400,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
     in.project = project.get();
     in.branch = targetBranch;
     in.subject = "merge " + sourceRef + " to " + targetBranch;
-    in.status = ChangeStatus.NEW;
     MergeInput mergeInput = new MergeInput();
     mergeInput.source = sourceRef;
     in.merge = mergeInput;

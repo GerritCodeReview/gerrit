@@ -282,19 +282,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void rejectOnNonPublicChange() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-    PushOneCommit.Result r = createDraftChange();
-
-    AddReviewerResult result =
-        gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@gerritcodereview.com>");
-    assertThat(result.error)
-        .isEqualTo(
-            "Foo Bar <foo.bar@gerritcodereview.com> does not have permission to see this change");
-    assertThat(result.reviewers).isNull();
-  }
-
-  @Test
   public void rejectWhenFeatureIsDisabled() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
 

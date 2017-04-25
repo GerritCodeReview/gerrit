@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -287,27 +286,6 @@ public class QueryIT extends AbstractDaemonTest {
     assertThat(changes.size()).isEqualTo(1);
     assertThat(changes.get(0).submitRecords).isNotNull();
     assertThat(changes.get(0).submitRecords.size()).isEqualTo(1);
-  }
-
-  @Test
-  public void queryWithNonVisibleCurrentPatchSet() throws Exception {
-    String changeId = createChange().getChangeId();
-    amendChangeAsDraft(changeId);
-    String query = "--current-patch-set --patch-sets " + changeId;
-    List<ChangeAttribute> changes = executeSuccessfulQuery(query);
-    assertThat(changes.size()).isEqualTo(1);
-    assertThat(changes.get(0).patchSets).isNotNull();
-    assertThat(changes.get(0).patchSets).hasSize(2);
-    assertThat(changes.get(0).currentPatchSet).isNotNull();
-
-    SshSession userSession = new SshSession(server, user);
-    initSsh(user);
-    userSession.open();
-    changes = executeSuccessfulQuery(query, userSession);
-    assertThat(changes.size()).isEqualTo(1);
-    assertThat(changes.get(0).patchSets).hasSize(1);
-    assertThat(changes.get(0).currentPatchSet).isNull();
-    userSession.close();
   }
 
   private List<ChangeAttribute> executeSuccessfulQuery(String params, SshSession session)

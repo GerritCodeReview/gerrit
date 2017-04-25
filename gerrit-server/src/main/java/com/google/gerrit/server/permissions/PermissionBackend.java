@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;

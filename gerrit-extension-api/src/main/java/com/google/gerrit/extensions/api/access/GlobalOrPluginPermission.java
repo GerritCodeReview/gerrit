@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.permissions;
+package com.google.gerrit.extensions.api.access;
 
 /** A {@link GlobalPermission} or a {@link PluginPermission}. */
 public interface GlobalOrPluginPermission {

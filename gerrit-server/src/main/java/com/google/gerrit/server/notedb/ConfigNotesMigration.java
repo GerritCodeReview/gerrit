@@ -17,13 +17,11 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -46,30 +44,12 @@ public class ConfigNotesMigration extends NotesMigration {
 
   public static final String SECTION_NOTE_DB = "noteDb";
 
-  // All of these names must be reflected in the allowed set in checkConfig.
   private static final String DISABLE_REVIEW_DB = "disableReviewDb";
   private static final String FUSE_UPDATES = "fuseUpdates";
   private static final String PRIMARY_STORAGE = "primaryStorage";
   private static final String READ = "read";
   private static final String SEQUENCE = "sequence";
   private static final String WRITE = "write";
-
-  private static void checkConfig(Config cfg) {
-    Set<String> keys = ImmutableSet.of(CHANGES.key());
-    Set<String> allowed =
-        ImmutableSet.of(
-            DISABLE_REVIEW_DB.toLowerCase(),
-            PRIMARY_STORAGE.toLowerCase(),
-            READ.toLowerCase(),
-            WRITE.toLowerCase(),
-            SEQUENCE.toLowerCase());
-    for (String t : cfg.getSubsections(SECTION_NOTE_DB)) {
-      checkArgument(keys.contains(t.toLowerCase()), "invalid NoteDb table: %s", t);
-      for (String key : cfg.getNames(SECTION_NOTE_DB, t)) {
-        checkArgument(allowed.contains(key.toLowerCase()), "invalid NoteDb key: %s.%s", t, key);
-      }
-    }
-  }
 
   public static Config allEnabledConfig() {
     Config cfg = new Config();
@@ -92,8 +72,6 @@ public class ConfigNotesMigration extends NotesMigration {
 
   @Inject
   public ConfigNotesMigration(@GerritServerConfig Config cfg) {
-    checkConfig(cfg);
-
     writeChanges = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), WRITE, false);
     readChanges = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), READ, false);
 

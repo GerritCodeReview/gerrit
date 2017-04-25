@@ -46,6 +46,30 @@
       "revId": "92bd5ff882a99fe374340d439fd7237abc043906",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00e48240_50baac33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-25T12:20:11Z",
+      "side": 1,
+      "message": "I think that would be great. They can still set \u0027local\u0027 using the new config option.",
+      "parentUuid": "3781a1f4_bae6879d",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 39
+      },
+      "revId": "92bd5ff882a99fe374340d439fd7237abc043906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

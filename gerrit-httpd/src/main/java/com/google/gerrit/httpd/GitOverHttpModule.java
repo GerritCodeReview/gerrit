@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd;
 
-import static com.google.gerrit.httpd.plugins.LfsPluginServlet.LFS_REST;
+import static com.google.gerrit.extensions.api.lfs.LfsDefinitions.LFS_URL_WO_AUTH_REGEX;
 
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
@@ -26,7 +26,7 @@ import javax.servlet.Filter;
 
 /** Configures Git access over HTTP with authentication. */
 public class GitOverHttpModule extends ServletModule {
-  private static final String LFS_URL_REGEX = "^(?:(?!/a/))" + LFS_REST;
+  private static final String NOT_AUTHORIZED_LFS_URL_REGEX = "^(?:(?!/a/))" + LFS_URL_WO_AUTH_REGEX;
 
   private final AuthConfig authConfig;
   private final DownloadConfig downloadConfig;
@@ -55,7 +55,7 @@ public class GitOverHttpModule extends ServletModule {
       serveRegex(git).with(GitOverHttpServlet.class);
     }
 
-    filterRegex(LFS_URL_REGEX).through(authFilter);
+    filterRegex(NOT_AUTHORIZED_LFS_URL_REGEX).through(authFilter);
     filter("/a/*").through(authFilter);
   }
 

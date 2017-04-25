@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1de7b59b_6f858250",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-25T15:45:17Z",
+      "side": 1,
+      "message": "Note: usage of Closure\u0027s optimizations is entirely blocked on this issue. \nhttps://github.com/google/closure-compiler/issues/2042\n\nIt can be troubleshot orthogonally to this change, though I definitely intend to resolve it.",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 42
+      },
+      "revId": "98f841a1d4f01b8b0ebe105b57f30294592f9019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de393d90_09ae18a7",
         "filename": "polygerrit-ui/app/externs/polymer-1.0.js",
         "patchSetId": 2
@@ -13,6 +36,30 @@
       "writtenOn": "2017-04-25T15:27:34Z",
       "side": 1,
       "message": "Should this go in lib/ so its handled like our other dependencies?",
+      "range": {
+        "startLine": 2,
+        "startChar": 47,
+        "endLine": 2,
+        "endChar": 0
+      },
+      "revId": "98f841a1d4f01b8b0ebe105b57f30294592f9019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fb05a37_289d3173",
+        "filename": "polygerrit-ui/app/externs/polymer-1.0.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-25T15:45:17Z",
+      "side": 1,
+      "message": "I\u0027m not too sure. This is a PG-specific dependency, and will likely be the only non-build related file in this directory. We don\u0027t have a lib/ folder yet, and we should definitely be the ones maintaining it, so I\u0027m leaning no.",
+      "parentUuid": "de393d90_09ae18a7",
       "range": {
         "startLine": 2,
         "startChar": 47,

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "69e7f02e_c2c1a0ad",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-25T15:58:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ed3ff16_cfbe53af",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 21
+      },
+      "revId": "678bab8e9781b9b261ad12d55a7b4fb47f88db99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf102187_6c86b200",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-25T15:51:51Z",
       "side": 1,
       "message": "check.access?",
+      "range": {
+        "startLine": 190,
+        "startChar": 21,
+        "endLine": 190,
+        "endChar": 26
+      },
+      "revId": "678bab8e9781b9b261ad12d55a7b4fb47f88db99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f44ee8b0_2e81ef75",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-25T15:58:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf102187_6c86b200",
       "range": {
         "startLine": 190,
         "startChar": 21,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "47d1cdec_9f8865e4",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1313,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-25T15:58:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1660d4f2_a96dffae",
+      "range": {
+        "startLine": 1312,
+        "startChar": 43,
+        "endLine": 1313,
+        "endChar": 1
+      },
+      "revId": "678bab8e9781b9b261ad12d55a7b4fb47f88db99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6691a60_2b27c8db",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/config/ServerImpl.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2017-04-25T15:51:51Z",
       "side": 1,
       "message": "access",
+      "range": {
+        "startLine": 138,
+        "startChar": 47,
+        "endLine": 138,
+        "endChar": 58
+      },
+      "revId": "678bab8e9781b9b261ad12d55a7b4fb47f88db99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dcd904b_50ba4ea7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/config/ServerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-25T15:58:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6691a60_2b27c8db",
       "range": {
         "startLine": 138,
         "startChar": 47,

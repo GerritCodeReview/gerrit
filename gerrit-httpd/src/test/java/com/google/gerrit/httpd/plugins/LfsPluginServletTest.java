@@ -20,11 +20,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.Test;
 
+import com.googlesource.gerrit.plugins.lfs.LfsPaths;
+
 public class LfsPluginServletTest {
 
   @Test
   public void noLfsEndPoint_noMatch() {
-    Pattern p = Pattern.compile(LfsPluginServlet.URL_REGEX);
+    Pattern p = Pattern.compile(LfsPaths.URL_REGEX);
     doesNotMatch(p, "/foo");
     doesNotMatch(p, "/a/foo");
     doesNotMatch(p, "/p/foo");
@@ -36,11 +38,12 @@ public class LfsPluginServletTest {
 
   @Test
   public void matchingLfsEndpoint_projectNameCaptured() {
-    Pattern p = Pattern.compile(LfsPluginServlet.URL_REGEX);
+    Pattern p = Pattern.compile(LfsPaths.URL_REGEX);
     matches(p, "/foo/bar/info/lfs/objects/batch", "foo/bar");
-    matches(p, "/a/foo/bar/info/lfs/objects/batch", "foo/bar");
-    matches(p, "/p/foo/bar/info/lfs/objects/batch", "foo/bar");
+    matches(p, "/a/foo/bar/info/lfs/locks", "foo/bar");
+    matches(p, "/p/foo/bar/info/lfs/locks/verify", "foo/bar");
     matches(p, "/a/p/foo/bar/info/lfs/objects/batch", "foo/bar");
+    matches(p, "/foo/bar/info/lfs/locks/lock_id/unlock", "foo/bar", "lock_id");
   }
 
   private void doesNotMatch(Pattern p, String input) {
@@ -52,5 +55,13 @@ public class LfsPluginServletTest {
     Matcher m = p.matcher(input);
     assertThat(m.matches()).isTrue();
     assertThat(m.group(1)).isEqualTo(expectedProjectName);
+  }
+
+  private void matches(Pattern p, String input, String expectedProjectName,
+      String expectedLockId) {
+    Matcher m = p.matcher(input);
+    assertThat(m.matches()).isTrue();
+    assertThat(m.group(1)).isEqualTo(expectedProjectName);
+    assertThat(m.group(2)).isEqualTo(expectedLockId);
   }
 }

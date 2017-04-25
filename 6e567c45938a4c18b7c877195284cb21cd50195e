@@ -140,6 +140,30 @@
       "revId": "6e567c45938a4c18b7c877195284cb21cd50195e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52ce4762_046e199c",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-25T09:34:25Z",
+      "side": 1,
+      "message": "Now it\u0027s _docLinks rather than _getDocLinks",
+      "parentUuid": "a2e38462_6dbf886a",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 198,
+        "endChar": 20
+      },
+      "revId": "6e567c45938a4c18b7c877195284cb21cd50195e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

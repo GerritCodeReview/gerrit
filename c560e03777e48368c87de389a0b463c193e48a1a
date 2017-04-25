@@ -234,6 +234,30 @@
       "revId": "c560e03777e48368c87de389a0b463c193e48a1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08888196_fae60fe5",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/JestClientBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-25T09:52:23Z",
+      "side": 1,
+      "message": "I would make this a multiline comment, with the break after the first sentence.",
+      "parentUuid": "f51eaae6_0a344a59",
+      "range": {
+        "startLine": 63,
+        "startChar": 12,
+        "endLine": 63,
+        "endChar": 108
+      },
+      "revId": "c560e03777e48368c87de389a0b463c193e48a1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

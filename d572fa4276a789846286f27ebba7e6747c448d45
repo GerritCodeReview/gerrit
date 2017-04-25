@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb1a0098_898e9d29",
+        "filename": "Documentation/pgm-MigrateAccountPatchReviewDb.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-25T15:58:11Z",
+      "side": 1,
+      "message": "May be say: \"one database backend ...\" or \"one database dialect ...\"?",
+      "range": {
+        "startLine": 4,
+        "startChar": 63,
+        "endLine": 5,
+        "endChar": 7
+      },
+      "revId": "d572fa4276a789846286f27ebba7e6747c448d45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2b7799_a778b7d9",
+        "filename": "Documentation/pgm-MigrateAccountPatchReviewDb.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-25T15:58:11Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 16,
+        "startChar": 35,
+        "endLine": 16,
+        "endChar": 49
+      },
+      "revId": "d572fa4276a789846286f27ebba7e6747c448d45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca0c2b15_44263d03",
+        "filename": "Documentation/pgm-MigrateAccountPatchReviewDb.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-25T15:58:11Z",
+      "side": 1,
+      "message": "better \"is set or change\", becase per default it\u0027s not set.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 11
+      },
+      "revId": "d572fa4276a789846286f27ebba7e6747c448d45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ee125c1_67681f33",
+        "filename": "Documentation/pgm-MigrateAccountPatchReviewDb.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-25T15:58:11Z",
+      "side": 1,
+      "message": "\"if the\"",
+      "range": {
+        "startLine": 34,
+        "startChar": 51,
+        "endLine": 34,
+        "endChar": 53
+      },
+      "revId": "d572fa4276a789846286f27ebba7e6747c448d45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "082c92b5_9d804d3b",
+        "filename": "Documentation/pgm-MigrateAccountPatchReviewDb.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-25T15:58:11Z",
+      "side": 1,
+      "message": "pushing to e consistent with fetching.",
+      "range": {
+        "startLine": 37,
+        "startChar": 40,
+        "endLine": 37,
+        "endChar": 44
+      },
+      "revId": "d572fa4276a789846286f27ebba7e6747c448d45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d32a1129_89d4384e",
+        "filename": "Documentation/pgm-MigrateAccountPatchReviewDb.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-25T15:58:11Z",
+      "side": 1,
+      "message": "Please, extend it with example for accountPatchReviewDb.url. Also, say, set accountPatchReviewDb.url to this value in gerrit.config and run this command.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 38
+      },
+      "revId": "d572fa4276a789846286f27ebba7e6747c448d45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a49cf240_caf2d6e6",
+        "filename": "Documentation/pgm-index.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-25T15:58:11Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 45,
+        "startChar": 31,
+        "endLine": 45,
+        "endChar": 50
+      },
+      "revId": "d572fa4276a789846286f27ebba7e6747c448d45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

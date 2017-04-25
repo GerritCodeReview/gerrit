@@ -58,6 +58,56 @@ limitations under the License.
     },
 
     /**
+     * Find change edit base revision if change edit exists.
+     *
+     * @param {Array} revisions The revisions array
+     * @return {Object} change edit parent revision or null
+     * if change edit doesn't exist
+     */
+    findEditParentRevision(revisions) {
+      const editInfo =
+          revisions.find(info => info._number === PatchSetBehavior.EDIT_NAME);
+
+      if (!editInfo) { return; }
+
+      return revisions.find(info => info._number === editInfo.basePatchNum);
+    },
+
+    /**
+     * Find change edit base patch set number if change edit exists.
+     *
+     * @param {Array} revisions The revisions array
+     * @return {Number} change edit patch set number or -1
+     */
+    findEditParentPatchNum(revisions) {
+      const revisionInfo = PatchSetBehavior.findEditParentRevision(revisions);
+      return revisionInfo ? revisionInfo._number : -1;
+    },
+
+    /**
+     * Sort given revisions array according to the patch set number. The sort
+     * algorithm is change edit aware. Change edit has patch set number equals
+     * 0, but must appear after the patch set it was based on. Example: change
+     * edit is based on patch set 2, and another patch set was uploaded after
+     * change edit creation, the sorted order should be: 1, 2, (0|edit), 3.
+     *
+     * @param {Array} revisions The revisions array
+     * @return {Array} The sorted {revisions} array
+     */
+    sortRevisions(revisions) {
+      const editParent = PatchSetBehavior.findEditParentPatchNum(revisions);
+      return revisions.sort((a, b) => {
+        // Map a normal patchNum to 2 * (patchNum - 1) + 1... I.e. 1 -> 1,
+        // 2 -> 3, 3 -> 5, etc.
+        // Map an edit to the patchNum of parent*2... I.e. edit on 2 -> 4.
+        const num = r => r._number === PatchSetBehavior.EDIT_NAME ?
+            2 * editParent :
+            2 * (r._number - 1) + 1;
+        return num(a) - num(b);
+      });
+    },
+
+    /**
      * Construct a chronological list of patch sets derived from change details.
      * Each element of this list is an object with the following properties:
      *
@@ -74,16 +124,21 @@ limitations under the License.
      */
     computeAllPatchSets(change) {
       if (!change) { return []; }
-      const patchNums = [];
-      for (const commit in change.revisions) {
-        if (change.revisions.hasOwnProperty(commit)) {
-          patchNums.push({
-            num: change.revisions[commit]._number,
-            desc: change.revisions[commit].description,
-          });
-        }
+      let patchNums = [];
+      if (change.revisions &&
+          Object.keys(change.revisions).length) {
+        patchNums =
+          PatchSetBehavior.sortRevisions(Object.values(change.revisions))
+              .map(e => {
+                // TODO(kaspern): Mark which patchset an edit was made on, if an
+                // edit exists -- perhaps with a temporary description.
+                return {
+                  num: e._number,
+                  desc: e.description,
+                };
+              });
       }
-      patchNums.sort((a, b) => { return a.num - b.num; });
+      patchNums.sort((a, b) => a.num - b.num);
       return PatchSetBehavior._computeWipForPatchSets(change, patchNums);
     },
 
@@ -122,6 +177,10 @@ limitations under the License.
 
     computeLatestPatchNum(allPatchSets) {
       if (!allPatchSets || !allPatchSets.length) { return undefined; }
+      if (allPatchSets[allPatchSets.length - 1].num ===
+          PatchSetBehavior.EDIT_NAME) {
+        return allPatchSets[allPatchSets.length - 2].num;
+      }
       return allPatchSets[allPatchSets.length - 1].num;
     },
 
@@ -145,6 +204,21 @@ limitations under the License.
             return actualLatest <= knownLatest;
           });
     },
+
+
+    /**
+     * @param {Number|String} patchNum
+     * @param {Array} revisions A sorted array of revisions.
+     *
+     * @return {Number} The index of the revision with the given patchNum.
+     */
+    findSortedIndex(patchNum, revisions) {
+      revisions = revisions || [];
+      const findNum = rev => rev._number + '' === patchNum + '';
+      return revisions.findIndex(findNum);
+    },
+
+    EDIT_NAME: 'edit',
   };
 
   window.Gerrit = window.Gerrit || {};

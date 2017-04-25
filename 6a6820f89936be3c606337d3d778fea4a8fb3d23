@@ -49,6 +49,23 @@
     },
     {
       "key": {
+        "uuid": "b9860e19_e113f590",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-25T08:16:33Z",
+      "side": 1,
+      "message": "Nit: this line and l.178 exceed 80 characters.",
+      "revId": "6a6820f89936be3c606337d3d778fea4a8fb3d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "48ddf04b_6c67d0e7",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
         "patchSetId": 10
@@ -81,6 +98,75 @@
       "revId": "6a6820f89936be3c606337d3d778fea4a8fb3d23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "278c0665_071ad893",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-25T08:16:33Z",
+      "side": 1,
+      "message": "Is this return value used anywhere?",
+      "range": {
+        "startLine": 220,
+        "startChar": 6,
+        "endLine": 220,
+        "endChar": 12
+      },
+      "revId": "6a6820f89936be3c606337d3d778fea4a8fb3d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db23fdc8_75748f9b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-25T08:16:33Z",
+      "side": 1,
+      "message": "If the link can have\n\n target\u003d\"_blank\"\n\nthen it should also have\n\n rel\u003d\"noopener\"\n\nfor security.",
+      "range": {
+        "startLine": 139,
+        "startChar": 14,
+        "endLine": 143,
+        "endChar": 59
+      },
+      "revId": "6a6820f89936be3c606337d3d778fea4a8fb3d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14d9be11_e2ae4647",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-25T08:16:33Z",
+      "side": 1,
+      "message": "Nit: Unnecessary `!!`.",
+      "range": {
+        "startLine": 91,
+        "startChar": 10,
+        "endLine": 91,
+        "endChar": 12
+      },
+      "revId": "6a6820f89936be3c606337d3d778fea4a8fb3d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

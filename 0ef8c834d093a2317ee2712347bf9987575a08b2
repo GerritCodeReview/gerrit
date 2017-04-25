@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "5e9bd62a_2cfa1945",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-25T12:38:10Z",
+      "side": 1,
+      "message": "I\u0027m not trying to be evasive, I have no problem explaining more precisely, I just wasn\u0027t going to write another paragraph if nobody thought the distinction was important. But this comment shows that you do think it\u0027s important enough to write about. Done.",
+      "parentUuid": "1a8ee478_f3e5baba",
+      "range": {
+        "startLine": 35,
+        "startChar": 3,
+        "endLine": 35,
+        "endChar": 15
+      },
+      "revId": "0ef8c834d093a2317ee2712347bf9987575a08b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d608e05c_2b4b9ebb",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbOnlyIT.java",
         "patchSetId": 3
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "3c8ca9a7_dd9092f1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbOnlyIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-25T12:38:10Z",
+      "side": 1,
+      "message": "updateChangeFailureRollsBackRefUpdate is never going to pass without FUSED. But yeah I guess this class may end up having more methods, some of which might work on DISABLE_CHANGE_REVIEW_DB. Reworked the assumptions.",
+      "parentUuid": "d608e05c_2b4b9ebb",
+      "range": {
+        "startLine": 51,
+        "startChar": 46,
+        "endLine": 51,
+        "endChar": 62
+      },
+      "revId": "0ef8c834d093a2317ee2712347bf9987575a08b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b5e6b37_2db6c558",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteRef.java",
         "patchSetId": 3
@@ -60,6 +108,24 @@
       "writtenOn": "2017-04-25T12:20:38Z",
       "side": 1,
       "message": "Why it can not be set to true?",
+      "revId": "0ef8c834d093a2317ee2712347bf9987575a08b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca06bfd8_ae531daf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteRef.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-25T12:38:10Z",
+      "side": 1,
+      "message": "Non-atomic is the intended behavior of this endpoint. Delete{Branches,Tags}IT explicitly checks for this non-atomic behavior:\n\n  @Test\n  public void deleteBranchesNotFoundContinue() throws Exception {\n    // If it fails on the first branch in the input, it should still\n    // continue to process the remaining branches.\n\nIf we don\u0027t call BatchRefUpdate#setAtomic, it uses the default atomicity setting of the underlying RefDatabase. When we changed the ref database to start supporting atomic updates, this update implicitly became atomic, which was not the intended behavior.",
+      "parentUuid": "5b5e6b37_2db6c558",
       "revId": "0ef8c834d093a2317ee2712347bf9987575a08b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

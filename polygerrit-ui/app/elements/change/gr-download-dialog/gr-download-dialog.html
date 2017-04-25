@@ -84,7 +84,7 @@ limitations under the License.
       }
       .closeButtonContainer {
         display: flex;
-        flex: 1;
+        flex: 0;
         justify-content: flex-end;
       }
       .patchFiles {
@@ -99,6 +99,10 @@ limitations under the License.
       .archives a:last-of-type {
         margin-right: 0;
       }
+      .title {
+        text-align: center;
+        flex: 1;
+      }
     </style>
     <header>
       <ul hidden$="[[!_schemes.length]]" hidden>
@@ -110,6 +114,9 @@ limitations under the License.
           </li>
         </template>
       </ul>
+      <span class="title">
+        Patch set [[patchNum]] of [[_computePatchSetQuantity(change.revisions)]]
+      </span>
       <span class="closeButtonContainer">
         <gr-button id="closeButton"
             link

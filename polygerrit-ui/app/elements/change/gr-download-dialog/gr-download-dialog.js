@@ -137,6 +137,11 @@
       return [];
     },
 
+    _computePatchSetQuantity: function(revisions) {
+      if (!revisions) { return 0; }
+      return Object.keys(revisions).length;
+    },
+
     _computeSchemeSelected: function(scheme, selectedScheme) {
       return scheme == selectedScheme;
     },

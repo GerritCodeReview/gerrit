@@ -372,6 +372,7 @@ _vulcanize_rule = rule(
             allow_single_file = True,
         ),
     },
+
     outputs = {
         "html": "%{name}.html",
         "js": "%{name}.js",

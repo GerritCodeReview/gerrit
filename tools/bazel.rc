@@ -1,2 +1,2 @@
-build --workspace_status_command=./tools/workspace-status.sh
+build --workspace_status_command=./tools/workspace-status.sh --strategy=Closure=worker
 test --build_tests_only

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0b6bfa15_3a775c81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-25T12:40:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a9812e3_84df3bf8",
+      "range": {
+        "startLine": 90,
+        "startChar": 73,
+        "endLine": 90,
+        "endChar": 92
+      },
+      "revId": "93e34588624764a0591de77a9415896923001501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "496c28a8_ae5273dd",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
         "patchSetId": 1

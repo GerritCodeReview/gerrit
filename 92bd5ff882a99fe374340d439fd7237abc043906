@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "636971c6_a5454bc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-25T10:06:03Z",
+      "side": 1,
+      "message": "I am worried that we would see that exception on our deployment inside Google as well.\n\nWe might see it in the tests because we start multiple Gerrit servers from AbstractDaemonTest#beforeTest, but they are all in the same JVM. Hence the static belongings of DomainValidator stay behind, when we shut the server down and start a new test. If that assumption is true, this might fail in our deployment as we have a similar setting: Serving multiple Gerrit servers from the same JVM.\n\nCan this be somehow gated? One example would be to not call .updateTLDOverride when allowTLD is empty and put the \u0027reset\u0027 logic in the tests:\n\nFor the tests it might work that we add some reset code to the start/stop methods in AbstractDaemonTest. I would assume we create a new Singleton each time we start a Gerrit server?",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 39
+      },
+      "revId": "92bd5ff882a99fe374340d439fd7237abc043906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

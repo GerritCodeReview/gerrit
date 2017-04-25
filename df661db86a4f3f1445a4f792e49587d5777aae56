@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "3978a223_3a33b448",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-25T10:53:24Z",
+      "side": 1,
+      "message": "\u003e it doesn\u0027t accomplish anything that affects our PG code, it just helps fix a bug in the chromium plugin like I mentioned.\n\nI guess my concern is whether we should expect the plugin to re-request this data manually rather than having it expect coherent data in PG when the data might not explicitly be a part of the plugin API surface. (Unless I misunderstand it.)\n\nIMO, it should be safest for plugins to request server data whenever it\u0027s not clear whether some bit of PG will be updated in the expected way. I\u0027m just not sure where that boundary is.",
+      "parentUuid": "9c5f69ad_2152e14d",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "df661db86a4f3f1445a4f792e49587d5777aae56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7783bea0_a4372aca",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 1

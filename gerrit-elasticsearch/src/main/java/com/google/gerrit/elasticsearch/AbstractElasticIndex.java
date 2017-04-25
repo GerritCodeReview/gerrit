@@ -83,7 +83,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.indexName =
         String.format(
             "%s%s%04d",
-            Strings.nullToEmpty(cfg.getString("index", null, "prefix")),
+            Strings.nullToEmpty(cfg.getString("elasticsearch", null, "prefix")),
             indexName,
             schema.getVersion());
     this.client = clientBuilder.build();

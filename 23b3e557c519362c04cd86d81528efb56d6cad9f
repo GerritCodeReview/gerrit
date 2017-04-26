@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8db7f080_7d9c236a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-range-normalizer.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-26T14:08:58Z",
+      "side": 0,
+      "message": "how is this a \"duplicate variable\"?",
+      "range": {
+        "startLine": 68,
+        "startChar": 25,
+        "endLine": 68,
+        "endChar": 28
+      },
+      "revId": "23b3e557c519362c04cd86d81528efb56d6cad9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

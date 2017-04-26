@@ -471,7 +471,7 @@
      * If the URL hash is a diff address then configure the diff cursor.
      */
     _loadHash: function(hash) {
-      var hash = hash.replace(/^#/, '');
+      hash = hash.replace(/^#/, '');
       if (!HASH_PATTERN.test(hash)) { return; }
       if (hash[0] === 'a' || hash[0] === 'b') {
         this.$.cursor.side = DiffSides.LEFT;

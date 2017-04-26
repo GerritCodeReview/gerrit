@@ -1124,16 +1124,16 @@
     },
 
     /**
-     * @desc get the line height of an element to the nearest integer.
-     * */
+     * Get the line height of an element to the nearest integer.
+     */
     _getLineHeight: function(element) {
       var lineHeightStr = getComputedStyle(element).lineHeight;
       return Math.round(lineHeightStr.slice(0, lineHeightStr.length - 2));
     },
 
     /**
-     * @desc new max height for the related changes section, shorter than
-     * the existing change info height.
+     * New max height for the related changes section, shorter than the existing
+     * change info height.
      */
     _updateRelatedChangeMaxHeight: function() {
       // Takes into account approximate height for the expand button and

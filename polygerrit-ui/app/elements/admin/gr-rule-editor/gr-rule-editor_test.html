@@ -71,6 +71,16 @@ limitations under the License.
                 value: true,
               },
             ];
+            const FORCE_SUBMIT_OPTIONS = [
+              {
+                name: 'No Submit on Push',
+                value: false,
+              },
+              {
+                name: 'Submit on Push',
+                value: true,
+              },
+            ];
             let permission = 'push';
             assert.isTrue(element._computeForce(permission));
             assert.equal(element._computeForceClass(permission), 'force');
@@ -82,7 +92,12 @@ limitations under the License.
             assert.deepEqual(element._computeForceOptions(permission),
                 FORCE_EDIT_OPTIONS);
             permission = 'submit';
-            assert.isFalse(element._computeForce(permission));
+            assert.isTrue(element._computeForce(permission));
+            assert.equal(element._computeForceClass(permission), 'force');
+            assert.deepEqual(element._computeForceOptions(permission),
+                FORCE_SUBMIT_OPTIONS);
+            permission = 'editHashtags';
+            assert.isFalse(Element._computeForce(permission));
             assert.equal(element._computeForceClass(permission), '');
             assert.deepEqual(element._computeForceOptions(permission), []);
           });

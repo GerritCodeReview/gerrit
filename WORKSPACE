@@ -36,14 +36,8 @@ load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
 
 # Prevent redundant loading of dependencies.
 closure_repositories(
-<<<<<<< HEAD
-    omit_aopalliance = True,
-    omit_args4j = True,
-    omit_javax_inject = True,
-=======
     omit_args4j=True,
     omit_javax_inject=True,
->>>>>>> PolyGerrit: Make ES6 to ES5 transpilation actually work
 )
 
 ANTLR_VERS = "3.5.2"

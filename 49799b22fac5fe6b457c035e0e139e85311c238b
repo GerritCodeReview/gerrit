@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e85223c4_ebd82327",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-26T09:35:53Z",
+      "side": 1,
+      "message": "Can the migration be run on a live system? Can H2 database be open from 2 different processes?\n\nRunning migration on a live system may miss some updates done in the H2. Should this be mentioned here?",
+      "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b94e361d_ae53d0ed",
+        "filename": "Documentation/pgm-MigrateAccountPatchReviewDb.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-26T09:35:53Z",
+      "side": 1,
+      "message": "command?",
+      "range": {
+        "startLine": 19,
+        "startChar": 5,
+        "endLine": 19,
+        "endChar": 9
+      },
+      "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac1b407b_50f0de5a",
+        "filename": "Documentation/pgm-MigrateAccountPatchReviewDb.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-26T09:35:53Z",
+      "side": 1,
+      "message": "command?",
+      "range": {
+        "startLine": 27,
+        "startChar": 26,
+        "endLine": 27,
+        "endChar": 30
+      },
+      "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7c85a57_fcc63176",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewDb.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-26T09:35:53Z",
+      "side": 1,
+      "message": "Why does this need to be printed out? sourceUrl is not null because the admin typed it in the command line:\n\n  $ java ... MigrateAccount... --sourceUrl \u003csource-url\u003e",
+      "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

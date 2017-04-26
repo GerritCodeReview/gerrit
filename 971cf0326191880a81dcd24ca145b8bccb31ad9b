@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "49e95915_741772f6",
+        "filename": "Documentation/dev-plugin-pg-styling.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-26T00:27:47Z",
+      "side": 1,
+      "message": "I think we\u0027ve discussed this offline, let me know if any action is still needed.",
+      "parentUuid": "29fbe029_e85367a8",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 3
+      },
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdae214f_40413cf6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
         "patchSetId": 7
@@ -87,6 +111,24 @@
       "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3399546_bd65d63e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-26T00:27:47Z",
+      "side": 1,
+      "message": "Yes, it\u0027s the integration test.\nYes, it\u0027s supposed to be different and test integration rather than methods etc.\nNo, this is the first one.",
+      "parentUuid": "fdae214f_40413cf6",
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -130,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "90d0aaf5_0506fdd6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-26T00:27:47Z",
+      "side": 1,
+      "message": "Doh.. we really need to implement ignoring whitespaces (Issue 892)\n\nWrapped everything in gr-external-style, which caused massive re-indentation, and changed few class names.",
+      "parentUuid": "8c7c0baf_79db99b3",
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca2de90b_f154c197",
         "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.html",
         "patchSetId": 7
@@ -153,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "4cd97954_d5127b7e",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-26T00:27:47Z",
+      "side": 1,
+      "message": "Leftover from previous version, removed.",
+      "parentUuid": "ca2de90b_f154c197",
+      "range": {
+        "startLine": 22,
+        "startChar": 5,
+        "endLine": 22,
+        "endChar": 20
+      },
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29d52097_6f7bd679",
         "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.js",
         "patchSetId": 7
@@ -164,6 +248,24 @@
       "writtenOn": "2017-04-18T21:53:14Z",
       "side": 1,
       "message": "Just an idea: what if this were a behavior? That way, it wouldn\u0027t need to increase the nesting depth in the markup.",
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c944db8_4f35bfac",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-26T00:27:47Z",
+      "side": 1,
+      "message": "I think this is a very high-level question.\nThere are some general downsides for mixins, but the major one is that they are soft-deprecated in 2.0 in favor of class mixins: https://www.polymer-project.org/2.0/docs/upgrade#mixins",
+      "parentUuid": "29d52097_6f7bd679",
       "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -193,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "8b103b64_8c484592",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-26T00:27:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39cacd4e_edfeec3b",
+      "range": {
+        "startLine": 33,
+        "startChar": 28,
+        "endLine": 33,
+        "endChar": 51
+      },
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b62d4c3_b4e8cbed",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 7
@@ -216,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "349c5995_c8968f44",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-26T00:27:47Z",
+      "side": 1,
+      "message": "Yes, but moduleName is a moduleName, not a URL now.\n\nPoint taken insertionPointName, renamed to stylingEndpointName.",
+      "parentUuid": "3b62d4c3_b4e8cbed",
+      "range": {
+        "startLine": 58,
+        "startChar": 15,
+        "endLine": 58,
+        "endChar": 45
+      },
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96cccd2c_dfc5c272",
         "filename": "polygerrit-ui/doc/gr-plugin-styling.md",
         "patchSetId": 7
@@ -230,6 +380,24 @@
       "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8d4b86c_a76efd2b",
+        "filename": "polygerrit-ui/doc/gr-plugin-styling.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-26T00:27:47Z",
+      "side": 1,
+      "message": "Yep, that\u0027s older version.\nRemoved.",
+      "parentUuid": "96cccd2c_dfc5c272",
+      "revId": "971cf0326191880a81dcd24ca145b8bccb31ad9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

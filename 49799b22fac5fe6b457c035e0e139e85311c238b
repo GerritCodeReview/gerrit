@@ -157,6 +157,29 @@
       "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d8efbff_36031f91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-26T13:02:55Z",
+      "side": 1,
+      "message": "I thought in mysql this is limited to 255?",
+      "range": {
+        "startLine": 161,
+        "startChar": 33,
+        "endLine": 161,
+        "endChar": 37
+      },
+      "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

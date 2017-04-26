@@ -43,7 +43,7 @@ java_library(
     name = "javax-inject",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@javax_inject"],
+    exports = ["@javax_inject//jar"],
 )
 
 java_library(

@@ -27,8 +27,9 @@ load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
 
 # Prevent redundant loading of dependencies.
 closure_repositories(
-    omit_args4j=True,
-    omit_javax_inject=True,
+    omit_aopalliance = True,
+    omit_args4j = True,
+    omit_javax_inject = True,
 )
 
 ANTLR_VERS = "3.5.2"
@@ -90,15 +91,10 @@ maven_jar(
     sha1 = "0235ba8b489512805ac13a8f9ea77a1ca5ebe3e8",
 )
 
-java_import_external(
+maven_jar(
     name = "javax_inject",
-    jar_urls = [
-        "http://bazel-mirror.storage.googleapis.com/repo1.maven.org/maven2/javax/inject/javax.inject/1/javax.inject-1.jar",
-        "http://repo1.maven.org/maven2/javax/inject/javax.inject/1/javax.inject-1.jar",
-        "http://maven.ibiblio.org/maven2/javax/inject/javax.inject/1/javax.inject-1.jar",
-    ],
-    jar_sha256 = "91c77044a50c481636c32d916fd89c9118a72195390452c81065080f957de7ff",
-    licenses = ["notice"],  # Apache 2.0
+    artifact = "javax.inject:javax.inject:1",
+    sha1 = "6975da39a7040257bd51d21a231b76c915872d38",
 )
 
 maven_jar(
@@ -281,15 +277,10 @@ maven_jar(
     sha1 = "24a2f903d25e004de30ac602c5b47f2d4e420a59",
 )
 
-java_import_external(
+maven_jar(
     name = "args4j",
-    jar_sha256 = "989bda2321ea073a03686e9d4437ea4928c72c99f993f9ca6fab24615f0771a4",
-    jar_urls = [
-        "http://bazel-mirror.storage.googleapis.com/repo1.maven.org/maven2/args4j/args4j/2.0.26/args4j-2.0.26.jar",
-        "http://repo1.maven.org/maven2/args4j/args4j/2.0.26/args4j-2.0.26.jar",
-        "http://maven.ibiblio.org/maven2/args4j/args4j/2.0.26/args4j-2.0.26.jar",
-    ],
-    licenses = ["notice"],  # MIT License
+    artifact = "args4j:args4j:2.0.26",
+    sha1 = "01ebb18ebb3b379a74207d5af4ea7c8338ebd78b",
 )
 
 maven_jar(

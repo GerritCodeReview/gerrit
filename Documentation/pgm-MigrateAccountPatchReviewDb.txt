@@ -16,7 +16,7 @@ _java_ -jar gerrit.war MigrateAccountPatchReviewDb
 Migrates AccountPatchReviewDb from one database backend to another. The
 AccountPatchReviewDb is a database used to store the user file reviewed flags.
 
-This task is only intended to be run if the configuration parameter
+This command is only intended to be run if the configuration parameter
 link:config-gerrit.html#accountPatchReviewDb.url[accountPatchReviewDb.url]
 is set or changed.
 
@@ -24,7 +24,7 @@ To migrate AccountPatchReviewDb:
 
 * Stop Gerrit
 * Configure new value for link:config-gerrit.html#accountPatchReviewDb.url[accountPatchReviewDb.url]
-* Migrate data using this task
+* Migrate data using this command
 * Start Gerrit
 
 == OPTIONS

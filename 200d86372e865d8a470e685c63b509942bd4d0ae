@@ -34,6 +34,24 @@
       "revId": "200d86372e865d8a470e685c63b509942bd4d0ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdad4282_bc9c933d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2683,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-26T12:10:48Z",
+      "side": 1,
+      "message": "Is is possible to have something like this?\n\n[elasticsearch]\n  username \u003d someuser\n  ...\n[elasticsearch \"server1\"]\n  host \u003d someHost\n  ...",
+      "parentUuid": "1648e8d4_eb82b182",
+      "revId": "200d86372e865d8a470e685c63b509942bd4d0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

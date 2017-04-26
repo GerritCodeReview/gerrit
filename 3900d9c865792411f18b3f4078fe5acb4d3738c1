@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "2b820fd1_d5caea1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-26T07:26:53Z",
+      "side": 1,
+      "message": "I\u0027ve been told in the past to avoid putting weblinks in the commit message -- I can definitely add a TODO though.",
+      "parentUuid": "fbc50d80_f9be7223",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 37
+      },
+      "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd85d198_3c17bd42",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -56,6 +80,24 @@
       "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "753727b2_2befcf8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-26T07:26:53Z",
+      "side": 1,
+      "message": "Awesome. How would I go about writing these tests?\n\nAs to your last point, yeah I was definitely planning on addressing them in a followup change.",
+      "parentUuid": "cd85d198_3c17bd42",
+      "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {
@@ -94,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "319a9a73_d93cbe28",
+        "filename": "lib/polymer_externs/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-26T07:26:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5c849f_1b1f106d",
+      "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3c9b8f5_75f9ba3d",
         "filename": "lib/polymer_externs/BUILD",
         "patchSetId": 4
@@ -117,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "bc5fdb74_b8925dcf",
+        "filename": "lib/polymer_externs/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-26T07:26:53Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "f3c9b8f5_75f9ba3d",
+      "range": {
+        "startLine": 22,
+        "startChar": 12,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c949e0f_db4fd32d",
         "filename": "lib/polymer_externs/polymer-1.0.js",
         "patchSetId": 4
@@ -128,6 +212,24 @@
       "writtenOn": "2017-04-26T05:55:46Z",
       "side": 1,
       "message": "As pointed out by Han-Wen, open source gerrit is *not* a monorepo project. We are not putting any dependencies under version control but consume them from external locations. The only exception (sad enough) from this rule right now is polygerrit\u0027s highlightjs library. Luckily, as pointerd out by Jonathtan, we can easily eliminate putting this library here. I patched this CL: [1] to fetch the file from GH (and added license data) and this file can be removed now.\n\nIf we rather don\u0027t want to depend on GH, we could put this library in gerrit storage bucket and consume it from there (but, honestly, the whole polymer stack heavily depends on GH anyway, so that we probably don\u0027t care).\n\n* [1] http://paste.openstack.org/show/607989/",
+      "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9f2fdbe_c6903e8a",
+        "filename": "lib/polymer_externs/polymer-1.0.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-26T07:26:53Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "0c949e0f_db4fd32d",
       "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

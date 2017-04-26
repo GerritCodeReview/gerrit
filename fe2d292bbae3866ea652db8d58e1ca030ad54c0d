@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d1d9f20_cb8eb8c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-26T14:44:04Z",
+      "side": 1,
+      "message": "I would leave this sentence out for now. Depending on the follow-up discussion we may\nwant to move this into a plugin or keep it in the core.",
+      "revId": "fe2d292bbae3866ea652db8d58e1ca030ad54c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3ab20d6_610d9c5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RateLimitUploadListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-26T14:44:04Z",
+      "side": 1,
+      "message": "We don\u0027t want to create this instance again and again for every call to this method. Make this a static class variable.\n\nSame for lines: 76, 81, 83.",
+      "revId": "fe2d292bbae3866ea652db8d58e1ca030ad54c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4553b1f_6021b46d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RateLimitUploadListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-26T14:44:04Z",
+      "side": 1,
+      "message": "Use: Throwables.propagateIfPossible(e)",
+      "revId": "fe2d292bbae3866ea652db8d58e1ca030ad54c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7e0e6c6_5fe4a4a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RateLimitUploadListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-26T14:44:04Z",
+      "side": 1,
+      "message": "final",
+      "revId": "fe2d292bbae3866ea652db8d58e1ca030ad54c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46b2275e_cc6d62dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RateLimitUploadListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-26T14:44:04Z",
+      "side": 1,
+      "message": "move this to the line 123",
+      "revId": "fe2d292bbae3866ea652db8d58e1ca030ad54c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0028c9d8_b8904643",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RateLimitUploadListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-26T14:44:04Z",
+      "side": 1,
+      "message": "It looks strange that this number has to be hardcoded here. Either have a formatter class which creates a human\nreadable rate limit string or at least make this a constant.",
+      "range": {
+        "startLine": 136,
+        "startChar": 82,
+        "endLine": 136,
+        "endChar": 88
+      },
+      "revId": "fe2d292bbae3866ea652db8d58e1ca030ad54c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bc12487_7785b7d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RateLimitUploadListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-26T14:44:04Z",
+      "side": 1,
+      "message": "Add a TODO for addressing rate limits for anonymous users?",
+      "revId": "fe2d292bbae3866ea652db8d58e1ca030ad54c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0198f7a_218dcd7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RateLimiterModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-26T14:44:04Z",
+      "side": 1,
+      "message": "Run this through google-java-format to fix code formatting issues",
+      "revId": "fe2d292bbae3866ea652db8d58e1ca030ad54c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

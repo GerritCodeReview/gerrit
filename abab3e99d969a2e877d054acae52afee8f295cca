@@ -22,6 +22,30 @@
       "revId": "abab3e99d969a2e877d054acae52afee8f295cca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44581657_222173c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-26T12:57:57Z",
+      "side": 1,
+      "message": "tl;dr: it is now impossible to block a project owner from from seeing some refs.\n\nIf you strongly believe this new behavior is more correct, we can just fix the configuration of our tests. (Hopefully. Might not be easy, for reasons I\u0027ll explain in person.)",
+      "parentUuid": "7a993712_52734ddc",
+      "range": {
+        "startLine": 615,
+        "startChar": 57,
+        "endLine": 615,
+        "endChar": 66
+      },
+      "revId": "abab3e99d969a2e877d054acae52afee8f295cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

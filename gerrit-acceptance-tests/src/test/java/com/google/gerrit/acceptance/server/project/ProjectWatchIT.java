@@ -100,7 +100,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     nc.addEmail(addr);
     nc.setName("team");
     nc.setHeader(NotifyConfig.Header.TO);
-    nc.setTypes(EnumSet.of(NotifyType.NEW_CHANGES));
+    nc.setTypes(EnumSet.of(NotifyType.NEW_CHANGES, NotifyType.ALL_COMMENTS));
 
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     cfg.putNotifyConfig("team", nc);
@@ -111,6 +111,13 @@ public class ProjectWatchIT extends AbstractDaemonTest {
             .create(db, admin.getIdent(), testRepo, "draft change", "a", "a1")
             .to("refs/for/master%draft");
     r.assertOkStatus();
+
+    assertThat(sender.getMessages()).isEmpty();
+
+    setApiUser(admin);
+    ReviewInput in = new ReviewInput();
+    in.message = "comment";
+    gApi.changes().id(r.getChangeId()).current().review(in);
 
     assertThat(sender.getMessages()).isEmpty();
   }
@@ -141,6 +148,13 @@ public class ProjectWatchIT extends AbstractDaemonTest {
             .create(db, admin.getIdent(), testRepo, "subject", "a", "a2", r.getChangeId())
             .to("refs/for/master%draft");
     r.assertOkStatus();
+
+    assertThat(sender.getMessages()).isEmpty();
+
+    setApiUser(admin);
+    ReviewInput in = new ReviewInput();
+    in.message = "comment";
+    gApi.changes().id(r.getChangeId()).current().review(in);
 
     assertThat(sender.getMessages()).isEmpty();
   }

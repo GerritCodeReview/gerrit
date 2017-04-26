@@ -193,6 +193,30 @@
     },
     {
       "key": {
+        "uuid": "c70935a2_4a1779dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-26T18:00:34Z",
+      "side": 1,
+      "message": "\u003e There are already tests for this behavior in this change.\n\nWe do have unit tests, true.\nBut what I mean is that we should have integration tests that validate change object - we don\u0027t have those.\n\n\u003e since we know _exactly_ how the change has changed\n\nThis is only mostly true. \na) change may be out of sync with server \nb) server logic may change eventually\nc) server-side plugins are excluded this way\n\nI understand the cost isn\u0027t trivial, but this approach will guarantee stability.\n\nAnyway, I think options are clear, so the rest is up to you. I\u0027m not against merging this change and stabilizing interface later.",
+      "parentUuid": "da1712a8_2b6d16aa",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "df661db86a4f3f1445a4f792e49587d5777aae56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7783bea0_a4372aca",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 1

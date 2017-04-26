@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a1b593b5_1d6f1fc2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-26T10:06:46Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/#/c/104734/",
+      "parentUuid": "6c2e3a6c_08b12819",
+      "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b94e361d_ae53d0ed",
         "filename": "Documentation/pgm-MigrateAccountPatchReviewDb.txt",
         "patchSetId": 23

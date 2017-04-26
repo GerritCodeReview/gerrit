@@ -39,6 +39,52 @@
       "revId": "326a9971fdae6d51c06dfb74ccabf433b3fd9ceb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4d0f600_0b74b0be",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-26T09:38:42Z",
+      "side": 1,
+      "message": "you are here iterating over all elements in `splitted`, then in line 1107, you start iteration again. How about using `indexOf(\"+\")` and then staring the second for from that place?",
+      "range": {
+        "startLine": 1104,
+        "startChar": 8,
+        "endLine": 1104,
+        "endChar": 41
+      },
+      "revId": "326a9971fdae6d51c06dfb74ccabf433b3fd9ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86263164_19e2706d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1126,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-26T09:38:42Z",
+      "side": 1,
+      "message": "can you jump from the `for` look here, so that we don\u0027t need to iterate over all the rest parts in `splitted`?",
+      "range": {
+        "startLine": 1124,
+        "startChar": 10,
+        "endLine": 1126,
+        "endChar": 18
+      },
+      "revId": "326a9971fdae6d51c06dfb74ccabf433b3fd9ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

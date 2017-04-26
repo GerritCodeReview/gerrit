@@ -64,7 +64,10 @@
       },
       backPage: String,
       hasParent: Boolean,
-      serverConfig: Object,
+      serverConfig: {
+        type: Object,
+        observer: '_startUpdateCheckTimer',
+      },
       keyEventTarget: {
         type: Object,
         value: function() { return document.body; },
@@ -159,6 +162,7 @@
         type: Boolean,
         value: true,
       },
+      _updateCheckTimerHandle: Number,
     },
 
     behaviors: [
@@ -204,10 +208,16 @@
       this.addEventListener('editable-content-cancel',
           this._handleCommitMessageCancel.bind(this));
       this.listen(window, 'scroll', '_handleScroll');
+      this.listen(document, 'visibilitychange', '_handleVisibilityChange');
     },
 
     detached: function() {
       this.unlisten(window, 'scroll', '_handleScroll');
+      this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
+
+      if (this._updateCheckTimerHandle) {
+        this._cancelUpdateCheckTimer();
+      }
     },
 
     _handleEditCommitMessage: function(e) {
@@ -1150,6 +1160,45 @@
     _computeRelatedChangesToggleHidden: function() {
       return this._getScrollHeight(this.$.relatedChanges) <=
           this._getOffsetHeight(this.$.relatedChanges);
+    },
+
+    _startUpdateCheckTimer: function() {
+      if (!this.serverConfig ||
+          !this.serverConfig.change ||
+          this.serverConfig.change.update_delay === undefined ||
+          this.serverConfig.change.update_delay < 0) { return; }
+
+      this._updateCheckTimerHandle = this.async(function() {
+        this.fetchIsLatestKnown(this._change, this.$.restAPI)
+            .then(function(latest) {
+              if (!latest) {
+                this.fire('show-alert', {
+                  message: 'A newer patch has been uploaded.',
+                  action: 'Reload',
+                  callback: function() {
+                    this._cancelUpdateCheckTimer();
+                    // Load the current change without any patch range.
+                    location.href = this.getBaseUrl() + '/c/' +
+                        this._change._number;
+                  }.bind(this),
+                });
+              }
+              this._startUpdateCheckTimer();
+            }.bind(this));
+      }, this.serverConfig.change.update_delay * 1000);
+    },
+
+    _cancelUpdateCheckTimer: function() {
+      this.cancelAsync(this._updateCheckTimerHandle);
+      this._updateCheckTimerHandle = null;
+    },
+
+    _handleVisibilityChange: function() {
+      if (document.hidden && this._updateCheckTimerHandle) {
+        this._cancelUpdateCheckTimer();
+      } else if (!this._updateCheckTimerHandle) {
+        this._startUpdateCheckTimer();
+      }
     },
   });
 })();

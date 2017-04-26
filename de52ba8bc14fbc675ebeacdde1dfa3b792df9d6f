@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0582251d_7169d60b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-26T11:58:06Z",
+      "side": 1,
+      "message": "there is no need for them to be in a subfolder",
+      "range": {
+        "startLine": 101,
+        "startChar": 46,
+        "endLine": 101,
+        "endChar": 53
+      },
+      "revId": "de52ba8bc14fbc675ebeacdde1dfa3b792df9d6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19d8cc91_5fca533e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-26T11:58:06Z",
+      "side": 1,
+      "message": "this should be fixed in a separate commit.  I already did it before noticing it was here too.",
+      "range": {
+        "startLine": 103,
+        "startChar": 17,
+        "endLine": 103,
+        "endChar": 30
+      },
+      "revId": "de52ba8bc14fbc675ebeacdde1dfa3b792df9d6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

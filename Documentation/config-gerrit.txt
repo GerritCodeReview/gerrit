@@ -2687,25 +2687,9 @@ Open and closed changes are indexed in a single index, separated
 into types 'open_changes' and 'closed_changes' respectively.
 
 The following settings are only used when the index type is
-`ELASTICSEARCH`.
+`ELASTICSEARCH`. To configure Elasticsearch servers look into
+link:#elasticsearch[Elasticsearch section]
 
-[[index.protocol]]index.protocol::
-+
-Elasticsearch server protocol [http|https].
-+
-Defaults to `http`.
-
-[[index.hostname]]index.hostname::
-+
-Elasticsearch server hostname.
-
-Defaults to `localhost`.
-
-[[index.port]]index.port::
-+
-Elasticsearch server port.
-+
-Defaults to `9200`.
 
 [[index.prefix]]index.prefix::
 +
@@ -2714,6 +2698,33 @@ instances in a single Elasticsearch cluster. Prefix 'gerrit1_' would result in a
 change index named 'gerrit1_changes_0001'.
 +
 Not set by default.
+
+[[elasticsearch]]
+=== Section elasticsearch
+
+WARNING: The Elasticsearch support is incomplete. Online reindexing
+is not implemented yet.
+
+Each section correspond to the one Elasticsearch server.
+
+[[elasticsearch.name.protocol]]elasticsearch.name.protocol::
++
+Elasticsearch server protocol [http|https].
++
+Defaults to `http`.
+
+[[elasticsearch.name.hostname]]elasticsearch.name.hostname::
++
+Elasticsearch server hostname.
+
+Defaults to `localhost`.
+
+[[elasticsearch.name.port]]elasticsearch.name.port::
++
+Elasticsearch server port.
++
+Defaults to `9200`.
+
 
 [[ldap]]
 === Section ldap

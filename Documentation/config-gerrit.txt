@@ -2771,7 +2771,7 @@ The value is in the usual time-unit format like "1 m", "5 m".
 +
 Defaults to `5 m`
 
-===== Elasticsearch server(s) configuration
+==== Elasticsearch server(s) configuration
 
 Each section correspond to one Elasticsearch server.
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e10336e7_ade67515",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/AbstractVersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-26T12:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1524acbd_659c5a3d",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 122,
+        "endChar": 11
+      },
+      "revId": "868485ccdab0018fc836abd78c4aba363a0ac668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd474236_3ad9b07a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/AbstractVersionManager.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-26T11:36:06Z",
       "side": 1,
       "message": "v.schema should never be null since you check that when you add Versions to the \"write\" collection at line 136",
+      "range": {
+        "startLine": 159,
+        "startChar": 10,
+        "endLine": 159,
+        "endChar": 26
+      },
+      "revId": "868485ccdab0018fc836abd78c4aba363a0ac668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "700f650c_bf2952f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/AbstractVersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-26T12:34:18Z",
+      "side": 1,
+      "message": "good catch! Done.",
+      "parentUuid": "bd474236_3ad9b07a",
       "range": {
         "startLine": 159,
         "startChar": 10,

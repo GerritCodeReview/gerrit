@@ -71,6 +71,16 @@ limitations under the License.
                 value: true,
               },
             ];
+            const FORCE_SUBMIT_OPTIONS = [
+              {
+                name: 'No Submit on Push',
+                value: false,
+              },
+              {
+                name: 'Submit on Push',
+                value: true,
+              },
+            ];
             let permission = 'push';
             assert.isTrue(element._computeForce(permission));
             assert.equal(element._computeForceClass(permission), 'force');
@@ -82,6 +92,11 @@ limitations under the License.
             assert.deepEqual(element._computeForceOptions(permission),
                 FORCE_EDIT_OPTIONS);
             permission = 'submit';
+            assert.isTrue(element._computeForce(permission));
+            assert.equal(element._computeForceClass(permission), 'force');
+            assert.deepEqual(element._computeForceOptions(permission),
+                FORCE_SUBMIT_OPTIONS);
+            permission = 'editHashtags';
             assert.isFalse(element._computeForce(permission));
             assert.equal(element._computeForceClass(permission), '');
             assert.deepEqual(element._computeForceOptions(permission), []);
@@ -124,7 +139,7 @@ limitations under the License.
           {action: 'ALLOW', force: false});
         permission = 'submit';
         assert.deepEqual(element._getDefaultRuleValues(permission, label),
-            {action: 'ALLOW'});
+            {action: 'ALLOW', force: false});
       });
 
       test('_setDefaultRuleValues', () => {
@@ -210,7 +225,7 @@ limitations under the License.
         assert.equal(element.$.action.bindValue, element.rule.value.action);
         assert.isNotOk(Polymer.dom(element.root).querySelector('#labelMin'));
         assert.isNotOk(Polymer.dom(element.root).querySelector('#labelMax'));
-        assert.isFalse(element.$.force.classList.contains('force'));
+        assert.isTrue(element.$.force.classList.contains('force'));
       });
 
       test('modify and cancel restores original values', () => {

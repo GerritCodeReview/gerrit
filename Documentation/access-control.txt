@@ -795,8 +795,7 @@ above) must enable submit, and also must not block it.  See above for
 details on each label.
 
 To link:user-upload.html#auto_merge[immediately submit a change on push]
-the caller needs to have the Submit permission on `refs/for/<ref>`
-(e.g. on `refs/for/refs/heads/master`).
+the caller needs to enable the "Submit on Push" option.
 
 Submitting to the `refs/meta/config` branch is only allowed to project
 owners. Any explicit submit permissions for non-project-owners on this

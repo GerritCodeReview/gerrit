@@ -122,6 +122,10 @@ limitations under the License.
               has-unsaved-changes="{{_accountInfoChanged}}"></gr-account-info>
           <gr-button
               on-tap="_handleSaveAccountInfo"
+              hidden$="[[_accountInfoMutable]]"
+              disabled="[[_accountInfoChanged]]">Save changes</gr-button>
+          <gr-button
+              on-tap="_handleSaveAccountInfo"
               hidden$="[[!_accountInfoMutable]]"
               disabled="[[!_accountInfoChanged]]">Save changes</gr-button>
         </fieldset>

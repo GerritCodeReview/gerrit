@@ -36,8 +36,6 @@ closure_js_library(
     language = "ECMASCRIPT6",
     suppress = [
         "JSC_BAD_JSDOC_ANNOTATION",
-        "JSC_TYPE_PARSE_ERROR",
-        "JSC_MISPLACED_MSG_ANNOTATION",
     ],
     deps = [
         "//lib/polymer_externs:polymer_closure",

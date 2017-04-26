@@ -83,6 +83,8 @@ public abstract class JdbcAccountPatchReviewStore
       return new PostgresqlAccountPatchReviewStore(cfg, sitePaths);
     } else if (url.contains("mysql")) {
       return new MysqlAccountPatchReviewStore(cfg, sitePaths);
+    } else if (url.contains("mariadb")) {
+      return new MariaDBAccountPatchReviewStore(cfg, sitePaths);
     } else {
       throw new IllegalArgumentException(
           "unsupported driver type for account patch reviews db: " + url);
@@ -113,6 +115,8 @@ public abstract class JdbcAccountPatchReviewStore
       datasource.setDriverClassName("org.h2.Driver");
     } else if (url.contains("mysql")) {
       datasource.setDriverClassName("com.mysql.jdbc.Driver");
+    } else if (url.contains("mariadb")) {
+      datasource.setDriverClassName("org.mariadb.jdbc.Driver");
     }
     datasource.setUrl(url);
     datasource.setMaxActive(50);

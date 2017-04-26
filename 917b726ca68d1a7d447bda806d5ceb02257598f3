@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e55ad47_005bd63e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/EmailValidatorIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-26T15:55:13Z",
+      "side": 1,
+      "message": "How can this work if only the first call to DomainValidator.updateTLDOverride in any JVM invocation has an effect?",
+      "revId": "917b726ca68d1a7d447bda806d5ceb02257598f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

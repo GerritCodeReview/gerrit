@@ -25,6 +25,374 @@
     },
     {
       "key": {
+        "uuid": "e702f2a5_01101187",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "nit: this empty line should be removed.",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 0
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8954096b_482f7fa7",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "nit: a new line is expected before \"project\".",
+      "range": {
+        "startLine": 204,
+        "startChar": 5,
+        "endLine": 204,
+        "endChar": 25
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adeebaae_cf925d35",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "nit: this should be removed.",
+      "range": {
+        "startLine": 204,
+        "startChar": 2,
+        "endLine": 204,
+        "endChar": 3
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1894caea_29de56e8",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "nit: ref may also need to mention here?",
+      "range": {
+        "startLine": 211,
+        "startChar": 40,
+        "endLine": 212,
+        "endChar": 11
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45ec5be1_420c124a",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "nit: a new line is expected before this.",
+      "range": {
+        "startLine": 218,
+        "startChar": 2,
+        "endLine": 218,
+        "endChar": 6
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fe954d6_f9509729",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/CheckAcccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "nit: private final?",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 31
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f4bc6c0_642f6196",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/CheckAcccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "nit: this should be removed.",
+      "range": {
+        "startLine": 56,
+        "startChar": 94,
+        "endLine": 56,
+        "endChar": 97
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8da1fa2a_ae92526e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/AccessCheckInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "\"ConsistencyCheckInfo\" should be a good example for this.",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cedc17ab_4531f143",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/AccessCheckInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "nit: usually, this order should be the same with the order of their declarations.",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 27
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e827fc9a_d8a7377f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/AccessCheckInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "nit: this should not be necessary. By default, they are initialized as null.",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 27
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f25a3762_2f5fe0d3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/Server.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "nit: reformat.",
+      "range": {
+        "startLine": 42,
+        "startChar": 3,
+        "endLine": 44,
+        "endChar": 5
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da35e495_8ae631cc",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/Server.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "nit: same above.",
+      "range": {
+        "startLine": 81,
+        "startChar": 5,
+        "endLine": 84,
+        "endChar": 7
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ede809d6_44611306",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/config/ServerImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "nit: unused import.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 51
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f9dd3a0_466c74de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/config/ServerImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "nit: reformat.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 3
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2f67097_d1b4f782",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "nit:reformat and adapt the order.",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 3
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfed1bf1_3e4cb582",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "I think this check isn\u0027t necessary for \u0027admin\u0027 (it\u0027s already an identified user). If \u0027admin\u0027 is not identified, what will happen for \u0027currentUser.get()\u0027? Null or any other error? You should inject Provide\u003cCurrentUser\u003e here? \n\nSo it may be wrote like can just like \u0027currentUser.get().",
+      "range": {
+        "startLine": 75,
+        "startChar": 3,
+        "endLine": 76,
+        "endChar": 36
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a517417b_a79652c8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
         "patchSetId": 4
@@ -114,6 +482,29 @@
       "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18329a1e_0a7f30c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-26T07:24:50Z",
+      "side": 1,
+      "message": "Do we need to include the account id in this message?",
+      "range": {
+        "startLine": 121,
+        "startChar": 31,
+        "endLine": 121,
+        "endChar": 56
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

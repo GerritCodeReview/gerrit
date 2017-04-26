@@ -49,7 +49,6 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
     SitePaths sitePaths = new SitePaths(getSitePath());
     Config fakeCfg = new Config();
     if (!Strings.isNullOrEmpty(sourceUrl)) {
-      System.out.println("source Url (custom): " + sourceUrl);
       fakeCfg.setString("accountPatchReviewDb", null, "url", sourceUrl);
     }
     JdbcAccountPatchReviewStore sourceJdbcAccountPatchReviewStore =

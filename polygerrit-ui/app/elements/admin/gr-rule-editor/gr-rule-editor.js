@@ -56,6 +56,17 @@
     },
   ];
 
+  const FORCE_SUBMIT_OPTIONS = [
+    {
+      name: 'No Submit on Push',
+      value: false,
+    },
+    {
+      name: 'Submit on Push',
+      value: true,
+    },
+  ];
+
   Polymer({
     is: 'gr-rule-editor',
 
@@ -114,7 +125,8 @@
 
     _computeForce(permission) {
       return this.permissionValues.push.id === permission ||
-          this.permissionValues.editTopicName.id === permission;
+          this.permissionValues.editTopicName.id === permission ||
+          this.permissionValues.submit.id === permission;
     },
 
     _computeForceClass(permission) {
@@ -156,6 +168,8 @@
         return FORCE_PUSH_OPTIONS;
       } else if (permission === this.permissionValues.editTopicName.id) {
         return FORCE_EDIT_OPTIONS;
+      } else if (permission === this.permissionValues.submit.id) {
+        return FORCE_SUBMIT_OPTIONS;
       }
       return [];
     },

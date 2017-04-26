@@ -19,6 +19,26 @@ Sample `etc/gerrit.config`:
   directory = /var/cache/gerrit2
 ----
 
+[[accountPatchReviewDb]]
+=== Section accountPatchReviewDb
+
+[[accountPatchReviewDb.url]]accountPatchReviewDb.url::
++
+The url of accountPatchReviewDb. Supported types are `H2`, `POSTGRESQL`, and
+`MYSQL`. Drop the driver jar in the lib folder of the site path if the Jdbc
+driver of the corresponding Database is not yet in the class path.
++
+Default is to create H2 database in the db folder of the site path.
++
+Changing this parameter requires to migrate database using the
+link:pgm-MigrateAccountPatchReviewDb.html[MigrateAccountPatchReviewDb] program.
+Migration cannot be done while the server is running.
+
+----
+[accountPatchReviewDb]
+  url = jdbc:postgresql://<host>:<port>/<db_name>?user=<user>&password=<password>
+----
+
 [[accounts]]
 === Section accounts
 

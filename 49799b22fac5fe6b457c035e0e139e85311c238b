@@ -180,6 +180,30 @@
       "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d760a6_bf62d66c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-26T13:07:06Z",
+      "side": 1,
+      "message": "no, limit is 65535",
+      "parentUuid": "4d8efbff_36031f91",
+      "range": {
+        "startLine": 161,
+        "startChar": 33,
+        "endLine": 161,
+        "endChar": 37
+      },
+      "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "4ed928b07c6ca4212b62cfcf9cecf79edd9dbba4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6905aefc_797b4ad1",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-26T15:33:40Z",
+      "side": 1,
+      "message": "It enforces the public Google JS style guidelines, a more strict version of which we already follow on PolyGerrit.\n\nhttps://github.com/google/closure-compiler/blob/master/src/com/google/javascript/jscomp/GoogleCodingConvention.java\nhttps://google.github.io/styleguide/jsguide.html\n\nI can add a comment / update the commit message to reflect this, or remove it. Up to you.",
+      "parentUuid": "bf767710_6a80dc88",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 25
+      },
+      "revId": "4ed928b07c6ca4212b62cfcf9cecf79edd9dbba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

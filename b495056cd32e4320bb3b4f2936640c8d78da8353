@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "600c4a7a_57277b05",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PermissionRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-04-26T15:51:40Z",
+      "side": 1,
+      "message": "can one exception be thrown instead of 2?",
+      "range": {
+        "startLine": 259,
+        "startChar": 6,
+        "endLine": 261,
+        "endChar": 7
+      },
+      "revId": "b495056cd32e4320bb3b4f2936640c8d78da8353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32ec1ce4_ae63080c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-04-26T15:51:40Z",
+      "side": 1,
+      "message": "would that mean that project roles takes preference over parent roles or there is an union of them as result of roles resolution?",
+      "range": {
+        "startLine": 345,
+        "startChar": 2,
+        "endLine": 358,
+        "endChar": 3
+      },
+      "revId": "b495056cd32e4320bb3b4f2936640c8d78da8353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

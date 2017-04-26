@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "76165391_4d4ccdf7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-26T10:51:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe5d370e_08a1eb4f",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 6
+      },
+      "revId": "32ed4208973b2a2f42c69d95b98c337732bdd8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "483b7686_b013853e",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "32ed4208973b2a2f42c69d95b98c337732bdd8a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bf54476_dfcb3f9e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-26T10:51:15Z",
+      "side": 1,
+      "message": "Hah, the entire reason I added the sandbox. Done.",
+      "parentUuid": "483b7686_b013853e",
+      "range": {
+        "startLine": 230,
+        "startChar": 6,
+        "endLine": 230,
+        "endChar": 11
+      },
+      "revId": "32ed4208973b2a2f42c69d95b98c337732bdd8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "cc4b24bf_316a37ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-26T10:51:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26dff400_50daacbe",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 24
+      },
+      "revId": "32ed4208973b2a2f42c69d95b98c337732bdd8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a5ded1b_b64be820",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 7
@@ -91,6 +163,30 @@
       "revId": "32ed4208973b2a2f42c69d95b98c337732bdd8a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "786c6eaa_f1dc8ea3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-26T10:51:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a5ded1b_b64be820",
+      "range": {
+        "startLine": 105,
+        "startChar": 6,
+        "endLine": 105,
+        "endChar": 11
+      },
+      "revId": "32ed4208973b2a2f42c69d95b98c337732bdd8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

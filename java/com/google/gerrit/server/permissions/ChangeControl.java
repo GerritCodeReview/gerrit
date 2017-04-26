@@ -140,7 +140,7 @@ class ChangeControl {
 
   /** Can this user rebase this change? */
   private boolean canRebase(ReviewDb db) throws OrmException {
-    return (isOwner() || refControl.canSubmit(isOwner()) || refControl.canRebase())
+    return (isOwner() || refControl.canSubmit(isOwner(), false) || refControl.canRebase())
         && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)
         && !isPatchSetLocked(db);
   }
@@ -373,7 +373,7 @@ class ChangeControl {
           case RESTORE:
             return canRestore(db());
           case SUBMIT:
-            return refControl.canSubmit(isOwner());
+            return refControl.canSubmit(isOwner(), false);
 
           case REMOVE_REVIEWER:
           case SUBMIT_AS:

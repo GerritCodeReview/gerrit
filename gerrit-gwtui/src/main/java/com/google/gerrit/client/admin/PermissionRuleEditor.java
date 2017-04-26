@@ -16,6 +16,7 @@ package com.google.gerrit.client.admin;
 
 import static com.google.gerrit.common.data.Permission.EDIT_TOPIC_NAME;
 import static com.google.gerrit.common.data.Permission.PUSH;
+import static com.google.gerrit.common.data.Permission.SUBMIT;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
@@ -139,15 +140,23 @@ public class PermissionRuleEditor extends Composite
     initWidget(uiBinder.createAndBindUi(this));
 
     String name = permission.getName();
-    boolean canForce = PUSH.equals(name);
-    if (canForce) {
-      String ref = section.getName();
-      canForce = !ref.startsWith("refs/for/") && !ref.startsWith("^refs/for/");
-      force.setText(PermissionRule.FORCE_PUSH);
-    } else {
-      canForce = EDIT_TOPIC_NAME.equals(name);
-      force.setText(PermissionRule.FORCE_EDIT);
+    boolean canForce = true;
+    switch (name) {
+      case SUBMIT:
+        force.setText(PermissionRule.FORCE_SUBMIT);
+        break;
+      case EDIT_TOPIC_NAME:
+        force.setText(PermissionRule.FORCE_EDIT);
+        break;
+      case PUSH:
+        force.setText(PermissionRule.FORCE_PUSH);
+        String ref = section.getName();
+        canForce = !ref.startsWith("refs/for/") && !ref.startsWith("^refs/for/");
+        break;
+      default:
+        canForce = false;
     }
+
     force.setVisible(canForce);
     force.setEnabled(!readOnly);
     action.getElement().setPropertyBoolean("disabled", readOnly);

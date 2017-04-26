@@ -45,6 +45,29 @@
       "revId": "db9635b41797277940a97e6748334ce8335c36e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9f71838_06f48cfd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2700,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-26T11:44:06Z",
+      "side": 1,
+      "message": "these should be moved into their own section called elasticsearch",
+      "range": {
+        "startLine": 2683,
+        "startChar": 0,
+        "endLine": 2700,
+        "endChar": 0
+      },
+      "revId": "db9635b41797277940a97e6748334ce8335c36e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

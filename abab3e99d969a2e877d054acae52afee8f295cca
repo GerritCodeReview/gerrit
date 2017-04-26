@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a993712_52734ddc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-26T12:55:11Z",
+      "side": 1,
+      "message": "This is a significant behavior change, which was fortunately caught by our smoke tests.\n\nIf you do BLOCK refs/heads/foo, then allRefsAreVisible returns false. This even applies for project owners, so callers that depend on allRefsAreVisible to bypass refs filtering would see *false*, entering the filtering codepath.\n\nLater in this series you make allRefsAreVisible private, and encourage callers to convert to \"project(project).can(READ)\". But because of this \"|| isOwner()\" clause, callers that depend on can(READ) to bypass refs filtering will now see *true*, bypassing filtering.",
+      "range": {
+        "startLine": 615,
+        "startChar": 57,
+        "endLine": 615,
+        "endChar": 66
+      },
+      "revId": "abab3e99d969a2e877d054acae52afee8f295cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

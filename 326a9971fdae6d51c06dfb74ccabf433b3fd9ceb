@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d390928_32ce1bad",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/ChangesRestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-26T07:57:21Z",
+      "side": 1,
+      "message": "Seems this method does two things:\n- checking if a redirect is needed or not (and return null if not)\n- computing the redirect URL\n\nDoes it make sense to split into two methods?\n\n   needsTopLevelRedirect()\n   topLevelRedirect()",
+      "revId": "326a9971fdae6d51c06dfb74ccabf433b3fd9ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6d1e4a_e678af1e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-04-26T07:57:21Z",
+      "side": 1,
+      "message": "Change to:\n\n   if(needsTopLevelRedirect(rsrc, id, path)) { \n      ...\n   }\n\nDon\u0027t like the nulls around and checks for nullity",
+      "range": {
+        "startLine": 299,
+        "startChar": 10,
+        "endLine": 300,
+        "endChar": 38
+      },
+      "revId": "326a9971fdae6d51c06dfb74ccabf433b3fd9ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

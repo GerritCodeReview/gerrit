@@ -778,7 +778,13 @@
             if (!isLatest) {
               this.fire('show-alert', {
                   message: 'Cannot set label: a newer patch has been ' +
-                      'uploaded to this change. Please reload.',
+                      'uploaded to this change.',
+                  action: 'Reload',
+                  callback: function() {
+                    // Load the current change without any patch range.
+                    location.href = this.getBaseUrl() + '/c/' +
+                        this.change._number;
+                  }.bind(this),
               });
               cleanupFn();
               return Promise.resolve();

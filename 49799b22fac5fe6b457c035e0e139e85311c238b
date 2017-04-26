@@ -204,6 +204,30 @@
       "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d34c2c58_d2f791ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-26T13:08:05Z",
+      "side": 1,
+      "message": "Oh, it failed for me with\n\nCaused by: org.mariadb.jdbc.internal.util.dao.QueryException: Specified key was too long; max key length is 3072 bytes\nQuery is : CREATE TABLE IF NOT EXISTS account_patch_reviews (account_id INTEGER DEFAULT 0 NOT NULL, change_id INTEGER DEFAULT 0 NOT NULL, patch_set_id INTEGER DEFAULT 0 NOT NULL, file_name VARCHAR(4096) DEFAULT \u0027\u0027 NOT NULL, CONSTRAINT primary_key_account_patch_reviews PRIMARY KEY (account_id, change_id, patch_set_id, file_name))\n\nthough that may be just utf8mb4.\n\n\nsetting it to 188 fixed it.",
+      "parentUuid": "27d760a6_bf62d66c",
+      "range": {
+        "startLine": 161,
+        "startChar": 33,
+        "endLine": 161,
+        "endChar": 37
+      },
+      "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "1a4ca1dbe4543a3cf87d265e0b8c491fcb2bc0f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a96d5d1_f3279cad",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/plugins/LfsPluginServletTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-04-26T13:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "617ffdf8_72278bff",
+      "range": {
+        "startLine": 43,
+        "startChar": 3,
+        "endLine": 44,
+        "endChar": 62
+      },
+      "revId": "1a4ca1dbe4543a3cf87d265e0b8c491fcb2bc0f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

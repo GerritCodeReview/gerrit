@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ab605d5d_8a80e841",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-26T15:56:33Z",
+      "side": 1,
+      "message": "Done in next commit.",
+      "parentUuid": "0768c4e5_1644d20e",
+      "revId": "d9b7e0c8f91a000b1c15da50501d2a235e9f9b4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb38241e_1da7c5cb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-04-26T15:10:15Z",
       "side": 1,
       "message": "I think this should be \u0027!patchSet.isDraft() \u0026\u0026 !change.isPrivate()\u0027 to also cover private changes.",
+      "range": {
+        "startLine": 158,
+        "startChar": 47,
+        "endLine": 158,
+        "endChar": 66
+      },
+      "revId": "d9b7e0c8f91a000b1c15da50501d2a235e9f9b4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "025ba50a_1fd58729",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-26T15:56:33Z",
+      "side": 1,
+      "message": "Done in the next commit.",
+      "parentUuid": "eb38241e_1da7c5cb",
       "range": {
         "startLine": 158,
         "startChar": 47,

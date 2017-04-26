@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60ca17d0_b054ae83",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-26T15:48:53Z",
+      "side": 1,
+      "message": "This indent will be fixed in a later PS.",
+      "range": {
+        "startLine": 274,
+        "startChar": 0,
+        "endLine": 275,
+        "endChar": 45
+      },
+      "revId": "519f4e02274942ad914a08b6348fecb0dcf36119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

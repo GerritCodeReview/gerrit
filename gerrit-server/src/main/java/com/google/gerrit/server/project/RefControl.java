@@ -16,6 +16,28 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevTag;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -34,26 +56,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevTag;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Manages access control for Git references (aka branches, tags). */
 public class RefControl {
@@ -177,6 +179,11 @@ public class RefControl {
   /** @return true if this user can rebase changes on this ref */
   boolean canRebase() {
     return canPerform(Permission.REBASE) && canWrite();
+  }
+
+  /** @return true if this user can submit on push. */
+  public boolean canForceSubmit() {
+    return canForcePerform(Permission.SUBMIT);
   }
 
   /** @return true if this user can submit patch sets to this ref */

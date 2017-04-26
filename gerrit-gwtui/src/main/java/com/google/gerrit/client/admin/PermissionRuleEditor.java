@@ -16,6 +16,12 @@ package com.google.gerrit.client.admin;
 
 import static com.google.gerrit.common.data.Permission.EDIT_TOPIC_NAME;
 import static com.google.gerrit.common.data.Permission.PUSH;
+import static com.google.gerrit.common.data.Permission.SUBMIT;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
@@ -47,10 +53,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.ValueListBox;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 public class PermissionRuleEditor extends Composite
     implements Editor<PermissionRule>, ValueAwareEditor<PermissionRule> {
@@ -133,15 +135,23 @@ public class PermissionRuleEditor extends Composite
     initWidget(uiBinder.createAndBindUi(this));
 
     String name = permission.getName();
-    boolean canForce = PUSH.equals(name);
-    if (canForce) {
-      String ref = section.getName();
-      canForce = !ref.startsWith("refs/for/") && !ref.startsWith("^refs/for/");
-      force.setText(PermissionRule.FORCE_PUSH);
-    } else {
-      canForce = EDIT_TOPIC_NAME.equals(name);
-      force.setText(PermissionRule.FORCE_EDIT);
+    boolean canForce = true;
+    switch (name) {
+      case SUBMIT:
+        force.setText(PermissionRule.FORCE_SUBMIT);
+        break;
+      case EDIT_TOPIC_NAME:
+        force.setText(PermissionRule.FORCE_EDIT);
+        break;
+      case PUSH:
+        force.setText(PermissionRule.FORCE_PUSH);
+        String ref = section.getName();
+        canForce = !ref.startsWith("refs/for/") && !ref.startsWith("^refs/for/");
+        break;
+      default:
+        canForce = false;
     }
+
     force.setVisible(canForce);
     force.setEnabled(!readOnly);
 

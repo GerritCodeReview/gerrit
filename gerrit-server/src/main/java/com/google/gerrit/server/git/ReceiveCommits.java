@@ -32,6 +32,56 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.FooterLine;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevSort;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
+import org.eclipse.jgit.transport.AdvertiseRefsHook;
+import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
+import org.eclipse.jgit.transport.BaseReceivePack;
+import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.transport.ReceiveCommand.Result;
+import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.RefFilter;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
+import org.eclipse.jgit.transport.UploadPack;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -132,54 +182,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.notes.NoteMap;
-import org.eclipse.jgit.revwalk.FooterLine;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevSort;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.revwalk.filter.RevFilter;
-import org.eclipse.jgit.transport.AdvertiseRefsHook;
-import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
-import org.eclipse.jgit.transport.BaseReceivePack;
-import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.transport.ReceiveCommand.Result;
-import org.eclipse.jgit.transport.ReceivePack;
-import org.eclipse.jgit.transport.RefFilter;
-import org.eclipse.jgit.transport.ServiceMayNotContinueException;
-import org.eclipse.jgit.transport.UploadPack;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Receives change upload using the Git receive-pack protocol. */
 public class ReceiveCommits {
@@ -1583,9 +1585,12 @@ public class ReceiveCommits {
       return;
     }
 
-    if (magicBranch.submit
-        && !projectControl.controlForRef(MagicBranch.NEW_CHANGE + ref).canSubmit(true)) {
-      reject(cmd, "submit not allowed");
+    if (magicBranch.submit) {
+      RefControl refCtrl = projectControl.controlForRef(ref);
+      if (!refCtrl.canForceSubmit()
+          && !projectControl.controlForRef(MagicBranch.NEW_CHANGE + ref).canSubmit(true)) {
+        reject(cmd, "submit not allowed");
+      }
       return;
     }
 

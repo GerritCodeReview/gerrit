@@ -138,7 +138,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
             .defaultType("changes")
             .addAction(insert(insertIndex, cd))
             .addAction(delete(deleteIndex, cd.getId()))
-            .refresh(refresh)
+            .refresh(true)
             .build();
     JestResult result = client.execute(bulk);
     if (!result.isSucceeded()) {

@@ -93,7 +93,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
             .defaultIndex(indexName)
             .defaultType(GROUPS)
             .addAction(insert(GROUPS, group))
-            .refresh(refresh)
+            .refresh(true)
             .build();
     JestResult result = client.execute(bulk);
     if (!result.isSucceeded()) {

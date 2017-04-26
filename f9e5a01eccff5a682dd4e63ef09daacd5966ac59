@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "52373e7d_6fd62b7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MariaDBAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-26T13:10:51Z",
+      "side": 1,
+      "message": "It was a copy paste from mysql, renaming only mysql to mariadb.",
+      "parentUuid": "985025a8_e994fc8a",
+      "revId": "f9e5a01eccff5a682dd4e63ef09daacd5966ac59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9c40a57_a44f1511",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MariaDBAccountPatchReviewStore.java",
         "patchSetId": 5

@@ -46,6 +46,30 @@
       "revId": "c6ab7d4e2dd2a6dd88ac28c4a4074bf77bdf60b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc3eb5c6_8ecb863d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-26T07:56:52Z",
+      "side": 1,
+      "message": "Another option would be to put an element like a span inside and add margin/padding on that",
+      "parentUuid": "009a6ce9_5bb9e622",
+      "range": {
+        "startLine": 40,
+        "startChar": 8,
+        "endLine": 40,
+        "endChar": 35
+      },
+      "revId": "c6ab7d4e2dd2a6dd88ac28c4a4074bf77bdf60b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

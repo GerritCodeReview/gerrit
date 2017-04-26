@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "25b8a521_0c646199",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/ChangesRestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-26T12:43:37Z",
+      "side": 1,
+      "message": "Absolutely, I would also go a step further and not return a string but a Response object for the second method. this way we can distinguish between a redirect for GET and HTTP 410 Gone for POST/PUT/DELETE.",
+      "parentUuid": "0d390928_32ce1bad",
+      "revId": "326a9971fdae6d51c06dfb74ccabf433b3fd9ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce6d1e4a_e678af1e",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 1
@@ -53,6 +71,30 @@
       "writtenOn": "2017-04-26T09:38:42Z",
       "side": 1,
       "message": "you are here iterating over all elements in `splitted`, then in line 1107, you start iteration again. How about using `indexOf(\"+\")` and then staring the second for from that place?",
+      "range": {
+        "startLine": 1104,
+        "startChar": 8,
+        "endLine": 1104,
+        "endChar": 41
+      },
+      "revId": "326a9971fdae6d51c06dfb74ccabf433b3fd9ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45f6e348_26719006",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-04-26T12:43:37Z",
+      "side": 1,
+      "message": "Agreed, this change is only for display purposes. I\u0027ll productionize it next week with a more robust parser.\n\nAlso, the parser doesn\u0027t take into account right now, that a project name can contain /+/ (e.g. my/+/foo), which it should.",
+      "parentUuid": "f4d0f600_0b74b0be",
       "range": {
         "startLine": 1104,
         "startChar": 8,

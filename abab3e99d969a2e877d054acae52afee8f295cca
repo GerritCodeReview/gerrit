@@ -70,6 +70,30 @@
       "revId": "abab3e99d969a2e877d054acae52afee8f295cca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90ae8699_bddeba4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-26T13:14:32Z",
+      "side": 1,
+      "message": "\u003e Prior to this change: members of group X can modify access controls in B, but because BLOCK takes precedence over DENY\n\ns/DENY/ALLOW/\n\nIOW, a member of group X could try adding \"ALLOW Read refs/heads/foo\" to work around the restriction from the superproject, but it would have no effect, because that\u0027s the whole point of BLOCK.",
+      "parentUuid": "d81ce2ca_a45590bf",
+      "range": {
+        "startLine": 615,
+        "startChar": 57,
+        "endLine": 615,
+        "endChar": 66
+      },
+      "revId": "abab3e99d969a2e877d054acae52afee8f295cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

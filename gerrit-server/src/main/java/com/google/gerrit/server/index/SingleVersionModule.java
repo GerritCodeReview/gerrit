@@ -24,6 +24,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
+import com.google.inject.util.Providers;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -44,7 +45,7 @@ public class SingleVersionModule extends LifecycleModule {
     listener().to(SingleVersionListener.class);
     bind(new TypeLiteral<Map<String, Integer>>() {})
         .annotatedWith(Names.named(SINGLE_VERSIONS))
-        .toInstance(singleVersions);
+        .toProvider(Providers.of(singleVersions));
   }
 
   @Singleton

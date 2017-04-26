@@ -70,6 +70,29 @@
       "revId": "4ed928b07c6ca4212b62cfcf9cecf79edd9dbba4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dd5f4c9_9389b611",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-26T15:40:29Z",
+      "side": 1,
+      "message": "Since the files parameter is just overwritten, should we also just remove this parameter?",
+      "range": {
+        "startLine": 698,
+        "startChar": 28,
+        "endLine": 698,
+        "endChar": 33
+      },
+      "revId": "4ed928b07c6ca4212b62cfcf9cecf79edd9dbba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

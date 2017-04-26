@@ -79,7 +79,7 @@
     },
 
     save: function() {
-      if (!this.mutable || !this.hasUnsavedChanges) {
+      if (!this.hasUnsavedChanges) {
         return Promise.resolve();
       }
 
@@ -97,9 +97,9 @@
     },
 
     _maybeSetName: function() {
-      return this._hasNameChange ?
-          this.$.restAPI.setAccountName(this._account.name) :
-          Promise.resolve();
+      return this._hasNameChange && this.mutable ?
+                this.$.restAPI.setAccountName(this._account.name) :
+                Promise.resolve();
     },
 
     _maybeSetStatus: function() {

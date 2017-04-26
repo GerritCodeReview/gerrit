@@ -18,18 +18,43 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
+import com.google.inject.Inject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import org.junit.After;
 import org.junit.Test;
 
 public class EmailValidatorIT extends AbstractDaemonTest {
   private static final String UNSUPPORTED_PREFIX = "#! ";
 
+  @Inject private OutgoingEmailValidator validator;
+
+  @After
+  public void resetDomainValidator() throws Exception {
+    Class<?> c = Class.forName("org.apache.commons.validator.routines.DomainValidator");
+    Field f = c.getDeclaredField("inUse");
+    f.setAccessible(true);
+    f.setBoolean(c, false);
+  }
+
   @Test
-  public void validateLocalDomain() throws Exception {
-    assertThat(OutgoingEmailValidator.isValid("foo@bar.local")).isTrue();
+  @GerritConfig(name = "sendemail.allowTLD", value = "example")
+  public void testCustomTopLevelDomain() throws Exception {
+    assertThat(validator.isValid("foo@bar.local")).isFalse();
+    assertThat(validator.isValid("foo@bar.example")).isTrue();
+    assertThat(validator.isValid("foo@example")).isTrue();
+  }
+
+  @Test
+  @GerritConfig(name = "sendemail.allowTLD", value = "a")
+  public void testCustomTopLevelDomainOneCharacter() throws Exception {
+    assertThat(validator.isValid("foo@bar.local")).isFalse();
+    assertThat(validator.isValid("foo@bar.a")).isTrue();
+    assertThat(validator.isValid("foo@a")).isTrue();
   }
 
   @Test
@@ -49,13 +74,13 @@ public class EmailValidatorIT extends AbstractDaemonTest {
           String test = "test@example." + tld.toLowerCase().substring(UNSUPPORTED_PREFIX.length());
           assert_()
               .withFailureMessage("expected invalid TLD \"" + test + "\"")
-              .that(OutgoingEmailValidator.isValid(test))
+              .that(validator.isValid(test))
               .isFalse();
         } else {
           String test = "test@example." + tld.toLowerCase();
           assert_()
               .withFailureMessage("failed to validate TLD \"" + test + "\"")
-              .that(OutgoingEmailValidator.isValid(test))
+              .that(validator.isValid(test))
               .isTrue();
         }
       }

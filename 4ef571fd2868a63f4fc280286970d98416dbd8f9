@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4013c94_7a55dc2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RateLimitUploadListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-26T15:24:40Z",
+      "side": 1,
+      "message": "remove initialization and let Java compiler produce an error if value is not assigned.",
+      "range": {
+        "startLine": 92,
+        "startChar": 18,
+        "endLine": 92,
+        "endChar": 25
+      },
+      "revId": "4ef571fd2868a63f4fc280286970d98416dbd8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ccab61ba_c7288f8a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-26T12:56:29Z",
+      "side": 1,
+      "message": "Should this be just \"done\"?",
+      "range": {
+        "startLine": 53,
+        "startChar": 32,
+        "endLine": 53,
+        "endChar": 38
+      },
+      "revId": "1ba6bddeb84d15146cd6bf6eecb6b2f17389cf3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

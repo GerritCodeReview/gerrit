@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "076e293a_99e6249b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-26T13:45:41Z",
+      "side": 1,
+      "message": "Should this be \u003c\u003d 0? Should there be a minimum interval we\u0027re willing to cycle on, even if the config specifies a tighter interval?",
+      "range": {
+        "startLine": 1169,
+        "startChar": 10,
+        "endLine": 1169,
+        "endChar": 51
+      },
+      "revId": "a942fdd63593cab536fb51af355843d6748303fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30641864_529c08c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-26T13:45:41Z",
+      "side": 1,
+      "message": "Why is this in the action callback, as opposed to when show-alert is fired?",
+      "revId": "a942fdd63593cab536fb51af355843d6748303fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

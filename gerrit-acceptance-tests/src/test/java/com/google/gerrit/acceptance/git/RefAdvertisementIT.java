@@ -240,7 +240,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Test
   public void uploadPackSubsetOfBranchesVisibleWithEdit() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
-    deny(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
     Change c = notesFactory.createChecked(db, project, c1.getId()).getChange();
     String changeId = c.getKey().get();
@@ -261,6 +260,34 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         r3 + "meta",
         "refs/heads/master",
         "refs/tags/master-tag",
+        "refs/users/01/1000001/edit-" + c1.getId() + "/1");
+  }
+
+  @Test
+  public void uploadPackSubsetOfBranchesVisibleWithEditForOtherUser() throws Exception {
+    allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
+    allow(Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS, "refs/*");
+
+    Change c = notesFactory.createChecked(db, project, c1.getId()).getChange();
+    String changeId = c.getKey().get();
+
+    // Admin's edit is visible.
+    setApiUser(admin);
+    gApi.changes().id(changeId).edit().create();
+
+    // User's edit is visible.
+    setApiUser(user);
+    gApi.changes().id(changeId).edit().create();
+
+    assertUploadPackRefs(
+        "HEAD",
+        r1 + "1",
+        r1 + "meta",
+        r3 + "1",
+        r3 + "meta",
+        "refs/heads/master",
+        "refs/tags/master-tag",
+        "refs/users/00/1000000/edit-" + c1.getId() + "/1",
         "refs/users/01/1000001/edit-" + c1.getId() + "/1");
   }
 

@@ -94,6 +94,23 @@
       "revId": "abab3e99d969a2e877d054acae52afee8f295cca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa4702f6_a0373009",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-26T14:11:34Z",
+      "side": 1,
+      "message": "Good catch. I sent I63097dda719ae6d1e0fb4916b8e548e0735f38a7 to remove this branch.",
+      "revId": "abab3e99d969a2e877d054acae52afee8f295cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

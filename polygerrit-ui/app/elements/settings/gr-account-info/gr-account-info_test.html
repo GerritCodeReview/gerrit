@@ -148,6 +148,59 @@ limitations under the License.
         });
       });
 
+      test('set name and status', function(done) {
+        element.mutable = false;
+        assert.isTrue(element.mutable);
+        assert.isFalse(element.hasUnsavedChanges);
+        element.set('_account.name', 'new name');
+        assert.isTrue(nameChangedSpy.called);
+        assert.isFalse(statusChangedSpy.called);
+        assert.isTrue(element.hasUnsavedChanges);
+        MockInteractions.pressAndReleaseKeyOn(element.$.nameInput, 13);
+        assert.isTrue(nameStub.called);
+        assert.isFalse(statusStub.called);
+        nameStub.lastCall.returnValue.then(function() {
+          assert.equal(nameStub.lastCall.args[0], 'new name');
+          done();
+        });
+
+        assert.isTrue(element.mutable);
+        assert.isFalse(element.hasUnsavedChanges);
+        element.set('_account.status', 'new status');
+        assert.isFalse(nameChangedSpy.called);
+        assert.isTrue(statusChangedSpy.called);
+        assert.isTrue(element.hasUnsavedChanges);
+        element.save().then(function() {
+          assert.isTrue(statusStub.called);
+          assert.isFalse(nameStub.called);
+          statusStub.lastCall.returnValue.then(function() {
+            assert.equal(statusStub.lastCall.args[0], 'new status');
+            done();
+          });
+      });
+
+      test('set status but name read only', function(done) {
+        element.mutable = true;
+        assert.isTrue(element.mutable);
+        assert.isFalse(element.hasUnsavedChanges);
+        element.set('_account.name', 'new name');
+        element.set('_account.status', 'new status');
+        assert.isFalse(nameChangedSpy.called);
+        assert.isFalse(statusChangedSpy.called);
+        assert.isTrue(element.hasUnsavedChanges);
+        MockInteractions.pressAndReleaseKeyOn(element.$.nameInput, 13);
+        assert.isFalse(nameStub.called);
+        assert.isTrue(statusStub.called);
+        element.save().then(function() {
+          assert.isTrue(statusStub.called);
+          assert.isFalse(nameStub.called);
+          statusStub.lastCall.returnValue.then(function() {
+            assert.equal(statusStub.lastCall.args[0], 'new status');
+            done();
+          });
+        });
+      });
+
       test('status', function(done) {
         assert.isTrue(element.mutable);
         assert.isFalse(element.hasUnsavedChanges);

@@ -172,7 +172,7 @@
       var ranges = this.get(['_commentMap', side, lineNum]) || [];
       return ranges
           .map(function(range) {
-            var range = {
+            range = {
               start: range.start,
               end: range.end === -1 ? line.text.length : range.end,
               hovering: !!range.comment.__hovering,

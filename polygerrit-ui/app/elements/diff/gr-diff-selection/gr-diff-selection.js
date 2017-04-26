@@ -191,7 +191,7 @@
      * Query the diff object for the lines from a particular side.
      *
      * @param {!string} side The side that is currently selected.
-     * @return {string[]} An array of strings indexed by line number.
+     * @return {Array.string} An array of strings indexed by line number.
      */
     _getDiffLines: function(side) {
       if (this._linesCache[side]) {

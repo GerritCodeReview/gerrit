@@ -96,7 +96,7 @@
     },
 
     _handleShowAlert: function(e) {
-      this._showAlert(e.detail.message);
+      this._showAlert(e.detail.message, e.detail.action, e.detail.callback);
     },
 
     _handleNetworkError: function(e) {
@@ -108,14 +108,14 @@
       return this.$.restAPI.getLoggedIn();
     },
 
-    _showAlert: function(text) {
+    _showAlert: function(text, opt_actionText, opt_actionCallback) {
       if (this._alertElement) { return; }
 
       this._clearHideAlertHandle();
       this._hideAlertHandle =
         this.async(this._hideAlert, HIDE_ALERT_TIMEOUT_MS);
       var el = this._createToastAlert();
-      el.show(text);
+      el.show(text, opt_actionText, opt_actionCallback);
       this._alertElement = el;
     },
 
@@ -138,8 +138,8 @@
       if (this._alertElement) { return; }
 
       this._alertElement = this._createToastAlert();
-      this._alertElement.show(errorText, actionText);
-      this.listen(this._alertElement, 'action', '_createLoginPopup');
+      this._alertElement.show(errorText, actionText,
+          this._createLoginPopup.bind(this));
 
       this._refreshingCredentials = true;
       this._requestCheckLoggedIn();
@@ -219,7 +219,6 @@
     _handleCredentialRefreshed: function() {
       this.unlisten(window, 'focus', '_handleWindowFocus');
       this._refreshingCredentials = false;
-      this.unlisten(this._alertElement, 'action', '_createLoginPopup');
       this._hideAlert();
       this._showAlert('Credentials refreshed.');
     },

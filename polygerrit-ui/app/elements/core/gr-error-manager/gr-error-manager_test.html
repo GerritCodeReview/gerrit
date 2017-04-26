@@ -156,7 +156,7 @@ limitations under the License.
             Polymer.dom(toast.root).textContent, 'Refresh credentials.');
 
         assert.isFalse(windowOpen.called);
-        toast.fire('action');
+        MockInteractions.tap(toast.$$('gr-button.action'));
         assert.isTrue(windowOpen.called);
 
         // @see Issue 5822: noopener breaks closeAfterLogin
@@ -183,10 +183,13 @@ limitations under the License.
     });
 
     test('show alert', function() {
+      var alertObj = {message: 'foo'}
       sandbox.stub(element, '_showAlert');
       element.fire('show-alert', {message: 'foo'});
       assert.isTrue(element._showAlert.calledOnce);
-      assert.isTrue(element._showAlert.lastCall.calledWithExactly('foo'));
+      assert.equal(element._showAlert.lastCall.args[0], 'foo');
+      assert.isNotOk(element._showAlert.lastCall.args[1]);
+      assert.isNotOk(element._showAlert.lastCall.args[2]);
     });
 
     test('checks stale credentials on visibility change', function() {

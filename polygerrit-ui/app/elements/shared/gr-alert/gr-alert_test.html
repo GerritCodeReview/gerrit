@@ -50,9 +50,7 @@ limitations under the License.
 
     test('action event', function(done) {
       element.show();
-      element.addEventListener('action', function() {
-        done();
-      });
+      element._actionCallback = done;
       MockInteractions.tap(element.$$('.action'));
     });
 

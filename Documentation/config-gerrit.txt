@@ -31,8 +31,8 @@ driver of the corresponding Database is not yet in the class path.
 Default is to create H2 database in the db folder of the site path.
 +
 Changing this parameter requires to migrate database using the
-link:pgm-MigrateAccountPatchReviewDb.html[MigrateAccountPatchReviewDb program]
-before restarting the Gerrit server.
+link:pgm-MigrateAccountPatchReviewDb.html[MigrateAccountPatchReviewDb] program.
+Migration cannot be done while the server is running.
 
 ----
 [accountPatchReviewDb]

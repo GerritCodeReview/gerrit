@@ -86,3 +86,36 @@
     {/if}
   {/foreach}
 {/template}
+
+/**
+ * @param diffLines
+ */
+{template .UnifiedDiff private="true" autoescape="strict" kind="html"}
+  {let $addStyle kind="css"}
+    color: green;
+  {/let}
+
+  {let $removeStyle kind="css"}
+    color: red;
+  {/let}
+
+  {let $preStyle kind="css"}
+    font-family: monospace,monospace; // Use this to avoid browsers scaling down
+                                      // monospace text.
+    white-space: pre-wrap;
+  {/let}
+
+  <pre style="{$preStyle}">
+    {foreach $line in $diffLines}
+      {if $line.type == 'add'}
+        <span style="{$addStyle}">
+      {elseif $line.type == 'remove'}
+        <span style="{$removeStyle}">
+      {else}
+        <span>
+      {/if}
+        {$line.text}
+      </span><br>
+    {/foreach}
+  </pre>
+{/template}

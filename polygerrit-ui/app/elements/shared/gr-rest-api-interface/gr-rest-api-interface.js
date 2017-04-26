@@ -583,7 +583,7 @@
           body = {reviewer: reviewerID};
           break;
         case 'DELETE':
-          url += '/' + reviewerID;
+          url += '/' + encodeURIComponent(reviewerID);
           break;
         default:
           throw Error('Unsupported HTTP method: ' + method);

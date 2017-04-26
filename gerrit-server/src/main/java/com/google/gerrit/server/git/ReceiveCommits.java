@@ -132,6 +132,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -1583,9 +1584,12 @@ public class ReceiveCommits {
       return;
     }
 
-    if (magicBranch.submit
-        && !projectControl.controlForRef(MagicBranch.NEW_CHANGE + ref).canSubmit(true)) {
-      reject(cmd, "submit not allowed");
+    if (magicBranch.submit) {
+      RefControl refCtrl = projectControl.controlForRef(ref);
+      if (!refCtrl.canForceSubmit()
+          && !projectControl.controlForRef(MagicBranch.NEW_CHANGE + ref).canSubmit(true)) {
+        reject(cmd, "submit not allowed");
+      }
       return;
     }
 

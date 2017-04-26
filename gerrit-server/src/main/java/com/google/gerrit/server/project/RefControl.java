@@ -34,6 +34,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,6 +45,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -177,6 +179,11 @@ public class RefControl {
   /** @return true if this user can rebase changes on this ref */
   boolean canRebase() {
     return canPerform(Permission.REBASE) && canWrite();
+  }
+
+  /** @return true if this user can submit on push. */
+  public boolean canForceSubmit() {
+    return canForcePerform(Permission.SUBMIT);
   }
 
   /** @return true if this user can submit patch sets to this ref */

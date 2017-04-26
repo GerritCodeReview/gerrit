@@ -43,6 +43,7 @@
         type: Function,
         value: function() { return this._handleTransitionEnd.bind(this); },
       },
+      _actionCallback: Function,
     },
 
     attached: function() {
@@ -54,10 +55,11 @@
           this._boundTransitionEndHandler);
     },
 
-    show: function(text, opt_actionText) {
+    show: function(text, opt_actionText, opt_actionCallback) {
       this.text = text;
       this.actionText = opt_actionText;
       this._hideActionButton = !opt_actionText;
+      this._actionCallback = opt_actionCallback;
       document.body.appendChild(this);
       this._setShown(true);
     },
@@ -84,7 +86,7 @@
 
     _handleActionTap: function(e) {
       e.preventDefault();
-      this.fire('action', null, {bubbles: false});
+      if (this._actionCallback) { this._actionCallback(); }
     },
   });
 })();

@@ -79,7 +79,7 @@
     },
 
     save: function() {
-      if (!this.mutable || !this.hasUnsavedChanges) {
+      if (!this.hasUnsavedChanges) {
         return Promise.resolve();
       }
 

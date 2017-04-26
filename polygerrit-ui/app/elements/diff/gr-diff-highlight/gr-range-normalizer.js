@@ -65,8 +65,8 @@
      * Performs a synchronous in-order traversal from top to bottom of the node
      * element, counting the length of the syntax until child is found.
      *
-     * @param {!Element} The root DOM element to be searched through.
-     * @param {!Element} The child element being searched for.
+     * @param {!Element} root DOM element to be searched through.
+     * @param {!Element} child element being searched for.
      * @return {number}
      */
     _getTextOffset: function(node, child) {

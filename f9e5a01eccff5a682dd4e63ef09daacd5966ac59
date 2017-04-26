@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a82904ea_9fe55499",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-26T13:16:03Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3a3cecb7_e78bfc0f",
+      "range": {
+        "startLine": 28,
+        "startChar": 79,
+        "endLine": 28,
+        "endChar": 90
+      },
+      "revId": "f9e5a01eccff5a682dd4e63ef09daacd5966ac59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "985025a8_e994fc8a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MariaDBAccountPatchReviewStore.java",
         "patchSetId": 5
@@ -60,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "07452318_508179b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MariaDBAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-26T13:16:03Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "52373e7d_6fd62b7a",
+      "revId": "f9e5a01eccff5a682dd4e63ef09daacd5966ac59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9c40a57_a44f1511",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MariaDBAccountPatchReviewStore.java",
         "patchSetId": 5
@@ -71,6 +113,30 @@
       "writtenOn": "2017-04-26T13:09:24Z",
       "side": 1,
       "message": "Wrong import oder.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 29
+      },
+      "revId": "f9e5a01eccff5a682dd4e63ef09daacd5966ac59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51b33dc5_7d598a0f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MariaDBAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-26T13:16:03Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f9c40a57_a44f1511",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -106,6 +172,30 @@
     },
     {
       "key": {
+        "uuid": "7d363b1b_73c78394",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MariaDBAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-26T13:16:03Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7c2f23b1_d6881d30",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 28
+      },
+      "revId": "f9e5a01eccff5a682dd4e63ef09daacd5966ac59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "299ab49e_e2d999fe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MariaDBAccountPatchReviewStore.java",
         "patchSetId": 5
@@ -117,6 +207,24 @@
       "writtenOn": "2017-04-26T13:09:24Z",
       "side": 1,
       "message": "Nit: unneeded new line.",
+      "revId": "f9e5a01eccff5a682dd4e63ef09daacd5966ac59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "831b9190_6b53540f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MariaDBAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-26T13:16:03Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "299ab49e_e2d999fe",
       "revId": "f9e5a01eccff5a682dd4e63ef09daacd5966ac59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

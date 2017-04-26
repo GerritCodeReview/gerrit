@@ -1103,6 +1103,47 @@ limitations under the License.
         assert.equal(element.customStyle['--related-change-btn-top-padding'],
             '2px');
       });
+
+      suite('update checks', function() {
+        setup(function() {
+          sandbox.spy(element, '_startUpdateCheckTimer');
+          sandbox.stub(element, 'async', function(f) {
+            // Only fire the async callback one time.
+            if (element.async.callCount > 1) { return; }
+            f.call(element);
+          });
+        });
+
+        test('_startUpdateCheckTimer negative delay', function() {
+          sandbox.stub(element, 'fetchIsLatestKnown');
+
+          element.serverConfig = {change: {update_delay: -1}};
+
+          assert.isTrue(element._startUpdateCheckTimer.called);
+          assert.isFalse(element.fetchIsLatestKnown.called);
+        });
+
+        test('_startUpdateCheckTimer up-to-date', function() {
+          sandbox.stub(element, 'fetchIsLatestKnown',
+              function() { return Promise.resolve(true); });
+
+          element.serverConfig = {change: {update_delay: 12345}};
+
+          assert.isTrue(element._startUpdateCheckTimer.called);
+          assert.isTrue(element.fetchIsLatestKnown.called);
+          assert.equal(element.async.lastCall.args[1], 12345 * 1000);
+        });
+
+        test('_startUpdateCheckTimer out-of-date shows an alert',
+            function(done) {
+          sandbox.stub(element, 'fetchIsLatestKnown',
+              function() { return Promise.resolve(false); });
+          element.addEventListener('show-alert', function() {
+            done();
+          });
+          element.serverConfig = {change: {update_delay: 12345}};
+        });
+      });
     });
   });
 </script>

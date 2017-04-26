@@ -53,7 +53,7 @@ closure_js_binary(
         "--polymer_pass",
         "--jscomp_off=duplicate",
     ],
-    language = "ECMASCRIPT5",
+    language = "ECMASCRIPT6",
     deps = [":closure_lib"],
 )
 

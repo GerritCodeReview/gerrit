@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6c2e3a6c_08b12819",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-26T09:58:03Z",
+      "side": 1,
+      "message": "\u003e Can the migration be run on a live system? Can H2 database be open\n \u003e from 2 different processes?\n\nyes an no. By default, only one process can open embedded H2 database. Mixed_mode allow to have 2 processes but this is not the way gerrit configure the H2 database by default.\n\n \u003e Running migration on a live system may miss some updates done in\n \u003e the H2. Should this be mentioned here?\n\nMigration should be done offline",
+      "parentUuid": "e85223c4_ebd82327",
+      "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b94e361d_ae53d0ed",
         "filename": "Documentation/pgm-MigrateAccountPatchReviewDb.txt",
         "patchSetId": 23
@@ -100,6 +118,24 @@
       "writtenOn": "2017-04-26T09:35:53Z",
       "side": 1,
       "message": "Why does this need to be printed out? sourceUrl is not null because the admin typed it in the command line:\n\n  $ java ... MigrateAccount... --sourceUrl \u003csource-url\u003e",
+      "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbcf4d6a_0f74e6dc",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewDb.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-26T09:58:03Z",
+      "side": 1,
+      "message": "done in https://gerrit-review.googlesource.com/#/c/104717/",
+      "parentUuid": "d7c85a57_fcc63176",
       "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

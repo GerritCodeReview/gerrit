@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dde3f66_87cae258",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/MergedHtml.soy",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-26T14:02:57Z",
+      "side": 1,
+      "message": "is the line ending change intentional?",
+      "revId": "1c7025a3b6e2f1f7bf6d1e592f1248e7644a726b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

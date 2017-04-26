@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "243dc9c0_9bcd1812",
+        "filename": "lib/polymer_externs/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-04-26T00:21:43Z",
+      "side": 1,
+      "message": "Should this get a data dependency on the license like other targets have (e.g. see lib/fonts/BUILD for a simple example)?",
+      "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

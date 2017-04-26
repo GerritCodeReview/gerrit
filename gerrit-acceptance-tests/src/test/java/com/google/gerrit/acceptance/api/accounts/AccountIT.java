@@ -410,10 +410,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void addEmail() throws Exception {
-    List<String> emails =
-        ImmutableList.of(
-            "new.email@example.com",
-            "new.email@example.systems");
+    List<String> emails = ImmutableList.of("new.email@example.com", "new.email@example.systems");
     Set<String> currentEmails = getEmails();
     for (String email : emails) {
       assertThat(currentEmails).doesNotContain(email);

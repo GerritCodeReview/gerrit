@@ -34,7 +34,7 @@ public class OutgoingEmailValidator {
     String[] allowTLD = config.getStringList("sendemail", null, "allowTLD");
     if (allowTLD.length != 0) {
       try {
-          DomainValidator.updateTLDOverride(GENERIC_PLUS, allowTLD);
+        DomainValidator.updateTLDOverride(GENERIC_PLUS, allowTLD);
       } catch (IllegalStateException e) {
         // Should only happen in tests, where the OutgoingEmailValidator
         // is instantiated repeatedly.

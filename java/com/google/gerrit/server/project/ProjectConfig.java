@@ -756,6 +756,23 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       convertedPerm.addAll(perm.getRules());
       return true;
     }
+    if (isRefsForExclusively(refName) && perm.getName().equals(Permission.SUBMIT)) {
+      // We only migrate "Submit" if is exclusively added to refs/for/.
+      // We do this because when the new "Submit on Push" force
+      // option is added, it is somewhat likely that people will start specify
+      // Submit on refs/* (something which previously had to be avoided if the
+      // user did not want to enable "Submit on push").
+      // Also, before this change, the documentation mentioned
+      // explicitly that "refs/for/*" will enable "Submit on push".
+      AccessSection migratedAs = getAccessSection(unRefsFor(refName), true);
+      Permission migratedPerm = migratedAs.getPermission(Permission.SUBMIT, true);
+      migratedPerm.setExclusiveGroup(perm.getExclusiveGroup());
+      for (PermissionRule rule : perm.getRules()) {
+        PermissionRule migratedRule = migratedPerm.getRule(rule.getGroup(), true);
+        migratedRule.setForce(true);
+      }
+      return true;
+    }
     return false;
   }
 

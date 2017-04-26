@@ -60,7 +60,9 @@ class JestClientBuilder {
     factory.setHttpClientConfig(
         new HttpClientConfig.Builder(url)
             .multiThreaded(true)
-            .discoveryEnabled(!refresh)
+            // Temporary disable servers discovery.
+            // We can enable it again when we can wait for it to finish
+            .discoveryEnabled(false)
             .discoveryFrequency(1L, TimeUnit.MINUTES)
             .build());
     return (JestHttpClient) factory.getObject();

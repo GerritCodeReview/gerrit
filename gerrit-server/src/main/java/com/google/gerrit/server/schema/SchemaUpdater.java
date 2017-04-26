@@ -23,6 +23,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -39,6 +40,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collections;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /** Creates or updates the current database schema. */
@@ -75,6 +77,7 @@ public class SchemaUpdater {
                 new Key<?>[] {
                   Key.get(PersonIdent.class, GerritPersonIdent.class),
                   Key.get(String.class, AnonymousCowardName.class),
+                  Key.get(Config.class, GerritServerConfig.class),
                 }) {
               rebind(parent, k);
             }

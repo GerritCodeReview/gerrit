@@ -33,11 +33,10 @@ vulcanize(
 closure_js_library(
     name = "closure_lib",
     srcs = ["gr-app.js"],
+    convention = "GOOGLE",
     language = "ECMASCRIPT6",
     suppress = [
         "JSC_BAD_JSDOC_ANNOTATION",
-        "JSC_TYPE_PARSE_ERROR",
-        "JSC_MISPLACED_MSG_ANNOTATION",
     ],
     deps = [
         "//lib/polymer_externs:polymer_closure",
@@ -50,8 +49,11 @@ closure_js_binary(
     # Known issue: Closure compilation not compatible with Polymer behaviors.
     # See: https://github.com/google/closure-compiler/issues/2042
     compilation_level = "WHITESPACE_ONLY",
-    defs = ["--polymer_pass"],
-    language = "ECMASCRIPT3",
+    defs = [
+        "--polymer_pass",
+        "--jscomp_off=duplicate",
+    ],
+    language = "ECMASCRIPT5_STRICT",
     deps = [":closure_lib"],
 )
 

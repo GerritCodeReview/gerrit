@@ -558,7 +558,7 @@ public class ProjectControl {
               || isOwner();
 
         case READ:
-          return (!isHidden() && allRefsAreVisible(Collections.emptySet())) || isOwner();
+          return !isHidden() && allRefsAreVisible(Collections.emptySet());
       }
       throw new PermissionBackendException(perm + " unsupported");
     }

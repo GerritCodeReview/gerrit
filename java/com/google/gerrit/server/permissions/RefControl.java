@@ -108,7 +108,7 @@ class RefControl {
   }
 
   /** @return true if this user can submit patch sets to this ref */
-  boolean canSubmit(boolean isChangeOwner) {
+  boolean canSubmit(boolean isChangeOwner, boolean force) {
     if (RefNames.REFS_CONFIG.equals(refName)) {
       // Always allow project owners to submit configuration changes.
       // Submitting configuration changes modifies the access control
@@ -117,7 +117,7 @@ class RefControl {
       // granting of powers beyond submitting to the configuration.
       return projectControl.isOwner();
     }
-    return canPerform(Permission.SUBMIT, isChangeOwner, false);
+    return canPerform(Permission.SUBMIT, isChangeOwner, force);
   }
 
   /** @return true if this user can force edit topic names. */
@@ -503,7 +503,10 @@ class RefControl {
           return canPerform(perm.permissionName().get());
 
         case UPDATE_BY_SUBMIT:
-          return projectControl.controlForRef(MagicBranch.NEW_CHANGE + refName).canSubmit(true);
+          return projectControl
+                  .controlForRef(MagicBranch.NEW_CHANGE + refName)
+                  .canSubmit(true, false)
+              || projectControl.controlForRef(refName).canSubmit(true, true);
 
         case READ_PRIVATE_CHANGES:
           return canPerform(Permission.VIEW_PRIVATE_CHANGES);

@@ -101,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "aa86471b_c49634a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-26T07:34:10Z",
+      "side": 1,
+      "message": "These are not the tests, just a help to the reviewers what to test and how to verify the results. Example, you add `bazel build gerrit-google-apengine` target, so you should mention how to figure out it works as expected.",
+      "parentUuid": "753727b2_2befcf8f",
+      "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "243dc9c0_9bcd1812",
         "filename": "lib/polymer_externs/BUILD",
         "patchSetId": 4

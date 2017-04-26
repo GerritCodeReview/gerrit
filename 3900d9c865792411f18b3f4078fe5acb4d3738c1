@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "227fe794_4808b628",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-26T05:55:46Z",
+      "side": 1,
+      "message": "Great feature, thanks for working on it!",
+      "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbc50d80_f9be7223",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-26T05:55:46Z",
+      "side": 1,
+      "message": "I would prefer to mention here this upstream issue: https://github.com/google/closure-compiler/issues/2042 and may be even add a TODO in the source code.",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 37
+      },
+      "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd85d198_3c17bd42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-26T05:55:46Z",
+      "side": 1,
+      "message": "While not required in our project contribution documentation, I prefer to have Tested or Test Plan section on commits that touched the build tool chain, to make the life of the reviewes easier. Something like:\n\n  Test Plan:\n\n* run `bazel build polygerrit` and verify that whitespaces are removed form resulting gr-app.js file\n* run `bazel build Documentation:licenses.txt` and verify that the new dependency is listed in resulting bazel-genfiles/Documentation/licenses.txt\n\nBTW, I\u0027m seeing this 3 warnings now: [1], can these be addressed as part of this change or as a follow-up?\n\n* [1] http://paste.openstack.org/show/607987/",
+      "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "243dc9c0_9bcd1812",
         "filename": "lib/polymer_externs/BUILD",
         "patchSetId": 4
@@ -16,6 +73,64 @@
       "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f5c849f_1b1f106d",
+        "filename": "lib/polymer_externs/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-26T05:55:46Z",
+      "side": 1,
+      "message": "Even though it\u0027s only a pat of the tool chain and not included into the final atifact, i would prefer to listing this library in Apache 2 license section:\n\n* polymer_externs:polymer-closure\n\nAll is needed to achive that is to add this line to this rule:\n\n  data \u003d [\"//lib:LICENSE-Apache2.0\"],",
+      "parentUuid": "243dc9c0_9bcd1812",
+      "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3c9b8f5_75f9ba3d",
+        "filename": "lib/polymer_externs/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-26T05:55:46Z",
+      "side": 1,
+      "message": "Call it polymer-clojure to avoid confusion?",
+      "range": {
+        "startLine": 22,
+        "startChar": 12,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c949e0f_db4fd32d",
+        "filename": "lib/polymer_externs/polymer-1.0.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-26T05:55:46Z",
+      "side": 1,
+      "message": "As pointed out by Han-Wen, open source gerrit is *not* a monorepo project. We are not putting any dependencies under version control but consume them from external locations. The only exception (sad enough) from this rule right now is polygerrit\u0027s highlightjs library. Luckily, as pointerd out by Jonathtan, we can easily eliminate putting this library here. I patched this CL: [1] to fetch the file from GH (and added license data) and this file can be removed now.\n\nIf we rather don\u0027t want to depend on GH, we could put this library in gerrit storage bucket and consume it from there (but, honestly, the whole polymer stack heavily depends on GH anyway, so that we probably don\u0027t care).\n\n* [1] http://paste.openstack.org/show/607989/",
+      "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

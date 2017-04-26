@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "04ab0353_f2407a6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-26T07:29:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13a44f87_2dd5a612",
+      "range": {
+        "startLine": 282,
+        "startChar": 25,
+        "endLine": 282,
+        "endChar": 37
+      },
+      "revId": "cb7a5f2e72980a04e2236014daf9517482150c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7274bad1_fecd98d0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
         "patchSetId": 22
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-25T21:54:26Z",
       "side": 1,
       "message": "Lowcase here as well.",
+      "range": {
+        "startLine": 285,
+        "startChar": 38,
+        "endLine": 285,
+        "endChar": 47
+      },
+      "revId": "cb7a5f2e72980a04e2236014daf9517482150c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36c870a9_e838378c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-04-26T07:29:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7274bad1_fecd98d0",
       "range": {
         "startLine": 285,
         "startChar": 38,

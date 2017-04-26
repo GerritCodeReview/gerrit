@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "097f7e63_6593c5c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-26T10:43:01Z",
+      "side": 1,
+      "message": "you should put this as comment into WORKSPACE",
+      "range": {
+        "startLine": 12,
+        "startChar": 22,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "3900d9c865792411f18b3f4078fe5acb4d3738c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbc50d80_f9be7223",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

@@ -46,6 +46,30 @@
       "revId": "abab3e99d969a2e877d054acae52afee8f295cca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d81ce2ca_a45590bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-26T13:10:01Z",
+      "side": 1,
+      "message": "Here is a use case where this might matter. (Not commenting on whether it\u0027s realistic or important to preserve.)\n\n* Project B inherits from A\n* A has BLOCK Read refs/heads/foo for group X. Intention is that nobody in X can read refs/heads/foo anywhere, ever.\n* B has ALLOW Project Owner for group X.\n\nPrior to this change: members of group X can modify access controls in B, but because BLOCK takes precedence over DENY, nothing group X can do with their project ownership will grant them read access to refs/heads/foo.\n\nAfter this change: BLOCK in A has no effect for group X in B. Group X can always read all refs in B, i.e. user(memberOfX).project(B).can(READ) always returns true. There is literally no way to set an ACL entry for Read permission that will prevent X from reading any ref in B, i.e. there is no way user(memberOfX).project(B).can(READ) will ever return false.",
+      "parentUuid": "44581657_222173c9",
+      "range": {
+        "startLine": 615,
+        "startChar": 57,
+        "endLine": 615,
+        "endChar": 66
+      },
+      "revId": "abab3e99d969a2e877d054acae52afee8f295cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

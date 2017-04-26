@@ -36,8 +36,6 @@ closure_js_library(
     language = "ECMASCRIPT6",
     suppress = [
         "JSC_BAD_JSDOC_ANNOTATION",
-        "JSC_TYPE_PARSE_ERROR",
-        "JSC_MISPLACED_MSG_ANNOTATION",
     ],
     deps = [
         "//lib/polymer_externs:polymer_closure",
@@ -51,7 +49,7 @@ closure_js_binary(
     # See: https://github.com/google/closure-compiler/issues/2042
     compilation_level = "WHITESPACE_ONLY",
     defs = ["--polymer_pass"],
-    language = "ECMASCRIPT3",
+    language = "ECMASCRIPT5",
     deps = [":closure_lib"],
 )
 

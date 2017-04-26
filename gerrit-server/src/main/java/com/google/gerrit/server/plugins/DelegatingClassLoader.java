@@ -21,7 +21,7 @@ import java.net.URL;
 import java.util.Enumeration;
 
 public class DelegatingClassLoader extends ClassLoader {
-  public ClassLoader target;
+  private final ClassLoader target;
 
   public DelegatingClassLoader(ClassLoader parent, ClassLoader target) {
     super(parent);

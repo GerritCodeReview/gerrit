@@ -22,6 +22,29 @@
       "revId": "29f825facd92d8cbb085e6c93c81b5a7deeb9972",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13a078b2_3c89ce6b",
+        "filename": "gerrit-pgm/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-26T12:01:47Z",
+      "side": 1,
+      "message": "That will make sure in the future that it gets any files in sub folders.",
+      "range": {
+        "startLine": 44,
+        "startChar": 22,
+        "endLine": 44,
+        "endChar": 39
+      },
+      "revId": "29f825facd92d8cbb085e6c93c81b5a7deeb9972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1083f107_bc20530d",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-26T10:30:25Z",
+      "side": 1,
+      "message": "This URL isn\u0027t a stable revision. Its going to update some day and the sha256 above won\u0027t match.",
+      "revId": "5c055a953824c4794d57b5f80f6a36503584ac28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

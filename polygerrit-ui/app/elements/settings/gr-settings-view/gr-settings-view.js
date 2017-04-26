@@ -48,7 +48,7 @@
         type: Object,
         value: function() { return {}; },
       },
-      _accountInfoMutable: Boolean,
+      _accountNameMutable: Boolean,
       _accountInfoChanged: Boolean,
       _diffPrefs: Object,
       _changeTableColumnsNotDisplayed: Array,

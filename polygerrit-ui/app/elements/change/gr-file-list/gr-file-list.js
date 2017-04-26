@@ -697,7 +697,7 @@
 
     _filesChanged: function(files) {
       Polymer.dom.flush();
-      var files = Polymer.dom(this.root).querySelectorAll('.file-row');
+      files = Polymer.dom(this.root).querySelectorAll('.file-row');
       this.$.fileCursor.stops = files;
       this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
     },

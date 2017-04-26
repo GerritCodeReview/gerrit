@@ -52,6 +52,8 @@ closure_js_binary(
     defs = [
         "--polymer_pass",
         "--jscomp_off=duplicate",
+        "--jscomp_off=uselessCode",
+        "--force_inject_library=jscomp",
     ],
     language = "ECMASCRIPT5",
     deps = [":closure_lib"],

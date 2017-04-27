@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -31,8 +32,6 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import java.util.EnumSet;
@@ -271,9 +270,9 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     assume().that(notesMigration.readChanges()).isTrue();
     PushOneCommit.Result r = createChange();
 
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("email invalid");
-    gApi.changes().id(r.getChangeId()).addReviewer("");
+    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer("");
+    assertThat(result.error).isEqualTo(" is not a valid user identifier");
+    assertThat(result.reviewers).isNull();
   }
 
   @Test
@@ -281,9 +280,9 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     assume().that(notesMigration.readChanges()).isTrue();
     PushOneCommit.Result r = createChange();
 
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("email invalid");
-    gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@");
+    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@");
+    assertThat(result.error).isEqualTo("Foo Bar <foo.bar@ is not a valid user identifier");
+    assertThat(result.reviewers).isNull();
   }
 
   @Test
@@ -291,9 +290,12 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     assume().that(notesMigration.readChanges()).isTrue();
     PushOneCommit.Result r = createDraftChange();
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("change is not publicly visible");
-    gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@gerritcodereview.com>");
+    AddReviewerResult result =
+        gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@gerritcodereview.com>");
+    assertThat(result.error)
+        .isEqualTo(
+            "Foo Bar <foo.bar@gerritcodereview.com> does not have permission to see this change");
+    assertThat(result.reviewers).isNull();
   }
 
   @Test
@@ -306,10 +308,12 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r = createChange();
 
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage(
-        "Foo Bar <foo.bar@gerritcodereview.com> does not identify a registered user or group");
-    gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@gerritcodereview.com>");
+    AddReviewerResult result =
+        gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@gerritcodereview.com>");
+    assertThat(result.error)
+        .isEqualTo(
+            "Foo Bar <foo.bar@gerritcodereview.com> does not identify a registered user or group");
+    assertThat(result.reviewers).isNull();
   }
 
   @Test

@@ -131,9 +131,9 @@ public interface ChangeApi {
 
   IncludedInInfo includedIn() throws RestApiException;
 
-  void addReviewer(AddReviewerInput in) throws RestApiException;
+  AddReviewerResult addReviewer(AddReviewerInput in) throws RestApiException;
 
-  void addReviewer(String in) throws RestApiException;
+  AddReviewerResult addReviewer(String in) throws RestApiException;
 
   SuggestedReviewersRequest suggestReviewers() throws RestApiException;
 
@@ -359,12 +359,12 @@ public interface ChangeApi {
     }
 
     @Override
-    public void addReviewer(AddReviewerInput in) {
+    public AddReviewerResult addReviewer(AddReviewerInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void addReviewer(String in) {
+    public AddReviewerResult addReviewer(String in) {
       throw new NotImplementedException();
     }
 

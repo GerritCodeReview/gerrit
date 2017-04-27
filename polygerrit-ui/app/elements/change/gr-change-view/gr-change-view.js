@@ -81,6 +81,10 @@
         type: Object,
         value: {},
       },
+      _canStartReview: {
+        type: Boolean,
+        computed: '_computeCanStartReview(_loggedIn, _change, _account)',
+      },
       _comments: Object,
       _change: {
         type: Object,
@@ -135,7 +139,7 @@
       _replyButtonLabel: {
         type: String,
         value: 'Reply',
-        computed: '_computeReplyButtonLabel(_diffDrafts.*)',
+        computed: '_computeReplyButtonLabel(_diffDrafts.*, _canStartReview)',
       },
       _selectedPatchSet: String,
       _initialLoadComplete: {
@@ -562,7 +566,7 @@
     },
 
     _changeChanged: function(change) {
-      if (!change) { return; }
+      if (!change || !this._patchRange || !this._allPatchSets) { return; }
       this.set('_patchRange.basePatchNum',
           this._patchRange.basePatchNum || 'PARENT');
       this.set('_patchRange.patchNum',
@@ -718,7 +722,11 @@
       return result;
     },
 
-    _computeReplyButtonLabel: function(changeRecord) {
+    _computeReplyButtonLabel: function(changeRecord, canStartReview) {
+      if (canStartReview) {
+        return 'Start review';
+      }
+
       var drafts = (changeRecord && changeRecord.base) || {};
       var draftCount = Object.keys(drafts).reduce(function(count, file) {
         return count + drafts[file].length;
@@ -1028,6 +1036,36 @@
       var rev = this.getRevisionByPatchNum(change.revisions, patchNum);
       return (rev && rev.description) ?
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
+      var desc = patchNum.desc;
+      if (patchNum.wip) {
+        if (desc) {
+          desc += ' ';
+        }
+        desc += '(wip)';
+      }
+      return desc;
+    },
+
+    _computePatchSetSelectOption: function(change, allPatchSets, patchNum) {
+      var parts = [];
+      parts.push(patchNum.num);
+      parts.push('/');
+      parts.push(this._computeLatestPatchNum(allPatchSets));
+      var desc = this._computePatchSetDescription(change, patchNum);
+      if (desc) {
+        parts.push(desc);
+      }
+      if (patchNum.wip) {
+        parts.push('(wip)');
+      }
+      return parts.join(' ');
+    },
+
+    _computePatchSetSelectOptionStyle: function(patchNum) {
+      if (patchNum.wip) {
+        return 'font-style: italic';
+      }
+      return null;
     },
 
     _computeDescriptionPlaceholder: function(readOnly) {
@@ -1061,6 +1099,11 @@
           return rev;
         }
       }
+    },
+
+    _computeCanStartReview: function(loggedIn, change, account) {
+      return loggedIn && change.work_in_progress &&
+          change.owner._account_id === account._account_id;
     },
 
     _computeDescriptionReadOnly: function(loggedIn, change, account) {
@@ -1127,7 +1170,7 @@
 
     /**
      * New max height for the related changes section, shorter than the existing
-     * change info height.
+		 * change info height.
      */
     _updateRelatedChangeMaxHeight: function() {
       // Takes into account approximate height for the expand button and
@@ -1205,6 +1248,11 @@
       } else if (!this._updateCheckTimerHandle) {
         this._startUpdateCheckTimer();
       }
+    },
+
+    _computeHeaderClass: function(canStartReview) {
+      return canStartReview ? 'header wip' : 'header';
+      return 'header';
     },
   });
 })();

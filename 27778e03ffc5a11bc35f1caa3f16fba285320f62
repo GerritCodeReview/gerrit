@@ -19,6 +19,47 @@
     },
     {
       "key": {
+        "uuid": "6cf39ccb_8cee8918",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T10:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1409abca_6ed90bf8",
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8389deb7_8e8292e3",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PermissionRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T10:44:50Z",
+      "side": 1,
+      "message": "java.util.regex not available in gerrit-common.",
+      "range": {
+        "startLine": 20,
+        "startChar": 22,
+        "endLine": 20,
+        "endChar": 29
+      },
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a643def_1b404d37",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
         "patchSetId": 6
@@ -36,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "2436ffe5_820d034e",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T10:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a643def_1b404d37",
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c151338_7d8d1719",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 6
@@ -47,6 +106,24 @@
       "writtenOn": "2017-04-27T09:55:21Z",
       "side": 1,
       "message": "nit: unneeded blank line",
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f9a8d9_2cf8e32e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T10:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c151338_7d8d1719",
       "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

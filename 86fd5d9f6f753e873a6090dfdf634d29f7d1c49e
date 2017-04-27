@@ -34,6 +34,24 @@
       "revId": "86fd5d9f6f753e873a6090dfdf634d29f7d1c49e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50426df2_a066a0b0",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-27T14:07:27Z",
+      "side": 1,
+      "message": "TBH, don\u0027t get this explanation. it is false by default. This property will not change over time, after you compute its value. Therefore it should be `final`. If it requires additional two lines for assigning it explicitly that\u0027s the price we should \u0027pay\u0027 ;)",
+      "parentUuid": "fee7436a_309d07f0",
+      "revId": "86fd5d9f6f753e873a6090dfdf634d29f7d1c49e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

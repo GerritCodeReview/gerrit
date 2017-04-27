@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4ab8aedd_d2971e52",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T09:51:43Z",
+      "side": 1,
+      "message": "It\u0027s used in ProjectState.expandRolePermissions(...) since I have the role-permission-name which is f.i. \"role-developer\" but I need to look up the RoleSection in the role map which has the key \"developer\".",
+      "parentUuid": "61dbf325_666133d0",
+      "range": {
+        "startLine": 139,
+        "startChar": 2,
+        "endLine": 139,
+        "endChar": 53
+      },
+      "revId": "01cf8427d6643c2248827b7912855ea113c85a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3e20165_d7433b6d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PermissionRule.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-27T07:44:06Z",
       "side": 1,
       "message": "how about pre-compiling reg-ex and matching it in setRange method?",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 18,
+        "endChar": 74
+      },
+      "revId": "01cf8427d6643c2248827b7912855ea113c85a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2de01b9f_7707e78a",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PermissionRule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T09:51:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3e20165_d7433b6d",
       "range": {
         "startLine": 18,
         "startChar": 2,
@@ -71,6 +119,53 @@
     },
     {
       "key": {
+        "uuid": "8f33ab61_c0f9bd7c",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T09:51:43Z",
+      "side": 1,
+      "message": "I figured that in most cases there would be more than 1 permission per role, but in fact I should probably set it to something like 8 to avoid unnecessary re allocations, since I figure in most cases you would also have more than 1 permission per role.",
+      "parentUuid": "a807484c_a91dbf66",
+      "range": {
+        "startLine": 32,
+        "startChar": 27,
+        "endLine": 32,
+        "endChar": 46
+      },
+      "revId": "01cf8427d6643c2248827b7912855ea113c85a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366ad36f_05a67973",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T09:51:43Z",
+      "side": 1,
+      "message": "This exception would be thrown if you misspell \"+force\" or if you try to add a range to f.i. \"read\"",
+      "range": {
+        "startLine": 70,
+        "startChar": 56,
+        "endLine": 70,
+        "endChar": 61
+      },
+      "revId": "01cf8427d6643c2248827b7912855ea113c85a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c58f49b_0798580d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 4
@@ -82,6 +177,30 @@
       "writtenOn": "2017-04-27T07:44:06Z",
       "side": 1,
       "message": "that means roles will be removed when call in line #254 is performed getLocalAccessSections(null)",
+      "range": {
+        "startLine": 260,
+        "startChar": 6,
+        "endLine": 260,
+        "endChar": 59
+      },
+      "revId": "01cf8427d6643c2248827b7912855ea113c85a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd6ae676_d7952850",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T09:51:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c58f49b_0798580d",
       "range": {
         "startLine": 260,
         "startChar": 6,

@@ -1,0 +1,326 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7bb0502_25844f55",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/CheckAccessIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-27T16:27:43Z",
+      "side": 1,
+      "message": "nit: setUp?",
+      "range": {
+        "startLine": 45,
+        "startChar": 14,
+        "endLine": 45,
+        "endChar": 19
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "135219b1_b175466f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/AccessCheckInput.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-27T16:27:43Z",
+      "side": 1,
+      "message": "nit: reformat as Google-Java-Format. Then this will be \u0027{}\u0027.",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 3
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70baa8b4_a508554b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/Server.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-27T16:27:43Z",
+      "side": 1,
+      "message": "nit: remove this.",
+      "range": {
+        "startLine": 82,
+        "startChar": 60,
+        "endLine": 82,
+        "endChar": 83
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67a61c05_920fbb7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-27T16:27:43Z",
+      "side": 1,
+      "message": "optional: I prefer to use name \u0027accountResolver\u0027.",
+      "range": {
+        "startLine": 49,
+        "startChar": 32,
+        "endLine": 49,
+        "endChar": 40
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bc6fe21_7d586661",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-27T16:27:43Z",
+      "side": 1,
+      "message": "nit: Strings.isNullorEmpty()?",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 29
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b97e9b23_f381f02c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-27T16:27:43Z",
+      "side": 1,
+      "message": "nit: passive tense may be better? How about \"account is required\"?",
+      "range": {
+        "startLine": 80,
+        "startChar": 36,
+        "endLine": 80,
+        "endChar": 63
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c897b90_0d9a0b67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-27T16:27:43Z",
+      "side": 1,
+      "message": "nit: same above.",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 29
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d1cd57d_12cfab84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-27T16:27:43Z",
+      "side": 1,
+      "message": "nit: same above.",
+      "range": {
+        "startLine": 83,
+        "startChar": 36,
+        "endLine": 83,
+        "endChar": 63
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "850e5cae_1ef4f678",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-27T16:27:43Z",
+      "side": 1,
+      "message": "optional: I see a lot of REST endpoints throw out OrmException directly (see ChangeApiImpl.java). So we may also throw it out directly? \n\nIf we want to catch this exception, how about combine it with the \"(match \u003d\u003d null)\" check? Both of them mean we can\u0027t find the account.",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71d3a942_76013033",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-27T16:27:43Z",
+      "side": 1,
+      "message": "nit: move this closer to where it\u0027s been used (line #106) ?",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 60
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "332c3652_ff0ebac4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-27T16:27:43Z",
+      "side": 1,
+      "message": "optional: \nAs in the following code, we assign values to  \u0027result.message\u0027 and \u0027result.status\u0027 one by one. \nI think it will be better if we initialize \u0027Result\u0027 there with a constructor \u0027Result(String message, int status)\u0027.",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 31
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87859d29_a2bce08a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-27T16:27:43Z",
+      "side": 1,
+      "message": "optional: how about \"project %s is not visible to user %s (%s)\"",
+      "range": {
+        "startLine": 112,
+        "startChar": 14,
+        "endLine": 112,
+        "endChar": 50
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d99de49_95d074f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-27T16:27:43Z",
+      "side": 1,
+      "message": "optional: how about \"ref %s in project %s is not visible to user %s (%s) \"",
+      "range": {
+        "startLine": 128,
+        "startChar": 16,
+        "endLine": 128,
+        "endChar": 62
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "492b926c_e6df41ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-04-27T16:27:43Z",
+      "side": 1,
+      "message": "Do we need to return a \u0027message\u0027 to the user in this case? If not, we need to document this field to be \u0027optional\u0027  in \u0027rest-api-config\u0027.",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 51
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

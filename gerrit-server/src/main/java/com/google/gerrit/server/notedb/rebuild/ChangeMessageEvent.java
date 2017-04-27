@@ -35,6 +35,9 @@ class ChangeMessageEvent extends Event {
                   "^Change has been successfully (merged|cherry-picked|rebased|pushed).*$"),
           Change.Status.NEW, Pattern.compile("^Restored(\n.*)*$"));
 
+  private static final Pattern PRIVATE_SET_REGEXP = Pattern.compile("^Set Private$");
+  private static final Pattern PRIVATE_UNSET_REGEXP = Pattern.compile("^Unset Private$");
+
   private static final Pattern TOPIC_SET_REGEXP = Pattern.compile("^Topic set to (.+)$");
   private static final Pattern TOPIC_CHANGED_REGEXP =
       Pattern.compile("^Topic changed from (.+) to (.+)$");
@@ -80,6 +83,7 @@ class ChangeMessageEvent extends Event {
   void apply(ChangeUpdate update) throws OrmException {
     checkUpdate(update);
     update.setChangeMessage(message.getMessage());
+    setPrivate(update);
     setTopic(update);
 
     if (status.isPresent()) {
@@ -104,6 +108,25 @@ class ChangeMessageEvent extends Event {
       }
     }
     return Optional.empty();
+  }
+
+  private void setPrivate(ChangeUpdate update) {
+    String msg = message.getMessage();
+    if (msg == null) {
+      return;
+    }
+    Matcher m = PRIVATE_SET_REGEXP.matcher(msg);
+    if (m.matches()) {
+      update.setPrivate(true);
+      noteDbChange.setPrivate(true);
+      return;
+    }
+
+    m = PRIVATE_UNSET_REGEXP.matcher(msg);
+    if (m.matches()) {
+      update.setPrivate(false);
+      noteDbChange.setPrivate(false);
+    }
   }
 
   private void setTopic(ChangeUpdate update) {

@@ -52,6 +52,24 @@
       "revId": "86fd5d9f6f753e873a6090dfdf634d29f7d1c49e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8a1db82_75883229",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T15:24:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50426df2_a066a0b0",
+      "revId": "86fd5d9f6f753e873a6090dfdf634d29f7d1c49e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

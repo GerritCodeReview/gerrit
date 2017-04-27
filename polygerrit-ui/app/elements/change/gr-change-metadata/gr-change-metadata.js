@@ -242,6 +242,10 @@
       return !!this._computeMissingLabels(labels).length;
     },
 
+    _showMissingRequirements: function(labels, work_in_progress) {
+      return work_in_progress || this._showMissingLabels(labels);
+    },
+
     _computeProjectURL: function(project) {
       return this.getBaseUrl() + '/q/project:' +
         this.encodeURL(project, false);

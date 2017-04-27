@@ -65,6 +65,10 @@
     properties: {
       change: Object,
       patchNum: String,
+      canBeStarted: {
+        type: Boolean,
+        value: false,
+      },
       disabled: {
         type: Boolean,
         value: false,
@@ -90,12 +94,20 @@
       serverConfig: Object,
       projectConfig: Object,
       knownLatestState: String,
+      underReview: {
+        type: Boolean,
+        value: true,
+      },
 
       _account: Object,
       _ccs: Array,
       _ccPendingConfirmation: {
         type: Object,
         observer: '_reviewerPendingConfirmationUpdated',
+      },
+      _messagePlaceholder: {
+        type: String,
+        computed: '_computeMessagePlaceholder(canBeStarted)',
       },
       _owner: Object,
       _pendingConfirmationDetails: Object,
@@ -119,6 +131,10 @@
           CC: [],
           REVIEWER: [],
         },
+      },
+      _sendButtonLabel: {
+        type: String,
+        computed: '_computeSendButtonLabel(canBeStarted)',
       },
     },
 
@@ -416,6 +432,12 @@
       if (total > 1) { return total + ' Drafts'; }
     },
 
+    _computeMessagePlaceholder: function(canBeStarted) {
+      return canBeStarted ?
+        'Add a note for your reviewers...' :
+        'Say something nice...';
+    },
+
     _changeUpdated: function(changeRecord, owner, serverConfig) {
       this._rebuildReviewerArrays(changeRecord.base, owner, serverConfig);
     },
@@ -498,16 +520,37 @@
           this.serverConfig);
     },
 
-    _sendTapHandler: function(e) {
+    _saveTapHandler: function(e) {
       e.preventDefault();
       this.send(this._includeComments).then(function(keepReviewers) {
         this._purgeReviewersPendingRemove(false, keepReviewers);
       }.bind(this));
     },
 
+    _sendTapHandler: function(e) {
+      e.preventDefault();
+      if (this.canBeStarted) {
+        this._startReview()
+          .then(function() {
+            return this.send(this._includeComments);
+          }.bind(this))
+          .then(this._purgeReviewersPendingRemove.bind(this));
+        return;
+      }
+      this.send(this._includeComments)
+        .then(this._purgeReviewersPendingRemove.bind(this));
+    },
+
     _saveReview: function(review, opt_errFn) {
       return this.$.restAPI.saveChangeReview(this.change._number, this.patchNum,
           review, opt_errFn);
+    },
+
+    _startReview: function() {
+      if (!this.canBeStarted) {
+        return Promise.resolve();
+      }
+      return this.$.restAPI.startReview(this.change._number);
     },
 
     _reviewerPendingConfirmationUpdated: function(reviewer) {
@@ -581,6 +624,10 @@
     _reload: function() {
       // Load the current change without any patch range.
       location.href = this.getBaseUrl() + '/c/' + this.change._number;
+    },
+
+    _computeSendButtonLabel: function(canBeStarted) {
+      return canBeStarted ? "Start review" : "Send";
     },
   });
 })();

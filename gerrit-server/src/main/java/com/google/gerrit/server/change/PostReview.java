@@ -29,7 +29,6 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -871,12 +870,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           toDel.addAll(drafts.values());
           break;
         case PUBLISH:
-          for (Comment e : drafts.values()) {
-            toPublish.add(publishComment(ctx, e, ps));
-          }
-          break;
         case PUBLISH_ALL_REVISIONS:
-          publishAllRevisions(ctx, drafts, toPublish);
+          commentsUtil.publish(ctx, psId, drafts.values(), in.tag);
           break;
       }
       ChangeUpdate u = ctx.getUpdate(psId);
@@ -1007,37 +1002,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         labels.put(psa.getLabel(), psa.getValue());
       }
       return labels;
-    }
-
-    private Comment publishComment(ChangeContext ctx, Comment c, PatchSet ps) throws OrmException {
-      c.writtenOn = ctx.getWhen();
-      c.tag = in.tag;
-      // Draft may have been created by a different real user; copy the current
-      // real user. (Only applies to X-Gerrit-RunAs, since modifying drafts via
-      // on_behalf_of is not allowed.)
-      ctx.getUser().updateRealAccountId(c::setRealAuthor);
-      setCommentRevId(c, patchListCache, ctx.getChange(), checkNotNull(ps));
-      return c;
-    }
-
-    private void publishAllRevisions(
-        ChangeContext ctx, Map<String, Comment> drafts, List<Comment> ups) throws OrmException {
-      boolean needOtherPatchSets = false;
-      for (Comment c : drafts.values()) {
-        if (c.key.patchSetId != psId.get()) {
-          needOtherPatchSets = true;
-          break;
-        }
-      }
-      Map<PatchSet.Id, PatchSet> patchSets =
-          needOtherPatchSets
-              ? psUtil.byChangeAsMap(ctx.getDb(), ctx.getNotes())
-              : ImmutableMap.of(psId, ps);
-      for (Comment e : drafts.values()) {
-        ups.add(
-            publishComment(
-                ctx, e, patchSets.get(new PatchSet.Id(ctx.getChange().getId(), e.key.patchSetId))));
-      }
     }
 
     private Map<String, Short> getAllApprovals(

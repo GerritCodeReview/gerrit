@@ -213,6 +213,8 @@
           patchNums.push({
             num: revisions[commit]._number,
             desc: revisions[commit].description,
+            // TODO(logan): set reviewedStatus on intermediate WIP patchsets
+            reviewedStatus: '',
           });
         }
       }
@@ -221,6 +223,11 @@
 
     _computePatchSetDisabled: function(patchNum, currentPatchNum) {
       return parseInt(patchNum, 10) >= parseInt(currentPatchNum, 10);
+    },
+
+    _computePatchSetClass: function(patchNum) {
+      // TODO(logan): identify intermediate WIP patchsets
+      return '';
     },
 
     _togglePathExpanded: function(path) {

@@ -98,6 +98,7 @@ limitations under the License.
 
       test('A toggles overlay when logged in', function(done) {
         sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+        element._change = {labels: {}};
         MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
         flush(function() {
           assert.isTrue(element.$.replyOverlay.opened);
@@ -309,21 +310,23 @@ limitations under the License.
     });
 
     test('reply button has updated count when there are drafts', function() {
-      var replyButton = element.$$('gr-button.reply');
-      assert.ok(replyButton);
-      assert.equal(replyButton.textContent, 'Reply');
+      var getLabel = element._computeReplyButtonLabel;
 
-      element._diffDrafts = null;
-      assert.equal(replyButton.textContent, 'Reply');
+      assert.equal(getLabel(null, false), 'Reply');
+      assert.equal(getLabel(null, true), 'Start review');
 
-      element._diffDrafts = {};
-      assert.equal(replyButton.textContent, 'Reply');
+      var changeRecord = {base: null};
+      assert.equal(getLabel(changeRecord, false), 'Reply');
 
-      element._diffDrafts = {
+      changeRecord.base = {};
+      assert.equal(getLabel(changeRecord, false), 'Reply');
+
+      changeRecord.base = {
         'file1.txt': [{}],
         'file2.txt': [{}, {}],
       };
-      assert.equal(replyButton.textContent, 'Reply (3)');
+      assert.equal(getLabel(changeRecord, false), 'Reply (3)');
+      assert.equal(getLabel(changeRecord, true), 'Start review');
     });
 
     test('comment events properly update diff drafts', function() {
@@ -940,6 +943,7 @@ limitations under the License.
     suite('reply dialog tests', function() {
       setup(function() {
         sandbox.stub(element.$.replyDialog, '_draftChanged');
+        element._change = {labels: {}};
       });
 
       test('reply from comment adds quote text', function() {

@@ -224,10 +224,13 @@ limitations under the License.
                 is="dom-repeat"
                 items="[[_computePatchSets(revisions.*, patchRange.*)]]"
                 as="patchNum">
-              <option value$="[[patchNum.num]]"
-                  disabled$="[[_computePatchSetDisabled(patchNum.num, patchRange.patchNum)]]">
+              <option
+                  class$="[[_computePatchSetClass(patchNum.num)]]"
+                  disabled$="[[_computePatchSetDisabled(patchNum.num, patchRange.patchNum)]]"
+                  value$="[[patchNum.num]]">
                 [[patchNum.num]]
                 [[patchNum.desc]]
+                [[patchNum.reviewedStatus]]
               </option>
             </template>
           </select>

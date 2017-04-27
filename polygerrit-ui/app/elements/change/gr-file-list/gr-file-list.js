@@ -579,6 +579,7 @@
       if (opt_index != null) {
         this.$.fileCursor.setCursorAtIndex(opt_index);
       }
+      if (this.$.fileCursor.index === -1) { return; }
       page.show(this._computeDiffURL(this.changeNum, this.patchRange,
           this._files[this.$.fileCursor.index].__path));
     },

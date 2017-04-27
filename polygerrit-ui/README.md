@@ -116,3 +116,13 @@ Then visit http://localhost:8081/elements/foo/bar_test.html
 
 We follow the [Google JavaScript Style Guide](https://google.github.io/styleguide/javascriptguide.xml)
 with a few exceptions. When in doubt, remain consistent with the code around you.
+
+In addition, we encourage the use of [ESLint](http://eslint.org/).
+It is available as a command line utility, as well as a plugin for most editors and IDEs. It, along with a few dependencies, can also be installed through NPM:
+
+```sh
+sudo npm install -g eslint eslint-config-google eslint-plugin-html
+```
+
+`eslint-config-google` is a port of the Google JS Style Guide to an ESLint config module, and `eslint-plugin-html` allows ESLint to lint scripts inside HTML.
+We have an .eslintrc.json config file in the polygerrit-ui/ directory configured to enforce the preferred style of the PolyGerrit project.

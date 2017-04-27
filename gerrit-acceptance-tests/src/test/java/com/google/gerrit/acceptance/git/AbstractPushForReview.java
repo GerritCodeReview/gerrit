@@ -46,6 +46,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
@@ -82,6 +83,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -116,6 +118,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         cfg, Permission.forLabel(patchSetLock.getName()), 0, 1, anonymousUsers, "refs/heads/*");
     saveProjectConfig(cfg);
     grant(Permission.LABEL + "Patch-Set-Lock", project, "refs/heads/*");
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    setApiUser(admin);
+    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id.get()).getPreferences();
+    prefs.publishCommentsOnPush = false;
+    gApi.accounts().id(admin.id.get()).setPreferences(prefs);
   }
 
   protected void selectProtocol(Protocol p) throws Exception {
@@ -1535,6 +1545,37 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     assertThat(getLastMessage(id1)).doesNotMatch("[Cc]omment");
     assertThat(getLastMessage(id2)).isEqualTo("Uploaded patch set 2.\n\n(1 comment)");
+  }
+
+  @Test
+  public void publishCommentsOnPushWithPreference() throws Exception {
+    PushOneCommit.Result r = createChange();
+    addDraft(r.getChangeId(), r.getCommit().name(), newDraft(FILE_NAME, 1, "comment1"));
+    r = amendChange(r.getChangeId());
+
+    assertThat(getPublishedComments(r.getChangeId())).isEmpty();
+
+    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id.get()).getPreferences();
+    prefs.publishCommentsOnPush = true;
+    gApi.accounts().id(admin.id.get()).setPreferences(prefs);
+
+    r = amendChange(r.getChangeId());
+    assertThat(getPublishedComments(r.getChangeId()).stream().map(c -> c.message))
+        .containsExactly("comment1");
+  }
+
+  @Test
+  public void publishCommentsOnPushOverridingPreference() throws Exception {
+    PushOneCommit.Result r = createChange();
+    addDraft(r.getChangeId(), r.getCommit().name(), newDraft(FILE_NAME, 1, "comment1"));
+
+    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id.get()).getPreferences();
+    prefs.publishCommentsOnPush = true;
+    gApi.accounts().id(admin.id.get()).setPreferences(prefs);
+
+    r = amendChange(r.getChangeId(), "refs/for/master%no-publish-comments");
+
+    assertThat(getPublishedComments(r.getChangeId())).isEmpty();
   }
 
   private DraftInput newDraft(String path, int line, String message) {

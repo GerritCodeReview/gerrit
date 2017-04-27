@@ -171,6 +171,8 @@ limitations under the License.
           .firstElementChild.bindValue, preferences.diff_view);
       assert.equal(valueOf('Expand inline diffs', 'preferences')
           .firstElementChild.checked, false);
+      assert.equal(valueOf('Publish comments on push', 'preferences')
+          .firstElementChild.checked, false);
 
       assert.isFalse(element._prefsChanged);
       assert.isFalse(element._menuChanged);
@@ -193,6 +195,29 @@ limitations under the License.
           assert.equal(prefs.diff_view, 'SIDE_BY_SIDE');
           assertMenusEqual(prefs.my, preferences.my);
           assert.equal(prefs.expand_inline_diffs, true);
+          return Promise.resolve();
+        }
+      });
+
+      // Save the change.
+      element._handleSavePreferences().then(function() {
+        assert.isFalse(element._prefsChanged);
+        assert.isFalse(element._menuChanged);
+        done();
+      });
+    });
+
+    test('publish comments on push', function(done) {
+      var publishCommentsOnPush =
+        valueOf('Publish comments on push', 'preferences').firstElementChild;
+      MockInteractions.tap(publishCommentsOnPush);
+
+      assert.isFalse(element._menuChanged);
+      assert.isTrue(element._prefsChanged);
+
+      stub('gr-rest-api-interface', {
+        savePreferences: function(prefs) {
+          assert.equal(prefs.publish_comments_on_push, true);
           return Promise.resolve();
         }
       });

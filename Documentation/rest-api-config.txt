@@ -1067,6 +1067,7 @@ PreferencesInfo] is returned.
     "size_bar_in_change_table": true,
     "review_category_strategy": "NONE",
     "mute_common_path_prefixes": true,
+    "publish_comments_on_push": false,
     "my": [
       {
         "url": "#/dashboard/self",
@@ -1149,6 +1150,7 @@ PreferencesInfo] is returned.
     "size_bar_in_change_table": true,
     "review_category_strategy": "NONE",
     "mute_common_path_prefixes": true,
+    "publish_comments_on_push": false,
     "my": [
       {
         "url": "#/dashboard/self",

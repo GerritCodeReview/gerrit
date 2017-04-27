@@ -758,6 +758,12 @@ changes that are created from the web UI (e.g. by the `Create Change`
 and `Edit Config` buttons on the project screen, and the `Follow-Up`
 button on the change screen).
 
+- [[publish-comments-on-push]]`Publish Draft Comments When a Change Is Updated by Push`:
++
+Whether to publish any outstanding draft comments by default when pushing
+updates to open changes. This preference just sets the default; the behavior can
+still be overridden using a link:user-upload.html#publish-comments[push option].
+
 - [[use-flash]]`Use Flash Clipboard Widget`:
 +
 Whether the Flash clipboard widget should be used. If enabled and the Flash

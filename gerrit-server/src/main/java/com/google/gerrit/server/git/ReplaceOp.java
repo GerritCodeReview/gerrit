@@ -259,7 +259,7 @@ public class ReplaceOp implements BatchUpdateOp {
         change.setPrivate(true);
         update.setPrivate(true);
       }
-      if (magicBranch.publishComments) {
+      if (magicBranch.shouldPublishComments()) {
         comments = publishComments(ctx);
       }
     }

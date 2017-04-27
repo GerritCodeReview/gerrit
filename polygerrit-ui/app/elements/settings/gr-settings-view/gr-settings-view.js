@@ -256,6 +256,11 @@
           this.$.expandInlineDiffs.checked);
     },
 
+    _handlePublishCommentsOnPushChanged: function() {
+      this.set('_localPrefs.publish_comments_on_push',
+          this.$.publishCommentsOnPush.checked);
+    },
+
     _handleMenuChanged: function() {
       if (this._isLoading()) { return; }
       this._menuChanged = true;

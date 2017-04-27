@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -85,7 +86,7 @@ public interface ChangeApi {
 
   void move(MoveInput in) throws RestApiException;
 
-  void setPrivate(boolean value) throws RestApiException;
+  void setPrivate(boolean value, @Nullable String message) throws RestApiException;
 
   void setWorkInProgress(String message) throws RestApiException;
 
@@ -335,7 +336,7 @@ public interface ChangeApi {
     }
 
     @Override
-    public void setPrivate(boolean value) {
+    public void setPrivate(boolean value, @Nullable String message) {
       throw new NotImplementedException();
     }
 

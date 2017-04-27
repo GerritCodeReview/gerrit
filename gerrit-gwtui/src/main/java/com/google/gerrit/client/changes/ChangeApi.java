@@ -122,11 +122,11 @@ public class ChangeApi {
   }
 
   public static void markPrivate(int id, AsyncCallback<JavaScriptObject> cb) {
-    change(id).view("private").put(cb);
+    change(id).view("private").post(PrivateInput.create(), cb);
   }
 
   public static void unmarkPrivate(int id, AsyncCallback<JavaScriptObject> cb) {
-    change(id).view("private").delete(cb);
+    change(id).view("private.delete").post(PrivateInput.create(), cb);
   }
 
   public static RestApi comments(int id) {
@@ -325,6 +325,16 @@ public class ChangeApi {
     final native void setMessage(String m) /*-{ this.message = m; }-*/;
 
     protected CherryPickInput() {}
+  }
+
+  private static class PrivateInput extends JavaScriptObject {
+    static PrivateInput create() {
+      return (PrivateInput) createObject();
+    }
+
+    final native void setMessage(String m) /*-{ this.message = m; }-*/;
+
+    protected PrivateInput() {}
   }
 
   private static class RebaseInput extends JavaScriptObject {

@@ -253,6 +253,9 @@ limitations under the License.
         <section class="labelStatus">
           <span class="title">Label Status</span>
           <span class="value">
+            <div hidden$="[[!change.work_in_progress]]">
+              Work in progress
+            </div>
             <div hidden$="[[!_showMissingLabels(change.labels)]]">
               [[_computeMissingLabelsHeader(change.labels)]]
               <ul id="missingLabels">
@@ -263,7 +266,7 @@ limitations under the License.
                 </template>
               </ul>
             </div>
-            <div hidden$="[[_showMissingLabels(change.labels)]]">
+            <div hidden$="[[_showMissingRequirements(change.labels, change.work_in_progress)]]">
               Ready to submit
             </div>
           </span>

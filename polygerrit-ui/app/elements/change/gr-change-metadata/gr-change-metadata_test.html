@@ -88,6 +88,17 @@ limitations under the License.
     });
 
     test('computes submit status', function() {
+      var showMissingLabels = false;
+      sandbox.stub(element, '_showMissingLabels', function() {
+        return showMissingLabels;
+      });
+      assert.isFalse(element._showMissingRequirements(null, false));
+      assert.isTrue(element._showMissingRequirements(null, true));
+      showMissingLabels = true;
+      assert.isTrue(element._showMissingRequirements(null, false));
+    });
+
+    test('show missing labels', function() {
       var labels = {};
       assert.isFalse(element._showMissingLabels(labels));
       labels = {test: {}};

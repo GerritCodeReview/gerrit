@@ -68,6 +68,11 @@ limitations under the License.
         transition: box-shadow 250ms linear;
         width: 100%;
       }
+      .header.wip {
+        background-color: #fcfad6;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: .5em;
+      }
       .header-title {
         flex: 1;
         font-size: 1.2em;
@@ -277,7 +282,7 @@ limitations under the License.
     </style>
     <div class="container loading" hidden$="[[!_loading]]">Loading...</div>
     <div class="container" hidden$="{{_loading}}">
-      <div class="header">
+      <div class$="[[_computeHeaderClass(_change)]]">
         <span class="header-title">
           <gr-change-star
               id="changeStar"
@@ -300,6 +305,9 @@ limitations under the License.
                   server-config="[[serverConfig]]"></gr-commit-info><!--
          --></template><!--
          -->)<!--
+       --></template><!--
+       --><template is="dom-if" if="[[_change.work_in_progress]]"><!--
+         --> (Work in progress)<!--
        --></template><!--
        -->: [[_change.subject]]
         </span>
@@ -500,10 +508,18 @@ limitations under the License.
           diff-drafts="[[_diffDrafts]]"
           server-config="[[serverConfig]]"
           project-config="[[_projectConfig]]"
+          can-be-started="[[_canStartReview]]"
           on-send="_handleReplySent"
           on-cancel="_handleReplyCancel"
           on-autogrow="_handleReplyAutogrow"
-          hidden$="[[!_loggedIn]]">Reply</gr-reply-dialog>
+          hidden$="[[!_loggedIn]]">
+        <template is="dom-if" if="[[_canStartReview]]">
+          Start Review
+        </template>
+        <template is="dom-if" if="[[!_canStartReview]]">
+          Reply
+        </template>
+      </gr-reply-dialog>
     </gr-overlay>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

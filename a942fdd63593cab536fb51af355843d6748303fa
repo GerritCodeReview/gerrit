@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f331eea9_c5c380fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-27T07:42:42Z",
+      "side": 1,
+      "message": "I have refactored into a constant and updated to use a `\u003c\u003d` check.\n\n MIN_CHECK_INTERVAL_SECS\n\nWe can tune that to a larger number (such as 5 or 10 seconds) as needed.",
+      "parentUuid": "076e293a_99e6249b",
+      "range": {
+        "startLine": 1169,
+        "startChar": 10,
+        "endLine": 1169,
+        "endChar": 51
+      },
+      "revId": "a942fdd63593cab536fb51af355843d6748303fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30641864_529c08c4",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "a942fdd63593cab536fb51af355843d6748303fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b9d2474_ae18de9b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-27T07:42:42Z",
+      "side": 1,
+      "message": "Very good point.",
+      "parentUuid": "30641864_529c08c4",
+      "revId": "a942fdd63593cab536fb51af355843d6748303fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

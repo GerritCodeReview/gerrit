@@ -21,6 +21,7 @@
     'email_strategy',
     'diff_view',
     'expand_inline_diffs',
+    'publish_comments_on_push',
     'email_format',
   ];
 
@@ -254,6 +255,11 @@
     _handleExpandInlineDiffsChanged: function() {
       this.set('_localPrefs.expand_inline_diffs',
           this.$.expandInlineDiffs.checked);
+    },
+
+    _handlePublishCommentsOnPushChanged: function() {
+      this.set('_localPrefs.publish_comments_on_push',
+          this.$.publishCommentsOnPush.checked);
     },
 
     _handleMenuChanged: function() {

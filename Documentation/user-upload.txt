@@ -254,6 +254,11 @@ If you have draft comments on the change(s) that are updated by the push, the
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%p
 ----
 
+The default for this option can be set as a
+link:intro-user.html#publish-comments-on-push[user preference]. If the
+preference is set so the default behavior is to publish, this can be overridden
+with the `no-publish-comments` option.
+
 [[review_labels]]
 ==== Review Labels
 

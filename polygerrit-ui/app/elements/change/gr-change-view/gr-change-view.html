@@ -37,6 +37,7 @@ limitations under the License.
 <link rel="import" href="../gr-download-dialog/gr-download-dialog.html">
 <link rel="import" href="../gr-file-list/gr-file-list.html">
 <link rel="import" href="../gr-messages-list/gr-messages-list.html">
+<link rel="import" href="../gr-patchset-dialog/gr-patchset-dialog.html">
 <link rel="import" href="../gr-related-changes-list/gr-related-changes-list.html">
 <link rel="import" href="../gr-reply-dialog/gr-reply-dialog.html">
 
@@ -320,11 +321,16 @@ limitations under the License.
         </div>
         <div id="mainChangeInfo" class="changeInfo-column mainChangeInfo">
           <div class="commitActions" hidden$="[[!_loggedIn]]">
-            <gr-button
-                class="reply"
-                secondary
-                disabled="[[_replyDisabled]]"
-                on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
+            <div>
+              <gr-button
+                  class="reply"
+                  secondary
+                  disabled="[[_replyDisabled]]"
+                  on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
+              <gr-button
+                  on-tap="_handlePatchsetTap"
+                  on-close-tap="_handlePatchsetDialogClose">Patchsets</gr-button>
+            </div>
             <gr-change-actions id="actions"
                 change="[[_change]]"
                 has-parent="[[hasParent]]"
@@ -486,6 +492,12 @@ limitations under the License.
           patch-num="[[_patchRange.patchNum]]"
           config="[[serverConfig.download]]"
           on-close="_handleDownloadDialogClose"></gr-download-dialog>
+    </gr-overlay>
+    <gr-overlay id="patchsetOverlay" with-backdrop>
+      <gr-patchset-dialog
+          id="patchsetDialog"
+          patchsets="[[_change.revisions]]"
+          on-close="_handlePatchsetDialogClose"></gr-patchset-dialog>
     </gr-overlay>
     <gr-overlay id="replyOverlay"
         class="scrollable"

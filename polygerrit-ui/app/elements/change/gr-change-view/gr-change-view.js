@@ -359,6 +359,15 @@
       this.$.downloadOverlay.close();
     },
 
+    _handlePatchsetTap: function(e) {
+      e.preventDefault();
+      this.$.patchsetOverlay.open();
+    },
+
+    _handlePatchsetDialogClose: function(e) {
+      this.$.patchsetOverlay.close();
+    },
+
     _handleMessageReply: function(e) {
       var msg = e.detail.message.message;
       var quoteStr = msg.split('\n').map(

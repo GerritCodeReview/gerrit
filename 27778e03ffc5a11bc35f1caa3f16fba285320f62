@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c9441be_b8bcf6e4",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T12:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4da516f_1f7dcba8",
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1409abca_6ed90bf8",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
         "patchSetId": 6
@@ -94,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "a555afa6_569c3de9",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PermissionRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T12:58:52Z",
+      "side": 1,
+      "message": "That\u0027s a good suggestion, only I did not consider that java.util.regex is not available in gerrit-common, so I had to revert back to String.matches and no longer have the pattern to use.",
+      "parentUuid": "ef52f078_058d7a57",
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8a643def_1b404d37",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
         "patchSetId": 6
@@ -146,6 +182,24 @@
     },
     {
       "key": {
+        "uuid": "ddd0d96b_f16ac1bf",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T12:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86954c46_e8d4b685",
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "80e4471e_816a0e7c",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
         "patchSetId": 6
@@ -157,6 +211,24 @@
       "writtenOn": "2017-04-27T10:49:54Z",
       "side": 1,
       "message": "why 4?",
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bf9622e_3bd0f3b1",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T12:58:52Z",
+      "side": 1,
+      "message": "I thought that you\u0027d never have 10 RolePermissions, but then again 4 shouldn\u0027t be that uncommon... I\u0027ll use the default capability instead.",
+      "parentUuid": "80e4471e_816a0e7c",
       "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -186,6 +258,30 @@
     },
     {
       "key": {
+        "uuid": "ab246658_07b7a207",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T12:58:52Z",
+      "side": 1,
+      "message": "I don\u0027t set rangeString or force if there are none.",
+      "parentUuid": "cb39dd0d_265030e5",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 34
+      },
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c36fdf40_8f96c730",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 6
@@ -197,6 +293,30 @@
       "writtenOn": "2017-04-27T10:49:54Z",
       "side": 1,
       "message": "move declaration to line 690\n\nnit: why `rt`? what this abbreviation stand for? shouldn\u0027t it be `rs` like `RoleSection`?",
+      "range": {
+        "startLine": 688,
+        "startChar": 4,
+        "endLine": 688,
+        "endChar": 19
+      },
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2115de82_2f5fa7ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T12:58:52Z",
+      "side": 1,
+      "message": "Done\n\nIn earlier iterations the try/catch block was wider and RoleSection was named RoleType :-)",
+      "parentUuid": "c36fdf40_8f96c730",
       "range": {
         "startLine": 688,
         "startChar": 4,
@@ -267,6 +387,30 @@
     },
     {
       "key": {
+        "uuid": "536dbe1f_b3abfb30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T12:58:52Z",
+      "side": 1,
+      "message": "If the permission is a role I always want to continue, since the role permissions doesn\u0027t make sense when calculating access (they need to be expanded first).\nThe filter to not add RolePermission if there are no configured roles is to not do unnecessary iterations at line 292-294.\nBut I should check if the role is configured.",
+      "parentUuid": "b1b31e34_eab34b84",
+      "range": {
+        "startLine": 275,
+        "startChar": 10,
+        "endLine": 276,
+        "endChar": 27
+      },
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea386885_06263efd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 6
@@ -290,6 +434,30 @@
     },
     {
       "key": {
+        "uuid": "9511e4c0_d4713f1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T12:58:52Z",
+      "side": 1,
+      "message": "I don\u0027t know. I wrote it because I found this whole loop to be a bit complex and I had trouble understanding it myself... :-)",
+      "parentUuid": "ea386885_06263efd",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 313,
+        "endChar": 50
+      },
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05f1ed16_88de623e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 6
@@ -301,6 +469,30 @@
       "writtenOn": "2017-04-27T10:49:54Z",
       "side": 1,
       "message": "join both conditions with `\u0026\u0026`",
+      "range": {
+        "startLine": 315,
+        "startChar": 6,
+        "endLine": 316,
+        "endChar": 89
+      },
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abfaefe5_8c619562",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T12:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05f1ed16_88de623e",
       "range": {
         "startLine": 315,
         "startChar": 6,

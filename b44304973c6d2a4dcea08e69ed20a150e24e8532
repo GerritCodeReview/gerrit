@@ -22,6 +22,30 @@
       "revId": "b44304973c6d2a4dcea08e69ed20a150e24e8532",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d70338bd_97cc74ca",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-27T09:36:25Z",
+      "side": 1,
+      "message": "No, we also want to set the value of fileCursor.index. That\u0027s also actually orthogonal to this issue.\n\nThe thing this fixes is the case that no opt_index is supplied, and also this.$.fileCursor.index is not initialized -- the function then tries to get a file at an index that doesn\u0027t exist.",
+      "parentUuid": "bcee3b8f_1f35c330",
+      "range": {
+        "startLine": 583,
+        "startChar": 6,
+        "endLine": 584,
+        "endChar": 56
+      },
+      "revId": "b44304973c6d2a4dcea08e69ed20a150e24e8532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

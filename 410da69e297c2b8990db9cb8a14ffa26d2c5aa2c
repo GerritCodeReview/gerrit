@@ -22,6 +22,30 @@
       "revId": "410da69e297c2b8990db9cb8a14ffa26d2c5aa2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55c081a2_cee254de",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-27T10:49:53Z",
+      "side": 1,
+      "message": "Was having trouble getting Polymer to notice that things changed. A flush might have also done, I guess.",
+      "parentUuid": "c43ac091_f013868d",
+      "range": {
+        "startLine": 1174,
+        "startChar": 6,
+        "endLine": 1174,
+        "endChar": 32
+      },
+      "revId": "410da69e297c2b8990db9cb8a14ffa26d2c5aa2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

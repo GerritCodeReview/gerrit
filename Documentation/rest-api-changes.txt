@@ -2110,14 +2110,22 @@ Only the change owner, a project owner, or an administrator may fix changes.
 [[mark-private]]
 === Mark Private
 --
-'PUT /changes/link:#change-id[\{change-id\}]/private'
+'POST /changes/link:#change-id[\{change-id\}]/private'
 --
 
 Marks the change to be private. Note users can only mark own changes as private.
 
+A message can be specified in the request body inside a
+link:#private-input[PrivateInput] entity.
+
 .Request
 ----
-  Set /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/private HTTP/1.0
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/private HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "message": "After this security fix has been released we can make it public now."
+  }
 ----
 
 .Response
@@ -2136,9 +2144,17 @@ If the change was already private the response is "`200 OK`".
 Marks the change to be non-private. Note users can only unmark own private
 changes.
 
+A message can be specified in the request body inside a
+link:#private-input[PrivateInput] entity.
+
 .Request
 ----
   DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/private HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "message": "This is a security fix that must not be public."
+  }
 ----
 
 .Response
@@ -2147,6 +2163,20 @@ changes.
 ----
 
 If the change was already not private, the response is "`409 Conflict`".
+
+Please note that some proxies prohibit request bodies for DELETE
+requests. In this case, if you want to set a message options, use a
+POST request:
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/private.delete HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "message": "This is a security fix that must not be public."
+  }
+----
 
 [[edit-endpoints]]
 == Change Edit Endpoints
@@ -6088,6 +6118,17 @@ type can be `TO`, `CC` and `BCC`.
 A list of link:rest-api-accounts.html#account-id[account IDs] that
 identify the accounts that should be should be notified.
 |=======================
+
+[[private-input]]
+=== PrivateInput
+The `PrivateInput` entity contains information for changing the private
+flag on a change.
+
+[options="header",cols="1,6"]
+|==========================
+|Field Name    |Description
+|`message`     |Change message.
+|==========================
 
 [[problem-info]]
 === ProblemInfo

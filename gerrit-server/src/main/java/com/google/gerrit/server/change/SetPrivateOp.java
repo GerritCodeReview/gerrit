@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -23,13 +24,25 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gwtorm.server.OrmException;
 
-class SetPrivateOp implements BatchUpdateOp {
+public class SetPrivateOp implements BatchUpdateOp {
+  public static class Input {
+    String message;
+
+    public Input() {}
+
+    public Input(String message) {
+      this.message = message;
+    }
+  }
+
   private final ChangeMessagesUtil cmUtil;
   private final boolean isPrivate;
+  private final Input input;
 
-  SetPrivateOp(ChangeMessagesUtil cmUtil, boolean isPrivate) {
+  SetPrivateOp(ChangeMessagesUtil cmUtil, boolean isPrivate, Input input) {
     this.cmUtil = cmUtil;
     this.isPrivate = isPrivate;
+    this.input = input;
   }
 
   @Override
@@ -48,10 +61,18 @@ class SetPrivateOp implements BatchUpdateOp {
 
   private void addMessage(ChangeContext ctx, ChangeUpdate update) throws OrmException {
     Change c = ctx.getChange();
+    StringBuilder buf = new StringBuilder(c.isPrivate() ? "Set private" : "Unset private");
+
+    String m = Strings.nullToEmpty(input.message).trim();
+    if (!m.isEmpty()) {
+      buf.append("\n\n");
+      buf.append(m);
+    }
+
     ChangeMessage cmsg =
         ChangeMessagesUtil.newMessage(
             ctx,
-            c.isPrivate() ? "Set private" : "Unset private",
+            buf.toString(),
             c.isPrivate()
                 ? ChangeMessagesUtil.TAG_SET_PRIVATE
                 : ChangeMessagesUtil.TAG_UNSET_PRIVATE);

@@ -202,6 +202,20 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(info.isPrivate).isFalse();
     assertThat(Iterables.getLast(info.messages).message).isEqualTo("Unset private");
     assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_UNSET_PRIVATE);
+
+    String msg = "This is a security fix that must not be public.";
+    gApi.changes().id(changeId).setPrivate(true, msg);
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.isPrivate).isTrue();
+    assertThat(Iterables.getLast(info.messages).message).contains(msg);
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_PRIVATE);
+
+    msg = "After this security fix has been released we can make it public now.";
+    gApi.changes().id(changeId).setPrivate(false, msg);
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.isPrivate).isFalse();
+    assertThat(Iterables.getLast(info.messages).message).contains(msg);
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_UNSET_PRIVATE);
   }
 
   @Test

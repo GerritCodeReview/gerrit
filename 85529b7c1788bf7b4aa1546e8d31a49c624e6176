@@ -22,6 +22,30 @@
       "revId": "85529b7c1788bf7b4aa1546e8d31a49c624e6176",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cf45deb_b9e8b8e6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-27T07:38:20Z",
+      "side": 1,
+      "message": "Thanks yep. I couldent find a good way to do status and full name in mutability",
+      "parentUuid": "fd2ea462_fea3a979",
+      "range": {
+        "startLine": 123,
+        "startChar": 10,
+        "endLine": 130,
+        "endChar": 74
+      },
+      "revId": "85529b7c1788bf7b4aa1546e8d31a49c624e6176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

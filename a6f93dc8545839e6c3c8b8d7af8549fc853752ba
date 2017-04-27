@@ -163,6 +163,30 @@
     },
     {
       "key": {
+        "uuid": "51ff9103_4259efca",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/CheckAcccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-27T07:21:07Z",
+      "side": 1,
+      "message": "you\u0027d have to assign in ctor to use final",
+      "parentUuid": "0fe954d6_f9509729",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 31
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f4bc6c0_642f6196",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/CheckAcccessIT.java",
         "patchSetId": 4
@@ -174,6 +198,30 @@
       "writtenOn": "2017-04-26T07:24:50Z",
       "side": 1,
       "message": "nit: this should be removed.",
+      "range": {
+        "startLine": 56,
+        "startChar": 94,
+        "endLine": 56,
+        "endChar": 97
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fc4e1b2_5f6006a0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/CheckAcccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-27T07:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f4bc6c0_642f6196",
       "range": {
         "startLine": 56,
         "startChar": 94,
@@ -232,6 +280,30 @@
     },
     {
       "key": {
+        "uuid": "fd4b0818_88b5be6a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/AccessCheckInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-27T07:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cedc17ab_4531f143",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 27
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e827fc9a_d8a7377f",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/AccessCheckInput.java",
         "patchSetId": 4
@@ -243,6 +315,30 @@
       "writtenOn": "2017-04-26T07:24:50Z",
       "side": 1,
       "message": "nit: this should not be necessary. By default, they are initialized as null.",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 27
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57c7f800_15512fcf",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/AccessCheckInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-27T07:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e827fc9a_d8a7377f",
       "range": {
         "startLine": 33,
         "startChar": 4,
@@ -393,6 +489,30 @@
     },
     {
       "key": {
+        "uuid": "e146cc1e_a9b0f0a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-27T07:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfed1bf1_3e4cb582",
+      "range": {
+        "startLine": 75,
+        "startChar": 3,
+        "endLine": 76,
+        "endChar": 36
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a517417b_a79652c8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
         "patchSetId": 4
@@ -413,6 +533,30 @@
       "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71d097ec_f3ff6450",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-27T07:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a517417b_a79652c8",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 5
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -439,6 +583,30 @@
     },
     {
       "key": {
+        "uuid": "73821f88_13c871af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-27T07:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "635a505c_212c3749",
+      "range": {
+        "startLine": 95,
+        "startChar": 25,
+        "endLine": 95,
+        "endChar": 0
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d5c1c83_89e48543",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
         "patchSetId": 4
@@ -459,6 +627,30 @@
       "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2df31f3e_b54cce4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-27T07:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d5c1c83_89e48543",
+      "range": {
+        "startLine": 109,
+        "startChar": 30,
+        "endLine": 109,
+        "endChar": 37
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -485,6 +677,30 @@
     },
     {
       "key": {
+        "uuid": "b4c7e13e_ba409bec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-27T07:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80c08e97_27c25574",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 40
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18329a1e_0a7f30c1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
         "patchSetId": 4
@@ -496,6 +712,30 @@
       "writtenOn": "2017-04-26T07:24:50Z",
       "side": 1,
       "message": "Do we need to include the account id in this message?",
+      "range": {
+        "startLine": 121,
+        "startChar": 31,
+        "endLine": 121,
+        "endChar": 56
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f2f767a_9c3a118c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-27T07:21:07Z",
+      "side": 1,
+      "message": "no, but it\u0027s informational, so we might as well provide as much info as we can.",
+      "parentUuid": "18329a1e_0a7f30c1",
       "range": {
         "startLine": 121,
         "startChar": 31,
@@ -531,6 +771,30 @@
     },
     {
       "key": {
+        "uuid": "4af7117f_f90bb461",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-27T07:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76f8ae8d_94e25ae8",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 50
+      },
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d441853_4d2f0f06",
         "filename": "plugins/replication",
         "patchSetId": 4
@@ -542,6 +806,24 @@
       "writtenOn": "2017-04-25T19:39:02Z",
       "side": 1,
       "message": "unexpected staging of plugin?",
+      "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "176f7740_ecf97631",
+        "filename": "plugins/replication",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-27T07:21:07Z",
+      "side": 1,
+      "message": "I still don\u0027t understand how to use git.",
+      "parentUuid": "6d441853_4d2f0f06",
       "revId": "a6f93dc8545839e6c3c8b8d7af8549fc853752ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

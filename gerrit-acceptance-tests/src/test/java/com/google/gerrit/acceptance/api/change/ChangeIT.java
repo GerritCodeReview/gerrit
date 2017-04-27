@@ -193,16 +193,30 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = result.getChangeId();
     assertThat(gApi.changes().id(changeId).get().isPrivate).isFalse();
 
-    gApi.changes().id(changeId).setPrivate(true);
+    gApi.changes().id(changeId).setPrivate(true, null);
     ChangeInfo info = gApi.changes().id(changeId).get();
     assertThat(info.isPrivate).isTrue();
     assertThat(Iterables.getLast(info.messages).message).isEqualTo("Set private");
     assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_PRIVATE);
 
-    gApi.changes().id(changeId).setPrivate(false);
+    gApi.changes().id(changeId).setPrivate(false, null);
     info = gApi.changes().id(changeId).get();
     assertThat(info.isPrivate).isFalse();
     assertThat(Iterables.getLast(info.messages).message).isEqualTo("Unset private");
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_UNSET_PRIVATE);
+
+    String msg = "This is a security fix that must not be public.";
+    gApi.changes().id(changeId).setPrivate(true, msg);
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.isPrivate).isTrue();
+    assertThat(Iterables.getLast(info.messages).message).isEqualTo("Set private\n\n" + msg);
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_PRIVATE);
+
+    msg = "After this security fix has been released we can make it public now.";
+    gApi.changes().id(changeId).setPrivate(false, msg);
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.isPrivate).isFalse();
+    assertThat(Iterables.getLast(info.messages).message).isEqualTo("Unset private\n\n" + msg);
     assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_UNSET_PRIVATE);
   }
 
@@ -215,7 +229,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isFalse();
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to mark private");
-    gApi.changes().id(result.getChangeId()).setPrivate(true);
+    gApi.changes().id(result.getChangeId()).setPrivate(true, null);
   }
 
   @Test
@@ -225,7 +239,7 @@ public class ChangeIT extends AbstractDaemonTest {
         pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
 
     setApiUser(user);
-    gApi.changes().id(result.getChangeId()).setPrivate(true);
+    gApi.changes().id(result.getChangeId()).setPrivate(true, null);
     // Owner can always access its private changes.
     assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
 
@@ -248,7 +262,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void privateChangeOfOtherUserCanBeAccessedWithPermission() throws Exception {
     PushOneCommit.Result result = createChange();
-    gApi.changes().id(result.getChangeId()).setPrivate(true);
+    gApi.changes().id(result.getChangeId()).setPrivate(true, null);
 
     allow(Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS, "refs/*");
     setApiUser(user);

@@ -377,6 +377,30 @@
       "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "609459d4_a543e0de",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-27T11:55:59Z",
+      "side": 1,
+      "message": "@Wyatt Allen How do I do the for loop please?",
+      "parentUuid": "7f1b330f_a837e0f0",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 23
+      },
+      "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

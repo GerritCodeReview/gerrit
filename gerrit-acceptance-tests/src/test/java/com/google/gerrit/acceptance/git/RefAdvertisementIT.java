@@ -513,7 +513,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
           lsRemoteCommand.call().stream().map(Ref::getName).collect(toList());
       assertWithMessage("Precondition violated").that(initialRefNames).contains(change3RefName);
 
-      gApi.changes().id(c3.getId().get()).setPrivate(true);
+      gApi.changes().id(c3.getId().get()).setPrivate(true, null);
 
       List<String> refNames = lsRemoteCommand.call().stream().map(Ref::getName).collect(toList());
       assertThat(refNames).doesNotContain(change3RefName);
@@ -533,7 +533,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
           lsRemoteCommand.call().stream().map(Ref::getName).collect(toList());
       assertWithMessage("Precondition violated").that(initialRefNames).contains(change3RefName);
 
-      gApi.changes().id(c3.getId().get()).setPrivate(true);
+      gApi.changes().id(c3.getId().get()).setPrivate(true, null);
 
       List<String> refNames = lsRemoteCommand.call().stream().map(Ref::getName).collect(toList());
       assertThat(refNames).contains(change3RefName);

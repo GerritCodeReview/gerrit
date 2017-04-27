@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.api.changes;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -65,16 +66,17 @@ import com.google.gerrit.server.change.ListChangeRobotComments;
 import com.google.gerrit.server.change.Move;
 import com.google.gerrit.server.change.Mute;
 import com.google.gerrit.server.change.PostHashtags;
+import com.google.gerrit.server.change.PostPrivate;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.PublishDraftPatchSet;
 import com.google.gerrit.server.change.PutAssignee;
-import com.google.gerrit.server.change.PutPrivate;
 import com.google.gerrit.server.change.PutTopic;
 import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
 import com.google.gerrit.server.change.Reviewers;
 import com.google.gerrit.server.change.Revisions;
+import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.change.SetReadyForReview;
 import com.google.gerrit.server.change.SetWorkInProgress;
 import com.google.gerrit.server.change.SubmittedTogether;
@@ -133,7 +135,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Check check;
   private final Index index;
   private final Move move;
-  private final PutPrivate putPrivate;
+  private final PostPrivate postPrivate;
   private final DeletePrivate deletePrivate;
   private final Ignore ignore;
   private final Unignore unignore;
@@ -176,7 +178,7 @@ class ChangeApiImpl implements ChangeApi {
       Check check,
       Index index,
       Move move,
-      PutPrivate putPrivate,
+      PostPrivate postPrivate,
       DeletePrivate deletePrivate,
       Ignore ignore,
       Unignore unignore,
@@ -217,7 +219,7 @@ class ChangeApiImpl implements ChangeApi {
     this.check = check;
     this.index = index;
     this.move = move;
-    this.putPrivate = putPrivate;
+    this.postPrivate = postPrivate;
     this.deletePrivate = deletePrivate;
     this.ignore = ignore;
     this.unignore = unignore;
@@ -306,12 +308,13 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public void setPrivate(boolean value) throws RestApiException {
+  public void setPrivate(boolean value, @Nullable String message) throws RestApiException {
     try {
+      SetPrivateOp.Input input = new SetPrivateOp.Input(message);
       if (value) {
-        putPrivate.apply(change, null);
+        postPrivate.apply(change, input);
       } else {
-        deletePrivate.apply(change, null);
+        deletePrivate.apply(change, input);
       }
     } catch (UpdateException e) {
       throw new RestApiException("Cannot change private status", e);

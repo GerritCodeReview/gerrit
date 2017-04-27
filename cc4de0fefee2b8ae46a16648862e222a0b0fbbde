@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e3e25528_04058b19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2017-04-27T22:46:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4655440_73675dbc",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 32
+      },
+      "revId": "cc4de0fefee2b8ae46a16648862e222a0b0fbbde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fea6c5db_5f0c5169",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RateLimitUploadListener.java",
         "patchSetId": 7
@@ -36,6 +60,24 @@
       "writtenOn": "2017-04-27T08:25:15Z",
       "side": 1,
       "message": "This should not happen, but having admin-friendly error message here would be nice",
+      "revId": "cc4de0fefee2b8ae46a16648862e222a0b0fbbde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14dca591_2f0515cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RateLimitUploadListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2017-04-27T22:46:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fea6c5db_5f0c5169",
       "revId": "cc4de0fefee2b8ae46a16648862e222a0b0fbbde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

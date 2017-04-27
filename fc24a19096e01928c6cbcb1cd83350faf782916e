@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81dec738_cfd19a3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-27T13:41:35Z",
+      "side": 1,
+      "message": "keep them sorted alphabetically",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 77
+      },
+      "revId": "fc24a19096e01928c6cbcb1cd83350faf782916e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5fb162_84410b28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-27T13:41:35Z",
+      "side": 1,
+      "message": "Remove this?",
+      "revId": "fc24a19096e01928c6cbcb1cd83350faf782916e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d29452e_e7af7188",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetReadyForReview.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-27T13:41:35Z",
+      "side": 1,
+      "message": "Still need to check if user is change owner.",
+      "revId": "fc24a19096e01928c6cbcb1cd83350faf782916e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fc82363_5839ec65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetWorkInProgress.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-27T13:41:35Z",
+      "side": 1,
+      "message": "Still need to check if user is change owner.",
+      "revId": "fc24a19096e01928c6cbcb1cd83350faf782916e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1411,7 +1411,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
-    insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
+    Change change3 = insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
+    Change change4 = insert(repo, newChange(repo));
 
     gApi.accounts()
         .self()
@@ -1425,16 +1426,25 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             new StarsInput(
                 new HashSet<>(Arrays.asList(StarredChangesUtil.DEFAULT_LABEL, "green", "blue"))));
 
+    gApi.accounts()
+        .self()
+        .setStars(
+            change4.getId().toString(), new StarsInput(new HashSet<>(Arrays.asList("ignore"))));
+
     // check labeled stars
     assertQuery("star:red", change1);
     assertQuery("star:blue", change2, change1);
-    assertQuery("has:stars", change2, change1);
+    assertQuery("has:stars", change4, change2, change1);
 
     // check default star
     assertQuery("has:star", change2);
     assertQuery("is:starred", change2);
     assertQuery("starredby:self", change2);
     assertQuery("star:" + StarredChangesUtil.DEFAULT_LABEL, change2);
+
+    // check ignored
+    assertQuery("is:ignored", change4);
+    assertQuery("-is:ignored", change3, change2, change1);
   }
 
   @Test

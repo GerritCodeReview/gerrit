@@ -120,6 +120,12 @@
      * @event <action key>-tap
      */
 
+    /**
+     * Fires to show an alert when a send is attempted on the non-latest patch.
+     *
+     * @event show-alert
+     */
+
     properties: {
       change: Object,
       actions: {
@@ -227,6 +233,7 @@
     RevisionActions: RevisionActions,
 
     behaviors: [
+      Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,
     ],
 
@@ -787,15 +794,33 @@
       }.bind(this));
     },
 
-    _send: function(method, payload, actionEndpoint, revisionAction,
-        cleanupFn, opt_errorFn) {
-      var url = this.$.restAPI.getChangeActionURL(this.changeNum,
-          revisionAction ? this.patchNum : null, actionEndpoint);
-      return this.$.restAPI.send(method, url, payload,
-          this._handleResponseError, this).then(function(response) {
-            cleanupFn.call(this);
-            return response;
-          }.bind(this));
+    _send: function(method, payload, actionEndpoint, revisionAction, cleanupFn,
+        opt_errorFn) {
+      return this.fetchIsLatestKnown(this.change, this.$.restAPI)
+          .then(function(isLatest) {
+            if (!isLatest) {
+              this.fire('show-alert', {
+                  message: 'Cannot set label: a newer patch has been ' +
+                      'uploaded to this change.',
+                  action: 'Reload',
+                  callback: function() {
+                    // Load the current change without any patch range.
+                    location.href = this.getBaseUrl() + '/c/' +
+                        this.change._number;
+                  }.bind(this),
+              });
+              cleanupFn();
+              return Promise.resolve();
+            }
+
+            var url = this.$.restAPI.getChangeActionURL(this.changeNum,
+                revisionAction ? this.patchNum : null, actionEndpoint);
+            return this.$.restAPI.send(method, url, payload,
+                this._handleResponseError, this).then(function(response) {
+                  cleanupFn.call(this);
+                  return response;
+            }.bind(this));
+        }.bind(this));
     },
 
     _handleAbandonTap: function() {

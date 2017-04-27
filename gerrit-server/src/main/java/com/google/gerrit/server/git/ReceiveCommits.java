@@ -1242,6 +1242,9 @@ public class ReceiveCommits {
     @Option(name = "--merged", usage = "create single change for a merged commit")
     boolean merged;
 
+    @Option(name = "--publish-comments", usage = "publish all draft comments on updated changes")
+    boolean publishComments;
+
     @Option(
       name = "--notify",
       usage =

@@ -16,6 +16,24 @@
       "revId": "e70c496f67dd3eab5bc57a3fa0979a7544f7e7d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9deac53_7dab0ff9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-27T08:25:49Z",
+      "side": 0,
+      "message": "Right, wrong rebase.",
+      "parentUuid": "b92411b7_8ce8af66",
+      "revId": "e70c496f67dd3eab5bc57a3fa0979a7544f7e7d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

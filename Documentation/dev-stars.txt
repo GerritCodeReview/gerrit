@@ -61,6 +61,18 @@ request. They can then decide to remove the ignore star.
 
 The ignore star is represented by the special star label 'ignore'.
 
+[[silent-star]]
+== Silent Star
+
+If the "silent/<patchset_id>"-star is set by a user, and <patchset_id>
+matches the current patch set, the change is always reported as "reviewed"
+in the ChangeInfo.
+
+This allows users to "de-highlight" changes in a dashboard until a new
+patchset has been uploaded.
+
+The ChangeInfo silent-field will show if the change is currently silented.
+
 [[query-stars]]
 == Query Stars
 

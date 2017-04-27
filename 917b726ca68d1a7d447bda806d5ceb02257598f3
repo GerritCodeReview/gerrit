@@ -52,6 +52,24 @@
       "revId": "917b726ca68d1a7d447bda806d5ceb02257598f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12c306d6_8843cf78",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/EmailValidatorIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-27T07:39:41Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/104810",
+      "parentUuid": "847d46d7_aa9e1bbc",
+      "revId": "917b726ca68d1a7d447bda806d5ceb02257598f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

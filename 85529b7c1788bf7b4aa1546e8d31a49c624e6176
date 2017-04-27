@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd2ea462_fea3a979",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-27T07:33:00Z",
+      "side": 1,
+      "message": "So this just shows an identical [Save] button in either case? It would be much easier to remove the `hidden$` binding and leave the `disabled` binding as it was before.\n\nLike I noted in issue 6080, I think the right way to allow setting the status when the full name cannot be edited is to refactor the way mutable works. It only looks at whether the full name is editable and sets the mutability for the whole account info component based on that.\n\n(This is because that feature was written before the status field was available and it didn\u0027t get updated when it was added.)",
+      "range": {
+        "startLine": 123,
+        "startChar": 10,
+        "endLine": 130,
+        "endChar": 74
+      },
+      "revId": "85529b7c1788bf7b4aa1546e8d31a49c624e6176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

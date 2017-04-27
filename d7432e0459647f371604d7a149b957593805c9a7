@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d7db09b2_14e0939d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-04-27T08:52:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad23053_49502d1c",
+      "revId": "d7432e0459647f371604d7a149b957593805c9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cafd098_d48aba14",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-27T08:35:48Z",
       "side": 1,
       "message": "format this file using googl-java-format tool",
+      "revId": "d7432e0459647f371604d7a149b957593805c9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34e32bc0_43046552",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-04-27T08:52:32Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "7cafd098_d48aba14",
       "revId": "d7432e0459647f371604d7a149b957593805c9a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -55,6 +55,9 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
+import com.google.gerrit.extensions.events.AccountIndexedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -85,6 +88,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -128,8 +132,23 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Inject private ExternalIdsUpdate.User externalIdsUpdateFactory;
 
+  @Inject private DynamicSet<AccountIndexedListener> accountIndexedListeners;
+
+  private AccountIndexedCounter accountIndexedCounter;
+  private RegistrationHandle accountIndexEventCounterHandle;
   private ExternalIdsUpdate externalIdsUpdate;
   private List<ExternalId> savedExternalIds;
+
+  @Before
+  public void addAccountIndexEventCounter() {
+    accountIndexedCounter = new AccountIndexedCounter();
+    accountIndexEventCounterHandle = accountIndexedListeners.add(accountIndexedCounter);
+  }
+
+  @After
+  public void removeAccountIndexEventCounter() {
+    accountIndexEventCounterHandle.remove();
+  }
 
   @Before
   public void saveExternalIds() throws Exception {
@@ -190,6 +209,7 @@ public class AccountIT extends AbstractDaemonTest {
     TestAccount foo = accounts.create("foo");
     AccountInfo info = gApi.accounts().id(foo.id.get()).get();
     assertThat(info.username).isEqualTo("foo");
+    accountIndexedCounter.assertReindexOf(foo, 2); // account creation + adding SSH keys
 
     // check user branch
     try (Repository repo = repoManager.openRepository(allUsers);
@@ -211,6 +231,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(info.name).isEqualTo("Administrator");
     assertThat(info.email).isEqualTo("admin@example.com");
     assertThat(info.username).isEqualTo("admin");
+    accountIndexedCounter.assertNoReindex();
   }
 
   @Test
@@ -218,6 +239,7 @@ public class AccountIT extends AbstractDaemonTest {
     AccountInfo info = gApi.accounts().id("admin").get();
     AccountInfo infoByIntId = gApi.accounts().id(info._accountId).get();
     assertThat(info.name).isEqualTo(infoByIntId.name);
+    accountIndexedCounter.assertNoReindex();
   }
 
   @Test
@@ -227,6 +249,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     info = gApi.accounts().id("self").get();
     assertUser(info, admin);
+    accountIndexedCounter.assertNoReindex();
   }
 
   @Test
@@ -234,8 +257,11 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(gApi.accounts().id("user").getActive()).isTrue();
     gApi.accounts().id("user").setActive(false);
     assertThat(gApi.accounts().id("user").getActive()).isFalse();
+    accountIndexedCounter.assertReindexOf(user);
+
     gApi.accounts().id("user").setActive(true);
     assertThat(gApi.accounts().id("user").getActive()).isTrue();
+    accountIndexedCounter.assertReindexOf(user);
   }
 
   @Test
@@ -272,6 +298,7 @@ public class AccountIT extends AbstractDaemonTest {
     change = info(triplet);
     assertThat(change.starred).isNull();
     assertThat(change.stars).isNull();
+    accountIndexedCounter.assertNoReindex();
   }
 
   @Test
@@ -312,6 +339,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(starredChange._number).isEqualTo(r.getChange().getId().get());
     assertThat(starredChange.starred).isNull();
     assertThat(starredChange.stars).containsExactly("red", "yellow").inOrder();
+    accountIndexedCounter.assertNoReindex();
 
     setApiUser(user);
     exception.expect(AuthException.class);
@@ -348,17 +376,20 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts()
         .self()
         .setStars(triplet, new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "blue", IGNORE_LABEL)));
+    accountIndexedCounter.assertNoReindex();
   }
 
   @Test
   public void ignoreChange() throws Exception {
+    TestAccount user2 = accounts.user2();
+    accountIndexedCounter.clear();
+
     PushOneCommit.Result r = createChange();
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
-    TestAccount user2 = accounts.user2();
     in = new AddReviewerInput();
     in.reviewer = user2.email;
     gApi.changes().id(r.getChangeId()).addReviewer(in);
@@ -372,6 +403,7 @@ public class AccountIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     assertThat(messages.get(0).rcpt()).containsExactly(user2.emailAddress);
+    accountIndexedCounter.assertNoReindex();
   }
 
   @Test
@@ -392,6 +424,7 @@ public class AccountIT extends AbstractDaemonTest {
     Message message = messages.get(0);
     assertThat(message.rcpt()).containsExactly(user.emailAddress);
     assertMailReplyTo(message, admin.email);
+    accountIndexedCounter.assertNoReindex();
   }
 
   @Test
@@ -406,6 +439,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     List<AccountInfo> emptyResult = gApi.accounts().suggestAccounts("unknown").get();
     assertThat(emptyResult).isEmpty();
+    accountIndexedCounter.assertNoReindex();
   }
 
   @Test
@@ -418,6 +452,7 @@ public class AccountIT extends AbstractDaemonTest {
       input.email = email;
       input.noConfirmation = true;
       gApi.accounts().self().addEmail(input);
+      accountIndexedCounter.assertReindexOf(admin);
     }
 
     resetCurrentApiUser();
@@ -450,6 +485,7 @@ public class AccountIT extends AbstractDaemonTest {
         assertThat(e).hasMessageThat().isEqualTo("invalid email address");
       }
     }
+    accountIndexedCounter.assertNoReindex();
   }
 
   @Test
@@ -474,7 +510,9 @@ public class AccountIT extends AbstractDaemonTest {
     resetCurrentApiUser();
     assertThat(getEmails()).contains(email);
 
+    accountIndexedCounter.clear();
     gApi.accounts().self().deleteEmail(input.email);
+    accountIndexedCounter.assertReindexOf(admin);
 
     resetCurrentApiUser();
     assertThat(getEmails()).doesNotContain(email);
@@ -491,6 +529,7 @@ public class AccountIT extends AbstractDaemonTest {
             ExternalId.createWithEmail(ExternalId.Key.parse(extId2), admin.id, email));
     externalIdsUpdateFactory.create().insert(db, extIds);
     accountCache.evict(admin.id);
+    accountIndexedCounter.assertReindexOf(admin);
     assertThat(
             gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
         .containsAllOf(extId1, extId2);
@@ -499,6 +538,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(getEmails()).contains(email);
 
     gApi.accounts().self().deleteEmail(email);
+    accountIndexedCounter.assertReindexOf(admin, 2); // for each deleted external ID once
 
     resetCurrentApiUser();
     assertThat(getEmails()).doesNotContain(email);
@@ -514,6 +554,7 @@ public class AccountIT extends AbstractDaemonTest {
     input.email = email;
     input.noConfirmation = true;
     gApi.accounts().id(user.id.get()).addEmail(input);
+    accountIndexedCounter.assertReindexOf(user);
 
     setApiUser(user);
     assertThat(getEmails()).contains(email);
@@ -521,6 +562,7 @@ public class AccountIT extends AbstractDaemonTest {
     // admin can delete email of user
     setApiUser(admin);
     gApi.accounts().id(user.id.get()).deleteEmail(email);
+    accountIndexedCounter.assertReindexOf(user);
 
     setApiUser(user);
     assertThat(getEmails()).doesNotContain(email);
@@ -563,6 +605,7 @@ public class AccountIT extends AbstractDaemonTest {
       admin.status = status;
       info = gApi.accounts().self().get();
       assertUser(info, admin);
+      accountIndexedCounter.assertReindexOf(admin);
     }
   }
 
@@ -615,6 +658,7 @@ public class AccountIT extends AbstractDaemonTest {
     exception.expect(TransportException.class);
     exception.expectMessage("Remote does not have " + otherUserRefName + " available for fetch.");
     fetch(allUsersRepo, otherUserRefName + ":otherUserRef");
+    accountIndexedCounter.assertNoReindex();
   }
 
   @Test
@@ -624,9 +668,11 @@ public class AccountIT extends AbstractDaemonTest {
     allUsersRepo.reset("userRef");
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
     push.to(RefNames.refsUsers(admin.id)).assertOkStatus();
+    accountIndexedCounter.assertReindexOf(admin);
 
     push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
     push.to(RefNames.REFS_USERS_SELF).assertOkStatus();
+    accountIndexedCounter.assertReindexOf(admin);
   }
 
   @Test
@@ -638,16 +684,20 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
     PushOneCommit.Result r = push.to(MagicBranch.NEW_CHANGE + userRefName);
     r.assertOkStatus();
+    accountIndexedCounter.assertNoReindex();
     assertThat(r.getChange().change().getDest().get()).isEqualTo(userRefName);
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).current().submit();
+    accountIndexedCounter.assertReindexOf(admin);
 
     push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
     r = push.to(MagicBranch.NEW_CHANGE + RefNames.REFS_USERS_SELF);
     r.assertOkStatus();
+    accountIndexedCounter.assertNoReindex();
     assertThat(r.getChange().change().getDest().get()).isEqualTo(userRefName);
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).current().submit();
+    accountIndexedCounter.assertReindexOf(admin);
   }
 
   @Test
@@ -671,6 +721,7 @@ public class AccountIT extends AbstractDaemonTest {
             WatchConfig.WATCH_CONFIG,
             wc.toText());
     push.to(RefNames.REFS_USERS_SELF).assertOkStatus();
+    accountIndexedCounter.assertReindexOf(admin);
 
     String invalidNotifyValue = "]invalid[";
     wc.setString(WatchConfig.PROJECT, project.get(), WatchConfig.KEY_NOTIFY, invalidNotifyValue);
@@ -774,6 +825,7 @@ public class AccountIT extends AbstractDaemonTest {
     addExternalIdEmail(admin, "test5@example.com");
     externalIdsUpdate.insert(db, ExternalId.create("foo", "myId", user.getId()));
     accountCache.evict(user.getId());
+    accountIndexedCounter.assertReindexOf(user);
 
     TestKey key = validKeyWithSecondUserId();
     addGpgKey(key.getPublicKeyArmored());
@@ -794,6 +846,7 @@ public class AccountIT extends AbstractDaemonTest {
     }
     gApi.accounts().self().putGpgKeys(toAdd, ImmutableList.<String>of());
     assertKeys(keys);
+    accountIndexedCounter.assertReindexOf(admin);
   }
 
   @Test
@@ -805,6 +858,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertKeys(key);
 
     gApi.accounts().self().gpgKey(id).delete();
+    accountIndexedCounter.assertReindexOf(admin);
     assertKeys();
 
     exception.expect(ResourceNotFoundException.class);
@@ -829,6 +883,7 @@ public class AccountIT extends AbstractDaemonTest {
                 ImmutableList.of(key5.getKeyIdString()));
     assertThat(infos.keySet()).containsExactly(key1.getKeyIdString(), key2.getKeyIdString());
     assertKeys(key1, key2);
+    accountIndexedCounter.assertReindexOf(admin);
 
     infos =
         gApi.accounts()
@@ -840,6 +895,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertKeyMapContains(key5, infos);
     assertThat(infos.get(key1.getKeyIdString()).key).isNull();
     assertKeys(key2, key5);
+    accountIndexedCounter.assertReindexOf(admin);
 
     exception.expect(BadRequestException.class);
     exception.expectMessage("Cannot both add and delete key: " + keyToString(key2.getPublicKey()));
@@ -862,6 +918,7 @@ public class AccountIT extends AbstractDaemonTest {
     SshKeyInfo key = info.get(0);
     String inital = AccountCreator.publicKey(admin.sshKey, admin.email);
     assertThat(key.sshPublicKey).isEqualTo(inital);
+    accountIndexedCounter.assertNoReindex();
 
     // Add a new key
     String newKey = AccountCreator.publicKey(AccountCreator.genSshKey(), admin.email);
@@ -869,12 +926,14 @@ public class AccountIT extends AbstractDaemonTest {
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
     assertSequenceNumbers(info);
+    accountIndexedCounter.assertReindexOf(admin);
 
     // Add an existing key (the request succeeds, but the key isn't added again)
     gApi.accounts().self().addSshKey(inital);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
     assertSequenceNumbers(info);
+    accountIndexedCounter.assertNoReindex();
 
     // Add another new key
     String newKey2 = AccountCreator.publicKey(AccountCreator.genSshKey(), admin.email);
@@ -882,6 +941,7 @@ public class AccountIT extends AbstractDaemonTest {
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(3);
     assertSequenceNumbers(info);
+    accountIndexedCounter.assertReindexOf(admin);
 
     // Delete second key
     gApi.accounts().self().deleteSshKey(2);
@@ -889,6 +949,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(info).hasSize(2);
     assertThat(info.get(0).seq).isEqualTo(1);
     assertThat(info.get(1).seq).isEqualTo(3);
+    accountIndexedCounter.assertReindexOf(admin);
   }
 
   // reindex is tested by {@link AbstractQueryAccountsTest#reindex}
@@ -897,10 +958,12 @@ public class AccountIT extends AbstractDaemonTest {
     // admin can reindex any account
     setApiUser(admin);
     gApi.accounts().id(user.username).index();
+    accountIndexedCounter.assertReindexOf(user);
 
     // user can reindex own account
     setApiUser(user);
     gApi.accounts().self().index();
+    accountIndexedCounter.assertReindexOf(user);
 
     // user cannot reindex any account
     exception.expect(AuthException.class);
@@ -1005,11 +1068,15 @@ public class AccountIT extends AbstractDaemonTest {
         db, ExternalId.createWithEmail(name("test"), email, account.getId(), email));
     // Clear saved AccountState and ExternalIds.
     accountCache.evict(account.getId());
+    accountIndexedCounter.assertReindexOf(account);
     setApiUser(account);
   }
 
   private Map<String, GpgKeyInfo> addGpgKey(String armored) throws Exception {
-    return gApi.accounts().self().putGpgKeys(ImmutableList.of(armored), ImmutableList.<String>of());
+    Map<String, GpgKeyInfo> gpgKeys =
+        gApi.accounts().self().putGpgKeys(ImmutableList.of(armored), ImmutableList.<String>of());
+    accountIndexedCounter.assertReindexOf(gApi.accounts().self().get());
+    return gpgKeys;
   }
 
   private void assertUser(AccountInfo info, TestAccount account) throws Exception {
@@ -1026,5 +1093,53 @@ public class AccountIT extends AbstractDaemonTest {
   private void assertEmail(Set<Account.Id> accounts, TestAccount expectedAccount) {
     assertThat(accounts).hasSize(1);
     assertThat(Iterables.getOnlyElement(accounts)).isEqualTo(expectedAccount.getId());
+  }
+
+  private static class AccountIndexedCounter implements AccountIndexedListener {
+    private final Map<Integer, Integer> countsByAccount = new HashMap<>();
+
+    @Override
+    public synchronized void onAccountIndexed(int id) {
+      Integer count = countsByAccount.get(id);
+      if (count == null) {
+        count = 1;
+      } else {
+        count++;
+      }
+      countsByAccount.put(id, count);
+    }
+
+    synchronized void clear() {
+      countsByAccount.clear();
+    }
+
+    int getCount(Account.Id accountId) {
+      Integer count = countsByAccount.get(accountId.get());
+      return count != null ? count : 0;
+    }
+
+    void assertReindexOf(TestAccount testAccount) {
+      assertReindexOf(testAccount, 1);
+    }
+
+    void assertReindexOf(AccountInfo accountInfo) {
+      assertReindexOf(new Account.Id(accountInfo._accountId), 1);
+    }
+
+    void assertReindexOf(TestAccount testAccount, int expectedCount) {
+      assertThat(getCount(testAccount.id)).isEqualTo(expectedCount);
+      assertThat(countsByAccount).hasSize(1);
+      clear();
+    }
+
+    void assertReindexOf(Account.Id accountId, int expectedCount) {
+      assertThat(getCount(accountId)).isEqualTo(expectedCount);
+      assertThat(countsByAccount).hasSize(1);
+      clear();
+    }
+
+    void assertNoReindex() {
+      assertThat(countsByAccount).isEmpty();
+    }
   }
 }

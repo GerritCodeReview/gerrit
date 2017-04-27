@@ -1,0 +1,69 @@
+{
+  "extends": ["eslint:recommended", "google"],
+  "installedESLint": true,
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "globals": {
+    "__dirname": false,
+    "app": false,
+    "page": false,
+    "Polymer": false,
+    "process": false,
+    "require": false,
+    "Gerrit": false,
+    "Promise": false,
+    "assert": false,
+    "test": false,
+    "flushAsynchronousOperations": false
+  },
+  "rules": {
+    "arrow-parens": ["error", "as-needed"],
+    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+    "camelcase": "off",
+    "comma-dangle": ["error", "always-multiline"],
+    "indent": ["error", 2, {
+      "MemberExpression": 2,
+      "FunctionDeclaration": {"body": 1, "parameters": 2},
+      "FunctionExpression": {"body": 1, "parameters": 2},
+      "CallExpression": {"arguments": 2},
+      "ArrayExpression": 1,
+      "ObjectExpression": 1,
+      "SwitchCase": 1
+    }],
+    "max-len": [
+      "error",
+      80,
+      2,
+      {"ignoreComments": true}
+    ],
+    "new-cap": ["error", { "capIsNewExceptions": ["Polymer"] }],
+    "no-console": "off",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "BinaryExpression > CallExpression > MemberExpression > Identifier[name = 'indexOf']",
+        "message": "Prefer includes/startsWith to indexOf."
+      },
+      {
+        "selector": "ExpressionStatement > CallExpression > MemberExpression > Identifier[name = 'forEach']",
+        "message": "Prefer for-of to Array.forEach."
+      }
+    ],
+    "no-undef": "off",
+    "no-var": "error",
+    "object-shorthand": ["error", "always"],
+    "prefer-arrow-callback": "error",
+    "prefer-const": "error",
+    "prefer-spread": "error",
+    "quote-props": ["error", "consistent-as-needed"],
+    "require-jsdoc": "off",
+    "semi": [2, "always"],
+    "template-curly-spacing": "error",
+    "valid-jsdoc": "off"
+  },
+  "plugins": [
+    "html"
+  ]
+}

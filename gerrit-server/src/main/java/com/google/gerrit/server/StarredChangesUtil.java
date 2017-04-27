@@ -147,6 +147,7 @@ public class StarredChangesUtil {
 
   public static final String DEFAULT_LABEL = "star";
   public static final String IGNORE_LABEL = "ignore";
+  public static final String MUTE_LABEL = "mute";
   public static final ImmutableSortedSet<String> DEFAULT_LABELS =
       ImmutableSortedSet.of(DEFAULT_LABEL);
 

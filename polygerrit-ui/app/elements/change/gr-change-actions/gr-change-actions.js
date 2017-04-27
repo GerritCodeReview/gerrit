@@ -58,6 +58,7 @@
     PUBLISH: 'publish',
     REBASE: 'rebase',
     SUBMIT: 'submit',
+    DOWNLOAD: 'download',
   };
 
   var ActionLoadingLabels = {
@@ -93,6 +94,15 @@
     PRIMARY: 3,
     REVIEW: -3,
     REVISION: 1,
+  };
+
+  var DOWNLOAD_ACTION = {
+    enabled: true,
+    label: 'Download patch',
+    title: 'Open download dialog',
+    __key: 'download',
+    __primary: false,
+    __type: 'revision',
   };
 
   Polymer({
@@ -185,7 +195,11 @@
             {
               type: ActionType.REVISION,
               key: RevisionActions.CHERRYPICK,
-            }
+            },
+            {
+              type: ActionType.REVISION,
+              key: RevisionActions.DOWNLOAD,
+            },
           ];
           return value;
         },
@@ -355,6 +369,12 @@
               additionalActions.length === 0;
       this._actionLoadingMessage = null;
       this._disabledMenuActions = [];
+
+      var revisionActions = revisionActionsChangeRecord.base || {};
+      if (Object.keys(revisionActions).length !== 0 &&
+          !revisionActions.download) {
+        this.set('revisionActions.download', DOWNLOAD_ACTION);
+      }
     },
 
     _getValuesFor: function(obj) {
@@ -575,6 +595,9 @@
         case RevisionActions.CHERRYPICK:
           this._handleCherrypickTap();
           break;
+        case RevisionActions.DOWNLOAD:
+          this._handleDownloadTap();
+          break;
         case RevisionActions.SUBMIT:
           if (!this._canSubmitChange()) {
             return;
@@ -731,26 +754,26 @@
     _handleResponse: function(action, response) {
       if (!response) { return; }
       return this.$.restAPI.getResponseObject(response).then(function(obj) {
-          switch (action.__key) {
-            case ChangeActions.REVERT:
-              this._setLabelValuesOnRevert(obj.change_id);
-              /* falls through */
-            case RevisionActions.CHERRYPICK:
-              page.show(this.changePath(obj._number));
-              break;
-            case ChangeActions.DELETE:
-            case RevisionActions.DELETE:
-              if (action.__type === ActionType.CHANGE) {
-                page.show('/');
-              } else {
-                page.show(this.changePath(this.changeNum));
-              }
-              break;
-            default:
-              this.dispatchEvent(new CustomEvent('reload-change',
-                  {detail: {action: action.__key}, bubbles: false}));
-              break;
-          }
+        switch (action.__key) {
+          case ChangeActions.REVERT:
+            this._setLabelValuesOnRevert(obj.change_id);
+            /* falls through */
+          case RevisionActions.CHERRYPICK:
+            page.show(this.changePath(obj._number));
+            break;
+          case ChangeActions.DELETE:
+          case RevisionActions.DELETE:
+            if (action.__type === ActionType.CHANGE) {
+              page.show('/');
+            } else {
+              page.show(this.changePath(this.changeNum));
+            }
+            break;
+          default:
+            this.dispatchEvent(new CustomEvent('reload-change',
+                {detail: {action: action.__key}, bubbles: false}));
+            break;
+        }
       }.bind(this));
     },
 
@@ -772,7 +795,7 @@
           this._handleResponseError, this).then(function(response) {
             cleanupFn.call(this);
             return response;
-      }.bind(this));
+          }.bind(this));
     },
 
     _handleAbandonTap: function() {
@@ -782,6 +805,10 @@
     _handleCherrypickTap: function() {
       this.$.confirmCherrypick.branch = '';
       this._showActionDialog(this.$.confirmCherrypick);
+    },
+
+    _handleDownloadTap: function() {
+      this.fire('download-tap', null, {bubbles: false});
     },
 
     _handleDeleteTap: function() {
@@ -796,12 +823,10 @@
      * @param {splices} primariesRecord
      * @param {splices} additionalActionsRecord
      * @param {Object} change The change object.
-     * @param {Object} priorityOverridesRecord
      * @return {Array}
      */
     _computeAllActions: function(changeActionsRecord, revisionActionsRecord,
-        primariesRecord, additionalActionsRecord, change,
-        priorityOverridesRecord) {
+        primariesRecord, additionalActionsRecord, change) {
       var revisionActionValues = this._getActionValues(revisionActionsRecord,
           primariesRecord, additionalActionsRecord, ActionType.REVISION);
       var changeActionValues = this._getActionValues(changeActionsRecord,
@@ -851,8 +876,7 @@
       }
     },
 
-    _computeTopLevelActions: function(actionRecord, hiddenActionsRecord,
-        overflowActionsRecord) {
+    _computeTopLevelActions: function(actionRecord, hiddenActionsRecord) {
       var hiddenActions = hiddenActionsRecord.base || [];
       return actionRecord.base.filter(function(a) {
         var overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
@@ -860,8 +884,7 @@
       }.bind(this));
     },
 
-    _computeMenuActions: function(actionRecord, hiddenActionsRecord,
-        overflowActionsRecord) {
+    _computeMenuActions: function(actionRecord, hiddenActionsRecord) {
       var hiddenActions = hiddenActionsRecord.base || [];
       return actionRecord.base.filter(function(a) {
         var overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -32,6 +33,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
@@ -43,6 +45,61 @@ public abstract class JdbcAccountPatchReviewStore
     implements AccountPatchReviewStore, LifecycleListener {
   private static final Logger log = LoggerFactory.getLogger(JdbcAccountPatchReviewStore.class);
 
+  private static final int PROTOCOL_BEGIN_INDEX = 5;
+  private static final String DEFAULT_PROTOCOL = "h2";
+
+  private abstract static class StoreConfig<T extends JdbcAccountPatchReviewStore> {
+    final Class<T> clazz;
+    final String driverClassName;
+
+    StoreConfig(Class<T> clazz, String driverClassName) {
+      this.clazz = clazz;
+      this.driverClassName = driverClassName;
+    }
+
+    public abstract T getStore(Config cfg, SitePaths paths);
+  }
+
+  private static final StoreConfig<?> DEFAULT_STORE_CONFIG =
+      new StoreConfig<H2AccountPatchReviewStore>(H2AccountPatchReviewStore.class, "org.h2.Driver") {
+        @Override
+        public H2AccountPatchReviewStore getStore(Config cfg, SitePaths paths) {
+          return new H2AccountPatchReviewStore(cfg, paths);
+        }
+      };
+
+  private static final Map<String, StoreConfig<?>> dbMap =
+      ImmutableMap.<String, StoreConfig<?>>builder()
+          .put(DEFAULT_PROTOCOL, DEFAULT_STORE_CONFIG)
+          .put(
+              "postgresql",
+              new StoreConfig<PostgresqlAccountPatchReviewStore>(
+                  PostgresqlAccountPatchReviewStore.class, "org.postgresql.Driver") {
+                @Override
+                public PostgresqlAccountPatchReviewStore getStore(Config cfg, SitePaths paths) {
+                  return new PostgresqlAccountPatchReviewStore(cfg, paths);
+                }
+              })
+          .put(
+              "mysql",
+              new StoreConfig<MysqlAccountPatchReviewStore>(
+                  MysqlAccountPatchReviewStore.class, "com.mysql.jdbc.Driver") {
+                @Override
+                public MysqlAccountPatchReviewStore getStore(Config cfg, SitePaths paths) {
+                  return new MysqlAccountPatchReviewStore(cfg, paths);
+                }
+              })
+          .put(
+              "mariadb",
+              new StoreConfig<MariaDBAccountPatchReviewStore>(
+                  MariaDBAccountPatchReviewStore.class, "org.mariadb.jdbc.Driver") {
+                @Override
+                public MariaDBAccountPatchReviewStore getStore(Config cfg, SitePaths paths) {
+                  return new MariaDBAccountPatchReviewStore(cfg, paths);
+                }
+              })
+          .build();
+
   public static class Module extends LifecycleModule {
     private final Config cfg;
 
@@ -53,26 +110,9 @@ public abstract class JdbcAccountPatchReviewStore
     @Override
     protected void configure() {
       String url = cfg.getString("accountPatchReviewDb", null, "url");
-      if (url == null || url.contains("h2")) {
-        DynamicItem.bind(binder(), AccountPatchReviewStore.class)
-            .to(H2AccountPatchReviewStore.class);
-        listener().to(H2AccountPatchReviewStore.class);
-      } else if (url.contains("postgresql")) {
-        DynamicItem.bind(binder(), AccountPatchReviewStore.class)
-            .to(PostgresqlAccountPatchReviewStore.class);
-        listener().to(PostgresqlAccountPatchReviewStore.class);
-      } else if (url.contains("mysql")) {
-        DynamicItem.bind(binder(), AccountPatchReviewStore.class)
-            .to(MysqlAccountPatchReviewStore.class);
-        listener().to(MysqlAccountPatchReviewStore.class);
-      } else if (url.contains("mariadb")) {
-        DynamicItem.bind(binder(), AccountPatchReviewStore.class)
-            .to(MariaDBAccountPatchReviewStore.class);
-        listener().to(MariaDBAccountPatchReviewStore.class);
-      } else {
-        throw new IllegalArgumentException(
-            "unsupported driver type for account patch reviews db: " + url);
-      }
+      StoreConfig<?> storeConfig = getStoreConfig(url);
+      DynamicItem.bind(binder(), AccountPatchReviewStore.class).to(storeConfig.clazz);
+      listener().to(storeConfig.clazz);
     }
   }
 
@@ -81,18 +121,37 @@ public abstract class JdbcAccountPatchReviewStore
   public static JdbcAccountPatchReviewStore createAccountPatchReviewStore(
       Config cfg, SitePaths sitePaths) {
     String url = cfg.getString("accountPatchReviewDb", null, "url");
-    if (url == null || url.contains("h2")) {
-      return new H2AccountPatchReviewStore(cfg, sitePaths);
-    } else if (url.contains("postgresql")) {
-      return new PostgresqlAccountPatchReviewStore(cfg, sitePaths);
-    } else if (url.contains("mysql")) {
-      return new MysqlAccountPatchReviewStore(cfg, sitePaths);
-    } else if (url.contains("mariadb")) {
-      return new MariaDBAccountPatchReviewStore(cfg, sitePaths);
-    } else {
+    StoreConfig<?> storeConfig = getStoreConfig(url);
+    return storeConfig.getStore(cfg, sitePaths);
+  }
+
+  private static StoreConfig<?> getStoreConfig(String url) {
+    String protocol = getProtocol(url);
+    StoreConfig<?> storeConfig = dbMap.get(protocol);
+    if (storeConfig == null) {
       throw new IllegalArgumentException(
           "unsupported driver type for account patch reviews db: " + url);
     }
+    return storeConfig;
+  }
+
+  private static String getProtocol(String url) {
+    if (url == null) {
+      return DEFAULT_PROTOCOL;
+    }
+    if (url.length() < PROTOCOL_BEGIN_INDEX) {
+      failOnUnrecognizedProtocol(url);
+    }
+    int protocolEndIndex = url.indexOf(":", PROTOCOL_BEGIN_INDEX);
+    if (protocolEndIndex == -1) {
+      failOnUnrecognizedProtocol(url);
+    }
+    return url.substring(PROTOCOL_BEGIN_INDEX, protocolEndIndex);
+  }
+
+  private static void failOnUnrecognizedProtocol(String url) {
+     throw new IllegalArgumentException(
+       "unrecognized protocol for account patch reviewd db:" + url);
   }
 
   protected JdbcAccountPatchReviewStore(Config cfg, SitePaths sitePaths) {
@@ -113,15 +172,8 @@ public abstract class JdbcAccountPatchReviewStore
 
   protected static DataSource createDataSource(String url) {
     BasicDataSource datasource = new BasicDataSource();
-    if (url.contains("postgresql")) {
-      datasource.setDriverClassName("org.postgresql.Driver");
-    } else if (url.contains("h2")) {
-      datasource.setDriverClassName("org.h2.Driver");
-    } else if (url.contains("mysql")) {
-      datasource.setDriverClassName("com.mysql.jdbc.Driver");
-    } else if (url.contains("mariadb")) {
-      datasource.setDriverClassName("org.mariadb.jdbc.Driver");
-    }
+    StoreConfig<?> storeConfig = getStoreConfig(url);
+    datasource.setDriverClassName(storeConfig.driverClassName);
     datasource.setUrl(url);
     datasource.setMaxActive(50);
     datasource.setMinIdle(4);

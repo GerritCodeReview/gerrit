@@ -598,6 +598,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new SubmittablePredicate(SubmitRecord.Status.OK);
     }
 
+    if ("ignored".equalsIgnoreCase(value)) {
+      return star("ignore");
+    }
+
     try {
       return status(value);
     } catch (IllegalArgumentException e) {

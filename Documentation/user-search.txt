@@ -367,6 +367,10 @@ destination branch.
 Mergeability of abandoned changes is not computed. This operator will
 not find any abandoned but mergeable changes.
 
+[[ignored]]
+is:ignored::
++
+True if the change is ignored. Same as `star:ignore`.
 
 [[private]]
 is:private::

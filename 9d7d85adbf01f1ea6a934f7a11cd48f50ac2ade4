@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9af2c74_ef574228",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2017-04-27T14:24:28Z",
+      "side": 1,
+      "message": "I love it! Thanks Gustaf!",
+      "revId": "9d7d85adbf01f1ea6a934f7a11cd48f50ac2ade4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

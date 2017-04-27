@@ -665,5 +665,14 @@ limitations under the License.
 
       assert.isTrue(cancelHandler.called);
     });
+
+    test('_computeMessagePlaceholder', function() {
+      assert.equal(
+          element._computeMessagePlaceholder(false),
+          'Say something nice...');
+      assert.equal(
+          element._computeMessagePlaceholder(true),
+          'Add a note for your reviewers...');
+    });
   });
 </script>

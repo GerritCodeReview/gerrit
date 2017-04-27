@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcee3b8f_1f35c330",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-27T09:30:58Z",
+      "side": 1,
+      "message": "It seems to me that the real problem is that it uses the file cursor when it doesn\u0027t need to. It sets the file cursor to the given index, and then asks the file cursor for that index to use in navigation.\n\nBut the file cursor may not be initialized, and it doesn\u0027t make sense to wait for it to initialize when the index that we want is already known.\n\nCan we just use the index directly if it\u0027s given?\n\nvar index \u003d opt_index \u003d\u003d\u003d undefined ? this.$.fileCursor.index : opt_index;\npage.show(this._computeDiffURL(this.changeNum, this.patchRange,\n          this._files[index].__path));",
+      "range": {
+        "startLine": 583,
+        "startChar": 6,
+        "endLine": 584,
+        "endChar": 56
+      },
+      "revId": "b44304973c6d2a4dcea08e69ed20a150e24e8532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f784dbef_084afa49",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-04-27T16:05:27Z",
+      "side": 0,
+      "message": "Ah, yisss\nhttps://imgur.com/WgNsvMx",
+      "range": {
+        "startLine": 147,
+        "startChar": 7,
+        "endLine": 147,
+        "endChar": 18
+      },
+      "revId": "6f8b5e333875ffe0939387c3f2ab307b8a1c4487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

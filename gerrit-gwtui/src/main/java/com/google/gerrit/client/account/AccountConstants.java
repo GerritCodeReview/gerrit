@@ -67,6 +67,8 @@ public interface AccountConstants extends Constants {
 
   String signedOffBy();
 
+  String publishCommentsOnPush();
+
   String myMenu();
 
   String myMenuInfo();

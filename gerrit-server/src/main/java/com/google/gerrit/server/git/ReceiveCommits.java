@@ -1304,6 +1304,7 @@ public class ReceiveCommits {
     CmdLineParser clp;
     Set<String> hashtags = new HashSet<>();
     NotesMigration notesMigration;
+    private final boolean defaultPublishComments;
 
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
     List<ObjectId> base;
@@ -1338,7 +1339,10 @@ public class ReceiveCommits {
       aliases = {"-p"},
       usage = "publish all draft comments on updated changes"
     )
-    boolean publishComments;
+    private boolean publishComments;
+
+    @Option(name = "--no-publish-comments", usage = "do not publish draft comments")
+    private boolean noPublishComments;
 
     @Option(
       name = "--notify",
@@ -1423,11 +1427,17 @@ public class ReceiveCommits {
       //TODO(dpursehouse): validate hashtags
     }
 
-    MagicBranchInput(ReceiveCommand cmd, LabelTypes labelTypes, NotesMigration notesMigration) {
+    MagicBranchInput(
+        IdentifiedUser user,
+        ReceiveCommand cmd,
+        LabelTypes labelTypes,
+        NotesMigration notesMigration) {
       this.cmd = cmd;
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
       this.labelTypes = labelTypes;
       this.notesMigration = notesMigration;
+      this.defaultPublishComments =
+          user.getAccount().getGeneralPreferencesInfo().publishCommentsOnPush;
     }
 
     MailRecipients getMailRecipients() {
@@ -1441,6 +1451,15 @@ public class ReceiveCommits {
       accountsToNotify.putAll(RecipientType.CC, ccs);
       accountsToNotify.putAll(RecipientType.BCC, bccs);
       return accountsToNotify;
+    }
+
+    boolean shouldPublishComments() {
+      if (publishComments) {
+        return true;
+      } else if (noPublishComments) {
+        return false;
+      }
+      return defaultPublishComments;
     }
 
     String parse(
@@ -1512,7 +1531,7 @@ public class ReceiveCommits {
     }
 
     logDebug("Found magic branch {}", cmd.getRefName());
-    magicBranch = new MagicBranchInput(cmd, labelTypes, notesMigration);
+    magicBranch = new MagicBranchInput(user, cmd, labelTypes, notesMigration);
     magicBranch.reviewer.addAll(reviewersFromCommandLine);
     magicBranch.cc.addAll(ccFromCommandLine);
 
@@ -1582,6 +1601,12 @@ public class ReceiveCommits {
 
     if (magicBranch.isPrivate && magicBranch.removePrivate) {
       reject(cmd, "the options 'private' and 'remove-private' are mutually exclusive");
+      return;
+    }
+
+    if (magicBranch.publishComments && magicBranch.noPublishComments) {
+      reject(
+          cmd, "the options 'publish-comments' and 'no-publish-comments' are mutually exclusive");
       return;
     }
 

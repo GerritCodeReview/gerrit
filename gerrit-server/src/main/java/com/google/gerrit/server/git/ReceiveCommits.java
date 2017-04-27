@@ -1334,6 +1334,13 @@ public class ReceiveCommits {
     boolean merged;
 
     @Option(
+      name = "--publish-comments",
+      aliases = {"-p"},
+      usage = "publish all draft comments on updated changes"
+    )
+    boolean publishComments;
+
+    @Option(
       name = "--notify",
       usage =
           "Notify handling that defines to whom email notifications "

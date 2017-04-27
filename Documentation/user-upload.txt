@@ -244,6 +244,16 @@ option:
 git push refs parameter does not allow spaces.  Use the '_' character instead,
 it will then be applied as "This is a rebase on master".
 
+[[publish-comments]]
+==== Publish Draft Comments
+
+If you have draft comments on the change(s) that are updated by the push, the
+`publish-comments` (or `p`) option will cause them to be published:
+
+----
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%p
+----
+
 [[review_labels]]
 ==== Review Labels
 

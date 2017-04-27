@@ -98,6 +98,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   private final ChangeMapping mapping;
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
+  final int version;
 
   @AssistedInject
   ElasticChangeIndex(
@@ -111,6 +112,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     super(cfg, fillArgs, sitePaths, schema, clientBuilder, CHANGES_PREFIX);
     this.db = db;
     this.changeDataFactory = changeDataFactory;
+    this.version = cfg.getInt("elasticsearch", null, "version", 2);
     mapping = new ChangeMapping(schema);
   }
 
@@ -264,7 +266,11 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     private ChangeData toChangeData(JsonElement json) {
       JsonElement sourceElement = json.getAsJsonObject().get("_source");
       if (sourceElement == null) {
-        sourceElement = json.getAsJsonObject().get("fields");
+        if (version >= 5) {
+          sourceElement = json.getAsJsonObject().get("stored_fields");
+        } else {
+          sourceElement = json.getAsJsonObject().get("fields");
+        }
       }
       JsonObject source = sourceElement.getAsJsonObject();
       JsonElement c = source.get(ChangeField.CHANGE.getName());

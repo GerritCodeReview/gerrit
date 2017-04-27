@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
@@ -1187,6 +1188,7 @@ public class ReceiveCommits {
     final ReceiveCommand cmd;
     final LabelTypes labelTypes;
     final NotesMigration notesMigration;
+    private final boolean defaultPublishComments;
     Branch.NameKey dest;
     RefControl ctl;
     Set<Account.Id> reviewer = Sets.newLinkedHashSet();
@@ -1236,7 +1238,14 @@ public class ReceiveCommits {
     boolean merged;
 
     @Option(name = "--publish-comments", usage = "publish all draft comments on updated changes")
-    boolean publishComments;
+    private boolean publishComments;
+
+    @Option(
+      name = "--no-publish-comments",
+      aliases = {"--np"},
+      usage = "do not publish draft comments"
+    )
+    private boolean noPublishComments;
 
     @Option(
       name = "--notify",
@@ -1321,11 +1330,17 @@ public class ReceiveCommits {
       //TODO(dpursehouse): validate hashtags
     }
 
-    MagicBranchInput(ReceiveCommand cmd, LabelTypes labelTypes, NotesMigration notesMigration) {
+    MagicBranchInput(
+        IdentifiedUser user,
+        ReceiveCommand cmd,
+        LabelTypes labelTypes,
+        NotesMigration notesMigration) {
       this.cmd = cmd;
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
       this.labelTypes = labelTypes;
       this.notesMigration = notesMigration;
+      this.defaultPublishComments =
+          firstNonNull(user.getAccount().getGeneralPreferencesInfo().publishCommentsOnPush, false);
     }
 
     MailRecipients getMailRecipients() {
@@ -1339,6 +1354,15 @@ public class ReceiveCommits {
       accountsToNotify.putAll(RecipientType.CC, ccs);
       accountsToNotify.putAll(RecipientType.BCC, bccs);
       return accountsToNotify;
+    }
+
+    boolean shouldPublishComments() {
+      if (publishComments) {
+        return true;
+      } else if (noPublishComments) {
+        return false;
+      }
+      return defaultPublishComments;
     }
 
     String parse(
@@ -1410,7 +1434,7 @@ public class ReceiveCommits {
     }
 
     logDebug("Found magic branch {}", cmd.getRefName());
-    magicBranch = new MagicBranchInput(cmd, labelTypes, notesMigration);
+    magicBranch = new MagicBranchInput(user, cmd, labelTypes, notesMigration);
     magicBranch.reviewer.addAll(reviewersFromCommandLine);
     magicBranch.cc.addAll(ccFromCommandLine);
 
@@ -1485,6 +1509,11 @@ public class ReceiveCommits {
 
     if (magicBranch.workInProgress && magicBranch.ready) {
       reject(cmd, "the options 'wip' and 'ready' are mutually exclusive");
+      return;
+    }
+    if (magicBranch.publishComments && magicBranch.noPublishComments) {
+      reject(
+          cmd, "the options 'publish-comments' and 'no-publish-comments' are mutually exclusive");
       return;
     }
 

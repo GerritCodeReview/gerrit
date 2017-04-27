@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "6f1a8a74_9d0eef50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2017-04-27T15:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b23e29dc_89704f41",
+      "range": {
+        "startLine": 144,
+        "startChar": 13,
+        "endLine": 144,
+        "endChar": 16
+      },
+      "revId": "a8ec426a2e6d113901a83971f22c2046181266c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5da16d8_9375a444",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
         "patchSetId": 1
@@ -143,6 +167,30 @@
       "side": 1,
       "message": "no, in this case we return the original url which will cause it to fail on invalid protocol",
       "parentUuid": "d5da16d8_9375a444",
+      "range": {
+        "startLine": 148,
+        "startChar": 13,
+        "endLine": 148,
+        "endChar": 16
+      },
+      "revId": "a8ec426a2e6d113901a83971f22c2046181266c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1339ce4_d44b0aea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2017-04-27T15:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb0a2d32_582dd6c2",
       "range": {
         "startLine": 148,
         "startChar": 13,

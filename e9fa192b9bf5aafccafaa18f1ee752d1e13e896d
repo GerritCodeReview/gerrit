@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1c75cfe_fc667b07",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-27T12:42:44Z",
+      "side": 1,
+      "message": "Nit: this no-longer needs to be wrapped to the next line.",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 119,
+        "endChar": 19
+      },
+      "revId": "e9fa192b9bf5aafccafaa18f1ee752d1e13e896d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bf04e3d_8417c2ce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-27T12:42:44Z",
+      "side": 1,
+      "message": "Nit: this parameter no-longer needs to be wrapped to the next line.",
+      "range": {
+        "startLine": 775,
+        "startChar": 8,
+        "endLine": 775,
+        "endChar": 18
+      },
+      "revId": "e9fa192b9bf5aafccafaa18f1ee752d1e13e896d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e3f7471_e7dc3f0e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-27T12:42:44Z",
+      "side": 1,
+      "message": "Nit: this parameter no-longer needs to be wrapped to the next line.",
+      "range": {
+        "startLine": 795,
+        "startChar": 8,
+        "endLine": 795,
+        "endChar": 16
+      },
+      "revId": "e9fa192b9bf5aafccafaa18f1ee752d1e13e896d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aba0a828_0124e9ab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-27T12:42:44Z",
+      "side": 1,
+      "message": "🙌",
+      "range": {
+        "startLine": 941,
+        "startChar": 29,
+        "endLine": 941,
+        "endChar": 36
+      },
+      "revId": "e9fa192b9bf5aafccafaa18f1ee752d1e13e896d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e197afd6_2685e950",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-27T12:42:44Z",
+      "side": 1,
+      "message": "😬",
+      "range": {
+        "startLine": 966,
+        "startChar": 10,
+        "endLine": 967,
+        "endChar": 50
+      },
+      "revId": "e9fa192b9bf5aafccafaa18f1ee752d1e13e896d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "627199ad_afd2fdbf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-27T12:42:44Z",
+      "side": 1,
+      "message": "Indent",
+      "revId": "e9fa192b9bf5aafccafaa18f1ee752d1e13e896d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f26ae198_005a189c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-27T12:42:44Z",
+      "side": 1,
+      "message": "Did these additional files get pulled in intentionally? Should the commit message be updated?",
+      "revId": "e9fa192b9bf5aafccafaa18f1ee752d1e13e896d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

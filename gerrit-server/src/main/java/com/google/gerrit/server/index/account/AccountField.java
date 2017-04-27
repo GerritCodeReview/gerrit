@@ -76,6 +76,14 @@ public class AccountField {
                       .transform(String::toLowerCase)
                       .toSet());
 
+  public static final FieldDef<AccountState, String> PREFERRED_EMAIL =
+      prefix("preferredemail")
+          .build(
+              a -> {
+                String preferredEmail = a.getAccount().getPreferredEmail();
+                return preferredEmail != null ? preferredEmail.toLowerCase() : null;
+              });
+
   public static final FieldDef<AccountState, Timestamp> REGISTERED =
       timestamp("registered").build(a -> a.getAccount().getRegisteredOn());
 

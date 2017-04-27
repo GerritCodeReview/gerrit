@@ -36,7 +36,9 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
 
   @Deprecated static final Schema<AccountState> V3 = schema(V2, AccountField.FULL_NAME);
 
-  static final Schema<AccountState> V4 = schema(V3);
+  @Deprecated static final Schema<AccountState> V4 = schema(V3);
+
+  static final Schema<AccountState> V5 = schema(V4, AccountField.PREFERRED_EMAIL);
 
   public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();
 

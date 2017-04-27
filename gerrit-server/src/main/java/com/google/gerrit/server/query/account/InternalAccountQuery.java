@@ -102,6 +102,10 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
     return query(AccountPredicates.fullName(fullName));
   }
 
+  public List<AccountState> byPreferredEmail(String email) throws OrmException {
+    return query(AccountPredicates.preferredEmail(email));
+  }
+
   public List<AccountState> byWatchedProject(Project.NameKey project) throws OrmException {
     return query(AccountPredicates.watchedProject(project));
   }

@@ -22,6 +22,29 @@
       "revId": "519f4e02274942ad914a08b6348fecb0dcf36119",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42362628_10c15ae1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-27T07:09:37Z",
+      "side": 1,
+      "message": "Is this really an improvement? I feel like string concatenation was clearer in this case.",
+      "range": {
+        "startLine": 331,
+        "startChar": 22,
+        "endLine": 333,
+        "endChar": 26
+      },
+      "revId": "519f4e02274942ad914a08b6348fecb0dcf36119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

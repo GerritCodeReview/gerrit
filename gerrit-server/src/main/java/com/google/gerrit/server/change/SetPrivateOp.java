@@ -16,19 +16,24 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gwtorm.server.OrmException;
 
 class SetPrivateOp implements BatchUpdateOp {
+  private final ChangeMessagesUtil cmUtil;
   private final boolean isPrivate;
 
-  SetPrivateOp(boolean isPrivate) {
+  SetPrivateOp(ChangeMessagesUtil cmUtil, boolean isPrivate) {
+    this.cmUtil = cmUtil;
     this.isPrivate = isPrivate;
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws ResourceConflictException {
+  public boolean updateChange(ChangeContext ctx) throws ResourceConflictException, OrmException {
     Change change = ctx.getChange();
     if (change.getStatus() == Change.Status.MERGED) {
       throw new ResourceConflictException("change is merged");
@@ -37,6 +42,19 @@ class SetPrivateOp implements BatchUpdateOp {
     change.setPrivate(isPrivate);
     change.setLastUpdatedOn(ctx.getWhen());
     update.setPrivate(isPrivate);
+    addMessage(ctx, update);
     return true;
+  }
+
+  private void addMessage(ChangeContext ctx, ChangeUpdate update) throws OrmException {
+    Change c = ctx.getChange();
+    ChangeMessage cmsg =
+        ChangeMessagesUtil.newMessage(
+            ctx,
+            c.isPrivate() ? "Set private" : "Unset private",
+            c.isPrivate()
+                ? ChangeMessagesUtil.TAG_SET_PRIVATE
+                : ChangeMessagesUtil.TAG_UNSET_PRIVATE);
+    cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
   }
 }

@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
@@ -34,13 +35,18 @@ public class PutPrivate
     implements RestModifyView<ChangeResource, PutPrivate.Input>, UiAction<ChangeResource> {
   public static class Input {}
 
+  private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> dbProvider;
   private final BatchUpdate.Factory batchUpdateFactory;
 
   @Inject
-  PutPrivate(Provider<ReviewDb> dbProvider, BatchUpdate.Factory batchUpdateFactory) {
+  PutPrivate(
+      Provider<ReviewDb> dbProvider,
+      BatchUpdate.Factory batchUpdateFactory,
+      ChangeMessagesUtil cmUtil) {
     this.dbProvider = dbProvider;
     this.batchUpdateFactory = batchUpdateFactory;
+    this.cmUtil = cmUtil;
   }
 
   @Override
@@ -55,7 +61,7 @@ public class PutPrivate
     }
 
     ChangeControl control = rsrc.getControl();
-    SetPrivateOp op = new SetPrivateOp(true);
+    SetPrivateOp op = new SetPrivateOp(cmUtil, true);
     try (BatchUpdate u =
         batchUpdateFactory.create(
             dbProvider.get(),

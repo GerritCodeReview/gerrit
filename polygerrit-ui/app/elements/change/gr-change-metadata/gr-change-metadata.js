@@ -100,7 +100,7 @@
       // We are already displaying these types of links elsewhere,
       // don't include in the metadata links section.
       var webLinks = commitInfo.web_links.filter(
-          function(l) {return !this._isCommitWebLink(l); }.bind(this));
+          function(l) {return l.name; }.bind(this));
 
       return webLinks.length ? webLinks : null;
     },

@@ -318,13 +318,14 @@ public class ReplaceOp implements BatchUpdateOp {
     if (!Strings.isNullOrEmpty(reviewMessage)) {
       message.append("\n").append(reviewMessage);
     }
+    boolean workInProgress = magicBranch != null && magicBranch.workInProgress;
     msg =
         ChangeMessagesUtil.newMessage(
             patchSetId,
             ctx.getUser(),
             ctx.getWhen(),
             message.toString(),
-            ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
+            ChangeMessagesUtil.uploadedPatchSetTag(workInProgress));
     cmUtil.addChangeMessage(ctx.getDb(), update, msg);
 
     if (mergedByPushOp == null) {

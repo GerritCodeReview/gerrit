@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b92411b7_8ce8af66",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-27T08:16:22Z",
+      "side": 0,
+      "message": "Removing this test should only be done in [1].\n\n[1] https://gerrit-review.googlesource.com/97230",
+      "revId": "e70c496f67dd3eab5bc57a3fa0979a7544f7e7d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

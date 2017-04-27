@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e62b5ddb_d86fb403",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 2117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-27T10:21:55Z",
+      "side": 1,
+      "message": "Please also document the JSON in the request body.",
+      "range": {
+        "startLine": 2116,
+        "startChar": 0,
+        "endLine": 2117,
+        "endChar": 53
+      },
+      "revId": "24fa093f5d967ddcf3dd201467424f9fb7a45ba8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f71f76a_10739470",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 2127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-27T10:21:55Z",
+      "side": 1,
+      "message": "Remove this? The response is 200 OK, isn\u0027t it?",
+      "range": {
+        "startLine": 2124,
+        "startChar": 0,
+        "endLine": 2127,
+        "endChar": 4
+      },
+      "revId": "24fa093f5d967ddcf3dd201467424f9fb7a45ba8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ec819c5_80adafcd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 2136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-27T10:21:55Z",
+      "side": 1,
+      "message": "Please also document the JSON in the request body.",
+      "range": {
+        "startLine": 2135,
+        "startChar": 0,
+        "endLine": 2136,
+        "endChar": 12
+      },
+      "revId": "24fa093f5d967ddcf3dd201467424f9fb7a45ba8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6277c09d_22ed4190",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 2146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-27T10:21:55Z",
+      "side": 1,
+      "message": "Remove this? The response is 200 OK, isn\u0027t it?",
+      "range": {
+        "startLine": 2143,
+        "startChar": 0,
+        "endLine": 2146,
+        "endChar": 4
+      },
+      "revId": "24fa093f5d967ddcf3dd201467424f9fb7a45ba8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

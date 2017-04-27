@@ -34,6 +34,24 @@
       "revId": "917b726ca68d1a7d447bda806d5ceb02257598f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "847d46d7_aa9e1bbc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/EmailValidatorIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-27T07:27:00Z",
+      "side": 1,
+      "message": "Ok, now I see how it\u0027s supposed to work. There\u0027s still an issue though.\n\nI think we also need to call resetDomainValidator *before* the first test is run. If you run other tests in one JVM invocation and *then* run EmailValidatorIT, then the first one will fail, because DomainValidator.inUse is still true at the beginning of the method.\n\nYou can reproduce this by right-clicking the acceptance.server.mail package in Eclipse and running all the package tests. The first test method in this class will fail.",
+      "parentUuid": "7741bde3_c95c912c",
+      "revId": "917b726ca68d1a7d447bda806d5ceb02257598f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

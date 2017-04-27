@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "2f4391ad_a5542c32",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 34
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-27T06:53:17Z",
+      "side": 1,
+      "message": "Assertions that the state changed properly after clicking the button.",
+      "parentUuid": "fdadff17_9431eb96",
+      "revId": "19c172663e08962736eb1ddbaa2a7de1e72bca0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fa08440f_9b2143fc",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 34

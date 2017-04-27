@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab153e15_0096d413",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-27T13:00:38Z",
+      "side": 1,
+      "message": "final?",
+      "revId": "86fd5d9f6f753e873a6090dfdf634d29f7d1c49e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

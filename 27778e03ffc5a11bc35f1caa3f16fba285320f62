@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e4da516f_1f7dcba8",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-27T10:49:54Z",
+      "side": 1,
+      "message": "nit: compare length first, then call`startsWith` this should be slightly bit faster",
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1409abca_6ed90bf8",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
         "patchSetId": 6
@@ -60,6 +77,23 @@
     },
     {
       "key": {
+        "uuid": "ef52f078_058d7a57",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PermissionRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-27T10:49:54Z",
+      "side": 1,
+      "message": "you already use groups in your patter, why not use here:\n  matcher.group(1):\n  matcher.group(2);\n?",
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8a643def_1b404d37",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
         "patchSetId": 6
@@ -95,6 +129,86 @@
     },
     {
       "key": {
+        "uuid": "86954c46_e8d4b685",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-27T10:49:54Z",
+      "side": 1,
+      "message": "`private final`?\n\nyou can also consider making both fields pubic and accessing them directly without getters",
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80e4471e_816a0e7c",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-27T10:49:54Z",
+      "side": 1,
+      "message": "why 4?",
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb39dd0d_265030e5",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-27T10:49:54Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 34
+      },
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c36fdf40_8f96c730",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-27T10:49:54Z",
+      "side": 1,
+      "message": "move declaration to line 690\n\nnit: why `rt`? what this abbreviation stand for? shouldn\u0027t it be `rs` like `RoleSection`?",
+      "range": {
+        "startLine": 688,
+        "startChar": 4,
+        "endLine": 688,
+        "endChar": 19
+      },
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c151338_7d8d1719",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 6
@@ -124,6 +238,75 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "6c151338_7d8d1719",
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1b31e34_eab34b84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-27T10:49:54Z",
+      "side": 1,
+      "message": "why not join both conditions with `\u0026\u0026` and remove `continue`?",
+      "range": {
+        "startLine": 275,
+        "startChar": 10,
+        "endLine": 276,
+        "endChar": 27
+      },
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea386885_06263efd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-27T10:49:54Z",
+      "side": 1,
+      "message": "is this comment really necessary?",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 313,
+        "endChar": 50
+      },
+      "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05f1ed16_88de623e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-27T10:49:54Z",
+      "side": 1,
+      "message": "join both conditions with `\u0026\u0026`",
+      "range": {
+        "startLine": 315,
+        "startChar": 6,
+        "endLine": 316,
+        "endChar": 89
+      },
       "revId": "27778e03ffc5a11bc35f1caa3f16fba285320f62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

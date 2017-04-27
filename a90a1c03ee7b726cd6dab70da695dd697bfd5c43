@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "8f563384_84dfbd9c",
+        "filename": ".settings/org.eclipse.jdt.ui.prefs",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-04-27T10:11:31Z",
+      "side": 1,
+      "message": "template misses one line break between file comment and package definition",
+      "revId": "a90a1c03ee7b726cd6dab70da695dd697bfd5c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fc824f8_721c353f",
         "filename": ".settings/org.eclipse.jdt.ui.prefs",
         "patchSetId": 1
@@ -13,6 +30,30 @@
       "writtenOn": "2017-04-27T09:56:20Z",
       "side": 1,
       "message": "is this related?",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 32
+      },
+      "revId": "a90a1c03ee7b726cd6dab70da695dd697bfd5c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4e14aba_81915128",
+        "filename": ".settings/org.eclipse.jdt.ui.prefs",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-04-27T10:11:31Z",
+      "side": 1,
+      "message": "nope - I will remove it",
+      "parentUuid": "4fc824f8_721c353f",
       "range": {
         "startLine": 3,
         "startChar": 0,

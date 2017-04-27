@@ -42,6 +42,29 @@
     },
     {
       "key": {
+        "uuid": "f538bbf3_b40862bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-27T13:42:33Z",
+      "side": 1,
+      "message": "resolve conflicts leftover",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 67
+      },
+      "revId": "fc24a19096e01928c6cbcb1cd83350faf782916e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d29452e_e7af7188",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetReadyForReview.java",
         "patchSetId": 30
@@ -70,6 +93,23 @@
       "writtenOn": "2017-04-27T13:41:35Z",
       "side": 1,
       "message": "Still need to check if user is change owner.",
+      "revId": "fc24a19096e01928c6cbcb1cd83350faf782916e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073945c0_a33d2381",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WorkInProgressOp.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-04-27T13:42:33Z",
+      "side": 1,
+      "message": "This class looks 95% the same as `SetReadyForReview` can you export common part into abstract class?",
       "revId": "fc24a19096e01928c6cbcb1cd83350faf782916e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

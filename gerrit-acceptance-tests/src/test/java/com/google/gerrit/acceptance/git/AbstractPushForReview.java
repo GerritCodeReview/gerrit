@@ -15,21 +15,25 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.assertPushRejected;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.extensions.common.EditInfoSubject.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Streams;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -37,6 +41,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -45,8 +50,10 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -1440,6 +1447,129 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(info.revisions.keySet()).containsExactly(c1.name(), c2.name());
     // TODO(dborowitz): Fix ReceiveCommits to also auto-close the change.
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
+  }
+
+  @Test
+  public void publishCommentsOnPushPublishesDraftsOnAllRevisions() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String rev1 = r.getCommit().name();
+    CommentInfo c1 = addDraft(r.getChangeId(), rev1, newDraft(FILE_NAME, 1, "comment1"));
+    CommentInfo c2 = addDraft(r.getChangeId(), rev1, newDraft(FILE_NAME, 1, "comment2"));
+
+    r = amendChange(r.getChangeId());
+    String rev2 = r.getCommit().name();
+    CommentInfo c3 = addDraft(r.getChangeId(), rev2, newDraft(FILE_NAME, 1, "comment3"));
+
+    assertThat(getPublishedComments(r.getChangeId())).isEmpty();
+
+    amendChange(r.getChangeId(), "refs/for/master%p");
+
+    Collection<CommentInfo> comments = getPublishedComments(r.getChangeId());
+    assertThat(comments.stream().map(c -> c.id)).containsExactly(c1.id, c2.id, c3.id);
+    assertThat(comments.stream().map(c -> c.message))
+        .containsExactly("comment1", "comment2", "comment3");
+    assertThat(getLastMessage(r.getChangeId())).isEqualTo("Uploaded patch set 3.\n\n(3 comments)");
+  }
+
+  @Test
+  public void publishCommentsOnPushWithMessage() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String rev = r.getCommit().name();
+    addDraft(r.getChangeId(), rev, newDraft(FILE_NAME, 1, "comment1"));
+
+    r = amendChange(r.getChangeId(), "refs/for/master%p,m=The_message");
+
+    Collection<CommentInfo> comments = getPublishedComments(r.getChangeId());
+    assertThat(comments.stream().map(c -> c.message)).containsExactly("comment1");
+    assertThat(getLastMessage(r.getChangeId()))
+        .isEqualTo("Uploaded patch set 2.\n\n(1 comment)\n\nThe message");
+  }
+
+  @Test
+  public void publishCommentsOnPushPublishesDraftsOnMultipleChanges() throws Exception {
+    ObjectId initialHead = testRepo.getRepository().resolve("HEAD");
+    List<RevCommit> commits = createChanges(2, "refs/for/master");
+    String id1 = byCommit(commits.get(0)).change().getKey().get();
+    String id2 = byCommit(commits.get(1)).change().getKey().get();
+    CommentInfo c1 = addDraft(id1, commits.get(0).name(), newDraft(FILE_NAME, 1, "comment1"));
+    CommentInfo c2 = addDraft(id2, commits.get(1).name(), newDraft(FILE_NAME, 1, "comment2"));
+
+    assertThat(getPublishedComments(id1)).isEmpty();
+    assertThat(getPublishedComments(id2)).isEmpty();
+
+    amendChanges(initialHead, commits, "refs/for/master%p");
+
+    Collection<CommentInfo> cs1 = getPublishedComments(id1);
+    assertThat(cs1.stream().map(c -> c.message)).containsExactly("comment1");
+    assertThat(cs1.stream().map(c -> c.id)).containsExactly(c1.id);
+    assertThat(getLastMessage(id1))
+        .isEqualTo("Uploaded patch set 2: Commit message was updated.\n\n(1 comment)");
+
+    Collection<CommentInfo> cs2 = getPublishedComments(id2);
+    assertThat(cs2.stream().map(c -> c.message)).containsExactly("comment2");
+    assertThat(cs2.stream().map(c -> c.id)).containsExactly(c2.id);
+    assertThat(getLastMessage(id2))
+        .isEqualTo("Uploaded patch set 2: Commit message was updated.\n\n(1 comment)");
+  }
+
+  @Test
+  public void publishCommentsOnPushOnlyPublishesDraftsOnUpdatedChanges() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = createChange();
+    String id1 = r1.getChangeId();
+    String id2 = r2.getChangeId();
+    addDraft(id1, r1.getCommit().name(), newDraft(FILE_NAME, 1, "comment1"));
+    CommentInfo c2 = addDraft(id2, r2.getCommit().name(), newDraft(FILE_NAME, 1, "comment2"));
+
+    assertThat(getPublishedComments(id1)).isEmpty();
+    assertThat(getPublishedComments(id2)).isEmpty();
+
+    r2 = amendChange(id2, "refs/for/master%p");
+
+    assertThat(getPublishedComments(id1)).isEmpty();
+    assertThat(gApi.changes().id(id1).drafts()).hasSize(1);
+
+    Collection<CommentInfo> cs2 = getPublishedComments(id2);
+    assertThat(cs2.stream().map(c -> c.message)).containsExactly("comment2");
+    assertThat(cs2.stream().map(c -> c.id)).containsExactly(c2.id);
+
+    assertThat(getLastMessage(id1)).doesNotMatch("[Cc]omment");
+    assertThat(getLastMessage(id2)).isEqualTo("Uploaded patch set 2.\n\n(1 comment)");
+  }
+
+  private DraftInput newDraft(String path, int line, String message) {
+    DraftInput d = new DraftInput();
+    d.path = path;
+    d.side = Side.REVISION;
+    d.line = line;
+    d.message = message;
+    d.unresolved = true;
+    return d;
+  }
+
+  private CommentInfo addDraft(String changeId, String revId, DraftInput in) throws Exception {
+    return gApi.changes().id(changeId).revision(revId).createDraft(in).get();
+  }
+
+  private Collection<CommentInfo> getPublishedComments(String changeId) throws Exception {
+    return gApi.changes()
+        .id(changeId)
+        .comments()
+        .values()
+        .stream()
+        .flatMap(cs -> cs.stream())
+        .collect(toList());
+  }
+
+  private String getLastMessage(String changeId) throws Exception {
+    return Streams.findLast(
+            gApi.changes()
+                .id(changeId)
+                .get(EnumSet.of(ListChangesOption.MESSAGES))
+                .messages
+                .stream()
+                .map(m -> m.message))
+        .get();
   }
 
   private void assertThatUserIsOnlyReviewer(ChangeInfo ci, TestAccount reviewer) {

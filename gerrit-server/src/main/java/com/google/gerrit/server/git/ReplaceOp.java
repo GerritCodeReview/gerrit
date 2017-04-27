@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
+import static com.google.gerrit.server.ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
@@ -31,12 +32,14 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeKindCache;
@@ -101,6 +104,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
+  private final CommentsUtil commentsUtil;
   private final ExecutorService sendEmailExecutor;
   private final GitReferenceUpdated gitRefUpdated;
   private final RevisionCreated revisionCreated;
@@ -128,6 +132,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private PatchSet newPatchSet;
   private ChangeKind changeKind;
   private ChangeMessage msg;
+  private List<Comment> comments = ImmutableList.of();
   private String rejectMessage;
   private MergedByPushOp mergedByPushOp;
   private RequestScopePropagator requestScopePropagator;
@@ -142,6 +147,7 @@ public class ReplaceOp implements BatchUpdateOp {
       ChangeData.Factory changeDataFactory,
       ChangeKindCache changeKindCache,
       ChangeMessagesUtil cmUtil,
+      CommentsUtil commentsUtil,
       GitReferenceUpdated gitRefUpdated,
       RevisionCreated revisionCreated,
       CommentAdded commentAdded,
@@ -167,6 +173,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.changeDataFactory = changeDataFactory;
     this.changeKindCache = changeKindCache;
     this.cmUtil = cmUtil;
+    this.commentsUtil = commentsUtil;
     this.gitRefUpdated = gitRefUpdated;
     this.revisionCreated = revisionCreated;
     this.commentAdded = commentAdded;
@@ -252,6 +259,9 @@ public class ReplaceOp implements BatchUpdateOp {
         change.setPrivate(true);
         update.setPrivate(true);
       }
+      if (magicBranch.publishComments) {
+        comments = publishComments(ctx);
+      }
     }
 
     boolean draft = magicBranch != null && magicBranch.draft;
@@ -304,6 +314,20 @@ public class ReplaceOp implements BatchUpdateOp {
 
     recipients.add(oldRecipients);
 
+    msg = createChangeMessage(ctx, reviewMessage);
+    cmUtil.addChangeMessage(ctx.getDb(), update, msg);
+
+    if (mergedByPushOp == null) {
+      resetChange(ctx);
+    } else {
+      mergedByPushOp.setPatchSetProvider(Providers.of(newPatchSet)).updateChange(ctx);
+    }
+
+    return true;
+  }
+
+  private ChangeMessage createChangeMessage(ChangeContext ctx, String reviewMessage)
+      throws OrmException {
     String approvalMessage =
         ApprovalsUtil.renderMessageWithApprovals(
             patchSetId.get(), approvals, scanLabels(ctx, approvals));
@@ -314,25 +338,16 @@ public class ReplaceOp implements BatchUpdateOp {
     } else {
       message.append('.');
     }
+    if (comments.size() == 1) {
+      message.append("\n\n(1 comment)");
+    } else if (comments.size() > 1) {
+      message.append(String.format("\n\n(%d comments)", comments.size()));
+    }
     if (!Strings.isNullOrEmpty(reviewMessage)) {
-      message.append("\n").append(reviewMessage);
+      message.append("\n\n").append(reviewMessage);
     }
-    msg =
-        ChangeMessagesUtil.newMessage(
-            patchSetId,
-            ctx.getUser(),
-            ctx.getWhen(),
-            message.toString(),
-            ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
-    cmUtil.addChangeMessage(ctx.getDb(), update, msg);
-
-    if (mergedByPushOp == null) {
-      resetChange(ctx);
-    } else {
-      mergedByPushOp.setPatchSetProvider(Providers.of(newPatchSet)).updateChange(ctx);
-    }
-
-    return true;
+    return ChangeMessagesUtil.newMessage(
+        patchSetId, ctx.getUser(), ctx.getWhen(), message.toString(), TAG_UPLOADED_PATCH_SET);
   }
 
   private String changeKindMessage(ChangeKind changeKind) {
@@ -392,6 +407,13 @@ public class ReplaceOp implements BatchUpdateOp {
     } else {
       change.setKey(new Change.Key(idList.get(idList.size() - 1).trim()));
     }
+  }
+
+  private List<Comment> publishComments(ChangeContext ctx) throws OrmException {
+    List<Comment> comments =
+        commentsUtil.draftByChangeAuthor(ctx.getDb(), ctx.getNotes(), ctx.getUser().getAccountId());
+    commentsUtil.publish(ctx, patchSetId, comments, TAG_UPLOADED_PATCH_SET);
+    return comments;
   }
 
   @Override

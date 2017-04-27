@@ -166,6 +166,24 @@
       "revId": "e9fa192b9bf5aafccafaa18f1ee752d1e13e896d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89e8b3a7_4496cfb8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-04-27T13:25:11Z",
+      "side": 1,
+      "message": "Oh, yeah, sorry. I read the commit message wrong.",
+      "parentUuid": "0c7ff33c_613d59ab",
+      "revId": "e9fa192b9bf5aafccafaa18f1ee752d1e13e896d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -615,5 +615,22 @@ limitations under the License.
           }
       );
     });
+
+    test('startWorkInProgress', function() {
+      sandbox.stub(element, 'send').returns(Promise.resolve('ok'));
+      element.startWorkInProgress('42');
+      assert.isTrue(element.send.calledWith(
+          'POST', '/changes/42/wip', {}));
+      element.startWorkInProgress('42', 'revising...');
+      assert.isTrue(element.send.calledWith(
+          'POST', '/changes/42/wip', {message: 'revising...'}));
+    });
+
+    test('startReview', function() {
+      sandbox.stub(element, 'send').returns(Promise.resolve({}));
+      element.startReview('42', {message: 'Please review.'});
+      assert.isTrue(element.send.calledWith(
+          'POST', '/changes/42/ready', {message: 'Please review.'}));
+    });
   });
 </script>

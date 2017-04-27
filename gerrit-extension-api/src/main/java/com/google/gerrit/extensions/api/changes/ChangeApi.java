@@ -87,6 +87,8 @@ public interface ChangeApi {
 
   void setPrivate(boolean value) throws RestApiException;
 
+  void setPrivate(boolean value, String message) throws RestApiException;
+
   /**
    * Ignore or un-ignore this change.
    *
@@ -324,6 +326,11 @@ public interface ChangeApi {
 
     @Override
     public void setPrivate(boolean value) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setPrivate(boolean value, String message) {
       throw new NotImplementedException();
     }
 

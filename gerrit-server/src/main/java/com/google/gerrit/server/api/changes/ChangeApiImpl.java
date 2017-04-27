@@ -75,6 +75,7 @@ import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
 import com.google.gerrit.server.change.Reviewers;
 import com.google.gerrit.server.change.Revisions;
+import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.change.SubmittedTogether;
 import com.google.gerrit.server.change.SuggestChangeReviewers;
 import com.google.gerrit.server.change.Unignore;
@@ -298,11 +299,17 @@ class ChangeApiImpl implements ChangeApi {
 
   @Override
   public void setPrivate(boolean value) throws RestApiException {
+    setPrivate(value, null);
+  }
+
+  @Override
+  public void setPrivate(boolean value, String message) throws RestApiException {
     try {
+      SetPrivateOp.Input input = new SetPrivateOp.Input(message);
       if (value) {
-        putPrivate.apply(change, null);
+        putPrivate.apply(change, input);
       } else {
-        deletePrivate.apply(change, null);
+        deletePrivate.apply(change, input);
       }
     } catch (UpdateException e) {
       throw new RestApiException("Cannot change private status", e);

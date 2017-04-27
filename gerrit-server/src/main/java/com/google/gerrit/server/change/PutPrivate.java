@@ -32,9 +32,7 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class PutPrivate
-    implements RestModifyView<ChangeResource, PutPrivate.Input>, UiAction<ChangeResource> {
-  public static class Input {}
-
+    implements RestModifyView<ChangeResource, SetPrivateOp.Input>, UiAction<ChangeResource> {
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> dbProvider;
   private final BatchUpdate.Factory batchUpdateFactory;
@@ -50,7 +48,7 @@ public class PutPrivate
   }
 
   @Override
-  public Response<String> apply(ChangeResource rsrc, Input input)
+  public Response<String> apply(ChangeResource rsrc, SetPrivateOp.Input input)
       throws RestApiException, UpdateException {
     if (!rsrc.isUserOwner()) {
       throw new AuthException("not allowed to mark private");
@@ -61,7 +59,7 @@ public class PutPrivate
     }
 
     ChangeControl control = rsrc.getControl();
-    SetPrivateOp op = new SetPrivateOp(cmUtil, true);
+    SetPrivateOp op = new SetPrivateOp(cmUtil, true, input);
     try (BatchUpdate u =
         batchUpdateFactory.create(
             dbProvider.get(),

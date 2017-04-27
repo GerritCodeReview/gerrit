@@ -21,20 +21,32 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.inject.Inject;
+
+import org.junit.After;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import org.junit.After;
-import org.junit.Test;
 
 public class EmailValidatorIT extends AbstractDaemonTest {
   private static final String UNSUPPORTED_PREFIX = "#! ";
 
   @Inject private OutgoingEmailValidator validator;
 
+  @BeforeClass
+  public static void setUpClass() throws Exception {
+    resetDomainValidator();
+  }
+
   @After
-  public void resetDomainValidator() throws Exception {
+  public void tearDown() throws Exception {
+    resetDomainValidator();
+  }
+
+  private static void resetDomainValidator() throws Exception {
     Class<?> c = Class.forName("org.apache.commons.validator.routines.DomainValidator");
     Field f = c.getDeclaredField("inUse");
     f.setAccessible(true);

@@ -573,11 +573,16 @@ public class ChangeIT extends AbstractDaemonTest {
       PushOneCommit.Result changeResult =
           pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
       String changeId = changeResult.getChangeId();
+      int id = changeResult.getChange().getId().id;
+      RevCommit commit = changeResult.getCommit();
 
       setApiUser(user);
       gApi.changes().id(changeId).delete();
 
       assertThat(query(changeId)).isEmpty();
+
+      String ref = new Change.Id(id).toRefPrefix() + "1";
+      eventRecorder.assertRefUpdatedEvents(project.get(), ref, null, commit, commit, null);
     } finally {
       removePermission(Permission.DELETE_OWN_CHANGES, project, "refs/*");
     }

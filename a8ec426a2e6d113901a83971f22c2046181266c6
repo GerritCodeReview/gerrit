@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "63afcc6e_215e9910",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2017-04-27T14:57:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f067d37a_0dcdb68f",
+      "revId": "a8ec426a2e6d113901a83971f22c2046181266c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa702e3_05c62e72",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "50474403_41e49ca8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2017-04-27T14:57:37Z",
+      "side": 1,
+      "message": "no, in this case we return the original url which will cause it to fail on invalid protocol",
+      "parentUuid": "baa702e3_05c62e72",
+      "range": {
+        "startLine": 144,
+        "startChar": 13,
+        "endLine": 144,
+        "endChar": 16
+      },
+      "revId": "a8ec426a2e6d113901a83971f22c2046181266c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5da16d8_9375a444",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2017-04-27T14:37:40Z",
       "side": 1,
       "message": "this should probably be DEFAULT_PROTOCOL",
+      "range": {
+        "startLine": 148,
+        "startChar": 13,
+        "endLine": 148,
+        "endChar": 16
+      },
+      "revId": "a8ec426a2e6d113901a83971f22c2046181266c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb0a2d32_582dd6c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2017-04-27T14:57:37Z",
+      "side": 1,
+      "message": "no, in this case we return the original url which will cause it to fail on invalid protocol",
+      "parentUuid": "d5da16d8_9375a444",
       "range": {
         "startLine": 148,
         "startChar": 13,

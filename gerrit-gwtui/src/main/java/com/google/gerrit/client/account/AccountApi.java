@@ -23,6 +23,7 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
@@ -53,6 +54,14 @@ public class AccountApi {
         .addParameter("n", limit)
         .background()
         .get(cb);
+  }
+
+  public static void addStar(String star, Change.Id id, AsyncCallback<JsArrayString> cb) {
+    self().view("stars.changes").id(id.get()).post(AccountApi.StarsInput.add(star), cb);
+  }
+
+  public static void removeStar(String star, Change.Id id, AsyncCallback<JsArrayString> cb) {
+    self().view("stars.changes").id(id.get()).post(AccountApi.StarsInput.delete(star), cb);
   }
 
   public static void putDiffPreferences(DiffPreferences in, AsyncCallback<DiffPreferences> cb) {
@@ -282,5 +291,25 @@ public class AccountApi {
     }-*/;
 
     protected GpgKeysInput() {}
+  }
+
+  public static class StarsInput extends JavaScriptObject {
+    public static StarsInput add(String star) {
+      return createWithAdd(Natives.arrayOf(star));
+    }
+
+    public static StarsInput delete(String star) {
+      return createWithDelete(Natives.arrayOf(star));
+    }
+
+    private static native StarsInput createWithAdd(JsArrayString stars) /*-{
+      return {'add': stars};
+    }-*/;
+
+    private static native StarsInput createWithDelete(JsArrayString stars) /*-{
+      return {'remove': stars};
+    }-*/;
+
+    protected StarsInput() {}
   }
 }

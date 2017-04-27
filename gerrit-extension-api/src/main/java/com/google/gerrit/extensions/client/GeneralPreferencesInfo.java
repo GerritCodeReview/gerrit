@@ -157,6 +157,7 @@ public class GeneralPreferencesInfo {
   public EmailStrategy emailStrategy;
   public EmailFormat emailFormat;
   public DefaultBase defaultBaseForMerges;
+  public boolean publishCommentsOnPush;
 
   public boolean isShowInfoInReviewCategory() {
     return getReviewCategoryStrategy() != ReviewCategoryStrategy.NONE;
@@ -225,6 +226,7 @@ public class GeneralPreferencesInfo {
     p.muteCommonPathPrefixes = true;
     p.signedOffBy = false;
     p.defaultBaseForMerges = DefaultBase.FIRST_PARENT;
+    p.publishCommentsOnPush = false;
     return p;
   }
 }

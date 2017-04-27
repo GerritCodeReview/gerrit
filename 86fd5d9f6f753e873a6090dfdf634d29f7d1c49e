@@ -16,6 +16,24 @@
       "revId": "86fd5d9f6f753e873a6090dfdf634d29f7d1c49e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fee7436a_309d07f0",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RoleSection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-27T14:03:18Z",
+      "side": 1,
+      "message": "I\u0027d prefer not to since then I would have to set it to false at line 70 and 77.",
+      "parentUuid": "ab153e15_0096d413",
+      "revId": "86fd5d9f6f753e873a6090dfdf634d29f7d1c49e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

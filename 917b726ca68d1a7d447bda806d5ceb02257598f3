@@ -16,6 +16,24 @@
       "revId": "917b726ca68d1a7d447bda806d5ceb02257598f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7741bde3_c95c912c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/EmailValidatorIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-27T05:48:08Z",
+      "side": 1,
+      "message": "In the tests it works because the @After method uses reflection to clear DomainValidator\u0027s private \"inUse\" flag, which is what would normally prevent multiple invocations (throwing an IllegalStateException if inUse is set).\n\nIf you mean in a production server running multiple gerrit instances in a single JVM (i.e. googlesource\u0027s multi-tenant setup) then the problem is avoided by not calling updateTLDOVerride at all (by not setting any value for sendemail.allowTLD).  I was wondering if this should be documented, but AFAIK googlesource is the only setup that this would affect, and Patrick said in the earlier comments that it\u0027s OK to just not set allowTLD.\n\nNote that the multiple invocation of updateTldOverride was introduced in the preceding change where OutgoingEmailValidator was made into a Singleton [1].  In that change we avoid problems by catching and ignoring the ISE, which we assume (for the open source version) will only happen during tests.\n\n[1] https://gerrit-review.googlesource.com/?polygerrit\u003d0#/c/95715/15/gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+      "parentUuid": "3e55ad47_005bd63e",
+      "revId": "917b726ca68d1a7d447bda806d5ceb02257598f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

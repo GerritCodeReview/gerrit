@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1493306357 +0200\nnonce AFMZ2Gzt+zX8GIJsT1/4A4yUf8ZPuL1tIlLaNPtL+/IsbcEh4zMjUH+JlUIaoenUHY+iTPb0nfo6\n\n0000000000000000000000000000000000000000 f83ab2aa5c435b85c5e6af385272e6ca885c5aef refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZAgv1AAoJEHFVO370GiZW/fEH/R2N96t3MzTNiaeL+tv8qwrj\nhbDJLu39YhHJZcitvx0eNqg3yaVpenxYRBDJ1I1koIpf1W7bka+5fZ7S4Ga1lo+2\nCuE9Acmbq5Y6SPncuHdVnXgmc0+paNIYEYs+wOf4kpsmyY94Afh8WYOoh71IrPrs\np14Zs8d9NK6dsCqS7/w5civLNfU3MF3ENJZhGU5vNg0Wv5JV0zjfJ2bb4D1jiVXF\nJRoG3dRx84XhEKnm0UYNfqn5hYjfe4IpByxri62ufcpr4XnaX8N0yOXVeo933ig7\n6m+rqvyABusTr0vePtk5j2tY3BTJisMmyLbE+bvOz9w4FhPnli0eKSOTOWv/ZJo\u003d\n\u003dQU+v\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8c50df6_47139a6b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-27T15:41:56Z",
+      "side": 1,
+      "message": "Use an AtomicLongMap.",
+      "revId": "f83ab2aa5c435b85c5e6af385272e6ca885c5aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9feebe7_626d8ce2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-27T15:41:56Z",
+      "side": 1,
+      "message": "Would it make more sense to reset the counter only for the given account? Otherwise it seems impossible to do two sequential assertReindexOf calls in a row with two different accounts.",
+      "range": {
+        "startLine": 1132,
+        "startChar": 14,
+        "endLine": 1132,
+        "endChar": 0
+      },
+      "revId": "f83ab2aa5c435b85c5e6af385272e6ca885c5aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

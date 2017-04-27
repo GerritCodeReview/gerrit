@@ -85,7 +85,8 @@ public class Module extends RestApiModule {
     post(CHANGE_KIND, "index").to(Index.class);
     post(CHANGE_KIND, "rebuild.notedb").to(Rebuild.class);
     post(CHANGE_KIND, "move").to(Move.class);
-    put(CHANGE_KIND, "private").to(PutPrivate.class);
+    post(CHANGE_KIND, "private").to(PutPrivate.class);
+    post(CHANGE_KIND, "private.delete").to(DeletePrivate.class);
     delete(CHANGE_KIND, "private").to(DeletePrivate.class);
     put(CHANGE_KIND, "ignore").to(Ignore.class);
     put(CHANGE_KIND, "unignore").to(Unignore.class);

@@ -65,9 +65,11 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.Comment.Range;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
@@ -1091,6 +1093,29 @@ public class ChangeIT extends AbstractDaemonTest {
 
     assertThat(r.input).isEqualTo(username);
     assertThat(r.error).contains("identifies an inactive account");
+    assertThat(r.reviewers).isNull();
+  }
+
+  @Test
+  public void addReviewerThatIsInactiveEmailFallback() throws Exception {
+    ConfigInput conf = new ConfigInput();
+    conf.enableReviewerByEmail = InheritableBoolean.TRUE;
+    gApi.projects().name(project.get()).config(conf);
+
+    PushOneCommit.Result result = createChange();
+
+    String username = "user@domain.com";
+    gApi.accounts().create(username).setActive(false);
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = username;
+    in.state = ReviewerState.CC;
+    AddReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+
+    assertThat(r.input).isEqualTo(username);
+    assertThat(r.error).isNull();
+    // When adding by email, the reviewers field is also empty because we can't
+    // render a ReviewerInfo object for a non-account.
     assertThat(r.reviewers).isNull();
   }
 

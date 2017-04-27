@@ -204,7 +204,7 @@ limitations under the License.
             id="textarea"
             class="message"
             autocomplete="on"
-            placeholder="Say something nice..."
+            placeholder=[[_messagePlaceholder]]
             disabled="{{disabled}}"
             rows="4"
             max-rows="15"
@@ -248,7 +248,14 @@ limitations under the License.
             primary
             disabled="[[!_isState(knownLatestState, 'latest')]]"
             class="action send"
-            on-tap="_sendTapHandler">Send</gr-button>
+            on-tap="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
+        </gr-button>
+        <template is="dom-if" if="[[canBeStarted]]">
+          <gr-button
+              disabled="[[!_isState(knownLatestState, 'latest')]]"
+              class="action save"
+              on-tap="_saveTapHandler">Save</gr-button>
+        </template>
         <span
             id="checkingStatusLabel"
             hidden$="[[!_isState(knownLatestState, 'checking')]]">

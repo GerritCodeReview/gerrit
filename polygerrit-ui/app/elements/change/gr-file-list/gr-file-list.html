@@ -222,10 +222,11 @@ limitations under the License.
             <option value="PARENT">Base</option>
             <template
                 is="dom-repeat"
-                items="[[_computePatchSets(revisions.*, patchRange.*)]]"
+                items="[[computeAllPatchSets(change)]]"
                 as="patchNum">
-              <option value$="[[patchNum.num]]"
-                  disabled$="[[_computePatchSetDisabled(patchNum.num, patchRange.patchNum)]]">
+              <option
+                  disabled$="[[_computePatchSetDisabled(patchNum.num, patchRange.patchNum)]]"
+                  value$="[[patchNum.num]]">
                 [[patchNum.num]]
                 [[patchNum.desc]]
               </option>

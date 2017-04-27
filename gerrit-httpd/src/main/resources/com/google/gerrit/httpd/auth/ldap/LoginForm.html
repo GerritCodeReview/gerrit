@@ -65,13 +65,16 @@
       var login_form = document.getElementById('login_form');
       var f_user = document.getElementById('f_user');
       var f_pass = document.getElementById('f_pass');
-      f_user.onkeydown = function(e) {
+
+      // Keyup event must be used to avoid issue with Firefox autocomplete
+      // Issue #6083
+      f_user.onkeyup = function(e) {
         if (e.keyCode == 13) {
           f_pass.focus();
           return false;
         }
       }
-      f_pass.onkeydown = function(e) {
+      f_pass.onkeyup = function(e) {
         if (e.keyCode == 13) {
           login_form.submit();
           return false;

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfcbf7d7_de42caaf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetReadyForReview.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-27T08:26:27Z",
+      "side": 1,
+      "message": "Reject the operation if the user isn\u0027t the change owner?\nI guess this should also be covered by a test (OK to do this in the later change that adds tests).",
+      "revId": "55cacdc80807f12362e2d25aa36b6653e668be8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a918ef4_359343b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetWorkInProgress.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-27T08:26:27Z",
+      "side": 1,
+      "message": "Here too, reject the operation is the user is not change owner.",
+      "revId": "55cacdc80807f12362e2d25aa36b6653e668be8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

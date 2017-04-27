@@ -89,12 +89,19 @@ limitations under the License.
       cursor: pointer;
       outline: none;
     }
+    .mute {
+      position: absolute;
+	  cursor: pointer;
+      outline: none;
+      top: 6px;
+    }
     .changeId {
       width: 300px;
       white-space: nowrap;
       line-height: HEADER_HEIGHT;
       overflow: hidden;
       text-overflow: ellipsis;
+      margin-left: 20px;
     }
     .statusText {
       font-weight: bold;
@@ -376,6 +383,10 @@ limitations under the License.
     <g:HTMLPanel styleName='{style.headerLine}' ui:field='headerLine'>
       <div class='{style.subjectLine}'>
         <div class='{style.idAndStatus}'>
+          <c:MuteIcon ui:field='mute' styleName='{style.mute}'
+             title='Do not highlight change in dashboard until next patch set'>
+            <ui:attribute name='title'/>
+          </c:MuteIcon>
           <span class='{style.changeId}'>
             <ui:msg>Change <g:Anchor ui:field='permalink' title='Reload the change (Shortcut: R)'>
               <ui:attribute name='title'/>

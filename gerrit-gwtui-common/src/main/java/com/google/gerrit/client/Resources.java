@@ -90,6 +90,13 @@ public interface Resources extends ClientBundle {
   @Source("star-open.png")
   ImageResource starOpen();
 
+  @Source("bell.png")
+  ImageResource bell();
+
+  // derived from star.png
+  @Source("bell_delete.png")
+  ImageResource bellDelete();
+
   @Source("exclamation.png")
   ImageResource warning();
 

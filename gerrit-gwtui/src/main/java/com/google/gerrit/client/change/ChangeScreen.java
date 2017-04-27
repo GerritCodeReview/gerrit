@@ -21,6 +21,7 @@ import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.NotFoundScreen;
+import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.api.ChangeGlue;
 import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.changes.ChangeApi;
@@ -181,6 +182,7 @@ public class ChangeScreen extends Screen {
   @UiField SimplePanel headerExtensionRight;
   @UiField Style style;
   @UiField ToggleButton star;
+  @UiField ToggleButton mute;
   @UiField Anchor permalink;
 
   @UiField Assignee assignee;
@@ -481,6 +483,7 @@ public class ChangeScreen extends Screen {
     setHeaderVisible(false);
     Resources.I.style().ensureInjected();
     star.setVisible(Gerrit.isSignedIn());
+    mute.setVisible(Gerrit.isSignedIn());
     labels.init(style);
     reviewers.init(style, ccText);
     hashtags.init(style);
@@ -847,6 +850,24 @@ public class ChangeScreen extends Screen {
   @UiHandler("star")
   void onToggleStar(ValueChangeEvent<Boolean> e) {
     StarredChanges.toggleStar(changeId, e.getValue());
+  }
+
+  @UiHandler("mute")
+  void onToggleMute(ValueChangeEvent<Boolean> e) {
+    AsyncCallback<JsArrayString> cb =
+        new AsyncCallback<JsArrayString>() {
+          @Override
+          public void onSuccess(JsArrayString none) {}
+
+          @Override
+          public void onFailure(Throwable caught) {}
+        };
+    int currentPatchSetId = changeInfo.revisions().size();
+    if (e.getValue()) {
+      AccountApi.addStar("mute/" + currentPatchSetId, changeId, cb);
+    } else {
+      AccountApi.removeStar("mute/" + currentPatchSetId, changeId, cb);
+    }
   }
 
   @UiHandler("includedIn")
@@ -1347,6 +1368,7 @@ public class ChangeScreen extends Screen {
     related.set(info, revision);
     reviewers.set(info);
     assignee.set(info);
+    mute.setDown(changeInfo.muted());
     if (Gerrit.isNoteDbEnabled()) {
       hashtags.set(info, revision);
     } else {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c8d9074_21660e7d",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-27T18:14:14Z",
+      "side": 1,
+      "message": "Setting this to ECMASCRIPT5 fixes my problem.",
+      "range": {
+        "startLine": 56,
+        "startChar": 16,
+        "endLine": 56,
+        "endChar": 34
+      },
+      "revId": "7aebc5fdc8a9e3d3d58e1696c9c74c3a34cd4d5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

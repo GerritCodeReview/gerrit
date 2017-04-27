@@ -425,7 +425,7 @@ public class ChangeInserter implements InsertChangeOp {
               ctx.getUser(),
               patchSet.getCreatedOn(),
               message,
-              ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
+              ChangeMessagesUtil.uploadedPatchSetTag(workInProgress));
       cmUtil.addChangeMessage(db, update, changeMessage);
     }
     return true;

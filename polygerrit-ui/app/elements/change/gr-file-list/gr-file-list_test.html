@@ -1168,5 +1168,20 @@ limitations under the License.
         assert.isTrue(element._showInlineDiffs);
       });
     });
+
+    test('_openSelectedFile behavior', () => {
+      const _files = element._files;
+      element.set('_files', []);
+      const showStub = sandbox.stub(page, 'show');
+      // Noop when there are no files.
+      element._openSelectedFile();
+      assert.isFalse(showStub.called);
+
+      element.set('_files', _files);
+      flushAsynchronousOperations();
+       // Navigates when a file is selected.
+      element._openSelectedFile();
+      assert.isTrue(showStub.called);
+    });
   });
 </script>

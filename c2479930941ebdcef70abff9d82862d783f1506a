@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "952941da_992640c0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-27T08:30:49Z",
+      "side": 1,
+      "message": "Add a test to verify that only the change owner can set/unset wip.",
+      "revId": "c2479930941ebdcef70abff9d82862d783f1506a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c88d600_b0d7e5aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-27T08:30:49Z",
+      "side": 1,
+      "message": "[optional] can this be default implementation in the interface?",
+      "range": {
+        "startLine": 323,
+        "startChar": 2,
+        "endLine": 331,
+        "endChar": 3
+      },
+      "revId": "c2479930941ebdcef70abff9d82862d783f1506a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -100,6 +100,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
@@ -189,10 +190,18 @@ public class ChangeIT extends AbstractDaemonTest {
     setApiUser(user);
     String changeId = result.getChangeId();
     assertThat(gApi.changes().id(changeId).get().isPrivate).isFalse();
+
     gApi.changes().id(changeId).setPrivate(true);
-    assertThat(gApi.changes().id(changeId).get().isPrivate).isTrue();
+    ChangeInfo info = gApi.changes().id(changeId).get();
+    assertThat(info.isPrivate).isTrue();
+    assertThat(Iterables.getLast(info.messages).message).isEqualTo("Set private");
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_PRIVATE);
+
     gApi.changes().id(changeId).setPrivate(false);
-    assertThat(gApi.changes().id(changeId).get().isPrivate).isFalse();
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.isPrivate).isFalse();
+    assertThat(Iterables.getLast(info.messages).message).isEqualTo("Unset private");
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_UNSET_PRIVATE);
   }
 
   @Test

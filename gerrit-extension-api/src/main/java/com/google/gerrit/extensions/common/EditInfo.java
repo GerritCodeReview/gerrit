@@ -18,6 +18,7 @@ import java.util.Map;
 
 public class EditInfo {
   public CommitInfo commit;
+  public int basePatchSetNumber;
   public String baseRevision;
   public Map<String, FetchInfo> fetch;
   public Map<String, FileInfo> files;

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "53646d8d_2a677960",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1016208
+      },
+      "writtenOn": "2017-04-27T10:16:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fda4cb6_f867d0c6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "e70c496f67dd3eab5bc57a3fa0979a7544f7e7d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53d42f6d_8f24332e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
         "patchSetId": 30
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-27T08:11:20Z",
       "side": 1,
       "message": "This belongs into [1], doesn\u0027t it?\n\n[1] https://gerrit-review.googlesource.com/97230",
+      "range": {
+        "startLine": 78,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 52
+      },
+      "revId": "e70c496f67dd3eab5bc57a3fa0979a7544f7e7d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "981bd5e7_753de59e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1016208
+      },
+      "writtenOn": "2017-04-27T10:16:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53d42f6d_8f24332e",
       "range": {
         "startLine": 78,
         "startChar": 2,

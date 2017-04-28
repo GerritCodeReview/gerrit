@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../styles/app-theme.html">
 <link rel="import" href="./plugins/gr-plugin-host/gr-plugin-host.html">
+<link rel="import" href="./plugins/gr-external-style/gr-external-style.html">
 
 <link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
 
@@ -175,6 +176,7 @@ limitations under the License.
     <gr-plugin-host id="plugins"
         config="[[_serverConfig.plugin]]">
     </gr-plugin-host>
+    <gr-external-style name="app-theme"></gr-external-style>
   </template>
   <script src="gr-app.js" crossorigin="anonymous"></script>
 </dom-module>

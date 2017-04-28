@@ -68,10 +68,9 @@ final class ElasticTestUtils {
 
   static void configure(Config config, String port) {
     config.setEnum("index", null, "type", IndexType.ELASTICSEARCH);
-    config.setString("index", null, "protocol", "http");
-    config.setString("index", null, "hostname", "localhost");
-    config.setString("index", null, "port", port);
-    config.setBoolean("index", "elasticsearch", "test", true);
+    config.setString("elasticsearch", "test", "protocol", "http");
+    config.setString("elasticsearch", "test", "hostname", "localhost");
+    config.setString("elasticsearch", "test", "port", port);
   }
 
   static ElasticNodeInfo startElasticsearchNode() throws InterruptedException, ExecutionException {

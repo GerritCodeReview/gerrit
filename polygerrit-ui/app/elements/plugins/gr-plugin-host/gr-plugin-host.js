@@ -34,7 +34,10 @@
 
     _importHtmlPlugins: function(plugins) {
       plugins.forEach(function(url) {
-        this.importHref('/' + url, null, Gerrit._pluginInstalled, true);
+        if (url.indexOf('http') !== 0) {
+          url = '/' + url;
+        }
+        this.importHref(url, Gerrit._pluginInstalled, null, true);
       }.bind(this));
     },
 

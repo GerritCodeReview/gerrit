@@ -57,6 +57,7 @@ import com.google.gerrit.server.change.GetAssignee;
 import com.google.gerrit.server.change.GetHashtags;
 import com.google.gerrit.server.change.GetPastAssignees;
 import com.google.gerrit.server.change.GetTopic;
+import com.google.gerrit.server.change.Ignore;
 import com.google.gerrit.server.change.Index;
 import com.google.gerrit.server.change.ListChangeComments;
 import com.google.gerrit.server.change.ListChangeDrafts;
@@ -128,6 +129,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Move move;
   private final PutPrivate putPrivate;
   private final DeletePrivate deletePrivate;
+  private final Ignore ignore;
 
   @Inject
   ChangeApiImpl(
@@ -165,6 +167,7 @@ class ChangeApiImpl implements ChangeApi {
       Move move,
       PutPrivate putPrivate,
       DeletePrivate deletePrivate,
+      Ignore ignore,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -200,6 +203,7 @@ class ChangeApiImpl implements ChangeApi {
     this.move = move;
     this.putPrivate = putPrivate;
     this.deletePrivate = deletePrivate;
+    this.ignore = ignore;
     this.change = change;
   }
 
@@ -584,6 +588,13 @@ class ChangeApiImpl implements ChangeApi {
       index.apply(change, new Index.Input());
     } catch (IOException | OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot index change", e);
+    }
+  }
+
+  @Override
+  public void ignore(boolean ignore) throws RestApiException {
+    if (ignore) {
+      this.ignore.apply(change, new Ignore.Input());
     }
   }
 }

@@ -88,6 +88,13 @@ public interface ChangeApi {
   void setPrivate(boolean value) throws RestApiException;
 
   /**
+   * Ignore or un-ignore this change.
+   *
+   * @param ignore ignore the change if true
+   */
+  void ignore(boolean ignore) throws RestApiException;
+
+  /**
    * Create a new change that reverts this change.
    *
    * @see Changes#id(int)
@@ -481,6 +488,11 @@ public interface ChangeApi {
 
     @Override
     public ChangeInfo createMergePatchSet(MergePatchSetInput in) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void ignore(boolean ignore) {
       throw new NotImplementedException();
     }
   }

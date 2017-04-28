@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -224,7 +225,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       throw new ResourceConflictException(
           String.format(
               "Cannot create new patch set of change %s because it is %s",
-              change.getId(), change.getStatus().name().toLowerCase()));
+              change.getId(), ChangeUtil.status(change)));
     }
 
     List<String> newGroups = groups;

@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
@@ -133,7 +134,7 @@ public class Revert
     if (!refControl.canUpload()) {
       throw new AuthException("revert not permitted");
     } else if (change.getStatus() != Status.MERGED) {
-      throw new ResourceConflictException("change is " + status(change));
+      throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     }
 
     Change.Id revertedChangeId = revert(req.getControl(), Strings.emptyToNull(input.message));
@@ -231,10 +232,6 @@ public class Revert
         .setVisible(
             resource.getChange().getStatus() == Status.MERGED
                 && resource.getControl().getRefControl().canUpload());
-  }
-
-  private static String status(Change change) {
-    return change != null ? change.getStatus().name().toLowerCase() : "deleted";
   }
 
   private class NotifyOp implements BatchUpdateOp {

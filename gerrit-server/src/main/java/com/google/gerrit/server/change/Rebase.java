@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RebaseUtil.Base;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -101,7 +102,7 @@ public class Rebase
             updateFactory.create(
                 dbProvider.get(), change.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       if (!change.getStatus().isOpen()) {
-        throw new ResourceConflictException("change is " + change.getStatus().name().toLowerCase());
+        throw new ResourceConflictException("change is " + ChangeUtil.status(change));
       } else if (!hasOneParent(rw, rsrc.getPatchSet())) {
         throw new ResourceConflictException(
             "cannot rebase merge commits or commit with no ancestor");

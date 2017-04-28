@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.ChangeAbandoned;
 import com.google.gerrit.server.mail.send.AbandonedSender;
@@ -96,7 +97,7 @@ public class AbandonOp implements BatchUpdateOp {
     PatchSet.Id psId = change.currentPatchSetId();
     ChangeUpdate update = ctx.getUpdate(psId);
     if (!change.getStatus().isOpen()) {
-      throw new ResourceConflictException("change is " + status(change));
+      throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     } else if (change.getStatus() == Change.Status.DRAFT) {
       throw new ResourceConflictException("draft changes cannot be abandoned");
     }
@@ -136,9 +137,5 @@ public class AbandonOp implements BatchUpdateOp {
       log.error("Cannot email update for change " + change.getId(), e);
     }
     changeAbandoned.fire(change, patchSet, account, msgTxt, ctx.getWhen(), notifyHandling);
-  }
-
-  private static String status(Change change) {
-    return change != null ? change.getStatus().name().toLowerCase() : "deleted";
   }
 }

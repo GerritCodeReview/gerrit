@@ -21,6 +21,12 @@
       name: String,
     },
 
+    _import: function(url) {
+      return new Promise((resolve, reject) => {
+        this.importHref(url, resolve, reject);
+      });
+    },
+
     _applyStyle: function(name) {
       var s = document.createElement('style', 'custom-style');
       s.setAttribute('include', name);
@@ -31,7 +37,17 @@
       Gerrit.awaitPluginsLoaded().then(function() {
         var sharedStyles = Gerrit._styleModules[this.name];
         if (sharedStyles) {
-          sharedStyles.map(this._applyStyle.bind(this));
+          var pluginUrls = [];
+          var moduleNames = [];
+          sharedStyles.reduce(function(result, item) {
+            if (!result.pluginUrls.includes(item.pluginUrl)) {
+              result.pluginUrls.push(item.pluginUrl);
+            }
+            result.moduleNames.push(item.moduleName);
+            return result;
+          }, {pluginUrls: pluginUrls, moduleNames: moduleNames});
+          Promise.all(pluginUrls.forEach(this._import.bind(this)))
+            .then(moduleNames.forEach.bind(this, this._applyStyle.bind(this)));
         }
       }.bind(this));
     },

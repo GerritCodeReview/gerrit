@@ -1549,7 +1549,8 @@ public class ReceiveCommits {
 
     magicBranch.dest = new Branch.NameKey(project.getNameKey(), ref);
     magicBranch.ctl = projectControl.controlForRef(ref);
-    if (!magicBranch.ctl.canWrite()) {
+    if (projectControl.getProject().getState()
+        != com.google.gerrit.extensions.client.ProjectState.ACTIVE) {
       reject(cmd, "project is read only");
       return;
     }

@@ -52,7 +52,7 @@ public class Ignore
   }
 
   @Override
-  public Object apply(ChangeResource rsrc, Input input) throws RestApiException {
+  public Response<String> apply(ChangeResource rsrc, Input input) throws RestApiException {
     try {
       if (rsrc.isUserOwner() || isIgnored(rsrc)) {
         // early exit for own changes and already ignored changes
@@ -62,7 +62,7 @@ public class Ignore
     } catch (OrmException e) {
       throw new RestApiException("failed to ignore change", e);
     }
-    return null;
+    return Response.ok("");
   }
 
   private boolean isIgnored(ChangeResource rsrc) {

@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.ChangeRestored;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
@@ -109,7 +110,7 @@ public class Restore
     public boolean updateChange(ChangeContext ctx) throws OrmException, ResourceConflictException {
       change = ctx.getChange();
       if (change == null || change.getStatus() != Status.ABANDONED) {
-        throw new ResourceConflictException("change is " + status(change));
+        throw new ResourceConflictException("change is " + ChangeUtil.status(change));
       }
       PatchSet.Id psId = change.currentPatchSetId();
       ChangeUpdate update = ctx.getUpdate(psId);
@@ -156,9 +157,5 @@ public class Restore
         .setVisible(
             rsrc.getChange().getStatus() == Status.ABANDONED
                 && rsrc.permissions().database(dbProvider).testOrFalse(ChangePermission.RESTORE));
-  }
-
-  private static String status(Change change) {
-    return change != null ? change.getStatus().name().toLowerCase() : "deleted";
   }
 }

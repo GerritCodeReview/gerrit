@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.LimitedByteArrayOutputStream.LimitExceededException;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -96,7 +97,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
 
     Change change = rsrc.getChange();
     if (!change.getStatus().isOpen()) {
-      throw new PreconditionFailedException("change is " + Submit.status(change));
+      throw new PreconditionFailedException("change is " + ChangeUtil.status(change));
     }
     ChangeControl control = rsrc.getControl();
     if (!control.getUser().isIdentifiedUser()) {

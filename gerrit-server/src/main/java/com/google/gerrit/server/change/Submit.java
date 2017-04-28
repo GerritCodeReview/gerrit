@@ -40,6 +40,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -210,7 +211,7 @@ public class Submit
 
     Change change = rsrc.getChange();
     if (!change.getStatus().isOpen()) {
-      throw new ResourceConflictException("change is " + status(change));
+      throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     } else if (!ProjectUtil.branchExists(repoManager, change.getDest())) {
       throw new ResourceConflictException(
           String.format("destination branch \"%s\" not found.", change.getDest().get()));
@@ -244,7 +245,7 @@ public class Submit
       case ABANDONED:
       case DRAFT:
       default:
-        throw new ResourceConflictException("change is " + status(change));
+        throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     }
   }
 
@@ -402,10 +403,6 @@ public class Submit
         .filter(cm -> cm.getAuthor() == null)
         .last()
         .orNull();
-  }
-
-  static String status(Change change) {
-    return change != null ? change.getStatus().name().toLowerCase() : "deleted";
   }
 
   public Collection<ChangeData> unmergeableChanges(ChangeSet cs) throws OrmException, IOException {

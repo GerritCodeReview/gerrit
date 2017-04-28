@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -98,7 +99,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     MergeableInfo result = new MergeableInfo();
 
     if (!change.getStatus().isOpen()) {
-      throw new ResourceConflictException("change is " + Submit.status(change));
+      throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     } else if (!ps.getId().equals(change.currentPatchSetId())) {
       // Only the current revision is mergeable. Others always fail.
       return result;

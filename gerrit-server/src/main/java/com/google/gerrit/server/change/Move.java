@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -115,7 +116,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
         throws OrmException, ResourceConflictException, RepositoryNotFoundException, IOException {
       change = ctx.getChange();
       if (change.getStatus() != Status.NEW && change.getStatus() != Status.DRAFT) {
-        throw new ResourceConflictException("Change is " + status(change));
+        throw new ResourceConflictException("Change is " + ChangeUtil.status(change));
       }
 
       Project.NameKey projectKey = change.getProject();
@@ -181,9 +182,5 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
 
       return true;
     }
-  }
-
-  private static String status(Change change) {
-    return change != null ? change.getStatus().name().toLowerCase() : "deleted";
   }
 }

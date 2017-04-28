@@ -22,6 +22,76 @@
       "revId": "427b8df25d58cfec8b71f6f5eb2113f7e90c81fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7241bc41_b18e05a5",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-28T17:40:31Z",
+      "side": 1,
+      "message": "Removing this took away the other new error you got but i get a new reindex stale error. Maybe to do with me converting an existing install from lucene to elasticsearch.",
+      "parentUuid": "93da88c9_6eee3254",
+      "range": {
+        "startLine": 146,
+        "startChar": 6,
+        "endLine": 146,
+        "endChar": 31
+      },
+      "revId": "427b8df25d58cfec8b71f6f5eb2113f7e90c81fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ce23709_8f71d852",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-28T17:40:31Z",
+      "side": 1,
+      "message": "Removing this took away the other new error you got but i get a new reindex stale error. Maybe to do with me converting an existing install from lucene to elasticsearch.",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 7
+      },
+      "revId": "427b8df25d58cfec8b71f6f5eb2113f7e90c81fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c20a855_d707abb4",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticGroupIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-28T17:40:31Z",
+      "side": 1,
+      "message": "Removing this took away the other new error you got but i get a new reindex stale error. Maybe to do with me converting an existing install from lucene to elasticsearch.",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 31
+      },
+      "revId": "427b8df25d58cfec8b71f6f5eb2113f7e90c81fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "491e52cb_b362d332",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2189,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-28T11:57:01Z",
+      "side": 1,
+      "message": "endpoint",
+      "range": {
+        "startLine": 2189,
+        "startChar": 43,
+        "endLine": 2189,
+        "endChar": 53
+      },
+      "revId": "44e75562dac76676b3273036baa176ab82577dda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b64c8627_b7f99947",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-28T11:57:01Z",
+      "side": 1,
+      "message": "optional: this is repeated 3 times in the new code; it could be factored out to a utility method.",
+      "range": {
+        "startLine": 365,
+        "startChar": 24,
+        "endLine": 365,
+        "endChar": 75
+      },
+      "revId": "44e75562dac76676b3273036baa176ab82577dda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

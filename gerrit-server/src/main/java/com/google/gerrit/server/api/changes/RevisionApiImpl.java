@@ -444,7 +444,7 @@ class RevisionApiImpl implements RevisionApi {
   public EditInfo applyFix(String fixId) throws RestApiException {
     try {
       return applyFix.apply(fixes.parse(revision, IdString.fromDecoded(fixId)), null).value();
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot apply fix", e);
     }
   }

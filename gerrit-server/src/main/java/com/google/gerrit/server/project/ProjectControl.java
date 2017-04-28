@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
@@ -46,6 +48,8 @@ import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.FailedPermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -530,6 +534,31 @@ public class ProjectControl {
     @Override
     public ForRef ref(String ref) {
       return controlForRef(ref).asForRef().database(db);
+    }
+
+    @Override
+    public ForChange change(ChangeData cd) {
+      try {
+        checkProject(cd.change());
+        return super.change(cd);
+      } catch (OrmException e) {
+        return FailedPermissionBackend.change("unavailable", e);
+      }
+    }
+
+    @Override
+    public ForChange change(ChangeNotes notes) {
+      checkProject(notes.getChange());
+      return super.change(notes);
+    }
+
+    private void checkProject(Change change) {
+      Project.NameKey project = getProject().getNameKey();
+      checkArgument(
+          project.equals(change.getProject()),
+          "expected change in project %s, not %s",
+          project,
+          change.getProject());
     }
 
     @Override

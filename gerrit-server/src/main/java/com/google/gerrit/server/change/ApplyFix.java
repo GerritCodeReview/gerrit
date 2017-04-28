@@ -28,6 +28,7 @@ import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.fixes.FixReplacementInterpreter;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
@@ -61,7 +62,7 @@ public class ApplyFix implements RestModifyView<FixResource, Void> {
   @Override
   public Response<EditInfo> apply(FixResource fixResource, Void nothing)
       throws AuthException, OrmException, ResourceConflictException, IOException,
-          ResourceNotFoundException {
+          ResourceNotFoundException, PermissionBackendException {
     RevisionResource revisionResource = fixResource.getRevisionResource();
     Project.NameKey project = revisionResource.getProject();
     ProjectState projectState = revisionResource.getControl().getProjectControl().getProjectState();
@@ -75,8 +76,7 @@ public class ApplyFix implements RestModifyView<FixResource, Void> {
       ChangeEdit changeEdit =
           changeEditModifier.combineWithModifiedPatchSetTree(
               repository, revisionResource.getControl(), patchSet, treeModifications);
-      EditInfo editInfo = changeEditJson.toEditInfo(changeEdit, false);
-      return Response.ok(editInfo);
+      return Response.ok(changeEditJson.toEditInfo(changeEdit, false));
     } catch (InvalidChangeOperationException e) {
       throw new ResourceConflictException(e.getMessage());
     }

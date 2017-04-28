@@ -5385,6 +5385,8 @@ A list of star labels that are applied by the calling user to this
 change. The labels are lexicographically sorted.
 |`reviewed`           |not set if `false`|
 Whether the change was reviewed by the calling user.
+|`muted`              |not set if `false`|
+Whether the change has been link:#mute[muted] by the calling user.
 Only set if link:#reviewed[reviewed] is requested.
 |`submit_type`        |optional|
 The link:project-configuration.html#submit_type[submit type] of the change. +

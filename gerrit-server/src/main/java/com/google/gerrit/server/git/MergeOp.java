@@ -343,6 +343,8 @@ public class MergeOp implements AutoCloseable {
           commitStatus.problem(
               cd.getId(),
               "Change " + cd.getId() + " is " + cd.change().getStatus().toString().toLowerCase());
+        } else if (cd.change().isWorkInProgress()) {
+          commitStatus.problem(cd.getId(), "Change " + cd.getId() + " is work in progress");
         } else {
           checkSubmitRule(cd);
         }

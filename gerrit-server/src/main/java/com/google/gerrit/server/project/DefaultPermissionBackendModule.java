@@ -16,18 +16,26 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 
 /** Binds the default {@link PermissionBackend}. */
-public class DefaultPermissionBackendModule extends FactoryModule {
+public class DefaultPermissionBackendModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(PermissionBackend.class).to(DefaultPermissionBackend.class).in(Scopes.SINGLETON);
+    install(new LegacyControlsModule());
+  }
 
-    // TODO(sop) Hide ProjectControl, RefControl, ChangeControl related bindings.
-    bind(ProjectControl.GenericFactory.class);
-    factory(ProjectControl.AssistedFactory.class);
-    bind(ChangeControl.GenericFactory.class);
-    bind(ChangeControl.Factory.class);
+  /** Binds legacy ProjectControl, RefControl, ChangeControl. */
+  public static class LegacyControlsModule extends FactoryModule {
+    @Override
+    protected void configure() {
+      // TODO(sop) Hide ProjectControl, RefControl, ChangeControl related bindings.
+      bind(ProjectControl.GenericFactory.class);
+      factory(ProjectControl.AssistedFactory.class);
+      bind(ChangeControl.GenericFactory.class);
+      bind(ChangeControl.Factory.class);
+    }
   }
 }

@@ -62,7 +62,7 @@ public class Ignore
     } catch (OrmException e) {
       throw new RestApiException("failed to ignore change", e);
     }
-    return null;
+    return Response.ok("");
   }
 
   private boolean isIgnored(ChangeResource rsrc) {

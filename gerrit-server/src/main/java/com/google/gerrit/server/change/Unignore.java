@@ -62,7 +62,7 @@ public class Unignore
     } catch (OrmException e) {
       throw new RestApiException("failed to unignore change", e);
     }
-    return null;
+    return Response.ok("");
   }
 
   private boolean isIgnored(ChangeResource rsrc) {

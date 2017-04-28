@@ -341,6 +341,20 @@ public class StarredChangesUtil {
     }
   }
 
+  public void ignore(Account.Id accountId, Project.NameKey project, Change.Id changeId)
+      throws OrmException {
+    star(accountId, project, changeId, ImmutableSet.of(IGNORE_LABEL), ImmutableSet.of());
+  }
+
+  public void unignore(Account.Id accountId, Project.NameKey project, Change.Id changeId)
+      throws OrmException {
+    star(accountId, project, changeId, ImmutableSet.of(), ImmutableSet.of(IGNORE_LABEL));
+  }
+
+  public boolean isIgnoredBy(Change.Id changeId, Account.Id accountId) throws OrmException {
+    return byChange(changeId, IGNORE_LABEL).contains(accountId);
+  }
+
   private static StarRef readLabels(Repository repo, String refName) throws IOException {
     Ref ref = repo.exactRef(refName);
     if (ref == null) {

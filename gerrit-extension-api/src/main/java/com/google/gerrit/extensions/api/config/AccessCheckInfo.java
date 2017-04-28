@@ -15,13 +15,9 @@
 package com.google.gerrit.extensions.api.config;
 
 public class AccessCheckInfo {
-  public static class Result {
-    public String message;
+  public String message;
+  // HTTP status code
+  public int status;
 
-    // HTTP status code.
-    public int status;
-  }
-
-  public Result result;
   // for future extension, we may add inputs / results for bulk checks.
 }

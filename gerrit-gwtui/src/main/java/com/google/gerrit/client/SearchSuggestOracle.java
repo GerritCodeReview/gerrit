@@ -137,6 +137,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("is:abandoned");
     suggestions.add("is:mergeable");
     suggestions.add("is:ignored");
+    suggestions.add("is:wip");
 
     suggestions.add("status:");
     suggestions.add("status:open");

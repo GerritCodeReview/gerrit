@@ -252,6 +252,13 @@ public class ReplaceOp implements BatchUpdateOp {
         change.setPrivate(true);
         update.setPrivate(true);
       }
+      if (magicBranch.ready) {
+        change.setWorkInProgress(false);
+        update.setWorkInProgress(false);
+      } else if (magicBranch.workInProgress) {
+        change.setWorkInProgress(true);
+        update.setWorkInProgress(true);
+      }
     }
 
     boolean draft = magicBranch != null && magicBranch.draft;
@@ -317,13 +324,14 @@ public class ReplaceOp implements BatchUpdateOp {
     if (!Strings.isNullOrEmpty(reviewMessage)) {
       message.append("\n").append(reviewMessage);
     }
+    boolean workInProgress = magicBranch != null && magicBranch.workInProgress;
     msg =
         ChangeMessagesUtil.newMessage(
             patchSetId,
             ctx.getUser(),
             ctx.getWhen(),
             message.toString(),
-            ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
+            ChangeMessagesUtil.uploadedPatchSetTag(workInProgress));
     cmUtil.addChangeMessage(ctx.getDb(), update, msg);
 
     if (mergedByPushOp == null) {

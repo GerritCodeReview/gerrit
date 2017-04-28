@@ -96,6 +96,7 @@ public class Submit
       "This change depends on other changes which are not ready";
   private static final String BLOCKED_HIDDEN_SUBMIT_TOOLTIP =
       "This change depends on other hidden changes which are not ready";
+  private static final String BLOCKED_WORK_IN_PROGRESS = "This change is marked work in progress";
   private static final String CLICK_FAILURE_TOOLTIP = "Clicking the button would fail";
   private static final String CHANGE_UNMERGEABLE = "Problems with integrating this change";
   private static final String CHANGES_NOT_MERGEABLE = "Problems with change(s): ";
@@ -270,6 +271,9 @@ public class Submit
         }
         if (!can.contains(ChangePermission.SUBMIT)) {
           return BLOCKED_SUBMIT_TOOLTIP;
+        }
+        if (c.change().isWorkInProgress()) {
+          return BLOCKED_WORK_IN_PROGRESS;
         }
         MergeOp.checkSubmitRule(c);
       }

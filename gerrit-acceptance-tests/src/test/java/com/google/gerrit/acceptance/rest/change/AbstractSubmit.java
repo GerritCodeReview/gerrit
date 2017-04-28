@@ -496,6 +496,20 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitWorkInProgressChange() throws Exception {
+    PushOneCommit.Result change = createWorkInProgressChange();
+    Change.Id num = change.getChange().getId();
+    submitWithConflict(
+        change.getChangeId(),
+        "Failed to submit 1 change due to the following problems:\n"
+            + "Change "
+            + num
+            + ": Change "
+            + num
+            + " is work in progress");
+  }
+
+  @Test
   public void submitDraftPatchSet() throws Exception {
     PushOneCommit.Result change = createChange();
     PushOneCommit.Result draft = amendChangeAsDraft(change.getChangeId());

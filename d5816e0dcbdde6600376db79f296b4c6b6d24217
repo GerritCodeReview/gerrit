@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0b402747_7dc4361a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-28T09:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f55afa2_5718c88f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "d5816e0dcbdde6600376db79f296b4c6b6d24217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fa41d37_0dbab465",
         "filename": "/COMMIT_MSG",
         "patchSetId": 33
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-28T09:40:39Z",
       "side": 1,
       "message": "This wasn\u0027t done yet?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 56
+      },
+      "revId": "d5816e0dcbdde6600376db79f296b4c6b6d24217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a6a3a0_38bb6c41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-28T09:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fa41d37_0dbab465",
       "range": {
         "startLine": 12,
         "startChar": 0,

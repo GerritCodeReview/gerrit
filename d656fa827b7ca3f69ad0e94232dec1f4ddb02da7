@@ -16,6 +16,24 @@
       "revId": "d656fa827b7ca3f69ad0e94232dec1f4ddb02da7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0ec1ead_44f6decc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Ignore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-28T09:09:04Z",
+      "side": 1,
+      "message": "I think so.  For example you may want to preemptively ignore changes before being added as reviewer.",
+      "parentUuid": "d2317307_d1614097",
+      "revId": "d656fa827b7ca3f69ad0e94232dec1f4ddb02da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

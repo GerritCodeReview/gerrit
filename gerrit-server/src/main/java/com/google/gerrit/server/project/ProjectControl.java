@@ -249,7 +249,7 @@ public class ProjectControl {
     return getProject().getState().equals(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
   }
 
-  public boolean canAddRefs() {
+  private boolean canAddRefs() {
     return (canPerformOnAnyRef(Permission.CREATE) || isOwnerAnyRef());
   }
 
@@ -588,6 +588,9 @@ public class ProjectControl {
 
         case READ:
           return !isHidden() && allRefsAreVisible(Collections.emptySet());
+
+        case CREATE_REF:
+          return canAddRefs();
       }
       throw new PermissionBackendException(perm + " unsupported");
     }

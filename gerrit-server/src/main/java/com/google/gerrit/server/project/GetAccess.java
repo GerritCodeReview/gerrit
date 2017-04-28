@@ -14,6 +14,11 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.server.permissions.GlobalPermission.ADMINISTRATE_SERVER;
+import static com.google.gerrit.server.permissions.ProjectPermission.CREATE_REF;
+import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
+import static com.google.gerrit.server.permissions.RefPermission.READ;
+
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.AccessSection;
@@ -25,6 +30,7 @@ import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -37,6 +43,9 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -63,7 +72,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
           PermissionRule.Action.INTERACTIVE,
           PermissionRuleInfo.Action.INTERACTIVE);
 
-  private final Provider<CurrentUser> self;
+  private final Provider<CurrentUser> user;
+  private final PermissionBackend permissionBackend;
   private final GroupControl.Factory groupControlFactory;
   private final AllProjectsName allProjectsName;
   private final ProjectJson projectJson;
@@ -75,6 +85,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
   @Inject
   public GetAccess(
       Provider<CurrentUser> self,
+      PermissionBackend permissionBackend,
       GroupControl.Factory groupControlFactory,
       AllProjectsName allProjectsName,
       ProjectCache projectCache,
@@ -82,7 +93,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
       ProjectJson projectJson,
       ProjectControl.GenericFactory projectControlFactory,
       GroupBackend groupBackend) {
-    this.self = self;
+    this.user = self;
+    this.permissionBackend = permissionBackend;
     this.groupControlFactory = groupControlFactory;
     this.allProjectsName = allProjectsName;
     this.projectJson = projectJson;
@@ -93,9 +105,10 @@ public class GetAccess implements RestReadView<ProjectResource> {
   }
 
   public ProjectAccessInfo apply(Project.NameKey nameKey)
-      throws ResourceNotFoundException, ResourceConflictException, IOException {
+      throws ResourceNotFoundException, ResourceConflictException, IOException,
+          PermissionBackendException {
     try {
-      return apply(new ProjectResource(projectControlFactory.controlFor(nameKey, self.get())));
+      return apply(new ProjectResource(projectControlFactory.controlFor(nameKey, user.get())));
     } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(nameKey.get());
     }
@@ -103,16 +116,18 @@ public class GetAccess implements RestReadView<ProjectResource> {
 
   @Override
   public ProjectAccessInfo apply(ProjectResource rsrc)
-      throws ResourceNotFoundException, ResourceConflictException, IOException {
+      throws ResourceNotFoundException, ResourceConflictException, IOException,
+          PermissionBackendException {
     // Load the current configuration from the repository, ensuring it's the most
     // recent version available. If it differs from what was in the project
     // state, force a cache flush now.
-    //
+
     Project.NameKey projectName = rsrc.getNameKey();
     ProjectAccessInfo info = new ProjectAccessInfo();
-    ProjectConfig config;
     ProjectControl pc = createProjectControl(projectName);
-    RefControl metaConfigControl = pc.controlForRef(RefNames.REFS_CONFIG);
+    PermissionBackend.ForProject perm = permissionBackend.user(user).project(projectName);
+
+    ProjectConfig config;
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
       config = ProjectConfig.read(md);
 
@@ -121,10 +136,12 @@ public class GetAccess implements RestReadView<ProjectResource> {
         config.commit(md);
         projectCache.evict(config.getProject());
         pc = createProjectControl(projectName);
+        perm = permissionBackend.user(user).project(projectName);
       } else if (config.getRevision() != null
           && !config.getRevision().equals(pc.getProjectState().getConfig().getRevision())) {
         projectCache.evict(config.getProject());
         pc = createProjectControl(projectName);
+        perm = permissionBackend.user(user).project(projectName);
       }
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(e.getMessage());
@@ -135,6 +152,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     info.local = new HashMap<>();
     info.ownerOf = new HashSet<>();
     Map<AccountGroup.UUID, Boolean> visibleGroups = new HashMap<>();
+    boolean checkReadConfig = check(perm, RefNames.REFS_CONFIG, READ);
 
     for (AccessSection section : config.getAccessSections()) {
       String name = section.getName();
@@ -143,20 +161,19 @@ public class GetAccess implements RestReadView<ProjectResource> {
           info.local.put(name, createAccessSection(section));
           info.ownerOf.add(name);
 
-        } else if (metaConfigControl.isVisible()) {
+        } else if (checkReadConfig) {
           info.local.put(section.getName(), createAccessSection(section));
         }
 
       } else if (RefConfigSection.isValid(name)) {
-        RefControl rc = pc.controlForRef(name);
-        if (rc.isOwner()) {
+        if (pc.controlForRef(name).isOwner()) {
           info.local.put(name, createAccessSection(section));
           info.ownerOf.add(name);
 
-        } else if (metaConfigControl.isVisible()) {
+        } else if (checkReadConfig) {
           info.local.put(name, createAccessSection(section));
 
-        } else if (rc.isVisible()) {
+        } else if (check(perm, name, READ)) {
           // Filter the section to only add rules describing groups that
           // are visible to the current-user. This includes any group the
           // user is a member of, as well as groups they own or that
@@ -214,19 +231,30 @@ public class GetAccess implements RestReadView<ProjectResource> {
       info.inheritsFrom = projectJson.format(parent.getProject());
     }
 
-    if (pc.getProject().getNameKey().equals(allProjectsName)) {
-      if (pc.isOwner()) {
-        info.ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
-      }
+    if (projectName.equals(allProjectsName)
+        && permissionBackend.user(user).testOrFalse(ADMINISTRATE_SERVER)) {
+      info.ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
     }
 
     info.isOwner = toBoolean(pc.isOwner());
     info.canUpload =
-        toBoolean(pc.isOwner() || (metaConfigControl.isVisible() && metaConfigControl.canUpload()));
-    info.canAdd = toBoolean(pc.canAddRefs());
-    info.configVisible = pc.isOwner() || metaConfigControl.isVisible();
+        toBoolean(
+            pc.isOwner()
+                || (checkReadConfig && perm.ref(RefNames.REFS_CONFIG).testOrFalse(CREATE_CHANGE)));
+    info.canAdd = toBoolean(perm.testOrFalse(CREATE_REF));
+    info.configVisible = checkReadConfig || pc.isOwner();
 
     return info;
+  }
+
+  private static boolean check(PermissionBackend.ForProject ctx, String ref, RefPermission perm)
+      throws PermissionBackendException {
+    try {
+      ctx.ref(ref).check(perm);
+      return true;
+    } catch (AuthException denied) {
+      return false;
+    }
   }
 
   private AccessSectionInfo createAccessSection(AccessSection section) {
@@ -255,7 +283,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
   private ProjectControl createProjectControl(Project.NameKey projectName)
       throws IOException, ResourceNotFoundException {
     try {
-      return projectControlFactory.controlFor(projectName, self.get());
+      return projectControlFactory.controlFor(projectName, user.get());
     } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(projectName.get());
     }

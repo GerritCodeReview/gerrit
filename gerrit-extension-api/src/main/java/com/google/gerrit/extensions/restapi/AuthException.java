@@ -22,4 +22,9 @@ public class AuthException extends RestApiException {
   public AuthException(String msg) {
     super(msg);
   }
+
+  /** @param msg message to return to the client. */
+  public AuthException(String msg, Throwable cause) {
+    super(msg, cause);
+  }
 }

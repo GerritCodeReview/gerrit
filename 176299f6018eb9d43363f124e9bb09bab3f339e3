@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0a8b5240_8057d055",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-28T06:50:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37489046_33026c45",
+      "revId": "176299f6018eb9d43363f124e9bb09bab3f339e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17232ec3_8a27f5b5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ReplacePatchSetSender.java",
         "patchSetId": 14
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-27T08:52:27Z",
       "side": 1,
       "message": "I think the same needs to be done in CommentSender.",
+      "revId": "176299f6018eb9d43363f124e9bb09bab3f339e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d4f7773_7aae6a0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ReplacePatchSetSender.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-28T06:50:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17232ec3_8a27f5b5",
       "revId": "176299f6018eb9d43363f124e9bb09bab3f339e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -260,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "20a726f4_3f7417b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Unmute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-04-28T11:51:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf013ccf_e409d690",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 2
+      },
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf3ff245_9811df61",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Unmute.java",
         "patchSetId": 1

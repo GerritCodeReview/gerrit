@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2317307_d1614097",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Ignore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-04-28T09:08:03Z",
+      "side": 1,
+      "message": "Q: Should you be able to ignore a change if you are not a reviewer/cc? You wont be affected by it.",
+      "revId": "d656fa827b7ca3f69ad0e94232dec1f4ddb02da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

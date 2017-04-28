@@ -22,40 +22,10 @@ limitations under the License.
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../../plugins/gr-plugin-host/gr-plugin-host.html">
 <link rel="import" href="gr-change-metadata.html">
 
-<test-fixture id="plugin">
-  <template>
-    <script>
-      Gerrit.install(function(plugin) {
-        plugin.registerStyleModule('change-metadata', 'some-style');
-      }, '', 'http://x/plugins/foo.js');
-    </script>
-  </template>
-</test-fixture>
-
-<test-fixture id="some-style">
-  <template>
-    <dom-module id="some-style">
-      <style>
-        :root {
-          --change-metadata-assignee: {
-            display: none;
-          }
-          --change-metadata-label-status: {
-            display: none;
-          }
-          --change-metadata-strategy: {
-            display: none;
-          }
-          --change-metadata-topic: {
-            display: none;
-          }
-        }
-      </style>
-    </dom-module>
-  </template>
-</test-fixture>
+<script>void(0);</script>
 
 <test-fixture id="element">
   <template>
@@ -63,10 +33,15 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="plugin-host">
+  <template>
+    <gr-plugin-host></gr-plugin-host>
+  </template>
+</test-fixture>
+
 <script>
   suite('gr-change-metadata integration tests', function() {
     var sandbox;
-    var plugin;
     var element;
 
     var sectionSelectors = [
@@ -82,19 +57,20 @@ limitations under the License.
     };
 
     setup(function() {
-      Gerrit._pluginsPending = 0;
       sandbox = sinon.sandbox.create();
       stub('gr-change-metadata', {
         _computeShowLabelStatus: function() { return true; },
         _computeShowReviewersByState: function() { return true; },
         ready: function() {
-          this.change = {labels:[]};
+          this.change = {labels: []};
           this.serverConfig = {};
         },
       });
     });
 
     teardown(function() {
+      Gerrit._pluginsPending = -1;
+      Gerrit._allPluginsPromise = undefined;
       sandbox.restore();
     });
 
@@ -106,26 +82,27 @@ limitations under the License.
 
       sectionSelectors.forEach(function(sectionSelector) {
         test(sectionSelector + ' does not have display: none', function() {
-          assert.notEqual(
-              getStyle(sectionSelector, 'display'), 'none');
-          });
+          assert.notEqual(getStyle(sectionSelector, 'display'), 'none');
+        });
       });
     });
 
     suite('with plugin style', function() {
-      var styleEl;
-
       setup(function(done) {
-        styleEl = fixture('some-style');
+        var pluginHost = fixture('plugin-host');
+        pluginHost.config = {
+          js_resource_paths: [],
+          html_resource_paths: [
+            new URL('test/plugin.html', window.location.href).toString(),
+          ]
+        };
         element = fixture('element');
-        plugin = fixture('plugin');
-        flush(done);
+        Gerrit.awaitPluginsLoaded().then(function() { flush(done); });
       });
 
       sectionSelectors.forEach(function(sectionSelector) {
         test(sectionSelector + ' may have display: none', function() {
-          assert.equal(
-              getStyle(sectionSelector, 'display'), 'none');
+          assert.equal(getStyle(sectionSelector, 'display'), 'none');
         });
       });
     });

@@ -35,23 +35,27 @@ limitations under the License.
     var sandbox;
     var element;
 
-    setup(function() {
+    setup(function(done) {
       sandbox = sinon.sandbox.create();
       sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
+      Gerrit._styleModules = {'foo': [{pluginUrl: 'bar', moduleName: 'baz',}]};
+
       element = fixture('basic');
+      sandbox.stub(element, '_applyStyle');
+      sandbox.stub(element, 'importHref', function(url, resolve) { resolve() });
+      flush(done);
     });
 
     teardown(function() {
       sandbox.restore();
     });
 
-    test('applies plugin-provided styles', function(done) {
-      Gerrit._styleModules = {'foo': ['bar']};
-      sandbox.stub(element, '_applyStyle');
-      flush(function() {
-        assert.isTrue(element._applyStyle.calledWith('bar'));
-        done();
-      });
+    test('imports plugin-provided module', function() {
+      assert.isTrue(element.importHref.calledWith('bar'));
+    });
+
+    test('applies plugin-provided styles', function() {
+      assert.isTrue(element._applyStyle.calledWith('baz'));
     });
   });
 </script>

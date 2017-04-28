@@ -199,6 +199,7 @@ public class ChangeScreen extends Screen {
 
   @UiField Element statusText;
   @UiField Element privateText;
+  @UiField Element wipText;
   @UiField Image projectSettings;
   @UiField AnchorElement projectSettingsLink;
   @UiField InlineHyperlink projectDashboard;
@@ -1390,6 +1391,10 @@ public class ChangeScreen extends Screen {
 
     if (info.isPrivate()) {
       privateText.setInnerText(Util.C.isPrivate());
+    }
+
+    if (info.isWorkInProgress()) {
+      wipText.setInnerText(Util.C.isWorkInProgress());
     }
 
     if (Gerrit.isSignedIn()) {

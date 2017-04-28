@@ -2175,6 +2175,33 @@ Un-marks a change as ignored.
   PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/unignore HTTP/1.0
 ----
 
+[[mute]]
+=== Mute
+--
+'PUT /changes/link:#change-id[\{change-id\}]/mute'
+--
+
+Marks a change as muted. The change will not be shown in the incoming
+reviews dashboard, and email notifications will be suppressed.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/mute HTTP/1.0
+----
+
+[[unmute]]
+=== Unmute
+--
+'PUT /changes/link:#change-id[\{change-id\}]/unmute'
+--
+
+Un-marks a change as muted.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/unmute HTTP/1.0
+----
+
 [[edit-endpoints]]
 == Change Edit Endpoints
 

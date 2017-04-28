@@ -95,6 +95,13 @@ public interface ChangeApi {
   void ignore(boolean ignore) throws RestApiException;
 
   /**
+   * Mute or un-mute this change.
+   *
+   * @param mute mute the change if true
+   */
+  void mute(boolean mute) throws RestApiException;
+
+  /**
    * Create a new change that reverts this change.
    *
    * @see Changes#id(int)
@@ -493,6 +500,11 @@ public interface ChangeApi {
 
     @Override
     public void ignore(boolean ignore) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void mute(boolean mute) {
       throw new NotImplementedException();
     }
   }

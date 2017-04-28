@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ceffa448_b54535dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-28T10:21:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f87c111_227c2147",
+      "revId": "5363d96b21775324f03c1f6614564876d56df395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "805e76f0_a1a55ec6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2017-04-28T08:17:40Z",
       "side": 1,
       "message": "15",
+      "range": {
+        "startLine": 168,
+        "startChar": 35,
+        "endLine": 168,
+        "endChar": 37
+      },
+      "revId": "5363d96b21775324f03c1f6614564876d56df395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ebc5a9f_1e673e61",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-28T10:21:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "805e76f0_a1a55ec6",
       "range": {
         "startLine": 168,
         "startChar": 35,

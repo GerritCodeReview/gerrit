@@ -356,6 +356,31 @@ public class StarredChangesUtil {
     return byChange(changeId, IGNORE_LABEL).contains(accountId);
   }
 
+  public void mute(Account.Id accountId, Project.NameKey project, Change change)
+      throws OrmException {
+    star(
+        accountId,
+        project,
+        change.getId(),
+        ImmutableSet.of(MUTE_LABEL + "/" + change.currentPatchSetId().get()),
+        ImmutableSet.of());
+  }
+
+  public void unmute(Account.Id accountId, Project.NameKey project, Change change)
+      throws OrmException {
+    star(
+        accountId,
+        project,
+        change.getId(),
+        ImmutableSet.of(),
+        ImmutableSet.of(MUTE_LABEL + "/" + change.currentPatchSetId().get()));
+  }
+
+  public boolean isMutedBy(Change change, Account.Id accountId) throws OrmException {
+    return byChange(change.getId(), MUTE_LABEL + "/" + change.currentPatchSetId().get())
+        .contains(accountId);
+  }
+
   private static StarRef readLabels(Repository repo, String refName) throws IOException {
     Ref ref = repo.exactRef(refName);
     if (ref == null) {

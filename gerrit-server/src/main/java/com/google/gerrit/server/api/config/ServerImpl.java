@@ -33,7 +33,6 @@ import com.google.gerrit.server.config.GetServerInfo;
 import com.google.gerrit.server.config.SetDiffPreferences;
 import com.google.gerrit.server.config.SetPreferences;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.Access;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

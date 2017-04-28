@@ -28,6 +28,5 @@ public class AccessCheckInput {
     this.ref = ref;
   }
 
-  public AccessCheckInput() {
-  }
+  public AccessCheckInput() {}
 }

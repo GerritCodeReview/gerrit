@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.config;
 
-import javax.servlet.http.HttpServletResponse;
-
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo.Result;
@@ -27,7 +25,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
@@ -42,6 +39,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 public class CheckAccess implements RestModifyView<ConfigResource, AccessCheckInput> {

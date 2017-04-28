@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "393ffd0a_e7ebbef9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-28T09:05:10Z",
+      "side": 1,
+      "message": "Especially following up on such problems is difficult. Right now we can only contact responsible colleagues and ask them to do something about it. Some react and fix the issue. Some try to fix the issue but don\u0027t really do it properly... and this requires another round of following up from our side etc...\n\nIf rate limits would be enforced, the motivation to fix a misconfigured system would be much higher :-)",
+      "range": {
+        "startLine": 11,
+        "startChar": 27,
+        "endLine": 12,
+        "endChar": 27
+      },
+      "revId": "0bfe9e076ade9a48ea13a3a40fb960fa43eddb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7951d8e_05005a82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-04-28T09:05:10Z",
+      "side": 1,
+      "message": "Just listing a few more candidates for rate limits:\n\n* REST API calls. To protect against buggy scripts which fire too many REST calls.\n\n* web_sessions per user. To protect against scripts which perform web based login (instead of the basic auth using the /a prefix) and create an excessive number of web sessions per user eventually causing web sessions of other users to get dropped.\n\n* amount of data transfer. To protect against clients who keep cloning (large) repositories instead of fetching.",
+      "revId": "0bfe9e076ade9a48ea13a3a40fb960fa43eddb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

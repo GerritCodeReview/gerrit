@@ -78,6 +78,12 @@ Responses will be gzip compressed by the server if the HTTP
 `Accept-Encoding` request header is set to `gzip`. This may
 save on network transfer time for larger responses.
 
+[[input]]
+=== Input Format
+Unknown JSON parameters will simply be ignored by Gerrit without causing
+an exception. This also applies to case-sensitive parameters, such as
+map keys.
+
 [[timestamp]]
 === Timestamp
 Timestamps are given in UTC and have the format

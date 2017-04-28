@@ -53,7 +53,6 @@ import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -134,8 +133,8 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
     QuerySource(Predicate<InternalGroup> p, QueryOptions opts) throws QueryParseException {
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       fields = IndexUtils.groupFields(opts);
-      SearchSourceBuilder searchSource =
-          new SearchSourceBuilder()
+      GerritElasticSearchSourceBuilder searchSource =
+          new GerritElasticSearchSourceBuilder()
               .query(qb)
               .from(opts.start())
               .size(opts.limit())

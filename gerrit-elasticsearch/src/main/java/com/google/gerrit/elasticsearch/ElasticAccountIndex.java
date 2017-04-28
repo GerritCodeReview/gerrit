@@ -54,7 +54,6 @@ import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -135,8 +134,8 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
     QuerySource(Predicate<AccountState> p, QueryOptions opts) throws QueryParseException {
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       fields = IndexUtils.accountFields(opts);
-      SearchSourceBuilder searchSource =
-          new SearchSourceBuilder()
+      GerritElasticSearchSourceBuilder searchSource =
+          new GerritElasticSearchSourceBuilder()
               .query(qb)
               .from(opts.start())
               .size(opts.limit())

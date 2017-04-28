@@ -162,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "fbe6dee8_474251f0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 34
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-04-28T07:12:12Z",
+      "side": 1,
+      "message": "You probably need to flushAsynchronousOperations();  to force the dom to update.",
+      "parentUuid": "b5518e43_1b92ca23",
+      "revId": "19c172663e08962736eb1ddbaa2a7de1e72bca0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fa08440f_9b2143fc",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 34

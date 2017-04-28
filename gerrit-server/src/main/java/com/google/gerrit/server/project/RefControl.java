@@ -363,7 +363,7 @@ public class RefControl {
    *
    * @return {@code true} if the user specified can delete a Git ref.
    */
-  public boolean canDelete() {
+  private boolean canDelete() {
     if (!isProjectStatePermittingWrite() || (RefNames.REFS_CONFIG.equals(refName))) {
       // Never allow removal of the refs/meta/config branch.
       // Deleting the branch would destroy all Gerrit specific

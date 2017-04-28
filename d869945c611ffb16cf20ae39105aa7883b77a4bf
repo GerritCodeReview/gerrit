@@ -17,6 +17,24 @@
       "revId": "d869945c611ffb16cf20ae39105aa7883b77a4bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33e5359a_2ff7d32a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1471,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-28T10:39:00Z",
+      "side": 1,
+      "message": "Good call.\n\nIt actually turns out that the current replace patch set email templates actually don\u0027t include the coverLetter field. This is clearly an oversight, and probably dates to the time before it was possible to add a ChangeMessage using the %m option.\n\nFor now I have asserted over the actual email contents that were received, with a TODO to include the comment summary when the templates actually include it. This will come as a later cleanup.",
+      "parentUuid": "a9299c1e_99b0c2a7",
+      "revId": "d869945c611ffb16cf20ae39105aa7883b77a4bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -218,10 +218,8 @@ project-ref combination).
 
   )]}'
   {
-    "result": {
-      "message": "user Kristen Burns \u003cKristen.Burns@gerritcodereview.com\u003e (1000098) cannot see ref refs/heads/secret/master in project medium",
-      "status": 403
-    }
+    "message": "user Kristen Burns \u003cKristen.Burns@gerritcodereview.com\u003e (1000098) cannot see ref refs/heads/secret/master in project medium",
+    "status": 403
   }
 ----
 

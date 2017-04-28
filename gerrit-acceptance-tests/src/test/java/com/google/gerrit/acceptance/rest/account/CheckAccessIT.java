@@ -118,19 +118,19 @@ public class CheckAccessIT extends AbstractDaemonTest {
       }
 
       int want = entry.getValue();
-      if (want != info.result.status) {
-        fail(String.format("check.access(%s) = %d, want %d", in, info.result.status, want));
+      if (want != info.status) {
+        fail(String.format("check.access(%s) = %d, want %d", in, info.status, want));
       }
 
       switch (want) {
         case 403:
-          assertThat(info.result.message).contains("cannot see");
+          assertThat(info.message).contains("cannot see");
           break;
         case 404:
-          assertThat(info.result.message).contains("does not exist");
+          assertThat(info.message).contains("does not exist");
           break;
         case 200:
-          assertThat(info.result.message).isNull();
+          assertThat(info.message).isNull();
           break;
         default:
           fail(String.format("unknown code %d", want));

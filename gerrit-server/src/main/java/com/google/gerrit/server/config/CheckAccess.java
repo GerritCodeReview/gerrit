@@ -16,7 +16,6 @@ package com.google.gerrit.server.config;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
-import com.google.gerrit.extensions.api.config.AccessCheckInfo.Result;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -87,12 +86,11 @@ public class CheckAccess implements RestModifyView<ConfigResource, AccessCheckIn
     }
 
     AccessCheckInfo info = new AccessCheckInfo();
-    info.result = new Result();
 
     Project.NameKey key = new Project.NameKey(input.project);
     if (projectCache.get(key) == null) {
-      info.result.message = String.format("project %s does not exist", key);
-      info.result.status = HttpServletResponse.SC_NOT_FOUND;
+      info.message = String.format("project %s does not exist", key);
+      info.status = HttpServletResponse.SC_NOT_FOUND;
       return info;
     }
 
@@ -100,11 +98,11 @@ public class CheckAccess implements RestModifyView<ConfigResource, AccessCheckIn
     try {
       permissionBackend.user(user).project(key).check(ProjectPermission.ACCESS);
     } catch (AuthException | PermissionBackendException e) {
-      info.result.message =
+      info.message =
           String.format(
               "user %s (%s) cannot see project %s",
               user.getNameEmail(), user.getAccount().getId(), key);
-      info.result.status = HttpServletResponse.SC_FORBIDDEN;
+      info.status = HttpServletResponse.SC_FORBIDDEN;
       return info;
     }
 
@@ -115,8 +113,8 @@ public class CheckAccess implements RestModifyView<ConfigResource, AccessCheckIn
             .ref(new Branch.NameKey(key, input.ref))
             .check(RefPermission.READ);
       } catch (AuthException | PermissionBackendException e) {
-        info.result.status = HttpServletResponse.SC_FORBIDDEN;
-        info.result.message =
+        info.status = HttpServletResponse.SC_FORBIDDEN;
+        info.message =
             String.format(
                 "user %s (%s) cannot see ref %s in project %s",
                 user.getNameEmail(), user.getAccount().getId(), input.ref, key);
@@ -124,7 +122,7 @@ public class CheckAccess implements RestModifyView<ConfigResource, AccessCheckIn
       }
     }
 
-    info.result.status = HttpServletResponse.SC_OK;
+    info.status = HttpServletResponse.SC_OK;
     return info;
   }
 }

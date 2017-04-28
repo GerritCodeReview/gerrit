@@ -56,7 +56,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Bulk;
 import io.searchbox.core.Bulk.Builder;
@@ -71,7 +70,6 @@ import java.util.Set;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -192,8 +190,8 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       }
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       fields = IndexUtils.changeFields(opts);
-      SearchSourceBuilder searchSource =
-          new SearchSourceBuilder()
+      GerritElasticSearchSourceBuilder searchSource =
+          new GerritElasticSearchSourceBuilder()
               .query(qb)
               .from(opts.start())
               .size(opts.limit())

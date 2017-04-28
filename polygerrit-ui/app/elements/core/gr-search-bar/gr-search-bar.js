@@ -44,6 +44,7 @@
     'is:abandoned',
     'is:closed',
     'is:draft',
+    'is:ignored',
     'is:mergeable',
     'is:merged',
     'is:open',

@@ -300,7 +300,7 @@ class ChangeApiImpl implements ChangeApi {
   public void move(MoveInput in) throws RestApiException {
     try {
       move.apply(change, in);
-    } catch (OrmException | UpdateException e) {
+    } catch (OrmException | UpdateException | PermissionBackendException e) {
       throw new RestApiException("Cannot move change", e);
     }
   }

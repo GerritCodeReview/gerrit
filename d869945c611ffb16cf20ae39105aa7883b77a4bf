@@ -35,6 +35,24 @@
       "revId": "d869945c611ffb16cf20ae39105aa7883b77a4bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4adead5f_b7e9864e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1471,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-28T10:40:04Z",
+      "side": 1,
+      "message": "(Later in this series, but ideally still today. This is actually more important now than it used to be, IMO.)",
+      "parentUuid": "33e5359a_2ff7d32a",
+      "revId": "d869945c611ffb16cf20ae39105aa7883b77a4bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

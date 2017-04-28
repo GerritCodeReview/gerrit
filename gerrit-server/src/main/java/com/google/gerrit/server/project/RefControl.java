@@ -738,6 +738,13 @@ public class RefControl {
           return canForgeGerritServerIdentity();
         case CREATE_CHANGE:
           return canUpload();
+
+        case BYPASS_REVIEW:
+          return canForgeAuthor()
+              && canForgeCommitter()
+              && canForgeGerritServerIdentity()
+              && canUploadMerges()
+              && !projectControl.getProjectState().isUseSignedOffBy();
       }
       throw new PermissionBackendException(perm + " unsupported");
     }

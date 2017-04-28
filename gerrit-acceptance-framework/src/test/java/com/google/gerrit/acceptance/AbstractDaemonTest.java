@@ -606,6 +606,10 @@ public abstract class AbstractDaemonTest {
     return pushTo("refs/drafts/master");
   }
 
+  protected PushOneCommit.Result createWorkInProgressChange() throws Exception {
+    return pushTo("refs/for/master%wip");
+  }
+
   protected PushOneCommit.Result createChange(String subject, String fileName, String content)
       throws Exception {
     PushOneCommit push =

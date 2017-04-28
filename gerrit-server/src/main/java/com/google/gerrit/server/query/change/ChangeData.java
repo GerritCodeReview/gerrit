@@ -1090,6 +1090,8 @@ public class ChangeData {
         mergeable = true;
       } else if (c.getStatus() == Change.Status.ABANDONED) {
         return null;
+      } else if (c.isWorkInProgress()) {
+        return null;
       } else {
         if (!lazyLoad) {
           return null;

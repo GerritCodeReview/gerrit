@@ -795,5 +795,10 @@
     _computeContainerClass(editLoaded) {
       return editLoaded ? 'editLoaded' : '';
     },
+
+    _loadBlame() {
+      this.$.diff.classList.add('showBlame');
+      this.$.diff._getBlame();
+    },
   });
 })();

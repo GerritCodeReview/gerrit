@@ -125,6 +125,9 @@
       },
 
       _showWarning: Boolean,
+
+      _blame: Object,
+      _blameCommitMsg: String,
     },
 
     behaviors: [
@@ -239,6 +242,11 @@
           el.classList.contains('contentText')) {
         const target = this.$.diffBuilder.getLineElByChild(el);
         if (target) { this._selectLine(target); }
+      } else if (el.tagName === 'SPAN' && el.classList.contains('sha')) {
+        const sha = el.getAttribute('data-sha');
+        const commit = this._blame.find(commit => commit.id === sha);
+        this._blameCommitMsg = commit.commit_msg;
+        this.$.tempCommitDisplay.open();
       }
     },
 
@@ -668,6 +676,12 @@
     /** @return {string} */
     _computeWarningClass(showWarning) {
       return showWarning ? 'warn' : '';
+    },
+
+    _getBlame() {
+      this.$.restAPI.getBlame(this.changeNum, this.patchRange.patchNum,
+          this.path, true)
+          .then(blame => { this._blame = blame; });
     },
   });
 })();

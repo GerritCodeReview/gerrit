@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "86e9746e_a14c641e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-28T08:45:46Z",
+      "side": 1,
+      "message": "Maybe it should be PUT as there is no request body.",
+      "parentUuid": "6d58fe09_18c87bd3",
+      "range": {
+        "startLine": 2154,
+        "startChar": 1,
+        "endLine": 2154,
+        "endChar": 5
+      },
+      "revId": "d91efc67ea47b34d3f71de6793cb605a5d3fa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "399ebd08_91f36152",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3

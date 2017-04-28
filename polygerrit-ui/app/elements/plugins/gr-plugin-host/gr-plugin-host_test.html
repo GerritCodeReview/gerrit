@@ -59,9 +59,9 @@ limitations under the License.
         html_resource_paths: ['foo/bar', 'baz'],
       };
       assert.isTrue(element.importHref.calledWith(
-          '/foo/bar', null, Gerrit._pluginInstalled, true));
+          '/foo/bar', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
       assert.isTrue(element.importHref.calledWith(
-          '/baz', null, Gerrit._pluginInstalled, true));
+          '/baz', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
     });
   });
 </script>

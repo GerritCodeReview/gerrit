@@ -180,6 +180,24 @@
     },
     {
       "key": {
+        "uuid": "3b605a49_c64fa464",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 34
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-28T20:06:55Z",
+      "side": 1,
+      "message": "That also seems to fail when doing that too.\n\nI am unsure how to get that one working as it fails.\n\nI\u0027ve instead done\n\n          assert.deepEqual(fireActionStub.lastCall.args, [\n            \u0027/private\u0027, privateAction, false\n          ]);",
+      "parentUuid": "fbe6dee8_474251f0",
+      "revId": "19c172663e08962736eb1ddbaa2a7de1e72bca0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fa08440f_9b2143fc",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 34

@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -35,12 +36,10 @@ public class DeleteBranches implements RestModifyView<ProjectResource, DeleteBra
 
   @Override
   public Response<?> apply(ProjectResource project, DeleteBranchesInput input)
-      throws OrmException, IOException, RestApiException {
-
+      throws OrmException, IOException, RestApiException, PermissionBackendException {
     if (input == null || input.branches == null || input.branches.isEmpty()) {
       throw new BadRequestException("branches must be specified");
     }
-
     deleteRefFactory.create(project).refs(input.branches).delete();
     return Response.none();
   }

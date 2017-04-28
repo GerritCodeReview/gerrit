@@ -1120,24 +1120,30 @@ public class ReceiveCommits {
     return false;
   }
 
-  private void parseDelete(ReceiveCommand cmd) {
+  private void parseDelete(ReceiveCommand cmd) throws PermissionBackendException {
     logDebug("Deleting {}", cmd);
-    RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    if (ctl.getRefName().startsWith(REFS_CHANGES)) {
-      errors.put(Error.DELETE_CHANGES, ctl.getRefName());
+    if (cmd.getRefName().startsWith(REFS_CHANGES)) {
+      errors.put(Error.DELETE_CHANGES, cmd.getRefName());
       reject(cmd, "cannot delete changes");
-    } else if (ctl.canDelete()) {
+    } else if (canDelete(cmd)) {
       if (!validRefOperation(cmd)) {
         return;
       }
       actualCommands.add(cmd);
+    } else if (RefNames.REFS_CONFIG.equals(cmd.getRefName())) {
+      reject(cmd, "cannot delete project configuration");
     } else {
-      if (RefNames.REFS_CONFIG.equals(ctl.getRefName())) {
-        reject(cmd, "cannot delete project configuration");
-      } else {
-        errors.put(Error.DELETE, ctl.getRefName());
-        reject(cmd, "cannot delete references");
-      }
+      errors.put(Error.DELETE, cmd.getRefName());
+      reject(cmd, "cannot delete references");
+    }
+  }
+
+  private boolean canDelete(ReceiveCommand cmd) throws PermissionBackendException {
+    try {
+      permissions.ref(cmd.getRefName()).check(RefPermission.DELETE);
+      return true;
+    } catch (AuthException e) {
+      return false;
     }
   }
 

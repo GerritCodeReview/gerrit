@@ -112,7 +112,7 @@ public class DeleteTagIT extends AbstractDaemonTest {
 
   private void assertDeleteForbidden() throws Exception {
     exception.expect(AuthException.class);
-    exception.expectMessage("Cannot delete tag");
+    exception.expectMessage("delete not permitted");
     tag().delete();
   }
 }

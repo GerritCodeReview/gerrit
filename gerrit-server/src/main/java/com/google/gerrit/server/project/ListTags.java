@@ -24,11 +24,14 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -50,6 +53,8 @@ import org.kohsuke.args4j.Option;
 
 public class ListTags implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
+  private final PermissionBackend permissionBackend;
+  private final Provider<CurrentUser> user;
   private final Provider<ReviewDb> dbProvider;
   private final TagCache tagCache;
   private final ChangeNotes.Factory changeNotesFactory;
@@ -103,11 +108,15 @@ public class ListTags implements RestReadView<ProjectResource> {
   @Inject
   public ListTags(
       GitRepositoryManager repoManager,
+      PermissionBackend permissionBackend,
+      Provider<CurrentUser> user,
       Provider<ReviewDb> dbProvider,
       TagCache tagCache,
       ChangeNotes.Factory changeNotesFactory,
       @Nullable SearchingChangeCacheImpl changeCache) {
     this.repoManager = repoManager;
+    this.permissionBackend = permissionBackend;
+    this.user = user;
     this.dbProvider = dbProvider;
     this.tagCache = tagCache;
     this.changeNotesFactory = changeNotesFactory;
@@ -119,13 +128,14 @@ public class ListTags implements RestReadView<ProjectResource> {
       throws IOException, ResourceNotFoundException, BadRequestException {
     List<TagInfo> tags = new ArrayList<>();
 
+    PermissionBackend.ForProject perm = permissionBackend.user(user).project(resource.getNameKey());
     try (Repository repo = getRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(repo)) {
-      ProjectControl control = resource.getControl();
+      ProjectControl pctl = resource.getControl();
       Map<String, Ref> all =
-          visibleTags(control, repo, repo.getRefDatabase().getRefs(Constants.R_TAGS));
+          visibleTags(pctl, repo, repo.getRefDatabase().getRefs(Constants.R_TAGS));
       for (Ref ref : all.values()) {
-        tags.add(createTagInfo(ref, rw, control.controlForRef(ref.getName())));
+        tags.add(createTagInfo(perm.ref(ref.getName()), ref, rw));
       }
     }
 
@@ -158,15 +168,22 @@ public class ListTags implements RestReadView<ProjectResource> {
       ProjectControl control = resource.getControl();
       if (ref != null
           && !visibleTags(control, repo, ImmutableMap.of(ref.getName(), ref)).isEmpty()) {
-        return createTagInfo(ref, rw, control.controlForRef(ref.getName()));
+        return createTagInfo(
+            permissionBackend
+                .user(control.getUser())
+                .project(resource.getNameKey())
+                .ref(ref.getName()),
+            ref,
+            rw);
       }
     }
     throw new ResourceNotFoundException(id);
   }
 
-  public static TagInfo createTagInfo(Ref ref, RevWalk rw, RefControl control)
+  public static TagInfo createTagInfo(PermissionBackend.ForRef perm, Ref ref, RevWalk rw)
       throws MissingObjectException, IOException {
     RevObject object = rw.parseAny(ref.getObjectId());
+    boolean canDelete = perm.testOrFalse(RefPermission.DELETE);
     if (object instanceof RevTag) {
       // Annotated or signed tag
       RevTag tag = (RevTag) object;
@@ -177,10 +194,10 @@ public class ListTags implements RestReadView<ProjectResource> {
           tag.getObject().getName(),
           tag.getFullMessage().trim(),
           tagger != null ? CommonConverters.toGitPerson(tag.getTaggerIdent()) : null,
-          control.canDelete());
+          canDelete);
     }
     // Lightweight tag
-    return new TagInfo(ref.getName(), ref.getObjectId().getName(), control.canDelete());
+    return new TagInfo(ref.getName(), ref.getObjectId().getName(), canDelete);
   }
 
   private Repository getRepository(Project.NameKey project)

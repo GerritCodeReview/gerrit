@@ -2117,7 +2117,7 @@ Marks the change to be private. Note users can only mark own changes as private.
 
 .Request
 ----
-  Set /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/private HTTP/1.0
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/private HTTP/1.0
 ----
 
 .Response

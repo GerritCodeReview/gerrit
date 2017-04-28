@@ -2148,6 +2148,43 @@ changes.
 
 If the change was already not private, the response is "`409 Conflict`".
 
+[[ignore]]
+=== Ignore
+--
+'POST /changes/link:#change-id[\{change-id\}]/ignore'
+--
+
+Marks a change as ignored. The change will not be shown in the incoming
+reviews dashboard, and email notifications will be suppressed.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/ignore HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+----
+
+[[unignore]]
+=== Unignore
+--
+'POST /changes/link:#change-id[\{change-id\}]/unignore'
+--
+
+Un-marks a change as ignored.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/unignore HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+----
+
 [[edit-endpoints]]
 == Change Edit Endpoints
 

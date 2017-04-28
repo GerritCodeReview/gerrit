@@ -1448,6 +1448,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byIgnore() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Account.Id user2 =
+        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
+    Change change1 = insert(repo, newChange(repo), user2);
+    Change change2 = insert(repo, newChange(repo), user2);
+
+    gApi.changes().id(change1.getId().toString()).ignore(true);
+    assertQuery("is:ignored", change1);
+    assertQuery("-is:ignored", change2);
+
+    gApi.changes().id(change1.getId().toString()).ignore(false);
+    assertQuery("is:ignored");
+    assertQuery("-is:ignored", change2, change1);
+  }
+
+  @Test
   public void byFrom() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));

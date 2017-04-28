@@ -22,6 +22,46 @@
       "revId": "a1be95646707f966d46912445421d7539213598b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ffaf99a_1ba1a3ba",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 24
+      },
+      "lineNbr": 2125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-28T08:23:59Z",
+      "side": 1,
+      "message": "We still need a section under \u0027JSON Entities\u0027 that describes this JSON entity and then add a link to it above.",
+      "range": {
+        "startLine": 2125,
+        "startChar": 4,
+        "endLine": 2125,
+        "endChar": 73
+      },
+      "revId": "a1be95646707f966d46912445421d7539213598b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb91fb5_2c845816",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 24
+      },
+      "lineNbr": 2151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-28T08:23:59Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "a1be95646707f966d46912445421d7539213598b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

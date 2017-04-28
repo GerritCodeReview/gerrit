@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64d086cc_c263128e",
+        "filename": "plugins/replication",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-28T10:56:44Z",
+      "side": 1,
+      "message": "unintended update?",
+      "revId": "cb80cfdade77e8e8951c8bf5612383a35f6d2f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -101,7 +101,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
         + who
         + " -owner:"
         + who
-        + " -star:ignore) OR assignee:"
+        + " -is:ignored) OR assignee:"
         + who
         + ")";
   }

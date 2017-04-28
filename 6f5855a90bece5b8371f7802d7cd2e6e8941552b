@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1db00f26_46cdc166",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-28T07:28:32Z",
+      "side": 1,
+      "message": "Yes, this will also be done.",
+      "parentUuid": "e59f7eb5_134fab9a",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 50
+      },
+      "revId": "6f5855a90bece5b8371f7802d7cd2e6e8941552b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0470a9aa_ac2a29dd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Ignore.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "101d04ec_b95196a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Ignore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-28T07:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0470a9aa_ac2a29dd",
+      "range": {
+        "startLine": 64,
+        "startChar": 26,
+        "endLine": 64,
+        "endChar": 34
+      },
+      "revId": "6f5855a90bece5b8371f7802d7cd2e6e8941552b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6ffdb87_672f3d18",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Ignore.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2017-04-28T07:06:20Z",
       "side": 1,
       "message": "Use the constant",
+      "range": {
+        "startLine": 73,
+        "startChar": 54,
+        "endLine": 73,
+        "endChar": 62
+      },
+      "revId": "6f5855a90bece5b8371f7802d7cd2e6e8941552b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e378173e_088df0cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Ignore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-28T07:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6ffdb87_672f3d18",
       "range": {
         "startLine": 73,
         "startChar": 54,

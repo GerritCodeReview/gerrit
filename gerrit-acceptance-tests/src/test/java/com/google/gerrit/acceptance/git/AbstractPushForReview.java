@@ -69,12 +69,14 @@ import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -1509,11 +1511,36 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .containsExactly("comment1", "comment2", "comment3");
     assertThat(getLastMessage(r.getChangeId())).isEqualTo("Uploaded patch set 3.\n\n(3 comments)");
 
-    Message m = Iterables.getLast(sender.getMessages());
-    assertThat(m.body()).contains("I'd like you to reexamine a change");
-    // TODO(dborowitz): The template currently doesn't include the ChangeMessage (aka cover letter)
-    // text at all. Update this to look for the (3 commnets) text once that's fixed.
-    assertThat(m.body()).doesNotMatch("[Cc]omment");
+    List<String> messages =
+        sender
+            .getMessages()
+            .stream()
+            .map(m -> m.body())
+            .sorted(Comparator.comparingInt(m -> m.contains("reexamine") ? 0 : 1))
+            .collect(toList());
+    assertThat(messages).hasSize(2);
+
+    assertThat(messages.get(0)).contains("Gerrit-MessageType: newpatchset");
+    assertThat(messages.get(0)).contains("I'd like you to reexamine a change");
+    assertThat(messages.get(0)).doesNotContain("Uploaded patch set 3");
+
+    assertThat(messages.get(1)).contains("Gerrit-MessageType: comment");
+    assertThat(messages.get(1))
+        .containsMatch(
+            Pattern.compile(
+                // A little weird that the comment email contains this text, but it's actually
+                // what's in the ChangeMessage. Really we should fuse the emails into one, but until
+                // then, this test documents the current behavior.
+                "Uploaded patch set 3\\.\n"
+                    + "\n"
+                    + "\\(3 comments\\)\\n.*"
+                    + "PS1, Line 1:.*"
+                    + "comment1\\n.*"
+                    + "PS1, Line 1:.*"
+                    + "comment2\\n.*"
+                    + "PS2, Line 1:.*"
+                    + "comment3\\n",
+                Pattern.DOTALL));
   }
 
   @Test

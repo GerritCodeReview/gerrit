@@ -23,6 +23,7 @@ import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -42,11 +43,13 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeKindCache;
+import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.ReceiveCommits.MagicBranchInput;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
@@ -104,6 +107,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
   private final CommentsUtil commentsUtil;
+  private final EmailReviewComments.Factory emailCommentsFactory;
   private final ExecutorService sendEmailExecutor;
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
@@ -127,7 +131,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final MailRecipients recipients = new MailRecipients();
   private RevCommit commit;
   private ReceiveCommand cmd;
-  private Change change;
+  private ChangeNotes notes;
   private PatchSet newPatchSet;
   private ChangeKind changeKind;
   private ChangeMessage msg;
@@ -146,6 +150,7 @@ public class ReplaceOp implements BatchUpdateOp {
       ChangeKindCache changeKindCache,
       ChangeMessagesUtil cmUtil,
       CommentsUtil commentsUtil,
+      EmailReviewComments.Factory emailCommentsFactory,
       RevisionCreated revisionCreated,
       CommentAdded commentAdded,
       MergedByPushOp.Factory mergedByPushOpFactory,
@@ -171,6 +176,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.changeKindCache = changeKindCache;
     this.cmUtil = cmUtil;
     this.commentsUtil = commentsUtil;
+    this.emailCommentsFactory = emailCommentsFactory;
     this.revisionCreated = revisionCreated;
     this.commentAdded = commentAdded;
     this.mergedByPushOpFactory = mergedByPushOpFactory;
@@ -218,13 +224,14 @@ public class ReplaceOp implements BatchUpdateOp {
   @Override
   public boolean updateChange(ChangeContext ctx)
       throws RestApiException, OrmException, IOException {
-    change = ctx.getChange();
+    notes = ctx.getNotes();
+    Change change = notes.getChange();
     if (change == null || change.getStatus().isClosed()) {
       rejectMessage = CHANGE_IS_CLOSED;
       return false;
     }
     if (groups.isEmpty()) {
-      PatchSet prevPs = psUtil.current(ctx.getDb(), ctx.getNotes());
+      PatchSet prevPs = psUtil.current(ctx.getDb(), notes);
       groups = prevPs != null ? prevPs.getGroups() : ImmutableList.<String>of();
     }
 
@@ -240,7 +247,7 @@ public class ReplaceOp implements BatchUpdateOp {
       approvals.putAll(magicBranch.labels);
       Set<String> hashtags = magicBranch.hashtags;
       if (hashtags != null && !hashtags.isEmpty()) {
-        hashtags.addAll(ctx.getNotes().getHashtags());
+        hashtags.addAll(notes.getHashtags());
         update.setHashtags(hashtags);
       }
       if (magicBranch.topic != null && !magicBranch.topic.equals(ctx.getChange().getTopic())) {
@@ -260,7 +267,7 @@ public class ReplaceOp implements BatchUpdateOp {
         change.setWorkInProgress(true);
         update.setWorkInProgress(true);
       }
-      if (magicBranch.shouldPublishComments()) {
+      if (shouldPublishComments()) {
         comments = publishComments(ctx);
       }
     }
@@ -425,47 +432,35 @@ public class ReplaceOp implements BatchUpdateOp {
   @Override
   public void postUpdate(Context ctx) throws Exception {
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
-      Runnable sender =
-          new Runnable() {
-            @Override
-            public void run() {
-              try {
-                ReplacePatchSetSender cm =
-                    replacePatchSetFactory.create(
-                        projectControl.getProject().getNameKey(), change.getId());
-                cm.setFrom(ctx.getAccountId());
-                cm.setPatchSet(newPatchSet, info);
-                cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
-                if (magicBranch != null) {
-                  cm.setNotify(magicBranch.notify);
-                  cm.setAccountsToNotify(magicBranch.getAccountsToNotify());
-                }
-                cm.addReviewers(recipients.getReviewers());
-                cm.addExtraCC(recipients.getCcOnly());
-                cm.send();
-              } catch (Exception e) {
-                log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);
-              }
-            }
-
-            @Override
-            public String toString() {
-              return "send-email newpatchset";
-            }
-          };
-
+      // TODO(dborowitz): Merge email templates so we only have to send one.
+      Runnable e = new ReplaceEmailTask(ctx);
       if (requestScopePropagator != null) {
         @SuppressWarnings("unused")
-        Future<?> possiblyIgnoredError =
-            sendEmailExecutor.submit(requestScopePropagator.wrap(sender));
+        Future<?> possiblyIgnoredError = sendEmailExecutor.submit(requestScopePropagator.wrap(e));
       } else {
-        sender.run();
+        e.run();
       }
     }
 
     NotifyHandling notify =
         magicBranch != null && magicBranch.notify != null ? magicBranch.notify : NotifyHandling.ALL;
-    revisionCreated.fire(change, newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
+
+    if (shouldPublishComments()) {
+      emailCommentsFactory
+          .create(
+              notify,
+              magicBranch != null ? magicBranch.getAccountsToNotify() : ImmutableListMultimap.of(),
+              notes,
+              newPatchSet,
+              ctx.getUser().asIdentifiedUser(),
+              msg,
+              comments,
+              msg.getMessage(),
+              ImmutableList.of()) // TODO(dborowitz): Include labels.
+          .sendAsync();
+    }
+
+    revisionCreated.fire(notes.getChange(), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
     try {
       fireCommentAddedEvent(ctx);
     } catch (Exception e) {
@@ -473,6 +468,40 @@ public class ReplaceOp implements BatchUpdateOp {
     }
     if (mergedByPushOp != null) {
       mergedByPushOp.postUpdate(ctx);
+    }
+  }
+
+  private class ReplaceEmailTask implements Runnable {
+    private final Context ctx;
+
+    private ReplaceEmailTask(Context ctx) {
+      this.ctx = ctx;
+    }
+
+    @Override
+    public void run() {
+      try {
+        ReplacePatchSetSender cm =
+            replacePatchSetFactory.create(
+                projectControl.getProject().getNameKey(), notes.getChangeId());
+        cm.setFrom(ctx.getAccount().getId());
+        cm.setPatchSet(newPatchSet, info);
+        cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
+        if (magicBranch != null) {
+          cm.setNotify(magicBranch.notify);
+          cm.setAccountsToNotify(magicBranch.getAccountsToNotify());
+        }
+        cm.addReviewers(recipients.getReviewers());
+        cm.addExtraCC(recipients.getCcOnly());
+        cm.send();
+      } catch (Exception e) {
+        log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);
+      }
+    }
+
+    @Override
+    public String toString() {
+      return "send-email newpatchset";
     }
   }
 
@@ -487,7 +516,7 @@ public class ReplaceOp implements BatchUpdateOp {
      * show a transition from an oldValue of 0 to the new value.
      */
     ChangeControl changeControl =
-        changeControlFactory.controlFor(ctx.getDb(), change, ctx.getUser());
+        changeControlFactory.controlFor(ctx.getDb(), notes.getChange(), ctx.getUser());
     List<LabelType> labels = changeControl.getLabelTypes().getLabelTypes();
     Map<String, Short> allApprovals = new HashMap<>();
     Map<String, Short> oldApprovals = new HashMap<>();
@@ -503,7 +532,13 @@ public class ReplaceOp implements BatchUpdateOp {
     }
 
     commentAdded.fire(
-        change, newPatchSet, ctx.getAccount(), null, allApprovals, oldApprovals, ctx.getWhen());
+        notes.getChange(),
+        newPatchSet,
+        ctx.getAccount(),
+        null,
+        allApprovals,
+        oldApprovals,
+        ctx.getWhen());
   }
 
   public PatchSet getPatchSet() {
@@ -511,7 +546,7 @@ public class ReplaceOp implements BatchUpdateOp {
   }
 
   public Change getChange() {
-    return change;
+    return notes.getChange();
   }
 
   public String getRejectMessage() {
@@ -545,5 +580,9 @@ public class ReplaceOp implements BatchUpdateOp {
       log.warn("Can't check for already submitted change", e);
       return null;
     }
+  }
+
+  private boolean shouldPublishComments() {
+    return magicBranch != null && magicBranch.shouldPublishComments();
   }
 }

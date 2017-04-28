@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "0dc32d23_04541a25",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-28T07:39:21Z",
+      "side": 1,
+      "message": "\"Set Work In Progress\"",
+      "range": {
+        "startLine": 306,
+        "startChar": 68,
+        "endLine": 306,
+        "endChar": 84
+      },
+      "revId": "6e52661d2cd4bcbd24925f149871dc63d655102d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8cb3500_400ad79e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-28T07:39:21Z",
+      "side": 1,
+      "message": "\"Set Ready For Review\"",
+      "range": {
+        "startLine": 313,
+        "startChar": 68,
+        "endLine": 313,
+        "endChar": 84
+      },
+      "revId": "6e52661d2cd4bcbd24925f149871dc63d655102d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2538c94c_b4e3fa70",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 31

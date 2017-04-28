@@ -78,6 +78,11 @@ limitations under the License.
       .webLink {
         display: block;
       }
+      #missingLabels {
+        padding-left: 1.5em;
+      }
+
+      /* CSS Mixins should be aplied last. */
       section.assignee {
         @apply(--change-metadata-assignee);
       }
@@ -89,9 +94,6 @@ limitations under the License.
       }
       section.topic {
         @apply(--change-metadata-topic);
-      }
-      #missingLabels {
-        padding-left: 1.5em;
       }
       @media screen and (max-width: 50em), screen and (min-width: 75em) {
         :host {
@@ -163,7 +165,7 @@ limitations under the License.
         </section>
       </template>
       <template is="dom-if" if="[[!_showReviewersByState]]">
-        <section>
+        <section class="assignee">
           <span class="title">Assignee</span>
           <span class="value">
             <gr-account-list

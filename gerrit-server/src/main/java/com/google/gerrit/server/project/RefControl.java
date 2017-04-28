@@ -391,7 +391,7 @@ public class RefControl {
   }
 
   /** @return true if this user can forge the author line in a commit. */
-  public boolean canForgeAuthor() {
+  private boolean canForgeAuthor() {
     if (canForgeAuthor == null) {
       canForgeAuthor = canPerform(Permission.FORGE_AUTHOR);
     }
@@ -399,7 +399,7 @@ public class RefControl {
   }
 
   /** @return true if this user can forge the committer line in a commit. */
-  public boolean canForgeCommitter() {
+  private boolean canForgeCommitter() {
     if (canForgeCommitter == null) {
       canForgeCommitter = canPerform(Permission.FORGE_COMMITTER);
     }
@@ -407,7 +407,7 @@ public class RefControl {
   }
 
   /** @return true if this user can forge the server on the committer line. */
-  public boolean canForgeGerritServerIdentity() {
+  private boolean canForgeGerritServerIdentity() {
     return canPerform(Permission.FORGE_SERVER);
   }
 

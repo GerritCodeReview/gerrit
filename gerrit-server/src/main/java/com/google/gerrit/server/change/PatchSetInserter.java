@@ -320,6 +320,9 @@ public class PatchSetInserter implements BatchUpdateOp {
       return;
     }
 
+    PermissionBackend.ForRef perm =
+        permissionBackend.user(ctx.getUser()).ref(origCtl.getChange().getDest());
+
     String refName = getPatchSetId().toRefName();
     try (CommitReceivedEvent event =
         new CommitReceivedEvent(
@@ -333,7 +336,7 @@ public class PatchSetInserter implements BatchUpdateOp {
             commitId,
             ctx.getIdentifiedUser())) {
       commitValidatorsFactory
-          .forGerritCommits(origCtl.getRefControl(), new NoSshInfo(), ctx.getRevWalk())
+          .forGerritCommits(perm, origCtl.getRefControl(), new NoSshInfo(), ctx.getRevWalk())
           .validate(event);
     } catch (CommitValidationException e) {
       throw new ResourceConflictException(e.getFullMessage());

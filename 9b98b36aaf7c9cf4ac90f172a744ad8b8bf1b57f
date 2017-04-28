@@ -34,6 +34,24 @@
       "revId": "9b98b36aaf7c9cf4ac90f172a744ad8b8bf1b57f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a3d798_8134c8fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-28T13:25:59Z",
+      "side": 1,
+      "message": "Let\u0027s keep it as is. I wuoldn\u0027t consider any combinations of tags.",
+      "parentUuid": "6915b0ff_f21cc961",
+      "revId": "9b98b36aaf7c9cf4ac90f172a744ad8b8bf1b57f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

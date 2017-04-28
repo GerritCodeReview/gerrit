@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "198dbb1f_34656422",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2186,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-28T11:01:16Z",
+      "side": 1,
+      "message": "Mention that this is similar to \"ignore\", but it\u0027s only muted until a new patch set is uploaded?",
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10e340a8_dc19d09c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-28T11:01:16Z",
+      "side": 1,
+      "message": "Response\u003cString\u003e",
+      "range": {
+        "startLine": 55,
+        "startChar": 9,
+        "endLine": 55,
+        "endChar": 15
+      },
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e56f835_4fca541f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-28T11:01:16Z",
+      "side": 1,
+      "message": "\"mutable\"?",
+      "range": {
+        "startLine": 81,
+        "startChar": 33,
+        "endLine": 81,
+        "endChar": 45
+      },
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f71c710c_d4e64376",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Unmute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-28T11:01:16Z",
+      "side": 1,
+      "message": "nit: remove blank line",
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2a0648c_88ade4c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Unmute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-28T11:01:16Z",
+      "side": 1,
+      "message": "Response\u003cString\u003e",
+      "range": {
+        "startLine": 57,
+        "startChar": 9,
+        "endLine": 57,
+        "endChar": 15
+      },
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf013ccf_e409d690",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Unmute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-28T11:01:16Z",
+      "side": 1,
+      "message": "whitespace",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 2
+      },
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf3ff245_9811df61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Unmute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-28T11:01:16Z",
+      "side": 1,
+      "message": "\"unmutable\"?",
+      "range": {
+        "startLine": 83,
+        "startChar": 33,
+        "endLine": 83,
+        "endChar": 45
+      },
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "419de9ad_6f67a887",
+        "filename": "plugins/replication",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-28T11:01:16Z",
+      "side": 1,
+      "message": "submodule should not be updated",
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

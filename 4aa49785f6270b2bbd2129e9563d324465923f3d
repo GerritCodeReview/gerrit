@@ -40,6 +40,24 @@
       "revId": "4aa49785f6270b2bbd2129e9563d324465923f3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25460336_9bd79e4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-28T07:54:20Z",
+      "side": 1,
+      "message": "I just had this open in a debugger right now. Clearly I should have paid more attention to that and spent less time gossiping with my manager :)",
+      "parentUuid": "98c751d8_3078b253",
+      "revId": "4aa49785f6270b2bbd2129e9563d324465923f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

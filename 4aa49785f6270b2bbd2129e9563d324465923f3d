@@ -23,6 +23,23 @@
       "revId": "4aa49785f6270b2bbd2129e9563d324465923f3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98c751d8_3078b253",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-28T07:52:32Z",
+      "side": 1,
+      "message": "You need to add the published comments to \u0027comments\u0027 so that they get included into the change message:\n\n  comments.addAll(drafts.values());",
+      "revId": "4aa49785f6270b2bbd2129e9563d324465923f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

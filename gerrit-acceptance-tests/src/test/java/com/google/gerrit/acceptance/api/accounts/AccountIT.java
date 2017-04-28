@@ -732,6 +732,8 @@ public class AccountIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       assertThat(repo.exactRef(userRef)).isNull();
     }
+
+    // TODO(ekempin): assert that account was deleted from cache and index
   }
 
   @Test

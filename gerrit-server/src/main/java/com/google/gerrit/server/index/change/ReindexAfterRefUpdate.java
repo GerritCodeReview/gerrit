@@ -21,11 +21,14 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider.QueueType;
 import com.google.gerrit.server.index.IndexExecutor;
@@ -54,6 +57,8 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
   private final ChangeIndexer.Factory indexerFactory;
   private final ChangeIndexCollection indexes;
   private final ChangeNotes.Factory notesFactory;
+  private final AllUsersName allUsersName;
+  private final AccountCache accountCache;
   private final ListeningExecutorService executor;
   private final boolean enabled;
 
@@ -65,18 +70,37 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
       ChangeIndexer.Factory indexerFactory,
       ChangeIndexCollection indexes,
       ChangeNotes.Factory notesFactory,
+      AllUsersName allUsersName,
+      AccountCache accountCache,
       @IndexExecutor(QueueType.BATCH) ListeningExecutorService executor) {
     this.requestContext = requestContext;
     this.queryProvider = queryProvider;
     this.indexerFactory = indexerFactory;
     this.indexes = indexes;
     this.notesFactory = notesFactory;
+    this.allUsersName = allUsersName;
+    this.accountCache = accountCache;
     this.executor = executor;
     this.enabled = cfg.getBoolean("index", null, "reindexAfterRefUpdate", true);
   }
 
   @Override
-  public void onGitReferenceUpdated(final Event event) {
+  public void onGitReferenceUpdated(Event event) {
+    if (allUsersName.get().equals(event.getProjectName())) {
+      Account.Id accountId = Account.Id.fromRef(event.getRefName());
+      if (accountId != null) {
+        try {
+          if (event.isDelete()) {
+            // TODO(ekempin): Delete account from cache and index.
+          } else {
+            accountCache.evict(accountId);
+          }
+        } catch (IOException e) {
+          log.error(String.format("Reindex account %s failed.", accountId), e);
+        }
+      }
+    }
+
     if (!enabled
         || event.getRefName().startsWith(RefNames.REFS_CHANGES)
         || event.getRefName().startsWith(RefNames.REFS_DRAFT_COMMENTS)

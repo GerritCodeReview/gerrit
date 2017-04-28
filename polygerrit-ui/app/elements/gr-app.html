@@ -14,28 +14,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../styles/app-theme.html">
-<link rel="import" href="./plugins/gr-plugin-host/gr-plugin-host.html">
-
 <link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
-
-<link rel="import" href="./core/gr-error-manager/gr-error-manager.html">
-<link rel="import" href="./core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html">
-<link rel="import" href="./core/gr-main-header/gr-main-header.html">
-<link rel="import" href="./core/gr-router/gr-router.html">
-<link rel="import" href="./core/gr-reporting/gr-reporting.html">
-
 <link rel="import" href="./change-list/gr-change-list-view/gr-change-list-view.html">
 <link rel="import" href="./change-list/gr-dashboard-view/gr-dashboard-view.html">
 <link rel="import" href="./change/gr-change-view/gr-change-view.html">
+<link rel="import" href="./core/gr-error-manager/gr-error-manager.html">
+<link rel="import" href="./core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html">
+<link rel="import" href="./core/gr-main-header/gr-main-header.html">
+<link rel="import" href="./core/gr-reporting/gr-reporting.html">
+<link rel="import" href="./core/gr-router/gr-router.html">
 <link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
+<link rel="import" href="./plugins/gr-external-style/gr-external-style.html">
+<link rel="import" href="./plugins/gr-plugin-host/gr-plugin-host.html">
 <link rel="import" href="./settings/gr-cla-view/gr-cla-view.html">
 <link rel="import" href="./settings/gr-registration-dialog/gr-registration-dialog.html">
 <link rel="import" href="./settings/gr-settings-view/gr-settings-view.html">
-
 <link rel="import" href="./shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="./shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
@@ -175,6 +172,7 @@ limitations under the License.
     <gr-plugin-host id="plugins"
         config="[[_serverConfig.plugin]]">
     </gr-plugin-host>
+    <gr-external-style name="app-theme"></gr-external-style>
   </template>
   <script src="gr-app.js" crossorigin="anonymous"></script>
 </dom-module>

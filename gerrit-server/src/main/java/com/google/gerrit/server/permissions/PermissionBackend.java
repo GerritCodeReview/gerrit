@@ -169,6 +169,15 @@ public abstract class PermissionBackend {
       }
     }
 
+    public boolean testAnyOrFalse(Set<GlobalOrPluginPermission> any) {
+      for (GlobalOrPluginPermission p : any) {
+        if (testOrFalse(p)) {
+          return true;
+        }
+      }
+      return false;
+    }
+
     /** Filter {@code permSet} to permissions scoped user might be able to perform. */
     public abstract <T extends GlobalOrPluginPermission> Set<T> test(Collection<T> permSet)
         throws PermissionBackendException;

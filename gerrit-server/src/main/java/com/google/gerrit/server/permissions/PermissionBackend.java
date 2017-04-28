@@ -219,6 +219,20 @@ public abstract class PermissionBackend {
     /** @return instance scoped for {@code ref} in this project. */
     public abstract ForRef ref(String ref);
 
+    /** @return instance scoped for the change, and its destination ref and project. */
+    public ForChange change(ChangeData cd) {
+      try {
+        return ref(cd.change().getDest().get()).change(cd);
+      } catch (OrmException e) {
+        return FailedPermissionBackend.change("unavailable", e);
+      }
+    }
+
+    /** @return instance scoped for the change, and its destination ref and project. */
+    public ForChange change(ChangeNotes notes) {
+      return ref(notes.getChange().getDest().get()).change(notes);
+    }
+
     /** Verify scoped user can {@code perm}, throwing if denied. */
     public abstract void check(ProjectPermission perm)
         throws AuthException, PermissionBackendException;

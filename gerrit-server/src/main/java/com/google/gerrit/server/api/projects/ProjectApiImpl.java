@@ -408,7 +408,7 @@ public class ProjectApiImpl implements ProjectApi {
   public void deleteBranches(DeleteBranchesInput in) throws RestApiException {
     try {
       deleteBranches.apply(checkExists(), in);
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot delete branches", e);
     }
   }
@@ -417,7 +417,7 @@ public class ProjectApiImpl implements ProjectApi {
   public void deleteTags(DeleteTagsInput in) throws RestApiException {
     try {
       deleteTags.apply(checkExists(), in);
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot delete tags", e);
     }
   }

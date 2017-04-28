@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "399ebd08_91f36152",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-28T08:29:15Z",
+      "side": 1,
+      "message": "[optional] Remove this, there is no need to give an example for an OK response",
+      "range": {
+        "startLine": 2165,
+        "startChar": 0,
+        "endLine": 2168,
+        "endChar": 4
+      },
+      "revId": "d91efc67ea47b34d3f71de6793cb605a5d3fa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84581628_886132d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Unignore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-28T08:29:15Z",
+      "side": 1,
+      "message": "isIgnored(rsrc)",
+      "range": {
+        "startLine": 51,
+        "startChar": 43,
+        "endLine": 51,
+        "endChar": 59
+      },
+      "revId": "d91efc67ea47b34d3f71de6793cb605a5d3fa5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

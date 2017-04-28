@@ -142,6 +142,8 @@ public class ChangeInfo extends JavaScriptObject {
 
   public final native boolean isPrivate() /*-{ return this.is_private ? true : false; }-*/;
 
+  public final native boolean isWip() /*-{ return this.is_wip ? true : false; }-*/;
+
   public final native NativeMap<LabelInfo> allLabels() /*-{ return this.labels; }-*/;
 
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;

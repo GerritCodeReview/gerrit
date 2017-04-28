@@ -102,6 +102,10 @@ limitations under the License.
     .privateText {
       font-weight: bold;
     }
+    
+    .wipText {
+      font-weight: bold;
+    }
 
     div.popdown {
       display: inline-block;
@@ -380,7 +384,8 @@ limitations under the License.
             <ui:msg>Change <g:Anchor ui:field='permalink' title='Reload the change (Shortcut: R)'>
               <ui:attribute name='title'/>
             </g:Anchor> - <span ui:field='statusText' class='{style.statusText}'/>
-              <span ui:field='privateText' class='{style.privateText}'/></ui:msg>
+              <span ui:field='privateText' class='{style.privateText}'/>
+              <span ui:field='wipText' class='{style.wipText}'/></ui:msg>
           </span>
           <g:SimplePanel ui:field='headerExtension' styleName='{style.headerExtension}'/>
         </div>

@@ -354,7 +354,11 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeInfo createMergePatchSet(MergePatchSetInput in) throws RestApiException {
     try {
       return updateByMerge.apply(change, in).value();
-    } catch (IOException | UpdateException | InvalidChangeOperationException | OrmException e) {
+    } catch (IOException
+        | UpdateException
+        | InvalidChangeOperationException
+        | OrmException
+        | PermissionBackendException e) {
       throw new RestApiException("Cannot update change by merge", e);
     }
   }

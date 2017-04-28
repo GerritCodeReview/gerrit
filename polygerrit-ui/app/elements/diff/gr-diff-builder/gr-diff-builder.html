@@ -94,6 +94,10 @@ limitations under the License.
           isImageDiff: Boolean,
           baseImage: Object,
           revisionImage: Object,
+          blame: {
+            type: Object,
+            observer: '_blameObserver',
+          },
           _builder: Object,
           _groups: Array,
           _layers: Array,
@@ -396,6 +400,31 @@ limitations under the License.
             }, false);
           }, false);
         },
+
+        _blameObserver: function(blame) {
+          const blameCells = this.querySelectorAll('td.blame');
+          blame.forEach(commit => {
+            commit.ranges.forEach(range => {
+              for (var i = range.start; i <= range.end; i++) {
+                const td = this.querySelector(`td.blame[data-line-number="${i}"]`);
+                if (!td) { continue; }
+
+                if (i === range.start) {
+                  td.classList.add('startOfRange');
+                }
+
+                const shortSha = commit.id.substr(0, 7);
+                const date = (new Date(commit.time * 1000)).toLocaleDateString();
+
+                const shaEl = this._builder._createElement('span', 'sha');
+                shaEl.textContent = shortSha;
+                shaEl.setAttribute('data-sha', commit.id);
+                td.appendChild(shaEl);
+                td.append(` on ${date} by ${commit.author}`);
+              }
+            });
+          });
+        }
       });
     })();
   </script>

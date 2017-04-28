@@ -714,5 +714,10 @@
 
       return skips;
     },
+
+    _loadBlame() {
+      this.$.diff.classList.add('showBlame');
+      this.$.diff._getBlame();
+    },
   });
 })();

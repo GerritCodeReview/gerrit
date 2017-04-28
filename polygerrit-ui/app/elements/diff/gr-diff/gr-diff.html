@@ -23,6 +23,8 @@ limitations under the License.
 <link rel="import" href="../gr-diff-selection/gr-diff-selection.html">
 <link rel="import" href="../gr-syntax-themes/gr-theme-default.html">
 
+<link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
+
 <dom-module id="gr-diff">
   <template>
     <style>
@@ -180,6 +182,39 @@ limitations under the License.
         font-size: var(--font-size, 12px);
         padding: 0.5em 0 0.5em 4em;
       }
+
+      td.blame {
+        opacity: 0.5;
+        white-space: pre;
+        padding: 0 .5em;
+        font-family: var(--font-family);
+        font-size: var(--font-size, 12px);
+      }
+      td.blame,
+      col.blame {
+        display: none;
+      }
+      td.blame.startOfRange {
+        opacity: 1;
+      }
+      :host.showBlame td.blame {
+        display: table-cell;
+      }
+      :host.showBlame col.blame {
+        display: table-column;
+      }
+      td.blame .sha {
+        font-family: var(--monospace-font-family);
+        color: #ff00c4;
+        cursor: pointer;
+      }
+      td.blame .sha:hover {
+        text-decoration: underline;
+      }
+      #tempCommitDisplay {
+        padding: 2em;
+        font-family: var(--monospace-font-family);
+      }
     </style>
     <style include="gr-theme-default"></style>
     <div id="diffHeader" hidden$="[[_computeDiffHeaderHidden(_diffHeaderItems)]]">
@@ -205,13 +240,22 @@ limitations under the License.
               line-wrapping="[[lineWrapping]]"
               is-image-diff="[[isImageDiff]]"
               base-image="[[_baseImage]]"
-              revision-image="[[_revisionImage]]">
+              revision-image="[[_revisionImage]]"
+              blame="[[_blame]]">
             <table id="diffTable" class$="[[_diffTableClass]]"></table>
           </gr-diff-builder>
         </gr-diff-highlight>
       </gr-diff-selection>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+
+    <gr-overlay id="tempCommitDisplay">
+      <gr-linked-text
+          pre
+          content="[[_blameCommitMsg]]"
+          config="[[projectConfig.commentlinks]]">
+      </gr-linked-text>
+    </gr-overlay>
   </template>
   <script src="gr-diff-line.js"></script>
   <script src="gr-diff-group.js"></script>

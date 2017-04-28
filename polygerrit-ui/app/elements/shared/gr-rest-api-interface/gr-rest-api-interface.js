@@ -1121,5 +1121,11 @@
       return this.send(
           'POST', this.getChangeActionURL(changeNum, null, '/ready'), review);
     },
+
+    getBlame(changeNum, patchNum, path, opt_base) {
+      return this.fetchJSON(this._changeBaseURL(changeNum, patchNum) +
+          '/files/' + encodeURIComponent(path) + '/blame' +
+          (opt_base ? '?base=t' : ''));
+    },
   });
 })();

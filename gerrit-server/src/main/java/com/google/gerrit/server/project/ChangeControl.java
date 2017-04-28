@@ -324,7 +324,7 @@ public class ChangeControl {
   }
 
   /** Can this user add a patch set to this change? */
-  public boolean canAddPatchSet(ReviewDb db) throws OrmException {
+  private boolean canAddPatchSet(ReviewDb db) throws OrmException {
     if (!getRefControl().canUpload()
         || isPatchSetLocked(db)
         || !isPatchVisible(patchSetUtil.current(db, notes), db)) {

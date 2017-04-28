@@ -104,6 +104,7 @@ import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -2219,7 +2220,7 @@ public class ReceiveCommits {
           req.inputCommand.setResult(REJECTED_OTHER_REASON, "internal server error");
         }
       }
-    } catch (IOException err) {
+    } catch (IOException | PermissionBackendException err) {
       logError(
           String.format(
               "Cannot read repository before replacement for project %s", project.getName()),
@@ -2260,7 +2261,6 @@ public class ReceiveCommits {
     final ReceiveCommand inputCommand;
     final boolean checkMergedInto;
     ChangeNotes notes;
-    ChangeControl changeCtl;
     BiMap<RevCommit, PatchSet.Id> revisions;
     PatchSet.Id psId;
     ReceiveCommand prev;
@@ -2308,8 +2308,10 @@ public class ReceiveCommits {
      * @return whether the new commit is valid
      * @throws IOException
      * @throws OrmException
+     * @throws PermissionBackendException
      */
-    boolean validate(boolean autoClose) throws IOException, OrmException {
+    boolean validate(boolean autoClose)
+        throws IOException, OrmException, PermissionBackendException {
       if (!autoClose && inputCommand.getResult() != NOT_ATTEMPTED) {
         return false;
       } else if (notes == null) {
@@ -2317,7 +2319,8 @@ public class ReceiveCommits {
         return false;
       }
 
-      priorPatchSet = notes.getChange().currentPatchSetId();
+      Change change = notes.getChange();
+      priorPatchSet = change.currentPatchSetId();
       if (!revisions.containsValue(priorPatchSet)) {
         reject(inputCommand, "change " + ontoChange + " missing revisions");
         return false;
@@ -2325,16 +2328,18 @@ public class ReceiveCommits {
 
       RevCommit newCommit = rp.getRevWalk().parseCommit(newCommitId);
       RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
-
-      changeCtl = projectControl.controlFor(notes);
-      if (!changeCtl.canAddPatchSet(db)) {
+      try {
+        permissions.change(notes).database(db).check(ChangePermission.ADD_PATCH_SET);
+      } catch (AuthException no) {
         String locked = ".";
-        if (changeCtl.isPatchSetLocked(db)) {
+        if (projectControl.controlFor(notes).isPatchSetLocked(db)) {
           locked = ". Change is patch set locked.";
         }
         reject(inputCommand, "cannot add patch set to " + ontoChange + locked);
         return false;
-      } else if (notes.getChange().getStatus().isClosed()) {
+      }
+
+      if (change.getStatus().isClosed()) {
         reject(inputCommand, "change " + ontoChange + " closed");
         return false;
       } else if (revisions.containsKey(newCommit)) {
@@ -2359,6 +2364,7 @@ public class ReceiveCommits {
         }
       }
 
+      ChangeControl changeCtl = projectControl.controlFor(notes);
       if (!validCommit(rp.getRevWalk(), changeCtl.getRefControl(), inputCommand, newCommit)) {
         return false;
       }
@@ -2410,7 +2416,7 @@ public class ReceiveCommits {
       Optional<ChangeEdit> edit = null;
 
       try {
-        edit = editUtil.byChange(changeCtl);
+        edit = editUtil.byChange(projectControl.controlFor(notes));
       } catch (AuthException | IOException e) {
         logError("Cannot retrieve edit", e);
         return false;
@@ -2837,7 +2843,7 @@ public class ReceiveCommits {
       bu.execute();
     } catch (RestApiException e) {
       logError("Can't insert patchset", e);
-    } catch (IOException | OrmException | UpdateException e) {
+    } catch (IOException | OrmException | UpdateException | PermissionBackendException e) {
       logError("Can't scan for changes to close", e);
     }
   }

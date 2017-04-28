@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.RebaseUtil.Base;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -133,7 +134,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   @Override
   public void updateRepo(RepoContext ctx)
       throws MergeConflictException, InvalidChangeOperationException, RestApiException, IOException,
-          OrmException, NoSuchChangeException {
+          OrmException, NoSuchChangeException, PermissionBackendException {
     // Ok that originalPatchSet was not read in a transaction, since we just
     // need its revision.
     RevId oldRev = originalPatchSet.getRevision();

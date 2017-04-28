@@ -43,6 +43,9 @@ class ChangeMessageEvent extends Event {
       Pattern.compile("^Topic changed from (.+) to (.+)$");
   private static final Pattern TOPIC_REMOVED_REGEXP = Pattern.compile("^Topic (.+) removed$");
 
+  private static final Pattern WIP_SET_REGEXP = Pattern.compile("^Set Work In Progress$");
+  private static final Pattern WIP_UNSET_REGEXP = Pattern.compile("^Set Ready For Review$");
+
   private final Change change;
   private final Change noteDbChange;
   private final Optional<Change.Status> status;
@@ -85,6 +88,7 @@ class ChangeMessageEvent extends Event {
     update.setChangeMessage(message.getMessage());
     setPrivate(update);
     setTopic(update);
+    setWorkInProgress(update);
 
     if (status.isPresent()) {
       Change.Status s = status.get();
@@ -153,6 +157,25 @@ class ChangeMessageEvent extends Event {
     if (TOPIC_REMOVED_REGEXP.matcher(msg).matches()) {
       update.setTopic(null);
       noteDbChange.setTopic(null);
+    }
+  }
+
+  private void setWorkInProgress(ChangeUpdate update) {
+    String msg = message.getMessage();
+    if (msg == null) {
+      return;
+    }
+    Matcher m = WIP_SET_REGEXP.matcher(msg);
+    if (m.matches()) {
+      update.setWorkInProgress(true);
+      noteDbChange.setWorkInProgress(true);
+      return;
+    }
+
+    m = WIP_UNSET_REGEXP.matcher(msg);
+    if (m.matches()) {
+      update.setWorkInProgress(false);
+      noteDbChange.setWorkInProgress(false);
     }
   }
 

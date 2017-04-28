@@ -60,6 +60,9 @@ class FinalUpdatesEvent extends Event {
     if (change.isPrivate() != noteDbChange.isPrivate()) {
       update.setPrivate(change.isPrivate());
     }
+    if (change.isWorkInProgress() != noteDbChange.isWorkInProgress()) {
+      update.setWorkInProgress(change.isWorkInProgress());
+    }
     if (change.getSubmissionId() != null && noteDbChange.getSubmissionId() == null) {
       update.setSubmissionId(change.getSubmissionId());
     }

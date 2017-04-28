@@ -63,6 +63,7 @@ import com.google.gerrit.server.change.ListChangeComments;
 import com.google.gerrit.server.change.ListChangeDrafts;
 import com.google.gerrit.server.change.ListChangeRobotComments;
 import com.google.gerrit.server.change.Move;
+import com.google.gerrit.server.change.Mute;
 import com.google.gerrit.server.change.PostHashtags;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.PublishDraftPatchSet;
@@ -77,6 +78,7 @@ import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.change.SubmittedTogether;
 import com.google.gerrit.server.change.SuggestChangeReviewers;
 import com.google.gerrit.server.change.Unignore;
+import com.google.gerrit.server.change.Unmute;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.update.UpdateException;
@@ -132,6 +134,8 @@ class ChangeApiImpl implements ChangeApi {
   private final DeletePrivate deletePrivate;
   private final Ignore ignore;
   private final Unignore unignore;
+  private final Mute mute;
+  private final Unmute unmute;
 
   @Inject
   ChangeApiImpl(
@@ -171,6 +175,8 @@ class ChangeApiImpl implements ChangeApi {
       DeletePrivate deletePrivate,
       Ignore ignore,
       Unignore unignore,
+      Mute mute,
+      Unmute unmute,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -208,6 +214,8 @@ class ChangeApiImpl implements ChangeApi {
     this.deletePrivate = deletePrivate;
     this.ignore = ignore;
     this.unignore = unignore;
+    this.mute = mute;
+    this.unmute = unmute;
     this.change = change;
   }
 
@@ -601,6 +609,15 @@ class ChangeApiImpl implements ChangeApi {
       this.ignore.apply(change, new Ignore.Input());
     } else {
       unignore.apply(change, new Unignore.Input());
+    }
+  }
+
+  @Override
+  public void mute(boolean mute) throws RestApiException {
+    if (mute) {
+      this.mute.apply(change, new Mute.Input());
+    } else {
+      unmute.apply(change, new Unmute.Input());
     }
   }
 }

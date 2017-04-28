@@ -2175,6 +2175,40 @@ Un-marks a change as ignored.
   PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/unignore HTTP/1.0
 ----
 
+[[mute]]
+=== Mute
+--
+'PUT /changes/link:#change-id[\{change-id\}]/mute'
+--
+
+Marks a change as muted.
+
+This allows users to "de-highlight" changes in their dashboard until a new
+patch set is uploaded.
+
+This differs from the link:#ignore[ignore] endpoint, which will mute
+emails and hide the change from dashboard completely until it is
+link:#unignore[unignored] again.
+
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/mute HTTP/1.0
+----
+
+[[unmute]]
+=== Unmute
+--
+'PUT /changes/link:#change-id[\{change-id\}]/unmute'
+--
+
+Unmutes a change.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/unmute HTTP/1.0
+----
+
 [[edit-endpoints]]
 == Change Edit Endpoints
 

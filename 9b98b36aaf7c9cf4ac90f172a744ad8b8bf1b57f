@@ -16,6 +16,24 @@
       "revId": "9b98b36aaf7c9cf4ac90f172a744ad8b8bf1b57f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6915b0ff_f21cc961",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-04-28T12:58:44Z",
+      "side": 1,
+      "message": "It may be good to do so for the sake of consistency, but on the other hand, the UI doesn\u0027t need it.\n\nIf I push with %private,wip, then as it stands with this change the tag would be TAG_UPLOADED_WIP_PATCH_SET. Would we want yet another tag value to account for the combination?",
+      "parentUuid": "b7ce2af0_76f918e4",
+      "revId": "9b98b36aaf7c9cf4ac90f172a744ad8b8bf1b57f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

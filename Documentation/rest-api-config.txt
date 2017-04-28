@@ -1319,7 +1319,7 @@ an access check.
 |`status`|The HTTP status code for the access.
 200 means success, 403 means denied and 404 means the project does not
 exist.
-|`message`|A clarifying message.
+|`message`|A clarifying message if `status` is not 200.
 =========================================
 
 [[access-check-input]]

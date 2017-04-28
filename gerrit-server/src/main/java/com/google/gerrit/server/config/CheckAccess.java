@@ -44,7 +44,7 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 public class CheckAccess implements RestModifyView<ConfigResource, AccessCheckInput> {
   private final Provider<IdentifiedUser> currentUser;
-  private final AccountResolver resolver;
+  private final AccountResolver accountResolver;
   private final Provider<ReviewDb> db;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ProjectCache projectCache;
@@ -59,7 +59,7 @@ public class CheckAccess implements RestModifyView<ConfigResource, AccessCheckIn
       ProjectCache projectCache,
       PermissionBackend permissionBackend) {
     this.currentUser = currentUser;
-    this.resolver = resolver;
+    this.accountResolver = resolver;
     this.db = db;
     this.userFactory = userFactory;
     this.projectCache = projectCache;
@@ -68,30 +68,24 @@ public class CheckAccess implements RestModifyView<ConfigResource, AccessCheckIn
 
   @Override
   public AccessCheckInfo apply(ConfigResource unused, AccessCheckInput input)
-      throws PermissionBackendException, RestApiException, IOException {
+      throws OrmException, PermissionBackendException, RestApiException, IOException {
     permissionBackend.user(currentUser.get()).check(GlobalPermission.ADMINISTRATE_SERVER);
 
     if (input == null) {
       throw new BadRequestException("input is required");
     }
-    if (input.account == null) {
-      throw new BadRequestException("must set account in input");
+    if (Strings.isNullOrEmpty(input.account)) {
+      throw new BadRequestException("input requires 'account'");
     }
-    if (input.project == null) {
-      throw new BadRequestException("must set project in input");
+    if (Strings.isNullOrEmpty(input.project)) {
+      throw new BadRequestException("input requires 'project'");
     }
 
-    Account match;
-    try {
-      match = resolver.find(db.get(), input.account);
-    } catch (OrmException e) {
-      throw new IOException(e);
-    }
+    Account match = accountResolver.find(db.get(), input.account);
     if (match == null) {
       throw new BadRequestException(String.format("cannot find account %s", input.account));
     }
 
-    IdentifiedUser user = userFactory.create(match.getId());
     AccessCheckInfo info = new AccessCheckInfo();
     info.result = new Result();
 
@@ -102,6 +96,7 @@ public class CheckAccess implements RestModifyView<ConfigResource, AccessCheckIn
       return info;
     }
 
+    IdentifiedUser user = userFactory.create(match.getId());
     try {
       permissionBackend.user(user).project(key).check(ProjectPermission.ACCESS);
     } catch (AuthException | PermissionBackendException e) {

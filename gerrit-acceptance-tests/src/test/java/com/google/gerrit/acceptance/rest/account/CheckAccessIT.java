@@ -42,7 +42,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
   private AccountGroup privilegedGroup;
 
   @Before
-  public void setup() throws Exception {
+  public void setUp() throws Exception {
     normalProject = createProject("normal");
     secretProject = createProject("secret");
     secretRefProject = createProject("secretRef");

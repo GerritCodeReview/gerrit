@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -82,7 +83,8 @@ public class RebaseChangeEdit
 
     @Override
     public Response<?> apply(ChangeResource rsrc, Rebase.Input in)
-        throws AuthException, ResourceConflictException, IOException, OrmException {
+        throws AuthException, ResourceConflictException, IOException, OrmException,
+            PermissionBackendException {
       Project.NameKey project = rsrc.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
         editModifier.rebaseEdit(repository, rsrc.getControl());

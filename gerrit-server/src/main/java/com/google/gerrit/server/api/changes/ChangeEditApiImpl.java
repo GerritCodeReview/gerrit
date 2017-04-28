@@ -30,6 +30,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.DeleteChangeEdit;
 import com.google.gerrit.server.change.PublishChangeEdit;
 import com.google.gerrit.server.change.RebaseChangeEdit;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -97,7 +98,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   public void create() throws RestApiException {
     try {
       changeEditsPost.apply(changeResource, null);
-    } catch (IOException | OrmException e) {
+    } catch (IOException | OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot create change edit", e);
     }
   }
@@ -115,7 +116,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   public void rebase() throws RestApiException {
     try {
       rebaseChangeEdit.apply(changeResource, null);
-    } catch (IOException | OrmException e) {
+    } catch (IOException | OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot rebase change edit", e);
     }
   }
@@ -152,7 +153,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
       renameInput.oldPath = oldFilePath;
       renameInput.newPath = newFilePath;
       changeEditsPost.apply(changeResource, renameInput);
-    } catch (IOException | OrmException e) {
+    } catch (IOException | OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot rename file of change edit", e);
     }
   }
@@ -163,7 +164,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
       ChangeEdits.Post.Input restoreInput = new ChangeEdits.Post.Input();
       restoreInput.restorePath = filePath;
       changeEditsPost.apply(changeResource, restoreInput);
-    } catch (IOException | OrmException e) {
+    } catch (IOException | OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot restore file of change edit", e);
     }
   }
@@ -172,7 +173,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   public void modifyFile(String filePath, RawInput newContent) throws RestApiException {
     try {
       changeEditsPut.apply(changeResource.getControl(), filePath, newContent);
-    } catch (IOException | OrmException e) {
+    } catch (IOException | OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot modify file of change edit", e);
     }
   }
@@ -181,7 +182,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   public void deleteFile(String filePath) throws RestApiException {
     try {
       changeEditDeleteContent.apply(changeResource.getControl(), filePath);
-    } catch (IOException | OrmException e) {
+    } catch (IOException | OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot delete file of change edit", e);
     }
   }
@@ -203,7 +204,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
     input.message = newCommitMessage;
     try {
       modifyChangeEditCommitMessage.apply(changeResource, input);
-    } catch (IOException | OrmException e) {
+    } catch (IOException | OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot modify commit message of change edit", e);
     }
   }

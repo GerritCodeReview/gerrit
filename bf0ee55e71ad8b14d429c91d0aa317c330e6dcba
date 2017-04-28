@@ -46,6 +46,30 @@
       "revId": "bf0ee55e71ad8b14d429c91d0aa317c330e6dcba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "096dcf04_034fa292",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-28T12:01:23Z",
+      "side": 1,
+      "message": "Unfortunately, it\u0027s not the same, the contract of test() method is to throw PermissionBackendException, and that\u0027s exactly the opposite samentic of testOrFalse is: no exception(s). Without testAnyOrFalse() I would write something like that:\n\n  public boolean canMonitor() {\n    ImmutableSet\u003cGlobalOrPluginPermission\u003e set \u003d\n        ImmutableSet.of(\n            GlobalPermission.ADMINISTRATE_SERVER,\n            new PluginPermission(pluginName, MonitoringCapability.ID));\n    try {\n      return !permissionBackend.user(userProvider).test(set).isEmpty();\n    } catch (PermissionBackendException e) {\n      return false;\n    }\n  }\n\nMy suggestion is to offer a much shorter version (basically like testOrFalse() already does), but for the Collection of permissions:\n\n  public boolean canMonitor() {\n    ImmutableSet\u003cGlobalOrPluginPermission\u003e set \u003d\n        ImmutableSet.of(\n            GlobalPermission.ADMINISTRATE_SERVER,\n            new PluginPermission(pluginName, MonitoringCapability.ID));\n    return permissionBackend.user(userProvider).testAnyOrFalse(set);\n  }",
+      "parentUuid": "bdee969a_b1e9b404",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 0
+      },
+      "revId": "bf0ee55e71ad8b14d429c91d0aa317c330e6dcba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

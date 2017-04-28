@@ -106,7 +106,7 @@ class ListDashboards implements RestReadView<ProjectResource> {
         RevWalk rw = new RevWalk(git)) {
       List<DashboardInfo> all = new ArrayList<>();
       for (Ref ref : git.getRefDatabase().getRefs(REFS_DASHBOARDS).values()) {
-        if (ctl.controlForRef(ref.getName()).canRead()) {
+        if (ctl.controlForRef(ref.getName()).isVisible()) {
           all.addAll(scanDashboards(ctl.getProject(), git, rw, ref, project, setDefault));
         }
       }

@@ -21,6 +21,7 @@ import static com.google.gerrit.common.data.Permission.LABEL;
 import static com.google.gerrit.common.data.Permission.OWNER;
 import static com.google.gerrit.common.data.Permission.PUSH;
 import static com.google.gerrit.common.data.Permission.READ;
+import static com.google.gerrit.common.data.Permission.ROLE;
 import static com.google.gerrit.common.data.Permission.SUBMIT;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
@@ -41,6 +42,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.RoleSection;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -270,6 +272,8 @@ public class RefControlTest {
       allProjects.load(repo);
       LabelType cr = Util.codeReview();
       allProjects.getLabelSections().put(cr.getName(), cr);
+      allProjects.getRoles().put("developer", getDeveloperRole());
+      allProjects.getRoles().put("overridden", getOverrideRole(true));
       add(allProjects);
     } catch (IOException | ConfigInvalidException e) {
       throw new RuntimeException(e);
@@ -293,6 +297,7 @@ public class RefControlTest {
 
     local = new ProjectConfig(localKey);
     local.load(newRepository(localKey));
+    local.getRoles().put("overridden", getOverrideRole(false));
     add(local);
     local.getProject().setParentName(parentKey);
 
@@ -895,6 +900,83 @@ public class RefControlTest {
   }
 
   @Test
+  public void canReadWithRolePermission() {
+    ProjectControl u = user(local, DEVS);
+    String ref = "refs/heads/devbranch";
+    assertCannotRead(ref, u);
+    allow(local, ROLE + "developer", DEVS, ref);
+    u = user(local, DEVS);
+    assertCanRead(ref, u);
+  }
+
+  @Test
+  public void canForcePushWithRolePermission() {
+    ProjectControl u = user(local, DEVS);
+    String ref = "refs/heads/devbranch";
+    assertCannotForceUpdate(ref, u);
+    allow(local, ROLE + "developer", DEVS, ref);
+    u = user(local, DEVS);
+    assertCanForceUpdate(ref, u);
+  }
+
+  @Test
+  public void canSetLabelWithRolePermission() {
+    ProjectControl u = user(local, DEVS);
+    String ref = "refs/heads/devbranch";
+    PermissionRange range = u.controlForRef(ref).getRange(LABEL + "Code-Review");
+    assertCannotVote(-1, range);
+    assertCannotVote(1, range);
+
+    allow(local, ROLE + "developer", DEVS, ref);
+    u = user(local, DEVS);
+    range = u.controlForRef(ref).getRange(LABEL + "Code-Review");
+    assertCanVote(-1, range);
+    assertCanVote(1, range);
+    assertCannotVote(-2, range);
+    assertCannotVote(2, range);
+  }
+
+  @Test
+  public void allowFromRoleOverridesBlockInSameSection() {
+    ProjectControl u = user(local, DEVS);
+    String ref = "refs/heads/devbranch";
+    block(local, READ, REGISTERED_USERS, ref);
+    assertCannotRead(ref, u);
+
+    allow(local, ROLE + "developer", DEVS, ref);
+    u = user(local, DEVS);
+    assertCanRead(ref, u);
+  }
+
+  @Test
+  public void overridesRoleFromParent() {
+    String ref = "refs/heads/devbranch";
+    ProjectControl u = user(local, DEVS);
+    assertCannotRead(ref, u);
+    allow(local, ROLE + "overridden", DEVS, ref);
+    u = user(local, DEVS);
+    assertCanRead(ref, u);
+    assertCanUpdate(ref, u);
+    assertCanSubmit(ref, u);
+    assertCannotForceUpdate(ref, u);
+  }
+
+  @Test
+  public void rolePermissionsMerged() {
+    String ref = "refs/heads/devbranch";
+    ProjectControl u = user(local, DEVS);
+    assertCannotRead(ref, u);
+
+    allow(local, ROLE + "overridden", DEVS, ref);
+    allow(local, ROLE + "developer", DEVS, ref);
+    u = user(local, DEVS);
+    assertCanRead(ref, u);
+    assertCanUpdate(ref, u);
+    assertCanSubmit(ref, u);
+    assertCanForceUpdate(ref, u);
+  }
+
+  @Test
   public void validateRefPatternsOK() throws Exception {
     RefPattern.validate("refs/*");
     RefPattern.validate("^refs/heads/*");
@@ -967,6 +1049,24 @@ public class RefControlTest {
   private ProjectState newProjectState(ProjectConfig local) {
     add(local);
     return all.get(local.getProject().getNameKey());
+  }
+
+  private RoleSection getDeveloperRole() {
+    RoleSection rs = new RoleSection("developer");
+    rs.getRolePermissions().add(RoleSection.toRolePermission(READ));
+    rs.getRolePermissions().add(RoleSection.toRolePermission(PUSH + " +force"));
+    rs.getRolePermissions().add(RoleSection.toRolePermission(LABEL + "Code-Review -1..+1"));
+    return rs;
+  }
+
+  private RoleSection getOverrideRole(boolean forParent) {
+    RoleSection rs = new RoleSection("overridden");
+    rs.getRolePermissions().add(RoleSection.toRolePermission(READ));
+    rs.getRolePermissions().add(RoleSection.toRolePermission(forParent ? PUSH + " +force" : PUSH));
+    if (!forParent) {
+      rs.getRolePermissions().add(RoleSection.toRolePermission(SUBMIT));
+    }
+    return rs;
   }
 
   private class MockUser extends CurrentUser {

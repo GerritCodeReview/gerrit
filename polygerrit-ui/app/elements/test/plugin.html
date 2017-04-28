@@ -1,0 +1,19 @@
+<dom-module id="my-plugin">
+  <script>
+    Gerrit.install(function(plugin) {
+        plugin.registerStyleModule('app-theme', 'myplugin-app-theme');
+    });
+  </script>
+</dom-module>
+
+<dom-module id="myplugin-app-theme">
+  <custom-style>
+    <style is="custom-style">
+      html {
+        --primary-text-color: #F00BAA;
+        --header-background-color: #F01BAA;
+        --footer-background-color: #F02BAA;
+      }
+    </style>
+  </custom-style>
+</dom-module>

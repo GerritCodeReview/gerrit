@@ -33,10 +33,14 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -55,6 +59,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
 public class Move implements RestModifyView<ChangeResource, MoveInput> {
+  private final PermissionBackend permissionBackend;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
   private final GitRepositoryManager repoManager;
@@ -65,6 +70,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
 
   @Inject
   Move(
+      PermissionBackend permissionBackend,
       Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       GitRepositoryManager repoManager,
@@ -72,6 +78,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
       ChangeMessagesUtil cmUtil,
       BatchUpdate.Factory batchUpdateFactory,
       PatchSetUtil psUtil) {
+    this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
     this.json = json;
     this.repoManager = repoManager;
@@ -82,22 +89,40 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
   }
 
   @Override
-  public ChangeInfo apply(ChangeResource req, MoveInput input)
-      throws RestApiException, OrmException, UpdateException {
-    ChangeControl control = req.getControl();
+  public ChangeInfo apply(ChangeResource rsrc, MoveInput input)
+      throws RestApiException, OrmException, UpdateException, PermissionBackendException {
+    Change change = rsrc.getChange();
+    Project.NameKey project = rsrc.getProject();
+    IdentifiedUser caller = rsrc.getUser();
     input.destinationBranch = RefNames.fullName(input.destinationBranch);
-    if (!control.canMoveTo(input.destinationBranch, dbProvider.get())) {
-      throw new AuthException("Move not permitted");
+
+    if (change.getStatus().isClosed()) {
+      throw new ResourceConflictException("Change is " + status(change));
+    }
+
+    Branch.NameKey newDest = new Branch.NameKey(project, input.destinationBranch);
+    if (change.getDest().equals(newDest)) {
+      throw new ResourceConflictException("Change is already destined for the specified branch");
+    }
+
+    // Move requires abandoning this change, and creating a new change.
+    try {
+      rsrc.permissions().database(dbProvider).check(ChangePermission.ABANDON);
+      permissionBackend
+          .user(caller)
+          .database(dbProvider)
+          .ref(newDest)
+          .check(RefPermission.CREATE_CHANGE);
+    } catch (AuthException denied) {
+      throw new AuthException("move not permitted", denied);
     }
 
     try (BatchUpdate u =
-        batchUpdateFactory.create(
-            dbProvider.get(), req.getChange().getProject(), control.getUser(), TimeUtil.nowTs())) {
-      u.addOp(req.getChange().getId(), new Op(input));
+        batchUpdateFactory.create(dbProvider.get(), project, caller, TimeUtil.nowTs())) {
+      u.addOp(change.getId(), new Op(input));
       u.execute();
     }
-
-    return json.noOptions().format(req.getChange());
+    return json.noOptions().format(project, rsrc.getId());
   }
 
   private class Op implements BatchUpdateOp {
@@ -184,6 +209,6 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
   }
 
   private static String status(Change change) {
-    return change != null ? change.getStatus().name().toLowerCase() : "deleted";
+    return change.getStatus().name().toLowerCase();
   }
 }

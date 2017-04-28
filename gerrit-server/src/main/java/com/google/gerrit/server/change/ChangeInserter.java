@@ -52,6 +52,7 @@ import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -88,6 +89,7 @@ public class ChangeInserter implements InsertChangeOp {
 
   private static final Logger log = LoggerFactory.getLogger(ChangeInserter.class);
 
+  private final PermissionBackend permissionBackend;
   private final ProjectControl.GenericFactory projectControlFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
@@ -135,6 +137,7 @@ public class ChangeInserter implements InsertChangeOp {
 
   @Inject
   ChangeInserter(
+      PermissionBackend permissionBackend,
       ProjectControl.GenericFactory projectControlFactory,
       IdentifiedUser.GenericFactory userFactory,
       ChangeControl.GenericFactory changeControlFactory,
@@ -150,6 +153,7 @@ public class ChangeInserter implements InsertChangeOp {
       @Assisted Change.Id changeId,
       @Assisted ObjectId commitId,
       @Assisted String refName) {
+    this.permissionBackend = permissionBackend;
     this.projectControlFactory = projectControlFactory;
     this.userFactory = userFactory;
     this.changeControlFactory = changeControlFactory;
@@ -530,6 +534,8 @@ public class ChangeInserter implements InsertChangeOp {
       return;
     }
 
+    PermissionBackend.ForRef perm =
+        permissionBackend.user(ctx.getUser()).project(ctx.getProject()).ref(refName);
     try {
       RefControl refControl =
           projectControlFactory.controlFor(ctx.getProject(), ctx.getUser()).controlForRef(refName);
@@ -542,7 +548,7 @@ public class ChangeInserter implements InsertChangeOp {
               commitId,
               ctx.getIdentifiedUser())) {
         commitValidatorsFactory
-            .forGerritCommits(refControl, new NoSshInfo(), ctx.getRevWalk())
+            .forGerritCommits(perm, refControl, new NoSshInfo(), ctx.getRevWalk())
             .validate(event);
       }
     } catch (CommitValidationException e) {

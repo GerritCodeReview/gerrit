@@ -111,7 +111,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -1206,6 +1205,7 @@ public class ReceiveCommits {
     private final boolean defaultPublishComments;
     Branch.NameKey dest;
     RefControl ctl;
+    PermissionBackend.ForRef perm;
     Set<Account.Id> reviewer = Sets.newLinkedHashSet();
     Set<Account.Id> cc = Sets.newLinkedHashSet();
     Map<String, Short> labels = new HashMap<>();
@@ -1492,6 +1492,7 @@ public class ReceiveCommits {
 
     magicBranch.dest = new Branch.NameKey(project.getNameKey(), ref);
     magicBranch.ctl = projectControl.controlForRef(ref);
+    magicBranch.perm = permissions.ref(ref);
     if (projectControl.getProject().getState()
         != com.google.gerrit.extensions.client.ProjectState.ACTIVE) {
       reject(cmd, "project is read only");
@@ -1833,7 +1834,7 @@ public class ReceiveCommits {
           logDebug("Creating new change for {} even though it is already tracked", name);
         }
 
-        if (!validCommit(rp.getRevWalk(), magicBranch.ctl, magicBranch.cmd, c)) {
+        if (!validCommit(rp.getRevWalk(), magicBranch.perm, magicBranch.ctl, magicBranch.cmd, c)) {
           // Not a change the user can propose? Abort as early as possible.
           newChanges = Collections.emptyList();
           logDebug("Aborting early due to invalid commit");
@@ -2411,8 +2412,9 @@ public class ReceiveCommits {
         }
       }
 
-      ChangeControl changeCtl = projectControl.controlFor(notes);
-      if (!validCommit(rp.getRevWalk(), changeCtl.getRefControl(), inputCommand, newCommit)) {
+      PermissionBackend.ForRef perm = permissions.ref(change.getDest().get());
+      RefControl refctl = projectControl.controlForRef(change.getDest());
+      if (!validCommit(rp.getRevWalk(), perm, refctl, inputCommand, newCommit)) {
         return false;
       }
       rp.getRevWalk().parseBody(priorCommit);
@@ -2710,12 +2712,13 @@ public class ReceiveCommits {
 
   private void validateNewCommits(RefControl ctl, ReceiveCommand cmd)
       throws PermissionBackendException {
+    PermissionBackend.ForRef perm = permissions.ref(ctl.getRefName());
     if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
             || NEW_PATCHSET.matcher(cmd.getRefName()).matches())
         && pushOptions.containsKey(BYPASS_REVIEW)) {
       try {
-        permissions.ref(cmd.getRefName()).check(RefPermission.BYPASS_REVIEW);
+        perm.check(RefPermission.BYPASS_REVIEW);
         if (!Iterables.isEmpty(rejectCommits)) {
           throw new AuthException("reject-commits prevents " + BYPASS_REVIEW);
         }
@@ -2743,7 +2746,7 @@ public class ReceiveCommits {
         i++;
         if (existing.keySet().contains(c)) {
           continue;
-        } else if (!validCommit(walk, ctl, cmd, c)) {
+        } else if (!validCommit(walk, perm, ctl, cmd, c)) {
           break;
         }
 
@@ -2770,7 +2773,8 @@ public class ReceiveCommits {
     }
   }
 
-  private boolean validCommit(RevWalk rw, RefControl ctl, ReceiveCommand cmd, ObjectId id)
+  private boolean validCommit(
+      RevWalk rw, PermissionBackend.ForRef perm, RefControl ctl, ReceiveCommand cmd, ObjectId id)
       throws IOException {
 
     if (validCommits.contains(id)) {
@@ -2788,8 +2792,8 @@ public class ReceiveCommits {
               && magicBranch.merged;
       CommitValidators validators =
           isMerged
-              ? commitValidatorsFactory.forMergedCommits(ctl)
-              : commitValidatorsFactory.forReceiveCommits(ctl, sshInfo, repo, rw);
+              ? commitValidatorsFactory.forMergedCommits(perm, ctl)
+              : commitValidatorsFactory.forReceiveCommits(perm, ctl, sshInfo, repo, rw);
       messages.addAll(validators.validate(receiveEvent));
     } catch (CommitValidationException e) {
       logDebug("Commit validation failed on {}", c.name());

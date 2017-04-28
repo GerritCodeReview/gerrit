@@ -517,8 +517,7 @@ public class ChangeJson {
       Collection<String> stars = cd.stars(user.getAccountId());
       out.starred = stars.contains(StarredChangesUtil.DEFAULT_LABEL) ? true : null;
       out.muted =
-          stars.contains(
-                  StarredChangesUtil.MUTE_LABEL + "/" + cd.currentPatchSet().getPatchSetId())
+          stars.contains(StarredChangesUtil.MUTE_LABEL + "/" + cd.currentPatchSet().getPatchSetId())
               ? true
               : null;
       if (!stars.isEmpty()) {

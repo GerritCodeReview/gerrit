@@ -70,6 +70,30 @@
       "revId": "bf0ee55e71ad8b14d429c91d0aa317c330e6dcba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d50d3025_ff3d3e82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-04-28T12:03:27Z",
+      "side": 1,
+      "message": "But even in this case you should be using check(), not test().\n\ncheck throws AuthException.",
+      "parentUuid": "096dcf04_034fa292",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 0
+      },
+      "revId": "bf0ee55e71ad8b14d429c91d0aa317c330e6dcba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

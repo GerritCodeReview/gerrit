@@ -22,6 +22,11 @@ public class CommitValidationException extends ValidationException {
   private static final long serialVersionUID = 1L;
   private final ImmutableList<CommitValidationMessage> messages;
 
+  public CommitValidationException(String reason, CommitValidationMessage message) {
+    super(reason);
+    this.messages = ImmutableList.of(message);
+  }
+
   public CommitValidationException(String reason, List<CommitValidationMessage> messages) {
     super(reason);
     this.messages = ImmutableList.copyOf(messages);

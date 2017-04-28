@@ -17,6 +17,24 @@
       "revId": "874236df77da1f4eb40fed8a45f0f25049d9c006",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e44a21c_0f8ae5f5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-04-28T10:47:18Z",
+      "side": 1,
+      "message": "It looks like \"Show trailing whitespace\" in the diff preferences also wraps, so I\u0027m inclined to leave it.",
+      "parentUuid": "02db7ee8_f9e562b4",
+      "revId": "874236df77da1f4eb40fed8a45f0f25049d9c006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

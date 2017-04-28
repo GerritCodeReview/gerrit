@@ -28,6 +28,7 @@ public enum RefPermission {
   FORGE_AUTHOR(Permission.FORGE_AUTHOR),
   FORGE_COMMITTER(Permission.FORGE_COMMITTER),
   FORGE_SERVER(Permission.FORGE_SERVER),
+  BYPASS_REVIEW,
 
   CREATE_CHANGE;
 

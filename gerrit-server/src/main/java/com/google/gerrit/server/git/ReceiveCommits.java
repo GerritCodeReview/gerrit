@@ -188,6 +188,7 @@ import org.slf4j.LoggerFactory;
 /** Receives change upload using the Git receive-pack protocol. */
 public class ReceiveCommits {
   private static final Logger log = LoggerFactory.getLogger(ReceiveCommits.class);
+  private static final String BYPASS_REVIEW = "bypass-review";
 
   public static final Pattern NEW_PATCHSET =
       Pattern.compile("^" + REFS_CHANGES + "(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
@@ -1051,7 +1052,7 @@ public class ReceiveCommits {
     }
   }
 
-  private void parseCreate(ReceiveCommand cmd) {
+  private void parseCreate(ReceiveCommand cmd) throws PermissionBackendException {
     RevObject obj;
     try {
       obj = rp.getRevWalk().parseAny(cmd.getNewId());
@@ -1069,7 +1070,14 @@ public class ReceiveCommits {
     }
 
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    if (ctl.canCreate(db, rp.getRepository(), obj)) {
+    boolean ok;
+    try {
+      permissions.ref(cmd.getRefName()).check(RefPermission.CREATE);
+      ok = true;
+    } catch (AuthException err) {
+      ok = false;
+    }
+    if (ok && ctl.canCreate(db, rp.getRepository(), obj)) {
       if (!validRefOperation(cmd)) {
         return;
       }
@@ -2704,17 +2712,21 @@ public class ReceiveCommits {
     return true;
   }
 
-  private void validateNewCommits(RefControl ctl, ReceiveCommand cmd) {
-    if (ctl.canForgeAuthor()
-        && ctl.canForgeCommitter()
-        && ctl.canForgeGerritServerIdentity()
-        && ctl.canUploadMerges()
-        && !projectControl.getProjectState().isUseSignedOffBy()
-        && Iterables.isEmpty(rejectCommits)
-        && !RefNames.REFS_CONFIG.equals(ctl.getRefName())
+  private void validateNewCommits(RefControl ctl, ReceiveCommand cmd)
+      throws PermissionBackendException {
+    if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
-            || NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
-      logDebug("Short-circuiting new commit validation");
+            || NEW_PATCHSET.matcher(cmd.getRefName()).matches())
+        && pushOptions.containsKey(BYPASS_REVIEW)) {
+      try {
+        permissions.ref(cmd.getRefName()).check(RefPermission.BYPASS_REVIEW);
+        if (!Iterables.isEmpty(rejectCommits)) {
+          throw new AuthException("reject-commits prevents " + BYPASS_REVIEW);
+        }
+        logDebug("Short-circuiting new commit validation");
+      } catch (AuthException denied) {
+        reject(cmd, denied.getMessage());
+      }
       return;
     }
 

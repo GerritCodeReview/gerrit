@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f28357c6_23440743",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-28T10:23:35Z",
+      "side": 1,
+      "message": "We don\u0027t know if there already is a PermissionRule for the group we may add duplicates. Use AccessSection.mergeFrom(...) instead.",
+      "range": {
+        "startLine": 322,
+        "startChar": 30,
+        "endLine": 322,
+        "endChar": 70
+      },
+      "revId": "bd00f97b1fbe5ccf3a1d57ed39f4cebe7131d6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

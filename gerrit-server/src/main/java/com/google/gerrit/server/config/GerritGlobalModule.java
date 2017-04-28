@@ -160,7 +160,6 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.CommentLinkProvider;
-import com.google.gerrit.server.project.DefaultPermissionBackendModule;
 import com.google.gerrit.server.project.PermissionCollection;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectNode;
@@ -230,7 +229,6 @@ public class GerritGlobalModule extends FactoryModule {
 
     install(new AccessControlModule());
     install(new CmdLineParserModule());
-    install(new DefaultPermissionBackendModule());
     install(new EmailModule());
     install(new ExternalIdModule());
     install(new GitModule());

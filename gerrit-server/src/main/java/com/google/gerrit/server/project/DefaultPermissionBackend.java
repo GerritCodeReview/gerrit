@@ -32,7 +32,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 @Singleton
-class DefaultPermissionBackend extends PermissionBackend {
+public class DefaultPermissionBackend extends PermissionBackend {
   private final ProjectCache projectCache;
 
   @Inject

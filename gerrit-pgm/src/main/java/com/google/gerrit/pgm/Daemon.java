@@ -75,6 +75,7 @@ import com.google.gerrit.server.mime.MimeUtil2Module;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
+import com.google.gerrit.server.project.DefaultPermissionBackendModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.H2AccountPatchReviewStore;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
@@ -367,6 +368,7 @@ public class Daemon extends SiteProgram {
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new SearchingChangeCacheImpl.Module(slave));
     modules.add(new InternalAccountDirectory.Module());
+    modules.add(new DefaultPermissionBackendModule());
     modules.add(new DefaultCacheFactory.Module());
     modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
     if (emailModule != null) {

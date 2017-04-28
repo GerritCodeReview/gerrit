@@ -180,7 +180,7 @@ public class CreateChange
     }
 
     RefControl refControl = rsrc.getControl().controlForRef(refName);
-    if (!refControl.canUpload() || !refControl.canRead()) {
+    if (!refControl.canUpload()) {
       throw new AuthException("cannot upload review");
     }
 

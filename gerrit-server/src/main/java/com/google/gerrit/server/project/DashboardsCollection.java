@@ -120,7 +120,7 @@ class DashboardsCollection
     if (!ref.startsWith(REFS_DASHBOARDS)) {
       ref = REFS_DASHBOARDS + ref;
     }
-    if (!Repository.isValidRefName(ref) || !ctl.controlForRef(ref).canRead()) {
+    if (!Repository.isValidRefName(ref) || !ctl.controlForRef(ref).isVisible()) {
       throw new ResourceNotFoundException(id);
     }
 

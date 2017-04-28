@@ -32,7 +32,22 @@ public enum ProjectPermission {
    *
    * <p>This is a stronger form of {@link #ACCESS} where no filtering is required.
    */
-  READ(Permission.READ);
+  READ(Permission.READ),
+
+  /**
+   * Can create at least one reference in the project.
+   *
+   * <p>This project level permission only validates the user may create some type of reference
+   * within the project. The exact reference name must be checked at creation:
+   *
+   * <pre>permissionBackend
+   *    .user(user)
+   *    .project(proj)
+   *    .ref(ref)
+   *    .check(RefPermission.CREATE);
+   * </pre>
+   */
+  CREATE_REF;
 
   private final String name;
 

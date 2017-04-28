@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f92054dd_96e6e73d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2186,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-04-28T11:50:02Z",
+      "side": 1,
+      "message": "The description was not correct from the beginning. I have rewritten it and mentioned ignore.",
+      "parentUuid": "198dbb1f_34656422",
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10e340a8_dc19d09c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mute.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-04-28T11:01:16Z",
       "side": 1,
       "message": "Response\u003cString\u003e",
+      "range": {
+        "startLine": 55,
+        "startChar": 9,
+        "endLine": 55,
+        "endChar": 15
+      },
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20973bbc_28062a72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-04-28T11:50:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10e340a8_dc19d09c",
       "range": {
         "startLine": 55,
         "startChar": 9,
@@ -65,6 +107,54 @@
     },
     {
       "key": {
+        "uuid": "e8b1b2f2_9ccfe393",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-04-28T11:50:02Z",
+      "side": 1,
+      "message": "No. It is checking the ignored star that can throw the exception. If the muted label fails, the isMuted() will throw the exception instead.",
+      "parentUuid": "7e56f835_4fca541f",
+      "range": {
+        "startLine": 81,
+        "startChar": 33,
+        "endLine": 81,
+        "endChar": 45
+      },
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e54870e_903bddf2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-04-28T11:50:02Z",
+      "side": 1,
+      "message": "This is correct. See comment on Unmute.java.",
+      "parentUuid": "7e56f835_4fca541f",
+      "range": {
+        "startLine": 81,
+        "startChar": 33,
+        "endLine": 81,
+        "endChar": 45
+      },
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f71c710c_d4e64376",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Unmute.java",
         "patchSetId": 1
@@ -82,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "4347f873_5fbaf033",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Unmute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-04-28T11:50:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f71c710c_d4e64376",
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2a0648c_88ade4c9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Unmute.java",
         "patchSetId": 1
@@ -93,6 +201,30 @@
       "writtenOn": "2017-04-28T11:01:16Z",
       "side": 1,
       "message": "Response\u003cString\u003e",
+      "range": {
+        "startLine": 57,
+        "startChar": 9,
+        "endLine": 57,
+        "endChar": 15
+      },
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f3f8711_6afe005a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Unmute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-04-28T11:50:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2a0648c_88ade4c9",
       "range": {
         "startLine": 57,
         "startChar": 9,
@@ -162,6 +294,24 @@
       "writtenOn": "2017-04-28T11:01:16Z",
       "side": 1,
       "message": "submodule should not be updated",
+      "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ab38f5_32f7e9f4",
+        "filename": "plugins/replication",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-04-28T11:50:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "419de9ad_6f67a887",
       "revId": "95157ac4ea7163626f3bf3c9c19c35180ab6c74b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

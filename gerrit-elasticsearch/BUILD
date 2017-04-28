@@ -52,10 +52,8 @@ junit_tests(
     name = "elasticsearch_tests",
     size = "large",
     srcs = glob(["src/test/java/**/*Test.java"]),
-    flaky = 1,
     tags = [
         "elastic",
-        "flaky",
     ],
     deps = [
         ":elasticsearch",

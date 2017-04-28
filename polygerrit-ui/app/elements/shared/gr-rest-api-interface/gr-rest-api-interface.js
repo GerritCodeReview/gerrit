@@ -443,7 +443,7 @@
         O: options,
         q: [
           'is:open owner:self',
-          'is:open ((reviewer:self -owner:self -star:ignore) OR assignee:self)',
+          'is:open ((reviewer:self -owner:self -is:ignored) OR assignee:self)',
           'is:closed (owner:self OR reviewer:self OR assignee:self) -age:4w ' +
             'limit:10',
         ],

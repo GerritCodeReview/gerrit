@@ -21,19 +21,34 @@
       name: String,
     },
 
+    _import: function(url) {
+      return new Promise((resolve, reject) => {
+        this.importHref(url, resolve, reject);
+      });
+    },
+
     _applyStyle: function(name) {
-      var s = document.createElement('style', 'custom-style');
+      const s = document.createElement('style', 'custom-style');
       s.setAttribute('include', name);
       Polymer.dom(this.root).appendChild(s);
     },
 
     ready: function() {
-      Gerrit.awaitPluginsLoaded().then(function() {
-        var sharedStyles = Gerrit._styleModules[this.name];
+      Gerrit.awaitPluginsLoaded().then(_=> {
+        const sharedStyles = Gerrit._styleModules[this.name];
         if (sharedStyles) {
-          sharedStyles.map(this._applyStyle.bind(this));
+          const {pluginUrls, moduleNames} = sharedStyles.reduce(
+            ({pluginUrls, moduleNames}, {pluginUrl, moduleName}) => {
+              if (!pluginUrls.includes(pluginUrl)) {
+                pluginUrls.push(pluginUrl);
+              }
+              moduleNames.push(moduleName);
+              return {pluginUrls, moduleNames};
+            }, {pluginUrls: [], moduleNames: []});
+          Promise.all(pluginUrls.map(url=>this._import(url)))
+            .then(_=>moduleNames.map(name=>this._applyStyle(name)));
         }
-      }.bind(this));
+      });
     },
   });
 })();

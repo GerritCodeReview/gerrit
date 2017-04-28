@@ -29,31 +29,8 @@ limitations under the License.
     <script>
       Gerrit.install(function(plugin) {
         plugin.registerStyleModule('change-metadata', 'some-style');
-      }, '', 'http://x/plugins/foo.js');
+      }, '', new URL('test/plugin.html', window.location.href).toString());
     </script>
-  </template>
-</test-fixture>
-
-<test-fixture id="some-style">
-  <template>
-    <dom-module id="some-style">
-      <style>
-        :root {
-          --change-metadata-assignee: {
-            display: none;
-          }
-          --change-metadata-label-status: {
-            display: none;
-          }
-          --change-metadata-strategy: {
-            display: none;
-          }
-          --change-metadata-topic: {
-            display: none;
-          }
-        }
-      </style>
-    </dom-module>
   </template>
 </test-fixture>
 
@@ -113,10 +90,7 @@ limitations under the License.
     });
 
     suite('with plugin style', function() {
-      var styleEl;
-
       setup(function(done) {
-        styleEl = fixture('some-style');
         element = fixture('element');
         plugin = fixture('plugin');
         flush(done);

@@ -59,7 +59,10 @@
     if (!Gerrit._styleModules[stylingEndpointName]) {
       Gerrit._styleModules[stylingEndpointName] = [];
     }
-    Gerrit._styleModules[stylingEndpointName].push(moduleName);
+    Gerrit._styleModules[stylingEndpointName].push({
+      pluginUrl: this._url,
+      moduleName: moduleName,
+    });
   };
 
   Plugin.prototype.getServerInfo = function() {

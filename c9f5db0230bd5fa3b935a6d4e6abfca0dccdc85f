@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d4e609a_50f966bd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 2121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-28T08:52:16Z",
+      "side": 1,
+      "message": "nit: remove trailing whitespace",
+      "range": {
+        "startLine": 2118,
+        "startChar": 0,
+        "endLine": 2121,
+        "endChar": 35
+      },
+      "revId": "c9f5db0230bd5fa3b935a6d4e6abfca0dccdc85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab2b678f_e5bd2891",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 6554,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-28T08:52:16Z",
+      "side": 1,
+      "message": "Please move this section down, so that the JSON entity sections stay sorted alphabetically.",
+      "range": {
+        "startLine": 6553,
+        "startChar": 0,
+        "endLine": 6554,
+        "endChar": 23
+      },
+      "revId": "c9f5db0230bd5fa3b935a6d4e6abfca0dccdc85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

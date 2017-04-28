@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e01482fb_4fe1f0c0",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-28T08:28:18Z",
+      "side": 1,
+      "message": "Nit: Wrap this line (ane below) around 80 chars.",
+      "revId": "bb4f3e9ec2ef528bf065398e998ab61cba72fb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99497a83_a2e8f716",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-28T08:28:18Z",
+      "side": 1,
+      "message": "Optional: mention to switch the used IDE to ES6 and enable the strict mode (if the IDE supports it).",
+      "revId": "bb4f3e9ec2ef528bf065398e998ab61cba72fb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

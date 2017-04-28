@@ -79,7 +79,7 @@ public interface Server {
     }
 
     @Override
-    public AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException {
+    public AccessCheckInfo checkAccess(AccessCheckInput in) {
       throw new NotImplementedException();
     }
   }

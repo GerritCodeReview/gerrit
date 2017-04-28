@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.CreateTag;
 import com.google.gerrit.server.project.DeleteTag;
 import com.google.gerrit.server.project.ListTags;
@@ -63,7 +64,7 @@ public class TagApiImpl implements TagApi {
     try {
       createTagFactory.create(ref).apply(project, input);
       return this;
-    } catch (IOException e) {
+    } catch (IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot create tag", e);
     }
   }
@@ -81,8 +82,8 @@ public class TagApiImpl implements TagApi {
   public void delete() throws RestApiException {
     try {
       deleteTag.apply(resource(), new DeleteTag.Input());
-    } catch (OrmException | IOException e) {
-      throw new RestApiException(e.getMessage());
+    } catch (OrmException | IOException | PermissionBackendException e) {
+      throw new RestApiException("Cannot delete tag", e);
     }
   }
 

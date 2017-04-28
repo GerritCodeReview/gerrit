@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.gerrit.server.project.BranchesCollection;
 import com.google.gerrit.server.project.CreateBranch;
@@ -87,7 +88,7 @@ public class BranchApiImpl implements BranchApi {
   public void delete() throws RestApiException {
     try {
       deleteBranch.apply(resource(), new DeleteBranch.Input());
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot delete branch", e);
     }
   }

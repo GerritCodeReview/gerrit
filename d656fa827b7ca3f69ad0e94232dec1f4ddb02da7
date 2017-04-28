@@ -52,6 +52,24 @@
       "revId": "d656fa827b7ca3f69ad0e94232dec1f4ddb02da7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c666e96_dd4a055a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Ignore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-04-28T09:15:44Z",
+      "side": 1,
+      "message": "Also if you have a project watch you get email notification for a change on which you are not a reviewer. By ignoring it you can silence the email notifications.",
+      "parentUuid": "ea6d03dc_9dbedbe0",
+      "revId": "d656fa827b7ca3f69ad0e94232dec1f4ddb02da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

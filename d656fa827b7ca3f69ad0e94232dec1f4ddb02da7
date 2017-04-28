@@ -34,6 +34,24 @@
       "revId": "d656fa827b7ca3f69ad0e94232dec1f4ddb02da7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea6d03dc_9dbedbe0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Ignore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-04-28T09:13:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c0ec1ead_44f6decc",
+      "revId": "d656fa827b7ca3f69ad0e94232dec1f4ddb02da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

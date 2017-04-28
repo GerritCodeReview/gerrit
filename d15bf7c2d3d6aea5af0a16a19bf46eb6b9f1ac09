@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5811256_ffa8af7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_149.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-28T12:42:50Z",
+      "side": 1,
+      "message": "refs/",
+      "range": {
+        "startLine": 47,
+        "startChar": 74,
+        "endLine": 47,
+        "endChar": 85
+      },
+      "revId": "d15bf7c2d3d6aea5af0a16a19bf46eb6b9f1ac09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81600e17_1becfacf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_149.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-28T12:42:50Z",
+      "side": 1,
+      "message": "nit: Create the AccessSection here instead and only pass that to updateRule(), that way you don\u0027t need to pass config and destinationRef",
+      "revId": "d15bf7c2d3d6aea5af0a16a19bf46eb6b9f1ac09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4df8ed11_b52b63d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_149.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-28T12:42:50Z",
+      "side": 1,
+      "message": "nit: AccessSection newSection,",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 28
+      },
+      "revId": "d15bf7c2d3d6aea5af0a16a19bf46eb6b9f1ac09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0efad76b_7add9d7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_149.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-28T12:42:50Z",
+      "side": 1,
+      "message": "nit: p.getRule(sourceRule.getGroup(), true)",
+      "range": {
+        "startLine": 140,
+        "startChar": 23,
+        "endLine": 140,
+        "endChar": 59
+      },
+      "revId": "d15bf7c2d3d6aea5af0a16a19bf46eb6b9f1ac09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af2f9ab8_91f9b81a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_149.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-04-28T12:42:50Z",
+      "side": 1,
+      "message": "nit: If you use Permission.getRule(GroupReference, boolean) the permission already has the rule.",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 13
+      },
+      "revId": "d15bf7c2d3d6aea5af0a16a19bf46eb6b9f1ac09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

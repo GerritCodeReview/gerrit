@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4059fe5b_14987723",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/CheckAccessIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-28T09:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7bb0502_25844f55",
+      "range": {
+        "startLine": 45,
+        "startChar": 14,
+        "endLine": 45,
+        "endChar": 19
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "135219b1_b175466f",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/AccessCheckInput.java",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-27T16:27:43Z",
       "side": 1,
       "message": "nit: reformat as Google-Java-Format. Then this will be \u0027{}\u0027.",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 3
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2d3ba13_822236ed",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/AccessCheckInput.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-28T09:58:24Z",
+      "side": 1,
+      "message": "somebody has already done this. \n\nWe should put the formatting check into CI (can I interest you in doing this?)",
+      "parentUuid": "135219b1_b175466f",
       "range": {
         "startLine": 31,
         "startChar": 2,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9270b851_deec1c3b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/Server.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-28T09:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70baa8b4_a508554b",
+      "range": {
+        "startLine": 82,
+        "startChar": 60,
+        "endLine": 82,
+        "endChar": 83
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67a61c05_920fbb7b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
         "patchSetId": 10
@@ -91,6 +163,30 @@
       "revId": "e04df7e589328bc42af622be98eabf8476f74633",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21d72424_034bfe1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-28T09:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67a61c05_920fbb7b",
+      "range": {
+        "startLine": 49,
+        "startChar": 32,
+        "endLine": 49,
+        "endChar": 40
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "aac78e07_82dde4db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-28T09:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bc6fe21_7d586661",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 29
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b97e9b23_f381f02c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
         "patchSetId": 10
@@ -137,6 +257,30 @@
       "revId": "e04df7e589328bc42af622be98eabf8476f74633",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7ad8faa_754a7782",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-28T09:58:24Z",
+      "side": 1,
+      "message": "active tense is almost always better.",
+      "parentUuid": "b97e9b23_f381f02c",
+      "range": {
+        "startLine": 80,
+        "startChar": 36,
+        "endLine": 80,
+        "endChar": 63
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "86ea519d_a75ade44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-28T09:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c897b90_0d9a0b67",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 29
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d1cd57d_12cfab84",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
         "patchSetId": 10
@@ -183,6 +351,30 @@
       "revId": "e04df7e589328bc42af622be98eabf8476f74633",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38f35a8c_b2704ee5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-28T09:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d1cd57d_12cfab84",
+      "range": {
+        "startLine": 83,
+        "startChar": 36,
+        "endLine": 83,
+        "endChar": 63
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "2fddca6f_74647af4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-28T09:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "850e5cae_1ef4f678",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71d3a942_76013033",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
         "patchSetId": 10
@@ -232,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "4a8a396a_b6425d4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-28T09:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71d3a942_76013033",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 60
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "332c3652_ff0ebac4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
         "patchSetId": 10
@@ -243,6 +483,30 @@
       "writtenOn": "2017-04-27T16:27:43Z",
       "side": 1,
       "message": "optional: \nAs in the following code, we assign values to  \u0027result.message\u0027 and \u0027result.status\u0027 one by one. \nI think it will be better if we initialize \u0027Result\u0027 there with a constructor \u0027Result(String message, int status)\u0027.",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 31
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30a726ae_6a72016b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-28T09:58:24Z",
+      "side": 1,
+      "message": "better for what, though?  If you do\n\n  r \u003d new Klass(2, 56)\n\nrather than\n\n  r \u003d new Klass()\n  r.code \u003d 2\n  r.errorClass \u003d 56\n\nyou need an IDE to understand what is going on.",
+      "parentUuid": "332c3652_ff0ebac4",
       "range": {
         "startLine": 97,
         "startChar": 4,
@@ -278,6 +542,30 @@
     },
     {
       "key": {
+        "uuid": "a66a1dde_8cc919c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-28T09:58:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "87859d29_a2bce08a",
+      "range": {
+        "startLine": 112,
+        "startChar": 14,
+        "endLine": 112,
+        "endChar": 50
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d99de49_95d074f3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
         "patchSetId": 10
@@ -301,6 +589,30 @@
     },
     {
       "key": {
+        "uuid": "16672fd4_30ca6a96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-28T09:58:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3d99de49_95d074f3",
+      "range": {
+        "startLine": 128,
+        "startChar": 16,
+        "endLine": 128,
+        "endChar": 62
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "492b926c_e6df41ae",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
         "patchSetId": 10
@@ -321,6 +633,30 @@
       "revId": "e04df7e589328bc42af622be98eabf8476f74633",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e5e30f9_24766b42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CheckAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-04-28T09:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "492b926c_e6df41ae",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 51
+      },
+      "revId": "e04df7e589328bc42af622be98eabf8476f74633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

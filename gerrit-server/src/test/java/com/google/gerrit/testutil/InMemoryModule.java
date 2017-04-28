@@ -57,6 +57,7 @@ import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.GwtormChangeBundleReader;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffExecutor;
+import com.google.gerrit.server.project.DefaultPermissionBackendModule;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.H2AccountPatchReviewStore;
 import com.google.gerrit.server.schema.NotesMigrationSchemaFactory;
@@ -149,6 +150,7 @@ public class InMemoryModule extends FactoryModule {
             });
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     install(cfgInjector.getInstance(GerritGlobalModule.class));
+    install(new DefaultPermissionBackendModule());
     install(new SearchingChangeCacheImpl.Module());
     factory(GarbageCollection.Factory.class);
 

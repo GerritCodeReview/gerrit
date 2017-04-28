@@ -46,6 +46,30 @@
       "revId": "85529b7c1788bf7b4aa1546e8d31a49c624e6176",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7eb6ea5a_fcae1c19",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-04-28T09:14:06Z",
+      "side": 1,
+      "message": "\u003e that feature was written before the status field was available and it didn\u0027t get updated when it was added\n\nYeah, I didn\u0027t know there were cases in which name is editable but status isn\u0027t.\n\nIf I\u0027m understanding this correctly, the settings view won\u0027t ever be shown when the user isn\u0027t logged in, and the status field is always configurable for every user. In that case, this fix seems reasonable to me.",
+      "parentUuid": "7cf45deb_b9e8b8e6",
+      "range": {
+        "startLine": 123,
+        "startChar": 10,
+        "endLine": 130,
+        "endChar": 74
+      },
+      "revId": "85529b7c1788bf7b4aa1546e8d31a49c624e6176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

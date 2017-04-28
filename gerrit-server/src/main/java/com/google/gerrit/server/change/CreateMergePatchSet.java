@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -42,6 +41,8 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -100,27 +101,18 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource req, MergePatchSetInput in)
+  public Response<ChangeInfo> apply(ChangeResource rsrc, MergePatchSetInput in)
       throws OrmException, IOException, InvalidChangeOperationException, RestApiException,
-          UpdateException {
-    if (in.merge == null) {
-      throw new BadRequestException("merge field is required");
-    }
+          UpdateException, PermissionBackendException {
+    rsrc.permissions().database(db).check(ChangePermission.ADD_PATCH_SET);
 
     MergeInput merge = in.merge;
-    if (Strings.isNullOrEmpty(merge.source)) {
+    if (merge == null || Strings.isNullOrEmpty(merge.source)) {
       throw new BadRequestException("merge.source must be non-empty");
     }
 
-    ChangeControl ctl = req.getControl();
-    if (!ctl.isVisible(db.get())) {
-      throw new InvalidChangeOperationException("Base change not found: " + req.getId());
-    }
+    ChangeControl ctl = rsrc.getControl();
     PatchSet ps = psUtil.current(db.get(), ctl.getNotes());
-    if (!ctl.canAddPatchSet(db.get())) {
-      throw new AuthException("cannot add patch set");
-    }
-
     ProjectControl projectControl = ctl.getProjectControl();
     Change change = ctl.getChange();
     Project.NameKey project = change.getProject();
@@ -137,11 +129,9 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
       }
 
       RevCommit currentPsCommit = rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
-
       Timestamp now = TimeUtil.nowTs();
       IdentifiedUser me = user.get().asIdentifiedUser();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
-
       RevCommit newCommit =
           createMergeCommit(
               in,
@@ -164,7 +154,8 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
             psInserter
                 .setMessage("Uploaded patch set " + nextPsId.get() + ".")
                 .setDraft(ps.isDraft())
-                .setNotify(NotifyHandling.NONE));
+                .setNotify(NotifyHandling.NONE)
+                .setCheckAddPatchSetPermission(false));
         bu.execute();
       }
 

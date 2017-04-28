@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -683,10 +684,13 @@ public class RefControl {
 
     @Override
     public ForChange change(ChangeNotes notes) {
+      Project.NameKey project = getProjectControl().getProject().getNameKey();
       Change change = notes.getChange();
       checkArgument(
-          getProjectControl().getProject().getNameKey().equals(change.getProject()),
-          "mismatched project");
+          project.equals(change.getProject()),
+          "expected change in project %s, not %s",
+          project,
+          change.getProject());
       return getProjectControl().controlFor(notes).asForChange(null, db);
     }
 

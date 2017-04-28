@@ -46,6 +46,7 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.edit.UnchangedCommitMessageException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
@@ -154,7 +155,8 @@ public class ChangeEdits
 
     @Override
     public Response<?> apply(ChangeResource resource, Put.Input input)
-        throws AuthException, ResourceConflictException, IOException, OrmException {
+        throws AuthException, ResourceConflictException, IOException, OrmException,
+            PermissionBackendException {
       putEdit.apply(resource.getControl(), path, input.content);
       return Response.none();
     }
@@ -178,7 +180,8 @@ public class ChangeEdits
 
     @Override
     public Response<?> apply(ChangeResource rsrc, DeleteFile.Input in)
-        throws IOException, AuthException, ResourceConflictException, OrmException {
+        throws IOException, AuthException, ResourceConflictException, OrmException,
+            PermissionBackendException {
       return deleteContent.apply(rsrc.getControl(), path);
     }
   }
@@ -268,7 +271,8 @@ public class ChangeEdits
 
     @Override
     public Response<?> apply(ChangeResource resource, Post.Input input)
-        throws AuthException, IOException, ResourceConflictException, OrmException {
+        throws AuthException, IOException, ResourceConflictException, OrmException,
+            PermissionBackendException {
       Project.NameKey project = resource.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
         ChangeControl changeControl = resource.getControl();
@@ -314,12 +318,14 @@ public class ChangeEdits
 
     @Override
     public Response<?> apply(ChangeEditResource rsrc, Input input)
-        throws AuthException, ResourceConflictException, IOException, OrmException {
+        throws AuthException, ResourceConflictException, IOException, OrmException,
+            PermissionBackendException {
       return apply(rsrc.getControl(), rsrc.getPath(), input.content);
     }
 
     public Response<?> apply(ChangeControl changeControl, String path, RawInput newContent)
-        throws ResourceConflictException, AuthException, IOException, OrmException {
+        throws ResourceConflictException, AuthException, IOException, OrmException,
+            PermissionBackendException {
       if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
         throw new ResourceConflictException("Invalid path: " + path);
       }
@@ -356,12 +362,14 @@ public class ChangeEdits
 
     @Override
     public Response<?> apply(ChangeEditResource rsrc, DeleteContent.Input input)
-        throws AuthException, ResourceConflictException, OrmException, IOException {
+        throws AuthException, ResourceConflictException, OrmException, IOException,
+            PermissionBackendException {
       return apply(rsrc.getControl(), rsrc.getPath());
     }
 
     public Response<?> apply(ChangeControl changeControl, String filePath)
-        throws AuthException, IOException, OrmException, ResourceConflictException {
+        throws AuthException, IOException, OrmException, ResourceConflictException,
+            PermissionBackendException {
       Project.NameKey project = changeControl.getChange().getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
         editModifier.deleteFile(repository, changeControl, filePath);
@@ -455,7 +463,7 @@ public class ChangeEdits
     @Override
     public Object apply(ChangeResource rsrc, Input input)
         throws AuthException, IOException, BadRequestException, ResourceConflictException,
-            OrmException {
+            OrmException, PermissionBackendException {
       if (input == null || Strings.isNullOrEmpty(input.message)) {
         throw new BadRequestException("commit message must be provided");
       }

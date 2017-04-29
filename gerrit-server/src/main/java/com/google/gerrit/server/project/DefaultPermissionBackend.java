@@ -15,14 +15,21 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
+import com.google.gerrit.extensions.api.access.PluginPermission;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.PeerDaemonUser;
+import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.permissions.FailedPermissionBackend;
+import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
@@ -30,17 +37,22 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 @Singleton
 public class DefaultPermissionBackend extends PermissionBackend {
+  private static final CurrentUser.PropertyKey<Boolean> IS_ADMIN = CurrentUser.PropertyKey.create();
+
   private final ProjectCache projectCache;
-  private final CapabilityControl.Factory capabilityFactory;
 
   @Inject
-  DefaultPermissionBackend(ProjectCache projectCache, CapabilityControl.Factory capabilityFactory) {
+  DefaultPermissionBackend(ProjectCache projectCache) {
     this.projectCache = projectCache;
-    this.capabilityFactory = capabilityFactory;
+  }
+
+  private CapabilityCollection capabilities() {
+    return projectCache.getAllProjects().getCapabilityCollection();
   }
 
   @Override
@@ -50,7 +62,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
 
   class WithUserImpl extends WithUser {
     private final CurrentUser user;
-    private CapabilityControl cap;
+    private Boolean admin;
 
     WithUserImpl(CurrentUser user) {
       this.user = checkNotNull(user, "user");
@@ -90,10 +102,95 @@ public class DefaultPermissionBackend extends PermissionBackend {
     }
 
     private boolean can(GlobalOrPluginPermission perm) throws PermissionBackendException {
-      if (cap == null) {
-        cap = capabilityFactory.create(user);
+      if (perm instanceof GlobalPermission) {
+        return can((GlobalPermission) perm);
+      } else if (perm instanceof PluginPermission) {
+        return has(perm.permissionName()) || isAdmin();
       }
-      return cap.doCanForDefaultPermissionBackend(perm);
+      throw new PermissionBackendException(perm + " unsupported");
+    }
+
+    private boolean can(GlobalPermission perm) throws PermissionBackendException {
+      switch (perm) {
+        case ADMINISTRATE_SERVER:
+          return isAdmin();
+        case EMAIL_REVIEWERS:
+          return canEmailReviewers();
+
+        case FLUSH_CACHES:
+        case KILL_TASK:
+        case RUN_GC:
+        case VIEW_CACHES:
+        case VIEW_QUEUE:
+          return has(perm.permissionName()) || can(GlobalPermission.MAINTAIN_SERVER);
+
+        case CREATE_ACCOUNT:
+        case CREATE_GROUP:
+        case CREATE_PROJECT:
+        case MAINTAIN_SERVER:
+        case MODIFY_ACCOUNT:
+        case STREAM_EVENTS:
+        case VIEW_ALL_ACCOUNTS:
+        case VIEW_CONNECTIONS:
+        case VIEW_PLUGINS:
+          return has(perm.permissionName()) || isAdmin();
+
+        case ACCESS_DATABASE:
+        case RUN_AS:
+          return has(perm.permissionName());
+      }
+      throw new PermissionBackendException(perm + " unsupported");
+    }
+
+    private boolean isAdmin() {
+      if (admin == null) {
+        admin = computeAdmin();
+      }
+      return admin;
+    }
+
+    private Boolean computeAdmin() {
+      Boolean r = user.get(IS_ADMIN);
+      if (r == null) {
+        if (user.getRealUser() != user) {
+          r = false;
+        } else if (user instanceof PeerDaemonUser) {
+          r = true;
+        } else {
+          r = allow(capabilities().administrateServer);
+        }
+        user.put(IS_ADMIN, r);
+      }
+      return r;
+    }
+
+    private boolean canEmailReviewers() {
+      List<PermissionRule> email = capabilities().emailReviewers;
+      return allow(email) || notDenied(email);
+    }
+
+    private boolean has(String permissionName) {
+      return allow(capabilities().getPermission(permissionName));
+    }
+
+    private boolean allow(Collection<PermissionRule> rules) {
+      return user.getEffectiveGroups()
+          .containsAnyOf(
+              rules
+                  .stream()
+                  .filter(r -> r.getAction() == Action.ALLOW)
+                  .map(r -> r.getGroup().getUUID())
+                  .collect(toSet()));
+    }
+
+    private boolean notDenied(Collection<PermissionRule> rules) {
+      Set<AccountGroup.UUID> denied =
+          rules
+              .stream()
+              .filter(r -> r.getAction() != Action.ALLOW)
+              .map(r -> r.getGroup().getUUID())
+              .collect(toSet());
+      return denied.isEmpty() || !user.getEffectiveGroups().containsAnyOf(denied);
     }
   }
 

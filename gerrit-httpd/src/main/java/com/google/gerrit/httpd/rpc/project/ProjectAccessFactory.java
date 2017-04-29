@@ -14,6 +14,10 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import static com.google.gerrit.server.permissions.GlobalPermission.ADMINISTRATE_SERVER;
+import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
+import static com.google.gerrit.server.permissions.RefPermission.READ;
+
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
@@ -39,10 +43,10 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -122,10 +126,11 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       }
     }
 
-    final RefControl metaConfigControl = pc.controlForRef(RefNames.REFS_CONFIG);
     List<AccessSection> local = new ArrayList<>();
     Set<String> ownerOf = new HashSet<>();
     Map<AccountGroup.UUID, Boolean> visibleGroups = new HashMap<>();
+    PermissionBackend.ForProject perm = permissionBackend.user(user).project(projectName);
+    boolean checkReadConfig = check(perm, RefNames.REFS_CONFIG, READ);
 
     for (AccessSection section : config.getAccessSections()) {
       String name = section.getName();
@@ -134,20 +139,19 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
           local.add(section);
           ownerOf.add(name);
 
-        } else if (metaConfigControl.isVisible()) {
+        } else if (checkReadConfig) {
           local.add(section);
         }
 
       } else if (RefConfigSection.isValid(name)) {
-        RefControl rc = pc.controlForRef(name);
-        if (rc.isOwner()) {
+        if (pc.controlForRef(name).isOwner()) {
           local.add(section);
           ownerOf.add(name);
 
-        } else if (metaConfigControl.isVisible()) {
+        } else if (checkReadConfig) {
           local.add(section);
 
-        } else if (rc.isVisible()) {
+        } else if (check(perm, name, READ)) {
           // Filter the section to only add rules describing groups that
           // are visible to the current-user. This includes any group the
           // user is a member of, as well as groups they own or that
@@ -205,17 +209,17 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
     detail.setInheritsFrom(config.getProject().getParent(allProjectsName));
 
-    if (projectName.equals(allProjectsName)) {
-      if (pc.isOwner()) {
-        ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
-      }
+    if (projectName.equals(allProjectsName)
+        && permissionBackend.user(user).testOrFalse(ADMINISTRATE_SERVER)) {
+      ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
     }
 
     detail.setLocal(local);
     detail.setOwnerOf(ownerOf);
     detail.setCanUpload(
-        metaConfigControl.isVisible() && (pc.isOwner() || metaConfigControl.canUpload()));
-    detail.setConfigVisible(pc.isOwner() || metaConfigControl.isVisible());
+        pc.isOwner()
+            || (checkReadConfig && perm.ref(RefNames.REFS_CONFIG).testOrFalse(CREATE_CHANGE)));
+    detail.setConfigVisible(pc.isOwner() || checkReadConfig);
     detail.setGroupInfo(buildGroupInfo(local));
     detail.setLabelTypes(pc.getLabelTypes());
     detail.setFileHistoryLinks(getConfigFileLogLinks(projectName.get()));
@@ -256,5 +260,15 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       throw new NoSuchProjectException(projectName);
     }
     return pc;
+  }
+
+  private static boolean check(PermissionBackend.ForProject ctx, String ref, RefPermission perm)
+      throws PermissionBackendException {
+    try {
+      ctx.ref(ref).check(perm);
+      return true;
+    } catch (AuthException denied) {
+      return false;
+    }
   }
 }

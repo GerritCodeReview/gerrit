@@ -33,6 +33,9 @@ Default is to create H2 database in the db folder of the site path.
 Changing this parameter requires to migrate database using the
 link:pgm-MigrateAccountPatchReviewDb.html[MigrateAccountPatchReviewDb] program.
 Migration cannot be done while the server is running.
++
+Also note that the db_name has to be a new db and not reusing gerrit's own review database,
+otherwise gerrit's init will remove the table.
 
 ----
 [accountPatchReviewDb]

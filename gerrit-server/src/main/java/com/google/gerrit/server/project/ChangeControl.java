@@ -247,9 +247,8 @@ public class ChangeControl {
     return (isOwner() // owner (aka creator) of the change can abandon
             || getRefControl().isOwner() // branch owner can abandon
             || getProjectControl().isOwner() // project owner can abandon
-            || getUser().getCapabilities().isAdmin_DoNotUse() // site administers are god
             || getRefControl().canAbandon() // user can abandon a specific ref
-        )
+            || getProjectControl().isAdmin())
         && !isPatchSetLocked(db);
   }
 
@@ -266,13 +265,11 @@ public class ChangeControl {
 
     switch (status) {
       case DRAFT:
-        return isOwner()
-            || getRefControl().canDeleteDrafts()
-            || getUser().getCapabilities().isAdmin_DoNotUse();
+        return isOwner() || getRefControl().canDeleteDrafts() || getProjectControl().isAdmin();
       case NEW:
       case ABANDONED:
         return (isOwner() && getRefControl().canDeleteOwnChanges())
-            || getUser().getCapabilities().isAdmin_DoNotUse();
+            || getProjectControl().isAdmin();
       case MERGED:
       default:
         return false;
@@ -410,7 +407,7 @@ public class ChangeControl {
       if (getRefControl().canRemoveReviewer() // has removal permissions
           || getRefControl().isOwner() // branch owner
           || getProjectControl().isOwner() // project owner
-          || getUser().getCapabilities().isAdmin_DoNotUse()) {
+          || getProjectControl().isAdmin()) {
         return true;
       }
     }
@@ -424,9 +421,8 @@ public class ChangeControl {
       return isOwner() // owner (aka creator) of the change can edit topic
           || getRefControl().isOwner() // branch owner can edit topic
           || getProjectControl().isOwner() // project owner can edit topic
-          || getUser().getCapabilities().isAdmin_DoNotUse() // site administers are god
           || getRefControl().canEditTopicName() // user can edit topic on a specific ref
-      ;
+          || getProjectControl().isAdmin();
     }
     return getRefControl().canForceEditTopicName();
   }
@@ -437,8 +433,7 @@ public class ChangeControl {
       return isOwner() // owner (aka creator) of the change can edit desc
           || getRefControl().isOwner() // branch owner can edit desc
           || getProjectControl().isOwner() // project owner can edit desc
-          || getUser().getCapabilities().isAdmin_DoNotUse() // site administers are god
-      ;
+          || getProjectControl().isAdmin();
     }
     return false;
   }
@@ -455,8 +450,8 @@ public class ChangeControl {
     return isOwner() // owner (aka creator) of the change can edit hashtags
         || getRefControl().isOwner() // branch owner can edit hashtags
         || getProjectControl().isOwner() // project owner can edit hashtags
-        || getUser().getCapabilities().isAdmin_DoNotUse() // site administers are god
-        || getRefControl().canEditHashtags(); // user can edit hashtag on a specific ref
+        || getRefControl().canEditHashtags() // user can edit hashtag on a specific ref
+        || getProjectControl().isAdmin();
   }
 
   private boolean match(String destBranch, String refPattern) {

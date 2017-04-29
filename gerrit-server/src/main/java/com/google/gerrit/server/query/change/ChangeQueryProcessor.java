@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.QueryOptions;
@@ -65,6 +66,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   @Inject
   ChangeQueryProcessor(
       Provider<CurrentUser> userProvider,
+      CapabilityControl.Factory capabilityFactory,
       Metrics metrics,
       IndexConfig indexConfig,
       ChangeIndexCollection indexes,
@@ -75,6 +77,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       DynamicMap<ChangeAttributeFactory> attributeFactories) {
     super(
         userProvider,
+        capabilityFactory,
         metrics,
         ChangeSchemaDefinitions.INSTANCE,
         indexConfig,

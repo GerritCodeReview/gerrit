@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -32,9 +31,7 @@ public class PeerDaemonUser extends CurrentUser {
   private final SocketAddress peer;
 
   @Inject
-  protected PeerDaemonUser(
-      CapabilityControl.Factory capabilityControlFactory, @Assisted SocketAddress peer) {
-    super(capabilityControlFactory);
+  protected PeerDaemonUser(@Assisted SocketAddress peer) {
     this.peer = peer;
   }
 

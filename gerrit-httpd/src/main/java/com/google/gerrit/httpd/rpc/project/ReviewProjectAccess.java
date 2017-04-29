@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -39,9 +40,11 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.project.SetParent;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
@@ -68,6 +71,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   }
 
   private final ReviewDb db;
+  private final PermissionBackend permissionBackend;
   private final Sequences seq;
   private final Provider<PostReviewers> reviewersProvider;
   private final ProjectCache projectCache;
@@ -78,6 +82,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   @Inject
   ReviewProjectAccess(
       final ProjectControl.Factory projectControlFactory,
+      PermissionBackend permissionBackend,
       GroupBackend groupBackend,
       MetaDataUpdate.User metaDataUpdateFactory,
       ReviewDb db,
@@ -107,6 +112,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
         message,
         false);
     this.db = db;
+    this.permissionBackend = permissionBackend;
     this.seq = seq;
     this.reviewersProvider = reviewersProvider;
     this.projectCache = projectCache;
@@ -124,13 +130,23 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       ProjectConfig config,
       MetaDataUpdate md,
       boolean parentProjectUpdate)
-      throws IOException, OrmException, PermissionDeniedException {
-    RefControl refsMetaConfigControl = projectControl.controlForRef(RefNames.REFS_CONFIG);
-    if (!refsMetaConfigControl.isVisible()) {
+      throws IOException, OrmException, PermissionDeniedException, PermissionBackendException {
+    PermissionBackend.ForRef metaRef =
+        permissionBackend
+            .user(projectControl.getUser())
+            .project(projectControl.getProject().getNameKey())
+            .ref(RefNames.REFS_CONFIG);
+    try {
+      metaRef.check(RefPermission.READ);
+    } catch (AuthException denied) {
       throw new PermissionDeniedException(RefNames.REFS_CONFIG + " not visible");
     }
-    if (!projectControl.isOwner() && !refsMetaConfigControl.canUpload()) {
-      throw new PermissionDeniedException("cannot upload to " + RefNames.REFS_CONFIG);
+    if (!projectControl.isOwner()) {
+      try {
+        metaRef.check(RefPermission.CREATE_CHANGE);
+      } catch (AuthException denied) {
+        throw new PermissionDeniedException("cannot create change for " + RefNames.REFS_CONFIG);
+      }
     }
 
     md.setInsertChangeId(true);

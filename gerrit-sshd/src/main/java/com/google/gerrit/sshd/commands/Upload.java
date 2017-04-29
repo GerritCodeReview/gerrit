@@ -15,16 +15,11 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.git.SearchingChangeCacheImpl;
-import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.validators.UploadValidationException;
 import com.google.gerrit.server.git.validators.UploadValidators;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
@@ -38,22 +33,11 @@ import org.eclipse.jgit.transport.UploadPack;
 
 /** Publishes Git repositories over SSH using the Git upload-pack protocol. */
 final class Upload extends AbstractGitCommand {
-  @Inject private ReviewDb db;
-
   @Inject private TransferConfig config;
-
-  @Inject private TagCache tagCache;
-
-  @Inject private ChangeNotes.Factory changeNotesFactory;
-
-  @Inject @Nullable private SearchingChangeCacheImpl changeCache;
-
+  @Inject private VisibleRefFilter.Factory refFilterFactory;
   @Inject private DynamicSet<PreUploadHook> preUploadHooks;
-
   @Inject private DynamicSet<PostUploadHook> postUploadHooks;
-
   @Inject private UploadValidators.Factory uploadValidatorsFactory;
-
   @Inject private SshSession session;
 
   @Override
@@ -63,9 +47,7 @@ final class Upload extends AbstractGitCommand {
     }
 
     final UploadPack up = new UploadPack(repo);
-    up.setAdvertiseRefsHook(
-        new VisibleRefFilter(
-            tagCache, changeNotesFactory, changeCache, repo, projectControl, db, true));
+    up.setAdvertiseRefsHook(refFilterFactory.create(projectControl.getProjectState(), repo));
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
     up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));

@@ -253,7 +253,7 @@ public class ProjectControl {
     return (canPerformOnAnyRef(Permission.CREATE) || isOwnerAnyRef());
   }
 
-  public boolean canUpload() {
+  private boolean canCreateChanges() {
     for (SectionMatcher matcher : access()) {
       AccessSection section = matcher.section;
       if (section.getName().startsWith("refs/for/")) {
@@ -591,6 +591,8 @@ public class ProjectControl {
 
         case CREATE_REF:
           return canAddRefs();
+        case CREATE_CHANGE:
+          return canCreateChanges();
       }
       throw new PermissionBackendException(perm + " unsupported");
     }

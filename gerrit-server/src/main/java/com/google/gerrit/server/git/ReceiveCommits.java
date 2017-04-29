@@ -1616,10 +1616,13 @@ public class ReceiveCommits {
       return;
     }
 
-    if (magicBranch.submit
-        && !projectControl.controlForRef(MagicBranch.NEW_CHANGE + ref).canSubmit(true)) {
-      reject(cmd, "submit not allowed");
-      return;
+    if (magicBranch.submit) {
+      try {
+        permissions.ref(ref).check(RefPermission.UPDATE_BY_SUBMIT);
+      } catch (AuthException e) {
+        reject(cmd, e.getMessage());
+        return;
+      }
     }
 
     RevWalk walk = rp.getRevWalk();

@@ -24,7 +24,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -34,23 +33,16 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ReceiveCommitsAdvertiseRefsHook;
-import com.google.gerrit.server.git.SearchingChangeCacheImpl;
-import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.testutil.DisabledReviewDb;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -68,16 +60,8 @@ import org.junit.Test;
 
 @NoHttpd
 public class RefAdvertisementIT extends AbstractDaemonTest {
-  @Inject private ProjectControl.GenericFactory projectControlFactory;
-
-  @Inject @Nullable private SearchingChangeCacheImpl changeCache;
-
-  @Inject private TagCache tagCache;
-
-  @Inject private Provider<CurrentUser> userProvider;
-
+  @Inject private VisibleRefFilter.Factory refFilterFactory;
   @Inject private ChangeNoteUtil noteUtil;
-
   @Inject @AnonymousCowardName private String anonymousCowardName;
 
   private AccountGroup.UUID admins;
@@ -386,7 +370,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project)) {
       assertRefs(
           repo,
-          new VisibleRefFilter(tagCache, notesFactory, null, repo, projectControl(), db, true),
+          refFilterFactory.create(projectCache.get(project), repo),
           // Can't use stored values from the index so DB must be enabled.
           false,
           "HEAD",
@@ -410,12 +394,12 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     assume().that(notesMigration.readChangeSequence()).isTrue();
     try (Repository repo = repoManager.openRepository(allProjects)) {
       setApiUser(user);
-      assertRefs(repo, newFilter(db, repo, allProjects), true);
+      assertRefs(repo, newFilter(repo, allProjects), true);
 
       allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
       try {
         setApiUser(user);
-        assertRefs(repo, newFilter(db, repo, allProjects), true, "refs/sequences/changes");
+        assertRefs(repo, newFilter(repo, allProjects), true, "refs/sequences/changes");
       } finally {
         removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
       }
@@ -556,17 +540,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   private void assertUploadPackRefs(String... expectedWithMeta) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       assertRefs(
-          repo,
-          new VisibleRefFilter(
-              tagCache,
-              notesFactory,
-              changeCache,
-              repo,
-              projectControl(),
-              new DisabledReviewDb(),
-              true),
-          true,
-          expectedWithMeta);
+          repo, refFilterFactory.create(projectCache.get(project), repo), true, expectedWithMeta);
     }
   }
 
@@ -602,20 +576,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     }
   }
 
-  private ProjectControl projectControl() throws Exception {
-    return projectControlFactory.controlFor(project, userProvider.get());
-  }
-
-  private VisibleRefFilter newFilter(ReviewDb db, Repository repo, Project.NameKey project)
-      throws Exception {
-    return new VisibleRefFilter(
-        tagCache,
-        notesFactory,
-        null,
-        repo,
-        projectControlFactory.controlFor(project, userProvider.get()),
-        db,
-        true);
+  private VisibleRefFilter newFilter(Repository repo, Project.NameKey project) {
+    return refFilterFactory.create(projectCache.get(project), repo);
   }
 
   private static ObjectId obj(ChangeData cd, int psNum) throws Exception {

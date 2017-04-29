@@ -906,11 +906,9 @@ public class RefControlTest {
         Collections.<AccountGroup.UUID>emptySet(),
         projectCache,
         sectionSorter,
-        null,
         changeControlFactory,
-        null,
+        null, // refFilter
         queryProvider,
-        null,
         canonicalWebUrl,
         new MockUser(name, memberOf),
         newProjectState(local),

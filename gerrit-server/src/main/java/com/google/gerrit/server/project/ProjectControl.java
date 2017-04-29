@@ -43,8 +43,6 @@ import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
-import com.google.gerrit.server.git.SearchingChangeCacheImpl;
-import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -136,12 +134,10 @@ public class ProjectControl {
   private final String canonicalWebUrl;
   private final CurrentUser user;
   private final ProjectState state;
-  private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
+  private final VisibleRefFilter.Factory refFilter;
   private final Collection<ContributorAgreement> contributorAgreements;
-  private final TagCache tagCache;
-  @Nullable private final SearchingChangeCacheImpl changeCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Metrics metrics;
 
@@ -157,19 +153,15 @@ public class ProjectControl {
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
       ProjectCache pc,
       PermissionCollection.Factory permissionFilter,
-      ChangeNotes.Factory changeNotesFactory,
       ChangeControl.Factory changeControlFactory,
-      TagCache tagCache,
+      VisibleRefFilter.Factory refFilter,
       Provider<InternalChangeQuery> queryProvider,
-      @Nullable SearchingChangeCacheImpl changeCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps,
       Metrics metrics) {
-    this.changeNotesFactory = changeNotesFactory;
     this.changeControlFactory = changeControlFactory;
-    this.tagCache = tagCache;
-    this.changeCache = changeCache;
+    this.refFilter = refFilter;
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
@@ -492,12 +484,12 @@ public class ProjectControl {
           "Cannot look up change for commit " + commit.name() + " in " + getProject().getName(), e);
     }
     // Scan all visible refs.
-    return canReadCommitFromVisibleRef(db, repo, commit);
+    return canReadCommitFromVisibleRef(repo, commit);
   }
 
-  private boolean canReadCommitFromVisibleRef(ReviewDb db, Repository repo, RevCommit commit) {
+  private boolean canReadCommitFromVisibleRef(Repository repo, RevCommit commit) {
     try (RevWalk rw = new RevWalk(repo)) {
-      return isMergedIntoVisibleRef(repo, db, rw, commit, repo.getAllRefs().values());
+      return isMergedIntoVisibleRef(repo, rw, commit, repo.getAllRefs().values());
     } catch (IOException e) {
       String msg =
           String.format(
@@ -509,10 +501,9 @@ public class ProjectControl {
   }
 
   boolean isMergedIntoVisibleRef(
-      Repository repo, ReviewDb db, RevWalk rw, RevCommit commit, Collection<Ref> unfilteredRefs)
+      Repository repo, RevWalk rw, RevCommit commit, Collection<Ref> unfilteredRefs)
       throws IOException {
-    VisibleRefFilter filter =
-        new VisibleRefFilter(tagCache, changeNotesFactory, changeCache, repo, this, db, true);
+    VisibleRefFilter filter = refFilter.create(state, repo);
     Map<String, Ref> m = Maps.newHashMapWithExpectedSize(unfilteredRefs.size());
     for (Ref r : unfilteredRefs) {
       m.put(r.getName(), r);

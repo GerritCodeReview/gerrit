@@ -20,7 +20,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
@@ -78,7 +78,7 @@ public class ProjectQoSFilter implements Filter {
     }
   }
 
-  private final CapabilityControl.Factory capabilityFactory;
+  private final AccountLimits.Factory limitsFactory;
   private final Provider<CurrentUser> user;
   private final QueueProvider queue;
   private final ServletContext context;
@@ -86,12 +86,12 @@ public class ProjectQoSFilter implements Filter {
 
   @Inject
   ProjectQoSFilter(
-      CapabilityControl.Factory capabilityFactory,
+      AccountLimits.Factory limitsFactory,
       Provider<CurrentUser> user,
       QueueProvider queue,
       ServletContext context,
       @GerritServerConfig Config cfg) {
-    this.capabilityFactory = capabilityFactory;
+    this.limitsFactory = limitsFactory;
     this.user = user;
     this.queue = queue;
     this.context = context;
@@ -138,7 +138,7 @@ public class ProjectQoSFilter implements Filter {
   }
 
   private ScheduledThreadPoolExecutor getExecutor() {
-    QueueProvider.QueueType qt = capabilityFactory.create(user.get()).getQueueType();
+    QueueProvider.QueueType qt = limitsFactory.create(user.get()).getQueueType();
     return queue.getQueue(qt);
   }
 

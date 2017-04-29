@@ -15,27 +15,27 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 class CommandExecutorProvider implements Provider<ScheduledThreadPoolExecutor> {
-  private final CapabilityControl.Factory capabilityFactory;
+  private final AccountLimits.Factory limitsFactory;
   private final QueueProvider queues;
   private final CurrentUser user;
 
   @Inject
   CommandExecutorProvider(
-      CapabilityControl.Factory capabilityFactory, QueueProvider queues, CurrentUser user) {
-    this.capabilityFactory = capabilityFactory;
+      AccountLimits.Factory limitsFactory, QueueProvider queues, CurrentUser user) {
+    this.limitsFactory = limitsFactory;
     this.queues = queues;
     this.user = user;
   }
 
   @Override
   public ScheduledThreadPoolExecutor get() {
-    return queues.getQueue(capabilityFactory.create(user).getQueueType());
+    return queues.getQueue(limitsFactory.create(user).getQueueType());
   }
 }

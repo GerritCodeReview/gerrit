@@ -14,11 +14,9 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -88,11 +86,7 @@ public class PublishChangeEdit
     protected Response<?> applyImpl(
         BatchUpdate.Factory updateFactory, ChangeResource rsrc, PublishChangeEditInput in)
         throws IOException, OrmException, RestApiException, UpdateException {
-      Capable r = rsrc.getControl().getProjectControl().canPushToAtLeastOneRef();
-      if (r != Capable.OK) {
-        throw new AuthException(r.getMessage());
-      }
-
+      CreateChange.checkValidCLA(rsrc.getControl().getProjectControl());
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (!edit.isPresent()) {
         throw new ResourceConflictException(

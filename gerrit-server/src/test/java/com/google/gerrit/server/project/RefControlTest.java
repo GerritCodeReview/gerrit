@@ -141,16 +141,18 @@ public class RefControlTest {
     assertThat(u.canPushToAtLeastOneRef()).named("can upload").isEqualTo(Capable.OK);
   }
 
-  private void assertCanUpload(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canUpload()).named("can upload " + ref).isTrue();
+  private void assertCreateChange(String ref, ProjectControl u) {
+    boolean create = u.asForProject().ref(ref).testOrFalse(RefPermission.CREATE_CHANGE);
+    assertThat(create).named("can create change " + ref).isTrue();
   }
 
   private void assertCannotUpload(ProjectControl u) {
     assertThat(u.canPushToAtLeastOneRef()).named("cannot upload").isNotEqualTo(Capable.OK);
   }
 
-  private void assertCannotUpload(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canUpload()).named("cannot upload " + ref).isFalse();
+  private void assertCannotCreateChange(String ref, ProjectControl u) {
+    boolean create = u.asForProject().ref(ref).testOrFalse(RefPermission.CREATE_CHANGE);
+    assertThat(create).named("cannot create change " + ref).isFalse();
   }
 
   private void assertBlocked(String p, String ref, ProjectControl u) {
@@ -405,8 +407,8 @@ public class RefControlTest {
 
     ProjectControl u = user(local);
     assertCanUpload(u);
-    assertCanUpload("refs/heads/master", u);
-    assertCannotUpload("refs/heads/foobar", u);
+    assertCreateChange("refs/heads/master", u);
+    assertCannotCreateChange("refs/heads/foobar", u);
   }
 
   @Test
@@ -415,7 +417,7 @@ public class RefControlTest {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
 
     ProjectControl u = user(local);
-    assertCanUpload("refs/heads/master", u);
+    assertCreateChange("refs/heads/master", u);
     assertBlocked(PUSH, "refs/drafts/refs/heads/master", u);
   }
 
@@ -438,8 +440,8 @@ public class RefControlTest {
 
     ProjectControl u = user(local);
     assertCanUpload(u);
-    assertCanUpload("refs/heads/master", u);
-    assertCanUpload("refs/heads/foobar", u);
+    assertCreateChange("refs/heads/master", u);
+    assertCreateChange("refs/heads/foobar", u);
   }
 
   @Test
@@ -508,7 +510,7 @@ public class RefControlTest {
 
     ProjectControl u = user(local);
     assertCannotUpload(u);
-    assertCannotUpload("refs/heads/master", u);
+    assertCannotCreateChange("refs/heads/master", u);
   }
 
   @Test

@@ -63,11 +63,6 @@ public class CapabilityControl {
     effective = new HashMap<>();
   }
 
-  /** Identity of the user the control will compute for. */
-  public CurrentUser getUser() {
-    return user;
-  }
-
   /**
    * <b>Do not use.</b> Determine if the user can administer this server.
    *
@@ -110,15 +105,6 @@ public class CapabilityControl {
   /** @return true if the user can view all accounts. */
   public boolean canViewAllAccounts() {
     return canPerform(GlobalCapability.VIEW_ALL_ACCOUNTS) || isAdmin_DoNotUse();
-  }
-
-  /** @return true if the user can access the database (with gsql). */
-  public boolean canAccessDatabase() {
-    try {
-      return doCanForDefaultPermissionBackend(GlobalPermission.ACCESS_DATABASE);
-    } catch (PermissionBackendException e) {
-      return false;
-    }
   }
 
   /** @return which priority queue the user's tasks should be submitted to. */

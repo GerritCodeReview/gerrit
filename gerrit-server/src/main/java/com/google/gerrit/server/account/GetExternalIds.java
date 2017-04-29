@@ -26,6 +26,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -37,12 +39,18 @@ import java.util.List;
 
 @Singleton
 public class GetExternalIds implements RestReadView<AccountResource> {
+  private final PermissionBackend permissionBackend;
   private final ExternalIds externalIds;
   private final Provider<CurrentUser> self;
   private final AuthConfig authConfig;
 
   @Inject
-  GetExternalIds(ExternalIds externalIds, Provider<CurrentUser> self, AuthConfig authConfig) {
+  GetExternalIds(
+      PermissionBackend permissionBackend,
+      ExternalIds externalIds,
+      Provider<CurrentUser> self,
+      AuthConfig authConfig) {
+    this.permissionBackend = permissionBackend;
     this.externalIds = externalIds;
     this.self = self;
     this.authConfig = authConfig;
@@ -51,7 +59,8 @@ public class GetExternalIds implements RestReadView<AccountResource> {
   @Override
   public List<AccountExternalIdInfo> apply(AccountResource resource)
       throws RestApiException, IOException, OrmException {
-    if (self.get() != resource.getUser() && !self.get().getCapabilities().canAccessDatabase()) {
+    if (self.get() != resource.getUser()
+        && !permissionBackend.user(self).testOrFalse(GlobalPermission.ACCESS_DATABASE)) {
       throw new AuthException("not allowed to get external IDs");
     }
 

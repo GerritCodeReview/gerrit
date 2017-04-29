@@ -428,7 +428,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void checkConsistencyNotAllowed() throws Exception {
     exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to run consistency checks");
+    exception.expectMessage("access database not permitted");
     gApi.config().server().checkConsistency(new ConsistencyCheckInput());
   }
 

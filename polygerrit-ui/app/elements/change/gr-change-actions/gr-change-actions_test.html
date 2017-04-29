@@ -557,6 +557,78 @@ limitations under the License.
       });
     });
 
+    suite('ignore change', function() {
+      var fireActionStub;
+
+      setup(function() {
+        fireActionStub = sandbox.stub(element, '_fireAction');
+        IgnoreAction = {
+          __key: 'ignore',
+          __type: 'change',
+          __primary: false,
+          method: 'PUT',
+          label: 'Ignore',
+          title: 'Working...',
+          enabled: true,
+        };
+        element.actions = {
+          ignore: IgnoreAction,
+        };
+        return element.reload();
+      });
+
+      test('ignoring change', function(done) {
+        element.changeNum = '2';
+        element.patchNum = '2';
+        flush(function() {
+          assert.isNotOk(element.$$('[data-action-key="ignore"]'));
+          assert.strictEqual(element.$.moreActions.items[3].id, 'ignore-change');
+          element.setActionOverflow('change', 'ignore', false);
+          flushAsynchronousOperations();
+          assert.isOk(element.$$('[data-action-key="ignore"]'));
+          assert.notEqual(
+            element.$.moreActions.items[2].id, 'ignore-change');
+          done();
+        });
+      });
+    });
+
+    suite('unignore change', function() {
+      var fireActionStub;
+
+      setup(function() {
+        fireActionStub = sandbox.stub(element, '_fireAction');
+        UnignoreAction = {
+          __key: 'unignore',
+          __type: 'change',
+          __primary: false,
+          method: 'PUT',
+          label: 'Unignore',
+          title: 'Working...',
+          enabled: true,
+        };
+        element.actions = {
+          unignore: UnignoreAction,
+        };
+        return element.reload();
+      });
+
+      test('unignoring change', function(done) {
+        element.changeNum = '2';
+        element.patchNum = '2';
+        flush(function() {
+          assert.isNotOk(element.$$('[data-action-key="unignore"]'));
+          assert.strictEqual(element.$.moreActions.items[3].id, 'unignore-change');
+          element.setActionOverflow('change', 'unignore', false);
+          flushAsynchronousOperations();
+          assert.isOk(element.$$('[data-action-key="unignore"]'));
+          assert.notEqual(
+            element.$.moreActions.items[2].id, 'unignore-change');
+          done();
+        });
+      });
+    });
+
     suite('quick approve', function() {
       setup(function() {
         element.change = {

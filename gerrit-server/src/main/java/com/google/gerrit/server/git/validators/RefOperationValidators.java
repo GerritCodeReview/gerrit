@@ -23,6 +23,8 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.events.RefReceivedEvent;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -46,17 +48,20 @@ public class RefOperationValidators {
         update.getExpectedOldObjectId(), update.getNewObjectId(), update.getName(), type);
   }
 
+  private final PermissionBackend.WithUser perm;
   private final AllUsersName allUsersName;
   private final DynamicSet<RefOperationValidationListener> refOperationValidationListeners;
   private final RefReceivedEvent event;
 
   @Inject
   RefOperationValidators(
+      PermissionBackend permissionBackend,
       AllUsersName allUsersName,
       DynamicSet<RefOperationValidationListener> refOperationValidationListeners,
       @Assisted Project project,
       @Assisted IdentifiedUser user,
       @Assisted ReceiveCommand cmd) {
+    this.perm = permissionBackend.user(user);
     this.allUsersName = allUsersName;
     this.refOperationValidationListeners = refOperationValidationListeners;
     event = new RefReceivedEvent();
@@ -69,7 +74,7 @@ public class RefOperationValidators {
     List<ValidationMessage> messages = new ArrayList<>();
     boolean withException = false;
     List<RefOperationValidationListener> listeners = new ArrayList<>();
-    listeners.add(new DisallowCreationAndDeletionOfUserBranches(allUsersName));
+    listeners.add(new DisallowCreationAndDeletionOfUserBranches(perm, allUsersName));
     refOperationValidationListeners.forEach(l -> listeners.add(l));
     try {
       for (RefOperationValidationListener listener : listeners) {
@@ -107,9 +112,12 @@ public class RefOperationValidators {
 
   private static class DisallowCreationAndDeletionOfUserBranches
       implements RefOperationValidationListener {
+    private final PermissionBackend.WithUser perm;
     private final AllUsersName allUsersName;
 
-    DisallowCreationAndDeletionOfUserBranches(AllUsersName allUsersName) {
+    DisallowCreationAndDeletionOfUserBranches(
+        PermissionBackend.WithUser perm, AllUsersName allUsersName) {
+      this.perm = perm;
       this.allUsersName = allUsersName;
     }
 
@@ -120,7 +128,7 @@ public class RefOperationValidators {
           && (refEvent.command.getRefName().startsWith(RefNames.REFS_USERS)
               && !refEvent.command.getRefName().equals(RefNames.REFS_USERS_DEFAULT))) {
         if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {
-          if (!refEvent.user.getCapabilities().canAccessDatabase()) {
+          if (!perm.testOrFalse(GlobalPermission.ACCESS_DATABASE)) {
             throw new ValidationException("Not allowed to create user branch.");
           }
           if (Account.Id.fromRef(refEvent.command.getRefName()) == null) {
@@ -129,7 +137,7 @@ public class RefOperationValidators {
                     "Not allowed to create non-user branch under %s.", RefNames.REFS_USERS));
           }
         } else if (refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {
-          if (!refEvent.user.getCapabilities().canAccessDatabase()) {
+          if (!perm.testOrFalse(GlobalPermission.ACCESS_DATABASE)) {
             throw new ValidationException("Not allowed to delete user branch.");
           }
         }

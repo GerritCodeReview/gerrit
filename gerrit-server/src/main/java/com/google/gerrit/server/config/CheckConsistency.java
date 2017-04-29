@@ -18,13 +18,15 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.CheckAccountExternalIdsResultInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.CheckAccountsResultInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountsConsistencyChecker;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -33,30 +35,27 @@ import java.io.IOException;
 
 @Singleton
 public class CheckConsistency implements RestModifyView<ConfigResource, ConsistencyCheckInput> {
-  private final Provider<IdentifiedUser> userProvider;
+  private final PermissionBackend permissionBackend;
+  private final Provider<CurrentUser> user;
   private final AccountsConsistencyChecker accountsConsistencyChecker;
   private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
 
   @Inject
   CheckConsistency(
-      Provider<IdentifiedUser> currentUser,
+      PermissionBackend permissionBackend,
+      Provider<CurrentUser> user,
       AccountsConsistencyChecker accountsConsistencyChecker,
       ExternalIdsConsistencyChecker externalIdsConsistencyChecker) {
-    this.userProvider = currentUser;
+    this.permissionBackend = permissionBackend;
+    this.user = user;
     this.accountsConsistencyChecker = accountsConsistencyChecker;
     this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
   }
 
   @Override
   public ConsistencyCheckInfo apply(ConfigResource resource, ConsistencyCheckInput input)
-      throws RestApiException, IOException, OrmException {
-    IdentifiedUser user = userProvider.get();
-    if (!user.isIdentifiedUser()) {
-      throw new AuthException("Authentication required");
-    }
-    if (!user.getCapabilities().canAccessDatabase()) {
-      throw new AuthException("not allowed to run consistency checks");
-    }
+      throws RestApiException, IOException, OrmException, PermissionBackendException {
+    permissionBackend.user(user).check(GlobalPermission.ACCESS_DATABASE);
 
     if (input == null || (input.checkAccounts == null && input.checkAccountExternalIds == null)) {
       throw new BadRequestException("input required");

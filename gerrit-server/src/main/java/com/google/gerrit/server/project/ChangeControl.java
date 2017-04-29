@@ -42,6 +42,7 @@ import com.google.gerrit.server.permissions.ChangePermissionOrLabel;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -281,14 +282,14 @@ public class ChangeControl {
   /** Can this user rebase this change? */
   private boolean canRebase(ReviewDb db) throws OrmException {
     return (isOwner() || getRefControl().canSubmit(isOwner()) || getRefControl().canRebase())
-        && getRefControl().canUpload()
+        && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)
         && !isPatchSetLocked(db);
   }
 
   /** Can this user restore this change? */
   private boolean canRestore(ReviewDb db) throws OrmException {
-    return canAbandon(db) // Anyone who can abandon the change can restore it back
-        && getRefControl().canUpload(); // as long as you can upload too
+    // Anyone who can abandon the change can restore it, as long as they can create changes.
+    return canAbandon(db) && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE);
   }
 
   /** All available label types for this change. */
@@ -326,7 +327,7 @@ public class ChangeControl {
 
   /** Can this user add a patch set to this change? */
   private boolean canAddPatchSet(ReviewDb db) throws OrmException {
-    if (!getRefControl().canUpload()
+    if (!refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)
         || isPatchSetLocked(db)
         || !isPatchVisible(patchSetUtil.current(db, notes), db)) {
       return false;

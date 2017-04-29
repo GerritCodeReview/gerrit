@@ -55,19 +55,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-/** Unit tests for {@link ProjectControl}. */
-public class ProjectControlTest {
+/** Unit tests for {@link CommitsCollection}. */
+public class CommitsCollectionTest {
   @Inject private AccountManager accountManager;
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private InMemoryRepositoryManager repoManager;
-  @Inject private ProjectControl.GenericFactory projectControlFactory;
   @Inject private SchemaCreator schemaCreator;
   @Inject private ThreadLocalRequestContext requestContext;
   @Inject protected ProjectCache projectCache;
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected AllProjectsName allProjects;
   @Inject protected GroupCache groupCache;
+  @Inject private CommitsCollection commits;
 
   private LifecycleManager lifecycle;
   private ReviewDb db;
@@ -135,11 +135,11 @@ public class ProjectControlTest {
   public void canReadCommitWhenAllRefsVisible() throws Exception {
     allow(project, READ, REGISTERED_USERS, "refs/*");
     ObjectId id = repo.branch("master").commit().create();
-    ProjectControl pc = newProjectControl();
+    ProjectState state = readProjectState();
     RevWalk rw = repo.getRevWalk();
     Repository r = repo.getRepository();
 
-    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(id)));
+    assertTrue(commits.canRead(state, r, rw.parseCommit(id)));
   }
 
   @Test
@@ -150,12 +150,12 @@ public class ProjectControlTest {
     ObjectId id1 = repo.branch("branch1").commit().create();
     ObjectId id2 = repo.branch("branch2").commit().create();
 
-    ProjectControl pc = newProjectControl();
+    ProjectState state = readProjectState();
     RevWalk rw = repo.getRevWalk();
     Repository r = repo.getRepository();
 
-    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(id1)));
-    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(id2)));
+    assertTrue(commits.canRead(state, r, rw.parseCommit(id1)));
+    assertTrue(commits.canRead(state, r, rw.parseCommit(id2)));
   }
 
   @Test
@@ -166,12 +166,12 @@ public class ProjectControlTest {
     ObjectId id1 = repo.branch("branch1").commit().create();
     ObjectId id2 = repo.branch("branch2").commit().create();
 
-    ProjectControl pc = newProjectControl();
+    ProjectState state = readProjectState();
     RevWalk rw = repo.getRevWalk();
     Repository r = repo.getRepository();
 
-    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(id1)));
-    assertFalse(pc.canReadCommit(db, r, rw.parseCommit(id2)));
+    assertTrue(commits.canRead(state, r, rw.parseCommit(id1)));
+    assertFalse(commits.canRead(state, r, rw.parseCommit(id2)));
   }
 
   @Test
@@ -185,11 +185,11 @@ public class ProjectControlTest {
     RevCommit parent2 = repo.commit().create();
     repo.branch("branch2").commit().parent(parent2).create();
 
-    ProjectControl pc = newProjectControl();
+    ProjectState state = readProjectState();
     RevWalk rw = repo.getRevWalk();
     Repository r = repo.getRepository();
-    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(parent1)));
-    assertFalse(pc.canReadCommit(db, r, rw.parseCommit(parent2)));
+    assertTrue(commits.canRead(state, r, rw.parseCommit(parent1)));
+    assertFalse(commits.canRead(state, r, rw.parseCommit(parent2)));
   }
 
   @Test
@@ -199,16 +199,16 @@ public class ProjectControlTest {
     RevCommit parent1 = repo.commit().create();
     ObjectId id1 = repo.branch("branch1").commit().parent(parent1).create();
 
-    ProjectControl pc = newProjectControl();
+    ProjectState state = readProjectState();
     RevWalk rw = repo.getRevWalk();
     Repository r = repo.getRepository();
 
-    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(parent1)));
-    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(id1)));
+    assertTrue(commits.canRead(state, r, rw.parseCommit(parent1)));
+    assertTrue(commits.canRead(state, r, rw.parseCommit(id1)));
 
     repo.branch("branch1").update(parent1);
-    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(parent1)));
-    assertFalse(pc.canReadCommit(db, r, rw.parseCommit(id1)));
+    assertTrue(commits.canRead(state, r, rw.parseCommit(parent1)));
+    assertFalse(commits.canRead(state, r, rw.parseCommit(id1)));
   }
 
   @Test
@@ -218,20 +218,20 @@ public class ProjectControlTest {
     RevCommit parent1 = repo.commit().create();
     ObjectId id1 = repo.branch("branch1").commit().parent(parent1).create();
 
-    ProjectControl pc = newProjectControl();
+    ProjectState state = readProjectState();
     RevWalk rw = repo.getRevWalk();
     Repository r = repo.getRepository();
 
-    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(parent1)));
-    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(id1)));
+    assertTrue(commits.canRead(state, r, rw.parseCommit(parent1)));
+    assertTrue(commits.canRead(state, r, rw.parseCommit(id1)));
 
     repo.branch("branch1").update(parent1);
-    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(parent1)));
-    assertFalse(pc.canReadCommit(db, r, rw.parseCommit(id1)));
+    assertTrue(commits.canRead(state, r, rw.parseCommit(parent1)));
+    assertFalse(commits.canRead(state, r, rw.parseCommit(id1)));
   }
 
-  private ProjectControl newProjectControl() throws Exception {
-    return projectControlFactory.controlFor(project.getName(), user);
+  private ProjectState readProjectState() throws Exception {
+    return projectCache.get(project.getName());
   }
 
   protected void allow(ProjectConfig project, String permission, AccountGroup.UUID id, String ref)

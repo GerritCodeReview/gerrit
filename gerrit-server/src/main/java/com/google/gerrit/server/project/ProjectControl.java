@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
@@ -39,11 +40,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupMembership;
-import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
-import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.FailedPermissionBackend;
@@ -55,7 +54,6 @@ import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -71,10 +69,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -132,16 +131,14 @@ public class ProjectControl {
 
   private final Set<AccountGroup.UUID> uploadGroups;
   private final Set<AccountGroup.UUID> receiveGroups;
-
   private final String canonicalWebUrl;
   private final PermissionBackend.WithUser perm;
   private final CurrentUser user;
   private final ProjectState state;
+  private final CommitsCollection commits;
   private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
-  private final VisibleRefFilter.Factory refFilter;
   private final Collection<ContributorAgreement> contributorAgreements;
-  private final Provider<InternalChangeQuery> queryProvider;
   private final Metrics metrics;
 
   private List<SectionMatcher> allSections;
@@ -156,22 +153,20 @@ public class ProjectControl {
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
       ProjectCache pc,
       PermissionCollection.Factory permissionFilter,
+      CommitsCollection commits,
       ChangeControl.Factory changeControlFactory,
-      VisibleRefFilter.Factory refFilter,
-      Provider<InternalChangeQuery> queryProvider,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       PermissionBackend permissionBackend,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps,
       Metrics metrics) {
     this.changeControlFactory = changeControlFactory;
-    this.refFilter = refFilter;
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
+    this.commits = commits;
     this.contributorAgreements = pc.getAllProjects().getConfig().getContributorAgreements();
     this.canonicalWebUrl = canonicalWebUrl;
-    this.queryProvider = queryProvider;
     this.metrics = metrics;
     this.perm = permissionBackend.user(who);
     user = who;
@@ -483,48 +478,24 @@ public class ProjectControl {
     return false;
   }
 
-  /** @return whether a commit is visible to user. */
-  public boolean canReadCommit(ReviewDb db, Repository repo, RevCommit commit) {
-    // Look for changes associated with the commit.
+  boolean isReachableFromHeadsOrTags(Repository repo, RevCommit commit) {
     try {
-      List<ChangeData> changes =
-          queryProvider.get().byProjectCommit(getProject().getNameKey(), commit);
-      for (ChangeData change : changes) {
-        if (controlFor(db, change.change()).isVisible(db)) {
-          return true;
-        }
+      RefDatabase refdb = repo.getRefDatabase();
+      Collection<Ref> heads = refdb.getRefs(Constants.R_HEADS).values();
+      Collection<Ref> tags = refdb.getRefs(Constants.R_TAGS).values();
+      Map<String, Ref> refs = Maps.newHashMapWithExpectedSize(heads.size() + tags.size());
+      for (Ref r : Iterables.concat(heads, tags)) {
+        refs.put(r.getName(), r);
       }
-    } catch (OrmException e) {
-      log.error(
-          "Cannot look up change for commit " + commit.name() + " in " + getProject().getName(), e);
-    }
-    // Scan all visible refs.
-    return canReadCommitFromVisibleRef(repo, commit);
-  }
-
-  private boolean canReadCommitFromVisibleRef(Repository repo, RevCommit commit) {
-    try (RevWalk rw = new RevWalk(repo)) {
-      return isMergedIntoVisibleRef(repo, rw, commit, repo.getAllRefs().values());
+      return commits.isReachableFrom(state, repo, commit, refs);
     } catch (IOException e) {
-      String msg =
+      log.error(
           String.format(
               "Cannot verify permissions to commit object %s in repository %s",
-              commit.name(), getProject().getNameKey());
-      log.error(msg, e);
+              commit.name(), getProject().getNameKey()),
+          e);
       return false;
     }
-  }
-
-  boolean isMergedIntoVisibleRef(
-      Repository repo, RevWalk rw, RevCommit commit, Collection<Ref> unfilteredRefs)
-      throws IOException {
-    VisibleRefFilter filter = refFilter.create(state, repo);
-    Map<String, Ref> m = Maps.newHashMapWithExpectedSize(unfilteredRefs.size());
-    for (Ref r : unfilteredRefs) {
-      m.put(r.getName(), r);
-    }
-    Map<String, Ref> refs = filter.filter(m, true);
-    return IncludedInResolver.includedInAny(repo, rw, commit, refs.values());
   }
 
   ForProject asForProject() {

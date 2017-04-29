@@ -17,10 +17,8 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -34,13 +32,13 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
 public class GetHead implements RestReadView<ProjectResource> {
-  private GitRepositoryManager repoManager;
-  private Provider<ReviewDb> db;
+  private final GitRepositoryManager repoManager;
+  private final CommitsCollection commits;
 
   @Inject
-  GetHead(GitRepositoryManager repoManager, Provider<ReviewDb> db) {
+  GetHead(GitRepositoryManager repoManager, CommitsCollection commits) {
     this.repoManager = repoManager;
-    this.db = db;
+    this.commits = commits;
   }
 
   @Override
@@ -59,7 +57,7 @@ public class GetHead implements RestReadView<ProjectResource> {
       } else if (head.getObjectId() != null) {
         try (RevWalk rw = new RevWalk(repo)) {
           RevCommit commit = rw.parseCommit(head.getObjectId());
-          if (rsrc.getControl().canReadCommit(db.get(), repo, commit)) {
+          if (commits.canRead(rsrc.getProjectState(), repo, commit)) {
             return head.getObjectId().name();
           }
           throw new AuthException("not allowed to see HEAD");

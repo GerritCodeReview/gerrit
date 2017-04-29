@@ -32,10 +32,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.ImplementedBy;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -211,6 +213,22 @@ public abstract class PermissionBackend {
         }
       }
       return allowed;
+    }
+
+    public List<ChangeData> filterChangeData(ChangePermission perm, List<ChangeData> changes)
+        throws PermissionBackendException {
+      checkNotNull(perm, "ChangePermission");
+      checkNotNull(changes, "changes");
+      List<ChangeData> r = new ArrayList<>(changes.size());
+      for (ChangeData cd : changes) {
+        try {
+          change(cd).check(perm);
+          r.add(cd);
+        } catch (AuthException e) {
+          continue;
+        }
+      }
+      return r;
     }
   }
 

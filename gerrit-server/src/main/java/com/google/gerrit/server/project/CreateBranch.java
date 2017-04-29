@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -54,7 +53,6 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
   private final Provider<IdentifiedUser> identifiedUser;
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
-  private final Provider<ReviewDb> db;
   private final GitReferenceUpdated referenceUpdated;
   private final RefValidationHelper refCreationValidator;
   private String ref;
@@ -64,14 +62,12 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
       Provider<IdentifiedUser> identifiedUser,
       PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,
-      Provider<ReviewDb> db,
       GitReferenceUpdated referenceUpdated,
       RefValidationHelper.Factory refHelperFactory,
       @Assisted String ref) {
     this.identifiedUser = identifiedUser;
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
-    this.db = db;
     this.referenceUpdated = referenceUpdated;
     this.refCreationValidator = refHelperFactory.create(ReceiveCommand.Type.CREATE);
     this.ref = ref;
@@ -121,7 +117,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         }
       }
 
-      if (!refControl.canCreate(db.get(), repo, object)) {
+      if (!refControl.canCreate(repo, object)) {
         throw new AuthException("Cannot create \"" + ref + "\"");
       }
 

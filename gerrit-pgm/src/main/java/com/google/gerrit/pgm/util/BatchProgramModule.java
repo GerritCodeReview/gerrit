@@ -57,6 +57,7 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
+import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
@@ -130,6 +131,7 @@ public class BatchProgramModule extends FactoryModule {
     factory(MergeUtil.Factory.class);
     factory(PatchSetInserter.Factory.class);
     factory(RebaseChangeOp.Factory.class);
+    factory(VisibleRefFilter.Factory.class);
 
     // As Reindex is a batch program, don't assume the index is available for
     // the change cache.

@@ -16,7 +16,6 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.inject.servlet.RequestScoped;
@@ -40,15 +39,10 @@ public abstract class CurrentUser {
     private PropertyKey() {}
   }
 
-  private final CapabilityControl.Factory capabilityControlFactory;
   private AccessPath accessPath = AccessPath.UNKNOWN;
-
-  private CapabilityControl capabilities;
   private PropertyKey<ExternalId.Key> lastLoginExternalIdPropertyKey = PropertyKey.create();
 
-  protected CurrentUser(CapabilityControl.Factory capabilityControlFactory) {
-    this.capabilityControlFactory = capabilityControlFactory;
-  }
+  protected CurrentUser() {}
 
   /** How this user is accessing the Gerrit Code Review application. */
   public final AccessPath getAccessPath() {
@@ -96,14 +90,6 @@ public abstract class CurrentUser {
   /** Unique name of the user on this server, if one has been assigned. */
   public String getUserName() {
     return null;
-  }
-
-  /** Capabilities available to this user account. */
-  public CapabilityControl getCapabilities() {
-    if (capabilities == null) {
-      capabilities = capabilityControlFactory.create(this);
-    }
-    return capabilities;
   }
 
   /** Check if user is the IdentifiedUser */

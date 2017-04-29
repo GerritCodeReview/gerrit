@@ -48,7 +48,6 @@ import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityCollection;
-import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -58,6 +57,7 @@ import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -206,8 +206,8 @@ public class RefControlTest {
   private ChangeControl.Factory changeControlFactory;
   private ReviewDb db;
 
+  @Inject private PermissionBackend permissionBackend;
   @Inject private CapabilityCollection.Factory capabilityCollectionFactory;
-  @Inject private CapabilityControl.Factory capabilityControlFactory;
   @Inject private SchemaCreator schemaCreator;
   @Inject private SingleVersionListener singleVersionListener;
   @Inject private InMemoryDatabase schemaFactory;
@@ -910,6 +910,7 @@ public class RefControlTest {
         null, // refFilter
         queryProvider,
         canonicalWebUrl,
+        permissionBackend,
         new MockUser(name, memberOf),
         newProjectState(local),
         metrics);
@@ -925,7 +926,6 @@ public class RefControlTest {
     private final GroupMembership groups;
 
     MockUser(String name, AccountGroup.UUID[] groupId) {
-      super(capabilityControlFactory);
       username = name;
       ArrayList<AccountGroup.UUID> groupIds = Lists.newArrayList(groupId);
       groupIds.add(REGISTERED_USERS);

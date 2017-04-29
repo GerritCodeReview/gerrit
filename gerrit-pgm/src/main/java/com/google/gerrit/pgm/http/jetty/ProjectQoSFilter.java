@@ -20,8 +20,10 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider;
+import com.google.gerrit.server.git.QueueProvider.QueueType;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.sshd.CommandExecutorQueueProvider;
 import com.google.inject.Inject;
@@ -69,7 +71,6 @@ public class ProjectQoSFilter implements Filter {
   private static final Pattern URI_PATTERN = Pattern.compile(FILTER_RE);
 
   public static class Module extends ServletModule {
-
     @Override
     protected void configureServlets() {
       bind(QueueProvider.class).to(CommandExecutorQueueProvider.class).in(SINGLETON);
@@ -77,18 +78,20 @@ public class ProjectQoSFilter implements Filter {
     }
   }
 
+  private final CapabilityControl.Factory capabilityFactory;
   private final Provider<CurrentUser> user;
   private final QueueProvider queue;
-
   private final ServletContext context;
   private final long maxWait;
 
   @Inject
   ProjectQoSFilter(
+      CapabilityControl.Factory capabilityFactory,
       Provider<CurrentUser> user,
       QueueProvider queue,
       ServletContext context,
       @GerritServerConfig Config cfg) {
+    this.capabilityFactory = capabilityFactory;
     this.user = user;
     this.queue = queue;
     this.context = context;
@@ -137,7 +140,8 @@ public class ProjectQoSFilter implements Filter {
   }
 
   private ScheduledThreadPoolExecutor getExecutor() {
-    return queue.getQueue(user.get().getCapabilities().getQueueType());
+    QueueType qt = capabilityFactory.create(user.get()).getQueueType();
+    return queue.getQueue(qt);
   }
 
   @Override

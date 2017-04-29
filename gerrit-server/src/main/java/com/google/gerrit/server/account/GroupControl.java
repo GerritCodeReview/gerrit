@@ -17,9 +17,13 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -29,30 +33,38 @@ public class GroupControl {
 
   @Singleton
   public static class GenericFactory {
+    private final PermissionBackend permissionBackend;
     private final GroupBackend groupBackend;
 
     @Inject
-    GenericFactory(GroupBackend gb) {
+    GenericFactory(PermissionBackend permissionBackend, GroupBackend gb) {
+      this.permissionBackend = permissionBackend;
       groupBackend = gb;
     }
 
     public GroupControl controlFor(CurrentUser who, AccountGroup.UUID groupId)
         throws NoSuchGroupException {
-      final GroupDescription.Basic group = groupBackend.get(groupId);
+      GroupDescription.Basic group = groupBackend.get(groupId);
       if (group == null) {
         throw new NoSuchGroupException(groupId);
       }
-      return new GroupControl(who, group, groupBackend);
+      return new GroupControl(who, group, permissionBackend, groupBackend);
     }
   }
 
   public static class Factory {
+    private final PermissionBackend permissionBackend;
     private final GroupCache groupCache;
     private final Provider<CurrentUser> user;
     private final GroupBackend groupBackend;
 
     @Inject
-    Factory(GroupCache gc, Provider<CurrentUser> cu, GroupBackend gb) {
+    Factory(
+        PermissionBackend permissionBackend,
+        GroupCache gc,
+        Provider<CurrentUser> cu,
+        GroupBackend gb) {
+      this.permissionBackend = permissionBackend;
       groupCache = gc;
       user = cu;
       groupBackend = gb;
@@ -79,7 +91,7 @@ public class GroupControl {
     }
 
     public GroupControl controlFor(GroupDescription.Basic group) {
-      return new GroupControl(user.get(), group, groupBackend);
+      return new GroupControl(user.get(), group, permissionBackend, groupBackend);
     }
 
     public GroupControl validateFor(AccountGroup.Id groupId) throws NoSuchGroupException {
@@ -102,11 +114,17 @@ public class GroupControl {
   private final CurrentUser user;
   private final GroupDescription.Basic group;
   private Boolean isOwner;
+  private final PermissionBackend.WithUser perm;
   private final GroupBackend groupBackend;
 
-  GroupControl(CurrentUser who, GroupDescription.Basic gd, GroupBackend gb) {
+  GroupControl(
+      CurrentUser who,
+      GroupDescription.Basic gd,
+      PermissionBackend permissionBackend,
+      GroupBackend gb) {
     user = who;
     group = gd;
+    this.perm = permissionBackend.user(user);
     groupBackend = gb;
   }
 
@@ -127,8 +145,8 @@ public class GroupControl {
     return user.isInternalUser()
         || groupBackend.isVisibleToAll(group.getGroupUUID())
         || user.getEffectiveGroups().contains(group.getGroupUUID())
-        || user.getCapabilities().isAdmin_DoNotUse()
-        || isOwner();
+        || isOwner()
+        || canAdministrateServer();
   }
 
   public boolean isOwner() {
@@ -137,11 +155,18 @@ public class GroupControl {
       isOwner = false;
     } else if (isOwner == null) {
       AccountGroup.UUID ownerUUID = accountGroup.getOwnerGroupUUID();
-      isOwner =
-          getUser().getEffectiveGroups().contains(ownerUUID)
-              || getUser().getCapabilities().isAdmin_DoNotUse();
+      isOwner = getUser().getEffectiveGroups().contains(ownerUUID) || canAdministrateServer();
     }
     return isOwner;
+  }
+
+  private boolean canAdministrateServer() {
+    try {
+      perm.check(GlobalPermission.ADMINISTRATE_SERVER);
+      return true;
+    } catch (AuthException | PermissionBackendException denied) {
+      return false;
+    }
   }
 
   public boolean canAddMember() {

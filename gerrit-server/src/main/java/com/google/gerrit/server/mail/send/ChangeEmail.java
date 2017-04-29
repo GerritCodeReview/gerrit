@@ -19,6 +19,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
@@ -37,6 +38,8 @@ import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -94,8 +97,12 @@ public abstract class ChangeEmail extends NotificationEmail {
     super.setFrom(id);
 
     /** Is the from user in an email squelching group? */
-    final IdentifiedUser user = args.identifiedUserFactory.create(id);
-    emailOnlyAuthors = !user.getCapabilities().canEmailReviewers();
+    try {
+      IdentifiedUser user = args.identifiedUserFactory.create(id);
+      args.permissionBackend.user(user).check(GlobalPermission.EMAIL_REVIEWERS);
+    } catch (AuthException | PermissionBackendException e) {
+      emailOnlyAuthors = true;
+    }
   }
 
   public void setPatchSet(PatchSet ps) {

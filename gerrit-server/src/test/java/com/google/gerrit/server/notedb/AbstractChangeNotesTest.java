@@ -35,7 +35,6 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
@@ -158,8 +157,6 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                 bind(NotesMigration.class).toInstance(MIGRATION);
                 bind(GitRepositoryManager.class).toInstance(repoManager);
                 bind(ProjectCache.class).toProvider(Providers.<ProjectCache>of(null));
-                bind(CapabilityControl.Factory.class)
-                    .toProvider(Providers.<CapabilityControl.Factory>of(null));
                 bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(testConfig);
                 bind(String.class)
                     .annotatedWith(AnonymousCowardName.class)
@@ -199,7 +196,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     changeOwner = userFactory.create(co.getId());
     otherUser = userFactory.create(ou.getId());
     otherUserId = otherUser.getAccountId();
-    internalUser = new InternalUser(null);
+    internalUser = new InternalUser();
   }
 
   private void setTimeForTesting() {

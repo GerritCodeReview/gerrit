@@ -47,6 +47,8 @@ import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.FailedPermissionBackend;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
@@ -132,6 +134,7 @@ public class ProjectControl {
   private final Set<AccountGroup.UUID> receiveGroups;
 
   private final String canonicalWebUrl;
+  private final PermissionBackend.WithUser perm;
   private final CurrentUser user;
   private final ProjectState state;
   private final ChangeControl.Factory changeControlFactory;
@@ -157,6 +160,7 @@ public class ProjectControl {
       VisibleRefFilter.Factory refFilter,
       Provider<InternalChangeQuery> queryProvider,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
+      PermissionBackend permissionBackend,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps,
       Metrics metrics) {
@@ -169,6 +173,7 @@ public class ProjectControl {
     this.canonicalWebUrl = canonicalWebUrl;
     this.queryProvider = queryProvider;
     this.metrics = metrics;
+    this.perm = permissionBackend.user(who);
     user = who;
     state = ps;
   }
@@ -264,8 +269,16 @@ public class ProjectControl {
 
   /** Is this user a project owner? */
   public boolean isOwner() {
-    return (isDeclaredOwner() && !controlForRef("refs/*").isBlocked(Permission.OWNER))
-        || user.getCapabilities().isAdmin_DoNotUse();
+    return (isDeclaredOwner() && !controlForRef("refs/*").isBlocked(Permission.OWNER)) || isAdmin();
+  }
+
+  boolean isAdmin() {
+    try {
+      perm.check(GlobalPermission.ADMINISTRATE_SERVER);
+      return true;
+    } catch (AuthException | PermissionBackendException e) {
+      return false;
+    }
   }
 
   private boolean isDeclaredOwner() {
@@ -278,7 +291,7 @@ public class ProjectControl {
 
   /** Does this user have ownership on at least one reference name? */
   public boolean isOwnerAnyRef() {
-    return canPerformOnAnyRef(Permission.OWNER) || user.getCapabilities().isAdmin_DoNotUse();
+    return canPerformOnAnyRef(Permission.OWNER) || isAdmin();
   }
 
   /** @return true if the user can upload to at least one reference */

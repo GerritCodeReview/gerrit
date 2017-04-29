@@ -17,7 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.gerrit.common.data.GlobalCapability.BATCH_CHANGES_LIMIT;
 
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -29,10 +29,10 @@ class ReceiveConfig {
   final boolean checkReferencedObjectsAreReachable;
   final boolean allowDrafts;
   private final int systemMaxBatchChanges;
-  private final CapabilityControl.Factory capabilityFactory;
+  private final AccountLimits.Factory capabilityFactory;
 
   @Inject
-  ReceiveConfig(@GerritServerConfig Config config, CapabilityControl.Factory capabilityFactory) {
+  ReceiveConfig(@GerritServerConfig Config config, AccountLimits.Factory capabilityFactory) {
     checkMagicRefs = config.getBoolean("receive", null, "checkMagicRefs", true);
     checkReferencedObjectsAreReachable =
         config.getBoolean("receive", null, "checkReferencedObjectsAreReachable", true);
@@ -42,7 +42,7 @@ class ReceiveConfig {
   }
 
   public int getEffectiveMaxBatchChangesLimit(CurrentUser user) {
-    CapabilityControl cap = capabilityFactory.create(user);
+    AccountLimits cap = capabilityFactory.create(user);
     if (cap.hasExplicitRange(BATCH_CHANGES_LIMIT)) {
       return cap.getRange(BATCH_CHANGES_LIMIT).getMax();
     }

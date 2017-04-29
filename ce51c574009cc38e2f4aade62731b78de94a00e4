@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f59b1e80_dc0d27b1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-29T20:09:08Z",
+      "side": 1,
+      "message": "Wrap this line.",
+      "range": {
+        "startLine": 37,
+        "startChar": 80,
+        "endLine": 37,
+        "endChar": 89
+      },
+      "revId": "ce51c574009cc38e2f4aade62731b78de94a00e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c015b91_01b05177",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-04-29T20:09:08Z",
+      "side": 1,
+      "message": "Better: gerrit\u0027s own review database",
+      "range": {
+        "startLine": 37,
+        "startChar": 62,
+        "endLine": 37,
+        "endChar": 78
+      },
+      "revId": "ce51c574009cc38e2f4aade62731b78de94a00e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

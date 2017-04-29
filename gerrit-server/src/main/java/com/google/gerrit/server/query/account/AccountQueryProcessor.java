@@ -20,7 +20,7 @@ import static com.google.gerrit.server.query.account.AccountQueryBuilder.FIELD_L
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
@@ -45,7 +45,7 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
   @Inject
   protected AccountQueryProcessor(
       Provider<CurrentUser> userProvider,
-      CapabilityControl.Factory capabilityFactory,
+      AccountLimits.Factory capabilityFactory,
       Metrics metrics,
       IndexConfig indexConfig,
       AccountIndexCollection indexes,

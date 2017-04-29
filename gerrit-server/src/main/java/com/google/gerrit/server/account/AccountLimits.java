@@ -26,8 +26,8 @@ import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Access control management for server-wide capabilities. */
-public class CapabilityControl {
+/** Limits which QoS a user runs as, and how many search results it can request. */
+public class AccountLimits {
   @Singleton
   public static class Factory {
     private final ProjectCache projectCache;
@@ -37,15 +37,15 @@ public class CapabilityControl {
       this.projectCache = projectCache;
     }
 
-    public CapabilityControl create(CurrentUser user) {
-      return new CapabilityControl(projectCache, user);
+    public AccountLimits create(CurrentUser user) {
+      return new AccountLimits(projectCache, user);
     }
   }
 
   private final CapabilityCollection capabilities;
   private final CurrentUser user;
 
-  private CapabilityControl(ProjectCache projectCache, CurrentUser currentUser) {
+  private AccountLimits(ProjectCache projectCache, CurrentUser currentUser) {
     capabilities = projectCache.getAllProjects().getCapabilityCollection();
     user = currentUser;
   }

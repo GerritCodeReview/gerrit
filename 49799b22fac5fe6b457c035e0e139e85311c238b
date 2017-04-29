@@ -228,6 +228,29 @@
       "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "457e9d42_c9ba16c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-04-29T11:46:06Z",
+      "side": 1,
+      "message": "Is that suppose to the delete the table in the db we chose?",
+      "range": {
+        "startLine": 170,
+        "startChar": 6,
+        "endLine": 170,
+        "endChar": 71
+      },
+      "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

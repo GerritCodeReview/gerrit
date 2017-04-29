@@ -43,8 +43,10 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.CommitsCollection;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -69,9 +71,9 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 @Singleton
 public class CreateMergePatchSet
     extends RetryingRestModifyView<ChangeResource, MergePatchSetInput, Response<ChangeInfo>> {
-
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
+  private final CommitsCollection commits;
   private final TimeZone serverTimeZone;
   private final Provider<CurrentUser> user;
   private final ChangeJson.Factory jsonFactory;
@@ -83,6 +85,7 @@ public class CreateMergePatchSet
   CreateMergePatchSet(
       Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
+      CommitsCollection commits,
       @GerritPersonIdent PersonIdent myIdent,
       Provider<CurrentUser> user,
       ChangeJson.Factory json,
@@ -93,6 +96,7 @@ public class CreateMergePatchSet
     super(retryHelper);
     this.db = db;
     this.gitManager = gitManager;
+    this.commits = commits;
     this.serverTimeZone = myIdent.getTimeZone();
     this.user = user;
     this.jsonFactory = json;
@@ -116,6 +120,7 @@ public class CreateMergePatchSet
     ChangeControl ctl = rsrc.getControl();
     PatchSet ps = psUtil.current(db.get(), ctl.getNotes());
     ProjectControl projectControl = ctl.getProjectControl();
+    ProjectState state = projectControl.getProjectState();
     Change change = ctl.getChange();
     Project.NameKey project = change.getProject();
     Branch.NameKey dest = change.getDest();
@@ -125,7 +130,7 @@ public class CreateMergePatchSet
         RevWalk rw = new RevWalk(reader)) {
 
       RevCommit sourceCommit = MergeUtil.resolveCommit(git, rw, merge.source);
-      if (!projectControl.canReadCommit(db.get(), git, sourceCommit)) {
+      if (!commits.canRead(state, git, sourceCommit)) {
         throw new ResourceNotFoundException(
             "cannot find source commit: " + merge.source + " to merge.");
       }

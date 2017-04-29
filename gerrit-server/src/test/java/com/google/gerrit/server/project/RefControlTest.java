@@ -60,7 +60,6 @@ import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -212,7 +211,6 @@ public class RefControlTest {
   @Inject private SingleVersionListener singleVersionListener;
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;
-  @Inject private Provider<InternalChangeQuery> queryProvider;
   @Inject private ProjectControl.Metrics metrics;
 
   @Before
@@ -899,17 +897,14 @@ public class RefControlTest {
   }
 
   private ProjectControl user(ProjectConfig local, String name, AccountGroup.UUID... memberOf) {
-    String canonicalWebUrl = "http://localhost";
-
     return new ProjectControl(
         Collections.<AccountGroup.UUID>emptySet(),
         Collections.<AccountGroup.UUID>emptySet(),
         projectCache,
         sectionSorter,
+        null, // commitsCollection
         changeControlFactory,
-        null, // refFilter
-        queryProvider,
-        canonicalWebUrl,
+        "http://localhost", // canonicalWebUrl
         permissionBackend,
         new MockUser(name, memberOf),
         newProjectState(local),

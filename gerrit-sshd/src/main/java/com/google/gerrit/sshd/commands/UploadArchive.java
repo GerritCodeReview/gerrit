@@ -18,13 +18,13 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.AllowedFormats;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.project.CommitsCollection;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -121,9 +121,9 @@ public class UploadArchive extends AbstractGitCommand {
   }
 
   @Inject private PermissionBackend permissionBackend;
+  @Inject private CommitsCollection commits;
   @Inject private IdentifiedUser user;
   @Inject private AllowedFormats allowedFormats;
-  @Inject private ReviewDb db;
   private Options options = new Options();
 
   /**
@@ -244,13 +244,13 @@ public class UploadArchive extends AbstractGitCommand {
 
   private boolean canRead(ObjectId revId) throws IOException, PermissionBackendException {
     try {
-      permissionBackend.user(user).project(project.getNameKey()).check(ProjectPermission.READ);
+      permissionBackend.user(user).project(projectName).check(ProjectPermission.READ);
       return true;
     } catch (AuthException e) {
       // Check reachability of the specific revision.
       try (RevWalk rw = new RevWalk(repo)) {
         RevCommit commit = rw.parseCommit(revId);
-        return projectControl.canReadCommit(db, repo, commit);
+        return commits.canRead(state, repo, commit);
       }
     }
   }

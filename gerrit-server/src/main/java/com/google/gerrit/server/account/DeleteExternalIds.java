@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static java.util.stream.Collectors.toMap;
 
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -27,6 +26,9 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -39,13 +41,18 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class DeleteExternalIds implements RestModifyView<AccountResource, List<String>> {
+  private final PermissionBackend permissionBackend;
   private final AccountManager accountManager;
   private final ExternalIds externalIds;
   private final Provider<CurrentUser> self;
 
   @Inject
   DeleteExternalIds(
-      AccountManager accountManager, ExternalIds externalIds, Provider<CurrentUser> self) {
+      PermissionBackend permissionBackend,
+      AccountManager accountManager,
+      ExternalIds externalIds,
+      Provider<CurrentUser> self) {
+    this.permissionBackend = permissionBackend;
     this.accountManager = accountManager;
     this.externalIds = externalIds;
     this.self = self;
@@ -53,9 +60,10 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
 
   @Override
   public Response<?> apply(AccountResource resource, List<String> extIds)
-      throws RestApiException, IOException, OrmException, ConfigInvalidException {
-    if (self.get() != resource.getUser() && !self.get().getCapabilities().canAccessDatabase()) {
-      throw new AuthException("not allowed to delete external IDs");
+      throws RestApiException, IOException, OrmException, ConfigInvalidException,
+          PermissionBackendException {
+    if (self.get() != resource.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.ACCESS_DATABASE);
     }
 
     if (extIds == null || extIds.size() == 0) {

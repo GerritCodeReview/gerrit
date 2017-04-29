@@ -44,21 +44,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Manages access control for Git references (aka branches, tags). */
 public class RefControl {
-  private static final Logger log = LoggerFactory.getLogger(RefControl.class);
-
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -324,27 +318,12 @@ public class RefControl {
       // If the user has push permissions, they can create the ref regardless
       // of whether they are pushing any new objects along with the create.
       return true;
-    } else if (isMergedIntoBranchOrTag(repo, commit)) {
+    } else if (projectControl.isReachableFromHeadsOrTags(repo, commit)) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are
       // not effectively "pushing" more objects, so they can create the ref
       // even if they don't have push permission.
       return true;
-    }
-    return false;
-  }
-
-  private boolean isMergedIntoBranchOrTag(Repository repo, RevCommit commit) {
-    try (RevWalk rw = new RevWalk(repo)) {
-      List<Ref> refs = new ArrayList<>(repo.getRefDatabase().getRefs(Constants.R_HEADS).values());
-      refs.addAll(repo.getRefDatabase().getRefs(Constants.R_TAGS).values());
-      return projectControl.isMergedIntoVisibleRef(repo, rw, commit, refs);
-    } catch (IOException e) {
-      String msg =
-          String.format(
-              "Cannot verify permissions to commit object %s in repository %s",
-              commit.name(), projectControl.getProject().getNameKey());
-      log.error(msg, e);
     }
     return false;
   }

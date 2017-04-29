@@ -1445,7 +1445,7 @@ public class ReceiveCommits {
     return ImmutableListMultimap.copyOf(pushOptions);
   }
 
-  private void parseMagicBranch(ReceiveCommand cmd) {
+  private void parseMagicBranch(ReceiveCommand cmd) throws PermissionBackendException {
     // Permit exactly one new change request per push.
     if (magicBranch != null) {
       reject(cmd, "duplicate request");
@@ -1517,9 +1517,11 @@ public class ReceiveCommits {
       }
     }
 
-    if (!magicBranch.ctl.canUpload()) {
+    try {
+      magicBranch.perm.check(RefPermission.CREATE_CHANGE);
+    } catch (AuthException denied) {
       errors.put(Error.CODE_REVIEW, ref);
-      reject(cmd, "cannot upload review");
+      reject(cmd, denied.getMessage());
       return;
     }
 

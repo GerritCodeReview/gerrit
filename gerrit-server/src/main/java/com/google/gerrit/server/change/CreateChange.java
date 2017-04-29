@@ -52,13 +52,14 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -89,13 +90,13 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 @Singleton
 public class CreateChange
     extends RetryingRestModifyView<TopLevelResource, ChangeInput, Response<ChangeInfo>> {
-
   private final String anonymousCowardName;
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
   private final AccountCache accountCache;
   private final Sequences seq;
   private final TimeZone serverTimeZone;
+  private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
   private final ProjectsCollection projectsCollection;
   private final ChangeInserter.Factory changeInserterFactory;
@@ -115,6 +116,7 @@ public class CreateChange
       AccountCache accountCache,
       Sequences seq,
       @GerritPersonIdent PersonIdent myIdent,
+      PermissionBackend permissionBackend,
       Provider<CurrentUser> user,
       ProjectsCollection projectsCollection,
       ChangeInserter.Factory changeInserterFactory,
@@ -132,6 +134,7 @@ public class CreateChange
     this.accountCache = accountCache;
     this.seq = seq;
     this.serverTimeZone = myIdent.getTimeZone();
+    this.permissionBackend = permissionBackend;
     this.user = user;
     this.projectsCollection = projectsCollection;
     this.changeInserterFactory = changeInserterFactory;
@@ -165,26 +168,18 @@ public class CreateChange
       if (input.status != ChangeStatus.NEW && input.status != ChangeStatus.DRAFT) {
         throw new BadRequestException("unsupported change status");
       }
-
       if (!allowDrafts && input.status == ChangeStatus.DRAFT) {
         throw new MethodNotAllowedException("draft workflow is disabled");
       }
     }
 
-    String refName = RefNames.fullName(input.branch);
     ProjectResource rsrc = projectsCollection.parse(input.project);
-
-    Capable r = rsrc.getControl().canPushToAtLeastOneRef();
-    if (r != Capable.OK) {
-      throw new AuthException(r.getMessage());
-    }
-
-    RefControl refControl = rsrc.getControl().controlForRef(refName);
-    if (!refControl.canUpload() || !refControl.isVisible()) {
-      throw new AuthException("cannot upload review");
-    }
+    checkValidCLA(rsrc.getControl());
 
     Project.NameKey project = rsrc.getNameKey();
+    String refName = RefNames.fullName(input.branch);
+    permissionBackend.user(user).project(project).ref(refName).check(RefPermission.CREATE_CHANGE);
+
     try (Repository git = gitManager.openRepository(project);
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
@@ -344,5 +339,12 @@ public class CreateChange
 
   private static ObjectId emptyTreeId(ObjectInserter inserter) throws IOException {
     return inserter.insert(new TreeFormatter());
+  }
+
+  static void checkValidCLA(ProjectControl ctl) throws AuthException {
+    Capable capable = ctl.canPushToAtLeastOneRef();
+    if (capable != Capable.OK) {
+      throw new AuthException(capable.getMessage());
+    }
   }
 }

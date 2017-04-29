@@ -141,7 +141,7 @@ public class ProjectWatch {
 
   private void add(Watchers matching, NotifyConfig nc) throws OrmException, QueryParseException {
     for (GroupReference ref : nc.getGroups()) {
-      CurrentUser user = new SingleGroupUser(args.capabilityControlFactory, ref.getUUID());
+      CurrentUser user = new SingleGroupUser(ref.getUUID());
       if (filterMatch(user, nc.getFilter())) {
         deliverToMembers(matching.list(nc.getHeader()), ref.getUUID());
       }

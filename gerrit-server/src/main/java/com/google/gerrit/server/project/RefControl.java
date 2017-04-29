@@ -201,8 +201,7 @@ public class RefControl {
       // On the AllProjects project the owner access right cannot be assigned,
       // this why for the AllProjects project we allow administrators to push
       // configuration changes if they have push without being project owner.
-      if (!(projectControl.getProjectState().isAllProjects()
-          && getUser().getCapabilities().isAdmin_DoNotUse())) {
+      if (!(projectControl.getProjectState().isAllProjects() && projectControl.isAdmin())) {
         return false;
       }
     }
@@ -229,8 +228,7 @@ public class RefControl {
       case UNKNOWN:
       case WEB_BROWSER:
       default:
-        return getUser().getCapabilities().isAdmin_DoNotUse()
-            || (isOwner() && !isForceBlocked(Permission.PUSH));
+        return (isOwner() && !isForceBlocked(Permission.PUSH)) || projectControl.isAdmin();
     }
   }
 
@@ -376,10 +374,10 @@ public class RefControl {
       case UNKNOWN:
       case WEB_BROWSER:
       default:
-        return getUser().getCapabilities().isAdmin_DoNotUse()
-            || (isOwner() && !isForceBlocked(Permission.PUSH))
+        return (isOwner() && !isForceBlocked(Permission.PUSH))
             || canPushWithForce()
-            || canPerform(Permission.DELETE);
+            || canPerform(Permission.DELETE)
+            || projectControl.isAdmin();
     }
   }
 

@@ -20,7 +20,6 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
@@ -36,7 +35,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.util.Providers;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -93,8 +91,6 @@ public class IdentifiedUserTest {
                 .toInstance("http://localhost:8080/");
             bind(AccountCache.class).toInstance(accountCache);
             bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
-            bind(CapabilityControl.Factory.class)
-                .toProvider(Providers.<CapabilityControl.Factory>of(null));
             bind(Realm.class).toInstance(mockRealm);
           }
         };

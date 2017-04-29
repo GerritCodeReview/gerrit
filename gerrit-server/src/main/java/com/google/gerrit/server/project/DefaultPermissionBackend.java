@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.permissions.FailedPermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -34,10 +35,12 @@ import java.util.Set;
 @Singleton
 public class DefaultPermissionBackend extends PermissionBackend {
   private final ProjectCache projectCache;
+  private final CapabilityControl.Factory capabilityFactory;
 
   @Inject
-  DefaultPermissionBackend(ProjectCache projectCache) {
+  DefaultPermissionBackend(ProjectCache projectCache, CapabilityControl.Factory capabilityFactory) {
     this.projectCache = projectCache;
+    this.capabilityFactory = capabilityFactory;
   }
 
   @Override
@@ -47,6 +50,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
 
   class WithUserImpl extends WithUser {
     private final CurrentUser user;
+    private CapabilityControl cap;
 
     WithUserImpl(CurrentUser user) {
       this.user = checkNotNull(user, "user");
@@ -86,7 +90,10 @@ public class DefaultPermissionBackend extends PermissionBackend {
     }
 
     private boolean can(GlobalOrPluginPermission perm) throws PermissionBackendException {
-      return user.getCapabilities().doCanForDefaultPermissionBackend(perm);
+      if (cap == null) {
+        cap = capabilityFactory.create(user);
+      }
+      return cap.doCanForDefaultPermissionBackend(perm);
     }
   }
 

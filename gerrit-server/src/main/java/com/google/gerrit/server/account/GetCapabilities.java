@@ -56,15 +56,18 @@ class GetCapabilities implements RestReadView<AccountResource> {
   private Set<String> query;
 
   private final PermissionBackend permissionBackend;
+  private final CapabilityControl.Factory capabilityFactory;
   private final Provider<CurrentUser> self;
   private final DynamicMap<CapabilityDefinition> pluginCapabilities;
 
   @Inject
   GetCapabilities(
       PermissionBackend permissionBackend,
+      CapabilityControl.Factory capabilityFactory,
       Provider<CurrentUser> self,
       DynamicMap<CapabilityDefinition> pluginCapabilities) {
     this.permissionBackend = permissionBackend;
+    this.capabilityFactory = capabilityFactory;
     this.self = self;
     this.pluginCapabilities = pluginCapabilities;
   }
@@ -81,8 +84,10 @@ class GetCapabilities implements RestReadView<AccountResource> {
     for (GlobalOrPluginPermission p : perm.test(permissionsToTest())) {
       have.put(p.permissionName(), true);
     }
-    addRanges(have, rsrc);
-    addPriority(have, rsrc);
+
+    CapabilityControl cc = capabilityFactory.create(rsrc.getUser());
+    addRanges(have, cc);
+    addPriority(have, cc);
 
     return OutputFormat.JSON
         .newGson()
@@ -112,8 +117,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
     return query == null || query.contains(name.toLowerCase());
   }
 
-  private void addRanges(Map<String, Object> have, AccountResource rsrc) {
-    CapabilityControl cc = rsrc.getUser().getCapabilities();
+  private void addRanges(Map<String, Object> have, CapabilityControl cc) {
     for (String name : GlobalCapability.getRangeNames()) {
       if (want(name) && cc.hasExplicitRange(name)) {
         have.put(name, new Range(cc.getRange(name)));
@@ -121,8 +125,8 @@ class GetCapabilities implements RestReadView<AccountResource> {
     }
   }
 
-  private void addPriority(Map<String, Object> have, AccountResource rsrc) {
-    QueueProvider.QueueType queue = rsrc.getUser().getCapabilities().getQueueType();
+  private void addPriority(Map<String, Object> have, CapabilityControl cc) {
+    QueueProvider.QueueType queue = cc.getQueueType();
     if (queue != QueueProvider.QueueType.INTERACTIVE
         || (query != null && query.contains(PRIORITY))) {
       have.put(PRIORITY, queue);

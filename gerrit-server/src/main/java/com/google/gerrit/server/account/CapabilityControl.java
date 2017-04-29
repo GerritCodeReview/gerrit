@@ -30,12 +30,9 @@ import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -45,41 +42,40 @@ import java.util.Map;
 
 /** Access control management for server-wide capabilities. */
 public class CapabilityControl {
-  public interface Factory {
-    CapabilityControl create(CurrentUser user);
+  private static final CurrentUser.PropertyKey<CapabilityControl> SELF =
+      CurrentUser.PropertyKey.create();
+
+  @Singleton
+  public static class Factory {
+    private final ProjectCache projectCache;
+
+    @Inject
+    Factory(ProjectCache projectCache) {
+      this.projectCache = projectCache;
+    }
+
+    public CapabilityControl create(CurrentUser user) {
+      CapabilityControl ctl = user.get(SELF);
+      if (ctl == null) {
+        ctl = new CapabilityControl(projectCache, user);
+        user.put(SELF, ctl);
+      }
+      return ctl;
+    }
   }
 
   private final CapabilityCollection capabilities;
   private final CurrentUser user;
   private final Map<String, List<PermissionRule>> effective;
-
   private Boolean canAdministrateServer;
-  private Boolean canEmailReviewers;
 
-  @Inject
-  CapabilityControl(ProjectCache projectCache, @Assisted CurrentUser currentUser) {
+  private CapabilityControl(ProjectCache projectCache, CurrentUser currentUser) {
     capabilities = projectCache.getAllProjects().getCapabilityCollection();
     user = currentUser;
     effective = new HashMap<>();
   }
 
-  /**
-   * <b>Do not use.</b> Determine if the user can administer this server.
-   *
-   * <p>This method is visible only for the benefit of the following transitional classes:
-   *
-   * <ul>
-   *   <li>{@link ProjectControl}
-   *   <li>{@link RefControl}
-   *   <li>{@link ChangeControl}
-   *   <li>{@link GroupControl}
-   * </ul>
-   *
-   * Other callers should not use this method, as it is slated to go away.
-   *
-   * @return true if the user can administer this server.
-   */
-  public boolean isAdmin_DoNotUse() {
+  private boolean isAdmin() {
     if (canAdministrateServer == null) {
       if (user.getRealUser() != user) {
         canAdministrateServer = false;
@@ -93,18 +89,9 @@ public class CapabilityControl {
   }
 
   /** @return true if the user can email reviewers. */
-  public boolean canEmailReviewers() {
-    if (canEmailReviewers == null) {
-      canEmailReviewers =
-          matchAny(capabilities.emailReviewers, ALLOWED_RULE)
-              || !matchAny(capabilities.emailReviewers, not(ALLOWED_RULE));
-    }
-    return canEmailReviewers;
-  }
-
-  /** @return true if the user can view all accounts. */
-  public boolean canViewAllAccounts() {
-    return canPerform(GlobalCapability.VIEW_ALL_ACCOUNTS) || isAdmin_DoNotUse();
+  private boolean canEmailReviewers() {
+    return matchAny(capabilities.emailReviewers, ALLOWED_RULE)
+        || !matchAny(capabilities.emailReviewers, not(ALLOWED_RULE));
   }
 
   /** @return which priority queue the user's tasks should be submitted to. */
@@ -226,7 +213,7 @@ public class CapabilityControl {
     } else if (perm instanceof PluginPermission) {
       PluginPermission pluginPermission = (PluginPermission) perm;
       return canPerform(pluginPermission.permissionName())
-          || (pluginPermission.fallBackToAdmin() && isAdmin_DoNotUse());
+          || (pluginPermission.fallBackToAdmin() && isAdmin());
     }
     throw new PermissionBackendException(perm + " unsupported");
   }
@@ -234,11 +221,9 @@ public class CapabilityControl {
   private boolean can(GlobalPermission perm) throws PermissionBackendException {
     switch (perm) {
       case ADMINISTRATE_SERVER:
-        return isAdmin_DoNotUse();
+        return isAdmin();
       case EMAIL_REVIEWERS:
         return canEmailReviewers();
-      case VIEW_ALL_ACCOUNTS:
-        return canViewAllAccounts();
 
       case FLUSH_CACHES:
       case KILL_TASK:
@@ -247,7 +232,7 @@ public class CapabilityControl {
       case VIEW_QUEUE:
         return canPerform(perm.permissionName())
             || canPerform(GlobalCapability.MAINTAIN_SERVER)
-            || isAdmin_DoNotUse();
+            || isAdmin();
 
       case CREATE_ACCOUNT:
       case CREATE_GROUP:
@@ -255,9 +240,10 @@ public class CapabilityControl {
       case MAINTAIN_SERVER:
       case MODIFY_ACCOUNT:
       case STREAM_EVENTS:
+      case VIEW_ALL_ACCOUNTS:
       case VIEW_CONNECTIONS:
       case VIEW_PLUGINS:
-        return canPerform(perm.permissionName()) || isAdmin_DoNotUse();
+        return canPerform(perm.permissionName()) || isAdmin();
 
       case ACCESS_DATABASE:
       case RUN_AS:

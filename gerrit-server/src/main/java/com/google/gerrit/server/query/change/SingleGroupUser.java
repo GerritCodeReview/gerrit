@@ -14,25 +14,21 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
-import java.util.Collections;
 import java.util.Set;
 
 public final class SingleGroupUser extends CurrentUser {
   private final GroupMembership groups;
 
-  public SingleGroupUser(
-      CapabilityControl.Factory capabilityControlFactory, AccountGroup.UUID groupId) {
-    this(capabilityControlFactory, Collections.singleton(groupId));
+  public SingleGroupUser(AccountGroup.UUID groupId) {
+    this(ImmutableSet.of(groupId));
   }
 
-  public SingleGroupUser(
-      CapabilityControl.Factory capabilityControlFactory, Set<AccountGroup.UUID> groups) {
-    super(capabilityControlFactory);
+  public SingleGroupUser(Set<AccountGroup.UUID> groups) {
     this.groups = new ListGroupMembership(groups);
   }
 

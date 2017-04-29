@@ -20,7 +20,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.QueueProvider.QueueType;
@@ -78,7 +78,7 @@ public class ProjectQoSFilter implements Filter {
     }
   }
 
-  private final CapabilityControl.Factory capabilityFactory;
+  private final AccountLimits.Factory capabilityFactory;
   private final Provider<CurrentUser> user;
   private final QueueProvider queue;
   private final ServletContext context;
@@ -86,7 +86,7 @@ public class ProjectQoSFilter implements Filter {
 
   @Inject
   ProjectQoSFilter(
-      CapabilityControl.Factory capabilityFactory,
+      AccountLimits.Factory capabilityFactory,
       Provider<CurrentUser> user,
       QueueProvider queue,
       ServletContext context,

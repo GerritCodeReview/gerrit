@@ -24,7 +24,7 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
@@ -62,7 +62,7 @@ public abstract class QueryProcessor<T> {
 
   protected final Provider<CurrentUser> userProvider;
 
-  private final CapabilityControl.Factory capabilityFactory;
+  private final AccountLimits.Factory capabilityFactory;
   private final Metrics metrics;
   private final SchemaDefinitions<T> schemaDef;
   private final IndexConfig indexConfig;
@@ -78,7 +78,7 @@ public abstract class QueryProcessor<T> {
 
   protected QueryProcessor(
       Provider<CurrentUser> userProvider,
-      CapabilityControl.Factory capabilityFactory,
+      AccountLimits.Factory capabilityFactory,
       Metrics metrics,
       SchemaDefinitions<T> schemaDef,
       IndexConfig indexConfig,

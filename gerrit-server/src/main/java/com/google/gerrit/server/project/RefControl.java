@@ -151,12 +151,7 @@ public class RefControl {
     return blocks.isEmpty() && !allows.isEmpty();
   }
 
-  /**
-   * Determines whether the user can upload a change to the ref controlled by this object.
-   *
-   * @return {@code true} if the user specified can upload a change to the Git ref
-   */
-  public boolean canUpload() {
+  private boolean canUpload() {
     return projectControl.controlForRef("refs/for/" + getRefName()).canPerform(Permission.PUSH)
         && isProjectStatePermittingWrite();
   }

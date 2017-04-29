@@ -21,6 +21,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -30,6 +31,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -66,6 +70,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   @Nullable private final SearchingChangeCacheImpl changeCache;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
+  private final PermissionBackend permissionBackend;
   private final ProjectState projectState;
   private final Repository git;
   private ProjectControl projectCtl;
@@ -80,6 +85,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       @Nullable SearchingChangeCacheImpl changeCache,
       Provider<ReviewDb> db,
       Provider<CurrentUser> user,
+      PermissionBackend permissionBackend,
       @Assisted ProjectState projectState,
       @Assisted Repository git) {
     this.tagCache = tagCache;
@@ -87,6 +93,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     this.changeCache = changeCache;
     this.db = db;
     this.user = user;
+    this.permissionBackend = permissionBackend;
     this.projectState = projectState;
     this.git = git;
   }
@@ -110,9 +117,14 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     Account.Id userId;
     boolean viewMetadata;
     if (user.get().isIdentifiedUser()) {
+      try {
+        permissionBackend.user(user).check(GlobalPermission.ACCESS_DATABASE);
+        viewMetadata = true;
+      } catch (AuthException | PermissionBackendException no) {
+        viewMetadata = false;
+      }
       IdentifiedUser u = user.get().asIdentifiedUser();
       userId = u.getAccountId();
-      viewMetadata = u.getCapabilities().canAccessDatabase();
       userEditPrefix = RefNames.refsEditPrefix(userId);
     } else {
       userId = null;

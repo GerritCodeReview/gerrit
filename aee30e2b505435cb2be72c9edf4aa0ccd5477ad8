@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38973100_3e5f4cc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DeleteCommentRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-29T08:23:38Z",
+      "side": 1,
+      "message": "missing copyright and license header.",
+      "revId": "aee30e2b505435cb2be72c9edf4aa0ccd5477ad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88ea7d1f_2e7b621b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DeleteCommentRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-29T08:23:38Z",
+      "side": 1,
+      "message": "assumes",
+      "range": {
+        "startLine": 34,
+        "startChar": 26,
+        "endLine": 34,
+        "endChar": 32
+      },
+      "revId": "aee30e2b505435cb2be72c9edf4aa0ccd5477ad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23b635b8_e7a5bf00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DeleteCommentRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-29T08:23:38Z",
+      "side": 1,
+      "message": "rewritten",
+      "range": {
+        "startLine": 85,
+        "startChar": 70,
+        "endLine": 85,
+        "endChar": 77
+      },
+      "revId": "aee30e2b505435cb2be72c9edf4aa0ccd5477ad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac12adca_0e5abbf7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-04-29T08:23:38Z",
+      "side": 1,
+      "message": "missing copyright and license header.",
+      "revId": "aee30e2b505435cb2be72c9edf4aa0ccd5477ad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

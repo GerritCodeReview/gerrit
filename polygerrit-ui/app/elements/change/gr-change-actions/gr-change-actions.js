@@ -48,6 +48,8 @@
     ABANDON: 'abandon',
     DELETE: '/',
     PRIVATE: 'private',
+    IGNORE: 'ignore',
+    UNIGNORE: 'unignore',
     RESTORE: 'restore',
     REVERT: 'revert',
   };
@@ -206,6 +208,14 @@
             {
               type: ActionType.REVISION,
               key: RevisionActions.DOWNLOAD,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.IGNORE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.UNIGNORE,
             },
           ];
           return value;
@@ -595,6 +605,12 @@
         case ChangeActions.DELETE:
           this._handleDeleteTap();
           break;
+        case ChangeActions.IGNORE:
+          this._markChangeAsIgnored();
+          break;
+        case ChangeActions.UNIGNORE:
+          this._markChangeAsUnignored();
+          break;
         default:
           this._fireAction(this._prependSlash(key), this.actions[key], false);
       }
@@ -708,6 +724,14 @@
 
     _handleDeleteConfirm: function() {
       this._fireAction('/', this.actions[ChangeActions.DELETE], false);
+    },
+
+    _markChangeAsIgnored: function() {
+      this._fireAction('/ignore', this.actions[ChangeActions.IGNORE], false);
+    },
+
+    _markChangeAsUnignored: function() {
+      this._fireAction('/unignore', this.actions[ChangeActions.UNIGNORE], false);
     },
 
     _getActionOverflowIndex: function(type, key) {

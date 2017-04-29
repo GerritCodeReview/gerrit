@@ -124,7 +124,7 @@ public class ServerImpl implements Server {
   public ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) throws RestApiException {
     try {
       return checkConsistency.get().apply(new ConfigResource(), in);
-    } catch (IOException e) {
+    } catch (IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot check consistency", e);
     }
   }

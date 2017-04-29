@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.projects.CommitApi;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.CherryPickCommit;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
@@ -48,7 +49,7 @@ public class CommitApiImpl implements CommitApi {
   public ChangeApi cherryPick(CherryPickInput input) throws RestApiException {
     try {
       return changes.id(cherryPickCommit.apply(commitResource, input)._number);
-    } catch (OrmException | IOException | UpdateException e) {
+    } catch (OrmException | IOException | UpdateException | PermissionBackendException e) {
       throw new RestApiException("Cannot cherry pick", e);
     }
   }

@@ -111,7 +111,7 @@ public class CommitValidators {
       IdentifiedUser user = refctl.getUser().asIdentifiedUser();
       return new CommitValidators(
           ImmutableList.of(
-              new UploadMergesPermissionValidator(refctl),
+              new UploadMergesPermissionValidator(perm),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
               new CommitterUploaderValidator(user, perm, canonicalWebUrl),
@@ -128,7 +128,7 @@ public class CommitValidators {
       IdentifiedUser user = refctl.getUser().asIdentifiedUser();
       return new CommitValidators(
           ImmutableList.of(
-              new UploadMergesPermissionValidator(refctl),
+              new UploadMergesPermissionValidator(perm),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
               new SignedOffByValidator(user, perm, refctl.getProjectControl().getProjectState()),
@@ -155,7 +155,7 @@ public class CommitValidators {
       //    formats, so we play it safe and exclude them.
       return new CommitValidators(
           ImmutableList.of(
-              new UploadMergesPermissionValidator(refControl),
+              new UploadMergesPermissionValidator(perm),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
               new CommitterUploaderValidator(user, perm, canonicalWebUrl)));
     }
@@ -408,21 +408,29 @@ public class CommitValidators {
     }
   }
 
-  /** Require permission to upload merges. */
+  /** Require permission to upload merge commits. */
   public static class UploadMergesPermissionValidator implements CommitValidationListener {
-    private final RefControl refControl;
+    private final PermissionBackend.ForRef perm;
 
-    public UploadMergesPermissionValidator(RefControl refControl) {
-      this.refControl = refControl;
+    public UploadMergesPermissionValidator(PermissionBackend.ForRef perm) {
+      this.perm = perm;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      if (receiveEvent.commit.getParentCount() > 1 && !refControl.canUploadMerges()) {
-        throw new CommitValidationException("you are not allowed to upload merges");
+      if (receiveEvent.commit.getParentCount() <= 1) {
+        return Collections.emptyList();
       }
-      return Collections.emptyList();
+      try {
+        perm.check(RefPermission.MERGE);
+        return Collections.emptyList();
+      } catch (AuthException e) {
+        throw new CommitValidationException("you are not allowed to upload merges");
+      } catch (PermissionBackendException e) {
+        log.error("cannot check MERGE", e);
+        throw new CommitValidationException("internal auth error");
+      }
     }
   }
 

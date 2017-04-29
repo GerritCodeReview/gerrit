@@ -196,7 +196,6 @@ public class Revert
 
       Change.Id changeId = new Change.Id(seq.nextChangeId());
       ObjectId id = oi.insert(revertCommitBuilder);
-      oi.flush();
       RevCommit revertCommit = revWalk.parseCommit(id);
 
       ChangeInserter ins =

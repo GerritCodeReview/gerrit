@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -260,12 +259,11 @@ public class RefControl {
   /**
    * Determines whether the user can create a new Git ref.
    *
-   * @param db db for checking change visibility.
    * @param repo repository on which user want to create
    * @param object the object the user will start the reference with.
    * @return {@code true} if the user specified can create a new Git ref
    */
-  public boolean canCreate(ReviewDb db, Repository repo, RevObject object) {
+  public boolean canCreate(Repository repo, RevObject object) {
     if (!isProjectStatePermittingWrite()) {
       return false;
     }
@@ -275,7 +273,7 @@ public class RefControl {
         // No create permissions.
         return false;
       }
-      return canCreateCommit(db, repo, (RevCommit) object);
+      return canCreateCommit(repo, (RevCommit) object);
     } else if (object instanceof RevTag) {
       final RevTag tag = (RevTag) object;
       try (RevWalk rw = new RevWalk(repo)) {
@@ -302,11 +300,11 @@ public class RefControl {
 
       RevObject tagObject = tag.getObject();
       if (tagObject instanceof RevCommit) {
-        if (!canCreateCommit(db, repo, (RevCommit) tagObject)) {
+        if (!canCreateCommit(repo, (RevCommit) tagObject)) {
           return false;
         }
       } else {
-        if (!canCreate(db, repo, tagObject)) {
+        if (!canCreate(repo, tagObject)) {
           return false;
         }
       }
@@ -323,12 +321,12 @@ public class RefControl {
     }
   }
 
-  private boolean canCreateCommit(ReviewDb db, Repository repo, RevCommit commit) {
+  private boolean canCreateCommit(Repository repo, RevCommit commit) {
     if (canUpdate()) {
       // If the user has push permissions, they can create the ref regardless
       // of whether they are pushing any new objects along with the create.
       return true;
-    } else if (isMergedIntoBranchOrTag(db, repo, commit)) {
+    } else if (isMergedIntoBranchOrTag(repo, commit)) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are
       // not effectively "pushing" more objects, so they can create the ref
@@ -338,11 +336,11 @@ public class RefControl {
     return false;
   }
 
-  private boolean isMergedIntoBranchOrTag(ReviewDb db, Repository repo, RevCommit commit) {
+  private boolean isMergedIntoBranchOrTag(Repository repo, RevCommit commit) {
     try (RevWalk rw = new RevWalk(repo)) {
       List<Ref> refs = new ArrayList<>(repo.getRefDatabase().getRefs(Constants.R_HEADS).values());
       refs.addAll(repo.getRefDatabase().getRefs(Constants.R_TAGS).values());
-      return projectControl.isMergedIntoVisibleRef(repo, db, rw, commit, refs);
+      return projectControl.isMergedIntoVisibleRef(repo, rw, commit, refs);
     } catch (IOException e) {
       String msg =
           String.format(

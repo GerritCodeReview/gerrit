@@ -16,6 +16,24 @@
       "revId": "8bf72f8a7f4614d1cd31d434f82bb44d8c677456",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42af378b_512e671b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RateLimitUploadListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2017-05-01T11:07:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "332f8ddd_6e08478e",
+      "revId": "8bf72f8a7f4614d1cd31d434f82bb44d8c677456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

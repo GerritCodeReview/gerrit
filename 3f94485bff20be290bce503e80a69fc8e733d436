@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab9295fb_c9d90e5c",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-01T22:03:35Z",
+      "side": 0,
+      "message": "What\u0027s with the modifications here?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "3f94485bff20be290bce503e80a69fc8e733d436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

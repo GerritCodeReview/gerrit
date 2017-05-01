@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "772ff46f_0c28df00",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-01T22:03:35Z",
+      "side": 1,
+      "message": "Rel path.",
+      "range": {
+        "startLine": 16,
+        "startChar": 13,
+        "endLine": 16,
+        "endChar": 48
+      },
+      "revId": "37f761a7f14dc4104453ce85ea177b6358a9368b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f94bde90_7efc8905",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-01T22:03:35Z",
+      "side": 1,
+      "message": "Fairly certain this lib is called jscomp, not es6_runtime. I could totally be wrong though.",
+      "range": {
+        "startLine": 54,
+        "startChar": 32,
+        "endLine": 54,
+        "endChar": 43
+      },
+      "revId": "37f761a7f14dc4104453ce85ea177b6358a9368b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

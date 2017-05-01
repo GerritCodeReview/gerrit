@@ -6,10 +6,19 @@ load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
 http_archive(
     name = "io_bazel_rules_closure",
-    strip_prefix = "rules_closure-0.4.1",
-    sha256 = "ba5e2e10cdc4027702f96e9bdc536c6595decafa94847d08ae28c6cb48225124",
-    url = "http://bazel-mirror.storage.googleapis.com/github.com/bazelbuild/rules_closure/archive/0.4.1.tar.gz",
+    strip_prefix = "rules_closure-47a076d525d55f2e3bb3104d3f5ef4b60706f6af",
+    sha256 = "8ccd15503e423e081c94f40f96726f4c92f99b1e7c459b2c7cfb86b09e86f2ba",
+    url = "http://bazel-mirror.storage.googleapis.com/github.com/bazelbuild/rules_closure/archive/47a076d525d55f2e3bb3104d3f5ef4b60706f6af.tar.gz",
 )
+
+# TODO(davido): There is an incompatibility to maven_jar in rules_closure,
+# that leads to the collisions of directory structures. Because the external
+# dependencies in rules_closure project consumed with canonical artifact name,
+# that is not used in Gerrit, the collision is restricted to only two deps:
+# args4j and javax_inject, that must be consumed with java_import_external rule.
+# See https://github.com/bazelbuild/rules_closure/issues/200
+load("@io_bazel_rules_closure//closure/private:java_import_external.bzl",
+     "java_import_external")
 
 # File is specific to Polymer and copied from the Closure Github -- should be
 # synced any time there are major changes to Polymer.
@@ -24,18 +33,8 @@ load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
 
 # Prevent redundant loading of dependencies.
 closure_repositories(
-    omit_aopalliance=True,
     omit_args4j=True,
-    omit_jsr305=True,
-    omit_gson=True,
-    omit_guava=True,
-    omit_guice=True,
-    omit_soy=True,
-    omit_icu4j=True,
-    omit_asm=True,
-    omit_asm_analysis=True,
-    omit_asm_commons=True,
-    omit_asm_util=True,
+    omit_javax_inject=True,
 )
 
 ANTLR_VERS = "3.5.2"
@@ -97,10 +96,15 @@ maven_jar(
     sha1 = "0235ba8b489512805ac13a8f9ea77a1ca5ebe3e8",
 )
 
-maven_jar(
+java_import_external(
     name = "javax_inject",
-    artifact = "javax.inject:javax.inject:1",
-    sha1 = "6975da39a7040257bd51d21a231b76c915872d38",
+    jar_urls = [
+        "http://bazel-mirror.storage.googleapis.com/repo1.maven.org/maven2/javax/inject/javax.inject/1/javax.inject-1.jar",
+        "http://repo1.maven.org/maven2/javax/inject/javax.inject/1/javax.inject-1.jar",
+        "http://maven.ibiblio.org/maven2/javax/inject/javax.inject/1/javax.inject-1.jar",
+    ],
+    jar_sha256 = "91c77044a50c481636c32d916fd89c9118a72195390452c81065080f957de7ff",
+    licenses = ["notice"],  # Apache 2.0
 )
 
 maven_jar(
@@ -283,10 +287,15 @@ maven_jar(
     sha1 = "24a2f903d25e004de30ac602c5b47f2d4e420a59",
 )
 
-maven_jar(
+java_import_external(
     name = "args4j",
-    artifact = "args4j:args4j:2.0.26",
-    sha1 = "01ebb18ebb3b379a74207d5af4ea7c8338ebd78b",
+    jar_sha256 = "989bda2321ea073a03686e9d4437ea4928c72c99f993f9ca6fab24615f0771a4",
+    jar_urls = [
+        "http://bazel-mirror.storage.googleapis.com/repo1.maven.org/maven2/args4j/args4j/2.0.26/args4j-2.0.26.jar",
+        "http://repo1.maven.org/maven2/args4j/args4j/2.0.26/args4j-2.0.26.jar",
+        "http://maven.ibiblio.org/maven2/args4j/args4j/2.0.26/args4j-2.0.26.jar",
+    ],
+    licenses = ["notice"],  # MIT License
 )
 
 maven_jar(

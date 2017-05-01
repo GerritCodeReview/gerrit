@@ -375,6 +375,13 @@
           this._change && this._change.revisions));
     },
 
+    _computeUpURL: function(changeNum, patchRange, change, changeRevisions) {
+      return this._getChangePath(
+          changeNum,
+          patchRange,
+          change && changeRevisions);
+    },
+
     _navToFile: function(path, fileList, direction) {
       var url = this._computeNavLinkURL(path, fileList, direction);
       if (!url) { return; }

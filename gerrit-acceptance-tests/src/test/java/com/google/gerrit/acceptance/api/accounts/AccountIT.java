@@ -147,7 +147,9 @@ public class AccountIT extends AbstractDaemonTest {
 
   @After
   public void removeAccountIndexEventCounter() {
-    accountIndexEventCounterHandle.remove();
+    if (accountIndexEventCounterHandle != null) {
+      accountIndexEventCounterHandle.remove();
+    }
   }
 
   @Before
@@ -205,6 +207,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseSsh
   public void create() throws Exception {
     TestAccount foo = accounts.create("foo");
     AccountInfo info = gApi.accounts().id(foo.id.get()).get();

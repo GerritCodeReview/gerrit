@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "51873848_4c696fe7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013527
+      },
+      "writtenOn": "2017-05-01T17:21:18Z",
+      "side": 1,
+      "message": "\u003e As to this specific change, I think it\u0027s small enough that it isn\u0027t a big deal. In the future, though, it would be good to have a little bit more description in the commit message, e.g. \u0027Previously, the link to project on the change view linked only open changes. This was not adequate because ______. Now, it links to a query for all changes.\u0027\n\nThat\u0027s makes total sense. I will keep that in mind. Thanks for merging.",
+      "parentUuid": "6347e1dc_3ac95e34",
+      "revId": "fcb2e7a1a787b9e734ed47c98aab0bd35e817315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6be7431_65ce60ee",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 2

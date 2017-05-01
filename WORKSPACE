@@ -6,9 +6,12 @@ load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
 http_archive(
     name = "io_bazel_rules_closure",
-    strip_prefix = "rules_closure-0.4.1",
-    sha256 = "ba5e2e10cdc4027702f96e9bdc536c6595decafa94847d08ae28c6cb48225124",
-    url = "http://bazel-mirror.storage.googleapis.com/github.com/bazelbuild/rules_closure/archive/0.4.1.tar.gz",
+    sha256 = "af1f5a31b8306faed9d09a38c8e2c1d6afc4c4a2dada3b5de11cceae8c7f4596",
+    strip_prefix = "rules_closure-f68d4b5a55c04ee50a3196590dce1ca8e7dbf438",
+    urls = [
+        "http://bazel-mirror.storage.googleapis.com/github.com/bazelbuild/rules_closure/archive/f68d4b5a55c04ee50a3196590dce1ca8e7dbf438.tar.gz",  # 2017-05-05
+        "https://github.com/bazelbuild/rules_closure/archive/f68d4b5a55c04ee50a3196590dce1ca8e7dbf438.tar.gz",
+    ],
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be
@@ -24,18 +27,9 @@ load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
 
 # Prevent redundant loading of dependencies.
 closure_repositories(
-    omit_aopalliance=True,
-    omit_args4j=True,
-    omit_jsr305=True,
-    omit_gson=True,
-    omit_guava=True,
-    omit_guice=True,
-    omit_soy=True,
-    omit_icu4j=True,
-    omit_asm=True,
-    omit_asm_analysis=True,
-    omit_asm_commons=True,
-    omit_asm_util=True,
+    omit_aopalliance = True,
+    omit_args4j = True,
+    omit_javax_inject = True,
 )
 
 ANTLR_VERS = "3.5.2"

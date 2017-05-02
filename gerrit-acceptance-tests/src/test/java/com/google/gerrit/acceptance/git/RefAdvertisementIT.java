@@ -264,20 +264,25 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void uploadPackSubsetOfBranchesVisibleWithEditForOtherUser() throws Exception {
+  public void uploadPackSubsetOfBranchesAndEditsVisibleWithViewPrivateChanges() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
     allow(Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS, "refs/*");
 
-    Change c = notesFactory.createChecked(db, project, c1.getId()).getChange();
-    String changeId = c.getKey().get();
+    Change change1 = notesFactory.createChecked(db, project, c1.getId()).getChange();
+    String changeId1 = change1.getKey().get();
+    Change change2 = notesFactory.createChecked(db, project, c2.getId()).getChange();
+    String changeId2 = change2.getKey().get();
 
-    // Admin's edit is visible.
+    // Admin's edit on change1 is visible.
     setApiUser(admin);
-    gApi.changes().id(changeId).edit().create();
+    gApi.changes().id(changeId1).edit().create();
+
+    // Admin's edit on change2 is not visible since user cannot see the change.
+    gApi.changes().id(changeId2).edit().create();
 
     // User's edit is visible.
     setApiUser(user);
-    gApi.changes().id(changeId).edit().create();
+    gApi.changes().id(changeId1).edit().create();
 
     assertUploadPackRefs(
         "HEAD",

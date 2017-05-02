@@ -27,7 +27,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -41,7 +40,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.extensions.events.CommentAdded;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.ReceiveCommits.MagicBranchInput;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
@@ -71,6 +69,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,7 +101,6 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
   private final ExecutorService sendEmailExecutor;
-  private final GitReferenceUpdated gitRefUpdated;
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
@@ -124,6 +122,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final Map<String, Short> approvals = new HashMap<>();
   private final MailRecipients recipients = new MailRecipients();
   private RevCommit commit;
+  private ReceiveCommand cmd;
   private Change change;
   private PatchSet newPatchSet;
   private ChangeKind changeKind;
@@ -131,7 +130,6 @@ public class ReplaceOp implements BatchUpdateOp {
   private String rejectMessage;
   private MergedByPushOp mergedByPushOp;
   private RequestScopePropagator requestScopePropagator;
-  private boolean updateRef;
 
   @Inject
   ReplaceOp(
@@ -142,7 +140,6 @@ public class ReplaceOp implements BatchUpdateOp {
       ChangeData.Factory changeDataFactory,
       ChangeKindCache changeKindCache,
       ChangeMessagesUtil cmUtil,
-      GitReferenceUpdated gitRefUpdated,
       RevisionCreated revisionCreated,
       CommentAdded commentAdded,
       MergedByPushOp.Factory mergedByPushOpFactory,
@@ -167,7 +164,6 @@ public class ReplaceOp implements BatchUpdateOp {
     this.changeDataFactory = changeDataFactory;
     this.changeKindCache = changeKindCache;
     this.cmUtil = cmUtil;
-    this.gitRefUpdated = gitRefUpdated;
     this.revisionCreated = revisionCreated;
     this.commentAdded = commentAdded;
     this.mergedByPushOpFactory = mergedByPushOpFactory;
@@ -186,7 +182,6 @@ public class ReplaceOp implements BatchUpdateOp {
     this.groups = groups;
     this.magicBranch = magicBranch;
     this.pushCertificate = pushCertificate;
-    this.updateRef = true;
   }
 
   @Override
@@ -209,9 +204,8 @@ public class ReplaceOp implements BatchUpdateOp {
       }
     }
 
-    if (updateRef) {
-      ctx.addRefUpdate(ObjectId.zeroId(), commitId, patchSetId.toRefName());
-    }
+    cmd = new ReceiveCommand(ObjectId.zeroId(), commitId, patchSetId.toRefName());
+    ctx.addRefUpdate(cmd);
   }
 
   @Override
@@ -403,17 +397,7 @@ public class ReplaceOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(final Context ctx) throws Exception {
-    // Normally the ref updated hook is fired by BatchUpdate, but ReplaceOp is
-    // special because its ref is actually updated by ReceiveCommits, so from
-    // BatchUpdate's perspective there is no ref update. Thus we have to fire it
-    // manually.
-    final Account account = ctx.getAccount();
-    if (!updateRef) {
-      gitRefUpdated.fire(
-          ctx.getProject(), newPatchSet.getRefName(), ObjectId.zeroId(), commitId, account);
-    }
-
+  public void postUpdate(Context ctx) throws Exception {
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
       Runnable sender =
           new Runnable() {
@@ -423,7 +407,7 @@ public class ReplaceOp implements BatchUpdateOp {
                 ReplacePatchSetSender cm =
                     replacePatchSetFactory.create(
                         projectControl.getProject().getNameKey(), change.getId());
-                cm.setFrom(account.getId());
+                cm.setFrom(ctx.getAccountId());
                 cm.setPatchSet(newPatchSet, info);
                 cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
                 if (magicBranch != null) {
@@ -508,9 +492,8 @@ public class ReplaceOp implements BatchUpdateOp {
     return rejectMessage;
   }
 
-  public ReplaceOp setUpdateRef(boolean updateRef) {
-    this.updateRef = updateRef;
-    return this;
+  public ReceiveCommand getCommand() {
+    return cmd;
   }
 
   public ReplaceOp setRequestScopePropagator(RequestScopePropagator requestScopePropagator) {

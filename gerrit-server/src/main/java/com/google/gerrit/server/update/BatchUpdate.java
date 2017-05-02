@@ -60,6 +60,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -261,6 +262,8 @@ public abstract class BatchUpdate implements AutoCloseable {
   protected Order order;
   protected OnSubmitValidators onSubmitValidators;
   protected RequestId requestId;
+  protected PushCertificate pushCert;
+  protected String refLogMessage;
 
   private boolean updateChangesInParallel;
 
@@ -302,6 +305,16 @@ public abstract class BatchUpdate implements AutoCloseable {
   public BatchUpdate setRepository(Repository repo, RevWalk revWalk, ObjectInserter inserter) {
     checkState(this.repoView == null, "repo already set");
     repoView = new RepoView(repo, revWalk, inserter);
+    return this;
+  }
+
+  public BatchUpdate setPushCertificate(@Nullable PushCertificate pushCert) {
+    this.pushCert = pushCert;
+    return this;
+  }
+
+  public BatchUpdate setRefLogMessage(@Nullable String refLogMessage) {
+    this.refLogMessage = refLogMessage;
     return this;
   }
 

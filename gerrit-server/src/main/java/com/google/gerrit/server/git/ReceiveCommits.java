@@ -92,7 +92,6 @@ import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
@@ -122,6 +121,9 @@ import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
@@ -152,7 +154,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -300,7 +301,6 @@ public class ReceiveCommits {
   private final PermissionBackend permissionBackend;
   private final PermissionBackend.ForProject permissions;
   private final CmdLineParser.Factory optionParserFactory;
-  private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
   private final ProjectCache projectCache;
@@ -348,6 +348,15 @@ public class ReceiveCommits {
   private final ChangeEditUtil editUtil;
   private final ChangeIndexer indexer;
 
+  /**
+   * Actual commands to be executed, as opposed to the mix of actual and magic commands that were
+   * provided over the wire.
+   *
+   * <p>Excludes commands executed implicitly as part of other {@link BatchUpdateOp}s, such as
+   * creating patch set refs.
+   */
+  private final List<ReceiveCommand> actualCommands = new ArrayList<>();
+
   private final List<ValidationMessage> messages = new ArrayList<>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
   private Task newProgress;
@@ -355,7 +364,6 @@ public class ReceiveCommits {
   private Task closeProgress;
   private Task commandProgress;
   private MessageSender messageSender;
-  private BatchRefUpdate batch;
 
   @Inject
   ReceiveCommits(
@@ -366,7 +374,6 @@ public class ReceiveCommits {
       AccountResolver accountResolver,
       PermissionBackend permissionBackend,
       CmdLineParser.Factory optionParserFactory,
-      GitReferenceUpdated gitRefUpdated,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
       ProjectCache projectCache,
@@ -406,7 +413,6 @@ public class ReceiveCommits {
     this.accountResolver = accountResolver;
     this.permissionBackend = permissionBackend;
     this.optionParserFactory = optionParserFactory;
-    this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.psUtil = psUtil;
     this.projectCache = projectCache;
@@ -589,15 +595,10 @@ public class ReceiveCommits {
     closeProgress = progress.beginSubTask("closed", UNKNOWN);
     commandProgress = progress.beginSubTask("refs", UNKNOWN);
 
-    batch = repo.getRefDatabase().newBatchUpdate();
-    batch.setPushCertificate(rp.getPushCertificate());
-    batch.setRefLogIdent(rp.getRefLogIdent());
-    batch.setRefLogMessage("push", true);
-
     try {
       parseCommands(commands);
     } catch (PermissionBackendException err) {
-      for (ReceiveCommand cmd : batch.getCommands()) {
+      for (ReceiveCommand cmd : actualCommands) {
         if (cmd.getResult() == NOT_ATTEMPTED) {
           cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
         }
@@ -608,27 +609,6 @@ public class ReceiveCommits {
       selectNewAndReplacedChangesFromMagicBranch();
     }
     preparePatchSetsForReplace();
-
-    logDebug("Executing batch with {} commands", batch.getCommands().size());
-    if (!batch.getCommands().isEmpty()) {
-      try {
-        if (!batch.isAllowNonFastForwards() && magicBranch != null && magicBranch.edit) {
-          logDebug("Allowing non-fast-forward for edit ref");
-          batch.setAllowNonFastForwards(true);
-        }
-        batch.execute(rp.getRevWalk(), commandProgress);
-      } catch (IOException err) {
-        int cnt = 0;
-        for (ReceiveCommand cmd : batch.getCommands()) {
-          if (cmd.getResult() == NOT_ATTEMPTED) {
-            cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
-            cnt++;
-          }
-        }
-        logError(String.format("Failed to store %d refs in %s", cnt, project.getName()), err);
-      }
-    }
-
     insertChangesAndPatchSets();
     newProgress.end();
     replaceProgress.end();
@@ -643,44 +623,24 @@ public class ReceiveCommits {
     }
 
     Set<Branch.NameKey> branches = new HashSet<>();
-    for (ReceiveCommand c : batch.getCommands()) {
-      if (c.getResult() == OK) {
-        String refName = c.getRefName();
-        if (c.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
-          logDebug("Updating tag cache on fast-forward of {}", c.getRefName());
-          tagCache.updateFastForward(project.getNameKey(), refName, c.getOldId(), c.getNewId());
-        }
+    for (ReceiveCommand c : actualCommands) {
+      // Most post-update steps should happen in UpdateOneRefOp#postUpdate. The only steps that
+      // should happen in this loop are things that can't happen within one BatchUpdate because they
+      // involve kicking off an additional BatchUpdate.
+      if (c.getResult() != OK) {
+        continue;
+      }
+      if (isHead(c) || isConfig(c)) {
+        switch (c.getType()) {
+          case CREATE:
+          case UPDATE:
+          case UPDATE_NONFASTFORWARD:
+            autoCloseChanges(c);
+            branches.add(new Branch.NameKey(project.getNameKey(), c.getRefName()));
+            break;
 
-        if (isHead(c) || isConfig(c)) {
-          switch (c.getType()) {
-            case CREATE:
-            case UPDATE:
-            case UPDATE_NONFASTFORWARD:
-              autoCloseChanges(c);
-              branches.add(new Branch.NameKey(project.getNameKey(), refName));
-              break;
-
-            case DELETE:
-              break;
-          }
-        }
-
-        if (isConfig(c)) {
-          logDebug("Reloading project in cache");
-          projectCache.evict(project);
-          ProjectState ps = projectCache.get(project.getNameKey());
-          try {
-            repo.setGitwebDescription(ps.getProject().getDescription());
-          } catch (IOException e) {
-            log.warn("cannot update description of " + project.getName(), e);
-          }
-        }
-
-        if (!MagicBranch.isMagicBranch(refName)) {
-          logDebug("Firing ref update for {}", c.getRefName());
-          gitRefUpdated.fire(project.getNameKey(), c, user.getAccount());
-        } else {
-          logDebug("Assuming ref update event for {} has fired", c.getRefName());
+          case DELETE:
+            break;
         }
       }
     }
@@ -775,117 +735,42 @@ public class ReceiveCommits {
   }
 
   private void insertChangesAndPatchSets() {
-    int replaceCount = 0;
-    int okToInsert = 0;
-
-    for (Map.Entry<Change.Id, ReplaceRequest> e : replaceByChange.entrySet()) {
-      ReplaceRequest replace = e.getValue();
-      if (magicBranch != null && replace.inputCommand == magicBranch.cmd) {
-        replaceCount++;
-
-        if (replace.cmd != null && replace.cmd.getResult() == OK) {
-          okToInsert++;
-        }
-      } else if (replace.cmd != null && replace.cmd.getResult() == OK) {
-        String refName = replace.inputCommand.getRefName();
-        checkState(
-            NEW_PATCHSET.matcher(refName).matches(),
-            "expected a new patch set command as input when creating %s; got %s",
-            replace.cmd.getRefName(),
-            refName);
-        try {
-          logDebug("One-off insertion of patch set for {}", refName);
-          replace.insertPatchSetWithoutBatchUpdate();
-          replace.inputCommand.setResult(OK);
-        } catch (IOException | UpdateException | RestApiException err) {
-          reject(replace.inputCommand, "internal server error");
-          logError(
-              String.format(
-                  "Cannot add patch set to change %d in project %s",
-                  e.getKey().get(), project.getName()),
-              err);
-        }
-      } else if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {
-        reject(replace.inputCommand, "internal server error");
-        logError(String.format("Replacement for project %s was not attempted", project.getName()));
-      }
-    }
-
-    // refs/for/ or refs/drafts/ not used, or it already failed earlier.
-    // No need to continue.
-    if (magicBranch == null) {
-      logDebug("No magic branch, nothing more to do");
-      return;
-    } else if (magicBranch.cmd.getResult() != NOT_ATTEMPTED) {
+    ReceiveCommand magicBranchCmd = magicBranch != null ? magicBranch.cmd : null;
+    if (magicBranchCmd != null && magicBranchCmd.getResult() != NOT_ATTEMPTED) {
       logWarn(
           String.format(
               "Skipping change updates on %s because ref update failed: %s %s",
               project.getName(),
-              magicBranch.cmd.getResult(),
-              Strings.nullToEmpty(magicBranch.cmd.getMessage())));
-      return;
-    }
-
-    List<String> lastCreateChangeErrors = new ArrayList<>();
-    for (CreateRequest create : newChanges) {
-      if (create.cmd.getResult() == OK) {
-        okToInsert++;
-      } else {
-        String createChangeResult =
-            String.format(
-                    "%s %s", create.cmd.getResult(), Strings.nullToEmpty(create.cmd.getMessage()))
-                .trim();
-        lastCreateChangeErrors.add(createChangeResult);
-        logError(
-            String.format(
-                "Command %s on %s:%s not completed: %s",
-                create.cmd.getType(),
-                project.getName(),
-                create.cmd.getRefName(),
-                createChangeResult));
-      }
-    }
-
-    logDebug(
-        "Counted {} ok to insert, out of {} to replace and {} new",
-        okToInsert,
-        replaceCount,
-        newChanges.size());
-
-    if (okToInsert != replaceCount + newChanges.size()) {
-      // One or more new references failed to create. Assume the
-      // system isn't working correctly anymore and abort.
-      reject(
-          magicBranch.cmd,
-          "Unable to create changes: " + lastCreateChangeErrors.stream().collect(joining(" ")));
-      logError(
-          String.format(
-              "Only %d of %d new change refs created in %s; aborting",
-              okToInsert, replaceCount + newChanges.size(), project.getName()));
+              magicBranchCmd.getResult(),
+              Strings.nullToEmpty(magicBranchCmd.getMessage())));
       return;
     }
 
     try (BatchUpdate bu =
             batchUpdateFactory.create(
-                db, magicBranch.dest.getParentKey(), user.materializedCopy(), TimeUtil.nowTs());
+                db, project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
       bu.setRepository(repo, rw, ins).updateChangesInParallel();
       bu.setRequestId(receiveId);
+      bu.setRefLogMessage("push");
+
+      logDebug("Adding {} replace requests", newChanges.size());
       for (ReplaceRequest replace : replaceByChange.values()) {
-        if (replace.inputCommand == magicBranch.cmd) {
-          replace.addOps(bu, replaceProgress);
-        }
+        replace.addOps(bu, replaceProgress);
       }
 
+      logDebug("Adding {} create requests", newChanges.size());
       for (CreateRequest create : newChanges) {
         create.addOps(bu);
       }
 
-      for (UpdateGroupsRequest update : updateGroups) {
-        update.addOps(bu);
-      }
+      logDebug("Adding {} group update requests", newChanges.size());
+      updateGroups.forEach(r -> r.addOps(bu));
+
+      logDebug("Adding {} additional ref updates", actualCommands.size());
+      actualCommands.forEach(c -> bu.addRepoOnlyOp(new UpdateOneRefOp(c)));
 
       logDebug("Executing batch");
       try {
@@ -893,10 +778,17 @@ public class ReceiveCommits {
       } catch (UpdateException e) {
         throw INSERT_EXCEPTION.apply(e);
       }
-      magicBranch.cmd.setResult(OK);
+      if (magicBranchCmd != null) {
+        magicBranchCmd.setResult(OK);
+      }
       for (ReplaceRequest replace : replaceByChange.values()) {
         String rejectMessage = replace.getRejectMessage();
-        if (rejectMessage != null) {
+        if (rejectMessage == null) {
+          if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {
+            // Not necessarily the magic branch, so need to set OK on the original value.
+            replace.inputCommand.setResult(OK);
+          }
+        } else {
           logDebug("Rejecting due to message from ReplaceOp");
           reject(replace.inputCommand, rejectMessage);
         }
@@ -904,10 +796,10 @@ public class ReceiveCommits {
 
     } catch (ResourceConflictException e) {
       addMessage(e.getMessage());
-      reject(magicBranch.cmd, "conflict");
+      reject(magicBranchCmd, "conflict");
     } catch (RestApiException | IOException err) {
       logError("Can't insert change/patch set for " + project.getName(), err);
-      reject(magicBranch.cmd, "internal server error: " + err.getMessage());
+      reject(magicBranchCmd, "internal server error: " + err.getMessage());
     }
 
     if (magicBranch != null && magicBranch.submit) {
@@ -915,10 +807,10 @@ public class ReceiveCommits {
         submit(newChanges, replaceByChange.values());
       } catch (ResourceConflictException e) {
         addMessage(e.getMessage());
-        reject(magicBranch.cmd, "conflict");
+        reject(magicBranchCmd, "conflict");
       } catch (RestApiException | OrmException e) {
         logError("Error submitting changes to " + project.getName(), e);
-        reject(magicBranch.cmd, "error during submit");
+        reject(magicBranchCmd, "error during submit");
       }
     }
   }
@@ -1176,7 +1068,7 @@ public class ReceiveCommits {
         return;
       }
       validateNewCommits(ctl, cmd);
-      batch.addCommand(cmd);
+      actualCommands.add(cmd);
     } else {
       reject(cmd, "prohibited by Gerrit: create access denied for " + cmd.getRefName());
     }
@@ -1199,7 +1091,7 @@ public class ReceiveCommits {
         return;
       }
       validateNewCommits(projectControl.controlForRef(cmd.getRefName()), cmd);
-      batch.addCommand(cmd);
+      actualCommands.add(cmd);
     } else {
       if (RefNames.REFS_CONFIG.equals(cmd.getRefName())) {
         errors.put(Error.CONFIG_UPDATE, RefNames.REFS_CONFIG);
@@ -1237,7 +1129,7 @@ public class ReceiveCommits {
       if (!validRefOperation(cmd)) {
         return;
       }
-      batch.addCommand(cmd);
+      actualCommands.add(cmd);
     } else {
       if (RefNames.REFS_CONFIG.equals(ctl.getRefName())) {
         reject(cmd, "cannot delete project configuration");
@@ -1282,7 +1174,7 @@ public class ReceiveCommits {
       if (!validRefOperation(cmd)) {
         return;
       }
-      batch.setAllowNonFastForwards(true).addCommand(cmd);
+      actualCommands.add(cmd);
     } else {
       cmd.setResult(
           REJECTED_NONFASTFORWARD, " need '" + PermissionRule.FORCE_PUSH + "' privilege.");
@@ -2039,7 +1931,6 @@ public class ReceiveCommits {
       for (int i = 0; i < newChanges.size(); i++) {
         CreateRequest create = newChanges.get(i);
         create.setChangeId(newIds.get(i));
-        batch.addCommand(create.cmd);
         create.groups = ImmutableList.copyOf(groups.get(create.commit));
       }
       for (ReplaceRequest replace : replaceByChange.values()) {
@@ -2218,7 +2109,6 @@ public class ReceiveCommits {
       }
     }
 
-    @SuppressWarnings("deprecation") // TODO(dborowitz): Update ref in BatchUpdate.
     private void addOps(BatchUpdate bu) throws RestApiException {
       checkState(changeId != null, "must call setChangeId before addOps");
       try {
@@ -2253,7 +2143,6 @@ public class ReceiveCommits {
                 .setAccountsToNotify(magicBranch.getAccountsToNotify())
                 .setRequestScopePropagator(requestScopePropagator)
                 .setSendMail(true)
-                .setUpdateRef(false)
                 .setPatchSetDescription(magicBranch.message));
         if (!magicBranch.hashtags.isEmpty()) {
           // Any change owner is allowed to add hashtags when creating a change.
@@ -2343,15 +2232,6 @@ public class ReceiveCommits {
     }
     logDebug("Read {} changes to replace", replaceByChange.size());
 
-    for (ReplaceRequest req : replaceByChange.values()) {
-      if (req.inputCommand.getResult() == NOT_ATTEMPTED && req.cmd != null) {
-        if (req.prev != null) {
-          batch.addCommand(req.prev);
-        }
-        batch.addCommand(req.cmd);
-      }
-    }
-
     if (magicBranch != null && magicBranch.cmd.getResult() != NOT_ATTEMPTED) {
       // Cancel creations tied to refs/for/ or refs/drafts/ command.
       for (ReplaceRequest req : replaceByChange.values()) {
@@ -2395,7 +2275,7 @@ public class ReceiveCommits {
         Change.Id toChange, RevCommit newCommit, ReceiveCommand cmd, boolean checkMergedInto) {
       this.ontoChange = toChange;
       this.newCommitId = newCommit.copy();
-      this.inputCommand = cmd;
+      this.inputCommand = checkNotNull(cmd);
       this.checkMergedInto = checkMergedInto;
 
       revisions = HashBiMap.create();
@@ -2573,21 +2453,12 @@ public class ReceiveCommits {
     }
 
     void addOps(BatchUpdate bu, @Nullable Task progress) throws IOException {
-      if (cmd.getResult() == NOT_ATTEMPTED) {
-        // TODO(dborowitz): When does this happen? Only when an edit ref is
-        // involved?
-        cmd.execute(rp);
-      }
       if (magicBranch != null && magicBranch.edit) {
-        bu.addOp(
-            notes.getChangeId(),
-            new BatchUpdateOp() {
-              @Override
-              public boolean updateChange(ChangeContext ctx) throws Exception {
-                // return pseudo dirty state to trigger reindexing
-                return true;
-              }
-            });
+        bu.addOp(notes.getChangeId(), new ReindexOnlyOp());
+        bu.addRepoOnlyOp(new UpdateOneRefOp(cmd));
+        if (prev != null) {
+          bu.addRepoOnlyOp(new UpdateOneRefOp(prev));
+        }
         return;
       }
       RevWalk rw = rp.getRevWalk();
@@ -2610,25 +2481,10 @@ public class ReceiveCommits {
                   groups,
                   magicBranch,
                   rp.getPushCertificate())
-              .setRequestScopePropagator(requestScopePropagator)
-              .setUpdateRef(false);
+              .setRequestScopePropagator(requestScopePropagator);
       bu.addOp(notes.getChangeId(), replaceOp);
       if (progress != null) {
         bu.addOp(notes.getChangeId(), new ChangeProgressOp(progress));
-      }
-    }
-
-    void insertPatchSetWithoutBatchUpdate() throws IOException, UpdateException, RestApiException {
-      try (BatchUpdate bu =
-              batchUpdateFactory.create(
-                  db, projectControl.getProject().getNameKey(), user, TimeUtil.nowTs());
-          ObjectInserter ins = repo.newObjectInserter();
-          ObjectReader reader = ins.newReader();
-          RevWalk rw = new RevWalk(reader)) {
-        bu.setRepository(repo, rw, ins);
-        bu.setRequestId(receiveId);
-        addOps(bu, replaceProgress);
-        bu.execute();
       }
     }
 
@@ -2670,6 +2526,47 @@ public class ReceiveCommits {
 
     private boolean sameGroups(List<String> a, List<String> b) {
       return Sets.newHashSet(a).equals(Sets.newHashSet(b));
+    }
+  }
+
+  private class UpdateOneRefOp implements RepoOnlyOp {
+    private final ReceiveCommand cmd;
+
+    private UpdateOneRefOp(ReceiveCommand cmd) {
+      this.cmd = checkNotNull(cmd);
+    }
+
+    @Override
+    public void updateRepo(RepoContext ctx) throws IOException {
+      ctx.addRefUpdate(cmd);
+    }
+
+    @Override
+    public void postUpdate(Context ctx) {
+      String refName = cmd.getRefName();
+      if (cmd.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
+        logDebug("Updating tag cache on fast-forward of {}", cmd.getRefName());
+        tagCache.updateFastForward(project.getNameKey(), refName, cmd.getOldId(), cmd.getNewId());
+      }
+      if (isConfig(cmd)) {
+        logDebug("Reloading project in cache");
+        projectCache.evict(project);
+        ProjectState ps = projectCache.get(project.getNameKey());
+        try {
+          logDebug("Updating project description");
+          repo.setGitwebDescription(ps.getProject().getDescription());
+        } catch (IOException e) {
+          log.warn("cannot update description of " + project.getName(), e);
+        }
+      }
+    }
+  }
+
+  private static class ReindexOnlyOp implements BatchUpdateOp {
+    @Override
+    public boolean updateChange(ChangeContext ctx) {
+      // Trigger reindexing even though change isn't actually updated.
+      return true;
     }
   }
 
@@ -2954,9 +2851,11 @@ public class ReceiveCommits {
     return r;
   }
 
-  private void reject(ReceiveCommand cmd, String why) {
-    cmd.setResult(REJECTED_OTHER_REASON, why);
-    commandProgress.update(1);
+  private void reject(@Nullable ReceiveCommand cmd, String why) {
+    if (cmd != null) {
+      cmd.setResult(REJECTED_OTHER_REASON, why);
+      commandProgress.update(1);
+    }
   }
 
   private static boolean isHead(ReceiveCommand cmd) {

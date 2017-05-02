@@ -402,6 +402,8 @@ class FusedNoteDbBatchUpdate extends BatchUpdate {
     if (user.isIdentifiedUser()) {
       handle.manager.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(when, tz));
     }
+    handle.manager.setRefLogMessage(refLogMessage);
+    handle.manager.setPushCertificate(pushCert);
     for (Map.Entry<Change.Id, Collection<BatchUpdateOp>> e : ops.asMap().entrySet()) {
       Change.Id id = e.getKey();
       ChangeContextImpl ctx = newChangeContext(id);

@@ -64,6 +64,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
@@ -212,6 +213,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private boolean checkExpectedState = true;
   private String refLogMessage;
   private PersonIdent refLogIdent;
+  private PushCertificate pushCert;
 
   @Inject
   NoteDbUpdateManager(
@@ -276,6 +278,25 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   public NoteDbUpdateManager setRefLogIdent(PersonIdent ident) {
     this.refLogIdent = ident;
+    return this;
+  }
+
+  /**
+   * Set a push certificate for the push that originally triggered this NoteDb update.
+   *
+   * <p>The pusher will not necessarily have specified any of the NoteDb refs explicitly, such as
+   * when processing a push to {@code refs/for/master}. That's fine; this is just passed to the
+   * underlying {@link BatchRefUpdate}, and the implementation decides what to do with it.
+   *
+   * <p>The cert should be associated with the main repo. There is currently no way of associating a
+   * push cert with the {@code All-Users} repo, since it is not currently possible to update draft
+   * changes via push.
+   *
+   * @param pushCert push certificate; may be null.
+   * @return this
+   */
+  public NoteDbUpdateManager setPushCertificate(PushCertificate pushCert) {
+    this.pushCert = pushCert;
     return this;
   }
 
@@ -490,15 +511,16 @@ public class NoteDbUpdateManager implements AutoCloseable {
       // we may have stale draft comments. Doing it in this order allows stale
       // comments to be filtered out by ChangeNotes, reflecting the fact that
       // comments can only go from DRAFT to PUBLISHED, not vice versa.
-      BatchRefUpdate result = execute(changeRepo, dryrun);
-      execute(allUsersRepo, dryrun);
+      BatchRefUpdate result = execute(changeRepo, dryrun, pushCert);
+      execute(allUsersRepo, dryrun, null);
       return result;
     } finally {
       close();
     }
   }
 
-  private BatchRefUpdate execute(OpenRepo or, boolean dryrun) throws IOException {
+  private BatchRefUpdate execute(OpenRepo or, boolean dryrun, @Nullable PushCertificate pushCert)
+      throws IOException {
     if (or == null || or.cmds.isEmpty()) {
       return null;
     }
@@ -511,6 +533,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
 
     BatchRefUpdate bru = or.repo.getRefDatabase().newBatchUpdate();
+    bru.setPushCertificate(pushCert);
     bru.setRefLogMessage(firstNonNull(refLogMessage, "Update NoteDb refs"), false);
     bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent.get());
     or.cmds.addTo(bru);

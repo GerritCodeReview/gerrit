@@ -322,6 +322,18 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
+  /**
+   * Set whether to include the new patch set ref update in this update.
+   *
+   * <p>If false, the caller is responsible for creating the patch set ref <strong>before</strong>
+   * executing the containing {@code BatchUpdate}.
+   *
+   * <p>Should not be used in new code, as it doesn't result in a single atomic batch ref update for
+   * code and NoteDb meta refs.
+   *
+   * @param updateRef whether to update the ref during {@code updateRepo}.
+   */
+  @Deprecated
   public ChangeInserter setUpdateRef(boolean updateRef) {
     this.updateRef = updateRef;
     return this;

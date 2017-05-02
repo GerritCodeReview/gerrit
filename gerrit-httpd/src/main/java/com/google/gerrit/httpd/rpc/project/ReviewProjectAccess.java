@@ -115,6 +115,9 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     this.updateFactory = updateFactory;
   }
 
+  // TODO(dborowitz): Hack MetaDataUpdate so it can be created within a BatchUpdate and we can avoid
+  // calling setUpdateRef(false).
+  @SuppressWarnings("deprecation")
   @Override
   protected Change.Id updateProjectConfig(
       ProjectControl projectControl,

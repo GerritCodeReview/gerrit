@@ -83,7 +83,6 @@ import com.google.gerrit.server.change.Unignore;
 import com.google.gerrit.server.change.Unmute;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -416,8 +415,8 @@ class ChangeApiImpl implements ChangeApi {
   public void delete() throws RestApiException {
     try {
       deleteChange.apply(change, null);
-    } catch (UpdateException | PermissionBackendException e) {
-      throw new RestApiException("Cannot delete change", e);
+    } catch (Exception e) {
+      throwRestApiException("Cannot delete change", e);
     }
   }
 

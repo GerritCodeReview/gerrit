@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
@@ -32,15 +33,11 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.CreateChange;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.query.change.QueryChanges;
-import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.List;
 
 @Singleton
@@ -88,11 +85,8 @@ class ChangesImpl implements Changes {
     try {
       ChangeInfo out = createChange.apply(TopLevelResource.INSTANCE, in).value();
       return api.create(changes.parse(new Change.Id(out._number)));
-    } catch (OrmException
-        | IOException
-        | InvalidChangeOperationException
-        | UpdateException
-        | PermissionBackendException e) {
+    } catch (Exception e) {
+      throwIfPossible(e);
       throw new RestApiException("Cannot create change", e);
     }
   }
@@ -140,5 +134,10 @@ class ChangesImpl implements Changes {
     } catch (AuthException | OrmException e) {
       throw new RestApiException("Cannot query changes", e);
     }
+  }
+
+  private static void throwIfPossible(Exception e) throws RestApiException {
+    Throwables.throwIfInstanceOf(e, RestApiException.class);
+    Throwables.throwIfUnchecked(e);
   }
 }

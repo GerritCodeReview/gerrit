@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -37,6 +36,8 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -45,9 +46,9 @@ import com.google.inject.Singleton;
 import java.util.Collections;
 
 @Singleton
-public class CreateDraftComment implements RestModifyView<RevisionResource, DraftInput> {
+public class CreateDraftComment
+    extends RetryingRestModifyView<RevisionResource, DraftInput, Response<CommentInfo>> {
   private final Provider<ReviewDb> db;
-  private final BatchUpdate.Factory updateFactory;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
@@ -56,13 +57,13 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   @Inject
   CreateDraftComment(
       Provider<ReviewDb> db,
-      BatchUpdate.Factory updateFactory,
+      RetryHelper retryHelper,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       PatchListCache patchListCache) {
+    super(retryHelper);
     this.db = db;
-    this.updateFactory = updateFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
@@ -70,7 +71,8 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   }
 
   @Override
-  public Response<CommentInfo> apply(RevisionResource rsrc, DraftInput in)
+  protected Response<CommentInfo> applyImpl(
+      BatchUpdate.Factory updateFactory, RevisionResource rsrc, DraftInput in)
       throws RestApiException, UpdateException, OrmException {
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");

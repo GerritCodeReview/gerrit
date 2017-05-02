@@ -375,6 +375,24 @@
       "revId": "6b79f3b7f1b1cb7f4ec622a4f396c32208cb3daf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa0b1cb7_4170de00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-02T18:59:36Z",
+      "side": 1,
+      "message": "Not sure I follow.\n\n\u003e The key should be contained in changeUpdates\n\nShould it? It feels like it shouldn\u0027t. Either we want to append new commits to the existing NoteDb graph, or we want to completely rewrite history. We shouldn\u0027t be doing both.",
+      "parentUuid": "7d8d69aa_db527db2",
+      "revId": "6b79f3b7f1b1cb7f4ec622a4f396c32208cb3daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

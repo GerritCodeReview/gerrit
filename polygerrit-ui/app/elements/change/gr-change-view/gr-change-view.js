@@ -219,6 +219,10 @@
       if (this._updateCheckTimerHandle) {
         this._cancelUpdateCheckTimer();
       }
+
+      debugger;
+
+      this.fire('cancel-alert', null, {bubbles: true});
     },
 
     _handleEditCommitMessage: function(e) {
@@ -1177,10 +1181,12 @@
       this._updateCheckTimerHandle = this.async(function() {
         this.fetchIsLatestKnown(this._change, this.$.restAPI)
             .then(function(latest) {
-              if (!latest) {
+              if (latest) {
                 this._cancelUpdateCheckTimer();
                 this.fire('show-alert', {
                   message: 'A newer patch has been uploaded.',
+                  // No timeout on this alert.
+                  timeout: 0,
                   action: 'Reload',
                   callback: function() {
                     // Load the current change without any patch range.
@@ -1188,10 +1194,11 @@
                         this._change._number;
                   }.bind(this),
                 });
+              } else {
+                this._startUpdateCheckTimer();
               }
-              this._startUpdateCheckTimer();
             }.bind(this));
-      }, this.serverConfig.change.update_delay * 1000);
+      }, this.serverConfig.change.update_delay * 10);
     },
 
     _cancelUpdateCheckTimer: function() {

@@ -82,6 +82,7 @@ import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
+import com.google.gerrit.testutil.SshMode;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.ByteArrayOutputStream;
@@ -147,7 +148,9 @@ public class AccountIT extends AbstractDaemonTest {
 
   @After
   public void removeAccountIndexEventCounter() {
-    accountIndexEventCounterHandle.remove();
+    if (accountIndexEventCounterHandle != null) {
+      accountIndexEventCounterHandle.remove();
+    }
   }
 
   @Before
@@ -209,7 +212,11 @@ public class AccountIT extends AbstractDaemonTest {
     TestAccount foo = accounts.create("foo");
     AccountInfo info = gApi.accounts().id(foo.id.get()).get();
     assertThat(info.username).isEqualTo("foo");
-    accountIndexedCounter.assertReindexOf(foo, 2); // account creation + adding SSH keys
+    if (SshMode.useSsh()) {
+      accountIndexedCounter.assertReindexOf(foo, 2); // account creation + adding SSH keys
+    } else {
+      accountIndexedCounter.assertReindexOf(foo, 1); // account creation
+    }
 
     // check user branch
     try (Repository repo = repoManager.openRepository(allUsers);

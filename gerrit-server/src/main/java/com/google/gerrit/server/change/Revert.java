@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -50,6 +49,8 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -74,15 +75,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class Revert
-    implements RestModifyView<ChangeResource, RevertInput>, UiAction<ChangeResource> {
+public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, ChangeInfo>
+    implements UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Revert.class);
 
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeMessagesUtil cmUtil;
-  private final BatchUpdate.Factory updateFactory;
   private final Sequences seq;
   private final PatchSetUtil psUtil;
   private final RevertedSender.Factory revertedSenderFactory;
@@ -97,7 +97,7 @@ public class Revert
       GitRepositoryManager repoManager,
       ChangeInserter.Factory changeInserterFactory,
       ChangeMessagesUtil cmUtil,
-      BatchUpdate.Factory updateFactory,
+      RetryHelper retryHelper,
       Sequences seq,
       PatchSetUtil psUtil,
       RevertedSender.Factory revertedSenderFactory,
@@ -105,11 +105,11 @@ public class Revert
       @GerritPersonIdent PersonIdent serverIdent,
       ApprovalsUtil approvalsUtil,
       ChangeReverted changeReverted) {
+    super(retryHelper);
     this.db = db;
     this.repoManager = repoManager;
     this.changeInserterFactory = changeInserterFactory;
     this.cmUtil = cmUtil;
-    this.updateFactory = updateFactory;
     this.seq = seq;
     this.psUtil = psUtil;
     this.revertedSenderFactory = revertedSenderFactory;
@@ -120,7 +120,8 @@ public class Revert
   }
 
   @Override
-  public ChangeInfo apply(ChangeResource req, RevertInput input)
+  protected ChangeInfo applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource req, RevertInput input)
       throws IOException, OrmException, RestApiException, UpdateException, NoSuchChangeException {
     RefControl refControl = req.getControl().getRefControl();
     ProjectControl projectControl = req.getControl().getProjectControl();
@@ -137,11 +138,12 @@ public class Revert
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     }
 
-    Change.Id revertedChangeId = revert(req.getControl(), Strings.emptyToNull(input.message));
+    Change.Id revertedChangeId =
+        revert(updateFactory, req.getControl(), Strings.emptyToNull(input.message));
     return json.noOptions().format(req.getProject(), revertedChangeId);
   }
 
-  private Change.Id revert(ChangeControl ctl, String message)
+  private Change.Id revert(BatchUpdate.Factory updateFactory, ChangeControl ctl, String message)
       throws OrmException, IOException, RestApiException, UpdateException {
     Change.Id changeIdToRevert = ctl.getChange().getId();
     PatchSet.Id patchSetId = ctl.getChange().currentPatchSetId();

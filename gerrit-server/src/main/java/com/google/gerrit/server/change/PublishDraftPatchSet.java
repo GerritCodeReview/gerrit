@@ -49,6 +49,8 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -131,16 +133,19 @@ public class PublishDraftPatchSet
     }
   }
 
-  public static class CurrentRevision implements RestModifyView<ChangeResource, Input> {
+  public static class CurrentRevision
+      extends RetryingRestModifyView<ChangeResource, Input, Response<?>> {
     private final PublishDraftPatchSet publish;
 
     @Inject
-    CurrentRevision(PublishDraftPatchSet publish) {
+    CurrentRevision(RetryHelper retryHelper, PublishDraftPatchSet publish) {
+      super(retryHelper);
       this.publish = publish;
     }
 
     @Override
-    public Response<?> apply(ChangeResource rsrc, Input input)
+    protected Response<?> applyImpl(
+        BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
         throws RestApiException, UpdateException {
       return publish.apply(
           rsrc.getControl().getUser(),

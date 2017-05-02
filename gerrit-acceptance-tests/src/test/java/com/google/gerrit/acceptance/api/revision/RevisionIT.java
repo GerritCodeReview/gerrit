@@ -94,6 +94,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.util.Base64;
 import org.junit.Test;
 
 public class RevisionIT extends AbstractDaemonTest {
@@ -804,6 +805,55 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     assertContent(r, FILE_NAME, FILE_CONTENT);
     assertContent(r, COMMIT_MSG, r.getCommit().getFullMessage());
+  }
+
+  @Test
+  public void contentOfParent() throws Exception {
+    String parentContent = "parent content";
+    PushOneCommit.Result parent = createChange("Parent change", FILE_NAME, parentContent);
+    parent.assertOkStatus();
+
+    gApi.changes().id(parent.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(parent.getChangeId()).current().submit();
+
+    PushOneCommit.Result child = createChange();
+    child.assertOkStatus();
+    assertContent(child, FILE_NAME, FILE_CONTENT);
+
+    RestResponse response =
+        adminRestSession.get(
+            "/changes/"
+                + child.getChangeId()
+                + "/revisions/current/files/"
+                + FILE_NAME
+                + "/content?parent=1");
+    response.assertOK();
+    assertThat(new String(Base64.decode(response.getEntityContent()), UTF_8))
+        .isEqualTo(parentContent);
+  }
+
+  @Test
+  public void contentOfInvalidParent() throws Exception {
+    String parentContent = "parent content";
+    PushOneCommit.Result parent = createChange("Parent change", FILE_NAME, parentContent);
+    parent.assertOkStatus();
+
+    gApi.changes().id(parent.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(parent.getChangeId()).current().submit();
+
+    PushOneCommit.Result child = createChange();
+    child.assertOkStatus();
+    assertContent(child, FILE_NAME, FILE_CONTENT);
+
+    RestResponse response =
+        adminRestSession.get(
+            "/changes/"
+                + child.getChangeId()
+                + "/revisions/current/files/"
+                + FILE_NAME
+                + "/content?parent=10");
+    response.assertNotFound();
+    assertThat(response.getEntityContent()).isEqualTo("invalid parent");
   }
 
   @Test

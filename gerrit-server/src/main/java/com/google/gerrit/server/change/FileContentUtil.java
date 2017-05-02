@@ -67,9 +67,30 @@ public class FileContentUtil {
     this.registry = ftr;
   }
 
-  public BinaryResult getContent(ProjectState project, ObjectId revstr, String path)
+  /**
+   * Get the content of a file at a specific commit or one of it's parent commits.
+   *
+   * @param project A {@code Project} that this request refers to.
+   * @param revstr An {@code ObjectId} specifying the commit.
+   * @param path A string specifying the filepath.
+   * @param parent A 1-based parent index to get the content from instead. Null if the content
+   *     should be obtained from {@param revstr} instead.
+   * @return Content of the file as {@code BinaryResult}.
+   * @throws ResourceNotFoundException
+   * @throws IOException
+   */
+  public BinaryResult getContent(
+      ProjectState project, ObjectId revstr, String path, @Nullable Integer parent)
       throws ResourceNotFoundException, IOException {
-    try (Repository repo = openRepository(project)) {
+    try (Repository repo = openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      if (parent != null) {
+        RevCommit revCommit = rw.parseCommit(revstr);
+        if (revCommit == null || parent < 0 || parent > revCommit.getParentCount()) {
+          throw new ResourceNotFoundException("invalid parent");
+        }
+        revstr = rw.parseCommit(revstr).getParent(parent - 1).toObjectId();
+      }
       return getContent(repo, project, revstr, path);
     }
   }

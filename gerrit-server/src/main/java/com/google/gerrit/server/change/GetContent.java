@@ -37,6 +37,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.kohsuke.args4j.Option;
 
 @Singleton
 public class GetContent implements RestReadView<FileResource> {
@@ -44,6 +45,9 @@ public class GetContent implements RestReadView<FileResource> {
   private final GitRepositoryManager gitManager;
   private final PatchSetUtil psUtil;
   private final FileContentUtil fileContentUtil;
+
+  @Option(name = "--parent")
+  private Integer parent;
 
   @Inject
   GetContent(
@@ -75,7 +79,8 @@ public class GetContent implements RestReadView<FileResource> {
     return fileContentUtil.getContent(
         rsrc.getRevision().getControl().getProjectControl().getProjectState(),
         ObjectId.fromString(rsrc.getRevision().getPatchSet().getRevision().get()),
-        path);
+        path,
+        parent);
   }
 
   private String getMessage(ChangeNotes notes) throws OrmException, IOException {

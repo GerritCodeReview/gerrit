@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-autocomplete-dropdown</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="gr-autocomplete-dropdown.html">
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-autocomplete-dropdown id="dropdown"></gr-autocomplete-dropdown>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-autocomplete-dropdown', function() {
+    var element;
+    var sandbox;
+
+    setup(function() {
+      sandbox = sinon.sandbox.create();
+      fixture('basic').open();
+      // The element was moved to the body, so look for it there.
+      element = Polymer.dom(document.root)
+          .querySelector('gr-autocomplete-dropdown');
+      element.suggestions = [
+          {value: 'test value 1', name: 'test name 1', text: 1},
+          {value: 'test value 2', name: 'test name 2', text: 2}];
+    });
+
+    teardown(function() {
+      sandbox.restore();
+      if (element.isOpen) element.close();
+    });
+
+    test('the dropdown has been moved from the text fixture to the body',
+        function() {
+      assert.equal(Polymer.dom(document.root)
+          .querySelectorAll('gr-autocomplete-dropdown').length, 1);
+      assert.isOk(dropdown);
+      assert.deepEqual(dropdown.parentElement, Polymer.dom(document.root)
+          .querySelector('body'));
+    });
+
+    test('escape key', function() {
+      var listener = sandbox.spy();
+      element.addEventListener('dropdown-closed', listener);
+      var closeSpy = sandbox.spy(element, 'close');
+      MockInteractions.pressAndReleaseKeyOn(element, 27);
+      flushAsynchronousOperations();
+      assert.isTrue(listener.called);
+      assert.isTrue(closeSpy.called);
+      assert.isFalse(element.isOpen);
+    });
+
+    test('tab key', function() {
+      var handleEnterSpy = sandbox.spy(element, '_handleEnter');
+      MockInteractions.pressAndReleaseKeyOn(element, 9);
+      assert.isTrue(handleEnterSpy.called);
+      assert.equal(element.$.cursor.index, 0);
+      assert.equal(element.selected, element.$.cursor.target);
+    });
+
+     test('enter key', function() {
+      var handleEnterSpy = sandbox.spy(element, '_handleEnter');
+      MockInteractions.pressAndReleaseKeyOn(element, 13);
+      assert.isTrue(handleEnterSpy.called);
+      assert.equal(element.$.cursor.index, 0);
+      assert.equal(element.selected, element.$.cursor.target);
+    });
+
+    test('down key', function() {
+      element.close();
+      var nextSpy = sandbox.spy(element.$.cursor, 'next');
+      MockInteractions.pressAndReleaseKeyOn(element, 40);
+      assert.isFalse(nextSpy.called);
+      assert.equal(element.$.cursor.index, -1);
+      element.open();
+      MockInteractions.pressAndReleaseKeyOn(element, 40);
+      assert.isTrue(nextSpy.called);
+      assert.equal(element.$.cursor.index, 1);
+    });
+
+    test('up key', function() {
+      element.close();
+      var prevSpy = sandbox.spy(element.$.cursor, 'previous');
+      MockInteractions.pressAndReleaseKeyOn(element, 38);
+      assert.isFalse(prevSpy.called);
+      assert.equal(element.$.cursor.index, -1);
+      element.open();
+      element.$.cursor.setCursorAtIndex(1);
+      assert.equal(element.$.cursor.index, 1);
+      MockInteractions.pressAndReleaseKeyOn(element, 38);
+      assert.isTrue(prevSpy.called);
+      assert.equal(element.$.cursor.index, 0);
+    });
+
+    test('tapping selects item', function() {
+      MockInteractions.tap(element.$.suggestions.querySelectorAll('li')[1]);
+      flushAsynchronousOperations();
+      assert.deepEqual(element.selected, element.$.cursor.stops[1]);
+    });
+
+    test('updated suggestions resets cursor stops', function() {
+      resetStopsSpy = sandbox.spy(element, 'resetCursorStops');
+      element.suggestions = [];
+      assert.isTrue(resetStopsSpy.called);
+    });
+
+    test('closing removes from body and adding adds to body', function() {
+      element.close();
+      assert.equal(Polymer.dom(document.root)
+          .querySelectorAll('gr-autocomplete-dropdown').length, 0);
+      element.open();
+      assert.equal(Polymer.dom(document.root)
+          .querySelectorAll('gr-autocomplete-dropdown').length, 1);
+    });
+
+    test('setPosition', function() {
+      var top = '10px';
+      var left = '20px';
+      element.setPosition(top, left);
+      assert.equal(getComputedStyle(element).top, top);
+      assert.equal(getComputedStyle(element).left, left);
+    });
+  });
+</script>

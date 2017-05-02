@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -32,6 +31,8 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -41,13 +42,13 @@ import java.util.Collections;
 import java.util.Optional;
 
 @Singleton
-public class DeleteDraftComment implements RestModifyView<DraftCommentResource, Input> {
+public class DeleteDraftComment
+    extends RetryingRestModifyView<DraftCommentResource, Input, Response<CommentInfo>> {
   static class Input {}
 
   private final Provider<ReviewDb> db;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
-  private final BatchUpdate.Factory updateFactory;
   private final PatchListCache patchListCache;
 
   @Inject
@@ -55,17 +56,18 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
       Provider<ReviewDb> db,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
-      BatchUpdate.Factory updateFactory,
+      RetryHelper retryHelper,
       PatchListCache patchListCache) {
+    super(retryHelper);
     this.db = db;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
-    this.updateFactory = updateFactory;
     this.patchListCache = patchListCache;
   }
 
   @Override
-  public Response<CommentInfo> apply(DraftCommentResource rsrc, Input input)
+  protected Response<CommentInfo> applyImpl(
+      BatchUpdate.Factory updateFactory, DraftCommentResource rsrc, Input input)
       throws RestApiException, UpdateException {
     try (BatchUpdate bu =
         updateFactory.create(

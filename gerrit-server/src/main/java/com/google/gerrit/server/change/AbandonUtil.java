@@ -24,6 +24,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
+import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -38,6 +39,7 @@ import org.slf4j.LoggerFactory;
 public class AbandonUtil {
   private static final Logger log = LoggerFactory.getLogger(AbandonUtil.class);
 
+  private final BatchUpdate.Factory updateFactory;
   private final ChangeCleanupConfig cfg;
   private final ChangeQueryProcessor queryProcessor;
   private final ChangeQueryBuilder queryBuilder;
@@ -46,11 +48,13 @@ public class AbandonUtil {
 
   @Inject
   AbandonUtil(
+      BatchUpdate.Factory updateFactory,
       ChangeCleanupConfig cfg,
       InternalUser.Factory internalUserFactory,
       ChangeQueryProcessor queryProcessor,
       ChangeQueryBuilder queryBuilder,
       Abandon abandon) {
+    this.updateFactory = updateFactory;
     this.cfg = cfg;
     this.queryProcessor = queryProcessor;
     this.queryBuilder = queryBuilder;
@@ -85,7 +89,7 @@ public class AbandonUtil {
       for (Project.NameKey project : abandons.keySet()) {
         Collection<ChangeControl> changes = getValidChanges(abandons.get(project), query);
         try {
-          abandon.batchAbandon(project, internalUser, changes, message);
+          abandon.batchAbandon(updateFactory, project, internalUser, changes, message);
           count += changes.size();
         } catch (Throwable e) {
           StringBuilder msg = new StringBuilder("Failed to auto-abandon inactive change(s):");

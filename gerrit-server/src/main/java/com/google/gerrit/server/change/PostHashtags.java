@@ -19,12 +19,13 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -32,28 +33,28 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class PostHashtags
-    implements RestModifyView<ChangeResource, HashtagsInput>, UiAction<ChangeResource> {
+    extends RetryingRestModifyView<
+        ChangeResource, HashtagsInput, Response<ImmutableSortedSet<String>>>
+    implements UiAction<ChangeResource> {
   private final Provider<ReviewDb> db;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final SetHashtagsOp.Factory hashtagsFactory;
 
   @Inject
   PostHashtags(
-      Provider<ReviewDb> db,
-      BatchUpdate.Factory batchUpdateFactory,
-      SetHashtagsOp.Factory hashtagsFactory) {
+      Provider<ReviewDb> db, RetryHelper retryHelper, SetHashtagsOp.Factory hashtagsFactory) {
+    super(retryHelper);
     this.db = db;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.hashtagsFactory = hashtagsFactory;
   }
 
   @Override
-  public Response<ImmutableSortedSet<String>> apply(ChangeResource req, HashtagsInput input)
+  protected Response<ImmutableSortedSet<String>> applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource req, HashtagsInput input)
       throws RestApiException, UpdateException, PermissionBackendException {
     req.permissions().check(ChangePermission.EDIT_HASHTAGS);
 
     try (BatchUpdate bu =
-        batchUpdateFactory.create(
+        updateFactory.create(
             db.get(), req.getChange().getProject(), req.getControl().getUser(), TimeUtil.nowTs())) {
       SetHashtagsOp op = hashtagsFactory.create(input);
       bu.addOp(req.getId(), op);

@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -35,6 +34,8 @@ import com.google.gerrit.server.change.PostReviewers.Addition;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -43,12 +44,11 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-public class PutAssignee
-    implements RestModifyView<ChangeResource, AssigneeInput>, UiAction<ChangeResource> {
+public class PutAssignee extends RetryingRestModifyView<ChangeResource, AssigneeInput, AccountInfo>
+    implements UiAction<ChangeResource> {
 
   private final AccountsCollection accounts;
   private final SetAssigneeOp.Factory assigneeFactory;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final Provider<ReviewDb> db;
   private final PostReviewers postReviewers;
   private final AccountLoader.Factory accountLoaderFactory;
@@ -57,20 +57,21 @@ public class PutAssignee
   PutAssignee(
       AccountsCollection accounts,
       SetAssigneeOp.Factory assigneeFactory,
-      BatchUpdate.Factory batchUpdateFactory,
+      RetryHelper retryHelper,
       Provider<ReviewDb> db,
       PostReviewers postReviewers,
       AccountLoader.Factory accountLoaderFactory) {
+    super(retryHelper);
     this.accounts = accounts;
     this.assigneeFactory = assigneeFactory;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.db = db;
     this.postReviewers = postReviewers;
     this.accountLoaderFactory = accountLoaderFactory;
   }
 
   @Override
-  public AccountInfo apply(ChangeResource rsrc, AssigneeInput input)
+  protected AccountInfo applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource rsrc, AssigneeInput input)
       throws RestApiException, UpdateException, OrmException, IOException,
           PermissionBackendException {
     rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
@@ -91,7 +92,7 @@ public class PutAssignee
     }
 
     try (BatchUpdate bu =
-        batchUpdateFactory.create(
+        updateFactory.create(
             db.get(),
             rsrc.getChange().getProject(),
             rsrc.getControl().getUser(),

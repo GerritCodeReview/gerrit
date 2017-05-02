@@ -40,6 +40,8 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -210,18 +212,21 @@ public class Rebase
         .setEnabled(enabled);
   }
 
-  public static class CurrentRevision implements RestModifyView<ChangeResource, RebaseInput> {
+  public static class CurrentRevision
+      extends RetryingRestModifyView<ChangeResource, RebaseInput, ChangeInfo> {
     private final PatchSetUtil psUtil;
     private final Rebase rebase;
 
     @Inject
-    CurrentRevision(PatchSetUtil psUtil, Rebase rebase) {
+    CurrentRevision(RetryHelper retryHelper, PatchSetUtil psUtil, Rebase rebase) {
+      super(retryHelper);
       this.psUtil = psUtil;
       this.rebase = rebase;
     }
 
     @Override
-    public ChangeInfo apply(ChangeResource rsrc, RebaseInput input)
+    protected ChangeInfo applyImpl(
+        BatchUpdate.Factory updateFactory, ChangeResource rsrc, RebaseInput input)
         throws EmailException, OrmException, UpdateException, RestApiException, IOException,
             PermissionBackendException {
       PatchSet ps = psUtil.current(rebase.dbProvider.get(), rsrc.getNotes());

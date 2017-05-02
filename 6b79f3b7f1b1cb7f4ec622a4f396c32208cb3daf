@@ -178,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "0f4530aa_a1f6f238",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-02T15:48:33Z",
+      "side": 1,
+      "message": "Sorry, I just misread the \u0027CommentInfo\u0027 class.",
+      "parentUuid": "950668ad_a8a1141a",
+      "revId": "6b79f3b7f1b1cb7f4ec622a4f396c32208cb3daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb63fd4a_63acfcc3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DeleteCommentRewriter.java",
         "patchSetId": 4

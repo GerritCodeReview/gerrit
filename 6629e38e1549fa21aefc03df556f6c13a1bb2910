@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "c8a728ad_6e2aeda0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-02T08:59:11Z",
+      "side": 1,
+      "message": "Should be \"contains\" because msg also includes \"Set private\" part, but I could also include this into the expected message.\n\nDone.",
+      "parentUuid": "8b16ae19_098fbaee",
+      "range": {
+        "startLine": 212,
+        "startChar": 57,
+        "endLine": 212,
+        "endChar": 65
+      },
+      "revId": "6629e38e1549fa21aefc03df556f6c13a1bb2910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cac9af6a_847290a2",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 5
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "815574bf_5ad81e40",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-02T08:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cac9af6a_847290a2",
+      "revId": "6629e38e1549fa21aefc03df556f6c13a1bb2910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c3dbce57_fd6fc5b3",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 5
@@ -54,6 +96,30 @@
       "writtenOn": "2017-05-02T08:36:16Z",
       "side": 1,
       "message": "Is there a way to make this @Nullable and spare the extra setPrivate(boolean value) method?",
+      "range": {
+        "startLine": 90,
+        "startChar": 33,
+        "endLine": 90,
+        "endChar": 47
+      },
+      "revId": "6629e38e1549fa21aefc03df556f6c13a1bb2910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d36c5d1a_c96d6a06",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-02T08:59:11Z",
+      "side": 1,
+      "message": "It\u0027s nullable, but we want to keep the other method for convenience and backwards compatibility?\n\nI guess we could still change it since it\u0027s not included a release yet. Done.",
+      "parentUuid": "c3dbce57_fd6fc5b3",
       "range": {
         "startLine": 90,
         "startChar": 33,
@@ -89,6 +155,30 @@
     },
     {
       "key": {
+        "uuid": "d4fd5187_1d160a33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-02T08:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "831d2b32_85aed83c",
+      "range": {
+        "startLine": 319,
+        "startChar": 8,
+        "endLine": 319,
+        "endChar": 11
+      },
+      "revId": "6629e38e1549fa21aefc03df556f6c13a1bb2910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b0f8adc_cee54ffe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 5
@@ -100,6 +190,30 @@
       "writtenOn": "2017-05-02T08:36:16Z",
       "side": 1,
       "message": "Post",
+      "range": {
+        "startLine": 88,
+        "startChar": 36,
+        "endLine": 88,
+        "endChar": 39
+      },
+      "revId": "6629e38e1549fa21aefc03df556f6c13a1bb2910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08dfc31f_4b63517a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-02T08:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b0f8adc_cee54ffe",
       "range": {
         "startLine": 88,
         "startChar": 36,

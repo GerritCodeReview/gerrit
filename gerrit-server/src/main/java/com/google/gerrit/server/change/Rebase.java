@@ -59,13 +59,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class Rebase
+public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput, ChangeInfo>
     implements RestModifyView<RevisionResource, RebaseInput>, UiAction<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(Rebase.class);
   private static final ImmutableSet<ListChangesOption> OPTIONS =
       Sets.immutableEnumSet(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT);
 
-  private final BatchUpdate.Factory updateFactory;
   private final GitRepositoryManager repoManager;
   private final RebaseChangeOp.Factory rebaseFactory;
   private final RebaseUtil rebaseUtil;
@@ -74,13 +73,13 @@ public class Rebase
 
   @Inject
   public Rebase(
-      BatchUpdate.Factory updateFactory,
+      RetryHelper retryHelper,
       GitRepositoryManager repoManager,
       RebaseChangeOp.Factory rebaseFactory,
       RebaseUtil rebaseUtil,
       ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider) {
-    this.updateFactory = updateFactory;
+    super(retryHelper);
     this.repoManager = repoManager;
     this.rebaseFactory = rebaseFactory;
     this.rebaseUtil = rebaseUtil;
@@ -89,7 +88,8 @@ public class Rebase
   }
 
   @Override
-  public ChangeInfo apply(RevisionResource rsrc, RebaseInput input)
+  protected ChangeInfo applyImpl(
+      BatchUpdate.Factory updateFactory, RevisionResource rsrc, RebaseInput input)
       throws EmailException, OrmException, UpdateException, RestApiException, IOException,
           NoSuchChangeException, PermissionBackendException {
     rsrc.permissions().database(dbProvider).check(ChangePermission.REBASE);
@@ -235,7 +235,7 @@ public class Rebase
       } else if (!rsrc.getControl().isPatchVisible(ps, rebase.dbProvider.get())) {
         throw new AuthException("current revision not accessible");
       }
-      return rebase.apply(new RevisionResource(rsrc, ps), input);
+      return rebase.applyImpl(updateFactory, new RevisionResource(rsrc, ps), input);
     }
   }
 }

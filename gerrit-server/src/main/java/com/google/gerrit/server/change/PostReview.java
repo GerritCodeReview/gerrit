@@ -61,7 +61,6 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
@@ -101,10 +100,11 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdate.Factory;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gson.Gson;
@@ -131,13 +131,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class PostReview implements RestModifyView<RevisionResource, ReviewInput> {
+public class PostReview
+    extends RetryingRestModifyView<RevisionResource, ReviewInput, Response<ReviewResult>> {
   private static final Logger log = LoggerFactory.getLogger(PostReview.class);
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
   private static final int DEFAULT_ROBOT_COMMENT_SIZE_LIMIT_IN_BYTES = 1024 * 1024;
 
   private final Provider<ReviewDb> db;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangesCollection changes;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
@@ -156,7 +156,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   @Inject
   PostReview(
       Provider<ReviewDb> db,
-      Factory batchUpdateFactory,
+      RetryHelper retryHelper,
       ChangesCollection changes,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
@@ -171,8 +171,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       NotesMigration migration,
       NotifyUtil notifyUtil,
       @GerritServerConfig Config gerritConfig) {
+    super(retryHelper);
     this.db = db;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.changes = changes;
     this.changeDataFactory = changeDataFactory;
     this.commentsUtil = commentsUtil;
@@ -190,13 +190,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   @Override
-  public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input)
+  protected Response<ReviewResult> applyImpl(
+      BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input)
       throws RestApiException, UpdateException, OrmException, IOException,
           PermissionBackendException {
-    return apply(revision, input, TimeUtil.nowTs());
+    return apply(updateFactory, revision, input, TimeUtil.nowTs());
   }
 
-  public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input, Timestamp ts)
+  public Response<ReviewResult> apply(
+      BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input, Timestamp ts)
       throws RestApiException, UpdateException, OrmException, IOException,
           PermissionBackendException {
     // Respect timestamp, but truncate at change created-on time.
@@ -264,8 +266,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     output.labels = input.labels;
 
     try (BatchUpdate bu =
-        batchUpdateFactory.create(
-            db.get(), revision.getChange().getProject(), revision.getUser(), ts)) {
+        updateFactory.create(db.get(), revision.getChange().getProject(), revision.getUser(), ts)) {
       Account.Id id = revision.getUser().getAccountId();
       boolean ccOrReviewer = false;
       if (input.labels != null && !input.labels.isEmpty()) {

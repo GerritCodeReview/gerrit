@@ -4636,6 +4636,11 @@ is the 1-based index of the parent's position in the commit object.
 
 Gets the content of a file from a certain revision.
 
+The optional, integer-valued `parent` parameter can be specified to request
+the named file from a parent commit of the specified revision. The value is
+the 1-based index of the parent's position in the commit object. If the
+parameter is omitted or the value non-positive, the patch set is referenced.
+
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/content HTTP/1.0

@@ -103,7 +103,6 @@ public abstract class SubmitStrategy {
 
     final AccountCache accountCache;
     final ApprovalsUtil approvalsUtil;
-    final BatchUpdate.Factory batchUpdateFactory;
     final ChangeControl.GenericFactory changeControlFactory;
     final ChangeMerged changeMerged;
     final ChangeMessagesUtil cmUtil;
@@ -143,7 +142,6 @@ public abstract class SubmitStrategy {
     Arguments(
         AccountCache accountCache,
         ApprovalsUtil approvalsUtil,
-        BatchUpdate.Factory batchUpdateFactory,
         ChangeControl.GenericFactory changeControlFactory,
         ChangeMerged changeMerged,
         ChangeMessagesUtil cmUtil,
@@ -176,7 +174,6 @@ public abstract class SubmitStrategy {
         @Assisted boolean dryrun) {
       this.accountCache = accountCache;
       this.approvalsUtil = approvalsUtil;
-      this.batchUpdateFactory = batchUpdateFactory;
       this.changeControlFactory = changeControlFactory;
       this.changeMerged = changeMerged;
       this.mergedSenderFactory = mergedSenderFactory;

@@ -293,7 +293,7 @@
       return commentCount ? commentCount + 'c' : '';
     },
 
-    _getCommentsForPath: function(comments, patchNum, path) {
+    getCommentsForPath: function(comments, patchNum, path) {
       return (comments[path] || []).filter(function(c) {
         return parseInt(c.patch_set, 10) === parseInt(patchNum, 10);
       });
@@ -302,7 +302,7 @@
     _computeCountString: function(comments, patchNum, path, opt_noun) {
       if (!comments) { return ''; }
 
-      var patchComments = this._getCommentsForPath(comments, patchNum, path);
+      var patchComments = this.getCommentsForPath(comments, patchNum, path);
       var num = patchComments.length;
       if (num === 0) { return ''; }
       if (!opt_noun) { return num; }
@@ -321,8 +321,15 @@
      * @return {string}
      */
     _computeUnresolvedString: function(comments, drafts, patchNum, path) {
-      comments = this._getCommentsForPath(comments, patchNum, path);
-      drafts = this._getCommentsForPath(drafts, patchNum, path);
+      var unresolvedNum = this.computeUnresolvedNum(
+          comments, drafts, patchNum, path);
+     return unresolvedNum === 0 ? '' : '(' + unresolvedNum + ' unresolved)';
+    },
+
+    computeUnresolvedNum: function(
+        comments, drafts, patchNum, path, useParenthesis) {
+      comments = this.getCommentsForPath(comments, patchNum, path);
+      drafts = this.getCommentsForPath(drafts, patchNum, path);
       comments = comments.concat(drafts);
 
       // Create an object where every comment ID is the key of an unresolved
@@ -345,8 +352,7 @@
         return idMap[key];
       });
 
-      return unresolvedLeaves.length === 0 ?
-          '' : '(' + unresolvedLeaves.length + ' unresolved)';
+      return unresolvedLeaves.length;
     },
 
     _computeReviewed: function(file, _reviewed) {

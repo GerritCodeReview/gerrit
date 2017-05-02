@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "9187c3c5_7dac1983",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-02T15:15:14Z",
+      "side": 1,
+      "message": "Added some documentation to BatchUpdateOp in a predecessor change.",
+      "parentUuid": "818cbcbb_dd560bf7",
+      "range": {
+        "startLine": 23,
+        "startChar": 32,
+        "endLine": 24,
+        "endChar": 65
+      },
+      "revId": "9fdd7bcfe200d30674efc0943ffcfbb783347562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5633fb5_8e162344",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbOnlyIT.java",
         "patchSetId": 1
@@ -94,6 +118,30 @@
       "revId": "9fdd7bcfe200d30674efc0943ffcfbb783347562",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2315538_0d1e07d2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbOnlyIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-02T15:15:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5633fb5_8e162344",
+      "range": {
+        "startLine": 165,
+        "startChar": 16,
+        "endLine": 169,
+        "endChar": 27
+      },
+      "revId": "9fdd7bcfe200d30674efc0943ffcfbb783347562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -96,7 +96,8 @@
     },
 
     _handleShowAlert: function(e) {
-      this._showAlert(e.detail.message, e.detail.action, e.detail.callback);
+      this._showAlert(e.detail.message, e.detail.action, e.detail.callback,
+          e.detail.timeout);
     },
 
     _handleNetworkError: function(e) {
@@ -108,12 +109,21 @@
       return this.$.restAPI.getLoggedIn();
     },
 
-    _showAlert: function(text, opt_actionText, opt_actionCallback) {
+    _showAlert: function(text, opt_actionText, opt_actionCallback,
+        opt_timeout) {
       if (this._alertElement) { return; }
 
+      var timeout = opt_timeout === undefined ?
+          HIDE_ALERT_TIMEOUT_MS :
+          opt_timeout;
+
       this._clearHideAlertHandle();
-      this._hideAlertHandle =
-        this.async(this._hideAlert, HIDE_ALERT_TIMEOUT_MS);
+      if (timeout) {
+        this._hideAlertHandle = this.async(this._hideAlert, timeout);
+      } else {
+        // If no timeout is supplied, dismiss alert on page navigation.
+        this.listen(document, 'location-change', '_hideAlert');
+      }
       var el = this._createToastAlert();
       el.show(text, opt_actionText, opt_actionCallback);
       this._alertElement = el;
@@ -124,6 +134,9 @@
 
       this._alertElement.hide();
       this._alertElement = null;
+
+      // Remove listener for page navigation, if it exists.
+      this.unlisten(document, 'location-change', '_hideAlert');
     },
 
     _clearHideAlertHandle: function() {

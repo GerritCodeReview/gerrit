@@ -1062,20 +1062,6 @@ public class RevisionIT extends AbstractDaemonTest {
     return eTag;
   }
 
-  private void assertContent(PushOneCommit.Result pushResult, String path, String expectedContent)
-      throws Exception {
-    BinaryResult bin =
-        gApi.changes()
-            .id(pushResult.getChangeId())
-            .revision(pushResult.getCommit().name())
-            .file(path)
-            .content();
-    ByteArrayOutputStream os = new ByteArrayOutputStream();
-    bin.writeTo(os);
-    String res = new String(os.toByteArray(), UTF_8);
-    assertThat(res).isEqualTo(expectedContent);
-  }
-
   private void assertDiffForNewFile(
       PushOneCommit.Result pushResult, String path, String expectedContentSideB) throws Exception {
     DiffInfo diff =

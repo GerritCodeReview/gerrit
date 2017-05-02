@@ -397,8 +397,9 @@ public class ChangeEdits
                 base
                     ? ObjectId.fromString(edit.getBasePatchSet().getRevision().get())
                     : edit.getEditCommit(),
-                rsrc.getPath()));
-      } catch (ResourceNotFoundException rnfe) {
+                rsrc.getPath(),
+                null));
+      } catch (ResourceNotFoundException | BadRequestException e) {
         return Response.none();
       }
     }

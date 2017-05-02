@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -30,20 +31,22 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.kohsuke.args4j.Option;
 
-@Singleton
 public class GetContent implements RestReadView<FileResource> {
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
   private final PatchSetUtil psUtil;
   private final FileContentUtil fileContentUtil;
+
+  @Option(name = "--parent")
+  private Integer parent;
 
   @Inject
   GetContent(
@@ -59,7 +62,7 @@ public class GetContent implements RestReadView<FileResource> {
 
   @Override
   public BinaryResult apply(FileResource rsrc)
-      throws ResourceNotFoundException, IOException, NoSuchChangeException, OrmException {
+      throws ResourceNotFoundException, IOException, BadRequestException, OrmException {
     String path = rsrc.getPatchKey().get();
     if (Patch.COMMIT_MSG.equals(path)) {
       String msg = getMessage(rsrc.getRevision().getChangeResource().getNotes());
@@ -75,7 +78,8 @@ public class GetContent implements RestReadView<FileResource> {
     return fileContentUtil.getContent(
         rsrc.getRevision().getControl().getProjectControl().getProjectState(),
         ObjectId.fromString(rsrc.getRevision().getPatchSet().getRevision().get()),
-        path);
+        path,
+        parent);
   }
 
   private String getMessage(ChangeNotes notes) throws OrmException, IOException {

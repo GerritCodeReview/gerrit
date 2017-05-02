@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "56c561df_3bfa1b8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-02T07:27:22Z",
+      "side": 1,
+      "message": "@Before @After are controlled by JUnit.\n\n1- As in doc [1], @Before will be ran before a test and @Before in a super class will be ran before those @Before a sub-class. In AbstractDaemonTest#assumeSshIfRequired, \u0027useSsh\u0027 is true while \u0027SshMode.useSsh()\u0027 is false. So we will throw an exception here. Thus @Before methods in AccountIT are skipped and we fail to initialize \u0027accountIndexEventCounterHandle\u0027.\n\n2- As in doc [2], all @After are guaranteed to run even there are exceptions. So it seems we can\u0027t skip the @After in AccountIT.\n\n[1] http://junit.sourceforge.net/javadoc/org/junit/Before.html\n\n[2] http://junit.sourceforge.net/javadoc/org/junit/After.html",
+      "parentUuid": "c0d980d5_4c69c1fc",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "a2cec286fcc6ea97bb8c4da9af9bbbed0cf100cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a8b3fba_9132c2a1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 1

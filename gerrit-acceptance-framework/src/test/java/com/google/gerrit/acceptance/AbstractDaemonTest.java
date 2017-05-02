@@ -163,89 +163,59 @@ public abstract class AbstractDaemonTest {
   private static GerritServer commonServer;
 
   @ConfigSuite.Parameter public Config baseConfig;
-
   @ConfigSuite.Name private String configName;
 
-  @Inject protected AllProjectsName allProjects;
-
-  @Inject protected AccountCreator accounts;
-
-  @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
-
-  @Inject protected GerritApi gApi;
-
-  @Inject protected AcceptanceTestRequestScope atrScope;
-
-  @Inject protected AccountCache accountCache;
-
-  @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
-
-  @Inject protected PushOneCommit.Factory pushFactory;
-
-  @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
-
-  @Inject protected ProjectCache projectCache;
-
-  @Inject protected GroupCache groupCache;
-
-  @Inject protected GitRepositoryManager repoManager;
-
-  @Inject protected ChangeIndexer indexer;
-
-  @Inject protected Provider<InternalChangeQuery> queryProvider;
+  @Rule public ExpectedException exception = ExpectedException.none();
+  @Rule public TemporaryFolder tempSiteDir = new TemporaryFolder();
 
   @Inject @CanonicalWebUrl protected Provider<String> canonicalWebUrl;
-
-  @Inject @GerritServerConfig protected Config cfg;
-
-  @Inject private InProcessProtocol inProcessProtocol;
-
-  @Inject private Provider<AnonymousUser> anonymousUser;
-
   @Inject @GerritPersonIdent protected Provider<PersonIdent> serverIdent;
-
+  @Inject @GerritServerConfig protected Config cfg;
+  @Inject protected AcceptanceTestRequestScope atrScope;
+  @Inject protected AccountCache accountCache;
+  @Inject protected AccountCreator accounts;
+  @Inject protected AllProjectsName allProjects;
   @Inject protected ChangeData.Factory changeDataFactory;
-
-  @Inject protected PatchSetUtil psUtil;
-
   @Inject protected ChangeFinder changeFinder;
-
-  @Inject protected Revisions revisions;
-
-  @Inject protected FakeEmailSender sender;
-
+  @Inject protected ChangeIndexer indexer;
   @Inject protected ChangeNoteUtil changeNoteUtil;
-
   @Inject protected ChangeResource.Factory changeResourceFactory;
-
+  @Inject protected FakeEmailSender sender;
+  @Inject protected GerritApi gApi;
+  @Inject protected GitRepositoryManager repoManager;
+  @Inject protected GroupCache groupCache;
+  @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
+  @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
+  @Inject protected PatchSetUtil psUtil;
+  @Inject protected ProjectCache projectCache;
+  @Inject protected Provider<InternalChangeQuery> queryProvider;
+  @Inject protected PushOneCommit.Factory pushFactory;
+  @Inject protected Revisions revisions;
   @Inject protected SystemGroupBackend systemGroupBackend;
-
-  @Inject private EventRecorder.Factory eventRecorderFactory;
-
-  @Inject private ChangeIndexCollection changeIndexes;
-
-  protected TestRepository<InMemoryRepository> testRepo;
-  protected GerritServer server;
-  protected TestAccount admin;
-  protected TestAccount user;
-  protected RestSession adminRestSession;
-  protected RestSession userRestSession;
-  protected SshSession adminSshSession;
-  protected SshSession userSshSession;
-  protected ReviewDb db;
-  protected Project.NameKey project;
-  protected EventRecorder eventRecorder;
-
   @Inject protected TestNotesMigration notesMigration;
-
   @Inject protected ChangeNotes.Factory notesFactory;
-
   @Inject protected Abandon changeAbandoner;
 
-  @Rule public ExpectedException exception = ExpectedException.none();
+  protected EventRecorder eventRecorder;
+  protected GerritServer server;
+  protected Project.NameKey project;
+  protected RestSession adminRestSession;
+  protected RestSession userRestSession;
+  protected ReviewDb db;
+  protected SshSession adminSshSession;
+  protected SshSession userSshSession;
+  protected TestAccount admin;
+  protected TestAccount user;
+  protected TestRepository<InMemoryRepository> testRepo;
 
-  private String resourcePrefix;
+  @Inject private ChangeIndexCollection changeIndexes;
+  @Inject private EventRecorder.Factory eventRecorderFactory;
+  @Inject private InProcessProtocol inProcessProtocol;
+  @Inject private Provider<AnonymousUser> anonymousUser;
+  @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
+
   private List<Repository> toClose;
+  private String resourcePrefix;
   private boolean useSsh;
 
   @Rule
@@ -266,8 +236,6 @@ public abstract class AbstractDaemonTest {
           };
         }
       };
-
-  @Rule public TemporaryFolder tempSiteDir = new TemporaryFolder();
 
   @Before
   public void clearSender() {

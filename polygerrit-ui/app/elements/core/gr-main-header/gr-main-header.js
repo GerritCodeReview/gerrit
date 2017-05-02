@@ -244,7 +244,7 @@
 
       this.$.restAPI.getPreferences().then(function(prefs) {
         this._userLinks =
-            prefs.my.map(this._stripHashPrefix).filter(this._isSupportedLink);
+            prefs.my.map(this._fixMyMenuItem).filter(this._isSupportedLink);
       }.bind(this));
       this._loadAccountCapabilities();
     },
@@ -260,10 +260,20 @@
       }.bind(this));
     },
 
-    _stripHashPrefix: function(linkObj) {
+    _fixMyMenuItem: function(linkObj) {
+      // Normalize all urls to PolyGerrit style.
       if (linkObj.url.indexOf('#') === 0) {
         linkObj.url = linkObj.url.slice(1);
       }
+
+      // Delete target property due to complications of
+      // https://bugs.chromium.org/p/gerrit/issues/detail?id=5888
+      //
+      // The server tries to guess whether URL is a view within the UI.
+      // If not, it sets target='_blank' on the menu item. The server
+      // makes assumptions that work for the GWT UI, but not PolyGerrit,
+      // so we'll just disable it altogether for now.
+      delete linkObj.target;
       return linkObj;
     },
 

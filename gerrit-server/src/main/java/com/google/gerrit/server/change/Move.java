@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -42,6 +41,8 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -55,13 +56,12 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
-public class Move implements RestModifyView<ChangeResource, MoveInput> {
+public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, ChangeInfo> {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
   private final GitRepositoryManager repoManager;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeMessagesUtil cmUtil;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final PatchSetUtil psUtil;
 
   @Inject
@@ -71,19 +71,20 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
       GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
       ChangeMessagesUtil cmUtil,
-      BatchUpdate.Factory batchUpdateFactory,
+      RetryHelper retryHelper,
       PatchSetUtil psUtil) {
+    super(retryHelper);
     this.dbProvider = dbProvider;
     this.json = json;
     this.repoManager = repoManager;
     this.queryProvider = queryProvider;
     this.cmUtil = cmUtil;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.psUtil = psUtil;
   }
 
   @Override
-  public ChangeInfo apply(ChangeResource req, MoveInput input)
+  protected ChangeInfo applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource req, MoveInput input)
       throws RestApiException, OrmException, UpdateException {
     ChangeControl control = req.getControl();
     input.destinationBranch = RefNames.fullName(input.destinationBranch);
@@ -92,7 +93,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
     }
 
     try (BatchUpdate u =
-        batchUpdateFactory.create(
+        updateFactory.create(
             dbProvider.get(), req.getChange().getProject(), control.getUser(), TimeUtil.nowTs())) {
       u.addOp(req.getChange().getId(), new Op(input));
       u.execute();

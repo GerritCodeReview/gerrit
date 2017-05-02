@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.Index.Input;
@@ -24,6 +23,9 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -31,7 +33,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-public class Index implements RestModifyView<ChangeResource, Input> {
+public class Index extends RetryingRestModifyView<ChangeResource, Input, Response<?>> {
   public static class Input {}
 
   private final Provider<ReviewDb> db;
@@ -42,9 +44,11 @@ public class Index implements RestModifyView<ChangeResource, Input> {
   @Inject
   Index(
       Provider<ReviewDb> db,
+      RetryHelper retryHelper,
       PermissionBackend permissionBackend,
       Provider<CurrentUser> user,
       ChangeIndexer indexer) {
+    super(retryHelper);
     this.db = db;
     this.permissionBackend = permissionBackend;
     this.user = user;
@@ -52,7 +56,8 @@ public class Index implements RestModifyView<ChangeResource, Input> {
   }
 
   @Override
-  public Response<?> apply(ChangeResource rsrc, Input input)
+  protected Response<?> applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
       throws IOException, AuthException, OrmException, PermissionBackendException {
     permissionBackend.user(user).check(GlobalPermission.MAINTAIN_SERVER);
     indexer.index(db.get(), rsrc.getChange());

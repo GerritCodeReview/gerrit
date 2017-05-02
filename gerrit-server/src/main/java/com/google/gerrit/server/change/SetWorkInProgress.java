@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -28,28 +27,29 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.WorkInProgressOp.Input;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class SetWorkInProgress
-    implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
-  private final BatchUpdate.Factory batchUpdateFactory;
+public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, Input, Response<?>>
+    implements UiAction<ChangeResource> {
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> db;
 
   @Inject
-  SetWorkInProgress(
-      BatchUpdate.Factory batchUpdateFactory, ChangeMessagesUtil cmUtil, Provider<ReviewDb> db) {
-    this.batchUpdateFactory = batchUpdateFactory;
+  SetWorkInProgress(RetryHelper retryHelper, ChangeMessagesUtil cmUtil, Provider<ReviewDb> db) {
+    super(retryHelper);
     this.cmUtil = cmUtil;
     this.db = db;
   }
 
   @Override
-  public Response<?> apply(ChangeResource rsrc, Input input)
+  protected Response<?> applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException {
     Change change = rsrc.getChange();
     if (!rsrc.isUserOwner()) {
@@ -65,7 +65,7 @@ public class SetWorkInProgress
     }
 
     try (BatchUpdate bu =
-        batchUpdateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       bu.addOp(rsrc.getChange().getId(), new WorkInProgressOp(cmUtil, true, input));
       bu.execute();
       return Response.ok("");

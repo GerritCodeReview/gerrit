@@ -19,12 +19,13 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -32,25 +33,23 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class DeletePrivate
-    implements RestModifyView<ChangeResource, DeletePrivate.Input>, UiAction<ChangeResource> {
+    extends RetryingRestModifyView<ChangeResource, DeletePrivate.Input, Response<String>>
+    implements UiAction<ChangeResource> {
   public static class Input {}
 
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> dbProvider;
-  private final BatchUpdate.Factory batchUpdateFactory;
 
   @Inject
-  DeletePrivate(
-      Provider<ReviewDb> dbProvider,
-      BatchUpdate.Factory batchUpdateFactory,
-      ChangeMessagesUtil cmUtil) {
+  DeletePrivate(Provider<ReviewDb> dbProvider, RetryHelper retryHelper, ChangeMessagesUtil cmUtil) {
+    super(retryHelper);
     this.dbProvider = dbProvider;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.cmUtil = cmUtil;
   }
 
   @Override
-  public Response<String> apply(ChangeResource rsrc, DeletePrivate.Input input)
+  protected Response<String> applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource rsrc, DeletePrivate.Input input)
       throws RestApiException, UpdateException {
     if (!rsrc.isUserOwner()) {
       throw new AuthException("not allowed to unmark private");
@@ -63,7 +62,7 @@ public class DeletePrivate
     ChangeControl control = rsrc.getControl();
     SetPrivateOp op = new SetPrivateOp(cmUtil, false);
     try (BatchUpdate u =
-        batchUpdateFactory.create(
+        updateFactory.create(
             dbProvider.get(),
             control.getProject().getNameKey(),
             control.getUser(),

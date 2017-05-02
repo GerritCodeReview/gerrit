@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -35,6 +34,8 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -43,11 +44,10 @@ import com.google.inject.Singleton;
 import java.util.Collection;
 
 @Singleton
-public class Abandon
-    implements RestModifyView<ChangeResource, AbandonInput>, UiAction<ChangeResource> {
+public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput, ChangeInfo>
+    implements UiAction<ChangeResource> {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final AbandonOp.Factory abandonOpFactory;
   private final NotifyUtil notifyUtil;
 
@@ -55,23 +55,25 @@ public class Abandon
   Abandon(
       Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
-      BatchUpdate.Factory batchUpdateFactory,
+      RetryHelper retryHelper,
       AbandonOp.Factory abandonOpFactory,
       NotifyUtil notifyUtil) {
+    super(retryHelper);
     this.dbProvider = dbProvider;
     this.json = json;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.abandonOpFactory = abandonOpFactory;
     this.notifyUtil = notifyUtil;
   }
 
   @Override
-  public ChangeInfo apply(ChangeResource req, AbandonInput input)
+  protected ChangeInfo applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource req, AbandonInput input)
       throws RestApiException, UpdateException, OrmException, PermissionBackendException {
     req.permissions().database(dbProvider).check(ChangePermission.ABANDON);
 
     Change change =
         abandon(
+            updateFactory,
             req.getControl(),
             input.message,
             input.notify,
@@ -79,16 +81,18 @@ public class Abandon
     return json.noOptions().format(change);
   }
 
-  public Change abandon(ChangeControl control) throws RestApiException, UpdateException {
-    return abandon(control, "", NotifyHandling.ALL, ImmutableListMultimap.of());
+  public Change abandon(BatchUpdate.Factory updateFactory, ChangeControl control)
+      throws RestApiException, UpdateException {
+    return abandon(updateFactory, control, "", NotifyHandling.ALL, ImmutableListMultimap.of());
   }
 
-  public Change abandon(ChangeControl control, String msgTxt)
+  public Change abandon(BatchUpdate.Factory updateFactory, ChangeControl control, String msgTxt)
       throws RestApiException, UpdateException {
-    return abandon(control, msgTxt, NotifyHandling.ALL, ImmutableListMultimap.of());
+    return abandon(updateFactory, control, msgTxt, NotifyHandling.ALL, ImmutableListMultimap.of());
   }
 
   public Change abandon(
+      BatchUpdate.Factory updateFactory,
       ChangeControl control,
       String msgTxt,
       NotifyHandling notifyHandling,
@@ -98,7 +102,7 @@ public class Abandon
     Account account = user.isIdentifiedUser() ? user.asIdentifiedUser().getAccount() : null;
     AbandonOp op = abandonOpFactory.create(account, msgTxt, notifyHandling, accountsToNotify);
     try (BatchUpdate u =
-        batchUpdateFactory.create(
+        updateFactory.create(
             dbProvider.get(),
             control.getProject().getNameKey(),
             control.getUser(),
@@ -116,6 +120,7 @@ public class Abandon
    * matching project from its ChangeControl. Violations will result in a ResourceConflictException.
    */
   public void batchAbandon(
+      BatchUpdate.Factory updateFactory,
       Project.NameKey project,
       CurrentUser user,
       Collection<ChangeControl> controls,
@@ -127,8 +132,7 @@ public class Abandon
       return;
     }
     Account account = user.isIdentifiedUser() ? user.asIdentifiedUser().getAccount() : null;
-    try (BatchUpdate u =
-        batchUpdateFactory.create(dbProvider.get(), project, user, TimeUtil.nowTs())) {
+    try (BatchUpdate u = updateFactory.create(dbProvider.get(), project, user, TimeUtil.nowTs())) {
       for (ChangeControl control : controls) {
         if (!project.equals(control.getProject().getNameKey())) {
           throw new ResourceConflictException(
@@ -145,15 +149,30 @@ public class Abandon
   }
 
   public void batchAbandon(
-      Project.NameKey project, CurrentUser user, Collection<ChangeControl> controls, String msgTxt)
+      BatchUpdate.Factory updateFactory,
+      Project.NameKey project,
+      CurrentUser user,
+      Collection<ChangeControl> controls,
+      String msgTxt)
       throws RestApiException, UpdateException {
-    batchAbandon(project, user, controls, msgTxt, NotifyHandling.ALL, ImmutableListMultimap.of());
+    batchAbandon(
+        updateFactory,
+        project,
+        user,
+        controls,
+        msgTxt,
+        NotifyHandling.ALL,
+        ImmutableListMultimap.of());
   }
 
   public void batchAbandon(
-      Project.NameKey project, CurrentUser user, Collection<ChangeControl> controls)
+      BatchUpdate.Factory updateFactory,
+      Project.NameKey project,
+      CurrentUser user,
+      Collection<ChangeControl> controls)
       throws RestApiException, UpdateException {
-    batchAbandon(project, user, controls, "", NotifyHandling.ALL, ImmutableListMultimap.of());
+    batchAbandon(
+        updateFactory, project, user, controls, "", NotifyHandling.ALL, ImmutableListMultimap.of());
   }
 
   @Override

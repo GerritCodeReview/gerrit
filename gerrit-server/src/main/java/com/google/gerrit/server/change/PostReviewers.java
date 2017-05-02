@@ -37,7 +37,6 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -65,6 +64,8 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -78,7 +79,8 @@ import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
-public class PostReviewers implements RestModifyView<ChangeResource, AddReviewerInput> {
+public class PostReviewers
+    extends RetryingRestModifyView<ChangeResource, AddReviewerInput, AddReviewerResult> {
 
   public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
   public static final int DEFAULT_MAX_REVIEWERS = 20;
@@ -92,7 +94,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final AccountLoader.Factory accountLoaderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeData.Factory changeDataFactory;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final Config cfg;
   private final ReviewerJson json;
@@ -113,7 +114,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       AccountLoader.Factory accountLoaderFactory,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
-      BatchUpdate.Factory batchUpdateFactory,
+      RetryHelper retryHelper,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       @GerritServerConfig Config cfg,
       ReviewerJson json,
@@ -123,6 +124,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       Provider<AnonymousUser> anonymousProvider,
       PostReviewersOp.Factory postReviewersOpFactory,
       OutgoingEmailValidator validator) {
+    super(retryHelper);
     this.accounts = accounts;
     this.reviewerFactory = reviewerFactory;
     this.permissionBackend = permissionBackend;
@@ -131,7 +133,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     this.accountLoaderFactory = accountLoaderFactory;
     this.dbProvider = db;
     this.changeDataFactory = changeDataFactory;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.identifiedUserFactory = identifiedUserFactory;
     this.cfg = cfg;
     this.json = json;
@@ -144,7 +145,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   }
 
   @Override
-  public AddReviewerResult apply(ChangeResource rsrc, AddReviewerInput input)
+  protected AddReviewerResult applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource rsrc, AddReviewerInput input)
       throws IOException, OrmException, RestApiException, UpdateException,
           PermissionBackendException {
     if (input.reviewer == null) {
@@ -156,7 +158,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       return addition.result;
     }
     try (BatchUpdate bu =
-        batchUpdateFactory.create(
+        updateFactory.create(
             dbProvider.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Change.Id id = rsrc.getChange().getId();
       bu.addOp(id, addition.op);

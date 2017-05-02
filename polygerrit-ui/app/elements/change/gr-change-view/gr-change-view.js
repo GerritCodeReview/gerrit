@@ -809,8 +809,13 @@
           var changePath = path.split('.');
           var labelPath = changePath.splice(0, changePath.length - 2);
           var labelDict = this.get(labelPath);
-          if (labelDict.approved &&
-              labelDict.approved._account_id === removed._account_id) {
+          var approvedMatch = (
+              labelDict.approved &&
+              labelDict.approved._account_id === removed._account_id);
+          var recommendedMatch = (
+              labelDict.recommended &&
+              labelDict.recommended._account_id === removed._account_id);
+          if (approvedMatch || recommendedMatch) {
             this._reload();
             return;
           }
@@ -1031,6 +1036,27 @@
       var rev = this.getRevisionByPatchNum(change.revisions, patchNum);
       return (rev && rev.description) ?
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
+    },
+
+    _computePatchSetCommentsString: function(change, patchNum) {
+      var numComments = 0;
+      var numUnresolved = 0;
+      for (var file in this._comments) {
+        var comments = this._comments[file];
+        numComments += this.$.fileList.getCommentsForPath(
+            this._comments, patchNum, file).length;
+        numUnresolved += this.$.fileList.computeUnresolvedNum(
+            this._comments, {}, patchNum, file);
+      }
+      var commentsStr = '';
+      if (numComments > 0) {
+        commentsStr = '(' + numComments + ' comments';
+        if (numUnresolved > 0) {
+          commentsStr += ', ' + numUnresolved + ' unresolved';
+        }
+        commentsStr += ')';
+      }
+      return commentsStr;
     },
 
     _computeDescriptionPlaceholder: function(readOnly) {

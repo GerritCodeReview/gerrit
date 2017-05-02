@@ -35,6 +35,24 @@
       "revId": "874236df77da1f4eb40fed8a45f0f25049d9c006",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caef30b2_6584dd68",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-02T23:20:51Z",
+      "side": 1,
+      "message": "I think that\u0027s fine, at least for now.",
+      "parentUuid": "9e44a21c_0f8ae5f5",
+      "revId": "874236df77da1f4eb40fed8a45f0f25049d9c006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

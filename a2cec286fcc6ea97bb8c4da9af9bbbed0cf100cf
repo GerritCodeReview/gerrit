@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "44c54410_7e0a2d02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-02T07:45:02Z",
+      "side": 1,
+      "message": "OK, thanks for explaining.",
+      "parentUuid": "56c561df_3bfa1b8c",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "a2cec286fcc6ea97bb8c4da9af9bbbed0cf100cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a8b3fba_9132c2a1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 1

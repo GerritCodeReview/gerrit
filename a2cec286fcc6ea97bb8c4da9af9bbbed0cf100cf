@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9514ea89_81ae6cd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-02T06:41:02Z",
+      "side": 1,
+      "message": "For internal tests, if a test is annotated with @UseSsh, it will act like the following:\n1- @Before in AbstractDaemonTest will be called,.\n2- The tests will be skipped and @Before in AccountIT will not be called. That\u0027s why \u0027accountIndexEventCounterHandle\u0027 will not be initialized.\n3- @After in AccountIT will still be called, which results in a NPE for \u0027accountIndexEventCounterHandle\u0027.\n\nHow do yo think about this?",
+      "parentUuid": "288a4e26_349c3664",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "a2cec286fcc6ea97bb8c4da9af9bbbed0cf100cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a8b3fba_9132c2a1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "10a71ad9_29ad165b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-02T06:41:02Z",
+      "side": 1,
+      "message": "Yes. It\u0027s an option. We should be able do like that.",
+      "parentUuid": "9a8b3fba_9132c2a1",
+      "revId": "a2cec286fcc6ea97bb8c4da9af9bbbed0cf100cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90119a72_67789603",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2017-05-02T06:31:27Z",
       "side": 1,
       "message": "I guess if SSH is disabled this should expect 1, since no SSH keys are added.",
+      "revId": "a2cec286fcc6ea97bb8c4da9af9bbbed0cf100cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "968b69d6_98958dc9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-02T06:41:02Z",
+      "side": 1,
+      "message": "Yes. It\u0027s 1.",
+      "parentUuid": "90119a72_67789603",
       "revId": "a2cec286fcc6ea97bb8c4da9af9bbbed0cf100cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

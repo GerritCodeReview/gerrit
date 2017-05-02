@@ -126,6 +126,7 @@ public class ChangeInserter implements InsertChangeOp {
   private boolean updateRef;
 
   // Fields set during the insertion process.
+  private ReceiveCommand cmd;
   private Change change;
   private ChangeMessage changeMessage;
   private PatchSetInfo patchSetInfo;
@@ -347,13 +348,18 @@ public class ChangeInserter implements InsertChangeOp {
     return changeMessage;
   }
 
+  public ReceiveCommand getCommand() {
+    return cmd;
+  }
+
   @Override
   public void updateRepo(RepoContext ctx) throws ResourceConflictException, IOException {
+    cmd = new ReceiveCommand(ObjectId.zeroId(), commitId, psId.toRefName());
     validate(ctx);
     if (!updateRef) {
       return;
     }
-    ctx.addRefUpdate(ObjectId.zeroId(), commitId, psId.toRefName());
+    ctx.addRefUpdate(cmd);
   }
 
   @Override
@@ -527,10 +533,9 @@ public class ChangeInserter implements InsertChangeOp {
     try {
       RefControl refControl =
           projectControlFactory.controlFor(ctx.getProject(), ctx.getUser()).controlForRef(refName);
-      String refName = psId.toRefName();
       try (CommitReceivedEvent event =
           new CommitReceivedEvent(
-              new ReceiveCommand(ObjectId.zeroId(), commitId, refName),
+              cmd,
               refControl.getProjectControl().getProject(),
               change.getDest().get(),
               ctx.getRevWalk().getObjectReader(),

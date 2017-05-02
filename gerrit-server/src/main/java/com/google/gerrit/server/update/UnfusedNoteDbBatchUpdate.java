@@ -332,6 +332,9 @@ class UnfusedNoteDbBatchUpdate extends BatchUpdate {
     // May not be opened if the caller added ref updates but no new objects.
     initRepository();
     batchRefUpdate = repoView.getRepository().getRefDatabase().newBatchUpdate();
+    batchRefUpdate.setPushCertificate(pushCert);
+    batchRefUpdate.setRefLogMessage(refLogMessage, true);
+    batchRefUpdate.setAllowNonFastForwards(true);
     repoView.getCommands().addTo(batchRefUpdate);
     logDebug("Executing batch of {} ref updates", batchRefUpdate.getCommands().size());
     if (dryrun) {

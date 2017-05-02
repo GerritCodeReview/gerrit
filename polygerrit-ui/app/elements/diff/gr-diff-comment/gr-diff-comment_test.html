@@ -79,7 +79,7 @@ limitations under the License.
           'gr-formatted-text is not visible');
       assert.isFalse(isVisible(element.$$('.actions')),
           'actions are not visible');
-      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
+      assert.isFalse(isVisible(element.$$('gr-autogrow-textarea')),
           'textarea is not visible');
 
       // The header middle content is only visible when comments are collapsed.
@@ -94,7 +94,7 @@ limitations under the License.
           'gr-formatted-text is visible');
       assert.isTrue(isVisible(element.$$('.actions')),
           'actions are visible');
-      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
+      assert.isFalse(isVisible(element.$$('gr-autogrow-textarea')),
           'textarea is not visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is not visible');
@@ -168,7 +168,7 @@ limitations under the License.
           'gr-formatted-text is not visible');
       assert.isFalse(isVisible(element.$$('.actions')),
           'actions are not visible');
-      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
+      assert.isFalse(isVisible(element.$$('gr-autogrow-textarea')),
           'textarea is not visible');
       assert.isTrue(isVisible(element.$$('.collapsedContent')),
           'header middle content is visible');
@@ -179,7 +179,7 @@ limitations under the License.
           'gr-formatted-text is visible');
       assert.isTrue(isVisible(element.$$('.actions')),
           'actions are visible');
-      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
+      assert.isFalse(isVisible(element.$$('gr-autogrow-textarea')),
           'textarea is not visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is is not visible');
@@ -362,7 +362,7 @@ limitations under the License.
           'gr-formatted-text is not visible');
       assert.isFalse(isVisible(element.$$('.actions')),
           'actions are not visible');
-      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
+      assert.isFalse(isVisible(element.$$('gr-autogrow-textarea')),
           'textarea is not visible');
       assert.isTrue(isVisible(element.$$('.collapsedContent')),
           'header middle content is visible');
@@ -373,7 +373,7 @@ limitations under the License.
           'gr-formatted-text is visible');
       assert.isTrue(isVisible(element.$$('.actions')),
           'actions are visible');
-      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
+      assert.isFalse(isVisible(element.$$('gr-autogrow-textarea')),
           'textarea is not visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is is not visible');
@@ -386,7 +386,7 @@ limitations under the License.
           'gr-formatted-text is not visible');
       assert.isTrue(isVisible(element.$$('.actions')),
           'actions are visible');
-      assert.isTrue(isVisible(element.$$('iron-autogrow-textarea')),
+      assert.isTrue(isVisible(element.$$('gr-autogrow-textarea')),
           'textarea is visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is not visible');
@@ -399,7 +399,7 @@ limitations under the License.
           'gr-formatted-text is not visible');
       assert.isFalse(isVisible(element.$$('.actions')),
           'actions are not visible');
-      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
+      assert.isFalse(isVisible(element.$$('gr-autogrow-textarea')),
           'textarea is not visible');
       assert.isTrue(isVisible(element.$$('.collapsedContent')),
           'header middle content is visible');
@@ -411,7 +411,7 @@ limitations under the License.
           'gr-formatted-text is not visible');
       assert.isTrue(isVisible(element.$$('.actions')),
           'actions are visible');
-      assert.isTrue(isVisible(element.$$('iron-autogrow-textarea')),
+      assert.isTrue(isVisible(element.$$('gr-autogrow-textarea')),
           'textarea is visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is not visible');
@@ -470,7 +470,7 @@ limitations under the License.
       });
       element._messageText = 'is that the horse from horsing around??';
       MockInteractions.pressAndReleaseKeyOn(
-        element.$.editTextarea.textarea,
+        element.$.editTextarea.$.textarea.textarea,
         83, 'ctrl');  // 'ctrl + s'
     });
 

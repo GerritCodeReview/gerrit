@@ -272,5 +272,24 @@ limitations under the License.
         done();
       });
     });
+
+    test('timeout param respected', function() {
+      var asyncStub = sandbox.stub(element, 'async');
+      // No async call when timeout is zero.
+      element._showAlert('test', null, null, 0);
+      assert.isFalse(asyncStub.called);
+
+      element._hideAlert();
+
+      // When timeout is supplied, respect that.
+      element._showAlert('test', null, null, 5);
+      assert.equal(asyncStub.lastCall.args[1], 5);
+
+      element._hideAlert();
+
+      // When timeout is not supplied, use HIDE_ALERT_TIMEOUT_MS.
+      element._showAlert('test');
+      assert.equal(asyncStub.lastCall.args[1], 5000);
+    });
   });
 </script>

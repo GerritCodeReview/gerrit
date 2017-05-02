@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -41,6 +40,8 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Order;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -53,11 +54,11 @@ import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 public class DeleteDraftPatchSet
-    implements RestModifyView<RevisionResource, Input>, UiAction<RevisionResource> {
+    extends RetryingRestModifyView<RevisionResource, Input, Response<?>>
+    implements UiAction<RevisionResource> {
   public static class Input {}
 
   private final Provider<ReviewDb> db;
-  private final BatchUpdate.Factory updateFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
   private final Provider<DeleteChangeOp> deleteChangeOpProvider;
@@ -67,14 +68,14 @@ public class DeleteDraftPatchSet
   @Inject
   public DeleteDraftPatchSet(
       Provider<ReviewDb> db,
-      BatchUpdate.Factory updateFactory,
+      RetryHelper retryHelper,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
       Provider<DeleteChangeOp> deleteChangeOpProvider,
       DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
       @GerritServerConfig Config cfg) {
+    super(retryHelper);
     this.db = db;
-    this.updateFactory = updateFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.psUtil = psUtil;
     this.deleteChangeOpProvider = deleteChangeOpProvider;
@@ -83,7 +84,8 @@ public class DeleteDraftPatchSet
   }
 
   @Override
-  public Response<?> apply(RevisionResource rsrc, Input input)
+  protected Response<?> applyImpl(
+      BatchUpdate.Factory updateFactory, RevisionResource rsrc, Input input)
       throws RestApiException, UpdateException, OrmException, PermissionBackendException {
     if (isDeletingOnlyPatchSet(rsrc)) {
       // A change cannot have zero patch sets; the change is deleted instead.

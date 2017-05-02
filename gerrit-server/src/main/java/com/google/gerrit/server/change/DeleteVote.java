@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -46,6 +45,8 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
@@ -59,11 +60,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput> {
+public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteInput, Response<?>> {
   private static final Logger log = LoggerFactory.getLogger(DeleteVote.class);
 
   private final Provider<ReviewDb> db;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final ApprovalsUtil approvalsUtil;
   private final PatchSetUtil psUtil;
   private final ChangeMessagesUtil cmUtil;
@@ -75,7 +75,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
   @Inject
   DeleteVote(
       Provider<ReviewDb> db,
-      BatchUpdate.Factory batchUpdateFactory,
+      RetryHelper retryHelper,
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
       ChangeMessagesUtil cmUtil,
@@ -83,8 +83,8 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       VoteDeleted voteDeleted,
       DeleteVoteSender.Factory deleteVoteSenderFactory,
       NotifyUtil notifyUtil) {
+    super(retryHelper);
     this.db = db;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
     this.cmUtil = cmUtil;
@@ -95,7 +95,8 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
   }
 
   @Override
-  public Response<?> apply(VoteResource rsrc, DeleteVoteInput input)
+  protected Response<?> applyImpl(
+      BatchUpdate.Factory updateFactory, VoteResource rsrc, DeleteVoteInput input)
       throws RestApiException, UpdateException {
     if (input == null) {
       input = new DeleteVoteInput();
@@ -114,7 +115,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
     }
 
     try (BatchUpdate bu =
-        batchUpdateFactory.create(
+        updateFactory.create(
             db.get(), change.getProject(), r.getControl().getUser(), TimeUtil.nowTs())) {
       bu.addOp(change.getId(), new Op(r.getReviewerUser().getAccountId(), rsrc.getLabel(), input));
       bu.execute();

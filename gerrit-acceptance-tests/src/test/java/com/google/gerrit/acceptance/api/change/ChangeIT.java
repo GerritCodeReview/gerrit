@@ -597,6 +597,50 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseNotAllowedWithoutPushPermission() throws Exception {
+    // Create two changes both with the same parent
+    PushOneCommit.Result r = createChange();
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+
+    // Approve and submit the first change
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+    revision.review(ReviewInput.approve());
+    revision.submit();
+
+    grant(Permission.REBASE, project, "refs/heads/master", false, REGISTERED_USERS);
+    block(Permission.PUSH, REGISTERED_USERS, "refs/for/*").setForce(true);
+
+    // Rebase the second
+    String changeId = r2.getChangeId();
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("rebase not permitted");
+    gApi.changes().id(changeId).rebase();
+  }
+
+  @Test
+  public void rebaseNotAllowedForOwnerWithoutPushPermission() throws Exception {
+    // Create two changes both with the same parent
+    PushOneCommit.Result r = createChange();
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+
+    // Approve and submit the first change
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+    revision.review(ReviewInput.approve());
+    revision.submit();
+
+    block(Permission.PUSH, REGISTERED_USERS, "refs/for/*").setForce(true);
+
+    // Rebase the second
+    String changeId = r2.getChangeId();
+    exception.expect(AuthException.class);
+    exception.expectMessage("rebase not permitted");
+    gApi.changes().id(changeId).rebase();
+  }
+
+  @Test
   public void publish() throws Exception {
     PushOneCommit.Result r = createChange("refs/drafts/master");
     assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.DRAFT);

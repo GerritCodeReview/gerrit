@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -32,8 +33,9 @@ public class GetContent implements RestReadView<FileResource> {
   }
 
   @Override
-  public BinaryResult apply(FileResource rsrc) throws ResourceNotFoundException, IOException {
+  public BinaryResult apply(FileResource rsrc)
+      throws ResourceNotFoundException, BadRequestException, IOException {
     return fileContentUtil.getContent(
-        rsrc.getProject().getProjectState(), rsrc.getRev(), rsrc.getPath());
+        rsrc.getProject().getProjectState(), rsrc.getRev(), rsrc.getPath(), null);
   }
 }

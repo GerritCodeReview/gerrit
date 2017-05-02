@@ -21,6 +21,7 @@ import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.N
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
@@ -110,6 +111,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -1236,5 +1238,19 @@ public abstract class AbstractDaemonTest {
     pwi.notifyAllComments = true;
     projectsToWatch.add(pwi);
     gApi.accounts().self().setWatchedProjects(projectsToWatch);
+  }
+
+  protected void assertContent(PushOneCommit.Result pushResult, String path, String expectedContent)
+      throws Exception {
+    BinaryResult bin =
+        gApi.changes()
+            .id(pushResult.getChangeId())
+            .revision(pushResult.getCommit().name())
+            .file(path)
+            .content();
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    String res = new String(os.toByteArray(), UTF_8);
+    assertThat(res).isEqualTo(expectedContent);
   }
 }

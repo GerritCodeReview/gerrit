@@ -2218,6 +2218,7 @@ public class ReceiveCommits {
       }
     }
 
+    @SuppressWarnings("deprecation") // TODO(dborowitz): Update ref in BatchUpdate.
     private void addOps(BatchUpdate bu) throws RestApiException {
       checkState(changeId != null, "must call setChangeId before addOps");
       try {

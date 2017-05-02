@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcfcc40b_94d8bb18",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4642,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-02T12:18:53Z",
+      "side": 1,
+      "message": "Negative values seem to be rejected?",
+      "range": {
+        "startLine": 4642,
+        "startChar": 21,
+        "endLine": 4642,
+        "endChar": 46
+      },
+      "revId": "a660ce4b56abdc583776d31fb6ef407be3de57e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7db5759b_df18df31",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-02T12:18:53Z",
+      "side": 1,
+      "message": "Tests that are using the REST API should be in the com.google.gerrit.acceptance.rest package, not in com.google.gerrit.acceptance.api.",
+      "range": {
+        "startLine": 823,
+        "startChar": 3,
+        "endLine": 829,
+        "endChar": 39
+      },
+      "revId": "a660ce4b56abdc583776d31fb6ef407be3de57e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56bdaa05_d327423e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-02T12:18:53Z",
+      "side": 1,
+      "message": "Should this rather be Bad Request?\n\nNot Found should only be used if the resource from the URL (the revision) is not found.",
+      "range": {
+        "startLine": 855,
+        "startChar": 13,
+        "endLine": 855,
+        "endChar": 27
+      },
+      "revId": "a660ce4b56abdc583776d31fb6ef407be3de57e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd761381_b0f0dca8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-02T12:18:53Z",
+      "side": 1,
+      "message": "BadRequestException if parent is incorrect",
+      "range": {
+        "startLine": 90,
+        "startChar": 20,
+        "endLine": 90,
+        "endChar": 45
+      },
+      "revId": "a660ce4b56abdc583776d31fb6ef407be3de57e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

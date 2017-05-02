@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "78f06b68_d519b14e",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-02T19:48:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e01482fb_4fe1f0c0",
+      "revId": "bb4f3e9ec2ef528bf065398e998ab61cba72fb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99497a83_a2e8f716",
         "filename": "polygerrit-ui/README.md",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-28T08:28:18Z",
       "side": 1,
       "message": "Optional: mention to switch the used IDE to ES6 and enable the strict mode (if the IDE supports it).",
+      "revId": "bb4f3e9ec2ef528bf065398e998ab61cba72fb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffc55a8f_3429ad01",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-02T19:48:48Z",
+      "side": 1,
+      "message": "I was hoping that the content on line 121 would inform enough on that -- I don\u0027t want to be too specific with instructions on setting up for certain IDEs, because we don\u0027t have a specific recommended code authoring setup for PG.",
+      "parentUuid": "99497a83_a2e8f716",
       "revId": "bb4f3e9ec2ef528bf065398e998ab61cba72fb96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

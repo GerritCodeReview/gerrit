@@ -31,7 +31,6 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
-import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.List;
@@ -43,8 +42,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class NoteDbOnlyIT extends AbstractDaemonTest {
-  @Inject private BatchUpdate.Factory batchUpdateFactory;
-
   @Before
   public void setUp() throws Exception {
     assume().that(notesMigration.disableChangeReviewDb()).isTrue();

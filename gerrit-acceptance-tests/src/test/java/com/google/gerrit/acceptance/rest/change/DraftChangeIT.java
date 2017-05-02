@@ -45,7 +45,6 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.inject.Inject;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
@@ -57,8 +56,6 @@ public class DraftChangeIT extends AbstractDaemonTest {
   public static Config allowDraftsDisabled() {
     return allowDraftsDisabledConfig();
   }
-
-  @Inject private BatchUpdate.Factory updateFactory;
 
   @Test
   public void deleteDraftChange() throws Exception {
@@ -244,7 +241,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
 
   private void markChangeAsDraft(Change.Id id) throws Exception {
     try (BatchUpdate batchUpdate =
-        updateFactory.create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
+        batchUpdateFactory.create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
       batchUpdate.addOp(id, new MarkChangeAsDraftUpdateOp());
       batchUpdate.execute();
     }
@@ -256,7 +253,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
   private void setDraftStatusOfPatchSetsOfChange(Change.Id id, boolean draftStatus)
       throws Exception {
     try (BatchUpdate batchUpdate =
-        updateFactory.create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
+        batchUpdateFactory.create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
       batchUpdate.addOp(id, new DraftStatusOfPatchSetsUpdateOp(draftStatus));
       batchUpdate.execute();
     }

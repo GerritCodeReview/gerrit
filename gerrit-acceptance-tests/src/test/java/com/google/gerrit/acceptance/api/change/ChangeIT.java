@@ -366,7 +366,8 @@ public class ChangeIT extends AbstractDaemonTest {
     List<ChangeControl> controlB = changeFinder.find(b.getChangeId(), user);
     assertThat(controlB).hasSize(1);
     List<ChangeControl> list = ImmutableList.of(controlA.get(0), controlB.get(0));
-    changeAbandoner.batchAbandon(controlA.get(0).getProject().getNameKey(), user, list, "deadbeef");
+    changeAbandoner.batchAbandon(
+        batchUpdateFactory, controlA.get(0).getProject().getNameKey(), user, list, "deadbeef");
 
     ChangeInfo info = get(a.getChangeId());
     assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
@@ -399,7 +400,7 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage(
         String.format("Project name \"%s\" doesn't match \"%s\"", project2Name, project1Name));
-    changeAbandoner.batchAbandon(new Project.NameKey(project1Name), user, list);
+    changeAbandoner.batchAbandon(batchUpdateFactory, new Project.NameKey(project1Name), user, list);
   }
 
   @Test

@@ -607,6 +607,8 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public ChangeInfo check(FixInput fix) throws RestApiException {
     try {
+      // TODO(dborowitz): Convert to RetryingRestModifyView. Needs to plumb BatchUpdate.Factory into
+      // ConsistencyChecker.
       return check.apply(change, fix).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot check change", e);
@@ -624,6 +626,8 @@ class ChangeApiImpl implements ChangeApi {
 
   @Override
   public void ignore(boolean ignore) throws RestApiException {
+    // TODO(dborowitz): Convert to RetryingRestModifyView. Needs to plumb BatchUpdate.Factory into
+    // StarredChangesUtil.
     if (ignore) {
       this.ignore.apply(change, new Ignore.Input());
     } else {
@@ -633,6 +637,8 @@ class ChangeApiImpl implements ChangeApi {
 
   @Override
   public void mute(boolean mute) throws RestApiException {
+    // TODO(dborowitz): Convert to RetryingRestModifyView. Needs to plumb BatchUpdate.Factory into
+    // StarredChangesUtil.
     if (mute) {
       this.mute.apply(change, new Mute.Input());
     } else {

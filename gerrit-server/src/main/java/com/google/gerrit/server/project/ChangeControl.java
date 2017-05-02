@@ -286,6 +286,7 @@ public class ChangeControl {
   /** Can this user rebase this change? */
   private boolean canRebase(ReviewDb db) throws OrmException {
     return (isOwner() || getRefControl().canSubmit(isOwner()) || getRefControl().canRebase())
+        && getRefControl().canUpload()
         && !isPatchSetLocked(db);
   }
 

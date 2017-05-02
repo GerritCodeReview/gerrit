@@ -231,7 +231,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     }
     if (id != null) {
       return (userEditPrefix != null && name.startsWith(userEditPrefix) && visible(id))
-          || projectCtl.controlForRef(visibleChanges.get(id)).isEditVisible();
+          || (visibleChanges.containsKey(id)
+              && projectCtl.controlForRef(visibleChanges.get(id)).isEditVisible());
     }
     return false;
   }

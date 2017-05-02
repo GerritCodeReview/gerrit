@@ -33,7 +33,6 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -61,6 +60,8 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -86,7 +87,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
-public class CreateChange implements RestModifyView<TopLevelResource, ChangeInput> {
+public class CreateChange
+    extends RetryingRestModifyView<TopLevelResource, ChangeInput, Response<ChangeInfo>> {
 
   private final String anonymousCowardName;
   private final Provider<ReviewDb> db;
@@ -99,7 +101,6 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeJson.Factory jsonFactory;
   private final ChangeFinder changeFinder;
-  private final BatchUpdate.Factory updateFactory;
   private final PatchSetUtil psUtil;
   private final boolean allowDrafts;
   private final MergeUtil.Factory mergeUtilFactory;
@@ -119,11 +120,12 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
       ChangeInserter.Factory changeInserterFactory,
       ChangeJson.Factory json,
       ChangeFinder changeFinder,
-      BatchUpdate.Factory updateFactory,
+      RetryHelper retryHelper,
       PatchSetUtil psUtil,
       @GerritServerConfig Config config,
       MergeUtil.Factory mergeUtilFactory,
       NotifyUtil notifyUtil) {
+    super(retryHelper);
     this.anonymousCowardName = anonymousCowardName;
     this.db = db;
     this.gitManager = gitManager;
@@ -135,7 +137,6 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
     this.changeInserterFactory = changeInserterFactory;
     this.jsonFactory = json;
     this.changeFinder = changeFinder;
-    this.updateFactory = updateFactory;
     this.psUtil = psUtil;
     this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
     this.submitType = config.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
@@ -144,7 +145,8 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
   }
 
   @Override
-  public Response<ChangeInfo> apply(TopLevelResource parent, ChangeInput input)
+  protected Response<ChangeInfo> applyImpl(
+      BatchUpdate.Factory updateFactory, TopLevelResource parent, ChangeInput input)
       throws OrmException, IOException, InvalidChangeOperationException, RestApiException,
           UpdateException, PermissionBackendException {
     if (Strings.isNullOrEmpty(input.project)) {

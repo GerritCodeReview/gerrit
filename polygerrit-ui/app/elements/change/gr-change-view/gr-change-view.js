@@ -1181,6 +1181,8 @@
                 this._cancelUpdateCheckTimer();
                 this.fire('show-alert', {
                   message: 'A newer patch has been uploaded.',
+                  // No timeout on this alert.
+                  timeout: 0,
                   action: 'Reload',
                   callback: function() {
                     // Load the current change without any patch range.

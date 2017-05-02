@@ -98,6 +98,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
@@ -197,6 +198,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected AccountCache accountCache;
   @Inject protected AccountCreator accounts;
   @Inject protected AllProjectsName allProjects;
+  @Inject protected BatchUpdate.Factory batchUpdateFactory;
   @Inject protected ChangeData.Factory changeDataFactory;
   @Inject protected ChangeFinder changeFinder;
   @Inject protected ChangeIndexer indexer;

@@ -145,8 +145,6 @@ import org.junit.Test;
 public class ChangeIT extends AbstractDaemonTest {
   private String systemTimeZone;
 
-  @Inject private BatchUpdate.Factory updateFactory;
-
   @Inject private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
 
   @Before
@@ -2784,7 +2782,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   private void setChangeStatus(Change.Id id, Change.Status newStatus) throws Exception {
     try (BatchUpdate batchUpdate =
-        updateFactory.create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
+        batchUpdateFactory.create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
       batchUpdate.addOp(id, new ChangeStatusUpdateOp(newStatus));
       batchUpdate.execute();
     }

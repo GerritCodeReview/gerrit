@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -46,6 +45,8 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -65,7 +66,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
-public class CreateMergePatchSet implements RestModifyView<ChangeResource, MergePatchSetInput> {
+public class CreateMergePatchSet
+    extends RetryingRestModifyView<ChangeResource, MergePatchSetInput, Response<ChangeInfo>> {
 
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
@@ -74,7 +76,6 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
   private final ChangeJson.Factory jsonFactory;
   private final PatchSetUtil psUtil;
   private final MergeUtil.Factory mergeUtilFactory;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
 
   @Inject
@@ -86,8 +87,9 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
       ChangeJson.Factory json,
       PatchSetUtil psUtil,
       MergeUtil.Factory mergeUtilFactory,
-      BatchUpdate.Factory batchUpdateFactory,
+      RetryHelper retryHelper,
       PatchSetInserter.Factory patchSetInserterFactory) {
+    super(retryHelper);
     this.db = db;
     this.gitManager = gitManager;
     this.serverTimeZone = myIdent.getTimeZone();
@@ -95,12 +97,12 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
     this.jsonFactory = json;
     this.psUtil = psUtil;
     this.mergeUtilFactory = mergeUtilFactory;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource req, MergePatchSetInput in)
+  protected Response<ChangeInfo> applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource req, MergePatchSetInput in)
       throws OrmException, IOException, InvalidChangeOperationException, RestApiException,
           UpdateException {
     if (in.merge == null) {
@@ -157,7 +159,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
 
       PatchSet.Id nextPsId = ChangeUtil.nextPatchSetId(ps.getId());
       PatchSetInserter psInserter = patchSetInserterFactory.create(ctl, nextPsId, newCommit);
-      try (BatchUpdate bu = batchUpdateFactory.create(db.get(), project, me, now)) {
+      try (BatchUpdate bu = updateFactory.create(db.get(), project, me, now)) {
         bu.setRepository(git, rw, oi);
         bu.addOp(
             ctl.getId(),

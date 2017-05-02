@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -41,6 +40,8 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -50,8 +51,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class Restore
-    implements RestModifyView<ChangeResource, RestoreInput>, UiAction<ChangeResource> {
+public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput, ChangeInfo>
+    implements UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Restore.class);
 
   private final RestoredSender.Factory restoredSenderFactory;
@@ -59,7 +60,6 @@ public class Restore
   private final ChangeJson.Factory json;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangeRestored changeRestored;
 
   @Inject
@@ -69,26 +69,27 @@ public class Restore
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
       PatchSetUtil psUtil,
-      BatchUpdate.Factory batchUpdateFactory,
+      RetryHelper retryHelper,
       ChangeRestored changeRestored) {
+    super(retryHelper);
     this.restoredSenderFactory = restoredSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.changeRestored = changeRestored;
   }
 
   @Override
-  public ChangeInfo apply(ChangeResource req, RestoreInput input)
+  protected ChangeInfo applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource req, RestoreInput input)
       throws RestApiException, UpdateException, OrmException, PermissionBackendException {
     req.permissions().database(dbProvider).check(ChangePermission.RESTORE);
 
     ChangeControl ctl = req.getControl();
     Op op = new Op(input);
     try (BatchUpdate u =
-        batchUpdateFactory.create(
+        updateFactory.create(
             dbProvider.get(), req.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
       u.addOp(req.getId(), op).execute();
     }

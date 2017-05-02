@@ -383,7 +383,6 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts()
         .self()
         .setStars(triplet, new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "blue", IGNORE_LABEL)));
-    accountIndexedCounter.assertNoReindex();
   }
 
   @Test
@@ -660,12 +659,13 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(userSelfRef).isNotNull();
     assertThat(userSelfRef.getObjectId()).isEqualTo(userRef.getObjectId());
 
+    accountIndexedCounter.assertNoReindex();
+
     // fetching user branch of another user fails
     String otherUserRefName = RefNames.refsUsers(admin.id);
     exception.expect(TransportException.class);
     exception.expectMessage("Remote does not have " + otherUserRefName + " available for fetch.");
     fetch(allUsersRepo, otherUserRefName + ":otherUserRef");
-    accountIndexedCounter.assertNoReindex();
   }
 
   @Test

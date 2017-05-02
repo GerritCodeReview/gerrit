@@ -16,7 +16,6 @@ package com.google.gerrit.server.api.changes;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
@@ -85,7 +84,6 @@ import com.google.gerrit.server.change.Unignore;
 import com.google.gerrit.server.change.Unmute;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -272,8 +270,8 @@ class ChangeApiImpl implements ChangeApi {
   public void abandon(AbandonInput in) throws RestApiException {
     try {
       abandon.apply(change, in);
-    } catch (OrmException | UpdateException | PermissionBackendException e) {
-      throw new RestApiException("Cannot abandon change", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot abandon change", e);
     }
   }
 
@@ -286,8 +284,8 @@ class ChangeApiImpl implements ChangeApi {
   public void restore(RestoreInput in) throws RestApiException {
     try {
       restore.apply(change, in);
-    } catch (OrmException | UpdateException | PermissionBackendException e) {
-      throw new RestApiException("Cannot restore change", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot restore change", e);
     }
   }
 
@@ -302,8 +300,8 @@ class ChangeApiImpl implements ChangeApi {
   public void move(MoveInput in) throws RestApiException {
     try {
       move.apply(change, in);
-    } catch (OrmException | UpdateException e) {
-      throw new RestApiException("Cannot move change", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot move change", e);
     }
   }
 
@@ -315,8 +313,8 @@ class ChangeApiImpl implements ChangeApi {
       } else {
         deletePrivate.apply(change, null);
       }
-    } catch (UpdateException e) {
-      throw new RestApiException("Cannot change private status", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot change private status", e);
     }
   }
 
@@ -324,8 +322,8 @@ class ChangeApiImpl implements ChangeApi {
   public void setWorkInProgress(String message) throws RestApiException {
     try {
       setWip.apply(change, new WorkInProgressOp.Input(message));
-    } catch (UpdateException e) {
-      throw new RestApiException("Cannot set work in progress state", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set work in progress state", e);
     }
   }
 
@@ -333,8 +331,8 @@ class ChangeApiImpl implements ChangeApi {
   public void setReadyForReview(String message) throws RestApiException {
     try {
       setReady.apply(change, new WorkInProgressOp.Input(message));
-    } catch (UpdateException e) {
-      throw new RestApiException("Cannot set ready for review state", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set ready for review state", e);
     }
   }
 
@@ -347,8 +345,8 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeApi revert(RevertInput in) throws RestApiException {
     try {
       return changeApi.id(revert.apply(change, in)._number);
-    } catch (OrmException | IOException | UpdateException e) {
-      throw new RestApiException("Cannot revert change", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot revert change", e);
     }
   }
 
@@ -356,8 +354,8 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeInfo createMergePatchSet(MergePatchSetInput in) throws RestApiException {
     try {
       return updateByMerge.apply(change, in).value();
-    } catch (IOException | UpdateException | InvalidChangeOperationException | OrmException e) {
-      throw new RestApiException("Cannot update change by merge", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot update change by merge", e);
     }
   }
 
@@ -394,8 +392,8 @@ class ChangeApiImpl implements ChangeApi {
   public void publish() throws RestApiException {
     try {
       publishDraftChange.apply(change, null);
-    } catch (UpdateException e) {
-      throw new RestApiException("Cannot publish change", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot publish change", e);
     }
   }
 
@@ -408,12 +406,8 @@ class ChangeApiImpl implements ChangeApi {
   public void rebase(RebaseInput in) throws RestApiException {
     try {
       rebase.apply(change, in);
-    } catch (EmailException
-        | OrmException
-        | UpdateException
-        | IOException
-        | PermissionBackendException e) {
-      throw new RestApiException("Cannot rebase change", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot rebase change", e);
     }
   }
 
@@ -462,8 +456,8 @@ class ChangeApiImpl implements ChangeApi {
   public AddReviewerResult addReviewer(AddReviewerInput in) throws RestApiException {
     try {
       return postReviewers.apply(change, in);
-    } catch (OrmException | IOException | UpdateException | PermissionBackendException e) {
-      throw new RestApiException("Cannot add change reviewer", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot add change reviewer", e);
     }
   }
 
@@ -526,8 +520,8 @@ class ChangeApiImpl implements ChangeApi {
   public void setHashtags(HashtagsInput input) throws RestApiException {
     try {
       postHashtags.apply(change, input);
-    } catch (UpdateException | PermissionBackendException e) {
-      throw new RestApiException("Cannot post hashtags", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot post hashtags", e);
     }
   }
 
@@ -535,8 +529,8 @@ class ChangeApiImpl implements ChangeApi {
   public Set<String> getHashtags() throws RestApiException {
     try {
       return getHashtags.apply(change).value();
-    } catch (IOException | OrmException e) {
-      throw new RestApiException("Cannot get hashtags", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get hashtags", e);
     }
   }
 
@@ -544,8 +538,8 @@ class ChangeApiImpl implements ChangeApi {
   public AccountInfo setAssignee(AssigneeInput input) throws RestApiException {
     try {
       return putAssignee.apply(change, input);
-    } catch (UpdateException | IOException | OrmException | PermissionBackendException e) {
-      throw new RestApiException("Cannot set assignee", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set assignee", e);
     }
   }
 
@@ -573,8 +567,8 @@ class ChangeApiImpl implements ChangeApi {
     try {
       Response<AccountInfo> r = deleteAssignee.apply(change, null);
       return r.isNone() ? null : r.value();
-    } catch (UpdateException | OrmException | PermissionBackendException e) {
-      throw new RestApiException("Cannot delete assignee", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot delete assignee", e);
     }
   }
 
@@ -617,6 +611,8 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public ChangeInfo check(FixInput fix) throws RestApiException {
     try {
+      // TODO(dborowitz): Convert to RetryingRestModifyView. Needs to plumb BatchUpdate.Factory into
+      // ConsistencyChecker.
       return check.apply(change, fix).value();
     } catch (OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot check change", e);
@@ -627,13 +623,15 @@ class ChangeApiImpl implements ChangeApi {
   public void index() throws RestApiException {
     try {
       index.apply(change, new Index.Input());
-    } catch (IOException | OrmException | PermissionBackendException e) {
-      throw new RestApiException("Cannot index change", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot index change", e);
     }
   }
 
   @Override
   public void ignore(boolean ignore) throws RestApiException {
+    // TODO(dborowitz): Convert to RetryingRestModifyView. Needs to plumb BatchUpdate.Factory into
+    // StarredChangesUtil.
     if (ignore) {
       this.ignore.apply(change, new Ignore.Input());
     } else {
@@ -643,6 +641,8 @@ class ChangeApiImpl implements ChangeApi {
 
   @Override
   public void mute(boolean mute) throws RestApiException {
+    // TODO(dborowitz): Convert to RetryingRestModifyView. Needs to plumb BatchUpdate.Factory into
+    // StarredChangesUtil.
     if (mute) {
       this.mute.apply(change, new Mute.Input());
     } else {

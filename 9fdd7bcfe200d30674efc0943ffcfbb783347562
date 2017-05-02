@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "8c8c036c_6aea3939",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-02T12:28:56Z",
+      "side": 1,
+      "message": "\u003e We should emphasize that the Op can be re-executed\n\nFortunately this is not actually the case: a particular Op instance will only be executed once. In fact, this is precisely one of the reasons I went with the approach in this change, as opposed to supporting retrying individual Ops: if Ops can be retried, then there are many Ops that need to be rewritten to stop sharing fields between phases. But with the model in this change, the retrying happens at a higher level: the body of the Action includes creating the BatchUpdate and all its Ops.\n\nIn this paragraph, the approach I\u0027m saying we should _not_ take is:\n\n try (Repository repo \u003d repoManager.openRepository(project);\n     BatchUpdate bu \u003d batchUpdateFactory.create(project)) {\n   RevCommit newCommit \u003d buildNewCommitBasedOn(repo.exactRef(theBranch));\n   bu.setRepository(repo);\n   bu.addOpThunk(changeId, () -\u003e new InsertCommitOp(newCommit));\n   bu.executeWithRetry();\n }\n\nReading the commit outside the retry is an example of \"repository state that was read prior\" to beginning the retry loop. If there is a lock failure because theBranch advanced, retrying using the same newCommit will never succeed. This is why retrying should happen at the highest level possible.\n\nOf course, it\u0027s still technically possible with the approach in this change to retry at too low a level. One way we mitigate this issue is making it trivially easy to retry at the top level of a REST API handler, as in the next change. So while it\u0027s not *impossible* to hold it wrong, it\u0027s at least easier to hold it right than wrong. Another is to put some strong language in the RetryHelper documentation to emphasize that retrying should happen at the highest level possible\n\n\u003e I think we need more/updated documentation in BatchUpdateOp.\n\nThis is a fair point, we should still make the BatchUpdateOp javadoc explicit that each method in an Op is executed at most once. But that\u0027s unrelated to this change, and one goal of the approach in this change is to be compatible with the existing BatchUpdateOp semantics.",
+      "parentUuid": "b5e52275_cdc09c2a",
+      "range": {
+        "startLine": 23,
+        "startChar": 32,
+        "endLine": 24,
+        "endChar": 65
+      },
+      "revId": "9fdd7bcfe200d30674efc0943ffcfbb783347562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a5633fb5_8e162344",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbOnlyIT.java",
         "patchSetId": 1

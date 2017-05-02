@@ -34,63 +34,63 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-rest-api-interface tests', function() {
-    var element;
-    var sandbox;
+  suite('gr-rest-api-interface tests', () => {
+    let element;
+    let sandbox;
 
-    setup(function() {
+    setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
-      var testJSON = ')]}\'\n{"hello": "bonjour"}';
+      const testJSON = ')]}\'\n{"hello": "bonjour"}';
       sandbox.stub(window, 'fetch').returns(Promise.resolve({
         ok: true,
-        text: function() {
+        text() {
           return Promise.resolve(testJSON);
         },
       }));
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('JSON prefix is properly removed', function(done) {
-      element.fetchJSON('/dummy/url').then(function(obj) {
+    test('JSON prefix is properly removed', done => {
+      element.fetchJSON('/dummy/url').then(obj => {
         assert.deepEqual(obj, {hello: 'bonjour'});
         done();
       });
     });
 
-    test('cached results', function(done) {
-      var n = 0;
-      sandbox.stub(element, 'fetchJSON', function() {
+    test('cached results', done => {
+      let n = 0;
+      sandbox.stub(element, 'fetchJSON', () => {
         return Promise.resolve(++n);
       });
-      var promises = [];
+      const promises = [];
       promises.push(element._fetchSharedCacheURL('/foo'));
       promises.push(element._fetchSharedCacheURL('/foo'));
       promises.push(element._fetchSharedCacheURL('/foo'));
 
-      Promise.all(promises).then(function(results) {
+      Promise.all(promises).then(results => {
         assert.deepEqual(results, [1, 1, 1]);
-        element._fetchSharedCacheURL('/foo').then(function(foo) {
+        element._fetchSharedCacheURL('/foo').then(foo => {
           assert.equal(foo, 1);
           done();
         });
       });
     });
 
-    test('cached promise', function(done) {
-      var promise = Promise.reject('foo');
+    test('cached promise', done => {
+      const promise = Promise.reject('foo');
       element._cache['/foo'] = promise;
-      element._fetchSharedCacheURL('/foo').catch(function(p) {
+      element._fetchSharedCacheURL('/foo').catch(p => {
         assert.equal(p, 'foo');
         done();
       });
     });
 
-    test('params are properly encoded', function() {
-      var url = element._urlWithParams('/path/', {
+    test('params are properly encoded', () => {
+      let url = element._urlWithParams('/path/', {
         sp: 'hola',
         gr: 'guten tag',
         noval: null,
@@ -110,23 +110,23 @@ limitations under the License.
       assert.equal(url, '/path/?l=c&l=b&l=a');
     });
 
-    test('request callbacks can be canceled', function(done) {
-      var cancelCalled = false;
+    test('request callbacks can be canceled', done => {
+      let cancelCalled = false;
       window.fetch.returns(Promise.resolve({
         body: {
-          cancel: function() { cancelCalled = true; },
+          cancel() { cancelCalled = true; },
         },
       }));
-      element.fetchJSON('/dummy/url', null, function() { return true; }).then(
-        function(obj) {
-          assert.isUndefined(obj);
-          assert.isTrue(cancelCalled);
-          done();
-        });
+      element.fetchJSON('/dummy/url', null, () => { return true; }).then(
+          obj => {
+            assert.isUndefined(obj);
+            assert.isTrue(cancelCalled);
+            done();
+          });
     });
 
-    test('parent diff comments are properly grouped', function(done) {
-      sandbox.stub(element, 'fetchJSON', function() {
+    test('parent diff comments are properly grouped', done => {
+      sandbox.stub(element, 'fetchJSON', () => {
         return Promise.resolve({
           '/COMMIT_MSG': [],
           'sieve.go': [
@@ -143,26 +143,26 @@ limitations under the License.
         });
       });
       element._getDiffComments('42', '', 'PARENT', 1, 'sieve.go').then(
-        function(obj) {
-          assert.equal(obj.baseComments.length, 1);
-          assert.deepEqual(obj.baseComments[0], {
-            side: 'PARENT',
-            message: 'how did this work in the first place?',
-            path: 'sieve.go',
-            updated: '2017-02-03 22:33:28.000000000',
+          obj => {
+            assert.equal(obj.baseComments.length, 1);
+            assert.deepEqual(obj.baseComments[0], {
+              side: 'PARENT',
+              message: 'how did this work in the first place?',
+              path: 'sieve.go',
+              updated: '2017-02-03 22:33:28.000000000',
+            });
+            assert.equal(obj.comments.length, 1);
+            assert.deepEqual(obj.comments[0], {
+              message: 'this isn’t quite right',
+              path: 'sieve.go',
+              updated: '2017-02-03 22:32:28.000000000',
+            });
+            done();
           });
-          assert.equal(obj.comments.length, 1);
-          assert.deepEqual(obj.comments[0], {
-            message: 'this isn’t quite right',
-            path: 'sieve.go',
-            updated: '2017-02-03 22:32:28.000000000',
-          });
-          done();
-        });
     });
 
-    test('_setRange', function() {
-      var comments = [
+    test('_setRange', () => {
+      const comments = [
         {
           id: 1,
           side: 'PARENT',
@@ -182,7 +182,7 @@ limitations under the License.
           updated: '2017-02-03 22:33:28.000000000',
         },
       ];
-      var expectedResult = {
+      const expectedResult = {
         id: 2,
         in_reply_to: 1,
         message: 'this isn’t quite right',
@@ -194,12 +194,12 @@ limitations under the License.
           end_character: 1,
         },
       };
-      var comment = comments[1];
+      const comment = comments[1];
       assert.deepEqual(element._setRange(comments, comment), expectedResult);
     });
 
-    test('_setRanges', function() {
-      var comments = [
+    test('_setRanges', () => {
+      const comments = [
         {
           id: 3,
           in_reply_to: 2,
@@ -225,7 +225,7 @@ limitations under the License.
           },
         },
       ];
-      var expectedResult = [
+      const expectedResult = [
         {
           id: 1,
           side: 'PARENT',
@@ -266,8 +266,8 @@ limitations under the License.
       assert.deepEqual(element._setRanges(comments), expectedResult);
     });
 
-    test('differing patch diff comments are properly grouped', function(done) {
-      sandbox.stub(element, 'fetchJSON', function(url) {
+    test('differing patch diff comments are properly grouped', done => {
+      sandbox.stub(element, 'fetchJSON', url => {
         if (url == '/changes/42/revisions/1') {
           return Promise.resolve({
             '/COMMIT_MSG': [],
@@ -305,29 +305,29 @@ limitations under the License.
         }
       });
       element._getDiffComments('42', '', 1, 2, 'sieve.go').then(
-        function(obj) {
-          assert.equal(obj.baseComments.length, 1);
-          assert.deepEqual(obj.baseComments[0], {
-            message: 'this isn’t quite right',
-            path: 'sieve.go',
-            updated: '2017-02-03 22:32:28.000000000',
+          obj => {
+            assert.equal(obj.baseComments.length, 1);
+            assert.deepEqual(obj.baseComments[0], {
+              message: 'this isn’t quite right',
+              path: 'sieve.go',
+              updated: '2017-02-03 22:32:28.000000000',
+            });
+            assert.equal(obj.comments.length, 2);
+            assert.deepEqual(obj.comments[0], {
+              message: 'What on earth are you thinking, here?',
+              path: 'sieve.go',
+              updated: '2017-02-03 22:32:28.000000000',
+            });
+            assert.deepEqual(obj.comments[1], {
+              message: '¯\\_(ツ)_/¯',
+              path: 'sieve.go',
+              updated: '2017-02-04 22:33:28.000000000',
+            });
+            done();
           });
-          assert.equal(obj.comments.length, 2);
-          assert.deepEqual(obj.comments[0], {
-            message: 'What on earth are you thinking, here?',
-            path: 'sieve.go',
-            updated: '2017-02-03 22:32:28.000000000',
-          });
-          assert.deepEqual(obj.comments[1], {
-            message: '¯\\_(ツ)_/¯',
-            path: 'sieve.go',
-            updated: '2017-02-04 22:33:28.000000000',
-          });
-          done();
-        });
     });
 
-    test('special file path sorting', function() {
+    test('special file path sorting', () => {
       assert.deepEqual(
           ['.b', '/COMMIT_MSG', '.a', 'file'].sort(
               element.specialFilePathCompare),
@@ -355,12 +355,12 @@ limitations under the License.
 
       // Regression test for Issue 4448.
       assert.deepEqual([
-          'minidump/minidump_memory_writer.cc',
-          'minidump/minidump_memory_writer.h',
-          'minidump/minidump_thread_writer.cc',
-          'minidump/minidump_thread_writer.h',
-          ]
-        .sort(element.specialFilePathCompare),
+        'minidump/minidump_memory_writer.cc',
+        'minidump/minidump_memory_writer.h',
+        'minidump/minidump_thread_writer.cc',
+        'minidump/minidump_thread_writer.h',
+      ]
+          .sort(element.specialFilePathCompare),
           [
             'minidump/minidump_memory_writer.h',
             'minidump/minidump_memory_writer.cc',
@@ -370,101 +370,101 @@ limitations under the License.
 
       // Regression test for Issue 4545.
       assert.deepEqual([
-          'task_test.go',
-          'task.go',
-          ]
-        .sort(element.specialFilePathCompare),
+        'task_test.go',
+        'task.go',
+      ]
+          .sort(element.specialFilePathCompare),
           [
             'task.go',
             'task_test.go',
           ]);
     });
 
-    suite('rebase action', function() {
-      var resolveFetchJSON;
-      setup(function() {
+    suite('rebase action', () => {
+      let resolveFetchJSON;
+      setup(() => {
         sandbox.stub(element, 'fetchJSON').returns(
-            new Promise(function(resolve) {
+            new Promise(resolve => {
               resolveFetchJSON = resolve;
             }));
       });
 
-      test('no rebase on current', function(done) {
+      test('no rebase on current', done => {
         element.getChangeRevisionActions('42', '1337').then(
-          function(response) {
-            assert.isTrue(response.rebase.enabled);
-            assert.isFalse(response.rebase.rebaseOnCurrent);
-            done();
-          });
+            response => {
+              assert.isTrue(response.rebase.enabled);
+              assert.isFalse(response.rebase.rebaseOnCurrent);
+              done();
+            });
         resolveFetchJSON({rebase: {}});
       });
 
-      test('rebase on current', function(done) {
+      test('rebase on current', done => {
         element.getChangeRevisionActions('42', '1337').then(
-          function(response) {
-            assert.isTrue(response.rebase.enabled);
-            assert.isTrue(response.rebase.rebaseOnCurrent);
-            done();
-          });
+            response => {
+              assert.isTrue(response.rebase.enabled);
+              assert.isTrue(response.rebase.rebaseOnCurrent);
+              done();
+            });
         resolveFetchJSON({rebase: {enabled: true}});
       });
     });
 
 
-    test('server error', function(done) {
-      var getResponseObjectStub = sandbox.stub(element, 'getResponseObject');
+    test('server error', done => {
+      const getResponseObjectStub = sandbox.stub(element, 'getResponseObject');
       window.fetch.returns(Promise.resolve({ok: false}));
-      var serverErrorEventPromise = new Promise(function(resolve) {
-        element.addEventListener('server-error', function() { resolve(); });
+      const serverErrorEventPromise = new Promise(resolve => {
+        element.addEventListener('server-error', () => { resolve(); });
       });
 
       element.fetchJSON().then(
-          function(response) {
+          response => {
             assert.isUndefined(response);
             assert.isTrue(getResponseObjectStub.notCalled);
-            serverErrorEventPromise.then(function() {
+            serverErrorEventPromise.then(() => {
               done();
             });
           });
     });
 
-    test('checkCredentials', function(done) {
-      var responses = [
+    test('checkCredentials', done => {
+      const responses = [
         {
           ok: false,
           status: 403,
-          text: function() { return Promise.resolve(); },
+          text() { return Promise.resolve(); },
         },
         {
           ok: true,
           status: 200,
-          text: function() { return Promise.resolve(')]}\'{}'); },
+          text() { return Promise.resolve(')]}\'{}'); },
         },
       ];
       window.fetch.restore();
-      sandbox.stub(window, 'fetch', function(url) {
+      sandbox.stub(window, 'fetch', url => {
         if (url === '/accounts/self/detail') {
           return Promise.resolve(responses.shift());
         }
       });
 
-      element.getLoggedIn().then(function(account) {
+      element.getLoggedIn().then(account => {
         assert.isNotOk(account);
-        element.checkCredentials().then(function(account) {
+        element.checkCredentials().then(account => {
           assert.isOk(account);
           done();
         });
       });
     });
 
-    test('legacy n,z key in change url is replaced', function() {
-      var stub = sandbox.stub(element, 'fetchJSON');
+    test('legacy n,z key in change url is replaced', () => {
+      const stub = sandbox.stub(element, 'fetchJSON');
       element.getChanges(1, null, 'n,z');
       assert.equal(stub.args[0][3].S, 0);
     });
 
-    test('saveDiffPreferences invalidates cache line', function() {
-      var cacheKey = '/accounts/self/preferences.diff';
+    test('saveDiffPreferences invalidates cache line', () => {
+      const cacheKey = '/accounts/self/preferences.diff';
       sandbox.stub(element, 'send');
       element._cache[cacheKey] = {tab_size: 4};
       element.saveDiffPreferences({tab_size: 8});
@@ -472,108 +472,106 @@ limitations under the License.
       assert.notOk(element._cache[cacheKey]);
     });
 
-    var preferenceSetup = function(testJSON, loggedIn, smallScreen) {
-      sandbox.stub(element, 'getLoggedIn', function() {
+    const preferenceSetup = function(testJSON, loggedIn, smallScreen) {
+      sandbox.stub(element, 'getLoggedIn', () => {
         return Promise.resolve(loggedIn);
       });
-      sandbox.stub(element, '_isNarrowScreen', function() {
+      sandbox.stub(element, '_isNarrowScreen', () => {
         return smallScreen;
       });
-      sandbox.stub(element, '_fetchSharedCacheURL', function() {
+      sandbox.stub(element, '_fetchSharedCacheURL', () => {
         return Promise.resolve(testJSON);
       });
     };
 
     test('getPreferences returns correctly on small screens logged in',
-        function(done) {
+        done => {
+          const testJSON = {diff_view: 'SIDE_BY_SIDE'};
+          const loggedIn = true;
+          const smallScreen = true;
 
-      var testJSON = {diff_view: 'SIDE_BY_SIDE'};
-      var loggedIn = true;
-      var smallScreen = true;
+          preferenceSetup(testJSON, loggedIn, smallScreen);
 
-      preferenceSetup(testJSON, loggedIn, smallScreen);
-
-      element.getPreferences().then(function(obj) {
-        assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
-        assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
-        done();
-      });
-    });
+          element.getPreferences().then(obj => {
+            assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
+            assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
+            done();
+          });
+        });
 
     test('getPreferences returns correctly on small screens not logged in',
-          function(done) {
+        done => {
+          const testJSON = {diff_view: 'SIDE_BY_SIDE'};
+          const loggedIn = false;
+          const smallScreen = true;
 
-      var testJSON = {diff_view: 'SIDE_BY_SIDE'};
-      var loggedIn = false;
-      var smallScreen = true;
-
-      preferenceSetup(testJSON, loggedIn, smallScreen);
-      element.getPreferences().then(function(obj) {
-        assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
-        assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
-        done();
-      });
-    });
+          preferenceSetup(testJSON, loggedIn, smallScreen);
+          element.getPreferences().then(obj => {
+            assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
+            assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
+            done();
+          });
+        });
 
     test('getPreferences returns correctly on larger screens logged in',
-        function(done) {
-      var testJSON = {diff_view: 'UNIFIED_DIFF'};
-      var loggedIn = true;
-      var smallScreen = false;
+        done => {
+          const testJSON = {diff_view: 'UNIFIED_DIFF'};
+          const loggedIn = true;
+          const smallScreen = false;
 
-      preferenceSetup(testJSON, loggedIn, smallScreen);
+          preferenceSetup(testJSON, loggedIn, smallScreen);
 
-      element.getPreferences().then(function(obj) {
-        assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
-        assert.equal(obj.diff_view, 'UNIFIED_DIFF');
-        done();
-      });
-    });
+          element.getPreferences().then(obj => {
+            assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
+            assert.equal(obj.diff_view, 'UNIFIED_DIFF');
+            done();
+          });
+        });
 
     test('getPreferences returns correctly on larger screens not logged in',
-        function(done) {
-      var testJSON = {diff_view: 'UNIFIED_DIFF'};
-      var loggedIn = false;
-      var smallScreen = false;
+        done => {
+          const testJSON = {diff_view: 'UNIFIED_DIFF'};
+          const loggedIn = false;
+          const smallScreen = false;
 
-      preferenceSetup(testJSON, loggedIn, smallScreen);
+          preferenceSetup(testJSON, loggedIn, smallScreen);
 
-      element.getPreferences().then(function(obj) {
-        assert.equal(obj.default_diff_view, 'SIDE_BY_SIDE');
-        assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
-        done();
-      });
-    });
+          element.getPreferences().then(obj => {
+            assert.equal(obj.default_diff_view, 'SIDE_BY_SIDE');
+            assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
+            done();
+          });
+        });
 
-    test('savPreferences normalizes download scheme', function() {
+    test('savPreferences normalizes download scheme', () => {
       sandbox.stub(element, 'send');
       element.savePreferences({download_scheme: 'HTTP'});
       assert.isTrue(element.send.called);
       assert.equal(element.send.lastCall.args[2].download_scheme, 'http');
     });
 
-    test('confirmEmail', function() {
+    test('confirmEmail', () => {
       sandbox.spy(element, 'send');
       element.confirmEmail('foo');
       assert.isTrue(element.send.calledWith(
           'PUT', '/config/server/email.confirm', {token: 'foo'}));
     });
 
-    test('GrReviewerUpdatesParser.parse is used', function() {
+    test('GrReviewerUpdatesParser.parse is used', () => {
       sandbox.stub(GrReviewerUpdatesParser, 'parse').returns(
           Promise.resolve('foo'));
-      return element.getChangeDetail(42).then(function(result) {
+      return element.getChangeDetail(42).then(result => {
         assert.isTrue(GrReviewerUpdatesParser.parse.calledOnce);
         assert.equal(result, 'foo');
       });
     });
 
-    test('setAccountStatus', function(done) {
+    test('setAccountStatus', done => {
       sandbox.stub(element, 'send').returns(Promise.resolve('OOO'));
       sandbox.stub(element, 'getResponseObject')
           .returns(Promise.resolve('OOO'));
       element._cache['/accounts/self/detail'] = {};
-      element.setAccountStatus('OOO').then(function() {
+      element.setAccountStatus('OOO').then(() => {
         assert.isTrue(element.send.calledWith('PUT', '/accounts/self/status',
             {status: 'OOO'}));
         assert.deepEqual(element._cache['/accounts/self/detail'],
@@ -582,24 +580,24 @@ limitations under the License.
       });
     });
 
-    test('_sendDiffDraft pending requests tracked', function(done) {
-      sandbox.stub(element, 'send', function() {
+    test('_sendDiffDraft pending requests tracked', done => {
+      sandbox.stub(element, 'send', () => {
         assert.equal(element._pendingRequests.sendDiffDraft, 1);
         return Promise.resolve([]);
       });
-      element.saveDiffDraft('', 1, 1).then(function() {
+      element.saveDiffDraft('', 1, 1).then(() => {
         assert.equal(element._pendingRequests.sendDiffDraft, 0);
-        element.deleteDiffDraft('', 1, 1).then(function() {
+        element.deleteDiffDraft('', 1, 1).then(() => {
           assert.equal(element._pendingRequests.sendDiffDraft, 0);
           done();
         });
       });
     });
 
-    test('saveChangeEdit', function(done) {
-      var change_num = '1';
-      var file_name = 'index.php';
-      var file_contents = '<?php';
+    test('saveChangeEdit', done => {
+      const change_num = '1';
+      const file_name = 'index.php';
+      const file_contents = '<?php';
       sandbox.stub(element, 'send').returns(
           Promise.resolve([change_num, file_name, file_contents])
       );
@@ -607,7 +605,7 @@ limitations under the License.
           .returns(Promise.resolve([change_num, file_name, file_contents]));
       element._cache['/changes/' + change_num + '/edit/' + file_name] = {};
       element.saveChangeEdit(change_num, file_name, file_contents).then(
-          function() {
+          () => {
             assert.isTrue(element.send.calledWith('PUT',
                 '/changes/' + change_num + '/edit/' + file_name,
                 file_contents));

@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
+<link rel="import" href="../../shared/gr-autogrow-textarea/gr-autogrow-textarea.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
@@ -87,24 +88,14 @@ limitations under the License.
         font-style: italic;
       }
       .textareaContainer {
-        display: flex;
-        flex: 1;
         min-height: 6em;
         position: relative;
-      }
-      iron-autogrow-textarea {
-        padding: 0;
-        font-family: var(--monospace-font-family);
       }
       .previewContainer gr-formatted-text {
         background: #f6f6f6;
         max-height: 20vh;
         overflow-y: scroll;
         padding: 1em;
-      }
-      .message {
-        border: none;
-        width: 100%;
       }
       .draftsContainer {
         flex: 1;
@@ -189,17 +180,19 @@ limitations under the License.
         </gr-overlay>
       </section>
       <section class="textareaContainer">
-        <iron-autogrow-textarea
+        <gr-autogrow-textarea
             id="textarea"
             class="message"
             autocomplete="on"
+            hide-border="true"
+            monospace="true"
             placeholder="Say something nice..."
             disabled="{{disabled}}"
             rows="4"
             max-rows="15"
-            bind-value="{{draft}}"
+            text="{{draft}}"
             on-bind-value-changed="_handleHeightChanged">
-        </iron-autogrow-textarea>
+        </gr-autogrow-textarea>
       </section>
       <section class="previewContainer">
         <label>

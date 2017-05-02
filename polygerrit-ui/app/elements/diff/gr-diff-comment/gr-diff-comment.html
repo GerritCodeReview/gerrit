@@ -117,7 +117,6 @@ limitations under the License.
         display: none;
       }
       .editing .editMessage {
-        background-color: #fff;
         display: block;
       }
       .show-hide {
@@ -215,14 +214,14 @@ limitations under the License.
           [[comment.robot_id]]
         </div>
       </template>
-      <iron-autogrow-textarea
+      <gr-autogrow-textarea
           id="editTextarea"
           class="editMessage"
           autocomplete="on"
           disabled="{{disabled}}"
           rows="4"
-          bind-value="{{_messageText}}"
-          on-keydown="_handleTextareaKeydown"></iron-autogrow-textarea>
+          text="{{_messageText}}"
+          on-keydown="_handleTextareaKeydown"></gr-autogrow-textarea>
       <gr-formatted-text class="message"
           content="[[comment.message]]"
           no-trailing-margin="[[!comment.__draft]]"

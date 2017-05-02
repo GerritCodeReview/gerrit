@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "288a4e26_349c3664",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-02T06:31:27Z",
+      "side": 1,
+      "message": "Why would it be null if SSH is disabled, it shouldn\u0027t be null. Even if SSH is disabled we still want to check that actions that modify the account trigger a reindex event.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "a2cec286fcc6ea97bb8c4da9af9bbbed0cf100cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a8b3fba_9132c2a1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-02T06:31:27Z",
+      "side": 1,
+      "message": "Instead of disabling this test completely can we just adapt the assertion if SSH is disabled?",
+      "revId": "a2cec286fcc6ea97bb8c4da9af9bbbed0cf100cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90119a72_67789603",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-02T06:31:27Z",
+      "side": 1,
+      "message": "I guess if SSH is disabled this should expect 1, since no SSH keys are added.",
+      "revId": "a2cec286fcc6ea97bb8c4da9af9bbbed0cf100cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "3f94485bff20be290bce503e80a69fc8e733d436",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7f0adfa_da78c760",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-02T06:44:55Z",
+      "side": 0,
+      "message": "They were renamed to canonical artfact names.",
+      "parentUuid": "ab9295fb_c9d90e5c",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "3f94485bff20be290bce503e80a69fc8e733d436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

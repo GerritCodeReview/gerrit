@@ -14,8 +14,9 @@
 
 package com.google.gerrit.server.api.changes;
 
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -74,7 +75,6 @@ import com.google.gerrit.server.change.TestSubmitType;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -214,8 +214,8 @@ class RevisionApiImpl implements RevisionApi {
   public void review(ReviewInput in) throws RestApiException {
     try {
       review.apply(revision, in);
-    } catch (OrmException | UpdateException | IOException | PermissionBackendException e) {
-      throw new RestApiException("Cannot post review", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot post review", e);
     }
   }
 
@@ -228,6 +228,8 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public void submit(SubmitInput in) throws RestApiException {
     try {
+      // TODO(dborowitz): Convert to RetryingRestModifyHandler. Requires converting MergeOp to a
+      // Factory that takes BatchUpdate.Factory. (Enough Factories yet?)
       submit.apply(revision, in);
     } catch (OrmException | IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot submit change", e);
@@ -242,6 +244,8 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public BinaryResult submitPreview(String format) throws RestApiException {
     try {
+      // TODO(dborowitz): Convert to RetryingRestModifyHandler. Requires converting MergeOp to a
+      // Factory that takes BatchUpdate.Factory.
       submitPreview.setFormat(format);
       return submitPreview.apply(revision);
     } catch (OrmException e) {
@@ -253,8 +257,8 @@ class RevisionApiImpl implements RevisionApi {
   public void publish() throws RestApiException {
     try {
       publish.apply(revision, new PublishDraftPatchSet.Input());
-    } catch (UpdateException e) {
-      throw new RestApiException("Cannot publish draft patch set", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot publish draft patch set", e);
     }
   }
 
@@ -262,8 +266,8 @@ class RevisionApiImpl implements RevisionApi {
   public void delete() throws RestApiException {
     try {
       deleteDraft.apply(revision, null);
-    } catch (UpdateException | OrmException | PermissionBackendException e) {
-      throw new RestApiException("Cannot delete draft ps", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot delete draft ps", e);
     }
   }
 
@@ -277,12 +281,8 @@ class RevisionApiImpl implements RevisionApi {
   public ChangeApi rebase(RebaseInput in) throws RestApiException {
     try {
       return changes.id(rebase.apply(revision, in)._number);
-    } catch (OrmException
-        | EmailException
-        | UpdateException
-        | IOException
-        | PermissionBackendException e) {
-      throw new RestApiException("Cannot rebase ps", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot rebase ps", e);
     }
   }
 
@@ -300,8 +300,8 @@ class RevisionApiImpl implements RevisionApi {
   public ChangeApi cherryPick(CherryPickInput in) throws RestApiException {
     try {
       return changes.id(cherryPick.apply(revision, in)._number);
-    } catch (OrmException | IOException | UpdateException e) {
-      throw new RestApiException("Cannot cherry pick", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot cherry pick", e);
     }
   }
 
@@ -476,8 +476,8 @@ class RevisionApiImpl implements RevisionApi {
           .id(revision.getChange().getId().get())
           .revision(revision.getPatchSet().getId().get())
           .draft(id);
-    } catch (UpdateException | OrmException e) {
-      throw new RestApiException("Cannot create draft", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot create draft", e);
     }
   }
 
@@ -567,8 +567,8 @@ class RevisionApiImpl implements RevisionApi {
     in.description = description;
     try {
       putDescription.apply(revision, in);
-    } catch (UpdateException | PermissionBackendException e) {
-      throw new RestApiException("Cannot set description", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set description", e);
     }
   }
 

@@ -15,6 +15,7 @@
   'use strict';
 
   var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
+  var MERGE_LIST_PATH = '/MERGE_LIST';
 
   var COMMENT_SAVE = 'Try again when all comments have saved.';
 
@@ -544,12 +545,16 @@
     },
 
     _computeFileDisplayName: function(path) {
-      return path === COMMIT_MESSAGE_PATH ? 'Commit message' : path;
+      if (path === COMMIT_MESSAGE_PATH) {
+          return 'Commit message';
+      } else if (path === MERGE_LIST_PATH) {
+          return 'Merge list';
+      }
+      return path;
     },
 
     _computeTruncatedFileDisplayName: function(path) {
-      return path === COMMIT_MESSAGE_PATH ?
-          'Commit message' : util.truncatePath(path);
+      return util.truncatePath(this._computeFileDisplayName(path));
     },
 
     _computeFileSelected: function(path, currentPath) {

@@ -327,6 +327,8 @@ limitations under the License.
           '/foo/bar/baz');
       assert.equal(element._computeFileDisplayName('/COMMIT_MSG'),
           'Commit message');
+      assert.equal(element._computeFileDisplayName('/MERGE_LIST'),
+          'Merge list');
     });
 
     test('jump to file dropdown with patch range', function() {

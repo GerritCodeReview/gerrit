@@ -19,7 +19,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -33,6 +32,8 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -42,10 +43,10 @@ import java.util.Collections;
 
 @Singleton
 public class PutDescription
-    implements RestModifyView<RevisionResource, PutDescription.Input>, UiAction<RevisionResource> {
+    extends RetryingRestModifyView<RevisionResource, PutDescription.Input, Response<String>>
+    implements UiAction<RevisionResource> {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeMessagesUtil cmUtil;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final PatchSetUtil psUtil;
 
   public static class Input {
@@ -56,23 +57,24 @@ public class PutDescription
   PutDescription(
       Provider<ReviewDb> dbProvider,
       ChangeMessagesUtil cmUtil,
-      BatchUpdate.Factory batchUpdateFactory,
+      RetryHelper retryHelper,
       PatchSetUtil psUtil) {
+    super(retryHelper);
     this.dbProvider = dbProvider;
     this.cmUtil = cmUtil;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.psUtil = psUtil;
   }
 
   @Override
-  public Response<String> apply(RevisionResource rsrc, Input input)
+  protected Response<String> applyImpl(
+      BatchUpdate.Factory updateFactory, RevisionResource rsrc, Input input)
       throws UpdateException, RestApiException, PermissionBackendException {
     rsrc.permissions().check(ChangePermission.EDIT_DESCRIPTION);
 
     ChangeControl ctl = rsrc.getControl();
     Op op = new Op(input != null ? input : new Input(), rsrc.getPatchSet().getId());
     try (BatchUpdate u =
-        batchUpdateFactory.create(
+        updateFactory.create(
             dbProvider.get(), rsrc.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
       u.addOp(rsrc.getChange().getId(), op);
       u.execute();

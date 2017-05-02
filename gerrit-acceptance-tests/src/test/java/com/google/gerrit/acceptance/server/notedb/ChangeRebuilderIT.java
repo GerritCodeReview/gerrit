@@ -752,7 +752,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(ts).isGreaterThan(c.getCreatedOn());
     assertThat(ts).isLessThan(db.patchSets().get(psId).getCreatedOn());
     RevisionResource revRsrc = parseCurrentRevisionResource(r.getChangeId());
-    postReview.get().apply(revRsrc, rin, ts);
+    postReview.get().apply(batchUpdateFactory, revRsrc, rin, ts);
 
     checker.rebuildAndCheckChanges(id);
   }
@@ -770,7 +770,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Timestamp ts = new Timestamp(c.getCreatedOn().getTime() - 10000);
     RevisionResource revRsrc = parseCurrentRevisionResource(r.getChangeId());
     setApiUser(user);
-    postReview.get().apply(revRsrc, rin, ts);
+    postReview.get().apply(batchUpdateFactory, revRsrc, rin, ts);
 
     checker.rebuildAndCheckChanges(id);
   }

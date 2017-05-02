@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -32,6 +31,9 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -41,21 +43,27 @@ import java.io.IOException;
 
 @Singleton
 public class CherryPick
-    implements RestModifyView<RevisionResource, CherryPickInput>, UiAction<RevisionResource> {
+    extends RetryingRestModifyView<RevisionResource, CherryPickInput, ChangeInfo>
+    implements UiAction<RevisionResource> {
   private final Provider<ReviewDb> dbProvider;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
 
   @Inject
   CherryPick(
-      Provider<ReviewDb> dbProvider, CherryPickChange cherryPickChange, ChangeJson.Factory json) {
+      RetryHelper retryHelper,
+      Provider<ReviewDb> dbProvider,
+      CherryPickChange cherryPickChange,
+      ChangeJson.Factory json) {
+    super(retryHelper);
     this.dbProvider = dbProvider;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
   }
 
   @Override
-  public ChangeInfo apply(RevisionResource revision, CherryPickInput input)
+  protected ChangeInfo applyImpl(
+      BatchUpdate.Factory updateFactory, RevisionResource revision, CherryPickInput input)
       throws OrmException, IOException, UpdateException, RestApiException {
     final ChangeControl control = revision.getControl();
     int parent = input.parent == null ? 1 : input.parent;
@@ -88,6 +96,7 @@ public class CherryPick
 
     try {
       Change.Id cherryPickedChangeId =
+          // TODO(dborowitz): Pass updateFactory here.
           cherryPickChange.cherryPick(
               revision.getChange(),
               revision.getPatchSet(),

@@ -357,6 +357,24 @@
       "revId": "6b79f3b7f1b1cb7f4ec622a4f396c32208cb3daf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d8d69aa_db527db2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-02T17:43:17Z",
+      "side": 1,
+      "message": "Is this necessary? The key should be contained in changeUpdates but not contained in draftUpdates and robotCommentUpdates.",
+      "parentUuid": "fa0b8a28_18ee1874",
+      "revId": "6b79f3b7f1b1cb7f4ec622a4f396c32208cb3daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

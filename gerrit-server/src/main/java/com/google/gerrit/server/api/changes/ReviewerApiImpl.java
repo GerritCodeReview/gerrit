@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.api.changes;
 
+import static com.google.gerrit.server.api.ApiUtil.throwRestApiException;
+
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.ReviewerApi;
@@ -23,7 +25,6 @@ import com.google.gerrit.server.change.DeleteVote;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.VoteResource;
 import com.google.gerrit.server.change.Votes;
-import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -64,8 +65,8 @@ public class ReviewerApiImpl implements ReviewerApi {
   public void deleteVote(String label) throws RestApiException {
     try {
       deleteVote.apply(new VoteResource(reviewer, label), null);
-    } catch (UpdateException e) {
-      throw new RestApiException("Cannot delete vote", e);
+    } catch (Exception e) {
+      throwRestApiException("Cannot delete vote", e);
     }
   }
 
@@ -73,8 +74,8 @@ public class ReviewerApiImpl implements ReviewerApi {
   public void deleteVote(DeleteVoteInput input) throws RestApiException {
     try {
       deleteVote.apply(new VoteResource(reviewer, input.label), input);
-    } catch (UpdateException e) {
-      throw new RestApiException("Cannot delete vote", e);
+    } catch (Exception e) {
+      throwRestApiException("Cannot delete vote", e);
     }
   }
 
@@ -87,8 +88,8 @@ public class ReviewerApiImpl implements ReviewerApi {
   public void remove(DeleteReviewerInput input) throws RestApiException {
     try {
       deleteReviewer.apply(reviewer, input);
-    } catch (UpdateException e) {
-      throw new RestApiException("Cannot remove reviewer", e);
+    } catch (Exception e) {
+      throwRestApiException("Cannot delete vote", e);
     }
   }
 }

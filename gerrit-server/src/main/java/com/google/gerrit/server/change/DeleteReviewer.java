@@ -19,37 +19,39 @@ import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class DeleteReviewer implements RestModifyView<ReviewerResource, DeleteReviewerInput> {
+public class DeleteReviewer
+    extends RetryingRestModifyView<ReviewerResource, DeleteReviewerInput, Response<?>> {
 
   private final Provider<ReviewDb> dbProvider;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final DeleteReviewerOp.Factory deleteReviewerOpFactory;
   private final DeleteReviewerByEmailOp.Factory deleteReviewerByEmailOpFactory;
 
   @Inject
   DeleteReviewer(
       Provider<ReviewDb> dbProvider,
-      BatchUpdate.Factory batchUpdateFactory,
+      RetryHelper retryHelper,
       DeleteReviewerOp.Factory deleteReviewerOpFactory,
       DeleteReviewerByEmailOp.Factory deleteReviewerByEmailOpFactory) {
+    super(retryHelper);
     this.dbProvider = dbProvider;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.deleteReviewerOpFactory = deleteReviewerOpFactory;
     this.deleteReviewerByEmailOpFactory = deleteReviewerByEmailOpFactory;
   }
 
   @Override
-  public Response<?> apply(ReviewerResource rsrc, DeleteReviewerInput input)
+  protected Response<?> applyImpl(
+      BatchUpdate.Factory updateFactory, ReviewerResource rsrc, DeleteReviewerInput input)
       throws RestApiException, UpdateException {
     if (input == null) {
       input = new DeleteReviewerInput();
@@ -59,7 +61,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, DeleteRe
     }
 
     try (BatchUpdate bu =
-        batchUpdateFactory.create(
+        updateFactory.create(
             dbProvider.get(),
             rsrc.getChangeResource().getProject(),
             rsrc.getChangeResource().getUser(),

@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
@@ -36,6 +35,8 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -46,13 +47,13 @@ import java.util.Collections;
 import java.util.Optional;
 
 @Singleton
-public class PutDraftComment implements RestModifyView<DraftCommentResource, DraftInput> {
+public class PutDraftComment
+    extends RetryingRestModifyView<DraftCommentResource, DraftInput, Response<CommentInfo>> {
 
   private final Provider<ReviewDb> db;
   private final DeleteDraftComment delete;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
-  private final BatchUpdate.Factory updateFactory;
   private final Provider<CommentJson> commentJson;
   private final PatchListCache patchListCache;
 
@@ -62,23 +63,24 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       DeleteDraftComment delete,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
-      BatchUpdate.Factory updateFactory,
+      RetryHelper retryHelper,
       Provider<CommentJson> commentJson,
       PatchListCache patchListCache) {
+    super(retryHelper);
     this.db = db;
     this.delete = delete;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
-    this.updateFactory = updateFactory;
     this.commentJson = commentJson;
     this.patchListCache = patchListCache;
   }
 
   @Override
-  public Response<CommentInfo> apply(DraftCommentResource rsrc, DraftInput in)
+  protected Response<CommentInfo> applyImpl(
+      BatchUpdate.Factory updateFactory, DraftCommentResource rsrc, DraftInput in)
       throws RestApiException, UpdateException, OrmException {
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
-      return delete.apply(rsrc, null);
+      return delete.applyImpl(updateFactory, rsrc, null);
     } else if (in.id != null && !rsrc.getId().equals(in.id)) {
       throw new BadRequestException("id must match URL");
     } else if (in.line != null && in.line < 0) {

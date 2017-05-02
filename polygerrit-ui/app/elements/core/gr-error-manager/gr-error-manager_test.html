@@ -272,5 +272,21 @@ limitations under the License.
         done();
       });
     });
+
+    test('dismissOnNavigation respected', function() {
+      var asyncStub = sandbox.stub(element, 'async');
+      var hideSpy = sandbox.spy(element, '_hideAlert');
+      // No async call when dismissOnNavigation supplied.
+      element._showAlert('test', null, null, true);
+      assert.isFalse(asyncStub.called);
+
+      // When page nav happens, clear alert.
+      document.dispatchEvent(new CustomEvent('location-change'));
+      assert.isTrue(hideSpy.called);
+
+      // When timeout is not supplied, use HIDE_ALERT_TIMEOUT_MS.
+      element._showAlert('test');
+      assert.isTrue(asyncStub.called);
+    });
   });
 </script>

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d39a1a3_197d5fba",
+        "filename": "tools/bazel.rc",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-02T14:43:24Z",
+      "side": 0,
+      "message": "Why is this removed?",
+      "range": {
+        "startLine": 1,
+        "startChar": 60,
+        "endLine": 1,
+        "endChar": 86
+      },
+      "revId": "8e9db44355421d8b641141703a0213ab4740c6e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

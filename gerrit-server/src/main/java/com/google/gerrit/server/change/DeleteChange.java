@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -32,6 +31,8 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.Order;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -39,12 +40,11 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
-public class DeleteChange
-    implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
+public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, Response<?>>
+    implements UiAction<ChangeResource> {
   public static class Input {}
 
   private final Provider<ReviewDb> db;
-  private final BatchUpdate.Factory updateFactory;
   private final Provider<DeleteChangeOp> opProvider;
   private final Provider<CurrentUser> user;
   private final PermissionBackend permissionBackend;
@@ -53,13 +53,13 @@ public class DeleteChange
   @Inject
   public DeleteChange(
       Provider<ReviewDb> db,
-      BatchUpdate.Factory updateFactory,
+      RetryHelper retryHelper,
       Provider<DeleteChangeOp> opProvider,
       Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
       @GerritServerConfig Config cfg) {
+    super(retryHelper);
     this.db = db;
-    this.updateFactory = updateFactory;
     this.opProvider = opProvider;
     this.user = user;
     this.permissionBackend = permissionBackend;
@@ -67,7 +67,8 @@ public class DeleteChange
   }
 
   @Override
-  public Response<?> apply(ChangeResource rsrc, Input input)
+  protected Response<?> applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException, PermissionBackendException {
     if (rsrc.getChange().getStatus() == Change.Status.MERGED) {
       throw new MethodNotAllowedException("delete not permitted");

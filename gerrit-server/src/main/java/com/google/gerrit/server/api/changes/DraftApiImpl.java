@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.api.changes;
 
+import com.google.common.base.Throwables;
 import com.google.gerrit.extensions.api.changes.DraftApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -22,7 +23,6 @@ import com.google.gerrit.server.change.DeleteDraftComment;
 import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.change.GetDraftComment;
 import com.google.gerrit.server.change.PutDraftComment;
-import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -62,7 +62,8 @@ class DraftApiImpl implements DraftApi {
   public CommentInfo update(DraftInput in) throws RestApiException {
     try {
       return putDraft.apply(draft, in).value();
-    } catch (UpdateException | OrmException e) {
+    } catch (Exception e) {
+      throwIfPossible(e);
       throw new RestApiException("Cannot update draft", e);
     }
   }
@@ -71,8 +72,14 @@ class DraftApiImpl implements DraftApi {
   public void delete() throws RestApiException {
     try {
       deleteDraft.apply(draft, null);
-    } catch (UpdateException e) {
+    } catch (Exception e) {
+      throwIfPossible(e);
       throw new RestApiException("Cannot delete draft", e);
     }
+  }
+
+  private static void throwIfPossible(Exception e) throws RestApiException {
+    Throwables.throwIfInstanceOf(e, RestApiException.class);
+    Throwables.throwIfUnchecked(e);
   }
 }

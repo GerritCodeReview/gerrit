@@ -1177,10 +1177,14 @@
       this._updateCheckTimerHandle = this.async(function() {
         this.fetchIsLatestKnown(this._change, this.$.restAPI)
             .then(function(latest) {
-              if (!latest) {
+              if (latest) {
+                this._startUpdateCheckTimer();
+              } else {
                 this._cancelUpdateCheckTimer();
                 this.fire('show-alert', {
                   message: 'A newer patch has been uploaded.',
+                  // No timeout on this alert.
+                  timeout: -1,
                   action: 'Reload',
                   callback: function() {
                     // Load the current change without any patch range.
@@ -1189,7 +1193,6 @@
                   }.bind(this),
                 });
               }
-              this._startUpdateCheckTimer();
             }.bind(this));
       }, this.serverConfig.change.update_delay * 1000);
     },

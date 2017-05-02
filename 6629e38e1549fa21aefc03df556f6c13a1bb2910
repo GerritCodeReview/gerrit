@@ -132,6 +132,30 @@
     },
     {
       "key": {
+        "uuid": "e5b5c38e_5e59a73b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-02T09:02:26Z",
+      "side": 1,
+      "message": "Seems like it is safe to change also because private changes aren\u0027t included in 2.14",
+      "parentUuid": "d36c5d1a_c96d6a06",
+      "range": {
+        "startLine": 90,
+        "startChar": 33,
+        "endLine": 90,
+        "endChar": 47
+      },
+      "revId": "6629e38e1549fa21aefc03df556f6c13a1bb2910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "831d2b32_85aed83c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
         "patchSetId": 5

@@ -2988,6 +2988,17 @@ Reviewers without Gerrit accounts can only be added on changes visible to anonym
   }
 ----
 
+.Notifications
+
+An email will be sent using the "newchange" template.
+
+[options="header",cols="1,1,1"]
+|=============================
+|WIP State       |Default|notify=ALL
+|Ready for review|owner, reviewers, CCs|owner, reviewers, CCs
+|Work in progress|not sent|owner, reviewers, CCs
+|=============================
+
 [[delete-reviewer]]
 === Delete Reviewer
 --
@@ -3530,7 +3541,8 @@ describing the related changes.
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/review'
 --
 
-Sets a review on a revision.
+Sets a review on a revision, optionally also publishing draft comments, setting
+labels, and adding reviewers or CCs.
 
 The review must be provided in the request body as a
 link:#review-input[ReviewInput] entity.
@@ -3538,7 +3550,7 @@ link:#review-input[ReviewInput] entity.
 A review cannot be set on a change edit. Trying to post a review for a
 change edit fails with `409 Conflict`.
 
-This API method can be used to set labels:
+Here is an example of using this method to set labels:
 
 .Request
 ----
@@ -3594,7 +3606,7 @@ if you set a label but weren't previously a reviewer on this CL).
 ----
 
 It is also possible to add one or more reviewers or CCs
-to a change simultaneously with a review.
+to a change simultaneously with a review:
 
 .Request
 ----
@@ -3622,6 +3634,9 @@ Each element of the `reviewers` list is an instance of
 link:#reviewer-input[ReviewerInput]. The corresponding result of
 adding each reviewer will be returned in a map of inputs to
 link:#add-reviewer-result[AddReviewerResult]s.
+
+NOTE: The notify property of each ReviewerInput is *ignored*. Use the notify
+property of the top-level link:#review-input[ReviewInput] instead.
 
 .Response
 ----

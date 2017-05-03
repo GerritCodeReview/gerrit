@@ -147,9 +147,10 @@ public class WatchConfigTest implements ValidationError.Sink {
             NotifyType.ALL_COMMENTS,
             NotifyType.NEW_CHANGES,
             NotifyType.NEW_PATCHSETS,
-            NotifyType.SUBMITTED_CHANGES),
+            NotifyType.SUBMITTED_CHANGES,
+            NotifyType.REVIEW_STARTED_CHANGES),
         "branch:master [ABANDONED_CHANGES, ALL_COMMENTS, NEW_CHANGES,"
-            + " NEW_PATCHSETS, SUBMITTED_CHANGES]");
+            + " NEW_PATCHSETS, SUBMITTED_CHANGES, REVIEW_STARTED_CHANGES]");
     assertToNotifyValue("*", EnumSet.of(NotifyType.ALL), "* [ALL]");
   }
 

@@ -71,6 +71,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -520,6 +521,149 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
     gApi.changes().id(changeId).restore();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+  }
+
+  @Test
+  public void abandonNotifiesAbandonedChangesWatchers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).isEmpty();
+
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyAbandonedChanges = true);
+    setApiUser(admin);
+
+    r = createChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+    sender.clear();
+
+    r = createWorkInProgressChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void abandonAndRestoreChangeInReviewNotifiesReviewStartedWatchers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+    sender.clear();
+
+    gApi.changes().id(r.getChangeId()).restore();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void abandonChangeInReviewNotifiesReviewStartedWatchers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void restoreChangeInReviewNotifiesReviewStartedWatchers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    sender.clear();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+
+    gApi.changes().id(r.getChangeId()).restore();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void abandonChangeInProgressDoesNotNotifyReviewStartedWatchersInNoteDb() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+    PushOneCommit.Result r = createWorkInProgressChange();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void restoreChangeInProgressDoesNotNotifyReviewStartedWatchersInNoteDb() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+    PushOneCommit.Result r = createWorkInProgressChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    sender.clear();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void abandonChangeInProgressNotifiesReviewStartedWatchersInReviewDb() throws Exception {
+    assume().that(notesMigration.enabled()).isFalse();
+    PushOneCommit.Result r = createWorkInProgressChange();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void restoreChangeInProgressNotifiesReviewStartedWatchersInReviewDb() throws Exception {
+    assume().that(notesMigration.enabled()).isFalse();
+    PushOneCommit.Result r = createWorkInProgressChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    sender.clear();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+    gApi.changes().id(r.getChangeId()).restore();
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void abandonChangeThatHasStartedReviewNotifiesReviewStartedWatchers() throws Exception {
+    // Move out of WIP to mark review as started. Even though we move back into WIP
+    // before abandoning, REVIEW_STARTED_CHANGES should be notified.
+    PushOneCommit.Result r = createWorkInProgressChange();
+    gApi.changes().id(r.getChangeId()).setReadyForReview();
+    gApi.changes().id(r.getChangeId()).setWorkInProgress();
+    sender.clear();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void restoreChangeThatHasStartedReviewNotifiesReviewStartedWatchers() throws Exception {
+    // Move out of WIP to mark review as started. Even though we move back into WIP
+    // before abandoning, REVIEW_STARTED_CHANGES should be notified.
+    PushOneCommit.Result r = createWorkInProgressChange();
+    gApi.changes().id(r.getChangeId()).setReadyForReview();
+    gApi.changes().id(r.getChangeId()).setWorkInProgress();
+    gApi.changes().id(r.getChangeId()).abandon();
+    sender.clear();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+    gApi.changes().id(r.getChangeId()).restore();
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
   }
 
   @Test

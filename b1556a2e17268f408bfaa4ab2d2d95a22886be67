@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e750800e_44be87f9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-03T20:32:16Z",
+      "side": 1,
+      "message": "It would be possible. The only thing is if we wanted to reduce the amount of times that we move nodes to be directly inside the body... This was for positioning purposes, but I\u0027d rather not do it when not necessary.",
+      "parentUuid": "5861eeee_132a9e0c",
+      "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "22d49dc3_b2ff8afc",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40abd5da_4c07ceb1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-03T20:32:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22d49dc3_b2ff8afc",
+      "range": {
+        "startLine": 2,
+        "startChar": 14,
+        "endLine": 2,
+        "endChar": 18
+      },
+      "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "a5e0f5e0_1af32841",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-03T20:32:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0095dbdd_18f83850",
+      "range": {
+        "startLine": 30,
+        "startChar": 21,
+        "endLine": 30,
+        "endChar": 22
+      },
+      "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34d83e61_757f968d",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
         "patchSetId": 1
@@ -79,6 +145,24 @@
       "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81ec800a_a2e6b167",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-03T20:32:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34d83e61_757f968d",
+      "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "56138ba4_fa2c4ac0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-03T20:32:16Z",
+      "side": 1,
+      "message": "the reason for that was that this is also called by the parent element (not in this change). I don\u0027t want to call the function \"handleUpKey\" because it is used in cases where it\u0027s not a key binding as well.",
+      "parentUuid": "e99ec374_042871c9",
+      "range": {
+        "startLine": 50,
+        "startChar": 13,
+        "endLine": 50,
+        "endChar": 15
+      },
+      "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78541a14_51bf9d06",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
         "patchSetId": 1
@@ -116,6 +224,24 @@
       "writtenOn": "2017-05-03T19:27:23Z",
       "side": 1,
       "message": "I\u0027m not sure this is a good long-term strategy tbh.\nIs it possible to make it work another way? Like, hiding/showing?",
+      "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e0e70f4_5331885c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-03T20:32:16Z",
+      "side": 1,
+      "message": "I agree that it isn\u0027t ideal. I tried to do this a few other ways before arriving at this.... the main issue was in gr-diff-comment, the fixed position was restricted to the diff itself which introduced a few problems: \n1 - inconsistent positioning\n2 - if adding at the bottom of the page, the dropdown would get cut off.\n\nI couldn\u0027t figure out a way to address these problems without moving the node higher up in the DOM.\n\nDo you have any other ideas?",
+      "parentUuid": "78541a14_51bf9d06",
       "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

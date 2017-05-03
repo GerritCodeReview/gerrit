@@ -191,7 +191,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     setApiUser(user);
     String changeId = result.getChangeId();
-    assertThat(gApi.changes().id(changeId).get().isPrivate).isFalse();
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
 
     gApi.changes().id(changeId).setPrivate(true);
     ChangeInfo info = gApi.changes().id(changeId).get();
@@ -201,7 +201,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     gApi.changes().id(changeId).setPrivate(false);
     info = gApi.changes().id(changeId).get();
-    assertThat(info.isPrivate).isFalse();
+    assertThat(info.isPrivate).isNull();
     assertThat(Iterables.getLast(info.messages).message).isEqualTo("Unset private");
     assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_UNSET_PRIVATE);
   }
@@ -212,7 +212,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result =
         pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
 
-    assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isFalse();
+    assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isNull();
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to mark private");
     gApi.changes().id(result.getChangeId()).setPrivate(true);
@@ -295,7 +295,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).setReadyForReview("PTAL");
 
     info = gApi.changes().id(changeId).get();
-    assertThat(info.workInProgress).isFalse();
+    assertThat(info.workInProgress).isNull();
     assertThat(Iterables.getLast(info.messages).message).contains("PTAL");
     assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_READY);
 
@@ -311,7 +311,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).setReadyForReview();
 
     info = gApi.changes().id(changeId).get();
-    assertThat(info.workInProgress).isFalse();
+    assertThat(info.workInProgress).isNull();
     assertThat(Iterables.getLast(info.messages).message).isEqualTo("Set Ready For Review");
     assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_READY);
   }

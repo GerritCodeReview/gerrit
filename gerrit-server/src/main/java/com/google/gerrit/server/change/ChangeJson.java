@@ -447,8 +447,8 @@ public class ChangeJson {
       info.updated = c.getLastUpdatedOn();
       info._number = c.getId().get();
       info.problems = result.problems();
-      info.isPrivate = c.isPrivate();
-      info.workInProgress = c.isWorkInProgress();
+      info.isPrivate = c.isPrivate() ? true : null;
+      info.workInProgress = c.isWorkInProgress() ? true : null;
       finish(info);
     } else {
       info = new ChangeInfo();
@@ -503,8 +503,8 @@ public class ChangeJson {
       out.insertions = changedLines.get().insertions;
       out.deletions = changedLines.get().deletions;
     }
-    out.isPrivate = in.isPrivate();
-    out.workInProgress = in.isWorkInProgress();
+    out.isPrivate = in.isPrivate() ? true : null;
+    out.workInProgress = in.isWorkInProgress() ? true : null;
     out.subject = in.getSubject();
     out.status = in.getStatus().asChangeStatus();
     out.owner = accountLoader.get(in.getOwner());

@@ -57,6 +57,7 @@ import com.google.gerrit.server.group.ListMembers;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.SchemaUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -87,7 +88,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -127,6 +130,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_AGE = "age";
   public static final String FIELD_ASSIGNEE = "assignee";
   public static final String FIELD_AUTHOR = "author";
+  public static final String FIELD_EXACTAUTHOR = "exactauthor";
   public static final String FIELD_BEFORE = "before";
   public static final String FIELD_CHANGE = "change";
   public static final String FIELD_CHANGE_ID = "change_id";
@@ -134,6 +138,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_COMMENTBY = "commentby";
   public static final String FIELD_COMMIT = "commit";
   public static final String FIELD_COMMITTER = "committer";
+  public static final String FIELD_EXACTCOMMITTER = "exactcommitter";
   public static final String FIELD_CONFLICTS = "conflicts";
   public static final String FIELD_DELETED = "deleted";
   public static final String FIELD_DELTA = "delta";
@@ -1119,13 +1124,21 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> author(String who) {
-    return new AuthorPredicate(who);
+  public Predicate<ChangeData> author(String who) throws QueryParseException {
+    if (args.getSchema().hasField(ChangeField.EXACT_AUTHOR)) {
+      return getAuthorOrCommitterPredicate(
+          who.trim(), ExactAuthorPredicate::new, AuthorPredicate::new);
+    }
+    return getAuthorOrCommitterFullTextPredicate(who.trim(), AuthorPredicate::new);
   }
 
   @Operator
-  public Predicate<ChangeData> committer(String who) {
-    return new CommitterPredicate(who);
+  public Predicate<ChangeData> committer(String who) throws QueryParseException {
+    if (args.getSchema().hasField(ChangeField.EXACT_COMMITTER)) {
+      return getAuthorOrCommitterPredicate(
+          who.trim(), ExactCommitterPredicate::new, CommitterPredicate::new);
+    }
+    return getAuthorOrCommitterFullTextPredicate(who.trim(), CommitterPredicate::new);
   }
 
   @Operator
@@ -1197,6 +1210,30 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // Adapt the capacity of the "predicates" list when adding more default
     // predicates.
     return Predicate.or(predicates);
+  }
+
+  private Predicate<ChangeData> getAuthorOrCommitterPredicate(
+      String who,
+      Function<String, Predicate<ChangeData>> exactPredicateFunc,
+      Function<String, Predicate<ChangeData>> fullPredicateFunc)
+      throws QueryParseException {
+    if (Address.tryParse(who) != null) {
+      return exactPredicateFunc.apply(who);
+    }
+    return getAuthorOrCommitterFullTextPredicate(who, fullPredicateFunc);
+  }
+
+  private Predicate<ChangeData> getAuthorOrCommitterFullTextPredicate(
+      String who, Function<String, Predicate<ChangeData>> fullPredicateFunc)
+      throws QueryParseException {
+    Set<String> parts = SchemaUtil.getNameParts(who);
+    if (parts.isEmpty()) {
+      throw error("invalid value");
+    }
+
+    List<Predicate<ChangeData>> predicates =
+        parts.stream().map(fullPredicateFunc).collect(Collectors.toList());
+    return Predicate.and(predicates);
   }
 
   private Set<Account.Id> parseAccount(String who) throws QueryParseException, OrmException {

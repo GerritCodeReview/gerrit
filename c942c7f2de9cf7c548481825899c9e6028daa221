@@ -16,6 +16,24 @@
       "revId": "c942c7f2de9cf7c548481825899c9e6028daa221",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35f88ab6_9f208019",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-03T22:26:30Z",
+      "side": 1,
+      "message": "I tried adding a watch for a \u0027cancel-alert\u0027 event that was fired inside change-view\u0027s \u0027detatched\u0027 function, but that failed because error-manager listens to events on the document and the change-view is already detached at that point.\n\nDo you have any other suggestions? I definitely see your point that some alerts ought to persist between views, but as far as I know there\u0027s no \u0027before detach\u0027 function in Polymer.",
+      "parentUuid": "5a0fa0ff_96a7bf38",
+      "revId": "c942c7f2de9cf7c548481825899c9e6028daa221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

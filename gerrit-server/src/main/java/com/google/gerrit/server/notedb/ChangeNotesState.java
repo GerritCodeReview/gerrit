@@ -75,7 +75,8 @@ public abstract class ChangeNotesState {
         ImmutableListMultimap.of(),
         null,
         null,
-        null);
+        null,
+        true);
   }
 
   static ChangeNotesState create(
@@ -107,7 +108,8 @@ public abstract class ChangeNotesState {
       ListMultimap<RevId, Comment> publishedComments,
       @Nullable Timestamp readOnlyUntil,
       @Nullable Boolean isPrivate,
-      @Nullable Boolean workInProgress) {
+      @Nullable Boolean workInProgress,
+      boolean hasReviewStarted) {
     if (hashtags == null) {
       hashtags = ImmutableSet.of();
     }
@@ -143,7 +145,8 @@ public abstract class ChangeNotesState {
         ImmutableListMultimap.copyOf(publishedComments),
         readOnlyUntil,
         isPrivate,
-        workInProgress);
+        workInProgress,
+        hasReviewStarted);
   }
 
   /**
@@ -237,6 +240,8 @@ public abstract class ChangeNotesState {
 
   @Nullable
   abstract Boolean isWorkInProgress();
+
+  abstract boolean hasReviewStarted();
 
   Change newChange(Project.NameKey project) {
     ChangeColumns c = checkNotNull(columns(), "columns are required");

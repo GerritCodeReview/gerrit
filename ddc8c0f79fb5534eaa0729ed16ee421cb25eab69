@@ -33,6 +33,46 @@
       "revId": "ddc8c0f79fb5534eaa0729ed16ee421cb25eab69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aedd7bd_4de86163",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T15:12:10Z",
+      "side": 1,
+      "message": "Will it fit on the previous line?",
+      "revId": "ddc8c0f79fb5534eaa0729ed16ee421cb25eab69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3de42881_917bb5f3",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T15:12:10Z",
+      "side": 1,
+      "message": "I\u0027d say update all the tests like so or revert this section.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 9
+      },
+      "revId": "ddc8c0f79fb5534eaa0729ed16ee421cb25eab69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

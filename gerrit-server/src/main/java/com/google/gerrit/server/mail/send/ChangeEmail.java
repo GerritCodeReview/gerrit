@@ -81,10 +81,12 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected ProjectState projectState;
   protected Set<Account.Id> authors;
   protected boolean emailOnlyAuthors;
+  protected boolean hasReviewStarted;
 
   protected ChangeEmail(EmailArguments ea, String mc, ChangeData cd) throws OrmException {
     super(ea, mc, cd.change().getDest());
     changeData = cd;
+    hasReviewStarted = cd.hasReviewStarted();
     change = cd.change();
     emailOnlyAuthors = false;
   }

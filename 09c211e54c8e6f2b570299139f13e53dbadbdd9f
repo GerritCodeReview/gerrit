@@ -1,0 +1,203 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0f4a2d5_92ea8501",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T15:22:55Z",
+      "side": 1,
+      "message": "btw, you can access stubbed methods directly on instance\nelement._fireAction \u003d\u003d\u003d fireActionStub",
+      "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a39ba66_96433d4b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T15:22:55Z",
+      "side": 1,
+      "message": "Please declare it as a var in suite scope.",
+      "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "750d98a5_8a911b8d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T15:22:55Z",
+      "side": 1,
+      "message": "Move this into setup()?",
+      "range": {
+        "startLine": 581,
+        "startChar": 0,
+        "endLine": 582,
+        "endChar": 31
+      },
+      "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ca325ba_95d8909a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T15:22:55Z",
+      "side": 1,
+      "message": "move this line into own test?",
+      "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6901a32b_bd3b7767",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T15:22:55Z",
+      "side": 1,
+      "message": "This is brittle and will break if order of actions is changed.\nPlease test for presence, rather than exact index.",
+      "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e570a45e_ac73b36f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T15:22:55Z",
+      "side": 1,
+      "message": "This is brittle and will break if order of actions is changed.\nPlease test for presence, rather than exact index.",
+      "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c64310a_15db8cdf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T15:22:55Z",
+      "side": 1,
+      "message": "Please declare it as a var in suite scope.",
+      "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb15485c_f7cfb166",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T15:22:55Z",
+      "side": 1,
+      "message": "Move this into setup()?",
+      "range": {
+        "startLine": 617,
+        "startChar": 0,
+        "endLine": 618,
+        "endChar": 31
+      },
+      "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3247a0c7_2deadb36",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T15:22:55Z",
+      "side": 1,
+      "message": "move this line into own test?",
+      "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b447dada_a27f933d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T15:22:55Z",
+      "side": 1,
+      "message": "over 80 chars",
+      "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ba48a02_80950836",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T15:22:55Z",
+      "side": 1,
+      "message": "This is brittle and will break if order of actions is changed.\nPlease test for presence, rather than exact index.",
+      "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

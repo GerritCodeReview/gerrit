@@ -171,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "437bae67_56815f34",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-03T15:53:31Z",
+      "side": 1,
+      "message": "I\u0027ve figured it out. Thanks, done.",
+      "parentUuid": "a3ab7b1e_833d1cd2",
+      "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e570a45e_ac73b36f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 10
@@ -182,6 +200,24 @@
       "writtenOn": "2017-05-03T15:22:55Z",
       "side": 1,
       "message": "This is brittle and will break if order of actions is changed.\nPlease test for presence, rather than exact index.",
+      "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f54444d0_43fa0f7d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-03T15:53:31Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e570a45e_ac73b36f",
       "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -351,6 +387,24 @@
       "writtenOn": "2017-05-03T15:22:55Z",
       "side": 1,
       "message": "This is brittle and will break if order of actions is changed.\nPlease test for presence, rather than exact index.",
+      "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3212ced_96b66fe8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-03T15:53:31Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4ba48a02_80950836",
       "revId": "09c211e54c8e6f2b570299139f13e53dbadbdd9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

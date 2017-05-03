@@ -81,6 +81,24 @@
       "revId": "869b7b866a5b7dd467c8914bd8af9a189b0192a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c84a2d5c_062136ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-03T21:08:49Z",
+      "side": 1,
+      "message": "Maybe since this is a feature for Chrome, we can ask them what they would prefer?",
+      "parentUuid": "df666adc_969b8af1",
+      "revId": "869b7b866a5b7dd467c8914bd8af9a189b0192a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

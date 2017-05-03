@@ -43,6 +43,9 @@ public class AbandonedSender extends ReplyToChangeSender {
     ccAllApprovals();
     bccStarredBy();
     includeWatchers(NotifyType.ABANDONED_CHANGES);
+    if (hasReviewStarted) {
+      includeWatchers(NotifyType.REVIEW_STARTED_CHANGES);
+    }
     removeUsersThatIgnoredTheChange();
   }
 

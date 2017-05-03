@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95db365b_22326851",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1192,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-03T21:16:17Z",
+      "side": 0,
+      "message": "Would we still want to add this regardless? What if another new patch is added? If we\u0027re not checking for it because we already know there\u0027s a new patch, it may get missed?",
+      "revId": "c942c7f2de9cf7c548481825899c9e6028daa221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7902f316_3b98d966",
+        "filename": "polygerrit-ui/app/behaviors/gr-comment-behavior/gr-comment-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T15:15:57Z",
+      "side": 1,
+      "message": "It\u0027s essentially a utility method, and I don\u0027t think it\u0027s a good fit for behavior.",
+      "revId": "508cfa9a75f229e9689e79be3d6afa442eea2460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

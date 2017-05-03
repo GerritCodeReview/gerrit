@@ -1352,4 +1352,12 @@ public class ChangeData {
 
     public abstract ImmutableSortedSet<String> stars();
   }
+
+  public boolean hasReviewStarted() throws OrmException {
+    if (!notesMigration.readChanges()) {
+      // Under ReviewDb, all changes are always in the "review started" state.
+      return true;
+    }
+    return notes().hasReviewStarted();
+  }
 }

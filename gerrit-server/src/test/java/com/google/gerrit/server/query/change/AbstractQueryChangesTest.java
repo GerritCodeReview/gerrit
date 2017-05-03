@@ -122,6 +122,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -488,57 +489,82 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byAuthor() throws Exception {
-    TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChange(repo), userId);
-
-    // By exact email address
-    assertQuery("author:jauthor@example.com", change1);
-
-    // By email address part
-    assertQuery("author:jauthor", change1);
-    assertQuery("author:example", change1);
-    assertQuery("author:example.com", change1);
-
-    // By name part
-    assertQuery("author:Author", change1);
-
-    // Case insensitive
-    assertQuery("author:jAuThOr", change1);
-    assertQuery("author:ExAmPlE", change1);
-
-    // By non-existing email address / name / part
-    assertQuery("author:jcommitter@example.com");
-    assertQuery("author:somewhere.com");
-    assertQuery("author:jcommitter");
-    assertQuery("author:Committer");
+  public void byAuthorExact() throws Exception {
+    byAuthorOrCommitterExact("author:");
   }
 
   @Test
-  public void byCommitter() throws Exception {
+  public void byAuthorFullText() throws Exception {
+    byAuthorOrCommitterFullText("author:");
+  }
+
+  @Test
+  public void byCommitterExact() throws Exception {
+    byAuthorOrCommitterExact("committer:");
+  }
+
+  @Test
+  public void byCommitterFullText() throws Exception {
+    byAuthorOrCommitterFullText("committer:");
+  }
+
+  private void byAuthorOrCommitterExact(String searchOperator) throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChange(repo), userId);
+    PersonIdent johnDoe = new PersonIdent("John Doe", "john.doe@example.com");
+    PersonIdent john = new PersonIdent("John", "john@example.com");
+    PersonIdent doeSmith = new PersonIdent("Doe Smith", "doe_smith@example.com");
+    Change change1 = createChange(repo, johnDoe);
+    Change change2 = createChange(repo, john);
+    Change change3 = createChange(repo, doeSmith);
 
-    // By exact email address
-    assertQuery("committer:jcommitter@example.com", change1);
+    // Only email address.
+    assertQuery(searchOperator + "john.doe@example.com", change1);
+    assertQuery(searchOperator + "john@example.com", change2);
+    assertQuery(searchOperator + "Doe_SmIth@example.com", change3); // Case insensitive.
 
-    // By email address part
-    assertQuery("committer:jcommitter", change1);
-    assertQuery("committer:example", change1);
-    assertQuery("committer:example.com", change1);
+    // Right combination of email address and name.
+    assertQuery(searchOperator + "\"John Doe <john.doe@example.com>\"", change1);
+    assertQuery(searchOperator + "\" John <john@example.com> \"", change2);
+    assertQuery(searchOperator + "\"doE SMITH <doe_smitH@example.com>\"", change3);
 
-    // By name part
-    assertQuery("committer:Committer", change1);
+    // Wrong combination of email address and name.
+    assertQuery(searchOperator + "\"John <john.doe@example.com>\"");
+    assertQuery(searchOperator + "\"Doe John <john@example.com>\"");
+    assertQuery(searchOperator + "\"Doe John <doe_smith@example.com>\"");
+  }
 
-    // Case insensitive
-    assertQuery("committer:jCoMmItTeR", change1);
-    assertQuery("committer:ExAmPlE", change1);
+  private void byAuthorOrCommitterFullText(String searchOperator) throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    PersonIdent johnDoe = new PersonIdent("John Doe", "john.doe@example.com");
+    PersonIdent john = new PersonIdent("John", "john@example.com");
+    PersonIdent doeSmith = new PersonIdent("Doe Smith", "doe_smith@example.com");
+    Change change1 = createChange(repo, johnDoe);
+    Change change2 = createChange(repo, john);
+    Change change3 = createChange(repo, doeSmith);
 
-    // By non-existing email address / name / part
-    assertQuery("committer:jauthor@example.com");
-    assertQuery("committer:somewhere.com");
-    assertQuery("committer:jauthor");
-    assertQuery("committer:Author");
+    // By exact name.
+    assertQuery(searchOperator + "\"John Doe\"", change1);
+    assertQuery(searchOperator + "\"john\"", change2, change1);
+    assertQuery(searchOperator + "\"Doe smith\"", change3);
+
+    // By name part.
+    assertQuery(searchOperator + "Doe", change3, change1);
+    assertQuery(searchOperator + "smith", change3);
+
+    // By wrong combination.
+    assertQuery(searchOperator + "\"John Smith\"");
+
+    // By invalid query.
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("invalid value");
+    // SchemaUtil.getNameParts will return an empty set for query only containing these characters.
+    assertQuery(searchOperator + "@.- /_");
+  }
+
+  private Change createChange(TestRepository<Repo> repo, PersonIdent person) throws Exception {
+    RevCommit commit =
+        repo.parseBody(repo.commit().message("message").author(person).committer(person).create());
+    return insert(repo, newChangeForCommit(repo, commit), null);
   }
 
   @Test

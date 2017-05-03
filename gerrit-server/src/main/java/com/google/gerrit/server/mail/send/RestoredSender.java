@@ -43,6 +43,9 @@ public class RestoredSender extends ReplyToChangeSender {
     ccAllApprovals();
     bccStarredBy();
     includeWatchers(NotifyType.ALL_COMMENTS);
+    if (hasReviewStarted) {
+      includeWatchers(NotifyType.REVIEW_STARTED_CHANGES);
+    }
     removeUsersThatIgnoredTheChange();
   }
 

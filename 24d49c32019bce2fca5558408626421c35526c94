@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "57cca6de_2c51bca3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-03T20:32:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dbc0cfb_3505b662",
+      "revId": "24d49c32019bce2fca5558408626421c35526c94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "902d1749_49dff503",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -126,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "ffba6ac6_aba8d9aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-03T20:32:20Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "c2d26482_8d10098a",
+      "range": {
+        "startLine": 223,
+        "startChar": 6,
+        "endLine": 223,
+        "endChar": 14
+      },
+      "revId": "24d49c32019bce2fca5558408626421c35526c94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d65edfb_db20ebd3",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 2
@@ -140,6 +182,24 @@
       "revId": "24d49c32019bce2fca5558408626421c35526c94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bdf87ee_0ae4a73a",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-03T20:32:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d65edfb_db20ebd3",
+      "revId": "24d49c32019bce2fca5558408626421c35526c94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

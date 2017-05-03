@@ -22,6 +22,30 @@
       "revId": "7692439a047e0e56a204c49eb985fe87fdeb0f39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50b24f81_55d0bca4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-03T18:09:00Z",
+      "side": 1,
+      "message": "Why, exactly? Do you think the chained .sort call should be on the same line?\n\n      assert.deepEqual([\n        \u0027minidump/minidump_memory_writer.cc\u0027,\n        \u0027minidump/minidump_memory_writer.h\u0027,\n        \u0027minidump/minidump_thread_writer.cc\u0027,\n        \u0027minidump/minidump_thread_writer.h\u0027,\n      ].sort(element.specialFilePathCompare),",
+      "parentUuid": "d77dea51_8c98495b",
+      "range": {
+        "startLine": 362,
+        "startChar": 4,
+        "endLine": 362,
+        "endChar": 7
+      },
+      "revId": "7692439a047e0e56a204c49eb985fe87fdeb0f39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

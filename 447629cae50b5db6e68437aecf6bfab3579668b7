@@ -23,6 +23,30 @@
       "revId": "447629cae50b5db6e68437aecf6bfab3579668b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9371f47_74795cbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangesImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-03T08:32:14Z",
+      "side": 1,
+      "message": "... or a simple static Util class",
+      "parentUuid": "9e3d7f68_bbe8bdc1",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 3
+      },
+      "revId": "447629cae50b5db6e68437aecf6bfab3579668b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

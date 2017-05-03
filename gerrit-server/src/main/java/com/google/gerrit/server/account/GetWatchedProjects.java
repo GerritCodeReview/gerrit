@@ -75,6 +75,8 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
       pwi.notifyNewPatchSets = toBoolean(e.getValue().contains(NotifyType.NEW_PATCHSETS));
       pwi.notifySubmittedChanges = toBoolean(e.getValue().contains(NotifyType.SUBMITTED_CHANGES));
       pwi.notifyAllComments = toBoolean(e.getValue().contains(NotifyType.ALL_COMMENTS));
+      pwi.notifyReviewStartedChanges =
+          toBoolean(e.getValue().contains(NotifyType.REVIEW_STARTED_CHANGES));
       projectWatchInfos.add(pwi);
     }
     Collections.sort(

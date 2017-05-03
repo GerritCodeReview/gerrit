@@ -47,10 +47,8 @@
   var ChangeActions = {
     ABANDON: 'abandon',
     DELETE: '/',
-    IGNORE: 'ignore',
     RESTORE: 'restore',
     REVERT: 'revert',
-    UNIGNORE: 'unignore',
   };
 
   // TODO(andybons): Add the rest of the revision actions.
@@ -207,14 +205,6 @@
             {
               type: ActionType.REVISION,
               key: RevisionActions.DOWNLOAD,
-            },
-            {
-              type: ActionType.CHANGE,
-              key: ChangeActions.IGNORE,
-            },
-            {
-              type: ActionType.CHANGE,
-              key: ChangeActions.UNIGNORE,
             },
           ];
           return value;

@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "89c5426e_ac085bb5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-03T21:55:05Z",
+      "side": 1,
+      "message": "Let me know what you think of what I did:\n- Removed the data binding in the \u003cgr-diff\u003e for prefs (from gr-file-list).  \n- Set preferences in renderInOrder\n- Add observer to preferences to update preferences one by one.",
+      "parentUuid": "6c58c117_0442b587",
+      "revId": "e21efeb126d598979ea96c774eb4fbd91b1cb2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1bd93c32_2888c527",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1
@@ -56,6 +74,24 @@
       "revId": "e21efeb126d598979ea96c774eb4fbd91b1cb2a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98b04599_88870a8d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-03T21:55:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bd93c32_2888c527",
+      "revId": "e21efeb126d598979ea96c774eb4fbd91b1cb2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -79,6 +115,30 @@
       "revId": "e21efeb126d598979ea96c774eb4fbd91b1cb2a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10e9d95a_dbdd311b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-03T21:55:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ef06c33_452cd6fe",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 2
+      },
+      "revId": "e21efeb126d598979ea96c774eb4fbd91b1cb2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -49,13 +49,15 @@
       _lastCredentialCheck: {
         type: Number,
         value: function() { return Date.now(); },
-      }
+      },
     },
 
     attached: function() {
       this.listen(document, 'server-error', '_handleServerError');
       this.listen(document, 'network-error', '_handleNetworkError');
       this.listen(document, 'show-alert', '_handleShowAlert');
+      // On page navigation, any alert presented is no longer valid.
+      this.listen(document, 'location-change', '_hideAlert');
       this.listen(document, 'visibilitychange', '_handleVisibilityChange');
       this.listen(document, 'show-auth-required', '_handleAuthRequired');
     },
@@ -64,6 +66,7 @@
       this._clearHideAlertHandle();
       this.unlisten(document, 'server-error', '_handleServerError');
       this.unlisten(document, 'network-error', '_handleNetworkError');
+      this.unlisten(document, 'location-change', '_hideAlert');
       this.unlisten(document, 'show-auth-required', '_handleAuthRequired');
       this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
     },
@@ -79,7 +82,8 @@
 
     _handleServerError: function(e) {
       Promise.all([
-        e.detail.response.text(), this._getLoggedIn()
+        e.detail.response.text(),
+        this._getLoggedIn(),
       ]).then(function(values) {
         var text = values[0];
         var loggedIn = values[1];
@@ -173,7 +177,7 @@
 
     _requestCheckLoggedIn: function() {
       this.debounce(
-        'checkLoggedIn', this._checkSignedIn, CHECK_SIGN_IN_INTERVAL_MS);
+          'checkLoggedIn', this._checkSignedIn, CHECK_SIGN_IN_INTERVAL_MS);
     },
 
     _checkSignedIn: function() {

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -45,6 +47,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -106,7 +109,8 @@ public class DeleteDraftPatchSet
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws RestApiException, OrmException, IOException, NoSuchChangeException {
-      patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+      Map<PatchSet.Id, PatchSet> patchSets = psUtil.byChangeAsMap(db.get(), ctx.getNotes());
+      patchSet = patchSets.get(psId);
       if (patchSet == null) {
         return false; // Nothing to do.
       }
@@ -120,9 +124,9 @@ public class DeleteDraftPatchSet
         throw new AuthException("Not permitted to delete this draft patch set");
       }
 
-      patchSetsBeforeDeletion = psUtil.byChange(ctx.getDb(), ctx.getNotes());
+      patchSetsBeforeDeletion = patchSets.values();
       deleteDraftPatchSet(patchSet, ctx);
-      deleteOrUpdateDraftChange(ctx);
+      deleteOrUpdateDraftChange(ctx, patchSets);
       return true;
     }
 
@@ -152,7 +156,7 @@ public class DeleteDraftPatchSet
       db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));
     }
 
-    private void deleteOrUpdateDraftChange(ChangeContext ctx)
+    private void deleteOrUpdateDraftChange(ChangeContext ctx, Map<PatchSet.Id, PatchSet> patchSets)
         throws OrmException, RestApiException, IOException, NoSuchChangeException {
       Change c = ctx.getChange();
       if (deletedOnlyPatchSet()) {
@@ -161,7 +165,7 @@ public class DeleteDraftPatchSet
         return;
       }
       if (c.currentPatchSetId().equals(psId)) {
-        c.setCurrentPatchSet(previousPatchSetInfo(ctx));
+        c.setCurrentPatchSet(previousPatchSetInfo(ctx, patchSets));
       }
     }
 
@@ -170,12 +174,22 @@ public class DeleteDraftPatchSet
           && patchSetsBeforeDeletion.iterator().next().getId().equals(psId);
     }
 
-    private PatchSetInfo previousPatchSetInfo(ChangeContext ctx) throws OrmException {
+    private PatchSetInfo previousPatchSetInfo(
+        ChangeContext ctx, Map<PatchSet.Id, PatchSet> patchSets) throws OrmException {
+      PatchSet.Id prevPsId = null;
+      for (PatchSet.Id id : patchSets.keySet()) {
+        if (id.get() < psId.get() && (prevPsId == null || id.get() > prevPsId.get())) {
+          prevPsId = id;
+        }
+      }
+
       try {
         // TODO(dborowitz): Get this in a way that doesn't involve re-opening
         // the repo after the updateRepo phase.
         return patchSetInfoFactory.get(
-            ctx.getDb(), ctx.getNotes(), new PatchSet.Id(psId.getParentKey(), psId.get() - 1));
+            ctx.getDb(),
+            ctx.getNotes(),
+            new PatchSet.Id(psId.getParentKey(), checkNotNull(prevPsId).get()));
       } catch (PatchSetInfoNotAvailableException e) {
         throw new OrmException(e);
       }

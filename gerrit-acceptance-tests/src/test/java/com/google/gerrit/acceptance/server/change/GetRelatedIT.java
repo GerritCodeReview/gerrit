@@ -64,8 +64,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
     System.setProperty("user.timezone", systemTimeZone);
   }
 
-  @Inject private BatchUpdate.Factory updateFactory;
-
   @Inject private ChangesCollection changes;
 
   @Test
@@ -578,7 +576,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
   }
 
   private void clearGroups(final PatchSet.Id psId) throws Exception {
-    try (BatchUpdate bu = updateFactory.create(db, project, user(user), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = batchUpdateFactory.create(db, project, user(user), TimeUtil.nowTs())) {
       bu.addOp(
           psId.getParentKey(),
           new BatchUpdateOp() {

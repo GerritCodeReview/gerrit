@@ -139,8 +139,6 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   @Inject private TestChangeRebuilderWrapper rebuilderWrapper;
 
-  @Inject private BatchUpdate.Factory batchUpdateFactory;
-
   @Inject private Sequences seq;
 
   @Inject private ChangeBundleReader bundleReader;

@@ -62,7 +62,6 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestTimeUtil;
@@ -95,7 +94,6 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
   }
 
   @Inject private AllUsersName allUsers;
-  @Inject private BatchUpdate.Factory batchUpdateFactory;
   @Inject private ChangeBundleReader bundleReader;
   @Inject private CommentsUtil commentsUtil;
   @Inject private TestChangeRebuilderWrapper rebuilderWrapper;

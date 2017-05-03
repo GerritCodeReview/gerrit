@@ -79,8 +79,6 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
   @Inject private IdentifiedUser.GenericFactory userFactory;
 
-  @Inject private BatchUpdate.Factory updateFactory;
-
   @Inject private ChangeInserter.Factory changeInserterFactory;
 
   @Inject private PatchSetInserter.Factory patchSetInserterFactory;
@@ -784,7 +782,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   }
 
   private BatchUpdate newUpdate(Account.Id owner) {
-    return updateFactory.create(db, project, userFactory.create(owner), TimeUtil.nowTs());
+    return batchUpdateFactory.create(db, project, userFactory.create(owner), TimeUtil.nowTs());
   }
 
   private ChangeControl insertChange() throws Exception {

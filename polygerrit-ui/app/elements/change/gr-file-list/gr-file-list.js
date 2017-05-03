@@ -68,7 +68,11 @@
         value: function() { return []; },
       },
       _diffAgainst: String,
-      _diffPrefs: Object,
+      diffPrefs: {
+        type: Object,
+        notify: true,
+        observer: '_updateDiffPreferences',
+      },
       _userPrefs: Object,
       _localPrefs: Object,
       _showInlineDiffs: Boolean,
@@ -157,7 +161,7 @@
 
       this._localPrefs = this.$.storage.getPreferences();
       promises.push(this._getDiffPreferences().then(function(prefs) {
-        this._diffPrefs = prefs;
+        this.diffPrefs = prefs;
       }.bind(this)));
 
       promises.push(this._getPreferences().then(function(prefs) {
@@ -243,6 +247,12 @@
       patchRange.basePatchNum = Polymer.dom(e).rootTarget.value;
       page.show(this.encodeURL('/c/' + this.changeNum + '/' +
           this._patchRangeStr(patchRange), true));
+    },
+
+    _updateDiffPreferences: function(diffPrefs) {
+      this._forEachDiff(function(diff) {
+        diff.prefs = diffPrefs;
+      });
     },
 
     _forEachDiff: function(fn) {
@@ -837,6 +847,7 @@
       console.log('Expanding diff', 1 + initialCount - paths.length, 'of',
           initialCount, ':', paths[0]);
       var diffElem = this._findDiffByPath(paths[0], diffElements);
+      diffElem.prefs = this.diffPrefs;
       var promises = [diffElem.reload()];
       if (this._isLoggedIn) {
         promises.push(this._reviewFile(paths[0]));

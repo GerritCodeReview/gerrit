@@ -54,7 +54,7 @@ public class ReviewInput {
   public DraftHandling drafts;
 
   /** Who to send email notifications to after review is stored. */
-  public NotifyHandling notify = NotifyHandling.ALL;
+  public NotifyHandling notify;
 
   public Map<RecipientType, NotifyInfo> notifyDetails;
 

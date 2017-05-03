@@ -16,6 +16,24 @@
       "revId": "c942c7f2de9cf7c548481825899c9e6028daa221",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86576fd8_89d5e7cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1192,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-03T22:30:06Z",
+      "side": 0,
+      "message": "It\u0027s actually not necessary because the link in the alert just navigates to `/c/$change_number`, so we\u0027ll get the most updated patchset at time of clicking no matter what. So, when we determine that a new patchset is available, we can stop sending network requests for new ones.",
+      "parentUuid": "95db365b_22326851",
+      "revId": "c942c7f2de9cf7c548481825899c9e6028daa221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

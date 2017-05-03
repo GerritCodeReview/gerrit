@@ -34,6 +34,24 @@
       "revId": "a31434048c931e3e4865f170d3885e834d972f61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6682bba0_4dd10dd0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-03T19:43:03Z",
+      "side": 1,
+      "message": "WHen i add done to the suit, it fails with\n\nsafari 10.1              Tests failed: Error thrown outside of test function: Resolution method is overspecified. Specify a callback *or* return a Promise; not both.\nTest run ended in failure: Error thrown outside of test function: Resolution method is overspecified. Specify a callback *or* return a Promise; not both.",
+      "parentUuid": "56ee03c4_8896fe92",
+      "revId": "a31434048c931e3e4865f170d3885e834d972f61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

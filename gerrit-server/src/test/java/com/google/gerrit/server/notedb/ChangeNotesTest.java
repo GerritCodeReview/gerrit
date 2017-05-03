@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.REMOVED;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -116,7 +117,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
-  public void tagInlineCommenrts() throws Exception {
+  public void tagInlineComments() throws Exception {
     String tag = "jenkins";
     Change c = newChange();
     RevCommit commit = tr.commit().message("PS2").create();
@@ -3396,6 +3397,101 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getReviewersByEmail().byState(ReviewerStateInternal.REVIEWER)).isEmpty();
     assertThat(notes.getReviewersByEmail().byState(ReviewerStateInternal.CC)).containsExactly(adr);
     assertThat(notes.getReviewersByEmail().all()).containsExactly(adr);
+  }
+
+  @Test
+  public void hasReviewStarted() throws Exception {
+    ChangeNotes notes = newNotes(newChange());
+    assertThat(notes.hasReviewStarted()).isTrue();
+
+    notes = newNotes(newWorkInProgressChange());
+    assertThat(notes.hasReviewStarted()).isFalse();
+
+    Change c = newWorkInProgressChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.hasReviewStarted()).isFalse();
+
+    update = newUpdate(c, changeOwner);
+    update.setWorkInProgress(true);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.hasReviewStarted()).isFalse();
+
+    update = newUpdate(c, changeOwner);
+    update.setWorkInProgress(false);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.hasReviewStarted()).isTrue();
+
+    // Once review is started, setting WIP should have no impact.
+    c = newChange();
+    notes = newNotes(c);
+    assertThat(notes.hasReviewStarted()).isTrue();
+    update = newUpdate(c, changeOwner);
+    update.setWorkInProgress(true);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.hasReviewStarted()).isTrue();
+  }
+
+  @Test
+  public void pendingReviewers() throws Exception {
+    Address adr1 = new Address("Foo Bar1", "foo.bar1@gerritcodereview.com");
+    Address adr2 = new Address("Foo Bar2", "foo.bar2@gerritcodereview.com");
+    Account.Id ownerId = changeOwner.getAccount().getId();
+    Account.Id otherUserId = otherUser.getAccount().getId();
+
+    ChangeNotes notes = newNotes(newChange());
+    assertThat(notes.getPendingReviewers().asTable()).isEmpty();
+    assertThat(notes.getPendingReviewersByEmail().asTable()).isEmpty();
+
+    Change c = newWorkInProgressChange();
+    notes = newNotes(c);
+    assertThat(notes.getPendingReviewers().asTable()).isEmpty();
+    assertThat(notes.getPendingReviewersByEmail().asTable()).isEmpty();
+
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putReviewer(ownerId, REVIEWER);
+    update.putReviewer(otherUserId, CC);
+    update.putReviewerByEmail(adr1, REVIEWER);
+    update.putReviewerByEmail(adr2, CC);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getPendingReviewers().byState(REVIEWER)).containsExactly(ownerId);
+    assertThat(notes.getPendingReviewers().byState(CC)).containsExactly(otherUserId);
+    assertThat(notes.getPendingReviewers().byState(REMOVED)).isEmpty();
+    assertThat(notes.getPendingReviewersByEmail().byState(REVIEWER)).containsExactly(adr1);
+    assertThat(notes.getPendingReviewersByEmail().byState(CC)).containsExactly(adr2);
+    assertThat(notes.getPendingReviewersByEmail().byState(REMOVED)).isEmpty();
+
+    update = newUpdate(c, changeOwner);
+    update.removeReviewer(ownerId);
+    update.removeReviewerByEmail(adr1);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getPendingReviewers().byState(REVIEWER)).isEmpty();
+    assertThat(notes.getPendingReviewers().byState(CC)).containsExactly(otherUserId);
+    assertThat(notes.getPendingReviewers().byState(REMOVED)).containsExactly(ownerId);
+    assertThat(notes.getPendingReviewersByEmail().byState(REVIEWER)).isEmpty();
+    assertThat(notes.getPendingReviewersByEmail().byState(CC)).containsExactly(adr2);
+    assertThat(notes.getPendingReviewersByEmail().byState(REMOVED)).containsExactly(adr1);
+
+    update = newUpdate(c, changeOwner);
+    update.setWorkInProgress(false);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getPendingReviewers().asTable()).isEmpty();
+    assertThat(notes.getPendingReviewersByEmail().asTable()).isEmpty();
+
+    update = newUpdate(c, changeOwner);
+    update.putReviewer(ownerId, REVIEWER);
+    update.putReviewerByEmail(adr1, REVIEWER);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getPendingReviewers().asTable()).isEmpty();
+    assertThat(notes.getPendingReviewersByEmail().asTable()).isEmpty();
   }
 
   private boolean testJson() {

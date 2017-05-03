@@ -197,6 +197,7 @@ public class ChangeInserter implements InsertChangeOp {
     change.setTopic(topic);
     change.setPrivate(isPrivate);
     change.setWorkInProgress(workInProgress);
+    change.setReviewStarted(!workInProgress);
     return change;
   }
 

@@ -17,10 +17,13 @@ package com.google.gerrit.server.notedb;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
+import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.ReviewerByEmailSet;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.notedb.AbstractChangeNotes.Args;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
@@ -111,6 +114,14 @@ public class ChangeNotesCache {
           + P
           + list(state.patchSets(), patchSet())
           + P
+          + reviewerSet(state.reviewers(), 2) // REVIEWER or CC
+          + P
+          + reviewerSet(state.reviewersByEmail(), 2) // REVIEWER or CC
+          + P
+          + reviewerSet(state.pendingReviewers(), 3) // includes REMOVED
+          + P
+          + reviewerSet(state.pendingReviewersByEmail(), 3) // includes REMOVED
+          + P
           + list(state.allPastReviewers(), approval())
           + P
           + list(state.reviewerUpdates(), 4 * O + K + K + P)
@@ -122,7 +133,11 @@ public class ChangeNotesCache {
           + P
           + map(state.changeMessagesByPatchSet().asMap(), patchSetId())
           + P
-          + map(state.publishedComments().asMap(), comment());
+          + map(state.publishedComments().asMap(), comment())
+          + T // readOnlyUntil
+          + 1 // isPrivate
+          + 1 // workInProgress
+          + 1; // hasReviewStarted
     }
 
     private static int ptr(Object o, int size) {
@@ -174,6 +189,27 @@ public class ChangeNotesCache {
 
     private static int list(int n, int elemSize) {
       return O + O + n * (P + elemSize);
+    }
+
+    private static int hashBasedTable(
+        Table<?, ?, ?> table, int numRows, int rowKey, int columnKey, int elemSize) {
+      return O
+          + hashtable(numRows, rowKey + hashtable(0, 0))
+          + hashtable(table.size(), columnKey + elemSize);
+    }
+
+    private static int reviewerSet(ReviewerSet reviewers, int numRows) {
+      final int rowKey = 1; // ReviewerStateInternal
+      final int columnKey = K; // Account.Id
+      final int cellValue = T; // Timestamp
+      return hashBasedTable(reviewers.asTable(), numRows, rowKey, columnKey, cellValue);
+    }
+
+    private static int reviewerSet(ReviewerByEmailSet reviewers, int numRows) {
+      final int rowKey = 1; // ReviewerStateInternal
+      final int columnKey = P + 2 * str(20); // name and email, just a guess
+      final int cellValue = T; // Timestamp
+      return hashBasedTable(reviewers.asTable(), numRows, rowKey, columnKey, cellValue);
     }
 
     private static int patchSet() {

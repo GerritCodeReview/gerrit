@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dedcd59e_84a42796",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-03T21:06:18Z",
+      "side": 1,
+      "message": "Okay, this seems strange to me, but maybe it\u0027s just new. In any case, we should probably use the same functionality as the setup() in the other suite. \n\nWhat is the reason for using this, as opposed to just returning done? Whatever we decide, we ought to change the whole file to reflect.",
+      "range": {
+        "startLine": 583,
+        "startChar": 8,
+        "endLine": 583,
+        "endChar": 56
+      },
+      "revId": "92ac519a9890d5c66fcb0805be9b6ff16c9836ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

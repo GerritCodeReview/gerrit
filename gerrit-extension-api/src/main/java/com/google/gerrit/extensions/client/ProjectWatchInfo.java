@@ -25,6 +25,7 @@ public class ProjectWatchInfo {
   public Boolean notifyAllComments;
   public Boolean notifySubmittedChanges;
   public Boolean notifyAbandonedChanges;
+  public Boolean notifyReviewStartedChanges;
 
   @Override
   public boolean equals(Object obj) {
@@ -36,7 +37,8 @@ public class ProjectWatchInfo {
           && Objects.equals(notifyNewPatchSets, w.notifyNewPatchSets)
           && Objects.equals(notifyAllComments, w.notifyAllComments)
           && Objects.equals(notifySubmittedChanges, w.notifySubmittedChanges)
-          && Objects.equals(notifyAbandonedChanges, w.notifyAbandonedChanges);
+          && Objects.equals(notifyAbandonedChanges, w.notifyAbandonedChanges)
+          && Objects.equals(notifyReviewStartedChanges, w.notifyReviewStartedChanges);
     }
     return false;
   }
@@ -50,7 +52,8 @@ public class ProjectWatchInfo {
         notifyNewPatchSets,
         notifyAllComments,
         notifySubmittedChanges,
-        notifyAbandonedChanges);
+        notifyAbandonedChanges,
+        notifyReviewStartedChanges);
   }
 
   @Override
@@ -70,6 +73,8 @@ public class ProjectWatchInfo {
         .append(toBoolean(notifyNewPatchSets))
         .append(", notifySubmittedChanges=")
         .append(toBoolean(notifySubmittedChanges))
+        .append(", notifyReviewStartedChanges=")
+        .append(toBoolean(notifyReviewStartedChanges))
         .append(")");
     return b.toString();
   }

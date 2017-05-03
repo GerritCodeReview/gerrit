@@ -188,6 +188,7 @@ public class WatchConfig extends VersionedMetaData implements ValidationError.Si
     NEW_CHANGES,
     NEW_PATCHSETS,
     SUBMITTED_CHANGES,
+    REVIEW_STARTED_CHANGES,
 
     ALL
   }

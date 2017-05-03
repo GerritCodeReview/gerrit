@@ -188,6 +188,26 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteCurrentDraftPatchSetWhenPreviousPatchSetDoesNotExist() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    String changeId = push.to("refs/for/master").getChangeId();
+    pushFactory
+        .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "foo", changeId)
+        .to("refs/drafts/master");
+    pushFactory
+        .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "bar", changeId)
+        .to("refs/drafts/master");
+
+    deletePatchSet(changeId, 2);
+    deletePatchSet(changeId, 3);
+
+    ChangeData cd = getChange(changeId);
+    assertThat(cd.patchSets()).hasSize(1);
+    assertThat(Iterables.getOnlyElement(cd.patchSets()).getId().get()).isEqualTo(1);
+    assertThat(cd.currentPatchSet().getId().get()).isEqualTo(1);
+  }
+
+  @Test
   public void deleteDraftPatchSetAndPushNewDraftPatchSet() throws Exception {
     String ref = "refs/drafts/master";
 
@@ -263,6 +283,10 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
   }
 
   private void deletePatchSet(String changeId, PatchSet ps) throws Exception {
-    gApi.changes().id(changeId).revision(ps.getId().get()).delete();
+    deletePatchSet(changeId, ps.getId().get());
+  }
+
+  private void deletePatchSet(String changeId, int ps) throws Exception {
+    gApi.changes().id(changeId).revision(ps).delete();
   }
 }

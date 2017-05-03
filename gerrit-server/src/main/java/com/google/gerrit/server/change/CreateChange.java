@@ -260,6 +260,8 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
       }
       ins.setTopic(topic);
       ins.setDraft(input.status == ChangeStatus.DRAFT);
+      ins.setPrivate(input.isPrivate != null && input.isPrivate);
+      ins.setWorkInProgress(input.workInProgress != null && input.workInProgress);
       ins.setGroups(groups);
       ins.setNotify(input.notify);
       ins.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));

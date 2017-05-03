@@ -156,6 +156,20 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createNewPrivateChange() throws Exception {
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.isPrivate = true;
+    assertCreateSucceeds(input);
+  }
+
+  @Test
+  public void createNewWorkInProgressChange() throws Exception {
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.workInProgress = true;
+    assertCreateSucceeds(input);
+  }
+
+  @Test
   public void noteDbCommit() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
 
@@ -376,6 +390,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(out.subject).isEqualTo(in.subject);
     assertThat(out.topic).isEqualTo(in.topic);
     assertThat(out.status).isEqualTo(in.status);
+    assertThat(out.isPrivate).isEqualTo(in.isPrivate);
+    assertThat(out.workInProgress).isEqualTo(in.workInProgress);
     assertThat(out.revisions).hasSize(1);
     assertThat(out.submitted).isNull();
     Boolean draft = Iterables.getOnlyElement(out.revisions.values()).draft;

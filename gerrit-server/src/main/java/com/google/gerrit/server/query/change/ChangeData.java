@@ -357,6 +357,8 @@ public class ChangeData {
   private ImmutableMap<Account.Id, StarRef> starRefs;
   private ReviewerSet reviewers;
   private ReviewerByEmailSet reviewersByEmail;
+  private ReviewerSet pendingReviewers;
+  private ReviewerByEmailSet pendingReviewersByEmail;
   private List<ReviewerStatusUpdate> reviewerUpdates;
   private PersonIdent author;
   private PersonIdent committer;
@@ -989,6 +991,42 @@ public class ChangeData {
 
   public ReviewerByEmailSet getReviewersByEmail() {
     return reviewersByEmail;
+  }
+
+  public void setPendingReviewers(ReviewerSet pendingReviewers) {
+    this.pendingReviewers = pendingReviewers;
+  }
+
+  public ReviewerSet getPendingReviewers() {
+    return this.pendingReviewers;
+  }
+
+  public ReviewerSet pendingReviewers() throws OrmException {
+    if (pendingReviewers == null) {
+      if (!lazyLoad) {
+        return ReviewerSet.empty();
+      }
+      pendingReviewers = notes().getPendingReviewers();
+    }
+    return pendingReviewers;
+  }
+
+  public void setPendingReviewersByEmail(ReviewerByEmailSet pendingReviewersByEmail) {
+    this.pendingReviewersByEmail = pendingReviewersByEmail;
+  }
+
+  public ReviewerByEmailSet getPendingReviewersByEmail() {
+    return pendingReviewersByEmail;
+  }
+
+  public ReviewerByEmailSet pendingReviewersByEmail() throws OrmException {
+    if (pendingReviewersByEmail == null) {
+      if (!lazyLoad) {
+        return ReviewerByEmailSet.empty();
+      }
+      pendingReviewersByEmail = notes().getPendingReviewersByEmail();
+    }
+    return pendingReviewersByEmail;
   }
 
   public List<ReviewerStatusUpdate> reviewerUpdates() throws OrmException {

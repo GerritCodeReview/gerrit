@@ -195,6 +195,18 @@ public class ChangeField {
           .stored()
           .buildRepeatable(cd -> getReviewerByEmailFieldValues(cd.reviewersByEmail()));
 
+  /** Reviewer(s) modified during change's current WIP phase. */
+  public static final FieldDef<ChangeData, Iterable<String>> PENDING_REVIEWER =
+      exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER)
+          .stored()
+          .buildRepeatable(cd -> getReviewerFieldValues(cd.pendingReviewers()));
+
+  /** Reviewer(s) by email modified during change's current WIP phase. */
+  public static final FieldDef<ChangeData, Iterable<String>> PENDING_REVIEWER_BY_EMAIL =
+      exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER_BY_EMAIL)
+          .stored()
+          .buildRepeatable(cd -> getReviewerByEmailFieldValues(cd.pendingReviewersByEmail()));
+
   @VisibleForTesting
   static List<String> getReviewerFieldValues(ReviewerSet reviewers) {
     List<String> r = new ArrayList<>(reviewers.asTable().size() * 2);
@@ -469,6 +481,11 @@ public class ChangeField {
   /** Determines if this change is work in progress. */
   public static final FieldDef<ChangeData, String> WIP =
       exact(ChangeQueryBuilder.FIELD_WIP).build(cd -> cd.change().isWorkInProgress() ? "1" : "0");
+
+  /** Determines if this change has started review. */
+  public static final FieldDef<ChangeData, String> STARTED =
+      exact(ChangeQueryBuilder.FIELD_STARTED)
+          .build(cd -> cd.change().hasReviewStarted() ? "1" : "0");
 
   /** Users who have commented on this change. */
   public static final FieldDef<ChangeData, Iterable<Integer>> COMMENTBY =

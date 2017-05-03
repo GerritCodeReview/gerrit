@@ -103,6 +103,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeMessageModifier;
@@ -422,6 +423,277 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(ResourceNotFoundException.class);
     exception.expectMessage("Multiple changes found for " + changeId);
     gApi.changes().id(changeId).get();
+  }
+
+  @Test
+  public void abandon() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+    gApi.changes().id(changeId).abandon();
+    ChangeInfo info = get(changeId);
+    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("abandoned");
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("change is abandoned");
+    gApi.changes().id(changeId).abandon();
+  }
+
+  @Test
+  public void batchAbandon() throws Exception {
+    CurrentUser user = atrScope.get().getUser();
+    PushOneCommit.Result a = createChange();
+    List<ChangeControl> controlA = changeFinder.find(a.getChangeId(), user);
+    assertThat(controlA).hasSize(1);
+    PushOneCommit.Result b = createChange();
+    List<ChangeControl> controlB = changeFinder.find(b.getChangeId(), user);
+    assertThat(controlB).hasSize(1);
+    List<ChangeControl> list = ImmutableList.of(controlA.get(0), controlB.get(0));
+    changeAbandoner.batchAbandon(
+        batchUpdateFactory, controlA.get(0).getProject().getNameKey(), user, list, "deadbeef");
+
+    ChangeInfo info = get(a.getChangeId());
+    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("abandoned");
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("deadbeef");
+
+    info = get(b.getChangeId());
+    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("abandoned");
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("deadbeef");
+  }
+
+  @Test
+  public void batchAbandonChangeProject() throws Exception {
+    String project1Name = name("Project1");
+    String project2Name = name("Project2");
+    gApi.projects().create(project1Name);
+    gApi.projects().create(project2Name);
+    TestRepository<InMemoryRepository> project1 = cloneProject(new Project.NameKey(project1Name));
+    TestRepository<InMemoryRepository> project2 = cloneProject(new Project.NameKey(project2Name));
+
+    CurrentUser user = atrScope.get().getUser();
+    PushOneCommit.Result a = createChange(project1, "master", "x", "x", "x", "");
+    List<ChangeControl> controlA = changeFinder.find(a.getChangeId(), user);
+    assertThat(controlA).hasSize(1);
+    PushOneCommit.Result b = createChange(project2, "master", "x", "x", "x", "");
+    List<ChangeControl> controlB = changeFinder.find(b.getChangeId(), user);
+    assertThat(controlB).hasSize(1);
+    List<ChangeControl> list = ImmutableList.of(controlA.get(0), controlB.get(0));
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(
+        String.format("Project name \"%s\" doesn't match \"%s\"", project2Name, project1Name));
+    changeAbandoner.batchAbandon(batchUpdateFactory, new Project.NameKey(project1Name), user, list);
+  }
+
+  @Test
+  public void abandonDraft() throws Exception {
+    PushOneCommit.Result r = createDraftChange();
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.DRAFT);
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("draft changes cannot be abandoned");
+    gApi.changes().id(changeId).abandon();
+  }
+
+  @Test
+  public void abandonNotAllowedWithoutPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("abandon not permitted");
+    gApi.changes().id(changeId).abandon();
+  }
+
+  @Test
+  public void abandonAndRestoreAllowedWithPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+    grant(project, "refs/heads/master", Permission.ABANDON, false, REGISTERED_USERS);
+    setApiUser(user);
+    gApi.changes().id(changeId).abandon();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
+    gApi.changes().id(changeId).restore();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+  }
+
+  @Test
+  public void abandonNotifiesAbandonedChangesWatchers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).isEmpty();
+
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyAbandonedChanges = true);
+    setApiUser(admin);
+
+    r = createChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+    sender.clear();
+
+    r = createWorkInProgressChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void abandonAndRestoreChangeInReviewNotifiesReviewStartedWatchers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+    sender.clear();
+
+    gApi.changes().id(r.getChangeId()).restore();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void abandonChangeInReviewNotifiesReviewStartedWatchers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void restoreChangeInReviewNotifiesReviewStartedWatchers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    sender.clear();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+
+    gApi.changes().id(r.getChangeId()).restore();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void abandonChangeInProgressDoesNotNotifyReviewStartedWatchersInNoteDb() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+    PushOneCommit.Result r = createWorkInProgressChange();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void restoreChangeInProgressDoesNotNotifyReviewStartedWatchersInNoteDb() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+    PushOneCommit.Result r = createWorkInProgressChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    sender.clear();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void abandonChangeInProgressNotifiesReviewStartedWatchersInReviewDb() throws Exception {
+    assume().that(notesMigration.enabled()).isFalse();
+    PushOneCommit.Result r = createWorkInProgressChange();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void restoreChangeInProgressNotifiesReviewStartedWatchersInReviewDb() throws Exception {
+    assume().that(notesMigration.enabled()).isFalse();
+    PushOneCommit.Result r = createWorkInProgressChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    sender.clear();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+    gApi.changes().id(r.getChangeId()).restore();
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void abandonChangeThatHasStartedReviewNotifiesReviewStartedWatchers() throws Exception {
+    // Move out of WIP to mark review as started. Even though we move back into WIP
+    // before abandoning, REVIEW_STARTED_CHANGES should be notified.
+    PushOneCommit.Result r = createWorkInProgressChange();
+    gApi.changes().id(r.getChangeId()).setReadyForReview();
+    gApi.changes().id(r.getChangeId()).setWorkInProgress();
+    sender.clear();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void restoreChangeThatHasStartedReviewNotifiesReviewStartedWatchers() throws Exception {
+    // Move out of WIP to mark review as started. Even though we move back into WIP
+    // before abandoning, REVIEW_STARTED_CHANGES should be notified.
+    PushOneCommit.Result r = createWorkInProgressChange();
+    gApi.changes().id(r.getChangeId()).setReadyForReview();
+    gApi.changes().id(r.getChangeId()).setWorkInProgress();
+    gApi.changes().id(r.getChangeId()).abandon();
+    sender.clear();
+    setApiUser(user);
+    watch(r, pwi -> pwi.notifyReviewStartedChanges = true);
+    setApiUser(admin);
+    gApi.changes().id(r.getChangeId()).restore();
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void restore() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+    gApi.changes().id(changeId).abandon();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
+
+    gApi.changes().id(changeId).restore();
+    ChangeInfo info = get(changeId);
+    assertThat(info.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("restored");
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("change is new");
+    gApi.changes().id(changeId).restore();
+  }
+
+  @Test
+  public void restoreNotAllowedWithoutPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+    gApi.changes().id(changeId).abandon();
+    setApiUser(user);
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
+    exception.expect(AuthException.class);
+    exception.expectMessage("restore not permitted");
+    gApi.changes().id(changeId).restore();
   }
 
   @Test

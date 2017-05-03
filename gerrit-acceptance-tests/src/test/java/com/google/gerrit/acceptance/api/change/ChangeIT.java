@@ -1252,6 +1252,40 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void notificationsForAddedWorkInProgressReviewers() throws Exception {
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    ReviewInput batchIn = new ReviewInput();
+    batchIn.reviewers = ImmutableList.of(in);
+
+    // Added reviewers not notified by default.
+    PushOneCommit.Result r = createWorkInProgressChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+    assertThat(sender.getMessages()).hasSize(0);
+
+    // Default notification handling can be overridden.
+    r = createWorkInProgressChange();
+    in.notify = NotifyHandling.OWNER_REVIEWERS;
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+    assertThat(sender.getMessages()).hasSize(1);
+    sender.clear();
+
+    // Reviewers added via PostReview also not notified by default.
+    // In this case, the child ReviewerInput has a notify=OWNER_REVIEWERS
+    // that should be ignored.
+    r = createWorkInProgressChange();
+    gApi.changes().id(r.getChangeId()).revision("current").review(batchIn);
+    assertThat(sender.getMessages()).hasSize(0);
+
+    // Top-level notify property can force notifications when adding reviewer
+    // via PostReview.
+    r = createWorkInProgressChange();
+    batchIn.notify = NotifyHandling.OWNER_REVIEWERS;
+    gApi.changes().id(r.getChangeId()).revision("current").review(batchIn);
+    assertThat(sender.getMessages()).hasSize(1);
+  }
+
+  @Test
   public void addReviewerWithNoteDbWhenDummyApprovalInReviewDbExists() throws Exception {
     assume().that(notesMigration.enabled()).isTrue();
     assume().that(notesMigration.changePrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);

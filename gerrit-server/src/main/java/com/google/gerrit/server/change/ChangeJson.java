@@ -95,6 +95,8 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ReviewerByEmailSet;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.WebLinks;
@@ -449,6 +451,7 @@ public class ChangeJson {
       info.problems = result.problems();
       info.isPrivate = c.isPrivate() ? true : null;
       info.workInProgress = c.isWorkInProgress() ? true : null;
+      info.hasReviewStarted = c.hasReviewStarted();
       finish(info);
     } else {
       info = new ChangeInfo();
@@ -505,6 +508,7 @@ public class ChangeJson {
     }
     out.isPrivate = in.isPrivate() ? true : null;
     out.workInProgress = in.isWorkInProgress() ? true : null;
+    out.hasReviewStarted = in.hasReviewStarted();
     out.subject = in.getSubject();
     out.status = in.getStatus().asChangeStatus();
     out.owner = accountLoader.get(in.getOwner());
@@ -550,18 +554,8 @@ public class ChangeJson {
                 : ImmutableMap.of();
       }
 
-      out.reviewers = new HashMap<>();
-      for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
-        if (state == ReviewerStateInternal.REMOVED) {
-          continue;
-        }
-        Collection<AccountInfo> reviewers = toAccountInfo(cd.reviewers().byState(state));
-        reviewers.addAll(toAccountInfoByEmail(cd.reviewersByEmail().byState(state)));
-        if (!reviewers.isEmpty()) {
-          out.reviewers.put(state.asReviewerState(), reviewers);
-        }
-      }
-
+      out.reviewers = reviewerMap(cd.reviewers(), cd.reviewersByEmail(), false);
+      out.pendingReviewers = reviewerMap(cd.pendingReviewers(), cd.pendingReviewersByEmail(), true);
       out.removableReviewers = removableReviewers(ctl, out);
     }
 
@@ -601,6 +595,22 @@ public class ChangeJson {
     }
 
     return out;
+  }
+
+  private Map<ReviewerState, Collection<AccountInfo>> reviewerMap(
+      ReviewerSet reviewers, ReviewerByEmailSet reviewersByEmail, boolean includeRemoved) {
+    Map<ReviewerState, Collection<AccountInfo>> reviewerMap = new HashMap<>();
+    for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
+      if (!includeRemoved && state == ReviewerStateInternal.REMOVED) {
+        continue;
+      }
+      Collection<AccountInfo> reviewersByState = toAccountInfo(reviewers.byState(state));
+      reviewersByState.addAll(toAccountInfoByEmail(reviewersByEmail.byState(state)));
+      if (!reviewersByState.isEmpty()) {
+        reviewerMap.put(state.asReviewerState(), reviewersByState);
+      }
+    }
+    return reviewerMap;
   }
 
   private Collection<ReviewerUpdateInfo> reviewerUpdates(ChangeData cd) throws OrmException {

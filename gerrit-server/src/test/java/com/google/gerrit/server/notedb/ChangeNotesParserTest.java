@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
 import com.google.gerrit.common.TimeUtil;
@@ -437,6 +438,45 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void parseWorkInProgress() throws Exception {
+    // Change created in WIP remains in WIP.
+    RevCommit commit = writeCommit("Update WIP change\n" + "\n" + "Patch-set: 1\n", true);
+    ChangeNotesState state = newParser(commit).parseAll();
+    assertThat(state.hasReviewStarted()).isFalse();
+
+    // Moving change out of WIP starts review.
+    commit =
+        writeCommit("New ready change\n" + "\n" + "Patch-set: 1\n" + "Work-in-progress: false\n");
+    state = newParser(commit).parseAll();
+    assertThat(state.hasReviewStarted()).isTrue();
+
+    // Change created not in WIP has always been in review started state.
+    state = assertParseSucceeds("New change that doesn't declare WIP\n" + "\n" + "Patch-set: 1\n");
+    assertThat(state.hasReviewStarted()).isTrue();
+  }
+
+  @Test
+  public void pendingReviewers() throws Exception {
+    // Change created in WIP.
+    RevCommit commit = writeCommit("Update WIP change\n" + "\n" + "Patch-set: 1\n", true);
+    ChangeNotesState state = newParser(commit).parseAll();
+    assertThat(state.pendingReviewers().all()).isEmpty();
+    assertThat(state.pendingReviewersByEmail().all()).isEmpty();
+
+    // Reviewers added while in WIP.
+    commit =
+        writeCommit(
+            "Add reviewers\n"
+                + "\n"
+                + "Patch-set: 1\n"
+                + "Reviewer: Change Owner "
+                + "<1@gerrit>\n",
+            true);
+    state = newParser(commit).parseAll();
+    assertThat(state.pendingReviewers().byState(ReviewerStateInternal.REVIEWER)).isNotEmpty();
+  }
+
+  @Test
   public void caseInsensitiveFooters() throws Exception {
     assertParseSucceeds(
         "Update change\n"
@@ -460,11 +500,26 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
     return writeCommit(
         body,
         noteUtil.newIdent(
-            changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent, "Anonymous Coward"));
+            changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent, "Anonymous Coward"),
+        false);
   }
 
   private RevCommit writeCommit(String body, PersonIdent author) throws Exception {
-    Change change = newChange();
+    return writeCommit(body, author, false);
+  }
+
+  private RevCommit writeCommit(String body, boolean initWorkInProgress) throws Exception {
+    ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
+    return writeCommit(
+        body,
+        noteUtil.newIdent(
+            changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent, "Anonymous Coward"),
+        initWorkInProgress);
+  }
+
+  private RevCommit writeCommit(String body, PersonIdent author, boolean initWorkInProgress)
+      throws Exception {
+    Change change = newChange(initWorkInProgress);
     ChangeNotes notes = newNotes(change).load();
     try (ObjectInserter ins = testRepo.getRepository().newObjectInserter()) {
       CommitBuilder cb = new CommitBuilder();
@@ -481,12 +536,12 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
     }
   }
 
-  private void assertParseSucceeds(String body) throws Exception {
-    assertParseSucceeds(writeCommit(body));
+  private ChangeNotesState assertParseSucceeds(String body) throws Exception {
+    return assertParseSucceeds(writeCommit(body));
   }
 
-  private void assertParseSucceeds(RevCommit commit) throws Exception {
-    newParser(commit).parseAll();
+  private ChangeNotesState assertParseSucceeds(RevCommit commit) throws Exception {
+    return newParser(commit).parseAll();
   }
 
   private void assertParseFails(String body) throws Exception {

@@ -173,6 +173,13 @@ public class AbandonedSenderIT extends AbstractNotificationTest {
     StagedChange sc = stageWipChange(ABANDONED_CHANGES);
     abandon(sc.changeId, sc.owner);
     // TODO(logan): This should behave like notify=OWNER in the future.
+    assertThat(sender).notSent();
+  }
+
+  @Test
+  public void abandonWipChangeNotifyAll() throws Exception {
+    StagedChange sc = stageWipChange(ABANDONED_CHANGES);
+    abandon(sc.changeId, sc.owner, ALL);
     assertThat(sender)
         .sent("abandon", sc)
         .notTo(sc.owner)

@@ -238,7 +238,10 @@ public class PostReviewersOp implements BatchUpdateOp {
 
     try {
       AddReviewerSender cm = addReviewerSenderFactory.create(change.getProject(), change.getId());
-      cm.setNotify(MoreObjects.firstNonNull(notify, NotifyHandling.ALL));
+      // Default to silent operation on WIP changes.
+      NotifyHandling defaultNotifyHandling =
+          change.isWorkInProgress() ? NotifyHandling.NONE : NotifyHandling.ALL;
+      cm.setNotify(MoreObjects.firstNonNull(notify, defaultNotifyHandling));
       cm.setAccountsToNotify(accountsToNotify);
       cm.setFrom(userId);
       cm.addReviewers(toMail);

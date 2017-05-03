@@ -160,6 +160,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_OWNERIN = "ownerin";
   public static final String FIELD_PARENTPROJECT = "parentproject";
   public static final String FIELD_PATH = "path";
+  public static final String FIELD_PENDING_REVIEWER = "pendingreviewer";
+  public static final String FIELD_PENDING_REVIEWER_BY_EMAIL = "pendingreviewerbyemail";
   public static final String FIELD_PRIVATE = "private";
   public static final String FIELD_PROJECT = "project";
   public static final String FIELD_PROJECTS = "projects";
@@ -170,6 +172,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_STAR = "star";
   public static final String FIELD_STARBY = "starby";
   public static final String FIELD_STARREDBY = "starredby";
+  public static final String FIELD_STARTED = "started";
   public static final String FIELD_STATUS = "status";
   public static final String FIELD_SUBMISSIONID = "submissionid";
   public static final String FIELD_TR = "tr";
@@ -618,6 +621,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     if ("ignored".equalsIgnoreCase(value)) {
       return star("ignore");
+    }
+
+    if ("started".equalsIgnoreCase(value)) {
+      if (args.getSchema().hasField(ChangeField.STARTED)) {
+        return new BooleanPredicate(ChangeField.STARTED, args.fillArgs);
+      }
+      throw new QueryParseException(
+          "'is:started' operator is not supported by change index version");
     }
 
     if ("wip".equalsIgnoreCase(value)) {

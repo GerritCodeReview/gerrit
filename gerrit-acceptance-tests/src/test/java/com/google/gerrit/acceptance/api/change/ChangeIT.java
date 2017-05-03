@@ -22,6 +22,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
+import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
@@ -63,6 +64,7 @@ import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
@@ -128,6 +130,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
@@ -357,6 +361,97 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to set ready for review");
     gApi.changes().id(changeId).setReadyForReview();
+  }
+
+  @Test
+  public void hasReviewStarted() throws Exception {
+    PushOneCommit.Result r = createWorkInProgressChange();
+    String changeId = r.getChangeId();
+    ChangeInfo info = gApi.changes().id(changeId).get();
+    assertThat(info.hasReviewStarted).isFalse();
+
+    gApi.changes().id(changeId).setReadyForReview();
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.hasReviewStarted).isTrue();
+  }
+
+  @Test
+  public void pendingReviewersInNoteDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+
+    ConfigInput conf = new ConfigInput();
+    conf.enableReviewerByEmail = InheritableBoolean.TRUE;
+    gApi.projects().name(project.get()).config(conf);
+
+    PushOneCommit.Result r = createWorkInProgressChange();
+    String changeId = r.getChangeId();
+    assertThat(gApi.changes().id(changeId).get().pendingReviewers).isEmpty();
+
+    // Add some pending reviewers.
+    TestAccount user1 =
+        accountCreator.create(name("user1"), name("user1") + "@example.com", "User 1");
+    TestAccount user2 =
+        accountCreator.create(name("user2"), name("user2") + "@example.com", "User 2");
+    TestAccount user3 =
+        accountCreator.create(name("user3"), name("user3") + "@example.com", "User 3");
+    TestAccount user4 =
+        accountCreator.create(name("user4"), name("user4") + "@example.com", "User 4");
+    ReviewInput in =
+        ReviewInput.noScore()
+            .reviewer(user1.email)
+            .reviewer(user2.email)
+            .reviewer(user3.email, CC, false)
+            .reviewer(user4.email, CC, false)
+            .reviewer("byemail1@example.com")
+            .reviewer("byemail2@example.com")
+            .reviewer("byemail3@example.com", CC, false)
+            .reviewer("byemail4@example.com", CC, false);
+    ReviewResult result = gApi.changes().id(changeId).revision("current").review(in);
+    assertThat(result.reviewers).isNotEmpty();
+    ChangeInfo info = gApi.changes().id(changeId).get();
+    Collection<AccountInfo> empty = ImmutableList.of();
+    Function<Collection<AccountInfo>, Collection<String>> toEmails =
+        ais -> ais.stream().map(ai -> ai.email).collect(Collectors.toSet());
+    assertThat(toEmails.apply(info.pendingReviewers.get(REVIEWER)))
+        .containsExactly(
+            admin.email, user1.email, user2.email, "byemail1@example.com", "byemail2@example.com");
+    assertThat(toEmails.apply(info.pendingReviewers.get(CC)))
+        .containsExactly(user3.email, user4.email, "byemail3@example.com", "byemail4@example.com");
+    assertThat(info.pendingReviewers.get(REMOVED)).isNull();
+
+    // Stage some pending reviewer removals.
+    gApi.changes().id(changeId).reviewer(user1.email).remove();
+    gApi.changes().id(changeId).reviewer(user3.email).remove();
+    gApi.changes().id(changeId).reviewer("byemail1@example.com").remove();
+    gApi.changes().id(changeId).reviewer("byemail3@example.com").remove();
+    info = gApi.changes().id(changeId).get();
+    assertThat(toEmails.apply(info.pendingReviewers.get(REVIEWER)))
+        .containsExactly(admin.email, user2.email, "byemail2@example.com");
+    assertThat(toEmails.apply(info.pendingReviewers.get(CC)))
+        .containsExactly(user4.email, "byemail4@example.com");
+    assertThat(toEmails.apply(info.pendingReviewers.get(REMOVED)))
+        .containsExactly(user1.email, user3.email, "byemail1@example.com", "byemail3@example.com");
+
+    // "Undo" a removal.
+    in = ReviewInput.noScore().reviewer(user1.email);
+    gApi.changes().id(changeId).revision("current").review(in);
+    info = gApi.changes().id(changeId).get();
+    assertThat(toEmails.apply(info.pendingReviewers.get(REVIEWER)))
+        .containsExactly(admin.email, user1.email, user2.email, "byemail2@example.com");
+    assertThat(toEmails.apply(info.pendingReviewers.get(CC)))
+        .containsExactly(user4.email, "byemail4@example.com");
+    assertThat(toEmails.apply(info.pendingReviewers.get(REMOVED)))
+        .containsExactly(user3.email, "byemail1@example.com", "byemail3@example.com");
+
+    // "Commit" by moving out of WIP.
+    gApi.changes().id(changeId).setReadyForReview();
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.pendingReviewers).isEmpty();
+    assertThat(toEmails.apply(info.reviewers.get(REVIEWER)))
+        .containsExactly(admin.email, user1.email, user2.email, "byemail2@example.com");
+    assertThat(toEmails.apply(info.reviewers.get(CC)))
+        .containsExactly(user4.email, "byemail4@example.com");
+    assertThat(info.reviewers.get(REMOVED)).isNull();
   }
 
   @Test

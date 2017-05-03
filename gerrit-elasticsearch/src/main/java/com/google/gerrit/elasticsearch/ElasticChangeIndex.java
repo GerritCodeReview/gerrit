@@ -354,6 +354,26 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         cd.setReviewersByEmail(ReviewerByEmailSet.empty());
       }
 
+      if (source.get(ChangeField.PENDING_REVIEWER.getName()) != null) {
+        cd.setPendingReviewers(
+            ChangeField.parseReviewerFieldValues(
+                FluentIterable.from(source.get(ChangeField.REVIEWER.getName()).getAsJsonArray())
+                    .transform(JsonElement::getAsString)));
+      } else if (fields.contains(ChangeField.PENDING_REVIEWER.getName())) {
+        cd.setPendingReviewers(ReviewerSet.empty());
+      }
+
+      if (source.get(ChangeField.PENDING_REVIEWER_BY_EMAIL.getName()) != null) {
+        cd.setPendingReviewersByEmail(
+            ChangeField.parseReviewerByEmailFieldValues(
+                FluentIterable.from(
+                        source
+                            .get(ChangeField.PENDING_REVIEWER_BY_EMAIL.getName())
+                            .getAsJsonArray())
+                    .transform(JsonElement::getAsString)));
+      } else if (fields.contains(ChangeField.PENDING_REVIEWER_BY_EMAIL.getName())) {
+        cd.setPendingReviewersByEmail(ReviewerByEmailSet.empty());
+      }
       decodeSubmitRecords(
           source,
           ChangeField.STORED_SUBMIT_RECORD_STRICT.getName(),

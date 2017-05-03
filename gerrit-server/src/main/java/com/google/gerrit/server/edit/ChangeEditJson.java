@@ -51,6 +51,7 @@ public class ChangeEditJson {
     EditInfo out = new EditInfo();
     out.commit = fillCommit(edit.getEditCommit());
     out.baseRevision = edit.getBasePatchSet().getRevision().get();
+    out.basePatchSetNumber = edit.getBasePatchSet().getPatchSetId();
     if (downloadCommands) {
       out.fetch = fillFetchMap(edit);
     }

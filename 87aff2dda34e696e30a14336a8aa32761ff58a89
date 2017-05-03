@@ -23,6 +23,30 @@
       "revId": "87aff2dda34e696e30a14336a8aa32761ff58a89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84dd694d_9b91fedb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-03T16:26:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3386ac0_47ad5be8",
+      "range": {
+        "startLine": 587,
+        "startChar": 0,
+        "endLine": 595,
+        "endChar": 3
+      },
+      "revId": "87aff2dda34e696e30a14336a8aa32761ff58a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

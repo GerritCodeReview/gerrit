@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5422b730_52e530b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-03T17:08:03Z",
+      "side": 1,
+      "message": "Can this get split into a related change? That way feature and the refactor can be reverted/cherry-picked/etc. separately if needed.",
+      "revId": "24d49c32019bce2fca5558408626421c35526c94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "902d1749_49dff503",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-03T17:08:03Z",
+      "side": 1,
+      "message": "Remove.",
+      "range": {
+        "startLine": 223,
+        "startChar": 6,
+        "endLine": 223,
+        "endChar": 14
+      },
+      "revId": "24d49c32019bce2fca5558408626421c35526c94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

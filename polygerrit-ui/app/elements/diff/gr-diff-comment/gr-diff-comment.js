@@ -129,6 +129,7 @@
 
     detached() {
       this.cancelDebouncer('fire-update');
+      this.$.editTextarea.closeDropdown();
     },
 
     _computeShowHideText(collapsed) {
@@ -229,13 +230,7 @@
     _editingChanged(editing, previousValue) {
       this.$.container.classList.toggle('editing', editing);
       if (editing) {
-        const textarea = this.$.editTextarea.textarea;
-        // Put the cursor at the end always.
-        textarea.selectionStart = textarea.value.length;
-        textarea.selectionEnd = textarea.selectionStart;
-        this.async(() => {
-          textarea.focus();
-        });
+        this.$.editTextarea.putCursorAtEnd();
       }
       if (this.comment && this.comment.id) {
         this.$$('.cancel').hidden = !editing;

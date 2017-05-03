@@ -133,6 +133,20 @@
       }
     },
 
+    getNativeTextarea() {
+      return this.$.textarea.textarea;
+    },
+
+    putCursorAtEnd() {
+      const textarea = this.getNativeTextarea();
+      // Put the cursor at the end always.
+      textarea.selectionStart = textarea.value.length;
+      textarea.selectionEnd = textarea.selectionStart;
+      this.async(() => {
+        textarea.focus();
+      });
+    },
+
     _handleEscKey(e) {
       if (this._hideAutocomplete) { return; }
       e.preventDefault();

@@ -71,6 +71,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -435,6 +436,72 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
     gApi.changes().id(changeId).restore();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+  }
+
+  // abandoned_changes should always get notified
+  // review_started_changes should maybe get notified
+  @Test
+  public void abandonNotifiesAbandonedChangesWatchers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).isEmpty();
+
+    ProjectWatchInfo pwi = new ProjectWatchInfo();
+    pwi.project = r.getChange().project().get();
+    pwi.notifyAbandonedChanges = true;
+    setApiUser(user);
+    gApi.accounts().self().setWatchedProjects(ImmutableList.of(pwi));
+    setApiUser(admin);
+
+    r = createChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+    sender.clear();
+
+    r = createWorkInProgressChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+    sender.clear();
+  }
+
+  @Test
+  public void abandonSometimesNotifiesReviewStartedChangesWatchers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ProjectWatchInfo pwi = new ProjectWatchInfo();
+    pwi.project = r.getChange().project().get();
+    pwi.notifyReviewStartedChanges = true;
+    setApiUser(user);
+    gApi.accounts().self().setWatchedProjects(ImmutableList.of(pwi));
+    setApiUser(admin);
+
+    gApi.changes().id(r.getChangeId()).abandon();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+    sender.clear();
+
+    r = createWorkInProgressChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+
+    if (notesMigration.readChanges()) {
+      assertThat(sender.getMessages()).isEmpty();
+    } else {
+      // In ReviewDb, changes always appear to have started review.
+      assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+    }
+    sender.clear();
+
+    // Move out of WIP to mark review as started. Even though we move back into WIP
+    // before abandoning, REVIEW_STARTED_CHANGES should be notified.
+    r = createWorkInProgressChange();
+    gApi.changes().id(r.getChangeId()).setReadyForReview();
+    gApi.changes().id(r.getChangeId()).setWorkInProgress();
+    gApi.changes().id(r.getChangeId()).abandon();
+
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.emailAddress);
+    sender.clear();
   }
 
   @Test

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5243d983_7b2dc720",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T19:19:24Z",
+      "side": 1,
+      "message": "How about doing element.reload().then(function() { flush(done); }) allow to remove flush wrappers for tests? Or maybe even make them synchronous?",
+      "revId": "a31434048c931e3e4865f170d3885e834d972f61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

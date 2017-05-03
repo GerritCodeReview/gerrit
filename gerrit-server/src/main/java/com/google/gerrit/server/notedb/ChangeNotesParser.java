@@ -164,6 +164,8 @@ class ChangeNotesParser {
   private Timestamp readOnlyUntil;
   private Boolean isPrivate;
   private Boolean workInProgress;
+  private Boolean previousWorkInProgressFooter;
+  private Boolean hasReviewStarted;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -203,6 +205,13 @@ class ChangeNotesParser {
       ChangeNotesCommit commit;
       while ((commit = walk.next()) != null) {
         parse(commit);
+      }
+      if (hasReviewStarted == null) {
+        if (previousWorkInProgressFooter == null) {
+          hasReviewStarted = true;
+        } else {
+          hasReviewStarted = !previousWorkInProgressFooter;
+        }
       }
       parseNotes();
       allPastReviewers.addAll(reviewers.rowKeySet());
@@ -250,7 +259,8 @@ class ChangeNotesParser {
         comments,
         readOnlyUntil,
         isPrivate,
-        workInProgress);
+        workInProgress,
+        hasReviewStarted);
   }
 
   private PatchSet.Id buildCurrentPatchSetId() {
@@ -398,9 +408,8 @@ class ChangeNotesParser {
       parseIsPrivate(commit);
     }
 
-    if (workInProgress == null) {
-      parseWorkInProgress(commit);
-    }
+    previousWorkInProgressFooter = null;
+    parseWorkInProgress(commit);
 
     if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
       lastUpdatedOn = ts;
@@ -977,12 +986,20 @@ class ChangeNotesParser {
   private void parseWorkInProgress(ChangeNotesCommit commit) throws ConfigInvalidException {
     String raw = parseOneFooter(commit, FOOTER_WORK_IN_PROGRESS);
     if (raw == null) {
+      previousWorkInProgressFooter = null;
       return;
     } else if (Boolean.TRUE.toString().equalsIgnoreCase(raw)) {
-      workInProgress = true;
+      previousWorkInProgressFooter = true;
+      if (workInProgress == null) {
+        workInProgress = true;
+      }
       return;
     } else if (Boolean.FALSE.toString().equalsIgnoreCase(raw)) {
-      workInProgress = false;
+      previousWorkInProgressFooter = false;
+      hasReviewStarted = true;
+      if (workInProgress == null) {
+        workInProgress = false;
+      }
       return;
     }
     throw invalidFooter(FOOTER_WORK_IN_PROGRESS, raw);

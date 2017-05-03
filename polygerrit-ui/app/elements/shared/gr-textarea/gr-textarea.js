@@ -133,6 +133,10 @@
       }
     },
 
+    getNativeTextarea() {
+      return this.$.textarea.textarea;
+    },
+
     _handleEscKey(e) {
       if (this._hideAutocomplete) { return; }
       e.preventDefault();

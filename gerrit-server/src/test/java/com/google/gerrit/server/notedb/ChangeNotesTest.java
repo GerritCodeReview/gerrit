@@ -3398,6 +3398,43 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getReviewersByEmail().all()).containsExactly(adr);
   }
 
+  @Test
+  public void hasReviewStarted() throws Exception {
+    ChangeNotes notes = newNotes(newChange());
+    assertThat(notes.hasReviewStarted()).isTrue();
+
+    notes = newNotes(newWorkInProgressChange());
+    assertThat(notes.hasReviewStarted()).isFalse();
+
+    Change c = newWorkInProgressChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.hasReviewStarted()).isFalse();
+
+    update = newUpdate(c, changeOwner);
+    update.setWorkInProgress(true);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.hasReviewStarted()).isFalse();
+
+    update = newUpdate(c, changeOwner);
+    update.setWorkInProgress(false);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.hasReviewStarted()).isTrue();
+
+    // Once review is started, setting WIP should have no impact.
+    c = newChange();
+    notes = newNotes(c);
+    assertThat(notes.hasReviewStarted()).isTrue();
+    update = newUpdate(c, changeOwner);
+    update.setWorkInProgress(true);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.hasReviewStarted()).isTrue();
+  }
+
   private boolean testJson() {
     return noteUtil.getWriteJson();
   }

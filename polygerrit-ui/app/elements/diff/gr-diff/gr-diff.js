@@ -74,6 +74,7 @@
         type: Boolean,
         reflectToAttribute: true,
       },
+      noRenderOnPrefsChange: Boolean,
       _loggedIn: {
         type: Boolean,
         value: false,
@@ -438,7 +439,7 @@
 
       this.updateStyles();
 
-      if (this._diff && this._comments) {
+      if (this._diff && this._comments && !this.noRenderOnPrefsChange) {
         this._renderDiffTable();
       }
     },

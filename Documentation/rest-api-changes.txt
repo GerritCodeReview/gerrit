@@ -5588,7 +5588,7 @@ Only set if link:#detailed-labels[detailed labels] are requested.
 The reviewers that can be removed by the calling user as a list of
 link:rest-api-accounts.html#account-info[AccountInfo] entities. +
 Only set if link:#detailed-labels[detailed labels] are requested.
-|`reviewers`          ||
+|`reviewers`          |optional|
 The reviewers as a map that maps a reviewer state to a list of
 link:rest-api-accounts.html#account-info[AccountInfo] entities.
 Possible reviewer states are `REVIEWER`, `CC` and `REMOVED`. +
@@ -5596,6 +5596,12 @@ Possible reviewer states are `REVIEWER`, `CC` and `REMOVED`. +
 `CC`: Users that were added to the change, but have not voted. +
 `REMOVED`: Users that were previously reviewers on the change, but have
 been removed. +
+Only set if link:#detailed-labels[detailed labels] are requested.
+|`pending_reviewers`  |optional|
+Updates to `reviewers` that have been made while the change was in the
+WIP state. Only present if on WIP changes and only if there are pending
+reviewer updates to report. These are reviewers who have not yet been
+notified about being added to or removed from the change. +
 Only set if link:#detailed-labels[detailed labels] are requested.
 |`reviewer_updates`|optional|
 Updates to reviewers set for the change as
@@ -5626,6 +5632,8 @@ problems with this change. Only set if link:#check[CHECK] is set.
 When present, change is marked as private.
 |`work_in_progress`   |optional, not set if `false`|
 When present, change is marked as Work In Progress.
+|`has_started_review` |optional, not set if `false`|
+When present, change has been marked Ready at some point in time.
 |==================================
 
 [[change-input]]

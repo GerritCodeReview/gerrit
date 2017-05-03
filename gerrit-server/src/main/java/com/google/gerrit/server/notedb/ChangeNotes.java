@@ -441,6 +441,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.reviewersByEmail();
   }
 
+  /** @return reviewers that were modified during this change's current WIP phase. */
+  public ReviewerSet getPendingReviewers() {
+    return state.pendingReviewers();
+  }
+
+  /** @return reviewers by email that were modified during this change's current WIP phase. */
+  public ReviewerByEmailSet getPendingReviewersByEmail() {
+    return state.pendingReviewersByEmail();
+  }
+
   public ImmutableList<ReviewerStatusUpdate> getReviewerUpdates() {
     return state.reviewerUpdates();
   }
@@ -588,6 +598,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return false;
     }
     return state.isWorkInProgress();
+  }
+
+  public boolean hasReviewStarted() {
+    return state.hasReviewStarted();
   }
 
   @Override

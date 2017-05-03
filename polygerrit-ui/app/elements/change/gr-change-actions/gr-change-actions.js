@@ -67,6 +67,8 @@
     'abandon': 'Abandoning...',
     'cherrypick': 'Cherry-Picking...',
     'delete': 'Deleting...',
+    'ignore': 'Ignoring...',
+    'unignore': 'Unignoring...',
     'publish': 'Publishing...',
     'rebase': 'Rebasing...',
     'restore': 'Restoring...',

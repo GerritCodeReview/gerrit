@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../../shared/gr-textarea/gr-textarea.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
@@ -122,7 +123,6 @@ limitations under the License.
         display: none;
       }
       .editing .editMessage {
-        background-color: #fff;
         display: block;
       }
       .show-hide {
@@ -168,7 +168,7 @@ limitations under the License.
       }
       #container.collapsed .actions,
       #container.collapsed gr-formatted-text,
-      #container.collapsed iron-autogrow-textarea {
+      #container.collapsed gr-textarea {
         display: none;
       }
       .resolve,
@@ -229,14 +229,14 @@ limitations under the License.
           [[comment.robot_id]]
         </div>
       </template>
-      <iron-autogrow-textarea
+      <gr-textarea
           id="editTextarea"
           class="editMessage"
           autocomplete="on"
           disabled="{{disabled}}"
           rows="4"
-          bind-value="{{_messageText}}"
-          on-keydown="_handleTextareaKeydown"></iron-autogrow-textarea>
+          text="{{_messageText}}"
+          on-keydown="_handleTextareaKeydown"></gr-textarea>
       <gr-formatted-text class="message"
           content="[[comment.message]]"
           no-trailing-margin="[[!comment.__draft]]"

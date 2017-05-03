@@ -1,0 +1,81 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<script>
+(function(window) {
+  'use strict';
+
+  /** @polymerBehavior Gerrit.CommentBehavior */
+  var CommentBehavior = {
+
+    /**
+     * Transforms the comments object into a multi level map of comments.
+     *
+     * @param {Object} comments An object with this structure:
+     *    {
+     *      fileName: [...all comments for file]
+     *    }
+     *    file name, then assembled into a sequence of
+     * @return {Object} An object with this structure:
+     *    {
+     *      fileName: {
+     *        patchNum: [
+     *          [comment1, comment2, ...],
+     *          [comment7, comment8, ...],
+     *          [comment4, comment5]
+     *        ]
+     *      }
+     *    }
+     *    In other words, keyed by fileName, then patchNum as an unordered array
+     *    of comment threads.
+     */
+    mapCommentsToThreads: function(comments) {
+      var output = {};
+      var file, fileComments, comment, arr, index;
+      for (var fileName in comments) {
+        fileComments = {};
+        arr = [];
+        file = comments[fileName].slice();
+        for (index = file.length - 1; index >= 0; index--) {
+          if (!file[index].in_reply_to) {
+            comment = file.splice(index, 1)[0];
+            if (!fileComments[comment.patch_set]) {
+              fileComments[comment.patch_set] = [];
+            }
+            fileComments[comment.patch_set].push([comment]);
+          }
+        }
+        while (file.length) {
+          for (index = file.length - 1; index >= 0; index--) {
+            comment = file[index];
+            arr = fileComments[comment.patch_set].find(function(_arr) {
+              return _arr[_arr.length - 1].id === comment.in_reply_to;
+            });
+            if (arr) {
+              arr.push(file.splice(index, 1)[0]);
+            }
+          }
+        }
+        output[fileName] = fileComments;
+      }
+
+      return output;
+    },
+  };
+
+  window.Gerrit = window.Gerrit || {};
+  window.Gerrit.CommentBehavior = CommentBehavior;
+})(window);
+</script>

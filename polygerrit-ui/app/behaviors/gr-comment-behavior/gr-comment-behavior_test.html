@@ -1,0 +1,348 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!-- Polymer included for the html import polyfill. -->
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../bower_components/web-component-tester/browser.js"></script>
+<title>gr-comment-behavior</title>
+
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-comment-behavior.html">
+
+<script>
+
+  // Taken from https://gerrit-review.googlesource.com/c/102893/
+  const comments = {
+    '/COMMIT_MSG': [{
+      'patch_set': 4,
+      'id': '795ffc09_9b597e52',
+    }, {
+      'patch_set': 4,
+      'id': 'c78da237_b19c2c80',
+      'in_reply_to': '795ffc09_9b597e52',
+    }],
+    'polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html': [{
+      'patch_set': 23,
+      'id': '21febbc5_29f4d062',
+    }, {
+      'patch_set': 23,
+      'id': '889686ba_45590d98',
+      'in_reply_to': '21febbc5_29f4d062',
+    }, {
+      'patch_set': 23,
+      'id': '4831fbaa_42919837',
+    }, {
+      'patch_set': 23,
+      'id': 'ae844dba_24c694fe',
+      'in_reply_to': '4831fbaa_42919837',
+    }, {
+      'patch_set': 24,
+      'id': 'a84c9401_5e4456d6',
+    }, {
+      'patch_set': 24,
+      'id': '225b9e7e_c447073f',
+      'in_reply_to': 'a84c9401_5e4456d6',
+    }, {
+      'patch_set': 28,
+      'id': '6c623ca7_243c2f0c',
+    }, {
+      'patch_set': 28,
+      'id': 'ae71e570_631a1504',
+      'in_reply_to': '6c623ca7_243c2f0c',
+    }, {
+      'patch_set': 28,
+      'id': '63f3cbda_e801bd7e',
+    }, {
+        'patch_set': 28,
+        'id': '00125dde_c0760d66',
+        'in_reply_to': '63f3cbda_e801bd7e',
+      }, {
+        'patch_set': 28,
+        'id': 'd981f17e_d45efa78',
+      }, {
+        'patch_set': 28,
+        'id': 'bfdf963a_58ef5a90',
+        'in_reply_to': 'd981f17e_d45efa78',
+      }, {
+        'patch_set': 30,
+        'id': '637491bd_3d2a51c2',
+      }, {
+        'patch_set': 30,
+        'id': '77bd6b59_db68b9ad',
+        'in_reply_to': '637491bd_3d2a51c2',
+      }, {
+        'patch_set': 30,
+        'id': '44d8f1dc_935969bf',
+      }, {
+        'patch_set': 30,
+        'id': 'cfa29579_a902a6ca',
+        'in_reply_to': '44d8f1dc_935969bf',
+      }],
+    'polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js': [{
+      'patch_set': 23,
+      'id': 'af539352_16d3cbbc',
+    }, {
+      'patch_set': 23,
+      'id': 'b392b999_cd8500f2',
+      'in_reply_to': 'af539352_16d3cbbc',
+    }, {
+      'patch_set': 23,
+      'id': '503c0624_383bd541',
+    }, {
+      'patch_set': 23,
+      'id': '2916e478_484a8f13',
+      'in_reply_to': '503c0624_383bd541',
+    }, {
+      'patch_set': 23,
+      'id': '91a50061_2a3a39da',
+    }, {
+      'patch_set': 23,
+      'id': 'f71871fc_fd668e6d',
+      'in_reply_to': '91a50061_2a3a39da',
+    }, {
+      'patch_set': 23,
+      'id': '50894a43_b0204e5a',
+    }, {
+      'patch_set': 23,
+      'id': '3fbbb9df_64c8643a',
+      'in_reply_to': '26743ee3_daf1dd94',
+    }, {
+      'patch_set': 23,
+      'id': '7f1b330f_a837e0f0',
+      'in_reply_to': '3fbbb9df_64c8643a',
+    }, {
+        'patch_set': 23,
+        'id': '7d57849f_eeceab84',
+        'in_reply_to': '50894a43_b0204e5a',
+      }, {
+        'patch_set': 23,
+        'id': 'c0a49a9e_7077932d',
+        'in_reply_to': '7d57849f_eeceab84',
+      }, {
+        'patch_set': 23,
+        'id': '609459d4_a543e0de',
+        'in_reply_to': '7f1b330f_a837e0f0',
+      }, {
+        'patch_set': 23,
+        'id': '26743ee3_daf1dd94',
+        'in_reply_to': 'c0a49a9e_7077932d',
+      }, {
+        'patch_set': 28,
+        'id': '7b689982_7811a06d',
+      }, {
+        'patch_set': 28,
+        'id': '62133e87_a1b7df21',
+        'in_reply_to': '7b689982_7811a06d',
+      }, {
+        'patch_set': 28,
+        'id': 'f696b11a_e9bb1e46',
+      }, {
+        'patch_set': 28,
+        'id': '1529d0a8_bb6be81c',
+        'in_reply_to': 'f696b11a_e9bb1e46',
+      }, {
+        'patch_set': 28,
+        'id': 'e86f68d1_e6a86a17',
+      }, {
+        'patch_set': 28,
+        'id': '78b538eb_2663ac0e',
+        'in_reply_to': 'e86f68d1_e6a86a17',
+      }],
+    'polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.html': [{
+      'patch_set': 19,
+      'id': 'daea887f_f65a0bf1',
+    }, {
+      'patch_set': 19,
+      'id': '0d465733_ec54e72f',
+    }, {
+      'patch_set': 19,
+      'id': 'b964bb49_d8a046e4',
+      'in_reply_to': '0d465733_ec54e72f',
+    }, {
+      'patch_set': 19,
+      'id': '07c9d423_e305c66a',
+    }, {
+      'patch_set': 19,
+      'id': '2dae6bd0_96d1fa74',
+      'in_reply_to': '07c9d423_e305c66a',
+    }, {
+      'patch_set': 19,
+      'id': '6ae18004_d05e47b7',
+    }, {
+      'patch_set': 19,
+      'id': 'ccc8fe8e_ac35a03b',
+      'in_reply_to': '6ae18004_d05e47b7',
+    }, {
+      'patch_set': 19,
+      'id': 'cdc0c2f8_b423b2df',
+    }, {
+      'patch_set': 19,
+      'id': '1751bc03_de9caba1',
+      'in_reply_to': 'cdc0c2f8_b423b2df',
+    }, {
+        'patch_set': 19,
+        'id': 'feb03b23_b45ec987',
+      }, {
+        'patch_set': 19,
+        'id': 'ecb7d38b_8700d3c4',
+        'in_reply_to': 'feb03b23_b45ec987',
+      }, {
+        'patch_set': 19,
+        'id': 'db3e575e_a46d8e9a',
+      }, {
+        'patch_set': 19,
+        'id': 'db6ef50a_cf74dc76',
+        'in_reply_to': 'db3e575e_a46d8e9a',
+      }, {
+        'patch_set': 19,
+        'id': 'd7bf2f03_a3da6786',
+      }, {
+        'patch_set': 19,
+        'id': '7153cc57_be5ae0b6',
+        'in_reply_to': 'd7bf2f03_a3da6786',
+      }, {
+        'patch_set': 19,
+        'id': '2e7fbce1_df4a309a',
+      }, {
+        'patch_set': 19,
+        'id': '323b14e2_b02dc073',
+        'in_reply_to': '2e7fbce1_df4a309a',
+      }, {
+        'patch_set': 19,
+        'id': '29314903_ddfeb2ad',
+      }, {
+        'patch_set': 19,
+        'id': '3fe98d70_694b79aa',
+        'in_reply_to': '29314903_ddfeb2ad',
+      }, {
+        'patch_set': 19,
+        'id': '87a4a91b_4b2c92ae',
+      }, {
+        'patch_set': 19,
+        'id': 'dc9f7832_fb89c8de',
+        'in_reply_to': '87a4a91b_4b2c92ae',
+      }, {
+        'patch_set': 19,
+        'id': 'e76df36e_ff7d8898',
+      }, {
+        'patch_set': 19,
+        'id': '6cd617a7_24eb8211',
+        'in_reply_to': 'e76df36e_ff7d8898',
+      }, {
+        'patch_set': 19,
+        'id': 'cc02eed5_7cece352',
+      }, {
+        'patch_set': 19,
+        'id': '71c5c188_a5d54c43',
+        'in_reply_to': 'cc02eed5_7cece352',
+      }, {
+        'patch_set': 19,
+        'id': '7ae2c074_2585dd76',
+      }, {
+        'patch_set': 19,
+        'id': '841b56e7_2034ab53',
+        'in_reply_to': '7ae2c074_2585dd76',
+      }, {
+        'patch_set': 19,
+        'id': '4442da5e_fe95e04f',
+        'in_reply_to': '841b56e7_2034ab53',
+      }],
+    'polygerrit-ui/app/elements/admin/gr-admin-projects-view/gr-admin-project-list.js': [{
+      'patch_set': 19,
+      'id': 'b01ea2ac_a5ffcfc6',
+    }, {
+      'patch_set': 19,
+      'id': '8821be80_6ebf2e89',
+      'in_reply_to': 'b01ea2ac_a5ffcfc6',
+    }, {
+      'patch_set': 19,
+      'id': 'be37fb78_3d3e904c',
+    }, {
+      'patch_set': 19,
+      'id': 'a570c01e_c4fb4bd3',
+      'in_reply_to': 'be37fb78_3d3e904c',
+    }, {
+      'patch_set': 19,
+      'id': '4a457d62_4edfdd43',
+    }, {
+      'patch_set': 19,
+      'id': 'f2ae5acf_9fa01c7d',
+      'in_reply_to': '4a457d62_4edfdd43',
+    }, {
+      'patch_set': 19,
+      'id': '58144bd1_8c462613',
+    }, {
+      'patch_set': 19,
+      'id': 'dafe4bc6_ea871435',
+      'in_reply_to': '58144bd1_8c462613',
+    }, {
+      'patch_set': 19,
+      'id': 'e1db8a07_d3d9c844',
+      'in_reply_to': 'dafe4bc6_ea871435',
+    }, {
+        'patch_set': 19,
+        'id': '81790f9a_2e2550ae',
+      }, {
+        'patch_set': 19,
+        'id': '2891cf2c_3f991be9',
+        'in_reply_to': '81790f9a_2e2550ae',
+      }, {
+        'patch_set': 19,
+        'id': 'abeff170_dac69b02',
+      }, {
+        'patch_set': 19,
+        'id': '2f5dc853_3c0cd3e9',
+        'in_reply_to': 'abeff170_dac69b02',
+      }],
+    'polygerrit-ui/app/elements/core/gr-router/gr-router.js': [{
+      'patch_set': 28,
+      'id': 'da28199a_acf4b397',
+    }, {
+      'patch_set': 28,
+      'id': '5da6d722_6d46d1d1',
+      'in_reply_to': 'da28199a_acf4b397',
+    }],
+    'polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js': [{
+      'patch_set': 19,
+      'id': '70efacd2_3e4a4bc7',
+    }],
+  };
+
+  suite('gr-comment-behavior tests', () => {
+    test('mapCommentsToThreads', () => {
+      const output = Gerrit.CommentBehavior.mapCommentsToThreads(comments);
+
+      const uniqueIDs = {};
+      let keyCount = 0;
+      for (const file in output) {
+        for (const ps in output[file]) {
+          for (let arr in output[file][ps]) {
+            arr = output[file][ps][arr];
+            keyCount += arr.length;
+            for (const index in arr) {
+              if (index > 0) {
+                assert.equal(arr[index].in_reply_to, arr[index-1].id);
+              }
+              assert.notOk(uniqueIDs[arr[index].id]);
+              uniqueIDs[arr[index].id] = true;
+            }
+          }
+        }
+        assert.equal(keyCount, comments[file].length);
+        keyCount = 0;
+      }
+    });
+  });
+</script>

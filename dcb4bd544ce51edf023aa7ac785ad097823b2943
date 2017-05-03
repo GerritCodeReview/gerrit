@@ -46,6 +46,30 @@
       "revId": "dcb4bd544ce51edf023aa7ac785ad097823b2943",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53286cff_62322fd8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-03T21:32:13Z",
+      "side": 1,
+      "message": "Ok thanks.",
+      "parentUuid": "b7ef667e_489fe9f7",
+      "range": {
+        "startLine": 406,
+        "startChar": 4,
+        "endLine": 406,
+        "endChar": 53
+      },
+      "revId": "dcb4bd544ce51edf023aa7ac785ad097823b2943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

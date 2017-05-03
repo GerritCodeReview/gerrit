@@ -122,6 +122,7 @@
 
     detached: function() {
       this.cancelDebouncer('fire-update');
+      this.$.editTextarea.closeDropdown();
     },
 
     _computeShowHideText: function(collapsed) {
@@ -218,7 +219,7 @@
     _editingChanged: function(editing, previousValue) {
       this.$.container.classList.toggle('editing', editing);
       if (editing) {
-        var textarea = this.$.editTextarea.textarea;
+        var textarea = this.$.editTextarea.$.textarea.textarea;
         // Put the cursor at the end always.
         textarea.selectionStart = textarea.value.length;
         textarea.selectionEnd = textarea.selectionStart;

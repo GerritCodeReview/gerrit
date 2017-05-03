@@ -23,6 +23,30 @@
       "revId": "66ea2ed46e7d2ce7202c1cec1e0bd0377d19b0c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd446a3a_21a69937",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-03T14:36:03Z",
+      "side": 1,
+      "message": "Agreed, good idea.",
+      "parentUuid": "c6640239_142a6083",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 24
+      },
+      "revId": "66ea2ed46e7d2ce7202c1cec1e0bd0377d19b0c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

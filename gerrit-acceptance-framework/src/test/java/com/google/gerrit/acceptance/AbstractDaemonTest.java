@@ -1240,6 +1240,18 @@ public abstract class AbstractDaemonTest {
     gApi.accounts().self().setWatchedProjects(projectsToWatch);
   }
 
+  protected interface ProjectWatchInfoConfiguration {
+    void configure(ProjectWatchInfo pwi);
+  }
+
+  protected void watch(PushOneCommit.Result r, ProjectWatchInfoConfiguration config)
+      throws OrmException, RestApiException {
+    ProjectWatchInfo pwi = new ProjectWatchInfo();
+    pwi.project = r.getChange().project().get();
+    config.configure(pwi);
+    gApi.accounts().self().setWatchedProjects(ImmutableList.of(pwi));
+  }
+
   protected void assertContent(PushOneCommit.Result pushResult, String path, String expectedContent)
       throws Exception {
     BinaryResult bin =

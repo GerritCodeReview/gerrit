@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8c47d655_afe31a6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-03T17:13:16Z",
+      "side": 1,
+      "message": "I\u0027d really rather not, because then I have to write test code that I then, immediately after, have to touch again when transforming to ES6. \n\nThere\u0027s no harm in refactoring test code to ES6 now; we only test in browsers that have full ES6 support. That being said, if you feel strongly then I\u0027ll do it :)",
+      "parentUuid": "5422b730_52e530b6",
+      "revId": "24d49c32019bce2fca5558408626421c35526c94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "902d1749_49dff503",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "24d49c32019bce2fca5558408626421c35526c94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4357bfda_dc9ec25f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-03T17:13:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "902d1749_49dff503",
+      "range": {
+        "startLine": 223,
+        "startChar": 6,
+        "endLine": 223,
+        "endChar": 14
+      },
+      "revId": "24d49c32019bce2fca5558408626421c35526c94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

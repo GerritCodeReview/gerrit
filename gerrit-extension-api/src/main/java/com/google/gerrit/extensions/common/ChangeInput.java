@@ -27,6 +27,8 @@ public class ChangeInput {
 
   public String topic;
   public ChangeStatus status;
+  public Boolean isPrivate;
+  public Boolean workInProgress;
   public String baseChange;
   public Boolean newBranch;
   public MergeInput merge;

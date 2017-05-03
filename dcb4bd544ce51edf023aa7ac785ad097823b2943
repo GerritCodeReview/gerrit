@@ -22,6 +22,30 @@
       "revId": "dcb4bd544ce51edf023aa7ac785ad097823b2943",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7ef667e_489fe9f7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-05-03T21:30:41Z",
+      "side": 1,
+      "message": "Nope, getStringList() returns an empty list should the config parameter not being set.",
+      "parentUuid": "94629b9e_cbe10a08",
+      "range": {
+        "startLine": 406,
+        "startChar": 4,
+        "endLine": 406,
+        "endChar": 53
+      },
+      "revId": "dcb4bd544ce51edf023aa7ac785ad097823b2943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

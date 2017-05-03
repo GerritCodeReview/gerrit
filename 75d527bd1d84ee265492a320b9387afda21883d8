@@ -16,6 +16,24 @@
       "revId": "75d527bd1d84ee265492a320b9387afda21883d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "689c3091_7ab45b7f",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-03T18:17:05Z",
+      "side": 1,
+      "message": "Removed, thanks.",
+      "parentUuid": "b3da90de_1d91851b",
+      "revId": "75d527bd1d84ee265492a320b9387afda21883d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -152,6 +152,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.RuleChain;
 import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -242,14 +243,9 @@ public abstract class AbstractDaemonTest {
 
   @Inject protected Abandon changeAbandoner;
 
-  @Rule public ExpectedException exception = ExpectedException.none();
+  protected final TemporaryFolder tempSiteDir = new TemporaryFolder();
 
-  private String resourcePrefix;
-  private List<Repository> toClose;
-  private boolean useSsh;
-
-  @Rule
-  public TestRule testRunner =
+  private final TestRule testRunner =
       new TestRule() {
         @Override
         public Statement apply(final Statement base, final Description description) {
@@ -267,7 +263,15 @@ public abstract class AbstractDaemonTest {
         }
       };
 
-  @Rule public TemporaryFolder tempSiteDir = new TemporaryFolder();
+  @Rule
+  public RuleChain ruleChain = RuleChain.outerRule(tempSiteDir).around(testRunner);
+
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
+
+  private String resourcePrefix;
+  private List<Repository> toClose;
+  private boolean useSsh;
 
   @Before
   public void clearSender() {

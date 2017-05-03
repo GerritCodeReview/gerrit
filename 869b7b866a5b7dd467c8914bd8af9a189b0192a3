@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "606802c4_01792e8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-03T19:23:15Z",
+      "side": 1,
+      "message": ":( Forgot about the schema version. I don\u0027t know why the tests pass, either.",
+      "parentUuid": "54c14267_5167da70",
+      "range": {
+        "startLine": 348,
+        "startChar": 51,
+        "endLine": 348,
+        "endChar": 63
+      },
+      "revId": "869b7b866a5b7dd467c8914bd8af9a189b0192a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3f7e20a8_e958cc0f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 15
@@ -36,6 +60,24 @@
       "writtenOn": "2017-05-03T18:40:11Z",
       "side": 1,
       "message": "Is it correct to just use the email and ignore the name?\n\nSpecifically, if we have a commit where the author is \"John Doe \u003cfoo@example.com\u003e\", do we really want to return this commit if the user searches for \"Some Random Name \u003cfoo@example.com\u003e\"? That seems a little surprising at first glance.",
+      "revId": "869b7b866a5b7dd467c8914bd8af9a189b0192a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df666adc_969b8af1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-03T19:23:15Z",
+      "side": 1,
+      "message": "This may be a little surprise sometimes. But it\u0027s somehow more robust. \n\nActually, email should be more trustable and unique than the name?\n\nFor query \"Some Random Name \u003cfoo@example.com\u003e\":\n1- we use other parts, then we probably will return no change after AND these parts.\n2- we use email, at least we can get results of \"foo@example.com\".",
+      "parentUuid": "3f7e20a8_e958cc0f",
       "revId": "869b7b866a5b7dd467c8914bd8af9a189b0192a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

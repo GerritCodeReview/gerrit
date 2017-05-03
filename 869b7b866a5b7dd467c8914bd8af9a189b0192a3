@@ -99,6 +99,24 @@
       "revId": "869b7b866a5b7dd467c8914bd8af9a189b0192a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d83ff38_05bca513",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-03T21:17:05Z",
+      "side": 1,
+      "message": "Let me be clearer about my thoughts on this.\n\nI believe if the user types [author:\"Some Random Name \u003cfoo@example.com\u003e\"], we should not return results where the author is \"John Doe \u003cfoo@example.com\u003e\".\n\nIf the user wants to find both \"Some Random Name \u003cfoo@example.com\u003e\" and \"John Doe \u003cfoo@example.com\u003e\", they should be able to do this by typing [author:foo@example.com].\n\nIf Chrome folks (or others) disagree with me, I could be convinced otherwise.",
+      "parentUuid": "c84a2d5c_062136ff",
+      "revId": "869b7b866a5b7dd467c8914bd8af9a189b0192a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

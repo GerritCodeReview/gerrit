@@ -73,6 +73,9 @@
         type: Object,
         value: function() { return document.body; },
       },
+      _diffPrefs: {
+        type: Object,
+      },
       _numFilesShown: {
         type: Number,
         observer: '_numFilesShownChanged',
@@ -221,6 +224,10 @@
       }
     },
 
+    _computePrefsButtonHidden: function(prefs, loggedIn) {
+      return !loggedIn || !prefs;
+    },
+
     _handleEditCommitMessage: function(e) {
       this._editingCommitMessage = true;
       this.$.commitMessageEditor.focusTextarea();
@@ -267,6 +274,11 @@
       }
 
       return false;
+    },
+
+    _handlePrefsTap: function(e) {
+      e.preventDefault();
+      this.$.fileList.$.diffPreferences.open();
     },
 
     _handleCommentSave: function(e) {

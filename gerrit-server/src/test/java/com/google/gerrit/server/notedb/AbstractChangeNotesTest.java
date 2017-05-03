@@ -199,13 +199,22 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     System.setProperty("user.timezone", systemTimeZone);
   }
 
-  protected Change newChange() throws Exception {
+  protected Change newChange(boolean workInProgress) throws Exception {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId());
     ChangeUpdate u = newUpdate(c, changeOwner);
     u.setChangeId(c.getKey().get());
     u.setBranch(c.getDest().get());
+    u.setWorkInProgress(workInProgress);
     u.commit();
     return c;
+  }
+
+  protected Change newWorkInProgressChange() throws Exception {
+    return newChange(true);
+  }
+
+  protected Change newChange() throws Exception {
+    return newChange(false);
   }
 
   protected ChangeUpdate newUpdate(Change c, CurrentUser user) throws Exception {

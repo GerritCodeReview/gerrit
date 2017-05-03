@@ -590,6 +590,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.isWorkInProgress();
   }
 
+  public boolean hasReviewStarted() {
+    return state.hasReviewStarted();
+  }
+
   @Override
   protected void onLoad(LoadHandle handle)
       throws NoSuchChangeException, IOException, ConfigInvalidException {

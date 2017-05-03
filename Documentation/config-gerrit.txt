@@ -2521,9 +2521,12 @@ Typical usage is in conjunction with the `auth.type=HTTP` as replacement
 of an Apache HTTP proxy layer as security enforcement on top of Gerrit
 by returning a trusted username as HTTP Header.
 +
+Allow multiple values to install multiple servlet filters.
++
 Example of using a security library secure.jar under $GERRIT_SITE/lib
-that provides a org.anyorg.MySecureFilter Servlet Filter that enforces
-a trusted username in the `TRUSTED_USER` HTTP Header:
+that provides a org.anyorg.MySecureHeaderFilter Servlet Filter that enforces
+a trusted username in the `TRUSTED_USER` HTTP Header and
+org.anyorg.MySecureIPFilter that performs source IP security filtering:
 
 ----
 [auth]
@@ -2531,7 +2534,8 @@ a trusted username in the `TRUSTED_USER` HTTP Header:
 	httpHeader = TRUSTED_USER
 
 [httpd]
-	filterClass = org.anyorg.MySecureFilter
+	filterClass = org.anyorg.MySecureHeaderFilter
+	filterClass = org.anyorg.MySecureIPFilter
 ----
 
 [[httpd.robotsFile]]httpd.robotsFile::

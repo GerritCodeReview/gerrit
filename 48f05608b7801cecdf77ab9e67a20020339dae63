@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51e498ac_9dd31e27",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-03T23:21:00Z",
+      "side": 1,
+      "message": "added the hidden attribute so that it falls back to being hidden if for some reason _diffPrefs or _loggedIn are not present. (here and diff view also)",
+      "revId": "48f05608b7801cecdf77ab9e67a20020339dae63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

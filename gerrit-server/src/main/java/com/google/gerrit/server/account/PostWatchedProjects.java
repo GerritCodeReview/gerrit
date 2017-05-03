@@ -111,6 +111,9 @@ public class PostWatchedProjects
       if (toBoolean(info.notifySubmittedChanges)) {
         notifyValues.add(NotifyType.SUBMITTED_CHANGES);
       }
+      if (toBoolean(info.notifyReviewStartedChanges)) {
+        notifyValues.add(NotifyType.REVIEW_STARTED_CHANGES);
+      }
 
       m.put(key, notifyValues);
     }

@@ -224,8 +224,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     if (input.notify == null) {
-      log.warn("notify = null; assuming notify = NONE");
-      input.notify = NotifyHandling.NONE;
+      input.notify =
+          revision.getChange().isWorkInProgress() ? NotifyHandling.OWNER : NotifyHandling.ALL;
     }
 
     ListMultimap<RecipientType, Account.Id> accountsToNotify =

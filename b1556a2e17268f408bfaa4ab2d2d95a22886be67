@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5861eeee_132a9e0c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T19:27:23Z",
+      "side": 1,
+      "message": "So, this one is essentially a copy-paste of gr-autocomplete.\nWould it be possible to make gr-autocomplete to use this one to reduce copy pasta?",
+      "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22d49dc3_b2ff8afc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T19:27:23Z",
+      "side": 1,
+      "message": "Here and the rest - 2017",
+      "range": {
+        "startLine": 2,
+        "startChar": 14,
+        "endLine": 2,
+        "endChar": 18
+      },
+      "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0095dbdd_18f83850",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T19:27:23Z",
+      "side": 1,
+      "message": "space before { - more in the file",
+      "range": {
+        "startLine": 30,
+        "startChar": 21,
+        "endLine": 30,
+        "endChar": 22
+      },
+      "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34d83e61_757f968d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T19:27:23Z",
+      "side": 1,
+      "message": "Indent at +2",
+      "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e99ec374_042871c9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T19:27:23Z",
+      "side": 1,
+      "message": "inconsistent naming",
+      "range": {
+        "startLine": 50,
+        "startChar": 13,
+        "endLine": 50,
+        "endChar": 15
+      },
+      "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78541a14_51bf9d06",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-03T19:27:23Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is a good long-term strategy tbh.\nIs it possible to make it work another way? Like, hiding/showing?",
+      "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -69,6 +69,10 @@ public class DiffInfo {
     public List<List<Integer>> editA;
     public List<List<Integer>> editB;
 
+    // Indicates that this entry only exists because of a rebase (and not because of a real change
+    // between 'a' and 'b').
+    public Boolean dueToRebase;
+
     // a and b are actually common with this whitespace ignore setting.
     public Boolean common;
 

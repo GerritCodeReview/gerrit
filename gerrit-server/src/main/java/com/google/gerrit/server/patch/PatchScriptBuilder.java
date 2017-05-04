@@ -216,6 +216,7 @@ class PatchScriptBuilder {
         a.dst,
         b.dst,
         edits,
+        content.getEditsDueToRebase(),
         a.displayMethod,
         b.displayMethod,
         a.mimeType.toString(),

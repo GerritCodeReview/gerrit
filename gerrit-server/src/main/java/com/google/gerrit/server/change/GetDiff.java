@@ -54,6 +54,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
@@ -168,6 +169,7 @@ public class GetDiff implements RestReadView<FileResource> {
       psf.setLoadComments(context != DiffPreferencesInfo.WHOLE_FILE_CONTEXT);
       PatchScript ps = psf.call();
       Content content = new Content(ps);
+      Set<Edit> editsDueToRebase = ps.getEditsDueToRebase();
       for (Edit edit : ps.getEdits()) {
         if (edit.getType() == Edit.Type.EMPTY) {
           continue;
@@ -190,7 +192,8 @@ public class GetDiff implements RestReadView<FileResource> {
           case REPLACE:
             List<Edit> internalEdit =
                 edit instanceof ReplaceEdit ? ((ReplaceEdit) edit).getInternalEdits() : null;
-            content.addDiff(edit.getEndA(), edit.getEndB(), internalEdit);
+            boolean dueToRebase = editsDueToRebase.contains(edit);
+            content.addDiff(edit.getEndA(), edit.getEndB(), internalEdit, dueToRebase);
             break;
           case EMPTY:
           default:
@@ -372,7 +375,7 @@ public class GetDiff implements RestReadView<FileResource> {
       }
     }
 
-    void addDiff(int endA, int endB, List<Edit> internalEdit) {
+    void addDiff(int endA, int endB, List<Edit> internalEdit, boolean dueToRebase) {
       int lenA = endA - nextA;
       int lenB = endB - nextB;
       checkState(lenA > 0 || lenB > 0);
@@ -408,6 +411,7 @@ public class GetDiff implements RestReadView<FileResource> {
           }
         }
       }
+      e.dueToRebase = dueToRebase ? true : null;
     }
 
     private ContentEntry entry() {

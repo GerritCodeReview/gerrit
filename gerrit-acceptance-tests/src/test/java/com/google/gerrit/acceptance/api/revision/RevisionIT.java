@@ -29,7 +29,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.junit.Assert.fail;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -56,7 +55,6 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
@@ -79,7 +77,6 @@ import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -90,7 +87,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
@@ -721,50 +717,6 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void diff() throws Exception {
-    PushOneCommit.Result r = createChange();
-    assertDiffForNewFile(r, FILE_NAME, FILE_CONTENT);
-    assertDiffForNewFile(r, COMMIT_MSG, r.getCommit().getFullMessage());
-  }
-
-  @Test
-  public void diffDeletedFile() throws Exception {
-    pushFactory.create(db, admin.getIdent(), testRepo).to("refs/heads/master");
-    PushOneCommit.Result r =
-        pushFactory.create(db, admin.getIdent(), testRepo).rm("refs/for/master");
-    DiffInfo diff =
-        gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file(FILE_NAME).diff();
-    assertThat(diff.metaA.lines).isEqualTo(1);
-    assertThat(diff.metaB).isNull();
-  }
-
-  @Test
-  public void diffOnMergeCommitChange() throws Exception {
-    PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
-
-    DiffInfo diff;
-
-    // automerge
-    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("foo").diff();
-    assertThat(diff.metaA.lines).isEqualTo(5);
-    assertThat(diff.metaB.lines).isEqualTo(1);
-
-    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("bar").diff();
-    assertThat(diff.metaA.lines).isEqualTo(5);
-    assertThat(diff.metaB.lines).isEqualTo(1);
-
-    // parent 1
-    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("bar").diff(1);
-    assertThat(diff.metaA.lines).isEqualTo(1);
-    assertThat(diff.metaB.lines).isEqualTo(1);
-
-    // parent 2
-    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("foo").diff(2);
-    assertThat(diff.metaA.lines).isEqualTo(1);
-    assertThat(diff.metaB.lines).isEqualTo(1);
-  }
-
-  @Test
   public void description() throws Exception {
     PushOneCommit.Result r = createChange();
     assertDescription(r, "");
@@ -1060,45 +1012,6 @@ public class RevisionIT extends AbstractDaemonTest {
     String eTag = view.getETag(parseRevisionResource(r));
     assertThat(eTag).isNotEqualTo(oldETag);
     return eTag;
-  }
-
-  private void assertDiffForNewFile(
-      PushOneCommit.Result pushResult, String path, String expectedContentSideB) throws Exception {
-    DiffInfo diff =
-        gApi.changes()
-            .id(pushResult.getChangeId())
-            .revision(pushResult.getCommit().name())
-            .file(path)
-            .diff();
-
-    List<String> headers = new ArrayList<>();
-    if (path.equals(COMMIT_MSG)) {
-      RevCommit c = pushResult.getCommit();
-
-      RevCommit parentCommit = c.getParents()[0];
-      String parentCommitId =
-          testRepo.getRevWalk().getObjectReader().abbreviate(parentCommit.getId(), 8).name();
-      headers.add("Parent:     " + parentCommitId + " (" + parentCommit.getShortMessage() + ")");
-
-      SimpleDateFormat dtfmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.US);
-      PersonIdent author = c.getAuthorIdent();
-      dtfmt.setTimeZone(author.getTimeZone());
-      headers.add("Author:     " + author.getName() + " <" + author.getEmailAddress() + ">");
-      headers.add("AuthorDate: " + dtfmt.format(Long.valueOf(author.getWhen().getTime())));
-
-      PersonIdent committer = c.getCommitterIdent();
-      dtfmt.setTimeZone(committer.getTimeZone());
-      headers.add("Commit:     " + committer.getName() + " <" + committer.getEmailAddress() + ">");
-      headers.add("CommitDate: " + dtfmt.format(Long.valueOf(committer.getWhen().getTime())));
-      headers.add("");
-    }
-
-    if (!headers.isEmpty()) {
-      String header = Joiner.on("\n").join(headers);
-      expectedContentSideB = header + "\n" + expectedContentSideB;
-    }
-
-    assertDiffForNewFile(diff, pushResult.getCommit(), path, expectedContentSideB);
   }
 
   private PushOneCommit.Result createCherryPickableMerge(

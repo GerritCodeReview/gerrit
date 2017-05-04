@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "1f80e5b3_3e793143",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-04T12:22:11Z",
+      "side": 1,
+      "message": "The reason for this is throwRestApiException doesn\u0027t stop execution, so you get a compile error saying you must return a value from this method.\n\nI guess the other alternative is:\n\n static RestApiException asRestApiExecption(String msg, Exception e) throws RuntimeException {\n   throwIfUnchecked(e);\n   if (e instanceof RestApiException) {\n     return e;\n   }\n   return new RestApiException(msg, e);\n }\n\nThen in both the void and non-void cases, the catch clause can be\n\n throw asRestApiException(\"Cannot revert change\", e);\n\nWhat do you think?",
+      "parentUuid": "388e96fd_849058e4",
+      "range": {
+        "startLine": 349,
+        "startChar": 6,
+        "endLine": 351,
+        "endChar": 60
+      },
+      "revId": "ee53f95ce1d23a1e50a9bcc09c674641c5f8833c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2fbdd27_6f528125",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
         "patchSetId": 4

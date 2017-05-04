@@ -118,6 +118,7 @@ conditionNot
   | NOT^ conditionBase
   | conditionBase
   ;
+
 conditionBase
   : '('! conditionOr ')'!
   | (FIELD_NAME ':') => FIELD_NAME^ ':'! fieldValue

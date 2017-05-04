@@ -25,6 +25,7 @@ import static com.google.gerrit.server.query.QueryParser.NOT;
 import static com.google.gerrit.server.query.QueryParser.OR;
 import static com.google.gerrit.server.query.QueryParser.SINGLE_WORD;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -37,6 +38,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.Tree;
 
 /**
@@ -184,7 +187,9 @@ public abstract class QueryBuilder<T> {
     if (Strings.isNullOrEmpty(query)) {
       throw new QueryParseException("query is empty");
     }
-    return toPredicate(QueryParser.parse(query));
+    Tree tree = QueryParser.parse(query);
+    tree = (CommonTree) new Simplify(new CommonTreeNodeStream(tree)).downup(tree);
+    return toPredicate(tree);
   }
 
   /**
@@ -215,7 +220,7 @@ public abstract class QueryBuilder<T> {
         return not(toPredicate(onlyChildOf(r)));
 
       case DEFAULT_FIELD:
-        return defaultField(onlyChildOf(r));
+        return defaultField(r);
 
       case FIELD_NAME:
         return operator(r.getText(), onlyChildOf(r));
@@ -266,18 +271,26 @@ public abstract class QueryBuilder<T> {
     return f.create(this, value);
   }
 
-  private Predicate<T> defaultField(final Tree r) throws QueryParseException {
-    switch (r.getType()) {
-      case SINGLE_WORD:
-      case EXACT_PHRASE:
-        if (r.getChildCount() != 0) {
-          throw error("Expected no children under: " + r);
-        }
-        return defaultField(r.getText());
-
-      default:
-        throw error("Unsupported node: " + r);
+  private Predicate<T> defaultField(Tree t) throws QueryParseException {
+    List<String> terms = new ArrayList<>();
+    for (int i = 0; i < t.getChildCount(); i++) {
+      Tree r = t.getChild(i);
+      switch (r.getType()) {
+        case SINGLE_WORD:
+        case EXACT_PHRASE:
+          if (r.getChildCount() != 0) {
+            throw error("Expected no children under: " + r);
+          }
+          terms.add(r.getText());
+          break;
+        default:
+          throw error("Unsupported node: " + r);
+      }
     }
+    if (terms.isEmpty()) {
+      throw error("Expected children under: " + t);
+    }
+    return defaultField(Joiner.on(' ').join(terms));
   }
 
   /**

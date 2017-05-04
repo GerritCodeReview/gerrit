@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.query;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 
+import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.Tree;
 import org.junit.Test;
 
@@ -31,6 +34,15 @@ public class QueryParserTest {
     assertSingleWord("project", "tools/*", r);
   }
 
+  @Test
+  public void multipleDefaultFields() throws Exception {
+    Tree r = parse("this is a test");
+    assertThat(r.toStringTree()).isEqualTo("(AND (DEFAULT_FIELD this is a test))");
+
+    r = parse("this is:a test");
+    assertThat(r.toStringTree()).isEqualTo("(AND (is a) (DEFAULT_FIELD this test))");
+  }
+
   private static void assertSingleWord(final String name, final String value, final Tree r) {
     assertEquals(QueryParser.FIELD_NAME, r.getType());
     assertEquals(name, r.getText());
@@ -42,6 +54,7 @@ public class QueryParserTest {
   }
 
   private static Tree parse(final String str) throws QueryParseException {
-    return QueryParser.parse(str);
+    Tree tree = QueryParser.parse(str);
+    return (CommonTree) new Simplify(new CommonTreeNodeStream(tree)).downup(tree);
   }
 }

@@ -8,10 +8,10 @@ java_library(
 
 genrule2(
     name = "query_antlr",
-    srcs = ["src/main/antlr3/com/google/gerrit/server/query/Query.g"],
+    srcs = glob(["src/main/antlr3/com/google/gerrit/server/query/*.g"]),
     outs = ["query_antlr.srcjar"],
     cmd = " && ".join([
-        "$(location //lib/antlr:antlr-tool) -o $$TMP $<",
+        "$(location //lib/antlr:antlr-tool) -o $$TMP $(SRCS)",
         "cd $$TMP",
         "$$ROOT/$(location @bazel_tools//tools/zip:zipper) cC $$ROOT/$@ $$(find *)",
     ]),

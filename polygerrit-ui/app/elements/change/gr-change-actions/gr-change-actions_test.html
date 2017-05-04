@@ -585,23 +585,29 @@ limitations under the License.
 
       test('make sure the ignore button is not outside of the overflow menu',
           function() {
-        assert.isNotOk(element.$$('[data-action-key="ignore"]'));
+        flush(function() {
+          assert.isNotOk(element.$$('[data-action-key="ignore"]'));
+          done();
+        });
       });
 
       test('ignoring change', function() {
-        assert.isOk(element.$.moreActions.$$('span[data-id="ignore-change"]'));
-        element.setActionOverflow('change', 'ignore', false);
-        flushAsynchronousOperations();
-        assert.isOk(element.$$('[data-action-key="ignore"]'));
-        assert.isNotOk(
-            element.$.moreActions.$$('span[data-id="ignore-change"]'));
+        flush(function() {
+          assert.isOk(element.$.moreActions.$$('span[data-id="ignore-change"]'));
+          element.setActionOverflow('change', 'ignore', false);
+          flushAsynchronousOperations();
+          assert.isOk(element.$$('[data-action-key="ignore"]'));
+          assert.isNotOk(
+              element.$.moreActions.$$('span[data-id="ignore-change"]'));
+          done();
+        });
       });
     });
 
     suite('unignore change', function() {
       var fireActionStub;
 
-      setup(function(done) {
+      setup(function() {
         fireActionStub = sandbox.stub(element, '_fireAction');
 
         var UnignoreAction = {
@@ -621,22 +627,28 @@ limitations under the License.
         element.changeNum = '2';
         element.patchNum = '2';
 
-        element.reload().then(function() {flush(done)});
+        return element.reload();
       });
 
 
       test('unignore button is not outside of the overflow menu', function() {
-        assert.isNotOk(element.$$('[data-action-key="unignore"]'));
+        flush(function() {
+          assert.isNotOk(element.$$('[data-action-key="unignore"]'));
+          done();
+        });
       });
 
       test('unignoring change', function() {
-        assert.isOk(
-          element.$.moreActions.$$('span[data-id="unignore-change"]'));
-        element.setActionOverflow('change', 'unignore', false);
-        flushAsynchronousOperations();
-        assert.isOk(element.$$('[data-action-key="unignore"]'));
-        assert.isNotOk(
-          element.$.moreActions.$$('span[data-id="unignore-change"]'));
+        flush(function() {
+          assert.isOk(
+            element.$.moreActions.$$('span[data-id="unignore-change"]'));
+          element.setActionOverflow('change', 'unignore', false);
+          flushAsynchronousOperations();
+          assert.isOk(element.$$('[data-action-key="unignore"]'));
+          assert.isNotOk(
+            element.$.moreActions.$$('span[data-id="unignore-change"]'));
+          done();
+        });
       });
     });
 

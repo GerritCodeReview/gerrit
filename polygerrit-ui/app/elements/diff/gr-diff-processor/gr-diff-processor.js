@@ -36,11 +36,11 @@
    * The maximum size for an addition or removal chunk before it is broken down
    * into a series of chunks that are this size at most.
    *
-   * Note: The value of 70 is chosen so that it is larger than the default
+   * Note: The value of 120 is chosen so that it is larger than the default
    * _asyncThreshold of 64, but feel free to tune this constant to your
    * performance needs.
    */
-  var MAX_GROUP_SIZE = 70;
+  var MAX_GROUP_SIZE = 120;
 
   Polymer({
     is: 'gr-diff-processor',
@@ -364,8 +364,11 @@
       if (this.context === -1) {
         var newContent = [];
         content.forEach(function(group) {
-          if (group.ab) {
-            newContent.push.apply(newContent, this._breakdownGroup(group));
+          if (group.ab && group.ab.length > MAX_GROUP_SIZE * 2) {
+            // Split large shared groups in two, where the first is the maximum
+            // group size.
+            newContent.push({ab: group.ab.slice(0, MAX_GROUP_SIZE)});
+            newContent.push({ab: group.ab.slice(MAX_GROUP_SIZE)});
           } else {
             newContent.push(group);
           }

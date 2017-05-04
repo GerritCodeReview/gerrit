@@ -47,6 +47,30 @@
       "revId": "d5c9d0824cc82a01a97f50ce555b983890c46834",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3923729_55d22caf",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-04T12:57:23Z",
+      "side": 1,
+      "message": "So just to be explicit about some remaining options...\n\n* Don\u0027t worry about skew, and hope nobody is too flustered by this option buried in settings not working until the backend is updated.\n* Add a boolean to the server info about whether this feature is enabled.\n\nA single boolean for this feature seems like a lot of work for an issue that will last all of 3 days. Maybe we could go a bit further and generalize this so it\u0027s useful for more than this one option, like add a field to the server info that lists the names of all recognized permissions.\n\nThoughts?",
+      "parentUuid": "e39d1145_1bbb83be",
+      "range": {
+        "startLine": 209,
+        "startChar": 10,
+        "endLine": 209,
+        "endChar": 19
+      },
+      "revId": "d5c9d0824cc82a01a97f50ce555b983890c46834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

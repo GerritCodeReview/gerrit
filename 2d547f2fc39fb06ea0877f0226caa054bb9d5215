@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c05377c2_bab9c013",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4642,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-04T11:34:39Z",
+      "side": 1,
+      "message": "the value is",
+      "range": {
+        "startLine": 4642,
+        "startChar": 24,
+        "endLine": 4642,
+        "endChar": 34
+      },
+      "revId": "2d547f2fc39fb06ea0877f0226caa054bb9d5215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1435add4_68a5b23a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-04T11:34:39Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "revId": "2d547f2fc39fb06ea0877f0226caa054bb9d5215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

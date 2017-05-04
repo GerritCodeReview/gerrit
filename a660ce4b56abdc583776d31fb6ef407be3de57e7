@@ -187,6 +187,30 @@
       "revId": "a660ce4b56abdc583776d31fb6ef407be3de57e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f61483e0_f90415ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-04T11:34:39Z",
+      "side": 1,
+      "message": "Sorry I meant:\n\nBadRequestException if parent is incorrect\nand leave ResourceNotFoundException if revCommit \u003d\u003d null",
+      "parentUuid": "12ce5ada_bcd5a307",
+      "range": {
+        "startLine": 90,
+        "startChar": 20,
+        "endLine": 90,
+        "endChar": 45
+      },
+      "revId": "a660ce4b56abdc583776d31fb6ef407be3de57e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

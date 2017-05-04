@@ -15,6 +15,7 @@
 package com.google.gerrit.server.api.groups;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -33,13 +34,10 @@ import com.google.gerrit.server.group.ListGroups;
 import com.google.gerrit.server.group.QueryGroups;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectsCollection;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.List;
 import java.util.SortedMap;
 
@@ -99,8 +97,8 @@ class GroupsImpl implements Groups {
       permissionBackend.user(user).checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
       GroupInfo info = impl.apply(TopLevelResource.INSTANCE, in);
       return id(info.id);
-    } catch (OrmException | IOException | PermissionBackendException e) {
-      throw new RestApiException("Cannot create group " + in.name, e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot create group " + in.name, e);
     }
   }
 
@@ -122,8 +120,8 @@ class GroupsImpl implements Groups {
     for (String project : req.getProjects()) {
       try {
         list.addProject(projects.parse(tlr, IdString.fromDecoded(project)).getControl());
-      } catch (IOException | PermissionBackendException e) {
-        throw new RestApiException("Error looking up project " + project, e);
+      } catch (Exception e) {
+        throw asRestApiException("Error looking up project " + project, e);
       }
     }
 
@@ -136,8 +134,8 @@ class GroupsImpl implements Groups {
     if (req.getUser() != null) {
       try {
         list.setUser(accounts.parse(req.getUser()).getAccountId());
-      } catch (OrmException e) {
-        throw new RestApiException("Error looking up user " + req.getUser(), e);
+      } catch (Exception e) {
+        throw asRestApiException("Error looking up user " + req.getUser(), e);
       }
     }
 
@@ -148,8 +146,8 @@ class GroupsImpl implements Groups {
     list.setSuggest(req.getSuggest());
     try {
       return list.apply(tlr);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot list groups", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list groups", e);
     }
   }
 
@@ -178,8 +176,8 @@ class GroupsImpl implements Groups {
         myQueryGroups.addOption(option);
       }
       return myQueryGroups.apply(TopLevelResource.INSTANCE);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot query groups", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot query groups", e);
     }
   }
 }

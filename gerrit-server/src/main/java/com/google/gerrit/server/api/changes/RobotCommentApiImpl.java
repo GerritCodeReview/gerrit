@@ -14,12 +14,13 @@
 
 package com.google.gerrit.server.api.changes;
 
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+
 import com.google.gerrit.extensions.api.changes.RobotCommentApi;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.GetRobotComment;
 import com.google.gerrit.server.change.RobotCommentResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -41,8 +42,8 @@ public class RobotCommentApiImpl implements RobotCommentApi {
   public RobotCommentInfo get() throws RestApiException {
     try {
       return getComment.apply(comment);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot retrieve robot comment", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve robot comment", e);
     }
   }
 }

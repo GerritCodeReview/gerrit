@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.api.projects;
 
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.Projects;
@@ -28,7 +30,6 @@ import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.SortedMap;
 
 @Singleton
@@ -53,8 +54,8 @@ class ProjectsImpl implements Projects {
       return api.create(projects.parse(name));
     } catch (UnprocessableEntityException e) {
       return api.create(name);
-    } catch (IOException | PermissionBackendException e) {
-      throw new RestApiException("Cannot retrieve project", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve project", e);
     }
   }
 
@@ -80,8 +81,8 @@ class ProjectsImpl implements Projects {
       public SortedMap<String, ProjectInfo> getAsMap() throws RestApiException {
         try {
           return list(this);
-        } catch (PermissionBackendException e) {
-          throw new RestApiException("project list unavailable", e);
+        } catch (Exception e) {
+          throw asRestApiException("project list unavailable", e);
         }
       }
     };

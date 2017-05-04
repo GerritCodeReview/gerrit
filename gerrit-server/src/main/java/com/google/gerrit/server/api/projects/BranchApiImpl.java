@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.api.projects;
 
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -28,7 +30,6 @@ import com.google.gerrit.server.project.FileResource;
 import com.google.gerrit.server.project.FilesCollection;
 import com.google.gerrit.server.project.GetContent;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -69,8 +70,8 @@ public class BranchApiImpl implements BranchApi {
     try {
       createBranchFactory.create(ref).apply(project, input);
       return this;
-    } catch (IOException e) {
-      throw new RestApiException("Cannot create branch", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot create branch", e);
     }
   }
 
@@ -78,8 +79,8 @@ public class BranchApiImpl implements BranchApi {
   public BranchInfo get() throws RestApiException {
     try {
       return resource().getBranchInfo();
-    } catch (IOException e) {
-      throw new RestApiException("Cannot read branch", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot read branch", e);
     }
   }
 
@@ -87,8 +88,8 @@ public class BranchApiImpl implements BranchApi {
   public void delete() throws RestApiException {
     try {
       deleteBranch.apply(resource(), new DeleteBranch.Input());
-    } catch (OrmException | IOException e) {
-      throw new RestApiException("Cannot delete branch", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot delete branch", e);
     }
   }
 
@@ -97,8 +98,8 @@ public class BranchApiImpl implements BranchApi {
     try {
       FileResource resource = filesCollection.parse(resource(), IdString.fromDecoded(path));
       return getContent.apply(resource);
-    } catch (IOException e) {
-      throw new RestApiException("Cannot retrieve file", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve file", e);
     }
   }
 

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.api.config;
 
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+
 import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
@@ -32,13 +34,9 @@ import com.google.gerrit.server.config.GetPreferences;
 import com.google.gerrit.server.config.GetServerInfo;
 import com.google.gerrit.server.config.SetDiffPreferences;
 import com.google.gerrit.server.config.SetPreferences;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class ServerImpl implements Server {
@@ -77,8 +75,8 @@ public class ServerImpl implements Server {
   public ServerInfo getInfo() throws RestApiException {
     try {
       return getServerInfo.apply(new ConfigResource());
-    } catch (IOException e) {
-      throw new RestApiException("Cannot get server info", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get server info", e);
     }
   }
 
@@ -86,8 +84,8 @@ public class ServerImpl implements Server {
   public GeneralPreferencesInfo getDefaultPreferences() throws RestApiException {
     try {
       return getPreferences.apply(new ConfigResource());
-    } catch (IOException | ConfigInvalidException e) {
-      throw new RestApiException("Cannot get default general preferences", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get default general preferences", e);
     }
   }
 
@@ -96,8 +94,8 @@ public class ServerImpl implements Server {
       throws RestApiException {
     try {
       return setPreferences.apply(new ConfigResource(), in);
-    } catch (IOException | ConfigInvalidException e) {
-      throw new RestApiException("Cannot set default general preferences", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set default general preferences", e);
     }
   }
 
@@ -105,8 +103,8 @@ public class ServerImpl implements Server {
   public DiffPreferencesInfo getDefaultDiffPreferences() throws RestApiException {
     try {
       return getDiffPreferences.apply(new ConfigResource());
-    } catch (IOException | ConfigInvalidException e) {
-      throw new RestApiException("Cannot get default diff preferences", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get default diff preferences", e);
     }
   }
 
@@ -115,8 +113,8 @@ public class ServerImpl implements Server {
       throws RestApiException {
     try {
       return setDiffPreferences.apply(new ConfigResource(), in);
-    } catch (IOException | ConfigInvalidException e) {
-      throw new RestApiException("Cannot set default diff preferences", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set default diff preferences", e);
     }
   }
 
@@ -124,8 +122,8 @@ public class ServerImpl implements Server {
   public ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) throws RestApiException {
     try {
       return checkConsistency.get().apply(new ConfigResource(), in);
-    } catch (IOException e) {
-      throw new RestApiException("Cannot check consistency", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot check consistency", e);
     }
   }
 
@@ -133,8 +131,8 @@ public class ServerImpl implements Server {
   public AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException {
     try {
       return checkAccess.get().apply(new ConfigResource(), in);
-    } catch (OrmException | IOException | PermissionBackendException e) {
-      throw new RestApiException("Cannot check access", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot check access", e);
     }
   }
 }

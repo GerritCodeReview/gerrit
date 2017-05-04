@@ -24,6 +24,8 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-external-style.html">
 
+<script>void(0);</script>
+
 <test-fixture id="basic">
   <template>
     <gr-external-style name="foo"></gr-external-style>
@@ -44,10 +46,6 @@ limitations under the License.
       sandbox.stub(element, '_applyStyle');
       sandbox.stub(element, 'importHref', function(url, resolve) { resolve() });
       flush(done);
-    });
-
-    teardown(function() {
-      sandbox.restore();
     });
 
     test('imports plugin-provided module', function() {

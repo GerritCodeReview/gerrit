@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "e4a7e187_444588b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-04T13:48:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f20fd95e_96e90891",
+      "range": {
+        "startLine": 24,
+        "startChar": 63,
+        "endLine": 25,
+        "endChar": 4
+      },
+      "revId": "960a5a48c2caa914922860d44a5d3a0fd693c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f94e74fa_a90a6744",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2017-05-04T13:43:36Z",
       "side": 1,
       "message": "Should the UpdateOneRefOp for prev be added before the UpdateOneRefOp for cmd?",
+      "range": {
+        "startLine": 2458,
+        "startChar": 8,
+        "endLine": 2461,
+        "endChar": 9
+      },
+      "revId": "960a5a48c2caa914922860d44a5d3a0fd693c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63972244_50f8e932",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2461,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-04T13:48:48Z",
+      "side": 1,
+      "message": "Yeah, I was thinking that order didn\u0027t matter (particularly when using a single atomic BatchRefUpdate), but this acutally controls the order of ref updated events that get fired, so I can see that argument. Done.",
+      "parentUuid": "f94e74fa_a90a6744",
       "range": {
         "startLine": 2458,
         "startChar": 8,

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de9effdc_f1254c9c",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-04T16:17:18Z",
+      "side": 1,
+      "message": "is that valid json wont it cause a syntax error as there is nothing going after this.",
+      "range": {
+        "startLine": 41,
+        "startChar": 74,
+        "endLine": 41,
+        "endChar": 75
+      },
+      "revId": "0122b0aa1746250d6b7420700e629be8d7cf9191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "416ba243_badc066f",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-04T16:17:18Z",
+      "side": 1,
+      "message": "You forgot a ; there.",
+      "range": {
+        "startLine": 45,
+        "startChar": 75,
+        "endLine": 45,
+        "endChar": 77
+      },
+      "revId": "0122b0aa1746250d6b7420700e629be8d7cf9191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,7 @@ import static com.google.gerrit.extensions.common.DiffInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.FileInfoSubject.assertThat;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
@@ -30,12 +31,18 @@ import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,6 +68,51 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     Result result = createEmptyChange();
     changeId = result.getChangeId();
     initialPatchSetId = result.getPatchSetId().getId();
+  }
+
+  @Test
+  public void diff() throws Exception {
+    String fileName = "a_new_file.txt";
+    String fileContent = "First line\nSecond line\n";
+    PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
+    assertDiffForNewFile(result, fileName, fileContent);
+    assertDiffForNewFile(result, COMMIT_MSG, result.getCommit().getFullMessage());
+  }
+
+  @Test
+  public void diffDeletedFile() throws Exception {
+    gApi.changes().id(changeId).edit().deleteFile(FILE_NAME);
+    gApi.changes().id(changeId).edit().publish();
+
+    DiffInfo diff = gApi.changes().id(changeId).current().file(FILE_NAME).diff();
+    assertThat(diff.metaA.lines).isEqualTo(100);
+    assertThat(diff.metaB).isNull();
+  }
+
+  @Test
+  public void diffOnMergeCommitChange() throws Exception {
+    PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
+
+    DiffInfo diff;
+
+    // automerge
+    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("foo").diff();
+    assertThat(diff.metaA.lines).isEqualTo(5);
+    assertThat(diff.metaB.lines).isEqualTo(1);
+
+    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("bar").diff();
+    assertThat(diff.metaA.lines).isEqualTo(5);
+    assertThat(diff.metaB.lines).isEqualTo(1);
+
+    // parent 1
+    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("bar").diff(1);
+    assertThat(diff.metaA.lines).isEqualTo(1);
+    assertThat(diff.metaB.lines).isEqualTo(1);
+
+    // parent 2
+    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("foo").diff(2);
+    assertThat(diff.metaA.lines).isEqualTo(1);
+    assertThat(diff.metaB.lines).isEqualTo(1);
   }
 
   @Test
@@ -910,6 +962,45 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         gApi.changes().id(changeId).revision(initialPatchSetId).files(currentPatchSetId);
     assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
     assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+  }
+
+  private void assertDiffForNewFile(
+      PushOneCommit.Result pushResult, String path, String expectedContentSideB) throws Exception {
+    DiffInfo diff =
+        gApi.changes()
+            .id(pushResult.getChangeId())
+            .revision(pushResult.getCommit().name())
+            .file(path)
+            .diff();
+
+    List<String> headers = new ArrayList<>();
+    if (path.equals(COMMIT_MSG)) {
+      RevCommit c = pushResult.getCommit();
+
+      RevCommit parentCommit = c.getParents()[0];
+      String parentCommitId =
+          testRepo.getRevWalk().getObjectReader().abbreviate(parentCommit.getId(), 8).name();
+      headers.add("Parent:     " + parentCommitId + " (" + parentCommit.getShortMessage() + ")");
+
+      SimpleDateFormat dtfmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.US);
+      PersonIdent author = c.getAuthorIdent();
+      dtfmt.setTimeZone(author.getTimeZone());
+      headers.add("Author:     " + author.getName() + " <" + author.getEmailAddress() + ">");
+      headers.add("AuthorDate: " + dtfmt.format(author.getWhen().getTime()));
+
+      PersonIdent committer = c.getCommitterIdent();
+      dtfmt.setTimeZone(committer.getTimeZone());
+      headers.add("Commit:     " + committer.getName() + " <" + committer.getEmailAddress() + ">");
+      headers.add("CommitDate: " + dtfmt.format(committer.getWhen().getTime()));
+      headers.add("");
+    }
+
+    if (!headers.isEmpty()) {
+      String header = Joiner.on("\n").join(headers);
+      expectedContentSideB = header + "\n" + expectedContentSideB;
+    }
+
+    assertDiffForNewFile(diff, pushResult.getCommit(), path, expectedContentSideB);
   }
 
   private void rebaseChangeOn(String changeId, ObjectId newParent) throws Exception {

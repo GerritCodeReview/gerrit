@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1493917210 -0400\nnonce APbwY4pblVELBg3yJBVOWmG12KhJ80gmkvOcqe/wb4SkPeuX+XTjejc+AOCCIMa+A2Gn74TgREjr\n\n0000000000000000000000000000000000000000 774a485b89e65c9051f11431b02b0beb4c6c51bb refs/for/master%topic\u003dretry-helper-2,r\u003daliceks,r\u003dekempin,r\u003dhiesel@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZC14aAAoJEF/XxZqaEoiMZRkQANdPxmBsr5XJm9vYsA0N0IdM\nMR/zmn+Vjq4rmMrAlLG/63b9wt8frg4lYKg6GVlxcP+DczXH7tjY9kgdwV28/oe4\ncg/pBJDm7QZrxG1lHbMkpqYLSTzOuJjYtg64bQrU4tJ4TFIuKcS4ASCFtMaKBYta\nJHw5D6+44LFX5DZhJ93rMNRZihvHQE8USf/JER4E/H0tTS9u5AvYbJ8hpMv4gR88\nhujDHnGkzcaTjYsFTiQoXBai1Q/zc1Ba2XrZs/d3qXQrTvgGAgY6gLumw03AfV8j\nQQZoA/oYOJZ2gXnfZHVjcu6Zn8KyDp8f48TsHV/7YprmOSJoZZPuvfdfOKxILXG+\nqp3444FnpfdWwkeDgXzAabsEp6QXaWBrnZlQBySw5qyuWDcARxks/tlcsuss5Sqh\nixc1ma4FqTCwOPCF8Fpb7RTWoJJN68m7lppT+ysjLclBHWkQd+RiKURuJSXkq602\nII2iEIxC+7qNLNjYp8cdzO6y6FE2326crkhWzXAdyIzBsNAztOsd9H7h84M0tpTe\no3A47Zw8SDJwAoYe7WResxvlRrqHj44SvVqJT9KuVNY93Y8d8GbxhNEgTMEcHvs8\nOEyZ3cTnTu5QJFwdo+rDsPK9t5h8Lczuqdr4DlV4PU/uLhQ3ztQyoI3nlc5oLMVh\ng07xvPMn8RFtDY2WTpod\n\u003dgf2l\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b845870_8b7499b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-04T17:04:08Z",
+      "side": 1,
+      "message": "We could probably also do something like:\n\n interface ApiRunnable {\n   void run() throws Exception;\n }\n\n static void run(ApiRunnable r, String errorMessage) {\n   try {\n     r.run();\n   } catch (Exception e) {\n     throw asRestApiException(errorMessage, e);\n   }\n }\n\n static void run(Callable c, String errorMessage) {\n   try {\n     c.call();\n   } catch (Exception e) {\n     throw asRestApiException(errorMessage, e);\n }\n\nThen convert all the API implementations to:\n\n public com.google.gerrit.extensions.common.AccountInfo get() throws RestApiException {\n     AccountLoader accountLoader \u003d accountLoaderFactory.create(true);\n     run(() -\u003e {\n       AccountInfo ai \u003d accountLoader.get(account.getUser().getAccountId());\n       accountLoader.fill();\n       return ai;\n     }, \"Cannot parse change\");\n }\n\nBut a) that\u0027s certainly more work than I want to do inline with this series, and b) it\u0027s a relatively minimal boilerplate reduction and arguably worse readability.",
+      "revId": "5b9e7a8d252f3b1d420e306715c89b254356101b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

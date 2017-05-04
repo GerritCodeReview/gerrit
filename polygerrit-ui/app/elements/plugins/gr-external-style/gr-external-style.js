@@ -22,7 +22,7 @@
     },
 
     _import: function(url) {
-      return new Promise((resolve, reject) => {
+      return new Promise(function(resolve, reject) {
         this.importHref(url, resolve, reject);
       });
     },

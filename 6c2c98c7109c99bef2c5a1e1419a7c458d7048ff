@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1205470a_6934420e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-04T00:03:30Z",
+      "side": 1,
+      "message": "It sets the full name and status.\n\nThanks, done.",
+      "parentUuid": "f9a36bb2_5bc34cd7",
+      "range": {
+        "startLine": 190,
+        "startChar": 12,
+        "endLine": 190,
+        "endChar": 27
+      },
+      "revId": "6c2c98c7109c99bef2c5a1e1419a7c458d7048ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bd3b2c61_bb56c4a9",
         "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
         "patchSetId": 9
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "447a8dea_fd8d9ab2",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-04T00:03:30Z",
+      "side": 1,
+      "message": "Yep",
+      "parentUuid": "bd3b2c61_bb56c4a9",
+      "range": {
+        "startLine": 191,
+        "startChar": 8,
+        "endLine": 192,
+        "endChar": 39
+      },
+      "revId": "6c2c98c7109c99bef2c5a1e1419a7c458d7048ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b5ce1ee6_caa8ade5",
         "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
         "patchSetId": 9
@@ -59,6 +107,30 @@
       "writtenOn": "2017-05-03T23:55:00Z",
       "side": 1,
       "message": "What does this mean?",
+      "range": {
+        "startLine": 220,
+        "startChar": 11,
+        "endLine": 220,
+        "endChar": 35
+      },
+      "revId": "6c2c98c7109c99bef2c5a1e1419a7c458d7048ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "563e35bd_882968dd",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-04T00:03:30Z",
+      "side": 1,
+      "message": "It sets the status but only reads the full name",
+      "parentUuid": "b5ce1ee6_caa8ade5",
       "range": {
         "startLine": 220,
         "startChar": 11,

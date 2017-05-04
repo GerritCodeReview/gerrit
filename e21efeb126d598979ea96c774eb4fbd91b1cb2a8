@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "7357695d_9147960a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-04T19:42:54Z",
+      "side": 1,
+      "message": "\u003e - Add observer to preferences to update preferences one by one.\n\nThis still renders them simultaneously because each iteration of `_forEachDiff` does not wait for the render of the previous diff to finish.\n\nNote the recursive pattern used in `_renderInOrder`.",
+      "parentUuid": "89c5426e_ac085bb5",
+      "revId": "e21efeb126d598979ea96c774eb4fbd91b1cb2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1bd93c32_2888c527",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1

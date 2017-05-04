@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45226468_cb985c7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-04T19:42:54Z",
+      "side": 1,
+      "message": "Should we support the \",\" keyboard shortcut in the change view as well?",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "55c9e7e19ecb1d196783c05ecb41de22075df6b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78a12e86_8d09f1c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-04T19:42:54Z",
+      "side": 1,
+      "message": "Missing quotes around binding.",
+      "range": {
+        "startLine": 471,
+        "startChar": 23,
+        "endLine": 471,
+        "endChar": 37
+      },
+      "revId": "55c9e7e19ecb1d196783c05ecb41de22075df6b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

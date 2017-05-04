@@ -38,11 +38,12 @@ limitations under the License.
     setup(function(done) {
       sandbox = sinon.sandbox.create();
       sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
-      Gerrit._styleModules = {'foo': [{pluginUrl: 'bar', moduleName: 'baz',}]};
+      Gerrit._styleModules = {'foo': [{pluginUrl: 'bar', moduleName: 'baz'}]};
 
       element = fixture('basic');
       sandbox.stub(element, '_applyStyle');
-      sandbox.stub(element, 'importHref', function(url, resolve) { resolve() });
+      sandbox.stub(element, 'importHref', function(url, resolve) { resolve(); });
+
       flush(done);
     });
 

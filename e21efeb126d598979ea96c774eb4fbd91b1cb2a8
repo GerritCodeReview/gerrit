@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "8e216147_2a0d185c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-04T21:19:23Z",
+      "side": 1,
+      "message": "Ack. ok just going to use `_renderInOrder` then.",
+      "parentUuid": "7357695d_9147960a",
+      "revId": "e21efeb126d598979ea96c774eb4fbd91b1cb2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bd93c32_2888c527",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1

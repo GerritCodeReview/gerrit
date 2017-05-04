@@ -29,6 +29,7 @@ import java.util.Set;
 import org.eclipse.jgit.api.GarbageCollectCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -70,11 +71,11 @@ public class GarbageCollection {
   }
 
   public GarbageCollectionResult run(List<Project.NameKey> projectNames, PrintWriter writer) {
-    return run(projectNames, gcConfig.isAggressive(), writer);
+    return run(projectNames, gcConfig.isAggressive(), gcConfig.isAutoGc(), writer);
   }
 
   public GarbageCollectionResult run(
-      List<Project.NameKey> projectNames, boolean aggressive, PrintWriter writer) {
+      List<Project.NameKey> projectNames, boolean aggressive, autogc, PrintWriter writer) {
     GarbageCollectionResult result = new GarbageCollectionResult();
     Set<Project.NameKey> projectsToGc = gcQueue.addAll(projectNames);
     for (Project.NameKey projectName :
@@ -85,10 +86,12 @@ public class GarbageCollection {
     }
     for (Project.NameKey p : projectsToGc) {
       try (Repository repo = repoManager.openRepository(p)) {
-        logGcConfiguration(p, repo, aggressive);
+        logGcConfiguration(p, repo, aggressive, autogc);
         print(writer, "collecting garbage for \"" + p + "\":\n");
         GarbageCollectCommand gc = Git.wrap(repo).gc();
         gc.setAggressive(aggressive);
+        GC autogc_1 = GC.setAuto(autogc);
+        gc.setAuto(autogc);
         logGcInfo(p, "before:", gc.getStatistics());
         gc.setProgressMonitor(
             writer != null ? new TextProgressMonitor(writer) : NullProgressMonitor.INSTANCE);
@@ -146,10 +149,11 @@ public class GarbageCollection {
   }
 
   private static void logGcConfiguration(
-      Project.NameKey projectName, Repository repo, boolean aggressive) {
+      Project.NameKey projectName, Repository repo, boolean aggressive, boolean autogc) {
     StringBuilder b = new StringBuilder();
     Config cfg = repo.getConfig();
     b.append("gc.aggressive=").append(aggressive).append("; ");
+    b.append("recive.autogc=").append(autogc).append("; ");
     b.append(formatConfigValues(cfg, ConfigConstants.CONFIG_GC_SECTION, null));
     for (String subsection : cfg.getSubsections(ConfigConstants.CONFIG_GC_SECTION)) {
       b.append(formatConfigValues(cfg, ConfigConstants.CONFIG_GC_SECTION, subsection));

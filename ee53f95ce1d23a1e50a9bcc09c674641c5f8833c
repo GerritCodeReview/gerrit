@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "de97d1fd_b0d49fa7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-04T12:23:27Z",
+      "side": 1,
+      "message": "I would like this more.",
+      "parentUuid": "1f80e5b3_3e793143",
+      "range": {
+        "startLine": 349,
+        "startChar": 6,
+        "endLine": 351,
+        "endChar": 60
+      },
+      "revId": "ee53f95ce1d23a1e50a9bcc09c674641c5f8833c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2fbdd27_6f528125",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
         "patchSetId": 4

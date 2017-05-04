@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "60fb707f_9f64df6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-04T12:47:44Z",
+      "side": 1,
+      "message": "It\u0027s an error in IntelliJ. But we can ignore in this change.",
+      "parentUuid": "187e6030_e0d70c1c",
+      "revId": "15cd7fb2c04f61ab82d165b49af0460d2b82e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8e24acb_b3c50b34",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 18
@@ -30,6 +48,24 @@
       "writtenOn": "2017-05-04T12:24:53Z",
       "side": 1,
       "message": "This does \"John Doe\" + \"foo@exmaple.com\". You also need \"John Doe \u003cfoo@example.com\u003e\" so that you can match exactly that if the user types it.",
+      "revId": "15cd7fb2c04f61ab82d165b49af0460d2b82e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc544187_95e37676",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-04T12:47:44Z",
+      "side": 1,
+      "message": "We have \"John Doe\" and \"foo@example.com\" in the index. This can support NameEmail format.\n\nIf we add \"John Doe \u003cfoo@example.com\u003e\" to the index, how can we use it?\n\nCurrent logic:\n\nquery:\n\u003d\u003d\u003d\u003e found Email\n   1\u003d\u003e found Name     ---\u003e Predicate(Name AND Email). EXACT\n   2\u003d\u003e no Name        ---\u003e Predicate(Email). EXACT\n\u003d\u003d\u003d\u003e no email\n   3\u003d\u003e splitted parts ---\u003e Predicates.And(Parts). FULL_TEXT",
+      "parentUuid": "b8e24acb_b3c50b34",
       "revId": "15cd7fb2c04f61ab82d165b49af0460d2b82e068",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "999de4e5_84892900",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-04T12:47:44Z",
+      "side": 1,
+      "message": "For NameEmail format, Address will parse out its email and name. Then will return \"Predicate.and(emailPredicate, namePredicate);\"",
+      "parentUuid": "c4a9b328_939c708e",
+      "revId": "15cd7fb2c04f61ab82d165b49af0460d2b82e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c3bd0f01_b35bb52a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 18
@@ -64,6 +118,24 @@
       "writtenOn": "2017-05-04T12:24:53Z",
       "side": 1,
       "message": "You can do this with another Function",
+      "revId": "15cd7fb2c04f61ab82d165b49af0460d2b82e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37f6edbc_6cdcc914",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-04T12:47:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3bd0f01_b35bb52a",
       "revId": "15cd7fb2c04f61ab82d165b49af0460d2b82e068",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

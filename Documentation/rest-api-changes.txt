@@ -5905,19 +5905,21 @@ in a file.
 
 [options="header",cols="1,^1,5"]
 |==========================
-|Field Name ||Description
-|`a`        |optional|Content only in the file on side A (deleted in B).
-|`b`        |optional|Content only in the file on side B (added in B).
-|`ab`       |optional|Content in the file on both sides (unchanged).
-|`edit_a`   |only present during a replace, i.e. both `a` and `b` are present|
+|Field Name     ||Description
+|`a`            |optional|Content only in the file on side A (deleted in B).
+|`b`            |optional|Content only in the file on side B (added in B).
+|`ab`           |optional|Content in the file on both sides (unchanged).
+|`edit_a`       |only present during a replace, i.e. both `a` and `b` are present|
 Text sections deleted from side A as a
 link:#diff-intraline-info[DiffIntralineInfo] entity.
-|`edit_b`   |only present during a replace, i.e. both `a` and `b` are present|
+|`edit_b`       |only present during a replace, i.e. both `a` and `b` are present|
 Text sections inserted in side B as a
 link:#diff-intraline-info[DiffIntralineInfo] entity.
-|`skip`     |optional|count of lines skipped on both sides when the file is
+|`due_to_rebase`|not set if `false`|Indicates whether this entry was introduced by a
+rebase.
+|`skip`         |optional|count of lines skipped on both sides when the file is
 too large to include all common lines.
-|`common`   |optional|Set to `true` if the region is common according
+|`common`       |optional|Set to `true` if the region is common according
 to the requested ignore-whitespace parameter, but a and b contain
 differing amounts of whitespace. When present and true a and b are
 used instead of ab.

@@ -1,4 +1,143 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1493828716 -0400\nnonce APbwY4p6ElBPVy6uxqZqNWiSf8BGgLYzbLuVY7LTDupmJJcwUG4usD5O1IvddnUDr2WVVjKzI0M7\n\n0000000000000000000000000000000000000000 2064e393f54c2ab3331d0bd3ecb7d14bc255c69c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZCgRsAAoJEF/XxZqaEoiM5FMP/2D3xoMFldTAoyWgnlNvuqOa\nqc++bh+z1TdUrYvc8PYpfp4br+ir7LKzdL9aECYGFxW/zqJHQwpi0awjM57YyB+U\naH9ncZ1PXMf6lyvORx3FLvD3f+26tFNePvJKJsnn4+q2q9y4O4NXm7qVmIH4DA3m\nYd9+b/BlbT3FHjUOqHKv8eMv3fO8QrylpXEMdmykkF+JBkcGAdhJjLmtW8/Ws8s4\nc+2DI0ypKjNLVq0rG3gVXeAaya9WZLk/EbyPicKCDepMUhwNYwXD7ec84qtcTSvP\nQbW05CL/jZ9yj2fFy3W6DC003fbT58ZWfSMv6V7s+sRfPp1CQyn9RYlyD3XaGJvy\nWJAZfT1OHLVboHOT9qadr9cEMTiz28PZQRtnQZYH3NFTuJOqSDxZEKiYlijHb4Tj\n8ZTxvyenUpSqvAWEJ8h+6CTBcxpzzE7FgnV+6cS6tvM9t6gf5CpKEOuj0rGDK+bM\n5Zki4wvsuGzCsArp3ECKsfsGVmHDqEWup1ejsLjZHbNbE7wcliAhFSnjpn3l5xID\nbeP6llVOw/tAYdvqA/c1UE0/XcCw+gn3eQQOMrboeUYnFX3DK8jcpjGQv5/g7UCX\n+NVWTiG/ABPfIJv4tvsiPpN3qQILBsN0SAhP3eROWotQgk3cVWpZ8TPZyJS3h+x/\ncazoQH6EZ5t3tmPE3aSP\n\u003d/vhV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "388e96fd_849058e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-04T12:14:33Z",
+      "side": 1,
+      "message": "throwRestApiException",
+      "range": {
+        "startLine": 349,
+        "startChar": 6,
+        "endLine": 351,
+        "endChar": 60
+      },
+      "revId": "ee53f95ce1d23a1e50a9bcc09c674641c5f8833c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2fbdd27_6f528125",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-04T12:14:33Z",
+      "side": 1,
+      "message": "throwRestApiException",
+      "range": {
+        "startLine": 360,
+        "startChar": 6,
+        "endLine": 361,
+        "endChar": 69
+      },
+      "revId": "ee53f95ce1d23a1e50a9bcc09c674641c5f8833c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56a64ecb_8f82d433",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-04T12:14:33Z",
+      "side": 1,
+      "message": "throwRestApiException",
+      "range": {
+        "startLine": 463,
+        "startChar": 6,
+        "endLine": 464,
+        "endChar": 66
+      },
+      "revId": "ee53f95ce1d23a1e50a9bcc09c674641c5f8833c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56006cec_a8a84be1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-04T12:14:33Z",
+      "side": 1,
+      "message": "throwRestApiException",
+      "range": {
+        "startLine": 537,
+        "startChar": 6,
+        "endLine": 538,
+        "endChar": 59
+      },
+      "revId": "ee53f95ce1d23a1e50a9bcc09c674641c5f8833c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e4c7cb1_d06a229f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-04T12:14:33Z",
+      "side": 1,
+      "message": "throwRestApiException",
+      "range": {
+        "startLine": 547,
+        "startChar": 6,
+        "endLine": 548,
+        "endChar": 59
+      },
+      "revId": "ee53f95ce1d23a1e50a9bcc09c674641c5f8833c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55b367e5_035fc558",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-04T12:14:33Z",
+      "side": 1,
+      "message": "throwRestApiException",
+      "range": {
+        "startLine": 577,
+        "startChar": 6,
+        "endLine": 578,
+        "endChar": 62
+      },
+      "revId": "ee53f95ce1d23a1e50a9bcc09c674641c5f8833c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -34,8 +34,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.patch.CombinedFileHeader;
@@ -53,7 +56,8 @@ public class PatchListEntry {
         null,
         fileName,
         EMPTY_HEADER,
-        Collections.<Edit>emptyList(),
+        Collections.emptyList(),
+        Collections.emptySet(),
         0,
         0,
         0,
@@ -66,6 +70,7 @@ public class PatchListEntry {
   private final String newName;
   private final byte[] header;
   private final List<Edit> edits;
+  private final Set<Edit> editsDueToRebase;
   private final int insertions;
   private final int deletions;
   private final long size;
@@ -73,7 +78,8 @@ public class PatchListEntry {
   // Note: When adding new fields, the serialVersionUID in PatchListKey must be
   // incremented so that entries from the cache are automatically invalidated.
 
-  PatchListEntry(FileHeader hdr, List<Edit> editList, long size, long sizeDelta) {
+  PatchListEntry(
+      FileHeader hdr, List<Edit> editList, Set<Edit> editsDueToRebase, long size, long sizeDelta) {
     changeType = toChangeType(hdr);
     patchType = toPatchType(hdr);
 
@@ -107,12 +113,15 @@ public class PatchListEntry {
     } else {
       edits = Collections.unmodifiableList(editList);
     }
+    this.editsDueToRebase = Collections.unmodifiableSet(editsDueToRebase);
 
     int ins = 0;
     int del = 0;
     for (Edit e : editList) {
-      del += e.getEndA() - e.getBeginA();
-      ins += e.getEndB() - e.getBeginB();
+      if (!editsDueToRebase.contains(e)) {
+        del += e.getEndA() - e.getBeginA();
+        ins += e.getEndB() - e.getBeginB();
+      }
     }
     insertions = ins;
     deletions = del;
@@ -127,6 +136,7 @@ public class PatchListEntry {
       String newName,
       byte[] header,
       List<Edit> edits,
+      Set<Edit> editsDueToRebase,
       int insertions,
       int deletions,
       long size,
@@ -137,6 +147,7 @@ public class PatchListEntry {
     this.newName = newName;
     this.header = header;
     this.edits = edits;
+    this.editsDueToRebase = editsDueToRebase;
     this.insertions = insertions;
     this.deletions = deletions;
     this.size = size;
@@ -177,6 +188,10 @@ public class PatchListEntry {
 
   public List<Edit> getEdits() {
     return edits;
+  }
+
+  public Set<Edit> getEditsDueToRebase() {
+    return editsDueToRebase;
   }
 
   public int getInsertions() {
@@ -230,12 +245,17 @@ public class PatchListEntry {
     writeFixInt64(out, size);
     writeFixInt64(out, sizeDelta);
 
+    writeEditArray(out, edits);
+    writeEditArray(out, editsDueToRebase);
+  }
+
+  private static void writeEditArray(OutputStream out, Collection<Edit> edits) throws IOException {
     writeVarInt32(out, edits.size());
-    for (final Edit e : edits) {
-      writeVarInt32(out, e.getBeginA());
-      writeVarInt32(out, e.getEndA());
-      writeVarInt32(out, e.getBeginB());
-      writeVarInt32(out, e.getEndB());
+    for (Edit edit : edits) {
+      writeVarInt32(out, edit.getBeginA());
+      writeVarInt32(out, edit.getEndA());
+      writeVarInt32(out, edit.getBeginB());
+      writeVarInt32(out, edit.getEndB());
     }
   }
 
@@ -250,22 +270,42 @@ public class PatchListEntry {
     long size = readFixInt64(in);
     long sizeDelta = readFixInt64(in);
 
-    int editCount = readVarInt32(in);
-    Edit[] editArray = new Edit[editCount];
-    for (int i = 0; i < editCount; i++) {
+    Edit[] editArray = readEditArray(in);
+    Edit[] editsDueToRebase = readEditArray(in);
+
+    return new PatchListEntry(
+        changeType,
+        patchType,
+        oldName,
+        newName,
+        hdr,
+        toList(editArray),
+        toSet(editsDueToRebase),
+        ins,
+        del,
+        size,
+        sizeDelta);
+  }
+
+  private static Edit[] readEditArray(InputStream in) throws IOException {
+    int numEdits = readVarInt32(in);
+    Edit[] edits = new Edit[numEdits];
+    for (int i = 0; i < numEdits; i++) {
       int beginA = readVarInt32(in);
       int endA = readVarInt32(in);
       int beginB = readVarInt32(in);
       int endB = readVarInt32(in);
-      editArray[i] = new Edit(beginA, endA, beginB, endB);
+      edits[i] = new Edit(beginA, endA, beginB, endB);
     }
-
-    return new PatchListEntry(
-        changeType, patchType, oldName, newName, hdr, toList(editArray), ins, del, size, sizeDelta);
+    return edits;
   }
 
   private static List<Edit> toList(Edit[] l) {
     return Collections.unmodifiableList(Arrays.asList(l));
+  }
+
+  private static Set<Edit> toSet(Edit[] edits) {
+    return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(edits)));
   }
 
   private static byte[] compact(final FileHeader h) {

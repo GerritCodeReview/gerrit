@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import java.util.List;
+import java.util.Set;
 import org.eclipse.jgit.diff.Edit;
 
 public class PatchScript {
@@ -48,6 +49,7 @@ public class PatchScript {
   private SparseFileContent a;
   private SparseFileContent b;
   private List<Edit> edits;
+  private Set<Edit> editsDueToRebase;
   private DisplayMethod displayMethodA;
   private DisplayMethod displayMethodB;
   private transient String mimeTypeA;
@@ -63,30 +65,31 @@ public class PatchScript {
   private transient String commitIdB;
 
   public PatchScript(
-      final Change.Key ck,
-      final ChangeType ct,
-      final String on,
-      final String nn,
-      final FileMode om,
-      final FileMode nm,
-      final List<String> h,
-      final DiffPreferencesInfo dp,
-      final SparseFileContent ca,
-      final SparseFileContent cb,
-      final List<Edit> e,
-      final DisplayMethod ma,
-      final DisplayMethod mb,
-      final String mta,
-      final String mtb,
-      final CommentDetail cd,
-      final List<Patch> hist,
-      final boolean hf,
-      final boolean id,
-      final boolean idf,
-      final boolean idt,
+      Change.Key ck,
+      ChangeType ct,
+      String on,
+      String nn,
+      FileMode om,
+      FileMode nm,
+      List<String> h,
+      DiffPreferencesInfo dp,
+      SparseFileContent ca,
+      SparseFileContent cb,
+      List<Edit> e,
+      Set<Edit> editsDueToRebase,
+      DisplayMethod ma,
+      DisplayMethod mb,
+      String mta,
+      String mtb,
+      CommentDetail cd,
+      List<Patch> hist,
+      boolean hf,
+      boolean id,
+      boolean idf,
+      boolean idt,
       boolean bin,
-      final String cma,
-      final String cmb) {
+      String cma,
+      String cmb) {
     changeId = ck;
     changeType = ct;
     oldName = on;
@@ -98,6 +101,7 @@ public class PatchScript {
     a = ca;
     b = cb;
     edits = e;
+    this.editsDueToRebase = editsDueToRebase;
     displayMethodA = ma;
     displayMethodB = mb;
     mimeTypeA = mta;
@@ -209,6 +213,10 @@ public class PatchScript {
 
   public List<Edit> getEdits() {
     return edits;
+  }
+
+  public Set<Edit> getEditsDueToRebase() {
+    return editsDueToRebase;
   }
 
   public Iterable<EditList.Hunk> getHunks() {

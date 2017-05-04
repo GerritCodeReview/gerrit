@@ -5805,6 +5805,8 @@ link:#diff-intraline-info[DiffIntralineInfo] entity.
 |`edit_b`   |only present during a replace, i.e. both `a` and `b` are present|
 Text sections inserted in side B as a
 link:#diff-intraline-info[DiffIntralineInfo] entity.
+|`dueToRebase`|optional|Indicates whether this entry was introduced by a
+rebase.
 |`skip`     |optional|count of lines skipped on both sides when the file is
 too large to include all common lines.
 |`common`   |optional|Set to `true` if the region is common according

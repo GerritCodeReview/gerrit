@@ -337,15 +337,16 @@ limitations under the License.
       });
 
       test('breaks-down shared chunks w/ whole-file', function() {
+        var size = 120 * 2 + 5;
         var lineNums = {left: 0, right: 0};
         var content = [{
-          ab: _.times(75, function() { return '' + Math.random(); }),
+          ab: _.times(size, function() { return '' + Math.random(); }),
         }];
         element.context = -1;
         var result = element._splitCommonGroupsWithComments(content, lineNums);
         assert.equal(result.length, 2);
-        assert.deepEqual(result[0].ab, content[0].ab.slice(0, 5));
-        assert.deepEqual(result[1].ab, content[0].ab.slice(5));
+        assert.deepEqual(result[0].ab, content[0].ab.slice(0, 120));
+        assert.deepEqual(result[1].ab, content[0].ab.slice(120));
       });
 
       test('does not break-down shared chunks w/ context', function() {

@@ -24,6 +24,8 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-external-style.html">
 
+<script>void(0);</script>
+
 <test-fixture id="basic">
   <template>
     <gr-external-style name="foo"></gr-external-style>
@@ -35,7 +37,7 @@ limitations under the License.
     var sandbox;
     var element;
 
-    setup(function(done) {
+    setup(function() {
       sandbox = sinon.sandbox.create();
       sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
       Gerrit._styleModules = {'foo': [{pluginUrl: 'bar', moduleName: 'baz',}]};
@@ -43,19 +45,20 @@ limitations under the License.
       element = fixture('basic');
       sandbox.stub(element, '_applyStyle');
       sandbox.stub(element, 'importHref', function(url, resolve) { resolve() });
-      flush(done);
     });
 
-    teardown(function() {
-      sandbox.restore();
+    test('imports plugin-provided module', function(done) {
+      flush(function() {
+        assert.isTrue(element.importHref.calledWith('bar'));
+        done();
+      });
     });
 
-    test('imports plugin-provided module', function() {
-      assert.isTrue(element.importHref.calledWith('bar'));
-    });
-
-    test('applies plugin-provided styles', function() {
-      assert.isTrue(element._applyStyle.calledWith('baz'));
+    test('applies plugin-provided styles', function(done) {
+      flush(function() {
+        assert.isTrue(element._applyStyle.calledWith('baz'));
+        done();
+      });
     });
   });
 </script>

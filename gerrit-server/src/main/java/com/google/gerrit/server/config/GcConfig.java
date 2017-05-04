@@ -23,11 +23,13 @@ import org.eclipse.jgit.lib.ConfigConstants;
 public class GcConfig {
   private final ScheduleConfig scheduleConfig;
   private final boolean aggressive;
+  private final boolean autogc;
 
   @Inject
   GcConfig(@GerritServerConfig Config cfg) {
     scheduleConfig = new ScheduleConfig(cfg, ConfigConstants.CONFIG_GC_SECTION);
     aggressive = cfg.getBoolean(ConfigConstants.CONFIG_GC_SECTION, "aggressive", false);
+    autogc = cfg.getBoolean(ConfigConstants.CONFIG_GC_SECTION, "autogc", true);
   }
 
   public ScheduleConfig getScheduleConfig() {
@@ -36,5 +38,9 @@ public class GcConfig {
 
   public boolean isAggressive() {
     return aggressive;
+  }
+
+  public boolean isAutoGc() {
+    return autogc;
   }
 }

@@ -71,6 +71,30 @@
       "revId": "d5c9d0824cc82a01a97f50ce555b983890c46834",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0323d12_2b4a3acc",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-04T15:12:48Z",
+      "side": 1,
+      "message": "Another possible option- checking for server version? gr-app already knows the server version. We\u0027d have to pass it to the settings view and can hide if version is less than some number.",
+      "parentUuid": "a3923729_55d22caf",
+      "range": {
+        "startLine": 209,
+        "startChar": 10,
+        "endLine": 209,
+        "endChar": 19
+      },
+      "revId": "d5c9d0824cc82a01a97f50ce555b983890c46834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "187e6030_e0d70c1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-04T12:24:53Z",
+      "side": 1,
+      "message": "Unrelated (and unnecessary)",
+      "revId": "15cd7fb2c04f61ab82d165b49af0460d2b82e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8e24acb_b3c50b34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-04T12:24:53Z",
+      "side": 1,
+      "message": "This does \"John Doe\" + \"foo@exmaple.com\". You also need \"John Doe \u003cfoo@example.com\u003e\" so that you can match exactly that if the user types it.",
+      "revId": "15cd7fb2c04f61ab82d165b49af0460d2b82e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4a9b328_939c708e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-04T12:24:53Z",
+      "side": 1,
+      "message": "I don\u0027t see in here the logic to look up by the exact string \"John Doe \u003cfoo.example.com\u003e\"",
+      "revId": "15cd7fb2c04f61ab82d165b49af0460d2b82e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3bd0f01_b35bb52a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-04T12:24:53Z",
+      "side": 1,
+      "message": "You can do this with another Function",
+      "revId": "15cd7fb2c04f61ab82d165b49af0460d2b82e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

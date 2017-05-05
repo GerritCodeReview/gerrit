@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b3e5d756_24415ba0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T17:37:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52275639_41219ea2",
+      "revId": "b4227d616ab639c80334701cc87be19b867f43a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "456143fd_2a1a3f57",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "b4227d616ab639c80334701cc87be19b867f43a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67d850f4_ab86e180",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T17:37:12Z",
+      "side": 1,
+      "message": "Yes. If the API rollout is incomplete, the param will not be recognized and the result should be a 400 \"Bad request\", but it doesn\u0027t really hurt to fall back to a different API if the first one goes wrong for some other reason.\n\nWhat\u0027s more, I\u0027m already writing the follow-up change to remove the polyfill when the API rollout is complete, so this is short-lived anyway.\n\nFor these two reasons, I think it\u0027s not so bad to capture additional HTTP statuses.",
+      "parentUuid": "456143fd_2a1a3f57",
+      "range": {
+        "startLine": 1005,
+        "startChar": 14,
+        "endLine": 1005,
+        "endChar": 20
+      },
+      "revId": "b4227d616ab639c80334701cc87be19b867f43a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

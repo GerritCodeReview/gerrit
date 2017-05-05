@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52275639_41219ea2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-05T17:19:06Z",
+      "side": 1,
+      "message": "can fit on previous line.",
+      "revId": "b4227d616ab639c80334701cc87be19b867f43a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "456143fd_2a1a3f57",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-05T17:19:06Z",
+      "side": 1,
+      "message": "would this catch other errors, like 403 etc?",
+      "range": {
+        "startLine": 1005,
+        "startChar": 14,
+        "endLine": 1005,
+        "endChar": 20
+      },
+      "revId": "b4227d616ab639c80334701cc87be19b867f43a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -35,3 +35,5 @@ filegroup(
     srcs = ["//lib/highlightjs:highlight.min.js"],
     data = ["//lib:LICENSE-highlightjs"],
 )
+
+bower_component(name="polymer-resin", seed=True)

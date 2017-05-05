@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c46cf22b_4ea0a94c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-05T19:46:02Z",
+      "side": 1,
+      "message": "How could this possibly be passing when you set element.mutable to false in setup?",
+      "range": {
+        "startLine": 193,
+        "startChar": 8,
+        "endLine": 193,
+        "endChar": 39
+      },
+      "revId": "644f79f827c38b2548551e3b8448ccf8f5573ca6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -53,7 +53,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -65,6 +64,7 @@ public class ReviewersUtil {
     final Timer0 recommendAccountsLatency;
     final Timer0 loadAccountsLatency;
     final Timer0 queryGroupsLatency;
+    final Timer0 filterVisibility;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
@@ -92,12 +92,18 @@ public class ReviewersUtil {
               new Description("Latency for querying groups for reviewer suggestion")
                   .setCumulative()
                   .setUnit(Units.MILLISECONDS));
+      filterVisibility =
+          metricMaker.newTimer(
+              "reviewer_suggestion/filter_visibility",
+              new Description("Latency for removing users that can't see the change")
+                  .setCumulative()
+                  .setUnit(Units.MILLISECONDS));
     }
   }
 
   // Generate a candidate list at 3x the size of what the user wants to see to
   // give the ranking algorithm a good set of candidates it can work with
-  private static final int CANDIDATE_LIST_MULTIPLIER = 3;
+  private static final int CANDIDATE_LIST_MULTIPLIER = 2;
 
   private final AccountLoader accountLoader;
   private final AccountQueryBuilder accountQueryBuilder;
@@ -150,13 +156,26 @@ public class ReviewersUtil {
 
     List<Account.Id> candidateList = new ArrayList<>();
     if (!Strings.isNullOrEmpty(query)) {
-      candidateList = suggestAccounts(suggestReviewers, visibilityControl);
+      candidateList = suggestAccounts(suggestReviewers);
     }
 
     List<Account.Id> sortedRecommendations =
         recommendAccounts(changeNotes, suggestReviewers, projectControl, candidateList);
-    List<SuggestedReviewerInfo> suggestedReviewer = loadAccounts(sortedRecommendations);
 
+    // Filter accounts by visibility and enforce limit
+    List<Account.Id> filteredRecommendations = new ArrayList<>();
+    try (Timer0.Context ctx = metrics.filterVisibility.start()) {
+      for (Account.Id reviewer : sortedRecommendations) {
+        if (filteredRecommendations.size() >= limit) {
+          break;
+        }
+        if (visibilityControl.isVisibleTo(reviewer)) {
+          filteredRecommendations.add(reviewer);
+        }
+      }
+    }
+
+    List<SuggestedReviewerInfo> suggestedReviewer = loadAccounts(filteredRecommendations);
     if (!excludeGroups && suggestedReviewer.size() < limit && !Strings.isNullOrEmpty(query)) {
       // Add groups at the end as individual accounts are usually more
       // important.
@@ -174,22 +193,14 @@ public class ReviewersUtil {
     return suggestedReviewer.subList(0, limit);
   }
 
-  private List<Account.Id> suggestAccounts(
-      SuggestReviewers suggestReviewers, VisibilityControl visibilityControl) throws OrmException {
+  private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers) throws OrmException {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
       try {
-        Set<Account.Id> matches = new HashSet<>();
         QueryResult<AccountState> result =
             accountQueryProcessor
                 .setLimit(suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER)
                 .query(accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
-        for (AccountState accountState : result.entities()) {
-          Account.Id id = accountState.getAccount().getId();
-          if (visibilityControl.isVisibleTo(id)) {
-            matches.add(id);
-          }
-        }
-        return new ArrayList<>(matches);
+        return result.entities().stream().map(a -> a.getAccount().getId()).collect(toList());
       } catch (QueryParseException e) {
         return ImmutableList.of();
       }

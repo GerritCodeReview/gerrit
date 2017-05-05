@@ -572,9 +572,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("reviewer".equalsIgnoreCase(value)) {
-      return Predicate.and(
-          Predicate.not(new BooleanPredicate(ChangeField.WIP, args.fillArgs)),
-          ReviewerPredicate.reviewer(args, self()));
+      if (args.getSchema().hasField(ChangeField.WIP)) {
+        return Predicate.and(
+            Predicate.not(new BooleanPredicate(ChangeField.WIP, args.fillArgs)),
+            ReviewerPredicate.reviewer(args, self()));
+      }
+      return ReviewerPredicate.reviewer(args, self());
     }
 
     if ("cc".equalsIgnoreCase(value)) {
@@ -606,7 +609,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("wip".equalsIgnoreCase(value)) {
-      return new BooleanPredicate(ChangeField.WIP, args.fillArgs);
+      if (args.getSchema().hasField(ChangeField.WIP)) {
+        return new BooleanPredicate(ChangeField.WIP, args.fillArgs);
+      }
+      throw new QueryParseException("'is:wip' operator is not supported by change index version");
     }
 
     try {
@@ -962,9 +968,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> reviewer(String who) throws QueryParseException, OrmException {
-    return Predicate.and(
-        Predicate.not(new BooleanPredicate(ChangeField.WIP, args.fillArgs)),
-        reviewerByState(who, ReviewerStateInternal.REVIEWER));
+    if (args.getSchema().hasField(ChangeField.WIP)) {
+      return Predicate.and(
+          Predicate.not(new BooleanPredicate(ChangeField.WIP, args.fillArgs)),
+          reviewerByState(who, ReviewerStateInternal.REVIEWER));
+    }
+    return reviewerByState(who, ReviewerStateInternal.REVIEWER);
   }
 
   @Operator

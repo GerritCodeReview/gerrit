@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7a888db6_5bd52192",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T19:23:26Z",
+      "side": 1,
+      "message": "I agree that we shouldn\u0027t maintain two different dropdown implementations. Is there a way to share this code with gr-autocomplete by either...\n* Making use of gr-autocomplete-dropdown inside of gr-autocomplete, or...\n* Adding an option to gr-autocomplete to avoid using or hide the textbox and using that instead of this new element?",
+      "parentUuid": "e750800e_44be87f9",
+      "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "22d49dc3_b2ff8afc",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
         "patchSetId": 1

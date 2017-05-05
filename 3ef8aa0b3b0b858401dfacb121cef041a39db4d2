@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "999464ad_6d48bcea",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 49
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-05T20:28:46Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "91f2f73f_91da9be1",
+      "range": {
+        "startLine": 499,
+        "startChar": 33,
+        "endLine": 499,
+        "endChar": 47
+      },
+      "revId": "3ef8aa0b3b0b858401dfacb121cef041a39db4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "33a5a1d8_2077acac",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 49
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-05T19:45:41Z",
       "side": 1,
       "message": "\"private\" is a reserved word, so it should be surrounded by quotes:\n\nelement.actions \u003d {\n  \u0027private\u0027: privateAction,\n};",
+      "range": {
+        "startLine": 533,
+        "startChar": 10,
+        "endLine": 533,
+        "endChar": 17
+      },
+      "revId": "3ef8aa0b3b0b858401dfacb121cef041a39db4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b562999_74b3fe84",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 49
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-05T20:28:46Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "33a5a1d8_2077acac",
       "range": {
         "startLine": 533,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "01a1bb0c_abce08cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 49
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-05T20:28:46Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "458c2881_3181b6aa",
+      "range": {
+        "startLine": 544,
+        "startChar": 0,
+        "endLine": 544,
+        "endChar": 107
+      },
+      "revId": "3ef8aa0b3b0b858401dfacb121cef041a39db4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a1e8417_e00e81af",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 49
@@ -82,6 +154,30 @@
       "writtenOn": "2017-05-05T19:45:41Z",
       "side": 1,
       "message": "I think the logic to say whether a change is private should appear inside the\n\n _computeChangeStatus\n\nmethod, since that\u0027s where we also create the \"Draft\" string.",
+      "range": {
+        "startLine": 304,
+        "startChar": 32,
+        "endLine": 304,
+        "endChar": 68
+      },
+      "revId": "3ef8aa0b3b0b858401dfacb121cef041a39db4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f67c060e_657f2bc5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 49
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-05T20:28:46Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2a1e8417_e00e81af",
       "range": {
         "startLine": 304,
         "startChar": 32,

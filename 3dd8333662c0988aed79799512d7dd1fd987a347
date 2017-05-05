@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6222b4c9_0456e5ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 51
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T21:00:55Z",
+      "side": 1,
+      "message": "Replace with the constant:\n\n MAKE_PRIVATE_LABEL",
+      "range": {
+        "startLine": 502,
+        "startChar": 33,
+        "endLine": 502,
+        "endChar": 47
+      },
+      "revId": "3dd8333662c0988aed79799512d7dd1fd987a347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99beaf64_4113cb6d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 51
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T21:00:55Z",
+      "side": 1,
+      "message": "Is there a reason private reloads the page with page.show whereas the default just fires the `reload-change` event?\n\nIs the `reload-change` event insufficient for private actions somehow?",
+      "range": {
+        "startLine": 807,
+        "startChar": 10,
+        "endLine": 813,
+        "endChar": 18
+      },
+      "revId": "3dd8333662c0988aed79799512d7dd1fd987a347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a42a74c_41da8cc8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 51
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T21:00:55Z",
+      "side": 1,
+      "message": "Wrap this line too.",
+      "revId": "3dd8333662c0988aed79799512d7dd1fd987a347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6458247_f486274f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 51
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T21:00:55Z",
+      "side": 1,
+      "message": "Would like new tests for this status result in gr-change-view_test.html covering:\n* The case that change that is private only.\n* The cases that a change is private and something else, such as draft.",
+      "range": {
+        "startLine": 609,
+        "startChar": 4,
+        "endLine": 609,
+        "endChar": 24
+      },
+      "revId": "3dd8333662c0988aed79799512d7dd1fd987a347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

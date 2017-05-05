@@ -22,6 +22,7 @@
     this.lines = [];
     this.adds = [];
     this.removes = [];
+    this.dueToRebase = false;
 
     this.lineRange = {
       left: {start: null, end: null},

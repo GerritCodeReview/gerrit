@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d31cd232_143623b1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-05T16:02:44Z",
+      "side": 1,
+      "message": "This works fine for sections like\n\n {\n   \"a\": [\n     \"Line 10\"\n   ],\n   \"b\": [\n     \"Line ten\"\n   ],\n   \"due_to_rebase\": true\n }\n\nbut it fails for\n\n {\n   \"a\": [\n     \"Line 17\"\n   ],\n   \"due_to_rebase\": true\n }\n\nAny ideas what\u0027s wrong?",
+      "range": {
+        "startLine": 184,
+        "startChar": 6,
+        "endLine": 184,
+        "endChar": 58
+      },
+      "revId": "5734f3e06f5a552d974e6eb1c7afc45586586050",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

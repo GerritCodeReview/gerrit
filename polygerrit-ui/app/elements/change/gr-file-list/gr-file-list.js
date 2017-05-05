@@ -18,6 +18,7 @@
   var PATCH_DESC_MAX_LENGTH = 500;
 
   var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
+  var MERGE_LIST_PATH = '/MERGE_LIST';
 
   var FileStatus = {
     A: 'Added',
@@ -601,12 +602,16 @@
     },
 
     _computeFileDisplayName: function(path) {
-      return path === COMMIT_MESSAGE_PATH ? 'Commit message' : path;
+      if (path === COMMIT_MESSAGE_PATH) {
+        return 'Commit message';
+      } else if (path === MERGE_LIST_PATH) {
+        return 'Merge list';
+      }
+      return path;
     },
 
     _computeTruncatedFileDisplayName: function(path) {
-      return path === COMMIT_MESSAGE_PATH ?
-          'Commit message' : util.truncatePath(path);
+      return util.truncatePath(this._computeFileDisplayName(path));
     },
 
     _formatBytes: function(bytes) {
@@ -636,7 +641,7 @@
 
     _computeClass: function(baseClass, path) {
       var classes = [baseClass];
-      if (path === COMMIT_MESSAGE_PATH) {
+      if (path === COMMIT_MESSAGE_PATH || path === MERGE_LIST_PATH) {
         classes.push('invisible');
       }
       return classes.join(' ');

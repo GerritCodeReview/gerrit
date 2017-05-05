@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91f2f73f_91da9be1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 49
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T19:45:41Z",
+      "side": 1,
+      "message": "The label strings \"Mark private\" and \"Unmark private\" should be declared as constants at the top of the file.\n\nSomething like:\n\n var MARK_PRIVATE_LABEL \u003d \u0027Mark private\u0027;\n var UNMARK_PRIVATE_LABEL \u003d \u0027Unmark private\u0027;\n\nI also wonder if we can make the wording a little more natural. Something like:\n\n var MAKE_PRIVATE_LABEL \u003d \u0027Make private\u0027;\n var MAKE_PUBLIC_LABEL \u003d \u0027Make public\u0027;",
+      "range": {
+        "startLine": 499,
+        "startChar": 33,
+        "endLine": 499,
+        "endChar": 47
+      },
+      "revId": "3ef8aa0b3b0b858401dfacb121cef041a39db4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33a5a1d8_2077acac",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 49
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T19:45:41Z",
+      "side": 1,
+      "message": "\"private\" is a reserved word, so it should be surrounded by quotes:\n\nelement.actions \u003d {\n  \u0027private\u0027: privateAction,\n};",
+      "range": {
+        "startLine": 533,
+        "startChar": 10,
+        "endLine": 533,
+        "endChar": 17
+      },
+      "revId": "3ef8aa0b3b0b858401dfacb121cef041a39db4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "458c2881_3181b6aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 49
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T19:45:41Z",
+      "side": 1,
+      "message": "Wrap this line at 80 characters.\n\n      test(\u0027make sure the mark private change button is not outside of the \u0027 + \n          \u0027overflow menu\u0027, function(done) {\n\nAlso do the same for line 593.",
+      "range": {
+        "startLine": 544,
+        "startChar": 0,
+        "endLine": 544,
+        "endChar": 107
+      },
+      "revId": "3ef8aa0b3b0b858401dfacb121cef041a39db4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a1e8417_e00e81af",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 49
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T19:45:41Z",
+      "side": 1,
+      "message": "I think the logic to say whether a change is private should appear inside the\n\n _computeChangeStatus\n\nmethod, since that\u0027s where we also create the \"Draft\" string.",
+      "range": {
+        "startLine": 304,
+        "startChar": 32,
+        "endLine": 304,
+        "endChar": 68
+      },
+      "revId": "3ef8aa0b3b0b858401dfacb121cef041a39db4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d51770d9_50f7b1f9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 49
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T19:45:41Z",
+      "side": 1,
+      "message": "Is this needed here? We don\u0027t display \"(Draft)\" or \"(Merged)\" or \"(Abandoned)\" here, so why show \"(Private)\"?",
+      "range": {
+        "startLine": 184,
+        "startChar": 34,
+        "endLine": 184,
+        "endChar": 70
+      },
+      "revId": "3ef8aa0b3b0b858401dfacb121cef041a39db4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

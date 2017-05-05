@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7b22b93_5cf9caef",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1187,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T17:46:10Z",
+      "side": 1,
+      "message": "Nit: what about -1 or something like the string \u0027none\u0027 to indicate no timeout?",
+      "range": {
+        "startLine": 1187,
+        "startChar": 27,
+        "endLine": 1187,
+        "endChar": 29
+      },
+      "revId": "df9f6b585a9fb2cd86bc7ed1f8a4c64b7966c7ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

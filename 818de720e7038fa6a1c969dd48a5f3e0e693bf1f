@@ -16,6 +16,138 @@
       "revId": "818de720e7038fa6a1c969dd48a5f3e0e693bf1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ebaaabb_9129c9d7",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-05T19:43:28Z",
+      "side": 1,
+      "message": "Return undefined, in particular? Why?",
+      "range": {
+        "startLine": 52,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 40
+      },
+      "revId": "818de720e7038fa6a1c969dd48a5f3e0e693bf1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdee6b59_d8706aab",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-05T19:43:28Z",
+      "side": 1,
+      "message": "JSDoc for this fn would be appreciated.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 27
+      },
+      "revId": "818de720e7038fa6a1c969dd48a5f3e0e693bf1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3f04563_4c4e3c0a",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-05T19:43:28Z",
+      "side": 1,
+      "message": "Could you add some inline comments describing what this test does?",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 154,
+        "endChar": 7
+      },
+      "revId": "818de720e7038fa6a1c969dd48a5f3e0e693bf1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd6f045b_7b60810a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-05T19:43:28Z",
+      "side": 1,
+      "message": "What happened here?",
+      "revId": "818de720e7038fa6a1c969dd48a5f3e0e693bf1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "078a22c7_5eee5ef6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-05T19:43:28Z",
+      "side": 1,
+      "message": "Unnecessary line wrap.",
+      "range": {
+        "startLine": 1173,
+        "startChar": 8,
+        "endLine": 1174,
+        "endChar": 66
+      },
+      "revId": "818de720e7038fa6a1c969dd48a5f3e0e693bf1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23b6e15a_c91d36d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-05T19:43:28Z",
+      "side": 1,
+      "message": "I personally like separating ternaries into three lines when they need to be wrapped, is that fair?\n\n      return canBeStarted ? \n          \u0027Add a note for your reviewers...\u0027 :\n          \u0027Say something nice...\u0027;",
+      "range": {
+        "startLine": 436,
+        "startChar": 6,
+        "endLine": 437,
+        "endChar": 34
+      },
+      "revId": "818de720e7038fa6a1c969dd48a5f3e0e693bf1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

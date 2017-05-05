@@ -66,8 +66,8 @@ limitations under the License.
       assert(setLabelValueStub.calledWithExactly('My-Label', '+1337'));
 
       var sendStub = sinon.stub(element, 'send');
-      changeReply.send();
-      assert(sendStub.calledWithExactly());
+      changeReply.send(false);
+      assert(sendStub.calledWithExactly(false));
     });
   });
 </script>

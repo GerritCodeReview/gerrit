@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90d5c171_a6d997dd",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T18:47:15Z",
+      "side": 1,
+      "message": "Anecdotally, if there are more options in the future, we should maybe just pass\n\n e.detail\n\nas the parameter here.",
+      "range": {
+        "startLine": 99,
+        "startChar": 22,
+        "endLine": 100,
+        "endChar": 38
+      },
+      "revId": "13c1282151b2a328e7debb804ffd907cc0b34960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87db9024_cfc30467",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T18:47:15Z",
+      "side": 1,
+      "message": "I guess this is a noop if it doesn\u0027t?",
+      "range": {
+        "startLine": 135,
+        "startChar": 46,
+        "endLine": 135,
+        "endChar": 58
+      },
+      "revId": "13c1282151b2a328e7debb804ffd907cc0b34960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

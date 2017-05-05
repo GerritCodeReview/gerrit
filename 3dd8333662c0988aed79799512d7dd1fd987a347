@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "01e1758a_0e65236e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 51
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-05T21:17:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7850cd2c_bcb91ecf",
+      "range": {
+        "startLine": 488,
+        "startChar": 6,
+        "endLine": 489,
+        "endChar": 44
+      },
+      "revId": "3dd8333662c0988aed79799512d7dd1fd987a347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6222b4c9_0456e5ec",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 51
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-05T21:00:55Z",
       "side": 1,
       "message": "Replace with the constant:\n\n MAKE_PRIVATE_LABEL",
+      "range": {
+        "startLine": 502,
+        "startChar": 33,
+        "endLine": 502,
+        "endChar": 47
+      },
+      "revId": "3dd8333662c0988aed79799512d7dd1fd987a347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e840a1e6_155ca875",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 51
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-05T21:17:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6222b4c9_0456e5ec",
       "range": {
         "startLine": 502,
         "startChar": 33,
@@ -88,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "338241ce_d1b04467",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 51
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-05T21:17:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0a42a74c_41da8cc8",
+      "revId": "3dd8333662c0988aed79799512d7dd1fd987a347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6458247_f486274f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 51
@@ -99,6 +165,30 @@
       "writtenOn": "2017-05-05T21:00:55Z",
       "side": 1,
       "message": "Would like new tests for this status result in gr-change-view_test.html covering:\n* The case that change that is private only.\n* The cases that a change is private and something else, such as draft.",
+      "range": {
+        "startLine": 609,
+        "startChar": 4,
+        "endLine": 609,
+        "endChar": 24
+      },
+      "revId": "3dd8333662c0988aed79799512d7dd1fd987a347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "058d7fb6_1bd3bed0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 51
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-05T21:17:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a6458247_f486274f",
       "range": {
         "startLine": 609,
         "startChar": 4,

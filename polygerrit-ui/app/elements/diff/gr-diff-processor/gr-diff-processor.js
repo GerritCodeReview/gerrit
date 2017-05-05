@@ -181,6 +181,8 @@
         removed: section[DiffHighlights.REMOVED] || null,
       };
 
+      var dueToRebase = section["due_to_rebase"] || false;
+
       if (rows.both) { // If it's a shared section.
         var sectionEnd = null;
         if (state.sectionIndex === 0) {
@@ -211,6 +213,7 @@
             state.lineNums.left,
             state.lineNums.right,
             highlights);
+        deltaGroup.dueToRebase = dueToRebase;
 
         return {
           lineDelta: {

@@ -210,6 +210,30 @@
       "revId": "3ef8aa0b3b0b858401dfacb121cef041a39db4d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b282fbd0_231dd9bf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 49
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-05T20:29:13Z",
+      "side": 1,
+      "message": "I\u0027ve removed this now. We also doint do this on gwt ui. Thanks, done.",
+      "parentUuid": "d51770d9_50f7b1f9",
+      "range": {
+        "startLine": 184,
+        "startChar": 34,
+        "endLine": 184,
+        "endChar": 70
+      },
+      "revId": "3ef8aa0b3b0b858401dfacb121cef041a39db4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

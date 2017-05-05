@@ -52,6 +52,24 @@
       "revId": "c942c7f2de9cf7c548481825899c9e6028daa221",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ff8c342_c8eb10e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-05T17:46:24Z",
+      "side": 1,
+      "message": "Hmm, good idea. Do you think it would be good to just have alerts _with no timeout_ always clear on navigation, for now?",
+      "parentUuid": "52e6e18b_df4871ae",
+      "revId": "c942c7f2de9cf7c548481825899c9e6028daa221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

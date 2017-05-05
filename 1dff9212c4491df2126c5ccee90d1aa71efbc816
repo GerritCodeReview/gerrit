@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "34a058f0_fc53cd1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-05-05T01:26:22Z",
+      "side": 1,
+      "message": "Thanks for pointing that out. Found a ton more changes I needed to make. PTAL.",
+      "parentUuid": "45039244_abc2681d",
+      "revId": "1dff9212c4491df2126c5ccee90d1aa71efbc816",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5cc7de9_1e70a467",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "1dff9212c4491df2126c5ccee90d1aa71efbc816",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f64fedc_776bd1e0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-05-05T01:26:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5cc7de9_1e70a467",
+      "range": {
+        "startLine": 549,
+        "startChar": 6,
+        "endLine": 549,
+        "endChar": 10
+      },
+      "revId": "1dff9212c4491df2126c5ccee90d1aa71efbc816",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -48,7 +48,9 @@ limitations under the License.
     </style>
     <template is="dom-repeat" items="[[_computeFilesFromComments(comments)]]" as="file">
       <div class="file">
-        <a href$="[[_computeFileDiffURL(file, changeNum, patchNum)]]">[[file]]</a>:
+        <a href$="[[_computeFileDiffURL(file, changeNum, patchNum)]]">
+          [[_computeFileDisplayName(file)]]
+        </a>:
       </div>
       <template is="dom-repeat"
                 items="[[_computeCommentsForFile(comments, file)]]" as="comment">

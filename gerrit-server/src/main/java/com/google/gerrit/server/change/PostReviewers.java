@@ -27,11 +27,11 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -80,7 +80,7 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class PostReviewers
-    extends RetryingRestModifyView<ChangeResource, AddReviewerInput, AddReviewerResult> {
+    extends RetryingRestModifyView<ChangeResource, ReviewerInput, ReviewerResult> {
 
   public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
   public static final int DEFAULT_MAX_REVIEWERS = 20;
@@ -145,8 +145,8 @@ public class PostReviewers
   }
 
   @Override
-  protected AddReviewerResult applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, AddReviewerInput input)
+  protected ReviewerResult applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource rsrc, ReviewerInput input)
       throws IOException, OrmException, RestApiException, UpdateException,
           PermissionBackendException {
     if (input.reviewer == null) {
@@ -168,13 +168,12 @@ public class PostReviewers
     return addition.result;
   }
 
-  public Addition prepareApplication(
-      ChangeResource rsrc, AddReviewerInput input, boolean allowGroup)
+  public Addition prepareApplication(ChangeResource rsrc, ReviewerInput input, boolean allowGroup)
       throws OrmException, IOException, PermissionBackendException {
     String reviewer = input.reviewer;
     ReviewerState state = input.state();
     NotifyHandling notify = input.notify;
-    ListMultimap<RecipientType, Account.Id> accountsToNotify = null;
+    ListMultimap<RecipientType, Account.Id> accountsToNotify;
     try {
       accountsToNotify = notifyUtil.resolveAccounts(input.notifyDetails);
     } catch (BadRequestException e) {
@@ -207,7 +206,8 @@ public class PostReviewers
         null,
         CC,
         NotifyHandling.NONE,
-        ImmutableListMultimap.of());
+        ImmutableListMultimap.of(),
+        true);
   }
 
   @Nullable
@@ -220,7 +220,7 @@ public class PostReviewers
       boolean allowGroup,
       boolean allowByEmail)
       throws OrmException, PermissionBackendException {
-    Account.Id accountId = null;
+    Account.Id accountId;
     try {
       accountId = accounts.parse(reviewer).getAccountId();
     } catch (UnprocessableEntityException | AuthException e) {
@@ -239,7 +239,14 @@ public class PostReviewers
         permissionBackend.user(rrsrc.getReviewerUser()).ref(rrsrc.getChange().getDest());
     if (isValidReviewer(member, perm)) {
       return new Addition(
-          reviewer, rsrc, ImmutableSet.of(member.getId()), null, state, notify, accountsToNotify);
+          reviewer,
+          rsrc,
+          ImmutableSet.of(member.getId()),
+          null,
+          state,
+          notify,
+          accountsToNotify,
+          true);
     }
     if (!member.isActive()) {
       if (allowByEmail && state == CC) {
@@ -266,7 +273,7 @@ public class PostReviewers
       return null;
     }
 
-    GroupDescription.Basic group = null;
+    GroupDescription.Basic group;
     try {
       group = groupsCollection.parseInternal(reviewer);
     } catch (UnprocessableEntityException e) {
@@ -327,7 +334,7 @@ public class PostReviewers
       }
     }
 
-    return new Addition(reviewer, rsrc, reviewers, null, state, notify, accountsToNotify);
+    return new Addition(reviewer, rsrc, reviewers, null, state, notify, accountsToNotify, false);
   }
 
   @Nullable
@@ -352,7 +359,7 @@ public class PostReviewers
       return fail(reviewer, MessageFormat.format(ChangeMessages.get().reviewerInvalid, reviewer));
     }
     return new Addition(
-        reviewer, rsrc, null, ImmutableList.of(adr), state, notify, accountsToNotify);
+        reviewer, rsrc, null, ImmutableList.of(adr), state, notify, accountsToNotify, true);
   }
 
   private boolean isValidReviewer(Account member, PermissionBackend.ForRef perm)
@@ -383,7 +390,7 @@ public class PostReviewers
   }
 
   public class Addition {
-    final AddReviewerResult result;
+    final ReviewerResult result;
     final PostReviewersOp op;
     final Set<Account.Id> reviewers;
     final Collection<Address> reviewersByEmail;
@@ -392,7 +399,7 @@ public class PostReviewers
     final IdentifiedUser caller;
 
     Addition(String reviewer) {
-      result = new AddReviewerResult(reviewer);
+      result = new ReviewerResult(reviewer);
       op = null;
       reviewers = ImmutableSet.of();
       reviewersByEmail = ImmutableSet.of();
@@ -408,12 +415,13 @@ public class PostReviewers
         @Nullable Collection<Address> reviewersByEmail,
         ReviewerState state,
         @Nullable NotifyHandling notify,
-        ListMultimap<RecipientType, Account.Id> accountsToNotify) {
+        ListMultimap<RecipientType, Account.Id> accountsToNotify,
+        boolean allowMutationToCc) {
       checkArgument(
           reviewers != null || reviewersByEmail != null,
           "must have either reviewers or reviewersByEmail");
 
-      result = new AddReviewerResult(reviewer);
+      result = new ReviewerResult(reviewer);
       this.reviewers = reviewers == null ? ImmutableSet.of() : reviewers;
       this.reviewersByEmail = reviewersByEmail == null ? ImmutableList.of() : reviewersByEmail;
       this.state = state;
@@ -421,13 +429,19 @@ public class PostReviewers
       caller = rsrc.getUser();
       op =
           postReviewersOpFactory.create(
-              rsrc, this.reviewers, this.reviewersByEmail, state, notify, accountsToNotify);
+              rsrc,
+              this.reviewers,
+              this.reviewersByEmail,
+              state,
+              notify,
+              accountsToNotify,
+              allowMutationToCc);
     }
 
     void gatherResults() throws OrmException, PermissionBackendException {
       if (notes == null || caller == null) {
         // When notes or caller is missing this is likely just carrying an error message
-        // in the contained AddReviewerResult.
+        // in the contained ReviewerResult.
         return;
       }
 

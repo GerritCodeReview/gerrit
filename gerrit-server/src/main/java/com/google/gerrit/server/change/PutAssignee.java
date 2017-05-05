@@ -16,9 +16,9 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -110,7 +110,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
 
   private Addition addAssigneeAsCC(ChangeResource rsrc, String assignee)
       throws OrmException, IOException, PermissionBackendException {
-    AddReviewerInput reviewerInput = new AddReviewerInput();
+    ReviewerInput reviewerInput = new ReviewerInput();
     reviewerInput.reviewer = assignee;
     reviewerInput.state = ReviewerState.CC;
     reviewerInput.confirmed = true;

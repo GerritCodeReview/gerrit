@@ -49,8 +49,8 @@ import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -392,11 +392,11 @@ public class AccountIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r = createChange();
 
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email;
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
-    in = new AddReviewerInput();
+    in = new ReviewerInput();
     in.reviewer = user2.email;
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
@@ -422,7 +422,7 @@ public class AccountIT extends AbstractDaemonTest {
     sender.clear();
     setApiUser(admin);
 
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email;
     gApi.changes().id(r.getChangeId()).addReviewer(in);
     List<Message> messages = sender.getMessages();

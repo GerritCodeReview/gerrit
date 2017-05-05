@@ -21,7 +21,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.PermissionDeniedException;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -175,7 +175,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   private void addProjectOwnersAsReviewers(ChangeResource rsrc) {
     final String projectOwners = groupBackend.get(SystemGroupBackend.PROJECT_OWNERS).getName();
     try {
-      AddReviewerInput input = new AddReviewerInput();
+      ReviewerInput input = new ReviewerInput();
       input.reviewer = projectOwners;
       reviewersProvider.get().apply(rsrc, input);
     } catch (Exception e) {
@@ -195,7 +195,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
             .getRules();
     for (PermissionRule r : adminRules) {
       try {
-        AddReviewerInput input = new AddReviewerInput();
+        ReviewerInput input = new ReviewerInput();
         input.reviewer = r.getGroup().getUUID().get();
         reviewersProvider.get().apply(rsrc, input);
       } catch (Exception e) {

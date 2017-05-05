@@ -18,8 +18,6 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
@@ -32,6 +30,8 @@ import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.ReviewerApi;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherOption;
@@ -445,14 +445,14 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public AddReviewerResult addReviewer(String reviewer) throws RestApiException {
-    AddReviewerInput in = new AddReviewerInput();
+  public ReviewerResult addReviewer(String reviewer) throws RestApiException {
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = reviewer;
     return addReviewer(in);
   }
 
   @Override
-  public AddReviewerResult addReviewer(AddReviewerInput in) throws RestApiException {
+  public ReviewerResult addReviewer(ReviewerInput in) throws RestApiException {
     try {
       return postReviewers.apply(change, in);
     } catch (Exception e) {

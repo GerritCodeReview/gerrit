@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.common.base.MoreObjects;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,4 +61,14 @@ public class AccountInfo {
   }
 
   protected AccountInfo() {}
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("accountId", _accountId)
+        .add("name", name)
+        .add("email", email)
+        .add("username", username)
+        .toString();
+  }
 }

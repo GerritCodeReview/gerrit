@@ -29,5 +29,5 @@ public class ReviewResult {
    * Map of account or group identifier to outcome of adding as a reviewer. Null if no reviewer
    * additions were requested.
    */
-  @Nullable public Map<String, AddReviewerResult> reviewers;
+  @Nullable public Map<String, ReviewerResult> reviewers;
 }

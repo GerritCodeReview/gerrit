@@ -67,7 +67,8 @@ public class PostReviewersOp implements BatchUpdateOp {
         Collection<Address> reviewersByEmail,
         ReviewerState state,
         @Nullable NotifyHandling notify,
-        ListMultimap<RecipientType, Account.Id> accountsToNotify);
+        ListMultimap<RecipientType, Account.Id> accountsToNotify,
+        boolean allowMutationToCc);
   }
 
   @AutoValue
@@ -104,6 +105,7 @@ public class PostReviewersOp implements BatchUpdateOp {
   private final ReviewerState state;
   private final NotifyHandling notify;
   private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
+  private final boolean allowMutationToCc;
 
   private List<PatchSetApproval> addedReviewers = new ArrayList<>();
   private Collection<Account.Id> addedCCs = new ArrayList<>();
@@ -126,7 +128,8 @@ public class PostReviewersOp implements BatchUpdateOp {
       @Assisted Collection<Address> reviewersByEmail,
       @Assisted ReviewerState state,
       @Assisted @Nullable NotifyHandling notify,
-      @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify) {
+      @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify,
+      @Assisted boolean allowMutationToCc) {
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
     this.reviewerAdded = reviewerAdded;
@@ -142,6 +145,7 @@ public class PostReviewersOp implements BatchUpdateOp {
     this.state = state;
     this.notify = notify;
     this.accountsToNotify = accountsToNotify;
+    this.allowMutationToCc = allowMutationToCc;
   }
 
   @Override
@@ -151,7 +155,10 @@ public class PostReviewersOp implements BatchUpdateOp {
       if (migration.readChanges() && state == CC) {
         addedCCs =
             approvalsUtil.addCcs(
-                ctx.getNotes(), ctx.getUpdate(ctx.getChange().currentPatchSetId()), reviewers);
+                ctx.getNotes(),
+                ctx.getUpdate(ctx.getChange().currentPatchSetId()),
+                reviewers,
+                allowMutationToCc);
         if (addedCCs.isEmpty()) {
           return false;
         }
@@ -169,11 +176,10 @@ public class PostReviewersOp implements BatchUpdateOp {
         }
       }
     }
-
-    for (Address a : reviewersByEmail) {
-      ctx.getUpdate(ctx.getChange().currentPatchSetId())
-          .putReviewerByEmail(a, ReviewerStateInternal.fromReviewerState(state));
-    }
+    reviewersByEmail.forEach(
+        r ->
+            ctx.getUpdate(ctx.getChange().currentPatchSetId())
+                .putReviewerByEmail(r, ReviewerStateInternal.fromReviewerState(state)));
 
     patchSet = psUtil.current(dbProvider.get(), rsrc.getNotes());
     return true;

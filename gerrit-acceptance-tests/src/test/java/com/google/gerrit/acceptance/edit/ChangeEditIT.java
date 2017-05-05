@@ -32,10 +32,10 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -182,7 +182,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void publishEditNotifyRest() throws Exception {
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email;
     gApi.changes().id(changeId).addReviewer(in);
 
@@ -197,7 +197,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void publishEditWithDefaultNotify() throws Exception {
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email;
     gApi.changes().id(changeId).addReviewer(in);
 

@@ -276,18 +276,27 @@ public class ApprovalsUtil {
    * @param notes change notes.
    * @param update change update.
    * @param wantCCs accounts to CC.
+   * @param allowMutation if true, mutating an existing reviewer to be a CC is allowed.
    * @return whether a change was made.
    * @throws OrmException
    */
   public Collection<Account.Id> addCcs(
-      ChangeNotes notes, ChangeUpdate update, Collection<Account.Id> wantCCs) throws OrmException {
-    return addCcs(update, wantCCs, notes.load().getReviewers());
+      ChangeNotes notes, ChangeUpdate update, Collection<Account.Id> wantCCs, boolean allowMutation)
+      throws OrmException {
+    return addCcs(update, wantCCs, notes.load().getReviewers(), allowMutation);
   }
 
   private Collection<Account.Id> addCcs(
-      ChangeUpdate update, Collection<Account.Id> wantCCs, ReviewerSet existingReviewers) {
+      ChangeUpdate update,
+      Collection<Account.Id> wantCCs,
+      ReviewerSet existingReviewers,
+      boolean allowMutation) {
     Set<Account.Id> need = new LinkedHashSet<>(wantCCs);
-    need.removeAll(existingReviewers.all());
+    if (allowMutation) {
+      need.removeAll(existingReviewers.byState(ReviewerStateInternal.CC));
+    } else {
+      need.removeAll(existingReviewers.all());
+    }
     need.removeAll(update.getReviewers().keySet());
     for (Account.Id account : need) {
       update.putReviewer(account, CC);

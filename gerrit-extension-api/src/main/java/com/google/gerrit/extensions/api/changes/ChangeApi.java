@@ -158,9 +158,9 @@ public interface ChangeApi {
 
   IncludedInInfo includedIn() throws RestApiException;
 
-  AddReviewerResult addReviewer(AddReviewerInput in) throws RestApiException;
+  ReviewerResult addReviewer(ReviewerInput in) throws RestApiException;
 
-  AddReviewerResult addReviewer(String in) throws RestApiException;
+  ReviewerResult addReviewer(String in) throws RestApiException;
 
   SuggestedReviewersRequest suggestReviewers() throws RestApiException;
 
@@ -396,12 +396,12 @@ public interface ChangeApi {
     }
 
     @Override
-    public AddReviewerResult addReviewer(AddReviewerInput in) {
+    public ReviewerResult addReviewer(ReviewerInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public AddReviewerResult addReviewer(String in) {
+    public ReviewerResult addReviewer(String in) {
       throw new NotImplementedException();
     }
 

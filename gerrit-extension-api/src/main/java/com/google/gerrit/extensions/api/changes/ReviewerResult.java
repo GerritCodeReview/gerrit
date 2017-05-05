@@ -18,23 +18,23 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.AccountInfo;
 import java.util.List;
 
-/** Result object representing the outcome of a request to add a reviewer. */
-public class AddReviewerResult {
-  /** The identifier of an account or group that was to be added as a reviewer. */
+/** Result object representing the outcome of a request to mutate a reviewer. */
+public class ReviewerResult {
+  /** The identifier of an account or group that was to added, removed or mutated as a reviewer. */
   public String input;
 
-  /** If non-null, a string describing why the reviewer could not be added. */
+  /** If non-null, a string describing why the reviewer could not be mutated. */
   @Nullable public String error;
 
   /**
-   * Non-null and true if the reviewer cannot be added without explicit confirmation. This may be
+   * Non-null and true if the reviewer cannot be mutated without explicit confirmation. This may be
    * the case for groups of a certain size.
    */
   @Nullable public Boolean confirm;
 
   /**
-   * List of individual reviewers added to the change. The size of this list may be greater than one
-   * (e.g. when a group is added). Null if no reviewers were added.
+   * List of individual reviewers mutated to the change. The size of this list may be greater than
+   * one (e.g. when a group is mutated). Null if no reviewers were mutated.
    */
   @Nullable public List<ReviewerInfo> reviewers;
 
@@ -49,7 +49,7 @@ public class AddReviewerResult {
    *
    * @param input String identifier of an account or group, from user request
    */
-  public AddReviewerResult(String input) {
+  public ReviewerResult(String input) {
     this.input = input;
   }
 
@@ -59,7 +59,7 @@ public class AddReviewerResult {
    * @param reviewer String identifier of an account or group
    * @param error Error message
    */
-  public AddReviewerResult(String reviewer, String error) {
+  public ReviewerResult(String reviewer, String error) {
     this(reviewer);
     this.error = error;
   }
@@ -69,7 +69,7 @@ public class AddReviewerResult {
    *
    * @param confirm Whether confirmation is needed.
    */
-  public AddReviewerResult(String reviewer, boolean confirm) {
+  public ReviewerResult(String reviewer, boolean confirm) {
     this(reviewer);
     this.confirm = confirm;
   }

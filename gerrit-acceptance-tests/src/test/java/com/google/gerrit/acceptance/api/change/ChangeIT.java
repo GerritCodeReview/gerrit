@@ -53,8 +53,6 @@ import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -63,6 +61,8 @@ import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
@@ -1130,9 +1130,9 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // try to add user as reviewer
     setApiUser(admin);
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email;
-    AddReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+    ReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
 
     assertThat(r.input).isEqualTo(user.email);
     assertThat(r.error).contains("does not have permission to see this change");
@@ -1146,9 +1146,9 @@ public class ChangeIT extends AbstractDaemonTest {
     String username = name("new-user");
     gApi.accounts().create(username).setActive(false);
 
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = username;
-    AddReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+    ReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
 
     assertThat(r.input).isEqualTo(username);
     assertThat(r.error).contains("identifies an inactive account");
@@ -1168,10 +1168,10 @@ public class ChangeIT extends AbstractDaemonTest {
     String username = "user@domain.com";
     gApi.accounts().create(username).setActive(false);
 
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = username;
     in.state = ReviewerState.CC;
-    AddReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+    ReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
 
     assertThat(r.input).isEqualTo(username);
     assertThat(r.error).isNull();
@@ -1188,7 +1188,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String oldETag = rsrc.getETag();
     Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
 
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email;
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
@@ -1232,7 +1232,7 @@ public class ChangeIT extends AbstractDaemonTest {
             TimeUtil.nowTs());
     db.patchSetApprovals().insert(Collections.singleton(psa));
 
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email;
     gApi.changes().id(r.getChangeId()).addReviewer(in);
   }
@@ -1245,7 +1245,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String oldETag = rsrc.getETag();
     Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
 
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email;
     setApiUser(user);
     gApi.changes().id(r.getChangeId()).addReviewer(in);
@@ -1350,7 +1350,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewers.iterator().next()._accountId).isEqualTo(admin.getId().get());
     assertThat(c.reviewers).doesNotContainKey(CC);
 
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email;
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
@@ -1367,7 +1367,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void emailNotificationForFileLevelComment() throws Exception {
     String changeId = createChange().getChangeId();
 
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email;
     gApi.changes().id(changeId).addReviewer(in);
     sender.clear();
@@ -1669,7 +1669,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.reviewers.get(CC)).isNull();
 
     // Add the user as reviewer
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email;
     gApi.changes().id(changeId).addReviewer(in);
     c = gApi.changes().id(changeId).get();
@@ -1809,7 +1809,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void checkReviewedFlagBeforeAndAfterReview() throws Exception {
     PushOneCommit.Result r = createChange();
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email;
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
@@ -2190,7 +2190,7 @@ public class ChangeIT extends AbstractDaemonTest {
     r2.assertOkStatus();
 
     // Add user as reviewer to make this patch set visible
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email;
     gApi.changes().id(r1.getChangeId()).addReviewer(in);
 
@@ -2312,7 +2312,7 @@ public class ChangeIT extends AbstractDaemonTest {
     r1.assertOkStatus();
 
     // Add user as reviewer
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email;
     gApi.changes().id(r1.getChangeId()).addReviewer(in);
 
@@ -2342,7 +2342,7 @@ public class ChangeIT extends AbstractDaemonTest {
     r1.assertOkStatus();
 
     // Add user as reviewer
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email;
     gApi.changes().id(r1.getChangeId()).addReviewer(in);
 

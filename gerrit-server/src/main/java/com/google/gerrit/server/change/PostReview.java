@@ -39,8 +39,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -49,6 +48,8 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
@@ -151,6 +152,8 @@ public class PostReview
   private final PostReviewers postReviewers;
   private final NotesMigration migration;
   private final NotifyUtil notifyUtil;
+  private final DeleteReviewerOp.Factory deleteReviewerOpFactory;
+  private final DeleteReviewerByEmailOp.Factory deleteReviewerByEmailOpFactory;
   private final Config gerritConfig;
 
   @Inject
@@ -170,6 +173,8 @@ public class PostReview
       PostReviewers postReviewers,
       NotesMigration migration,
       NotifyUtil notifyUtil,
+      DeleteReviewerOp.Factory deleteReviewerOpFactory,
+      DeleteReviewerByEmailOp.Factory deleteReviewerByEmailOpFactory,
       @GerritServerConfig Config gerritConfig) {
     super(retryHelper);
     this.db = db;
@@ -186,6 +191,8 @@ public class PostReview
     this.postReviewers = postReviewers;
     this.migration = migration;
     this.notifyUtil = notifyUtil;
+    this.deleteReviewerOpFactory = deleteReviewerOpFactory;
+    this.deleteReviewerByEmailOpFactory = deleteReviewerByEmailOpFactory;
     this.gerritConfig = gerritConfig;
   }
 
@@ -233,28 +240,50 @@ public class PostReview
     ListMultimap<RecipientType, Account.Id> accountsToNotify =
         notifyUtil.resolveAccounts(input.notifyDetails);
 
-    Map<String, AddReviewerResult> reviewerJsonResults = null;
+    Map<String, ReviewerResult> reviewerJsonResults = null;
     List<PostReviewers.Addition> reviewerResults = Lists.newArrayList();
+
+    List<BatchUpdateOp> deleteOps = new ArrayList<>();
+
     boolean hasError = false;
     boolean confirm = false;
     if (input.reviewers != null) {
       reviewerJsonResults = Maps.newHashMap();
-      for (AddReviewerInput reviewerInput : input.reviewers) {
+      for (ReviewerInput reviewerInput : input.reviewers) {
         // Prevent notifications because setting reviewers is batched.
         reviewerInput.notify = NotifyHandling.NONE;
 
-        PostReviewers.Addition result =
-            postReviewers.prepareApplication(revision.getChangeResource(), reviewerInput, true);
-        reviewerJsonResults.put(reviewerInput.reviewer, result.result);
-        if (result.result.error != null) {
-          hasError = true;
-          continue;
+        if (reviewerInput.state == ReviewerState.REMOVED) {
+          DeleteReviewerInput deleteReviewerInput = new DeleteReviewerInput();
+          deleteReviewerInput.notify = NotifyHandling.NONE;
+          Account account;
+          try {
+            account = accounts.parse(reviewerInput.reviewer).getAccount();
+          } catch (UnprocessableEntityException e) {
+            // Account not found, try by email
+            Address byEmail = Address.parse(reviewerInput.reviewer);
+            if (byEmail != null) {
+              deleteOps.add(deleteReviewerByEmailOpFactory.create(byEmail, deleteReviewerInput));
+            } else {
+              hasError = true;
+            }
+            continue;
+          }
+          deleteOps.add(deleteReviewerOpFactory.create(account, deleteReviewerInput));
+        } else {
+          PostReviewers.Addition result =
+              postReviewers.prepareApplication(revision.getChangeResource(), reviewerInput, true);
+          reviewerJsonResults.put(reviewerInput.reviewer, result.result);
+          if (result.result.error != null) {
+            hasError = true;
+            continue;
+          }
+          if (result.result.confirm != null) {
+            confirm = true;
+            continue;
+          }
+          reviewerResults.add(result);
         }
-        if (result.result.confirm != null) {
-          confirm = true;
-          continue;
-        }
-        reviewerResults.add(result);
       }
     }
 
@@ -279,6 +308,9 @@ public class PostReview
             approvalsUtil.getReviewers(db.get(), revision.getChangeResource().getNotes());
         ccOrReviewer = currentReviewers.all().contains(id);
       }
+
+      final Change.Id cId = revision.getChange().getId();
+      deleteOps.forEach(o -> bu.addOp(cId, o));
 
       // Apply reviewer changes first. Revision emails should be sent to the
       // updated set of reviewers. Also keep track of whether the user added

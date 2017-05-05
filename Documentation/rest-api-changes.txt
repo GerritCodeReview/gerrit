@@ -3593,8 +3593,8 @@ if you set a label but weren't previously a reviewer on this CL).
   }
 ----
 
-It is also possible to add one or more reviewers or CCs
-to a change simultaneously with a review.
+It is also possible to add, remove or mutate the state of one or more
+reviewers or CCs simultaneously with a review.
 
 .Request
 ----
@@ -6627,7 +6627,9 @@ If an ID identifies both an account and a group, only the account is
 added as reviewer to the change.
 |`state`         |optional|
 Add reviewer in this state. Possible reviewer states are `REVIEWER`
-and `CC`. If not given, defaults to `REVIEWER`.
+and `CC`. If not given, defaults to `REVIEWER`. Note that
+link:#set-review[Set Review] also permits using `REMOVED` as state to
+remove a reviewer.
 |`confirmed`     |optional|
 Whether adding the reviewer is confirmed. +
 The Gerrit server may be configured to

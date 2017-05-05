@@ -70,6 +70,30 @@
       "revId": "644f79f827c38b2548551e3b8448ccf8f5573ca6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7fdb0bb_7320f474",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-05T20:34:59Z",
+      "side": 1,
+      "message": "Oh, how do i do that please?",
+      "parentUuid": "49fcdeea_cf9cc809",
+      "range": {
+        "startLine": 193,
+        "startChar": 8,
+        "endLine": 193,
+        "endChar": 39
+      },
+      "revId": "644f79f827c38b2548551e3b8448ccf8f5573ca6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

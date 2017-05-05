@@ -70,6 +70,30 @@
       "revId": "d2bc94982d9a05ec832572369b5a5c67ac9fdd31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "346c24a5_8fbc8257",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-05T21:07:02Z",
+      "side": 1,
+      "message": "Based on my last ten minutes of googling, it seems like it\u0027s one or the other.\n\nWyatt and I have been talking about adding a special kind of link that has some neat hover text that says \u0027shift+click to copy\u0027 or something along those lines. Could we abandon this change and make that modification when that element is implemented? \n\nThis would, by necessity, take this bug out of the launch milestone. What do you think?",
+      "parentUuid": "60f22cbc_1a77520e",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "d2bc94982d9a05ec832572369b5a5c67ac9fdd31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -29,6 +29,9 @@
     if (this._isTotal(group)) {
       sectionEl.classList.add('total');
     }
+    if (group.dueToRebase) {
+      sectionEl.classList.add('dueToRebase');
+    }
     const pairs = group.getSideBySidePairs();
     for (let i = 0; i < pairs.length; i++) {
       sectionEl.appendChild(this._createRow(sectionEl, pairs[i].left,

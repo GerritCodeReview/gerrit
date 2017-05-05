@@ -210,6 +210,7 @@
             state.lineNums.left,
             state.lineNums.right,
             highlights);
+        deltaGroup.dueToRebase = section.due_to_rebase;
 
         return {
           lineDelta: {

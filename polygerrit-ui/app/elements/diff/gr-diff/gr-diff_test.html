@@ -327,9 +327,6 @@ limitations under the License.
           stubs.push(sandbox.stub(element.$.restAPI, 'getCommitInfo',
               function() { return Promise.resolve(mockCommit); }));
           stubs.push(sandbox.stub(element.$.restAPI,
-              'getCommitFileContents',
-              function() { return Promise.resolve(mockFile1); }));
-          stubs.push(sandbox.stub(element.$.restAPI,
               'getChangeFileContents',
               function(changeId, patchNum, path, opt_parentIndex) {
                 return Promise.resolve(opt_parentIndex === 1 ? mockFile1 :

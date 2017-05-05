@@ -54,8 +54,6 @@
         type: Object,
         observer: '_projectConfigChanged',
       },
-      project: String,
-      commit: String,
       displayLine: {
         type: Boolean,
         value: false,
@@ -572,8 +570,8 @@
     },
 
     _getImages: function() {
-      return this.$.restAPI.getImagesForDiff(this.project, this.commit,
-          this.changeNum, this._diff, this.patchRange);
+      return this.$.restAPI.getImagesForDiff(this.changeNum, this._diff,
+          this.patchRange);
     },
 
     _projectConfigChanged: function(projectConfig) {

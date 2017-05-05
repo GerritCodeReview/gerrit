@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.api.projects;
 
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
@@ -25,7 +27,6 @@ import com.google.gerrit.server.project.ListTags;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.TagResource;
 import com.google.gerrit.server.project.TagsCollection;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -63,8 +64,8 @@ public class TagApiImpl implements TagApi {
     try {
       createTagFactory.create(ref).apply(project, input);
       return this;
-    } catch (IOException e) {
-      throw new RestApiException("Cannot create tag", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot create tag", e);
     }
   }
 
@@ -72,8 +73,8 @@ public class TagApiImpl implements TagApi {
   public TagInfo get() throws RestApiException {
     try {
       return listTags.get(project, IdString.fromDecoded(ref));
-    } catch (IOException e) {
-      throw new RestApiException(e.getMessage());
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get tag", e);
     }
   }
 
@@ -81,8 +82,8 @@ public class TagApiImpl implements TagApi {
   public void delete() throws RestApiException {
     try {
       deleteTag.apply(resource(), new DeleteTag.Input());
-    } catch (OrmException | IOException e) {
-      throw new RestApiException(e.getMessage());
+    } catch (Exception e) {
+      throw asRestApiException("Cannot delete tag", e);
     }
   }
 

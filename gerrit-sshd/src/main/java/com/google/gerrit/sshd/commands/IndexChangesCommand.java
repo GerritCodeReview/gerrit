@@ -14,17 +14,14 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.Index;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.ChangeArgumentParser;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.kohsuke.args4j.Argument;
@@ -58,7 +55,7 @@ final class IndexChangesCommand extends SshCommand {
     for (ChangeResource rsrc : changes.values()) {
       try {
         index.apply(rsrc, new Index.Input());
-      } catch (IOException | RestApiException | OrmException | PermissionBackendException e) {
+      } catch (Exception e) {
         ok = false;
         writeError(
             "error", String.format("failed to index change %s: %s", rsrc.getId(), e.getMessage()));

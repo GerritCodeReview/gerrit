@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.api.projects;
 
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
@@ -39,7 +41,6 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChildProjectsCollection;
 import com.google.gerrit.server.project.CommitsCollection;
 import com.google.gerrit.server.project.CreateProject;
@@ -57,12 +58,9 @@ import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gerrit.server.project.PutConfig;
 import com.google.gerrit.server.project.PutDescription;
 import com.google.gerrit.server.project.SetAccess;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-import java.io.IOException;
 import java.util.List;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class ProjectApiImpl implements ProjectApi {
   interface Factory {
@@ -269,8 +267,8 @@ public class ProjectApiImpl implements ProjectApi {
       permissionBackend.user(user).checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
       impl.apply(TopLevelResource.INSTANCE, in);
       return projectApi.create(projects.parse(name));
-    } catch (IOException | ConfigInvalidException | PermissionBackendException e) {
-      throw new RestApiException("Cannot create project: " + e.getMessage(), e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot create project: " + e.getMessage(), e);
     }
   }
 
@@ -291,8 +289,8 @@ public class ProjectApiImpl implements ProjectApi {
   public ProjectAccessInfo access() throws RestApiException {
     try {
       return getAccess.apply(checkExists());
-    } catch (IOException e) {
-      throw new RestApiException("Cannot get access rights", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get access rights", e);
     }
   }
 
@@ -300,8 +298,8 @@ public class ProjectApiImpl implements ProjectApi {
   public ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException {
     try {
       return setAccess.apply(checkExists(), p);
-    } catch (IOException | PermissionBackendException e) {
-      throw new RestApiException("Cannot put access rights", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot put access rights", e);
     }
   }
 
@@ -309,8 +307,8 @@ public class ProjectApiImpl implements ProjectApi {
   public void description(DescriptionInput in) throws RestApiException {
     try {
       putDescription.apply(checkExists(), in);
-    } catch (IOException e) {
-      throw new RestApiException("Cannot put project description", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot put project description", e);
     }
   }
 
@@ -342,8 +340,8 @@ public class ProjectApiImpl implements ProjectApi {
     listBranches.setMatchRegex(request.getRegex());
     try {
       return listBranches.apply(checkExists());
-    } catch (IOException e) {
-      throw new RestApiException("Cannot list branches", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list branches", e);
     }
   }
 
@@ -364,8 +362,8 @@ public class ProjectApiImpl implements ProjectApi {
     listTags.setMatchRegex(request.getRegex());
     try {
       return listTags.apply(checkExists());
-    } catch (IOException e) {
-      throw new RestApiException("Cannot list tags", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list tags", e);
     }
   }
 
@@ -380,8 +378,8 @@ public class ProjectApiImpl implements ProjectApi {
     list.setRecursive(recursive);
     try {
       return list.apply(checkExists());
-    } catch (PermissionBackendException e) {
-      throw new RestApiException("Cannot list children", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list children", e);
     }
   }
 
@@ -389,8 +387,8 @@ public class ProjectApiImpl implements ProjectApi {
   public ChildProjectApi child(String name) throws RestApiException {
     try {
       return childApi.create(children.parse(checkExists(), IdString.fromDecoded(name)));
-    } catch (IOException | PermissionBackendException e) {
-      throw new RestApiException("Cannot parse child project", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot parse child project", e);
     }
   }
 
@@ -408,8 +406,8 @@ public class ProjectApiImpl implements ProjectApi {
   public void deleteBranches(DeleteBranchesInput in) throws RestApiException {
     try {
       deleteBranches.apply(checkExists(), in);
-    } catch (OrmException | IOException e) {
-      throw new RestApiException("Cannot delete branches", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot delete branches", e);
     }
   }
 
@@ -417,8 +415,8 @@ public class ProjectApiImpl implements ProjectApi {
   public void deleteTags(DeleteTagsInput in) throws RestApiException {
     try {
       deleteTags.apply(checkExists(), in);
-    } catch (OrmException | IOException e) {
-      throw new RestApiException("Cannot delete tags", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot delete tags", e);
     }
   }
 
@@ -426,8 +424,8 @@ public class ProjectApiImpl implements ProjectApi {
   public CommitApi commit(String commit) throws RestApiException {
     try {
       return commitApi.create(commitsCollection.parse(checkExists(), IdString.fromDecoded(commit)));
-    } catch (IOException e) {
-      throw new RestApiException("Cannot parse commit", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot parse commit", e);
     }
   }
 

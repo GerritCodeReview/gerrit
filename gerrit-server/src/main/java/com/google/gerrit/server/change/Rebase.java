@@ -40,6 +40,8 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -57,13 +59,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class Rebase
+public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput, ChangeInfo>
     implements RestModifyView<RevisionResource, RebaseInput>, UiAction<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(Rebase.class);
   private static final ImmutableSet<ListChangesOption> OPTIONS =
       Sets.immutableEnumSet(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT);
 
-  private final BatchUpdate.Factory updateFactory;
   private final GitRepositoryManager repoManager;
   private final RebaseChangeOp.Factory rebaseFactory;
   private final RebaseUtil rebaseUtil;
@@ -72,13 +73,13 @@ public class Rebase
 
   @Inject
   public Rebase(
-      BatchUpdate.Factory updateFactory,
+      RetryHelper retryHelper,
       GitRepositoryManager repoManager,
       RebaseChangeOp.Factory rebaseFactory,
       RebaseUtil rebaseUtil,
       ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider) {
-    this.updateFactory = updateFactory;
+    super(retryHelper);
     this.repoManager = repoManager;
     this.rebaseFactory = rebaseFactory;
     this.rebaseUtil = rebaseUtil;
@@ -87,7 +88,8 @@ public class Rebase
   }
 
   @Override
-  public ChangeInfo apply(RevisionResource rsrc, RebaseInput input)
+  protected ChangeInfo applyImpl(
+      BatchUpdate.Factory updateFactory, RevisionResource rsrc, RebaseInput input)
       throws EmailException, OrmException, UpdateException, RestApiException, IOException,
           NoSuchChangeException, PermissionBackendException {
     rsrc.permissions().database(dbProvider).check(ChangePermission.REBASE);
@@ -210,18 +212,21 @@ public class Rebase
         .setEnabled(enabled);
   }
 
-  public static class CurrentRevision implements RestModifyView<ChangeResource, RebaseInput> {
+  public static class CurrentRevision
+      extends RetryingRestModifyView<ChangeResource, RebaseInput, ChangeInfo> {
     private final PatchSetUtil psUtil;
     private final Rebase rebase;
 
     @Inject
-    CurrentRevision(PatchSetUtil psUtil, Rebase rebase) {
+    CurrentRevision(RetryHelper retryHelper, PatchSetUtil psUtil, Rebase rebase) {
+      super(retryHelper);
       this.psUtil = psUtil;
       this.rebase = rebase;
     }
 
     @Override
-    public ChangeInfo apply(ChangeResource rsrc, RebaseInput input)
+    protected ChangeInfo applyImpl(
+        BatchUpdate.Factory updateFactory, ChangeResource rsrc, RebaseInput input)
         throws EmailException, OrmException, UpdateException, RestApiException, IOException,
             PermissionBackendException {
       PatchSet ps = psUtil.current(rebase.dbProvider.get(), rsrc.getNotes());
@@ -230,7 +235,7 @@ public class Rebase
       } else if (!rsrc.getControl().isPatchVisible(ps, rebase.dbProvider.get())) {
         throw new AuthException("current revision not accessible");
       }
-      return rebase.apply(new RevisionResource(rsrc, ps), input);
+      return rebase.applyImpl(updateFactory, new RevisionResource(rsrc, ps), input);
     }
   }
 }

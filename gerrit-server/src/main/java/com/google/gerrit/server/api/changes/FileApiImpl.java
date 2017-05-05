@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.api.changes;
 
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+
 import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -21,11 +23,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.GetContent;
 import com.google.gerrit.server.change.GetDiff;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
 
 class FileApiImpl implements FileApi {
   interface Factory {
@@ -47,8 +46,8 @@ class FileApiImpl implements FileApi {
   public BinaryResult content() throws RestApiException {
     try {
       return getContent.apply(file);
-    } catch (IOException | OrmException e) {
-      throw new RestApiException("Cannot retrieve file content", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve file content", e);
     }
   }
 
@@ -56,8 +55,8 @@ class FileApiImpl implements FileApi {
   public DiffInfo diff() throws RestApiException {
     try {
       return getDiff.apply(file).value();
-    } catch (IOException | InvalidChangeOperationException | OrmException e) {
-      throw new RestApiException("Cannot retrieve diff", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve diff", e);
     }
   }
 
@@ -65,8 +64,8 @@ class FileApiImpl implements FileApi {
   public DiffInfo diff(String base) throws RestApiException {
     try {
       return getDiff.setBase(base).apply(file).value();
-    } catch (IOException | InvalidChangeOperationException | OrmException e) {
-      throw new RestApiException("Cannot retrieve diff", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve diff", e);
     }
   }
 
@@ -74,8 +73,8 @@ class FileApiImpl implements FileApi {
   public DiffInfo diff(int parent) throws RestApiException {
     try {
       return getDiff.setParent(parent).apply(file).value();
-    } catch (OrmException | InvalidChangeOperationException | IOException e) {
-      throw new RestApiException("Cannot retrieve diff", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve diff", e);
     }
   }
 
@@ -104,8 +103,8 @@ class FileApiImpl implements FileApi {
     }
     try {
       return getDiff.apply(file).value();
-    } catch (IOException | InvalidChangeOperationException | OrmException e) {
-      throw new RestApiException("Cannot retrieve diff", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve diff", e);
     }
   }
 }

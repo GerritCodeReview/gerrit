@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -49,6 +48,8 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -65,14 +66,14 @@ import org.slf4j.LoggerFactory;
 
 @Singleton
 public class PublishDraftPatchSet
-    implements RestModifyView<RevisionResource, Input>, UiAction<RevisionResource> {
+    extends RetryingRestModifyView<RevisionResource, Input, Response<?>>
+    implements UiAction<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(PublishDraftPatchSet.class);
 
   public static class Input {}
 
   private final AccountResolver accountResolver;
   private final ApprovalsUtil approvalsUtil;
-  private final BatchUpdate.Factory updateFactory;
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
@@ -84,16 +85,16 @@ public class PublishDraftPatchSet
   public PublishDraftPatchSet(
       AccountResolver accountResolver,
       ApprovalsUtil approvalsUtil,
-      BatchUpdate.Factory updateFactory,
+      RetryHelper retryHelper,
       CreateChangeSender.Factory createChangeSenderFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
       Provider<ReviewDb> dbProvider,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       DraftPublished draftPublished) {
+    super(retryHelper);
     this.accountResolver = accountResolver;
     this.approvalsUtil = approvalsUtil;
-    this.updateFactory = updateFactory;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.psUtil = psUtil;
@@ -103,12 +104,19 @@ public class PublishDraftPatchSet
   }
 
   @Override
-  public Response<?> apply(RevisionResource rsrc, Input input)
+  protected Response<?> applyImpl(
+      BatchUpdate.Factory updateFactory, RevisionResource rsrc, Input input)
       throws RestApiException, UpdateException {
-    return apply(rsrc.getUser(), rsrc.getChange(), rsrc.getPatchSet().getId(), rsrc.getPatchSet());
+    return apply(
+        updateFactory,
+        rsrc.getUser(),
+        rsrc.getChange(),
+        rsrc.getPatchSet().getId(),
+        rsrc.getPatchSet());
   }
 
-  private Response<?> apply(CurrentUser u, Change c, PatchSet.Id psId, PatchSet ps)
+  private Response<?> apply(
+      BatchUpdate.Factory updateFactory, CurrentUser u, Change c, PatchSet.Id psId, PatchSet ps)
       throws RestApiException, UpdateException {
     try (BatchUpdate bu =
         updateFactory.create(dbProvider.get(), c.getProject(), u, TimeUtil.nowTs())) {
@@ -131,18 +139,22 @@ public class PublishDraftPatchSet
     }
   }
 
-  public static class CurrentRevision implements RestModifyView<ChangeResource, Input> {
+  public static class CurrentRevision
+      extends RetryingRestModifyView<ChangeResource, Input, Response<?>> {
     private final PublishDraftPatchSet publish;
 
     @Inject
-    CurrentRevision(PublishDraftPatchSet publish) {
+    CurrentRevision(RetryHelper retryHelper, PublishDraftPatchSet publish) {
+      super(retryHelper);
       this.publish = publish;
     }
 
     @Override
-    public Response<?> apply(ChangeResource rsrc, Input input)
+    protected Response<?> applyImpl(
+        BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
         throws RestApiException, UpdateException {
       return publish.apply(
+          updateFactory,
           rsrc.getControl().getUser(),
           rsrc.getChange(),
           rsrc.getChange().currentPatchSetId(),

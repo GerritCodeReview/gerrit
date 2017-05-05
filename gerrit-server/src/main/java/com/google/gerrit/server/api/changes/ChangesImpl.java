@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.changes;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -24,7 +25,6 @@ import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -32,15 +32,10 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.CreateChange;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.query.change.QueryChanges;
-import com.google.gerrit.server.update.UpdateException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.List;
 
 @Singleton
@@ -78,8 +73,8 @@ class ChangesImpl implements Changes {
   public ChangeApi id(String id) throws RestApiException {
     try {
       return api.create(changes.parse(TopLevelResource.INSTANCE, IdString.fromUrl(id)));
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot parse change", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot parse change", e);
     }
   }
 
@@ -88,12 +83,8 @@ class ChangesImpl implements Changes {
     try {
       ChangeInfo out = createChange.apply(TopLevelResource.INSTANCE, in).value();
       return api.create(changes.parse(new Change.Id(out._number)));
-    } catch (OrmException
-        | IOException
-        | InvalidChangeOperationException
-        | UpdateException
-        | PermissionBackendException e) {
-      throw new RestApiException("Cannot create change", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot create change", e);
     }
   }
 
@@ -137,8 +128,8 @@ class ChangesImpl implements Changes {
       List<ChangeInfo> infos = (List<ChangeInfo>) result;
 
       return ImmutableList.copyOf(infos);
-    } catch (AuthException | OrmException e) {
-      throw new RestApiException("Cannot query changes", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot query changes", e);
     }
   }
 }

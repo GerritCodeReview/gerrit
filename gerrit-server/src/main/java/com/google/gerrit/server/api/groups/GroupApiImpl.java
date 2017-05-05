@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.api.groups;
 
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -41,10 +43,8 @@ import com.google.gerrit.server.group.PutDescription;
 import com.google.gerrit.server.group.PutName;
 import com.google.gerrit.server.group.PutOptions;
 import com.google.gerrit.server.group.PutOwner;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -119,8 +119,8 @@ class GroupApiImpl implements GroupApi {
   public GroupInfo get() throws RestApiException {
     try {
       return getGroup.apply(rsrc);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot retrieve group", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve group", e);
     }
   }
 
@@ -128,8 +128,8 @@ class GroupApiImpl implements GroupApi {
   public GroupInfo detail() throws RestApiException {
     try {
       return getDetail.apply(rsrc);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot retrieve group", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve group", e);
     }
   }
 
@@ -146,8 +146,8 @@ class GroupApiImpl implements GroupApi {
       putName.apply(rsrc, in);
     } catch (NoSuchGroupException e) {
       throw new ResourceNotFoundException(name, e);
-    } catch (OrmException | IOException e) {
-      throw new RestApiException("Cannot put group name", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot put group name", e);
     }
   }
 
@@ -155,8 +155,8 @@ class GroupApiImpl implements GroupApi {
   public GroupInfo owner() throws RestApiException {
     try {
       return getOwner.apply(rsrc);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot get group owner", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get group owner", e);
     }
   }
 
@@ -166,8 +166,8 @@ class GroupApiImpl implements GroupApi {
     in.owner = owner;
     try {
       putOwner.apply(rsrc, in);
-    } catch (OrmException | IOException e) {
-      throw new RestApiException("Cannot put group owner", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot put group owner", e);
     }
   }
 
@@ -182,8 +182,8 @@ class GroupApiImpl implements GroupApi {
     in.description = description;
     try {
       putDescription.apply(rsrc, in);
-    } catch (OrmException | IOException e) {
-      throw new RestApiException("Cannot put group description", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot put group description", e);
     }
   }
 
@@ -196,8 +196,8 @@ class GroupApiImpl implements GroupApi {
   public void options(GroupOptionsInfo options) throws RestApiException {
     try {
       putOptions.apply(rsrc, options);
-    } catch (OrmException | IOException e) {
-      throw new RestApiException("Cannot put group options", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot put group options", e);
     }
   }
 
@@ -211,8 +211,8 @@ class GroupApiImpl implements GroupApi {
     listMembers.setRecursive(recursive);
     try {
       return listMembers.apply(rsrc);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot list group members", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list group members", e);
     }
   }
 
@@ -220,8 +220,8 @@ class GroupApiImpl implements GroupApi {
   public void addMembers(String... members) throws RestApiException {
     try {
       addMembers.apply(rsrc, AddMembers.Input.fromMembers(Arrays.asList(members)));
-    } catch (OrmException | IOException e) {
-      throw new RestApiException("Cannot add group members", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot add group members", e);
     }
   }
 
@@ -229,8 +229,8 @@ class GroupApiImpl implements GroupApi {
   public void removeMembers(String... members) throws RestApiException {
     try {
       deleteMembers.apply(rsrc, AddMembers.Input.fromMembers(Arrays.asList(members)));
-    } catch (OrmException | IOException e) {
-      throw new RestApiException("Cannot remove group members", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot remove group members", e);
     }
   }
 
@@ -238,8 +238,8 @@ class GroupApiImpl implements GroupApi {
   public List<GroupInfo> includedGroups() throws RestApiException {
     try {
       return listGroups.apply(rsrc);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot list included groups", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list included groups", e);
     }
   }
 
@@ -247,8 +247,8 @@ class GroupApiImpl implements GroupApi {
   public void addGroups(String... groups) throws RestApiException {
     try {
       addGroups.apply(rsrc, AddIncludedGroups.Input.fromGroups(Arrays.asList(groups)));
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot add group members", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot add group members", e);
     }
   }
 
@@ -256,8 +256,8 @@ class GroupApiImpl implements GroupApi {
   public void removeGroups(String... groups) throws RestApiException {
     try {
       deleteGroups.apply(rsrc, AddIncludedGroups.Input.fromGroups(Arrays.asList(groups)));
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot remove group members", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot remove group members", e);
     }
   }
 
@@ -265,8 +265,8 @@ class GroupApiImpl implements GroupApi {
   public List<? extends GroupAuditEventInfo> auditLog() throws RestApiException {
     try {
       return getAuditLog.apply(rsrc);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot get audit log", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get audit log", e);
     }
   }
 
@@ -274,8 +274,8 @@ class GroupApiImpl implements GroupApi {
   public void index() throws RestApiException {
     try {
       index.apply(rsrc, new Index.Input());
-    } catch (IOException e) {
-      throw new RestApiException("Cannot index group", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot index group", e);
     }
   }
 }

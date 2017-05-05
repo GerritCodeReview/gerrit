@@ -209,6 +209,11 @@ public class Submit
       submitter = rsrc.getUser().asIdentifiedUser();
     }
 
+    return new Output(mergeChange(rsrc, submitter, input));
+  }
+
+  public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
+      throws OrmException, RestApiException, IOException {
     Change change = rsrc.getChange();
     if (!change.getStatus().isOpen()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
@@ -235,7 +240,7 @@ public class Submit
 
     switch (change.getStatus()) {
       case MERGED:
-        return new Output(change);
+        return change;
       case NEW:
         ChangeMessage msg = getConflictMessage(rsrc);
         if (msg != null) {

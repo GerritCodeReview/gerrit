@@ -17,6 +17,24 @@
       "revId": "5b9e7a8d252f3b1d420e306715c89b254356101b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd70c307_ef7f6324",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-05T12:25:45Z",
+      "side": 1,
+      "message": "I\u0027m fine with the current solution.",
+      "parentUuid": "6b845870_8b7499b4",
+      "revId": "5b9e7a8d252f3b1d420e306715c89b254356101b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

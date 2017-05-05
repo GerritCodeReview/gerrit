@@ -70,6 +70,30 @@
       "revId": "df9f6b585a9fb2cd86bc7ed1f8a4c64b7966c7ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95a2c30b_30b43443",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1187,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T18:20:14Z",
+      "side": 1,
+      "message": "Now -1 does not exactly signify no timeout, but that the alert should be dismissed on navigation.\n\nWhat rustles my jimmies is magic numbers to signify behaviors that could have descriptive names.\n\nSince, AFAIKT, we don\u0027t use actually use the timeout number to specify any custom timeouts, what if it was just a flag for ...\n\n dismissOnNavigation: true,\n\n... that has the same effect as setting the timeout to -1?",
+      "parentUuid": "74188880_e681c101",
+      "range": {
+        "startLine": 1187,
+        "startChar": 27,
+        "endLine": 1187,
+        "endChar": 29
+      },
+      "revId": "df9f6b585a9fb2cd86bc7ed1f8a4c64b7966c7ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

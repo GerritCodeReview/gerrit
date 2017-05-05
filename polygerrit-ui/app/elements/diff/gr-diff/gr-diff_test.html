@@ -331,7 +331,10 @@ limitations under the License.
               function() { return Promise.resolve(mockFile1); }));
           stubs.push(sandbox.stub(element.$.restAPI,
               'getChangeFileContents',
-              function() { return Promise.resolve(mockFile2); }));
+              function(changeId, patchNum, path, opt_parentIndex) {
+                return Promise.resolve(opt_parentIndex === 1 ? mockFile1 :
+                    mockFile2);
+              }));
           stubs.push(sandbox.stub(element.$.restAPI, '_getDiffComments',
               function() { return Promise.resolve(mockComments); }));
           stubs.push(sandbox.stub(element.$.restAPI, 'getDiffDrafts',

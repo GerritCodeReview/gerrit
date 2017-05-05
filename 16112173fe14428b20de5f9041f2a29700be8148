@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "144a5506_b0a1b569",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1361,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-05T09:16:49Z",
+      "side": 1,
+      "message": "IIRC you need to check if the ChangeData was loaded lazily and return a default value. calling notes() in this case will throw an OrmException",
+      "range": {
+        "startLine": 1361,
+        "startChar": 10,
+        "endLine": 1361,
+        "endChar": 19
+      },
+      "revId": "16112173fe14428b20de5f9041f2a29700be8148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

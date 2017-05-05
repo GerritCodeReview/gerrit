@@ -46,6 +46,30 @@
       "revId": "d2bc94982d9a05ec832572369b5a5c67ac9fdd31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60f22cbc_1a77520e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-05-05T20:16:03Z",
+      "side": 1,
+      "message": "To be fair, I haven\u0027t the slightest idea if what I suggested is reasonably possible. Given that this CL brings PG more closely in line with Rietveld, I\u0027m net in favor of it, even though reducing the click target makes me sad.",
+      "parentUuid": "8c0268c5_ebca4475",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "d2bc94982d9a05ec832572369b5a5c67ac9fdd31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

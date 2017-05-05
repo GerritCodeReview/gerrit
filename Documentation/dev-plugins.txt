@@ -1200,6 +1200,18 @@ this can be specified by setting `scope = CapabilityScope.CORE`:
   [...]
 ----
 
+The plugin capability should be set under the
+link:config-project-config.html#capability-section[capability section] of the
+config file in the All-Projects repository. To avoid name collisions, plugin
+defined capabilities should have the plugin name as its prefix. Below is an
+example:
+
+----
+[capability]
+       MyPlugin-MyCapability = group Administrators
+----
+
+
 [[ui_extension]]
 == UI Extension
 

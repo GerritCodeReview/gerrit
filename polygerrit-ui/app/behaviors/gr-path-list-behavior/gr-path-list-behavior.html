@@ -20,12 +20,21 @@ limitations under the License.
   /** @polymerBehavior Gerrit.PathListBehavior */
   var PathListBehavior = {
     specialFilePathCompare: function(a, b) {
-      var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
       // The commit message always goes first.
+      var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
       if (a === COMMIT_MESSAGE_PATH) {
         return -1;
       }
       if (b === COMMIT_MESSAGE_PATH) {
+        return 1;
+      }
+
+      // The merge list always comes next.
+      var MERGE_LIST_PATH = '/MERGE_LIST';
+      if (a === MERGE_LIST_PATH) {
+        return -1;
+      }
+      if (b === MERGE_LIST_PATH) {
         return 1;
       }
 

@@ -245,6 +245,24 @@
       "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3261e146_3d535090",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-05T17:27:31Z",
+      "side": 1,
+      "message": "I looked at what iron-dropdown does, and it appears it\u0027s actually complicated. Each dropdown ultimately asks manager to add overlay:\nhttps://github.com/PolymerElements/iron-overlay-behavior/blob/master/iron-overlay-manager.html#L135\n\nCan we reuse some of this? iron-overlay-behavior, iron-overlay, or similar?",
+      "parentUuid": "5e0e70f4_5331885c",
+      "revId": "b1556a2e17268f408bfaa4ab2d2d95a22886be67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

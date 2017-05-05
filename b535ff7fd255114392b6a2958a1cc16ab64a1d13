@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dbb890c_4892cc7c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T23:20:14Z",
+      "side": 1,
+      "message": "These two lines double render the diff because setting `diffElem.prefs` triggers a re-render (but it doesn\u0027t return a useful promise). If you look at the console output you can see the extra render timing logs.\n\nThat\u0027s why I was suggesting a way to configure the diffs in the file list to not re-render when the preferences change.\n\nAlternatively, the reload function could maybe take an optional preferences parameter so that the prefs can be updated and the diff can be re-rendered with a promise in the same act. Configuring the diffs to not re-render on prefs changes seems simpler to me, though.",
+      "range": {
+        "startLine": 857,
+        "startChar": 6,
+        "endLine": 858,
+        "endChar": 41
+      },
+      "revId": "b535ff7fd255114392b6a2958a1cc16ab64a1d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

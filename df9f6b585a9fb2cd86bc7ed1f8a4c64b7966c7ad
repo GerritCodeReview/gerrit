@@ -94,6 +94,30 @@
       "revId": "df9f6b585a9fb2cd86bc7ed1f8a4c64b7966c7ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0775670_c7bbfe3d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1187,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-05T18:22:30Z",
+      "side": 1,
+      "message": "..woah, you\u0027re right. We don\u0027t actually use this param anywhere else. Yeah, I definitely agree -- awesome idea.",
+      "parentUuid": "95a2c30b_30b43443",
+      "range": {
+        "startLine": 1187,
+        "startChar": 27,
+        "endLine": 1187,
+        "endChar": 29
+      },
+      "revId": "df9f6b585a9fb2cd86bc7ed1f8a4c64b7966c7ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

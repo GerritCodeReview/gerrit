@@ -963,22 +963,26 @@
     },
 
     _fetchB64File: function(url) {
-      return fetch(this.getBaseUrl() + url, {credentials: 'same-origin'}).then(
-            function(response) {
-        var type = response.headers.get('X-FYI-Content-Type');
-        return response.text()
-          .then(function(text) {
-            return {body: text, type: type};
+      return fetch(this.getBaseUrl() + url, {credentials: 'same-origin'})
+          .then(function(response) {
+            if (!response.ok) { return Promise.reject(response.statusText); }
+            var type = response.headers.get('X-FYI-Content-Type');
+            return response.text()
+              .then(function(text) {
+                return {body: text, type: type};
+              });
           });
-      });
     },
 
-    getChangeFileContents: function(changeId, patchNum, path) {
+    getChangeFileContents: function(changeId, patchNum, path, opt_parentIndex) {
+      var parent = typeof opt_parentIndex === 'number' ?
+          '?parent=' + opt_parentIndex : '';
       return this._fetchB64File(
           '/changes/' + encodeURIComponent(changeId) +
           '/revisions/' + encodeURIComponent(patchNum) +
           '/files/' + encodeURIComponent(path) +
-          '/content');
+          '/content' +
+          parent);
     },
 
     getCommitFileContents: function(projectName, commit, path) {
@@ -995,16 +999,17 @@
 
       if (diff.meta_a && diff.meta_a.content_type.indexOf('image/') === 0) {
         if (patchRange.basePatchNum === 'PARENT') {
-          // Need the commit info know the parent SHA.
-          promiseA = this.getCommitInfo(project, commit).then(function(info) {
-            if (info.parents.length !== 1) {
-              return Promise.reject('Change commit has multiple parents.');
-            }
-            var parent = info.parents[0].commit;
-            return this.getCommitFileContents(project, parent,
-                diff.meta_a.name);
-          }.bind(this));
-
+          // Note: we only attempt to get the image from the first parent.
+          promiseA = this.getChangeFileContents(changeNum, patchRange.patchNum,
+              diff.meta_a.name, 1)
+              .catch(function(result) {
+                // If getting the parent-indexed version of the image fails, it
+                // may be because the API has not been rolled out. Fall back to
+                // getting the file from the commit using the slow API.
+                // NOTE(wyatta): Remove this when the rollout is complete.
+                return this._getImageFromCommit(project, commit,
+                    diff.meta_a.name);
+              }.bind(this));
         } else {
           promiseA = this.getChangeFileContents(changeNum,
               patchRange.basePatchNum, diff.meta_a.name);
@@ -1037,6 +1042,19 @@
 
           return {baseImage: baseImage, revisionImage: revisionImage};
         }.bind(this));
+    },
+
+    /**
+     * Remove when parent-indexed file requests are completely rolled out.
+     */
+    _getImageFromCommit: function(project, commit, path) {
+      return this.getCommitInfo(project, commit).then(function(info) {
+        if (info.parents.length !== 1) {
+          return Promise.reject('Change commit has multiple parents.');
+        }
+        var parent = info.parents[0].commit;
+        return this.getCommitFileContents(project, parent, path);
+      }.bind(this));
     },
 
     setChangeTopic: function(changeNum, topic) {

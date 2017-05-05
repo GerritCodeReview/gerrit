@@ -22,8 +22,8 @@
     this._el.setLabelValue(label, value);
   };
 
-  GrChangeReplyInterface.prototype.send = function() {
-    return this._el.send();
+  GrChangeReplyInterface.prototype.send = function(opt_includeComments) {
+    return this._el.send(opt_includeComments);
   };
 
   window.GrChangeReplyInterface = GrChangeReplyInterface;

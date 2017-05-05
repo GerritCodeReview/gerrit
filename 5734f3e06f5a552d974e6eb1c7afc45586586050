@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7c3b450f_10a8f2f6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T18:33:54Z",
+      "side": 1,
+      "message": "We are not 100% consistent in PolyGerrit, but class names should be camel-cased\n\n dueToRebase",
+      "range": {
+        "startLine": 33,
+        "startChar": 31,
+        "endLine": 33,
+        "endChar": 44
+      },
+      "revId": "5734f3e06f5a552d974e6eb1c7afc45586586050",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d31cd232_143623b1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
         "patchSetId": 1
@@ -13,6 +36,30 @@
       "writtenOn": "2017-05-05T16:02:44Z",
       "side": 1,
       "message": "This works fine for sections like\n\n {\n   \"a\": [\n     \"Line 10\"\n   ],\n   \"b\": [\n     \"Line ten\"\n   ],\n   \"due_to_rebase\": true\n }\n\nbut it fails for\n\n {\n   \"a\": [\n     \"Line 17\"\n   ],\n   \"due_to_rebase\": true\n }\n\nAny ideas what\u0027s wrong?",
+      "range": {
+        "startLine": 184,
+        "startChar": 6,
+        "endLine": 184,
+        "endChar": 58
+      },
+      "revId": "5734f3e06f5a552d974e6eb1c7afc45586586050",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ebcc4f7_65f870a8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-05T18:33:54Z",
+      "side": 1,
+      "message": "What do you mean by \"it fails\"? Do you mean that the value of `dueToRebase` is false when it should be true?",
+      "parentUuid": "d31cd232_143623b1",
       "range": {
         "startLine": 184,
         "startChar": 6,

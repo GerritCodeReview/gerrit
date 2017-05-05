@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7850cd2c_bcb91ecf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 51
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-05T21:04:21Z",
+      "side": 1,
+      "message": "While we\u0027re at it, let\u0027s declare these constants up by all of the other constants, as opposed to in this function.",
+      "range": {
+        "startLine": 488,
+        "startChar": 6,
+        "endLine": 489,
+        "endChar": 44
+      },
+      "revId": "3dd8333662c0988aed79799512d7dd1fd987a347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6222b4c9_0456e5ec",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 51

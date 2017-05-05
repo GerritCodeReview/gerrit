@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2787ba5_0358ee4d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-05T09:12:52Z",
+      "side": 1,
+      "message": "nit: remove this? the names of your tests are very descriptive so an addition comment would not be required",
+      "range": {
+        "startLine": 441,
+        "startChar": 0,
+        "endLine": 442,
+        "endChar": 53
+      },
+      "revId": "8af473ef514c336d3f04e6a3fda17116c3f228cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ca14540_63a6d627",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-05T09:12:52Z",
+      "side": 1,
+      "message": "(optional) splitting this test up and being more precise in the test names would make it clearer what the intended behavior is. for instance:\n\n  public void abandonAndRestoreChangeInReviewNotifiesReviewStartedWatchers()\n  public void abandonWipChangeNotifiesReviewStartedWatchersInNoteDb()\n  public void abandonWipChangeDoesNotNotifyReviewStartedWatchersInReviewDb()\n  public void restoreWipChangeNotifiesReviewStartedWatchersInNoteDb()\n  public void restoreWipChangeDoesNotNotifyReviewStartedWatchersInReviewDb()\n\nif one of these tests fail, one could tell right away what went wrong",
+      "range": {
+        "startLine": 470,
+        "startChar": 31,
+        "endLine": 470,
+        "endChar": 40
+      },
+      "revId": "8af473ef514c336d3f04e6a3fda17116c3f228cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

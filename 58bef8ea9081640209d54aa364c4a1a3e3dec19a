@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2f1c32d_015c833a",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-05T17:04:24Z",
+      "side": 1,
+      "message": "Adding it as a dep in polygerrit-ui/BUILD did the trick. I guess those directions assumed you already wrote the code that uses the new dep before adding it, which doesn\u0027t make much sense.\n\nI\u0027ll publish a separate change updating those docs. I\u0027m fairly certain we\u0027re the first two people to touch this code besides the original author, FWIW.",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 25,
+        "endChar": 33
+      },
+      "revId": "58bef8ea9081640209d54aa364c4a1a3e3dec19a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

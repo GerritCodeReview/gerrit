@@ -354,10 +354,6 @@
       return _reviewed.indexOf(file.__path) !== -1;
     },
 
-    _handleReviewedChange: function(e) {
-      this._reviewFile(Polymer.dom(e).rootTarget.getAttribute('data-path'));
-    },
-
     _reviewFile: function(path) {
       var index = this._reviewed.indexOf(path);
       var reviewed = index !== -1;
@@ -399,24 +395,37 @@
      * have to get registered for potentially very long lists.
      */
     _handleFileListTap: function(e) {
+      var row = e.target;
+      while (!row.classList.contains('row') && row.parentElement) {
+        row = row.parentElement;
+      }
+      var path = row.dataset.path;
+
       // Handle checkbox mark as reviewed.
       if (e.target.classList.contains('reviewed')) {
-        return this._handleReviewedChange(e);
+        return this._reviewFile(path);
       }
-
-      // Check to see if the file should be expanded.
-      var path = e.target.dataset.path || e.target.parentElement.dataset.path;
 
       // If the user prefers to expand inline diffs rather than opening the diff
       // view, intercept the click event.
       if (!path || e.detail.sourceEvent.metaKey ||
           e.detail.sourceEvent.ctrlKey) {
-          return;
+        return;
       }
+
       if (e.target.dataset.expand ||
           this._userPrefs && this._userPrefs.expand_inline_diffs) {
         e.preventDefault();
         this._togglePathExpanded(path);
+        return;
+      }
+
+      // If we clicked the row but not the link, then simulate a click on the
+      // anchor.
+      if (e.target.classList.contains('path') ||
+          e.target.classList.contains('oldPath')) {
+        var a = row.querySelector('a');
+        if (a) { a.click(); }
       }
     },
 

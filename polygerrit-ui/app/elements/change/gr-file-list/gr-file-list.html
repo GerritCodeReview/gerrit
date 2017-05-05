@@ -72,6 +72,7 @@ limitations under the License.
         background-color: #ebf5fb;
       }
       .path {
+        cursor: pointer;
         flex: 1;
         padding-left: .35em;
         text-decoration: none;
@@ -241,10 +242,9 @@ limitations under the License.
           as="file"
           initial-count="[[_fileListIncrement]]"
           target-framerate="1">
-        <div class="file-row row">
+        <div class="file-row row" data-path$="[[file.__path]]">
           <div class="reviewed" hidden$="[[!_loggedIn]]" hidden>
             <input type="checkbox" checked="[[file.isReviewed]]"
-                data-path$="[[file.__path]]"
                 class="reviewed" aria-label="Reviewed checkbox">
           </div>
           <div class$="[[_computeClass('status', file.__path)]]"
@@ -252,22 +252,23 @@ limitations under the License.
               aria-label$="[[_computeFileStatusLabel(file.status)]]">
             [[_computeFileStatus(file.status)]]
           </div>
-          <a class$="[[_computePathClass(file.__path, _expandedFilePaths.*)]]"
-              href$="[[_computeDiffURL(changeNum, patchRange, file.__path)]]"
-              data-path$="[[file.__path]]">
-            <div title$="[[_computeFileDisplayName(file.__path)]]"
-                class="fullFileName">
-              [[_computeFileDisplayName(file.__path)]]
-            </div>
-            <div title$="[[_computeFileDisplayName(file.__path)]]"
-                class="truncatedFileName">
-              [[_computeTruncatedFileDisplayName(file.__path)]]
-            </div>
+          <span class$="[[_computePathClass(file.__path, _expandedFilePaths.*)]]"
+              data-url="[[_computeDiffURL(changeNum, patchRange, file.__path)]]">
+            <a href$="[[_computeDiffURL(changeNum, patchRange, file.__path)]]">
+              <span title$="[[_computeFileDisplayName(file.__path)]]"
+                  class="fullFileName">
+                [[_computeFileDisplayName(file.__path)]]
+              </span>
+              <span title$="[[_computeFileDisplayName(file.__path)]]"
+                  class="truncatedFileName">
+                [[_computeTruncatedFileDisplayName(file.__path)]]
+              </span>
+            </a>
             <div class="oldPath" hidden$="[[!file.old_path]]" hidden
                 title$="[[file.old_path]]">
               [[file.old_path]]
             </div>
-          </a>
+          </span>
           <div class="comments desktop">
             <span class="drafts">
               [[_computeDraftsString(drafts, patchRange.patchNum, file.__path)]]

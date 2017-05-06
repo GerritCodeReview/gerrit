@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78bbe82f_956e80ae",
+        "filename": "tools/bazel.rc",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-06T07:51:17Z",
+      "side": 0,
+      "message": "Bad rebase? This is still removed.",
+      "range": {
+        "startLine": 1,
+        "startChar": 61,
+        "endLine": 1,
+        "endChar": 86
+      },
+      "revId": "55793e8269e206caa0866d149c0585f564ced1a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

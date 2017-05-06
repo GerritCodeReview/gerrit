@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "fff8fc21_b9b1996e",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-06T08:19:57Z",
+      "side": 0,
+      "message": "Note for the reviewers: this is removed, because language defaults to ES6 now:\n\n  WARNING closure_js_library.bzl:38:5:\n  The closure_js_library \u0027language\u0027 attribute is now removed\n  and is always set to ECMASCRIPT6_STRICT.",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 29
+      },
+      "revId": "55793e8269e206caa0866d149c0585f564ced1a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78bbe82f_956e80ae",
         "filename": "tools/bazel.rc",
         "patchSetId": 6

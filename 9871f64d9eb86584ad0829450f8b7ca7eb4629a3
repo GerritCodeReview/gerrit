@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc7278ab_1c3d6e09",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-07T23:08:55Z",
+      "side": 1,
+      "message": "This block is repeated for each type.  It could be factored out to a utility method.",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 9
+      },
+      "revId": "9871f64d9eb86584ad0829450f8b7ca7eb4629a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "180e4c92_6bbc6e33",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-07T23:08:55Z",
+      "side": 1,
+      "message": "nit: add space after \u0027catch\u0027",
+      "range": {
+        "startLine": 163,
+        "startChar": 12,
+        "endLine": 163,
+        "endChar": 17
+      },
+      "revId": "9871f64d9eb86584ad0829450f8b7ca7eb4629a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05826b53_21bdaec7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-07T23:08:55Z",
+      "side": 1,
+      "message": "just \u0027as\u0027 or \u0027since\u0027",
+      "range": {
+        "startLine": 164,
+        "startChar": 24,
+        "endLine": 164,
+        "endChar": 32
+      },
+      "revId": "9871f64d9eb86584ad0829450f8b7ca7eb4629a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5d54575_aa6b06ea",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-07T23:08:55Z",
+      "side": 1,
+      "message": "won\u0027t",
+      "range": {
+        "startLine": 164,
+        "startChar": 45,
+        "endLine": 164,
+        "endChar": 49
+      },
+      "revId": "9871f64d9eb86584ad0829450f8b7ca7eb4629a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

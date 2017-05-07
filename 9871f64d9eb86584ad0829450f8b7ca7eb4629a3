@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "72a79e30_5bfa265b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-07T23:47:09Z",
+      "side": 1,
+      "message": "How would i do a utility method?",
+      "parentUuid": "bc7278ab_1c3d6e09",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 9
+      },
+      "revId": "9871f64d9eb86584ad0829450f8b7ca7eb4629a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "180e4c92_6bbc6e33",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-07T23:08:55Z",
       "side": 1,
       "message": "nit: add space after \u0027catch\u0027",
+      "range": {
+        "startLine": 163,
+        "startChar": 12,
+        "endLine": 163,
+        "endChar": 17
+      },
+      "revId": "9871f64d9eb86584ad0829450f8b7ca7eb4629a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8fd937_5da39791",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-07T23:47:09Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "180e4c92_6bbc6e33",
       "range": {
         "startLine": 163,
         "startChar": 12,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "56b7e9c1_23830727",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-07T23:47:09Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c5d54575_aa6b06ea",
+      "range": {
+        "startLine": 164,
+        "startChar": 45,
+        "endLine": 164,
+        "endChar": 49
+      },
+      "revId": "9871f64d9eb86584ad0829450f8b7ca7eb4629a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dabce43_e8aad5a1",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/HostKeyProvider.java",
         "patchSetId": 5
@@ -105,6 +177,30 @@
       "writtenOn": "2017-05-07T23:41:49Z",
       "side": 1,
       "message": "increase to 4",
+      "range": {
+        "startLine": 47,
+        "startChar": 47,
+        "endLine": 47,
+        "endChar": 48
+      },
+      "revId": "9871f64d9eb86584ad0829450f8b7ca7eb4629a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a705de84_d5231202",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/HostKeyProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-07T23:47:09Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7dabce43_e8aad5a1",
       "range": {
         "startLine": 47,
         "startChar": 47,

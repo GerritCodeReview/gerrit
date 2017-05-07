@@ -81,7 +81,11 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
   }
 
   private static Set<PublicKey> myHostKeys(KeyPairProvider p) {
-    final Set<PublicKey> keys = new HashSet<>(2);
+    final Set<PublicKey> keys = new HashSet<>(6);
+    addPublicKey(keys, p, KeyPairProvider.SSH_ED25519);
+    addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP256);
+    addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP384);
+    addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP521);
     addPublicKey(keys, p, KeyPairProvider.SSH_RSA);
     addPublicKey(keys, p, KeyPairProvider.SSH_DSS);
     return keys;

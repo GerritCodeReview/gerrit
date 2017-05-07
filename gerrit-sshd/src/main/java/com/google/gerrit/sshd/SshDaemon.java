@@ -414,7 +414,11 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   private List<PublicKey> myHostKeys() {
     final KeyPairProvider p = getKeyPairProvider();
-    final List<PublicKey> keys = new ArrayList<>(2);
+    final List<PublicKey> keys = new ArrayList<>(6);
+    addPublicKey(keys, p, KeyPairProvider.SSH_ED25519);
+    addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP256);
+    addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP384);
+    addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP521);
     addPublicKey(keys, p, KeyPairProvider.SSH_RSA);
     addPublicKey(keys, p, KeyPairProvider.SSH_DSS);
     return keys;

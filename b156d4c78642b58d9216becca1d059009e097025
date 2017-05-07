@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed5885f8_65d945cf",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-07T23:09:55Z",
+      "side": 1,
+      "message": "this should be increased to 6.",
+      "range": {
+        "startLine": 84,
+        "startChar": 46,
+        "endLine": 84,
+        "endChar": 47
+      },
+      "revId": "b156d4c78642b58d9216becca1d059009e097025",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

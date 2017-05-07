@@ -2067,12 +2067,15 @@ The content is returned as base64 encoded string.
 'POST /projects/link:#project-name[\{project-name\}]/commits/link:#commit-id[\{commit-id\}]/cherrypick'
 --
 
-Cherry-picks a commit of a project to a destination branch.
+Cherry-picks a commit of a project to a destination branch or change.
 
-The destination branch must be provided in the request body inside a
+The destination must be provided in the request body inside a
 link:rest-api-changes.html#cherrypick-input[CherryPickInput] entity.
 If the commit message is not set, the commit message of the source
 commit will be used.
+
+Note that to be specified as the cherry-pick destination, a change has to be
+open and visible to the user.
 
 .Request
 ----

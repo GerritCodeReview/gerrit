@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -23,7 +24,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -48,32 +48,41 @@ public class CherryPick
   private final Provider<ReviewDb> dbProvider;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
+  private final CherryPickUtil cherryPickUtil;
 
   @Inject
   CherryPick(
       RetryHelper retryHelper,
       Provider<ReviewDb> dbProvider,
       CherryPickChange cherryPickChange,
-      ChangeJson.Factory json) {
+      ChangeJson.Factory json,
+      CherryPickUtil cherryPickUtil) {
     super(retryHelper);
     this.dbProvider = dbProvider;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
+    this.cherryPickUtil = cherryPickUtil;
   }
 
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource revision, CherryPickInput input)
       throws OrmException, IOException, UpdateException, RestApiException {
-    final ChangeControl control = revision.getControl();
-    int parent = input.parent == null ? 1 : input.parent;
+    if (input == null) {
+      input = new CherryPickInput();
+    }
 
-    if (input.message == null || input.message.trim().isEmpty()) {
+    String message = Strings.nullToEmpty(input.message).trim();
+    if (message.isEmpty()) {
       throw new BadRequestException("message must be non-empty");
-    } else if (input.destination == null || input.destination.trim().isEmpty()) {
+    }
+
+    String destination = Strings.nullToEmpty(input.destination).trim();
+    if (destination.isEmpty()) {
       throw new BadRequestException("destination must be non-empty");
     }
 
+    ChangeControl control = revision.getControl();
     if (!control.isVisible(dbProvider.get())) {
       throw new AuthException("Cherry pick not permitted");
     }
@@ -84,26 +93,22 @@ public class CherryPick
       throw new AuthException(capable.getMessage());
     }
 
-    String refName = RefNames.fullName(input.destination);
-    RefControl refControl = projectControl.controlForRef(refName);
+    CherryPickDestination dest = cherryPickUtil.parseDestination(projectControl, destination);
+    RefControl refControl = projectControl.controlForRef(dest.targetRef());
     if (!refControl.canUpload()) {
       throw new AuthException(
           "Not allowed to cherry pick "
               + revision.getChange().getId().toString()
               + " to "
-              + input.destination);
+              + destination);
     }
 
+    int parent = input.parent == null ? 1 : input.parent;
     try {
       Change.Id cherryPickedChangeId =
           // TODO(dborowitz): Pass updateFactory here.
           cherryPickChange.cherryPick(
-              revision.getChange(),
-              revision.getPatchSet(),
-              input.message,
-              refName,
-              refControl,
-              parent);
+              revision.getChange(), revision.getPatchSet(), message, projectControl, dest, parent);
       return json.noOptions().format(revision.getProject(), cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());

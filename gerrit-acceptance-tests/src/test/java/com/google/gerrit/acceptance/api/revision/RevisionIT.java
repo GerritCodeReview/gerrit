@@ -70,6 +70,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.change.GetRevisionActions;
@@ -89,6 +90,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -620,6 +623,106 @@ public class RevisionIT extends AbstractDaemonTest {
     exception.expectMessage(
         "Cherry Pick: Parent 3 does not exist. Please specify a parent in range [1, 2].");
     gApi.changes().id(mergeChangeResult.getChangeId()).current().cherryPick(cherryPickInput);
+  }
+
+  @Test
+  public void cherryPickToNonExistingChangeCanNotBeApplied() throws Exception {
+    PushOneCommit.Result result = createChange();
+    result.assertOkStatus();
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = "100";
+    input.message = "cherry pick";
+    exception.expect(ResourceNotFoundException.class);
+    exception.expectMessage("change 100 not found");
+    gApi.changes().id(result.getChangeId()).current().cherryPick(input);
+  }
+
+  @Test
+  public void cherryPickToNonVisibleChangeCannotBeApplied() throws Exception {
+    cherryPickToChange("private");
+  }
+
+  @Test
+  public void cherryPickToNonOpenChangeCannotBeApplied() throws Exception {
+    cherryPickToChange("abandon");
+  }
+
+  @Test
+  public void cherryPickToChangeCanBeApplied() throws Exception {
+    cherryPickToChange("new");
+  }
+
+  public void cherryPickToChange(String destChangeStatus) throws Exception {
+    // Create a change on "master" branch.
+    PushOneCommit.Result result1 =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, "s1", "a.txt", "a")
+            .to("refs/for/master%topic=topic1");
+    result1.assertOkStatus();
+    String changeId1 = result1.getChangeId();
+
+    // Create a change on "foo" branch.
+    createBranch(new NameKey(project, "foo"));
+    TestRepository<InMemoryRepository> userTestRepo = cloneProject(project, user);
+    PushOneCommit.Result result2 =
+        pushFactory
+            .create(db, user.getIdent(), userTestRepo, "s2", "b.txt", "b")
+            .to("refs/for/foo");
+    result2.assertOkStatus();
+    String destRevision =
+        amendChange(result2.getChangeId(), "refs/for/foo", user, userTestRepo, "s3", "c.txt", "c")
+            .getCommit()
+            .name();
+    int changeNum = result2.getChange().change().getChangeId();
+
+    // Cherry-pick change1's current patch set (ps1) to change2.
+    CherryPickInput input = new CherryPickInput();
+    input.destination = String.valueOf(changeNum);
+    input.message = "cherry pick to change 2";
+
+    if (destChangeStatus.equals("private")) {
+      setApiUser(user);
+      gApi.changes().id(changeNum).setPrivate(true);
+
+      setApiUser(admin);
+      exception.expect(AuthException.class);
+      exception.expectMessage(String.format("change %s is not accessible", changeNum));
+      gApi.changes().id(changeId1).current().cherryPick(input);
+    } else if (destChangeStatus.equals("abandon")) {
+      gApi.changes().id(changeNum).abandon();
+
+      exception.expect(ResourceConflictException.class);
+      exception.expectMessage(String.format("change %s is not open", changeNum));
+      gApi.changes().id(changeId1).current().cherryPick(input);
+    }
+
+    // Cherry-pick and get the newly created change.
+    ChangeInfo changeInfo = gApi.changes().id(changeId1).current().cherryPick(input).get();
+
+    assertThat(changeInfo.subject).contains(input.message);
+    assertThat(changeInfo.topic).isEqualTo("topic1-foo");
+
+    // The newly created change should have the current patch set (ps2) of change2 as its parent.
+    assertThat(changeInfo.revisions.keySet()).containsExactly(changeInfo.currentRevision);
+    RevisionInfo revisionInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    assertThat(revisionInfo.commit.parents).hasSize(1);
+    assertThat(revisionInfo.commit.parents.get(0).commit).isEqualTo(destRevision);
+
+    // The newly created change should have a change message posted.
+    assertThat(changeInfo.messages).hasSize(1);
+    assertThat(changeInfo.messages.iterator().next().message)
+        .isEqualTo("Patch Set 1: Cherry Picked from branch master.");
+
+    // The cherry-picked change should get a new change message posted.
+    List<ChangeMessageInfo> messages = new ArrayList<>(gApi.changes().id(changeId1).get().messages);
+    assertThat(messages).hasSize(2);
+    String expectedMessage =
+        String.format(
+            "Patch Set 1: Cherry Picked\n\n"
+                + "This patchset was cherry picked to branch %s as commit %s",
+            "foo", changeInfo.currentRevision);
+    assertThat(messages.get(1).message).isEqualTo(expectedMessage);
   }
 
   @Test

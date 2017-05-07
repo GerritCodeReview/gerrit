@@ -5012,11 +5012,14 @@ Deletes the reviewed flag of the calling user from a file of a revision.
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/cherrypick'
 --
 
-Cherry picks a revision to a destination branch.
+Cherry picks a revision to a destination branch or change.
 
-The commit message and destination branch must be provided in the request body inside a
-link:#cherrypick-input[CherryPickInput] entity.  If the commit message
-does not specify a Change-Id, a new one is picked for the destination change.
+The commit message and destination must be provided in the request body inside a
+link:#cherrypick-input[CherryPickInput] entity. If the commit message does not
+specify a Change-Id, a new one is picked for the new change.
+
+Note that to be specified as the cherry-pick destination, a change has to be
+open and visible to the user.
 
 .Request
 ----
@@ -5593,13 +5596,15 @@ Which patchset (if any) generated this message.
 
 [[cherrypick-input]]
 === CherryPickInput
-The `CherryPickInput` entity contains information for cherry-picking a change to a new branch.
+The `CherryPickInput` entity contains information for cherry-picking
+a revision to a branch or a change.
 
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name         ||Description
 |`message`          ||Commit message for the cherry-picked change
-|`destination`      ||Destination branch
+|`destination`      ||Cherry-pick destination, which can be a branch or a change number.
+If it's a change number, then the current patch set of that change is inferred.
 |`parent`           |optional, defaults to 1|
 Number of the parent relative to which the cherry-pick should be considered.
 |===========================

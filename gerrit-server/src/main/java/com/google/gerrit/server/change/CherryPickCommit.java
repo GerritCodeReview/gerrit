@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -43,16 +42,22 @@ public class CherryPickCommit implements RestModifyView<CommitResource, CherryPi
 
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
+  private final CherryPickUtil cherryPickUtil;
 
   @Inject
-  CherryPickCommit(CherryPickChange cherryPickChange, ChangeJson.Factory json) {
+  CherryPickCommit(
+      CherryPickChange cherryPickChange, ChangeJson.Factory json, CherryPickUtil cherryPickUtil) {
     this.cherryPickChange = cherryPickChange;
     this.json = json;
+    this.cherryPickUtil = cherryPickUtil;
   }
 
   @Override
   public ChangeInfo apply(CommitResource rsrc, CherryPickInput input)
       throws OrmException, IOException, UpdateException, RestApiException {
+    if (input == null) {
+      input = new CherryPickInput();
+    }
     String message = Strings.nullToEmpty(input.message).trim();
     String destination = Strings.nullToEmpty(input.destination).trim();
     int parent = input.parent == null ? 1 : input.parent;
@@ -68,8 +73,8 @@ public class CherryPickCommit implements RestModifyView<CommitResource, CherryPi
     }
 
     RevCommit commit = rsrc.getCommit();
-    String refName = RefNames.fullName(destination);
-    RefControl refControl = projectControl.controlForRef(refName);
+    CherryPickDestination dest = cherryPickUtil.parseDestination(projectControl, destination);
+    RefControl refControl = projectControl.controlForRef(dest.targetRef());
     if (!refControl.canUpload()) {
       throw new AuthException("Not allowed to cherry pick " + commit + " to " + destination);
     }
@@ -82,11 +87,10 @@ public class CherryPickCommit implements RestModifyView<CommitResource, CherryPi
               null,
               null,
               null,
-              project,
               commit,
               message.isEmpty() ? commit.getFullMessage() : message,
-              refName,
-              refControl,
+              projectControl,
+              dest,
               parent);
       return json.noOptions().format(project, cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {

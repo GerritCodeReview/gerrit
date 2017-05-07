@@ -49,6 +49,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeAlreadyMergedException;
@@ -381,6 +382,43 @@ public class CreateChangeIT extends AbstractDaemonTest {
     RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
     assertThat(revInfo).isNotNull();
     assertThat(revInfo.commit.message).isEqualTo(input.message + "\n");
+  }
+
+  @Test
+  public void cherryPickCommitToChangeWithoutChangeId() throws Exception {
+    createBranch(new NameKey(project, "foo"));
+
+    // Create the cherry-pick destination change.
+    PushOneCommit.Result result = createChange("refs/for/foo", "b.txt", "b");
+    String destRevision =
+        amendChange(result.getChangeId(), "subject", "c.txt", "c").getCommit().name();
+    int destChangeNum = result.getChange().change().getChangeId();
+
+    // Create the cherry-picked commit.
+    RevCommit revCommit = createNewCommitWithoutChangeId();
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = String.valueOf(destChangeNum);
+    input.message = revCommit.getFullMessage();
+    // Cherry-pick and get the newly created change.
+    ChangeInfo changeInfo =
+        gApi.projects().name(project.get()).commit(revCommit.getName()).cherryPick(input).get();
+
+    assertThat(changeInfo.subject).contains(input.message);
+
+    // The newly created change should have the current patch set of the destination change as its
+    // parent.
+    assertThat(changeInfo.revisions.keySet()).containsExactly(changeInfo.currentRevision);
+    RevisionInfo revisionInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    assertThat(revisionInfo.commit.message)
+        .isEqualTo(input.message + "\n\nChange-Id: " + changeInfo.changeId + "\n");
+    assertThat(revisionInfo.commit.parents).hasSize(1);
+    assertThat(revisionInfo.commit.parents.get(0).commit).isEqualTo(destRevision);
+
+    assertThat(changeInfo.messages).hasSize(1);
+    String expectedMessage =
+        String.format("Patch Set 1: Cherry Picked from commit %s.", revCommit.getName());
+    assertThat(changeInfo.messages.iterator().next().message).isEqualTo(expectedMessage);
   }
 
   private RevCommit createNewCommitWithoutChangeId() throws Exception {

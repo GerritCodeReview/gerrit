@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "586f59d1_325e6753",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-07T23:10:35Z",
+      "side": 1,
+      "message": "this should be increased to 6.",
+      "range": {
+        "startLine": 417,
+        "startChar": 49,
+        "endLine": 417,
+        "endChar": 50
+      },
+      "revId": "256f6fb7ee8e46491bb7c1b0d4df2daf5500ed11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

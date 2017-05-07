@@ -91,6 +91,29 @@
       "revId": "9871f64d9eb86584ad0829450f8b7ca7eb4629a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7dabce43_e8aad5a1",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/HostKeyProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-07T23:41:49Z",
+      "side": 1,
+      "message": "increase to 4",
+      "range": {
+        "startLine": 47,
+        "startChar": 47,
+        "endLine": 47,
+        "endChar": 48
+      },
+      "revId": "9871f64d9eb86584ad0829450f8b7ca7eb4629a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

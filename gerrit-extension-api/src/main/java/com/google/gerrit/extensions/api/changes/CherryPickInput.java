@@ -14,8 +14,15 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.common.base.Strings;
+
 public class CherryPickInput {
   public String message;
   public String destination;
   public Integer parent;
+
+  public void normalize() {
+    message = Strings.nullToEmpty(message).trim();
+    destination = Strings.nullToEmpty(destination).trim();
+  }
 }

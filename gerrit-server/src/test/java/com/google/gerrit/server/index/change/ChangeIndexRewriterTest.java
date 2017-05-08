@@ -29,7 +29,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.QueryOptions;
-import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndChangeSource;
@@ -196,9 +195,10 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
     assertThat(rewrite(in)).isEqualTo(query(in));
 
     indexes.setSearchIndex(new FakeChangeIndex(FakeChangeIndex.V1));
-    Predicate<ChangeData> out = rewrite(in);
-    assertThat(out).isInstanceOf(AndPredicate.class);
-    assertThat(out.getChildren()).containsExactly(query(in.getChild(0)), in.getChild(1)).inOrder();
+
+    exception.expect(QueryParseException.class);
+    exception.expectMessage("Unsupported index predicate: file:a");
+    rewrite(in);
   }
 
   @Test

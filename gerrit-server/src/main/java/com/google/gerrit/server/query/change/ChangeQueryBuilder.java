@@ -886,9 +886,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return new HasDraftByPredicate(who);
   }
 
+  private boolean isSelf(String who) {
+    return "self".equals(who) || "me".equals(who);
+  }
+
   @Operator
   public Predicate<ChangeData> visibleto(String who) throws QueryParseException, OrmException {
-    if ("self".equals(who)) {
+    if (isSelf(who)) {
       return is_visible();
     }
     Set<Account.Id> m = args.accountResolver.findAll(args.db.get(), who);
@@ -1185,7 +1189,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   private Set<Account.Id> parseAccount(String who) throws QueryParseException, OrmException {
-    if ("self".equals(who)) {
+    if (isSelf(who)) {
       return Collections.singleton(self());
     }
     Set<Account.Id> matches = args.accountResolver.findAll(args.db.get(), who);

@@ -124,7 +124,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   @Override
   protected Predicate<AccountState> defaultField(String query) {
     Predicate<AccountState> defaultPredicate = AccountPredicates.defaultPredicate(query);
-    if ("self".equalsIgnoreCase(query)) {
+    if ("self".equalsIgnoreCase(query) || "me".equalsIgnoreCase(query)) {
       try {
         return Predicate.or(defaultPredicate, AccountPredicates.id(self()));
       } catch (QueryParseException e) {

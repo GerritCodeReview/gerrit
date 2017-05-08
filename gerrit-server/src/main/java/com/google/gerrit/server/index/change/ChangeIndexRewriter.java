@@ -20,10 +20,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
+import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.IndexRewriter;
 import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.LimitPredicate;
 import com.google.gerrit.server.query.NotPredicate;
@@ -226,7 +228,10 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       return false;
     }
     IndexPredicate<ChangeData> p = (IndexPredicate<ChangeData>) in;
-    return index.getSchema().hasField(p.getField());
+
+    FieldDef def = p.getField();
+    Schema schema = index.getSchema();
+    return schema.hasField(def);
   }
 
   private Predicate<ChangeData> partitionChildren(

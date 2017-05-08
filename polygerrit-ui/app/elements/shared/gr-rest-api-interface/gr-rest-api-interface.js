@@ -339,6 +339,18 @@
       });
     },
 
+    getIsAdmin() {
+      return this.getLoggedIn().then(isLoggedIn => {
+        if (isLoggedIn) {
+          return this.getAccountCapabilities();
+        } else {
+          return Promise.resolve();
+        }
+      }).then(capabilities => {
+        return capabilities && capabilities.administrateServer;
+      });
+    },
+
     checkCredentials() {
       // Skip the REST response cache.
       return this.fetchJSON('/accounts/self/detail');
@@ -1112,6 +1124,15 @@
     startReview(changeNum, review) {
       return this.send(
           'POST', this.getChangeActionURL(changeNum, null, '/ready'), review);
+    },
+
+    deleteComment: function(changeNum, patchNum, commentID, reason) {
+      var url = this._changeBaseURL(changeNum, patchNum) +
+          '/comments/' + commentID + '/delete';
+      return this.send('POST', url, {reason: reason}).then(
+        function(response) {
+          return this.getResponseObject(response);
+        }.bind(this));
     },
   });
 })();

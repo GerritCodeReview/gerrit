@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "71370445_ee0d5c1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T18:31:09Z",
+      "side": 1,
+      "message": "Nit: Capitalize. Let\u0027s just refer to the project as PolyGerrit, for simplicity\u0027s sake.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "61daf7f629fd842d2e4fe4fc85361f4a2d1b74a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04ce25d6_59b2ee77",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T18:31:09Z",
+      "side": 1,
+      "message": "Nice. I\u0027d like to file a tracking bug to update this version once your project comes out of beta, is that possible?",
+      "range": {
+        "startLine": 1116,
+        "startChar": 0,
+        "endLine": 1121,
+        "endChar": 1
+      },
+      "revId": "61daf7f629fd842d2e4fe4fc85361f4a2d1b74a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a6be764_169fa30d",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 1
@@ -13,6 +59,30 @@
       "writtenOn": "2017-05-08T18:21:12Z",
       "side": 1,
       "message": "There are a lot of incidental version bumps.  Should I undo?",
+      "range": {
+        "startLine": 29,
+        "startChar": 12,
+        "endLine": 29,
+        "endChar": 52
+      },
+      "revId": "61daf7f629fd842d2e4fe4fc85361f4a2d1b74a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fbd940d_4d3e9cba",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T18:31:09Z",
+      "side": 1,
+      "message": "Yeah, I think it\u0027s smart to checkout from master for this file. bower2bazel.py seems to update versions where possible, but we should do that in a separate change if it\u0027s something we want to pursue.",
+      "parentUuid": "2a6be764_169fa30d",
       "range": {
         "startLine": 29,
         "startChar": 12,
@@ -48,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "6ee555be_d28ad087",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T18:31:09Z",
+      "side": 1,
+      "message": "What tests will it break? Does that signify a problem with our testing, or with this library?",
+      "parentUuid": "2ea5ebb8_2697c914",
+      "range": {
+        "startLine": 32,
+        "startChar": 26,
+        "endLine": 32,
+        "endChar": 42
+      },
+      "revId": "61daf7f629fd842d2e4fe4fc85361f4a2d1b74a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7779b226_91fcd8c2",
         "filename": "polygerrit-ui/app/index.html",
         "patchSetId": 1
@@ -59,6 +153,30 @@
       "writtenOn": "2017-05-08T18:21:12Z",
       "side": 1,
       "message": "This allows any identifier through since there are dynamic IDs that do not start with any identifiable prefix like `gr-`.  `Changes` shows up in the log without this.",
+      "range": {
+        "startLine": 33,
+        "startChar": 30,
+        "endLine": 33,
+        "endChar": 31
+      },
+      "revId": "61daf7f629fd842d2e4fe4fc85361f4a2d1b74a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec6bcb46_bba97ad4",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T18:31:09Z",
+      "side": 1,
+      "message": "What does that mean for our project and security? This is not an area I know a whole lot about, would appreciate some context.",
+      "parentUuid": "7779b226_91fcd8c2",
       "range": {
         "startLine": 33,
         "startChar": 30,

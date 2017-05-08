@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "6f473c68_1fc5afcd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-08T22:54:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7a68f3f_b5101cdb",
+      "revId": "5c33b69d0e16f2736d480c0d55c8a9aacc4ab9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da5be89f_2b8f4c1e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 2
@@ -118,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "b05a428c_70add30d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-08T22:54:38Z",
+      "side": 1,
+      "message": "\u003e This resolves the promise with `undefined`, which it looks like is the reason for the capabilities falsy-check in the chained `.then` below.\n\nYes.\nFirst step in chain gets capabilities, which may be undefined.\nSecond step receives capabilities and checks for admin ones.\n\nI\u0027m not feeling strongly about this implementation or your one, and will update if current one seems confusing.",
+      "parentUuid": "f7e2a770_de40dcc0",
+      "range": {
+        "startLine": 350,
+        "startChar": 10,
+        "endLine": 350,
+        "endChar": 35
+      },
+      "revId": "5c33b69d0e16f2736d480c0d55c8a9aacc4ab9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91ad5821_ddd85a60",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 2
@@ -138,6 +180,30 @@
       "revId": "5c33b69d0e16f2736d480c0d55c8a9aacc4ab9ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ef46a75_789be016",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-08T22:54:38Z",
+      "side": 1,
+      "message": "I\u0027ve used arrow function here because this file uses arrow functions.",
+      "parentUuid": "91ad5821_ddd85a60",
+      "range": {
+        "startLine": 617,
+        "startChar": 26,
+        "endLine": 617,
+        "endChar": 33
+      },
+      "revId": "5c33b69d0e16f2736d480c0d55c8a9aacc4ab9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

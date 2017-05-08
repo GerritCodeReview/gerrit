@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "36cbdded_803e5fa7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-08T12:06:36Z",
+      "side": 1,
+      "message": "We may also want to split this so that if we accidentally delete one of the key host files, they can be regenerated. Though that could be done in a separate change.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 4
+      },
+      "revId": "2d02ea04cccb9a10a65fc953e3da6a0bfffee680",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ab2ab53_33736ef7",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
         "patchSetId": 2

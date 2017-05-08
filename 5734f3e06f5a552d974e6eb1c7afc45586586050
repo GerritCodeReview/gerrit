@@ -117,6 +117,30 @@
       "revId": "5734f3e06f5a552d974e6eb1c7afc45586586050",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c58c6dbf_58b123bc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-08T18:15:09Z",
+      "side": 1,
+      "message": "I\u0027ll see if I can reproduce what you\u0027re describing. But in the meantime...\n\n\u003e Is there a way I can debug PolyGerrit\u0027s code to track down the cause?\n\n... do the Chrome DevTools work for you in this case? It includes a the JS debugger we typically use.",
+      "parentUuid": "be601eec_c44b2ee2",
+      "range": {
+        "startLine": 184,
+        "startChar": 6,
+        "endLine": 184,
+        "endChar": 58
+      },
+      "revId": "5734f3e06f5a552d974e6eb1c7afc45586586050",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

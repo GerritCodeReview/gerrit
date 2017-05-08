@@ -46,6 +46,10 @@
       _actionCallback: Function,
     },
 
+    behaviors: [
+      Gerrit.BaseElementBehavior,
+    ],
+
     attached: function() {
       this.addEventListener('transitionend', this._boundTransitionEndHandler);
     },
@@ -60,14 +64,14 @@
       this.actionText = opt_actionText;
       this._hideActionButton = !opt_actionText;
       this._actionCallback = opt_actionCallback;
-      document.body.appendChild(this);
+      this.getBaseElement().appendChild(this);
       this._setShown(true);
     },
 
     hide: function() {
       this._setShown(false);
       if (this._hasZeroTransitionDuration()) {
-        document.body.removeChild(this);
+        this.getBaseElement().removeChild(this);
       }
     },
 
@@ -81,7 +85,7 @@
     _handleTransitionEnd: function(e) {
       if (this.shown) { return; }
 
-      document.body.removeChild(this);
+      this.getBaseElement().removeChild(this);
     },
 
     _handleActionTap: function(e) {

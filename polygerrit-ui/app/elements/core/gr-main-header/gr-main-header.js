@@ -111,6 +111,7 @@
       },
       _docBaseUrl: {
         type: String,
+        value: null,
       },
       _links: {
         type: Array,

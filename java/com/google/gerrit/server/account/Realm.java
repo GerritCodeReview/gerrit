@@ -55,9 +55,10 @@ public interface Realm {
    * @throws NamingException
    * @throws LoginException
    * @throws AccountException
+   * @throws IOException
    */
   default boolean isActive(@SuppressWarnings("unused") String username)
-      throws LoginException, NamingException, AccountException {
+      throws LoginException, NamingException, AccountException, IOException {
     return true;
   }
 

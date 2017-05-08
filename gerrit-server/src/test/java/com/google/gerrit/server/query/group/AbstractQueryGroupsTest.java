@@ -192,6 +192,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   @Test
   public void byInname() throws Exception {
     String namePart = testName.getMethodName();
+    namePart = namePart.replaceAll("[\\[\\]]", "");
+
     GroupInfo group1 = createGroup("group-" + namePart);
     GroupInfo group2 = createGroup("group-" + namePart + "-2");
     GroupInfo group3 = createGroup("group-" + namePart + "3");
@@ -437,6 +439,13 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     if (name == null) {
       return null;
     }
-    return name + "_" + testName.getMethodName().toLowerCase();
+
+    String suffix = testName.getMethodName().toLowerCase();
+    suffix = suffix.replaceAll("[\\[\\]]", "_");
+    if (suffix.endsWith("_")) {
+      suffix = suffix.substring(0, suffix.length() - 1);
+    }
+
+    return name + "_" + suffix;
   }
 }

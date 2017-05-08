@@ -14,9 +14,16 @@
 
 package com.google.gerrit.server.query.account;
 
+import com.google.common.collect.Iterables;
+import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.SchemaUtil;
+import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import java.util.SortedMap;
 import org.eclipse.jgit.lib.Config;
 
 public class LuceneQueryAccountsTest extends AbstractQueryAccountsTest {
@@ -25,5 +32,21 @@ public class LuceneQueryAccountsTest extends AbstractQueryAccountsTest {
     Config luceneConfig = new Config(config);
     InMemoryModule.setDefaults(luceneConfig);
     return Guice.createInjector(new InMemoryModule(luceneConfig, notesMigration));
+  }
+
+  @ConfigSuite.Config
+  public static Config againstPreviousIndexVersion() {
+    Config cfg = defaultConfig();
+    SortedMap<Integer, Schema<AccountState>> schemas =
+        SchemaUtil.schemasFromClass(AccountSchemaDefinitions.class, AccountState.class);
+    if (schemas.size() > 1) {
+      int prevVersion = Iterables.get(schemas.keySet(), schemas.size() - 2);
+      cfg.setInt(
+          "index",
+          "lucene",
+          AccountSchemaDefinitions.INSTANCE.getName() + "TestVersion",
+          prevVersion);
+    }
+    return cfg;
   }
 }

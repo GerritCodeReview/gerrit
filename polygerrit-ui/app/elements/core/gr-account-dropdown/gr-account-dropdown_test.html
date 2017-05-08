@@ -45,6 +45,7 @@ limitations under the License.
 
     test('account information', function() {
       element.account = {name: 'John Doe', email: 'john@doe.com'};
+      element.anon = "Anon";
       assert.deepEqual(element.topContent,
           [{text: 'John Doe', bold: true}, {text: 'john@doe.com'}]);
     });

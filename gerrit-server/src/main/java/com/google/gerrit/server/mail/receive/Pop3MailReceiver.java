@@ -49,7 +49,7 @@ public class Pop3MailReceiver extends MailReceiver {
   public synchronized void handleEmails(boolean async) {
     POP3Client pop3;
     if (mailSettings.encryption != Encryption.NONE) {
-      pop3 = new POP3SClient(mailSettings.encryption.name());
+      pop3 = new POP3SClient(mailSettings.encryption.name(), true);
     } else {
       pop3 = new POP3Client();
     }

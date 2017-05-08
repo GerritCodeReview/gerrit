@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d288b35f_2c4019f6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 51
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-08T18:08:42Z",
+      "side": 1,
+      "message": "Ping.",
+      "parentUuid": "99beaf64_4113cb6d",
+      "range": {
+        "startLine": 807,
+        "startChar": 10,
+        "endLine": 813,
+        "endChar": 18
+      },
+      "revId": "3dd8333662c0988aed79799512d7dd1fd987a347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0a42a74c_41da8cc8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 51

@@ -47,6 +47,23 @@
       "revId": "63928c10537ccffffe92dab72db41123fc5b9d9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad4acd52_4a1c3549",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-08T21:12:49Z",
+      "side": 1,
+      "message": "This is nice, but it seems like this wouldn\u0027t have caught the issue we had, since this test would have passed.",
+      "revId": "63928c10537ccffffe92dab72db41123fc5b9d9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

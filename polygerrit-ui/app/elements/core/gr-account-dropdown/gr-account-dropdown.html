@@ -39,7 +39,7 @@ limitations under the License.
         items=[[links]]
         top-content=[[topContent]]
         horizontal-align="right">
-        <span hidden$="[[_hasAvatars]]" hidden>[[account.name]]</span>
+        <span hidden$="[[_hasAvatars]]" hidden>[[_accountName(account, _anonymousName)]]</span>
         <gr-avatar account="[[account]]" hidden$="[[!_hasAvatars]]" hidden
             image-size="56" aria-label="Account avatar"></gr-avatar>
     </gr-dropdown>

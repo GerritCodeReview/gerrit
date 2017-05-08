@@ -65,6 +65,7 @@
     ],
 
     behaviors: [
+      Gerrit.RootElementBehavior,
       Gerrit.BaseUrlBehavior,
       Gerrit.KeyboardShortcutBehavior,
     ],
@@ -105,6 +106,7 @@
           selectedChangeIndex: 0,
         },
       };
+      this.setRootElement(document.body);
     },
 
     _accountChanged: function(account) {

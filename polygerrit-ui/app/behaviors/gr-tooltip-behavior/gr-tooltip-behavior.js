@@ -75,7 +75,7 @@
       // Set visibility to hidden before appending to the DOM so that
       // calculations can be made based on the element’s size.
       tooltip.style.visibility = 'hidden';
-      Polymer.dom(document.body).appendChild(tooltip);
+      this.getRootElement().appendChild(tooltip);
       this._positionTooltip(tooltip);
       tooltip.style.visibility = null;
 
@@ -126,5 +126,5 @@
   };
 
   window.Gerrit = window.Gerrit || {};
-  window.Gerrit.TooltipBehavior = TooltipBehavior;
+  window.Gerrit.TooltipBehavior = [Gerrit.RootElementBehavior, TooltipBehavior];
 })(window);

@@ -22,6 +22,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.FluentIterable;
@@ -74,11 +75,14 @@ import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.index.change.StalenessChecker;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -413,6 +417,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byWip() throws Exception {
+    if (getSchemaVersion() < ChangeSchemaDefinitions.V42.getVersion()) {
+      assertMissingField(ChangeField.WIP, "is:wip");
+      return;
+    }
+
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo), userId);
 
@@ -430,6 +439,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void excludeWipChangeFromReviewersDashboards() throws Exception {
+    if (getSchemaVersion() < ChangeSchemaDefinitions.V42.getVersion()) {
+      assertMissingField(ChangeField.WIP, "is:wip");
+      return;
+    }
+
     Account.Id user1 = createAccount("user1");
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo), userId);
@@ -2190,5 +2204,25 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         ImmutableMap.<String, List<ReviewInput.CommentInput>>of(
             Patch.COMMIT_MSG, ImmutableList.<ReviewInput.CommentInput>of(comment));
     gApi.changes().id(changeId).current().review(input);
+  }
+
+  protected void assertMissingField(FieldDef<ChangeData, String> missingField, String failingQuery)
+      throws Exception {
+    assertThat(getSchema().hasField(missingField)).isFalse();
+    try {
+      assertQuery(failingQuery);
+      fail("expected BadRequestException for query '" + failingQuery + "'");
+    } catch (BadRequestException e) {
+      assertThat(e.getMessage())
+          .isEqualTo("'" + failingQuery + "' operator is not supported by change index version");
+    }
+  }
+
+  protected int getSchemaVersion() {
+    return getSchema().getVersion();
+  }
+
+  protected Schema<ChangeData> getSchema() {
+    return indexes.getSearchIndex().getSchema();
   }
 }

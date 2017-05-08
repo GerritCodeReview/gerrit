@@ -44,8 +44,10 @@ limitations under the License.
       }
       #unresolvedLabel {
         font-family: var(--font-family);
-        margin: auto 0 auto auto;
+      }
+      #rightActions {
         padding: .5em .7em;
+        margin: auto 0 auto auto;
       }
     </style>
     <div id="container" class$="[[_computeHostClass(_unresolved)]]">
@@ -76,7 +78,16 @@ limitations under the License.
           <gr-button id="doneBtn" class="action done" on-tap="_handleCommentDone">
             Done</gr-button>
         </div>
-        <span id="unresolvedLabel" hidden$="[[!_unresolved]]">Unresolved</span>
+        <div id="rightActions">
+          <gr-button
+              id="deleteBtn"
+              class="action delete"
+              on-tap="_handleCommentDelete"
+              hidden$="[[!_isAdmin]]">
+            Delete
+          </gr-button>
+          <span id="unresolvedLabel" hidden$="[[!_unresolved]]">Unresolved</span>
+        </div>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

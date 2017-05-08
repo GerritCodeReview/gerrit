@@ -76,9 +76,11 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.index.change.StalenessChecker;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -413,6 +415,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byWip() throws Exception {
+    if (getSchemaVersion() < ChangeSchemaDefinitions.V42.getVersion()) {
+      assertThat(getSchema().hasField(ChangeField.WIP)).isFalse();
+      return;
+    }
+
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo), userId);
 
@@ -430,6 +437,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void excludeWipChangeFromReviewersDashboards() throws Exception {
+    if (getSchemaVersion() < ChangeSchemaDefinitions.V42.getVersion()) {
+      assertThat(getSchema().hasField(ChangeField.WIP)).isFalse();
+      return;
+    }
+
     Account.Id user1 = createAccount("user1");
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo), userId);
@@ -2190,5 +2202,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         ImmutableMap.<String, List<ReviewInput.CommentInput>>of(
             Patch.COMMIT_MSG, ImmutableList.<ReviewInput.CommentInput>of(comment));
     gApi.changes().id(changeId).current().review(input);
+  }
+
+  protected int getSchemaVersion() {
+    return getSchema().getVersion();
+  }
+
+  protected Schema<ChangeData> getSchema() {
+    return indexes.getSearchIndex().getSchema();
   }
 }

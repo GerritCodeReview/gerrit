@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "5c9e1bf7_ad3e41f2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-08T17:53:54Z",
+      "side": 1,
+      "message": "I\u0027m not religious about this, but prefer to avoid floats when possible.\n\nIn this case, setting display:flex to .patchInfo-header-wrapper  and using margin: auto 0 auto auto; for #diffPrefsContainer would work.",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 13
+      },
+      "revId": "157649c248e3c878e182d2bae462ba07986a0f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaac7ba4_bebf1374",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-08T17:53:54Z",
+      "side": 1,
+      "message": "_diffPrefs: Object,",
+      "revId": "157649c248e3c878e182d2bae462ba07986a0f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee00c7af_20a6b71d",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 8
@@ -19,6 +59,23 @@
         "endLine": 78,
         "endChar": 7
       },
+      "revId": "157649c248e3c878e182d2bae462ba07986a0f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4c8b699_33e85252",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-08T17:53:54Z",
+      "side": 1,
+      "message": "This seems brittle.\nPlease consider adding top-level method to fileList opening preferences.",
       "revId": "157649c248e3c878e182d2bae462ba07986a0f53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -45,6 +102,23 @@
       "revId": "157649c248e3c878e182d2bae462ba07986a0f53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78a737c5_99cc8ddb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-08T17:53:54Z",
+      "side": 1,
+      "message": "Not sure about this particular indent style.",
+      "revId": "157649c248e3c878e182d2bae462ba07986a0f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

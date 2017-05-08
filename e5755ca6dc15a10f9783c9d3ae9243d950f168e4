@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8883ae27_98d02fe6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 57
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T22:32:07Z",
+      "side": 1,
+      "message": "Incorrect indentation.",
+      "range": {
+        "startLine": 505,
+        "startChar": 8,
+        "endLine": 506,
+        "endChar": 65
+      },
+      "revId": "e5755ca6dc15a10f9783c9d3ae9243d950f168e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

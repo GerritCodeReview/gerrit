@@ -27,13 +27,14 @@
       },
       topContent: {
         type: Array,
-        computed: '_getTopContent(account)',
+        computed: '_getTopContent(account, _anon)',
       },
       _path: {
         type: String,
         value: '/',
       },
       _hasAvatars: Boolean,
+      _anon: String,
       _switchAccountUrl: String,
     },
 
@@ -47,6 +48,7 @@
           this._switchAccountUrl = null;
         }
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
+        this._anon = cfg.user.anonymous_coward_name;
       }.bind(this));
     },
 
@@ -65,10 +67,10 @@
       return links;
     },
 
-    _getTopContent: function(account) {
+    _getTopContent: function(account, anon) {
       // if (!account) { return []; }
       return [
-        {text: account.name, bold: true},
+        {text: this._accountName(account, anon), bold: true},
         {text: account.email},
       ];
     },
@@ -84,6 +86,14 @@
       return url.replace(INTERPOLATE_URL_PATTERN, function(match, p1) {
         return replacements[p1] || '';
       });
+    },
+
+    _accountName: function(account, _anon) {
+      if (account && account.name) {
+        return account.name;
+      } else {
+        return _anon;
+      }
     },
   });
 })();

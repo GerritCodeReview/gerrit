@@ -46,7 +46,7 @@ limitations under the License.
     test('account information', function() {
       element.account = {name: 'John Doe', email: 'john@doe.com'};
       assert.deepEqual(element.topContent,
-          [{text: 'John Doe', bold: true}, {text: 'john@doe.com'}]);
+          [{text: element._accountName(element.account, element.anon), bold: true}, {text: 'john@doe.com'}]);
     });
 
     test('switch account', function() {

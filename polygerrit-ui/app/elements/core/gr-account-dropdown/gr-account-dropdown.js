@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 (function() {
-  'use strict';
+  'use strict'
+
+   var ANONYMOUS_NAME = 'Anonymous';
 
   Polymer({
     is: 'gr-account-dropdown',
@@ -20,6 +22,10 @@
     properties: {
       account: Object,
       _hasAvatars: Boolean,
+      _anonymousName: {
+        type: String,
+        value: ANONYMOUS_NAME,
+      },
       links: {
         type: Array,
         value: [
@@ -30,22 +36,35 @@
       },
       topContent: {
         type: Array,
-        computed: '_getTopContent(account)',
+        computed: '_getTopContent(account, _anonymousName)',
       },
     },
 
     attached: function() {
       this.$.restAPI.getConfig().then(function(cfg) {
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
+        if (cfg && cfg.user &&
+            cfg.user.anonymous_coward_name &&
+            cfg.user.anonymous_coward_name !== 'Anonymous Coward') {
+          this._anonymousName = cfg.user.anonymous_coward_name;
+        }
       }.bind(this));
     },
 
-    _getTopContent: function(account) {
-      // if (!account) { return []; }
+    _getTopContent(account, _anonymousName) {
       return [
-        {text: account.name, bold: true},
-        {text: account.email},
+        {text: this._accountName(account, _anonymousName), bold: true},
+        {text: account.email ? account.email : ''},
       ];
+    },
+
+    _accountName(account, _anonymousName) {
+      if (account && account.name) {
+        return account.name;
+      } else if (account && account.email) {
+        return account.email;
+      }
+      return _anonymousName;
     },
   });
 })();

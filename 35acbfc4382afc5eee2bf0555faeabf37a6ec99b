@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6a6c1fdf_2829bd70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-08T18:10:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3304926b_ad671f43",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 87
+      },
+      "revId": "35acbfc4382afc5eee2bf0555faeabf37a6ec99b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1276e753_46b85cca",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-08T17:56:29Z",
       "side": 1,
       "message": "Nit: Avoid first-person in commit messages. This can be rephrased into something like...\n\n LDAP installs would not allow editing the status when full name was not\n editable.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "35acbfc4382afc5eee2bf0555faeabf37a6ec99b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12e28df0_54fb7d15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-08T18:10:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1276e753_46b85cca",
       "range": {
         "startLine": 9,
         "startChar": 0,

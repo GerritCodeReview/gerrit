@@ -160,6 +160,17 @@ limitations under the License.
         });
       });
 
+      test('Inserts me as option when valid', function(done) {
+        element._getSearchSuggestions('owner:m').then(function(s) {
+          assert.equal(s[0].value, 'owner:me');
+        }).then(function() {
+          element._getSearchSuggestions('owner:meme').then(function(s) {
+            assert.notEqual(s[0].value, 'owner:me');
+            done();
+          });
+        });
+      });
+
       test('Autocompletes groups', function(done) {
         element._getSearchSuggestions('ownerin:pol').then(function(s) {
           assert.equal(s[0].value, 'ownerin:Polygerrit');

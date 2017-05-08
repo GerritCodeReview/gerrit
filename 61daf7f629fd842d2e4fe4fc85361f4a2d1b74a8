@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a58fb7c6_e74c7289",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-05-08T19:17:55Z",
+      "side": 1,
+      "message": "Done in forthcoming patch set assuming I don\u0027t blow up the whole CL",
+      "parentUuid": "71370445_ee0d5c1e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "61daf7f629fd842d2e4fe4fc85361f4a2d1b74a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "04ce25d6_59b2ee77",
         "filename": "WORKSPACE",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-08T18:31:09Z",
       "side": 1,
       "message": "Nice. I\u0027d like to file a tracking bug to update this version once your project comes out of beta, is that possible?",
+      "range": {
+        "startLine": 1116,
+        "startChar": 0,
+        "endLine": 1121,
+        "endChar": 1
+      },
+      "revId": "61daf7f629fd842d2e4fe4fc85361f4a2d1b74a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcab6907_41f74ad5",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-05-08T19:17:55Z",
+      "side": 1,
+      "message": "Now the polymer-resin project has issues : https://github.com/Polymer/polymer-resin/issues/1",
+      "parentUuid": "04ce25d6_59b2ee77",
       "range": {
         "startLine": 1116,
         "startChar": 0,
@@ -112,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "6d35e7a7_7c8331bd",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-05-08T19:17:55Z",
+      "side": 1,
+      "message": "Done in forthcoming patch set",
+      "parentUuid": "c4781137_cd3593db",
+      "revId": "61daf7f629fd842d2e4fe4fc85361f4a2d1b74a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ea5ebb8_2697c914",
         "filename": "polygerrit-ui/app/index.html",
         "patchSetId": 1
@@ -159,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "b7b7b268_de6eedf7",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-05-08T19:17:55Z",
+      "side": 1,
+      "message": "I\u0027ve tested this by clicking around the app locally (no login).\nIt seems mostly solid.\n\nI tried to figure out whether wct hooks or plugins could allow me to inject polymer-resin into every test case document, but hit a dead end.\nI have a script that patches each test file.\n\nI need to rerun the tests that way.  If nothing\u0027s regressed Chrome seems mostly green.  I have not managed to get a stable platform on my laptop to run Firefox and Safari tests to completion, and there are failures when I try.  I have no way to run IE tests.\n\nWhen run inside Google, the Firefox and IE tests run ok for non-compiled code, but break under JSCompilation, but I can\u0027t rule out interactions with polymer-pass eliminating the very hooks this needs to work since I can\u0027t run an xserver to debug.",
+      "parentUuid": "6ee555be_d28ad087",
+      "range": {
+        "startLine": 32,
+        "startChar": 26,
+        "endLine": 32,
+        "endChar": 42
+      },
+      "revId": "61daf7f629fd842d2e4fe4fc85361f4a2d1b74a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7779b226_91fcd8c2",
         "filename": "polygerrit-ui/app/index.html",
         "patchSetId": 1
@@ -194,6 +284,30 @@
       "side": 1,
       "message": "What does that mean for our project and security? This is not an area I know a whole lot about, would appreciate some context.",
       "parentUuid": "7779b226_91fcd8c2",
+      "range": {
+        "startLine": 33,
+        "startChar": 30,
+        "endLine": 33,
+        "endChar": 31
+      },
+      "revId": "61daf7f629fd842d2e4fe4fc85361f4a2d1b74a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60a8e810_cd70e65f",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-05-08T19:17:55Z",
+      "side": 1,
+      "message": "There are situations where injecting a value into an ID might cause problems.\n\nFor example, if an attacker controls [[id]] and [[text]], then they could cause document.getElementById below to find the wrong DOM node.\nThese tend to require the attacker to invest quite a bit of research to find the vulnerability, so while the risk can be high, the frequency is lower than the kinds of XSS vulnerabilities that a well-written scanner might find.\n\nThe solution is to separate name-spaces -- use a common white-listed prefix for low sensitivity stuff like comment threads, and an un-white-listed one for inputs that specify permissions or tell build farms which commands to execute.\n\n\n   \u003cspan class\u003dcomment id\u003d\"[[id]]\"\u003e[[text]]\u003c/span\u003e\n\n   \u003cscript\u003e\n   function doThing() {\n     var thingToDo \u003d document.getElementById(\u0027thing-to-do\u0027).textContent;\n     // Treat thingToDo as a privileged action that requires user consent\n     // and treat the form submit as that consent.\n   }\n   \u003c/script\u003e\n\n   \u003cform onsubmit\u003d\"doThing()\" action\u003d\"#\"\u003e\n      \u003ctextarea id\u003dthing-to-do\u003e# think before you do that thing\u003c/textarea\u003e",
+      "parentUuid": "ec6bcb46_bba97ad4",
       "range": {
         "startLine": 33,
         "startChar": 30,

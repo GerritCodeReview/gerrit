@@ -448,7 +448,13 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     if (name == null) {
       return null;
     }
+
     String suffix = testName.getMethodName().toLowerCase();
+    suffix = suffix.replaceAll("[\\[\\]]", "_");
+    if (suffix.endsWith("_")) {
+      suffix = suffix.substring(0, suffix.length() - 1);
+    }
+
     if (name.contains("@")) {
       return name + "." + suffix;
     }

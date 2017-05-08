@@ -47,7 +47,7 @@ public class ImapMailReceiver extends MailReceiver {
   public synchronized void handleEmails(boolean async) {
     IMAPClient imap;
     if (mailSettings.encryption != Encryption.NONE) {
-      imap = new IMAPSClient(mailSettings.encryption.name(), false);
+      imap = new IMAPSClient(mailSettings.encryption.name(), true);
     } else {
       imap = new IMAPClient();
     }

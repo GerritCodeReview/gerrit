@@ -398,12 +398,12 @@ public class JettyServer {
     //
     app.setContextPath(contextPath);
 
-    // HTTP front-end filter to be used as surrogate of Apache HTTP
+    // HTTP front-end filters to be used as surrogate of Apache HTTP
     // reverse-proxy filtering.
     // It is meant to be used as simpler tiny deployment of custom-made
     // security enforcement (Security tokens, IP-based security filtering, others)
-    String filterClassName = cfg.getString("httpd", null, "filterClass");
-    if (filterClassName != null) {
+    String[] filterClassNames = cfg.getStringList("httpd", null, "filterClass");
+    for (String filterClassName : filterClassNames) {
       try {
         @SuppressWarnings("unchecked")
         Class<? extends Filter> filterClass =

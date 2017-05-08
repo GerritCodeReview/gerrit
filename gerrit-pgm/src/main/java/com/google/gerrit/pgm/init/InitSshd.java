@@ -86,9 +86,9 @@ class InitSshd implements InitStep {
   }
 
   private void generateSshHostKeys() throws InterruptedException, IOException {
-    if (!exists(site.ssh_key) //
-        && !exists(site.ssh_rsa) //
-        && !exists(site.ssh_dsa)) {
+    if (!exists(site.ssh_key) && !exists(site.ssh_rsa) && !exists(site.ssh_dsa)
+        || !exists(site.ssh_ed25519)
+        || !exists(site.ssh_ecdsa)) {
       System.err.print("Generating SSH host key ...");
       System.err.flush();
 
@@ -99,43 +99,97 @@ class InitSshd implements InitStep {
 
         // Workaround for JDK-6518827 - zero-length argument ignored on Win32
         String emptyPassphraseArg = HostPlatform.isWin32() ? "\"\"" : "";
+        if (!exists(site.ssh_rsa)) {
+          System.err.print(" rsa...");
+          System.err.flush();
+          new ProcessBuilder(
+                  "ssh-keygen",
+                  "-q" /* quiet */,
+                  "-t",
+                  "rsa",
+                  "-P",
+                  emptyPassphraseArg,
+                  "-C",
+                  comment,
+                  "-f",
+                  site.ssh_rsa.toAbsolutePath().toString())
+              .redirectError(Redirect.INHERIT)
+              .redirectOutput(Redirect.INHERIT)
+              .start()
+              .waitFor();
+        }
 
-        System.err.print(" rsa...");
-        System.err.flush();
-        new ProcessBuilder(
-                "ssh-keygen",
-                "-q" /* quiet */,
-                "-t",
-                "rsa",
-                "-P",
-                emptyPassphraseArg,
-                "-C",
-                comment,
-                "-f",
-                site.ssh_rsa.toAbsolutePath().toString())
-            .redirectError(Redirect.INHERIT)
-            .redirectOutput(Redirect.INHERIT)
-            .start()
-            .waitFor();
+        if (!exists(site.ssh_dsa)) {
+          System.err.print(" dsa...");
+          System.err.flush();
+          new ProcessBuilder(
+                  "ssh-keygen",
+                  "-q" /* quiet */,
+                  "-t",
+                  "dsa",
+                  "-P",
+                  emptyPassphraseArg,
+                  "-C",
+                  comment,
+                  "-f",
+                  site.ssh_dsa.toAbsolutePath().toString())
+              .redirectError(Redirect.INHERIT)
+              .redirectOutput(Redirect.INHERIT)
+              .start()
+              .waitFor();
+        }
 
-        System.err.print(" dsa...");
-        System.err.flush();
-        new ProcessBuilder(
-                "ssh-keygen",
-                "-q" /* quiet */,
-                "-t",
-                "dsa",
-                "-P",
-                emptyPassphraseArg,
-                "-C",
-                comment,
-                "-f",
-                site.ssh_dsa.toAbsolutePath().toString())
-            .redirectError(Redirect.INHERIT)
-            .redirectOutput(Redirect.INHERIT)
-            .start()
-            .waitFor();
+        if (!exists(site.ssh_ed25519)) {
+          System.err.print(" ed25519...");
+          System.err.flush();
+          try {
+            new ProcessBuilder(
+                    "ssh-keygen",
+                    "-q" /* quiet */,
+                    "-t",
+                    "ed25519",
+                    "-P",
+                    emptyPassphraseArg,
+                    "-C",
+                    comment,
+                    "-f",
+                    site.ssh_ed25519.toAbsolutePath().toString())
+                .redirectError(Redirect.INHERIT)
+                .redirectOutput(Redirect.INHERIT)
+                .start()
+                .waitFor();
+          } catch (Exception e) {
+            // continue since older hosts won't be able to generate ed25519 keys.
+            System.err.print(" Failed to generate ed25519 key, continuing...");
+            System.err.flush();
+          }
+        }
 
+        if (!exists(site.ssh_ecdsa)) {
+          System.err.print(" ecdsa...");
+          System.err.flush();
+          try {
+            new ProcessBuilder(
+                    "ssh-keygen",
+                    "-q" /* quiet */,
+                    "-t",
+                    "ecdsa",
+                    "-P",
+                    emptyPassphraseArg,
+                    "-C",
+                    comment,
+                    "-f",
+                    site.ssh_ecdsa.toAbsolutePath().toString())
+                .redirectError(Redirect.INHERIT)
+                .redirectOutput(Redirect.INHERIT)
+                .start()
+                .waitFor();
+          } catch (Exception e) {
+            // continue since older hosts won't be able to generate ecdsa keys.
+            System.err.print(" Failed to generate ecdsa key, continuing...");
+            System.err.flush();
+          }
+        }
       } else {
         // Generate the SSH daemon host key ourselves. This is complex
         // because SimpleGeneratorHostKeyProvider doesn't mark the data

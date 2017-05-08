@@ -90,6 +90,10 @@
       },
       projectConfig: Object,
       robotButtonDisabled: Boolean,
+      _isAdmin: {
+        type: Boolean,
+        value: false,
+      },
 
       _xhrPromise: Object,  // Used for testing.
       _messageText: {
@@ -118,6 +122,9 @@
       } else if (this.comment) {
         this.collapsed = this.comment.collapsed;
       }
+      this._getIsAdmin().then(function(isAdmin) {
+        this._isAdmin = isAdmin;
+      }.bind(this));
     },
 
     detached: function() {
@@ -139,6 +146,10 @@
 
     isOnParent: function() {
       return this.side === 'PARENT';
+    },
+
+    _getIsAdmin: function() {
+      return this.$.restAPI.getIsAdmin();
     },
 
     save: function() {
@@ -461,6 +472,25 @@
     _toggleResolved: function(resolved) {
       this.comment.unresolved = !resolved;
       this.fire('comment-update', this._getEventPayload());
+    },
+
+    _handleCommentDelete: function() {
+      Polymer.dom(Gerrit.getRootElement()).appendChild(this.$.overlay);
+      this.$.overlay.open();
+    },
+
+    _handleCancelDeleteComment: function() {
+      Polymer.dom(Gerrit.getRootElement()).removeChild(this.$.overlay);
+      this.$.overlay.close();
+    },
+
+    _handleConfirmDeleteComment: function() {
+      this.$.restAPI.deleteComment(
+          this.changeNum, this.patchNum, this.comment.id,
+        this.$.confirmDeleteComment.message).then(function(newComment) {
+          this._handleCancelDeleteComment();
+          this.comment = newComment;
+        }.bind(this));
     },
   });
 })();

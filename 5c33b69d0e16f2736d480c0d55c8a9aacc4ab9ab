@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "4d7ddd03_8e57439c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T22:11:40Z",
+      "side": 1,
+      "message": "In addition, the endpoint supports a \u0027reason\u0027... I think we should expose this and make it mandatory to supply one before submitting the request.\n\nMaybe we can use a gr-confirm-dialog, similar to how abandoning works.",
+      "parentUuid": "da5be89f_2b8f4c1e",
+      "revId": "5c33b69d0e16f2736d480c0d55c8a9aacc4ab9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f7e2a770_de40dcc0",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2

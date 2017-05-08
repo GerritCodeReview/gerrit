@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72734f65_06395c3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-08T10:29:08Z",
+      "side": 1,
+      "message": "This isn\u0027t a cleanup, it\u0027s a change in behaviour.  Please expand the commit message to explain what is changing and the motivation for doing so.",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "2d02ea04cccb9a10a65fc953e3da6a0bfffee680",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ab2ab53_33736ef7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-08T10:29:08Z",
+      "side": 1,
+      "message": "Why does this need to be in its own method?  It\u0027s only called from one place as far as I can see.",
+      "range": {
+        "startLine": 234,
+        "startChar": 2,
+        "endLine": 237,
+        "endChar": 3
+      },
+      "revId": "2d02ea04cccb9a10a65fc953e3da6a0bfffee680",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

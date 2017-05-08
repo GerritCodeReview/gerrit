@@ -22,6 +22,75 @@
       "revId": "3b322efaaef26175836f74a54a6c3224fa411f89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13704dff_3a7f6821",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-08T22:01:11Z",
+      "side": 1,
+      "message": "Nit: this parameter doesn\u0027t need to be snake_cased.\n\n workInProgress",
+      "range": {
+        "startLine": 245,
+        "startChar": 47,
+        "endLine": 245,
+        "endChar": 63
+      },
+      "revId": "3b322efaaef26175836f74a54a6c3224fa411f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dadf3a1_7611092b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-08T22:01:11Z",
+      "side": 1,
+      "message": "Can this be guarded by a span?\n\n \u003cspan hidden$\u003d\"[[!_change.work_in_progress]]\"\u003e",
+      "range": {
+        "startLine": 309,
+        "startChar": 10,
+        "endLine": 311,
+        "endChar": 21
+      },
+      "revId": "3b322efaaef26175836f74a54a6c3224fa411f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dd6324a_173f1d60",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-08T22:01:11Z",
+      "side": 1,
+      "message": "Where does this text appear?\n\nSince dom-if is a little heavy, can this be computed using a method?\n\n [[_computeFooBar(_canStartReview)]]",
+      "range": {
+        "startLine": 516,
+        "startChar": 8,
+        "endLine": 521,
+        "endChar": 19
+      },
+      "revId": "3b322efaaef26175836f74a54a6c3224fa411f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

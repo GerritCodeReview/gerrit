@@ -40,6 +40,7 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -242,7 +243,7 @@ class LdapRealm extends AbstractRealm {
           // We found the user account, but we need to verify
           // the password matches it before we can continue.
           //
-          helper.authenticate(m.getDN(), who.getPassword()).close();
+          helper.close(helper.authenticate(m.getDN(), who.getPassword()));
         }
 
         who.setDisplayName(apply(schema.accountFullName, m));
@@ -290,7 +291,7 @@ class LdapRealm extends AbstractRealm {
           log.warn("Cannot close LDAP query handle", e);
         }
       }
-    } catch (NamingException e) {
+    } catch (IOException | NamingException e) {
       log.error("Cannot query LDAP to authenticate user", e);
       throw new AuthenticationUnavailableException("Cannot query LDAP for account", e);
     } catch (LoginException e) {
@@ -352,11 +353,7 @@ class LdapRealm extends AbstractRealm {
       try {
         return helper.queryForGroups(ctx, username, null);
       } finally {
-        try {
-          ctx.close();
-        } catch (NamingException e) {
-          log.warn("Cannot close LDAP query handle", e);
-        }
+        helper.close(ctx);
       }
     }
   }
@@ -381,11 +378,7 @@ class LdapRealm extends AbstractRealm {
           return false;
         }
       } finally {
-        try {
-          ctx.close();
-        } catch (NamingException e) {
-          log.warn("Cannot close LDAP query handle", e);
-        }
+        helper.close(ctx);
       }
     }
   }

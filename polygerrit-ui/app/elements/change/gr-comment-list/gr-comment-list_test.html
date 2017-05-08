@@ -65,6 +65,15 @@ limitations under the License.
       assert.equal(actual, expected);
     });
 
+    test('_computeFileDisplayName', function() {
+      assert.equal(element._computeFileDisplayName('/COMMIT_MSG'),
+          'Commit message');
+      assert.equal(element._computeFileDisplayName('/MERGE_LIST'),
+          'Merge list');
+      assert.equal(element._computeFileDisplayName('/foo/bar/baz'),
+          '/foo/bar/baz');
+    });
+
     test('_computeDiffLineURL', function() {
       var comment = {line: 123, side: 'REVISION', patch_set: 10};
       var expected = '/c/<change>/<patch>/<file>#123';

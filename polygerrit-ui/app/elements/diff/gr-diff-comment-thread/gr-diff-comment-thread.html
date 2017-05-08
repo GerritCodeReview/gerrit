@@ -15,8 +15,10 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-storage/gr-storage.html">
+<link rel="import" href="../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.html">
 <link rel="import" href="../gr-diff-comment/gr-diff-comment.html">
 
 <dom-module id="gr-diff-comment-thread">
@@ -44,8 +46,16 @@ limitations under the License.
       }
       #unresolvedLabel {
         font-family: var(--font-family);
+      }
+      #rightActions {
         margin: auto 0 auto auto;
         padding: .5em .7em;
+      }
+      gr-confirm-dialog .main {
+        background-color: #fef;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
       }
     </style>
     <div id="container" class$="[[_computeHostClass(_unresolved)]]">
@@ -76,9 +86,24 @@ limitations under the License.
           <gr-button id="doneBtn" class="action done" on-tap="_handleCommentDone">
             Done</gr-button>
         </div>
-        <span id="unresolvedLabel" hidden$="[[!_unresolved]]">Unresolved</span>
+        <div id="rightActions">
+          <gr-button
+              id="deleteBtn"
+              class="action delete"
+              on-tap="_handleCommentDelete"
+              hidden$="[[!_isAdmin]]">
+            Delete
+          </gr-button>
+          <span id="unresolvedLabel" hidden$="[[!_unresolved]]">Unresolved</span>
+        </div>
       </div>
     </div>
+    <gr-overlay id="overlay" with-backdrop>
+      <gr-confirm-delete-comment-dialog id="confirmDeleteComment"
+          on-confirm="_handleConfirmDeleteComment"
+          on-cancel="_handleCancelDeleteComment">
+      </gr-confirm-delete-comment-dialog>
+    </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
   </template>

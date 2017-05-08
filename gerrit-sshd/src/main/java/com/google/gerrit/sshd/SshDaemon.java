@@ -405,7 +405,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         try {
           r.add(new HostKey(addr, keyBin));
         } catch (JSchException e) {
-          sshDaemonLog.warn("Cannot format SSHD host key", e);
+          sshDaemonLog.warn(
+              String.format("Cannot format SSHD host key [%s]: %s", addr, e.getMessage()));
         }
       }
     }

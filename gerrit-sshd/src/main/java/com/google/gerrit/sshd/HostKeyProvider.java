@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
-import org.apache.sshd.common.util.security.SecurityUtils;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
 class HostKeyProvider implements Provider<KeyPairProvider> {
@@ -72,13 +71,6 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
     }
     if (stdKeys.isEmpty()) {
       throw new ProvisionException("No SSH keys under " + site.etc_dir);
-    }
-    if (!SecurityUtils.isBouncyCastleRegistered()) {
-      throw new ProvisionException(
-          "Bouncy Castle Crypto not installed;"
-              + " needed to read server host keys: "
-              + stdKeys
-              + "");
     }
     FileKeyPairProvider kp = new FileKeyPairProvider();
     kp.setFiles(stdKeys);

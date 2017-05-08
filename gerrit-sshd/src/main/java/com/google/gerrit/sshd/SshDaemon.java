@@ -84,7 +84,6 @@ import org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory;
 import org.apache.sshd.common.kex.KeyExchange;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.mac.Mac;
-import org.apache.sshd.common.random.JceRandomFactory;
 import org.apache.sshd.common.random.Random;
 import org.apache.sshd.common.random.SingletonRandomFactory;
 import org.apache.sshd.common.session.ConnectionService;
@@ -217,11 +216,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
             ? MinaServiceFactoryFactory.class.getName()
             : Nio2ServiceFactoryFactory.class.getName());
 
-    if (SecurityUtils.isBouncyCastleRegistered()) {
-      initProviderBouncyCastle(cfg);
-    } else {
-      initProviderJce();
-    }
+    initProviderBouncyCastle(cfg);
     initCiphers(cfg);
     initKeyExchanges(cfg);
     initMacs(cfg);
@@ -524,10 +519,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       }
       return ret >>> (bytes * 8 - numBits);
     }
-  }
-
-  private void initProviderJce() {
-    setRandomFactory(new SingletonRandomFactory(JceRandomFactory.INSTANCE));
   }
 
   @SuppressWarnings("unchecked")

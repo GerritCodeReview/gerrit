@@ -3008,11 +3008,17 @@ If `auth.type` is `LDAP` this setting should use `ldaps://` to
 ensure the end user's plaintext password is transmitted only over
 an encrypted connection.
 
+[[ldap.startTls]]ldap.startTls::
++
+If true, Gerrit will perform StartTLS extended operation.
++
+By default, false, StartTLS will not be enabled.
+
 [[ldap.sslVerify]]ldap.sslVerify::
 +
-If false and ldap.server is an `ldaps://` style URL, Gerrit
-will not verify the server certificate when it connects to
-perform a query.
+If false and ldap.server is an `ldaps://` style URL or `ldap.startTls`
+is true, Gerrit will not verify the server certificate when it connects
+to perform a query.
 +
 By default, true, requiring the certificate to be verified.
 

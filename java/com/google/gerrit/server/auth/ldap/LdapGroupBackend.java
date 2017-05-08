@@ -38,6 +38,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -213,13 +214,9 @@ public class LdapGroupBackend implements GroupBackend {
           }
         }
       } finally {
-        try {
-          ctx.close();
-        } catch (NamingException e) {
-          log.warn("Cannot close LDAP query handle", e);
-        }
+        helper.close(ctx);
       }
-    } catch (NamingException | LoginException e) {
+    } catch (IOException | NamingException | LoginException e) {
       log.warn("Cannot query LDAP for groups matching requested name", e);
     }
     return out;

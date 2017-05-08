@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a6be764_169fa30d",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-05-08T18:21:12Z",
+      "side": 1,
+      "message": "There are a lot of incidental version bumps.  Should I undo?",
+      "range": {
+        "startLine": 29,
+        "startChar": 12,
+        "endLine": 29,
+        "endChar": 52
+      },
+      "revId": "61daf7f629fd842d2e4fe4fc85361f4a2d1b74a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ea5ebb8_2697c914",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-05-08T18:21:12Z",
+      "side": 1,
+      "message": "This adds it to index.html but not to any of the elements/*_test.html files so tests will not run with polymer-resin in place.\n\nThis has the potential to break components.  I don\u0027t know enough about gerrit to know how to hide it behind a flag initially.\n\nIf there\u0027s a way to globally incorporate this into all tests run or detect tests that don\u0027t load it, that\u0027d be great.",
+      "range": {
+        "startLine": 32,
+        "startChar": 26,
+        "endLine": 32,
+        "endChar": 42
+      },
+      "revId": "61daf7f629fd842d2e4fe4fc85361f4a2d1b74a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7779b226_91fcd8c2",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-05-08T18:21:12Z",
+      "side": 1,
+      "message": "This allows any identifier through since there are dynamic IDs that do not start with any identifiable prefix like `gr-`.  `Changes` shows up in the log without this.",
+      "range": {
+        "startLine": 33,
+        "startChar": 30,
+        "endLine": 33,
+        "endChar": 31
+      },
+      "revId": "61daf7f629fd842d2e4fe4fc85361f4a2d1b74a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

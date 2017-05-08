@@ -95,6 +95,23 @@
     },
     {
       "key": {
+        "uuid": "c4781137_cd3593db",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-08T18:34:15Z",
+      "side": 1,
+      "message": "You also need to do these changes in gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+      "revId": "61daf7f629fd842d2e4fe4fc85361f4a2d1b74a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ea5ebb8_2697c914",
         "filename": "polygerrit-ui/app/index.html",
         "patchSetId": 1

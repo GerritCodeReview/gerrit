@@ -49,6 +49,54 @@
     },
     {
       "key": {
+        "uuid": "dfb35313_5edf10e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-08T15:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cfae687_b0bb07fa",
+      "range": {
+        "startLine": 17,
+        "startChar": 37,
+        "endLine": 17,
+        "endChar": 45
+      },
+      "revId": "ddda6b71e12d026f69355e0c92a9d5aa9cbed9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c6e5dbb_59aed267",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-08T15:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "079b91d8_4b86dfa8",
+      "range": {
+        "startLine": 17,
+        "startChar": 37,
+        "endLine": 17,
+        "endChar": 45
+      },
+      "revId": "ddda6b71e12d026f69355e0c92a9d5aa9cbed9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0c97026_9cf8e170",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -60,6 +108,30 @@
       "writtenOn": "2017-05-08T14:50:39Z",
       "side": 1,
       "message": "nit: Elasticsearch",
+      "range": {
+        "startLine": 29,
+        "startChar": 20,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "ddda6b71e12d026f69355e0c92a9d5aa9cbed9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05a00e88_4fb11dcc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-08T15:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0c97026_9cf8e170",
       "range": {
         "startLine": 29,
         "startChar": 20,
@@ -95,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "74fa7ce1_17f8082c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-08T15:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "839798a3_b7504159",
+      "range": {
+        "startLine": 30,
+        "startChar": 53,
+        "endLine": 30,
+        "endChar": 67
+      },
+      "revId": "ddda6b71e12d026f69355e0c92a9d5aa9cbed9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "647faf7a_5ee0051a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -106,6 +202,30 @@
       "writtenOn": "2017-05-08T14:50:39Z",
       "side": 1,
       "message": "nit: Elasticsearch",
+      "range": {
+        "startLine": 34,
+        "startChar": 9,
+        "endLine": 34,
+        "endChar": 23
+      },
+      "revId": "ddda6b71e12d026f69355e0c92a9d5aa9cbed9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1a20c59_1444e1c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-08T15:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "647faf7a_5ee0051a",
       "range": {
         "startLine": 34,
         "startChar": 9,
@@ -141,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "5991c3c7_9cd5e5ed",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/LuceneQueryAccountsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-08T15:10:33Z",
+      "side": 1,
+      "message": "Thanks that\u0027s better.\n\nDone",
+      "parentUuid": "db79d9dc_bbeedd06",
+      "range": {
+        "startLine": 43,
+        "startChar": 25,
+        "endLine": 43,
+        "endChar": 82
+      },
+      "revId": "ddda6b71e12d026f69355e0c92a9d5aa9cbed9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "302f980a_c562818a",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
         "patchSetId": 2
@@ -164,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "0590b02e_1c615346",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-08T15:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "302f980a_c562818a",
+      "range": {
+        "startLine": 48,
+        "startChar": 24,
+        "endLine": 48,
+        "endChar": 82
+      },
+      "revId": "ddda6b71e12d026f69355e0c92a9d5aa9cbed9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "726d6329_f2670470",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/group/LuceneQueryGroupsTest.java",
         "patchSetId": 2
@@ -175,6 +343,30 @@
       "writtenOn": "2017-05-08T14:50:39Z",
       "side": 1,
       "message": "maybe: Iterables.get(schemas.keySet(), schemas.size() - 2)",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 82
+      },
+      "revId": "ddda6b71e12d026f69355e0c92a9d5aa9cbed9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab904f73_14f19387",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/group/LuceneQueryGroupsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-08T15:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "726d6329_f2670470",
       "range": {
         "startLine": 36,
         "startChar": 6,

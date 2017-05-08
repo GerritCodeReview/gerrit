@@ -1033,7 +1033,7 @@
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
 
-    _computePatchSetCommentsString: function(change, patchNum) {
+    _computePatchSetCommentsString: function(patchNum) {
       var numComments = 0;
       var numUnresolved = 0;
       for (var file in this._comments) {

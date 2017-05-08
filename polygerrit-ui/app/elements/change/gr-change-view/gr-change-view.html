@@ -24,6 +24,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
+<link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-editable-content/gr-editable-content.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
@@ -424,8 +425,8 @@ limitations under the License.
                   [[patchNum.num]]
                   /
                   [[_computeLatestPatchNum(_allPatchSets)]]
+                  [[_computePatchSetCommentsString(patchNum.num)]]
                   [[_computePatchSetDescription(_change, patchNum.num)]]
-                  [[_computePatchSetCommentsString(_change, patchNum.num)]]
                 </option>
               </template>
             </select>

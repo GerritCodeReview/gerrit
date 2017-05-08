@@ -14,6 +14,9 @@
 (function() {
   'use strict';
 
+  var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
+  var MERGE_LIST_PATH = '/MERGE_LIST';
+
   Polymer({
     is: 'gr-comment-list',
 
@@ -37,6 +40,15 @@
     _computeFileDiffURL: function(file, changeNum, patchNum) {
       return this.getBaseUrl() + '/c/' + changeNum +
         '/' + patchNum + '/' + file;
+    },
+
+    _computeFileDisplayName: function(path) {
+      if (path === COMMIT_MESSAGE_PATH) {
+        return 'Commit message';
+      } else if (path === MERGE_LIST_PATH) {
+        return 'Merge list';
+      }
+      return path;
     },
 
     _isOnParent: function(comment) {

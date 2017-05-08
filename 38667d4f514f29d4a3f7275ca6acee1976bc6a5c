@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74183952_8ef0d3ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-08T02:58:52Z",
+      "side": 1,
+      "message": "This causes a javadoc warning. Fixed in https://gerrit-review.googlesource.com/106010",
+      "range": {
+        "startLine": 78,
+        "startChar": 35,
+        "endLine": 78,
+        "endChar": 40
+      },
+      "revId": "38667d4f514f29d4a3f7275ca6acee1976bc6a5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

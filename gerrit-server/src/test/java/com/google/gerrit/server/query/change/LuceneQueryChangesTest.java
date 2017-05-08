@@ -14,12 +14,18 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.SchemaUtil;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import java.util.SortedMap;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -31,6 +37,22 @@ public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
     Config luceneConfig = new Config(config);
     InMemoryModule.setDefaults(luceneConfig);
     return Guice.createInjector(new InMemoryModule(luceneConfig, notesMigration));
+  }
+
+  @ConfigSuite.Config
+  public static Config againstPreviousIndexVersion() {
+    Config cfg = defaultConfig();
+    SortedMap<Integer, Schema<ChangeData>> schemas =
+        SchemaUtil.schemasFromClass(ChangeSchemaDefinitions.class, ChangeData.class);
+    if (schemas.size() > 1) {
+      int prevVersion = Iterables.get(schemas.keySet(), schemas.size() - 2);
+      cfg.setInt(
+          "index",
+          "lucene",
+          ChangeSchemaDefinitions.INSTANCE.getName() + "TestVersion",
+          prevVersion);
+    }
+    return cfg;
   }
 
   @Test

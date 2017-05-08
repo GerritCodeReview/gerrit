@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "2bec16a9_d28e5845",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 51
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-08T18:16:53Z",
+      "side": 1,
+      "message": "Ah, woop sorry that i missed this one., your right. Thanks, done.",
+      "parentUuid": "d288b35f_2c4019f6",
+      "range": {
+        "startLine": 807,
+        "startChar": 10,
+        "endLine": 813,
+        "endChar": 18
+      },
+      "revId": "3dd8333662c0988aed79799512d7dd1fd987a347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0a42a74c_41da8cc8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 51

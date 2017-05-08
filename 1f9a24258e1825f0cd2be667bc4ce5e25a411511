@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a28108f_679105d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-08T14:57:46Z",
+      "side": 1,
+      "message": "don\u0027t",
+      "range": {
+        "startLine": 7,
+        "startChar": 47,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "1f9a24258e1825f0cd2be667bc4ce5e25a411511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26c29f8c_1427eea0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-08T14:57:46Z",
+      "side": 1,
+      "message": "regenerate",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "1f9a24258e1825f0cd2be667bc4ce5e25a411511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0355916_b902d833",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-08T14:57:46Z",
+      "side": 1,
+      "message": "This clause is now in all of the conditions, so the whole thing can be simplified to:\n\n  if (!exists(site.ssh_key) \u0026\u0026\n   (!exists(site.ssh_rsa) || !exists(site.ssh_dsa) || !exists(site.ssh_ed25519) || !exists(site.ssh_ecdsa)) {\n  ...\n  }",
+      "range": {
+        "startLine": 83,
+        "startChar": 9,
+        "endLine": 83,
+        "endChar": 29
+      },
+      "revId": "1f9a24258e1825f0cd2be667bc4ce5e25a411511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

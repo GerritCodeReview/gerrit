@@ -75,7 +75,7 @@ public class FileContentUtil {
    * @param revstr An {@code ObjectId} specifying the commit.
    * @param path A string specifying the filepath.
    * @param parent A 1-based parent index to get the content from instead. Null if the content
-   *     should be obtained from {@param revstr} instead.
+   *     should be obtained from {@code revstr} instead.
    * @return Content of the file as {@code BinaryResult}.
    * @throws ResourceNotFoundException
    * @throws IOException

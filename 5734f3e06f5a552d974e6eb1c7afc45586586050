@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ca64f581_14a1715b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-08T09:12:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c3b450f_10a8f2f6",
+      "range": {
+        "startLine": 33,
+        "startChar": 31,
+        "endLine": 33,
+        "endChar": 44
+      },
+      "revId": "5734f3e06f5a552d974e6eb1c7afc45586586050",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d31cd232_143623b1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "What do you mean by \"it fails\"? Do you mean that the value of `dueToRebase` is false when it should be true?",
       "parentUuid": "d31cd232_143623b1",
+      "range": {
+        "startLine": 184,
+        "startChar": 6,
+        "endLine": 184,
+        "endChar": 58
+      },
+      "revId": "5734f3e06f5a552d974e6eb1c7afc45586586050",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be601eec_c44b2ee2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-08T09:12:35Z",
+      "side": 1,
+      "message": "Indeed. When I query the REST endpoint for the diffs from the command line, all hunks which were introduced by a rebase are correctly marked with \"due_to_rebase\" in the JSON result. If I set this variable to true, all lines will be colored according to the color definitions I introduced. So, the rest of the code as well as the CSS definitions seem to work. My conclusion is that this variable seems to be false for hunks which represent the addition or deletion of a line and which were introduced by a rebase. However, I don\u0027t know why the input is missing the \"due_to_rebase\" section for those hunks within this part of the code. Is there a way I can debug PolyGerrit\u0027s code to track down the cause?",
+      "parentUuid": "4ebcc4f7_65f870a8",
       "range": {
         "startLine": 184,
         "startChar": 6,

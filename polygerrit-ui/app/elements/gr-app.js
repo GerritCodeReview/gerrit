@@ -105,6 +105,8 @@
           selectedChangeIndex: 0,
         },
       };
+      window.Gerrit = window.Gerrit || {};
+      window.Gerrit.rootElement = document.body;
     },
 
     _accountChanged: function(account) {

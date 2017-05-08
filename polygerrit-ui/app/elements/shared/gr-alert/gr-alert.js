@@ -60,14 +60,14 @@
       this.actionText = opt_actionText;
       this._hideActionButton = !opt_actionText;
       this._actionCallback = opt_actionCallback;
-      document.body.appendChild(this);
+      Gerrit.rootElement.appendChild(this);
       this._setShown(true);
     },
 
     hide: function() {
       this._setShown(false);
       if (this._hasZeroTransitionDuration()) {
-        document.body.removeChild(this);
+        Gerrit.rootElement.removeChild(this);
       }
     },
 
@@ -81,7 +81,7 @@
     _handleTransitionEnd: function(e) {
       if (this.shown) { return; }
 
-      document.body.removeChild(this);
+      Gerrit.rootElement.removeChild(this);
     },
 
     _handleActionTap: function(e) {

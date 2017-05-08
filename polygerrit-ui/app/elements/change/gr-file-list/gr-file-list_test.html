@@ -693,6 +693,7 @@ limitations under the License.
         basePatchNum: 'PARENT',
         patchNum: '2',
       };
+      sandbox.spy(element, '_updateDiffPreferences');
       element.$.fileCursor.setCursorAtIndex(0);
       flushAsynchronousOperations();
 
@@ -708,6 +709,7 @@ limitations under the License.
       assert.equal(diffDisplay.viewMode, 'SIDE_BY_SIDE');
       element.set('diffViewMode', 'UNIFIED_DIFF');
       assert.equal(diffDisplay.viewMode, 'UNIFIED_DIFF');
+      assert.isTrue(element._updateDiffPreferences.called);
     });
 
     test('diff mode selector initializes from preferences', function() {

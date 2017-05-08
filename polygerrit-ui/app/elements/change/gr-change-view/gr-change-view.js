@@ -73,6 +73,7 @@
         type: Object,
         value: function() { return document.body; },
       },
+      _diffPrefs: Object,
       _numFilesShown: {
         type: Number,
         observer: '_numFilesShownChanged',
@@ -186,6 +187,7 @@
       'u': '_handleUKey',
       'x': '_handleXKey',
       'z': '_handleZKey',
+      ',': '_handleCommaKey',
     },
 
     attached: function() {
@@ -219,6 +221,10 @@
       if (this._updateCheckTimerHandle) {
         this._cancelUpdateCheckTimer();
       }
+    },
+
+    _computePrefsButtonHidden: function(prefs, loggedIn) {
+      return !loggedIn || !prefs;
     },
 
     _handleEditCommitMessage: function(e) {
@@ -267,6 +273,11 @@
       }
 
       return false;
+    },
+
+    _handlePrefsTap: function(e) {
+      e.preventDefault();
+      this.$.fileList.openDiffPrefs();
     },
 
     _handleCommentSave: function(e) {
@@ -790,6 +801,14 @@
 
       e.preventDefault();
       this.$.messageList.handleExpandCollapse(false);
+    },
+
+    _handleCommaKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
+
+      e.preventDefault();
+      this.$.fileList.openDiffPrefs();
     },
 
     _determinePageBack: function() {

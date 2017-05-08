@@ -53,6 +53,7 @@
       diffViewMode: {
         type: String,
         notify: true,
+        observer: '_updateDiffPreferences',
       },
       _files: {
         type: Array,
@@ -68,7 +69,11 @@
         value: function() { return []; },
       },
       _diffAgainst: String,
-      _diffPrefs: Object,
+      diffPrefs: {
+        type: Object,
+        notify: true,
+        observer: '_updateDiffPreferences',
+      },
       _userPrefs: Object,
       _localPrefs: Object,
       _showInlineDiffs: Boolean,
@@ -157,7 +162,7 @@
 
       this._localPrefs = this.$.storage.getPreferences();
       promises.push(this._getDiffPreferences().then(function(prefs) {
-        this._diffPrefs = prefs;
+        this.diffPrefs = prefs;
       }.bind(this)));
 
       promises.push(this._getPreferences().then(function(prefs) {
@@ -170,6 +175,10 @@
 
     get diffs() {
       return Polymer.dom(this.root).querySelectorAll('gr-diff');
+    },
+
+    openDiffPrefs: function() {
+      this.$.diffPreferences.open();
     },
 
     _calculatePatchChange: function(files) {
@@ -243,6 +252,19 @@
       patchRange.basePatchNum = Polymer.dom(e).rootTarget.value;
       page.show(this.encodeURL('/c/' + this.changeNum + '/' +
           this._patchRangeStr(patchRange), true));
+    },
+
+    _updateDiffPreferences: function() {
+      if (!this.diffs.length) { return; }
+      // Re-render all expanded diffs sequentially.
+      var timerName = 'Update ' + this._expandedFilePaths.length +
+          ' diffs with new prefs';
+      this._renderInOrder(this._expandedFilePaths, this.diffs,
+          this._expandedFilePaths.length)
+          .then(function() {
+            this.$.reporting.timeEnd(timerName);
+            this.$.diffCursor.handleDiffUpdate();
+          }.bind(this));
     },
 
     _forEachDiff: function(fn) {

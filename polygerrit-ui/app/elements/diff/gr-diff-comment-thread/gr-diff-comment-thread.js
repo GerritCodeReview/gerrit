@@ -45,6 +45,10 @@
         type: Boolean,
         value: false,
       },
+      _isAdmin: {
+        type: Boolean,
+        value: false,
+      },
 
       _showActions: Boolean,
       _lastComment: Object,
@@ -74,6 +78,9 @@
     attached: function() {
       this._getLoggedIn().then(function(loggedIn) {
         this._showActions = loggedIn;
+      }.bind(this));
+      this._getIsAdmin().then(function(isAdmin) {
+        this._isAdmin = isAdmin;
       }.bind(this));
       this._setInitialExpandedState();
     },
@@ -105,6 +112,10 @@
 
     _getLoggedIn: function() {
       return this.$.restAPI.getLoggedIn();
+    },
+
+    _getIsAdmin: function() {
+      return this.$.restAPI.getIsAdmin();
     },
 
     _commentsChanged: function(changeRecord) {
@@ -234,6 +245,10 @@
       this._createReplyComment(comment, 'Done', false, false);
     },
 
+    _handleCommentReply: function(e) {
+      this._processCommentReply();
+    },
+
     _handleCommentFix: function(e) {
       var comment = e.detail.comment;
       var msg = comment.message;
@@ -333,6 +348,14 @@
         return;
       }
       this.set(['comments', index], comment);
+    },
+
+    _handleCommentDelete: function() {
+      var comment = this._lastComment;
+      if (window.confirm('Do you really want to delete this comment?')) {
+        this.$.restAPI.deleteComment(
+            this.changeNum, this.patchNum, comment.id);
+      }
     },
 
     _indexOf: function(comment, arr) {

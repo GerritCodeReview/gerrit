@@ -49,6 +49,12 @@ limitations under the License.
           [{text: 'John Doe', bold: true}, {text: 'john@doe.com'}]);
     });
 
+    test('test for account without a name', () => {
+      element.account = {id: '0001', email: ''};
+      assert.deepEqual(element.topContent,
+          [{text: 'Anonymous', bold: true}, {text: ''}]);
+    });
+
     test('switch account', () => {
       // No switch account link.
       assert.equal(element._getLinks(null).length, 2);

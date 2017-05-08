@@ -16,18 +16,24 @@
 
   const INTERPOLATE_URL_PATTERN = /\$\{([\w]+)\}/g;
 
+  var ANON = 'Anonymous';
+
   Polymer({
     is: 'gr-account-dropdown',
 
     properties: {
       account: Object,
+      _anon: {
+        type: String,
+        value: ANON,
+      },
       links: {
         type: Array,
         computed: '_getLinks(_switchAccountUrl, _path)',
       },
       topContent: {
         type: Array,
-        computed: '_getTopContent(account)',
+        computed: '_getTopContent(account, _anon)',
       },
       _path: {
         type: String,
@@ -47,6 +53,10 @@
           this._switchAccountUrl = null;
         }
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
+
+        if (cfg && cfg.user && cfg.user.anonymous_coward_name) {
+          this._anon = cfg.user.anonymous_coward_name;
+        }
       });
     },
 
@@ -65,10 +75,9 @@
       return links;
     },
 
-    _getTopContent(account) {
-      // if (!account) { return []; }
+    _getTopContent(account, _anon) {
       return [
-        {text: account.name, bold: true},
+        {text: this._accountName(account, _anon), bold: true},
         {text: account.email},
       ];
     },
@@ -84,6 +93,16 @@
       return url.replace(INTERPOLATE_URL_PATTERN, (match, p1) => {
         return replacements[p1] || '';
       });
+    },
+
+    _accountName(account, _anon) {
+      if (account && account.name) {
+        return account.name;
+      } else if (_anon !== 'Anonymous Coward') {
+        return _anon;
+      } else {
+        return ANON;
+      }
     },
   });
 })();

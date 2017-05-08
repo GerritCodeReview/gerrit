@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c8c4a1f_c4b8ab70",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 47
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T23:30:37Z",
+      "side": 1,
+      "message": "Wrap lines \u003e80ch.",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 9
+      },
+      "revId": "d91147b2bf5e3c673f2d36beb1e64a6f2d67ec53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

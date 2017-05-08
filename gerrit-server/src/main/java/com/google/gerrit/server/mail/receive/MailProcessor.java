@@ -38,6 +38,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountByEmailCache;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.CommentAdded;
@@ -84,6 +85,7 @@ public class MailProcessor {
   private final EmailReviewComments.Factory outgoingMailFactory;
   private final CommentAdded commentAdded;
   private final ApprovalsUtil approvalsUtil;
+  private final AccountCache accountCache;
   private final Provider<String> canonicalUrl;
 
   @Inject
@@ -101,6 +103,7 @@ public class MailProcessor {
       EmailReviewComments.Factory outgoingMailFactory,
       ApprovalsUtil approvalsUtil,
       CommentAdded commentAdded,
+      AccountCache accountCache,
       @CanonicalWebUrl Provider<String> canonicalUrl) {
     this.accountByEmailCache = accountByEmailCache;
     this.buf = buf;
@@ -115,6 +118,7 @@ public class MailProcessor {
     this.outgoingMailFactory = outgoingMailFactory;
     this.commentAdded = commentAdded;
     this.approvalsUtil = approvalsUtil;
+    this.accountCache = accountCache;
     this.canonicalUrl = canonicalUrl;
   }
 
@@ -153,7 +157,7 @@ public class MailProcessor {
       return;
     }
     Account.Id account = accounts.iterator().next();
-    if (!reviewDb.get().accounts().get(account).isActive()) {
+    if (!accountCache.get(account).getAccount().isActive()) {
       log.warn(String.format("Mail: Account %s is inactive. Will delete message.", account));
       return;
     }

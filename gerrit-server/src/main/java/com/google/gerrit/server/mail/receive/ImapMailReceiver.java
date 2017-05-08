@@ -71,7 +71,8 @@ public class ImapMailReceiver extends MailReceiver {
           // Fetch just the internal dates first to know how many messages we
           // should fetch.
           if (!imap.fetch("1:*", "(INTERNALDATE)")) {
-            log.error("IMAP fetch failed. Will retry in next fetch cycle.");
+            // false indicates that there are no messages to fetch
+            log.info("Fetched 0 messages via IMAP");
             return;
           }
           // Format of reply is one line per email and one line to indicate

@@ -94,6 +94,29 @@
       "revId": "f879b2830207f67b89fd4677a618999061092fdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d60da7f_08d473b8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-08T10:44:28Z",
+      "side": 1,
+      "message": "Unrelated to this change, but this always returns true now that we ship Bouncy Castle in the .war file.",
+      "range": {
+        "startLine": 95,
+        "startChar": 10,
+        "endLine": 95,
+        "endChar": 50
+      },
+      "revId": "f879b2830207f67b89fd4677a618999061092fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

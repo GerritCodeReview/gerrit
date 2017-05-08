@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "19d3bc21_80a955e5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-08T00:09:12Z",
+      "side": 1,
+      "message": "Oh yep. Thanks. I was also looking at it. But because we also do\n\nsomething like \n\nsite.ssh_rsa.toAbsolutePath().toString())\n\nit made it tricky to do it.",
+      "parentUuid": "b2f81337_f30ff361",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 9
+      },
+      "revId": "9871f64d9eb86584ad0829450f8b7ca7eb4629a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "180e4c92_6bbc6e33",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
         "patchSetId": 5

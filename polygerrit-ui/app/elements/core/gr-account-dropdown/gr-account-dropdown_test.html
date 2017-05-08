@@ -48,5 +48,25 @@ limitations under the License.
       assert.deepEqual(element.topContent,
           [{text: 'John Doe', bold: true}, {text: 'john@doe.com'}]);
     });
+
+    test('test for account without a name', function() {
+      element.account = {id: '0001'};
+      assert.deepEqual(element.topContent,
+          [{text: 'Anonymous', bold: true}, {text: ''}]);
+    });
+
+   test('test for account without a name but using config', function() {
+      element._anonymousName = 'WikiGerrit';
+      element.account = {id: '0001'};
+      assert.deepEqual(element.topContent,
+          [{text: 'WikiGerrit', bold: true}, {text: ''}]);
+    });
+
+   test('test for account name as an email', function() {
+      element._anonymousName = 'WikiGerrit';
+      element.account = {email: 'john@doe.com'};
+      assert.deepEqual(element.topContent,
+          [{text: 'john@doe.com', bold: true}, {text: 'john@doe.com'}]);
+    });
   });
 </script>

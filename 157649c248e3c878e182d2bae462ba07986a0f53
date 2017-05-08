@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee00c7af_20a6b71d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-08T17:37:52Z",
+      "side": 1,
+      "message": "Nit: this can be just:\n\n _diffPrefs: Object",
+      "range": {
+        "startLine": 76,
+        "startChar": 18,
+        "endLine": 78,
+        "endChar": 7
+      },
+      "revId": "157649c248e3c878e182d2bae462ba07986a0f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc004fdf_93785efc",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-08T17:37:52Z",
+      "side": 1,
+      "message": "Interesting regression! Now that the diffs ignore preferences changes, changing the diff mode SELECT doesn\u0027t re-render the diffs.\n\nMaybe we can just call this method when the diff mode is changed also.",
+      "range": {
+        "startLine": 252,
+        "startChar": 4,
+        "endLine": 252,
+        "endChar": 26
+      },
+      "revId": "157649c248e3c878e182d2bae462ba07986a0f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

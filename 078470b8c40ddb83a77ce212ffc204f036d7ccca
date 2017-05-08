@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "461d7a1a_5f1baf43",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T22:30:46Z",
+      "side": 1,
+      "message": "Strict equality please.",
+      "range": {
+        "startLine": 82,
+        "startChar": 43,
+        "endLine": 82,
+        "endChar": 45
+      },
+      "revId": "078470b8c40ddb83a77ce212ffc204f036d7ccca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ccd1356_53561c29",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T22:30:46Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 130,
+        "startChar": 42,
+        "endLine": 130,
+        "endChar": 44
+      },
+      "revId": "078470b8c40ddb83a77ce212ffc204f036d7ccca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03c7ef97_13cbc3ff",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T22:30:46Z",
+      "side": 1,
+      "message": "Update the comment to note this change?",
+      "range": {
+        "startLine": 141,
+        "startChar": 32,
+        "endLine": 141,
+        "endChar": 44
+      },
+      "revId": "078470b8c40ddb83a77ce212ffc204f036d7ccca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46d9cb0b_d05039a4",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T22:30:46Z",
+      "side": 1,
+      "message": "Update the comment to note this change?",
+      "range": {
+        "startLine": 165,
+        "startChar": 32,
+        "endLine": 165,
+        "endChar": 44
+      },
+      "revId": "078470b8c40ddb83a77ce212ffc204f036d7ccca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "789de8ce_d293434d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T22:30:46Z",
+      "side": 1,
+      "message": "This is interesting notation. I think if all you want from the response is one value, it\u0027d be easier to do...\n\n    const edit \u003d r.edit;",
+      "range": {
+        "startLine": 468,
+        "startChar": 8,
+        "endLine": 468,
+        "endChar": 31
+      },
+      "revId": "078470b8c40ddb83a77ce212ffc204f036d7ccca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56e0c44b_a4d3e5b3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T22:30:46Z",
+      "side": 1,
+      "message": "You can use...\n\n    const revisions \u003d this.sortRevisions(Object.values(revs));\n\n...here instead. ES6 is awesome :)",
+      "range": {
+        "startLine": 531,
+        "startChar": 6,
+        "endLine": 537,
+        "endChar": 7
+      },
+      "revId": "078470b8c40ddb83a77ce212ffc204f036d7ccca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

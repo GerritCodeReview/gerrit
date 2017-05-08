@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5de4effa_45b3f09c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-08T07:05:34Z",
+      "side": 1,
+      "message": "Is this logic correct?",
+      "range": {
+        "startLine": 89,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 37
+      },
+      "revId": "c3319bf15ef02ce5f0a0aef41af90bb38f3bfaf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

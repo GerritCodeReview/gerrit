@@ -22,6 +22,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.FluentIterable;
@@ -76,9 +77,11 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.index.change.StalenessChecker;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -413,6 +416,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byWip() throws Exception {
+    if (getSchemaVersion() < ChangeSchemaDefinitions.V42.getVersion()) {
+      assertThat(getSchema().hasField(ChangeField.WIP)).isFalse();
+      assertFailingQuery("is:wip", "'is:wip' operator is not supported by change index version");
+      return;
+    }
+
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo), userId);
 
@@ -439,18 +448,27 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     rin.state = ReviewerState.REVIEWER;
     gApi.changes().id(change1.getId().get()).addReviewer(rin);
 
-    assertQuery("is:wip");
-    assertQuery("reviewer:" + user1, change1);
+    if (getSchemaVersion() >= ChangeSchemaDefinitions.V42.getVersion()) {
+      assertQuery("is:wip");
+      assertQuery("reviewer:" + user1, change1);
 
-    gApi.changes().id(change1.getChangeId()).setWorkInProgress();
+      gApi.changes().id(change1.getChangeId()).setWorkInProgress();
 
-    assertQuery("is:wip", change1);
-    assertQuery("reviewer:" + user1);
+      assertQuery("is:wip", change1);
+      assertQuery("reviewer:" + user1);
 
-    gApi.changes().id(change1.getChangeId()).setReadyForReview();
+      gApi.changes().id(change1.getChangeId()).setReadyForReview();
 
-    assertQuery("is:wip");
-    assertQuery("reviewer:" + user1, change1);
+      assertQuery("is:wip");
+      assertQuery("reviewer:" + user1, change1);
+    } else {
+      assertThat(getSchema().hasField(ChangeField.WIP)).isFalse();
+
+      assertFailingQuery("is:wip", "'is:wip' operator is not supported by change index version");
+      assertQuery("reviewer:" + user1, change1);
+      gApi.changes().id(change1.getChangeId()).setWorkInProgress();
+      assertQuery("reviewer:" + user1, change1);
+    }
   }
 
   @Test
@@ -2190,5 +2208,22 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         ImmutableMap.<String, List<ReviewInput.CommentInput>>of(
             Patch.COMMIT_MSG, ImmutableList.<ReviewInput.CommentInput>of(comment));
     gApi.changes().id(changeId).current().review(input);
+  }
+
+  protected void assertFailingQuery(String query, String expectedMessage) throws Exception {
+    try {
+      assertQuery(query);
+      fail("expected BadRequestException for query '" + query + "'");
+    } catch (BadRequestException e) {
+      assertThat(e.getMessage()).isEqualTo(expectedMessage);
+    }
+  }
+
+  protected int getSchemaVersion() {
+    return getSchema().getVersion();
+  }
+
+  protected Schema<ChangeData> getSchema() {
+    return indexes.getSearchIndex().getSchema();
   }
 }

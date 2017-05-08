@@ -80,9 +80,11 @@ class InitSshd implements InitStep {
   }
 
   private void generateSshHostKeys() throws InterruptedException, IOException {
-    if (!exists(site.ssh_key) && !exists(site.ssh_rsa) && !exists(site.ssh_dsa)
-        || !exists(site.ssh_ed25519)
-        || !exists(site.ssh_ecdsa)) {
+    if (!exists(site.ssh_key)
+        && (!exists(site.ssh_rsa)
+            || !exists(site.ssh_dsa)
+            || !exists(site.ssh_ed25519)
+            || !exists(site.ssh_ecdsa))) {
       System.err.print("Generating SSH host key ...");
       System.err.flush();
 

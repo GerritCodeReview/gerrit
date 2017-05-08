@@ -248,6 +248,27 @@ limitations under the License.
         assert.isTrue(element._handleSave.called);
       });
     });
+    test('delete comment button for non-admins is hidden', function() {
+      element._isAdmin = false;
+      assert.isTrue(element.$$('.action.delete').hidden);
+    });
+
+    test('delete comment', function(done) {
+      sandbox.stub(
+          element.$.restAPI, 'deleteComment').returns(Promise.resolve());
+      sandbox.spy(element.$.overlay, 'open');
+      element.changeNum = 42;
+      element.patchNum = 0xDEADBEEF;
+      element._isAdmin = true;
+      MockInteractions.tap(element.$$('.action.delete'));
+      element.$.overlay.open.lastCall.returnValue.then(function() {
+        element.$.confirmDeleteComment.message = 'removal reason';
+        element._handleConfirmDeleteComment();
+        assert.isTrue(element.$.restAPI.deleteComment.calledWith(
+            42, 0xDEADBEEF, 'baf0414d_60047215', 'removal reason'));
+        done();
+      });
+    });
   });
 
   suite('gr-diff-comment draft tests', function() {

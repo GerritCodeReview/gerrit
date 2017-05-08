@@ -16,6 +16,8 @@ package com.google.gerrit.server.index.group;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.events.GroupIndexedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.index.Index;
@@ -33,19 +35,28 @@ public class GroupIndexerImpl implements GroupIndexer {
   }
 
   private final GroupCache groupCache;
+  private final DynamicSet<GroupIndexedListener> indexedListener;
   private final GroupIndexCollection indexes;
   private final GroupIndex index;
 
   @AssistedInject
-  GroupIndexerImpl(GroupCache groupCache, @Assisted GroupIndexCollection indexes) {
+  GroupIndexerImpl(
+      GroupCache groupCache,
+      DynamicSet<GroupIndexedListener> indexedListener,
+      @Assisted GroupIndexCollection indexes) {
     this.groupCache = groupCache;
+    this.indexedListener = indexedListener;
     this.indexes = indexes;
     this.index = null;
   }
 
   @AssistedInject
-  GroupIndexerImpl(GroupCache groupCache, @Assisted GroupIndex index) {
+  GroupIndexerImpl(
+      GroupCache groupCache,
+      DynamicSet<GroupIndexedListener> indexedListener,
+      @Assisted GroupIndex index) {
     this.groupCache = groupCache;
+    this.indexedListener = indexedListener;
     this.indexes = null;
     this.index = index;
   }
@@ -54,6 +65,13 @@ public class GroupIndexerImpl implements GroupIndexer {
   public void index(AccountGroup.UUID uuid) throws IOException {
     for (Index<?, AccountGroup> i : getWriteIndexes()) {
       i.replace(groupCache.get(uuid));
+    }
+    fireGroupIndexedEvent(uuid.get());
+  }
+
+  private void fireGroupIndexedEvent(String uuid) {
+    for (GroupIndexedListener listener : indexedListener) {
+      listener.onGroupIndexed(uuid);
     }
   }
 

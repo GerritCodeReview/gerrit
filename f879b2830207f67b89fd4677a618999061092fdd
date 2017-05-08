@@ -46,6 +46,30 @@
       "revId": "f879b2830207f67b89fd4677a618999061092fdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "def06f09_d4b202fc",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-08T10:14:06Z",
+      "side": 1,
+      "message": "This makes it so that 2.13 installs can get the new key.",
+      "parentUuid": "c4fa47b2_e9ba368f",
+      "range": {
+        "startLine": 90,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 62
+      },
+      "revId": "f879b2830207f67b89fd4677a618999061092fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

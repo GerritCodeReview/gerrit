@@ -15,8 +15,11 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-
-<dom-module id="mock-diff-response">
+<link rel="import" href="../../../bower_components/polymer-resin/standalone/polymer-resin-debug.html"/>
+<script>
+security.polymer_resin.install({ 'allowedIdentifierPrefixes': [''] });
+</script>
+    <dom-module id="mock-diff-response">
   <template></template>
   <script>
     (function() {

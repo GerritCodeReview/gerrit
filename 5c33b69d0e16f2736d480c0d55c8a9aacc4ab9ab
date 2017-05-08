@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a96b536e_01ef38f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-08T19:40:56Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this change depend on 105052?",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "5c33b69d0e16f2736d480c0d55c8a9aacc4ab9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7e2a770_de40dcc0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-08T19:40:56Z",
+      "side": 1,
+      "message": "This resolves the promise with `undefined`, which it looks like is the reason for the capabilities falsy-check in the chained `.then` below.\n\nWould it feel a little tidier to only check the capabilities if it was requested?\n\ngetIsAdmin: function() {\n  return this.getLoggedIn().then(function(isLoggedIn) {\n    if (!isLoggedIn) { return Promise.resolve(false); }\n\n    return this.getAccountCapabilities().then(function(capabilities) {\n      return capabilities.administrateServer;\n    });\n  }.bind(this));\n},",
+      "range": {
+        "startLine": 350,
+        "startChar": 10,
+        "endLine": 350,
+        "endChar": 35
+      },
+      "revId": "5c33b69d0e16f2736d480c0d55c8a9aacc4ab9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91ad5821_ddd85a60",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-08T19:40:56Z",
+      "side": 1,
+      "message": "You use an arrow function here, but not elsewhere (e.g. in the `getIsAdmin` promise chain). Is this intended? It seems to me that if we can start using them in tests then we can use them anywhere.",
+      "range": {
+        "startLine": 617,
+        "startChar": 26,
+        "endLine": 617,
+        "endChar": 33
+      },
+      "revId": "5c33b69d0e16f2736d480c0d55c8a9aacc4ab9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

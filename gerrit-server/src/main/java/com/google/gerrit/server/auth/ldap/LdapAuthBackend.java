@@ -27,6 +27,7 @@ import com.google.gerrit.server.auth.UserNotAllowedException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.Locale;
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
@@ -80,20 +81,16 @@ public class LdapAuthBackend implements AuthBackend {
           // We found the user account, but we need to verify
           // the password matches it before we can continue.
           //
-          helper.authenticate(m.getDN(), req.getPassword()).close();
+          helper.close(helper.authenticate(m.getDN(), req.getPassword()));
         }
         return new AuthUser(AuthUser.UUID.create(username), username);
       } finally {
-        try {
-          ctx.close();
-        } catch (NamingException e) {
-          log.warn("Cannot close LDAP query handle", e);
-        }
+        helper.close(ctx);
       }
     } catch (AccountException e) {
       log.error("Cannot query LDAP to authenticate user", e);
       throw new InvalidCredentialsException("Cannot query LDAP for account", e);
-    } catch (NamingException e) {
+    } catch (IOException | NamingException e) {
       log.error("Cannot query LDAP to authenticate user", e);
       throw new AuthException("Cannot query LDAP for account", e);
     } catch (LoginException e) {

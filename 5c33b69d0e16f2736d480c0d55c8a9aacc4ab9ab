@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "24254a3e_2605fe44",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T23:19:19Z",
+      "side": 1,
+      "message": "^seconded. Also, definitely think it\u0027s important to allow admins to supply a reason as to why the comment is deleted, as the comment then gets populated with that reason.",
+      "parentUuid": "f83408a1_e3b56be9",
+      "revId": "5c33b69d0e16f2736d480c0d55c8a9aacc4ab9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f7e2a770_de40dcc0",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2

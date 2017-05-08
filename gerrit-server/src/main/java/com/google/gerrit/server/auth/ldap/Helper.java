@@ -28,6 +28,7 @@ import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import java.io.IOException;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
@@ -46,16 +47,24 @@ import javax.naming.NamingException;
 import javax.naming.PartialResultException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.DirContext;
-import javax.naming.directory.InitialDirContext;
+import javax.naming.ldap.InitialLdapContext;
+import javax.naming.ldap.LdapContext;
+import javax.naming.ldap.StartTlsRequest;
+import javax.naming.ldap.StartTlsResponse;
 import javax.net.ssl.SSLSocketFactory;
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 class Helper {
+  private static final Logger log = LoggerFactory.getLogger(Helper.class);
+
   static final String LDAP_UUID = "ldap:";
+  static final String STARTTLS_PROPERTY = Helper.class.getName() + ".startTls";
 
   private final Cache<String, ImmutableSet<String>> parentGroups;
   private final Config config;
@@ -63,6 +72,7 @@ class Helper {
   private final String username;
   private final String password;
   private final String referral;
+  private final boolean startTls;
   private final boolean sslVerify;
   private final String authentication;
   private volatile LdapSchema ldapSchema;
@@ -80,6 +90,7 @@ class Helper {
     this.username = LdapRealm.optional(config, "username");
     this.password = LdapRealm.optional(config, "password", "");
     this.referral = LdapRealm.optional(config, "referral", "ignore");
+    this.startTls = config.getBoolean("ldap", "startTls", false);
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
     this.groupsVisibleToAll = config.getBoolean("ldap", "groupsVisibleToAll", false);
     this.authentication = LdapRealm.optional(config, "authentication", "simple");
@@ -121,7 +132,37 @@ class Helper {
     return env;
   }
 
-  DirContext open() throws NamingException, LoginException {
+  private DirContext createContext(Properties env) throws IOException, NamingException {
+    LdapContext ctx = new InitialLdapContext(env, null);
+    if (startTls) {
+      StartTlsResponse tls = (StartTlsResponse) ctx.extendedOperation(new StartTlsRequest());
+      SSLSocketFactory sslfactory = null;
+      if (!sslVerify) {
+        sslfactory = (SSLSocketFactory) BlindSSLSocketFactory.getDefault();
+      }
+      tls.negotiate(sslfactory);
+      ctx.addToEnvironment(STARTTLS_PROPERTY, tls);
+    }
+    return ctx;
+  }
+
+  void close(DirContext ctx) {
+    try {
+      StartTlsResponse tls = (StartTlsResponse) ctx.removeFromEnvironment(STARTTLS_PROPERTY);
+      if (tls != null) {
+        tls.close();
+      }
+    } catch (IOException | NamingException e) {
+      log.warn("Cannot close LDAP startTls handle", e);
+    }
+    try {
+      ctx.close();
+    } catch (NamingException e) {
+      log.warn("Cannot close LDAP handle", e);
+    }
+  }
+
+  DirContext open() throws IOException, NamingException, LoginException {
     final Properties env = createContextProperties();
     env.put(Context.SECURITY_AUTHENTICATION, authentication);
     env.put(Context.REFERRAL, referral);
@@ -132,10 +173,10 @@ class Helper {
       env.put(Context.SECURITY_PRINCIPAL, username);
       env.put(Context.SECURITY_CREDENTIALS, password);
     }
-    return new InitialDirContext(env);
+    return createContext(env);
   }
 
-  private DirContext kerberosOpen(final Properties env) throws LoginException, NamingException {
+  private DirContext kerberosOpen(final Properties env) throws IOException, LoginException, NamingException {
     LoginContext ctx = new LoginContext("KerberosLogin");
     ctx.login();
     Subject subject = ctx.getSubject();
@@ -144,11 +185,12 @@ class Helper {
           subject,
           new PrivilegedExceptionAction<DirContext>() {
             @Override
-            public DirContext run() throws NamingException {
-              return new InitialDirContext(env);
+            public DirContext run() throws IOException, NamingException {
+              return createContext(env);
             }
           });
     } catch (PrivilegedActionException e) {
+      Throwables.throwIfInstanceOf(e.getException(), IOException.class);
       Throwables.throwIfInstanceOf(e.getException(), NamingException.class);
       Throwables.throwIfInstanceOf(e.getException(), RuntimeException.class);
       LdapRealm.log.warn("Internal error", e.getException());
@@ -165,8 +207,8 @@ class Helper {
     env.put(Context.SECURITY_CREDENTIALS, password);
     env.put(Context.REFERRAL, referral);
     try {
-      return new InitialDirContext(env);
-    } catch (NamingException e) {
+      return createContext(env);
+    } catch (IOException | NamingException e) {
       throw new AuthenticationFailedException("Incorrect username or password", e);
     }
   }

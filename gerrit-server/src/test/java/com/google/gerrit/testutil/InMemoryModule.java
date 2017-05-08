@@ -259,14 +259,9 @@ public class InMemoryModule extends FactoryModule {
 
   private Module indexModule(String moduleClassName) {
     try {
-      Map<String, Integer> singleVersions = new HashMap<>();
-      int version = cfg.getInt("index", "lucene", "testVersion", -1);
-      if (version > 0) {
-        singleVersions.put(ChangeSchemaDefinitions.INSTANCE.getName(), version);
-      }
       Class<?> clazz = Class.forName(moduleClassName);
       Method m = clazz.getMethod("singleVersionWithExplicitVersions", Map.class, int.class);
-      return (Module) m.invoke(null, singleVersions, 0);
+      return (Module) m.invoke(null, getSingleSchemaVersions(), 0);
     } catch (ClassNotFoundException
         | SecurityException
         | NoSuchMethodException
@@ -278,5 +273,15 @@ public class InMemoryModule extends FactoryModule {
       pe.initCause(e);
       throw pe;
     }
+  }
+
+  private Map<String, Integer> getSingleSchemaVersions() {
+    Map<String, Integer> singleVersions = new HashMap<>();
+    String schemaName = ChangeSchemaDefinitions.INSTANCE.getName();
+    int version = cfg.getInt("index", "lucene", schemaName + "TestVersion", -1);
+    if (version > 0) {
+      singleVersions.put(schemaName, version);
+    }
+    return singleVersions;
   }
 }

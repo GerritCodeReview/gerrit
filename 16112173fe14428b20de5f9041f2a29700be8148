@@ -22,6 +22,30 @@
       "revId": "16112173fe14428b20de5f9041f2a29700be8148",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13eb03d2_0cc18e8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1361,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-05-08T18:35:14Z",
+      "side": 1,
+      "message": "Seems like some properties are subject to this hazard, while others account for it, and still others offer a choice via two different methods (e.g. reviewers() and getReviewers()).\n\nI lean toward the current implementation because it gives an authoritative answer to whether review has started, whereas lazy loading would yield a false positive. Maybe Dave can offer guidance here.",
+      "parentUuid": "144a5506_b0a1b569",
+      "range": {
+        "startLine": 1361,
+        "startChar": 10,
+        "endLine": 1361,
+        "endChar": 19
+      },
+      "revId": "16112173fe14428b20de5f9041f2a29700be8148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

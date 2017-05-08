@@ -49,7 +49,6 @@ limitations under the License.
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(false); },
       });
-      sandbox = sinon.sandbox.create();
       element = fixture('basic');
     });
 
@@ -165,8 +164,10 @@ limitations under the License.
 
   suite('comment action tests', function() {
     var element;
+    var sandbox;
 
     setup(function() {
+      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(false); },
         saveDiffDraft: function() {
@@ -198,6 +199,10 @@ limitations under the License.
         updated: '2015-12-08 19:48:33.843000000',
       }];
       flushAsynchronousOperations();
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('reply', function(done) {
@@ -557,6 +562,28 @@ limitations under the License.
       assert.isTrue(element.$.unresolvedLabel.hasAttribute('hidden'));
       element._unresolved = true;
       assert.isFalse(element.$.unresolvedLabel.hasAttribute('hidden'));
+    });
+
+    test('delete comment button for non-admins is hidden', function() {
+      element._isAdmin = false;
+      assert.isTrue(element.$$('.action.delete').hidden);
+    });
+
+    test('delete comment', function(done) {
+      sandbox.stub(
+          element.$.restAPI, 'deleteComment').returns(Promise.resolve());
+      sandbox.spy(element.$.overlay, 'open');
+      element.changeNum = 42;
+      element.patchNum = 0xDEADBEEF;
+      element._isAdmin = true;
+      MockInteractions.tap(element.$$('.action.delete'));
+      element.$.overlay.open.lastCall.returnValue.then(function() {
+        element.$.confirmDeleteComment.message = 'removal reason';
+        element._handleConfirmDeleteComment();
+        assert.isTrue(element.$.restAPI.deleteComment.calledWith(
+            42, 0xDEADBEEF, 'baf0414d_60047215', 'removal reason'));
+        done();
+      });
     });
   });
 </script>

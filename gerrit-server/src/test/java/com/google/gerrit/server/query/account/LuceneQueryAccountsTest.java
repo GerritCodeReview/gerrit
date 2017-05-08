@@ -14,12 +14,30 @@
 
 package com.google.gerrit.server.query.account;
 
+import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.eclipse.jgit.lib.Config;
 
 public class LuceneQueryAccountsTest extends AbstractQueryAccountsTest {
+  @ConfigSuite.Config
+  public static Config againstPreviousIndexVersion() {
+    Config cfg = defaultConfig();
+    Schema<AccountState> prevSchema = AccountSchemaDefinitions.INSTANCE.getPrevious();
+    if (prevSchema != null) {
+      cfg.setInt(
+          "index",
+          "lucene",
+          AccountSchemaDefinitions.INSTANCE.getName() + "TestVersion",
+          prevSchema.getVersion());
+    }
+    return cfg;
+  }
+
   @Override
   protected Injector createInjector() {
     Config luceneConfig = new Config(config);

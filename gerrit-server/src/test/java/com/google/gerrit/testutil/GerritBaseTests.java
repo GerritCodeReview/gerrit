@@ -14,11 +14,13 @@
 
 package com.google.gerrit.testutil;
 
+import com.google.common.base.CharMatcher;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.TestName;
 
 @Ignore
 public abstract class GerritBaseTests {
@@ -27,4 +29,14 @@ public abstract class GerritBaseTests {
   }
 
   @Rule public ExpectedException exception = ExpectedException.none();
+  @Rule public final TestName testName = new TestName();
+
+  protected String getSanitizedMethodName() {
+    String name = testName.getMethodName().toLowerCase();
+    name = CharMatcher.javaLetterOrDigit().negate().replaceFrom(name, '_');
+    if (name.endsWith("_")) {
+      name = CharMatcher.is('_').trimTrailingFrom(name);
+    }
+    return name;
+  }
 }

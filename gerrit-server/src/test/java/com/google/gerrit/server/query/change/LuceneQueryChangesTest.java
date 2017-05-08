@@ -16,6 +16,9 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
 import com.google.inject.Guice;
@@ -26,6 +29,20 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
+  @ConfigSuite.Config
+  public static Config againstPreviousIndexVersion() {
+    Config cfg = defaultConfig();
+    Schema<ChangeData> prevSchema = ChangeSchemaDefinitions.INSTANCE.getPrevious();
+    if (prevSchema != null) {
+      cfg.setInt(
+          "index",
+          "lucene",
+          ChangeSchemaDefinitions.INSTANCE.getName() + "TestVersion",
+          prevSchema.getVersion());
+    }
+    return cfg;
+  }
+
   @Override
   protected Injector createInjector() {
     Config luceneConfig = new Config(config);

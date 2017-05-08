@@ -14,12 +14,30 @@
 
 package com.google.gerrit.server.query.group;
 
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.eclipse.jgit.lib.Config;
 
 public class LuceneQueryGroupsTest extends AbstractQueryGroupsTest {
+  @ConfigSuite.Config
+  public static Config againstPreviousIndexVersion() {
+    Config cfg = defaultConfig();
+    Schema<AccountGroup> prevSchema = GroupSchemaDefinitions.INSTANCE.getPrevious();
+    if (prevSchema != null) {
+      cfg.setInt(
+          "index",
+          "lucene",
+          GroupSchemaDefinitions.INSTANCE.getName() + "TestVersion",
+          prevSchema.getVersion());
+    }
+    return cfg;
+  }
+
   @Override
   protected Injector createInjector() {
     Config luceneConfig = new Config(config);

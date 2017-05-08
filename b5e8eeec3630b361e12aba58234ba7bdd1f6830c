@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0729055b_6fa23d73",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-08T15:03:22Z",
+      "side": 1,
+      "message": "Not sure if those changes belong together.",
+      "parentUuid": "8d44235e_b71c3ee8",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 64
+      },
+      "revId": "b5e8eeec3630b361e12aba58234ba7bdd1f6830c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7b5e4da_4789be68",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
         "patchSetId": 4

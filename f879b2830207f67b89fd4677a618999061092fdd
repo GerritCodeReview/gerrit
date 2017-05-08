@@ -70,6 +70,30 @@
       "revId": "f879b2830207f67b89fd4677a618999061092fdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04f30167_33224f08",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-08T10:30:51Z",
+      "side": 1,
+      "message": "In that case please just add parentheses around the conditions to make the precedence explicitly clear.",
+      "parentUuid": "def06f09_d4b202fc",
+      "range": {
+        "startLine": 90,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 62
+      },
+      "revId": "f879b2830207f67b89fd4677a618999061092fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

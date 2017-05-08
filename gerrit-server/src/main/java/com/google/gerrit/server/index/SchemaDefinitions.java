@@ -18,6 +18,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableSortedMap;
+import com.google.common.collect.Iterables;
+import com.google.gerrit.common.Nullable;
 
 /**
  * Definitions of the various schema versions over a given Gerrit data type.
@@ -52,5 +54,13 @@ public abstract class SchemaDefinitions<V> {
 
   public final Schema<V> getLatest() {
     return schemas.lastEntry().getValue();
+  }
+
+  @Nullable
+  public final Schema<V> getPrevious() {
+    if (schemas.size() <= 1) {
+      return null;
+    }
+    return Iterables.get(schemas.descendingMap().values(), 1);
   }
 }

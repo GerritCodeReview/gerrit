@@ -19,10 +19,11 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
-<link rel="import" href="../../shared/gr-storage/gr-storage.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-storage/gr-storage.html">
 <link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
-
+<link rel="import" href="../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.html">
 
 <dom-module id="gr-diff-comment">
   <template>
@@ -72,6 +73,8 @@ limitations under the License.
       .date {
         justify-content: flex-end;
         margin-left: 5px;
+        min-width: 4.5em;
+        text-align: right;
         white-space: nowrap;
       }
       a.date:link,
@@ -177,6 +180,12 @@ limitations under the License.
         color: #333;
         font-size: 12px;
       }
+      gr-confirm-dialog .main {
+        background-color: #fef;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
     </style>
     <div id="container"
         class="container"
@@ -196,6 +205,13 @@ limitations under the License.
         <div class="headerMiddle">
           <span class="collapsedContent">[[comment.message]]</span>
         </div>
+        <gr-button
+            id="deleteBtn"
+            class="action delete"
+            on-tap="_handleCommentDelete"
+            hidden$="[[!_isAdmin]]">
+          Delete
+        </gr-button>
         <a class="date" href$="[[_computeLinkToComment(comment)]]" on-tap="_handleLinkTap">
           <gr-date-formatter
               has-tooltip
@@ -265,6 +281,12 @@ limitations under the License.
         </gr-button>
       </div>
     </div>
+    <gr-overlay id="overlay" with-backdrop>
+      <gr-confirm-delete-comment-dialog id="confirmDeleteComment"
+          on-confirm="_handleConfirmDeleteComment"
+          on-cancel="_handleCancelDeleteComment">
+      </gr-confirm-delete-comment-dialog>
+    </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
   </template>

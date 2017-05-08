@@ -43,9 +43,17 @@
     _getTopContent: function(account) {
       // if (!account) { return []; }
       return [
-        {text: account.name, bold: true},
+        {text: this._accountName(account.name), bold: true},
         {text: account.email},
       ];
+    },
+
+    _accountName: function(account) {
+      if (account != null || typeof account != undefined) {
+        return account;
+      } else {
+        return 'Anonymous';
+      }
     },
   });
 })();

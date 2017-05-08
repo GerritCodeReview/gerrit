@@ -342,6 +342,18 @@
       });
     },
 
+    getIsAdmin: function() {
+      return this.getLoggedIn().then(function(isLoggedIn) {
+        if (isLoggedIn) {
+          return this.getAccountCapabilities();
+        } else {
+          return Promise.resolve();
+        }
+      }.bind(this)).then(function(capabilities) {
+        return capabilities && capabilities.administrateServer;
+      }.bind(this));
+    },
+
     checkCredentials: function() {
       // Skip the REST response cache.
       return this.fetchJSON('/accounts/self/detail');
@@ -1130,6 +1142,12 @@
         .then(function(response) {
           return response.ok;
         });
+    },
+
+    deleteComment: function(changeNum, patchNum, commentID) {
+      var url = this._changeBaseURL(changeNum, patchNum) +
+          '/comments/' + commentID + '/delete';
+      return this.send('DELETE', url);
     },
   });
 })();

@@ -613,5 +613,12 @@ limitations under the License.
           }
       );
     });
+
+    test('deleteComment', () => {
+      sandbox.stub(element, 'send');
+      element.deleteComment('foo', 'bar', '01234');
+      assert.isTrue(element.send.calledWith(
+          'DELETE', '/changes/foo/revisions/bar/comments/01234/delete'));
+    });
   });
 </script>

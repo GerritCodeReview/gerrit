@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed21c190_a25194c7",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-08T20:59:56Z",
+      "side": 1,
+      "message": "I\u0027ve never seen a JSDoc like this before, but I like it.",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 7
+      },
+      "revId": "3b322efaaef26175836f74a54a6c3224fa411f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

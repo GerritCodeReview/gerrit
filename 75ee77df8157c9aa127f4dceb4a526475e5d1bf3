@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19a0bcfa_9354a294",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 48
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-08T23:45:13Z",
+      "side": 1,
+      "message": "This should probably have a name like projectList.",
+      "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88259297_11274159",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 48
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-08T23:45:13Z",
+      "side": 1,
+      "message": "hidden attribute should be moved to next line.",
+      "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "868175b1_60311408",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 48
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-08T23:45:13Z",
+      "side": 1,
+      "message": "\u003e 80ch",
+      "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc52fa5a_525969e4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 48
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-08T23:45:13Z",
+      "side": 1,
+      "message": "This needs to somehow check the length of projects. right now a next arrow shows even when there\u0027s nothing on the next page.",
+      "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9289f24_2308f4ae",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 48
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-08T23:45:13Z",
+      "side": 1,
+      "message": "We should be consistent with how pagination URLs are displayed.   In the change list it is like: https://gerrit-review.googlesource.com/q/status:open,25 \n\nI think we should use this formate as well and check for ,\u003coffset\u003e at the end.",
+      "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2263453c_7034bcd0",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 48
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-08T23:45:13Z",
+      "side": 1,
+      "message": "This should probably be called offset rather than skip.",
+      "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

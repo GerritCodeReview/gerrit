@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e6ca4ce_6f577f53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-08T23:12:37Z",
+      "side": 1,
+      "message": "The Bug: footer was omitted in the second patch set.",
+      "revId": "09918293ed49c410e6995cf86ab85d4a6b855b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

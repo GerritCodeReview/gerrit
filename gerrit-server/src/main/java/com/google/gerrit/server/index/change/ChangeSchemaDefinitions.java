@@ -70,7 +70,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.UNRESOLVED_COMMENT_COUNT,
           ChangeField.UPDATED);
 
-  @Deprecated static final Schema<ChangeData> V40 = schema(V39, ChangeField.PRIVATE);
+  @Deprecated public static final Schema<ChangeData> V40 = schema(V39, ChangeField.PRIVATE);
 
   @Deprecated
   public static final Schema<ChangeData> V41 = schema(V40, ChangeField.REVIEWER_BY_EMAIL);

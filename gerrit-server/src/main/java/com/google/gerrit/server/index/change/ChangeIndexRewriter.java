@@ -229,8 +229,8 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     }
     IndexPredicate<ChangeData> p = (IndexPredicate<ChangeData>) in;
 
-    FieldDef def = p.getField();
-    Schema schema = index.getSchema();
+    FieldDef<ChangeData, ?> def = p.getField();
+    Schema<ChangeData> schema = index.getSchema();
     return schema.hasField(def);
   }
 

@@ -522,8 +522,12 @@ limitations under the License.
       assert.equal(
           element._computeUnresolvedString(comments, [], 2, 'myfile.txt'), '');
       assert.equal(
+          element.computeUnresolvedNum(comments, [], 2, 'myfile.txt'), 0);
+      assert.equal(
           element._computeUnresolvedString(comments, [], 2, 'unresolved.file'),
           '(1 unresolved)');
+      assert.equal(
+          element.computeUnresolvedNum(comments, [], 2, 'unresolved.file'), 1);
       assert.equal(
           element._computeUnresolvedString(comments, drafts, 2,
           'unresolved.file'), '');

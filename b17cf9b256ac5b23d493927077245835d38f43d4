@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4ac58618_b80cab2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-09T07:52:43Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "7700662f_ccf1aa55",
+      "range": {
+        "startLine": 343,
+        "startChar": 11,
+        "endLine": 343,
+        "endChar": 27
+      },
+      "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4788f881_8c5a5f7f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 19
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-09T07:41:24Z",
       "side": 1,
       "message": "redundant parentheses?",
+      "range": {
+        "startLine": 1177,
+        "startChar": 8,
+        "endLine": 1177,
+        "endChar": 26
+      },
+      "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4dff38d_061c2c1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1177,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-09T07:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4788f881_8c5a5f7f",
       "range": {
         "startLine": 1177,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "32d3482a_a72e3513",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ExactAuthorPredicate.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-09T07:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38cde2f9_a5a0f66d",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a407820_ebc3feed",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ExactCommitterPredicate.java",
         "patchSetId": 19
@@ -82,6 +154,30 @@
       "writtenOn": "2017-05-09T07:41:24Z",
       "side": 1,
       "message": "2017",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4e487c5_08e510c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ExactCommitterPredicate.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-09T07:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a407820_ebc3feed",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -128,6 +224,30 @@
       "writtenOn": "2017-05-09T07:47:45Z",
       "side": 1,
       "message": "See for example previous cases where this antipattern was fixed:\n\nhttps://gerrit-review.googlesource.com/#/q/status:merged+message:ExpectedException\n\nRight now I can\u0027t find documentation about this behaviour though, and I can\u0027t find the change where such a breakage was first reported.\n\nEdwin, do you remember?  Or do you have internal tools that reported the ones that you fixed recently?",
+      "parentUuid": "9011cd0b_64f8a31a",
+      "range": {
+        "startLine": 554,
+        "startChar": 4,
+        "endLine": 562,
+        "endChar": 43
+      },
+      "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c64d2bcc_552de6cd",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-09T07:52:43Z",
+      "side": 1,
+      "message": "It should be correct? L557 and L559 just set the expected message for the Exception as we do in other tests.",
       "parentUuid": "9011cd0b_64f8a31a",
       "range": {
         "startLine": 554,

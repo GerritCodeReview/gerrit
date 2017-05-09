@@ -1030,6 +1030,27 @@
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
 
+    _computePatchSetCommentsString: function(allComments, patchNum) {
+      var numComments = 0;
+      var numUnresolved = 0;
+      for (var file in allComments) {
+        var comments = allComments[file];
+        numComments += this.$.fileList.getCommentsForPath(
+            allComments, patchNum, file).length;
+        numUnresolved += this.$.fileList.computeUnresolvedNum(
+            allComments, {}, patchNum, file);
+      }
+      var commentsStr = '';
+      if (numComments > 0) {
+        commentsStr = '(' + numComments + ' comments';
+        if (numUnresolved > 0) {
+          commentsStr += ', ' + numUnresolved + ' unresolved';
+        }
+        commentsStr += ')';
+      }
+      return commentsStr;
+    },
+
     _computeDescriptionPlaceholder: function(readOnly) {
       return (readOnly ? 'No' : 'Add a') + ' patch set description';
     },

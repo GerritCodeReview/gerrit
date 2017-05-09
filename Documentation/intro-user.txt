@@ -548,12 +548,15 @@ some staging before making your changes visible to the reviewers. Draft
 changes can also be used to backup unfinished changes.
 
 A draft change is created by pushing to the magic
-`refs/drafts/<target-branch>` ref.
+`refs/drafts/<target-branch>` ref, or by pushing with the 'draft'
+option to `refs/for/<target-branch>%draft`.
 
 .Push a Draft Change
 ----
   $ git commit
   $ git push origin HEAD:refs/drafts/master
+  # or
+  $ git push origin HEAD:refs/for/master%draft
 ----
 
 Draft changes have the state link:user-review-ui.html#draft[Draft] and

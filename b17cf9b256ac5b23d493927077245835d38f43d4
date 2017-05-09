@@ -258,6 +258,30 @@
       "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f7a2dca_4e83347c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-09T07:54:57Z",
+      "side": 1,
+      "message": "Doh.  Yes, you\u0027re right. I completely overlooked that those statements were expectMessage.",
+      "parentUuid": "c64d2bcc_552de6cd",
+      "range": {
+        "startLine": 554,
+        "startChar": 4,
+        "endLine": 562,
+        "endChar": 43
+      },
+      "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

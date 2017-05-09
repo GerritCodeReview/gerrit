@@ -34,6 +34,24 @@
       "revId": "41332e704d737f0825bf45eef00bd51f6935c1fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b921974c_34dfd3b6",
+        "filename": "WORKSPACE",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-05-09T18:13:04Z",
+      "side": 1,
+      "message": "I thought the way it worked is that it downloads the first that\u0027s available (e.g. in case bazel-mirror goes down). The file it downloads has to match the SHA, or it errors out.\n\nDid I misunderstand? Either way, all URLs here are supposed to be stable URLs that are guaranteed to match the hash.",
+      "parentUuid": "71a009b0_982633d8",
+      "revId": "41332e704d737f0825bf45eef00bd51f6935c1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

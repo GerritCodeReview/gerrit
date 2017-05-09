@@ -1676,12 +1676,25 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     rin.state = ReviewerState.CC;
     gApi.changes().id(change2.getId().get()).addReviewer(rin);
 
-    assertQuery("reviewer:\"" + userByEmailWithName + "\"", change1);
-    assertQuery("cc:\"" + userByEmailWithName + "\"", change2);
+    if (getSchemaVersion() >= 41) {
+      assertQuery("reviewer:\"" + userByEmailWithName + "\"", change1);
+      assertQuery("cc:\"" + userByEmailWithName + "\"", change2);
 
-    // Omitting the name:
-    assertQuery("reviewer:\"" + userByEmail + "\"", change1);
-    assertQuery("cc:\"" + userByEmail + "\"", change2);
+      // Omitting the name:
+      assertQuery("reviewer:\"" + userByEmail + "\"", change1);
+      assertQuery("cc:\"" + userByEmail + "\"", change2);
+    } else {
+      assertMissingField(ChangeField.REVIEWER_BY_EMAIL);
+
+      assertFailingQuery(
+          "reviewer:\"" + userByEmailWithName + "\"", "User " + userByEmailWithName + " not found");
+      assertFailingQuery(
+          "cc:\"" + userByEmailWithName + "\"", "User " + userByEmailWithName + " not found");
+
+      // Omitting the name:
+      assertFailingQuery("reviewer:\"" + userByEmail + "\"", "User " + userByEmail + " not found");
+      assertFailingQuery("cc:\"" + userByEmail + "\"", "User " + userByEmail + " not found");
+    }
   }
 
   @Test
@@ -1710,8 +1723,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     rin.state = ReviewerState.CC;
     gApi.changes().id(change2.getId().get()).addReviewer(rin);
 
-    assertQuery("reviewer:\"someone@example.com\"");
-    assertQuery("cc:\"someone@example.com\"");
+    if (getSchemaVersion() >= 41) {
+      assertQuery("reviewer:\"someone@example.com\"");
+      assertQuery("cc:\"someone@example.com\"");
+    } else {
+      assertMissingField(ChangeField.REVIEWER_BY_EMAIL);
+
+      String someoneEmail = "someone@example.com";
+      assertFailingQuery(
+          "reviewer:\"" + someoneEmail + "\"", "User " + someoneEmail + " not found");
+      assertFailingQuery("cc:\"" + someoneEmail + "\"", "User " + someoneEmail + " not found");
+    }
   }
 
   @Test

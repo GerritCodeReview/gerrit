@@ -64,6 +64,24 @@
       "revId": "63928c10537ccffffe92dab72db41123fc5b9d9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bb6a206_f1af1e79",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-09T07:27:09Z",
+      "side": 1,
+      "message": "Yes, I forgot that I still wanted to add another assert here.\n\nAnyway, the important thing here is that the test would fail without this check. Once you remember to add this check (because the test failed) you also remember to guard the usage of the new operator.\n\nThat concrete issue would have been caught now, since at least the reviewerAndCc and byDefault tests fail now.\n\nWith the new patch set in addition byWip and excludeWipChangeFromReviewersDashboards are failing now if the fix is reverted.\n\nDone.",
+      "parentUuid": "ad4acd52_4a1c3549",
+      "revId": "63928c10537ccffffe92dab72db41123fc5b9d9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

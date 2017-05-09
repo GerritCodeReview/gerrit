@@ -70,6 +70,30 @@
       "revId": "89b2a95c36679c0c6ab66d79fb14b6908d5aae3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b45d284d_1b676276",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-09T07:27:48Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "ca9cdea2_ef0762b4",
+      "range": {
+        "startLine": 351,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 7
+      },
+      "revId": "89b2a95c36679c0c6ab66d79fb14b6908d5aae3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -33,6 +33,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -97,6 +98,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.transport.RefSpec;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -800,6 +802,77 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     for (PushOneCommit.Result change : changes) {
       change.assertChange(Change.Status.MERGED, name(topic), admin);
     }
+  }
+
+  @Test
+  public void submitWithCommitAndItsMergeCommitTogether() throws Exception {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+
+    RevCommit initialHead = getRemoteHead();
+
+    // Create a stable branch and bootstrap it.
+    gApi.projects().name(project.get()).branch("stable").create(new BranchInput());
+    PushOneCommit push =
+        pushFactory.create(db, user.getIdent(), testRepo, "initial commit", "a.txt", "a");
+    PushOneCommit.Result change = push.to("refs/heads/stable");
+
+    RevCommit stable = getRemoteHead(project, "stable");
+    RevCommit master = getRemoteHead(project, "master");
+
+    assertThat(master).isEqualTo(initialHead);
+    assertThat(stable).isEqualTo(change.getCommit());
+
+    testRepo.git().fetch().call();
+    testRepo.git().branchCreate().setName("stable").setStartPoint(stable).call();
+    testRepo.git().branchCreate().setName("master").setStartPoint(master).call();
+
+    // Create a fix in stable branch.
+    testRepo.reset(stable);
+    RevCommit fix =
+        testRepo
+            .commit()
+            .parent(stable)
+            .message("small fix")
+            .add("b.txt", "b")
+            .insertChangeId()
+            .create();
+    testRepo.branch("refs/heads/stable").update(fix);
+    testRepo
+        .git()
+        .push()
+        .setRefSpecs(new RefSpec("refs/heads/stable:refs/for/stable/" + name("topic")))
+        .call();
+
+    // Merge the fix into master.
+    testRepo.reset(master);
+    RevCommit merge =
+        testRepo
+            .commit()
+            .parent(master)
+            .parent(fix)
+            .message("Merge stable into master")
+            .insertChangeId()
+            .create();
+    testRepo.branch("refs/heads/master").update(merge);
+    testRepo
+        .git()
+        .push()
+        .setRefSpecs(new RefSpec("refs/heads/master:refs/for/master/" + name("topic")))
+        .call();
+
+    // Submit together.
+    String fixId = GitUtil.getChangeId(testRepo, fix).get();
+    String mergeId = GitUtil.getChangeId(testRepo, merge).get();
+    approve(fixId);
+    approve(mergeId);
+    submit(mergeId);
+    assertMerged(fixId);
+    assertMerged(mergeId);
+    testRepo.git().fetch().call();
+    RevWalk rw = testRepo.getRevWalk();
+    master = rw.parseCommit(getRemoteHead(project, "master"));
+    assertThat(rw.isMergedInto(merge, master)).isTrue();
+    assertThat(rw.isMergedInto(fix, master)).isTrue();
   }
 
   private void setChangeStatusToNew(PushOneCommit.Result... changes) throws Exception {

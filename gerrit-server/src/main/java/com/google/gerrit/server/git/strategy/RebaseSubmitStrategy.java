@@ -28,7 +28,6 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeTip;
-import com.google.gerrit.server.git.RebaseSorter;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -57,7 +56,12 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
   @Override
   public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge)
       throws IntegrationException {
-    List<CodeReviewCommit> sorted = sort(toMerge);
+    List<CodeReviewCommit> sorted;
+    try {
+      sorted = args.rebaseSorter.sort(toMerge);
+    } catch (IOException e) {
+      throw new IntegrationException("Commit sorting failed", e);
+    }
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
     boolean first = true;
 
@@ -67,7 +71,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         // MERGE_IF_NECESSARY semantics to avoid creating duplicate
         // commits.
         //
-        sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, sorted, args.incoming);
+        sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, sorted);
         break;
       }
     }
@@ -284,21 +288,6 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
 
   private void acceptMergeTip(MergeTip mergeTip) {
     args.alreadyAccepted.add(mergeTip.getCurrentTip());
-  }
-
-  private List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort)
-      throws IntegrationException {
-    try {
-      return new RebaseSorter(
-              args.rw,
-              args.mergeTip.getInitialTip(),
-              args.alreadyAccepted,
-              args.canMergeFlag,
-              args.internalChangeQuery)
-          .sort(toSort);
-    } catch (IOException e) {
-      throw new IntegrationException("Commit sorting failed", e);
-    }
   }
 
   static boolean dryRun(

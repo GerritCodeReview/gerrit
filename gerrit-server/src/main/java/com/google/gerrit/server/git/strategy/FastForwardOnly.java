@@ -29,8 +29,7 @@ public class FastForwardOnly extends SubmitStrategy {
   @Override
   public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge)
       throws IntegrationException {
-    List<CodeReviewCommit> sorted =
-        args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge, args.incoming);
+    List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
     CodeReviewCommit newTipCommit =
         args.mergeUtil.getFirstFastForward(args.mergeTip.getInitialTip(), args.rw, sorted);

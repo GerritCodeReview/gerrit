@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0e88720_1e143a6f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1007,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-09T11:49:40Z",
+      "side": 1,
+      "message": "Can we now make this\n\n  private static void assertIteratorSize(int size, Iterator\u003c?\u003e it) {\n    List\u003c?\u003e lst \u003d ImmutableList.copyOf(it);\n    assertThat(lst).hasSize(size);\n  }\n\nso that we can remove the @SuppressWarnings?",
+      "range": {
+        "startLine": 1006,
+        "startChar": 4,
+        "endLine": 1007,
+        "endChar": 34
+      },
+      "revId": "ff1623ede0c75afce2f51fe12b2625de338d59a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f385ff1f_acc16db1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-09T23:48:14Z",
+      "side": 1,
+      "message": "nit: re-wrap this paragraph",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 122
+      },
+      "revId": "76efd4088d9c8e1409848ed6e5371fbeb7ab188e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2329397f_a7226993",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2448,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-09T23:48:14Z",
+      "side": 1,
+      "message": "i",
+      "range": {
+        "startLine": 2448,
+        "startChar": 8,
+        "endLine": 2448,
+        "endChar": 9
+      },
+      "revId": "76efd4088d9c8e1409848ed6e5371fbeb7ab188e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6789231d_ae372fb4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2459,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-09T23:48:14Z",
+      "side": 1,
+      "message": "What is the default timeout value before this change?",
+      "range": {
+        "startLine": 2459,
+        "startChar": 0,
+        "endLine": 2459,
+        "endChar": 23
+      },
+      "revId": "76efd4088d9c8e1409848ed6e5371fbeb7ab188e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

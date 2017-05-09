@@ -197,6 +197,44 @@ limitations under the License.
       assert.equal(result, 'R=\u200Btest@google.com\nR=\u200Btest@google.com');
     }),
 
+    test('_computePatchSetCommentsString', function() {
+      // Test string with unresolved comments.
+      element._comments = {
+        'foo': 'foo comments',
+        'bar': 'bar comments',
+        'xyz': 'xyz comments',
+      };
+      sandbox.stub(element.$.fileList, 'getCommentsForPath', function(c, p, f) {
+        if (f == 'foo') {
+          return ['comment1', 'comment2'];
+        } else if (f == 'bar') {
+          return ['comment1'];
+        } else {
+          return [];
+        }
+      });
+      sandbox.stub(
+          element.$.fileList, 'computeUnresolvedNum', function (c, d, p, f) {
+        if (f == 'foo') {
+          return 0;
+        } else if (f == 'bar') {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      assert.equal(element._computePatchSetCommentsString(1),
+          '(3 comments, 1 unresolved)');
+
+      // Test string with no unresolved comments.
+      delete element._comments['bar']
+      assert.equal(element._computePatchSetCommentsString(1), '(2 comments)');
+
+      // Test string with no comments.
+      delete element._comments['foo']
+      assert.equal(element._computePatchSetCommentsString(1), '');
+    });
+
     test('_handleDescriptionChanged', function() {
       var putDescStub = sandbox.stub(element.$.restAPI, 'setDescription')
           .returns(Promise.resolve({ok: true}));

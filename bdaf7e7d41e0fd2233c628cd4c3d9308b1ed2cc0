@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68b7c3af_9c95c377",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-09T07:44:31Z",
+      "side": 1,
+      "message": "nit: this can be omitted as AbstractDaemonTest has\n\n  @Before\n  public void clearSender();\n\n(in the other methods as well)",
+      "range": {
+        "startLine": 462,
+        "startChar": 4,
+        "endLine": 462,
+        "endChar": 19
+      },
+      "revId": "bdaf7e7d41e0fd2233c628cd4c3d9308b1ed2cc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

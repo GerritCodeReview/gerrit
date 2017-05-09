@@ -398,6 +398,10 @@ Update of the change secondary index
 +
 Update of the account secondary index
 
+* `com.google.gerrit.server.extensions.events.GroupIndexedListener`:
++
+Update of the group secondary index
+
 * `com.google.gerrit.httpd.WebLoginListener`:
 +
 User login or logout interactively on the Web user interface.

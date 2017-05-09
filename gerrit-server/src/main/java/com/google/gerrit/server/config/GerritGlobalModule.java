@@ -43,6 +43,7 @@ import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.events.DraftPublishedListener;
 import com.google.gerrit.extensions.events.GarbageCollectorListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GroupIndexedListener;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -328,6 +329,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), PostUploadHook.class);
     DynamicSet.setOf(binder(), AccountIndexedListener.class);
     DynamicSet.setOf(binder(), ChangeIndexedListener.class);
+    DynamicSet.setOf(binder(), GroupIndexedListener.class);
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
     DynamicSet.setOf(binder(), ProjectDeletedListener.class);
     DynamicSet.setOf(binder(), GarbageCollectorListener.class);

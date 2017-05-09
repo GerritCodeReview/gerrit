@@ -46,6 +46,30 @@
       "revId": "89b2a95c36679c0c6ab66d79fb14b6908d5aae3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca9cdea2_ef0762b4",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-09T07:12:25Z",
+      "side": 1,
+      "message": "Good point, we should specify this further. I think it depend on when we plan the next release, so maybe we should tie it to that. How does this sound for you:\n\nAn exception to this rule is that right after a new Gerrit release was branched off,\nall libraries should be upgraded to the latest version to prevent Gerrit from falling behind. Doing those upgrades should conclude at the latest two months before the next release is branched off.",
+      "parentUuid": "150c62f7_38c877fc",
+      "range": {
+        "startLine": 351,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 7
+      },
+      "revId": "89b2a95c36679c0c6ab66d79fb14b6908d5aae3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

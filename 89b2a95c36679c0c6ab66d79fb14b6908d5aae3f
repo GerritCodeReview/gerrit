@@ -94,6 +94,30 @@
       "revId": "89b2a95c36679c0c6ab66d79fb14b6908d5aae3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b586afd_7c915216",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-09T07:52:13Z",
+      "side": 1,
+      "message": "\u003e Doing those upgrades should conclude at\n \u003e the latest two months before the next release is branched off.\n\nAt least in the past, it was unpredictable, when the next release is going to be cut off. As an example, could you certainly say today, what would be the deadline for upgrading libraries on master, by that I mean, what is the timestamp of two months before cutting stable-2.15-rc0 would be? IOW the only certain day is the previous release: 2.14-rc0, or 2.14 final.",
+      "parentUuid": "ca9cdea2_ef0762b4",
+      "range": {
+        "startLine": 351,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 7
+      },
+      "revId": "89b2a95c36679c0c6ab66d79fb14b6908d5aae3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

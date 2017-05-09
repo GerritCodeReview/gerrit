@@ -14,9 +14,13 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.project.ChangeControl;
@@ -32,16 +36,27 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 @Singleton
 public class ChangeFinder {
+  private static final String PROJECT_CHANGE_DELIMITER = "/+/";
+
   private final IndexConfig indexConfig;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final Provider<ReviewDb> reviewDb;
+  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Inject
-  ChangeFinder(IndexConfig indexConfig, Provider<InternalChangeQuery> queryProvider) {
+  ChangeFinder(
+      IndexConfig indexConfig,
+      Provider<InternalChangeQuery> queryProvider,
+      Provider<ReviewDb> reviewDb,
+      ChangeControl.GenericFactory changeControlFactory) {
     this.indexConfig = indexConfig;
     this.queryProvider = queryProvider;
+    this.reviewDb = reviewDb;
+    this.changeControlFactory = changeControlFactory;
   }
 
   /**
@@ -54,12 +69,44 @@ public class ChangeFinder {
    * @throws OrmException if an error occurred querying the database.
    */
   public List<ChangeControl> find(String id, CurrentUser user) throws OrmException {
+    if (id.isEmpty()) {
+      return Collections.emptyList();
+    }
+
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
 
+    // Try project/+/numericChangeId
+    if (id.contains(PROJECT_CHANGE_DELIMITER)) {
+      int lastDel = id.lastIndexOf(PROJECT_CHANGE_DELIMITER);
+      if (lastDel > 0) {
+        String project = id.substring(0, lastDel);
+        Integer n = Ints.tryParse(id.substring(lastDel + PROJECT_CHANGE_DELIMITER.length()));
+        if (n != null) {
+          try {
+            return ImmutableList.of(
+                changeControlFactory.controlFor(
+                    reviewDb.get(), Project.NameKey.parse(project), new Change.Id(n), user));
+          } catch (NoSuchChangeException e) {
+            return Collections.emptyList();
+          } catch (IllegalArgumentException e) {
+            // Change or Project unknown. This exception is thrown in checkArgument calls in NoteDb.
+            return Collections.emptyList();
+          } catch (OrmException e) {
+            // Distinguish between a RepositoryNotFoundException (project argument invalid) and
+            // other OrmExceptions (failure in the persistence layer).
+            if (Throwables.getRootCause(e) instanceof RepositoryNotFoundException) {
+              return Collections.emptyList();
+            }
+            throw e;
+          }
+        }
+      }
+    }
+
     // Try legacy id
-    if (!id.isEmpty() && id.charAt(0) != '0') {
+    if (id.charAt(0) != '0') {
       Integer n = Ints.tryParse(id);
       if (n != null) {
         return asChangeControls(query.byLegacyChangeId(new Change.Id(n)), user);

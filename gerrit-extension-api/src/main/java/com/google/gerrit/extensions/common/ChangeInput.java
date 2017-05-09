@@ -33,6 +33,14 @@ public class ChangeInput {
   public Boolean newBranch;
   public MergeInput merge;
 
+  public ChangeInput() {}
+
+  public ChangeInput(String project, String branch, String subject) {
+    this.project = project;
+    this.branch = branch;
+    this.subject = subject;
+  }
+
   /** Who to send email notifications to after change is created. */
   public NotifyHandling notify = NotifyHandling.ALL;
 

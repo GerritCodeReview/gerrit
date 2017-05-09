@@ -133,8 +133,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -268,7 +266,7 @@ public class RestApiServlet extends HttpServlet {
 
       ParameterParser.splitQueryString(req.getQueryString(), config, params);
 
-      List<IdString> path = splitPath(req);
+      List<IdString> path = PathSplitter.split(RequestUtil.getEncodedPathInfo(req));
       RestCollection<RestResource, RestResource> rc = members.get();
       globals
           .permissionBackend
@@ -1056,21 +1054,6 @@ public class RestApiServlet extends HttpServlet {
               "Projection %s is ambiguous: %s",
               name, r.keySet().stream().map(in -> in + "~" + projection).collect(joining(", "))));
     }
-  }
-
-  private static List<IdString> splitPath(HttpServletRequest req) {
-    String path = RequestUtil.getEncodedPathInfo(req);
-    if (Strings.isNullOrEmpty(path)) {
-      return Collections.emptyList();
-    }
-    List<IdString> out = new ArrayList<>();
-    for (String p : Splitter.on('/').split(path)) {
-      out.add(IdString.fromUrl(p));
-    }
-    if (out.size() > 0 && out.get(out.size() - 1).isEmpty()) {
-      out.remove(out.size() - 1);
-    }
-    return out;
   }
 
   private static List<String> splitProjection(IdString projection) {

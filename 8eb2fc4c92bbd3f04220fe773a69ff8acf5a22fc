@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d5ad3924_e8b77f13",
+        "filename": "polygerrit-ui/app/behaviors/base-element-behavior/base-element-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-09T21:27:22Z",
+      "side": 1,
+      "message": "I guess it would make more sense to just declare the variable without assigning it. The problem with setting to an object was in \u0027getBaseElement\u0027, the existential check doesn\u0027t return false when assigned an empty object.",
+      "parentUuid": "58229d90_4347a34c",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 23
+      },
+      "revId": "8eb2fc4c92bbd3f04220fe773a69ff8acf5a22fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41d23508_292acacb",
         "filename": "polygerrit-ui/app/behaviors/base-element-behavior/base-element-behavior.html",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7a5e3e7a_5266b378",
+        "filename": "polygerrit-ui/app/behaviors/base-element-behavior/base-element-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-09T21:27:22Z",
+      "side": 1,
+      "message": "works for me.",
+      "parentUuid": "41d23508_292acacb",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 25
+      },
+      "revId": "8eb2fc4c92bbd3f04220fe773a69ff8acf5a22fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6bffda72_f2a065de",
         "filename": "polygerrit-ui/app/behaviors/base-element-behavior/base-element-behavior.html",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2017-05-09T21:18:03Z",
       "side": 1,
       "message": "This is an instantiated behavior to share a single element reference. What if we just put a baseElement (or rootElement) property here?\n\n window.Gerrit.rootElement \u003d document.body;",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 58
+      },
+      "revId": "8eb2fc4c92bbd3f04220fe773a69ff8acf5a22fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb742c04_d95c9aea",
+        "filename": "polygerrit-ui/app/behaviors/base-element-behavior/base-element-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-09T21:27:22Z",
+      "side": 1,
+      "message": "I think we want it to be a single element reference, with the idea that all elements that have to add something to the \"root\" will be putting it in the same place, and this can be shared throughout the app.",
+      "parentUuid": "6bffda72_f2a065de",
       "range": {
         "startLine": 34,
         "startChar": 2,

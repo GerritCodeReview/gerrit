@@ -591,7 +591,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("private".equalsIgnoreCase(value)) {
-      return new BooleanPredicate(ChangeField.PRIVATE, args.fillArgs);
+      if (args.getSchema().hasField(ChangeField.PRIVATE)) {
+        return new BooleanPredicate(ChangeField.PRIVATE, args.fillArgs);
+      }
+      throw new QueryParseException(
+          "'is:private' operator is not supported by change index version");
     }
 
     if ("assigned".equalsIgnoreCase(value)) {

@@ -510,6 +510,9 @@
           .map(subgroupLines => {
             const subGroup = {};
             subGroup[key] = subgroupLines;
+            if (group.due_to_rebase) {
+              subGroup.due_to_rebase = true;
+            }
             return subGroup;
           });
     },

@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
@@ -80,7 +79,6 @@ public class MailProcessor {
   private final PatchListCache patchListCache;
   private final PatchSetUtil psUtil;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final Provider<ReviewDb> reviewDb;
   private final DynamicMap<MailFilter> mailFilters;
   private final EmailReviewComments.Factory outgoingMailFactory;
   private final CommentAdded commentAdded;
@@ -98,7 +96,6 @@ public class MailProcessor {
       PatchListCache patchListCache,
       PatchSetUtil psUtil,
       Provider<InternalChangeQuery> queryProvider,
-      Provider<ReviewDb> reviewDb,
       DynamicMap<MailFilter> mailFilters,
       EmailReviewComments.Factory outgoingMailFactory,
       ApprovalsUtil approvalsUtil,
@@ -113,7 +110,6 @@ public class MailProcessor {
     this.patchListCache = patchListCache;
     this.psUtil = psUtil;
     this.queryProvider = queryProvider;
-    this.reviewDb = reviewDb;
     this.mailFilters = mailFilters;
     this.outgoingMailFactory = outgoingMailFactory;
     this.commentAdded = commentAdded;

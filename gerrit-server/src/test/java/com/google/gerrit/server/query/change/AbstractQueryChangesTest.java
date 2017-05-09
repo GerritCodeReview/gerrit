@@ -402,6 +402,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byPrivate() throws Exception {
+    if (getSchemaVersion() < 40) {
+      assertMissingField(ChangeField.PRIVATE);
+      assertFailingQuery(
+          "is:private", "'is:private' operator is not supported by change index version");
+      return;
+    }
+
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo), userId);
     Account.Id user2 =

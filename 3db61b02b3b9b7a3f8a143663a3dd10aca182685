@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baac151c_3b71860f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-09T17:41:15Z",
+      "side": 1,
+      "message": "Just a standard set of tests for this fn and we\u0027re all set here.",
+      "range": {
+        "startLine": 1033,
+        "startChar": 4,
+        "endLine": 1052,
+        "endChar": 6
+      },
+      "revId": "3db61b02b3b9b7a3f8a143663a3dd10aca182685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

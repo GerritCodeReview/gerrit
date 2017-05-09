@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e56ecd01_92911757",
+        "filename": "WORKSPACE",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-05-09T17:52:08Z",
+      "side": 1,
+      "message": "Does github guarantee that the file at this URL will have a stable sha256sum? E.g. if github is using \"git archive\" then git doesn\u0027t guarantee stable output as it adapts to new features or bugfixes in the way it used zip and tar format.\n\nIf it\u0027s possible to only rely on bazel-mirror then I would prefer that, since files there are guaranteed not to change.",
+      "revId": "41332e704d737f0825bf45eef00bd51f6935c1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

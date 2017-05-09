@@ -16,7 +16,9 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
@@ -40,6 +42,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -167,6 +170,16 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
     input.workInProgress = true;
     assertCreateSucceeds(input);
+  }
+
+  @Test
+  public void createChangeWithoutAccessToParentCommit() throws Exception {
+    changeInTwoBranches("invisible-branch", "a.txt", "branchB", "b.txt");
+    block(READ, REGISTERED_USERS, "refs/heads/invisible-branch", project);
+
+    ChangeInput in = newChangeInput(ChangeStatus.NEW);
+    in.branch = "invisible-branch";
+    assertCreateFails(in, AuthException.class, "cannot upload review");
   }
 
   @Test

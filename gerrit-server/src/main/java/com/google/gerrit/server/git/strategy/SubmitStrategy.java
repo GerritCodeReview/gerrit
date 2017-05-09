@@ -33,18 +33,9 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
-import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.*;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
-import com.google.gerrit.server.git.EmailMerge;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.IntegrationException;
-import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeOp.CommitStatus;
-import com.google.gerrit.server.git.MergeSorter;
-import com.google.gerrit.server.git.MergeTip;
-import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.git.SubmoduleOp;
-import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
@@ -127,7 +118,6 @@ public abstract class SubmitStrategy {
     final RevFlag canMergeFlag;
     final ReviewDb db;
     final Set<RevCommit> alreadyAccepted;
-    final Set<CodeReviewCommit> incoming;
     final RequestId submissionId;
     final SubmitType submitType;
     final NotifyHandling notifyHandling;
@@ -136,6 +126,7 @@ public abstract class SubmitStrategy {
 
     final ProjectState project;
     final MergeSorter mergeSorter;
+    final RebaseSorter rebaseSorter;
     final MergeUtil mergeUtil;
     final boolean dryrun;
 
@@ -199,7 +190,6 @@ public abstract class SubmitStrategy {
       this.canMergeFlag = canMergeFlag;
       this.db = db;
       this.alreadyAccepted = alreadyAccepted;
-      this.incoming = incoming;
       this.submissionId = submissionId;
       this.submitType = submitType;
       this.notifyHandling = notifyHandling;
@@ -212,7 +202,15 @@ public abstract class SubmitStrategy {
               projectCache.get(destBranch.getParentKey()),
               "project not found: %s",
               destBranch.getParentKey());
-      this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);
+      this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag, incoming);
+      this.rebaseSorter =
+          new RebaseSorter(
+              rw,
+              mergeTip.getInitialTip(),
+              alreadyAccepted,
+              canMergeFlag,
+              internalChangeQuery,
+              incoming);
       this.mergeUtil = mergeUtilFactory.create(project);
       this.onSubmitValidatorsFactory = onSubmitValidatorsFactory;
     }

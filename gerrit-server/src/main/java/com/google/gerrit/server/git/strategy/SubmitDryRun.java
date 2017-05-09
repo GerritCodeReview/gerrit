@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.strategy;
 
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -26,10 +27,12 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -41,7 +44,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Dry run of a submit strategy. */
+/**
+ * Dry run of a submit strategy.
+ */
 public class SubmitDryRun {
   private static final Logger log = LoggerFactory.getLogger(SubmitDryRun.class);
 
@@ -108,7 +113,7 @@ public class SubmitDryRun {
             repo,
             rw,
             mergeUtilFactory.create(getProject(destBranch)),
-            new MergeSorter(rw, alreadyAccepted, canMerge));
+            new MergeSorter(rw, alreadyAccepted, canMerge, ImmutableSet.of(toMergeCommit)));
 
     switch (submitType) {
       case CHERRY_PICK:

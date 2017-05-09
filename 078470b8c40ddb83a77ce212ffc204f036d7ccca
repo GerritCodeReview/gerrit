@@ -213,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "beeab8f9_7bc067ec",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-09T21:45:57Z",
+      "side": 1,
+      "message": "You\u0027re right, my mistake. This is good as is.",
+      "parentUuid": "232b2594_38755fa8",
+      "range": {
+        "startLine": 468,
+        "startChar": 8,
+        "endLine": 468,
+        "endChar": 31
+      },
+      "revId": "078470b8c40ddb83a77ce212ffc204f036d7ccca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "56e0c44b_a4d3e5b3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 11

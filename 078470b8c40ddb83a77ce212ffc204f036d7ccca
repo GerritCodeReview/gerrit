@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "97571423_af1be157",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-09T07:06:58Z",
+      "side": 1,
+      "message": "That problem wasn\u0027t introduced by this CL and should be fixed in its own change. Done in: [1].\n\n* [1] https://gerrit-review.googlesource.com/106352",
+      "parentUuid": "461d7a1a_5f1baf43",
+      "range": {
+        "startLine": 82,
+        "startChar": 43,
+        "endLine": 82,
+        "endChar": 45
+      },
+      "revId": "078470b8c40ddb83a77ce212ffc204f036d7ccca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ccd1356_53561c29",
         "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f0004b4e_b30ab59c",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-09T07:06:58Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "1ccd1356_53561c29",
+      "range": {
+        "startLine": 130,
+        "startChar": 42,
+        "endLine": 130,
+        "endChar": 44
+      },
+      "revId": "078470b8c40ddb83a77ce212ffc204f036d7ccca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "03c7ef97_13cbc3ff",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 11
@@ -59,6 +107,30 @@
       "writtenOn": "2017-05-08T22:30:46Z",
       "side": 1,
       "message": "Update the comment to note this change?",
+      "range": {
+        "startLine": 141,
+        "startChar": 32,
+        "endLine": 141,
+        "endChar": 44
+      },
+      "revId": "078470b8c40ddb83a77ce212ffc204f036d7ccca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fe4c231_9210378a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-09T07:06:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03c7ef97_13cbc3ff",
       "range": {
         "startLine": 141,
         "startChar": 32,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "232b2594_38755fa8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-09T07:06:58Z",
+      "side": 1,
+      "message": "Sure, but the r is an iterable object, such as an Array: [1]. So another alternative to the destructing assignment would be to access third element in the result array:\n\n  const edit \u003d r[3];\n\nLet me know, if you prefer this instead.\n\n* [1] https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Promise/all\n* [2] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment",
+      "parentUuid": "789de8ce_d293434d",
+      "range": {
+        "startLine": 468,
+        "startChar": 8,
+        "endLine": 468,
+        "endChar": 31
+      },
+      "revId": "078470b8c40ddb83a77ce212ffc204f036d7ccca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "56e0c44b_a4d3e5b3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 11
@@ -128,6 +224,30 @@
       "writtenOn": "2017-05-08T22:30:46Z",
       "side": 1,
       "message": "You can use...\n\n    const revisions \u003d this.sortRevisions(Object.values(revs));\n\n...here instead. ES6 is awesome :)",
+      "range": {
+        "startLine": 531,
+        "startChar": 6,
+        "endLine": 537,
+        "endChar": 7
+      },
+      "revId": "078470b8c40ddb83a77ce212ffc204f036d7ccca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acc5e861_24a6777a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-09T07:06:58Z",
+      "side": 1,
+      "message": "Thanks! Done.",
+      "parentUuid": "56e0c44b_a4d3e5b3",
       "range": {
         "startLine": 531,
         "startChar": 6,

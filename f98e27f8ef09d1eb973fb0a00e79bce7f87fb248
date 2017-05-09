@@ -69,6 +69,24 @@
       "revId": "f98e27f8ef09d1eb973fb0a00e79bce7f87fb248",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26815300_01e1030e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-09T16:47:58Z",
+      "side": 1,
+      "message": "Sign. The check should be changed to \"\u003d\u003d\" here.",
+      "parentUuid": "97b2d802_83250fe3",
+      "revId": "f98e27f8ef09d1eb973fb0a00e79bce7f87fb248",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

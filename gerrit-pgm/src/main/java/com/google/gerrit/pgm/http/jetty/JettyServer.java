@@ -69,6 +69,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
@@ -265,6 +266,8 @@ public class JettyServer {
       }
       c.setInheritChannel(cfg.getBoolean("httpd", "inheritChannel", false));
       c.setReuseAddress(reuseAddress);
+      c.setIdleTimeout(
+          cfg.getTimeUnit("httpd", null, "idleTimeout", 30000L, TimeUnit.MILLISECONDS));
       connectors[idx] = c;
     }
     return connectors;

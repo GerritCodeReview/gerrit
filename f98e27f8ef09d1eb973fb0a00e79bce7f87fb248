@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85fb81e1_077ef6ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/CommentApiImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-09T14:16:33Z",
+      "side": 1,
+      "message": "Please update to use asRestApiException for consistency with the rest of the class. (This was introduced by https://gerrit-review.googlesource.com/105731 which you pulled in via rebase.)",
+      "revId": "f98e27f8ef09d1eb973fb0a00e79bce7f87fb248",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97b2d802_83250fe3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-09T14:16:33Z",
+      "side": 1,
+      "message": "Nit: checkState(deleteCommentRewriter !\u003d null, \"cannot update...\");",
+      "revId": "f98e27f8ef09d1eb973fb0a00e79bce7f87fb248",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -141,6 +141,30 @@
       "revId": "5734f3e06f5a552d974e6eb1c7afc45586586050",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c56b4720_47da562c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-09T11:11:05Z",
+      "side": 1,
+      "message": "Thanks. Now I know that gr-diff-processor#_breakdownGroup removes the \"dueToRebase\" sections. I just have to figure out how to fix it.",
+      "parentUuid": "c58c6dbf_58b123bc",
+      "range": {
+        "startLine": 184,
+        "startChar": 6,
+        "endLine": 184,
+        "endChar": 58
+      },
+      "revId": "5734f3e06f5a552d974e6eb1c7afc45586586050",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -23,6 +23,30 @@
       "revId": "593d9475591f9e5febf70595e51dbf291c619658",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c8d6bb7_aa455375",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-09T13:41:05Z",
+      "side": 1,
+      "message": "Not sure, this class may also be used outside of the request context. Anyway having ReviewDb as parameter is only temporary and goes away when the accounts are fully in NoteDb.",
+      "parentUuid": "e9ddcc91_2e30a5f3",
+      "range": {
+        "startLine": 48,
+        "startChar": 21,
+        "endLine": 48,
+        "endChar": 32
+      },
+      "revId": "593d9475591f9e5febf70595e51dbf291c619658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

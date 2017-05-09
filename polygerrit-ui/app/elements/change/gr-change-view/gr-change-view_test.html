@@ -98,6 +98,8 @@ limitations under the License.
 
       test('A toggles overlay when logged in', function(done) {
         sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+        sandbox.stub(element.$.replyDialog, 'fetchIsLatestKnown')
+            .returns(Promise.resolve(true));;
         MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
         flush(function() {
           assert.isTrue(element.$.replyOverlay.opened);
@@ -940,6 +942,9 @@ limitations under the License.
     suite('reply dialog tests', function() {
       setup(function() {
         sandbox.stub(element.$.replyDialog, '_draftChanged');
+        sandbox.stub(element.$.replyDialog, 'fetchIsLatestKnown',
+              function() { return Promise.resolve(true); });
+        flushAsynchronousOperations();
       });
 
       test('reply from comment adds quote text', function() {
@@ -987,6 +992,11 @@ limitations under the License.
     });
 
     suite('commit message expand/collapse', function() {
+      setup(function() {
+        sandbox.stub(element, 'fetchIsLatestKnown',
+            function() { return Promise.resolve(false); });
+      });
+
       test('commitCollapseToggle hidden for short commit message', function() {
         element._latestCommitMessage = '';
         assert.isTrue(element.$.commitCollapseToggle.hasAttribute('hidden'));

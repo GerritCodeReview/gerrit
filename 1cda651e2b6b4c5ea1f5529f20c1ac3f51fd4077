@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1494257828 +0200\nnonce APbwY4rXdofs3d+jU0I/vZ4TVBUvmVm+q5gK2tnhHyMy4hD8oS2kuAMzOzdYDxRWnbvnkVTXihhG\n\n0000000000000000000000000000000000000000 1cda651e2b6b4c5ea1f5529f20c1ac3f51fd4077 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZEJCkAAoJEFG1/Zeg0O9RF3wIAKg32qX4ZHiCFbP7g5OACAVf\niUDtScuOhwt6QSwpE4+1V5NhHwGTwUjvB50w54W+HZvWKxHFaVZk1yeg9mGn5Xxf\nxVTRW+pA/kRXaa7tazjozxTL5DwlFAZVy/PHx4aEtxiH+VnDK63v0k36MO3ncIw8\nCS7gPY1zi2+Lug8/YDkdLO/aJJfKGwU9A4yTQoftb1911GuNgD/dGxePc7ew3svi\n5LZuVeWfUypVHQTLZ8boniCErv0cE2ns1FYmLZ1PCXUN0mbkypmtIpW/Rt/wLOgc\nnwuq9ZPeUBTjcImmayCWjuY4t5bfOVao8ORSkhqxE0YOSdUZHaZ+nd16Lw1MSuA\u003d\n\u003ddCPc\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "730f4025_de5cf833",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 6262,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-09T09:12:15Z",
+      "side": 1,
+      "message": "\"Message describing why the private flag was changed\"?",
+      "range": {
+        "startLine": 6262,
+        "startChar": 21,
+        "endLine": 6262,
+        "endChar": 34
+      },
+      "revId": "1cda651e2b6b4c5ea1f5529f20c1ac3f51fd4077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

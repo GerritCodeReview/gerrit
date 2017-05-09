@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58229d90_4347a34c",
+        "filename": "polygerrit-ui/app/behaviors/base-element-behavior/base-element-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-09T21:18:03Z",
+      "side": 1,
+      "message": "Why is baseElement a string? The name makes it seem like it should be an element.",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 23
+      },
+      "revId": "8eb2fc4c92bbd3f04220fe773a69ff8acf5a22fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41d23508_292acacb",
+        "filename": "polygerrit-ui/app/behaviors/base-element-behavior/base-element-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-09T21:18:03Z",
+      "side": 1,
+      "message": "If we substitute \"Base\" with \"Root\" would it make more sense in context of the DOM tree?\n\n* RootElementBehavior\n* getRootElement\n* setRootElement",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 25
+      },
+      "revId": "8eb2fc4c92bbd3f04220fe773a69ff8acf5a22fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bffda72_f2a065de",
+        "filename": "polygerrit-ui/app/behaviors/base-element-behavior/base-element-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-09T21:18:03Z",
+      "side": 1,
+      "message": "This is an instantiated behavior to share a single element reference. What if we just put a baseElement (or rootElement) property here?\n\n window.Gerrit.rootElement \u003d document.body;",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 58
+      },
+      "revId": "8eb2fc4c92bbd3f04220fe773a69ff8acf5a22fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

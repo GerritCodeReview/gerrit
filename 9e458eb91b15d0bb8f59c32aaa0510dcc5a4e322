@@ -22,6 +22,30 @@
       "revId": "9e458eb91b15d0bb8f59c32aaa0510dcc5a4e322",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d05cd31_46d3f5fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-09T11:58:58Z",
+      "side": 1,
+      "message": "We should make this consistent, but it can be another change.",
+      "parentUuid": "a74a7d72_3ab490c8",
+      "range": {
+        "startLine": 889,
+        "startChar": 2,
+        "endLine": 891,
+        "endChar": 3
+      },
+      "revId": "9e458eb91b15d0bb8f59c32aaa0510dcc5a4e322",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

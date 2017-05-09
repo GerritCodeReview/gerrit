@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "c5ca5196_4cd18f6b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/LastIndexVersion.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-09T14:47:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05c862b6_052fb927",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "a509b14385148a2e2ae73e00fe7188b808aecd24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2fd1d848_65598d90",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/LastIndexVersion.java",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2017-05-09T13:44:36Z",
       "side": 1,
       "message": "can you add a JavaDoc to describe the behavior and the fallback?",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 4
+      },
+      "revId": "a509b14385148a2e2ae73e00fe7188b808aecd24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1360f1b0_8682cb91",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/LastIndexVersion.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-09T14:47:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fd1d848_65598d90",
       "range": {
         "startLine": 28,
         "startChar": 2,

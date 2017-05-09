@@ -79,6 +79,12 @@ class ChangesImpl implements Changes {
   }
 
   @Override
+  public ChangeApi id(String project, int id) throws RestApiException {
+    return id(
+        Joiner.on('~').join(ImmutableList.of(Url.encode(project), Url.encode(String.valueOf(id)))));
+  }
+
+  @Override
   public ChangeApi create(ChangeInput in) throws RestApiException {
     try {
       ChangeInfo out = createChange.apply(TopLevelResource.INSTANCE, in).value();

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11910b11_880ba8df",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-05-09T15:34:59Z",
+      "side": 1,
+      "message": "It seems like this function wasn\u0027t updated to interact with the new gr-label-scores, and so plugins which call setLabelValue via the plugin API aren\u0027t successfully setting labels.",
+      "revId": "a499e3d9382fef139294472f4853d0d8f7e76931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

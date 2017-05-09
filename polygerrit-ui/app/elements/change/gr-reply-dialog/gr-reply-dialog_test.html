@@ -214,6 +214,17 @@ limitations under the License.
       });
     });
 
+    test('setlabelValue', function() {
+      element._account = {_account_id: 1};
+      flushAsynchronousOperations();
+      var label = 'Verified';
+      var value = '+1';
+      element.setLabelValue(label, value);
+      flushAsynchronousOperations();
+      var labels = element.$.labelScores.getLabelValues();
+      assert.deepEqual(labels, {'Verified': 1});
+    });
+
     function getActiveElement() {
       return Polymer.IronOverlayManager.deepActiveElement;
     }

@@ -177,7 +177,8 @@
     },
 
     setLabelValue: function(label, value) {
-      var selectorEl = this.$$('iron-selector[data-label="' + label + '"]');
+      var selectorEl =
+          this.$.labelScores.$$('iron-selector[data-label="' + label + '"]');
       // The selector may not be present if it’s not at the latest patch set.
       if (!selectorEl) { return; }
       var item = selectorEl.$$('gr-button[data-value="' + value + '"]');

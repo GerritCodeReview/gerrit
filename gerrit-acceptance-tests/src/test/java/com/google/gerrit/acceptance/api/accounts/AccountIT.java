@@ -1003,7 +1003,8 @@ public class AccountIT extends AbstractDaemonTest {
 
   @SuppressWarnings({"unchecked", "rawtypes"})
   private static void assertIteratorSize(int size, Iterator it) {
-    assertThat(ImmutableList.copyOf(it)).hasSize(size);
+    List lst = ImmutableList.copyOf(it);
+    assertThat(lst).hasSize(size);
   }
 
   private static void assertKeyMapContains(TestKey expected, Map<String, GpgKeyInfo> actualMap) {

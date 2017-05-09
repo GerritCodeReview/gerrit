@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "92d02671_ae6d9760",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-09T15:42:13Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m familiar with the rule. \n\nI\u0027ve poked around with that a fair bit locally, but since this was working it seemed like a good base case to get the team using it and give me some bedrock to build upon.",
+      "parentUuid": "4a4c9863_106acc6c",
+      "revId": "b0f09db33ab3e4b0a1fe83cd5d3fd3c5d406a817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8cb85f2_c472e698",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "f2ece46c_be7d7480",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-09T15:42:13Z",
+      "side": 1,
+      "message": "Good point. On second thought, I\u0027m not even sure we want this functionality at all. \n\nI wrote this test mostly with the intent of CI running it -- I expect PolyGerrit devs, team members and open source contributors alike, to be more familiar with eslint itself and use that (especially compared to an inherently less feature-filled bazel wrapper test).",
+      "parentUuid": "e8cb85f2_c472e698",
+      "revId": "b0f09db33ab3e4b0a1fe83cd5d3fd3c5d406a817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1eff0417_922edd1c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2017-05-09T14:41:26Z",
       "side": 1,
       "message": "The code to do that lives in a different repo, so it won\u0027t be necessary to do anything else within the gerrit repo here.",
+      "revId": "b0f09db33ab3e4b0a1fe83cd5d3fd3c5d406a817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "100929a1_3b4c66aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-09T15:42:13Z",
+      "side": 1,
+      "message": "Ah, okay. I\u0027ll ping you on some other medium about how to get that working when I get to it. I meant to talk to Luca about it at the hackathon, but never got around to it.",
+      "parentUuid": "1eff0417_922edd1c",
       "revId": "b0f09db33ab3e4b0a1fe83cd5d3fd3c5d406a817",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

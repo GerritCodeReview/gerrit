@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "32a4eb95_e1592d41",
+        "filename": "WORKSPACE",
+        "patchSetId": 13
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-05-09T19:45:39Z",
+      "side": 1,
+      "message": "Thanks. Thinking longer, I realized the https doesn\u0027t buy much --- the sha256 already provides integrity and all this provides on top of that is privacy. But it doesn\u0027t hurt and it\u0027s a good habit.",
+      "parentUuid": "1f22892b_148f5307",
+      "range": {
+        "startLine": 12,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "41332e704d737f0825bf45eef00bd51f6935c1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e56ecd01_92911757",
         "filename": "WORKSPACE",
         "patchSetId": 13

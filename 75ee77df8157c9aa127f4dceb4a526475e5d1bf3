@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ceb81cf0_6a35ea76",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 48
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-09T07:26:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "19a0bcfa_9354a294",
+      "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "88259297_11274159",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
         "patchSetId": 48
@@ -30,6 +48,24 @@
       "writtenOn": "2017-05-08T23:45:13Z",
       "side": 1,
       "message": "hidden attribute should be moved to next line.",
+      "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2ba463b_1631687d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 48
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-09T07:26:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "88259297_11274159",
       "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7b3b3de9_da66502b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 48
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-09T07:26:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "868175b1_60311408",
+      "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cc52fa5a_525969e4",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
         "patchSetId": 48
@@ -64,6 +118,24 @@
       "writtenOn": "2017-05-08T23:45:13Z",
       "side": 1,
       "message": "This needs to somehow check the length of projects. right now a next arrow shows even when there\u0027s nothing on the next page.",
+      "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a793b6e_05bd8c7d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 48
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-09T07:26:11Z",
+      "side": 1,
+      "message": "something like !this._projects.name.length? Or           !this._projects[this._projects.length - 1];",
+      "parentUuid": "cc52fa5a_525969e4",
       "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "16329ada_36cd7846",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 48
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-09T07:26:11Z",
+      "side": 1,
+      "message": "Oh, so something like https://gerrit-review.googlesource.com/admin/projects,25?",
+      "parentUuid": "e9289f24_2308f4ae",
+      "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2263453c_7034bcd0",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 48
@@ -98,6 +188,24 @@
       "writtenOn": "2017-05-08T23:45:13Z",
       "side": 1,
       "message": "This should probably be called offset rather than skip.",
+      "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56636504_e327455e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 48
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-09T07:26:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2263453c_7034bcd0",
       "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

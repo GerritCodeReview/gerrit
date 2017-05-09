@@ -872,9 +872,9 @@ public class AccountIT extends AbstractDaemonTest {
     return new String(out.toByteArray(), UTF_8);
   }
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
-  private static void assertIteratorSize(int size, Iterator it) {
-    assertThat(ImmutableList.copyOf(it)).hasSize(size);
+  private static void assertIteratorSize(int size, Iterator<?> it) {
+    List<?> lst = ImmutableList.copyOf(it);
+    assertThat(lst).hasSize(size);
   }
 
   private static void assertKeyMapContains(TestKey expected, Map<String, GpgKeyInfo> actualMap) {

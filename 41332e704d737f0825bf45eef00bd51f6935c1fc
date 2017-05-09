@@ -16,6 +16,24 @@
       "revId": "41332e704d737f0825bf45eef00bd51f6935c1fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71a009b0_982633d8",
+        "filename": "WORKSPACE",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-09T18:10:05Z",
+      "side": 1,
+      "message": "I personally don\u0027t see any reason to not have both, since the idea is that there are multiple mirrors. AFAIK this rule doesn\u0027t thus depend on _both_ urls, it depends on _one of them_. Whichever one matches the SHA.",
+      "parentUuid": "e56ecd01_92911757",
+      "revId": "41332e704d737f0825bf45eef00bd51f6935c1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

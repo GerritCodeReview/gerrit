@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a4c9863_106acc6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-09T14:41:26Z",
+      "side": 1,
+      "message": "This may be fixable by packaging eslint as an npm_binary. This is generally feasible as long as it\u0027s pure JS; the reason we didn\u0027t do it for wct is the massive amount of native dependencies.\n\nNot necessary in this change.",
+      "revId": "b0f09db33ab3e4b0a1fe83cd5d3fd3c5d406a817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8cb85f2_c472e698",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-09T14:41:26Z",
+      "side": 1,
+      "message": "This would be a reasonable behavior for a wrapper script to distribute alongside Gerrit, but it\u0027s not appropriate for a test. Bazel tests are meant to be hermetic, which also means no side effects.",
+      "revId": "b0f09db33ab3e4b0a1fe83cd5d3fd3c5d406a817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eff0417_922edd1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-09T14:41:26Z",
+      "side": 1,
+      "message": "The code to do that lives in a different repo, so it won\u0027t be necessary to do anything else within the gerrit repo here.",
+      "revId": "b0f09db33ab3e4b0a1fe83cd5d3fd3c5d406a817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

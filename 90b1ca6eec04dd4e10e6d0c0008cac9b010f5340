@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3c5d177_47cf0709",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-09T16:46:38Z",
+      "side": 1,
+      "message": "Could use a new test-case to the _breakdownGroup tests in gr-diff-processor_test.html for this.",
+      "range": {
+        "startLine": 502,
+        "startChar": 4,
+        "endLine": 502,
+        "endChar": 19
+      },
+      "revId": "90b1ca6eec04dd4e10e6d0c0008cac9b010f5340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ec864b2_3c5c56e5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-09T16:46:38Z",
+      "side": 1,
+      "message": "Not sure how reflecting over the object keys affects the performance/optimization characteristics here.\n\nWhat if we address the due_to_rebase problem directly with a hard-coded key?\n\n subGroup.due_to_rebase \u003d group.due_to_rebase;\n\nThe downside of this approach is, of course, that it only maps-over hard-coded keys, so it may need to be done again if we want to use another key on group objects. This seems okay to me though.",
+      "range": {
+        "startLine": 518,
+        "startChar": 10,
+        "endLine": 522,
+        "endChar": 13
+      },
+      "revId": "90b1ca6eec04dd4e10e6d0c0008cac9b010f5340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7179b3a3_f040565a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-09T04:27:45Z",
+      "side": 1,
+      "message": "This is now unused.  Removed in https://gerrit-review.googlesource.com/106370",
+      "range": {
+        "startLine": 83,
+        "startChar": 35,
+        "endLine": 83,
+        "endChar": 43
+      },
+      "revId": "9269cb568779348e3567a158801c5b4696077da1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -56,6 +56,15 @@ public interface Changes {
    */
   ChangeApi id(String project, String branch, String id) throws RestApiException;
 
+  /**
+   * Look up a change by project and numeric ID.
+   *
+   * @param project project name.
+   * @param id change number.
+   * @see #id(int)
+   */
+  ChangeApi id(String project, int id) throws RestApiException;
+
   ChangeApi create(ChangeInput in) throws RestApiException;
 
   QueryRequest query();
@@ -149,6 +158,11 @@ public interface Changes {
 
     @Override
     public ChangeApi id(String project, String branch, String id) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeApi id(String project, int id) {
       throw new NotImplementedException();
     }
 

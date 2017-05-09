@@ -1988,6 +1988,19 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .containsExactlyElementsIn(expectedPatterns);
   }
 
+  @Test
+  public void selfAndMe() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo), userId);
+    insert(repo, newChange(repo));
+    gApi.accounts().self().starChange(change1.getId().toString());
+    gApi.accounts().self().starChange(change2.getId().toString());
+
+    assertQuery("starredby:self", change2, change1);
+    assertQuery("starredby:me", change2, change1);
+  }
+
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
     return newChange(repo, null, null, null, null);
   }

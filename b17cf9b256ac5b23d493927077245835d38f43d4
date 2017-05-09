@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7700662f_ccf1aa55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-09T07:41:24Z",
+      "side": 1,
+      "message": "Are the parentheses needed?",
+      "range": {
+        "startLine": 343,
+        "startChar": 11,
+        "endLine": 343,
+        "endChar": 27
+      },
+      "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4788f881_8c5a5f7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1177,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-09T07:41:24Z",
+      "side": 1,
+      "message": "redundant parentheses?",
+      "range": {
+        "startLine": 1177,
+        "startChar": 8,
+        "endLine": 1177,
+        "endChar": 26
+      },
+      "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38cde2f9_a5a0f66d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ExactAuthorPredicate.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-09T07:41:24Z",
+      "side": 1,
+      "message": "2017",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a407820_ebc3feed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ExactCommitterPredicate.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-09T07:41:24Z",
+      "side": 1,
+      "message": "2017",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9011cd0b_64f8a31a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-09T07:41:24Z",
+      "side": 1,
+      "message": "The assertQuery at L562 will not be executed.  After the BadRequestException is thrown, either at L557 or L559, it\u0027ll be intercepted by the exception.expect, and then the remaining statements in the method will be skipped.",
+      "range": {
+        "startLine": 554,
+        "startChar": 4,
+        "endLine": 562,
+        "endChar": 43
+      },
+      "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

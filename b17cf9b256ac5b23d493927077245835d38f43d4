@@ -114,6 +114,30 @@
       "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a4d0dd3_2c94db66",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-09T07:47:45Z",
+      "side": 1,
+      "message": "See for example previous cases where this antipattern was fixed:\n\nhttps://gerrit-review.googlesource.com/#/q/status:merged+message:ExpectedException\n\nRight now I can\u0027t find documentation about this behaviour though, and I can\u0027t find the change where such a breakage was first reported.\n\nEdwin, do you remember?  Or do you have internal tools that reported the ones that you fixed recently?",
+      "parentUuid": "9011cd0b_64f8a31a",
+      "range": {
+        "startLine": 554,
+        "startChar": 4,
+        "endLine": 562,
+        "endChar": 43
+      },
+      "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

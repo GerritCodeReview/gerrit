@@ -22,6 +22,30 @@
       "revId": "89b2a95c36679c0c6ab66d79fb14b6908d5aae3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "150c62f7_38c877fc",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-09T07:09:42Z",
+      "side": 1,
+      "message": "It is not clear to me what time frame we are talking here? one week, one month, or one year after \"once the new release was branched off\".",
+      "parentUuid": "02a19928_111787c9",
+      "range": {
+        "startLine": 351,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 7
+      },
+      "revId": "89b2a95c36679c0c6ab66d79fb14b6908d5aae3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

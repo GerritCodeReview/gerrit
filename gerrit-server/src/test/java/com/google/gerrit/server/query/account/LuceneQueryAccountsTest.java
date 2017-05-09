@@ -14,28 +14,24 @@
 
 package com.google.gerrit.server.query.account;
 
-import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.InMemoryModule;
+import com.google.gerrit.testutil.IndexVersions;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import java.util.List;
+import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 
 public class LuceneQueryAccountsTest extends AbstractQueryAccountsTest {
-  @ConfigSuite.Config
-  public static Config againstPreviousIndexVersion() {
-    Config cfg = defaultConfig();
-    Schema<AccountState> prevSchema = AccountSchemaDefinitions.INSTANCE.getPrevious();
-    if (prevSchema != null) {
-      cfg.setInt(
-          "index",
-          "lucene",
-          AccountSchemaDefinitions.INSTANCE.getName() + "TestVersion",
-          prevSchema.getVersion());
-    }
-    return cfg;
+  @ConfigSuite.Configs
+  public static Map<String, Config> againstPreviousIndexVersion() {
+    // the current schema version is already tested by the inherited default config suite
+    List<Integer> schemaVersions =
+        IndexVersions.getWithoutLatest(AccountSchemaDefinitions.INSTANCE);
+    return IndexVersions.asConfigMap(
+        AccountSchemaDefinitions.INSTANCE, schemaVersions, "againstIndexVersion", defaultConfig());
   }
 
   @Override

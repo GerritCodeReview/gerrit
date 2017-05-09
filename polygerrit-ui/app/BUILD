@@ -157,3 +157,18 @@ sh_test(
         "manual",
     ],
 )
+
+sh_test(
+    name = "lint_test",
+    size = "large",
+    srcs = ["lint_test.sh"],
+    data = [
+        ":pg_code",
+        ".eslintrc.json",
+    ],
+    # Should not run sandboxed.
+    tags = [
+        "local",
+        "manual",
+    ],
+)

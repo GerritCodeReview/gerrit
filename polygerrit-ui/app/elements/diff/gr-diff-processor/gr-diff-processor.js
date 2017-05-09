@@ -515,6 +515,9 @@
         .map(function(subgroupLines) {
           var subGroup = {};
           subGroup[key] = subgroupLines;
+          if (group.due_to_rebase) {
+            subGroup.due_to_rebase = group.due_to_rebase;
+          }
           return subGroup;
         });
     },

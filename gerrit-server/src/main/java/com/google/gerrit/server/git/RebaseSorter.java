@@ -42,23 +42,26 @@ public class RebaseSorter {
   private final RevCommit initialTip;
   private final Set<RevCommit> alreadyAccepted;
   private final InternalChangeQuery internalChangeQuery;
+  private final Set<CodeReviewCommit> incoming;
 
   public RebaseSorter(
       CodeReviewRevWalk rw,
       RevCommit initialTip,
       Set<RevCommit> alreadyAccepted,
       RevFlag canMergeFlag,
-      InternalChangeQuery internalChangeQuery) {
+      InternalChangeQuery internalChangeQuery,
+      Set<CodeReviewCommit> incoming) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.initialTip = initialTip;
     this.alreadyAccepted = alreadyAccepted;
     this.internalChangeQuery = internalChangeQuery;
+    this.incoming = incoming;
   }
 
-  public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> incoming) throws IOException {
+  public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort) throws IOException {
     final List<CodeReviewCommit> sorted = new ArrayList<>();
-    final Set<CodeReviewCommit> sort = new HashSet<>(incoming);
+    final Set<CodeReviewCommit> sort = new HashSet<>(toSort);
     while (!sort.isEmpty()) {
       final CodeReviewCommit n = removeOne(sort);
 

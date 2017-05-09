@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d62a299_2681afb0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-09T09:43:20Z",
+      "side": 1,
+      "message": "From this test name I would have expected that you try to create a change on the visible branchB but with using the invisible change as parent commit (aka baseChange in the ChangeInput). Maybe such a test should be added as well?",
+      "range": {
+        "startLine": 176,
+        "startChar": 14,
+        "endLine": 176,
+        "endChar": 53
+      },
+      "revId": "268ca031bd37d912cf03ffb5e85a2a4a1a614a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

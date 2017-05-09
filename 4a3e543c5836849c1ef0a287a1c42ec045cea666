@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "695b11ac_83add9eb",
+        "filename": "gerrit-antlr/src/main/antlr3/com/google/gerrit/server/query/Simplify.g",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-09T19:16:16Z",
+      "side": 1,
+      "message": "This is not a per-backend decision, it happens entirely in core in ChangeQueryBuilder#defaultField",
+      "range": {
+        "startLine": 15,
+        "startChar": 3,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "4a3e543c5836849c1ef0a287a1c42ec045cea666",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

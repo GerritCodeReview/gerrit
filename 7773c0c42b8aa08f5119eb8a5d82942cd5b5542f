@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "34b72594_bf14061a",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-09T00:35:56Z",
+      "side": 1,
+      "message": "\u0027self\u0027 or \u0027me\u0027",
+      "range": {
+        "startLine": 178,
+        "startChar": 72,
+        "endLine": 178,
+        "endChar": 78
+      },
+      "revId": "7773c0c42b8aa08f5119eb8a5d82942cd5b5542f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55156156_169fd00e",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 1

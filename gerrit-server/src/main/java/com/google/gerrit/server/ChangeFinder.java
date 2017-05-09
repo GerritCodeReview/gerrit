@@ -14,9 +14,13 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.project.ChangeControl;
@@ -32,16 +36,26 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 @Singleton
 public class ChangeFinder {
+
   private final IndexConfig indexConfig;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final Provider<ReviewDb> reviewDb;
+  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Inject
-  ChangeFinder(IndexConfig indexConfig, Provider<InternalChangeQuery> queryProvider) {
+  ChangeFinder(
+      IndexConfig indexConfig,
+      Provider<InternalChangeQuery> queryProvider,
+      Provider<ReviewDb> reviewDb,
+      ChangeControl.GenericFactory changeControlFactory) {
     this.indexConfig = indexConfig;
     this.queryProvider = queryProvider;
+    this.reviewDb = reviewDb;
+    this.changeControlFactory = changeControlFactory;
   }
 
   /**
@@ -54,12 +68,63 @@ public class ChangeFinder {
    * @throws OrmException if an error occurred querying the database.
    */
   public List<ChangeControl> find(String id, CurrentUser user) throws OrmException {
+    if (id.isEmpty()) {
+      return Collections.emptyList();
+    }
+
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
 
-    // Try legacy id
-    if (!id.isEmpty() && id.charAt(0) != '0') {
+    int numTwiddles = 0;
+    for (char c : id.toCharArray()) {
+      if (c == '~') {
+        numTwiddles++;
+      }
+    }
+
+    if (numTwiddles == 1) {
+      // Try project~numericChangeId
+      String project = id.substring(0, id.indexOf('~'));
+      Integer n = Ints.tryParse(id.substring(project.length() + 1));
+      if (n != null) {
+        Change.Id changeId = new Change.Id(n);
+        try {
+          return ImmutableList.of(
+              changeControlFactory.controlFor(
+                  reviewDb.get(), Project.NameKey.parse(project), changeId, user));
+        } catch (NoSuchChangeException e) {
+          return Collections.emptyList();
+        } catch (IllegalArgumentException e) {
+          String changeNotFound = String.format("change %s not found in ReviewDb", changeId);
+          String projectNotFound =
+              String.format(
+                  "passed project %s when creating ChangeNotes for %s, but actual project is",
+                  project, changeId);
+          if (e.getMessage().equals(changeNotFound) || e.getMessage().startsWith(projectNotFound)) {
+            return Collections.emptyList();
+          }
+          throw e;
+        } catch (OrmException e) {
+          // Distinguish between a RepositoryNotFoundException (project argument invalid) and
+          // other OrmExceptions (failure in the persistence layer).
+          if (Throwables.getRootCause(e) instanceof RepositoryNotFoundException) {
+            return Collections.emptyList();
+          }
+          throw e;
+        }
+      }
+    } else if (numTwiddles == 2) {
+      // Try change triplet
+      Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id);
+      if (triplet.isPresent()) {
+        return asChangeControls(
+            query.byBranchKey(triplet.get().branch(), triplet.get().id()), user);
+      }
+    }
+
+    // Try numeric changeId
+    if (id.charAt(0) != '0') {
       Integer n = Ints.tryParse(id);
       if (n != null) {
         return asChangeControls(query.byLegacyChangeId(new Change.Id(n)), user);
@@ -67,17 +132,7 @@ public class ChangeFinder {
     }
 
     // Try isolated changeId
-    if (!id.contains("~")) {
-      return asChangeControls(query.byKeyPrefix(id), user);
-    }
-
-    // Try change triplet
-    Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id);
-    if (triplet.isPresent()) {
-      return asChangeControls(query.byBranchKey(triplet.get().branch(), triplet.get().id()), user);
-    }
-
-    return Collections.emptyList();
+    return asChangeControls(query.byKeyPrefix(id), user);
   }
 
   public ChangeControl findOne(Change.Id id, CurrentUser user) throws OrmException {

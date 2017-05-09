@@ -5284,12 +5284,13 @@ Identifier that uniquely identifies one change.
 
 This can be:
 
+* an ID of the change in the format "'$$<project>~<numericId>$$'"
 * an ID of the change in the format "'$$<project>~<branch>~<Change-Id>$$'",
   where for the branch the `refs/heads/` prefix can be omitted
   ("$$myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940$$")
 * a Change-Id if it uniquely identifies one change
   ("I8473b95934b5732ac55d26311a706c9c2bde9940")
-* a legacy numeric change ID ("4247")
+* a numeric change ID ("4247")
 
 [[comment-id]]
 === \{comment-id\}

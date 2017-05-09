@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "181ceec1_45b5dfd6",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-09T13:50:04Z",
+      "side": 1,
+      "message": "move this before \u0027to\u0027?",
+      "range": {
+        "startLine": 494,
+        "startChar": 52,
+        "endLine": 495,
+        "endChar": 6
+      },
+      "revId": "d314102d590f69a1ef40b178f7224d452b3fc57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

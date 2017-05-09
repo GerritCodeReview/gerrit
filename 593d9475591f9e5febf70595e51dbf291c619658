@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1494334506 +0200\nnonce APbwY4q5tjuvKz8kpft3PnqVYDuD/sP1ujYRa0TIqcMxIQQxFeVVr1kmYWtqmY5Aj7XtbWk2a8c2\n\n0000000000000000000000000000000000000000 5e3f77f088423b6c16a4ed3491b195269098d0b3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZEbwqAAoJEFG1/Zeg0O9RbJMH/1y+++74qOK4FVb/RiywXJqD\nd8KzhUKEAXx2WTC9/LeqXVy+vMPzVerCe3t0bCsDyb3sskKKo8ZQE13pgL/y+/rv\nkHb8HePn3ipTopZoRewcooQ0XG0M2yB6chsp70LEh1iR1giSlTIVfdSuAJ84KsZN\nV4fs319sVmwhUEU/jet8oIQ3Q67U5Z0BC8Ya8Vmk9rHGZwMVrA498J5R9YjqT+/L\nMYKVAsTmZhJzjEDphMU4jUIg1kdFxyQctM6OYTmECbIcDGqXWwmVyJLN5L2BnWXx\nxePPE2DcIMk16VJl0abY+4liaItXObzMVUi/3xgoIdSp6fRpui8xOtcTP7cxvIY\u003d\n\u003d9u/I\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9ddcc91_2e30a5f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-09T13:36:54Z",
+      "side": 1,
+      "message": "Can\u0027t a Provider\u003cReviewDb\u003e be injected in the constructor instead of having to pass it here?",
+      "range": {
+        "startLine": 48,
+        "startChar": 21,
+        "endLine": 48,
+        "endChar": 32
+      },
+      "revId": "593d9475591f9e5febf70595e51dbf291c619658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

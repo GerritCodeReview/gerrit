@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d7bdee4_203583cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/CommentApiImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-09T14:36:26Z",
+      "side": 1,
+      "message": "Exception",
+      "range": {
+        "startLine": 64,
+        "startChar": 13,
+        "endLine": 68,
+        "endChar": 25
+      },
+      "revId": "2b09b1ccf6875049b7bc6f125bbba81cd53c5a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

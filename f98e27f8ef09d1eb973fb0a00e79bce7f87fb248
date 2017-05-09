@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f73af53e_6cde4968",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/CommentApiImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-09T14:21:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85fb81e1_077ef6ed",
+      "revId": "f98e27f8ef09d1eb973fb0a00e79bce7f87fb248",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "97b2d802_83250fe3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2017-05-09T14:16:33Z",
       "side": 1,
       "message": "Nit: checkState(deleteCommentRewriter !\u003d null, \"cannot update...\");",
+      "revId": "f98e27f8ef09d1eb973fb0a00e79bce7f87fb248",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09b9b20f_b45e3357",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-09T14:21:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97b2d802_83250fe3",
       "revId": "f98e27f8ef09d1eb973fb0a00e79bce7f87fb248",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

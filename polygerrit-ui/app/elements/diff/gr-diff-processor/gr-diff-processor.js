@@ -515,6 +515,11 @@
         .map(function(subgroupLines) {
           var subGroup = {};
           subGroup[key] = subgroupLines;
+          Object.keys(group).forEach(function (propertyName, index) {
+            if (propertyName !== key) {
+              subGroup[propertyName] = group[propertyName];
+            }
+          });
           return subGroup;
         });
     },

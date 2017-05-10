@@ -212,6 +212,30 @@
       "revId": "8eb2fc4c92bbd3f04220fe773a69ff8acf5a22fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4039b41_4bb852ee",
+        "filename": "polygerrit-ui/app/behaviors/base-element-behavior/base-element-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-10T21:30:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c593ab95_5671ef03",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 58
+      },
+      "revId": "8eb2fc4c92bbd3f04220fe773a69ff8acf5a22fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

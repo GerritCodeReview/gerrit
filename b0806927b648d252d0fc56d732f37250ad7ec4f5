@@ -16,6 +16,24 @@
       "revId": "b0806927b648d252d0fc56d732f37250ad7ec4f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e59e5100_463d3762",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-10T06:43:52Z",
+      "side": 1,
+      "message": "Thought about doing that, but we would then need to move this setting down to after line 212 and enclose in an if-block.\n\nI don\u0027t think it hurts to set it even if it\u0027s unused when backend is MINA.",
+      "parentUuid": "8bf00797_5c74afb0",
+      "revId": "b0806927b648d252d0fc56d732f37250ad7ec4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

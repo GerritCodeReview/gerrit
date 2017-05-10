@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "bd52257d_02a23335",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-10T09:27:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53fe9cb6_08b6f2b6",
+      "range": {
+        "startLine": 5,
+        "startChar": 28,
+        "endLine": 5,
+        "endChar": 29
+      },
+      "revId": "10be263ad12a59018e57947ca6692650c6fe7425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67211035_ec8db38c",
         "filename": "tools/coverage.sh",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2017-05-10T08:58:08Z",
       "side": 1,
       "message": "why do we need to copy everything to a temp folder?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 37
+      },
+      "revId": "10be263ad12a59018e57947ca6692650c6fe7425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d9419c_acad4c1c",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-10T09:27:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67211035_ec8db38c",
       "range": {
         "startLine": 16,
         "startChar": 0,

@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -58,7 +58,6 @@
           };
         },
       },
-
       /**
        * The number of characters that must be typed before suggestions are
        * made.
@@ -67,24 +66,19 @@
         type: Number,
         value: 1,
       },
-
       borderless: Boolean,
       disabled: Boolean,
-
       text: {
         type: String,
         value: '',
         observer: '_updateSuggestions',
         notify: true,
       },
-
       placeholder: String,
-
       clearOnCommit: {
         type: Boolean,
         value: false,
       },
-
       /**
        * When true, tab key autocompletes but does not fire the commit event.
        * See Issue 4556.
@@ -93,9 +87,7 @@
         type: Boolean,
         value: false,
       },
-
       value: Object,
-
       /**
        * Multi mode appends autocompleted entries to the value.
        * If false, autocompleted entries replace value.
@@ -109,32 +101,26 @@
         type: Array,
         value: function() { return []; },
       },
-
-      _suggestionEls: {
-        type: Array,
-        value: function() { return []; },
-      },
-
       _index: Number,
-
       _disableSuggestions: {
         type: Boolean,
         value: false,
       },
-
       _focused: {
         type: Boolean,
         value: false,
       },
-
+      _selected: Object,
     },
 
     attached: function() {
       this.listen(document.body, 'tap', '_handleBodyTap');
+      this.listen(this.$.suggestions, 'item-selected', '_handleItemSelect');
     },
 
     detached: function() {
       this.unlisten(document.body, 'tap', '_handleBodyTap');
+      this.unlisten(this.$.suggestions, 'item-selected', '_handleItemSelect');
     },
 
     get focusStart() {
@@ -153,6 +139,18 @@
       this.text = '';
     },
 
+    _handleItemSelect: function(e) {
+      var silent = false;
+      if (e.detail.trigger === 'tab' && this.tabCompleteWithoutCommit) {
+        silent = true;
+      }
+      this._selected = e.detail.selected;
+      this._commit(silent);
+      if (e.detail.trigger === 'tap') {
+        this.focus();
+      }
+    },
+
     /**
      * Set the text of the input without triggering the suggestion dropdown.
      * @param {String} text The new text for the input.
@@ -165,7 +163,7 @@
 
     _onInputFocus: function() {
       this._focused = true;
-      this._updateSuggestions();
+    this._updateSuggestions();
     },
 
     _updateSuggestions: function() {
@@ -182,10 +180,11 @@
           // Late response.
           return;
         }
+        suggestions.forEach(function(suggestion) {
+          suggestion.text = suggestion.name;
+        });
         this._suggestions = suggestions;
         Polymer.dom.flush();
-        this._suggestionEls = this.$.suggestions.querySelectorAll('li');
-        this.$.cursor.moveToStart();
         if (this._index === -1) {
           this.value = null;
         }
@@ -209,25 +208,24 @@
       switch (e.keyCode) {
         case 38: // Up
           e.preventDefault();
-          this.$.cursor.previous();
+          this.$.suggestions.up(e);
           break;
         case 40: // Down
           e.preventDefault();
-          this.$.cursor.next();
+          this.$.suggestions.down(e);
           break;
         case 27: // Escape
           e.preventDefault();
           this._cancel();
-          break;
         case 9: // Tab
           if (this._suggestions.length > 0) {
             e.preventDefault();
-            this._commit(this.tabCompleteWithoutCommit);
+            this._handleEnter(this.tabCompleteWithoutCommit);
           }
           break;
         case 13: // Enter
           e.preventDefault();
-          this._commit();
+        this._handleEnter();
           break;
         default:
           // For any normal keypress, return focus to the input to allow for
@@ -245,9 +243,15 @@
       }
     },
 
-    _updateValue: function(suggestions, index) {
-      if (!suggestions.length || index === -1) { return; }
-      var completed = suggestions[index].value;
+    _handleEnter: function(opt_tabCompleteWithoutCommit) {
+      this._selected = this.$.suggestions.getCursorTarget();
+      this._commit(opt_tabCompleteWithoutCommit);
+      this.focus();
+    },
+
+    _updateValue: function(suggestion, suggestions) {
+      if (!suggestion) { return; }
+      var completed = suggestions[suggestion.dataset.index].value;
       if (this.multi) {
         // Append the completed text to the end of the string.
         // Allow spaces within quoted terms.
@@ -269,13 +273,6 @@
       this._focused = false;
     },
 
-    _handleSuggestionTap: function(e) {
-      e.stopPropagation();
-      this.$.cursor.setCursor(e.target);
-      this._commit();
-      this.focus();
-    },
-
     /**
      * Commits the suggestion, optionally firing the commit event.
      *
@@ -286,7 +283,7 @@
     _commit: function(silent) {
       // Allow values that are not in suggestion list iff suggestions are empty.
       if (this._suggestions.length > 0) {
-        this._updateValue(this._suggestions, this._index);
+        this._updateValue(this._selected, this._suggestions);
       } else {
         this.value = this.text || '';
       }
@@ -297,8 +294,8 @@
       if (this.multi) {
         this.setText(this.value);
       } else {
-        if (!this.clearOnCommit && this._suggestions[this._index]) {
-          this.setText(this._suggestions[this._index].name);
+        if (!this.clearOnCommit && this._selected) {
+          this.setText(this._suggestions[this._selected.dataset.index].name);
         } else {
           this.clear();
         }

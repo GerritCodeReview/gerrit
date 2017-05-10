@@ -98,6 +98,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   @Inject protected AllProjectsName allProjects;
 
   protected LifecycleManager lifecycle;
+  protected Injector injector;
   protected ReviewDb db;
   protected AccountInfo currentUserInfo;
   protected CurrentUser user;
@@ -107,11 +108,14 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   @Before
   public void setUpInjector() throws Exception {
     lifecycle = new LifecycleManager();
-    Injector injector = createInjector();
+    injector = createInjector();
     lifecycle.add(injector);
     injector.injectMembers(this);
     lifecycle.start();
+    setUpDatabase();
+  }
 
+  protected void setUpDatabase() throws Exception {
     db = schemaFactory.open();
     schemaCreator.create(db);
 

@@ -119,6 +119,30 @@
       "revId": "378811f54e45b92f94dfc122c912be435e31c7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7af035e_3ecd2c1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-10T15:28:37Z",
+      "side": 1,
+      "message": "I haven\u0027t looked whether this is possible, because I was concerned about the performance impact (but I haven\u0027t done any measurements). But yes, ideally we would run the tests against all index versions.",
+      "parentUuid": "8a0527eb_e21cf72a",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 62
+      },
+      "revId": "378811f54e45b92f94dfc122c912be435e31c7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

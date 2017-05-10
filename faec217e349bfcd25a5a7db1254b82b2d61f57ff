@@ -22,6 +22,30 @@
       "revId": "faec217e349bfcd25a5a7db1254b82b2d61f57ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bebc49d_8d2d28e1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-10T09:07:04Z",
+      "side": 1,
+      "message": "+1\n\nIt\u0027s also strange that the error message is different but not adding more meaning.",
+      "parentUuid": "ddf1df82_d1af54e7",
+      "range": {
+        "startLine": 186,
+        "startChar": 26,
+        "endLine": 186,
+        "endChar": 42
+      },
+      "revId": "faec217e349bfcd25a5a7db1254b82b2d61f57ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

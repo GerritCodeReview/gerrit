@@ -1093,8 +1093,8 @@
     },
 
     _computeCanStartReview: function(loggedIn, change, account) {
-      return loggedIn && change.work_in_progress &&
-          change.owner._account_id === account._account_id;
+      return !!(loggedIn && change.work_in_progress &&
+          change.owner._account_id === account._account_id);
     },
 
     _computeDescriptionReadOnly: function(loggedIn, change, account) {

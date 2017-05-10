@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a0b8cfea_dbe9748e",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-05-10T21:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ea86b69_af92629a",
+      "range": {
+        "startLine": 48,
+        "startChar": 16,
+        "endLine": 48,
+        "endChar": 19
+      },
+      "revId": "7a742ec1a624528b3293dada53ac63fb0ee8c669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e948f4da_42b29b1e",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "6845d060_d1fc5c6c",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-05-10T21:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e948f4da_42b29b1e",
+      "revId": "7a742ec1a624528b3293dada53ac63fb0ee8c669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7939ab52_408d7ce0",
         "filename": "polygerrit-ui/app/styles/app-theme.html",
         "patchSetId": 3
@@ -56,6 +98,24 @@
       "revId": "7a742ec1a624528b3293dada53ac63fb0ee8c669",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6202113c_74b068e6",
+        "filename": "polygerrit-ui/app/styles/app-theme.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-05-10T21:02:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7939ab52_408d7ce0",
+      "revId": "7a742ec1a624528b3293dada53ac63fb0ee8c669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

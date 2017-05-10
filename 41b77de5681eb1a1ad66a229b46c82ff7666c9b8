@@ -23,6 +23,30 @@
       "revId": "41b77de5681eb1a1ad66a229b46c82ff7666c9b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2e1ad16_75e0dd89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WorkInProgressOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-10T13:17:49Z",
+      "side": 1,
+      "message": "Yes, nut let me clean this up as a follow-up change. Because the same cleanup should be done for SetPrivateOp then.",
+      "parentUuid": "a684704a_f9adb12a",
+      "range": {
+        "startLine": 64,
+        "startChar": 69,
+        "endLine": 64,
+        "endChar": 71
+      },
+      "revId": "41b77de5681eb1a1ad66a229b46c82ff7666c9b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

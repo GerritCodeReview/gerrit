@@ -16,6 +16,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
 
 <dom-module id="gr-autocomplete">
@@ -31,25 +32,6 @@ limitations under the License.
         border: none;
         outline: none;
       }
-      #suggestions {
-        background-color: #fff;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
-        position: absolute;
-        z-index: 10;
-      }
-      ul {
-        list-style: none;
-      }
-      li {
-        cursor: pointer;
-        padding: .5em .75em;
-      }
-      li:focus {
-        outline: none;
-      }
-      li.selected {
-        background-color: #eee;
-      }
     </style>
     <input
         id="input"
@@ -61,29 +43,13 @@ limitations under the License.
         on-keydown="_handleKeydown"
         on-focus="_onInputFocus"
         autocomplete="off" />
-    <div
-        id="suggestions"
+    <gr-autocomplete-dropdown id="suggestions"
+        on-item-selected="_handleItemSelected"
+        suggestions="[[_suggestions]]"
         role="listbox"
+        index="[[index]]"
         hidden$="[[_computeSuggestionsHidden(_suggestions, _focused)]]">
-      <ul>
-        <template is="dom-repeat" items="[[_suggestions]]">
-          <li
-              data-index$="[[index]]"
-              tabindex="-1"
-              aria-label$="[[item.name]]"
-              on-keydown="_handleKeydown"
-              role="option"
-              on-tap="_handleSuggestionTap">[[item.name]]</li>
-        </template>
-      </ul>
-    </div>
-    <gr-cursor-manager
-        id="cursor"
-        index="{{_index}}"
-        cursor-target-class="selected"
-        scroll-behavior="keep-visible"
-        focus-on-move
-        stops="[[_suggestionEls]]"></gr-cursor-manager>
+    </gr-autocomplete-dropdown>
   </template>
   <script src="gr-autocomplete.js"></script>
 </dom-module>

@@ -63,7 +63,7 @@ public class SetPrivateOp implements BatchUpdateOp {
     Change c = ctx.getChange();
     StringBuilder buf = new StringBuilder(c.isPrivate() ? "Set private" : "Unset private");
 
-    String m = Strings.nullToEmpty(input.message).trim();
+    String m = input != null ? Strings.nullToEmpty(input.message).trim() : "";
     if (!m.isEmpty()) {
       buf.append("\n\n");
       buf.append(m);

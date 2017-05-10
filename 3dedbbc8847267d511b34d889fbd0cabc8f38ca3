@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ac35efa2_c11b077d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-10T22:52:46Z",
+      "side": 1,
+      "message": "Yeah, but if that was required we\u0027d be doing something intentionally and could refactor then. I think it\u0027s better to keep it simple right now.",
+      "parentUuid": "82b52834_05750195",
+      "revId": "3dedbbc8847267d511b34d889fbd0cabc8f38ca3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3fde8d1c_4b457912",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 9

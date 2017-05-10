@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1494236192 +0200\nnonce APbwY4pIoUB4xAPGz4BMlnMNXOyBSG8hUScxtnSz/HQIKJSMs+8O+BacNwNVC+iq6TsEKSf5gPUY\n\n0000000000000000000000000000000000000000 97ad033aade0cb0b804aafcbbbb6197fb9aa3c8e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZEDwgAAoJEFG1/Zeg0O9RNwoIAIkxKbfYt6L1xu+sAMDO8hbZ\nEp4uI/EUTLxa8DX+kRfoBSFkxTZnZbkNhYcJOfRlFCtRmTgRXIbsqhtls/XnP1D/\nmkAaQH1ruMA4BJ64k+PZY7YOqpXVOfmcN4nOF+AtduuJ1fG0e8OUduIIZeDz4+KD\nGJn/COqKpZ+ftwUYvr5kKmASkEFferCh15hAXYsZlcqPj6JkgYT+1oITZaDAdAhZ\nqKrXbP3YQRQjC8ou3hTMVUXClfguEoQMTllxcIuJPfx3wuYWDD3+bvq+WfYoqHdZ\njKcOzrjXEAxXMyhqLFYuBVg1M2V3SpoZtknFueab3DZG5WKgd/9s1+xIq/DO7rA\u003d\n\u003dldpA\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6df83bfc_82039740",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-10T15:55:59Z",
+      "side": 1,
+      "message": "This is a sizable behavior change from the way the index system was originally designed, but I\u0027m ok with it.\n\nThe original reason for supporting mixed index/non-index terms for things that we planned to be in the index *eventually* was so we could incrementally add support for them during the initial implementation stage. But we are far past that stage, so I don\u0027t think that argument still applies.\n\nActually, I think if we do this, then we can also remove Matchable from ChangeIndexPredicate, which would be awesome.",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "97ad033aade0cb0b804aafcbbbb6197fb9aa3c8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

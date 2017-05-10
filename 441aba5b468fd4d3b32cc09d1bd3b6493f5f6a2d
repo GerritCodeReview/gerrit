@@ -16,6 +16,24 @@
       "revId": "441aba5b468fd4d3b32cc09d1bd3b6493f5f6a2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "094bf5c1_c3ae916b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-10T07:58:21Z",
+      "side": 1,
+      "message": "Ah, yes.  Good catch.\n\nDone.",
+      "parentUuid": "86fae03c_fb80db51",
+      "revId": "441aba5b468fd4d3b32cc09d1bd3b6493f5f6a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

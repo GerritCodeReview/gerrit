@@ -39,10 +39,10 @@ import com.google.protobuf.Parser;
 import com.google.protobuf.UnknownFieldSet;
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -96,7 +96,7 @@ public class ProtobufImport extends SiteProgram {
       }
 
       Parser<UnknownFieldSet> parser = UnknownFieldSet.getDefaultInstance().getParserForType();
-      try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
+      try (InputStream in = new BufferedInputStream(Files.newInputStream(file.toPath()))) {
         UnknownFieldSet msg;
         while ((msg = parser.parseDelimitedFrom(in)) != null) {
           Map.Entry<Integer, UnknownFieldSet.Field> e =

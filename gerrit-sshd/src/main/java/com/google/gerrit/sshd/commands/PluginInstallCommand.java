@@ -25,12 +25,11 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -54,6 +53,7 @@ final class PluginInstallCommand extends SshCommand {
 
   @Inject private PluginLoader loader;
 
+  @SuppressWarnings("resource")
   @Override
   protected void run() throws UnloggedFailure {
     if (!loader.isRemoteAdminEnabled()) {
@@ -80,8 +80,8 @@ final class PluginInstallCommand extends SshCommand {
       data = in;
     } else if (new File(source).isFile() && source.equals(new File(source).getAbsolutePath())) {
       try {
-        data = new FileInputStream(new File(source));
-      } catch (FileNotFoundException e) {
+        data = Files.newInputStream(new File(source).toPath());
+      } catch (IOException e) {
         throw die("cannot read " + source);
       }
     } else {

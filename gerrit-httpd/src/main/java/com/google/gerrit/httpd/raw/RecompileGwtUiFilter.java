@@ -16,9 +16,10 @@ package com.google.gerrit.httpd.raw;
 
 import com.google.gwtexpui.linker.server.UserAgentRule;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -102,7 +103,7 @@ class RecompileGwtUiFilter implements Filter {
         mkdir(rawtmp.getParentFile());
         rawtmp.deleteOnExit();
 
-        try (FileOutputStream rawout = new FileOutputStream(rawtmp);
+        try (OutputStream rawout = Files.newOutputStream(rawtmp.toPath());
             InputStream in = zf.getInputStream(ze)) {
           final byte[] buf = new byte[4096];
           int n;

@@ -61,7 +61,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
     StringBuilder buf =
         new StringBuilder(c.isWorkInProgress() ? "Set Work In Progress" : "Set Ready For Review");
 
-    String m = Strings.nullToEmpty(in.message).trim();
+    String m = in != null ? Strings.nullToEmpty(in.message).trim() : "";
     if (!m.isEmpty()) {
       buf.append("\n\n");
       buf.append(m);

@@ -986,7 +986,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return reviewer(who, false);
   }
 
-  private Predicate<ChangeData> reviewerDefaultField(String who) throws QueryParseException, OrmException {
+  private Predicate<ChangeData> reviewerDefaultField(String who)
+      throws QueryParseException, OrmException {
     return reviewer(who, true);
   }
 
@@ -1232,8 +1233,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return args.getIdentifiedUser().getAccountId();
   }
 
-  public Predicate<ChangeData> reviewerByState(String who, ReviewerStateInternal state,
-      boolean forDefaultField) throws QueryParseException, OrmException {
+  public Predicate<ChangeData> reviewerByState(
+      String who, ReviewerStateInternal state, boolean forDefaultField)
+      throws QueryParseException, OrmException {
     Predicate<ChangeData> reviewerByEmailPredicate = null;
     if (args.index.getSchema().hasField(ChangeField.REVIEWER_BY_EMAIL)) {
       Address address = Address.tryParse(who);
@@ -1246,10 +1248,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     try {
       Set<Account.Id> accounts = parseAccount(who);
       if (!forDefaultField || accounts.size() <= MAX_ACCOUNTS_PER_DEFAULT_FIELD) {
-        reviewerPredicate = Predicate.or(
-            accounts.stream()
-                .map(id -> ReviewerPredicate.forState(args, id, state))
-                .collect(toList()));
+        reviewerPredicate =
+            Predicate.or(
+                accounts
+                    .stream()
+                    .map(id -> ReviewerPredicate.forState(args, id, state))
+                    .collect(toList()));
       }
     } catch (QueryParseException e) {
       // Propagate this exception only if we can't use 'who' to query by email

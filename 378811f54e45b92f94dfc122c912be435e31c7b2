@@ -71,6 +71,30 @@
       "revId": "378811f54e45b92f94dfc122c912be435e31c7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a0527eb_e21cf72a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-10T15:24:55Z",
+      "side": 1,
+      "message": "Related question: Why only 2 tests per execution, instead of just running it for all schema versions? Is the problem that ConfigSuite requires one hard-coded method per config? We can probably improve ConfigSuite to support something like:\n\n @ConfigSuite.Configs\n public static Map\u003cString, Config\u003e configs() {\n   return ImmutableMap.of(\"name1\", cfg1, \"name2\", cfg2);\n }\n\n(I guess speed is potentially also a concern?)",
+      "parentUuid": "b7b30cb2_946a39b1",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 62
+      },
+      "revId": "378811f54e45b92f94dfc122c912be435e31c7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

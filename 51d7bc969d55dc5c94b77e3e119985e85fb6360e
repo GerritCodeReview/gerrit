@@ -16,6 +16,24 @@
       "revId": "51d7bc969d55dc5c94b77e3e119985e85fb6360e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "895e4df5_65bd401c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-05-10T23:07:36Z",
+      "side": 1,
+      "message": "Yes, change.work_in_progress is the one that is typically undefined.",
+      "parentUuid": "205f4f52_02661d01",
+      "revId": "51d7bc969d55dc5c94b77e3e119985e85fb6360e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

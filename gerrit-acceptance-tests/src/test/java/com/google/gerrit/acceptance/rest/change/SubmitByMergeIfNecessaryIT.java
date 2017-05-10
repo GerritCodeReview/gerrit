@@ -30,9 +30,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -547,10 +546,10 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     try (BinaryResult request = submitPreview(change1.getChangeId(), "tgz")) {
       assertThat(request.getContentType()).isEqualTo("application/x-gzip");
       tempfile = File.createTempFile("test", null);
-      request.writeTo(new FileOutputStream(tempfile));
+      request.writeTo(Files.newOutputStream(tempfile.toPath()));
     }
 
-    InputStream is = new GZIPInputStream(new FileInputStream(tempfile));
+    InputStream is = new GZIPInputStream(Files.newInputStream(tempfile.toPath()));
 
     List<String> untarredFiles = new ArrayList<>();
     try (TarArchiveInputStream tarInputStream =

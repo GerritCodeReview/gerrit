@@ -15,9 +15,9 @@
 import com.googlecode.prolog_cafe.compiler.Compiler;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 
@@ -46,7 +46,7 @@ public class BuckPrologCompiler {
   private static void jar(File jar, File classes) throws IOException {
     File tmp = File.createTempFile("prolog", ".jar", tmpdir);
     try {
-      try (JarOutputStream out = new JarOutputStream(new FileOutputStream(tmp))) {
+      try (JarOutputStream out = new JarOutputStream(Files.newOutputStream(tmp.toPath()))) {
         add(out, classes, "");
       }
       if (!tmp.renameTo(jar)) {
@@ -70,7 +70,7 @@ public class BuckPrologCompiler {
       }
 
       JarEntry e = new JarEntry(prefix + name);
-      try (FileInputStream in = new FileInputStream(f)) {
+      try (InputStream in = Files.newInputStream(f.toPath())) {
         e.setTime(f.lastModified());
         out.putNextEntry(e);
         byte[] buf = new byte[16 << 10];

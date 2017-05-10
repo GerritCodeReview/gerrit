@@ -24,10 +24,9 @@ import com.google.inject.assistedinject.Assisted;
 import com.googlecode.prolog_cafe.compiler.Compiler;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -134,7 +133,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     // Any leak of tmp caused by this method failing will be cleaned
     // up by our caller when tempDir is recursively deleted.
     File tmp = File.createTempFile("rules", ".pl", tempDir);
-    try (FileOutputStream out = new FileOutputStream(tmp)) {
+    try (OutputStream out = Files.newOutputStream(tmp.toPath())) {
       git.open(blobId).copyTo(out);
     }
     return tmp;
@@ -230,7 +229,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
         jarAdd.setTime(now);
         out.putNextEntry(jarAdd);
         if (f.isFile()) {
-          try (FileInputStream in = new FileInputStream(f)) {
+          try (InputStream in = Files.newInputStream(f.toPath())) {
             while (true) {
               int nRead = in.read(buffer, 0, buffer.length);
               if (nRead <= 0) {

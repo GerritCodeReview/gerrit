@@ -51,6 +51,7 @@
     RESTORE: 'restore',
     REVERT: 'revert',
     UNIGNORE: 'unignore',
+    WIP: 'wip',
   };
 
   // TODO(andybons): Add the rest of the revision actions.
@@ -596,6 +597,9 @@
         case ChangeActions.DELETE:
           this._handleDeleteTap();
           break;
+        case ChangeActions.WIP:
+          this._handleWipTap();
+          break;
         default:
           this._fireAction(this._prependSlash(key), this.actions[key], false);
       }
@@ -786,6 +790,9 @@
               page.show(this.changePath(this.changeNum));
             }
             break;
+          case ChangeActions.WIP:
+            page.show(this.changePath(this.changeNum));
+            break;
           default:
             this.dispatchEvent(new CustomEvent('reload-change',
                 {detail: {action: action.__key}, bubbles: false}));
@@ -848,6 +855,10 @@
 
     _handleDeleteTap: function() {
       this._showActionDialog(this.$.confirmDeleteDialog);
+    },
+
+    _handleWipTap: function() {
+      this._fireAction('/wip', this.actions.wip, false);
     },
 
     /**

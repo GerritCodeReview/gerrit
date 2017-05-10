@@ -594,8 +594,8 @@ limitations under the License.
         {num: 3, desc: 'test'},
         {num: 4, desc: 'test'},
       ];
-      var patchNums = element._computePatchSets({
-        base: {
+      var patchNums = element.computeAllPatchSets({
+        revisions: {
           rev3: {_number: 3, description: 'test'},
           rev1: {_number: 1, description: 'test'},
           rev4: {_number: 4, description: 'test'},
@@ -624,10 +624,12 @@ limitations under the License.
         basePatchNum: 'PARENT',
         patchNum: '3',
       };
-      element.revisions = {
-        rev1: {_number: 1},
-        rev2: {_number: 2},
-        rev3: {_number: 3},
+      element.change = {
+        revisions: {
+          rev1: {_number: 1},
+          rev2: {_number: 2},
+          rev3: {_number: 3},
+        },
       };
       flush(function() {
         var selectEl = element.$.patchChange;

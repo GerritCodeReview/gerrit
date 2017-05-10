@@ -31,6 +31,7 @@
 
     properties: {
       moveToRoot: Boolean,
+      fixedPosition: Boolean,
       suggestions: {
         type: Array,
         observer: 'resetCursorStops',
@@ -51,6 +52,13 @@
       'enter': '_handleEnter',
       'esc': '_handleEscape',
       'tab': '_handleTab',
+    },
+
+    attached: function() {
+      if (this.fixedPosition) {
+        this.customStyle['--position-dropdown'] = 'fixed';
+        this.updateStyles();
+      }
     },
 
     close: function() {

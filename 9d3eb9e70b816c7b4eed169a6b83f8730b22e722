@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee1924a8_e9012297",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 58
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-10T06:47:07Z",
+      "side": 1,
+      "message": "FYI: [1] changed this to a POST request.\n\n[1] https://gerrit-review.googlesource.com/104872",
+      "range": {
+        "startLine": 526,
+        "startChar": 19,
+        "endLine": 526,
+        "endChar": 22
+      },
+      "revId": "9d3eb9e70b816c7b4eed169a6b83f8730b22e722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

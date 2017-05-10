@@ -70,6 +70,30 @@
       "revId": "3ef75d21d5f3c89aee7eb5d110d4323dea57c687",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c421326_7cf097ad",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html",
+        "patchSetId": 52
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-10T20:59:19Z",
+      "side": 1,
+      "message": "Thanks, i did something like\n\n      test(\u0027changes needing review\u0027, function(done) {\n        flush(function() {\n          var elementItems \u003d Polymer.dom(element.root).querySelectorAll(\n              \u0027gr-admin-project-list\u0027);\n          assert.equal(elementItems.length, 2);\n          done();\n        });\n      });\n\nbut fails with\n\nsafari 10.1              ✖ elements/admin/gr-admin-project-list/gr-admin-project-list_test.html » gr-admin-project-list tests » list with projects » changes needing review\n\n  AssertionError: expected 0 to equal 2 (http://localhost:2000/components/chai/chai.js:210)",
+      "parentUuid": "fcfb4857_e1d42c0d",
+      "range": {
+        "startLine": 80,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 9
+      },
+      "revId": "3ef75d21d5f3c89aee7eb5d110d4323dea57c687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

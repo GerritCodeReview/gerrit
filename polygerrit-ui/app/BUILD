@@ -34,10 +34,9 @@ closure_js_library(
     name = "closure_lib",
     srcs = ["gr-app.js"],
     convention = "GOOGLE",
-    language = "ECMASCRIPT6",
-    suppress = [
-        "JSC_BAD_JSDOC_ANNOTATION",
-    ],
+    # TODO(davido): Clean up these issues: http://paste.openstack.org/show/608548
+    # and remove this supression
+    suppress = ["JSC_UNUSED_LOCAL_ASSIGNMENT"],
     deps = [
         "//lib/polymer_externs:polymer_closure",
         "@io_bazel_rules_closure//closure/library",
@@ -52,6 +51,7 @@ closure_js_binary(
     defs = [
         "--polymer_pass",
         "--jscomp_off=duplicate",
+        "--force_inject_library=es6_runtime",
     ],
     language = "ECMASCRIPT5",
     deps = [":closure_lib"],

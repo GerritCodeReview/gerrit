@@ -64,12 +64,13 @@ def _format_deps(attr, deps):
       formatted_deps += "    ],"
   return formatted_deps
 
-def _generate_build_file(ctx, binjar, srcjar):
+def _generate_build_files(ctx, binjar, srcjar):
+  header = "# DO NOT EDIT: automatically generated BUILD file for maven_jar rule %s" % ctx.name
   srcjar_attr = ""
   if srcjar:
     srcjar_attr = 'srcjar = "%s",' % srcjar
   contents = """
-# DO NOT EDIT: automatically generated BUILD file for maven_jar rule {rule_name}
+{header}
 package(default_visibility = ['//visibility:public'])
 java_import(
     name = 'jar',
@@ -86,10 +87,10 @@ java_import(
     {exports}
 )
 \n""".format(srcjar_attr = srcjar_attr,
-              rule_name = ctx.name,
-              binjar = binjar,
-              deps = _format_deps("deps", ctx.attr.deps),
-              exports = _format_deps("exports", ctx.attr.exports))
+             header = header,
+             binjar = binjar,
+             deps = _format_deps("deps", ctx.attr.deps),
+             exports = _format_deps("exports", ctx.attr.exports))
   if srcjar:
     contents += """
 java_import(
@@ -98,6 +99,18 @@ java_import(
 )
 """.format(srcjar = srcjar)
   ctx.file('%s/BUILD' % ctx.path("jar"), contents, False)
+
+  # Compatibility layer for java_import_external from rules_closure
+  contents = """
+{header}
+package(default_visibility = ['//visibility:public'])
+
+alias(
+    name = "{rule_name}",
+    actual = "@{rule_name}//jar",
+)
+\n""".format(rule_name = ctx.name, header = header)
+  ctx.file("BUILD", contents, False)
 
 def _maven_jar_impl(ctx):
   """rule to download a Maven archive."""
@@ -142,7 +155,7 @@ def _maven_jar_impl(ctx):
     if out.return_code:
       fail("failed %s: %s" % (args, out.stderr))
 
-  _generate_build_file(ctx, binjar, srcjar)
+  _generate_build_files(ctx, binjar, srcjar)
 
 maven_jar = repository_rule(
     attrs = {

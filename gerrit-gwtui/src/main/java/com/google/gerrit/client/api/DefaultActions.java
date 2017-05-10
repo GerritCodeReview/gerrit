@@ -41,6 +41,10 @@ class DefaultActions {
       @Override
       public void onSuccess(JavaScriptObject in) {
         UiResult result = asUiResult(in);
+        if (result == null) {
+          Gerrit.display(target);
+        }
+
         if (result.alert() != null) {
           Window.alert(result.alert());
         }

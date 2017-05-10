@@ -23,6 +23,30 @@
       "revId": "97ad033aade0cb0b804aafcbbbb6197fb9aa3c8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de0d35a7_29a77a73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-10T16:38:45Z",
+      "side": 1,
+      "message": "You can still mix index/non-index terms. Only when you implement an IndexPredicate which is mapped to a field in the index, this field must exist. Non index predicates such as IsMergePredicate, OwnerinPredicate and ChangeIsVisibleToPredicate still work. I\u0027m afraid at least those still need Matchable.",
+      "parentUuid": "6df83bfc_82039740",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "97ad033aade0cb0b804aafcbbbb6197fb9aa3c8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

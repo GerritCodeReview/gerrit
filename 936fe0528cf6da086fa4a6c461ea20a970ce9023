@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2fca345_a9ad37eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-10T11:16:38Z",
+      "side": 1,
+      "message": "numeric",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f78dea4d_b3dd5e65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-10T11:16:38Z",
+      "side": 1,
+      "message": "so it looks like this change does two separate things. Can you split this up in two independent changes?\n\nor does it only reject the cherry-pick if the destination is a change? The description doesnt\u0027 make it clear",
+      "range": {
+        "startLine": 20,
+        "startChar": 18,
+        "endLine": 20,
+        "endChar": 22
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "216a60bd_0a1d5ebb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5021,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-10T11:16:38Z",
+      "side": 1,
+      "message": "s/Note that//",
+      "range": {
+        "startLine": 5021,
+        "startChar": 0,
+        "endLine": 5021,
+        "endChar": 11
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c6cb5b7_94461343",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5021,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-10T11:16:38Z",
+      "side": 1,
+      "message": "A change that is a destination must be ..",
+      "range": {
+        "startLine": 5021,
+        "startChar": 45,
+        "endLine": 5021,
+        "endChar": 69
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55380b87_f45f45c0",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2077,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-10T11:16:38Z",
+      "side": 1,
+      "message": "s/note that// - change sentence ordering.",
+      "range": {
+        "startLine": 2077,
+        "startChar": 5,
+        "endLine": 2077,
+        "endChar": 9
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb832c2a_66c43061",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-10T11:16:38Z",
+      "side": 1,
+      "message": "can you put these two in a separate method? for the illegal cases, the code below is unreachable. You may need to factor out the setup code before l 677 in a separate method too.",
+      "range": {
+        "startLine": 697,
+        "startChar": 6,
+        "endLine": 697,
+        "endChar": 10
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcd3f106_0139e500",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-10T11:16:38Z",
+      "side": 1,
+      "message": "opt: you could define a CherryPickInput#normalize that fixes up these formatting issues.",
+      "range": {
+        "startLine": 75,
+        "startChar": 29,
+        "endLine": 75,
+        "endChar": 40
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3992dbf7_2347e5b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickDestination.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-10T11:16:38Z",
+      "side": 1,
+      "message": "isChange ?",
+      "range": {
+        "startLine": 38,
+        "startChar": 25,
+        "endLine": 38,
+        "endChar": 27
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

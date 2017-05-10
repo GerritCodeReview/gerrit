@@ -33,8 +33,7 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class DeletePrivate
-    extends RetryingRestModifyView<ChangeResource, SetPrivateOp.Input, Response<String>>
-    implements UiAction<ChangeResource> {
+    extends RetryingRestModifyView<ChangeResource, SetPrivateOp.Input, Response<String>> {
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> dbProvider;
 
@@ -71,11 +70,20 @@ public class DeletePrivate
     return Response.none();
   }
 
-  @Override
-  public Description getDescription(ChangeResource rsrc) {
-    return new UiAction.Description()
-        .setLabel("Unmark private")
-        .setTitle("Unmark change as private")
-        .setVisible(rsrc.getChange().isPrivate() && rsrc.isUserOwner());
+  public static class DeletePrivateByPost extends DeletePrivate
+      implements UiAction<ChangeResource> {
+    @Inject
+    DeletePrivateByPost(
+        Provider<ReviewDb> dbProvider, RetryHelper retryHelper, ChangeMessagesUtil cmUtil) {
+      super(dbProvider, retryHelper, cmUtil);
+    }
+
+    @Override
+    public Description getDescription(ChangeResource rsrc) {
+      return new UiAction.Description()
+          .setLabel("Unmark private")
+          .setTitle("Unmark change as private")
+          .setVisible(rsrc.getChange().isPrivate() && rsrc.isUserOwner());
+    }
   }
 }

@@ -39,17 +39,15 @@ public class PostPrivate
   private final Provider<ReviewDb> dbProvider;
 
   @Inject
-  PostPrivate(
-      Provider<ReviewDb> dbProvider,
-      RetryHelper retryHelper,
-      ChangeMessagesUtil cmUtil) {
+  PostPrivate(Provider<ReviewDb> dbProvider, RetryHelper retryHelper, ChangeMessagesUtil cmUtil) {
     super(retryHelper);
     this.dbProvider = dbProvider;
     this.cmUtil = cmUtil;
   }
 
   @Override
-  public Response<String> applyImpl(BatchUpdate.Factory updateFactory, ChangeResource rsrc, SetPrivateOp.Input input)
+  public Response<String> applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource rsrc, SetPrivateOp.Input input)
       throws RestApiException, UpdateException {
     if (!rsrc.isUserOwner()) {
       throw new AuthException("not allowed to mark private");

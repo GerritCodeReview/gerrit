@@ -23,6 +23,30 @@
       "revId": "378811f54e45b92f94dfc122c912be435e31c7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b9aa8cd_84980fa2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-10T15:16:09Z",
+      "side": 1,
+      "message": "When we import Gerrit we execute the upstream tests. The idea is to set our current index version for this test run.",
+      "parentUuid": "3785f9ed_1d71215c",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 62
+      },
+      "revId": "378811f54e45b92f94dfc122c912be435e31c7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

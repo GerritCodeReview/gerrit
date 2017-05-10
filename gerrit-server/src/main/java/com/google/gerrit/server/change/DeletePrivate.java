@@ -33,10 +33,8 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class DeletePrivate
-    extends RetryingRestModifyView<ChangeResource, DeletePrivate.Input, Response<String>>
+    extends RetryingRestModifyView<ChangeResource, SetPrivateOp.Input, Response<String>>
     implements UiAction<ChangeResource> {
-  public static class Input {}
-
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> dbProvider;
 
@@ -49,7 +47,7 @@ public class DeletePrivate
 
   @Override
   protected Response<String> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, DeletePrivate.Input input)
+      BatchUpdate.Factory updateFactory, ChangeResource rsrc, SetPrivateOp.Input input)
       throws RestApiException, UpdateException {
     if (!rsrc.isUserOwner()) {
       throw new AuthException("not allowed to unmark private");
@@ -60,7 +58,7 @@ public class DeletePrivate
     }
 
     ChangeControl control = rsrc.getControl();
-    SetPrivateOp op = new SetPrivateOp(cmUtil, false);
+    SetPrivateOp op = new SetPrivateOp(cmUtil, false, input);
     try (BatchUpdate u =
         updateFactory.create(
             dbProvider.get(),

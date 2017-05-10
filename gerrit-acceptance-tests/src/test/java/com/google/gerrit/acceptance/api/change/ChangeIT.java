@@ -219,12 +219,27 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void setPrivateByOtherUser() throws Exception {
+  public void administratorCanSetUserChangePrivate() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
         pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
 
-    assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isNull();
+    String changeId = result.getChangeId();
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+
+    // Need to add self as reviewer before setting private otherwise
+    // the change will not be visible afterwards
+    gApi.changes().id(changeId).addReviewer(admin.username);
+
+    gApi.changes().id(changeId).setPrivate(true, null);
+    ChangeInfo info = gApi.changes().id(changeId).get();
+    assertThat(info.isPrivate).isTrue();
+  }
+
+  @Test
+  public void cannotSetOtherUsersChangePrivate() throws Exception {
+    PushOneCommit.Result result = createChange();
+    setApiUser(user);
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to mark private");
     gApi.changes().id(result.getChangeId()).setPrivate(true, null);

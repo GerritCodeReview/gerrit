@@ -22,6 +22,8 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
@@ -37,21 +39,25 @@ public class PostPrivate
     implements UiAction<ChangeResource> {
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> dbProvider;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   PostPrivate(
       Provider<ReviewDb> dbProvider,
       RetryHelper retryHelper,
-      ChangeMessagesUtil cmUtil) {
+      ChangeMessagesUtil cmUtil,
+      PermissionBackend permissionBackend) {
     super(retryHelper);
     this.dbProvider = dbProvider;
     this.cmUtil = cmUtil;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
-  public Response<String> applyImpl(BatchUpdate.Factory updateFactory, ChangeResource rsrc, SetPrivateOp.Input input)
+  public Response<String> applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource rsrc, SetPrivateOp.Input input)
       throws RestApiException, UpdateException {
-    if (!rsrc.isUserOwner()) {
+    if (!canSetPrivate(rsrc)) {
       throw new AuthException("not allowed to mark private");
     }
 
@@ -82,6 +88,11 @@ public class PostPrivate
         .setVisible(
             !change.isPrivate()
                 && change.getStatus() != Change.Status.MERGED
-                && rsrc.isUserOwner());
+                && canSetPrivate(rsrc));
+  }
+
+  private boolean canSetPrivate(ChangeResource rsrc) {
+    PermissionBackend.WithUser user = permissionBackend.user(rsrc.getUser());
+    return rsrc.isUserOwner() || user.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER);
   }
 }

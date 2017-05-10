@@ -1198,8 +1198,9 @@ limitations under the License.
         var account2 = {_account_id: 2};
         var change = {
           owner: {_account_id: 1},
-          work_in_progress: false,
         };
+        assert.isFalse(element._computeCanStartReview(true, change, account1));
+        change.work_in_progress = false;
         assert.isFalse(element._computeCanStartReview(true, change, account1));
         change.work_in_progress = true;
         assert.isTrue(element._computeCanStartReview(true, change, account1));

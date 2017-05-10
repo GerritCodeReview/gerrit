@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1c8fce47_17085170",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-10T17:57:36Z",
+      "side": 1,
+      "message": "Yes, it\u0027s so i can do this._anon \u003d \u003cset value\u003e which is done down there.\n\nOr did you mean the value?\n\nvar ANON \u003d \u0027Anonymous Coward\u0027;\n\n      _anon: {\n        type: String,\n        value: ANON\n      },\n\n?",
+      "parentUuid": "52be22a9_0f88944a",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 8
+      },
+      "revId": "dd5b4663281ff761335f26a1f68369b134c8b924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0e8f1afc_e7dae39c",
         "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
         "patchSetId": 12

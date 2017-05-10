@@ -17,6 +17,24 @@
       "revId": "a1be2e29dd3f411f194e3331f4041b5e42430773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0641c2_b0138a7e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-10T14:51:32Z",
+      "side": 1,
+      "message": "Nevermind, I see from the following change why you did it this way.",
+      "parentUuid": "6d3ee8ab_1db4a7fe",
+      "revId": "a1be2e29dd3f411f194e3331f4041b5e42430773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

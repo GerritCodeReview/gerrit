@@ -47,6 +47,30 @@
       "revId": "97ad033aade0cb0b804aafcbbbb6197fb9aa3c8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3b5fb96_3f406b4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-10T16:50:23Z",
+      "side": 1,
+      "message": "Right, that\u0027s what I mean, I was only talking about removing Matchable from ChangeIndexPredicate. In other words, if both:\n\n* it is an error to construct a query containing a ChangeIndexPredicate where the corresponding field is not in the index\n* if there is an index predicate subtree in the query, then that subtree is always chosen as the ChangeDataSource\n\nthen there is no need for index predicate implementations to implement Matchable.",
+      "parentUuid": "de0d35a7_29a77a73",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "97ad033aade0cb0b804aafcbbbb6197fb9aa3c8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

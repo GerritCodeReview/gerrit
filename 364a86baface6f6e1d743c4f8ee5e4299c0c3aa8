@@ -263,6 +263,30 @@
       "revId": "364a86baface6f6e1d743c4f8ee5e4299c0c3aa8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e328b7_82b3d41f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-10T11:44:55Z",
+      "side": 1,
+      "message": "I believe the NPE occurs only when PolyGerrit is used, since with PolyGerrit we get null as input, while with GWT we get an empty input.",
+      "parentUuid": "8ec6ffc3_7132e9cf",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 70
+      },
+      "revId": "364a86baface6f6e1d743c4f8ee5e4299c0c3aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

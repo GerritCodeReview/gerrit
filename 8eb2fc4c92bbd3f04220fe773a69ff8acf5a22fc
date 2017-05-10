@@ -188,6 +188,30 @@
       "revId": "8eb2fc4c92bbd3f04220fe773a69ff8acf5a22fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c593ab95_5671ef03",
+        "filename": "polygerrit-ui/app/behaviors/base-element-behavior/base-element-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-10T19:52:27Z",
+      "side": 1,
+      "message": "Is there some way that a global like\n\n window.Gerrit.rootElement\n\ndoesn\u0027t accomplish the same thing?",
+      "parentUuid": "eb742c04_d95c9aea",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 58
+      },
+      "revId": "8eb2fc4c92bbd3f04220fe773a69ff8acf5a22fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

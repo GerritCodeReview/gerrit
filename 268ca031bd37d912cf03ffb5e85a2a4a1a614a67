@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bf69fe95_55367b5e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-10T08:48:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d62a299_2681afb0",
+      "range": {
+        "startLine": 176,
+        "startChar": 14,
+        "endLine": 176,
+        "endChar": 53
+      },
+      "revId": "268ca031bd37d912cf03ffb5e85a2a4a1a614a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7639ae8_b5261397",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "268ca031bd37d912cf03ffb5e85a2a4a1a614a67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68328404_b2355ef3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-10T08:48:50Z",
+      "side": 1,
+      "message": "maybe, but there are still a lot of usages of RefControl#isVisible and they should be converted all at once",
+      "parentUuid": "c7639ae8_b5261397",
+      "range": {
+        "startLine": 183,
+        "startChar": 36,
+        "endLine": 183,
+        "endChar": 46
+      },
+      "revId": "268ca031bd37d912cf03ffb5e85a2a4a1a614a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

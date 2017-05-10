@@ -28,6 +28,7 @@ import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.change.DeletePrivate.DeletePrivateByPost;
 import com.google.gerrit.server.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.change.Reviewed.PutReviewed;
 
@@ -86,7 +87,7 @@ public class Module extends RestApiModule {
     post(CHANGE_KIND, "rebuild.notedb").to(Rebuild.class);
     post(CHANGE_KIND, "move").to(Move.class);
     post(CHANGE_KIND, "private").to(PostPrivate.class);
-    post(CHANGE_KIND, "private.delete").to(DeletePrivate.class);
+    post(CHANGE_KIND, "private.delete").to(DeletePrivateByPost.class);
     delete(CHANGE_KIND, "private").to(DeletePrivate.class);
     put(CHANGE_KIND, "ignore").to(Ignore.class);
     put(CHANGE_KIND, "unignore").to(Unignore.class);

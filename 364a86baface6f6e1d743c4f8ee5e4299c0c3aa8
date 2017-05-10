@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1494321260 +0200\nnonce APbwY4qwbuxmp8hjuY67ZDRW5v8ydMza3UggW9tVdpmeGrgePdRYAYGj03FTw3PdIYSF6wD37UzP\n\n0000000000000000000000000000000000000000 364a86baface6f6e1d743c4f8ee5e4299c0c3aa8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZEYhsAAoJEFG1/Zeg0O9RU1gIAMNeKk9KFowtMASKfLlsWZu2\n/dmvLKtNH3eGoVAgleeQm2iWiyUIzjWB1HBIembGfSdacwGmcAl7h1h98BsqFcBS\nC0jml0mwopFm6IBbgysviS7JuKF6/3jmz3cfByJ0mOqLwl5krx4Pio88/m3IxNRy\nFSVvRM2Cc93PY4PxDpDuv4KlMt7a02z/8HJUum/AX79zzSv3IahXAHc5BEu3lYKs\njmj+MTKaYd9HJw7wPjVM3im+1nMyN1nth9XJmGFaKZ9pdzg5Hsy5/crr4y+ma8v9\nQkva2kcpy7NmzH1tXsUPNN9MCv5PbaVAs/ChyT5DSEWQBvD2aiyv7/pHJ5/lQwY\u003d\n\u003dD63H\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0ec19cd_8828c633",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-10T10:57:14Z",
+      "side": 1,
+      "message": "You did not document this change for unmarking privates. So i thought that you could still DELETE /changes/2/private",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 70
+      },
+      "revId": "364a86baface6f6e1d743c4f8ee5e4299c0c3aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -34,6 +34,24 @@
       "revId": "51d7bc969d55dc5c94b77e3e119985e85fb6360e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aab3a743_893f322a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-10T23:12:55Z",
+      "side": 1,
+      "message": "I\u0027m surprised that would have returned undefined before in that case myself! But just verified that it does.",
+      "parentUuid": "895e4df5_65bd401c",
+      "revId": "51d7bc969d55dc5c94b77e3e119985e85fb6360e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

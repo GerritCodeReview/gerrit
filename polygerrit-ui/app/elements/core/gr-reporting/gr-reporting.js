@@ -15,7 +15,7 @@
   'use strict';
 
   // Latency reporting constants.
-  var TIMING = {
+  const TIMING = {
     TYPE: 'timing-report',
     CATEGORY: 'UI Latency',
     // Reported events - alphabetize below.
@@ -24,25 +24,25 @@
   };
 
   // Navigation reporting constants.
-  var NAVIGATION = {
+  const NAVIGATION = {
     TYPE: 'nav-report',
     CATEGORY: 'Location Changed',
     PAGE: 'Page',
   };
 
-  var ERROR = {
+  const ERROR = {
     TYPE: 'error',
     CATEGORY: 'exception',
   };
 
-  var INTERACTION_TYPE = 'interaction';
+  const INTERACTION_TYPE = 'interaction';
 
-  var CHANGE_VIEW_REGEX = /^\/c\/\d+\/?\d*$/;
-  var DIFF_VIEW_REGEX = /^\/c\/\d+\/\d+\/.+$/;
+  const CHANGE_VIEW_REGEX = /^\/c\/\d+\/?\d*$/;
+  const DIFF_VIEW_REGEX = /^\/c\/\d+\/\d+\/.+$/;
 
-  var pending = [];
+  const pending = [];
 
-  var onError = function(oldOnError, msg, url, line, column, error) {
+  const onError = function(oldOnError, msg, url, line, column, error) {
     if (oldOnError) {
       oldOnError(msg, url, line, column, error);
     }
@@ -51,23 +51,23 @@
       column = column || error.columnNumber;
       msg = msg || error.toString();
     }
-    var payload = {
-      url: url,
-      line: line,
-      column: column,
-      error: error,
+    const payload = {
+      url,
+      line,
+      column,
+      error,
     };
     GrReporting.prototype.reporter(ERROR.TYPE, ERROR.CATEGORY, msg, payload);
     return true;
   };
 
-  var catchErrors = function(opt_context) {
-    var context = opt_context || window;
+  const catchErrors = function(opt_context) {
+    const context = opt_context || window;
     context.onerror = onError.bind(null, context.onerror);
   };
   catchErrors();
 
-  var GrReporting = Polymer({
+  const GrReporting = Polymer({
     is: 'gr-reporting',
 
     properties: {
@@ -75,7 +75,7 @@
 
       _baselines: {
         type: Array,
-        value: function() { return {}; },
+        value() { return {}; },
       },
     },
 
@@ -87,24 +87,24 @@
       return window.performance.timing;
     },
 
-    now: function() {
+    now() {
       return Math.round(10 * window.performance.now()) / 10;
     },
 
-    reporter: function() {
-      var report = (Gerrit._arePluginsLoaded() && !pending.length) ?
+    reporter(...args) {
+      const report = (Gerrit._arePluginsLoaded() && !pending.length) ?
         this.defaultReporter : this.cachingReporter;
-      report.apply(this, arguments);
+      report.apply(this, args);
     },
 
-    defaultReporter: function(type, category, eventName, eventValue) {
-      var detail = {
-        type: type,
-        category: category,
+    defaultReporter(type, category, eventName, eventValue) {
+      const detail = {
+        type,
+        category,
         name: eventName,
         value: eventValue,
       };
-      document.dispatchEvent(new CustomEvent(type, {detail: detail}));
+      document.dispatchEvent(new CustomEvent(type, {detail}));
       if (type === ERROR.TYPE) {
         console.error(eventValue.error || eventName);
       } else {
@@ -113,15 +113,15 @@
       }
     },
 
-    cachingReporter: function(type, category, eventName, eventValue) {
+    cachingReporter(type, category, eventName, eventValue) {
       if (type === ERROR.TYPE) {
         console.error(eventValue.error || eventName);
       }
       if (Gerrit._arePluginsLoaded()) {
         if (pending.length) {
-          pending.splice(0).forEach(function(args) {
-            this.reporter.apply(this, args);
-          }, this);
+          for (const args of pending.splice(0)) {
+            this.reporter(...args);
+          }
         }
         this.reporter(type, category, eventName, eventValue);
       } else {
@@ -132,8 +132,8 @@
     /**
      * User-perceived app start time, should be reported when the app is ready.
      */
-    appStarted: function() {
-      var startTime =
+    appStarted() {
+      const startTime =
           new Date().getTime() - this.performanceTiming.navigationStart;
       this.reporter(
           TIMING.TYPE, TIMING.CATEGORY, TIMING.APP_STARTED, startTime);
@@ -142,22 +142,22 @@
     /**
      * Page load time, should be reported at any time after navigation.
      */
-    pageLoaded: function() {
+    pageLoaded() {
       if (this.performanceTiming.loadEventEnd === 0) {
         console.error('pageLoaded should be called after window.onload');
         this.async(this.pageLoaded, 100);
       } else {
-        var loadTime = this.performanceTiming.loadEventEnd -
+        const loadTime = this.performanceTiming.loadEventEnd -
             this.performanceTiming.navigationStart;
         this.reporter(
-          TIMING.TYPE, TIMING.CATEGORY, TIMING.PAGE_LOADED, loadTime);
+            TIMING.TYPE, TIMING.CATEGORY, TIMING.PAGE_LOADED, loadTime);
       }
     },
 
-    locationChanged: function() {
-      var page = '';
-      var pathname = this._getPathname();
-      if (pathname.indexOf('/q/') === 0) {
+    locationChanged() {
+      let page = '';
+      const pathname = this._getPathname();
+      if (pathname.startsWith('/q/')) {
         page = this.getBaseUrl() + '/q/';
       } else if (pathname.match(CHANGE_VIEW_REGEX)) { // change view
         page = this.getBaseUrl() + '/c/';
@@ -171,32 +171,32 @@
           NAVIGATION.TYPE, NAVIGATION.CATEGORY, NAVIGATION.PAGE, page);
     },
 
-    pluginsLoaded: function() {
+    pluginsLoaded() {
       this.timeEnd('PluginsLoaded');
     },
 
-    _getPathname: function() {
+    _getPathname() {
       return '/' + window.location.pathname.substring(this.getBaseUrl().length);
     },
 
     /**
      * Reset named timer.
      */
-    time: function(name) {
+    time(name) {
       this._baselines[name] = this.now();
     },
 
     /**
      * Finish named timer and report it to server.
      */
-    timeEnd: function(name) {
-      var baseTime = this._baselines[name] || 0;
-      var time = this.now() - baseTime;
+    timeEnd(name) {
+      const baseTime = this._baselines[name] || 0;
+      const time = this.now() - baseTime;
       this.reporter(TIMING.TYPE, TIMING.CATEGORY, name, time);
       delete this._baselines[name];
     },
 
-    reportInteraction: function(eventName, opt_msg) {
+    reportInteraction(eventName, opt_msg) {
       this.reporter(INTERACTION_TYPE, this.category, eventName, opt_msg);
     },
   });
@@ -204,5 +204,4 @@
   window.GrReporting = GrReporting;
   // Expose onerror installation so it would be accessible from tests.
   window.GrReporting._catchErrors = catchErrors;
-
 })();

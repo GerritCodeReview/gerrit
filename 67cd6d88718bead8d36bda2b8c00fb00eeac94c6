@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e669d00b_4ec7f9f2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-10T14:16:36Z",
+      "side": 1,
+      "message": "This has no effect. Also blocking force push would still allow non-force push and here we want to block all of push.",
+      "range": {
+        "startLine": 612,
+        "startChar": 58,
+        "endLine": 612,
+        "endChar": 73
+      },
+      "revId": "67cd6d88718bead8d36bda2b8c00fb00eeac94c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7615823_0dcf872f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-10T14:16:36Z",
+      "side": 1,
+      "message": "Remove this",
+      "range": {
+        "startLine": 634,
+        "startChar": 58,
+        "endLine": 634,
+        "endChar": 73
+      },
+      "revId": "67cd6d88718bead8d36bda2b8c00fb00eeac94c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

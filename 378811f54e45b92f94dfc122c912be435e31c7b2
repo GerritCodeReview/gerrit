@@ -143,6 +143,30 @@
       "revId": "378811f54e45b92f94dfc122c912be435e31c7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94167f7a_fc2bfb5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-10T15:42:21Z",
+      "side": 1,
+      "message": "I shouldn\u0027t have been so hesitant in my wording, I agree that speed is definitely a concern. Right now the query_tests target takes ~1m on my workstation; even if we split each version into its own java_test, we are limited by parallelism on one machine.\n\nSo I think in an *ideal* world we would be able to run all versions on GerritForge CI, but we don\u0027t have a distributed build architecture in place, so we have to limit it. Whereas internally at Google we do have the architecture, so we should be able to run everything.\n\nBut this way of running exactly 2 versions per test class seems a little hacky. It\u0027s wasteful in the sense that in order to run N old versions, we also have to run the current version N times.\n\nI would prefer if we could specify exactly the set of versions that we want to run, like:\n\n CHANGES_INDEX_VERSIONS\u003dcurrent,previous,42\n\nor\n\n CHANGES_INDEX_VERSIONS\u003dall\n\nand combine that with dynamic ConfigSuite support.",
+      "parentUuid": "a7af035e_3ecd2c1f",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 62
+      },
+      "revId": "378811f54e45b92f94dfc122c912be435e31c7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

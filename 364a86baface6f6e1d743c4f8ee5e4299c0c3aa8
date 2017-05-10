@@ -95,6 +95,30 @@
       "revId": "364a86baface6f6e1d743c4f8ee5e4299c0c3aa8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8ebc394_76105552",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-10T11:15:42Z",
+      "side": 1,
+      "message": "It dosen\u0027t show a stack trace.",
+      "parentUuid": "53712ff3_5684e94e",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 70
+      },
+      "revId": "364a86baface6f6e1d743c4f8ee5e4299c0c3aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

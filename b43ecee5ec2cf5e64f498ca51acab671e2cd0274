@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6aae10be_81705f07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-10T10:43:18Z",
+      "side": 1,
+      "message": "Reducing index lookups is of course good in terms of performance, but I don\u0027t see how this would help in case of a complete index failure.  Most REST endpoints make use of the index in some way, so wouldn\u0027t such a failure still render the site useless?\n\nAlso, the existing triplet change id contains the project name, so this is not a new behaviour.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "749bce42_0ca71497",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5206,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-10T10:43:18Z",
+      "side": 1,
+      "message": "did you intend to only remove \"legacy\"?",
+      "range": {
+        "startLine": 5206,
+        "startChar": 4,
+        "endLine": 5206,
+        "endChar": 19
+      },
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "432f757a_433eb206",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIdIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-10T10:43:18Z",
+      "side": 1,
+      "message": "Should this one be annotated @NoHttpd?",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 23
+      },
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1f3fec9_1e9e9690",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-10T10:43:18Z",
+      "side": 1,
+      "message": "Add a javadoc since this is in the public extension API?",
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdc3cbbb_ab036f10",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/PathSplitter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-10T10:43:18Z",
+      "side": 1,
+      "message": "missing descriptions for @param and @return",
+      "range": {
+        "startLine": 31,
+        "startChar": 5,
+        "endLine": 32,
+        "endChar": 12
+      },
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db1a7023_910a962b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-10T10:43:18Z",
+      "side": 1,
+      "message": "Make it public in PathSplitter and static import it in this class?",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 63
+      },
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

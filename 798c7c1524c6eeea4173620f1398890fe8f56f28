@@ -43,6 +43,23 @@
     },
     {
       "key": {
+        "uuid": "bc066fd4_442b7fb5",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/LuceneQueryAccountsTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-10T15:18:24Z",
+      "side": 1,
+      "message": "You shouldn\u0027t have to call schemasFromClass manually. This is equivalent to\n\n AccountSchemaDefinitions.INSTANCE.getSchemas()\n\n(I honestly don\u0027t know why schemasFromClass is public, I don\u0027t think it needs to be.)",
+      "revId": "798c7c1524c6eeea4173620f1398890fe8f56f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0bcb01d_ac650e98",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
         "patchSetId": 8

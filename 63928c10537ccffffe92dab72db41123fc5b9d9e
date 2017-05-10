@@ -82,6 +82,24 @@
       "revId": "63928c10537ccffffe92dab72db41123fc5b9d9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fd76949_c22ba5c5",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-10T15:10:36Z",
+      "side": 1,
+      "message": "Good point.\n\n\u003e Once you remember to add this check (because the test failed) you also remember to guard the usage of the new operator.\n\n...hopefully :)",
+      "parentUuid": "8bb6a206_f1af1e79",
+      "revId": "63928c10537ccffffe92dab72db41123fc5b9d9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

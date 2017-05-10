@@ -23,6 +23,30 @@
       "revId": "364a86baface6f6e1d743c4f8ee5e4299c0c3aa8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "181afaa8_07be0582",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-10T11:04:23Z",
+      "side": 1,
+      "message": "\u003e You did not document this change for unmarking privates\n\nIt\u0027s documented here:\n  https://gerrit-review.googlesource.com/#/c/104872/9/Documentation/rest-api-changes.txt@2223\n\n\u003e So i thought that you could still DELETE /changes/2/private\n\nYes, you can still do this.",
+      "parentUuid": "e0ec19cd_8828c633",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 70
+      },
+      "revId": "364a86baface6f6e1d743c4f8ee5e4299c0c3aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

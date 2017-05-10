@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1494341218 +0200\nnonce APbwY4qT/49bLkl+0RarUw8ah0FhpXEwStWuuxFxfNujDayNOzpNDggRSHtHvg9Nuijc3NXxFKQl\n\n0000000000000000000000000000000000000000 bf41c980e02acf4fa3dc7cee30f8595ae47e9227 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZEdZiAAoJEFG1/Zeg0O9RAgsH/0M8YoXHsGWv6NZTyviXFylL\nRlHjP330IT2oquoDv26x6p4YYJRBZHG+gLdL5UPfdqM6kIW0ycv9M2zacecas/ZI\n8mD4NwvdbgIca5bUH+5JAQhBxfdbAdhBQ7lkebm3GLEkC3mEWMQmwRM68922v/ur\nW+208fX4I2TenWM/wFPN8/kSO7ldwqcqAXE3f5MZTvsL+LuHdOLpwbxyKOMFRHBR\nDwoiomqqRzY/TcqTDRN8r4A/FmJDzn2ToIbQagRC3l20/plo2iE+pzHwzsWq0gCP\n2gIZdkhwK9TalZmzbfXsFewRMddf/+yj14YSIYwF9Ywnwg8D+6RHD3IrHnaTLYE\u003d\n\u003dP7ek\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3785f9ed_1d71215c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-10T15:14:10Z",
+      "side": 1,
+      "message": "Not sure where you\u0027re going with this. Currently we have a hard-coded test class for each version we want to support, so we don\u0027t need to control this via the environment.\n\nAre you planning on converting our internal tests so we don\u0027t have to hard code it anymore?\n\nAlso, if so, remember we can\u0027t set environment variables in BUILD rules, we can only do system properties (which is why we did https://gerrit-review.googlesource.com/94054)",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 62
+      },
+      "revId": "378811f54e45b92f94dfc122c912be435e31c7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

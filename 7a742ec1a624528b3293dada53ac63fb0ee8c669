@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ea86b69_af92629a",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-10T20:55:13Z",
+      "side": 1,
+      "message": "margin: 0 .25em 0 0;",
+      "range": {
+        "startLine": 48,
+        "startChar": 16,
+        "endLine": 48,
+        "endChar": 19
+      },
+      "revId": "7a742ec1a624528b3293dada53ac63fb0ee8c669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e948f4da_42b29b1e",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-10T20:55:13Z",
+      "side": 1,
+      "message": "alphabetize please",
+      "revId": "7a742ec1a624528b3293dada53ac63fb0ee8c669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7939ab52_408d7ce0",
+        "filename": "polygerrit-ui/app/styles/app-theme.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-10T20:55:13Z",
+      "side": 1,
+      "message": "This is hacky, but a better way isn\u0027t implemented yet.\nIdeally, CSS shouldn\u0027t be changing DOM content - that will be done with PolyGerrit plugin via DOM decoration.\nI\u0027m ok for merging this and fixing later.",
+      "revId": "7a742ec1a624528b3293dada53ac63fb0ee8c669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1494341218 +0200\nnonce APbwY4qT/49bLkl+0RarUw8ah0FhpXEwStWuuxFxfNujDayNOzpNDggRSHtHvg9Nuijc3NXxFKQl\n\n0000000000000000000000000000000000000000 bf41c980e02acf4fa3dc7cee30f8595ae47e9227 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZEdZiAAoJEFG1/Zeg0O9RAgsH/0M8YoXHsGWv6NZTyviXFylL\nRlHjP330IT2oquoDv26x6p4YYJRBZHG+gLdL5UPfdqM6kIW0ycv9M2zacecas/ZI\n8mD4NwvdbgIca5bUH+5JAQhBxfdbAdhBQ7lkebm3GLEkC3mEWMQmwRM68922v/ur\nW+208fX4I2TenWM/wFPN8/kSO7ldwqcqAXE3f5MZTvsL+LuHdOLpwbxyKOMFRHBR\nDwoiomqqRzY/TcqTDRN8r4A/FmJDzn2ToIbQagRC3l20/plo2iE+pzHwzsWq0gCP\n2gIZdkhwK9TalZmzbfXsFewRMddf/+yj14YSIYwF9Ywnwg8D+6RHD3IrHnaTLYE\u003d\n\u003dP7ek\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "34d963b7_c38d3048",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-10T15:19:08Z",
+      "side": 1,
+      "message": "As in the previous change, I think \"40\" is equally correct and more readable.",
+      "range": {
+        "startLine": 398,
+        "startChar": 29,
+        "endLine": 398,
+        "endChar": 32
+      },
+      "revId": "bf41c980e02acf4fa3dc7cee30f8595ae47e9227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

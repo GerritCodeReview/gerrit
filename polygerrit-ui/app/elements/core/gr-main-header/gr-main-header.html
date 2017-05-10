@@ -40,6 +40,19 @@ limitations under the License.
       .bigTitle:hover {
         text-decoration: underline;
       }
+      .bigTitle::before {
+        background-image: var(--header-icon);
+        background-size: 1em 1em;
+        content: "";
+        display: inline-block;
+        height: 1em;
+        margin: 0em 0.25em 0em 0em;
+        vertical-align: text-bottom;
+        width: 1em;
+      }
+      .bigTitle::after {
+        content: var(--header-title-content);
+      }
       ul {
         list-style: none;
       }
@@ -101,7 +114,7 @@ limitations under the License.
       }
     </style>
     <nav>
-      <a href$="[[_computeRelativeURL('/')]]" class="bigTitle">PolyGerrit</a>
+      <a href$="[[_computeRelativeURL('/')]]" class="bigTitle"></a>
       <ul class="links">
         <template is="dom-repeat" items="[[_links]]" as="linkGroup">
           <li>

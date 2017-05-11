@@ -118,7 +118,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   private static final Pattern DEF_CHANGE =
       Pattern.compile("^(?:[1-9][0-9]*|(?:[^~]+~[^~]+~)?[iI][0-9a-f]{4,}.*)$");
 
-  private static final int MAX_ACCOUNTS_PER_DEFAULT_FIELD = 10;
+  static final int MAX_ACCOUNTS_PER_DEFAULT_FIELD = 10;
 
   // NOTE: As new search operations are added, please keep the
   // SearchSuggestOracle up to date.
@@ -993,12 +993,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   private Predicate<ChangeData> reviewer(String who, boolean forDefaultField)
       throws QueryParseException, OrmException {
+    Predicate byState = reviewerByState(who, ReviewerStateInternal.REVIEWER, forDefaultField);
+    if (byState == Predicate.any()) {
+      return Predicate.any();
+    }
     if (args.getSchema().hasField(ChangeField.WIP)) {
       return Predicate.and(
-          Predicate.not(new BooleanPredicate(ChangeField.WIP, args.fillArgs)),
-          reviewerByState(who, ReviewerStateInternal.REVIEWER, forDefaultField));
+          Predicate.not(new BooleanPredicate(ChangeField.WIP, args.fillArgs)), byState);
     }
-    return reviewerByState(who, ReviewerStateInternal.REVIEWER, forDefaultField);
+    return byState;
   }
 
   @Operator
@@ -1162,12 +1165,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // Adapt the capacity of this list when adding more default predicates.
     List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(11);
     try {
-      predicates.add(ownerDefaultField(query));
+      Predicate p = ownerDefaultField(query);
+      if (p != Predicate.any()) {
+        predicates.add(p);
+      }
     } catch (OrmException | QueryParseException e) {
       // Skip.
     }
     try {
-      predicates.add(reviewerDefaultField(query));
+      Predicate p = reviewerDefaultField(query);
+      if (p != Predicate.any()) {
+        predicates.add(p);
+      }
     } catch (OrmException | QueryParseException e) {
       // Skip.
     }
@@ -1266,7 +1275,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return Predicate.or(reviewerPredicate, reviewerByEmailPredicate);
     } else if (reviewerPredicate != null) {
       return reviewerPredicate;
+    } else if (reviewerByEmailPredicate != null) {
+      return reviewerByEmailPredicate;
+    } else {
+      return Predicate.any();
     }
-    return reviewerByEmailPredicate;
   }
 }

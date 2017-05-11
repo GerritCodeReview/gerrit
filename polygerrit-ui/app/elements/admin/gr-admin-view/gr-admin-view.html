@@ -33,6 +33,7 @@ limitations under the License.
 <link rel="import" href="../gr-project/gr-project.html">
 <link rel="import" href="../gr-group-audit-log/gr-group-audit-log.html">
 <link rel="import" href="../gr-project-detail-list/gr-project-detail-list.html">
+<link rel="import" href="../gr-block-user/gr-block-user.html">
 
 <dom-module id="gr-admin-view">
   <template>
@@ -97,6 +98,11 @@ limitations under the License.
     <template is="dom-if" if="[[_showPluginList]]" restamp="true">
       <main class="table">
         <gr-plugin-list class="table" params="[[params]]"></gr-plugin-list>
+      </main>
+    </template>
+    <template is="dom-if" if="[[_showBlockUserList]]" restamp="true">
+      <main>
+        <gr-block-user></gr-block-user>
       </main>
     </template>
     <template is="dom-if" if="[[_showProjectDetailList]]" restamp="true">

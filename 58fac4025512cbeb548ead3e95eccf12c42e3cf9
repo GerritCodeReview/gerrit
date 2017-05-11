@@ -70,6 +70,30 @@
       "revId": "58fac4025512cbeb548ead3e95eccf12c42e3cf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9626ba4_6cb3c514",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-11T08:38:20Z",
+      "side": 1,
+      "message": "I think this is intended. Accounts are prioritized higher than groups. If the limit is already exceeded by finding accounts, we don\u0027t need to look for groups at all.",
+      "parentUuid": "e5a4d448_e5981b88",
+      "range": {
+        "startLine": 178,
+        "startChar": 4,
+        "endLine": 188,
+        "endChar": 5
+      },
+      "revId": "58fac4025512cbeb548ead3e95eccf12c42e3cf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

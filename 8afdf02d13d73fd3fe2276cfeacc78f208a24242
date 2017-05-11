@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "689499bc_8bfa1189",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-05-11T18:44:43Z",
+      "side": 1,
+      "message": "Any reason not using the same color as the hover on gr-file-list .file-row:hover (#f5fafd)?",
+      "range": {
+        "startLine": 46,
+        "startChar": 27,
+        "endLine": 46,
+        "endChar": 33
+      },
+      "revId": "8afdf02d13d73fd3fe2276cfeacc78f208a24242",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

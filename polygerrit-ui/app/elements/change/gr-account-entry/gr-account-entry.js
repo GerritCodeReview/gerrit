@@ -63,6 +63,10 @@
       this.$.input.clear();
     },
 
+    getText: function() {
+      return this.$.input.text;
+    },
+
     setText: function(text) {
       this.$.input.setText(text);
     },

@@ -840,6 +840,59 @@ limitations under the License.
         });
       });
 
+      suite('change in preferences', function() {
+        setup(function() {
+          element._diff = {
+            meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
+            meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
+                lines: 560},
+            diff_header: [],
+            intraline_status: 'OK',
+            change_type: 'MODIFIED',
+            content: [{skip: 66}],
+          };
+          element._comments = {
+            meta: {
+              changeNum: '42',
+              patchRange: {
+                basePatchNum: 'PARENT',
+                patchNum: 3,
+              },
+              path: '/path/to/foo',
+              projectConfig: {foo: 'bar'},
+            },
+            left: [
+              {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
+              {id: 'bc2', side: 'PARENT', __commentSide: 'left'},
+              {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
+              {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
+            ],
+            right: [
+              {id: 'c1', __commentSide: 'right'},
+              {id: 'c2', __commentSide: 'right'},
+              {id: 'd1', __draft: true, __commentSide: 'right'},
+              {id: 'd2', __draft: true, __commentSide: 'right'},
+            ],
+          };
+        });
+
+        test('change in preferences re-renders diff', function() {
+          sandbox.stub(element, '_renderDiffTable');
+          element.prefs = {};
+          element.prefs = {time_format: 'HHMM_12'};
+          assert.isTrue(element._renderDiffTable.called);
+        });
+
+        test('change in preferences does not re-renders diff with ' +
+            'noRenderOnPrefsChange', function() {
+          sandbox.stub(element, '_renderDiffTable');
+          element.noRenderOnPrefsChange = true;
+          element.prefs = {};
+          element.prefs = {time_format: 'HHMM_12'};
+          assert.isFalse(element._renderDiffTable.called);
+        });
+      });
+
       suite('handle comment-update', function() {
 
         setup(function() {

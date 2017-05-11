@@ -405,7 +405,6 @@
     td.classList.add(line.type);
     var html = this._escapeHTML(text);
     html = this._addTabWrappers(html, this._prefs.tab_size);
-
     if (!this._prefs.line_wrapping &&
         this._textLength(text, this._prefs.tab_size) >
         this._prefs.line_length) {

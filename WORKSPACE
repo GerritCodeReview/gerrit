@@ -659,6 +659,9 @@ maven_jar(
     sha1 = "fd369423346b2f1525c413e33f8cf95b09c92cbd",
 )
 
+# Note that all of the following org.apache.httpcomponents have newer versions,
+# but 4.4.1 is the only version that is available for all of them.
+# TODO: Check what combination of new versions are compatible.
 HTTPCOMP_VERS = "4.4.1"
 
 maven_jar(

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "adac5f56_8ceba27d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-05-11T18:15:28Z",
+      "side": 1,
+      "message": "Because I\u0027m bad at JS and do everything by copying what\u0027s been done before me :D",
+      "parentUuid": "ede3abc4_b6cf7174",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 41
+      },
+      "revId": "ae5f02888f772309a9ad851575e79e98e32cda0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9012c13_989855e2",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5981f080_bdcfbf92",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-05-11T18:15:28Z",
+      "side": 1,
+      "message": "Fair enough. And it works inside gr-change-list too, as wyatt suggested.",
+      "parentUuid": "a9012c13_989855e2",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 178,
+        "endChar": 62
+      },
+      "revId": "ae5f02888f772309a9ad851575e79e98e32cda0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9c33413_d50e70e3",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "ae5f02888f772309a9ad851575e79e98e32cda0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9421802c_8c1f6203",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-05-11T18:15:28Z",
+      "side": 1,
+      "message": "Ah nice. I poked around a bit to try to find how it was done elsewhere and spectacularly failed. Done.",
+      "parentUuid": "e9c33413_d50e70e3",
+      "range": {
+        "startLine": 108,
+        "startChar": 6,
+        "endLine": 108,
+        "endChar": 25
+      },
+      "revId": "ae5f02888f772309a9ad851575e79e98e32cda0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

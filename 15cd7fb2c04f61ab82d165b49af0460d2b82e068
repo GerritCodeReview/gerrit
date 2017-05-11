@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "61a5eb4d_5d471097",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-11T13:46:12Z",
+      "side": 1,
+      "message": "\u003e 1\u003d\u003e found Name     ---\u003e Predicate(Name AND Email). EXACT\n\u003e 2\u003d\u003e no Name        ---\u003e Predicate(Email). EXACT\n\nThis doesn\u0027t work when the name part looks like an email address. These are both valid identities:\n\n foo@example.com \u003cfoo@example.com\u003e\n John Doe \u003cfoo@example.com\u003e\n\nWith this implementation, [author:\"foo@gmail.com \u003cfoo@gmail.com\u003e\"] becomes\n\n exactauthor:foo@gmail.com AND exactauthor:foo@gmail.com\n\nwhich will match \"John Doe \u003cfoo@example.com\u003e\"\n\nThe logic I am suggesting is roughly:\n\n if (Address.tryParse(in) !\u003d null) {\n   return new ExactAuthorPredicate(in);\n } else {\n   return Predicate.or(new ExactAuthorPredicate(in), splitAndCreateAuthorPredicates(in));\n}\n\nFor this to work you need to include person.toExternalString in the set here.",
+      "parentUuid": "cc544187_95e37676",
+      "revId": "15cd7fb2c04f61ab82d165b49af0460d2b82e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4a9b328_939c708e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 18

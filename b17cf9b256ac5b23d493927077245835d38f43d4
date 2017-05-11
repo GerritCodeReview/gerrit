@@ -282,6 +282,30 @@
       "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f9b8b66_4c35c458",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-11T13:46:12Z",
+      "side": 1,
+      "message": "\u003e Or do you have internal tools that reported the ones that you fixed recently?\n\nYeah, our internal Error Prone is what catches this. Usually the very generic/reliable checks migrate upstream eventually, not sure why this one hasn\u0027t.",
+      "parentUuid": "6f7a2dca_4e83347c",
+      "range": {
+        "startLine": 554,
+        "startChar": 4,
+        "endLine": 562,
+        "endChar": 43
+      },
+      "revId": "b17cf9b256ac5b23d493927077245835d38f43d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

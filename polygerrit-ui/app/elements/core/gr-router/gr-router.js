@@ -392,6 +392,22 @@
       });
     });
 
+    page(/^\/admin\/people(\/)?$/, loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        restAPI.getAccountCapabilities(false).then(permission => {
+          if (loggedIn &&
+              (permission.administrateServer || permission.modifyAccount)) {
+            app.params = {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-block-user',
+            };
+          } else {
+            redirectToLogin(data.canonicalPath);
+          }
+        });
+      });
+    });
+
     page('/admin/(.*)', loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {

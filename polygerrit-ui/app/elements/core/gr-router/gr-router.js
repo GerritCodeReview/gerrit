@@ -20,6 +20,7 @@
     ADMIN_PLACEHOLDER: '/admin/(.*)',
     AGREEMENTS: /^\/settings\/(agreements|new-agreement)/,
     REGISTER: /^\/register(\/.*)?$/,
+    BLOCK_USERS: /^\/admin\/people(\/)?$/,
 
     // Pattern for login and logout URLs intended to be passed-through. May
     // include a return URL.
@@ -503,6 +504,8 @@
 
       this._mapRoute(RoutePattern.ROOT, '_handleRootRoute');
 
+      this._mapRoute(RoutePattern.BLOCK_USERS, '_handleBlockUsers', true);
+
       this._mapRoute(RoutePattern.DASHBOARD, '_handleDashboardRoute');
 
       this._mapRoute(RoutePattern.GROUP_INFO, '_handleGroupInfoRoute', true);
@@ -696,6 +699,17 @@
         }
       });
       return params;
+    },
+
+    _handleBlockUsers(data) {
+      this.restAPI.getAccountCapabilities(false).then(permission => {
+        if (permission.administrateServer || permission.modifyAccount) {
+          this._setParams({
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-block-user',
+          });
+        }
+      });
     },
 
     /**

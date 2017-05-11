@@ -32,9 +32,16 @@
     section: 'Plugins',
     url: '/admin/plugins',
     view: 'gr-plugin-list',
+  }, {
+    name: 'People',
+    capability: 'modifyAccount',
+    section: 'People',
+    url: '/admin/people',
+    view: 'gr-plugin-list',
   }];
 
-  const ACCOUNT_CAPABILITIES = ['createProject', 'createGroup', 'viewPlugins'];
+  const ACCOUNT_CAPABILITIES = ['createProject', 'createGroup',
+    'modifyAccount', 'viewPlugins'];
 
   Polymer({
     is: 'gr-admin-view',
@@ -64,6 +71,7 @@
         type: Boolean,
         value: false,
       },
+      _showBlockUserList: Boolean,
       _showGroup: Boolean,
       _showGroupAuditLog: Boolean,
       _showGroupList: Boolean,
@@ -187,6 +195,7 @@
     },
 
     _paramsChanged(params) {
+      this.set('_showBlockUserList', params.adminView === 'gr-block-user');
       this.set('_showGroup', params.adminView === 'gr-group');
       this.set('_showGroupAuditLog', params.adminView === 'gr-group-audit-log');
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');

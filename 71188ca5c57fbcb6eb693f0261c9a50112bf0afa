@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25006957_642372eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-11T15:12:22Z",
+      "side": 1,
+      "message": "It\u0027s over 80ch.",
+      "revId": "71188ca5c57fbcb6eb693f0261c9a50112bf0afa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

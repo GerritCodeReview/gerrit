@@ -252,9 +252,15 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
           ObjectReader reader = git.newObjectReader();
           RevWalk rw = new RevWalk(reader);
           TreeWalk tw = new TreeWalk(reader)) {
-        PatchList oldList =
-            patchListCache.get(
-                resource.getChange(), psUtil.get(db.get(), resource.getNotes(), old));
+        PatchSet patchSet = psUtil.get(db.get(), resource.getNotes(), old);
+        if (patchSet == null) {
+          throw new PatchListNotAvailableException(
+              String.format(
+                  "patch set %s of change %s not found",
+                  old.get(), resource.getChange().getId().get()));
+        }
+
+        PatchList oldList = patchListCache.get(resource.getChange(), patchSet);
 
         PatchList curList = patchListCache.get(resource.getChange(), resource.getPatchSet());
 

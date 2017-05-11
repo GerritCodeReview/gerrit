@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca7b159a_1a1ab883",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-05-11T00:46:00Z",
+      "side": 1,
+      "message": "Missing brackets? ${genhtml}?",
+      "range": {
+        "startLine": 11,
+        "startChar": 18,
+        "endLine": 11,
+        "endChar": 19
+      },
+      "revId": "85d68d89e763b18f196f5fe401ba0dc86ec60921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ea55f99_c7bf2db6",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-05-11T00:46:00Z",
+      "side": 1,
+      "message": "Missing brackets? ${destdir}?",
+      "range": {
+        "startLine": 17,
+        "startChar": 11,
+        "endLine": 17,
+        "endChar": 18
+      },
+      "revId": "85d68d89e763b18f196f5fe401ba0dc86ec60921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3111c95f_04fcf9ad",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-05-11T00:46:00Z",
+      "side": 1,
+      "message": "Missing brackets? ${base}?",
+      "range": {
+        "startLine": 37,
+        "startChar": 38,
+        "endLine": 37,
+        "endChar": 42
+      },
+      "revId": "85d68d89e763b18f196f5fe401ba0dc86ec60921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98139742_470206fa",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-05-11T00:46:00Z",
+      "side": 1,
+      "message": "Use \n  find -name \u0027*coverage.dat\u0027 -size 0 -delete \n\nor\n\n find -name \u0027*coverage.dat\u0027 -size 0 -exec rm -rf {}\\; \n\nto avoid the subshell?",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 43
+      },
+      "revId": "85d68d89e763b18f196f5fe401ba0dc86ec60921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

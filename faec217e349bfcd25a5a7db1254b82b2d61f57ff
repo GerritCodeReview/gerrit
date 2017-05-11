@@ -142,6 +142,30 @@
       "revId": "faec217e349bfcd25a5a7db1254b82b2d61f57ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42b3e44b_eede51cf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-11T12:35:52Z",
+      "side": 1,
+      "message": "I\u0027ve changed it so that CreateChange throws a UnprocessableEntityException which is a subclass of RestApiException. Then it won\u0027t be wrapped in ApiUtil and we can process it correctly.",
+      "parentUuid": "0a994af0_797c0ada",
+      "range": {
+        "startLine": 186,
+        "startChar": 26,
+        "endLine": 186,
+        "endChar": 42
+      },
+      "revId": "faec217e349bfcd25a5a7db1254b82b2d61f57ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

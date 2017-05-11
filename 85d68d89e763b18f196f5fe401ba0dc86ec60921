@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ae38d3d_da6b6c2f",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-11T09:38:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca7b159a_1a1ab883",
+      "range": {
+        "startLine": 11,
+        "startChar": 18,
+        "endLine": 11,
+        "endChar": 19
+      },
+      "revId": "85d68d89e763b18f196f5fe401ba0dc86ec60921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ea55f99_c7bf2db6",
         "filename": "tools/coverage.sh",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "21ab70e2_2f103ded",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-11T09:38:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ea55f99_c7bf2db6",
+      "range": {
+        "startLine": 17,
+        "startChar": 11,
+        "endLine": 17,
+        "endChar": 18
+      },
+      "revId": "85d68d89e763b18f196f5fe401ba0dc86ec60921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3111c95f_04fcf9ad",
         "filename": "tools/coverage.sh",
         "patchSetId": 5
@@ -59,6 +107,30 @@
       "writtenOn": "2017-05-11T00:46:00Z",
       "side": 1,
       "message": "Missing brackets? ${base}?",
+      "range": {
+        "startLine": 37,
+        "startChar": 38,
+        "endLine": 37,
+        "endChar": 42
+      },
+      "revId": "85d68d89e763b18f196f5fe401ba0dc86ec60921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26b49592_c5a64b00",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-11T09:38:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3111c95f_04fcf9ad",
       "range": {
         "startLine": 37,
         "startChar": 38,

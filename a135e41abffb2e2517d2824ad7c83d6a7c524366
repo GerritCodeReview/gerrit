@@ -16,6 +16,24 @@
       "revId": "a135e41abffb2e2517d2824ad7c83d6a7c524366",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12f3fc67_e59050bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-11T16:57:17Z",
+      "side": 1,
+      "message": "I believe this was due to a rebase.. I didn\u0027t add it.",
+      "parentUuid": "a7ce524c_a89faa5b",
+      "revId": "a135e41abffb2e2517d2824ad7c83d6a7c524366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

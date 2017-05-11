@@ -39,11 +39,14 @@ limitations under the License.
 
 <script>
   suite('gr-diff-cursor tests', function() {
+    var sandbox;
     var cursorElement;
     var diffElement;
     var mockDiffResponse;
 
     setup(function(done) {
+      sandbox = sinon.sandbox.create();
+
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(false); },
       });
@@ -78,13 +81,15 @@ limitations under the License.
 
       var setupDone = function() {
         cursorElement.moveToFirstChunk();
-        done();
         diffElement.removeEventListener('render', setupDone);
+        done();
       };
       diffElement.addEventListener('render', setupDone);
 
       diffElement.reload();
     });
+
+    teardown(() => { sandbox.restore(); });
 
     test('diff cursor functionality (side-by-side)', function() {
       // The cursor has been initialized to the first delta.
@@ -273,6 +278,15 @@ limitations under the License.
       // It should be line 8 on the right, but line 5 on the left.
       assert.equal(cursorElement._findRowByNumberAndFile(8, 'right'), row);
       assert.equal(cursorElement._findRowByNumberAndFile(5, 'left'), row);
+    });
+
+    test('expand context updates stops', done => {
+      sandbox.spy(cursorElement, 'handleDiffUpdate');
+      MockInteractions.tap(diffElement.querySelector('.showContext'));
+      flush(() => {
+        assert.isTrue(cursorElement.handleDiffUpdate.called);
+        done();
+      });
     });
   });
 </script>

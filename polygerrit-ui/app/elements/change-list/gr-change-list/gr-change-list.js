@@ -31,6 +31,12 @@
      * @event previous-page
      */
 
+    /**
+     * Fired with reload page key shortcut was pressed.
+     *
+     * @event reload-page
+     */
+
     hostAttributes: {
       tabindex: 0,
     },
@@ -99,6 +105,7 @@
       'n ]': '_handleNKey',
       'o enter': '_handleEnterKey',
       'p [': '_handlePKey',
+      'r': '_handleRKey',
     },
 
     attached: function() {
@@ -239,6 +246,15 @@
 
       e.preventDefault();
       this.fire('previous-page');
+    },
+
+    _handleRKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e) || !this.shifted(e)) {
+        return;
+      }
+
+      e.preventDefault();
+      this.fire('reload-page');
     },
 
     _changeURLForIndex: function(index) {

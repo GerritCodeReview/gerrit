@@ -91,6 +91,7 @@
     listeners: {
       'next-page': '_handleNextPage',
       'previous-page': '_handlePreviousPage',
+      'reload-page': '_handleReloadPage',
     },
 
     attached: function() {
@@ -170,6 +171,11 @@
       if (this.$.prevArrow.hidden) { return; }
       page.show(this._computeNavLink(
           this._query, this._offset, -1, this._changesPerPage));
+    },
+
+    _handleReloadPage: function() {
+      page.show(this._computeNavLink(
+          this._query, this._offset, 0, this._changesPerPage));
     },
   });
 })();

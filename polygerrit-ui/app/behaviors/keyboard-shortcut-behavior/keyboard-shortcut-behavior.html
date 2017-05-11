@@ -25,6 +25,13 @@ limitations under the License.
   };
 
   var KeyboardShortcutBehaviorImpl = {
+    shifted: function(e) {
+      e = getKeyboardEvent(e);
+      // When e is a keyboardEvent, e.event is not null.
+      if (e.event) { e = e.event; }
+      return e.shiftKey;
+    },
+
     modifierPressed: function(e) {
       e = getKeyboardEvent(e);
       // When e is a keyboardEvent, e.event is not null.

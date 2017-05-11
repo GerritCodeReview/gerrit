@@ -984,15 +984,7 @@
           '/content' + parent);
     },
 
-    getCommitFileContents: function(projectName, commit, path) {
-      return this._fetchB64File(
-          '/projects/' + encodeURIComponent(projectName) +
-          '/commits/' + encodeURIComponent(commit) +
-          '/files/' + encodeURIComponent(path) +
-          '/content');
-    },
-
-    getImagesForDiff: function(project, commit, changeNum, diff, patchRange) {
+    getImagesForDiff: function(changeNum, diff, patchRange) {
       var promiseA;
       var promiseB;
 
@@ -1000,15 +992,7 @@
         if (patchRange.basePatchNum === 'PARENT') {
           // Note: we only attempt to get the image from the first parent.
           promiseA = this.getChangeFileContents(changeNum, patchRange.patchNum,
-              diff.meta_a.name, 1)
-              .catch(function(result) {
-                // If getting the parent-indexed version of the image fails, it
-                // may be because the API has not been rolled out. Fall back to
-                // getting the file from the commit using the slow API.
-                // NOTE(wyatta): Remove this when the rollout is complete.
-                return this._getImageFromCommit(project, commit,
-                    diff.meta_a.name);
-              }.bind(this));
+              diff.meta_a.name, 1);
         } else {
           promiseA = this.getChangeFileContents(changeNum,
               patchRange.basePatchNum, diff.meta_a.name);
@@ -1041,19 +1025,6 @@
 
           return {baseImage: baseImage, revisionImage: revisionImage};
         }.bind(this));
-    },
-
-    /**
-     * Remove when parent-indexed file requests are completely rolled out.
-     */
-    _getImageFromCommit: function(project, commit, path) {
-      return this.getCommitInfo(project, commit).then(function(info) {
-        if (info.parents.length !== 1) {
-          return Promise.reject('Change commit has multiple parents.');
-        }
-        var parent = info.parents[0].commit;
-        return this.getCommitFileContents(project, parent, path);
-      }.bind(this));
     },
 
     setChangeTopic: function(changeNum, topic) {

@@ -39,11 +39,14 @@ limitations under the License.
 
 <script>
   suite('gr-diff-cursor tests', function() {
+    var sandbox;
     var cursorElement;
     var diffElement;
     var mockDiffResponse;
 
     setup(function(done) {
+      sandbox = sinon.sandbox.create();
+
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(false); },
       });
@@ -60,31 +63,33 @@ limitations under the License.
         diffElement.prefs = prefs;
       });
 
-      sinon.stub(diffElement, '_getDiff', function() {
+      sandbox.stub(diffElement, '_getDiff', function() {
         return Promise.resolve(mockDiffResponse.diffResponse);
       });
 
-      sinon.stub(diffElement, '_getDiffComments', function() {
+      sandbox.stub(diffElement, '_getDiffComments', function() {
         return Promise.resolve({baseComments: [], comments: []});
       });
 
-      sinon.stub(diffElement, '_getDiffDrafts', function() {
+      sandbox.stub(diffElement, '_getDiffDrafts', function() {
         return Promise.resolve({baseComments: [], comments: []});
       });
 
-      sinon.stub(diffElement, '_getDiffRobotComments', function() {
+      sandbox.stub(diffElement, '_getDiffRobotComments', function() {
         return Promise.resolve({baseComments: [], comments: []});
       });
 
       var setupDone = function() {
         cursorElement.moveToFirstChunk();
-        done();
         diffElement.removeEventListener('render', setupDone);
+        done();
       };
       diffElement.addEventListener('render', setupDone);
 
       diffElement.reload();
     });
+
+    teardown(() => { sandbox.restore(); });
 
     test('diff cursor functionality (side-by-side)', function() {
       // The cursor has been initialized to the first delta.
@@ -211,8 +216,8 @@ limitations under the License.
     });
 
     test('initialLineNumber disabled', function(done) {
-      var moveToNumStub = sinon.stub(cursorElement, 'moveToLineNumber');
-      var moveToChunkStub = sinon.stub(cursorElement, 'moveToFirstChunk');
+      var moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber');
+      var moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk');
 
       diffElement.addEventListener('render', function() {
         assert.isFalse(moveToNumStub.called);
@@ -224,8 +229,8 @@ limitations under the License.
     });
 
     test('initialLineNumber enabled', function(done) {
-      var moveToNumStub = sinon.stub(cursorElement, 'moveToLineNumber');
-      var moveToChunkStub = sinon.stub(cursorElement, 'moveToFirstChunk');
+      var moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber');
+      var moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk');
 
       diffElement.addEventListener('render', function() {
         assert.isFalse(moveToChunkStub.called);
@@ -273,6 +278,15 @@ limitations under the License.
       // It should be line 8 on the right, but line 5 on the left.
       assert.equal(cursorElement._findRowByNumberAndFile(8, 'right'), row);
       assert.equal(cursorElement._findRowByNumberAndFile(5, 'left'), row);
+    });
+
+    test('expand context updates stops', done => {
+      sandbox.spy(cursorElement, 'handleDiffUpdate');
+      MockInteractions.tap(diffElement.$$('.showContext'));
+      flush(() => {
+        assert.isTrue(cursorElement.handleDiffUpdate.called);
+        done();
+      });
     });
   });
 </script>

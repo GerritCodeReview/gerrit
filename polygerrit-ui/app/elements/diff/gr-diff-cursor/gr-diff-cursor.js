@@ -371,7 +371,8 @@
             i++) {
           this.unlisten(splice.removed[i],
               'render-start', '_handleDiffRenderStart');
-          this.unlisten(splice.removed[i], 'render', 'handleDiffUpdate');
+          this.unlisten(splice.removed[i],
+              'render-content', 'handleDiffUpdate');
         }
       }
     },

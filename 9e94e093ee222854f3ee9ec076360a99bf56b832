@@ -22,6 +22,30 @@
       "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34a843a4_137ff621",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-11T12:59:36Z",
+      "side": 1,
+      "message": "The closing bracket is in the next line right after \u0027b\u0027.",
+      "parentUuid": "e008a0de_3481a294",
+      "range": {
+        "startLine": 72,
+        "startChar": 97,
+        "endLine": 72,
+        "endChar": 98
+      },
+      "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "8afdf02d13d73fd3fe2276cfeacc78f208a24242",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b72f471_0c59280a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-05-11T19:00:26Z",
+      "side": 1,
+      "message": "Updated to lighter shade of blue.\n\nI tried mixing the blue on assigned items (e.g. 75% opacity on top of the yellow), but I liked it better when the hover color was constant.",
+      "parentUuid": "6c4898d5_6ec61323",
+      "range": {
+        "startLine": 46,
+        "startChar": 27,
+        "endLine": 46,
+        "endChar": 33
+      },
+      "revId": "8afdf02d13d73fd3fe2276cfeacc78f208a24242",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

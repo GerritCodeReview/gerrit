@@ -22,6 +22,30 @@
       "revId": "b38e18ed3b1178d6622c18b6c146692f8600b804",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ab786d4_c87a560e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-11T05:32:41Z",
+      "side": 1,
+      "message": "The account loading is a separate metric in the original change, and it did include some restructuring.\n\nThat change can\u0027t be cleanly cherry picked because stable-2.14/master includes the additional reviewer suggestion feature that isn\u0027t on this branch.\n\nI wanted to make the change on stable-2.13 as less invasive as possible, so avoided trying to do the restructuring and disentangling of the extra stuff.",
+      "parentUuid": "67bb79b0_9cb4f359",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 215,
+        "endChar": 69
+      },
+      "revId": "b38e18ed3b1178d6622c18b6c146692f8600b804",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

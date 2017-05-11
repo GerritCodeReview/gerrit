@@ -208,7 +208,7 @@ public class AccountCacheImpl implements AccountCache {
       return new AccountState(
           account,
           internalGroups,
-          externalIds.byAccount(db, who),
+          externalIds.byAccount(who),
           watchConfig.get().getProjectWatches(who));
     }
   }

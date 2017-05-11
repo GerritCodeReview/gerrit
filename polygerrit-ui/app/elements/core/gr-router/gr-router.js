@@ -194,6 +194,22 @@
       });
     });
 
+    page(/^\/admin\/people(\/)?$/, loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        restAPI.getAccountCapabilities(false).then(permission => {
+          if (loggedIn &&
+              (permission.administrateServer || permission.modifyAccount)) {
+            app.params = {
+              view: 'gr-block-user',
+            };
+          } else {
+            page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          }
+        });
+      });
+    });
+
+
     page('/admin/(.*)', loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {

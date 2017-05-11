@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-block-user</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../scripts/util.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-block-user.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-block-user></gr-block-user>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-block-user tests', () => {
+    let element;
+    let sandbox;
+
+    const fakeAccount = {
+      _account_id: 42,
+    };
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      stub('gr-rest-api-interface', {
+        getLoggedIn() { return Promise.resolve(true); },
+        getAccountCapabilities() {
+          return Promise.resolve({
+            createGroup: true,
+            createProject: true,
+            viewPlugins: true,
+            modifyAccount: true,
+          });
+        },
+      });
+      element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('finding blocked user using autosuggest', done => {
+      sandbox.stub(
+          element.$.restAPI, 'getUserBlocked').returns(Promise.resolve(true));
+      element._setAccount({detail: {value: {account: fakeAccount}}});
+      flush(() => {
+        assert.isFalse(element.$$('.blockControls').hidden);
+        assert.isOk(element.$$(
+            '.blockControls > span:not([hidden]) > #unblockUser'));
+        assert.isNotOk(element.$$(
+            '.blockControls > span:not([hidden]) > #blockUser'));
+        done();
+      });
+    });
+
+    test('finding unblocked user using autosuggest', done => {
+      sandbox.stub(
+          element.$.restAPI, 'getUserBlocked').returns(Promise.resolve(false));
+      element._setAccount({detail: {value: {account: fakeAccount}}});
+      flush(() => {
+        assert.isFalse(element.$$('.blockControls').hidden);
+        assert.isNotOk(element.$$(
+            '.blockControls > span:not([hidden]) > #unblockUser'));
+        assert.isOk(element.$$(
+            '.blockControls > span:not([hidden]) > #blockUser'));
+        done();
+      });
+    });
+
+    test('finding user using search button', done => {
+      sandbox.stub(element.$.entry, 'getText').returns('foobar');
+      sandbox.stub(element.$.restAPI, 'getUserAccount').returns(
+          Promise.resolve(fakeAccount));
+      sandbox.stub(
+          element.$.restAPI, 'getUserBlocked').returns(Promise.resolve(true));
+      MockInteractions.tap(element.$.findUser);
+      flush(() => {
+        assert.isTrue(element.$.restAPI.getUserBlocked.calledWith(42));
+        assert.isFalse(element.$$('.blockControls').hidden);
+        assert.isOk(element.$$(
+            '.blockControls > span:not([hidden]) > #unblockUser'));
+        assert.isNotOk(element.$$(
+            '.blockControls > span:not([hidden]) > #blockUser'));
+        done();
+      });
+    });
+
+    test('blocking user', () => {
+      element.account = fakeAccount;
+      element._isBlocked = false;
+      sandbox.spy(element.$.overlay, 'open');
+      sandbox.stub(element.$.overlay, 'close');
+      sandbox.stub(element.$.restAPI, 'blockUser').returns(
+          Promise.resolve(true));
+      MockInteractions.tap(element.$.blockUser);
+      assert.isTrue(element.$.overlay.open.called);
+      element.$.overlay.open.lastCall.returnValue.then(() => {
+        element._handleBlockUserConfirm();
+        assert.isTrue(element.$.restAPI.blockUser.calledWith(42));
+        element.$.restAPI.blockUser.lastCall.returnValue.then(() => {
+          assert.isTrue(element.$.overlay.close.called);
+          assert._isBlocked = true;
+        });
+      });
+    });
+
+    test('unblocking user', () => {
+      element.account = fakeAccount;
+      element._isBlocked = true;
+      sandbox.spy(element.$.overlay, 'open');
+      sandbox.stub(element.$.overlay, 'close');
+      sandbox.stub(element.$.restAPI, 'unblockUser').returns(
+          Promise.resolve(true));
+      MockInteractions.tap(element.$.unblockUser);
+      assert.isFalse(element.$.overlay.open.called);
+      assert.isTrue(element.$.restAPI.unblockUser.calledWith(42));
+      element.$.restAPI.unblockUser.lastCall.returnValue.then(() => {
+        assert._isBlocked = false;
+      });
+    });
+  });
+</script>

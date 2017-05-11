@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d570bd9_56282fd5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-11T00:55:09Z",
+      "side": 1,
+      "message": "Not needed; see below.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 37
+      },
+      "revId": "f88ced37171ad93ecd22687eb1285147abc0ac27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cce89997_036b3550",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-11T00:55:09Z",
+      "side": 1,
+      "message": "MILLISECONDS is already imported static at L17; use that instead.",
+      "range": {
+        "startLine": 270,
+        "startChar": 64,
+        "endLine": 270,
+        "endChar": 85
+      },
+      "revId": "f88ced37171ad93ecd22687eb1285147abc0ac27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

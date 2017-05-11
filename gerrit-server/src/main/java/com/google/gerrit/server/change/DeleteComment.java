@@ -27,9 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -54,9 +52,6 @@ public class DeleteComment implements RestModifyView<CommentResource, DeleteComm
   private final PermissionBackend permissionBackend;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final CommentsUtil commentsUtil;
-  private final PatchSetUtil psUtil;
-  private final BatchUpdate.Factory updateFactory;
-  private final PatchListCache patchListCache;
   private final Provider<CommentJson> commentJson;
   private final ChangeNotes.Factory notesFactory;
 
@@ -67,9 +62,6 @@ public class DeleteComment implements RestModifyView<CommentResource, DeleteComm
       PermissionBackend permissionBackend,
       BatchUpdate.Factory batchUpdateFactory,
       CommentsUtil commentsUtil,
-      PatchSetUtil psUtil,
-      BatchUpdate.Factory updateFactory,
-      PatchListCache patchListCache,
       Provider<CommentJson> commentJson,
       ChangeNotes.Factory notesFactory) {
     this.userProvider = userProvider;
@@ -77,9 +69,6 @@ public class DeleteComment implements RestModifyView<CommentResource, DeleteComm
     this.permissionBackend = permissionBackend;
     this.batchUpdateFactory = batchUpdateFactory;
     this.commentsUtil = commentsUtil;
-    this.psUtil = psUtil;
-    this.updateFactory = updateFactory;
-    this.patchListCache = patchListCache;
     this.commentJson = commentJson;
     this.notesFactory = notesFactory;
   }

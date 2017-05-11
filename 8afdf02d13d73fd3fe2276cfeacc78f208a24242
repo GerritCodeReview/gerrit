@@ -22,6 +22,30 @@
       "revId": "8afdf02d13d73fd3fe2276cfeacc78f208a24242",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c4898d5_6ec61323",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-11T18:46:11Z",
+      "side": 1,
+      "message": "One more thing, I\u0027d say you probably need another line of CSS here.\n\n      :host([assigned]):hover {\n        background-color: _____;\n      }\n\nUp to you, though.",
+      "parentUuid": "689499bc_8bfa1189",
+      "range": {
+        "startLine": 46,
+        "startChar": 27,
+        "endLine": 46,
+        "endChar": 33
+      },
+      "revId": "8afdf02d13d73fd3fe2276cfeacc78f208a24242",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

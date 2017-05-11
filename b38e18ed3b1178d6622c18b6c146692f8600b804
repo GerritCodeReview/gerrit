@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67bb79b0_9cb4f359",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-05-11T05:27:50Z",
+      "side": 1,
+      "message": "it includes also loading accounts - would that be feasible to restructure the code so that loading happens later and could be subject of different metrics?",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 215,
+        "endChar": 69
+      },
+      "revId": "b38e18ed3b1178d6622c18b6c146692f8600b804",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

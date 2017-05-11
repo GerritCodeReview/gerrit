@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "259e9c5c_f2e1dba5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5797,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-11T12:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32b2d03e_c42b4f93",
+      "revId": "a49841a9b1db8ba8d7c1a1cfdc0318760f8a11de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "729c15b5_3fc50c15",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -65,6 +83,54 @@
     },
     {
       "key": {
+        "uuid": "21cf422a_16d76f28",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5808,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-11T12:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "031513bd_acac391d",
+      "range": {
+        "startLine": 5808,
+        "startChar": 15,
+        "endLine": 5808,
+        "endChar": 23
+      },
+      "revId": "a49841a9b1db8ba8d7c1a1cfdc0318760f8a11de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aec5c64_f2423040",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5808,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-11T12:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "729c15b5_3fc50c15",
+      "range": {
+        "startLine": 5808,
+        "startChar": 2,
+        "endLine": 5808,
+        "endChar": 13
+      },
+      "revId": "a49841a9b1db8ba8d7c1a1cfdc0318760f8a11de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f16d7e19_61cfddc8",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2017-05-11T09:37:20Z",
       "side": 1,
       "message": "The change that is rebased is empty, but shouldn\u0027t it contain the file that has only rebased hunks to verify that this file is not filtered out because it\u0027s not part of the change, but because it has only rebased hunks?",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 113,
+        "endChar": 3
+      },
+      "revId": "a49841a9b1db8ba8d7c1a1cfdc0318760f8a11de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3726bcf3_9079eb40",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-11T12:51:52Z",
+      "side": 1,
+      "message": "Good point. It might be worth to have both tests (one with files touched by the patch sets, one with files not touched by the patch sets), especially since that behavior was different before this change. I added the missing case.",
+      "parentUuid": "f16d7e19_61cfddc8",
       "range": {
         "startLine": 103,
         "startChar": 2,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "cd252b00_7ce157fe",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-11T12:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6636bf22_9a2d6104",
+      "range": {
+        "startLine": 72,
+        "startChar": 66,
+        "endLine": 72,
+        "endChar": 67
+      },
+      "revId": "a49841a9b1db8ba8d7c1a1cfdc0318760f8a11de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cf8e8cc_10f5b54d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/EditTransformer.java",
         "patchSetId": 1
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "7264ff12_2d8493e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-11T12:51:52Z",
+      "side": 1,
+      "message": "I converted it to an AutoValue class. The only drawback is that it needs to be package-private (instead of private) because of that.",
+      "parentUuid": "9cf8e8cc_10f5b54d",
+      "range": {
+        "startLine": 178,
+        "startChar": 23,
+        "endLine": 178,
+        "endChar": 39
+      },
+      "revId": "a49841a9b1db8ba8d7c1a1cfdc0318760f8a11de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d42c4a7_31f98be5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
         "patchSetId": 1
@@ -145,6 +283,30 @@
       "writtenOn": "2017-05-11T09:37:20Z",
       "side": 1,
       "message": "[optional] replace this with \u0027ImmutableSet.copyOf(edits)\u0027?",
+      "range": {
+        "startLine": 308,
+        "startChar": 11,
+        "endLine": 308,
+        "endChar": 75
+      },
+      "revId": "a49841a9b1db8ba8d7c1a1cfdc0318760f8a11de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d2cb38d_514bcca5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-11T12:51:52Z",
+      "side": 1,
+      "message": "Originally I was using ImmutableSet everywhere in this and related classes until I got an error because of GWT incompatibility. I just realized that this class wasn\u0027t the cause of the incompatibility. Hence, I converted all uses of the list of edits and editsDueToRebase to ImmutableList/ImmutableSet again.",
+      "parentUuid": "0d42c4a7_31f98be5",
       "range": {
         "startLine": 308,
         "startChar": 11,

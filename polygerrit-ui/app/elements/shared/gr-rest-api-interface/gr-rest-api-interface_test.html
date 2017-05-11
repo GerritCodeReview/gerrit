@@ -658,5 +658,63 @@ limitations under the License.
       assert.isTrue(element._fetchSharedCacheURL.lastCall
           .calledWithExactly('/projects/?d&n=26&S=25&m=test'));
     });
+
+    suite('blocking and unblocking', () => {
+
+      setup(() => {
+        sandbox.stub(element, 'send').returns(Promise.resolve({ status: 200 }));
+      });
+
+      test('blockUser', done => {
+        element.send.returns(Promise.resolve({ status: 204 }));
+        element.blockUser('someAccountId').then(result => {
+          assert.isTrue(result);
+          done();
+        });
+        assert.isTrue(element.send.calledWith(
+            'DELETE', '/accounts/someAccountId/active'));
+      });
+
+      test('unblockUser', done => {
+        element.send.returns(Promise.resolve({ status: 200 }));
+        element.unblockUser('someAccountId').then(result => {
+          assert.isTrue(result);
+          done();
+        });
+        assert.isTrue(element.send.calledWith(
+            'PUT', '/accounts/someAccountId/active'));
+      });
+
+      test('getUserBlocked uses correct API', () => {
+        element.unblockUser('someAccountId');
+        assert.isTrue(element.send.calledWith(
+            'PUT', '/accounts/someAccountId/active'));
+      });
+
+      test('getUserBlocked when user is blocked', () => {
+        element.send.returns(Promise.resolve({ status: 204 }));
+        return element.getUserBlocked('someAccountId').then(result => {
+          assert.isTrue(result);
+        });
+      });
+
+      test('getUserBlocked when user is not blocked', () => {
+        element.send.returns(Promise.resolve({ status: 200 }));
+        return element.getUserBlocked('someAccountId').then(result => {
+          assert.isFalse(result);
+        });
+      });
+
+      test('getUserAccount', done => {
+        const fakeAccount = {};
+        sandbox.stub(element, 'getResponseObject').returns(fakeAccount);
+        element.getUserAccount('someAccountId').then(result => {
+          assert.strictEqual(result, fakeAccount);
+          done();
+        });
+        assert.isTrue(element.send.calledWith(
+            'GET', '/accounts/someAccountId'));
+      });
+    });
   });
 </script>

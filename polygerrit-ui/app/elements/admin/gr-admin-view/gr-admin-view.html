@@ -16,10 +16,39 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-placeholder/gr-placeholder.html">
+<link rel="import" href="../gr-block-user/gr-block-user.html">
 
 <dom-module id="gr-admin-view">
+  <style>
+    :host {
+      display: flex;
+      flex-direction: column;
+    }
+    :host > * {
+      margin: 2em auto;
+      max-width: 46em;
+    }
+    @media only screen and (min-width: 67em) {
+      :host > * {
+        width: 60%;
+      }
+    }
+    @media only screen and (max-width: 67em) {
+      :host > * {
+        margin: 2em 0 2em 15em;
+      }
+    }
+    @media only screen and (max-width: 53em) {
+      :host > * {
+        margin: 2em 1em;
+      }
+    }
+  </style>
   <template>
     <gr-placeholder title="Admin" path="[[path]]"></gr-placeholder>
+    <template is="dom-if" if="[[_showPeopleView(path)]]">
+      <gr-block-user></gr-block-user>
+    </template>
   </template>
   <script src="gr-admin-view.js"></script>
 </dom-module>

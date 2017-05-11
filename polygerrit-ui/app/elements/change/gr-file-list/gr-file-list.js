@@ -519,6 +519,9 @@
       e.preventDefault();
       if (this._showInlineDiffs) {
         this._openCursorFile();
+      } else if (this._userPrefs && this._userPrefs.expand_inline_diffs) {
+        if (this.$.fileCursor.index === -1) { return; }
+        this._togglePathExpandedByIndex(this.$.fileCursor.index);
       } else {
         this._openSelectedFile();
       }

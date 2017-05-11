@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c460cddd_a9e5be8e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-11T17:02:23Z",
+      "side": 1,
+      "message": "Nit: it seems a bit redundant to assign the value after it has been tested to be true.\n\nThis could be just ...\n\n subGroup.due_to_rebase \u003d group.due_to_rebase;\n\n... without the if. Alternatively, to avoid setting the value at all when it\u0027s undefined, it could be ...\n\nif (grou.due_to_rebase) {\n  subGroup.due_to_rebase \u003d true;\n}",
+      "range": {
+        "startLine": 518,
+        "startChar": 10,
+        "endLine": 520,
+        "endChar": 11
+      },
+      "revId": "eab7d0b5bf2c8a8223da0b8f73b30fbb6d6f172a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "58fac4025512cbeb548ead3e95eccf12c42e3cf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5a4d448_e5981b88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-05-11T08:02:26Z",
+      "side": 1,
+      "message": "which is OK, the problem I see is that in case limit is reached group is not even suggested even if it should due to its name ;)",
+      "parentUuid": "a1c911e0_b27ddc52",
+      "range": {
+        "startLine": 178,
+        "startChar": 4,
+        "endLine": 188,
+        "endChar": 5
+      },
+      "revId": "58fac4025512cbeb548ead3e95eccf12c42e3cf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

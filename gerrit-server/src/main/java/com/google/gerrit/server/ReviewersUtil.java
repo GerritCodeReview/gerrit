@@ -29,6 +29,10 @@ import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.Project;
@@ -53,6 +57,10 @@ import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,6 +74,30 @@ import java.util.Map;
 import java.util.Set;
 
 public class ReviewersUtil {
+  private static final Logger log = LoggerFactory.getLogger(ReviewersUtil.class);
+
+  @Singleton
+  private static class Metrics {
+    final Timer0 queryAccountsLatency;
+    final Timer0 queryGroupsLatency;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      queryAccountsLatency =
+          metricMaker.newTimer(
+              "reviewer_suggestion/query_accounts",
+              new Description("Latency for querying accounts for reviewer suggestion")
+                  .setCumulative()
+                  .setUnit(Units.MILLISECONDS));
+      queryGroupsLatency =
+          metricMaker.newTimer(
+              "reviewer_suggestion/query_groups",
+              new Description("Latency for querying groups for reviewer suggestion")
+                  .setCumulative()
+                  .setUnit(Units.MILLISECONDS));
+    }
+  }
+
   private static final String MAX_SUFFIX = "\u9fa5";
   private static final Ordering<SuggestedReviewerInfo> ORDERING =
       Ordering.natural().onResultOf(new Function<SuggestedReviewerInfo, String>() {
@@ -91,6 +123,7 @@ public class ReviewersUtil {
   private final GroupBackend groupBackend;
   private final GroupMembers.Factory groupMembersFactory;
   private final Provider<CurrentUser> currentUser;
+  private final Metrics metrics;
 
   @Inject
   ReviewersUtil(AccountLoader.Factory accountLoaderFactory,
@@ -102,7 +135,8 @@ public class ReviewersUtil {
       Provider<ReviewDb> dbProvider,
       GroupBackend groupBackend,
       GroupMembers.Factory groupMembersFactory,
-      Provider<CurrentUser> currentUser) {
+      Provider<CurrentUser> currentUser,
+      Metrics metrics) {
     Set<FillOptions> fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);
     fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
     this.accountLoader = accountLoaderFactory.create(fillOptions);
@@ -115,6 +149,7 @@ public class ReviewersUtil {
     this.groupBackend = groupBackend;
     this.groupMembersFactory = groupMembersFactory;
     this.currentUser = currentUser;
+    this.metrics = metrics;
   }
 
   public interface VisibilityControl {
@@ -149,20 +184,22 @@ public class ReviewersUtil {
       reviewer.add(info);
     }
 
-    for (GroupReference g : suggestAccountGroup(suggestReviewers, projectControl)) {
-      GroupAsReviewer result = suggestGroupAsReviewer(
-          suggestReviewers, projectControl.getProject(), g, visibilityControl);
-      if (result.allowed || result.allowedWithConfirmation) {
-        GroupBaseInfo info = new GroupBaseInfo();
-        info.id = Url.encode(g.getUUID().get());
-        info.name = g.getName();
-        SuggestedReviewerInfo suggestedReviewerInfo = new SuggestedReviewerInfo();
-        suggestedReviewerInfo.group = info;
-        suggestedReviewerInfo.count = result.size;
-        if (result.allowedWithConfirmation) {
-          suggestedReviewerInfo.confirm = true;
+    try (Timer0.Context ctx = metrics.queryGroupsLatency.start()) {
+      for (GroupReference g : suggestAccountGroup(suggestReviewers, projectControl)) {
+        GroupAsReviewer result = suggestGroupAsReviewer(
+            suggestReviewers, projectControl.getProject(), g, visibilityControl);
+        if (result.allowed || result.allowedWithConfirmation) {
+          GroupBaseInfo info = new GroupBaseInfo();
+          info.id = Url.encode(g.getUUID().get());
+          info.name = g.getName();
+          SuggestedReviewerInfo suggestedReviewerInfo = new SuggestedReviewerInfo();
+          suggestedReviewerInfo.group = info;
+          suggestedReviewerInfo.count = result.size;
+          if (result.allowedWithConfirmation) {
+            suggestedReviewerInfo.confirm = true;
+          }
+          reviewer.add(suggestedReviewerInfo);
         }
-        reviewer.add(suggestedReviewerInfo);
       }
     }
 
@@ -174,13 +211,15 @@ public class ReviewersUtil {
   }
 
   private Collection<AccountInfo> suggestAccounts(SuggestReviewers suggestReviewers,
-      VisibilityControl visibilityControl)
-      throws OrmException {
-    AccountIndex searchIndex = indexes.getSearchIndex();
-    if (searchIndex != null) {
-      return suggestAccountsFromIndex(suggestReviewers, visibilityControl);
+      VisibilityControl visibilityControl) throws OrmException {
+    try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
+      AccountIndex searchIndex = indexes.getSearchIndex();
+      if (searchIndex != null) {
+        return suggestAccountsFromIndex(suggestReviewers, visibilityControl);
+      }
+      log.warn("Account index not available; suggesting reviewers from DB");
+      return suggestAccountsFromDb(suggestReviewers, visibilityControl);
     }
-    return suggestAccountsFromDb(suggestReviewers, visibilityControl);
   }
 
   private Collection<AccountInfo> suggestAccountsFromIndex(

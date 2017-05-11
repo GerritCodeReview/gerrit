@@ -190,6 +190,9 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       // and included that in their limit computation.
       return new LimitPredicate<>(ChangeQueryBuilder.FIELD_LIMIT, opts.limit());
     } else if (!isRewritePossible(in)) {
+      if (in instanceof IndexPredicate) {
+        throw new QueryParseException("Unsupported index predicate: " + in.toString());
+      }
       return null; // magic to indicate "in" cannot be rewritten
     }
 

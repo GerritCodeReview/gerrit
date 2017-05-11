@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ede3abc4_b6cf7174",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-11T16:51:02Z",
+      "side": 1,
+      "message": "Why not add the keyBinding to the gr-change-list-view instead of the gr-change-list? That way the event can be omitted.",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 41
+      },
+      "revId": "ae5f02888f772309a9ad851575e79e98e32cda0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9c33413_d50e70e3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-11T16:51:02Z",
+      "side": 1,
+      "message": "If this is changed to ...\n\n \u0027shift+r\u0027: \u0027_handleShiftRKey\u0027,\n\n... then we should be able to skip the `KeyboardShortcutBehaviorImpl#shifted` method altogether.",
+      "range": {
+        "startLine": 108,
+        "startChar": 6,
+        "endLine": 108,
+        "endChar": 25
+      },
+      "revId": "ae5f02888f772309a9ad851575e79e98e32cda0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

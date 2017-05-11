@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32b2d03e_c42b4f93",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5797,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-11T09:37:20Z",
+      "side": 1,
+      "message": "[optional] You may realign the columns in this table for better readability.",
+      "revId": "a49841a9b1db8ba8d7c1a1cfdc0318760f8a11de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "729c15b5_3fc50c15",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5808,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-11T09:37:20Z",
+      "side": 1,
+      "message": "Names are lowercase_underscore in JSON: due_to_rebase",
+      "range": {
+        "startLine": 5808,
+        "startChar": 2,
+        "endLine": 5808,
+        "endChar": 13
+      },
+      "revId": "a49841a9b1db8ba8d7c1a1cfdc0318760f8a11de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "031513bd_acac391d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5808,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-11T09:37:20Z",
+      "side": 1,
+      "message": "For boolean values we usually say \"not set if `false`\"",
+      "range": {
+        "startLine": 5808,
+        "startChar": 15,
+        "endLine": 5808,
+        "endChar": 23
+      },
+      "revId": "a49841a9b1db8ba8d7c1a1cfdc0318760f8a11de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f16d7e19_61cfddc8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-11T09:37:20Z",
+      "side": 1,
+      "message": "The change that is rebased is empty, but shouldn\u0027t it contain the file that has only rebased hunks to verify that this file is not filtered out because it\u0027s not part of the change, but because it has only rebased hunks?",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 113,
+        "endChar": 3
+      },
+      "revId": "a49841a9b1db8ba8d7c1a1cfdc0318760f8a11de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6636bf22_9a2d6104",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-11T09:37:20Z",
+      "side": 1,
+      "message": "and",
+      "range": {
+        "startLine": 72,
+        "startChar": 66,
+        "endLine": 72,
+        "endChar": 67
+      },
+      "revId": "a49841a9b1db8ba8d7c1a1cfdc0318760f8a11de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cf8e8cc_10f5b54d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-11T09:37:20Z",
+      "side": 1,
+      "message": "Can this be an AutoValue class?",
+      "range": {
+        "startLine": 178,
+        "startChar": 23,
+        "endLine": 178,
+        "endChar": 39
+      },
+      "revId": "a49841a9b1db8ba8d7c1a1cfdc0318760f8a11de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d42c4a7_31f98be5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-11T09:37:20Z",
+      "side": 1,
+      "message": "[optional] replace this with \u0027ImmutableSet.copyOf(edits)\u0027?",
+      "range": {
+        "startLine": 308,
+        "startChar": 11,
+        "endLine": 308,
+        "endChar": 75
+      },
+      "revId": "a49841a9b1db8ba8d7c1a1cfdc0318760f8a11de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

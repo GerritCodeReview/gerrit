@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f18b5845_141be92b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-11T12:43:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2fca345_a9ad37eb",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f78dea4d_b3dd5e65",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-10T11:16:38Z",
       "side": 1,
       "message": "so it looks like this change does two separate things. Can you split this up in two independent changes?\n\nor does it only reject the cherry-pick if the destination is a change? The description doesnt\u0027 make it clear",
+      "range": {
+        "startLine": 20,
+        "startChar": 18,
+        "endLine": 20,
+        "endChar": 22
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f9fa8e5_1ef9897f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-11T12:43:33Z",
+      "side": 1,
+      "message": "It only rejects when the cherry-pick destination is a change.",
+      "parentUuid": "f78dea4d_b3dd5e65",
       "range": {
         "startLine": 20,
         "startChar": 18,
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "71b7257f_f0df1428",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5021,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-11T12:43:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "216a60bd_0a1d5ebb",
+      "range": {
+        "startLine": 5021,
+        "startChar": 0,
+        "endLine": 5021,
+        "endChar": 11
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7c20779_f6508b0f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5021,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-11T12:43:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c6cb5b7_94461343",
+      "range": {
+        "startLine": 5021,
+        "startChar": 45,
+        "endLine": 5021,
+        "endChar": 69
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55380b87_f45f45c0",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 1
@@ -114,6 +210,30 @@
       "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a018f0f_01d7123c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2077,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-11T12:43:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55380b87_f45f45c0",
+      "range": {
+        "startLine": 2077,
+        "startChar": 5,
+        "endLine": 2077,
+        "endChar": 9
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "0b8a0b95_85f1c82a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-11T12:43:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb832c2a_66c43061",
+      "range": {
+        "startLine": 697,
+        "startChar": 6,
+        "endLine": 697,
+        "endChar": 10
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcd3f106_0139e500",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPick.java",
         "patchSetId": 1
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "81fa0e26_a20a1df9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-11T12:43:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcd3f106_0139e500",
+      "range": {
+        "startLine": 75,
+        "startChar": 29,
+        "endLine": 75,
+        "endChar": 40
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3992dbf7_2347e5b1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickDestination.java",
         "patchSetId": 1
@@ -174,6 +342,30 @@
       "writtenOn": "2017-05-10T11:16:38Z",
       "side": 1,
       "message": "isChange ?",
+      "range": {
+        "startLine": 38,
+        "startChar": 25,
+        "endLine": 38,
+        "endChar": 27
+      },
+      "revId": "936fe0528cf6da086fa4a6c461ea20a970ce9023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "024ff1a9_567db30b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickDestination.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-11T12:43:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3992dbf7_2347e5b1",
       "range": {
         "startLine": 38,
         "startChar": 25,

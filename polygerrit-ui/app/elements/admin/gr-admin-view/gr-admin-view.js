@@ -20,5 +20,9 @@
     properties: {
       path: String,
     },
+
+    _showPeopleView(path) {
+      return path === '/admin/people';
+    },
   });
 })();

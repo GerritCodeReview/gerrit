@@ -71,6 +71,30 @@
       "revId": "97ad033aade0cb0b804aafcbbbb6197fb9aa3c8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3dc3535_1d8e408d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-11T12:52:03Z",
+      "side": 1,
+      "message": "Would indeed be nice if we could get rid of all the Matchable implementations in the ChangeIndexPredicates, but we are not there yet. At least if I naively remove all of them, some tests start failing and I didn\u0027t find a fast solution to fix them. Let\u0027s submit this change and see if we can do this cleanup later.",
+      "parentUuid": "d3b5fb96_3f406b4e",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "97ad033aade0cb0b804aafcbbbb6197fb9aa3c8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

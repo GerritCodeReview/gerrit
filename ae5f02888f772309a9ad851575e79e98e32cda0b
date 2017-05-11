@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "a9012c13_989855e2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-11T17:08:02Z",
+      "side": 1,
+      "message": "I think you\u0027d be better off just doing window.location.reload() here -- as far as I can tell from GWTUI, this shortcut functions as a soft page reload. We\u0027re sort of fibbing it by just reloading the whole page, but it\u0027s a quick and simple solution.",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 178,
+        "endChar": 62
+      },
+      "revId": "ae5f02888f772309a9ad851575e79e98e32cda0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e9c33413_d50e70e3",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 1

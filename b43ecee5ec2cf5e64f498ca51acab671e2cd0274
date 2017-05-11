@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "bf639186_2b1943ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-11T13:59:32Z",
+      "side": 1,
+      "message": "\u003e Reducing index lookups is of course good in terms of performance, but I don\u0027t see how this would help in case of a complete index failure.  Most REST endpoints make use of the index in some way, so wouldn\u0027t such a failure still render the site useless?\n\nWhen the index fails right now, we won\u0027t be able to serve the UI anymore (i.e. people can\u0027t even look at changes). When the project is part of the request path, we will at least be able to serve the UI as we can load the change directly from NoteDb using the project + numeric ID. Most of the REST endpoints need an index, so they won\u0027t be usable, but at least we can still serve changes and don\u0027t have to present a page that says: Outage :)\n\nPerformance is also a driver.\n\nI\u0027ve adapted the commit message so that this is reflected better.",
+      "parentUuid": "fd4601eb_2e46b14e",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "749bce42_0ca71497",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "writtenOn": "2017-05-10T10:43:18Z",
       "side": 1,
       "message": "did you intend to only remove \"legacy\"?",
+      "range": {
+        "startLine": 5206,
+        "startChar": 4,
+        "endLine": 5206,
+        "endChar": 19
+      },
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5a8170a_07c8b26e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5206,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-11T13:59:32Z",
+      "side": 1,
+      "message": "Yes :)",
+      "parentUuid": "749bce42_0ca71497",
       "range": {
         "startLine": 5206,
         "startChar": 4,
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "3b42935b_629aa478",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIdIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-11T13:59:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "432f757a_433eb206",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 23
+      },
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3b0ba17_ee1a025e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIdIT.java",
         "patchSetId": 1
@@ -106,6 +178,30 @@
       "writtenOn": "2017-05-10T13:45:45Z",
       "side": 1,
       "message": "Number?\n\nHere and below",
+      "range": {
+        "startLine": 36,
+        "startChar": 27,
+        "endLine": 36,
+        "endChar": 29
+      },
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "016c735f_e2a9dabf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIdIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-11T13:59:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3b0ba17_ee1a025e",
       "range": {
         "startLine": 36,
         "startChar": 27,
@@ -141,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "ab715ba9_1a0d5b06",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIdIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-11T13:59:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f9574a9_4f68cf7f",
+      "range": {
+        "startLine": 37,
+        "startChar": 39,
+        "endLine": 37,
+        "endChar": 52
+      },
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "719b4a02_0918a18f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIdIT.java",
         "patchSetId": 1
@@ -152,6 +272,30 @@
       "writtenOn": "2017-05-10T13:45:45Z",
       "side": 1,
       "message": "Should this be \u0027/+/\u0027 for better readability?",
+      "range": {
+        "startLine": 44,
+        "startChar": 47,
+        "endLine": 44,
+        "endChar": 50
+      },
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "108f2cc7_65170163",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIdIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-11T13:59:32Z",
+      "side": 1,
+      "message": "This is obsolete now.",
+      "parentUuid": "719b4a02_0918a18f",
       "range": {
         "startLine": 44,
         "startChar": 47,
@@ -187,6 +331,30 @@
     },
     {
       "key": {
+        "uuid": "ace3bc19_b6f486cf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIdIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-11T13:59:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d5a1383_11cf3758",
+      "range": {
+        "startLine": 52,
+        "startChar": 37,
+        "endLine": 52,
+        "endChar": 54
+      },
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ae3de7e_b5660b8f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIdIT.java",
         "patchSetId": 1
@@ -204,6 +372,24 @@
     },
     {
       "key": {
+        "uuid": "7e7e1cb7_9c018354",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIdIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-11T13:59:32Z",
+      "side": 1,
+      "message": "That was already there: numericChangeIdReturnsChange\n\nI\u0027ve renamed it to changeNumberReturnsChange",
+      "parentUuid": "2ae3de7e_b5660b8f",
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1f3fec9_1e9e9690",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInput.java",
         "patchSetId": 1
@@ -215,6 +401,24 @@
       "writtenOn": "2017-05-10T10:43:18Z",
       "side": 1,
       "message": "Add a javadoc since this is in the public extension API?",
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85ef7155_b2078612",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-11T13:59:32Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "c1f3fec9_1e9e9690",
       "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -244,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "e17a2ea1_79b311f0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/PathSplitter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-11T13:59:32Z",
+      "side": 1,
+      "message": "obsolete now",
+      "parentUuid": "cdc3cbbb_ab036f10",
+      "range": {
+        "startLine": 31,
+        "startChar": 5,
+        "endLine": 32,
+        "endChar": 12
+      },
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a9aa256_afc232bd",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/PathSplitter.java",
         "patchSetId": 1
@@ -261,6 +489,24 @@
     },
     {
       "key": {
+        "uuid": "5689aa3c_f7704513",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/PathSplitter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-11T13:59:32Z",
+      "side": 1,
+      "message": "obsolete now",
+      "parentUuid": "4a9aa256_afc232bd",
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db1a7023_910a962b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
         "patchSetId": 1
@@ -272,6 +518,30 @@
       "writtenOn": "2017-05-10T10:43:18Z",
       "side": 1,
       "message": "Make it public in PathSplitter and static import it in this class?",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 63
+      },
+      "revId": "b43ecee5ec2cf5e64f498ca51acab671e2cd0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c8f1b62_65296073",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-11T13:59:32Z",
+      "side": 1,
+      "message": "Removed instead.",
+      "parentUuid": "db1a7023_910a962b",
       "range": {
         "startLine": 43,
         "startChar": 2,

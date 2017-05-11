@@ -67,6 +67,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.change.ChangeInserter;
@@ -88,6 +89,8 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -138,6 +141,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     return cfg;
   }
 
+  @Inject protected AccountCache accountCache;
   @Inject protected AccountManager accountManager;
   @Inject protected AllUsersName allUsersName;
   @Inject protected BatchUpdate.Factory updateFactory;
@@ -151,6 +155,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected InMemoryRepositoryManager repoManager;
   @Inject protected InternalChangeQuery internalChangeQuery;
   @Inject protected ChangeNotes.Factory notesFactory;
+  @Inject protected OneOffRequestContext oneOffRequestContext;
   @Inject protected PatchSetInserter.Factory patchSetFactory;
   @Inject protected PatchSetUtil psUtil;
   @Inject protected ChangeControl.GenericFactory changeControlFactory;
@@ -2001,6 +2006,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("starredby:me", change2, change1);
   }
 
+  @Test
+  public void defaultFieldWithManyUsers() throws Exception {
+    for (int i = 0; i < ChangeQueryBuilder.MAX_ACCOUNTS_PER_DEFAULT_FIELD * 2; i++) {
+      createAccount("user" + i, "User " + i, "user" + i + "@example.com", true);
+    }
+    assertQuery("us");
+  }
+
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
     return newChange(repo, null, null, null, null);
   }
@@ -2203,5 +2216,22 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         ImmutableMap.<String, List<ReviewInput.CommentInput>>of(
             Patch.COMMIT_MSG, ImmutableList.<ReviewInput.CommentInput>of(comment));
     gApi.changes().id(changeId).current().review(input);
+  }
+
+  private Account.Id createAccount(String username, String fullName, String email, boolean active)
+      throws Exception {
+    try (ManualRequestContext ctx = oneOffRequestContext.open()) {
+      Account.Id id = accountManager.authenticate(AuthRequest.forUser(username)).getAccountId();
+      if (email != null) {
+        accountManager.link(id, AuthRequest.forEmail(email));
+      }
+      Account a = db.accounts().get(id);
+      a.setFullName(fullName);
+      a.setPreferredEmail(email);
+      a.setActive(active);
+      db.accounts().update(ImmutableList.of(a));
+      accountCache.evict(id);
+      return id;
+    }
   }
 }

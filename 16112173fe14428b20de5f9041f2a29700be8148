@@ -46,6 +46,30 @@
       "revId": "16112173fe14428b20de5f9041f2a29700be8148",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb1705d0_3d1aabdc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1361,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-11T20:09:33Z",
+      "side": 1,
+      "message": "The distinction is which methods are used by ChangeJson to render the set of fields that gets returned in dashboards: we cannot query the primary storage when rendering search results.\n\nIf this bit never goes into a dashboard, then it\u0027s ok to call notes() here. If it ever goes into a dashboard, we must first ensure it\u0027s populated from a stored field in the index.",
+      "parentUuid": "13eb03d2_0cc18e8f",
+      "range": {
+        "startLine": 1361,
+        "startChar": 10,
+        "endLine": 1361,
+        "endChar": 19
+      },
+      "revId": "16112173fe14428b20de5f9041f2a29700be8148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

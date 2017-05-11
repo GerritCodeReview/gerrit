@@ -38,6 +38,11 @@
       name: 'Plugins',
       capability: 'viewPlugins',
     },
+    {
+      url: '/admin/people',
+      name: 'People',
+      capability: 'modifyAccount',
+    },
   ];
 
   var DEFAULT_LINKS = [{
@@ -251,7 +256,8 @@
     },
 
     _loadAccountCapabilities: function() {
-      var params = ['createProject', 'createGroup', 'viewPlugins'];
+      var params =
+          ['createProject', 'createGroup', 'viewPlugins', 'modifyAccount'];
       return this.$.restAPI.getAccountCapabilities(params)
           .then(function(capabilities) {
         this._adminLinks = ADMIN_LINKS.filter(function(link) {

@@ -33,36 +33,36 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-reply-dialog tests', function() {
-    var element;
-    var changeNum;
-    var patchNum;
+  suite('gr-reply-dialog tests', () => {
+    let element;
+    let changeNum;
+    let patchNum;
 
-    var sandbox;
-    var getDraftCommentStub;
-    var setDraftCommentStub;
-    var eraseDraftCommentStub;
+    let sandbox;
+    let getDraftCommentStub;
+    let setDraftCommentStub;
+    let eraseDraftCommentStub;
 
-    var lastId = 0;
-    var makeAccount = function() { return {_account_id: lastId++}; };
-    var makeGroup = function() { return {id: lastId++}; };
+    let lastId = 0;
+    const makeAccount = function() { return {_account_id: lastId++}; };
+    const makeGroup = function() { return {id: lastId++}; };
 
-    setup(function() {
+    setup(() => {
       sandbox = sinon.sandbox.create();
 
       changeNum = 42;
       patchNum = 1;
 
       stub('gr-rest-api-interface', {
-        getConfig: function() { return Promise.resolve({}); },
-        getAccount: function() { return Promise.resolve({}); },
+        getConfig() { return Promise.resolve({}); },
+        getAccount() { return Promise.resolve({}); },
       });
 
       element = fixture('basic');
       element.change = {
         _number: changeNum,
         labels: {
-          Verified: {
+          'Verified': {
             values: {
               '-1': 'Fails',
               ' 0': 'No score',
@@ -89,7 +89,7 @@ limitations under the License.
           ' 0',
           '+1',
         ],
-        Verified: [
+        'Verified': [
           '-1',
           ' 0',
           '+1',
@@ -103,26 +103,25 @@ limitations under the License.
           'eraseDraftComment');
 
       sandbox.stub(element, 'fetchIsLatestKnown',
-          function() { return Promise.resolve(true); });
+          () => { return Promise.resolve(true); });
 
       // Allow the elements created by dom-repeat to be stamped.
       flushAsynchronousOperations();
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('default to publishing drafts with reply', function(done) {
+    test('default to publishing drafts with reply', done => {
       // Async tick is needed because iron-selector content is distributed and
       // distributed content requires an observer to be set up.
       // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
-      flush(function() {
-        flush(function() {
+      flush(() => {
+        flush(() => {
           element.draft = 'I wholeheartedly disapprove';
 
-          var saveReviewStub = sandbox.stub(element, '_saveReview',
-              function(review) {
+          sandbox.stub(element, '_saveReview', review => {
             assert.deepEqual(review, {
               drafts: 'PUBLISH_ALL_REVISIONS',
               labels: {},
@@ -136,26 +135,25 @@ limitations under the License.
 
           // This is needed on non-Blink engines most likely due to the ways in
           // which the dom-repeat elements are stamped.
-          flush(function() {
+          flush(() => {
             MockInteractions.tap(element.$$('.send'));
           });
         });
       });
     });
 
-    test('keep drafts with reply', function(done) {
+    test('keep drafts with reply', done => {
       MockInteractions.tap(element.$$('#includeComments'));
       assert.equal(element._includeComments, false);
 
       // Async tick is needed because iron-selector content is distributed and
       // distributed content requires an observer to be set up.
       // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
-      flush(function() {
-        flush(function() {
+      flush(() => {
+        flush(() => {
           element.draft = 'I wholeheartedly disapprove';
 
-          var saveReviewStub = sandbox.stub(element, '_saveReview',
-              function(review) {
+          sandbox.stub(element, '_saveReview', review => {
             assert.deepEqual(review, {
               drafts: 'KEEP',
               labels: {},
@@ -169,17 +167,16 @@ limitations under the License.
 
           // This is needed on non-Blink engines most likely due to the ways in
           // which the dom-repeat elements are stamped.
-          flush(function() {
+          flush(() => {
             MockInteractions.tap(element.$$('.send'));
           });
         });
       });
     });
 
-    test('label picker', function(done) {
+    test('label picker', done => {
       element.draft = 'I wholeheartedly disapprove';
-      var saveReviewStub = sandbox.stub(element, '_saveReview',
-          function(review) {
+      sandbox.stub(element, '_saveReview', review => {
         assert.deepEqual(review, {
           drafts: 'PUBLISH_ALL_REVISIONS',
           labels: {
@@ -192,14 +189,14 @@ limitations under the License.
         return Promise.resolve({ok: true});
       });
 
-      sandbox.stub(element.$.labelScores, 'getLabelValues', function() {
+      sandbox.stub(element.$.labelScores, 'getLabelValues', () => {
         return {
           'Code-Review': -1,
           'Verified': -1,
         };
       });
 
-      element.addEventListener('send', function() {
+      element.addEventListener('send', () => {
         assert.isFalse(element.disabled,
             'Element should be enabled when done sending reply.');
         assert.equal(element.draft.length, 0);
@@ -208,21 +205,21 @@ limitations under the License.
 
       // This is needed on non-Blink engines most likely due to the ways in
       // which the dom-repeat elements are stamped.
-      flush(function() {
+      flush(() => {
         MockInteractions.tap(element.$$('.send'));
         assert.isTrue(element.disabled);
       });
     });
 
-    test('setlabelValue', function() {
+    test('setlabelValue', () => {
       element._account = {_account_id: 1};
       flushAsynchronousOperations();
-      var label = 'Verified';
-      var value = '+1';
+      const label = 'Verified';
+      const value = '+1';
       element.setLabelValue(label, value);
       flushAsynchronousOperations();
-      var labels = element.$.labelScores.getLabelValues();
-      assert.deepEqual(labels, {'Verified': 1});
+      const labels = element.$.labelScores.getLabelValues();
+      assert.deepEqual(labels, {Verified: 1});
     });
 
     function getActiveElement() {
@@ -235,7 +232,7 @@ limitations under the License.
     }
 
     function overlayObserver(mode) {
-      return new Promise(function(resolve) {
+      return new Promise(resolve => {
         function listener() {
           element.removeEventListener('iron-overlay-' + mode, listener);
           resolve();
@@ -245,9 +242,9 @@ limitations under the License.
     }
 
     function testConfirmationDialog(done, cc) {
-      var yesButton =
+      const yesButton =
           element.$$('.reviewerConfirmationButtons gr-button:first-child');
-      var noButton =
+      const noButton =
           element.$$('.reviewerConfirmationButtons gr-button:last-child');
 
       element.serverConfig = {note_db_enabled: true};
@@ -257,19 +254,19 @@ limitations under the License.
       assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
 
       // Cause the confirmation dialog to display.
-      var observer = overlayObserver('opened');
-      var group = {
+      let observer = overlayObserver('opened');
+      const group = {
         id: 'id',
         name: 'name',
       };
       if (cc) {
         element._ccPendingConfirmation = {
-          group: group,
+          group,
           count: 10,
         };
       } else {
         element._reviewerPendingConfirmation = {
-          group: group,
+          group,
           count: 10,
         };
       }
@@ -285,16 +282,16 @@ limitations under the License.
             element._pendingConfirmationDetails);
       }
 
-      observer.then(function() {
+      observer.then(() => {
         assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
         observer = overlayObserver('closed');
-        var expected = 'Group name has 10 members';
+        const expected = 'Group name has 10 members';
         assert.notEqual(
             element.$.reviewerConfirmationOverlay.innerText.indexOf(expected),
             -1);
         MockInteractions.tap(noButton); // close the overlay
         return observer;
-      }).then(function() {
+      }).then(() => {
         assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
 
         // We should be focused on account entry input.
@@ -308,24 +305,24 @@ limitations under the License.
         observer = overlayObserver('opened');
         if (cc) {
           element._ccPendingConfirmation = {
-            group: group,
+            group,
             count: 10,
           };
         } else {
           element._reviewerPendingConfirmation = {
-            group: group,
+            group,
             count: 10,
           };
         }
         return observer;
-      }).then(function() {
+      }).then(() => {
         assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
         observer = overlayObserver('closed');
         MockInteractions.tap(yesButton); // Confirm the group.
         return observer;
-      }).then(function() {
+      }).then(() => {
         assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
-        var additions = cc ?
+        const additions = cc ?
             element.$$('#ccs').additions() :
             element.$.reviewers.additions();
         assert.deepEqual(
@@ -345,41 +342,41 @@ limitations under the License.
         // We should be focused on account entry input.
         assert.equal(getActiveElement().id, 'input');
       }).then(done);
-    };
+    }
 
-    test('cc confirmation', function(done) {
+    test('cc confirmation', done => {
       testConfirmationDialog(done, true);
     });
 
-    test('reviewer confirmation', function(done) {
+    test('reviewer confirmation', done => {
       testConfirmationDialog(done, false);
     });
 
-    test('_getStorageLocation', function() {
-      var actual = element._getStorageLocation();
+    test('_getStorageLocation', () => {
+      const actual = element._getStorageLocation();
       assert.equal(actual.changeNum, changeNum);
       assert.equal(actual.patchNum, patchNum);
       assert.equal(actual.path, '@change');
     });
 
-    test('gets draft from storage on open', function() {
-      var storedDraft = 'hello world';
+    test('gets draft from storage on open', () => {
+      const storedDraft = 'hello world';
       getDraftCommentStub.returns({message: storedDraft});
       element.open();
       assert.isTrue(getDraftCommentStub.called);
       assert.equal(element.draft, storedDraft);
     });
 
-    test('blank if no stored draft', function() {
+    test('blank if no stored draft', () => {
       getDraftCommentStub.returns(null);
       element.open();
       assert.isTrue(getDraftCommentStub.called);
       assert.equal(element.draft, '');
     });
 
-    test('updates stored draft on edits', function() {
-      var firstEdit = 'hello';
-      var location = element._getStorageLocation();
+    test('updates stored draft on edits', () => {
+      const firstEdit = 'hello';
+      const location = element._getStorageLocation();
 
       element.draft = firstEdit;
       element.flushDebouncer('store');
@@ -392,32 +389,32 @@ limitations under the License.
       assert.isTrue(eraseDraftCommentStub.calledWith(location));
     });
 
-    test('400 converts to human-readable server-error', function(done) {
-      sandbox.stub(window, 'fetch', function() {
-        var text = '....{"reviewers":{"id1":{"error":"first error"}},' +
+    test('400 converts to human-readable server-error', done => {
+      sandbox.stub(window, 'fetch', () => {
+        const text = '....{"reviewers":{"id1":{"error":"first error"}},' +
           '"ccs":{"id2":{"error":"second error"}}}';
         return Promise.resolve({
           ok: false,
           status: 400,
-          text: function() { return Promise.resolve(text); },
+          text() { return Promise.resolve(text); },
         });
       });
 
-      element.addEventListener('server-error', function(event) {
+      element.addEventListener('server-error', event => {
         if (event.target !== element) {
           return;
         }
-        event.detail.response.text().then(function(body) {
+        event.detail.response.text().then(body => {
           assert.equal(body, 'first error, second error');
         });
       });
 
       // Async tick is needed because iron-selector content is distributed and
       // distributed content requires an observer to be set up.
-      flush(function() { element.send().then(done); });
+      flush(() => { element.send().then(done); });
     });
 
-    test('ccs are displayed if NoteDb is enabled', function() {
+    test('ccs are displayed if NoteDb is enabled', () => {
       function hasCc() {
         flushAsynchronousOperations();
         return !!element.$$('#ccs');
@@ -430,12 +427,12 @@ limitations under the License.
       assert.isTrue(hasCc());
     });
 
-    test('filterReviewerSuggestion', function() {
-      var owner = makeAccount();
-      var reviewer1 = makeAccount();
-      var reviewer2 = makeGroup();
-      var cc1 = makeAccount();
-      var cc2 = makeGroup();
+    test('filterReviewerSuggestion', () => {
+      const owner = makeAccount();
+      const reviewer1 = makeAccount();
+      const reviewer2 = makeGroup();
+      const cc1 = makeAccount();
+      const cc2 = makeGroup();
 
       element._owner = owner;
       element._reviewers = [reviewer1, reviewer2];
@@ -457,7 +454,7 @@ limitations under the License.
       assert.isFalse(element._filterReviewerSuggestion({group: cc2}));
     });
 
-    test('_chooseFocusTarget', function() {
+    test('_chooseFocusTarget', () => {
       element._account = null;
       assert.strictEqual(
           element._chooseFocusTarget(), element.FocusTarget.BODY);
@@ -484,15 +481,14 @@ limitations under the License.
           element._chooseFocusTarget(), element.FocusTarget.BODY);
     });
 
-    test('only send labels that have changed', function(done) {
-      flush(function() {
-        var saveReviewStub = sandbox.stub(element, '_saveReview',
-            function(review) {
+    test('only send labels that have changed', done => {
+      flush(() => {
+        sandbox.stub(element, '_saveReview', review => {
           assert.deepEqual(review.labels, {Verified: -1});
           return Promise.resolve({ok: true});
         });
 
-        element.addEventListener('send', function() {
+        element.addEventListener('send', () => {
           done();
         });
         // Without wrapping this test in flush(), the below two calls to
@@ -507,16 +503,16 @@ limitations under the License.
       });
     });
 
-    test('do not display tooltips on touch devices', function() {
+    test('do not display tooltips on touch devices', () => {
       element._account = {_account_id: 1};
       element.set(['change', 'labels', 'Verified', 'all'],
           [{_account_id: 1, value: -1}]);
       element.labels = {
-        Verified: {
+        'Verified': {
           values: {
             '-1': 'Fails',
             ' 0': 'No score',
-            '+1': 'Verified'
+            '+1': 'Verified',
           },
           default_value: 0,
         },
@@ -526,7 +522,7 @@ limitations under the License.
             '-1': 'I would prefer that you didn\'t submit this',
             ' 0': 'No score',
             '+1': 'Looks good to me, but someone else must approve',
-            '+2': 'Looks good to me, approved'
+            '+2': 'Looks good to me, approved',
           },
           default_value: 0,
         },
@@ -534,7 +530,7 @@ limitations under the License.
 
       flushAsynchronousOperations();
 
-      var verifiedBtn = element.$$('gr-label-scores').$$(
+      const verifiedBtn = element.$$('gr-label-scores').$$(
           'iron-selector[data-label="Verified"] > ' +
           'gr-button[data-value="-1"]');
 
@@ -553,8 +549,8 @@ limitations under the License.
       assert.isNotOk(verifiedBtn._tooltip);
     });
 
-    test('_processReviewerChange', function() {
-      var mockIndexSplices = function(toRemove) {
+    test('_processReviewerChange', () => {
+      const mockIndexSplices = function(toRemove) {
         return [{
           removed: [toRemove],
         }];
@@ -565,16 +561,16 @@ limitations under the License.
       assert.equal(element._reviewersPendingRemove.REVIEWER.length, 1);
     });
 
-    test('_purgeReviewersPendingRemove', function() {
-      var removeStub = sandbox.stub(element, '_removeAccount');
-      var mock = function() {
+    test('_purgeReviewersPendingRemove', () => {
+      const removeStub = sandbox.stub(element, '_removeAccount');
+      const mock = function() {
         element._reviewersPendingRemove = {
           test: [makeAccount()],
           test2: [makeAccount(), makeAccount()],
         };
       };
-      var checkObjEmpty = function(obj) {
-        for (var prop in obj) {
+      const checkObjEmpty = function(obj) {
+        for (const prop in obj) {
           if (obj.hasOwnProperty(prop) && obj[prop].length) { return false; }
         }
         return true;
@@ -590,48 +586,46 @@ limitations under the License.
       assert.isTrue(checkObjEmpty(element._reviewersPendingRemove));
     });
 
-    test('_removeAccount', function(done) {
+    test('_removeAccount', done => {
       sandbox.stub(element.$.restAPI, 'removeChangeReviewer')
           .returns(Promise.resolve({ok: true}));
-      var arr = [makeAccount(), makeAccount()];
+      const arr = [makeAccount(), makeAccount()];
       element.change.reviewers = {
         REVIEWER: arr.slice(),
       };
 
-      element._removeAccount(arr[1], 'REVIEWER').then(function() {
+      element._removeAccount(arr[1], 'REVIEWER').then(() => {
         assert.equal(element.change.reviewers.REVIEWER.length, 1);
         assert.deepEqual(element.change.reviewers.REVIEWER, arr.slice(0, 1));
         done();
       });
     });
 
-    test('migrate reviewers between states', function(done) {
+    test('migrate reviewers between states', done => {
       element.serverConfig = {note_db_enabled: true};
       element._reviewersPendingRemove = {
         CC: [],
         REVIEWER: [],
       };
       flushAsynchronousOperations();
-      var reviewers = element.$.reviewers;
-      var ccs = element.$$('#ccs');
-      var reviewer1 = makeAccount();
-      var reviewer2 = makeAccount();
-      var cc1 = makeAccount();
-      var cc2 = makeAccount();
+      const reviewers = element.$.reviewers;
+      const ccs = element.$$('#ccs');
+      const reviewer1 = makeAccount();
+      const reviewer2 = makeAccount();
+      const cc1 = makeAccount();
+      const cc2 = makeAccount();
       element._reviewers = [reviewer1, reviewer2];
       element._ccs = [cc1, cc2];
 
-      var mutations = [];
+      const mutations = [];
 
-      var saveReviewStub = sandbox.stub(element, '_saveReview',
-          function(review) {
-        mutations.push.apply(mutations, review.reviewers);
+      sandbox.stub(element, '_saveReview', review => {
+        mutations.push(...review.reviewers);
         return Promise.resolve({ok: true});
       });
 
-      var removeAccountStub = sandbox.stub(element, '_removeAccount',
-          function(account, type) {
-        mutations.push({state: 'REMOVED', account: account});
+      sandbox.stub(element, '_removeAccount', (account, type) => {
+        mutations.push({state: 'REMOVED', account});
         return Promise.resolve();
       });
 
@@ -645,8 +639,8 @@ limitations under the License.
       // (Currently not possible in UI, but this is a good consistency check).
       reviewers.$.entry.fire('add', {value: {account: cc2}});
       ccs.$.entry.fire('add', {value: {account: reviewer2}});
-      var mapReviewer = function(reviewer, opt_state) {
-        var result = {reviewer: reviewer._account_id, confirmed: undefined};
+      const mapReviewer = function(reviewer, opt_state) {
+        const result = {reviewer: reviewer._account_id, confirmed: undefined};
         if (opt_state) {
           result.state = opt_state;
         }
@@ -656,20 +650,20 @@ limitations under the License.
       // Send and purge and verify moves without deletions.
       element.send()
           .then(element._purgeReviewersPendingRemove.bind(element))
-          .then(function() {
-        assert.deepEqual(
-            mutations, [
-                mapReviewer(cc1),
-                mapReviewer(cc2),
-                mapReviewer(reviewer1, 'CC'),
-                mapReviewer(reviewer2, 'CC'),
-            ]);
-        done();
-      });
+          .then(() => {
+            assert.deepEqual(
+                mutations, [
+                  mapReviewer(cc1),
+                  mapReviewer(cc2),
+                  mapReviewer(reviewer1, 'CC'),
+                  mapReviewer(reviewer2, 'CC'),
+                ]);
+            done();
+          });
     });
 
-    test('emits cancel on esc key', function() {
-      var cancelHandler = sandbox.spy();
+    test('emits cancel on esc key', () => {
+      const cancelHandler = sandbox.spy();
       element.addEventListener('cancel', cancelHandler);
       MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'esc');
       flushAsynchronousOperations();
@@ -677,7 +671,7 @@ limitations under the License.
       assert.isTrue(cancelHandler.called);
     });
 
-    test('_computeMessagePlaceholder', function() {
+    test('_computeMessagePlaceholder', () => {
       assert.equal(
           element._computeMessagePlaceholder(false),
           'Say something nice...');
@@ -686,7 +680,7 @@ limitations under the License.
           'Add a note for your reviewers...');
     });
 
-    test('_computeSendButtonLabel', function() {
+    test('_computeSendButtonLabel', () => {
       assert.equal(
           element._computeSendButtonLabel(false),
           'Send');

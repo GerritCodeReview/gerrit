@@ -14,21 +14,21 @@
 (function() {
   'use strict';
 
-  var STORAGE_DEBOUNCE_INTERVAL_MS = 400;
+  const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
-  var FocusTarget = {
+  const FocusTarget = {
     ANY: 'any',
     BODY: 'body',
     CCS: 'cc',
     REVIEWERS: 'reviewers',
   };
 
-  var ReviewerTypes = {
+  const ReviewerTypes = {
     REVIEWER: 'REVIEWER',
     CC: 'CC',
   };
 
-  var LatestPatchState = {
+  const LatestPatchState = {
     LATEST: 'latest',
     CHECKING: 'checking',
     NOT_LATEST: 'not-latest',
@@ -86,7 +86,7 @@
       diffDrafts: Object,
       filterReviewerSuggestion: {
         type: Function,
-        value: function() {
+        value() {
           return this._filterReviewerSuggestion.bind(this);
         },
       },
@@ -138,7 +138,7 @@
       },
     },
 
-    FocusTarget: FocusTarget,
+    FocusTarget,
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
@@ -148,7 +148,7 @@
     ],
 
     keyBindings: {
-      'esc': '_handleEscKey',
+      esc: '_handleEscKey',
     },
 
     observers: [
@@ -157,23 +157,23 @@
       '_reviewersChanged(_reviewers.splices)',
     ],
 
-    attached: function() {
-      this._getAccount().then(function(account) {
+    attached() {
+      this._getAccount().then(account => {
         this._account = account || {};
-      }.bind(this));
+      });
     },
 
-    ready: function() {
+    ready() {
       this.$.jsAPI.addElement(this.$.jsAPI.Element.REPLY_DIALOG, this);
     },
 
-    open: function(opt_focusTarget) {
+    open(opt_focusTarget) {
       this.knownLatestState = LatestPatchState.CHECKING;
       this.fetchIsLatestKnown(this.change, this.$.restAPI)
-          .then(function(isUpToDate) {
+          .then(isUpToDate => {
             this.knownLatestState = isUpToDate ?
                 LatestPatchState.LATEST : LatestPatchState.NOT_LATEST;
-          }.bind(this));
+          });
 
       this._focusOn(opt_focusTarget);
       if (!this.draft || !this.draft.length) {
@@ -181,54 +181,54 @@
       }
     },
 
-    focus: function() {
+    focus() {
       this._focusOn(FocusTarget.ANY);
     },
 
-    getFocusStops: function() {
+    getFocusStops() {
       return {
         start: this.$.reviewers.focusStart,
         end: this.$.cancelButton,
       };
     },
 
-    setLabelValue: function(label, value) {
-      var selectorEl =
+    setLabelValue(label, value) {
+      const selectorEl =
           this.$.labelScores.$$('iron-selector[data-label="' + label + '"]');
       // The selector may not be present if it’s not at the latest patch set.
       if (!selectorEl) { return; }
-      var item = selectorEl.$$('gr-button[data-value="' + value + '"]');
+      const item = selectorEl.$$('gr-button[data-value="' + value + '"]');
       if (!item) { return; }
       selectorEl.selectIndex(selectorEl.indexOf(item));
     },
 
-    _handleEscKey: function(e) {
+    _handleEscKey(e) {
       this.cancel();
     },
 
-    _ccsChanged: function(splices) {
+    _ccsChanged(splices) {
       if (splices && splices.indexSplices) {
         this._processReviewerChange(splices.indexSplices, ReviewerTypes.CC);
       }
     },
 
-    _reviewersChanged: function(splices) {
+    _reviewersChanged(splices) {
       if (splices && splices.indexSplices) {
         this._processReviewerChange(splices.indexSplices,
             ReviewerTypes.REVIEWER);
       }
     },
 
-    _processReviewerChange: function(indexSplices, type) {
-      indexSplices.forEach(function(splice) {
-        splice.removed.forEach(function(account) {
+    _processReviewerChange(indexSplices, type) {
+      for (const splice of indexSplices) {
+        for (const account of splice.removed) {
           if (!this._reviewersPendingRemove[type]) {
             console.err('Invalid type ' + type + ' for reviewer.');
             return;
           }
           this._reviewersPendingRemove[type].push(account);
-        }.bind(this));
-      }.bind(this));
+        }
+      }
     },
 
     /**
@@ -239,15 +239,14 @@
      * @param {Object} opt_accountIdsTransferred map of account IDs that must
      *     not be removed, because they have been readded in another state.
      */
-    _purgeReviewersPendingRemove: function(isCancel,
-        opt_accountIdsTransferred) {
-      var reviewerArr;
-      var keep = opt_accountIdsTransferred || {};
-      for (var type in this._reviewersPendingRemove) {
+    _purgeReviewersPendingRemove(isCancel, opt_accountIdsTransferred) {
+      let reviewerArr;
+      const keep = opt_accountIdsTransferred || {};
+      for (const type in this._reviewersPendingRemove) {
         if (this._reviewersPendingRemove.hasOwnProperty(type)) {
           if (!isCancel) {
             reviewerArr = this._reviewersPendingRemove[type];
-            for (var i = 0; i < reviewerArr.length; i++) {
+            for (let i = 0; i < reviewerArr.length; i++) {
               if (!keep[reviewerArr[i]._account_id]) {
                 this._removeAccount(reviewerArr[i], type);
               }
@@ -265,76 +264,76 @@
      * @param {Object} account
      * @param {ReviewerTypes} type
      */
-    _removeAccount: function(account, type) {
+    _removeAccount(account, type) {
       if (account._pendingAdd) { return; }
 
       return this.$.restAPI.removeChangeReviewer(this.change._number,
-          account._account_id).then(function(response) {
-        if (!response.ok) { return response; }
+          account._account_id).then(response => {
+            if (!response.ok) { return response; }
 
-        var reviewers = this.change.reviewers[type] || [];
-        for (var i = 0; i < reviewers.length; i++) {
-          if (reviewers[i]._account_id == account._account_id) {
-            this.splice(['change', 'reviewers', type], i, 1);
-            break;
-          }
-        }
-      }.bind(this));
+            const reviewers = this.change.reviewers[type] || [];
+            for (let i = 0; i < reviewers.length; i++) {
+              if (reviewers[i]._account_id == account._account_id) {
+                this.splice(['change', 'reviewers', type], i, 1);
+                break;
+              }
+            }
+          });
     },
 
-    _mapReviewer: function(reviewer) {
-      var reviewerId;
-      var confirmed;
+    _mapReviewer(reviewer) {
+      let reviewerId;
+      let confirmed;
       if (reviewer.account) {
         reviewerId = reviewer.account._account_id || reviewer.account.email;
       } else if (reviewer.group) {
         reviewerId = reviewer.group.id;
         confirmed = reviewer.group.confirmed;
       }
-      return {reviewer: reviewerId, confirmed: confirmed};
+      return {reviewer: reviewerId, confirmed};
     },
 
-    send: function(includeComments) {
+    send(includeComments) {
       if (this.knownLatestState === 'not-latest') {
         this.fire('show-alert',
             {message: 'Cannot reply to non-latest patch.'});
         return;
       }
 
-      var labels = this.$.labelScores.getLabelValues();
+      const labels = this.$.labelScores.getLabelValues();
 
-      var obj = {
+      const obj = {
         drafts: includeComments ? 'PUBLISH_ALL_REVISIONS' : 'KEEP',
-        labels: labels,
+        labels,
       };
 
       if (this.draft != null) {
         obj.message = this.draft;
       }
 
-      var accountAdditions = {};
-      obj.reviewers = this.$.reviewers.additions().map(function(reviewer) {
+      const accountAdditions = {};
+      obj.reviewers = this.$.reviewers.additions().map(reviewer => {
         if (reviewer.account) {
           accountAdditions[reviewer.account._account_id] = true;
         }
         return this._mapReviewer(reviewer);
-      }.bind(this));
-      var ccsEl = this.$$('#ccs');
+      });
+      const ccsEl = this.$$('#ccs');
       if (ccsEl) {
-        ccsEl.additions().forEach(function(reviewer) {
+        for (let reviewer of ccsEl.additions()) {
           if (reviewer.account) {
             accountAdditions[reviewer.account._account_id] = true;
           }
           reviewer = this._mapReviewer(reviewer);
           reviewer.state = 'CC';
           obj.reviewers.push(reviewer);
-        }.bind(this));
+        }
       }
 
       this.disabled = true;
 
-      var errFn = this._handle400Error.bind(this);
-      return this._saveReview(obj, errFn).then(function(response) {
+      const errFn = this._handle400Error.bind(this);
+      return this._saveReview(obj, errFn).then(response => {
         if (!response || !response.ok) {
           return response;
         }
@@ -343,29 +342,29 @@
         this._includeComments = true;
         this.fire('send', null, {bubbles: false});
         return accountAdditions;
-      }.bind(this)).catch(function(err) {
+      }).catch(err => {
         this.disabled = false;
         throw err;
-      }.bind(this));
+      });
     },
 
-    _focusOn: function(section) {
+    _focusOn(section) {
       if (section === FocusTarget.ANY) {
         section = this._chooseFocusTarget();
       }
       if (section === FocusTarget.BODY) {
-        var textarea = this.$.textarea;
+        const textarea = this.$.textarea;
         textarea.async(textarea.textarea.focus.bind(textarea.textarea));
       } else if (section === FocusTarget.REVIEWERS) {
-        var reviewerEntry = this.$.reviewers.focusStart;
+        const reviewerEntry = this.$.reviewers.focusStart;
         reviewerEntry.async(reviewerEntry.focus);
       } else if (section === FocusTarget.CCS) {
-        var ccEntry = this.$$('#ccs').focusStart;
+        const ccEntry = this.$$('#ccs').focusStart;
         ccEntry.async(ccEntry.focus);
       }
     },
 
-    _chooseFocusTarget: function() {
+    _chooseFocusTarget() {
       // If we are the owner and the reviewers field is empty, focus on that.
       if (this._account && this.change && this.change.owner &&
           this._account._account_id === this.change.owner._account_id &&
@@ -377,7 +376,7 @@
       return FocusTarget.BODY;
     },
 
-    _handle400Error: function(response) {
+    _handle400Error(response) {
       // A call to _saveReview could fail with a server error if erroneous
       // reviewers were requested. This is signalled with a 400 Bad Request
       // status. The default gr-rest-api-interface error handling would
@@ -393,80 +392,83 @@
 
       if (response.status !== 400) {
         // This is all restAPI does when there is no custom error handling.
-        this.fire('server-error', {response: response});
+        this.fire('server-error', {response});
         return response;
       }
 
       // Process the response body, format a better error message, and fire
       // an event for gr-event-manager to display.
-      var jsonPromise = this.$.restAPI.getResponseObject(response);
-      return jsonPromise.then(function(result) {
-        var errors = [];
-        ['reviewers', 'ccs'].forEach(function(state) {
-          for (var input in result[state]) {
-            var reviewer = result[state][input];
-            if (!!reviewer.error) {
+      const jsonPromise = this.$.restAPI.getResponseObject(response);
+      return jsonPromise.then(result => {
+        const errors = [];
+        for (const state of ['reviewers', 'ccs']) {
+          for (const reviewer of result[state]) {
+            if (reviewer.error) {
               errors.push(reviewer.error);
             }
           }
-        });
+        }
         response = {
           ok: false,
           status: response.status,
-          text: function() { return Promise.resolve(errors.join(', ')); },
+          text() { return Promise.resolve(errors.join(', ')); },
         };
-        this.fire('server-error', {response: response});
-      }.bind(this));
+        this.fire('server-error', {response});
+      });
     },
 
-    _computeHideDraftList: function(drafts) {
+    _computeHideDraftList(drafts) {
       return Object.keys(drafts || {}).length == 0;
     },
 
-    _computeDraftsTitle: function(drafts) {
-      var total = 0;
-      for (var file in drafts) {
-        total += drafts[file].length;
+    _computeDraftsTitle(drafts) {
+      let total = 0;
+      for (const file in drafts) {
+        if (drafts.hasOwnProperty(file)) {
+          total += drafts[file].length;
+        }
       }
       if (total == 0) { return ''; }
       if (total == 1) { return '1 Draft'; }
       if (total > 1) { return total + ' Drafts'; }
     },
 
-    _computeMessagePlaceholder: function(canBeStarted) {
+    _computeMessagePlaceholder(canBeStarted) {
       return canBeStarted ?
         'Add a note for your reviewers...' :
         'Say something nice...';
     },
 
-    _changeUpdated: function(changeRecord, owner, serverConfig) {
+    _changeUpdated(changeRecord, owner, serverConfig) {
       this._rebuildReviewerArrays(changeRecord.base, owner, serverConfig);
     },
 
-    _rebuildReviewerArrays: function(change, owner, serverConfig) {
+    _rebuildReviewerArrays(change, owner, serverConfig) {
       this._owner = owner;
 
-      var reviewers = [];
-      var ccs = [];
+      let reviewers = [];
+      const ccs = [];
 
-      for (var key in change) {
-        if (key !== 'REVIEWER' && key !== 'CC') {
-          console.warn('unexpected reviewer state:', key);
-          continue;
+      for (const key in change) {
+        if (change.hasOwnProperty(key)) {
+          if (key !== 'REVIEWER' && key !== 'CC') {
+            console.warn('unexpected reviewer state:', key);
+            continue;
+          }
+          for (const entry of change[key]) {
+            if (entry._account_id === owner._account_id) {
+              return;
+            }
+            switch (key) {
+              case 'REVIEWER':
+                reviewers.push(entry);
+                break;
+              case 'CC':
+                ccs.push(entry);
+                break;
+            }
+          }
         }
-        change[key].forEach(function(entry) {
-          if (entry._account_id === owner._account_id) {
-            return;
-          }
-          switch (key) {
-            case 'REVIEWER':
-              reviewers.push(entry);
-              break;
-            case 'CC':
-              ccs.push(entry);
-              break;
-          }
-        });
       }
 
       if (serverConfig.note_db_enabled) {
@@ -478,12 +480,12 @@
       this._reviewers = reviewers;
     },
 
-    _accountOrGroupKey: function(entry) {
+    _accountOrGroupKey(entry) {
       return entry.id || entry._account_id;
     },
 
-    _filterReviewerSuggestion: function(suggestion) {
-      var entry;
+    _filterReviewerSuggestion(suggestion) {
+      let entry;
       if (suggestion.account) {
         entry = suggestion.account;
       } else if (suggestion.group) {
@@ -496,8 +498,8 @@
         return false;
       }
 
-      var key = this._accountOrGroupKey(entry);
-      var finder = function(entry) {
+      const key = this._accountOrGroupKey(entry);
+      const finder = function(entry) {
         return this._accountOrGroupKey(entry) === key;
       }.bind(this);
 
@@ -505,56 +507,56 @@
           this._ccs.find(finder) === undefined;
     },
 
-    _getAccount: function() {
+    _getAccount() {
       return this.$.restAPI.getAccount();
     },
 
-    _cancelTapHandler: function(e) {
+    _cancelTapHandler(e) {
       e.preventDefault();
       this.cancel();
     },
 
-    cancel: function() {
+    cancel() {
       this.fire('cancel', null, {bubbles: false});
       this._purgeReviewersPendingRemove(true);
       this._rebuildReviewerArrays(this.change.reviewers, this._owner,
           this.serverConfig);
     },
 
-    _saveTapHandler: function(e) {
+    _saveTapHandler(e) {
       e.preventDefault();
-      this.send(this._includeComments).then(function(keepReviewers) {
+      this.send(this._includeComments).then(keepReviewers => {
         this._purgeReviewersPendingRemove(false, keepReviewers);
-      }.bind(this));
+      });
     },
 
-    _sendTapHandler: function(e) {
+    _sendTapHandler(e) {
       e.preventDefault();
       if (this.canBeStarted) {
         this._startReview()
-          .then(function() {
-            return this.send(this._includeComments);
-          }.bind(this))
-          .then(this._purgeReviewersPendingRemove.bind(this));
+            .then(() => {
+              return this.send(this._includeComments);
+            })
+            .then(this._purgeReviewersPendingRemove.bind(this));
         return;
       }
       this.send(this._includeComments)
-        .then(this._purgeReviewersPendingRemove.bind(this));
+          .then(this._purgeReviewersPendingRemove.bind(this));
     },
 
-    _saveReview: function(review, opt_errFn) {
+    _saveReview(review, opt_errFn) {
       return this.$.restAPI.saveChangeReview(this.change._number, this.patchNum,
           review, opt_errFn);
     },
 
-    _startReview: function() {
+    _startReview() {
       if (!this.canBeStarted) {
         return Promise.resolve();
       }
       return this.$.restAPI.startReview(this.change._number);
     },
 
-    _reviewerPendingConfirmationUpdated: function(reviewer) {
+    _reviewerPendingConfirmationUpdated(reviewer) {
       if (reviewer === null) {
         this.$.reviewerConfirmationOverlay.close();
       } else {
@@ -564,7 +566,7 @@
       }
     },
 
-    _confirmPendingReviewer: function() {
+    _confirmPendingReviewer() {
       if (this._ccPendingConfirmation) {
         this.$$('#ccs').confirmGroup(this._ccPendingConfirmation.group);
         this._focusOn(FocusTarget.CCS);
@@ -574,16 +576,16 @@
       }
     },
 
-    _cancelPendingReviewer: function() {
+    _cancelPendingReviewer() {
       this._ccPendingConfirmation = null;
       this._reviewerPendingConfirmation = null;
 
-      var target =
+      const target =
           this._ccPendingConfirmation ? FocusTarget.CCS : FocusTarget.REVIEWERS;
       this._focusOn(target);
     },
 
-    _getStorageLocation: function() {
+    _getStorageLocation() {
       // Tests trigger this method without setting change.
       if (!this.change) { return {}; }
       return {
@@ -593,13 +595,13 @@
       };
     },
 
-    _loadStoredDraft: function() {
-      var draft = this.$.storage.getDraftComment(this._getStorageLocation());
+    _loadStoredDraft() {
+      const draft = this.$.storage.getDraftComment(this._getStorageLocation());
       return draft ? draft.message : '';
     },
 
-    _draftChanged: function(newDraft, oldDraft) {
-      this.debounce('store', function() {
+    _draftChanged(newDraft, oldDraft) {
+      this.debounce('store', () => {
         if (!newDraft.length && oldDraft) {
           // If the draft has been modified to be empty, then erase the storage
           // entry.
@@ -611,24 +613,24 @@
       }, STORAGE_DEBOUNCE_INTERVAL_MS);
     },
 
-    _handleHeightChanged: function(e) {
+    _handleHeightChanged(e) {
       // If the textarea resizes, we need to re-fit the overlay.
-      this.debounce('autogrow', function() {
+      this.debounce('autogrow', () => {
         this.fire('autogrow');
       });
     },
 
-    _isState: function(knownLatestState, value) {
+    _isState(knownLatestState, value) {
       return knownLatestState === value;
     },
 
-    _reload: function() {
+    _reload() {
       // Load the current change without any patch range.
       location.href = this.getBaseUrl() + '/c/' + this.change._number;
     },
 
-    _computeSendButtonLabel: function(canBeStarted) {
-      return canBeStarted ? "Start review" : "Send";
+    _computeSendButtonLabel(canBeStarted) {
+      return canBeStarted ? 'Start review' : 'Send';
     },
   });
 })();

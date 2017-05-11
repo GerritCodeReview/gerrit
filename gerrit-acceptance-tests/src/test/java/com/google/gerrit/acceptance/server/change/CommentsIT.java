@@ -64,7 +64,6 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -861,8 +860,7 @@ public class CommentsIT extends AbstractDaemonTest {
     return comment;
   }
 
-  private List<RevCommit> getCommits(Change.Id changeId)
-      throws IOException, ConfigInvalidException {
+  private List<RevCommit> getCommits(Change.Id changeId) throws IOException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
       Ref metaRef = repo.exactRef(RefNames.changeMetaRef(changeId));

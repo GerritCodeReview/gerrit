@@ -119,7 +119,7 @@
     },
 
     _getReviewerSuggestions(input) {
-      if (!this.change) { return Promise.resolve([]); }
+      if (!this.change && !this.allowAnyUser) { return Promise.resolve([]); }
       const api = this.$.restAPI;
       const xhr = this.allowAnyUser ?
           api.getSuggestedAccounts(input) :

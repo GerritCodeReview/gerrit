@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "693b6410_76488b77",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/StaleLibraryRemover.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-11T05:35:33Z",
+      "side": 1,
+      "message": "An alternative I considered is to delete the destination file if it already exists, but decided it\u0027s better to just warn the user and let them delete it manually.",
+      "revId": "4ebd0a3251d797c7c6d9e5c4ce575115a81fe368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

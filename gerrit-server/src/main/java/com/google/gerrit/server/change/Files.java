@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -259,13 +260,18 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
           ObjectReader reader = git.newObjectReader();
           RevWalk rw = new RevWalk(reader);
           TreeWalk tw = new TreeWalk(reader)) {
-        PatchList oldList = patchListCache.get(
-            resource.getChange(),
-            psUtil.get(db.get(), resource.getNotes(), old));
+        Change change = resource.getChange();
+        PatchSet patchSet = psUtil.get(db.get(), resource.getNotes(), old);
+        if (patchSet == null) {
+          throw new PatchListNotAvailableException(
+              String.format(
+                  "patch set %s of change %s not found",
+                  old.get(), change.getId().get()));
+        }
 
-        PatchList curList = patchListCache.get(
-            resource.getChange(),
-            resource.getPatchSet());
+        PatchList oldList = patchListCache.get(change, patchSet);
+
+        PatchList curList = patchListCache.get(change, resource.getPatchSet());
 
         int sz = paths.size();
         List<String> pathList = Lists.newArrayListWithCapacity(sz);
@@ -321,3 +327,4 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     }
   }
 }
+

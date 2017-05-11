@@ -99,6 +99,7 @@
       'n ]': '_handleNKey',
       'o enter': '_handleEnterKey',
       'p [': '_handlePKey',
+      'shift+r': '_handleRKey',
     },
 
     attached: function() {
@@ -239,6 +240,15 @@
 
       e.preventDefault();
       this.fire('previous-page');
+    },
+
+    _handleRKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) {
+        return;
+      }
+
+      e.preventDefault();
+      window.location.reload();
     },
 
     _changeURLForIndex: function(index) {

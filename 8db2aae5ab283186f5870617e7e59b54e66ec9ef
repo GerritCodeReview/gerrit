@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "446e7d3d_f2f3b488",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-11T18:13:28Z",
+      "side": 1,
+      "message": "Aside from a rebase, this is the only change in this patchset. This flush fixed the issue locally; we\u0027ll see how CI feels about it.",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 36
+      },
+      "revId": "8db2aae5ab283186f5870617e7e59b54e66ec9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

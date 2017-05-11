@@ -1,4 +1,91 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1494511524 -0400\nnonce APbwY4q9WWkH8JMdDFqx+MVpFKu5cB3hmDAgP7SwFWH5pvZJmCHYHPu7J91HnJNE/0QF5YTKvfJP\n\n0000000000000000000000000000000000000000 2ae2213811b5e5462de8548d176b4750de5c361b refs/for/master%topic\u003dpublish-on-push,r\u003dekempin\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZFG+kAAoJEF/XxZqaEoiMXlIP/iWwXS2ygFDhqWaeNPtGNiTZ\n782vo+zcbzFoD4OYsZBzqSB5cQbqlUfdak7eWgcLvdMORiYG4GfAHgr7Nr9G8hC3\nRZ74qtLDlNfiUgzLlGQRItyXBgBUCm70/4ZWtEifwimSKUkTguPh3IQHUfBbXfCZ\nkPTDqwR+2f768i37pWhdF+eqlot7q8bPZWE0YNpS0YyzZGtqO2Wr0PgTtB7Iu8Ur\ncMRdMdO3hKaT1BhB07IjGwbN5HEVimI5W8eQSk5dQ+OcGUvDhigpbKOgcvUbTneh\nz2Yh2r1os97ITEZdc8M7Uarrl9lWrP/VMbfvqqY7E7VoSQAaOxVqwTA/oXe2JWVG\nIzZZUG5GkngFHJRxeuSB5zbWbA+vr3OCpQvAFDiVqHW6fvBoCXqfXxTwxOU9l/ny\nevKR83Z++L1g7CBf0OnHsDSMDeO63AjlaIQjXDzVmt7OaqMvLwSfdnCZ2+28Be85\n54zQh7yVEGbhPXd5wZWUP9fy3kNVFi/M4ncJHCAbDWxG+FCSnm+SxVYeQbKjY6z1\nIzZ4j8fmTmDG80LSmHrDiZRPKkrX9kzbIu8kOcwNBukc3i9KFlpeA9kbXpXzvSDm\nf+5MopQmAk1B9iKhuR+8S5usChN/vFRJNqOqaBT8JLtyTzMZ+7AqaApe1KVxlBmv\nS8JlvoCO6W6UagfIUxNx\n\u003d50Ey\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c3ad94c_bb54f5b7",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-11T15:06:19Z",
+      "side": 1,
+      "message": "Is this really false, or do we omit boolean fields that are false?",
+      "range": {
+        "startLine": 1251,
+        "startChar": 32,
+        "endLine": 1251,
+        "endChar": 37
+      },
+      "revId": "2ae2213811b5e5462de8548d176b4750de5c361b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56144caf_5a8672f6",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2648,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-11T15:06:19Z",
+      "side": 1,
+      "message": "Looks like they are omitted?",
+      "range": {
+        "startLine": 2648,
+        "startChar": 33,
+        "endLine": 2648,
+        "endChar": 51
+      },
+      "revId": "2ae2213811b5e5462de8548d176b4750de5c361b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a4096d2_13214127",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-11T15:06:19Z",
+      "side": 1,
+      "message": "Here too, the line is not included if the value is false.",
+      "revId": "2ae2213811b5e5462de8548d176b4750de5c361b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e409d86_fc83957d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-11T15:06:19Z",
+      "side": 1,
+      "message": "Should this be Boolean as the other boolean fields?",
+      "range": {
+        "startLine": 160,
+        "startChar": 9,
+        "endLine": 160,
+        "endChar": 16
+      },
+      "revId": "2ae2213811b5e5462de8548d176b4750de5c361b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

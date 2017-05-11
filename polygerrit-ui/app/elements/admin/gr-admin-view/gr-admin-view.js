@@ -32,9 +32,16 @@
     section: 'Plugins',
     url: '/admin/plugins',
     view: 'gr-plugin-list',
+  }, {
+    name: 'People',
+    capability: 'modifyAccount',
+    section: 'People',
+    url: '/admin/people',
+    view: 'gr-plugin-list',
   }];
 
-  const ACCOUNT_CAPABILITIES = ['createProject', 'createGroup', 'viewPlugins'];
+  const ACCOUNT_CAPABILITIES = ['createProject', 'createGroup',
+      'modifyAccount', 'viewPlugins'];
 
   Polymer({
     is: 'gr-admin-view',
@@ -58,6 +65,7 @@
       _showGroup: Boolean,
       _showGroupAuditLog: Boolean,
       _showGroupList: Boolean,
+      _showBlockUserList: Boolean,
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
       _showProjectDetailList: Boolean,
@@ -159,6 +167,7 @@
       this.set('_showProjectDetailList',
           params.adminView === 'gr-project-detail-list');
       this.set('_showPluginList', params.adminView === 'gr-plugin-list');
+      this.set('_showBlockUserList', params.adminView === 'gr-block-user');
       if (params.project !== this._projectName) {
         this._projectName = params.project || '';
         // Reloads the admin menu.

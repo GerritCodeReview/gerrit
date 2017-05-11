@@ -277,6 +277,7 @@ public class JettyServer {
       }
       c.setInheritChannel(cfg.getBoolean("httpd", "inheritChannel", false));
       c.setReuseAddress(reuseAddress);
+      c.setIdleTimeout(cfg.getTimeUnit("httpd", null, "idleTimeout", 30000L, MILLISECONDS));
       connectors[idx] = c;
     }
     return connectors;

@@ -49,9 +49,14 @@ public class StaleLibraryRemover {
         for (Path p : paths) {
           String old = p.getFileName().toString();
           String bak = "." + old + ".backup";
+          Path dest = p.resolveSibling(bak);
+          if (Files.exists(dest)) {
+            ui.message("WARNING: not renaming %s to %s: already exists\n", old, bak);
+            continue;
+          }
           ui.message("Renaming %s to %s\n", old, bak);
           try {
-            Files.move(p, p.resolveSibling(bak));
+            Files.move(p, dest);
           } catch (IOException e) {
             throw new Die("cannot rename " + old, e);
           }

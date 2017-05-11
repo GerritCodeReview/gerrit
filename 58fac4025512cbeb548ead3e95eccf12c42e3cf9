@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57ee27b4_ed3cf5e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-05-11T05:39:41Z",
+      "side": 1,
+      "message": "AFAIU it means that groups are glued to the end of suggestedReviewers list - which means:\n1. they are not sorted (I am not sure in which order they are returned)\n2. it may turn out that group with name lexicographically closer to queried text is not suggested\n\nWould that make sense to actually sort after this call? I can prepare a patch for it but wanted to hear opinions first ;)",
+      "range": {
+        "startLine": 178,
+        "startChar": 4,
+        "endLine": 188,
+        "endChar": 5
+      },
+      "revId": "58fac4025512cbeb548ead3e95eccf12c42e3cf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

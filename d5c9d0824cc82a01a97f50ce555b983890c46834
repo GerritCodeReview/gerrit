@@ -167,6 +167,30 @@
       "revId": "d5c9d0824cc82a01a97f50ce555b983890c46834",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d11f055f_9ae62f31",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-11T13:56:09Z",
+      "side": 1,
+      "message": "Wyatt, does \"ack\" mean this is fine as-is and we won\u0027t worry about the skew? Or do you think that implementing the \"set of recognized permission names\" should precede this series? (I\u0027m guessing the former based on your +1.)",
+      "parentUuid": "33f8ea8a_d858b79a",
+      "range": {
+        "startLine": 209,
+        "startChar": 10,
+        "endLine": 209,
+        "endChar": 19
+      },
+      "revId": "d5c9d0824cc82a01a97f50ce555b983890c46834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

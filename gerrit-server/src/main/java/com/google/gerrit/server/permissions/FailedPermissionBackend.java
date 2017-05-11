@@ -28,7 +28,7 @@ import java.util.Set;
 /**
  * Helpers for {@link PermissionBackend} that must fail.
  *
- * <p>These helpers are useful to curry failure state identified inside a non-throwing factory
+ * <p>These helpers are useful to carry failure state identified inside a non-throwing factory
  * method to the throwing {@code check} or {@code test} methods.
  */
 public class FailedPermissionBackend {

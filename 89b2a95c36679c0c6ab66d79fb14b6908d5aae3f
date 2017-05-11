@@ -118,6 +118,30 @@
       "revId": "89b2a95c36679c0c6ab66d79fb14b6908d5aae3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79fec2de_96097d3b",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-11T12:24:46Z",
+      "side": 1,
+      "message": "True. How about coupling it with the latest stable branch cut:\n\nAn exception to this rule is that right after a new Gerrit release was branched off, all libraries should be upgraded to the latest version to prevent Gerrit from falling behind. Doing those upgrades should conclude at the latest two months after the branch was cut.",
+      "parentUuid": "1b586afd_7c915216",
+      "range": {
+        "startLine": 351,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 7
+      },
+      "revId": "89b2a95c36679c0c6ab66d79fb14b6908d5aae3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

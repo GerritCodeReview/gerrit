@@ -22,6 +22,30 @@
       "revId": "c3c8c884e80f98f12901233b97175d1d4d03cc3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4d0c3bc_823e0959",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/FailedPermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-11T07:54:02Z",
+      "side": 0,
+      "message": "Ah, might very well be :)",
+      "parentUuid": "0c108604_12f69bf7",
+      "range": {
+        "startLine": 31,
+        "startChar": 34,
+        "endLine": 31,
+        "endChar": 39
+      },
+      "revId": "c3c8c884e80f98f12901233b97175d1d4d03cc3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

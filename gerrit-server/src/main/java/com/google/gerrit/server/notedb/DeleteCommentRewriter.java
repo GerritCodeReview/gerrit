@@ -55,7 +55,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
      * @param id the id of the change which contains the target comment.
      * @param uuid the uuid of the target comment.
      * @param newMessage the message used to replace the old message of the target comment.
-     * @return
+     * @return the DeleteCommentRewriter instance
      */
     DeleteCommentRewriter create(
         Change.Id id, @Assisted("uuid") String uuid, @Assisted("newMessage") String newMessage);

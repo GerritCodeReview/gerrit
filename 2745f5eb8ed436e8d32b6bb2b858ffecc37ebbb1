@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c03add0_34be2583",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-05-11T22:39:02Z",
+      "side": 1,
+      "message": "nit: can this use the change-id or commit? That way, I can look up the reference completely locally if I have a copy of gerrit.git (since the Change-Id is in the commit message but the change number is not).",
+      "revId": "2745f5eb8ed436e8d32b6bb2b858ffecc37ebbb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

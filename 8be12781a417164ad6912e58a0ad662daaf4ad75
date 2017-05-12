@@ -51,6 +51,24 @@
       "revId": "8be12781a417164ad6912e58a0ad662daaf4ad75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ac7941b_5cb92bbe",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-12T19:14:45Z",
+      "side": 1,
+      "message": "Yep not part of polygerrit though it seems to be broken for polygerrit on prefixed url\u0027s. Works in gwtui.",
+      "parentUuid": "3da8239d_4aedfcaa",
+      "revId": "8be12781a417164ad6912e58a0ad662daaf4ad75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

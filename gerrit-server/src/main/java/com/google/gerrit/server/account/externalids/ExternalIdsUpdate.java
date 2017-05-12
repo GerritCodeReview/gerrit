@@ -593,19 +593,22 @@ public class ExternalIdsUpdate {
 
   private RefsMetaExternalIdsUpdate updateNoteMap(MyConsumer<OpenRepo> update)
       throws IOException, ConfigInvalidException, OrmException {
-    try (Repository repo = repoManager.openRepository(allUsersName);
-        RevWalk rw = new RevWalk(repo);
-        ObjectInserter ins = repo.newObjectInserter()) {
+    try {
       return retryer.call(
           () -> {
-            ObjectId rev = readRevision(repo);
+            try (Repository repo = repoManager.openRepository(allUsersName);
+                ObjectInserter ins = repo.newObjectInserter()) {
+              ObjectId rev = readRevision(repo);
 
-            afterReadRevision.run();
+              afterReadRevision.run();
 
-            NoteMap noteMap = readNoteMap(rw, rev);
-            update.accept(OpenRepo.create(repo, rw, ins, noteMap));
+              try (RevWalk rw = new RevWalk(repo)) {
+                NoteMap noteMap = readNoteMap(rw, rev);
+                update.accept(OpenRepo.create(repo, rw, ins, noteMap));
 
-            return commit(repo, rw, ins, rev, noteMap);
+                return commit(repo, rw, ins, rev, noteMap);
+              }
+            }
           });
     } catch (ExecutionException | RetryException e) {
       if (e.getCause() != null) {

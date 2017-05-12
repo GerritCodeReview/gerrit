@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b2fa60f_53a923a6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-05-12T20:27:03Z",
+      "side": 1,
+      "message": "We can remove these TODOs now, can\u0027t we?",
+      "revId": "66f3b1530868d605222bb72f43895ff4277bf05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

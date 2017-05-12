@@ -518,6 +518,7 @@
 
     cancel() {
       this.fire('cancel', null, {bubbles: false});
+      this.$.textarea.closeDropdown();
       this._purgeReviewersPendingRemove(true);
       this._rebuildReviewerArrays(this.change.reviewers, this._owner,
           this.serverConfig);

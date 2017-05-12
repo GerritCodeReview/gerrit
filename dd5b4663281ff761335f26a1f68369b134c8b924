@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c738fcbd_3db1430e",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-12T18:35:24Z",
+      "side": 1,
+      "message": "I still don\u0027t think this needs to be a property, though.",
+      "parentUuid": "1c8fce47_17085170",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 8
+      },
+      "revId": "dd5b4663281ff761335f26a1f68369b134c8b924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0e8f1afc_e7dae39c",
         "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
         "patchSetId": 12

@@ -22,6 +22,30 @@
       "revId": "eab7d0b5bf2c8a8223da0b8f73b30fbb6d6f172a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f046ffb_26aaef34",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-12T08:46:36Z",
+      "side": 1,
+      "message": "A test complained without the \u0027if\u0027 because of the additional undefined value. I went for variant 2 now.",
+      "parentUuid": "c460cddd_a9e5be8e",
+      "range": {
+        "startLine": 518,
+        "startChar": 10,
+        "endLine": 520,
+        "endChar": 11
+      },
+      "revId": "eab7d0b5bf2c8a8223da0b8f73b30fbb6d6f172a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

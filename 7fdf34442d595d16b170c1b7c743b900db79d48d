@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec6f546b_a014cf73",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T18:16:50Z",
+      "side": 1,
+      "message": "Almost forgot to mention. For this to work in shadow DOM, this ought to read ...\n\n :host(:hover)\n\n... with parens around :hover. For whatever reason, :host-based selectors only work when it\u0027s treated like a function. Perhaps it\u0027s a quirk of how Polymer parses selectors in shady DOM.",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 17
+      },
+      "revId": "7fdf34442d595d16b170c1b7c743b900db79d48d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

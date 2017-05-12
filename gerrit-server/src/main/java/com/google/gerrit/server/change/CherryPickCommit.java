@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -31,6 +30,9 @@ import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -39,19 +41,23 @@ import java.io.IOException;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
-public class CherryPickCommit implements RestModifyView<CommitResource, CherryPickInput> {
+public class CherryPickCommit
+    extends RetryingRestModifyView<CommitResource, CherryPickInput, ChangeInfo> {
 
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
 
   @Inject
-  CherryPickCommit(CherryPickChange cherryPickChange, ChangeJson.Factory json) {
+  CherryPickCommit(
+      RetryHelper retryHelper, CherryPickChange cherryPickChange, ChangeJson.Factory json) {
+    super(retryHelper);
     this.cherryPickChange = cherryPickChange;
     this.json = json;
   }
 
   @Override
-  public ChangeInfo apply(CommitResource rsrc, CherryPickInput input)
+  public ChangeInfo applyImpl(
+      BatchUpdate.Factory updateFactory, CommitResource rsrc, CherryPickInput input)
       throws OrmException, IOException, UpdateException, RestApiException {
     String message = Strings.nullToEmpty(input.message).trim();
     String destination = Strings.nullToEmpty(input.destination).trim();
@@ -78,6 +84,7 @@ public class CherryPickCommit implements RestModifyView<CommitResource, CherryPi
     try {
       Change.Id cherryPickedChangeId =
           cherryPickChange.cherryPick(
+              updateFactory,
               null,
               null,
               null,

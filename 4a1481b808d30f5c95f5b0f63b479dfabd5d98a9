@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0241d06e_1c151a82",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:07:26Z",
+      "side": 1,
+      "message": "Nit: this line exceeds 80 characters.\n\ntest(\u0027_breakdownGroup keeps due_to_rebase for broken down additions\u0027,\n    function() {",
+      "revId": "4a1481b808d30f5c95f5b0f63b479dfabd5d98a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

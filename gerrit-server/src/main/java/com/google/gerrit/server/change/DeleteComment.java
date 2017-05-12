@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -34,6 +33,8 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -45,12 +46,12 @@ import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class DeleteComment implements RestModifyView<CommentResource, DeleteCommentInput> {
+public class DeleteComment
+    extends RetryingRestModifyView<CommentResource, DeleteCommentInput, CommentInfo> {
 
   private final Provider<CurrentUser> userProvider;
   private final Provider<ReviewDb> dbProvider;
   private final PermissionBackend permissionBackend;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final CommentsUtil commentsUtil;
   private final Provider<CommentJson> commentJson;
   private final ChangeNotes.Factory notesFactory;
@@ -60,21 +61,22 @@ public class DeleteComment implements RestModifyView<CommentResource, DeleteComm
       Provider<CurrentUser> userProvider,
       Provider<ReviewDb> dbProvider,
       PermissionBackend permissionBackend,
-      BatchUpdate.Factory batchUpdateFactory,
+      RetryHelper retryHelper,
       CommentsUtil commentsUtil,
       Provider<CommentJson> commentJson,
       ChangeNotes.Factory notesFactory) {
+    super(retryHelper);
     this.userProvider = userProvider;
     this.dbProvider = dbProvider;
     this.permissionBackend = permissionBackend;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.commentsUtil = commentsUtil;
     this.commentJson = commentJson;
     this.notesFactory = notesFactory;
   }
 
   @Override
-  public CommentInfo apply(CommentResource rsrc, DeleteCommentInput input)
+  public CommentInfo applyImpl(
+      BatchUpdate.Factory batchUpdateFactory, CommentResource rsrc, DeleteCommentInput input)
       throws RestApiException, IOException, ConfigInvalidException, OrmException,
           PermissionBackendException, UpdateException {
     CurrentUser user = userProvider.get();

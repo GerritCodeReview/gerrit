@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  var VALID_EMAIL_ALERT = 'Please input a valid email.';
+  const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
   Polymer({
     is: 'gr-account-list',
@@ -28,7 +28,7 @@
     properties: {
       accounts: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
         notify: true,
       },
       change: Object,
@@ -78,7 +78,7 @@
     },
 
     listeners: {
-      'remove': '_handleRemove',
+      remove: '_handleRemove',
     },
 
     get accountChips() {
@@ -89,47 +89,48 @@
       return this.$.entry.focusStart;
     },
 
-    _handleAdd: function(e) {
-      var reviewer = e.detail.value;
+    _handleAdd(e) {
+      const reviewer = e.detail.value;
       // Append new account or group to the accounts property. We add our own
       // internal properties to the account/group here, so we clone the object
       // to avoid cluttering up the shared change object.
       // TODO(logan): Polyfill for Object.assign in IE.
       if (reviewer.account) {
-        var account = Object.assign({}, reviewer.account, {_pendingAdd: true});
+        const account =
+            Object.assign({}, reviewer.account, {_pendingAdd: true});
         this.push('accounts', account);
       } else if (reviewer.group) {
         if (reviewer.confirm) {
           this.pendingConfirmation = reviewer;
           return;
         }
-        var group = Object.assign({}, reviewer.group,
+        const group = Object.assign({}, reviewer.group,
             {_pendingAdd: true, _group: true});
         this.push('accounts', group);
       } else if (this.allowAnyInput) {
-        if (reviewer.indexOf('@') === -1) {
+        if (!reviewer.includes('@')) {
           // Repopulate the input with what the user tried to enter and have
           // a toast tell them why they can't enter it.
           this.$.entry.setText(reviewer);
           this.dispatchEvent(new CustomEvent('show-alert',
             {detail: {message: VALID_EMAIL_ALERT}, bubbles: true}));
         } else {
-          var account = {email: reviewer, _pendingAdd: true};
+          const account = {email: reviewer, _pendingAdd: true};
           this.push('accounts', account);
         }
       }
       this.pendingConfirmation = null;
     },
 
-    confirmGroup: function(group) {
+    confirmGroup(group) {
       group = Object.assign(
           {}, group, {confirmed: true, _pendingAdd: true, _group: true});
       this.push('accounts', group);
       this.pendingConfirmation = null;
     },
 
-    _computeChipClass: function(account) {
-      var classes = [];
+    _computeChipClass(account) {
+      const classes = [];
       if (account._group) {
         classes.push('group');
       }
@@ -139,7 +140,7 @@
       return classes.join(' ');
     },
 
-    _accountMatches: function(a, b) {
+    _accountMatches(a, b) {
       if (a && b) {
         if (a._account_id) {
           return a._account_id === b._account_id;
@@ -151,10 +152,10 @@
       return a === b;
     },
 
-    _computeRemovable: function(account) {
+    _computeRemovable(account) {
       if (this.readonly) { return false; }
       if (this.removableValues) {
-        for (var i = 0; i < this.removableValues.length; i++) {
+        for (let i = 0; i < this.removableValues.length; i++) {
           if (this._accountMatches(this.removableValues[i], account)) {
             return true;
           }
@@ -164,17 +165,17 @@
       return true;
     },
 
-    _handleRemove: function(e) {
-      var toRemove = e.detail.account;
+    _handleRemove(e) {
+      const toRemove = e.detail.account;
       this._removeAccount(toRemove);
       this.$.entry.focus();
     },
 
-    _removeAccount: function(toRemove) {
+    _removeAccount(toRemove) {
       if (!toRemove || !this._computeRemovable(toRemove)) { return; }
-      for (var i = 0; i < this.accounts.length; i++) {
-        var matches;
-        var account = this.accounts[i];
+      for (let i = 0; i < this.accounts.length; i++) {
+        let matches;
+        const account = this.accounts[i];
         if (toRemove._group) {
           matches = toRemove.id === account.id;
         } else {
@@ -188,8 +189,8 @@
       console.warn('received remove event for missing account', toRemove);
     },
 
-    _handleInputKeydown: function(e) {
-      var input = e.detail.input;
+    _handleInputKeydown(e) {
+      const input = e.detail.input;
       if (input.selectionStart !== input.selectionEnd ||
           input.selectionStart !== 0) {
         return;
@@ -199,18 +200,17 @@
           this._removeAccount(this.accounts[this.accounts.length - 1]);
           break;
         case 37: // Left arrow
-          var chips = this.accountChips;
-          if (chips[chips.length - 1]) {
-            chips[chips.length - 1].focus();
+          if (this.accountChips[this.accountChips.length - 1]) {
+            this.accountChips[this.accountChips.length - 1].focus();
           }
           break;
       }
     },
 
-    _handleChipKeydown: function(e) {
-      var chip = e.target;
-      var chips = this.accountChips;
-      var index = chips.indexOf(chip);
+    _handleChipKeydown(e) {
+      const chip = e.target;
+      const chips = this.accountChips;
+      const index = chips.indexOf(chip);
       switch (e.keyCode) {
         case 8: // Backspace
         case 13: // Enter
@@ -245,19 +245,19 @@
       }
     },
 
-    additions: function() {
-      return this.accounts.filter(function(account) {
+    additions() {
+      return this.accounts.filter(account => {
         return account._pendingAdd;
-      }).map(function(account) {
+      }).map(account => {
         if (account._group) {
           return {group: account};
         } else {
-          return {account: account};
+          return {account};
         }
       });
     },
 
-    _computeEntryHidden: function(maxCount, accountsRecord, readonly) {
+    _computeEntryHidden(maxCount, accountsRecord, readonly) {
       return (maxCount && maxCount <= accountsRecord.base.length) || readonly;
     },
   });

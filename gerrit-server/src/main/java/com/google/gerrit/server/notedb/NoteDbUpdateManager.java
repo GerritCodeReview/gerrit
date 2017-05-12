@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.InsertedObject;
@@ -194,6 +195,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final NotesMigration migration;
   private final AllUsersName allUsersName;
   private final NoteDbMetrics metrics;
+  private final GitReferenceUpdated refUpdate;
   private final Project.NameKey projectName;
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
@@ -214,12 +216,14 @@ public class NoteDbUpdateManager implements AutoCloseable {
       NotesMigration migration,
       AllUsersName allUsersName,
       NoteDbMetrics metrics,
+      GitReferenceUpdated refUpdate,
       @Assisted Project.NameKey projectName) {
     this.serverIdent = serverIdent;
     this.repoManager = repoManager;
     this.migration = migration;
     this.allUsersName = allUsersName;
     this.metrics = metrics;
+    this.refUpdate = refUpdate;
     this.projectName = projectName;
     changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -498,6 +502,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     if (lockFailure) {
       throw new LockFailureException("Update failed with one or more lock failures: " + bru);
     }
+    refUpdate.fire(projectName, bru, null);
   }
 
   private void addCommands() throws OrmException, IOException {

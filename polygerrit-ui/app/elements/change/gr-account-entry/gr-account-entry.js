@@ -45,7 +45,7 @@
 
       query: {
         type: Function,
-        value: function() {
+        value() {
           return this._getReviewerSuggestions.bind(this);
         },
       },
@@ -55,26 +55,26 @@
       return this.$.input.focusStart;
     },
 
-    focus: function() {
+    focus() {
       this.$.input.focus();
     },
 
-    clear: function() {
+    clear() {
       this.$.input.clear();
     },
 
-    setText: function(text) {
+    setText(text) {
       this.$.input.setText(text);
     },
 
-    _handleInputCommit: function(e) {
+    _handleInputCommit(e) {
       this.fire('add', {value: e.detail.value});
     },
 
-    _makeSuggestion: function(reviewer) {
-      var name;
-      var value;
-      var generateStatusStr = function(account) {
+    _makeSuggestion(reviewer) {
+      let name;
+      let value;
+      const generateStatusStr = function(account) {
         return account.status ? ' (' + account.status + ')' : '';
       };
       if (reviewer.account) {
@@ -92,22 +92,22 @@
             generateStatusStr(reviewer);
         value = {account: reviewer, count: 1};
       }
-      return {name: name, value: value};
+      return {name, value};
     },
 
-    _getReviewerSuggestions: function(input) {
-      var api = this.$.restAPI;
-      var xhr = this.allowAnyUser ?
+    _getReviewerSuggestions(input) {
+      const api = this.$.restAPI;
+      const xhr = this.allowAnyUser ?
           api.getSuggestedAccounts(input) :
           api.getChangeSuggestedReviewers(this.change._number, input);
 
-      return xhr.then(function(reviewers) {
+      return xhr.then(reviewers => {
         if (!reviewers) { return []; }
         if (!this.filter) { return reviewers.map(this._makeSuggestion); }
         return reviewers
             .filter(this.filter)
             .map(this._makeSuggestion.bind(this));
-      }.bind(this));
+      });
     },
   });
 })();

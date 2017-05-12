@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "103b4f90_363d1ea3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-12T23:36:00Z",
+      "side": 1,
+      "message": "Unrelated; noticed an error in logic I made during manual transpilation.",
+      "range": {
+        "startLine": 460,
+        "startChar": 14,
+        "endLine": 460,
+        "endChar": 22
+      },
+      "revId": "7591ceb1ec43458a77017d7556d5afc0c08d4bd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a080f7d_9b9590c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-12T23:36:00Z",
+      "side": 1,
+      "message": "CC3 acct added to ensure this regression doesn\u0027t happen again.",
+      "range": {
+        "startLine": 652,
+        "startChar": 6,
+        "endLine": 652,
+        "endChar": 53
+      },
+      "revId": "7591ceb1ec43458a77017d7556d5afc0c08d4bd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

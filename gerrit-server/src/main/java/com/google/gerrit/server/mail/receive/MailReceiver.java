@@ -16,10 +16,11 @@ package com.google.gerrit.server.mail.receive;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailSettings;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import java.util.Collections;
 import java.util.HashSet;
@@ -132,7 +133,7 @@ public abstract class MailReceiver implements LifecycleListener {
                       try {
                         mailProcessor.process(m);
                         requestDeletion(m.id());
-                      } catch (OrmException e) {
+                      } catch (RestApiException | UpdateException e) {
                         log.error("Mail: Can't process message " + m.id() + " . Won't delete.", e);
                       }
                     });
@@ -141,7 +142,7 @@ public abstract class MailReceiver implements LifecycleListener {
         try {
           mailProcessor.process(m);
           requestDeletion(m.id());
-        } catch (OrmException e) {
+        } catch (RestApiException | UpdateException e) {
           log.error("Mail: Can't process messages. Won't delete.", e);
         }
       }

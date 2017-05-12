@@ -131,20 +131,20 @@ limitations under the License.
           <gr-account-link account="[[change.owner]]"></gr-account-link>
         </span>
       </section>
+      <section class="assignee">
+        <span class="title">Assignee</span>
+        <span class="value">
+          <gr-account-list
+              max-count="1"
+              id="assigneeValue"
+              placeholder="Add assignee..."
+              accounts="{{_assignee}}"
+              change="[[change]]"
+              readonly="[[_computeAssigneeReadOnly(mutable, change)]]"
+              allow-any-user></gr-account-list>
+        </span>
+      </section>
       <template is="dom-if" if="[[_showReviewersByState]]">
-        <section class="assignee">
-          <span class="title">Assignee</span>
-          <span class="value">
-            <gr-account-list
-                max-count="1"
-                id="assigneeValue"
-                placeholder="Add assignee..."
-                accounts="{{_assignee}}"
-                change="[[change]]"
-                readonly="[[_computeAssigneeReadOnly(mutable, change)]]"
-                allow-any-user></gr-account-list>
-          </span>
-        </section>
         <section>
           <span class="title">Reviewers</span>
           <span class="value">
@@ -165,19 +165,6 @@ limitations under the License.
         </section>
       </template>
       <template is="dom-if" if="[[!_showReviewersByState]]">
-        <section class="assignee">
-          <span class="title">Assignee</span>
-          <span class="value">
-            <gr-account-list
-                max-count="1"
-                id="assigneeValue"
-                placeholder="Add assignee..."
-                accounts="{{_assignee}}"
-                change="[[change]]"
-                readonly="[[!mutable]]"
-                allow-any-user></gr-account-list>
-          </span>
-        </section>
         <section>
           <span class="title">Reviewers</span>
           <span class="value">

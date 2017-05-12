@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3bd011e4_12f5ad25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-12T19:17:30Z",
+      "side": 1,
+      "message": "actually accessing /r/register without / shows the internal error in gwtui. But doing /r/#/register works but dosent in polygerrit.",
+      "parentUuid": "ec2569b5_ed0b921e",
+      "revId": "8be12781a417164ad6912e58a0ad662daaf4ad75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3da8239d_4aedfcaa",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 5

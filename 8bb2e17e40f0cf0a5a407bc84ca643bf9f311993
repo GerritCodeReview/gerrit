@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cc50fbf_edb6d35a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:51:04Z",
+      "side": 1,
+      "message": "Optional: Is there any reason not to call the delete API from here? That way we avoid distributing that responsibility into the thread.",
+      "revId": "8bb2e17e40f0cf0a5a407bc84ca643bf9f311993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17941b67_d8081d01",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:51:04Z",
+      "side": 1,
+      "message": "Does this mean that only the last comment of a thread can be deleted?",
+      "revId": "8bb2e17e40f0cf0a5a407bc84ca643bf9f311993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8c97cf8_3e597a07",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:51:04Z",
+      "side": 1,
+      "message": "What is this doing? Is it replacing the comment with the reason the admin entered?\n\nIf the reason for deletion is made public, this should be indicated in the confirm dialog.",
+      "range": {
+        "startLine": 370,
+        "startChar": 40,
+        "endLine": 370,
+        "endChar": 50
+      },
+      "revId": "8bb2e17e40f0cf0a5a407bc84ca643bf9f311993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2f29cc7_88efdc60",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1140,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:51:04Z",
+      "side": 1,
+      "message": "When I tried this locally, the server gave a 500 saying \n\ncom.google.gerrit.server.update.UpdateException:\n  java.util.concurrent.ExecutionException:\n    java.lang.UnsupportedOperationException:\n      This table has been migrated to NoteDb\n\nDoes this happen for you? Is this not a problem in production?",
+      "revId": "8bb2e17e40f0cf0a5a407bc84ca643bf9f311993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

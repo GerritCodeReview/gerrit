@@ -45,6 +45,23 @@
       "revId": "7db18334156dcff55ad4eab3f5618e1607d62a58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8d80129_e79df0e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2017-05-12T08:54:39Z",
+      "side": 1,
+      "message": "the actual update to meta refs happens here?",
+      "revId": "7db18334156dcff55ad4eab3f5618e1607d62a58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

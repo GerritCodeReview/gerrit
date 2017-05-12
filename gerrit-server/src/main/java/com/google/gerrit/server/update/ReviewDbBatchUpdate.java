@@ -606,6 +606,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
         throw new IOException("Update failed: " + bru);
       }
     }
+    gitRefUpdated.fire(project, bru, null);
   }
 
   private class ChangeTask implements Callable<Void> {

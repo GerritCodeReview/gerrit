@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbdb1eef_fa41e1a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 66
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-12T17:35:32Z",
+      "side": 1,
+      "message": "Use camelcase for variables.",
+      "range": {
+        "startLine": 626,
+        "startChar": 10,
+        "endLine": 626,
+        "endChar": 24
+      },
+      "revId": "de0c1e38c3048e9c11edba006e8176128efe7939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

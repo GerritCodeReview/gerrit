@@ -153,6 +153,19 @@ limitations under the License.
       assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
     });
 
+    test('determines whether to show "Ready to Submit" label', function() {
+      var showMissingSpy = sandbox.spy(element, '_showMissingRequirements');
+      element.change = {status: 'NEW', submit_type: 'CHERRY_PICK', labels: {
+        test: {
+          all: [{_account_id: 1, name: 'bojack', value: 1}],
+          default_value: 0,
+          values: [],
+        },
+      }};
+      flushAsynchronousOperations();
+      assert.isTrue(showMissingSpy.called);
+    });
+
     suite('Topic removal', function() {
       var change;
       setup(function() {

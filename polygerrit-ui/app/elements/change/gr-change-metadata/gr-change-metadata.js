@@ -44,6 +44,10 @@
       },
 
       _assignee: Array,
+      _isWip: {
+        type: Boolean,
+        computed: '_computeIsWip(change)',
+      },
     },
 
     behaviors: [
@@ -273,6 +277,10 @@
     _handleTopicRemoved: function() {
       this.set(['change', 'topic'], '');
       this.$.restAPI.setChangeTopic(this.change._number, null);
+    },
+
+    _computeIsWip(change) {
+      return !!change.work_in_progress;
     },
   });
 })();

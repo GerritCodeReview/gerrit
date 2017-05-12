@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "439938cb_dfd35aeb",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T18:44:03Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be...\n\n {$canonicalPath}\n\n...?",
+      "range": {
+        "startLine": 34,
+        "startChar": 45,
+        "endLine": 34,
+        "endChar": 66
+      },
+      "revId": "a3eeb78feed609b41dae161fbc43f9556b128bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9408a77c_feb1e8bf",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T18:44:03Z",
+      "side": 1,
+      "message": "Why do you allow crossorigin icon requests?",
+      "range": {
+        "startLine": 34,
+        "startChar": 80,
+        "endLine": 34,
+        "endChar": 91
+      },
+      "revId": "a3eeb78feed609b41dae161fbc43f9556b128bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

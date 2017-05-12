@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -44,6 +45,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.project.SetParent;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -73,7 +75,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   private final ProjectCache projectCache;
   private final ChangesCollection changes;
   private final ChangeInserter.Factory changeInserterFactory;
-  private final BatchUpdate.Factory updateFactory;
+  private final RetryHelper retryHelper;
 
   @Inject
   ReviewProjectAccess(
@@ -86,7 +88,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       AllProjectsName allProjects,
       ChangesCollection changes,
       ChangeInserter.Factory changeInserterFactory,
-      BatchUpdate.Factory updateFactory,
+      RetryHelper retryHelper,
       Provider<SetParent> setParent,
       Sequences seq,
       @Assisted("projectName") Project.NameKey projectName,
@@ -112,14 +114,34 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     this.projectCache = projectCache;
     this.changes = changes;
     this.changeInserterFactory = changeInserterFactory;
-    this.updateFactory = updateFactory;
+    this.retryHelper = retryHelper;
+  }
+
+  @Override
+  protected Change.Id updateProjectConfig(
+      ProjectControl projectControl,
+      ProjectConfig config,
+      MetaDataUpdate md,
+      boolean parentProjectUpdate)
+      throws IOException, OrmException, PermissionDeniedException {
+    try {
+      return retryHelper.execute(
+          updateFactory ->
+              updateProjectConfig(updateFactory, projectControl, config, md, parentProjectUpdate));
+    } catch (AuthException e) {
+      PermissionDeniedException pde = new PermissionDeniedException(e.getMessage());
+      pde.initCause(e);
+      throw pde;
+    } catch (RestApiException | UpdateException e) {
+      throw new IOException(e);
+    }
   }
 
   // TODO(dborowitz): Hack MetaDataUpdate so it can be created within a BatchUpdate and we can avoid
   // calling setUpdateRef(false).
   @SuppressWarnings("deprecation")
-  @Override
-  protected Change.Id updateProjectConfig(
+  private Change.Id updateProjectConfig(
+      BatchUpdate.Factory updateFactory,
       ProjectControl projectControl,
       ProjectConfig config,
       MetaDataUpdate md,

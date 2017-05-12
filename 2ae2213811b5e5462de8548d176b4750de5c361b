@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "993b01d2_9b748fe8",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-12T15:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c3ad94c_bb54f5b7",
+      "range": {
+        "startLine": 1251,
+        "startChar": 32,
+        "endLine": 1251,
+        "endChar": 37
+      },
+      "revId": "2ae2213811b5e5462de8548d176b4750de5c361b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56144caf_5a8672f6",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2017-05-11T15:06:19Z",
       "side": 1,
       "message": "Looks like they are omitted?",
+      "range": {
+        "startLine": 2648,
+        "startChar": 33,
+        "endLine": 2648,
+        "endChar": 51
+      },
+      "revId": "2ae2213811b5e5462de8548d176b4750de5c361b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a961ae9_2231f50d",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2648,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-12T15:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56144caf_5a8672f6",
       "range": {
         "startLine": 2648,
         "startChar": 33,
@@ -66,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "f84bd660_6395b38b",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-12T15:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a4096d2_13214127",
+      "revId": "2ae2213811b5e5462de8548d176b4750de5c361b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e409d86_fc83957d",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
         "patchSetId": 5
@@ -77,6 +143,30 @@
       "writtenOn": "2017-05-11T15:06:19Z",
       "side": 1,
       "message": "Should this be Boolean as the other boolean fields?",
+      "range": {
+        "startLine": 160,
+        "startChar": 9,
+        "endLine": 160,
+        "endChar": 16
+      },
+      "revId": "2ae2213811b5e5462de8548d176b4750de5c361b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "882bd14a_2a5ca454",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-12T15:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e409d86_fc83957d",
       "range": {
         "startLine": 160,
         "startChar": 9,

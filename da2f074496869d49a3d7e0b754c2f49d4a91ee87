@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0c52a06_6005aba8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-05-12T02:33:34Z",
+      "side": 1,
+      "message": "This should declare the issue it fixes:\n\nFeature: Issue 4496",
+      "revId": "da2f074496869d49a3d7e0b754c2f49d4a91ee87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

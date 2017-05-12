@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "1f68eb91_61646a61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-12T12:39:59Z",
+      "side": 1,
+      "message": "This looks like the right place to me.\n\nThe tricky thing is we can\u0027t do this in master so this change can\u0027t be merged as-is. Instead we will need to make it so you either pass in a boolean fireRefUpdated or a GitRefUpdated instance to NoteDbUpdateManager to indicate that this should happen. In particular in FusedNoteDbBatchRefUpdate we need to not double-fire.",
+      "revId": "7db18334156dcff55ad4eab3f5618e1607d62a58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8d80129_e79df0e1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 1

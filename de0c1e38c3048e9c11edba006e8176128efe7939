@@ -45,6 +45,30 @@
       "revId": "de0c1e38c3048e9c11edba006e8176128efe7939",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17a991a3_d744d456",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 66
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-12T21:37:48Z",
+      "side": 1,
+      "message": "Yep, i could do it so that i add a new function to set the private title?",
+      "parentUuid": "769e2ca0_b9bc7e5a",
+      "range": {
+        "startLine": 628,
+        "startChar": 8,
+        "endLine": 628,
+        "endChar": 38
+      },
+      "revId": "de0c1e38c3048e9c11edba006e8176128efe7939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

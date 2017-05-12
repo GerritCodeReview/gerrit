@@ -22,6 +22,30 @@
       "revId": "47027bf0a0f2c0f732de36e6008f34a35c7f3de0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52a22242_6c7d9d11",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-12T22:54:44Z",
+      "side": 1,
+      "message": "they\u0027re not the same :)",
+      "parentUuid": "e6488e21_65247411",
+      "range": {
+        "startLine": 192,
+        "startChar": 6,
+        "endLine": 206,
+        "endChar": 8
+      },
+      "revId": "47027bf0a0f2c0f732de36e6008f34a35c7f3de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

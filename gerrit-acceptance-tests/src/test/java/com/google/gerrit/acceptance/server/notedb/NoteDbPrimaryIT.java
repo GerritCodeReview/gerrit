@@ -32,6 +32,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
@@ -83,6 +84,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+@NoHttpd
 public class NoteDbPrimaryIT extends AbstractDaemonTest {
   @ConfigSuite.Default
   public static Config defaultConfig() {

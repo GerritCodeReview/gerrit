@@ -46,6 +46,30 @@
       "revId": "3fe8fa9afc3bbc96b2653cd2e5da92366827abeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24df0d0d_0e50d85e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2017-05-12T15:55:27Z",
+      "side": 1,
+      "message": "I misunderstood you, added call from UploadValidators.onBeginNegotiateRound()",
+      "parentUuid": "2acca4cf_3c47a9ba",
+      "range": {
+        "startLine": 74,
+        "startChar": 7,
+        "endLine": 74,
+        "endChar": 23
+      },
+      "revId": "3fe8fa9afc3bbc96b2653cd2e5da92366827abeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

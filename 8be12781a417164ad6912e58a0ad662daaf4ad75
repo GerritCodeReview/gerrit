@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ec2569b5_ed0b921e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-12T19:14:12Z",
+      "side": 1,
+      "message": "This, dosen\u0027t really fix that as all it does is allow me to access gerrit.new/r/register/ (for example) (though it dosen\u0027t fix the issue your linking to as it requires changes in either polygerrit or the login / register html pages in gwtui as it takes the prefix out of the url anyways.\n\nI also found an issue accessing /r/register (not with this patch applied)\n\n ERROR com.google.gerrit.pgm.http.jetty.HiddenErrorHandler : Error in GET /r/register\njava.lang.StringIndexOutOfBoundsException: String index out of range: -1\n\nfilled as Issue 6205",
+      "parentUuid": "5dcf1cf1_90c4910b",
+      "revId": "8be12781a417164ad6912e58a0ad662daaf4ad75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3da8239d_4aedfcaa",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 5

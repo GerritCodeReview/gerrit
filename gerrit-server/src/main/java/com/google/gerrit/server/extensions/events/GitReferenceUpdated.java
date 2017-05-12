@@ -25,8 +25,11 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GitReferenceUpdated {
+  private static final Logger log = LoggerFactory.getLogger(GitReferenceUpdated.class);
   public static final GitReferenceUpdated DISABLED =
       new GitReferenceUpdated() {
         @Override
@@ -120,6 +123,10 @@ public class GitReferenceUpdated {
     }
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
       if (cmd.getResult() == ReceiveCommand.Result.OK) {
+        String r = cmd.getRefName();
+        if (r.endsWith("/meta") || r.contains("comments")) {
+          log.debug(r);
+        }
         fire(
             project,
             cmd.getRefName(),

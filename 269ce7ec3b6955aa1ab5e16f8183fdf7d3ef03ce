@@ -425,6 +425,30 @@
       "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63b0a8d2_3702da93",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-12T19:09:11Z",
+      "side": 1,
+      "message": "Oh, we use gitweb to generate diffusion links. I thought that whitelist was only whitelisting if it had gitiles or gitweb in the name.",
+      "parentUuid": "3032483c_6048f8da",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 23
+      },
+      "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

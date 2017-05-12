@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dcf1cf1_90c4910b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T17:20:02Z",
+      "side": 1,
+      "message": "Should this link to issue 6062? Is this fixing that bug?",
+      "revId": "8be12781a417164ad6912e58a0ad662daaf4ad75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3da8239d_4aedfcaa",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T17:20:02Z",
+      "side": 1,
+      "message": "This looks like the wrong place for this. This list is for the paths that should get the PolyGerrit index as a response. But the register UI is not part of the PolyGerrit index, is it?",
+      "revId": "8be12781a417164ad6912e58a0ad662daaf4ad75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

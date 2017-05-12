@@ -23,6 +23,30 @@
       "revId": "faf198e9fb5af07a8a710cb78b93a766ba912448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2d89dc3_aa87e3c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-12T15:24:45Z",
+      "side": 1,
+      "message": "Ah, didn\u0027t realize we had it available. Done.",
+      "parentUuid": "72599774_825694c4",
+      "range": {
+        "startLine": 452,
+        "startChar": 45,
+        "endLine": 452,
+        "endChar": 76
+      },
+      "revId": "faf198e9fb5af07a8a710cb78b93a766ba912448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -54,6 +54,7 @@ import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeAlreadyMergedException;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
+import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestTimeUtil;
 import java.util.Iterator;
 import java.util.List;
@@ -203,10 +204,10 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assume().that(notesMigration.readChanges()).isTrue();
 
     ChangeInfo c = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+    String changeMetaRef = changeMetaRef(new Change.Id(c._number));
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
-      RevCommit commit =
-          rw.parseCommit(repo.exactRef(changeMetaRef(new Change.Id(c._number))).getObjectId());
+      RevCommit commit = rw.parseCommit(repo.exactRef(changeMetaRef).getObjectId());
 
       assertThat(commit.getShortMessage()).isEqualTo("Create change");
 
@@ -221,6 +222,10 @@ public class CreateChangeIT extends AbstractDaemonTest {
       assertThat(commit.getCommitterIdent())
           .isEqualTo(new PersonIdent(serverIdent.get(), c.created));
       assertThat(commit.getParentCount()).isEqualTo(0);
+    }
+    if (NoteDbMode.get().equals(NoteDbMode.FUSED)) {
+      RevCommit head = getRemoteHead(project.get(), changeMetaRef);
+      eventRecorder.assertRefUpdatedEvents(project.get(), changeMetaRef, null, head);
     }
   }
 

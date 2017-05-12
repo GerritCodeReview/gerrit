@@ -14,20 +14,20 @@
 (function() {
   'use strict';
 
-  var CHANGE_ID_ERROR = {
+  const CHANGE_ID_ERROR = {
     MISMATCH: 'mismatch',
     MISSING: 'missing',
   };
-  var CHANGE_ID_REGEX_PATTERN = /^Change-Id\:\s(I[0-9a-f]{8,40})/gm;
-  var COMMENT_SAVE = 'Saving... Try again after all comments are saved.';
+  const CHANGE_ID_REGEX_PATTERN = /^Change-Id\:\s(I[0-9a-f]{8,40})/gm;
+  const COMMENT_SAVE = 'Saving... Try again after all comments are saved.';
 
-  var MIN_LINES_FOR_COMMIT_COLLAPSE = 30;
-  var DEFAULT_NUM_FILES_SHOWN = 200;
+  const MIN_LINES_FOR_COMMIT_COLLAPSE = 30;
+  const DEFAULT_NUM_FILES_SHOWN = 200;
 
   // Maximum length for patch set descriptions.
-  var PATCH_DESC_MAX_LENGTH = 500;
-  var REVIEWERS_REGEX = /^R=/gm;
-  var MIN_CHECK_INTERVAL_SECS = 0;
+  const PATCH_DESC_MAX_LENGTH = 500;
+  const REVIEWERS_REGEX = /^R=/gm;
+  const MIN_CHECK_INTERVAL_SECS = 0;
 
   // These are the same as the breakpoint set in CSS. Make sure both are changed
   // together.
@@ -72,7 +72,7 @@
       viewState: {
         type: Object,
         notify: true,
-        value: function() { return {}; },
+        value() { return {}; },
       },
       backPage: String,
       hasParent: Boolean,
@@ -82,7 +82,7 @@
       },
       keyEventTarget: {
         type: Object,
-        value: function() { return document.body; },
+        value() { return document.body; },
       },
       _diffPrefs: Object,
       _numFilesShown: {
@@ -107,7 +107,7 @@
       _changeNum: String,
       _diffDrafts: {
         type: Object,
-        value: function() { return {}; },
+        value() { return {}; },
       },
       _editingCommitMessage: {
         type: Boolean,
@@ -205,15 +205,15 @@
       ',': '_handleCommaKey',
     },
 
-    attached: function() {
-      this._getLoggedIn().then(function(loggedIn) {
+    attached() {
+      this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
         if (loggedIn) {
-          this.$.restAPI.getAccount().then(function(acct) {
+          this.$.restAPI.getAccount().then(acct => {
             this._account = acct;
-          }.bind(this));
+          });
         }
-      }.bind(this));
+      });
 
       this._numFilesShown = this.viewState.numFilesShown ?
           this.viewState.numFilesShown : DEFAULT_NUM_FILES_SHOWN;
@@ -229,7 +229,7 @@
       this.listen(document, 'visibilitychange', '_handleVisibilityChange');
     },
 
-    detached: function() {
+    detached() {
       this.unlisten(window, 'scroll', '_handleScroll');
       this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
 
@@ -238,51 +238,51 @@
       }
     },
 
-    _computePrefsButtonHidden: function(prefs, loggedIn) {
+    _computePrefsButtonHidden(prefs, loggedIn) {
       return !loggedIn || !prefs;
     },
 
-    _handleEditCommitMessage: function(e) {
+    _handleEditCommitMessage(e) {
       this._editingCommitMessage = true;
       this.$.commitMessageEditor.focusTextarea();
     },
 
-    _handleCommitMessageSave: function(e) {
-      var message = e.detail.content;
+    _handleCommitMessageSave(e) {
+      const message = e.detail.content;
 
       this.$.jsAPI.handleCommitMessage(this._change, message);
 
       this.$.commitMessageEditor.disabled = true;
-      this._saveCommitMessage(message).then(function(resp) {
+      this._saveCommitMessage(message).then(resp => {
         this.$.commitMessageEditor.disabled = false;
         if (!resp.ok) { return; }
 
         this._latestCommitMessage = this._prepareCommitMsgForLinkify(message);
         this._editingCommitMessage = false;
         this._reloadWindow();
-      }.bind(this)).catch(function(err) {
+      }).catch(err => {
         this.$.commitMessageEditor.disabled = false;
-      }.bind(this));
+      });
     },
 
-    _reloadWindow: function() {
+    _reloadWindow() {
       window.location.reload();
     },
 
-    _handleCommitMessageCancel: function(e) {
+    _handleCommitMessageCancel(e) {
       this._editingCommitMessage = false;
     },
 
-    _saveCommitMessage: function(message) {
+    _saveCommitMessage(message) {
       return this.$.restAPI.saveChangeCommitMessageEdit(
-          this._changeNum, message).then(function(resp) {
+          this._changeNum, message).then(resp => {
             if (!resp.ok) { return resp; }
 
             return this.$.restAPI.publishChangeEdit(this._changeNum);
-          }.bind(this));
+          });
     },
 
-    _computeHideEditCommitMessage: function(loggedIn, editing, change) {
+    _computeHideEditCommitMessage(loggedIn, editing, change) {
       if (!loggedIn || editing || change.status === this.ChangeStatus.MERGED) {
         return true;
       }
@@ -290,29 +290,28 @@
       return false;
     },
 
-    _handlePrefsTap: function(e) {
+    _handlePrefsTap(e) {
       e.preventDefault();
       this.$.fileList.openDiffPrefs();
     },
 
-    _handleCommentSave: function(e) {
+    _handleCommentSave(e) {
       if (!e.target.comment.__draft) { return; }
 
-      var draft = e.target.comment;
+      const draft = e.target.comment;
       draft.patch_set = draft.patch_set || this._patchRange.patchNum;
 
       // The use of path-based notification helpers (set, push) can’t be used
       // because the paths could contain dots in them. A new object must be
       // created to satisfy Polymer’s dirty checking.
       // https://github.com/Polymer/polymer/issues/3127
-      // TODO(andybons): Polyfill for Object.assign in IE.
-      var diffDrafts = Object.assign({}, this._diffDrafts);
+      const diffDrafts = Object.assign({}, this._diffDrafts);
       if (!diffDrafts[draft.path]) {
         diffDrafts[draft.path] = [draft];
         this._diffDrafts = diffDrafts;
         return;
       }
-      for (var i = 0; i < this._diffDrafts[draft.path].length; i++) {
+      for (let i = 0; i < this._diffDrafts[draft.path].length; i++) {
         if (this._diffDrafts[draft.path][i].id === draft.id) {
           diffDrafts[draft.path][i] = draft;
           this._diffDrafts = diffDrafts;
@@ -320,7 +319,7 @@
         }
       }
       diffDrafts[draft.path].push(draft);
-      diffDrafts[draft.path].sort(function(c1, c2) {
+      diffDrafts[draft.path].sort((c1, c2) => {
         // No line number means that it’s a file comment. Sort it above the
         // others.
         return (c1.line || -1) - (c2.line || -1);
@@ -328,15 +327,15 @@
       this._diffDrafts = diffDrafts;
     },
 
-    _handleCommentDiscard: function(e) {
+    _handleCommentDiscard(e) {
       if (!e.target.comment.__draft) { return; }
 
-      var draft = e.target.comment;
+      const draft = e.target.comment;
       if (!this._diffDrafts[draft.path]) {
         return;
       }
-      var index = -1;
-      for (var i = 0; i < this._diffDrafts[draft.path].length; i++) {
+      let index = -1;
+      for (let i = 0; i < this._diffDrafts[draft.path].length; i++) {
         if (this._diffDrafts[draft.path][i].id === draft.id) {
           index = i;
           break;
@@ -354,8 +353,7 @@
       // because the paths could contain dots in them. A new object must be
       // created to satisfy Polymer’s dirty checking.
       // https://github.com/Polymer/polymer/issues/3127
-      // TODO(andybons): Polyfill for Object.assign in IE.
-      var diffDrafts = Object.assign({}, this._diffDrafts);
+      const diffDrafts = Object.assign({}, this._diffDrafts);
       diffDrafts[draft.path].splice(index, 1);
       if (diffDrafts[draft.path].length === 0) {
         delete diffDrafts[draft.path];
@@ -363,32 +361,32 @@
       this._diffDrafts = diffDrafts;
     },
 
-    _handlePatchChange: function(e) {
+    _handlePatchChange(e) {
       this._changePatchNum(parseInt(e.target.value, 10), true);
     },
 
-    _handleReplyTap: function(e) {
+    _handleReplyTap(e) {
       e.preventDefault();
       this._openReplyDialog();
     },
 
-    _handleDownloadTap: function(e) {
+    _handleDownloadTap(e) {
       e.preventDefault();
-      this.$.downloadOverlay.open().then(function() {
+      this.$.downloadOverlay.open().then(() => {
         this.$.downloadOverlay
             .setFocusStops(this.$.downloadDialog.getFocusStops());
         this.$.downloadDialog.focus();
-      }.bind(this));
+      });
     },
 
-    _handleDownloadDialogClose: function(e) {
+    _handleDownloadDialogClose(e) {
       this.$.downloadOverlay.close();
     },
 
-    _handleMessageReply: function(e) {
-      var msg = e.detail.message.message;
-      var quoteStr = msg.split('\n').map(
-          function(line) { return '> ' + line; }).join('\n') + '\n\n';
+    _handleMessageReply(e) {
+      const msg = e.detail.message.message;
+      const quoteStr = msg.split('\n').map(
+          line => { return '> ' + line; }).join('\n') + '\n\n';
 
       if (quoteStr !== this.$.replyDialog.quote) {
         this.$.replyDialog.draft = quoteStr;
@@ -397,33 +395,33 @@
       this._openReplyDialog();
     },
 
-    _handleReplyOverlayOpen: function(e) {
+    _handleReplyOverlayOpen(e) {
       this.$.replyDialog.focus();
     },
 
-    _handleReplySent: function(e) {
+    _handleReplySent(e) {
       this.$.replyOverlay.close();
       this._reload();
     },
 
-    _handleReplyCancel: function(e) {
+    _handleReplyCancel(e) {
       this.$.replyOverlay.close();
     },
 
-    _handleReplyAutogrow: function(e) {
+    _handleReplyAutogrow(e) {
       this.$.replyOverlay.refit();
     },
 
-    _handleShowReplyDialog: function(e) {
-      var target = this.$.replyDialog.FocusTarget.REVIEWERS;
+    _handleShowReplyDialog(e) {
+      let target = this.$.replyDialog.FocusTarget.REVIEWERS;
       if (e.detail.value && e.detail.value.ccsOnly) {
         target = this.$.replyDialog.FocusTarget.CCS;
       }
       this._openReplyDialog(target);
     },
 
-    _handleScroll: function() {
-      this.debounce('scroll', function() {
+    _handleScroll() {
+      this.debounce('scroll', () => {
         history.replaceState(
             {
               scrollTop: document.body.scrollTop,
@@ -433,13 +431,13 @@
       }, 150);
     },
 
-    _paramsChanged: function(value) {
+    _paramsChanged(value) {
       if (value.view !== this.tagName.toLowerCase()) {
         this._initialLoadComplete = false;
         return;
       }
 
-      var patchChanged = this._patchRange &&
+      const patchChanged = this._patchRange &&
           (value.patchNum !== undefined && value.basePatchNum !== undefined) &&
           (this._patchRange.patchNum !== value.patchNum ||
           this._patchRange.basePatchNum !== value.basePatchNum);
@@ -448,7 +446,7 @@
         this._initialLoadComplete = false;
       }
 
-      var patchRange = {
+      const patchRange = {
         patchNum: value.patchNum,
         basePatchNum: value.basePatchNum || 'PARENT',
       };
@@ -458,12 +456,12 @@
           patchRange.patchNum = this.computeLatestPatchNum(this._allPatchSets);
         }
         this._patchRange = patchRange;
-        this._reloadPatchNumDependentResources().then(function() {
+        this._reloadPatchNumDependentResources().then(() => {
           this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
             change: this._change,
             patchNum: patchRange.patchNum,
           });
-        }.bind(this));
+        });
         return;
       }
 
@@ -471,19 +469,19 @@
       this._patchRange = patchRange;
       this.$.relatedChanges.clear();
 
-      this._reload().then(function() {
+      this._reload().then(() => {
         this._performPostLoadTasks();
-      }.bind(this));
+      });
     },
 
-    _performPostLoadTasks: function() {
+    _performPostLoadTasks() {
       // Allow the message list and related changes to render before scrolling.
       // Related changes are loaded here (after everything else) because they
       // take the longest and are secondary information. Because the element may
       // alter the total height of the page, the call to potentially scroll to
       // a linked message is performed after related changes is fully loaded.
-      this.$.relatedChanges.reload().then(function() {
-        this.async(function() {
+      this.$.relatedChanges.reload().then(() => {
+        this.async(() => {
           if (history.state && history.state.scrollTop) {
             document.documentElement.scrollTop =
                 document.body.scrollTop = history.state.scrollTop;
@@ -491,7 +489,7 @@
             this._maybeScrollToMessage();
           }
         }, 1);
-      }.bind(this));
+      });
 
       this._maybeShowReplyDialog();
 
@@ -505,10 +503,10 @@
       this._initialLoadComplete = true;
     },
 
-    _paramsAndChangeChanged: function(value) {
+    _paramsAndChangeChanged(value) {
       // If the change number or patch range is different, then reset the
       // selected file index.
-      var patchRangeState = this.viewState.patchRange;
+      const patchRangeState = this.viewState.patchRange;
       if (this.viewState.changeNum !== this._changeNum ||
           patchRangeState.basePatchNum !== this._patchRange.basePatchNum ||
           patchRangeState.patchNum !== this._patchRange.patchNum) {
@@ -516,28 +514,28 @@
       }
     },
 
-    _numFilesShownChanged: function(numFilesShown) {
+    _numFilesShownChanged(numFilesShown) {
       this.viewState.numFilesShown = numFilesShown;
     },
 
-    _maybeScrollToMessage: function() {
-      var msgPrefix = '#message-';
-      var hash = window.location.hash;
-      if (hash.indexOf(msgPrefix) === 0) {
+    _maybeScrollToMessage() {
+      const msgPrefix = '#message-';
+      const hash = window.location.hash;
+      if (hash.startsWith(msgPrefix) === 0) {
         this.$.messageList.scrollToMessage(hash.substr(msgPrefix.length));
       }
     },
 
-    _getLocationSearch: function() {
+    _getLocationSearch() {
       // Not inlining to make it easier to test.
       return window.location.search;
     },
 
-    _getUrlParameter: function(param) {
-      var pageURL = this._getLocationSearch().substring(1);
-      var vars = pageURL.split('&');
-      for (var i = 0; i < vars.length; i++) {
-        var name = vars[i].split('=');
+    _getUrlParameter(param) {
+      const pageURL = this._getLocationSearch().substring(1);
+      const vars = pageURL.split('&');
+      for (let i = 0; i < vars.length; i++) {
+        const name = vars[i].split('=');
         if (name[0] == param) {
           return name[0];
         }
@@ -545,36 +543,36 @@
       return null;
     },
 
-    _maybeShowRevertDialog: function() {
+    _maybeShowRevertDialog() {
       Gerrit.awaitPluginsLoaded()
-        .then(this._getLoggedIn.bind(this))
-        .then(function(loggedIn) {
-          if (!loggedIn || this._change.status !== this.ChangeStatus.MERGED) {
+          .then(this._getLoggedIn.bind(this))
+          .then(loggedIn => {
+            if (!loggedIn || this._change.status !== this.ChangeStatus.MERGED) {
             // Do not display dialog if not logged-in or the change is not
             // merged.
-            return;
-          }
-          if (!!this._getUrlParameter('revert')) {
-            this.$.actions.showRevertDialog();
-          }
-        }.bind(this));
+              return;
+            }
+            if (this._getUrlParameter('revert')) {
+              this.$.actions.showRevertDialog();
+            }
+          });
     },
 
-    _maybeShowReplyDialog: function() {
-      this._getLoggedIn().then(function(loggedIn) {
+    _maybeShowReplyDialog() {
+      this._getLoggedIn().then(loggedIn => {
         if (!loggedIn) { return; }
 
         if (this.viewState.showReplyDialog) {
           this._openReplyDialog();
           // TODO(kaspern@): Find a better signal for when to call center.
-          this.async(function() { this.$.replyOverlay.center(); }, 100);
-          this.async(function() { this.$.replyOverlay.center(); }, 1000);
+          this.async(() => { this.$.replyOverlay.center(); }, 100);
+          this.async(() => { this.$.replyOverlay.center(); }, 1000);
           this.set('viewState.showReplyDialog', false);
         }
-      }.bind(this));
+      });
     },
 
-    _resetFileListViewState: function() {
+    _resetFileListViewState() {
       this.set('viewState.selectedFileIndex', 0);
       if (!!this.viewState.changeNum &&
           this.viewState.changeNum !== this._changeNum) {
@@ -587,7 +585,7 @@
       this.set('viewState.patchRange', this._patchRange);
     },
 
-    _changeChanged: function(change) {
+    _changeChanged(change) {
       if (!change || !this._patchRange || !this._allPatchSets) { return; }
       this.set('_patchRange.basePatchNum',
           this._patchRange.basePatchNum || 'PARENT');
@@ -597,8 +595,8 @@
 
       this._updateSelected();
 
-      var title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
-      this.fire('title-change', {title: title});
+      const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
+      this.fire('title-change', {title});
     },
 
     /**
@@ -608,9 +606,9 @@
      *     always include the patch range, even if the requested patchNum is
      *     known to be the latest.
      */
-    _changePatchNum: function(patchNum, opt_forceParams) {
+    _changePatchNum(patchNum, opt_forceParams) {
       if (!opt_forceParams) {
-        var currentPatchNum;
+        let currentPatchNum;
         if (this._change.current_revision) {
           currentPatchNum =
               this._change.revisions[this._change.current_revision]._number;
@@ -623,19 +621,19 @@
           return;
         }
       }
-      var patchExpr = this._patchRange.basePatchNum === 'PARENT' ? patchNum :
+      const patchExpr = this._patchRange.basePatchNum === 'PARENT' ? patchNum :
           this._patchRange.basePatchNum + '..' + patchNum;
       page.show(this.changePath(this._changeNum) + '/' + patchExpr);
     },
 
-    _computeChangePermalink: function(changeNum) {
+    _computeChangePermalink(changeNum) {
       return this.getBaseUrl() + '/' + changeNum;
     },
 
-    _computeChangeStatus: function(change, patchNum) {
-      var statusString;
+    _computeChangeStatus(change, patchNum) {
+      let statusString;
       if (change.status === this.ChangeStatus.NEW) {
-        var rev = this.getRevisionByPatchNum(change.revisions, patchNum);
+        const rev = this.getRevisionByPatchNum(change.revisions, patchNum);
         if (rev && rev.draft === true) {
           statusString = 'Draft';
         }
@@ -645,12 +643,12 @@
       return statusString || '';
     },
 
-    _computeShowCommitInfo: function(changeStatus, current_revision) {
+    _computeShowCommitInfo(changeStatus, current_revision) {
       return changeStatus === 'Merged' && current_revision;
     },
 
-    _computeMergedCommitInfo: function(current_revision, revisions) {
-      var rev = revisions[current_revision];
+    _computeMergedCommitInfo(current_revision, revisions) {
+      const rev = revisions[current_revision];
       if (!rev || !rev.commit) { return {}; }
       // CommitInfo.commit is optional. Set commit in all cases to avoid error
       // in <gr-commit-info>. @see Issue 5337
@@ -658,11 +656,11 @@
       return rev.commit;
     },
 
-    _computeChangeIdClass: function(displayChangeId) {
+    _computeChangeIdClass(displayChangeId) {
       return displayChangeId === CHANGE_ID_ERROR.MISMATCH ? 'warning' : '';
     },
 
-    _computeTitleAttributeWarning: function(displayChangeId) {
+    _computeTitleAttributeWarning(displayChangeId) {
       if (displayChangeId === CHANGE_ID_ERROR.MISMATCH) {
         return 'Change-Id mismatch';
       } else if (displayChangeId === CHANGE_ID_ERROR.MISSING) {
@@ -670,12 +668,12 @@
       }
     },
 
-    _computeChangeIdCommitMessageError: function(commitMessage, change) {
+    _computeChangeIdCommitMessageError(commitMessage, change) {
       if (!commitMessage) { return CHANGE_ID_ERROR.MISSING; }
 
       // Find the last match in the commit message:
-      var changeId;
-      var changeIdArr;
+      let changeId;
+      let changeIdArr;
 
       while (changeIdArr = CHANGE_ID_REGEX_PATTERN.exec(commitMessage)) {
         changeId = changeIdArr[1];
@@ -695,7 +693,7 @@
       return CHANGE_ID_ERROR.MISSING;
     },
 
-    _computePatchInfoClass: function(patchNum, allPatchSets) {
+    _computePatchInfoClass(patchNum, allPatchSets) {
       if (parseInt(patchNum, 10) ===
           this.computeLatestPatchNum(allPatchSets)) {
         return '';
@@ -710,24 +708,24 @@
      * @param {Number|String} basePatchNum Base patch number from file list
      * @return {Boolean}
      */
-    _computePatchSetDisabled: function(patchNum, basePatchNum) {
+    _computePatchSetDisabled(patchNum, basePatchNum) {
       basePatchNum = basePatchNum === 'PARENT' ? 0 : basePatchNum;
       return parseInt(patchNum, 10) <= parseInt(basePatchNum, 10);
     },
 
-    _computeLabelNames: function(labels) {
+    _computeLabelNames(labels) {
       return Object.keys(labels).sort();
     },
 
-    _computeLabelValues: function(labelName, labels) {
-      var result = [];
-      var t = labels[labelName];
+    _computeLabelValues(labelName, labels) {
+      const result = [];
+      const t = labels[labelName];
       if (!t) { return result; }
-      var approvals = t.all || [];
-      approvals.forEach(function(label) {
+      const approvals = t.all || [];
+      for (label of approvals) {
         if (label.value && label.value != labels[labelName].default_value) {
-          var labelClassName;
-          var labelValPrefix = '';
+          let labelClassName;
+          let labelValPrefix = '';
           if (label.value > 0) {
             labelValPrefix = '+';
             labelClassName = 'approved';
@@ -740,33 +738,33 @@
             account: label,
           });
         }
-      });
+      }
       return result;
     },
 
-    _computeReplyButtonLabel: function(changeRecord, canStartReview) {
+    _computeReplyButtonLabel(changeRecord, canStartReview) {
       if (canStartReview) {
         return 'Start review';
       }
 
-      var drafts = (changeRecord && changeRecord.base) || {};
-      var draftCount = Object.keys(drafts).reduce(function(count, file) {
+      const drafts = (changeRecord && changeRecord.base) || {};
+      const draftCount = Object.keys(drafts).reduce((count, file) => {
         return count + drafts[file].length;
       }, 0);
 
-      var label = 'Reply';
+      let label = 'Reply';
       if (draftCount > 0) {
         label += ' (' + draftCount + ')';
       }
       return label;
     },
 
-    _handleAKey: function(e) {
+    _handleAKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) {
         return;
       }
-      this._getLoggedIn().then(function(isLoggedIn) {
+      this._getLoggedIn().then(isLoggedIn => {
         if (!isLoggedIn) {
           this.fire('show-auth-required');
           return;
@@ -774,10 +772,10 @@
 
         e.preventDefault();
         this._openReplyDialog();
-      }.bind(this));
+      });
     },
 
-    _handleDKey: function(e) {
+    _handleDKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -785,13 +783,13 @@
       this.$.downloadOverlay.open();
     },
 
-    _handleCapitalRKey: function(e) {
+    _handleCapitalRKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       e.preventDefault();
       page.show('/c/' + this._change._number);
     },
 
-    _handleSKey: function(e) {
+    _handleSKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -799,14 +797,14 @@
       this.$.changeStar.toggleStar();
     },
 
-    _handleUKey: function(e) {
+    _handleUKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this._determinePageBack();
     },
 
-    _handleXKey: function(e) {
+    _handleXKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -814,7 +812,7 @@
       this.$.messageList.handleExpandCollapse(true);
     },
 
-    _handleZKey: function(e) {
+    _handleZKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -822,7 +820,7 @@
       this.$.messageList.handleExpandCollapse(false);
     },
 
-    _handleCommaKey: function(e) {
+    _handleCommaKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -830,20 +828,20 @@
       this.$.fileList.openDiffPrefs();
     },
 
-    _determinePageBack: function() {
+    _determinePageBack() {
       // Default backPage to '/' if user came to change view page
       // via an email link, etc.
       page.show(this.backPage || '/');
     },
 
-    _handleLabelRemoved: function(splices, path) {
-      for (var i = 0; i < splices.length; i++) {
-        var splice = splices[i];
-        for (var j = 0; j < splice.removed.length; j++) {
-          var removed = splice.removed[j];
-          var changePath = path.split('.');
-          var labelPath = changePath.splice(0, changePath.length - 2);
-          var labelDict = this.get(labelPath);
+    _handleLabelRemoved(splices, path) {
+      for (let i = 0; i < splices.length; i++) {
+        const splice = splices[i];
+        for (let j = 0; j < splice.removed.length; j++) {
+          const removed = splice.removed[j];
+          const changePath = path.split('.');
+          const labelPath = changePath.splice(0, changePath.length - 2);
+          const labelDict = this.get(labelPath);
           if (labelDict.approved &&
               labelDict.approved._account_id === removed._account_id) {
             this._reload();
@@ -853,7 +851,7 @@
       }
     },
 
-    _labelsChanged: function(changeRecord) {
+    _labelsChanged(changeRecord) {
       if (!changeRecord) { return; }
       if (changeRecord.value.indexSplices) {
         this._handleLabelRemoved(changeRecord.value.indexSplices,
@@ -864,53 +862,53 @@
       });
     },
 
-    _openReplyDialog: function(opt_section) {
+    _openReplyDialog(opt_section) {
       if (this.$.restAPI.hasPendingDiffDrafts()) {
         this.dispatchEvent(new CustomEvent('show-alert',
             {detail: {message: COMMENT_SAVE}, bubbles: true}));
         return;
       }
-      this.$.replyOverlay.open().then(function() {
+      this.$.replyOverlay.open().then(() => {
         this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
         this.$.replyDialog.open(opt_section);
         Polymer.dom.flush();
         this.$.replyOverlay.center();
-      }.bind(this));
+      });
     },
 
-    _handleReloadChange: function(e) {
-      return this._reload().then(function() {
+    _handleReloadChange(e) {
+      return this._reload().then(() => {
         // If the change was rebased, we need to reload the page with the
         // latest patch.
         if (e.detail.action === 'rebase') {
           page.show(this.changePath(this._changeNum));
         }
-      }.bind(this));
+      });
     },
 
-    _handleGetChangeDetailError: function(response) {
-      this.fire('page-error', {response: response});
+    _handleGetChangeDetailError(response) {
+      this.fire('page-error', {response});
     },
 
-    _getDiffDrafts: function() {
+    _getDiffDrafts() {
       return this.$.restAPI.getDiffDrafts(this._changeNum).then(
-          function(drafts) {
+          drafts => {
             return this._diffDrafts = drafts;
-          }.bind(this));
+          });
     },
 
-    _getLoggedIn: function() {
+    _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
     },
 
-    _getProjectConfig: function() {
+    _getProjectConfig() {
       return this.$.restAPI.getProjectConfig(this._change.project).then(
-          function(config) {
+          config => {
             this._projectConfig = config;
-          }.bind(this));
+          });
     },
 
-    _updateRebaseAction: function(revisionActions) {
+    _updateRebaseAction(revisionActions) {
       if (revisionActions && revisionActions.rebase) {
         revisionActions.rebase.rebaseOnCurrent =
             !!revisionActions.rebase.enabled;
@@ -919,73 +917,73 @@
       return revisionActions;
     },
 
-    _prepareCommitMsgForLinkify: function(msg) {
+    _prepareCommitMsgForLinkify(msg) {
       // TODO(wyatta) switch linkify sequence, see issue 5526.
       // This is a zero-with space. It is added to prevent the linkify library
       // from including R= as part of the email address.
       return msg.replace(REVIEWERS_REGEX, 'R=\u200B');
     },
 
-    _getChangeDetail: function() {
+    _getChangeDetail() {
       return this.$.restAPI.getChangeDetail(this._changeNum,
           this._handleGetChangeDetailError.bind(this)).then(
-              function(change) {
+          change => {
                 // Issue 4190: Coalesce missing topics to null.
-                if (!change.topic) { change.topic = null; }
-                if (!change.reviewer_updates) {
-                  change.reviewer_updates = null;
-                }
-                var latestRevisionSha = this._getLatestRevisionSHA(change);
-                var currentRevision = change.revisions[latestRevisionSha];
-                if (currentRevision.commit && currentRevision.commit.message) {
-                  this._latestCommitMessage = this._prepareCommitMsgForLinkify(
-                      currentRevision.commit.message);
-                } else {
-                  this._latestCommitMessage = null;
-                }
-                var lineHeight = getComputedStyle(this).lineHeight;
-                this._lineHeight = lineHeight.slice(0, lineHeight.length - 2);
+            if (!change.topic) { change.topic = null; }
+            if (!change.reviewer_updates) {
+              change.reviewer_updates = null;
+            }
+            const latestRevisionSha = this._getLatestRevisionSHA(change);
+            const currentRevision = change.revisions[latestRevisionSha];
+            if (currentRevision.commit && currentRevision.commit.message) {
+              this._latestCommitMessage = this._prepareCommitMsgForLinkify(
+                  currentRevision.commit.message);
+            } else {
+              this._latestCommitMessage = null;
+            }
+            const lineHeight = getComputedStyle(this).lineHeight;
+            this._lineHeight = lineHeight.slice(0, lineHeight.length - 2);
 
-                this._change = change;
-                if (!this._patchRange || !this._patchRange.patchNum ||
+            this._change = change;
+            if (!this._patchRange || !this._patchRange.patchNum ||
                     this._patchRange.patchNum === currentRevision._number) {
                   // CommitInfo.commit is optional, and may need patching.
-                  if (!currentRevision.commit.commit) {
-                    currentRevision.commit.commit = latestRevisionSha;
-                  }
-                  this._commitInfo = currentRevision.commit;
-                  this._currentRevisionActions =
+              if (!currentRevision.commit.commit) {
+                currentRevision.commit.commit = latestRevisionSha;
+              }
+              this._commitInfo = currentRevision.commit;
+              this._currentRevisionActions =
                       this._updateRebaseAction(currentRevision.actions);
                   // TODO: Fetch and process files.
-                }
-              }.bind(this));
+            }
+          });
     },
 
-    _getComments: function() {
+    _getComments() {
       return this.$.restAPI.getDiffComments(this._changeNum).then(
-          function(comments) {
+          comments => {
             this._comments = comments;
-          }.bind(this));
+          });
     },
 
-    _getLatestCommitMessage: function() {
+    _getLatestCommitMessage() {
       return this.$.restAPI.getChangeCommitInfo(this._changeNum,
           this.computeLatestPatchNum(this._allPatchSets)).then(
-              function(commitInfo) {
-                this._latestCommitMessage =
+          commitInfo => {
+            this._latestCommitMessage =
                     this._prepareCommitMsgForLinkify(commitInfo.message);
-              }.bind(this));
+          });
     },
 
-    _getLatestRevisionSHA: function(change) {
+    _getLatestRevisionSHA(change) {
       if (change.current_revision) {
         return change.current_revision;
       }
       // current_revision may not be present in the case where the latest rev is
       // a draft and the user doesn’t have permission to view that rev.
-      var latestRev = null;
-      var latestPatchNum = -1;
-      for (var rev in change.revisions) {
+      let latestRev = null;
+      let latestPatchNum = -1;
+      for (const rev in change.revisions) {
         if (!change.revisions.hasOwnProperty(rev)) { continue; }
 
         if (change.revisions[rev]._number > latestPatchNum) {
@@ -996,54 +994,54 @@
       return latestRev;
     },
 
-    _getCommitInfo: function() {
+    _getCommitInfo() {
       return this.$.restAPI.getChangeCommitInfo(
           this._changeNum, this._patchRange.patchNum).then(
-              function(commitInfo) {
-                this._commitInfo = commitInfo;
-              }.bind(this));
+          commitInfo => {
+            this._commitInfo = commitInfo;
+          });
     },
 
-    _reloadDiffDrafts: function() {
+    _reloadDiffDrafts() {
       this._diffDrafts = {};
-      this._getDiffDrafts().then(function() {
+      this._getDiffDrafts().then(() => {
         if (this.$.replyOverlay.opened) {
-          this.async(function() { this.$.replyOverlay.center(); }, 1);
+          this.async(() => { this.$.replyOverlay.center(); }, 1);
         }
-      }.bind(this));
+      });
     },
 
-    _reload: function() {
+    _reload() {
       this._loading = true;
       this._relatedChangesCollapsed = true;
 
-      this._getLoggedIn().then(function(loggedIn) {
+      this._getLoggedIn().then(loggedIn => {
         if (!loggedIn) { return; }
 
         this._reloadDiffDrafts();
-      }.bind(this));
+      });
 
-      var detailCompletes = this._getChangeDetail().then(function() {
+      const detailCompletes = this._getChangeDetail().then(() => {
         this._loading = false;
         this._getProjectConfig();
-      }.bind(this));
+      });
       this._getComments();
 
       if (this._patchRange.patchNum) {
         return Promise.all([
           this._reloadPatchNumDependentResources(),
           detailCompletes,
-        ]).then(function() {
+        ]).then(() => {
           return this.$.actions.reload();
-        }.bind(this));
+        });
       } else {
         // The patch number is reliant on the change detail request.
-        return detailCompletes.then(function() {
+        return detailCompletes.then(() => {
           this.$.fileList.reload();
           if (!this._latestCommitMessage) {
             this._getLatestCommitMessage();
           }
-        }.bind(this));
+        });
       }
     },
 
@@ -1051,34 +1049,35 @@
      * Kicks off requests for resources that rely on the patch range
      * (`this._patchRange`) being defined.
      */
-    _reloadPatchNumDependentResources: function() {
+    _reloadPatchNumDependentResources() {
       return Promise.all([
         this._getCommitInfo(),
         this.$.fileList.reload(),
       ]);
     },
 
-    _updateSelected: function() {
+    _updateSelected() {
       this._selectedPatchSet = this._patchRange.patchNum;
     },
 
-    _computePatchSetDescription: function(change, patchNum) {
-      var rev = this.getRevisionByPatchNum(change.revisions, patchNum);
+    _computePatchSetDescription(change, patchNum) {
+      const rev = this.getRevisionByPatchNum(change.revisions, patchNum);
       return (rev && rev.description) ?
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
 
-    _computePatchSetCommentsString: function(allComments, patchNum) {
-      var numComments = 0;
-      var numUnresolved = 0;
-      for (var file in allComments) {
-        var comments = allComments[file];
-        numComments += this.$.fileList.getCommentsForPath(
-            allComments, patchNum, file).length;
-        numUnresolved += this.$.fileList.computeUnresolvedNum(
-            allComments, {}, patchNum, file);
+    _computePatchSetCommentsString(allComments, patchNum) {
+      let numComments = 0;
+      let numUnresolved = 0;
+      for (const file in allComments) {
+        if(allComments.hasOwnProperty(file)) {
+          numComments += this.$.fileList.getCommentsForPath(
+              allComments, patchNum, file).length;
+          numUnresolved += this.$.fileList.computeUnresolvedNum(
+              allComments, {}, patchNum, file);
+        }
       }
-      var commentsStr = '';
+      let commentsStr = '';
       if (numComments > 0) {
         commentsStr = '(' + numComments + ' comments';
         if (numUnresolved > 0) {
@@ -1089,22 +1088,22 @@
       return commentsStr;
     },
 
-    _computeDescriptionPlaceholder: function(readOnly) {
+    _computeDescriptionPlaceholder(readOnly) {
       return (readOnly ? 'No' : 'Add a') + ' patch set description';
     },
 
-    _handleDescriptionChanged: function(e) {
-      var desc = e.detail.trim();
-      var rev = this.getRevisionByPatchNum(this._change.revisions,
+    _handleDescriptionChanged(e) {
+      const desc = e.detail.trim();
+      const rev = this.getRevisionByPatchNum(this._change.revisions,
           this._selectedPatchSet);
-      var sha = this._getPatchsetHash(this._change.revisions, rev);
+      const sha = this._getPatchsetHash(this._change.revisions, rev);
       this.$.restAPI.setDescription(this._changeNum,
           this._selectedPatchSet, desc)
-          .then(function(res) {
+          .then(res => {
             if (res.ok) {
               this.set(['_change', 'revisions', sha, 'description'], desc);
             }
-          }.bind(this));
+          });
     },
 
 
@@ -1113,8 +1112,8 @@
      * @param {Object} patchSet A revision already fetched from {revisions}
      * @return {string} the SHA hash corresponding to the revision.
      */
-    _getPatchsetHash: function(revisions, patchSet) {
-      for (var rev in revisions) {
+    _getPatchsetHash(revisions, patchSet) {
+      for (const rev in revisions) {
         if (revisions.hasOwnProperty(rev) &&
             revisions[rev] === patchSet) {
           return rev;
@@ -1122,70 +1121,70 @@
       }
     },
 
-    _computeCanStartReview: function(loggedIn, change, account) {
+    _computeCanStartReview(loggedIn, change, account) {
       return !!(loggedIn && change.work_in_progress &&
           change.owner._account_id === account._account_id);
     },
 
-    _computeDescriptionReadOnly: function(loggedIn, change, account) {
+    _computeDescriptionReadOnly(loggedIn, change, account) {
       return !(loggedIn && (account._account_id === change.owner._account_id));
     },
 
-    _computeReplyDisabled: function() { return false; },
+    _computeReplyDisabled() { return false; },
 
-    _computeChangePermalinkAriaLabel: function(changeNum) {
+    _computeChangePermalinkAriaLabel(changeNum) {
       return 'Change ' + changeNum;
     },
 
-    _computeCommitClass: function(collapsed, commitMessage) {
+    _computeCommitClass(collapsed, commitMessage) {
       if (this._computeCommitToggleHidden(commitMessage)) { return ''; }
       return collapsed ? 'collapsed' : '';
     },
 
-    _computeRelatedChangesClass: function(collapsed, loading) {
+    _computeRelatedChangesClass(collapsed, loading) {
       if (!loading && !this.customStyle['--relation-chain-max-height']) {
         this._updateRelatedChangeMaxHeight();
       }
       return collapsed ? 'collapsed' : '';
     },
 
-    _computeCollapseText: function(collapsed) {
+    _computeCollapseText(collapsed) {
       // Symbols are up and down triangles.
       return collapsed ? '\u25bc Show more' : '\u25b2 Show less';
     },
 
-    _toggleCommitCollapsed: function() {
+    _toggleCommitCollapsed() {
       this._commitCollapsed = !this._commitCollapsed;
       if (this._commitCollapsed) {
         window.scrollTo(0, 0);
       }
     },
 
-    _toggleRelatedChangesCollapsed: function() {
+    _toggleRelatedChangesCollapsed() {
       this._relatedChangesCollapsed = !this._relatedChangesCollapsed;
       if (this._relatedChangesCollapsed) {
         window.scrollTo(0, 0);
       }
     },
 
-    _computeCommitToggleHidden: function(commitMessage) {
+    _computeCommitToggleHidden(commitMessage) {
       if (!commitMessage) { return true; }
       return commitMessage.split('\n').length < MIN_LINES_FOR_COMMIT_COLLAPSE;
     },
 
-    _getOffsetHeight: function(element) {
+    _getOffsetHeight(element) {
       return element.offsetHeight;
     },
 
-    _getScrollHeight: function(element) {
+    _getScrollHeight(element) {
       return element.scrollHeight;
     },
 
     /**
      * Get the line height of an element to the nearest integer.
      */
-    _getLineHeight: function(element) {
-      var lineHeightStr = getComputedStyle(element).lineHeight;
+    _getLineHeight(element) {
+      const lineHeightStr = getComputedStyle(element).lineHeight;
       return Math.round(lineHeightStr.slice(0, lineHeightStr.length - 2));
     },
 
@@ -1246,12 +1245,12 @@
       this.updateStyles();
     },
 
-    _computeRelatedChangesToggleHidden: function() {
+    _computeRelatedChangesToggleHidden() {
       return this._getScrollHeight(this.$.relatedChanges) <=
           this._getOffsetHeight(this.$.relatedChanges);
     },
 
-    _startUpdateCheckTimer: function() {
+    _startUpdateCheckTimer() {
       if (!this.serverConfig ||
           !this.serverConfig.change ||
           this.serverConfig.change.update_delay === undefined ||
@@ -1259,9 +1258,9 @@
         return;
       }
 
-      this._updateCheckTimerHandle = this.async(function() {
+      this._updateCheckTimerHandle = this.async(() => {
         this.fetchIsLatestKnown(this._change, this.$.restAPI)
-            .then(function(latest) {
+            .then(latest => {
               if (latest) {
                 this._startUpdateCheckTimer();
               } else {
@@ -1278,16 +1277,16 @@
                   }.bind(this),
                 });
               }
-            }.bind(this));
+            });
       }, this.serverConfig.change.update_delay * 1000);
     },
 
-    _cancelUpdateCheckTimer: function() {
+    _cancelUpdateCheckTimer() {
       this.cancelAsync(this._updateCheckTimerHandle);
       this._updateCheckTimerHandle = null;
     },
 
-    _handleVisibilityChange: function() {
+    _handleVisibilityChange() {
       if (document.hidden && this._updateCheckTimerHandle) {
         this._cancelUpdateCheckTimer();
       } else if (!this._updateCheckTimerHandle) {
@@ -1295,7 +1294,7 @@
       }
     },
 
-    _computeHeaderClass: function(change) {
+    _computeHeaderClass(change) {
       return change.work_in_progress ? 'header wip' : 'header';
     },
   });

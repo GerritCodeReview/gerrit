@@ -29,6 +29,15 @@
   var REVIEWERS_REGEX = /^R=/gm;
   var MIN_CHECK_INTERVAL_SECS = 0;
 
+  // These are the same as the breakpoint set in CSS. Make sure both are changed
+  // together.
+  const BREAKPOINT_RELATED_SMALL = '50em';
+  const BREAKPOINT_RELATED_MED = '60em';
+
+  // In the event that the related changes medium width calculation is too close
+  // to zero, provide some height.
+  const MINIMUM_RELATED_MAX_HEIGHT = 100;
+
   Polymer({
     is: 'gr-change-view',
 
@@ -1182,35 +1191,57 @@
      * New max height for the related changes section, shorter than the existing
      * change info height.
      */
-    _updateRelatedChangeMaxHeight: function() {
+    _updateRelatedChangeMaxHeight() {
       // Takes into account approximate height for the expand button and
       // bottom margin
-      var extraHeight = 24;
-      var maxExistingHeight;
-      var hasCommitToggle =
+      const extraHeight = 24;
+      let maxExistingHeight;
+      let newHeight;
+      const hasCommitToggle =
           !this._computeCommitToggleHidden(this._latestCommitMessage);
-      if (hasCommitToggle) {
-        // Make sure the content is lined up if both areas have buttons. If the
-        // commit message is not collapsed, instead use the change info hight.
-        maxExistingHeight = this._getOffsetHeight(this.$.commitMessage);
+
+      if (window.matchMedia(`(max-width: ${BREAKPOINT_RELATED_SMALL})`)
+          .matches) {
+        // In a mobile view, give the relation chain some space.
+        const smallRelatedHeight = 400;
+        newHeight = smallRelatedHeight;
+      } else if (window.matchMedia(`(max-width: ${BREAKPOINT_RELATED_MED})`)
+          .matches) {
+        // Since related changes are below the commit message, but still next to
+        // metadata, the height should be the height of the metadata minus the
+        // height of the commit message to reduce jank. However, if that doesn't
+        // result in enough space, instead use the MINIMUM_RELATED_MAX_HEIGHT.
+        // Note: extraHeight is to take into account margin/padding.
+        const medRelatedHeight = Math.max(
+            this._getOffsetHeight(this.$.mainChangeInfo) -
+            this._getOffsetHeight(this.$.commitMessage) - 2 * extraHeight,
+            MINIMUM_RELATED_MAX_HEIGHT);
+        newHeight = medRelatedHeight;
       } else {
-        maxExistingHeight = this._getOffsetHeight(this.$.mainChangeInfo) -
-            extraHeight;
+        if (hasCommitToggle) {
+          // Make sure the content is lined up if both areas have buttons. If
+          // the commit message is not collapsed, instead use the change info
+          // height.
+          maxExistingHeight = this._getOffsetHeight(this.$.commitMessage);
+        } else {
+          maxExistingHeight = this._getOffsetHeight(this.$.mainChangeInfo) -
+              extraHeight;
+        }
+        // Get the line height of related changes, and convert it to the nearest
+        // integer.
+        const lineHeight = this._getLineHeight(this.$.relatedChanges);
+
+        // Figure out a new height that is divisible by the rounded line height.
+        const remainder = maxExistingHeight % lineHeight;
+        newHeight = maxExistingHeight - remainder;
+
+        // Update the max-height of the relation chain to this new height;
+        if (hasCommitToggle) {
+          this.customStyle['--related-change-btn-top-padding'] =
+            remainder + 'px';
+        }
       }
-
-      // Get the line height of related changes, and convert it to the nearest
-      // integer.
-      var lineHeight = this._getLineHeight(this.$.relatedChanges);
-
-      // Figure out a new height that is divisible by the rounded line height.
-      var remainder = maxExistingHeight % lineHeight;
-      var newHeight = maxExistingHeight - remainder;
-
-      // Update the max-height of the relation chain to this new height;
       this.customStyle['--relation-chain-max-height'] = newHeight + 'px';
-      if (hasCommitToggle) {
-        this.customStyle['--related-change-btn-top-padding'] = remainder + 'px';
-      }
       this.updateStyles();
     },
 

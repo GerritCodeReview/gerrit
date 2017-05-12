@@ -1122,6 +1122,8 @@ limitations under the License.
         sandbox.stub(element, '_getScrollHeight', function() {
           return 60;
         });
+
+        sandbox.stub(window, 'matchMedia', () => ({matches: true}));
         element._relatedChangesLoading = false;
         assert.isFalse(element.$.relatedChangesToggle.hasAttribute('hidden'));
         assert.equal(updateHeightSpy.callCount, 1);
@@ -1137,6 +1139,8 @@ limitations under the License.
         sandbox.stub(element, '_getScrollHeight', function() {
           return 40;
         });
+
+        sandbox.stub(window, 'matchMedia', () => ({matches: true}));
         element._relatedChangesLoading = false;
         assert.isTrue(element.$.relatedChangesToggle.hasAttribute('hidden'));
         assert.equal(updateHeightSpy.callCount, 1);
@@ -1150,6 +1154,8 @@ limitations under the License.
         sandbox.stub(element, '_getScrollHeight', function() {
           return 60;
         });
+
+        sandbox.stub(window, 'matchMedia', () => ({matches: false}));
         element._relatedChangesLoading = false;
         assert.isTrue(element._relatedChangesCollapsed);
         assert.isTrue(
@@ -1168,6 +1174,8 @@ limitations under the License.
         sandbox.stub(element, '_getLineHeight', function() {
           return 12;
         });
+
+        sandbox.stub(window, 'matchMedia', () => ({matches: false}));
 
         // 50 (existing height) - 24 (extra height) = 26 (adjusted height).
         // 50 (existing height)  % 12 (line height) = 2 (remainder).
@@ -1190,6 +1198,8 @@ limitations under the License.
           return 12;
         });
 
+        sandbox.stub(window, 'matchMedia', () => ({matches: false}));
+
         // 50 (existing height) % 12 (line height) = 2 (remainder).
         // 50 (existing height)  - 2 (remainder) = 48 (max height to set).
 
@@ -1199,6 +1209,43 @@ limitations under the License.
         assert.equal(element.customStyle['--related-change-btn-top-padding'],
             '2px');
       });
+
+      test('_updateRelatedChangeMaxHeight in small screen mode', () => {
+        element._latestCommitMessage = _.times(31, String).join('\n');
+        sandbox.stub(element, '_getOffsetHeight', () => {
+          return 50;
+        });
+        sandbox.stub(element, '_getLineHeight', () => {
+          return 12;
+        });
+        sandbox.stub(window, 'matchMedia', () => ({matches: true}));
+
+        element._updateRelatedChangeMaxHeight();
+        assert.equal(element.customStyle['--relation-chain-max-height'],
+            '400px');
+      });
+
+       test('_updateRelatedChangeMaxHeight in medium screen mode', () => {
+        element._latestCommitMessage = _.times(31, String).join('\n');
+        sandbox.stub(element, '_getOffsetHeight', () => {
+          return 50;
+        });
+        sandbox.stub(element, '_getLineHeight', () => {
+          return 12;
+        });
+        sandbox.stub(window, 'matchMedia', () => {
+          if (window.matchMedia.lastCall.args[0] === '(max-width: 60em)') {
+            return {matches: true};
+          } else {
+            return {matches: false};
+          }
+        });
+
+        element._updateRelatedChangeMaxHeight();
+        assert.equal(element.customStyle['--relation-chain-max-height'],
+            '100px');
+      });
+
 
       suite('update checks', function() {
         setup(function() {

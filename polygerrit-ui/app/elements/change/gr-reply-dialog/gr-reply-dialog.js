@@ -457,7 +457,7 @@
           }
           for (const entry of change[key]) {
             if (entry._account_id === owner._account_id) {
-              return;
+              continue;
             }
             switch (key) {
               case 'REVIEWER':
@@ -537,11 +537,14 @@
             .then(() => {
               return this.send(this._includeComments);
             })
-            .then(this._purgeReviewersPendingRemove.bind(this));
+            .then(keepReviewers => {
+              this._purgeReviewersPendingRemove(false, keepReviewers);
+            });
         return;
       }
-      this.send(this._includeComments)
-          .then(this._purgeReviewersPendingRemove.bind(this));
+      this.send(this._includeComments).then(keepReviewers => {
+        this._purgeReviewersPendingRemove(false, keepReviewers);
+      });
     },
 
     _saveReview(review, opt_errFn) {

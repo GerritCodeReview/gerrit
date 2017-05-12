@@ -614,8 +614,9 @@ limitations under the License.
       const reviewer2 = makeAccount();
       const cc1 = makeAccount();
       const cc2 = makeAccount();
+      const cc3 = makeAccount();
       element._reviewers = [reviewer1, reviewer2];
-      element._ccs = [cc1, cc2];
+      element._ccs = [cc1, cc2, cc3];
 
       const mutations = [];
 
@@ -633,6 +634,7 @@ limitations under the License.
       reviewers.fire('remove', {account: reviewer1});
       ccs.$.entry.fire('add', {value: {account: reviewer1}});
       ccs.fire('remove', {account: cc1});
+      ccs.fire('remove', {account: cc3});
       reviewers.$.entry.fire('add', {value: {account: cc1}});
 
       // Add to other field without removing from former field.
@@ -647,9 +649,10 @@ limitations under the License.
         return result;
       };
 
-      // Send and purge and verify moves without deletions.
+      // Send and purge and verify moves, delete cc3.
       element.send()
-          .then(element._purgeReviewersPendingRemove.bind(element))
+          .then(keepReviewers =>
+              element._purgeReviewersPendingRemove(false, keepReviewers))
           .then(() => {
             assert.deepEqual(
                 mutations, [
@@ -657,6 +660,7 @@ limitations under the License.
                   mapReviewer(cc2),
                   mapReviewer(reviewer1, 'CC'),
                   mapReviewer(reviewer2, 'CC'),
+                  {account: cc3, state: 'REMOVED'},
                 ]);
             done();
           });

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "137c3fd1_b200423d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:38:38Z",
+      "side": 1,
+      "message": "Does this test whether the flex direction has been overwritten to column by the media query on ll.233-238?",
+      "range": {
+        "startLine": 1182,
+        "startChar": 6,
+        "endLine": 1182,
+        "endChar": 63
+      },
+      "revId": "9a7f382bfbd531ba5d4d1331d0cdb7319e865214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ab38b85_2f3048da",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1189,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:38:38Z",
+      "side": 1,
+      "message": "Is the added complexity in this method because of the additional media query? This kind of JS function seems kind of brittle. What legibility problem does the additional media query solve?",
+      "revId": "9a7f382bfbd531ba5d4d1331d0cdb7319e865214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

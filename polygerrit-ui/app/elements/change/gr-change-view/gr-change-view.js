@@ -1178,33 +1178,44 @@
       return Math.round(lineHeightStr.slice(0, lineHeightStr.length - 2));
     },
 
+    _flexDirectionIsRow(element) {
+      return getComputedStyle(element).flexDirection === 'row';
+    },
+
     /**
      * New max height for the related changes section, shorter than the existing
      * change info height.
      */
-    _updateRelatedChangeMaxHeight: function() {
+    _updateRelatedChangeMaxHeight() {
       // Takes into account approximate height for the expand button and
       // bottom margin
-      var extraHeight = 24;
-      var maxExistingHeight;
-      var hasCommitToggle =
+      const extraHeight = 24;
+      let maxExistingHeight;
+      const hasCommitToggle =
           !this._computeCommitToggleHidden(this._latestCommitMessage);
-      if (hasCommitToggle) {
-        // Make sure the content is lined up if both areas have buttons. If the
-        // commit message is not collapsed, instead use the change info hight.
-        maxExistingHeight = this._getOffsetHeight(this.$.commitMessage);
+      if (this._flexDirectionIsRow(this.$.commitAndRelated)) {
+        if (hasCommitToggle ) {
+          // Make sure the content is lined up if both areas have buttons. If the
+          // commit message is not collapsed, instead use the change info hight.
+          maxExistingHeight = this._getOffsetHeight(this.$.commitMessage);
+        } else {
+          maxExistingHeight = this._getOffsetHeight(this.$.mainChangeInfo) -
+              extraHeight;
+        }
       } else {
-        maxExistingHeight = this._getOffsetHeight(this.$.mainChangeInfo) -
-            extraHeight;
+        // In a mobile view, give the relation chain some space.
+        maxExistingHeight = Math.max(
+            this._getOffsetHeight(this.$.mainChangeInfo) -
+            this._getOffsetHeight(this.$.commitMessage) - 2 * extraHeight, 100);
       }
 
       // Get the line height of related changes, and convert it to the nearest
       // integer.
-      var lineHeight = this._getLineHeight(this.$.relatedChanges);
+      const lineHeight = this._getLineHeight(this.$.relatedChanges);
 
       // Figure out a new height that is divisible by the rounded line height.
-      var remainder = maxExistingHeight % lineHeight;
-      var newHeight = maxExistingHeight - remainder;
+      const remainder = maxExistingHeight % lineHeight;
+      const newHeight = maxExistingHeight - remainder;
 
       // Update the max-height of the relation chain to this new height;
       this.customStyle['--relation-chain-max-height'] = newHeight + 'px';

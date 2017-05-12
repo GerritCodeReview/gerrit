@@ -1200,6 +1200,26 @@ limitations under the License.
             '2px');
       });
 
+      test('_updateRelatedChangeMaxHeight in small screen mode', () => {
+        element._latestCommitMessage = _.times(31, String).join('\n');
+        sandbox.stub(element, '_getOffsetHeight', () => {
+          return 50;
+        });
+        sandbox.stub(element, '_getLineHeight', () => {
+          return 12;
+        });
+        sandbox.stub(element, '_flexDirectionIsRow', () => {
+          return false;
+        });
+
+        // 100 % 12 (line height) = 4 (remainder).
+        // 100 (existing height)  - 4 (remainder) = 96 (max height to set).
+
+        element._updateRelatedChangeMaxHeight();
+        assert.equal(element.customStyle['--relation-chain-max-height'],
+            '96px');
+      });
+
       suite('update checks', function() {
         setup(function() {
           sandbox.spy(element, '_startUpdateCheckTimer');

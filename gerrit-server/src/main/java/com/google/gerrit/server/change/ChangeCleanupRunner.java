@@ -17,10 +17,13 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.server.config.ScheduleConfig.MISSING_CONFIG;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
 import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gwtorm.server.OrmException;
@@ -81,19 +84,29 @@ public class ChangeCleanupRunner implements Runnable {
 
   private final OneOffRequestContext oneOffRequestContext;
   private final AbandonUtil abandonUtil;
+  private final RetryHelper retryHelper;
 
   @Inject
-  ChangeCleanupRunner(OneOffRequestContext oneOffRequestContext, AbandonUtil abandonUtil) {
+  ChangeCleanupRunner(
+      OneOffRequestContext oneOffRequestContext, AbandonUtil abandonUtil, RetryHelper retryHelper) {
     this.oneOffRequestContext = oneOffRequestContext;
     this.abandonUtil = abandonUtil;
+    this.retryHelper = retryHelper;
   }
 
   @Override
   public void run() {
     log.info("Running change cleanups.");
     try (ManualRequestContext ctx = oneOffRequestContext.open()) {
-      abandonUtil.abandonInactiveOpenChanges();
-    } catch (OrmException e) {
+      // abandonInactiveOpenChanges skips failures instead of throwing, so retrying will never
+      // actually happen. For the purposes of this class that is fine: they'll get tried again the
+      // next time the scheduled task is run.
+      retryHelper.execute(
+          updateFactory -> {
+            abandonUtil.abandonInactiveOpenChanges(updateFactory);
+            return null;
+          });
+    } catch (RestApiException | UpdateException | OrmException e) {
       log.error("Failed to cleanup changes.", e);
     }
   }

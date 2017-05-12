@@ -82,7 +82,7 @@ limitations under the License.
       .mobile {
         display: none;
       }
-       @media screen and (max-width: 50em) {
+       @media screen and (max-width: 60em) {
         .mobile {
           display: block;
         }
@@ -104,7 +104,8 @@ limitations under the License.
             as="related">
           <div class$="rightIndent [[_computeChangeContainerClass(change, related)]]">
             <a href$="[[_computeChangeURL(related._change_number, related._revision_number)]]"
-                class$="[[_computeLinkClass(related)]]">
+                class$="[[_computeLinkClass(related)]]"
+                title$="[[related.commit.subject]]">
               [[related.commit.subject]]
             </a>
             <span class$="[[_computeChangeStatusClass(related)]]">
@@ -118,7 +119,8 @@ limitations under the License.
         <template is="dom-repeat" items="[[_submittedTogether]]" as="change">
           <div>
             <a href$="[[_computeChangeURL(change._number)]]"
-                class$="[[_computeLinkClass(change)]]">
+                class$="[[_computeLinkClass(change)]]"
+                title$="[[change.project]]: [[change.branch]]: [[change.subject]]">
               [[change.project]]: [[change.branch]]: [[change.subject]]
             </a>
           </div>
@@ -129,7 +131,8 @@ limitations under the License.
         <template is="dom-repeat" items="[[_sameTopic]]" as="change">
           <div>
             <a href$="[[_computeChangeURL(change._number)]]"
-                class$="[[_computeLinkClass(change)]]">
+                class$="[[_computeLinkClass(change)]]"
+                title$="[[change.project]]: [[change.branch]]: [[change.subject]]">
               [[change.project]]: [[change.branch]]: [[change.subject]]
             </a>
           </div>
@@ -140,7 +143,8 @@ limitations under the License.
         <template is="dom-repeat" items="[[_conflicts]]" as="change">
           <div>
             <a href$="[[_computeChangeURL(change._number)]]"
-                class$="[[_computeLinkClass(change)]]">
+                class$="[[_computeLinkClass(change)]]"
+                title$="[[change.subject]]">
               [[change.subject]]
             </a>
           </div>
@@ -151,7 +155,8 @@ limitations under the License.
         <template is="dom-repeat" items="[[_cherryPicks]]" as="change">
           <div>
             <a href$="[[_computeChangeURL(change._number)]]"
-                class$="[[_computeLinkClass(change)]]">
+                class$="[[_computeLinkClass(change)]]"
+                title$="[[change.branch]]: [[change.subject]]">
               [[change.branch]]: [[change.subject]]
             </a>
           </div>

@@ -137,3 +137,12 @@ In addition, you can supply the `--fix` flag to apply some suggested fixes for
 simple style issues.
 If you modify JS inside of `<script>` tags, like for test suites, you may have
 to supply the `--ext .html` flag.
+
+Some useful commands:
+
+* To run ESLint on the whole app, less some dependency code:
+`eslint --ignore-pattern 'bower_components/' --ignore-pattern 'gr-linked-text' --ignore-pattern 'scripts/vendor' --ext .html,.js polygerrit-ui/app`
+* To run ESLint on just the subdirectory you modified:
+`eslint --ext .html,.js polygerrit-ui/app/$YOUR_DIR_HERE`
+* To run the linter on all of your local changes:
+`git diff --name-only master | xargs eslint --ext .html,.js`

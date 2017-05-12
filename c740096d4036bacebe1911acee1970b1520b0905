@@ -82,6 +82,29 @@
     },
     {
       "key": {
+        "uuid": "0f55fda6_98811b41",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T20:23:53Z",
+      "side": 1,
+      "message": "It looks like this is just used for the cursor. Can this be private?\n\n _suggestionEls",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "c740096d4036bacebe1911acee1970b1520b0905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9c497cbb_9bc052ce",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
         "patchSetId": 11

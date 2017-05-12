@@ -258,8 +258,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         if (patchSet == null) {
           throw new PatchListNotAvailableException(
               String.format(
-                  "patch set %s of change %s not found",
-                  old.get(), change.getId().get()));
+                  "patch set %s of change %s not found", old.get(), change.getId().get()));
         }
 
         PatchList oldList = patchListCache.get(change, patchSet);

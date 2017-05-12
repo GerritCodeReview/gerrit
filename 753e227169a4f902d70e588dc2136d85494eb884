@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76f2cbd4_518234af",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:09:42Z",
+      "side": 1,
+      "message": "Nit: there is no need for the bracket notation here. You may just use\n\n section.due_to_rebase",
+      "range": {
+        "startLine": 184,
+        "startChar": 24,
+        "endLine": 184,
+        "endChar": 48
+      },
+      "revId": "753e227169a4f902d70e588dc2136d85494eb884",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad124a35_4c21ef77",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:09:42Z",
+      "side": 1,
+      "message": "Instead of the local variable, can you just use...\n\n section.due_to_rebase\n\n...here?",
+      "range": {
+        "startLine": 216,
+        "startChar": 33,
+        "endLine": 216,
+        "endChar": 44
+      },
+      "revId": "753e227169a4f902d70e588dc2136d85494eb884",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

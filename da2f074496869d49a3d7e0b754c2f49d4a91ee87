@@ -34,6 +34,24 @@
       "revId": "da2f074496869d49a3d7e0b754c2f49d4a91ee87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efb6b3b2_fa146817",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-05-12T02:37:40Z",
+      "side": 1,
+      "message": "Fair. A one-way link works well enough for this kind of situation where there may be a many-to-one relationship between changes and the feature they implement --- commented on the bug instead.",
+      "parentUuid": "ae4bbc49_41dd8156",
+      "revId": "da2f074496869d49a3d7e0b754c2f49d4a91ee87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

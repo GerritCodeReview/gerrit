@@ -22,6 +22,29 @@
       "revId": "de0c1e38c3048e9c11edba006e8176128efe7939",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "769e2ca0_b9bc7e5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 66
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T17:43:41Z",
+      "side": 1,
+      "message": "If a change is only private and has no other status, then the status string looks like\n\n ( (Private)):\n\n...rather than just...\n\n (Private):",
+      "range": {
+        "startLine": 628,
+        "startChar": 8,
+        "endLine": 628,
+        "endChar": 38
+      },
+      "revId": "de0c1e38c3048e9c11edba006e8176128efe7939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

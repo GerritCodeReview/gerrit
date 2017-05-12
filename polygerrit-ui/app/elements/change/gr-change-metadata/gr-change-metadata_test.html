@@ -92,10 +92,11 @@ limitations under the License.
       sandbox.stub(element, '_showMissingLabels', function() {
         return showMissingLabels;
       });
-      assert.isFalse(element._showMissingRequirements(null, false));
-      assert.isTrue(element._showMissingRequirements(null, true));
+      assert.isFalse(element._showMissingRequirements({}, null));
+      assert.isTrue(
+          element._showMissingRequirements({work_in_progress: true}, null));
       showMissingLabels = true;
-      assert.isTrue(element._showMissingRequirements(null, false));
+      assert.isTrue(element._showMissingRequirements(null, null));
     });
 
     test('show missing labels', function() {

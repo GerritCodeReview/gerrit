@@ -242,8 +242,9 @@
       return !!this._computeMissingLabels(labels).length;
     },
 
-    _showMissingRequirements: function(labels, workInProgress) {
-      return workInProgress || this._showMissingLabels(labels);
+    _showMissingRequirements: function(change, labels) {
+      return !!(change && change.work_in_progress) ||
+        this._showMissingLabels(labels);
     },
 
     _computeProjectURL: function(project) {

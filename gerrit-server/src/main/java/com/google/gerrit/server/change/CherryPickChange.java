@@ -80,7 +80,6 @@ public class CherryPickChange {
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final PatchSetUtil psUtil;
-  private final BatchUpdate.Factory batchUpdateFactory;
 
   @Inject
   CherryPickChange(
@@ -94,8 +93,7 @@ public class CherryPickChange {
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
       ChangeMessagesUtil changeMessagesUtil,
-      PatchSetUtil psUtil,
-      BatchUpdate.Factory batchUpdateFactory) {
+      PatchSetUtil psUtil) {
     this.db = db;
     this.seq = seq;
     this.queryProvider = queryProvider;
@@ -107,14 +105,20 @@ public class CherryPickChange {
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeMessagesUtil = changeMessagesUtil;
     this.psUtil = psUtil;
-    this.batchUpdateFactory = batchUpdateFactory;
   }
 
   public Change.Id cherryPick(
-      Change change, PatchSet patch, String message, String ref, RefControl refControl, int parent)
+      BatchUpdate.Factory batchUpdateFactory,
+      Change change,
+      PatchSet patch,
+      String message,
+      String ref,
+      RefControl refControl,
+      int parent)
       throws OrmException, IOException, InvalidChangeOperationException, IntegrationException,
           UpdateException, RestApiException {
     return cherryPick(
+        batchUpdateFactory,
         change.getId(),
         patch.getId(),
         change.getDest(),
@@ -128,6 +132,7 @@ public class CherryPickChange {
   }
 
   public Change.Id cherryPick(
+      BatchUpdate.Factory batchUpdateFactory,
       @Nullable Change.Id sourceChangeId,
       @Nullable PatchSet.Id sourcePatchId,
       @Nullable Branch.NameKey sourceBranch,

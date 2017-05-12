@@ -14,6 +14,8 @@
 (function() {
   'use strict';
 
+  var MAX_REVIEWERS_DISPLAYED = 10;
+
   Polymer({
     is: 'gr-reviewer-list',
 
@@ -43,6 +45,10 @@
         value: false,
       },
 
+      _displayedReviewers: {
+        type: Array,
+        value: function() { return []; },
+      },
       _reviewers: {
         type: Array,
         value: function() { return []; },
@@ -55,6 +61,11 @@
         type: String,
         computed: '_computeAddLabel(ccsOnly)',
       },
+      _hiddenReviewerCount: {
+        type: Number,
+        computed: '_computeHiddenCount(_reviewers, _displayedReviewers)',
+      },
+
 
       // Used for testing.
       _lastAutocompleteRequest: Object,
@@ -79,9 +90,16 @@
           result = result.concat(reviewers[key]);
         }
       }
+
       this._reviewers = result.filter(function(reviewer) {
         return reviewer._account_id != owner._account_id;
       });
+      this._displayedReviewers =
+          this._reviewers.slice(0, MAX_REVIEWERS_DISPLAYED);
+    },
+
+    _computeHiddenCount: function(reviewers, displayedReviewers) {
+      return reviewers.length - displayedReviewers.length;
     },
 
     _computeCanRemoveReviewer: function(reviewer, mutable) {
@@ -136,6 +154,10 @@
         value.ccsOnly = true;
       }
       this.fire('show-reply-dialog', {value: value});
+    },
+
+    _handleViewAll: function(e) {
+      this._displayedReviewers = this._reviewers;
     },
 
     _removeReviewer: function(id) {

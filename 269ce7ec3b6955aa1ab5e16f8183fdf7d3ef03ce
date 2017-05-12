@@ -401,6 +401,30 @@
       "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3032483c_6048f8da",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T18:27:19Z",
+      "side": 1,
+      "message": "I\u0027d expect diffusion links to not appear at all in the metadata wither. In that example I linked to, you can see that we only look for \"gitiles\" and \"gitweb\" for the link that appears in the change metadata.\n\nI believe the appropriate way to use diffusion as the regular web-link would be to set your gitweb configurations [1] to generate whatever URLs you use for diffusion. That way, if this code merely searches for whichever web_links are marked as \"gitweb\" then they\u0027ll link to diffusion as you expect.\n\nIn this case, it should loop over the links in the same way that change metadata does in the example I linked earlier. Have a look at [2].\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#gitweb\n[2] https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js#106",
+      "parentUuid": "609459d4_a543e0de",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 23
+      },
+      "revId": "269ce7ec3b6955aa1ab5e16f8183fdf7d3ef03ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

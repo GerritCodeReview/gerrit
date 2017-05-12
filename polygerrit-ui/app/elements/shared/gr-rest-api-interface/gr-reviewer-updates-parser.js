@@ -34,9 +34,11 @@
     parser._filterRemovedMessages();
     parser._groupUpdates();
     parser._formatUpdates();
+    parser._attachUpdatesToMessages();
     return parser.result;
   };
 
+  GrReviewerUpdatesParser.MESSAGE_REVIEWERS_THRESHOLD_MILLIS = 500;
   GrReviewerUpdatesParser.REVIEWER_UPDATE_THRESHOLD_MILLIS = 6000;
 
   GrReviewerUpdatesParser.prototype.result = null;
@@ -186,6 +188,33 @@
       }
       update.updates = newUpdates;
     }.bind(this));
+  };
+
+  /**
+   * Attempts to append reviewer updates to previous messages.
+   * Updates are appended only if were performed within short interval
+   * of posting message - supposedly, at the same time.
+   */
+  GrReviewerUpdatesParser.prototype._attachUpdatesToMessages = function() {
+    this.result.reviewer_updates =
+      this.result.reviewer_updates.filter(function(update) {
+        var updateDate = util.parseDate(update.date).getTime();
+        var message = this.result.messages.find(function(message) {
+          var messageDate = util.parseDate(message.date).getTime();
+          var delta = updateDate - messageDate;
+          return delta >= 0 &&
+            delta <= GrReviewerUpdatesParser.MESSAGE_REVIEWERS_THRESHOLD_MILLIS;
+        });
+        if (message) {
+          if (!message.events) {
+            message.events = [update];
+          } else {
+            message.events.push(update);
+          }
+          return false;
+        }
+        return true;
+      }.bind(this));
   };
 
   window.GrReviewerUpdatesParser = GrReviewerUpdatesParser;

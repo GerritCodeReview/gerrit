@@ -124,6 +124,11 @@ limitations under the License.
       .replyContainer {
         padding: .5em 0 1em;
       }
+      .expanded .inlineReviewerUpdates {
+        border-top: 1px #ddd solid;
+        margin: 10px 0 3px;
+        padding: 10px 0 5px;
+      }
     </style>
     <div class$="[[_computeClass(_expanded, showAvatar)]]">
       <gr-avatar account="[[author]]" image-size="100"></gr-avatar>
@@ -147,8 +152,28 @@ limitations under the License.
                 change-num="[[changeNum]]"
                 patch-num="[[message._revision_number]]"
                 project-config="[[projectConfig]]"></gr-comment-list>
+            <!-- embedded reviewer update -->
+            <template is="dom-repeat" items="[[message.events]]" as="event">
+              <template is="dom-if" if="[[_computeIsReviewerUpdate(event)]]">
+                <div class="content inlineReviewerUpdates">
+                  <template is="dom-repeat" items="[[event.updates]]" as="update">
+                    <div class="updateCategory">
+                      [[update.message]]
+                      <template
+                          is="dom-repeat" items="[[update.reviewers]]" as="reviewer">
+                        <gr-account-chip account="[[reviewer]]">
+                        </gr-account-chip>
+                      </template>
+                    </div>
+                  </template>
+                </div>
+              </template>
+            </template>
+            <!-- /embedded reviewer update -->
           </div>
         </template>
+
+        <!-- standalone reviewer update -->
         <template is="dom-if" if="[[_computeIsReviewerUpdate(message)]]">
           <div class="content">
             <template is="dom-repeat" items="[[message.updates]]" as="update">
@@ -163,6 +188,7 @@ limitations under the License.
             </template>
           </div>
         </template>
+
         <template is="dom-if" if="[[!message.id]]">
           <span class="date">
             <gr-date-formatter

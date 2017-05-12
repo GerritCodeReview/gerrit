@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "30022f17_441fd380",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-12T13:49:29Z",
+      "side": 1,
+      "message": "Not sure what I\u0027m doing wrong, but it\u0027s never hitting this line in the debugger when I run the tests.\n\n\u003e we can\u0027t do this in master so this change can\u0027t be merged as-is.\n\nSince it already works on master my intention was to simply not merge this commit up.  But then I\u0027ve found that it only actually works in fused mode, so I\u0027m going to have to look further into what that actually means.",
+      "parentUuid": "1f68eb91_61646a61",
+      "revId": "7db18334156dcff55ad4eab3f5618e1607d62a58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8d80129_e79df0e1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 1

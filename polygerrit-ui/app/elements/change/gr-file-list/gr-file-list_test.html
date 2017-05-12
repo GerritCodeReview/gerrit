@@ -381,42 +381,70 @@ limitations under the License.
         }
       });
 
-      test('_handleEnterKey navigates', function() {
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        sandbox.stub(element, 'modifierPressed').returns(false);
-        var expandStub = sandbox.stub(element, '_openCursorFile');
-        var navStub = sandbox.stub(element, '_openSelectedFile');
-        var e = new CustomEvent('fake-keyboard-event');
-        sinon.stub(e, 'preventDefault');
-        element._showInlineDiffs = false;
-        element._handleEnterKey(e);
-        assert.isTrue(e.preventDefault.called);
-        assert.isTrue(navStub.called);
-        assert.isFalse(expandStub.called);
-      });
+      suite('_handleEnterKey', function() {
+        var interact;
 
-      test('_handleEnterKey expands', function() {
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        sandbox.stub(element, 'modifierPressed').returns(false);
-        var expandStub = sandbox.stub(element, '_openCursorFile');
-        var navStub = sandbox.stub(element, '_openSelectedFile');
-        var e = new CustomEvent('fake-keyboard-event');
-        sinon.stub(e, 'preventDefault');
-        element._showInlineDiffs = true;
-        element._handleEnterKey(e);
-        assert.isTrue(e.preventDefault.called);
-        assert.isFalse(navStub.called);
-        assert.isTrue(expandStub.called);
-      });
+        setup(function() {
+          sandbox.stub(element, 'shouldSuppressKeyboardShortcut')
+            .returns(false);
+          sandbox.stub(element, 'modifierPressed').returns(false);
+          var openCursorStub = sandbox.stub(element, '_openCursorFile');
+          var openSelectedStub = sandbox.stub(element, '_openSelectedFile');
+          var expandStub = sandbox.stub(element, '_togglePathExpanded');
 
-      test('_handleEnterKey noop when anchor focused', function() {
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        sandbox.stub(element, 'modifierPressed').returns(false);
-        var e = new CustomEvent('fake-keyboard-event',
-            {detail: {keyboardEvent: {target: document.createElement('a')}}});
-        sinon.stub(e, 'preventDefault');
-        element._handleEnterKey(e);
-        assert.isFalse(e.preventDefault.called);
+          interact = function(opt_payload) {
+            openCursorStub.reset();
+            openSelectedStub.reset();
+            expandStub.reset();
+
+            var e = new CustomEvent('fake-keyboard-event', opt_payload);
+            sinon.stub(e, 'preventDefault');
+            element._handleEnterKey(e);
+            assert.isTrue(e.preventDefault.called);
+            var result = {};
+            if (openCursorStub.called) {
+              result.opened_cursor = true;
+            }
+            if (openSelectedStub.called) {
+              result.opened_selected = true;
+            }
+            if (expandStub.called) {
+              result.expanded = true;
+            }
+            return result;
+          };
+        });
+
+        test('open from selected file', function() {
+          element._showInlineDiffs = false;
+          assert.deepEqual(interact(), {opened_selected: true});
+        });
+
+        test('open from diff cursor', function() {
+          element._showInlineDiffs = true;
+          assert.deepEqual(interact(), {opened_cursor: true});
+
+          // "Show diffs" mode overrides userPrefs.expand_inline_diffs
+          element._userPrefs = {expand_inline_diffs: true};
+          assert.deepEqual(interact(), {opened_cursor: true});
+        });
+
+        test('expand when user prefers', function() {
+          element._showInlineDiffs = false;
+          assert.deepEqual(interact(), {opened_selected: true});
+          element._userPrefs = {};
+          assert.deepEqual(interact(), {opened_selected: true});
+          element._userPrefs.expand_inline_diffs = true;
+          assert.deepEqual(interact(), {expanded: true});
+        });
+
+        test('noop when anchor focused', function() {
+          var e = new CustomEvent('fake-keyboard-event',
+              {detail: {keyboardEvent: {target: document.createElement('a')}}});
+          sinon.stub(e, 'preventDefault');
+          element._handleEnterKey(e);
+          assert.isFalse(e.preventDefault.called);
+        });
       });
     });
 

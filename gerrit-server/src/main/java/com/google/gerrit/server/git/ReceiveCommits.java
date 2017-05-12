@@ -104,6 +104,7 @@ import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -1119,24 +1120,30 @@ public class ReceiveCommits {
     return false;
   }
 
-  private void parseDelete(ReceiveCommand cmd) {
+  private void parseDelete(ReceiveCommand cmd) throws PermissionBackendException {
     logDebug("Deleting {}", cmd);
-    RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    if (ctl.getRefName().startsWith(REFS_CHANGES)) {
-      errors.put(Error.DELETE_CHANGES, ctl.getRefName());
+    if (cmd.getRefName().startsWith(REFS_CHANGES)) {
+      errors.put(Error.DELETE_CHANGES, cmd.getRefName());
       reject(cmd, "cannot delete changes");
-    } else if (ctl.canDelete()) {
+    } else if (canDelete(cmd)) {
       if (!validRefOperation(cmd)) {
         return;
       }
       actualCommands.add(cmd);
+    } else if (RefNames.REFS_CONFIG.equals(cmd.getRefName())) {
+      reject(cmd, "cannot delete project configuration");
     } else {
-      if (RefNames.REFS_CONFIG.equals(ctl.getRefName())) {
-        reject(cmd, "cannot delete project configuration");
-      } else {
-        errors.put(Error.DELETE, ctl.getRefName());
-        reject(cmd, "cannot delete references");
-      }
+      errors.put(Error.DELETE, cmd.getRefName());
+      reject(cmd, "cannot delete references");
+    }
+  }
+
+  private boolean canDelete(ReceiveCommand cmd) throws PermissionBackendException {
+    try {
+      permissions.ref(cmd.getRefName()).check(RefPermission.DELETE);
+      return true;
+    } catch (AuthException e) {
+      return false;
     }
   }
 
@@ -1450,7 +1457,8 @@ public class ReceiveCommits {
 
     magicBranch.dest = new Branch.NameKey(project.getNameKey(), ref);
     magicBranch.ctl = projectControl.controlForRef(ref);
-    if (!magicBranch.ctl.canWrite()) {
+    if (projectControl.getProject().getState()
+        != com.google.gerrit.extensions.client.ProjectState.ACTIVE) {
       reject(cmd, "project is read only");
       return;
     }
@@ -2219,7 +2227,7 @@ public class ReceiveCommits {
           req.inputCommand.setResult(REJECTED_OTHER_REASON, "internal server error");
         }
       }
-    } catch (IOException err) {
+    } catch (IOException | PermissionBackendException err) {
       logError(
           String.format(
               "Cannot read repository before replacement for project %s", project.getName()),
@@ -2260,7 +2268,6 @@ public class ReceiveCommits {
     final ReceiveCommand inputCommand;
     final boolean checkMergedInto;
     ChangeNotes notes;
-    ChangeControl changeCtl;
     BiMap<RevCommit, PatchSet.Id> revisions;
     PatchSet.Id psId;
     ReceiveCommand prev;
@@ -2308,8 +2315,10 @@ public class ReceiveCommits {
      * @return whether the new commit is valid
      * @throws IOException
      * @throws OrmException
+     * @throws PermissionBackendException
      */
-    boolean validate(boolean autoClose) throws IOException, OrmException {
+    boolean validate(boolean autoClose)
+        throws IOException, OrmException, PermissionBackendException {
       if (!autoClose && inputCommand.getResult() != NOT_ATTEMPTED) {
         return false;
       } else if (notes == null) {
@@ -2317,7 +2326,8 @@ public class ReceiveCommits {
         return false;
       }
 
-      priorPatchSet = notes.getChange().currentPatchSetId();
+      Change change = notes.getChange();
+      priorPatchSet = change.currentPatchSetId();
       if (!revisions.containsValue(priorPatchSet)) {
         reject(inputCommand, "change " + ontoChange + " missing revisions");
         return false;
@@ -2325,16 +2335,18 @@ public class ReceiveCommits {
 
       RevCommit newCommit = rp.getRevWalk().parseCommit(newCommitId);
       RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
-
-      changeCtl = projectControl.controlFor(notes);
-      if (!changeCtl.canAddPatchSet(db)) {
+      try {
+        permissions.change(notes).database(db).check(ChangePermission.ADD_PATCH_SET);
+      } catch (AuthException no) {
         String locked = ".";
-        if (changeCtl.isPatchSetLocked(db)) {
+        if (projectControl.controlFor(notes).isPatchSetLocked(db)) {
           locked = ". Change is patch set locked.";
         }
         reject(inputCommand, "cannot add patch set to " + ontoChange + locked);
         return false;
-      } else if (notes.getChange().getStatus().isClosed()) {
+      }
+
+      if (change.getStatus().isClosed()) {
         reject(inputCommand, "change " + ontoChange + " closed");
         return false;
       } else if (revisions.containsKey(newCommit)) {
@@ -2359,6 +2371,7 @@ public class ReceiveCommits {
         }
       }
 
+      ChangeControl changeCtl = projectControl.controlFor(notes);
       if (!validCommit(rp.getRevWalk(), changeCtl.getRefControl(), inputCommand, newCommit)) {
         return false;
       }
@@ -2410,7 +2423,7 @@ public class ReceiveCommits {
       Optional<ChangeEdit> edit = null;
 
       try {
-        edit = editUtil.byChange(changeCtl);
+        edit = editUtil.byChange(projectControl.controlFor(notes));
       } catch (AuthException | IOException e) {
         logError("Cannot retrieve edit", e);
         return false;
@@ -2837,7 +2850,7 @@ public class ReceiveCommits {
       bu.execute();
     } catch (RestApiException e) {
       logError("Can't insert patchset", e);
-    } catch (IOException | OrmException | UpdateException e) {
+    } catch (IOException | OrmException | UpdateException | PermissionBackendException e) {
       logError("Can't scan for changes to close", e);
     }
   }

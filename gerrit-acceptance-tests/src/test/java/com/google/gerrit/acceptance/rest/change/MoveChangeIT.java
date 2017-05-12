@@ -163,7 +163,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
         systemGroupBackend.getGroup(REGISTERED_USERS).getUUID(),
         "refs/for/" + newBranch.get());
     exception.expect(AuthException.class);
-    exception.expectMessage("Move not permitted");
+    exception.expectMessage("move not permitted");
     move(r.getChangeId(), newBranch.get());
   }
 
@@ -179,7 +179,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
         r.getChange().change().getDest().get());
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("Move not permitted");
+    exception.expectMessage("move not permitted");
     move(r.getChangeId(), newBranch.get());
   }
 
@@ -223,7 +223,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
 
     exception.expect(AuthException.class);
-    exception.expectMessage("Move not permitted");
+    exception.expectMessage("move not permitted");
     move(r.getChangeId(), newBranch.get());
   }
 

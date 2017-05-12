@@ -44,6 +44,9 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -69,6 +72,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   }
 
   // Injected fields.
+  private final PermissionBackend permissionBackend;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
@@ -108,6 +112,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   @Inject
   public PatchSetInserter(
+      PermissionBackend permissionBackend,
       ApprovalsUtil approvalsUtil,
       ApprovalCopier approvalCopier,
       ChangeMessagesUtil cmUtil,
@@ -119,6 +124,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       @Assisted ChangeControl ctl,
       @Assisted PatchSet.Id psId,
       @Assisted ObjectId commitId) {
+    this.permissionBackend = permissionBackend;
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
@@ -206,7 +212,8 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   @Override
   public void updateRepo(RepoContext ctx)
-      throws AuthException, ResourceConflictException, IOException, OrmException {
+      throws AuthException, ResourceConflictException, IOException, OrmException,
+          PermissionBackendException {
     validate(ctx);
     ctx.addRefUpdate(ObjectId.zeroId(), commitId, getPatchSetId().toRefName());
   }
@@ -301,9 +308,13 @@ public class PatchSetInserter implements BatchUpdateOp {
   }
 
   private void validate(RepoContext ctx)
-      throws AuthException, ResourceConflictException, IOException, OrmException {
-    if (checkAddPatchSetPermission && !origCtl.canAddPatchSet(ctx.getDb())) {
-      throw new AuthException("cannot add patch set");
+      throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
+    if (checkAddPatchSetPermission) {
+      permissionBackend
+          .user(ctx.getUser())
+          .database(ctx.getDb())
+          .change(origCtl.getNotes())
+          .check(ChangePermission.ADD_PATCH_SET);
     }
     if (!validate) {
       return;

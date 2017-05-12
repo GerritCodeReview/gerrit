@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -116,7 +117,9 @@ public class RefControl {
   /** Can this user see this reference exists? */
   public boolean isVisible() {
     if (isVisible == null) {
-      isVisible = (getUser().isInternalUser() || canPerform(Permission.READ)) && canRead();
+      isVisible =
+          (getUser().isInternalUser() || canPerform(Permission.READ))
+              && isProjectStatePermittingRead();
     }
     return isVisible;
   }
@@ -155,7 +158,7 @@ public class RefControl {
    */
   public boolean canUpload() {
     return projectControl.controlForRef("refs/for/" + getRefName()).canPerform(Permission.PUSH)
-        && canWrite();
+        && isProjectStatePermittingWrite();
   }
 
   /** @return true if this user can add a new patch set to this ref */
@@ -163,7 +166,7 @@ public class RefControl {
     return projectControl
             .controlForRef("refs/for/" + getRefName())
             .canPerform(Permission.ADD_PATCH_SET)
-        && canWrite();
+        && isProjectStatePermittingWrite();
   }
 
   /** @return true if this user can submit merge patch sets to this ref */
@@ -171,12 +174,12 @@ public class RefControl {
     return projectControl
             .controlForRef("refs/for/" + getRefName())
             .canPerform(Permission.PUSH_MERGE)
-        && canWrite();
+        && isProjectStatePermittingWrite();
   }
 
   /** @return true if this user can rebase changes on this ref */
   boolean canRebase() {
-    return canPerform(Permission.REBASE) && canWrite();
+    return canPerform(Permission.REBASE) && isProjectStatePermittingWrite();
   }
 
   /** @return true if this user can submit patch sets to this ref */
@@ -189,7 +192,7 @@ public class RefControl {
       // granting of powers beyond submitting to the configuration.
       return projectControl.isOwner();
     }
-    return canPerform(Permission.SUBMIT, isChangeOwner) && canWrite();
+    return canPerform(Permission.SUBMIT, isChangeOwner) && isProjectStatePermittingWrite();
   }
 
   /** @return true if the user can update the reference as a fast-forward. */
@@ -209,12 +212,12 @@ public class RefControl {
         return false;
       }
     }
-    return canPerform(Permission.PUSH) && canWrite();
+    return canPerform(Permission.PUSH) && isProjectStatePermittingWrite();
   }
 
   /** @return true if the user can rewind (force push) the reference. */
   private boolean canForceUpdate() {
-    if (!canWrite()) {
+    if (!isProjectStatePermittingWrite()) {
       return false;
     }
 
@@ -237,16 +240,18 @@ public class RefControl {
     }
   }
 
-  public boolean canWrite() {
+  private boolean isProjectStatePermittingWrite() {
     return getProjectControl().getProject().getState().equals(ProjectState.ACTIVE);
   }
 
-  public boolean canRead() {
-    return getProjectControl().getProject().getState().equals(ProjectState.READ_ONLY) || canWrite();
+  private boolean isProjectStatePermittingRead() {
+    return getProjectControl().getProject().getState().equals(ProjectState.READ_ONLY)
+        || isProjectStatePermittingWrite();
   }
 
   private boolean canPushWithForce() {
-    if (!canWrite() || (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner())) {
+    if (!isProjectStatePermittingWrite()
+        || (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner())) {
       // Pushing requires being at least project owner, in addition to push.
       // Pushing configuration changes modifies the access control
       // rules. Allowing this to be done by a non-project-owner opens
@@ -266,7 +271,7 @@ public class RefControl {
    * @return {@code true} if the user specified can create a new Git ref
    */
   public boolean canCreate(ReviewDb db, Repository repo, RevObject object) {
-    if (!canWrite()) {
+    if (!isProjectStatePermittingWrite()) {
       return false;
     }
 
@@ -358,8 +363,8 @@ public class RefControl {
    *
    * @return {@code true} if the user specified can delete a Git ref.
    */
-  public boolean canDelete() {
-    if (!canWrite() || (RefNames.REFS_CONFIG.equals(refName))) {
+  private boolean canDelete() {
+    if (!isProjectStatePermittingWrite() || (RefNames.REFS_CONFIG.equals(refName))) {
       // Never allow removal of the refs/meta/config branch.
       // Deleting the branch would destroy all Gerrit specific
       // metadata about the project, including its access rules.
@@ -683,10 +688,13 @@ public class RefControl {
 
     @Override
     public ForChange change(ChangeNotes notes) {
+      Project.NameKey project = getProjectControl().getProject().getNameKey();
       Change change = notes.getChange();
       checkArgument(
-          getProjectControl().getProject().getNameKey().equals(change.getProject()),
-          "mismatched project");
+          project.equals(change.getProject()),
+          "expected change in project %s, not %s",
+          project,
+          change.getProject());
       return getProjectControl().controlFor(notes).asForChange(null, db);
     }
 

@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "395ffd28_2200095c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1240,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-12T15:07:53Z",
+      "side": 1,
+      "message": "Removed this alias and added --np for --no-publish-comments. I consider this an incentive for people to set this preference by default. I can add this back if people think it will be useful.",
+      "revId": "c00122deb35138d982e5d65fcb7116c84038ec2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2294d158_9969c1ba",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 4
@@ -14,6 +31,24 @@
       "writtenOn": "2017-05-11T14:50:41Z",
       "side": 1,
       "message": "nit: long line",
+      "revId": "c00122deb35138d982e5d65fcb7116c84038ec2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95220a52_d10ad829",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-12T15:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2294d158_9969c1ba",
       "revId": "c00122deb35138d982e5d65fcb7116c84038ec2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

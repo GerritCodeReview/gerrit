@@ -179,7 +179,7 @@ public class ExternalIdsUpdate {
   @VisibleForTesting
   public static RetryerBuilder<RefsMetaExternalIdsUpdate> retryerBuilder() {
     return RetryerBuilder.<RefsMetaExternalIdsUpdate>newBuilder()
-        .retryIfException(e -> e instanceof LockFailureException)
+        .retryIfException(e -> e instanceof IOException)
         .withWaitStrategy(
             WaitStrategies.join(
                 WaitStrategies.exponentialWait(2, TimeUnit.SECONDS),

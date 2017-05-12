@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5503480_8b5b1799",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-05-12T08:29:47Z",
+      "side": 1,
+      "message": "I don\u0027t see any caller of this extension point in this change.\nDid you forget something when cherry-picking from fe9218f3218f19fa0c01cc271a736e8546c69943?",
+      "range": {
+        "startLine": 74,
+        "startChar": 7,
+        "endLine": 74,
+        "endChar": 23
+      },
+      "revId": "3fe8fa9afc3bbc96b2653cd2e5da92366827abeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

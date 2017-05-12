@@ -52,6 +52,24 @@
       "revId": "66f3b1530868d605222bb72f43895ff4277bf05b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c258f8a5_c58e11eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-12T21:05:12Z",
+      "side": 1,
+      "message": "In that case, I guess can be removed unless any objections?",
+      "parentUuid": "bf0dbcdb_0aafcb8b",
+      "revId": "66f3b1530868d605222bb72f43895ff4277bf05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

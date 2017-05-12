@@ -187,5 +187,58 @@ limitations under the License.
       assert.isTrue(fireStub.lastCall.calledWith('show-reply-dialog',
           {value: {ccsOnly: true}}));
     });
+
+    test('no show all reviewers button with 10 reviewers', function() {
+      let reviewers = [];
+      for (var i = 0; i < 10; i++) {
+        reviewers.push(
+          {email: i+'reviewer@google.com', name: 'reviewer-' + i });
+      }
+      element.ccsOnly = true;
+
+      element.change = {
+        owner: {
+          _account_id: 1,
+        },
+        reviewers: {
+          'CC': reviewers,
+        },
+      };
+      flushAsynchronousOperations();
+      assert.equal(element._hiddenReviewerCount, 0);
+      assert.equal(element._displayedReviewers.length, 10);
+      assert.equal(element._reviewers.length, 10);
+      assert.isTrue(element.$$('.hiddenReviewers').hidden);
+    });
+
+    test('show all reviewers button', function() {
+      let reviewers = [];
+      for (var i = 0; i < 100; i++) {
+        reviewers.push(
+          {email: i+'reviewer@google.com', name: 'reviewer-' + i });
+      }
+      element.ccsOnly = true;
+
+      element.change = {
+        owner: {
+          _account_id: 1,
+        },
+        reviewers: {
+          'CC': reviewers,
+        },
+      };
+      flushAsynchronousOperations();
+      assert.equal(element._hiddenReviewerCount, 90);
+      assert.equal(element._displayedReviewers.length, 10);
+      assert.equal(element._reviewers.length, 100);
+      assert.isFalse(element.$$('.hiddenReviewers').hidden);
+
+      MockInteractions.tap(element.$$('.hiddenReviewers'));
+      flushAsynchronousOperations();
+      assert.equal(element._hiddenReviewerCount, 0);
+      assert.equal(element._displayedReviewers.length, 100);
+      assert.equal(element._reviewers.length, 100);
+      assert.isTrue(element.$$('.hiddenReviewers').hidden);
+    });
   });
 </script>

@@ -33,6 +33,9 @@ limitations under the License.
       .autocompleteContainer {
         position: relative;
       }
+      .hiddenReviewers {
+        margin-top: .3em;
+      }
       .inputContainer {
         display: flex;
         margin-top: .25em;
@@ -56,12 +59,17 @@ limitations under the License.
         }
       }
     </style>
-    <template is="dom-repeat" items="[[_reviewers]]" as="reviewer">
+    <template is="dom-repeat" items="[[_displayedReviewers]]" as="reviewer">
       <gr-account-chip class="reviewer" account="[[reviewer]]"
           on-remove="_handleRemove"
           removable="[[_computeCanRemoveReviewer(reviewer, mutable)]]">
       </gr-account-chip>
     </template>
+    <gr-button
+        class="hiddenReviewers"
+        link
+        hidden$="[[!_hiddenReviewerCount]]"
+        on-tap="_handleViewAll">and [[_hiddenReviewerCount]] more</gr-button>
     <div class="controlsContainer" hidden$="[[!mutable]]">
       <gr-button
           link

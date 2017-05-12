@@ -993,8 +993,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   private Predicate<ChangeData> reviewer(String who, boolean forDefaultField)
       throws QueryParseException, OrmException {
-    Predicate byState = reviewerByState(who, ReviewerStateInternal.REVIEWER, forDefaultField);
-    if (byState == Predicate.any()) {
+    Predicate<ChangeData> byState =
+        reviewerByState(who, ReviewerStateInternal.REVIEWER, forDefaultField);
+    if (byState == Predicate.<ChangeData>any()) {
       return Predicate.any();
     }
     if (args.getSchema().hasField(ChangeField.WIP)) {
@@ -1165,16 +1166,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // Adapt the capacity of this list when adding more default predicates.
     List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(11);
     try {
-      Predicate p = ownerDefaultField(query);
-      if (p != Predicate.any()) {
+      Predicate<ChangeData> p = ownerDefaultField(query);
+      if (p != Predicate.<ChangeData>any()) {
         predicates.add(p);
       }
     } catch (OrmException | QueryParseException e) {
       // Skip.
     }
     try {
-      Predicate p = reviewerDefaultField(query);
-      if (p != Predicate.any()) {
+      Predicate<ChangeData> p = reviewerDefaultField(query);
+      if (p != Predicate.<ChangeData>any()) {
         predicates.add(p);
       }
     } catch (OrmException | QueryParseException e) {

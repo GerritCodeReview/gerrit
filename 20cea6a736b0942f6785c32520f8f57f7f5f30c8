@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e84a4ed_886ac1d2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:05:50Z",
+      "side": 1,
+      "message": "Can this just toggle a class on the element?",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 58
+      },
+      "revId": "20cea6a736b0942f6785c32520f8f57f7f5f30c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18635cb4_1f2e03e1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:05:50Z",
+      "side": 1,
+      "message": "Nit: space and semicolon.\n\n display: inline-block;",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 28
+      },
+      "revId": "20cea6a736b0942f6785c32520f8f57f7f5f30c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8abe6783_65e3a8cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:05:50Z",
+      "side": 1,
+      "message": "Nit: alphabetize this and the rulesets below.",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 39,
+        "endChar": 56
+      },
+      "revId": "20cea6a736b0942f6785c32520f8f57f7f5f30c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abefd15f_8db51c24",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:05:50Z",
+      "side": 1,
+      "message": "Why is this one a two way data binding? Can the iron-autogrow-textarea disable itself somehow?",
+      "range": {
+        "startLine": 72,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 31
+      },
+      "revId": "20cea6a736b0942f6785c32520f8f57f7f5f30c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad833764_d364fa87",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:05:50Z",
+      "side": 1,
+      "message": "Can this be a constant instead of a property?",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 24
+      },
+      "revId": "20cea6a736b0942f6785c32520f8f57f7f5f30c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d648576_01fa6687",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:05:50Z",
+      "side": 1,
+      "message": "Nit: can just be\n\n _suggestions: Array",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 95,
+        "endChar": 8
+      },
+      "revId": "20cea6a736b0942f6785c32520f8f57f7f5f30c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83b8477f_7db85d5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T22:05:50Z",
+      "side": 1,
+      "message": "Nit: instead of putting the entire method body in an if statement consider returning.\n\n if (this._hideAutocomplete) { return; }\n\nThe same applies to a few other methods here.",
+      "range": {
+        "startLine": 142,
+        "startChar": 6,
+        "endLine": 142,
+        "endChar": 36
+      },
+      "revId": "20cea6a736b0942f6785c32520f8f57f7f5f30c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

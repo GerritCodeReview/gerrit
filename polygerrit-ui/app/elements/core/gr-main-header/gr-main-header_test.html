@@ -33,90 +33,88 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-main-header tests', function() {
-    var element;
-    var sandbox;
+  suite('gr-main-header tests', () => {
+    let element;
+    let sandbox;
 
-    setup(function() {
+    setup(() => {
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
-        getConfig: function() { return Promise.resolve({}); },
-        probePath: function(path) { return Promise.resolve(false); },
+        getConfig() { return Promise.resolve({}); },
+        probePath(path) { return Promise.resolve(false); },
       });
       stub('gr-main-header', {
-        _loadAccount: function() {},
+        _loadAccount() {},
       });
       element = fixture('basic');
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('fix my menu item', function() {
+    test('fix my menu item', () => {
       assert.deepEqual([
         {url: '#/q/owner:self+is:draft'},
         {url: 'https://awesometown.com/#hashyhash'},
         {url: 'url', target: '_blank'},
-      ].map(element._fixMyMenuItem),
-      [
+      ].map(element._fixMyMenuItem), [
         {url: '/q/owner:self+is:draft'},
         {url: 'https://awesometown.com/#hashyhash'},
         {url: 'url'},
       ]);
     });
 
-    test('filter unsupported urls', function() {
+    test('filter unsupported urls', () => {
       assert.deepEqual([
         {url: '/q/owner:self+is:draft'},
         {url: '/c/331788/'},
         {url: '/groups/self'},
         {url: 'https://awesometown.com/#hashyhash'},
-      ].filter(element._isSupportedLink),
-      [
+      ].filter(element._isSupportedLink), [
         {url: '/q/owner:self+is:draft'},
         {url: '/c/331788/'},
         {url: 'https://awesometown.com/#hashyhash'},
       ]);
     });
 
-    test('_loadAccountCapabilities admin', function(done) {
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', function() {
+    test('_loadAccountCapabilities admin', done => {
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
         return Promise.resolve({
           createGroup: true,
           createProject: true,
           viewPlugins: true,
         });
       });
-      element._loadAccountCapabilities().then(function() {
+      element._loadAccountCapabilities().then(() => {
         assert.equal(element._adminLinks.length, 5);
         done();
       });
     });
 
-    test('_loadAccountCapabilities non admin', function(done) {
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', function() {
+    test('_loadAccountCapabilities non admin', done => {
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
         return Promise.resolve({});
       });
-      element._loadAccountCapabilities().then(function() {
+      element._loadAccountCapabilities().then(() => {
         assert.equal(element._adminLinks.length, 2);
         done();
       });
     });
 
-    test('user links', function() {
-      var defaultLinks = [{
+    test('user links', () => {
+      const defaultLinks = [{
         title: 'Faves',
         links: [{
           name: 'Pinterest',
           url: 'https://pinterest.com',
         }],
       }];
-      var userLinks = [{
+      const userLinks = [{
         name: 'Facebook',
         url: 'https://facebook.com',
       }];
-      var adminLinks = [{
+      const adminLinks = [{
         url: '/admin/groups',
         name: 'Groups',
       }];
@@ -134,8 +132,8 @@ limitations under the License.
           }));
     });
 
-    test('documentation links', function() {
-      var docLinks = [
+    test('documentation links', () => {
+      const docLinks = [
         {
           name: 'Table of Contents',
           url: '/index.html',

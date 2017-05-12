@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6ab7d6cd_17c3bc9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-12T17:14:35Z",
+      "side": 1,
+      "message": "Ping here.",
+      "parentUuid": "a96b536e_01ef38f3",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "5c33b69d0e16f2736d480c0d55c8a9aacc4ab9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f7a68f3f_b5101cdb",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.html",
         "patchSetId": 2

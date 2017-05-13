@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "78b62c89_97f69ea6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-13T00:14:18Z",
+      "side": 1,
+      "message": "As discussed, updated to use matchMedia (cool!)",
+      "parentUuid": "137c3fd1_b200423d",
+      "range": {
+        "startLine": 1182,
+        "startChar": 6,
+        "endLine": 1182,
+        "endChar": 63
+      },
+      "revId": "9a7f382bfbd531ba5d4d1331d0cdb7319e865214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ab38b85_2f3048da",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2017-05-12T22:38:38Z",
       "side": 1,
       "message": "Is the added complexity in this method because of the additional media query? This kind of JS function seems kind of brittle. What legibility problem does the additional media query solve?",
+      "revId": "9a7f382bfbd531ba5d4d1331d0cdb7319e865214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7c60223_1968f9f2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1189,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-13T00:14:18Z",
+      "side": 1,
+      "message": "Discussed this problem in person, but for anyone else following, the related changes could get shrunk to an un-readable size, so a \u0027medium\u0027 breakpoint is my proposed solution to deal with that.",
+      "parentUuid": "2ab38b85_2f3048da",
       "revId": "9a7f382bfbd531ba5d4d1331d0cdb7319e865214",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

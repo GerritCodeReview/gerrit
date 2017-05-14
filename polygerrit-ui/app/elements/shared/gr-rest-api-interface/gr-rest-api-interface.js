@@ -556,6 +556,16 @@
       );
     },
 
+    getProject: function(project) {
+      return this._fetchSharedCacheURL(
+        '/projects/' + project);
+    },
+
+    getProjectConfig: function(project) {
+      return this._fetchSharedCacheURL(
+        '/projects/' + project + '/config');
+    },
+
     getSuggestedGroups: function(inputVal, opt_n, opt_errFn, opt_ctx) {
       var params = {s: inputVal};
       if (opt_n) { params.n = opt_n; }

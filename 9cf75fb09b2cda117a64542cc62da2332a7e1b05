@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ce47703b_04d9efcf",
+        "filename": "gerrit-acceptance-framework/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-14T23:19:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a74939c_551c1a0f",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 11
+      },
+      "revId": "9cf75fb09b2cda117a64542cc62da2332a7e1b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fc8cc72_0e26ffa5",
         "filename": "gerrit-extension-api/pom.xml",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-14T12:10:55Z",
       "side": 1,
       "message": "Remove this please.",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 11
+      },
+      "revId": "9cf75fb09b2cda117a64542cc62da2332a7e1b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0cc754a_f271d937",
+        "filename": "gerrit-extension-api/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-14T23:19:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fc8cc72_0e26ffa5",
       "range": {
         "startLine": 27,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "83f63ee2_756a4d3f",
+        "filename": "gerrit-plugin-api/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-14T23:19:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "148621b2_4de62a76",
+      "range": {
+        "startLine": 27,
+        "startChar": 3,
+        "endLine": 27,
+        "endChar": 11
+      },
+      "revId": "9cf75fb09b2cda117a64542cc62da2332a7e1b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e275ed68_de944f62",
         "filename": "gerrit-plugin-gwtui/pom.xml",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "3da0a089_54a1d902",
+        "filename": "gerrit-plugin-gwtui/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-14T23:19:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e275ed68_de944f62",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 11
+      },
+      "revId": "9cf75fb09b2cda117a64542cc62da2332a7e1b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6c54e50_dd94db1a",
         "filename": "gerrit-war/pom.xml",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2017-05-14T12:10:55Z",
       "side": 1,
       "message": "Remove this please.",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 11
+      },
+      "revId": "9cf75fb09b2cda117a64542cc62da2332a7e1b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5294ad84_5722dc9f",
+        "filename": "gerrit-war/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-14T23:19:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6c54e50_dd94db1a",
       "range": {
         "startLine": 27,
         "startChar": 4,

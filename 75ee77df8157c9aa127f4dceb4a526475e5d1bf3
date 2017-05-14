@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "9621eac4_2368e6cd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 48
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-14T12:34:39Z",
+      "side": 1,
+      "message": "I\u0027ve figured out how to fix this.\n\nThanks, done.",
+      "parentUuid": "cc52fa5a_525969e4",
+      "revId": "75ee77df8157c9aa127f4dceb4a526475e5d1bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e9289f24_2308f4ae",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 48

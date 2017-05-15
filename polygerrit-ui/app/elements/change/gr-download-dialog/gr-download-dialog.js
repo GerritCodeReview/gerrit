@@ -79,7 +79,7 @@
     _computeDownloadCommands: function(change, patchNum, _selectedScheme) {
       var commandObj;
       for (var rev in change.revisions) {
-        if (change.revisions[rev]._number == patchNum &&
+        if (change.revisions[rev]._number === patchNum &&
             change.revisions[rev].fetch.hasOwnProperty(_selectedScheme)) {
           commandObj = change.revisions[rev].fetch[_selectedScheme].commands;
           break;
@@ -111,7 +111,7 @@
     _computeDownloadFilename: function(change, patchNum, zip) {
       var shortRev;
       for (var rev in change.revisions) {
-        if (change.revisions[rev]._number == patchNum) {
+        if (change.revisions[rev]._number === patchNum) {
           shortRev = rev.substr(0, 7);
           break;
         }
@@ -126,7 +126,7 @@
 
     _computeSchemes: function(change, patchNum) {
       for (var rev in change.revisions) {
-        if (change.revisions[rev]._number == patchNum) {
+        if (change.revisions[rev]._number === patchNum) {
           var fetch = change.revisions[rev].fetch;
           if (fetch) {
             return Object.keys(fetch).sort();
@@ -143,7 +143,7 @@
     },
 
     _computeSchemeSelected: function(scheme, selectedScheme) {
-      return scheme == selectedScheme;
+      return scheme === selectedScheme;
     },
 
     _handleSchemeTap: function(e) {
@@ -166,8 +166,8 @@
     },
 
     _schemesChanged: function(schemes) {
-      if (schemes.length == 0) { return; }
-      if (schemes.indexOf(this._selectedScheme) == -1) {
+      if (schemes.length === 0) { return; }
+      if (schemes.indexOf(this._selectedScheme) === -1) {
         this._selectedScheme = schemes.sort()[0];
       }
     },

@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  var INTERPOLATE_URL_PATTERN = /\$\{([\w]+)\}/g;
+  const INTERPOLATE_URL_PATTERN = /\$\{([\w]+)\}/g;
 
   Polymer({
     is: 'gr-account-dropdown',
@@ -37,35 +37,35 @@
       _switchAccountUrl: String,
     },
 
-    attached: function() {
+    attached() {
       this._handleLocationChange();
       this.listen(window, 'location-change', '_handleLocationChange');
-      this.$.restAPI.getConfig().then(function(cfg) {
+      this.$.restAPI.getConfig().then(cfg => {
         if (cfg && cfg.auth && cfg.auth.switch_account_url) {
           this._switchAccountUrl = cfg.auth.switch_account_url;
         } else {
           this._switchAccountUrl = null;
         }
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-      }.bind(this));
+      });
     },
 
-    detached: function() {
+    detached() {
       this.unlisten(window, 'location-change', '_handleLocationChange');
     },
 
-    _getLinks: function(switchAccountUrl, path) {
-      var links = [{name: 'Settings', url: '/settings'}];
+    _getLinks(switchAccountUrl, path) {
+      const links = [{name: 'Settings', url: '/settings'}];
       if (switchAccountUrl) {
-        var replacements = {path: path};
-        var url = this._interpolateUrl(switchAccountUrl, replacements);
-        links.push({name: 'Switch account', url: url});
+        const replacements = {path};
+        const url = this._interpolateUrl(switchAccountUrl, replacements);
+        links.push({name: 'Switch account', url});
       }
       links.push({name: 'Sign out', url: '/logout'});
       return links;
     },
 
-    _getTopContent: function(account) {
+    _getTopContent(account) {
       // if (!account) { return []; }
       return [
         {text: account.name, bold: true},
@@ -73,15 +73,15 @@
       ];
     },
 
-    _handleLocationChange: function() {
+    _handleLocationChange() {
       this._path =
           window.location.pathname +
           window.location.search +
           window.location.hash;
     },
 
-    _interpolateUrl: function(url, replacements) {
-      return url.replace(INTERPOLATE_URL_PATTERN, function(match, p1) {
+    _interpolateUrl(url, replacements) {
+      return url.replace(INTERPOLATE_URL_PATTERN, (match, p1) => {
         return replacements[p1] || '';
       });
     },

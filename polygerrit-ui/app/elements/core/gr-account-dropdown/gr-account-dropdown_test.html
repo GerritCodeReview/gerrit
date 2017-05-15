@@ -33,28 +33,28 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-account-dropdown tests', function() {
-    var element;
+  suite('gr-account-dropdown tests', () => {
+    let element;
 
-    setup(function() {
+    setup(() => {
       stub('gr-rest-api-interface', {
-        getConfig: function() { return Promise.resolve({}); },
+        getConfig() { return Promise.resolve({}); },
       });
       element = fixture('basic');
     });
 
-    test('account information', function() {
+    test('account information', () => {
       element.account = {name: 'John Doe', email: 'john@doe.com'};
       assert.deepEqual(element.topContent,
           [{text: 'John Doe', bold: true}, {text: 'john@doe.com'}]);
     });
 
-    test('switch account', function() {
+    test('switch account', () => {
       // No switch account link.
       assert.equal(element._getLinks(null).length, 2);
 
       // Unparameterized switch account link.
-      var links = element._getLinks('/switch-account');
+      let links = element._getLinks('/switch-account');
       assert.equal(links.length, 3);
       assert.deepEqual(links[1],
           {name: 'Switch account', url: '/switch-account'});
@@ -66,12 +66,12 @@ limitations under the License.
           {name: 'Switch account', url: '/switch-account/c/123'});
     });
 
-    test('_interpolateUrl', function() {
-      var replacements = {
-        'foo': 'bar',
-        'test': 'TEST',
+    test('_interpolateUrl', () => {
+      const replacements = {
+        foo: 'bar',
+        test: 'TEST',
       };
-      var interpolate = function(url) {
+      const interpolate = function(url) {
         return element._interpolateUrl(url, replacements);
       };
 

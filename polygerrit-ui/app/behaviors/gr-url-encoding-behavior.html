@@ -18,14 +18,14 @@ limitations under the License.
   'use strict';
 
   /** @polymerBehavior Gerrit.URLEncodingBehavior */
-  var URLEncodingBehavior = {
+  const URLEncodingBehavior = {
     /**
      * Pretty-encodes a URL. Double-encodes the string, and then replaces
      *   benevolent characters for legibility.
      */
-    encodeURL: function(url, replaceSlashes) {
+    encodeURL(url, replaceSlashes) {
       // @see Issue 4255 regarding double-encoding.
-      var output = encodeURIComponent(encodeURIComponent(url));
+      let output = encodeURIComponent(encodeURIComponent(url));
       // @see Issue 4577 regarding more readable URLs.
       output = output.replace(/%253A/g, ':');
       output = output.replace(/%2520/g, '+');

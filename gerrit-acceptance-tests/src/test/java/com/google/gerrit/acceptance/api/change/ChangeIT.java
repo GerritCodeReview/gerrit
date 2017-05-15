@@ -280,6 +280,64 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void administratorCanUnmarkPrivateAfterMerging() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    gApi.changes().id(changeId).setPrivate(true, null);
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isTrue();
+    merge(result);
+    gApi.changes().id(changeId).setPrivate(false, null);
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+  }
+
+  @Test
+  public void administratorCanMarkPrivateAfterMerging() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+    merge(result);
+    gApi.changes().id(changeId).setPrivate(true, null);
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isTrue();
+  }
+
+  @Test
+  public void userCannotMarkPrivateAfterMerging() throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+
+    String changeId = result.getChangeId();
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+
+    merge(result);
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to mark private");
+    gApi.changes().id(changeId).setPrivate(true, null);
+  }
+
+  @Test
+  public void userCannotUnmarkPrivateAfterMerging() throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+
+    String changeId = result.getChangeId();
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+    gApi.changes().id(changeId).addReviewer(admin.getId().toString());
+    gApi.changes().id(changeId).setPrivate(true, null);
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isTrue();
+
+    merge(result);
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to unmark private");
+    gApi.changes().id(changeId).setPrivate(false, null);
+  }
+
+  @Test
   public void setWorkInProgressNotAllowedWithoutPermission() throws Exception {
     PushOneCommit.Result rwip = createChange();
     String changeId = rwip.getChangeId();

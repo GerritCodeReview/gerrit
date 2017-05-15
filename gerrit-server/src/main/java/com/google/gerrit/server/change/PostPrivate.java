@@ -85,14 +85,12 @@ public class PostPrivate
     return new UiAction.Description()
         .setLabel("Mark private")
         .setTitle("Mark change as private")
-        .setVisible(
-            !change.isPrivate()
-                && change.getStatus() != Change.Status.MERGED
-                && canSetPrivate(rsrc));
+        .setVisible(!change.isPrivate() && canSetPrivate(rsrc));
   }
 
   private boolean canSetPrivate(ChangeResource rsrc) {
     PermissionBackend.WithUser user = permissionBackend.user(rsrc.getUser());
-    return rsrc.isUserOwner() || user.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER);
+    return user.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER)
+        || (rsrc.isUserOwner() && rsrc.getChange().getStatus() != Change.Status.MERGED);
   }
 }

@@ -14,7 +14,8 @@
 (function() {
   'use strict';
 
-  var QUOTE_MARKER_PATTERN = /\n\s?>\s/g;
+  // eslint-disable-next-line no-unused-vars
+  const QUOTE_MARKER_PATTERN = /\n\s?>\s/g;
 
   Polymer({
     is: 'gr-formatted-text',
@@ -35,7 +36,7 @@
       '_contentOrConfigChanged(content, config)',
     ],
 
-    ready: function() {
+    ready() {
       if (this.noTrailingMargin) {
         this.classList.add('noTrailingMargin');
       }
@@ -50,11 +51,11 @@
      *
      * @return {string}
      */
-    getTextContent: function() {
+    getTextContent() {
       return this._blocksToText(this._computeBlocks(this.content));
     },
 
-    _contentChanged: function(content) {
+    _contentChanged(content) {
       // In the case where the config may not be set (perhaps due to the
       // request for it still being in flight), set the content anyway to
       // prevent waiting on the config to display the text.
@@ -65,8 +66,8 @@
     /**
      * Given a source string, update the DOM inside #container.
      */
-    _contentOrConfigChanged: function(content) {
-      var container = Polymer.dom(this.$.container);
+    _contentOrConfigChanged(content) {
+      const container = Polymer.dom(this.$.container);
 
       // Remove existing content.
       while (container.firstChild) {
@@ -74,10 +75,9 @@
       }
 
       // Add new content.
-      this._computeNodes(this._computeBlocks(content))
-          .forEach(function(node) {
+      for (const node of this._computeNodes(this._computeBlocks(content))) {
         container.appendChild(node);
-      });
+      }
     },
 
     /**
@@ -102,14 +102,14 @@
      * @param {string} content
      * @return {!Array<!Object>}
      */
-    _computeBlocks: function(content) {
+    _computeBlocks(content) {
       if (!content) { return []; }
 
-      var result = [];
-      var split = content.split('\n\n');
-      var p;
+      const result = [];
+      const split = content.split('\n\n');
+      let p;
 
-      for (var i = 0; i < split.length; i++) {
+      for (let i = 0; i < split.length; i++) {
         p = split[i];
         if (!p.length) { continue; }
 
@@ -153,14 +153,14 @@
      *   potential paragraph).
      * @param {!Array<!Object>} out The list of blocks to append to.
      */
-    _makeList: function(p, out) {
-      var block = null;
-      var inList = false;
-      var inParagraph = false;
-      var lines = p.split('\n');
-      var line;
+    _makeList(p, out) {
+      let block = null;
+      let inList = false;
+      let inParagraph = false;
+      const lines = p.split('\n');
+      let line;
 
-      for (var i = 0; i < lines.length; i++) {
+      for (let i = 0; i < lines.length; i++) {
         line = lines[i];
 
         if (line[0] === '-' || line[0] === '*') {
@@ -198,10 +198,10 @@
       }
     },
 
-    _makeQuote: function(p) {
-      var quotedLines = p
+    _makeQuote(p) {
+      const quotedLines = p
           .split('\n')
-          .map(function(l) { return l.replace(/^[ ]?>[ ]?/, ''); })
+          .map(l => { return l.replace(/^[ ]?>[ ]?/, ''); })
           .join('\n');
       return {
         type: 'quote',
@@ -209,22 +209,22 @@
       };
     },
 
-    _isQuote: function(p) {
-      return p.indexOf('> ') === 0 || p.indexOf(' > ') === 0;
+    _isQuote(p) {
+      return p.startsWith('> ') || p.startsWith(' > ');
     },
 
-    _isPreFormat: function(p) {
-      return p.indexOf('\n ') !== -1 || p.indexOf('\n\t') !== -1 ||
-          p.indexOf(' ') === 0 || p.indexOf('\t') === 0;
+    _isPreFormat(p) {
+      return p.includes('\n ') || p.includes('\n\t') ||
+          p.startsWith(' ') || p.startsWith('\t');
     },
 
-    _isList: function(p) {
-      return p.indexOf('\n- ') !== -1 || p.indexOf('\n* ') !== -1 ||
-          p.indexOf('- ') === 0 || p.indexOf('* ') === 0;
+    _isList(p) {
+      return p.includes('\n- ') || p.includes('\n* ') ||
+          p.startsWith('- ') || p.startsWith('* ');
     },
 
-    _makeLinkedText: function(content, isPre) {
-      var text = document.createElement('gr-linked-text');
+    _makeLinkedText(content, isPre) {
+      const text = document.createElement('gr-linked-text');
       text.config = this.config;
       text.content = content;
       text.pre = true;
@@ -239,19 +239,19 @@
      * @param  {!Array<!Object>} blocks
      * @return {!Array<!HTMLElement>}
      */
-    _computeNodes: function(blocks) {
-      return blocks.map(function(block) {
+    _computeNodes(blocks) {
+      return blocks.map(block => {
         if (block.type === 'paragraph') {
-          var p = document.createElement('p');
+          const p = document.createElement('p');
           p.appendChild(this._makeLinkedText(block.text));
           return p;
         }
 
         if (block.type === 'quote') {
-          var bq = document.createElement('blockquote');
-          this._computeNodes(block.blocks).forEach(function(node) {
+          const bq = document.createElement('blockquote');
+          for (const node of this._computeNodes(block.blocks)) {
             bq.appendChild(node);
-          });
+          }
           return bq;
         }
 
@@ -260,19 +260,19 @@
         }
 
         if (block.type === 'list') {
-          var ul = document.createElement('ul');
-          block.items.forEach(function(item) {
-            var li = document.createElement('li');
+          const ul = document.createElement('ul');
+          for (const item of bloc.items) {
+            const li = document.createElement('li');
             li.appendChild(this._makeLinkedText(item));
             ul.appendChild(li);
-          }.bind(this));
+          }
           return ul;
         }
-      }.bind(this));
+      });
     },
 
-    _blocksToText: function(blocks) {
-      return blocks.map(function(block) {
+    _blocksToText(blocks) {
+      return blocks.map(block => {
         if (block.type === 'paragraph' || block.type === 'pre') {
           return block.text;
         }
@@ -282,7 +282,7 @@
         if (block.type === 'list') {
           return block.items.join('\n');
         }
-      }.bind(this)).join('\n\n');
+      }).join('\n\n');
     },
   });
 })();

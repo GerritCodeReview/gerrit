@@ -33,30 +33,30 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-dropdown tests', function() {
-    var element;
+  suite('gr-dropdown tests', () => {
+    let element;
 
-    setup(function() {
+    setup(() => {
       stub('gr-rest-api-interface', {
-        getConfig: function() { return Promise.resolve({}); },
+        getConfig() { return Promise.resolve({}); },
       });
       element = fixture('basic');
     });
 
-    test('tap on trigger opens menu', function() {
+    test('tap on trigger opens menu', () => {
       assert.isFalse(element.$.dropdown.opened);
       MockInteractions.tap(element.$.trigger);
       assert.isTrue(element.$.dropdown.opened);
     });
 
-    test('_computeURLHelper', function() {
-      var path = '/test';
-      var host = 'http://www.testsite.com';
-      var computedPath = element._computeURLHelper(host, path);
+    test('_computeURLHelper', () => {
+      const path = '/test';
+      const host = 'http://www.testsite.com';
+      const computedPath = element._computeURLHelper(host, path);
       assert.equal(computedPath, '//http://www.testsite.com/test');
     });
 
-    test('link URLs', function() {
+    test('link URLs', () => {
       assert.equal(
           element._computeLinkURL({url: '/test'}),
           '//' + window.location.host + '/test');
@@ -65,35 +65,35 @@ limitations under the License.
           '/test');
     });
 
-    test('link rel', function() {
+    test('link rel', () => {
       assert.isNull(element._computeLinkRel({url: '/test'}));
       assert.equal(
           element._computeLinkRel({url: '/test', target: '_blank'}),
           'noopener');
     });
 
-    test('_getClassIfBold', function() {
-      var bold = true;
+    test('_getClassIfBold', () => {
+      let bold = true;
       assert.equal(element._getClassIfBold(bold), 'bold-text');
 
       bold = false;
       assert.equal(element._getClassIfBold(bold), '');
     });
 
-    test('Top text exists and is bolded correctly', function() {
+    test('Top text exists and is bolded correctly', () => {
       element.topContent = [{text: 'User', bold: true}, {text: 'email'}];
       flushAsynchronousOperations();
-      var topItems = Polymer.dom(element.root).querySelectorAll('.top-item');
+      const topItems = Polymer.dom(element.root).querySelectorAll('.top-item');
       assert.equal(topItems.length, 2);
       assert.isTrue(topItems[0].classList.contains('bold-text'));
       assert.isFalse(topItems[1].classList.contains('bold-text'));
     });
 
-    test('non link items', function() {
-      var item0 = {name: 'item one', id: 'foo'};
+    test('non link items', () => {
+      const item0 = {name: 'item one', id: 'foo'};
       element.items = [item0, {name: 'item two', id: 'bar'}];
-      var fooTapped = sinon.stub();
-      var tapped = sinon.stub();
+      const fooTapped = sinon.stub();
+      const tapped = sinon.stub();
       element.addEventListener('tap-item-foo', fooTapped);
       element.addEventListener('tap-item', tapped);
       flushAsynchronousOperations();
@@ -103,12 +103,12 @@ limitations under the License.
       assert.deepEqual(tapped.lastCall.args[0].detail, item0);
     });
 
-    test('disabled non link item', function() {
+    test('disabled non link item', () => {
       element.items = [{name: 'item one', id: 'foo'}];
       element.disabledIds = ['foo'];
 
-      var stub = sinon.stub();
-      var tapped = sinon.stub();
+      const stub = sinon.stub();
+      const tapped = sinon.stub();
       element.addEventListener('tap-item-foo', stub);
       element.addEventListener('tap-item', tapped);
       flushAsynchronousOperations();

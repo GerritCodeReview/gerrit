@@ -20,31 +20,31 @@ limitations under the License.
 (function(window) {
   'use strict';
 
-  var getKeyboardEvent = function(e) {
+  const getKeyboardEvent = function(e) {
     return Polymer.dom(e.detail ? e.detail.keyboardEvent : e);
   };
 
-  var KeyboardShortcutBehaviorImpl = {
-    modifierPressed: function(e) {
+  const KeyboardShortcutBehaviorImpl = {
+    modifierPressed(e) {
       e = getKeyboardEvent(e);
       // When e is a keyboardEvent, e.event is not null.
       if (e.event) { e = e.event; }
       return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
     },
 
-    isModifierPressed: function(e, modifier) {
+    isModifierPressed(e, modifier) {
       e = getKeyboardEvent(e);
       // When e is a keyboardEvent, e.event is not null.
       if (e.event) { e = e.event; }
       return e[modifier];
     },
 
-    shouldSuppressKeyboardShortcut: function(e) {
+    shouldSuppressKeyboardShortcut(e) {
       e = getKeyboardEvent(e);
       if (e.path[0].tagName === 'INPUT' || e.path[0].tagName === 'TEXTAREA') {
         return true;
       }
-      for (var i = 0; i < e.path.length; i++) {
+      for (let i = 0; i < e.path.length; i++) {
         if (e.path[i].tagName === 'GR-OVERLAY') { return true; }
       }
       return false;

@@ -26,7 +26,7 @@
     properties: {
       account: {
         type: Object,
-        value: function() { return {}; },
+        value() { return {}; },
       },
       viewState: Object,
       params: {
@@ -53,25 +53,25 @@
       },
     },
 
-    attached: function() {
+    attached() {
       this.fire('title-change', {title: 'My Reviews'});
     },
 
     /**
      * Allows a refresh if menu item is selected again.
      */
-    _paramsChanged: function() {
+    _paramsChanged() {
       this._loading = true;
-      this._getDashboardChanges().then(function(results) {
+      this._getDashboardChanges().then(results => {
         this._results = results;
         this._loading = false;
-      }.bind(this)).catch(function(err) {
+      }).catch(err => {
         this._loading = false;
         console.warn(err.message);
-      }.bind(this));
+      });
     },
 
-    _getDashboardChanges: function() {
+    _getDashboardChanges() {
       return this.$.restAPI.getDashboardChanges();
     },
   });

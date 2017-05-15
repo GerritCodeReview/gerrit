@@ -39,11 +39,12 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-table-behavior tests', function() {
-    var element;
-    var overlay;
+  suite('gr-change-table-behavior tests', () => {
+    let element;
+    // eslint-disable-next-line no-unused-vars
+    let overlay;
 
-    suiteSetup(function() {
+    suiteSetup(() => {
       // Define a Polymer element that uses this behavior.
       Polymer({
         is: 'test-element',
@@ -51,13 +52,13 @@ limitations under the License.
       });
     });
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
       overlay = fixture('within-overlay');
     });
 
-    test('getComplementColumns', function() {
-      var columns = [
+    test('getComplementColumns', () => {
+      let columns = [
         'Subject',
         'Status',
         'Owner',
@@ -79,9 +80,9 @@ limitations under the License.
           ['Owner', 'Updated']);
     });
 
-    test('isColumnHidden', function() {
-      var columnToCheck = 'Project';
-      var columnsToDisplay = [
+    test('isColumnHidden', () => {
+      const columnToCheck = 'Project';
+      let columnsToDisplay = [
         'Subject',
         'Status',
         'Owner',
@@ -92,7 +93,7 @@ limitations under the License.
       ];
       assert.isFalse(element.isColumnHidden(columnToCheck, columnsToDisplay));
 
-      var columnsToDisplay = [
+      columnsToDisplay = [
         'Subject',
         'Status',
         'Owner',

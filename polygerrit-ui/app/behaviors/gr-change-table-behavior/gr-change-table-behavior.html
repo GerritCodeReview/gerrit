@@ -18,7 +18,7 @@ limitations under the License.
   'use strict';
 
   /** @polymerBehavior Gerrit.ChangeTableBehavior */
-  var ChangeTableBehavior = {
+  const ChangeTableBehavior = {
     properties: {
       columnNames: {
         type: Array,
@@ -32,21 +32,21 @@ limitations under the License.
           'Size',
         ],
         readOnly: true,
-      }
+      },
     },
 
     /**
      * Returns the complement to the given column array
      * @param {Array} columns
      */
-    getComplementColumns: function(columns) {
-      return this.columnNames.filter(function(column) {
-        return columns.indexOf(column) === -1;
+    getComplementColumns(columns) {
+      return this.columnNames.filter(column => {
+        return !columns.includes(column);
       });
     },
 
-    isColumnHidden: function(columnToCheck, columnsToDisplay) {
-      return columnsToDisplay.indexOf(columnToCheck) === -1;
+    isColumnHidden(columnToCheck, columnsToDisplay) {
+      return !columnsToDisplay.includes(columnToCheck);
     },
   };
 

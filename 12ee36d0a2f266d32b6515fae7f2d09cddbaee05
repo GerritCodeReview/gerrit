@@ -16,6 +16,24 @@
       "revId": "12ee36d0a2f266d32b6515fae7f2d09cddbaee05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4023f907_2ee5863d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-15T19:06:44Z",
+      "side": 1,
+      "message": "I don\u0027t understand. Here I want to read from reviewDb directly.",
+      "parentUuid": "26373ede_8da4a6a3",
+      "revId": "12ee36d0a2f266d32b6515fae7f2d09cddbaee05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

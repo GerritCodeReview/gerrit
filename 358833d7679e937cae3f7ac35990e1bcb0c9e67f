@@ -16,6 +16,40 @@
       "revId": "358833d7679e937cae3f7ac35990e1bcb0c9e67f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a163ca25_680f316a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T18:41:03Z",
+      "side": 1,
+      "message": "Indent please.",
+      "revId": "358833d7679e937cae3f7ac35990e1bcb0c9e67f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3666e1a7_c869e873",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T18:41:03Z",
+      "side": 1,
+      "message": "Looks like your test has assumptions on another element internal structure.\nSo this is not a unit test anymore.\nNot critical, it\u0027s just will cause breakages because of changes to suggestions or cursor manager.",
+      "revId": "358833d7679e937cae3f7ac35990e1bcb0c9e67f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

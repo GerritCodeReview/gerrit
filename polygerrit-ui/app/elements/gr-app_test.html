@@ -32,11 +32,11 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-app tests', function() {
-    var sandbox;
-    var element;
+  suite('gr-app tests', () => {
+    let sandbox;
+    let element;
 
-    setup(function(done) {
+    setup(done => {
       sandbox = sinon.sandbox.create();
       stub('gr-reporting', {
         appStarted: sandbox.stub(),
@@ -45,43 +45,43 @@ limitations under the License.
         _getTopContent: sinon.stub(),
       });
       stub('gr-rest-api-interface', {
-        getAccount: function() { return Promise.resolve({}); },
-        getAccountCapabilities: function() { return Promise.resolve({}); },
-        getConfig: function() {
+        getAccount() { return Promise.resolve({}); },
+        getAccountCapabilities() { return Promise.resolve({}); },
+        getConfig() {
           return Promise.resolve({
             gerrit: {web_uis: ['GWT', 'POLYGERRIT']},
             plugin: {js_resource_paths: []},
           });
         },
-        getPreferences: function() { return Promise.resolve({my: []}); },
-        getVersion: function() { return Promise.resolve(42); },
-        probePath: function() { return Promise.resolve(42); },
+        getPreferences() { return Promise.resolve({my: []}); },
+        getVersion() { return Promise.resolve(42); },
+        probePath() { return Promise.resolve(42); },
       });
 
       element = fixture('basic');
       flush(done);
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('reporting', function() {
+    test('reporting', () => {
       assert.isTrue(element.$.reporting.appStarted.calledOnce);
     });
 
-    test('location change updates gwt footer', function(done) {
+    test('location change updates gwt footer', done => {
       element._path = '/test/path';
-      flush(function() {
-        var gwtLink = element.$$('#gwtLink');
+      flush(() => {
+        const gwtLink = element.$$('#gwtLink');
         assert.equal(gwtLink.href, 'http://' + location.host +
             element.getBaseUrl() + '/?polygerrit=0#/test/path');
         done();
       });
     });
 
-    test('_handleLocationChange handles hashes', function(done) {
-      var curLocation = {
+    test('_handleLocationChange handles hashes', done => {
+      const curLocation = {
         pathname: '/c/1/1/testfile.txt',
         hash: '#2',
         host: location.host,
@@ -89,20 +89,20 @@ limitations under the License.
       sandbox.stub(element, '_handleSearchPageChange');
       element._handleLocationChange({detail: curLocation});
 
-      flush(function() {
-        var gwtLink = element.$$('#gwtLink');
+      flush(() => {
+        const gwtLink = element.$$('#gwtLink');
         assert.equal(
-          gwtLink.href,
-          'http://' + location.host + element.getBaseUrl() +
+            gwtLink.href,
+            'http://' + location.host + element.getBaseUrl() +
             '/?polygerrit=0#/c/1/1/testfile.txt@2'
         );
         done();
       });
     });
 
-    test('passes config to gr-plugin-host', function(done) {
-      element.$.restAPI.getConfig.lastCall.returnValue.then(function(config) {
-        var pluginConfig = config.plugin;
+    test('passes config to gr-plugin-host', done => {
+      element.$.restAPI.getConfig.lastCall.returnValue.then(config => {
+        const pluginConfig = config.plugin;
         assert.deepEqual(element.$.plugins.config, pluginConfig);
         done();
       });

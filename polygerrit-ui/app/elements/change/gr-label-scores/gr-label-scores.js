@@ -104,12 +104,10 @@
       var labelValue = label.value;
       var len = permittedLabels[label.name] != null ?
           permittedLabels[label.name].length : 0;
-      var numberBlanks =
-          this._computeBlankItems(permittedLabels, label.name, 'start').length;
       for (var i = 0; i < len; i++) {
         var val = parseInt(permittedLabels[label.name][i], 10);
         if (val == labelValue) {
-          return i + numberBlanks;
+          return i;
         }
       }
       return null;
@@ -133,6 +131,10 @@
 
     _computeAnyPermittedLabelValues: function(permittedLabels, label) {
       return permittedLabels.hasOwnProperty(label);
+    },
+
+    _changeIsMerged: function(changeStatus) {
+      return changeStatus === 'MERGED';
     },
 
      _computeLabelValueTitle: function(labels, label, value) {

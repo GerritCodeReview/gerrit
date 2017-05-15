@@ -16,6 +16,24 @@
       "revId": "e3aeaef3bb06b51673c27848217677419f7a8159",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b1dcda7_ab3b3fe4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-15T23:06:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0d7dc21_9ddd8cb5",
+      "revId": "e3aeaef3bb06b51673c27848217677419f7a8159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

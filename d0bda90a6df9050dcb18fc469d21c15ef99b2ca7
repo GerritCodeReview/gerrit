@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3277fcd_856c8e07",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T18:30:22Z",
+      "side": 1,
+      "message": "Aside: Can we avoid manually setting \u0026nbsp; if the CSS includes something like the following?\n\n.placeholder::before {\n  content: \u0027 \u0027;\n}",
+      "range": {
+        "startLine": 83,
+        "startChar": 65,
+        "endLine": 83,
+        "endChar": 71
+      },
+      "revId": "d0bda90a6df9050dcb18fc469d21c15ef99b2ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9eb1e51d_c81d3e89",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T18:30:22Z",
+      "side": 1,
+      "message": "I\u0027m not sure that \"up-voted\" is the clearest description for what\u0027s allowed. What about the following?\n\n Because this change has been merged, votes may only be increased.",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "d0bda90a6df9050dcb18fc469d21c15ef99b2ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "538cda9f_0c41c6b9",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T18:30:22Z",
+      "side": 1,
+      "message": "Should this be ...\n\n_changeIsMerged(changeStatus) {\n  return changeStatus \u003d\u003d\u003d \u0027MERGED\u0027;\n},\n\n... ?",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 6
+      },
+      "revId": "d0bda90a6df9050dcb18fc469d21c15ef99b2ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

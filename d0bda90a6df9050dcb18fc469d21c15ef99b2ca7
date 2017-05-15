@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "35c42cdd_3ee73012",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-05-15T18:35:30Z",
+      "side": 1,
+      "message": "More accurately, the may not be decreased.",
+      "parentUuid": "9eb1e51d_c81d3e89",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "d0bda90a6df9050dcb18fc469d21c15ef99b2ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "538cda9f_0c41c6b9",
         "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.js",
         "patchSetId": 2

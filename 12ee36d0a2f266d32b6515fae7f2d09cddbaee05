@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26373ede_8da4a6a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-15T19:02:18Z",
+      "side": 1,
+      "message": "I wasn\u0027t looking closely enough when I commented on the bug, sorry.  Can\u0027t this just be get(update.getNotes(), key) or something?",
+      "revId": "12ee36d0a2f266d32b6515fae7f2d09cddbaee05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

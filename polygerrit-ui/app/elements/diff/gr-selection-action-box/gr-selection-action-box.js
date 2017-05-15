@@ -87,6 +87,7 @@
     },
 
     _handleMouseDown: function(e) {
+      if (e.button !== 0) { return; } // 0 = main button
       e.preventDefault();
       e.stopPropagation();
       this._fireCreateComment();

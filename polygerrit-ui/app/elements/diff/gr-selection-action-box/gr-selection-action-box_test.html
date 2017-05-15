@@ -60,6 +60,30 @@ limitations under the License.
       assert.isTrue(element.fire.called);
     });
 
+    suite('mousedown reacts only to main button', function() {
+      var e;
+
+      setup(function() {
+        e = {
+          button: 0,
+          preventDefault: sinon.stub(),
+          stopPropagation: sinon.stub(),
+        };
+        sinon.stub(element, '_fireCreateComment');
+      });
+
+      test('event handled if main button', function() {
+        element._handleMouseDown(e);
+        assert.isTrue(e.preventDefault.called);
+      });
+
+      test('event ignored if not main button', function() {
+        e.button = 1;
+        element._handleMouseDown(e);
+        assert.isFalse(e.preventDefault.called);
+      });
+    });
+
     test('event fired contains playload', function() {
       var side = 'left';
       var range = {

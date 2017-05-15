@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f96db180_ba946f72",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T18:40:23Z",
+      "side": 1,
+      "message": "Use strict inequality. I feel like this can be one line too.\n\nif (e.button !\u003d\u003d 0) { return; } // 0 \u003d main button",
+      "range": {
+        "startLine": 90,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 7
+      },
+      "revId": "b5d9b877ba3b5f138bc50ac175bf8290951fad26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -33,14 +33,14 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-label-scores tests', function() {
-    var element;
-    var sandbox;
+  suite('gr-label-scores tests', () => {
+    let element;
+    let sandbox;
 
-    setup(function(done) {
+    setup(done => {
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
-        getLoggedIn: function() { return Promise.resolve(false); },
+        getLoggedIn() { return Promise.resolve(false); },
       });
       element = fixture('basic');
       element.change = {
@@ -61,7 +61,7 @@ limitations under the License.
               value: '+1',
             }],
           },
-          Verified: {
+          'Verified': {
             values: {
               '0': 'No score',
               '+1': 'good',
@@ -91,7 +91,7 @@ limitations under the License.
           '+1',
           '+2',
         ],
-        Verified: [
+        'Verified': [
           '-1',
           ' 0',
           '+1',
@@ -100,14 +100,16 @@ limitations under the License.
       flush(done);
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('label picker', function() {
-      for (var label in element.permittedLabels) {
-        assert.ok(element.$$('iron-selector[data-label="' + label + '"]'),
-          label);
+    test('label picker', () => {
+      for (const label in element.permittedLabels) {
+        if (element.permittedLabels.hasOwnProperty(label)) {
+          assert.ok(element.$$('iron-selector[data-label="' + label + '"]'),
+              label);
+        }
       }
       element.draft = 'I wholeheartedly disapprove';
       MockInteractions.tap(element.$$(
@@ -119,17 +121,16 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.deepEqual(element.getLabelValues(), {
         'Code-Review': -1,
-        Verified: -1,
+        'Verified': -1,
       });
       assert.equal(element.$$('iron-selector[data-label="Code-Review"]')
           .selected, 1);
       assert.equal(element.$$(
           'iron-selector[data-label="Verified"] .iron-selected')
           .textContent.trim(), '-1');
-
     });
 
-    test('correct item is selected', function() {
+    test('correct item is selected', () => {
       assert.equal(element.$$('iron-selector[data-label="Code-Review"]')
           .selected, 3);
       assert.equal(
@@ -144,10 +145,9 @@ limitations under the License.
           .textContent.trim(), '+1');
     });
 
-    test('do not display tooltips on touch devices', function() {
-      var verifiedBtn = element.$$(
-          'iron-selector[data-label="Verified"] > ' +
-          'gr-button[data-value="-1"]');
+    test('do not display tooltips on touch devices', () => {
+      const verifiedBtn = element.$$(
+          'iron-selector[data-label="Verified"] > gr-button[data-value="-1"]');
 
       // On touch devices, tooltips should not be shown.
       verifiedBtn._isTouchDevice = true;
@@ -164,13 +164,13 @@ limitations under the License.
       assert.isNotOk(verifiedBtn._tooltip);
     });
 
-    test('_getVoteForAccount', function() {
-      var labelName = 'Code-Review';
+    test('_getVoteForAccount', () => {
+      const labelName = 'Code-Review';
       assert.equal(element._getVoteForAccount(element.change.labels, labelName,
           element.account), '+1');
     });
 
-    test('_computeColumns', function() {
+    test('_computeColumns', () => {
       element._computeColumns(element.permittedLabels);
       assert.deepEqual(element._labelValues, {
         '-2': 0,
@@ -181,15 +181,13 @@ limitations under the License.
       });
     });
 
-    test('_computeIndexOfLabelValue', function() {
-      var labelName = 'Code-Review';
-
+    test('_computeIndexOfLabelValue', () => {
       assert.equal(element._computeIndexOfLabelValue(element.change.labels,
           element.permittedLabels,
           element._labels[0]), 3);
     });
 
-    test('_computeBlankItems', function() {
+    test('_computeBlankItems', () => {
       element._labelValues = {
         '-2': 0,
         '-1': 1,
@@ -203,10 +201,10 @@ limitations under the License.
 
       assert.deepEqual(
           element._computeBlankItems(element.permittedLabels,
-          'Verified').length, 1);
+              'Verified').length, 1);
     });
 
-    test('changes in label score are reflected in the DOM', function() {
+    test('changes in label score are reflected in the DOM', () => {
       element.change = {
         _number: '123',
         labels: {
@@ -220,7 +218,7 @@ limitations under the License.
             },
             default_value: 0,
           },
-          Verified: {
+          'Verified': {
             values: {
               '0': 'No score',
               '+1': 'good',
@@ -233,14 +231,14 @@ limitations under the License.
         },
       };
       flushAsynchronousOperations();
-      var selector = element.$$('iron-selector[data-label="Verified"]');
+      const selector = element.$$('iron-selector[data-label="Verified"]');
       element.set(['change', 'labels', 'Verified', 'all'],
          [{_account_id: 123, value: 1}]);
       flushAsynchronousOperations();
       assert.equal(selector.selected, 2); // Index 2, value 1
     });
 
-    test('without permitted labels', function() {
+    test('without permitted labels', () => {
       element.permittedLabels = {
         Verified: [
           '-1',
@@ -256,7 +254,7 @@ limitations under the License.
           element.$$('iron-selector[data-label="Code-Review"]').hidden);
     });
 
-    test('asymetrical labels', function() {
+    test('asymetrical labels', () => {
       element.permittedLabels = {
         'Code-Review': [
           '-2',
@@ -265,7 +263,7 @@ limitations under the License.
           '+1',
           '+2',
         ],
-        Verified: [
+        'Verified': [
           ' 0',
           '+1',
         ],

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e184a91_113d18a9",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-15T16:47:18Z",
+      "side": 1,
+      "message": "This line no longer needs to be wrapped.",
+      "range": {
+        "startLine": 125,
+        "startChar": 10,
+        "endLine": 125,
+        "endChar": 60
+      },
+      "revId": "79b5a5b8d2d1ac8a13b401041cc332fe28094c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

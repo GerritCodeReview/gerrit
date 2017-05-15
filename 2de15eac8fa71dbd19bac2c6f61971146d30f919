@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "de7221bd_3a1fa162",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-15T17:13:01Z",
+      "side": 1,
+      "message": "Argh, I completely forgot about this when I was mechanically refactoring all these classes on Friday. A few weeks ago I tried moving this ref update into the BatchUpdate so it would be safer to retry, but VersionedMetaData is pretty awful and I gave up.\n\nSo basically, no, this is not safe in the sense that if we retry due to LockFailureException thrown by bu.execute() below, we will end up with multiple new patch set refs when this update is retried.\n\nI see a few possible ways forward here:\n\n* Submit this change. The bad retry behavior here is identical to the behavior today if a user manually retries by clicking the \"Create change\" button again. In reality, if they see an error, that\u0027s probably what they\u0027ll do.\n* Try sooner rather than later to refactor this to move the ref update into the BatchUpdate.\n* Leave this file alone, and accept the fact that BatchUpdate.Factory will continue to be injectable until it\u0027s fixed.\n\nWhat do you think?",
+      "parentUuid": "f9d29580_20dffc73",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 162,
+        "endChar": 84
+      },
+      "revId": "2de15eac8fa71dbd19bac2c6f61971146d30f919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "15ee1f31_9fd9b8dd",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
         "patchSetId": 2

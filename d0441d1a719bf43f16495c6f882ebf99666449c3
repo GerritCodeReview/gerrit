@@ -22,6 +22,30 @@
       "revId": "d0441d1a719bf43f16495c6f882ebf99666449c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db49f071_39040a6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostPrivate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-15T09:38:44Z",
+      "side": 1,
+      "message": "I don\u0027t think we should allow merged changes to be set private.  This would allow someone to set all of their merged changes private. \n\nI think it would be better to restrict this to admins, and later project owners when that functionality is available through the permission backend.",
+      "parentUuid": "245f4ce2_3350410c",
+      "range": {
+        "startLine": 94,
+        "startChar": 34,
+        "endLine": 94,
+        "endChar": 86
+      },
+      "revId": "d0441d1a719bf43f16495c6f882ebf99666449c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

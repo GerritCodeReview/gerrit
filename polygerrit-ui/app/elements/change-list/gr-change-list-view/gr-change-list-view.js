@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  var LookupQueryPatterns = {
+  const LookupQueryPatterns = {
     CHANGE_ID: /^\s*i?[0-9a-f]{8,40}\s*$/i,
     CHANGE_NUM: /^\s*[1-9][0-9]*\s*$/g,
   };
@@ -56,7 +56,7 @@
       viewState: {
         type: Object,
         notify: true,
-        value: function() { return {}; },
+        value() { return {}; },
       },
 
       _changesPerPage: Number,
@@ -93,11 +93,11 @@
       'previous-page': '_handlePreviousPage',
     },
 
-    attached: function() {
+    attached() {
       this.fire('title-change', {title: this._query});
     },
 
-    _paramsChanged: function(value) {
+    _paramsChanged(value) {
       if (value.view != this.tagName.toLowerCase()) { return; }
 
       this._loading = true;
@@ -112,12 +112,12 @@
 
       this.fire('title-change', {title: this._query});
 
-      this._getPreferences().then(function(prefs) {
+      this._getPreferences().then(prefs => {
         this._changesPerPage = prefs.changes_per_page;
         return this._getChanges();
-      }.bind(this)).then(function(changes) {
+      }).then(changes => {
         if (this._query && changes.length === 1) {
-          for (var query in LookupQueryPatterns) {
+          for (const query in LookupQueryPatterns) {
             if (LookupQueryPatterns.hasOwnProperty(query) &&
                 this._query.match(LookupQueryPatterns[query])) {
               page.show('/c/' + changes[0]._number);
@@ -127,46 +127,46 @@
         }
         this._changes = changes;
         this._loading = false;
-      }.bind(this));
+      });
     },
 
-    _getChanges: function() {
+    _getChanges() {
       return this.$.restAPI.getChanges(this._changesPerPage, this._query,
           this._offset);
     },
 
-    _getPreferences: function() {
+    _getPreferences() {
       return this.$.restAPI.getPreferences();
     },
 
-    _computeNavLink: function(query, offset, direction, changesPerPage) {
+    _computeNavLink(query, offset, direction, changesPerPage) {
       // Offset could be a string when passed from the router.
       offset = +(offset || 0);
-      var newOffset = Math.max(0, offset + (changesPerPage * direction));
+      const newOffset = Math.max(0, offset + (changesPerPage * direction));
       // Double encode URI component.
-      var href = this.getBaseUrl() + '/q/' + this.encodeURL(query, false);
+      let href = this.getBaseUrl() + '/q/' + this.encodeURL(query, false);
       if (newOffset > 0) {
         href += ',' + newOffset;
       }
       return href;
     },
 
-    _hidePrevArrow: function(offset) {
+    _hidePrevArrow(offset) {
       return offset === 0;
     },
 
-    _hideNextArrow: function(loading) {
+    _hideNextArrow(loading) {
       return loading || !this._changes || !this._changes.length ||
           !this._changes[this._changes.length - 1]._more_changes;
     },
 
-    _handleNextPage: function() {
+    _handleNextPage() {
       if (this.$.nextArrow.hidden) { return; }
       page.show(this._computeNavLink(
           this._query, this._offset, 1, this._changesPerPage));
     },
 
-    _handlePreviousPage: function() {
+    _handlePreviousPage() {
       if (this.$.prevArrow.hidden) { return; }
       page.show(this._computeNavLink(
           this._query, this._offset, -1, this._changesPerPage));

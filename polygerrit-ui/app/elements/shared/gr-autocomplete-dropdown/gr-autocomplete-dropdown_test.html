@@ -39,48 +39,48 @@ limitations under the License.
 </test-fixture>
 
 <script>
-    suite('gr-autocomplete-dropdown', function() {
-    var element;
-    var sandbox;
+  suite('gr-autocomplete-dropdown', () => {
+    let element;
+    let sandbox;
 
-    setup(function() {
+    setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
       element.open();
       element.suggestions = [
-          {value: 'test value 1', name: 'test name 1', text: 1},
-          {value: 'test value 2', name: 'test name 2', text: 2}];
+        {value: 'test value 1', name: 'test name 1', text: 1},
+        {value: 'test value 2', name: 'test name 2', text: 2}];
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
       if (element.isOpen) element.close();
     });
 
     test('the dropdown has not been moved from the text fixture to the body',
-        function() {
-      assert.equal(Polymer.dom(document.root)
-          .querySelectorAll('gr-autocomplete-dropdown').length, 1);
-      var dropdown = Polymer.dom(document.root)
-          .querySelector('gr-autocomplete-dropdown');
-      assert.isOk(dropdown);
-      assert.notDeepEqual(dropdown.parentElement, Polymer.dom(document.root)
-          .querySelector('body'));
-    });
+        () => {
+          assert.equal(Polymer.dom(document.root)
+              .querySelectorAll('gr-autocomplete-dropdown').length, 1);
+          const dropdown = Polymer.dom(document.root)
+        .querySelector('gr-autocomplete-dropdown');
+          assert.isOk(dropdown);
+          assert.notDeepEqual(dropdown.parentElement,
+              Polymer.dom(document.root).querySelector('body'));
+        });
 
-    test('escape key', function() {
-      var listener = sandbox.spy();
+    test('escape key', () => {
+      const listener = sandbox.spy();
       element.addEventListener('dropdown-closed', listener);
-      var closeSpy = sandbox.spy(element, 'close');
+      const closeSpy = sandbox.spy(element, 'close');
       MockInteractions.pressAndReleaseKeyOn(element, 27);
       flushAsynchronousOperations();
       assert.isTrue(listener.called);
       assert.isTrue(closeSpy.called);
     });
 
-    test('tab key', function() {
-      var handleTabSpy = sandbox.spy(element, '_handleTab');
-      var itemSelectedStub = sandbox.stub();
+    test('tab key', () => {
+      const handleTabSpy = sandbox.spy(element, '_handleTab');
+      const itemSelectedStub = sandbox.stub();
       element.addEventListener('item-selected', itemSelectedStub);
       MockInteractions.pressAndReleaseKeyOn(element, 9);
       assert.isTrue(handleTabSpy.called);
@@ -92,9 +92,9 @@ limitations under the License.
       });
     });
 
-     test('enter key', function() {
-      var handleEnterSpy = sandbox.spy(element, '_handleEnter');
-      var itemSelectedStub = sandbox.stub();
+    test('enter key', () => {
+      const handleEnterSpy = sandbox.spy(element, '_handleEnter');
+      const itemSelectedStub = sandbox.stub();
       element.addEventListener('item-selected', itemSelectedStub);
       MockInteractions.pressAndReleaseKeyOn(element, 13);
       assert.isTrue(handleEnterSpy.called);
@@ -105,9 +105,9 @@ limitations under the License.
       });
     });
 
-    test('down key', function() {
+    test('down key', () => {
       element.hidden = true;
-      var nextSpy = sandbox.spy(element.$.cursor, 'next');
+      const nextSpy = sandbox.spy(element.$.cursor, 'next');
       MockInteractions.pressAndReleaseKeyOn(element, 40);
       assert.isFalse(nextSpy.called);
       assert.equal(element.$.cursor.index, 0);
@@ -117,9 +117,9 @@ limitations under the License.
       assert.equal(element.$.cursor.index, 1);
     });
 
-    test('up key', function() {
+    test('up key', () => {
       element.hidden = true;
-      var prevSpy = sandbox.spy(element.$.cursor, 'previous');
+      const prevSpy = sandbox.spy(element.$.cursor, 'previous');
       MockInteractions.pressAndReleaseKeyOn(element, 38);
       assert.isFalse(prevSpy.called);
       assert.equal(element.$.cursor.index, 0);
@@ -131,8 +131,8 @@ limitations under the License.
       assert.equal(element.$.cursor.index, 0);
     });
 
-    test('tapping selects item', function() {
-      var itemSelectedStub = sandbox.stub();
+    test('tapping selects item', () => {
+      const itemSelectedStub = sandbox.stub();
       element.addEventListener('item-selected', itemSelectedStub);
 
       MockInteractions.tap(element.$.suggestions.querySelectorAll('li')[1]);
@@ -143,59 +143,59 @@ limitations under the License.
       });
     });
 
-    test('updated suggestions resets cursor stops', function() {
+    test('updated suggestions resets cursor stops', () => {
       resetStopsSpy = sandbox.spy(element, '_resetCursorStops');
       element.suggestions = [];
       assert.isTrue(resetStopsSpy.called);
     });
+});
+
+suite('gr-autocomplete-dropdown to root', () => {
+  let element;
+  let sandbox;
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    fixture('move').open();
+  // The element was moved to the body, so look for it there.
+    element = Polymer.dom(document.root)
+      .querySelector('gr-autocomplete-dropdown');
+    element.suggestions = [
+      {value: 'test value 1', name: 'test name 1', text: 1},
+      {value: 'test value 2', name: 'test name 2', text: 2}];
   });
 
-  suite('gr-autocomplete-dropdown to root', function() {
-    var element;
-    var sandbox;
-
-    setup(function() {
-      sandbox = sinon.sandbox.create();
-      fixture('move').open();
-      // The element was moved to the body, so look for it there.
-      element = Polymer.dom(document.root)
-          .querySelector('gr-autocomplete-dropdown');
-      element.suggestions = [
-          {value: 'test value 1', name: 'test name 1', text: 1},
-          {value: 'test value 2', name: 'test name 2', text: 2}];
-    });
-
-    teardown(function() {
-      sandbox.restore();
-      if (!element.hidden) element.close();
-    });
-
-    test('the dropdown has been moved from the text fixture to the body',
-        function() {
-      assert.equal(Polymer.dom(document.root)
-          .querySelectorAll('gr-autocomplete-dropdown').length, 1);
-      var dropdown = Polymer.dom(document.root)
-          .querySelector('gr-autocomplete-dropdown');
-      assert.isOk(dropdown);
-      assert.deepEqual(dropdown.parentElement, Polymer.dom(document.root)
-          .querySelector('body'));
-    });
-
-    test('closing removes from body and adding adds to body', function() {
-      element.close();
-      assert.equal(Polymer.dom(document.root)
-          .querySelectorAll('gr-autocomplete-dropdown').length, 0);
-      element.open();
-      assert.equal(Polymer.dom(document.root)
-          .querySelectorAll('gr-autocomplete-dropdown').length, 1);
-    });
-
-    test('setPosition', function() {
-      var top = '10px';
-      var left = '20px';
-      element.setPosition(top, left);
-      assert.equal(getComputedStyle(element).top, top);
-      assert.equal(getComputedStyle(element).left, left);
-    });
+  teardown(() => {
+    sandbox.restore();
+    if (!element.hidden) element.close();
   });
+
+  test('the dropdown has been moved from the text fixture to the body',
+      () => {
+        assert.equal(Polymer.dom(document.root)
+            .querySelectorAll('gr-autocomplete-dropdown').length, 1);
+        const dropdown = Polymer.dom(document.root)
+      .querySelector('gr-autocomplete-dropdown');
+        assert.isOk(dropdown);
+        assert.deepEqual(dropdown.parentElement, Polymer.dom(document.root)
+            .querySelector('body'));
+      });
+
+  test('closing removes from body and adding adds to body', () => {
+    element.close();
+    assert.equal(Polymer.dom(document.root)
+        .querySelectorAll('gr-autocomplete-dropdown').length, 0);
+    element.open();
+    assert.equal(Polymer.dom(document.root)
+        .querySelectorAll('gr-autocomplete-dropdown').length, 1);
+  });
+
+  test('setPosition', () => {
+    const top = '10px';
+    const left = '20px';
+    element.setPosition(top, left);
+    assert.equal(getComputedStyle(element).top, top);
+    assert.equal(getComputedStyle(element).left, left);
+  });
+});
 </script>

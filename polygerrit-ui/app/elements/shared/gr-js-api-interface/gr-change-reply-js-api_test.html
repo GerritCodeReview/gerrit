@@ -37,35 +37,35 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-reply-js-api tests', function() {
-    var element;
-    var sandbox;
-    var changeReply;
+  suite('gr-change-reply-js-api tests', () => {
+    let element;
+    let sandbox;
+    let changeReply;
 
-    setup(function() {
+    setup(() => {
       stub('gr-rest-api-interface', {
-        getConfig: function() { return Promise.resolve({}); },
-        getAccount: function() { return Promise.resolve(null); },
+        getConfig() { return Promise.resolve({}); },
+        getAccount() { return Promise.resolve(null); },
       });
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
-      var plugin;
-      Gerrit.install(function(p) { plugin = p; }, '0.1',
+      let plugin;
+      Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       changeReply = plugin.changeReply();
     });
 
-    teardown(function() {
+    teardown(() => {
       changeReply = null;
       sandbox.restore();
     });
 
-    test('calls', function() {
-      var setLabelValueStub = sinon.stub(element, 'setLabelValue');
+    test('calls', () => {
+      const setLabelValueStub = sinon.stub(element, 'setLabelValue');
       changeReply.setLabelValue('My-Label', '+1337');
       assert(setLabelValueStub.calledWithExactly('My-Label', '+1337'));
 
-      var sendStub = sinon.stub(element, 'send');
+      const sendStub = sinon.stub(element, 'send');
       changeReply.send(false);
       assert(sendStub.calledWithExactly(false));
     });

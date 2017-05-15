@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "f9c83f9e_a8b713ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1206,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T19:54:50Z",
+      "side": 1,
+      "message": "I guess I meant a constant at the top of the file. Something like...\n\n const SMALL_RELATED_HEIGHT \u003d 400;",
+      "parentUuid": "a7ae1c6d_6b7688fc",
+      "range": {
+        "startLine": 1206,
+        "startChar": 20,
+        "endLine": 1206,
+        "endChar": 23
+      },
+      "revId": "1b96d49d9768f9fa62f87091bca74d22000de906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f7037fb0_e446a7f3",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 5

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7bae6cc_a804d1b8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T19:54:50Z",
+      "side": 1,
+      "message": "This comment says mobile, but the const and the breakpoint say small. Is this comment incorrect?",
+      "range": {
+        "startLine": 1205,
+        "startChar": 16,
+        "endLine": 1205,
+        "endChar": 22
+      },
+      "revId": "bdee98e21a26a4b4ac688871cdd973c5bf57826c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49caa177_5ccf99f7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 1217,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T19:54:50Z",
+      "side": 1,
+      "message": "Optional: These numeric stubs can be tidy one-liners too.\n\n sandbox.stub(element, \u0027_getOffsetHeight\u0027, () \u003d\u003e 50);",
+      "range": {
+        "startLine": 1215,
+        "startChar": 8,
+        "endLine": 1217,
+        "endChar": 11
+      },
+      "revId": "bdee98e21a26a4b4ac688871cdd973c5bf57826c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

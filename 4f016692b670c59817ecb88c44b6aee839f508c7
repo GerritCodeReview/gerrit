@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "394f2f5c_f319bd04",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T18:52:23Z",
+      "side": 1,
+      "message": "Alternatively,\nvalue \u003d () \u003d\u003e ({}),",
+      "revId": "4f016692b670c59817ecb88c44b6aee839f508c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cad1f3e3_a7d83361",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T18:52:23Z",
+      "side": 1,
+      "message": "value \u003d () \u003d\u003e document.body,",
+      "revId": "4f016692b670c59817ecb88c44b6aee839f508c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2935ee52_bf29b07e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T18:52:23Z",
+      "side": 1,
+      "message": "Alternatively,\nmap(line \u003d\u003e  \u0027\u003e \u0027 + line )",
+      "range": {
+        "startLine": 378,
+        "startChar": 20,
+        "endLine": 378,
+        "endChar": 40
+      },
+      "revId": "4f016692b670c59817ecb88c44b6aee839f508c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

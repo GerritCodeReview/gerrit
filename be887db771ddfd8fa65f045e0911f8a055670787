@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66299e94_85ccfa56",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-15T16:50:41Z",
+      "side": 1,
+      "message": "Unrelated.... Unfortunate syntax highlighting here.",
+      "range": {
+        "startLine": 234,
+        "startChar": 6,
+        "endLine": 235,
+        "endChar": 29
+      },
+      "revId": "be887db771ddfd8fa65f045e0911f8a055670787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38f32c19_cc58216c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-15T16:50:41Z",
+      "side": 1,
+      "message": "This line is too long... May be a good candidate for string templating, one of my favorite ES6 goodies :)\n\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals",
+      "range": {
+        "startLine": 1207,
+        "startChar": 35,
+        "endLine": 1207,
+        "endChar": 80
+      },
+      "revId": "be887db771ddfd8fa65f045e0911f8a055670787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

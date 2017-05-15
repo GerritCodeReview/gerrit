@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4815570b_bdcd6d90",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T23:14:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c460fd9_b7f233e4",
+      "revId": "358833d7679e937cae3f7ac35990e1bcb0c9e67f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a163ca25_680f316a",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "cdf34d5a_63feac8c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T23:14:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a163ca25_680f316a",
+      "revId": "358833d7679e937cae3f7ac35990e1bcb0c9e67f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3666e1a7_c869e873",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2017-05-15T18:41:03Z",
       "side": 1,
       "message": "Looks like your test has assumptions on another element internal structure.\nSo this is not a unit test anymore.\nNot critical, it\u0027s just will cause breakages because of changes to suggestions or cursor manager.",
+      "revId": "358833d7679e937cae3f7ac35990e1bcb0c9e67f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ed7c7fc_775b5b6f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T23:14:43Z",
+      "side": 1,
+      "message": "Yeah, I guess this is almost more of an \u0027integration\u0027 test. Since the dropdown used to be part of the component, I wanted to make sure it still works as expected.",
+      "parentUuid": "3666e1a7_c869e873",
       "revId": "358833d7679e937cae3f7ac35990e1bcb0c9e67f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

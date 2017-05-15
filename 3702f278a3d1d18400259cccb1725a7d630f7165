@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "421330a9_d7c347bf",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T19:24:13Z",
+      "side": 1,
+      "message": "Wording nits: I like it when the helpful explanation message can be positive instead of negative, but I can\u0027t think of a simple way to describe this in that way.\n\nIs it possible that this would confuse users still? If the user is thinking \"All I want to do is unset CQ+1, and it\u0027s telling me I can\u0027t *...decrease a vote...?*.\"",
+      "range": {
+        "startLine": 112,
+        "startChar": 42,
+        "endLine": 112,
+        "endChar": 68
+      },
+      "revId": "3702f278a3d1d18400259cccb1725a7d630f7165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4886c75_f7382f18",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T19:24:13Z",
+      "side": 1,
+      "message": "This line needs one more space of indentation.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 5
+      },
+      "revId": "3702f278a3d1d18400259cccb1725a7d630f7165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5452000_b7a33088",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T19:24:13Z",
+      "side": 1,
+      "message": "Optional ES6 nit: remove the\n\n : function",
+      "range": {
+        "startLine": 136,
+        "startChar": 19,
+        "endLine": 136,
+        "endChar": 29
+      },
+      "revId": "3702f278a3d1d18400259cccb1725a7d630f7165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

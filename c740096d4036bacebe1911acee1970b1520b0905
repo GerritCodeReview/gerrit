@@ -248,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "f028c083_29b11c1b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T18:36:08Z",
+      "side": 1,
+      "message": "Sounds like indirect external dependency to me.\nAny particular reason not to let event bubble?\n\nAlso, why bother passing and working with event in this case?\nWould high-level API work here?",
+      "parentUuid": "1e5cef1e_34d976b1",
+      "revId": "c740096d4036bacebe1911acee1970b1520b0905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9cdad0c9_0f856080",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
         "patchSetId": 11
@@ -280,6 +298,24 @@
       "revId": "c740096d4036bacebe1911acee1970b1520b0905",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6ac9b73_76bf524b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T18:36:08Z",
+      "side": 1,
+      "message": "Ack\nLet\u0027s keep discussion to one thread, and apply outcome to both.",
+      "parentUuid": "e4acb1db_0fcf619e",
+      "revId": "c740096d4036bacebe1911acee1970b1520b0905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

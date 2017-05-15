@@ -34,9 +34,11 @@
     parser._filterRemovedMessages();
     parser._groupUpdates();
     parser._formatUpdates();
+    parser._advanceUpdates();
     return parser.result;
   };
 
+  GrReviewerUpdatesParser.MESSAGE_REVIEWERS_THRESHOLD_MILLIS = 500;
   GrReviewerUpdatesParser.REVIEWER_UPDATE_THRESHOLD_MILLIS = 6000;
 
   GrReviewerUpdatesParser.prototype.result = null;
@@ -186,6 +188,31 @@
       }
       update.updates = newUpdates;
     }
+  };
+
+  /**
+   * Moves reviewer updates that are within short time frame of change messages
+   * back in time so they would come before change messages.
+   * TODO(viktard): Remove when server-side serves reviewer updates like so.
+   */
+  GrReviewerUpdatesParser.prototype._advanceUpdates = function() {
+    const updates = this.result.reviewer_updates;
+    const messages = this.result.messages;
+    messages.forEach((message, index) => {
+      const messageDate = util.parseDate(message.date).getTime();
+      const nextMessageDate = index === messages.length - 1 ? null:
+          util.parseDate(messages[index + 1].date).getTime();
+      for(const update of updates) {
+        const date = util.parseDate(update.date).getTime();
+        if (date >= messageDate
+            && (!nextMessageDate || date < nextMessageDate)) {
+          const timestamp = util.parseDate(update.date).getTime() -
+              GrReviewerUpdatesParser.MESSAGE_REVIEWERS_THRESHOLD_MILLIS;
+          update.date = new Date(timestamp)
+            .toISOString().replace('T', ' ').replace('Z', '000000');
+        }
+      };
+    });
   };
 
   window.GrReviewerUpdatesParser = GrReviewerUpdatesParser;

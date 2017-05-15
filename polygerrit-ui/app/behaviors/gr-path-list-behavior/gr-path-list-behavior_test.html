@@ -22,19 +22,27 @@ limitations under the License.
 <link rel="import" href="gr-path-list-behavior.html">
 
 <script>
-  suite('gr-path-list-behavior tests', function() {
-    test('special sort', function() {
-      var sort = Gerrit.PathListBehavior.specialFilePathCompare;
-      var testFiles = [
+  suite('gr-path-list-behavior tests', () => {
+    test('special sort', () => {
+      const sort = Gerrit.PathListBehavior.specialFilePathCompare;
+      const testFiles = [
         '/a.h',
         '/MERGE_LIST',
         '/a.cpp',
         '/COMMIT_MSG',
         '/asdasd',
-        '/mrPeanutbutter.py'
+        '/mrPeanutbutter.py',
       ];
-      assert.deepEqual(testFiles.sort(sort),
-          ['/COMMIT_MSG', '/MERGE_LIST', '/a.h', '/a.cpp', '/asdasd', '/mrPeanutbutter.py']);
+      assert.deepEqual(
+          testFiles.sort(sort),
+          [
+            '/COMMIT_MSG',
+            '/MERGE_LIST',
+            '/a.h',
+            '/a.cpp',
+            '/asdasd',
+            '/mrPeanutbutter.py',
+          ]);
     });
   });
 </script>

@@ -32,22 +32,22 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-tooltip-behavior tests', function() {
-    var element;
-    var sandbox;
+  suite('gr-tooltip-behavior tests', () => {
+    let element;
+    let sandbox;
 
     function makeTooltip(tooltipRect, parentRect) {
       return {
-        getBoundingClientRect: function() { return tooltipRect; },
+        getBoundingClientRect() { return tooltipRect; },
         updateStyles: sinon.stub(),
         style: {left: 0, top: 0},
         parentElement: {
-          getBoundingClientRect: function() { return parentRect; },
+          getBoundingClientRect() { return parentRect; },
         },
       };
     }
 
-    suiteSetup(function() {
+    suiteSetup(() => {
       // Define a Polymer element that uses this behavior.
       Polymer({
         is: 'tooltip-behavior-element',
@@ -55,20 +55,20 @@ limitations under the License.
       });
     });
 
-    setup(function() {
+    setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('normal position', function() {
-      sandbox.stub(element, 'getBoundingClientRect', function() {
+    test('normal position', () => {
+      sandbox.stub(element, 'getBoundingClientRect', () => {
         return {top: 100, left: 100, width: 200};
       });
-      var tooltip = makeTooltip(
+      const tooltip = makeTooltip(
           {height: 30, width: 50},
           {top: 0, left: 0, width: 1000});
 
@@ -78,49 +78,49 @@ limitations under the License.
       assert.equal(tooltip.style.top, '100px');
     });
 
-    test('left side position', function() {
-      sandbox.stub(element, 'getBoundingClientRect', function() {
+    test('left side position', () => {
+      sandbox.stub(element, 'getBoundingClientRect', () => {
         return {top: 100, left: 10, width: 50};
       });
-      var tooltip = makeTooltip(
+      const tooltip = makeTooltip(
           {height: 30, width: 120},
           {top: 0, left: 0, width: 1000});
 
       element._positionTooltip(tooltip);
       assert.isTrue(tooltip.updateStyles.called);
-      var offset = tooltip.updateStyles
+      const offset = tooltip.updateStyles
           .lastCall.args[0]['--gr-tooltip-arrow-center-offset'];
       assert.isBelow(parseFloat(offset.replace(/px$/, '')), 0);
       assert.equal(tooltip.style.left, '0px');
       assert.equal(tooltip.style.top, '100px');
     });
 
-    test('right side position', function() {
-      sandbox.stub(element, 'getBoundingClientRect', function() {
+    test('right side position', () => {
+      sandbox.stub(element, 'getBoundingClientRect', () => {
         return {top: 100, left: 950, width: 50};
       });
-      var tooltip = makeTooltip(
+      const tooltip = makeTooltip(
           {height: 30, width: 120},
           {top: 0, left: 0, width: 1000});
 
       element._positionTooltip(tooltip);
       assert.isTrue(tooltip.updateStyles.called);
-      var offset = tooltip.updateStyles
+      const offset = tooltip.updateStyles
           .lastCall.args[0]['--gr-tooltip-arrow-center-offset'];
       assert.isAbove(parseFloat(offset.replace(/px$/, '')), 0);
       assert.equal(tooltip.style.left, '915px');
       assert.equal(tooltip.style.top, '100px');
     });
 
-    test('hides tooltip when detached', function() {
+    test('hides tooltip when detached', () => {
       sandbox.stub(element, '_handleHideTooltip');
       element.remove();
       flushAsynchronousOperations();
       assert.isTrue(element._handleHideTooltip.called);
     });
 
-    test('sets up listeners when has-tooltip is changed', function() {
-      var addListenerStub = sandbox.stub(element, 'addEventListener');
+    test('sets up listeners when has-tooltip is changed', () => {
+      const addListenerStub = sandbox.stub(element, 'addEventListener');
       element.hasTooltip = true;
       assert.isTrue(addListenerStub.called);
     });

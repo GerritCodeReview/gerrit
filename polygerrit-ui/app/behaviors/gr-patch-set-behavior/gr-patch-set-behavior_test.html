@@ -22,10 +22,10 @@ limitations under the License.
 <link rel="import" href="gr-patch-set-behavior.html">
 
 <script>
-  suite('gr-path-list-behavior tests', function() {
-    test('getRevisionByPatchNum', function() {
-      var get = Gerrit.PatchSetBehavior.getRevisionByPatchNum;
-      var revisions = [
+  suite('gr-path-list-behavior tests', () => {
+    test('getRevisionByPatchNum', () => {
+      const get = Gerrit.PatchSetBehavior.getRevisionByPatchNum;
+      const revisions = [
         {_number: 0},
         {_number: 1},
         {_number: 2},
@@ -35,52 +35,52 @@ limitations under the License.
       assert.equal(get(revisions, '3'), undefined);
     });
 
-    test('fetchIsLatestKnown on latest', function(done) {
-      var knownChange = {
+    test('fetchIsLatestKnown on latest', done => {
+      const knownChange = {
         revisions: {
           sha1: {description: 'patch 1', _number: 1},
           sha2: {description: 'patch 2', _number: 2},
         },
       };
-      var mockRestApi = {
-        getChangeDetail: function() {
+      const mockRestApi = {
+        getChangeDetail() {
           return Promise.resolve(knownChange);
         },
       };
       Gerrit.PatchSetBehavior.fetchIsLatestKnown(knownChange, mockRestApi)
-          .then(function(isLatest) {
+          .then(isLatest => {
             assert.isTrue(isLatest);
             done();
           });
     });
 
-    test('fetchIsLatestKnown not on latest', function(done) {
-      var knownChange = {
+    test('fetchIsLatestKnown not on latest', done => {
+      const knownChange = {
         revisions: {
           sha1: {description: 'patch 1', _number: 1},
           sha2: {description: 'patch 2', _number: 2},
         },
       };
-      var actualChange = {
+      const actualChange = {
         revisions: {
           sha1: {description: 'patch 1', _number: 1},
           sha2: {description: 'patch 2', _number: 2},
           sha3: {description: 'patch 3', _number: 3},
         },
       };
-      var mockRestApi = {
-        getChangeDetail: function() {
+      const mockRestApi = {
+        getChangeDetail() {
           return Promise.resolve(actualChange);
         },
       };
       Gerrit.PatchSetBehavior.fetchIsLatestKnown(knownChange, mockRestApi)
-          .then(function(isLatest) {
+          .then(isLatest => {
             assert.isFalse(isLatest);
             done();
           });
     });
 
-    test('_computeWipForPatchSets', function() {
+    test('_computeWipForPatchSets', () => {
       // Compute patch sets for a given timeline on a change. The initial WIP
       // property of the change can be true or false. The map of tags by
       // revision is keyed by patch set number. Each value is a list of change
@@ -90,32 +90,32 @@ limitations under the License.
       //
       // Returns the actual results with an assertWip method that can be used
       // to compare against an expected value for a particular patch set.
-      function compute(initialWip, tagsByRevision) {
-        var change = {
+      const compute = (initialWip, tagsByRevision) => {
+        const change = {
           messages: [],
           work_in_progress: initialWip,
         };
-        var revs = Object.keys(tagsByRevision).sort(function(a, b) {
+        const revs = Object.keys(tagsByRevision).sort((a, b) => {
           return a - b;
         });
-        revs.forEach(function(rev) {
-          tagsByRevision[rev].forEach(function(tag) {
+        for (const rev of revs) {
+          for (const tag of tagsByRevision[rev]) {
             change.messages.push({
-              tag: tag,
+              tag,
               _revision_number: rev,
             });
-          });
-        });
-        var patchNums = revs.map(function(rev) { return {num: rev}; });
+          }
+        }
+        let patchNums = revs.map(rev => { return {num: rev}; });
         patchNums = Gerrit.PatchSetBehavior._computeWipForPatchSets(
             change, patchNums);
-        var actualWipsByRevision = {};
-        patchNums.forEach(function(patchNum) {
+        const actualWipsByRevision = {};
+        for (const patchNum of patchNums) {
           actualWipsByRevision[patchNum.num] = patchNum.wip;
-        });
-        var verifier = {
-          assertWip: function(revision, expectedWip) {
-            var patchNum = patchNums.find(function(patchNum) {
+        }
+        const verifier = {
+          assertWip(revision, expectedWip) {
+            const patchNum = patchNums.find(patchNum => {
               return patchNum.num == revision;
             });
             if (!patchNum) {
@@ -123,19 +123,19 @@ limitations under the License.
             }
             assert.equal(patchNum.wip, expectedWip,
                 'wip state for ' + revision + ' is ' +
-                patchNum.wip + '; expected ' + expectedWip);
+              patchNum.wip + '; expected ' + expectedWip);
             return verifier;
           },
         };
         return verifier;
-      }
+      };
 
       compute(false, {1: ['upload']}).assertWip(1, false);
       compute(true, {1: ['upload']}).assertWip(1, true);
 
-      var setWip = 'autogenerated:gerrit:setWorkInProgress';
-      var uploadInWip = 'autogenerated:gerrit:newWipPatchSet';
-      var clearWip = 'autogenerated:gerrit:setReadyForReview';
+      const setWip = 'autogenerated:gerrit:setWorkInProgress';
+      const uploadInWip = 'autogenerated:gerrit:newWipPatchSet';
+      const clearWip = 'autogenerated:gerrit:setReadyForReview';
 
       compute(false, {
         1: ['upload', setWip],
@@ -143,9 +143,9 @@ limitations under the License.
         3: ['upload', clearWip],
         4: ['upload', setWip],
       }).assertWip(1, false)  // Change was created with PS1 ready for review
-        .assertWip(2, true)   // PS2 was uploaded during WIP
-        .assertWip(3, false)  // PS3 was marked ready for review after upload
-        .assertWip(4, false); // PS4 was uploaded ready for review
+          .assertWip(2, true)   // PS2 was uploaded during WIP
+          .assertWip(3, false)  // PS3 was marked ready for review after upload
+          .assertWip(4, false); // PS4 was uploaded ready for review
 
       compute(false, {
         1: [uploadInWip, null, 'addReviewer'],
@@ -155,11 +155,11 @@ limitations under the License.
         5: ['upload', clearWip],
         6: [uploadInWip],
       }).assertWip(1, true)  // Change was created in WIP
-        .assertWip(2, true)  // PS2 was uploaded during WIP
-        .assertWip(3, false) // PS3 was marked ready for review
-        .assertWip(4, true)  // PS4 was uploaded during WIP
-        .assertWip(5, false) // PS5 was marked ready for review
-        .assertWip(6, true); // PS6 was uploaded with WIP option
+          .assertWip(2, true)  // PS2 was uploaded during WIP
+          .assertWip(3, false) // PS3 was marked ready for review
+          .assertWip(4, true)  // PS4 was uploaded during WIP
+          .assertWip(5, false) // PS5 was marked ready for review
+          .assertWip(6, true); // PS6 was uploaded with WIP option
     });
   });
 </script>

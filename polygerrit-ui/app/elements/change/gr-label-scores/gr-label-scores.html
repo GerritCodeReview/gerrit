@@ -39,6 +39,14 @@ limitations under the License.
       .labelMessage {
         color: #666;
       }
+      .mergedMessage {
+        font-style: italic;
+        text-align: center;
+        width: 100%;
+      }
+      .placeholder::before {
+        content: ' ';
+      }
       iron-selector > gr-button:first-of-type {
         border-bottom-left-radius: 2px;
         border-top-left-radius: 2px;
@@ -72,14 +80,14 @@ limitations under the License.
       <div class="labelContainer">
         <span class="labelName">[[label.name]]</span>
         <span id="spaces[[index]]"></span>
+        <template is="dom-repeat"
+            items="[[_computeBlankItems(permittedLabels, label.name, 'start')]]"
+            as="value">
+          <span class="placeholder" data-label$="[[label.name]]"></span>
+        </template>
         <iron-selector data-label$="[[label.name]]"
             selected="[[_computeIndexOfLabelValue(change.labels, permittedLabels, label)]]"
             hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
-          <template is="dom-repeat"
-              items="[[_computeBlankItems(permittedLabels, label.name, 'start')]]"
-              as="value">
-            <span class="placeholder">&nbsp;</span>
-          </template>
           <template is="dom-repeat"
               items="[[_computePermittedLabelValues(permittedLabels, label.name)]]"
               as="value">
@@ -87,18 +95,22 @@ limitations under the License.
               title$="[[_computeLabelValueTitle(change.labels, label.name, value)]]">
             [[value]]</gr-button>
           </template>
-          <template is="dom-repeat"
-              items="[[_computeBlankItems(permittedLabels, label.name, 'end')]]"
-              as="value">
-            <span class="placeholder">&nbsp;</span>
-          </template>
         </iron-selector>
+        <template is="dom-repeat"
+            items="[[_computeBlankItems(permittedLabels, label.name, 'end')]]"
+            as="value">
+          <span class="placeholder" data-label$="[[label.name]]"></span>
+        </template>
         <span class="labelMessage"
             hidden$="[[_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
           You don't have permission to edit this label.
         </span>
       </div>
     </template>
+    <div class="mergedMessage"
+        hidden$="[[!_changeIsMerged(change.status)]]">
+      Because this change has been merged, votes may not be decreased.
+    </div>
   </template>
   <script src="gr-label-scores.js"></script>
 </dom-module>

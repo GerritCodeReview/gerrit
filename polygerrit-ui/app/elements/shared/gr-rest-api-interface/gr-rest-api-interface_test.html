@@ -614,7 +614,7 @@ limitations under the License.
       );
     });
 
-    test('startWorkInProgress', function() {
+    test('startWorkInProgress', () => {
       sandbox.stub(element, 'send').returns(Promise.resolve('ok'));
       element.startWorkInProgress('42');
       assert.isTrue(element.send.calledWith(
@@ -624,7 +624,7 @@ limitations under the License.
           'POST', '/changes/42/wip', {message: 'revising...'}));
     });
 
-    test('startReview', function() {
+    test('startReview', () => {
       sandbox.stub(element, 'send').returns(Promise.resolve({}));
       element.startReview('42', {message: 'Please review.'});
       assert.isTrue(element.send.calledWith(

@@ -19,14 +19,14 @@ limitations under the License.
   'use strict';
 
   /** @polymerBehavior Gerrit.BaseUrlBehavior */
-  var BaseUrlBehavior = {
-    getBaseUrl: function() {
+  const BaseUrlBehavior = {
+    getBaseUrl() {
       return window.CANONICAL_PATH || '';
     },
 
-    computeGwtUrl: function(path) {
-      var base = this.getBaseUrl();
-      var clientPath = path.substring(base.length);
+    computeGwtUrl(path) {
+      const base = this.getBaseUrl();
+      const clientPath = path.substring(base.length);
       return base + '/?polygerrit=0#' + clientPath;
     },
   };

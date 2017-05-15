@@ -16,12 +16,12 @@
 
   // Polymer makes `app` intrinsically defined on the window by virtue of the
   // custom element having the id "app", but it is made explicit here.
-  var app = document.querySelector('#app');
+  const app = document.querySelector('#app');
   if (!app) {
     console.log('No gr-app found (running tests)');
   }
 
-  var _reporting;
+  let _reporting;
   function getReporting() {
     if (!_reporting) {
       _reporting = document.createElement('gr-reporting');
@@ -33,26 +33,26 @@
     getReporting().pageLoaded();
   };
 
-  window.addEventListener('WebComponentsReady', function() {
+  window.addEventListener('WebComponentsReady', () => {
     getReporting().timeEnd('WebComponentsReady');
   });
 
   function startRouter() {
-    var base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
+    const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
     if (base) {
       page.base(base);
     }
 
-    var restAPI = document.createElement('gr-rest-api-interface');
-    var reporting = getReporting();
+    const restAPI = document.createElement('gr-rest-api-interface');
+    const reporting = getReporting();
 
     // Middleware
-    page(function(ctx, next) {
+    page((ctx, next) => {
       document.body.scrollTop = 0;
 
       // Fire asynchronously so that the URL is changed by the time the event
       // is processed.
-      app.async(function() {
+      app.async(() => {
         app.fire('location-change', {
           hash: window.location.hash,
           pathname: window.location.pathname,
@@ -63,13 +63,13 @@
     });
 
     function loadUser(ctx, next) {
-      restAPI.getLoggedIn().then(function() {
+      restAPI.getLoggedIn().then(() => {
         next();
       });
     }
 
     // Routes.
-    page('/', loadUser, function(data) {
+    page('/', loadUser, data => {
       if (data.querystring.match(/^closeAfterLogin/)) {
         // Close child window on redirect after login.
         window.close();
@@ -81,14 +81,14 @@
         if (data.hash[0] !== '/') {
           data.hash = '/' + data.hash;
         }
-        var newUrl = data.hash;
-        if (newUrl.indexOf('/VE/') === 0) {
+        let newUrl = data.hash;
+        if (newUrl.startsWith('/VE/')) {
           newUrl = '/settings' + data.hash;
         }
         page.redirect(newUrl);
         return;
       }
-      restAPI.getLoggedIn().then(function(loggedIn) {
+      restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           page.redirect('/dashboard/self');
         } else {
@@ -97,8 +97,8 @@
       });
     });
 
-    page('/dashboard/(.*)', loadUser, function(data) {
-      restAPI.getLoggedIn().then(function(loggedIn) {
+    page('/dashboard/(.*)', loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           data.params.view = 'gr-dashboard-view';
           app.params = data.params;
@@ -108,8 +108,8 @@
       });
     });
 
-    page('/admin/(.*)', loadUser, function(data) {
-      restAPI.getLoggedIn().then(function(loggedIn) {
+    page('/admin/(.*)', loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           data.params.view = 'gr-admin-view';
           app.params = data.params;
@@ -127,7 +127,7 @@
     page('/q/:query,:offset', queryHandler);
     page('/q/:query', queryHandler);
 
-    page(/^\/(\d+)\/?/, function(ctx) {
+    page(/^\/(\d+)\/?/, ctx => {
       page.redirect('/c/' + encodeURIComponent(ctx.params[0]));
     });
 
@@ -139,9 +139,9 @@
     }
 
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>].
-    page(/^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?$/, function(ctx) {
+    page(/^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?$/, ctx => {
       // Parameter order is based on the regex group number matched.
-      var params = {
+      const params = {
         changeNum: ctx.params[0],
         basePatchNum: ctx.params[3],
         patchNum: ctx.params[5],
@@ -163,9 +163,9 @@
     });
 
     // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
-    page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, function(ctx) {
+    page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, ctx => {
       // Parameter order is based on the regex group number matched.
-      var params = {
+      const params = {
         changeNum: ctx.params[0],
         basePatchNum: ctx.params[2],
         patchNum: ctx.params[4],
@@ -177,7 +177,7 @@
         // TODO(kaspern): Utilize gr-url-encoding-behavior.html when the router
         // is replaced with a Polymer counterpart.
         // @see Issue 4255 regarding double-encoding.
-        var path = encodeURIComponent(encodeURIComponent(params.path));
+        let path = encodeURIComponent(encodeURIComponent(params.path));
         // @see Issue 4577 regarding more readable URLs.
         path = path.replace(/%252F/g, '/');
         path = path.replace(/%2520/g, '+');
@@ -194,7 +194,7 @@
       // Check if path has an '@' which indicates it was using GWT style line
       // numbers. Even if the filename had an '@' in it, it would have already
       // been URI encoded. Redirect to hash version of path.
-      if (ctx.path.indexOf('@') !== -1) {
+      if (ctx.path.includes('@')) {
         page.redirect(ctx.path.replace('@', '#'));
         return;
       }
@@ -203,8 +203,8 @@
       app.params = params;
     });
 
-    page(/^\/settings\/(agreements|new-agreement)/, loadUser, function(data) {
-      restAPI.getLoggedIn().then(function(loggedIn) {
+    page(/^\/settings\/(agreements|new-agreement)/, loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           data.params.view = 'gr-cla-view';
           app.params = data.params;
@@ -214,8 +214,8 @@
       });
     });
 
-    page(/^\/settings\/VE\/(\S+)/, function(data) {
-      restAPI.getLoggedIn().then(function(loggedIn) {
+    page(/^\/settings\/VE\/(\S+)/, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
             view: 'gr-settings-view',
@@ -227,8 +227,8 @@
       });
     });
 
-    page(/^\/settings\/?/, function(data) {
-      restAPI.getLoggedIn().then(function(loggedIn) {
+    page(/^\/settings\/?/, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {view: 'gr-settings-view'};
         } else {
@@ -237,9 +237,9 @@
       });
     });
 
-    page(/^\/register(\/.*)?/, function(ctx) {
+    page(/^\/register(\/.*)?/, ctx => {
       app.params = {justRegistered: true};
-      var path = ctx.params[0] || '/';
+      const path = ctx.params[0] || '/';
       page.show(path);
     });
 
@@ -248,7 +248,7 @@
 
   Polymer({
     is: 'gr-router',
-    start: function() {
+    start() {
       if (!app) { return; }
       startRouter();
     },

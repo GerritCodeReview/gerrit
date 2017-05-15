@@ -249,5 +249,40 @@ limitations under the License.
       assert.equal(items[2].message, 'added to REVIEWER: ');
       assert.deepEqual(items[2].reviewers, [reviewer1, reviewer2]);
     });
+
+    test('_advanceUpdates', () => {
+      const change = {
+        reviewer_updates: [{
+          date: "2017-02-17 19:04:18.000000000",
+          type: "REVIEWER_UPDATE",
+          updates: [{
+            message: "same time update",
+          }]
+        }, {
+          date: "2017-02-17 19:04:18.200000000",
+          type: "REVIEWER_UPDATE",
+          updates: [{
+            message: "update within threshold",
+          }]
+        }, {
+          date: "2017-02-17 19:05:18.200000000",
+          type: "REVIEWER_UPDATE",
+          updates: [{
+            message: "late update",
+          }]
+        }],
+        messages: [{
+          id: "6734489eb9d642de28dbf2bcf9bda875923800d8",
+          date: "2017-02-17 19:04:18.000000000",
+          message: "Uploaded patch set 1.",
+        }],
+      };
+      instance = new GrReviewerUpdatesParser(change);
+      instance._advanceUpdates();
+      const updates = instance.result.reviewer_updates;
+      assert.equal(updates[0].date, '2017-02-17 19:04:17.500000000');
+      assert.equal(updates[1].date, '2017-02-17 19:04:17.700000000');
+      assert.equal(updates[2].date, '2017-02-17 19:05:18.200000000');
+    });
   });
 </script>

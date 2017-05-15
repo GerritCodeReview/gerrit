@@ -33,22 +33,22 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-autocomplete tests', function() {
-    var element;
-    var sandbox;
+  suite('gr-autocomplete tests', () => {
+    let element;
+    let sandbox;
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('renders', function(done) {
-      var promise;
-      var queryStub = sandbox.spy(function(input) {
+    test('renders', done => {
+      let promise;
+      const queryStub = sandbox.spy(input => {
         return promise = Promise.resolve([
           {name: input + ' 0', value: 0},
           {name: input + ' 1', value: 1},
@@ -67,13 +67,13 @@ limitations under the License.
       assert.isTrue(queryStub.called);
       element._focused = true;
 
-      promise.then(function() {
+      promise.then(() => {
         assert.isFalse(element.$.suggestions.hasAttribute('hidden'));
 
-        var suggestions = element.$.suggestions.querySelectorAll('li');
+        const suggestions = element.$.suggestions.querySelectorAll('li');
         assert.equal(suggestions.length, 5);
 
-        for (var i = 0; i < 5; i++) {
+        for (let i = 0; i < 5; i++) {
           assert.equal(suggestions[i].textContent, 'blah ' + i);
         }
 
@@ -82,9 +82,9 @@ limitations under the License.
       });
     });
 
-    test('esc key behavior', function(done) {
-      var promise;
-      var queryStub = sandbox.spy(function() {
+    test('esc key behavior', done => {
+      let promise;
+      const queryStub = sandbox.spy(() => {
         return promise = Promise.resolve([
           {name: 'blah', value: 123},
         ]);
@@ -96,10 +96,10 @@ limitations under the License.
       element._focused = true;
       element.text = 'blah';
 
-      promise.then(function() {
+      promise.then(() => {
         assert.isFalse(element.$.suggestions.hasAttribute('hidden'));
 
-        var cancelHandler = sandbox.spy();
+        const cancelHandler = sandbox.spy();
         element.addEventListener('cancel', cancelHandler);
 
         MockInteractions.pressAndReleaseKeyOn(element.$.input, 27, null, 'esc');
@@ -113,9 +113,9 @@ limitations under the License.
       });
     });
 
-    test('emits commit and handles cursor movement', function(done) {
-      var promise;
-      var queryStub = sandbox.spy(function(input) {
+    test('emits commit and handles cursor movement', done => {
+      let promise;
+      const queryStub = sandbox.spy(input => {
         return promise = Promise.resolve([
           {name: input + ' 0', value: 0},
           {name: input + ' 1', value: 1},
@@ -131,10 +131,10 @@ limitations under the License.
       element._focused = true;
       element.text = 'blah';
 
-      promise.then(function() {
+      promise.then(() => {
         assert.isFalse(element.$.suggestions.hasAttribute('hidden'));
 
-        var commitHandler = sandbox.spy();
+        const commitHandler = sandbox.spy();
         element.addEventListener('commit', commitHandler);
 
         assert.equal(element.$.cursor.index, 0);
@@ -165,16 +165,16 @@ limitations under the License.
       });
     });
 
-    test('clear-on-commit behavior (off)', function(done) {
-      var promise;
-      var queryStub = sandbox.spy(function() {
+    test('clear-on-commit behavior (off)', done => {
+      let promise;
+      const queryStub = sandbox.spy(() => {
         return promise = Promise.resolve([{name: 'suggestion', value: 0}]);
       });
       element.query = queryStub;
       element.text = 'blah';
 
-      promise.then(function() {
-        var commitHandler = sandbox.spy();
+      promise.then(() => {
+        const commitHandler = sandbox.spy();
         element.addEventListener('commit', commitHandler);
 
         MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
@@ -186,17 +186,17 @@ limitations under the License.
       });
     });
 
-    test('clear-on-commit behavior (on)', function(done) {
-      var promise;
-      var queryStub = sandbox.spy(function() {
+    test('clear-on-commit behavior (on)', done => {
+      let promise;
+      const queryStub = sandbox.spy(() => {
         return promise = Promise.resolve([{name: 'suggestion', value: 0}]);
       });
       element.query = queryStub;
       element.text = 'blah';
       element.clearOnCommit = true;
 
-      promise.then(function() {
-        var commitHandler = sandbox.spy();
+      promise.then(() => {
+        const commitHandler = sandbox.spy();
         element.addEventListener('commit', commitHandler);
 
         MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
@@ -208,8 +208,8 @@ limitations under the License.
       });
     });
 
-    test('threshold guards the query', function() {
-      var queryStub = sandbox.spy(function() {
+    test('threshold guards the query', () => {
+      const queryStub = sandbox.spy(() => {
         return Promise.resolve([]);
       });
       element.query = queryStub;
@@ -225,29 +225,29 @@ limitations under the License.
       assert.isTrue(queryStub.called);
     });
 
-    test('_computeClass respects border property', function() {
+    test('_computeClass respects border property', () => {
       assert.equal(element._computeClass(), '');
       assert.equal(element._computeClass(false), '');
       assert.equal(element._computeClass(true), 'borderless');
     });
 
-    test('undefined or empty text results in no suggestions', function() {
+    test('undefined or empty text results in no suggestions', () => {
       sandbox.spy(element, '_updateSuggestions');
       element.text = undefined;
       assert(element._updateSuggestions.calledOnce);
       assert.equal(element._suggestions.length, 0);
     });
 
-    test('multi completes only the last part of the query', function(done) {
-      var promise;
-      var queryStub = sandbox.stub()
+    test('multi completes only the last part of the query', done => {
+      let promise;
+      const queryStub = sandbox.stub()
           .returns(promise = Promise.resolve([{name: 'suggestion', value: 0}]));
       element.query = queryStub;
       element.text = 'blah blah';
       element.multi = true;
 
-      promise.then(function() {
-        var commitHandler = sandbox.spy();
+      promise.then(() => {
+        const commitHandler = sandbox.spy();
         element.addEventListener('commit', commitHandler);
 
         MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
@@ -259,8 +259,8 @@ limitations under the License.
       });
     });
 
-    test('tab key completes only when suggestions exist', function() {
-      var commitStub = sandbox.stub(element, '_commit');
+    test('tab key completes only when suggestions exist', () => {
+      const commitStub = sandbox.stub(element, '_commit');
       element._suggestions = [];
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
       assert.isFalse(commitStub.called);
@@ -269,8 +269,8 @@ limitations under the License.
       assert.isTrue(commitStub.called);
     });
 
-    test('tabCompleteWithoutCommit flag functions', function() {
-      var commitHandler = sandbox.spy();
+    test('tabCompleteWithoutCommit flag functions', () => {
+      const commitHandler = sandbox.spy();
       element.addEventListener('commit', commitHandler);
       element._suggestions = ['tunnel snakes rule!'];
       element.tabCompleteWithoutCommit = true;
@@ -282,25 +282,25 @@ limitations under the License.
       assert.isTrue(commitHandler.called);
     });
 
-    test('_focused flag properly triggered', function(done) {
-      flush(function() {
+    test('_focused flag properly triggered', done => {
+      flush(() => {
         assert.isFalse(element._focused);
-        var input = element.$$('input');
+        const input = element.$$('input');
         MockInteractions.focus(input);
         assert.isTrue(element._focused);
         done();
       });
     });
 
-    test('_focused flag shows/hides the suggestions', function() {
-      var suggestions = ['hello', 'its me'];
+    test('_focused flag shows/hides the suggestions', () => {
+      const suggestions = ['hello', 'its me'];
       assert.isTrue(element._computeSuggestionsHidden(suggestions, false));
       assert.isFalse(element._computeSuggestionsHidden(suggestions, true));
     });
 
-    test('tap on suggestion commits and refocuses on input', function() {
-      var focusSpy = sandbox.spy(element, 'focus');
-      var commitSpy = sandbox.spy(element, '_commit');
+    test('tap on suggestion commits and refocuses on input', () => {
+      const focusSpy = sandbox.spy(element, 'focus');
+      const commitSpy = sandbox.spy(element, '_commit');
       element._focused = true;
       element._suggestions = [{name: 'first suggestion'}];
       Polymer.dom.flush();
@@ -313,8 +313,8 @@ limitations under the License.
       assert.isTrue(element._focused);
     });
 
-    test('input-keydown event fired', function() {
-      var listener = sandbox.spy();
+    test('input-keydown event fired', () => {
+      const listener = sandbox.spy();
       element.addEventListener('input-keydown', listener);
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
       flushAsynchronousOperations();

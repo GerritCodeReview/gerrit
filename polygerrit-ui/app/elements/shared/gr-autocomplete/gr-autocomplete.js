@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  var TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
+  const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 
   Polymer({
     is: 'gr-autocomplete',
@@ -52,7 +52,7 @@
        */
       query: {
         type: Function,
-        value: function() {
+        value() {
           return function() {
             return Promise.resolve([]);
           };
@@ -107,12 +107,12 @@
 
       _suggestions: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
 
       _suggestionEls: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
 
       _index: Number,
@@ -129,11 +129,11 @@
 
     },
 
-    attached: function() {
+    attached() {
       this.listen(document.body, 'tap', '_handleBodyTap');
     },
 
-    detached: function() {
+    detached() {
       this.unlisten(document.body, 'tap', '_handleBodyTap');
     },
 
@@ -141,15 +141,15 @@
       return this.$.input;
     },
 
-    focus: function() {
+    focus() {
       this.$.input.focus();
     },
 
-    selectAll: function() {
+    selectAll() {
       this.$.input.setSelectionRange(0, this.$.input.value.length);
     },
 
-    clear: function() {
+    clear() {
       this.text = '';
     },
 
@@ -157,27 +157,27 @@
      * Set the text of the input without triggering the suggestion dropdown.
      * @param {String} text The new text for the input.
      */
-    setText: function(text) {
+    setText(text) {
       this._disableSuggestions = true;
       this.text = text;
       this._disableSuggestions = false;
     },
 
-    _onInputFocus: function() {
+    _onInputFocus() {
       this._focused = true;
       this._updateSuggestions();
     },
 
-    _updateSuggestions: function() {
+    _updateSuggestions() {
       if (!this.text || this._disableSuggestions) { return; }
       if (this.text.length < this.threshold) {
         this._suggestions = [];
         this.value = null;
         return;
       }
-      var text = this.text;
+      const text = this.text;
 
-      this.query(text).then(function(suggestions) {
+      this.query(text).then(suggestions => {
         if (text !== this.text) {
           // Late response.
           return;
@@ -189,14 +189,14 @@
         if (this._index === -1) {
           this.value = null;
         }
-      }.bind(this));
+      });
     },
 
-    _computeSuggestionsHidden: function(suggestions, focused) {
+    _computeSuggestionsHidden(suggestions, focused) {
       return !(suggestions.length && focused);
     },
 
-    _computeClass: function(borderless) {
+    _computeClass(borderless) {
       return borderless ? 'borderless' : '';
     },
 
@@ -204,7 +204,7 @@
      * _handleKeydown used for key handling in the this.$.input AND all child
      * autocomplete options.
      */
-    _handleKeydown: function(e) {
+    _handleKeydown(e) {
       this._focused = true;
       switch (e.keyCode) {
         case 38: // Up
@@ -237,7 +237,7 @@
       this.fire('input-keydown', {keyCode: e.keyCode, input: this.$.input});
     },
 
-    _cancel: function() {
+    _cancel() {
       if (this._suggestions.length) {
         this._suggestions = [];
       } else {
@@ -245,13 +245,13 @@
       }
     },
 
-    _updateValue: function(suggestions, index) {
+    _updateValue(suggestions, index) {
       if (!suggestions.length || index === -1) { return; }
-      var completed = suggestions[index].value;
+      const completed = suggestions[index].value;
       if (this.multi) {
         // Append the completed text to the end of the string.
         // Allow spaces within quoted terms.
-        var tokens = this.text.match(TOKENIZE_REGEX);
+        const tokens = this.text.match(TOKENIZE_REGEX);
         tokens[tokens.length - 1] = completed;
         this.value = tokens.join(' ');
       } else {
@@ -259,9 +259,9 @@
       }
     },
 
-    _handleBodyTap: function(e) {
-      var eventPath = Polymer.dom(e).path;
-      for (var i = 0; i < eventPath.length; i++) {
+    _handleBodyTap(e) {
+      const eventPath = Polymer.dom(e).path;
+      for (let i = 0; i < eventPath.length; i++) {
         if (eventPath[i] === this) {
           return;
         }
@@ -269,7 +269,7 @@
       this._focused = false;
     },
 
-    _handleSuggestionTap: function(e) {
+    _handleSuggestionTap(e) {
       e.stopPropagation();
       this.$.cursor.setCursor(e.target);
       this._commit();
@@ -283,7 +283,7 @@
      *     suggestion in order to handle cases like tab-to-complete without
      *     firing the commit event.
      */
-    _commit: function(silent) {
+    _commit(silent) {
       // Allow values that are not in suggestion list iff suggestions are empty.
       if (this._suggestions.length > 0) {
         this._updateValue(this._suggestions, this._index);
@@ -291,7 +291,7 @@
         this.value = this.text || '';
       }
 
-      var value = this.value;
+      const value = this.value;
 
       // Value and text are mirrors of each other in multi mode.
       if (this.multi) {
@@ -306,7 +306,7 @@
 
       this._suggestions = [];
       if (!silent) {
-        this.fire('commit', {value: value});
+        this.fire('commit', {value});
       }
     },
   });

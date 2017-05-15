@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "2e197581_bd1d1fb0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T18:24:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51cf393e_cf93493d",
+      "revId": "8bb2e17e40f0cf0a5a407bc84ca643bf9f311993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8c97cf8_3e597a07",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 6
@@ -119,6 +137,30 @@
     },
     {
       "key": {
+        "uuid": "94d62fb7_5de6d134",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T18:24:49Z",
+      "side": 1,
+      "message": "This was removed.",
+      "parentUuid": "df84d6d0_98f20028",
+      "range": {
+        "startLine": 370,
+        "startChar": 40,
+        "endLine": 370,
+        "endChar": 50
+      },
+      "revId": "8bb2e17e40f0cf0a5a407bc84ca643bf9f311993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2f29cc7_88efdc60",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 6
@@ -151,6 +193,24 @@
       "revId": "8bb2e17e40f0cf0a5a407bc84ca643bf9f311993",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d86eaff7_ddace607",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1140,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T18:24:49Z",
+      "side": 1,
+      "message": "Filed https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d6216",
+      "parentUuid": "8c2ef51d_220bc50f",
+      "revId": "8bb2e17e40f0cf0a5a407bc84ca643bf9f311993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

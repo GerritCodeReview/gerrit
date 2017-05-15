@@ -20,7 +20,7 @@ limitations under the License.
   'use strict';
 
   /** @polymerBehavior Gerrit.RESTClientBehavior */
-  var RESTClientBehavior = {
+  const RESTClientBehavior = {
     ChangeDiffType: {
       ADDED: 'ADDED',
       COPIED: 'COPIED',
@@ -88,35 +88,35 @@ limitations under the License.
       REVIEWER_UPDATES: 19,
 
       // Set the submittable boolean.
-      SUBMITTABLE: 20
+      SUBMITTABLE: 20,
     },
 
-    listChangesOptionsToHex: function() {
-      var v = 0;
-      for (var i = 0; i < arguments.length; i++) {
-        v |= 1 << arguments[i];
+    listChangesOptionsToHex(...args) {
+      let v = 0;
+      for (let i = 0; i < args.length; i++) {
+        v |= 1 << args[i];
       }
       return v.toString(16);
     },
 
-    changeBaseURL: function(changeNum, patchNum) {
-      var v = this.getBaseUrl() + '/changes/' + changeNum;
+    changeBaseURL(changeNum, patchNum) {
+      let v = this.getBaseUrl() + '/changes/' + changeNum;
       if (patchNum) {
         v += '/revisions/' + patchNum;
       }
       return v;
     },
 
-    changePath: function(changeNum) {
+    changePath(changeNum) {
       return this.getBaseUrl() + '/c/' + changeNum;
     },
 
-    changeIsOpen: function(status) {
+    changeIsOpen(status) {
       return status === this.ChangeStatus.NEW ||
           status === this.ChangeStatus.DRAFT;
     },
 
-    changeStatusString: function(change) {
+    changeStatusString(change) {
       // "Closed" states should take precedence over "open" ones.
       if (change.status === this.ChangeStatus.MERGED) {
         return 'Merged';
@@ -137,7 +137,7 @@ limitations under the License.
   window.Gerrit = window.Gerrit || {};
   window.Gerrit.RESTClientBehavior = [
     Gerrit.BaseUrlBehavior,
-    RESTClientBehavior
+    RESTClientBehavior,
   ];
 })(window);
 </script>

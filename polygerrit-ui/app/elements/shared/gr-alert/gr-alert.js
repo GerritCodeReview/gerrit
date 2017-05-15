@@ -41,21 +41,21 @@
       _hideActionButton: Boolean,
       _boundTransitionEndHandler: {
         type: Function,
-        value: function() { return this._handleTransitionEnd.bind(this); },
+        value() { return this._handleTransitionEnd.bind(this); },
       },
       _actionCallback: Function,
     },
 
-    attached: function() {
+    attached() {
       this.addEventListener('transitionend', this._boundTransitionEndHandler);
     },
 
-    detached: function() {
+    detached() {
       this.removeEventListener('transitionend',
           this._boundTransitionEndHandler);
     },
 
-    show: function(text, opt_actionText, opt_actionCallback) {
+    show(text, opt_actionText, opt_actionCallback) {
       this.text = text;
       this.actionText = opt_actionText;
       this._hideActionButton = !opt_actionText;
@@ -64,27 +64,27 @@
       this._setShown(true);
     },
 
-    hide: function() {
+    hide() {
       this._setShown(false);
       if (this._hasZeroTransitionDuration()) {
         Gerrit.getRootElement().removeChild(this);
       }
     },
 
-    _hasZeroTransitionDuration: function() {
-      var style = window.getComputedStyle(this);
+    _hasZeroTransitionDuration() {
+      const style = window.getComputedStyle(this);
       // transitionDuration is always given in seconds.
-      var duration = Math.round(parseFloat(style.transitionDuration) * 100);
+      const duration = Math.round(parseFloat(style.transitionDuration) * 100);
       return duration === 0;
     },
 
-    _handleTransitionEnd: function(e) {
+    _handleTransitionEnd(e) {
       if (this.shown) { return; }
 
       Gerrit.getRootElement().removeChild(this);
     },
 
-    _handleActionTap: function(e) {
+    _handleActionTap(e) {
       e.preventDefault();
       if (this._actionCallback) { this._actionCallback(); }
     },

@@ -46,6 +46,30 @@
       "revId": "d0441d1a719bf43f16495c6f882ebf99666449c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecfb1870_032efaed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostPrivate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-15T09:41:32Z",
+      "side": 1,
+      "message": "OK, makes sense, but at least change owners should be able to remove the private flag then?",
+      "parentUuid": "db49f071_39040a6d",
+      "range": {
+        "startLine": 94,
+        "startChar": 34,
+        "endLine": 94,
+        "endChar": 86
+      },
+      "revId": "d0441d1a719bf43f16495c6f882ebf99666449c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

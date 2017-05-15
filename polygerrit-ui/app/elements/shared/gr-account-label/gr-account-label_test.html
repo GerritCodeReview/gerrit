@@ -33,32 +33,32 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-account-label tests', function() {
-    var element;
+  suite('gr-account-label tests', () => {
+    let element;
 
-    setup(function() {
+    setup(() => {
       stub('gr-rest-api-interface', {
-        getConfig: function() { return Promise.resolve({}); },
-        getLoggedIn: function() { return Promise.resolve(false); },
+        getConfig() { return Promise.resolve({}); },
+        getLoggedIn() { return Promise.resolve(false); },
       });
       element = fixture('basic');
     });
 
-    test('null guard', function() {
-      assert.doesNotThrow(function() {
+    test('null guard', () => {
+      assert.doesNotThrow(() => {
         element.account = null;
       });
     });
 
-    test('missing email', function() {
+    test('missing email', () => {
       assert.equal('', element._computeEmailStr({name: 'foo'}));
     });
 
-    test('computed fields', function() {
+    test('computed fields', () => {
       assert.equal(element._computeAccountTitle(
           {
             name: 'Andrew Bonventre',
-            email: 'andybons+gerrit@gmail.com'
+            email: 'andybons+gerrit@gmail.com',
           }),
           'Andrew Bonventre <andybons+gerrit@gmail.com>');
 
@@ -69,7 +69,7 @@ limitations under the License.
       assert.equal(element._computeShowEmail(true,
           {
             name: 'Andrew Bonventre',
-            email: 'andybons+gerrit@gmail.com'
+            email: 'andybons+gerrit@gmail.com',
           }), true);
 
       assert.equal(element._computeShowEmail(true,
@@ -88,6 +88,5 @@ limitations under the License.
           element._computeEmailStr({name: 'test', email: 'test'}), '(test)');
       assert.equal(element._computeEmailStr({email: 'test'}, ''), 'test');
     });
-
-  });
+});
 </script>

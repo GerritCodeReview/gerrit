@@ -22,6 +22,30 @@
       "revId": "b190e385e8026acaa2fb268c437a2f889f99e7a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b21d485_8846ab2b",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-15T17:48:23Z",
+      "side": 1,
+      "message": "It\u0027s assigned a value, but never used after that. The suppress for that is needed on this line, in this and a few other behaviors.\n\nI debated just taking out that fixture entirely since it isn\u0027t actually ever used, but I opted for the less drastic move instead.",
+      "parentUuid": "04afd8e4_ecb576e3",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 16
+      },
+      "revId": "b190e385e8026acaa2fb268c437a2f889f99e7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

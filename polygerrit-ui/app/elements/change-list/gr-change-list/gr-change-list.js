@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  var NUMBER_FIXED_COLUMNS = 3;
+  const NUMBER_FIXED_COLUMNS = 3;
 
   Polymer({
     is: 'gr-change-list',
@@ -42,7 +42,7 @@
        */
       account: {
         type: Object,
-        value: function() { return {}; },
+        value() { return {}; },
       },
       /**
        * An array of ChangeInfo objects to render.
@@ -58,11 +58,11 @@
        */
       groups: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
       groupTitles: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
       labelNames: {
         type: Array,
@@ -83,7 +83,7 @@
       },
       keyEventTarget: {
         type: Object,
-        value: function() { return document.body; },
+        value() { return document.body; },
       },
     },
 
@@ -102,16 +102,16 @@
       'shift+r': '_handleRKey',
     },
 
-    attached: function() {
+    attached() {
       this._loadPreferences();
     },
 
-    _lowerCase: function(column) {
+    _lowerCase(column) {
       return column.toLowerCase();
     },
 
-    _loadPreferences: function() {
-      return this._getLoggedIn().then(function(loggedIn) {
+    _loadPreferences() {
+      return this._getLoggedIn().then(loggedIn => {
         this.changeTableColumns = this.columnNames;
 
         if (!loggedIn) {
@@ -119,99 +119,99 @@
           this.visibleChangeTableColumns = this.columnNames;
           return;
         }
-        return this._getPreferences().then(function(preferences) {
+        return this._getPreferences().then(preferences => {
           this.showNumber = !!(preferences &&
               preferences.legacycid_in_change_table);
           this.visibleChangeTableColumns = preferences.change_table.length > 0 ?
               preferences.change_table : this.columnNames;
-        }.bind(this));
-      }.bind(this));
+        });
+      });
     },
 
-    _getLoggedIn: function() {
+    _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
     },
 
-    _getPreferences: function() {
+    _getPreferences() {
       return this.$.restAPI.getPreferences();
     },
 
-    _computeColspan: function(changeTableColumns, labelNames) {
+    _computeColspan(changeTableColumns, labelNames) {
       return changeTableColumns.length + labelNames.length +
           NUMBER_FIXED_COLUMNS;
     },
 
-    _computeLabelNames: function(groups) {
+    _computeLabelNames(groups) {
       if (!groups) { return []; }
-      var labels = [];
-      var nonExistingLabel = function(item) {
-        return labels.indexOf(item) < 0;
+      let labels = [];
+      const nonExistingLabel = function(item) {
+        return !labels.includes(item);
       };
-      for (var i = 0; i < groups.length; i++) {
-        var group = groups[i];
-        for (var j = 0; j < group.length; j++) {
-          var change = group[j];
+      for (let i = 0; i < groups.length; i++) {
+        const group = groups[i];
+        for (let j = 0; j < group.length; j++) {
+          const change = group[j];
           if (!change.labels) { continue; }
-          var currentLabels = Object.keys(change.labels);
+          const currentLabels = Object.keys(change.labels);
           labels = labels.concat(currentLabels.filter(nonExistingLabel));
         }
       }
       return labels.sort();
     },
 
-    _computeLabelShortcut: function(labelName) {
+    _computeLabelShortcut(labelName) {
       return labelName.replace(/[a-z-]/g, '');
     },
 
-    _changesChanged: function(changes) {
+    _changesChanged(changes) {
       this.groups = changes ? [changes] : [];
     },
 
-    _groupTitle: function(groupIndex) {
+    _groupTitle(groupIndex) {
       if (groupIndex > this.groupTitles.length - 1) { return null; }
       return this.groupTitles[groupIndex];
     },
 
-    _computeItemSelected: function(index, groupIndex, selectedIndex) {
-      var idx = 0;
-      for (var i = 0; i < groupIndex; i++) {
+    _computeItemSelected(index, groupIndex, selectedIndex) {
+      let idx = 0;
+      for (let i = 0; i < groupIndex; i++) {
         idx += this.groups[i].length;
       }
       idx += index;
       return idx == selectedIndex;
     },
 
-    _computeItemNeedsReview: function(account, change, showReviewedState) {
+    _computeItemNeedsReview(account, change, showReviewedState) {
       return showReviewedState && !change.reviewed &&
           this.changeIsOpen(change.status) &&
           account._account_id != change.owner._account_id;
     },
 
-    _computeItemAssigned: function(account, change) {
+    _computeItemAssigned(account, change) {
       if (!change.assignee) { return false; }
       return account._account_id === change.assignee._account_id;
     },
 
-    _getAggregateGroupsLen: function(groups) {
+    _getAggregateGroupsLen(groups) {
       groups = groups || [];
-      var len = 0;
-      this.groups.forEach(function(group) {
+      let len = 0;
+      for (const group of this.groups) {
         len += group.length;
-      });
+      }
       return len;
     },
 
-    _handleJKey: function(e) {
+    _handleJKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      var len = this._getAggregateGroupsLen(this.groups);
+      const len = this._getAggregateGroupsLen(this.groups);
       if (this.selectedIndex === len - 1) { return; }
       this.selectedIndex += 1;
     },
 
-    _handleKKey: function(e) {
+    _handleKKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -220,7 +220,7 @@
       this.selectedIndex -= 1;
     },
 
-    _handleEnterKey: function(e) {
+    _handleEnterKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -228,21 +228,21 @@
       page.show(this._changeURLForIndex(this.selectedIndex));
     },
 
-    _handleNKey: function(e) {
+    _handleNKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this.fire('next-page');
     },
 
-    _handlePKey: function(e) {
+    _handlePKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this.fire('previous-page');
     },
 
-    _handleRKey: function(e) {
+    _handleRKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) {
         return;
       }
@@ -251,15 +251,15 @@
       window.location.reload();
     },
 
-    _changeURLForIndex: function(index) {
-      var changeEls = this._getListItems();
+    _changeURLForIndex(index) {
+      const changeEls = this._getListItems();
       if (index < changeEls.length && changeEls[index]) {
         return changeEls[index].changeURL;
       }
       return '';
     },
 
-    _getListItems: function() {
+    _getListItems() {
       return Polymer.dom(this.root).querySelectorAll('gr-change-list-item');
     },
   });

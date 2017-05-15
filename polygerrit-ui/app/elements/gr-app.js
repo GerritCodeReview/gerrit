@@ -34,7 +34,7 @@
       params: Object,
       keyEventTarget: {
         type: Object,
-        value: function() { return document.body; },
+        value() { return document.body; },
       },
 
       _account: {
@@ -73,18 +73,18 @@
       '?': '_showKeyboardShortcuts',
     },
 
-    ready: function() {
+    ready() {
       this.$.router.start();
 
-      this.$.restAPI.getAccount().then(function(account) {
+      this.$.restAPI.getAccount().then(account => {
         this._account = account;
-      }.bind(this));
-      this.$.restAPI.getConfig().then(function(config) {
+      });
+      this.$.restAPI.getConfig().then(config => {
         this._serverConfig = config;
-      }.bind(this));
-      this.$.restAPI.getVersion().then(function(version) {
+      });
+      this.$.restAPI.getVersion().then(version => {
         this._version = version;
-      }.bind(this));
+      });
 
       this.$.reporting.appStarted();
       this._viewState = {
@@ -107,7 +107,7 @@
       };
     },
 
-    _accountChanged: function(account) {
+    _accountChanged(account) {
       if (!account) { return; }
 
       // Preferences are cached when a user is logged in; warm them.
@@ -117,7 +117,7 @@
           this._account && this._account._account_id || null;
     },
 
-    _viewChanged: function(view) {
+    _viewChanged(view) {
       this.$.errorView.hidden = true;
       this.set('_showChangeListView', view === 'gr-change-list-view');
       this.set('_showDashboardView', view === 'gr-dashboard-view');
@@ -131,69 +131,69 @@
       }
     },
 
-    _loginTapHandler: function(e) {
+    _loginTapHandler(e) {
       e.preventDefault();
       page.show('/login/' + encodeURIComponent(
           window.location.pathname + window.location.hash));
     },
 
     // Argument used for binding update only.
-    _computeLoggedIn: function(account) {
+    _computeLoggedIn(account) {
       return !!(account && Object.keys(account).length > 0);
     },
 
-    _computeShowGwtUiLink: function(config) {
-      return config.gerrit.web_uis &&
-          config.gerrit.web_uis.indexOf('GWT') !== -1;
+    _computeShowGwtUiLink(config) {
+      return config.gerrit.web_uis && config.gerrit.web_uis.includes('GWT');
     },
 
-    _handlePageError: function(e) {
-      [
+    _handlePageError(e) {
+      const props = [
         '_showChangeListView',
         '_showDashboardView',
         '_showChangeView',
         '_showDiffView',
         '_showSettingsView',
-      ].forEach(function(showProp) {
+      ];
+      for (const showProp of props) {
         this.set(showProp, false);
-      }.bind(this));
+      }
 
       this.$.errorView.hidden = false;
-      var response = e.detail.response;
-      var err = {text: [response.status, response.statusText].join(' ')};
+      const response = e.detail.response;
+      const err = {text: [response.status, response.statusText].join(' ')};
       if (response.status === 404) {
         err.emoji = '¯\\_(ツ)_/¯';
         this._lastError = err;
       } else {
         err.emoji = 'o_O';
-        response.text().then(function(text) {
+        response.text().then(text => {
           err.moreInfo = text;
           this._lastError = err;
-        }.bind(this));
+        });
       }
     },
 
-    _handleLocationChange: function(e) {
-      var hash = e.detail.hash.substring(1);
-      var pathname = e.detail.pathname;
-      if (pathname.indexOf('/c/') === 0 && parseInt(hash, 10) > 0) {
+    _handleLocationChange(e) {
+      const hash = e.detail.hash.substring(1);
+      let pathname = e.detail.pathname;
+      if (pathname.startsWith('/c/') && parseInt(hash, 10) > 0) {
         pathname += '@' + hash;
       }
       this.set('_path', pathname);
       this._handleSearchPageChange();
     },
 
-    _handleSearchPageChange: function() {
+    _handleSearchPageChange() {
       if (!this.params) {
         return;
       }
-      var viewsToCheck = ['gr-change-list-view', 'gr-dashboard-view'];
-      if (viewsToCheck.indexOf(this.params.view) !== -1) {
+      const viewsToCheck = ['gr-change-list-view', 'gr-dashboard-view'];
+      if (viewsToCheck.includes(this.params.view)) {
         this.set('_lastSearchPage', location.pathname);
       }
     },
 
-    _handleTitleChange: function(e) {
+    _handleTitleChange(e) {
       if (e.detail.title) {
         document.title = e.detail.title + ' · Gerrit Code Review';
       } else {
@@ -201,23 +201,23 @@
       }
     },
 
-    _showKeyboardShortcuts: function(e) {
+    _showKeyboardShortcuts(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       this.$.keyboardShortcuts.open();
     },
 
-    _handleKeyboardShortcutDialogClose: function() {
+    _handleKeyboardShortcutDialogClose() {
       this.$.keyboardShortcuts.close();
     },
 
-    _handleAccountDetailUpdate: function(e) {
+    _handleAccountDetailUpdate(e) {
       this.$.mainHeader.reload();
       if (this.params.view === 'gr-settings-view') {
         this.$$('gr-settings-view').reloadAccountDetail();
       }
     },
 
-    _handleRegistrationDialogClose: function(e) {
+    _handleRegistrationDialogClose(e) {
       this.params.justRegistered = false;
       this.$.registration.close();
     },

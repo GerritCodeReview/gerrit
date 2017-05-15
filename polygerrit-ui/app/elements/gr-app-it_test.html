@@ -33,11 +33,11 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-app integration tests', function() {
-    var sandbox;
-    var element;
+  suite('gr-app integration tests', () => {
+    let sandbox;
+    let element;
 
-    setup(function(done) {
+    setup(done => {
       sandbox = sinon.sandbox.create();
       stub('gr-reporting', {
         appStarted: sandbox.stub(),
@@ -46,46 +46,46 @@ limitations under the License.
         _getTopContent: sinon.stub(),
       });
       stub('gr-rest-api-interface', {
-        getAccount: function() { return Promise.resolve(null); },
-        getAccountCapabilities: function() { return Promise.resolve({}); },
-        getConfig: function() {
+        getAccount() { return Promise.resolve(null); },
+        getAccountCapabilities() { return Promise.resolve({}); },
+        getConfig() {
           return Promise.resolve({
             gerrit: {web_uis: ['GWT', 'POLYGERRIT']},
             plugin: {
               js_resource_paths: [],
               html_resource_paths: [
-                new URL('test/plugin.html', window.location.href).toString()
-              ]
+                new URL('test/plugin.html', window.location.href).toString(),
+              ],
             },
           });
         },
-        getVersion: function() { return Promise.resolve(42); },
-        getLoggedIn: function() { return Promise.resolve(false); },
+        getVersion() { return Promise.resolve(42); },
+        getLoggedIn() { return Promise.resolve(false); },
       });
       element = fixture('element');
 
-      var importSpy = sandbox.spy(element.$.externalStyle, '_import');
-      Gerrit.awaitPluginsLoaded().then(function() {
-        Promise.all(importSpy.returnValues).then(function() {
+      const importSpy = sandbox.spy(element.$.externalStyle, '_import');
+      Gerrit.awaitPluginsLoaded().then(() => {
+        Promise.all(importSpy.returnValues).then(() => {
           flush(done);
         });
       });
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('applies --primary-text-color', function() {
+    test('applies --primary-text-color', () => {
       assert.equal(
           element.getComputedStyleValue('--primary-text-color'), '#F00BAA');
     });
 
-    test('applies --header-background-color', function() {
+    test('applies --header-background-color', () => {
       assert.equal(element.getComputedStyleValue('--header-background-color'),
           '#F01BAA');
     });
-    test('applies --footer-background-color', function() {
+    test('applies --footer-background-color', () => {
       assert.equal(element.getComputedStyleValue('--footer-background-color'),
           '#F02BAA');
     });

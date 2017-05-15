@@ -22,13 +22,13 @@
   }
 
   GrChangeActionsInterface.prototype.addPrimaryActionKey = function(key) {
-    if (this._el.primaryActionKeys.indexOf(key) !== -1) { return; }
+    if (this._el.primaryActionKeys.includes(key)) { return; }
 
     this._el.push('primaryActionKeys', key);
   };
 
   GrChangeActionsInterface.prototype.removePrimaryActionKey = function(key) {
-    this._el.primaryActionKeys = this._el.primaryActionKeys.filter(function(k) {
+    this._el.primaryActionKeys = this._el.primaryActionKeys.filter(k => {
       return k !== key;
     });
   };

@@ -52,6 +52,24 @@
       "revId": "b501394770e6fba39df5e3bbf84ad59d2a798dbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4674bfe8_327e5941",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-05-15T19:08:55Z",
+      "side": 1,
+      "message": "That it wasn\u0027t obvious convinced me to change it. :P",
+      "parentUuid": "dfcc8ac0_85cd340a",
+      "revId": "b501394770e6fba39df5e3bbf84ad59d2a798dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

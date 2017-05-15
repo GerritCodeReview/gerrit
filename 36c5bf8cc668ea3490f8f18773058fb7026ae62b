@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1b3f2d5_0ff6daee",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T17:30:00Z",
+      "side": 1,
+      "message": "Huh. I guess weird ES5 transpiles to weird ES6. Okay.",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 134,
+        "endChar": 64
+      },
+      "revId": "36c5bf8cc668ea3490f8f18773058fb7026ae62b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

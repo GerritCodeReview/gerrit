@@ -43,11 +43,12 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('base-url-behavior tests', function() {
-    var element;
-    var overlay;
+  suite('base-url-behavior tests', () => {
+    let element;
+    // eslint-disable-next-line no-unused-vars
+    let overlay;
 
-    suiteSetup(function() {
+    suiteSetup(() => {
       // Define a Polymer element that uses this behavior.
       Polymer({
         is: 'test-element',
@@ -57,19 +58,19 @@ limitations under the License.
       });
     });
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
       overlay = fixture('within-overlay');
     });
 
-    test('getBaseUrl', function() {
+    test('getBaseUrl', () => {
       assert.deepEqual(element.getBaseUrl(), '/r');
     });
 
-    test('computeGwtUrl', function() {
+    test('computeGwtUrl', () => {
       assert.deepEqual(
-        element.computeGwtUrl('/r/c/1/'),
-        '/r/?polygerrit=0#/c/1/'
+          element.computeGwtUrl('/r/c/1/'),
+          '/r/?polygerrit=0#/c/1/'
       );
     });
   });

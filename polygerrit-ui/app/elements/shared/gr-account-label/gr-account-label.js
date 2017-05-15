@@ -29,9 +29,9 @@
       },
     },
 
-    _computeAccountTitle: function(account) {
+    _computeAccountTitle(account) {
       if (!account || (!account.name && !account.email)) { return; }
-      var result = '';
+      let result = '';
       if (account.name) {
         result += account.name;
       }
@@ -41,11 +41,11 @@
       return result;
     },
 
-    _computeShowEmail: function(showEmail, account) {
+    _computeShowEmail(showEmail, account) {
       return !!(showEmail && account && account.email);
     },
 
-    _computeEmailStr: function(account) {
+    _computeEmailStr(account) {
       if (!account || !account.email) {
         return '';
       }

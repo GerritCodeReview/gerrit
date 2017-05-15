@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d496ca07_b166cf5c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T22:28:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "075d189e_16a973c4",
+      "range": {
+        "startLine": 63,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 13
+      },
+      "revId": "eebc82253c5db7cf11018b63e0132ae9b60a7123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b446e9bf_311b7aa3",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.html",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "eebc82253c5db7cf11018b63e0132ae9b60a7123",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fad734d_8c4c246b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T22:28:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b446e9bf_311b7aa3",
+      "range": {
+        "startLine": 174,
+        "startChar": 10,
+        "endLine": 182,
+        "endChar": 13
+      },
+      "revId": "eebc82253c5db7cf11018b63e0132ae9b60a7123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

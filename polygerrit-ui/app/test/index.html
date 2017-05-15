@@ -21,12 +21,12 @@ limitations under the License.
 <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../bower_components/web-component-tester/browser.js"></script>
 <script>
-  var testFiles = [];
-  var elementsPath = '../elements/';
-  var behaviorsPath = '../behaviors/';
+  const testFiles = [];
+  const elementsPath = '../elements/';
+  const behaviorsPath = '../behaviors/';
 
   // Elements tests.
-  [
+  const elements = [
     'change-list/gr-change-list-item/gr-change-list-item_test.html',
     'change-list/gr-change-list-view/gr-change-list-view_test.html',
     'change-list/gr-change-list/gr-change-list_test.html',
@@ -109,25 +109,27 @@ limitations under the License.
     'shared/gr-storage/gr-storage_test.html',
     'shared/gr-tooltip/gr-tooltip_test.html',
     'shared/gr-tooltip-content/gr-tooltip-content_test.html',
-  ].forEach(function(file) {
+  ];
+  for (let file of elements) {
     file = elementsPath + file;
     testFiles.push(file);
     testFiles.push(file + '?dom=shadow');
-  });
+  }
 
   // Behaviors tests.
-  [
+  const behaviors = [
     'base-url-behavior/base-url-behavior_test.html',
     'rest-client-behavior/rest-client-behavior_test.html',
     'gr-change-table-behavior/gr-change-table-behavior_test.html',
     'gr-patch-set-behavior/gr-patch-set-behavior_test.html',
     'gr-path-list-behavior/gr-path-list-behavior_test.html',
     'gr-tooltip-behavior/gr-tooltip-behavior_test.html',
-  ].forEach(function(file) {
+  ];
+  for (let file of behaviors) {
     // Behaviors do not utilize the DOM, so no shadow DOM test is necessary.
     file = behaviorsPath + file;
     testFiles.push(file);
-  });
+  }
 
   WCT.loadSuites(testFiles);
 </script>

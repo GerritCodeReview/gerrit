@@ -34,19 +34,19 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-list-item tests', function() {
-    var element;
+  suite('gr-change-list-item tests', () => {
+    let element;
 
-    setup(function() {
+    setup(() => {
       stub('gr-rest-api-interface', {
-        getConfig: function() { return Promise.resolve({}); },
-        getLoggedIn: function() { return Promise.resolve(false); },
+        getConfig() { return Promise.resolve({}); },
+        getLoggedIn() { return Promise.resolve(false); },
       });
       element = fixture('basic');
     });
 
-    test('change status', function() {
-      var getStatusForChange = function(change) {
+    test('change status', () => {
+      const getStatusForChange = function(change) {
         element.change = change;
         return element.$$('.cell.status').textContent.trim();
       };
@@ -59,7 +59,7 @@ limitations under the License.
       assert.equal(getStatusForChange({status: 'DRAFT'}), 'Draft');
     });
 
-    test('computed fields', function() {
+    test('computed fields', () => {
       assert.equal(element._computeLabelClass({labels: {}}),
           'cell label u-gray-background');
       assert.equal(element._computeLabelClass(
@@ -99,19 +99,19 @@ limitations under the License.
           'Code-Review'), 'Code-Review\nby Diffy');
       assert.equal(element._computeLabelTitle(
           {labels: {'Code-Review': {recommended: {name: 'Diffy'},
-          rejected: {name: 'Admin'}}}}, 'Code-Review'),
+            rejected: {name: 'Admin'}}}}, 'Code-Review'),
           'Code-Review\nby Admin');
       assert.equal(element._computeLabelTitle(
           {labels: {'Code-Review': {approved: {name: 'Diffy'},
-          rejected: {name: 'Admin'}}}}, 'Code-Review'),
+            rejected: {name: 'Admin'}}}}, 'Code-Review'),
           'Code-Review\nby Admin');
       assert.equal(element._computeLabelTitle(
           {labels: {'Code-Review': {recommended: {name: 'Diffy'},
-          disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
+            disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
           'Code-Review\nby Admin');
       assert.equal(element._computeLabelTitle(
           {labels: {'Code-Review': {approved: {name: 'Diffy'},
-          disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
+            disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
           'Code-Review\nby Diffy');
 
       assert.equal(element._computeLabelValue({labels: {}}), '');
@@ -140,7 +140,7 @@ limitations under the License.
       assert.equal(element.changeURL, '/c/43/');
     });
 
-    test('no hidden columns', function() {
+    test('no hidden columns', () => {
       element.visibleChangeTableColumns = [
         'Subject',
         'Status',
@@ -153,13 +153,13 @@ limitations under the License.
 
       flushAsynchronousOperations();
 
-      element.columnNames.forEach(function(column) {
-        var elementClass = '.' + column.toLowerCase();
+      for (const column of element.columnNames) {
+        const elementClass = '.' + column.toLowerCase();
         assert.isFalse(element.$$(elementClass).hidden);
-      });
+      }
     });
 
-    test('no hidden columns', function() {
+    test('no hidden columns', () => {
       element.visibleChangeTableColumns = [
         'Subject',
         'Status',
@@ -172,13 +172,13 @@ limitations under the License.
 
       flushAsynchronousOperations();
 
-      element.columnNames.forEach(function(column) {
-        var elementClass = '.' + column.toLowerCase();
+      for (const column of element.columnNames) {
+        const elementClass = '.' + column.toLowerCase();
         assert.isFalse(element.$$(elementClass).hidden);
-      });
+      }
     });
 
-    test('project column hidden', function() {
+    test('project column hidden', () => {
       element.visibleChangeTableColumns = [
         'Subject',
         'Status',
@@ -190,25 +190,24 @@ limitations under the License.
 
       flushAsynchronousOperations();
 
-      element.columnNames.forEach(function(column) {
-        var elementClass = '.' + column.toLowerCase();
+      for (const column of element.columnNames) {
+        const elementClass = '.' + column.toLowerCase();
         if (column === 'Project') {
           assert.isTrue(element.$$(elementClass).hidden);
         } else {
           assert.isFalse(element.$$(elementClass).hidden);
         }
-      });
+      }
     });
 
-    test('random column does not exist', function() {
+    test('random column does not exist', () => {
       element.visibleChangeTableColumns = [
         'Bad',
       ];
 
       flushAsynchronousOperations();
-      var elementClass = '.bad';
+      const elementClass = '.bad';
       assert.isNotOk(element.$$(elementClass));
     });
-
-  });
+});
 </script>

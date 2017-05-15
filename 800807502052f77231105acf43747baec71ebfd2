@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72168a06_13a43d1d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5638,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-15T11:16:43Z",
+      "side": 1,
+      "message": "why this sentence? What would people think if you didn\u0027t write this?",
+      "range": {
+        "startLine": 5638,
+        "startChar": 0,
+        "endLine": 5638,
+        "endChar": 79
+      },
+      "revId": "800807502052f77231105acf43747baec71ebfd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba7ab3be_facb2af4",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2077,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-15T11:16:43Z",
+      "side": 1,
+      "message": "s/Note //\n\nIf the destination is a change then ..",
+      "range": {
+        "startLine": 2077,
+        "startChar": 0,
+        "endLine": 2077,
+        "endChar": 4
+      },
+      "revId": "800807502052f77231105acf43747baec71ebfd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4294c61f_c549afa5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-15T11:16:43Z",
+      "side": 1,
+      "message": "s/CannotBeApplied/Fails/ - here and everywhere",
+      "range": {
+        "startLine": 665,
+        "startChar": 43,
+        "endLine": 665,
+        "endChar": 58
+      },
+      "revId": "800807502052f77231105acf43747baec71ebfd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd519653_f81c6ba1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-15T11:16:43Z",
+      "side": 1,
+      "message": "s/CanBeApplied//",
+      "range": {
+        "startLine": 722,
+        "startChar": 32,
+        "endLine": 722,
+        "endChar": 45
+      },
+      "revId": "800807502052f77231105acf43747baec71ebfd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

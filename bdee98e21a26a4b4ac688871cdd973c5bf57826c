@@ -93,6 +93,30 @@
       "revId": "bdee98e21a26a4b4ac688871cdd973c5bf57826c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3e1209_a85b53cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 1217,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T21:39:31Z",
+      "side": 1,
+      "message": "Side note: better to do sandbox.stub(element, \u0027_getOffsetHeight\u0027).returns(50), since the returns() can be changed later in test if needed.",
+      "parentUuid": "855bdbf3_7c83d6b5",
+      "range": {
+        "startLine": 1215,
+        "startChar": 8,
+        "endLine": 1217,
+        "endChar": 11
+      },
+      "revId": "bdee98e21a26a4b4ac688871cdd973c5bf57826c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

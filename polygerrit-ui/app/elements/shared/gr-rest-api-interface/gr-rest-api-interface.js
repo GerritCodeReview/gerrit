@@ -14,20 +14,20 @@
 (function() {
   'use strict';
 
-  var DiffViewMode = {
+  const DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
     UNIFIED: 'UNIFIED_DIFF',
   };
-  var JSON_PREFIX = ')]}\'';
-  var MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
-  var PARENT_PATCH_NUM = 'PARENT';
+  const JSON_PREFIX = ')]}\'';
+  const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
+  const PARENT_PATCH_NUM = 'PARENT';
 
-  var Requests = {
+  const Requests = {
     SEND_DIFF_DRAFT: 'sendDiffDraft',
   };
 
   // Must be kept in sync with the ListChangesOption enum and protobuf.
-  var ListChangesOption = {
+  const ListChangesOption = {
     LABELS: 0,
     DETAILED_LABELS: 8,
 
@@ -115,20 +115,20 @@
       },
     },
 
-    fetchJSON: function(url, opt_errFn, opt_cancelCondition, opt_params,
+    fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params,
         opt_opts) {
       opt_opts = opt_opts || {};
       // Issue 5715, This can be reverted back once
       // iOS 10.3 and mac os 10.12.4 has the fetch api fix.
-      var fetchOptions = {
-        credentials: 'same-origin'
+      const fetchOptions = {
+        credentials: 'same-origin',
       };
       if (opt_opts.headers !== undefined) {
         fetchOptions['headers'] = opt_opts.headers;
       }
 
-      var urlWithParams = this._urlWithParams(url, opt_params);
-      return fetch(urlWithParams, fetchOptions).then(function(response) {
+      const urlWithParams = this._urlWithParams(url, opt_params);
+      return fetch(urlWithParams, fetchOptions).then(response => {
         if (opt_cancelCondition && opt_cancelCondition()) {
           response.body.cancel();
           return;
@@ -139,12 +139,12 @@
             opt_errFn.call(null, response);
             return;
           }
-          this.fire('server-error', {response: response});
+          this.fire('server-error', {response});
           return;
         }
 
         return this.getResponseObject(response);
-      }.bind(this)).catch(function(err) {
+      }).catch(err => {
         if (opt_errFn) {
           opt_errFn.call(null, null, err);
         } else {
@@ -152,31 +152,28 @@
           throw err;
         }
         throw err;
-      }.bind(this));
+      });
     },
 
-    _urlWithParams: function(url, opt_params) {
+    _urlWithParams(url, opt_params) {
       if (!opt_params) { return this.getBaseUrl() + url; }
 
-      var params = [];
-      for (var p in opt_params) {
+      const params = [];
+      for (const p in opt_params) {
         if (opt_params[p] == null) {
           params.push(encodeURIComponent(p));
           continue;
         }
-        var values = [].concat(opt_params[p]);
-        for (var i = 0; i < values.length; i++) {
-          params.push(
-            encodeURIComponent(p) + '=' +
-            encodeURIComponent(values[i]));
+        for (const value of [].concat(opt_params[p])) {
+          params.push(`${encodeURIComponent(p)}=${encodeURIComponent(value)}`);
         }
       }
       return this.getBaseUrl() + url + '?' + params.join('&');
     },
 
-    getResponseObject: function(response) {
-      return response.text().then(function(text) {
-        var result;
+    getResponseObject(response) {
+      return response.text().then(text => {
+        let result;
         try {
           result = JSON.parse(text.substring(JSON_PREFIX.length));
         } catch (_) {
@@ -186,21 +183,21 @@
       });
     },
 
-    getConfig: function() {
+    getConfig() {
       return this._fetchSharedCacheURL('/config/server/info');
     },
 
-    getProjectConfig: function(project) {
+    getProjectConfig(project) {
       return this._fetchSharedCacheURL(
           '/projects/' + encodeURIComponent(project) + '/config');
     },
 
-    getVersion: function() {
+    getVersion() {
       return this._fetchSharedCacheURL('/config/server/version');
     },
 
-    getDiffPreferences: function() {
-      return this.getLoggedIn().then(function(loggedIn) {
+    getDiffPreferences() {
+      return this.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           return this._fetchSharedCacheURL('/accounts/self/preferences.diff');
         }
@@ -224,10 +221,10 @@
           tab_size: 8,
           theme: 'DEFAULT',
         });
-      }.bind(this));
+      });
     },
 
-    savePreferences: function(prefs, opt_errFn, opt_ctx) {
+    savePreferences(prefs, opt_errFn, opt_ctx) {
       // Note (Issue 5142): normalize the download scheme with lower case before
       // saving.
       if (prefs.download_scheme) {
@@ -238,127 +235,127 @@
           opt_ctx);
     },
 
-    saveDiffPreferences: function(prefs, opt_errFn, opt_ctx) {
+    saveDiffPreferences(prefs, opt_errFn, opt_ctx) {
       // Invalidate the cache.
       this._cache['/accounts/self/preferences.diff'] = undefined;
       return this.send('PUT', '/accounts/self/preferences.diff', prefs,
           opt_errFn, opt_ctx);
     },
 
-    getAccount: function() {
-      return this._fetchSharedCacheURL('/accounts/self/detail', function(resp) {
+    getAccount() {
+      return this._fetchSharedCacheURL('/accounts/self/detail', resp => {
         if (resp.status === 403) {
           this._cache['/accounts/self/detail'] = null;
         }
-      }.bind(this));
+      });
     },
 
-    getAccountEmails: function() {
+    getAccountEmails() {
       return this._fetchSharedCacheURL('/accounts/self/emails');
     },
 
-    addAccountEmail: function(email, opt_errFn, opt_ctx) {
+    addAccountEmail(email, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/emails/' +
           encodeURIComponent(email), null, opt_errFn, opt_ctx);
     },
 
-    deleteAccountEmail: function(email, opt_errFn, opt_ctx) {
+    deleteAccountEmail(email, opt_errFn, opt_ctx) {
       return this.send('DELETE', '/accounts/self/emails/' +
           encodeURIComponent(email), null, opt_errFn, opt_ctx);
     },
 
-    setPreferredAccountEmail: function(email, opt_errFn, opt_ctx) {
+    setPreferredAccountEmail(email, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/emails/' +
           encodeURIComponent(email) + '/preferred', null,
-          opt_errFn, opt_ctx).then(function() {
-        // If result of getAccountEmails is in cache, update it in the cache
-        // so we don't have to invalidate it.
-        var cachedEmails = this._cache['/accounts/self/emails'];
-        if (cachedEmails) {
-          var emails = cachedEmails.map(function(entry) {
-            if (entry.email === email) {
-              return {email: email, preferred: true};
-            } else {
-              return {email: email};
+          opt_errFn, opt_ctx).then(() => {
+          // If result of getAccountEmails is in cache, update it in the cache
+          // so we don't have to invalidate it.
+            const cachedEmails = this._cache['/accounts/self/emails'];
+            if (cachedEmails) {
+              const emails = cachedEmails.map(entry => {
+                if (entry.email === email) {
+                  return {email, preferred: true};
+                } else {
+                  return {email};
+                }
+              });
+              this._cache['/accounts/self/emails'] = emails;
             }
           });
-          this._cache['/accounts/self/emails'] = emails;
-        }
-      }.bind(this));
     },
 
-    setAccountName: function(name, opt_errFn, opt_ctx) {
-      return this.send('PUT', '/accounts/self/name', {name: name}, opt_errFn,
-          opt_ctx).then(function(response) {
+    setAccountName(name, opt_errFn, opt_ctx) {
+      return this.send('PUT', '/accounts/self/name', {name}, opt_errFn,
+          opt_ctx).then(response => {
             // If result of getAccount is in cache, update it in the cache
             // so we don't have to invalidate it.
-            var cachedAccount = this._cache['/accounts/self/detail'];
+            const cachedAccount = this._cache['/accounts/self/detail'];
             if (cachedAccount) {
-              return this.getResponseObject(response).then(function(newName) {
+              return this.getResponseObject(response).then(newName => {
                 // Replace object in cache with new object to force UI updates.
                 // TODO(logan): Polyfill for Object.assign in IE
                 this._cache['/accounts/self/detail'] = Object.assign(
                     {}, cachedAccount, {name: newName});
-              }.bind(this));
+              });
             }
-          }.bind(this));
+          });
     },
 
-    setAccountStatus: function(status, opt_errFn, opt_ctx) {
-      return this.send('PUT', '/accounts/self/status', {status: status},
-          opt_errFn, opt_ctx).then(function(response) {
+    setAccountStatus(status, opt_errFn, opt_ctx) {
+      return this.send('PUT', '/accounts/self/status', {status},
+          opt_errFn, opt_ctx).then(response => {
             // If result of getAccount is in cache, update it in the cache
             // so we don't have to invalidate it.
-            var cachedAccount = this._cache['/accounts/self/detail'];
+            const cachedAccount = this._cache['/accounts/self/detail'];
             if (cachedAccount) {
-              return this.getResponseObject(response).then(function(newStatus) {
+              return this.getResponseObject(response).then(newStatus => {
                 // Replace object in cache with new object to force UI updates.
                 // TODO(logan): Polyfill for Object.assign in IE
                 this._cache['/accounts/self/detail'] = Object.assign(
                     {}, cachedAccount, {status: newStatus});
-              }.bind(this));
+              });
             }
-          }.bind(this));
+          });
     },
 
-    getAccountGroups: function() {
+    getAccountGroups() {
       return this._fetchSharedCacheURL('/accounts/self/groups');
     },
 
-    getAccountCapabilities: function(opt_params) {
-      var queryString = '';
+    getAccountCapabilities(opt_params) {
+      let queryString = '';
       if (opt_params) {
         queryString = '?q=' + opt_params
-            .map(function(param) { return encodeURIComponent(param); })
+            .map(param => { return encodeURIComponent(param); })
             .join('&q=');
       }
       return this._fetchSharedCacheURL('/accounts/self/capabilities' +
           queryString);
     },
 
-    getLoggedIn: function() {
-      return this.getAccount().then(function(account) {
+    getLoggedIn() {
+      return this.getAccount().then(account => {
         return account != null;
       });
     },
 
-    checkCredentials: function() {
+    checkCredentials() {
       // Skip the REST response cache.
       return this.fetchJSON('/accounts/self/detail');
     },
 
-    getPreferences: function() {
-      return this.getLoggedIn().then(function(loggedIn) {
+    getPreferences() {
+      return this.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           return this._fetchSharedCacheURL('/accounts/self/preferences').then(
-              function(res) {
-            if (this._isNarrowScreen()) {
-              res.default_diff_view = DiffViewMode.UNIFIED;
-            } else {
-              res.default_diff_view = res.diff_view;
-            }
-            return Promise.resolve(res);
-          }.bind(this));
+              res => {
+                if (this._isNarrowScreen()) {
+                  res.default_diff_view = DiffViewMode.UNIFIED;
+                } else {
+                  res.default_diff_view = res.diff_view;
+                }
+                return Promise.resolve(res);
+              });
         }
 
         return Promise.resolve({
@@ -367,27 +364,27 @@
               DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
           diff_view: 'SIDE_BY_SIDE',
         });
-      }.bind(this));
+      });
     },
 
-    getWatchedProjects: function() {
+    getWatchedProjects() {
       return this._fetchSharedCacheURL('/accounts/self/watched.projects');
     },
 
-    saveWatchedProjects: function(projects, opt_errFn, opt_ctx) {
+    saveWatchedProjects(projects, opt_errFn, opt_ctx) {
       return this.send('POST', '/accounts/self/watched.projects', projects,
           opt_errFn, opt_ctx)
-          .then(function(response) {
+          .then(response => {
             return this.getResponseObject(response);
-          }.bind(this));
+          });
     },
 
-    deleteWatchedProjects: function(projects, opt_errFn, opt_ctx) {
+    deleteWatchedProjects(projects, opt_errFn, opt_ctx) {
       return this.send('POST', '/accounts/self/watched.projects:delete',
           projects, opt_errFn, opt_ctx);
     },
 
-    _fetchSharedCacheURL: function(url, opt_errFn) {
+    _fetchSharedCacheURL(url, opt_errFn) {
       if (this._sharedFetchPromises[url]) {
         return this._sharedFetchPromises[url];
       }
@@ -396,25 +393,25 @@
         return Promise.resolve(this._cache[url]);
       }
       this._sharedFetchPromises[url] = this.fetchJSON(url, opt_errFn).then(
-        function(response) {
-          if (response !== undefined) {
-            this._cache[url] = response;
-          }
-          this._sharedFetchPromises[url] = undefined;
-          return response;
-        }.bind(this)).catch(function(err) {
-          this._sharedFetchPromises[url] = undefined;
-          throw err;
-        }.bind(this));
+          response => {
+            if (response !== undefined) {
+              this._cache[url] = response;
+            }
+            this._sharedFetchPromises[url] = undefined;
+            return response;
+          }).catch(err => {
+            this._sharedFetchPromises[url] = undefined;
+            throw err;
+          });
       return this._sharedFetchPromises[url];
     },
 
-    _isNarrowScreen: function() {
+    _isNarrowScreen() {
       return window.innerWidth < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX;
     },
 
-    getChanges: function(changesPerPage, opt_query, opt_offset) {
-      var options = this._listChangesOptionsToHex(
+    getChanges(changesPerPage, opt_query, opt_offset) {
+      const options = this._listChangesOptionsToHex(
           ListChangesOption.LABELS,
           ListChangesOption.DETAILED_ACCOUNTS
       );
@@ -422,7 +419,7 @@
       if (opt_offset === 'n,z') {
         opt_offset = 0;
       }
-      var params = {
+      const params = {
         n: changesPerPage,
         O: options,
         S: opt_offset || 0,
@@ -433,13 +430,13 @@
       return this.fetchJSON('/changes/', null, null, params);
     },
 
-    getDashboardChanges: function() {
-      var options = this._listChangesOptionsToHex(
+    getDashboardChanges() {
+      const options = this._listChangesOptionsToHex(
           ListChangesOption.LABELS,
           ListChangesOption.DETAILED_ACCOUNTS,
           ListChangesOption.REVIEWED
       );
-      var params = {
+      const params = {
         O: options,
         q: [
           'is:open owner:self',
@@ -451,12 +448,12 @@
       return this.fetchJSON('/changes/', null, null, params);
     },
 
-    getChangeActionURL: function(changeNum, opt_patchNum, endpoint) {
+    getChangeActionURL(changeNum, opt_patchNum, endpoint) {
       return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
     },
 
-    getChangeDetail: function(changeNum, opt_errFn, opt_cancelCondition) {
-      var options = this._listChangesOptionsToHex(
+    getChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
+      const options = this._listChangesOptionsToHex(
           ListChangesOption.ALL_REVISIONS,
           ListChangesOption.CHANGE_ACTIONS,
           ListChangesOption.CURRENT_ACTIONS,
@@ -467,18 +464,18 @@
       );
       return this._getChangeDetail(
           changeNum, options, opt_errFn, opt_cancelCondition)
-            .then(GrReviewerUpdatesParser.parse);
+          .then(GrReviewerUpdatesParser.parse);
     },
 
-    getDiffChangeDetail: function(changeNum, opt_errFn, opt_cancelCondition) {
-      var options = this._listChangesOptionsToHex(
+    getDiffChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
+      const options = this._listChangesOptionsToHex(
           ListChangesOption.ALL_REVISIONS
       );
       return this._getChangeDetail(changeNum, options, opt_errFn,
           opt_cancelCondition);
     },
 
-    _getChangeDetail: function(changeNum, options, opt_errFn,
+    _getChangeDetail(changeNum, options, opt_errFn,
         opt_cancelCondition) {
       return this.fetchJSON(
           this.getChangeActionURL(changeNum, null, '/detail'),
@@ -487,13 +484,13 @@
           {O: options});
     },
 
-    getChangeCommitInfo: function(changeNum, patchNum) {
+    getChangeCommitInfo(changeNum, patchNum) {
       return this.fetchJSON(
           this.getChangeActionURL(changeNum, patchNum, '/commit?links'));
     },
 
-    getChangeFiles: function(changeNum, patchRange) {
-      var endpoint = '/files';
+    getChangeFiles(changeNum, patchRange) {
+      let endpoint = '/files';
       if (patchRange.basePatchNum !== 'PARENT') {
         endpoint += '?base=' + encodeURIComponent(patchRange.basePatchNum);
       }
@@ -501,23 +498,23 @@
           this.getChangeActionURL(changeNum, patchRange.patchNum, endpoint));
     },
 
-    getChangeFilesAsSpeciallySortedArray: function(changeNum, patchRange) {
+    getChangeFilesAsSpeciallySortedArray(changeNum, patchRange) {
       return this.getChangeFiles(changeNum, patchRange).then(
           this._normalizeChangeFilesResponse.bind(this));
     },
 
-    getChangeFilePathsAsSpeciallySortedArray: function(changeNum, patchRange) {
-      return this.getChangeFiles(changeNum, patchRange).then(function(files) {
+    getChangeFilePathsAsSpeciallySortedArray(changeNum, patchRange) {
+      return this.getChangeFiles(changeNum, patchRange).then(files => {
         return Object.keys(files).sort(this.specialFilePathCompare);
-      }.bind(this));
+      });
     },
 
-    _normalizeChangeFilesResponse: function(response) {
+    _normalizeChangeFilesResponse(response) {
       if (!response) { return []; }
-      var paths = Object.keys(response).sort(this.specialFilePathCompare);
-      var files = [];
-      for (var i = 0; i < paths.length; i++) {
-        var info = response[paths[i]];
+      const paths = Object.keys(response).sort(this.specialFilePathCompare);
+      const files = [];
+      for (let i = 0; i < paths.length; i++) {
+        const info = response[paths[i]];
         info.__path = paths[i];
         info.lines_inserted = info.lines_inserted || 0;
         info.lines_deleted = info.lines_deleted || 0;
@@ -526,58 +523,59 @@
       return files;
     },
 
-    getChangeRevisionActions: function(changeNum, patchNum) {
+    getChangeRevisionActions(changeNum, patchNum) {
       return this.fetchJSON(
           this.getChangeActionURL(changeNum, patchNum, '/actions')).then(
-              function(revisionActions) {
+          revisionActions => {
                 // The rebase button on change screen is always enabled.
-                if (revisionActions.rebase) {
-                  revisionActions.rebase.rebaseOnCurrent =
+            if (revisionActions.rebase) {
+              revisionActions.rebase.rebaseOnCurrent =
                       !!revisionActions.rebase.enabled;
-                  revisionActions.rebase.enabled = true;
-                }
-                return revisionActions;
-              });
+              revisionActions.rebase.enabled = true;
+            }
+            return revisionActions;
+          });
     },
 
-    getChangeSuggestedReviewers: function(changeNum, inputVal, opt_errFn,
+    getChangeSuggestedReviewers(changeNum, inputVal, opt_errFn,
         opt_ctx) {
-      var url = this.getChangeActionURL(changeNum, null, '/suggest_reviewers');
+      const url =
+          this.getChangeActionURL(changeNum, null, '/suggest_reviewers');
       return this.fetchJSON(url, opt_errFn, opt_ctx, {
         n: 10,  // Return max 10 results
         q: inputVal,
       });
     },
 
-    getSuggestedGroups: function(inputVal, opt_n, opt_errFn, opt_ctx) {
-      var params = {s: inputVal};
+    getSuggestedGroups(inputVal, opt_n, opt_errFn, opt_ctx) {
+      const params = {s: inputVal};
       if (opt_n) { params.n = opt_n; }
       return this.fetchJSON('/groups/', opt_errFn, opt_ctx, params);
     },
 
-    getSuggestedProjects: function(inputVal, opt_n, opt_errFn, opt_ctx) {
-      var params = {p: inputVal};
+    getSuggestedProjects(inputVal, opt_n, opt_errFn, opt_ctx) {
+      const params = {p: inputVal};
       if (opt_n) { params.n = opt_n; }
       return this.fetchJSON('/projects/', opt_errFn, opt_ctx, params);
     },
 
-    getSuggestedAccounts: function(inputVal, opt_n, opt_errFn, opt_ctx) {
-      var params = {q: inputVal, suggest: null};
+    getSuggestedAccounts(inputVal, opt_n, opt_errFn, opt_ctx) {
+      const params = {q: inputVal, suggest: null};
       if (opt_n) { params.n = opt_n; }
       return this.fetchJSON('/accounts/', opt_errFn, opt_ctx, params);
     },
 
-    addChangeReviewer: function(changeNum, reviewerID) {
+    addChangeReviewer(changeNum, reviewerID) {
       return this._sendChangeReviewerRequest('POST', changeNum, reviewerID);
     },
 
-    removeChangeReviewer: function(changeNum, reviewerID) {
+    removeChangeReviewer(changeNum, reviewerID) {
       return this._sendChangeReviewerRequest('DELETE', changeNum, reviewerID);
     },
 
-    _sendChangeReviewerRequest: function(method, changeNum, reviewerID) {
-      var url = this.getChangeActionURL(changeNum, null, '/reviewers');
-      var body;
+    _sendChangeReviewerRequest(method, changeNum, reviewerID) {
+      let url = this.getChangeActionURL(changeNum, null, '/reviewers');
+      let body;
       switch (method) {
         case 'POST':
           body = {reviewer: reviewerID};
@@ -592,124 +590,122 @@
       return this.send(method, url, body);
     },
 
-    getRelatedChanges: function(changeNum, patchNum) {
+    getRelatedChanges(changeNum, patchNum) {
       return this.fetchJSON(
           this.getChangeActionURL(changeNum, patchNum, '/related'));
     },
 
-    getChangesSubmittedTogether: function(changeNum) {
+    getChangesSubmittedTogether(changeNum) {
       return this.fetchJSON(
           this.getChangeActionURL(changeNum, null, '/submitted_together'));
     },
 
-    getChangeConflicts: function(changeNum) {
-      var options = this._listChangesOptionsToHex(
+    getChangeConflicts(changeNum) {
+      const options = this._listChangesOptionsToHex(
           ListChangesOption.CURRENT_REVISION,
           ListChangesOption.CURRENT_COMMIT
       );
-      var params = {
+      const params = {
         O: options,
         q: 'status:open is:mergeable conflicts:' + changeNum,
       };
       return this.fetchJSON('/changes/', null, null, params);
     },
 
-    getChangeCherryPicks: function(project, changeID, changeNum) {
-      var options = this._listChangesOptionsToHex(
+    getChangeCherryPicks(project, changeID, changeNum) {
+      const options = this._listChangesOptionsToHex(
           ListChangesOption.CURRENT_REVISION,
           ListChangesOption.CURRENT_COMMIT
       );
-      var query = [
+      const query = [
         'project:' + project,
         'change:' + changeID,
         '-change:' + changeNum,
         '-is:abandoned',
       ].join(' ');
-      var params = {
+      const params = {
         O: options,
         q: query,
       };
       return this.fetchJSON('/changes/', null, null, params);
     },
 
-    getChangesWithSameTopic: function(topic) {
-      var options = this._listChangesOptionsToHex(
+    getChangesWithSameTopic(topic) {
+      const options = this._listChangesOptionsToHex(
           ListChangesOption.LABELS,
           ListChangesOption.CURRENT_REVISION,
           ListChangesOption.CURRENT_COMMIT,
           ListChangesOption.DETAILED_LABELS
       );
-      var params = {
+      const params = {
         O: options,
         q: 'status:open topic:' + topic,
       };
       return this.fetchJSON('/changes/', null, null, params);
     },
 
-    getReviewedFiles: function(changeNum, patchNum) {
+    getReviewedFiles(changeNum, patchNum) {
       return this.fetchJSON(
           this.getChangeActionURL(changeNum, patchNum, '/files?reviewed'));
     },
 
-    saveFileReviewed: function(changeNum, patchNum, path, reviewed, opt_errFn,
-        opt_ctx) {
-      var method = reviewed ? 'PUT' : 'DELETE';
-      var url = this.getChangeActionURL(changeNum, patchNum,
+    saveFileReviewed(changeNum, patchNum, path, reviewed, opt_errFn, opt_ctx) {
+      const method = reviewed ? 'PUT' : 'DELETE';
+      const url = this.getChangeActionURL(changeNum, patchNum,
           '/files/' + encodeURIComponent(path) + '/reviewed');
 
       return this.send(method, url, null, opt_errFn, opt_ctx);
     },
 
-    saveChangeReview: function(changeNum, patchNum, review, opt_errFn,
-        opt_ctx) {
-      var url = this.getChangeActionURL(changeNum, patchNum, '/review');
+    saveChangeReview(changeNum, patchNum, review, opt_errFn, opt_ctx) {
+      const url = this.getChangeActionURL(changeNum, patchNum, '/review');
       return this.send('POST', url, review, opt_errFn, opt_ctx);
     },
 
-    getFileInChangeEdit: function(changeNum, path) {
+    getFileInChangeEdit(changeNum, path) {
       return this.send('GET',
           this.getChangeActionURL(changeNum, null,
               '/edit/' + encodeURIComponent(path)
           ));
     },
 
-    rebaseChangeEdit: function(changeNum) {
+    rebaseChangeEdit(changeNum) {
       return this.send('POST',
           this.getChangeActionURL(changeNum, null,
               '/edit:rebase'
           ));
     },
 
-    deleteChangeEdit: function(changeNum) {
+    deleteChangeEdit(changeNum) {
       return this.send('DELETE',
           this.getChangeActionURL(changeNum, null,
               '/edit'
           ));
     },
 
-    restoreFileInChangeEdit: function(changeNum, restore_path) {
+    restoreFileInChangeEdit(changeNum, restore_path) {
       return this.send('POST',
           this.getChangeActionURL(changeNum, null, '/edit'),
-          {restore_path: restore_path}
+          {restore_path}
       );
     },
 
-    renameFileInChangeEdit: function(changeNum, old_path, new_path) {
+    renameFileInChangeEdit(changeNum, old_path, new_path) {
       return this.send('POST',
           this.getChangeActionURL(changeNum, null, '/edit'),
-          {old_path: old_path},
-          {new_path: new_path}
+          {old_path},
+          {new_path}
       );
     },
 
-    deleteFileInChangeEdit: function(changeNum, path) {
+    deleteFileInChangeEdit(changeNum, path) {
       return this.send('DELETE',
           this.getChangeActionURL(changeNum, null,
               '/edit/' + encodeURIComponent(path)
           ));
     },
 
-    saveChangeEdit: function(changeNum, path, contents) {
+    saveChangeEdit(changeNum, path, contents) {
       return this.send('PUT',
           this.getChangeActionURL(changeNum, null,
               '/edit/' + encodeURIComponent(path)
@@ -718,29 +714,29 @@
       );
     },
 
-    saveChangeCommitMessageEdit: function(changeNum, message) {
-      var url = this.getChangeActionURL(changeNum, null, '/edit:message');
-      return this.send('PUT', url, {message: message});
+    saveChangeCommitMessageEdit(changeNum, message) {
+      const url = this.getChangeActionURL(changeNum, null, '/edit:message');
+      return this.send('PUT', url, {message});
     },
 
-    publishChangeEdit: function(changeNum) {
+    publishChangeEdit(changeNum) {
       return this.send('POST',
           this.getChangeActionURL(changeNum, null, '/edit:publish'));
     },
 
-    saveChangeStarred: function(changeNum, starred) {
-      var url = '/accounts/self/starred.changes/' + changeNum;
-      var method = starred ? 'PUT' : 'DELETE';
+    saveChangeStarred(changeNum, starred) {
+      const url = '/accounts/self/starred.changes/' + changeNum;
+      const method = starred ? 'PUT' : 'DELETE';
       return this.send(method, url);
     },
 
-    send: function(method, url, opt_body, opt_errFn, opt_ctx, opt_contentType) {
-      var headers = new Headers({
+    send(method, url, opt_body, opt_errFn, opt_ctx, opt_contentType) {
+      const headers = new Headers({
         'X-Gerrit-Auth': this._getCookie('XSRF_TOKEN'),
       });
-      var options = {
-        method: method,
-        headers: headers,
+      const options = {
+        method,
+        headers,
         credentials: 'same-origin',
       };
       if (opt_body) {
@@ -750,30 +746,30 @@
         }
         options.body = opt_body;
       }
-      return fetch(this.getBaseUrl() + url, options).then(function(response) {
+      return fetch(this.getBaseUrl() + url, options).then(response => {
         if (!response.ok) {
           if (opt_errFn) {
             opt_errFn.call(opt_ctx || null, response);
             return undefined;
           }
-          this.fire('server-error', {response: response});
+          this.fire('server-error', {response});
         }
 
         return response;
-      }.bind(this)).catch(function(err) {
+      }).catch(err => {
         this.fire('network-error', {error: err});
         if (opt_errFn) {
           opt_errFn.call(opt_ctx, null, err);
         } else {
           throw err;
         }
-      }.bind(this));
+      });
     },
 
-    getDiff: function(changeNum, basePatchNum, patchNum, path,
+    getDiff(changeNum, basePatchNum, patchNum, path,
         opt_errFn, opt_cancelCondition) {
-      var url = this._getDiffFetchURL(changeNum, patchNum, path);
-      var params = {
+      const url = this._getDiffFetchURL(changeNum, patchNum, path);
+      const params = {
         context: 'ALL',
         intraline: null,
         whitespace: 'IGNORE_NONE',
@@ -785,32 +781,29 @@
       return this.fetchJSON(url, opt_errFn, opt_cancelCondition, params);
     },
 
-    _getDiffFetchURL: function(changeNum, patchNum, path) {
+    _getDiffFetchURL(changeNum, patchNum, path) {
       return this._changeBaseURL(changeNum, patchNum) + '/files/' +
           encodeURIComponent(path) + '/diff';
     },
 
-    getDiffComments: function(changeNum, opt_basePatchNum, opt_patchNum,
-        opt_path) {
+    getDiffComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
       return this._getDiffComments(changeNum, '/comments', opt_basePatchNum,
           opt_patchNum, opt_path);
     },
 
-    getDiffRobotComments: function(changeNum, basePatchNum, patchNum,
-        opt_path) {
+    getDiffRobotComments(changeNum, basePatchNum, patchNum, opt_path) {
       return this._getDiffComments(changeNum, '/robotcomments', basePatchNum,
           patchNum, opt_path);
     },
 
-    getDiffDrafts: function(changeNum, opt_basePatchNum, opt_patchNum,
-        opt_path) {
+    getDiffDrafts(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
       return this._getDiffComments(changeNum, '/drafts', opt_basePatchNum,
           opt_patchNum, opt_path);
     },
 
-    _setRange: function(comments, comment) {
+    _setRange(comments, comment) {
       if (comment.in_reply_to && !comment.range) {
-        for (var i = 0; i < comments.length; i++) {
+        for (let i = 0; i < comments.length; i++) {
           if (comments[i].id === comment.in_reply_to) {
             comment.range = comments[i].range;
             break;
@@ -820,18 +813,18 @@
       return comment;
     },
 
-    _setRanges: function(comments) {
+    _setRanges(comments) {
       comments = comments || [];
-      comments.sort(function(a, b) {
+      comments.sort((a, b) => {
         return util.parseDate(a.updated) - util.parseDate(b.updated);
       });
-      comments.forEach(function(comment) {
+      for (const comment of comments) {
         this._setRange(comments, comment);
-      }.bind(this));
+      }
       return comments;
     },
 
-    _getDiffComments: function(changeNum, endpoint, opt_basePatchNum,
+    _getDiffComments(changeNum, endpoint, opt_basePatchNum,
         opt_patchNum, opt_path) {
       if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
         return this.fetchJSON(
@@ -842,12 +835,12 @@
       function withoutParent(c) { return c.side != PARENT_PATCH_NUM; }
       function setPath(c) { c.path = opt_path; }
 
-      var promises = [];
-      var comments;
-      var baseComments;
-      var url =
+      const promises = [];
+      let comments;
+      let baseComments;
+      const url =
           this._getDiffCommentsFetchURL(changeNum, endpoint, opt_patchNum);
-      promises.push(this.fetchJSON(url).then(function(response) {
+      promises.push(this.fetchJSON(url).then(response => {
         comments = response[opt_path] || [];
 
         // TODO(kaspern): Implement this on in the backend so this can be
@@ -864,50 +857,50 @@
         comments = comments.filter(withoutParent);
 
         comments.forEach(setPath);
-      }.bind(this)));
+      }));
 
       if (opt_basePatchNum != PARENT_PATCH_NUM) {
-        var baseURL = this._getDiffCommentsFetchURL(changeNum, endpoint,
+        const baseURL = this._getDiffCommentsFetchURL(changeNum, endpoint,
             opt_basePatchNum);
-        promises.push(this.fetchJSON(baseURL).then(function(response) {
+        promises.push(this.fetchJSON(baseURL).then(response => {
           baseComments = (response[opt_path] || []).filter(withoutParent);
 
           baseComments = this._setRanges(baseComments);
 
           baseComments.forEach(setPath);
-        }.bind(this)));
+        }));
       }
 
-      return Promise.all(promises).then(function() {
+      return Promise.all(promises).then(() => {
         return Promise.resolve({
-          baseComments: baseComments,
-          comments: comments,
+          baseComments,
+          comments,
         });
       });
     },
 
-    _getDiffCommentsFetchURL: function(changeNum, endpoint, opt_patchNum) {
+    _getDiffCommentsFetchURL(changeNum, endpoint, opt_patchNum) {
       return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
     },
 
-    saveDiffDraft: function(changeNum, patchNum, draft) {
+    saveDiffDraft(changeNum, patchNum, draft) {
       return this._sendDiffDraftRequest('PUT', changeNum, patchNum, draft);
     },
 
-    deleteDiffDraft: function(changeNum, patchNum, draft) {
+    deleteDiffDraft(changeNum, patchNum, draft) {
       return this._sendDiffDraftRequest('DELETE', changeNum, patchNum, draft);
     },
 
-    hasPendingDiffDrafts: function() {
+    hasPendingDiffDrafts() {
       return !!this._pendingRequests[Requests.SEND_DIFF_DRAFT];
     },
 
-    _sendDiffDraftRequest: function(method, changeNum, patchNum, draft) {
-      var url = this.getChangeActionURL(changeNum, patchNum, '/drafts');
+    _sendDiffDraftRequest(method, changeNum, patchNum, draft) {
+      let url = this.getChangeActionURL(changeNum, patchNum, '/drafts');
       if (draft.id) {
         url += '/' + draft.id;
       }
-      var body;
+      let body;
       if (method === 'PUT') {
         body = draft;
       }
@@ -917,14 +910,14 @@
       }
       this._pendingRequests[Requests.SEND_DIFF_DRAFT]++;
 
-      return this.send(method, url, body).then(function(res) {
+      return this.send(method, url, body).then(res => {
         this._pendingRequests[Requests.SEND_DIFF_DRAFT]--;
         return res;
-      }.bind(this));
+      });
     },
 
-    _changeBaseURL: function(changeNum, opt_patchNum) {
-      var v = '/changes/' + changeNum;
+    _changeBaseURL(changeNum, opt_patchNum) {
+      let v = '/changes/' + changeNum;
       if (opt_patchNum) {
         v += '/revisions/' + opt_patchNum;
       }
@@ -933,49 +926,49 @@
 
     // Derived from
     // gerrit-extension-api/src/main/j/c/g/gerrit/extensions/client/ListChangesOption.java
-    _listChangesOptionsToHex: function() {
-      var v = 0;
-      for (var i = 0; i < arguments.length; i++) {
-        v |= 1 << arguments[i];
+    _listChangesOptionsToHex(...args) {
+      let v = 0;
+      for (let i = 0; i < args.length; i++) {
+        v |= 1 << args[i];
       }
       return v.toString(16);
     },
 
-    _getCookie: function(name) {
-      var key = name + '=';
-      var cookies = document.cookie.split(';');
-      for (var i = 0; i < cookies.length; i++) {
-        var c = cookies[i];
+    _getCookie(name) {
+      const key = name + '=';
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        let c = cookies[i];
         while (c.charAt(0) == ' ') {
           c = c.substring(1);
         }
-        if (c.indexOf(key) == 0) {
+        if (c.startsWith(key)) {
           return c.substring(key.length, c.length);
         }
       }
       return '';
     },
 
-    getCommitInfo: function(project, commit) {
+    getCommitInfo(project, commit) {
       return this.fetchJSON(
           '/projects/' + encodeURIComponent(project) +
           '/commits/' + encodeURIComponent(commit));
     },
 
-    _fetchB64File: function(url) {
+    _fetchB64File(url) {
       return fetch(this.getBaseUrl() + url, {credentials: 'same-origin'})
-          .then(function(response) {
+          .then(response => {
             if (!response.ok) { return Promise.reject(response.statusText); }
-            var type = response.headers.get('X-FYI-Content-Type');
+            const type = response.headers.get('X-FYI-Content-Type');
             return response.text()
-              .then(function(text) {
-                return {body: text, type: type};
-              });
+                .then(text => {
+                  return {body: text, type};
+                });
           });
     },
 
-    getChangeFileContents: function(changeId, patchNum, path, opt_parentIndex) {
-      var parent = typeof opt_parentIndex === 'number' ?
+    getChangeFileContents(changeId, patchNum, path, opt_parentIndex) {
+      const parent = typeof opt_parentIndex === 'number' ?
           '?parent=' + opt_parentIndex : '';
       return this._fetchB64File(
           '/changes/' + encodeURIComponent(changeId) +
@@ -984,11 +977,11 @@
           '/content' + parent);
     },
 
-    getImagesForDiff: function(changeNum, diff, patchRange) {
-      var promiseA;
-      var promiseB;
+    getImagesForDiff(changeNum, diff, patchRange) {
+      let promiseA;
+      let promiseB;
 
-      if (diff.meta_a && diff.meta_a.content_type.indexOf('image/') === 0) {
+      if (diff.meta_a && diff.meta_a.content_type.startsWith('image/')) {
         if (patchRange.basePatchNum === 'PARENT') {
           // Note: we only attempt to get the image from the first parent.
           promiseA = this.getChangeFileContents(changeNum, patchRange.patchNum,
@@ -1001,83 +994,82 @@
         promiseA = Promise.resolve(null);
       }
 
-      if (diff.meta_b && diff.meta_b.content_type.indexOf('image/') === 0) {
+      if (diff.meta_b && diff.meta_b.content_type.startsWith('image/')) {
         promiseB = this.getChangeFileContents(changeNum, patchRange.patchNum,
             diff.meta_b.name);
       } else {
         promiseB = Promise.resolve(null);
       }
 
-      return Promise.all([promiseA, promiseB])
-        .then(function(results) {
-          var baseImage = results[0];
-          var revisionImage = results[1];
+      return Promise.all([promiseA, promiseB]).then(results => {
+        const baseImage = results[0];
+        const revisionImage = results[1];
 
-          // Sometimes the server doesn't send back the content type.
-          if (baseImage) {
-            baseImage._expectedType = diff.meta_a.content_type;
-            baseImage._name = diff.meta_a.name;
-          }
-          if (revisionImage) {
-            revisionImage._expectedType = diff.meta_b.content_type;
-            revisionImage._name = diff.meta_b.name;
-          }
+        // Sometimes the server doesn't send back the content type.
+        if (baseImage) {
+          baseImage._expectedType = diff.meta_a.content_type;
+          baseImage._name = diff.meta_a.name;
+        }
+        if (revisionImage) {
+          revisionImage._expectedType = diff.meta_b.content_type;
+          revisionImage._name = diff.meta_b.name;
+        }
 
-          return {baseImage: baseImage, revisionImage: revisionImage};
-        }.bind(this));
+        return {baseImage, revisionImage};
+      });
     },
 
-    setChangeTopic: function(changeNum, topic) {
+    setChangeTopic(changeNum, topic) {
       return this.send('PUT', '/changes/' + encodeURIComponent(changeNum) +
-          '/topic', {topic: topic});
+          '/topic', {topic});
     },
 
-    deleteAccountHttpPassword: function() {
+    deleteAccountHttpPassword() {
       return this.send('DELETE', '/accounts/self/password.http');
     },
 
-    generateAccountHttpPassword: function() {
+    generateAccountHttpPassword() {
       return this.send('PUT', '/accounts/self/password.http', {generate: true})
           .then(this.getResponseObject);
     },
 
-    getAccountSSHKeys: function() {
+    getAccountSSHKeys() {
       return this._fetchSharedCacheURL('/accounts/self/sshkeys');
     },
 
-    addAccountSSHKey: function(key) {
+    addAccountSSHKey(key) {
       return this.send('POST', '/accounts/self/sshkeys', key, null, null,
           'plain/text')
-          .then(function(response) {
+          .then(response => {
             if (response.status < 200 && response.status >= 300) {
               return Promise.reject();
             }
             return this.getResponseObject(response);
-          }.bind(this))
-          .then(function(obj) {
+          })
+          .then(obj => {
             if (!obj.valid) { return Promise.reject(); }
             return obj;
           });
     },
 
-    deleteAccountSSHKey: function(id) {
+    deleteAccountSSHKey(id) {
       return this.send('DELETE', '/accounts/self/sshkeys/' + id);
     },
 
-    deleteVote: function(changeID, account, label) {
+    deleteVote(changeID, account, label) {
       return this.send('DELETE', '/changes/' + changeID +
           '/reviewers/' + account + '/votes/' + encodeURIComponent(label));
     },
 
-    setDescription: function(changeNum, patchNum, desc) {
+    setDescription(changeNum, patchNum, desc) {
       return this.send('PUT',
           this.getChangeActionURL(changeNum, patchNum, '/description'),
           {description: desc});
     },
 
-    confirmEmail: function(token) {
-      return this.send('PUT', '/config/server/email.confirm', {token: token})
-          .then(function(response) {
+    confirmEmail(token) {
+      return this.send('PUT', '/config/server/email.confirm', {token})
+          .then(response => {
             if (response.status === 204) {
               return 'Email confirmed successfully.';
             }
@@ -1085,39 +1077,39 @@
           });
     },
 
-    setAssignee: function(changeNum, assignee) {
+    setAssignee(changeNum, assignee) {
       return this.send('PUT',
           this.getChangeActionURL(changeNum, null, '/assignee'),
-          {assignee: assignee});
+          {assignee});
     },
 
-    deleteAssignee: function(changeNum) {
+    deleteAssignee(changeNum) {
       return this.send('DELETE',
           this.getChangeActionURL(changeNum, null, '/assignee'));
     },
 
-    probePath: function(path) {
+    probePath(path) {
       return fetch(new Request(path, {method: 'HEAD'}))
-        .then(function(response) {
-          return response.ok;
-        });
+          .then(response => {
+            return response.ok;
+          });
     },
 
-    startWorkInProgress: function(changeNum, opt_message) {
-      var payload = {};
+    startWorkInProgress(changeNum, opt_message) {
+      const payload = {};
       if (opt_message) {
         payload.message = opt_message;
       }
-      var url = this.getChangeActionURL(changeNum, null, '/wip');
+      const url = this.getChangeActionURL(changeNum, null, '/wip');
       return this.send('POST', url, payload)
-          .then(function(response) {
+          .then(response => {
             if (response.status === 204) {
               return 'Change marked as Work In Progress.';
             }
           });
     },
 
-    startReview: function(changeNum, review) {
+    startReview(changeNum, review) {
       return this.send(
           'POST', this.getChangeActionURL(changeNum, null, '/ready'), review);
     },

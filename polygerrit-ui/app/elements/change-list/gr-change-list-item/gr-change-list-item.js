@@ -40,15 +40,15 @@
       Gerrit.URLEncodingBehavior,
     ],
 
-    _computeChangeURL: function(changeNum) {
+    _computeChangeURL(changeNum) {
       if (!changeNum) { return ''; }
       return this.getBaseUrl() + '/c/' + changeNum + '/';
     },
 
-    _computeLabelTitle: function(change, labelName) {
-      var label = change.labels[labelName];
+    _computeLabelTitle(change, labelName) {
+      const label = change.labels[labelName];
       if (!label) { return 'Label not applicable'; }
-      var significantLabel = label.rejected || label.approved ||
+      const significantLabel = label.rejected || label.approved ||
           label.disliked || label.recommended;
       if (significantLabel && significantLabel.name) {
         return labelName + '\nby ' + significantLabel.name;
@@ -56,12 +56,12 @@
       return labelName;
     },
 
-    _computeLabelClass: function(change, labelName) {
-      var label = change.labels[labelName];
+    _computeLabelClass(change, labelName) {
+      const label = change.labels[labelName];
       // Mimic a Set.
-      var classes = {
-        'cell': true,
-        'label': true,
+      const classes = {
+        cell: true,
+        label: true,
       };
       if (label) {
         if (label.approved) {
@@ -83,8 +83,8 @@
       return Object.keys(classes).sort().join(' ');
     },
 
-    _computeLabelValue: function(change, labelName) {
-      var label = change.labels[labelName];
+    _computeLabelValue(change, labelName) {
+      const label = change.labels[labelName];
       if (!label) { return ''; }
       if (label.approved) {
         return '✓';
@@ -101,12 +101,12 @@
       return '';
     },
 
-    _computeProjectURL: function(project) {
+    _computeProjectURL(project) {
       return this.getBaseUrl() + '/q/status:open+project:' +
           this.encodeURL(project, false);
     },
 
-    _computeProjectBranchURL: function(project, branch) {
+    _computeProjectBranchURL(project, branch) {
       // @see Issue 4255.
       return this._computeProjectURL(project) +
           '+branch:' + this.encodeURL(branch, false);

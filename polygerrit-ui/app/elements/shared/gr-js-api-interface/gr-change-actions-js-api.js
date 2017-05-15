@@ -28,7 +28,7 @@
   };
 
   GrChangeActionsInterface.prototype.removePrimaryActionKey = function(key) {
-    this._el.primaryActionKeys = this._el.primaryActionKeys.filter(function(k) {
+    this._el.primaryActionKeys = this._el.primaryActionKeys.filter(k => {
       return k !== key;
     });
   };

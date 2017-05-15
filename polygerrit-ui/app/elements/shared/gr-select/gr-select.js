@@ -26,21 +26,21 @@
     },
 
     listeners: {
-      change: '_valueChanged',
+      'change': '_valueChanged',
       'dom-change': '_updateValue',
     },
 
-    _updateValue: function() {
+    _updateValue() {
       if (this.bindValue) {
         this.value = this.bindValue;
       }
     },
 
-    _valueChanged: function() {
+    _valueChanged() {
       this.bindValue = this.value;
     },
 
-    ready: function() {
+    ready() {
       // If not set via the property, set bind-value to the element value.
       if (!this.bindValue) { this.bindValue = this.value; }
     },

@@ -25,20 +25,20 @@ limitations under the License.
 <link rel="import" href="gr-alert.html">
 
 <script>
-  suite('gr-alert tests', function() {
-    var element;
+  suite('gr-alert tests', () => {
+    let element;
 
-    setup(function() {
+    setup(() => {
       element = document.createElement('gr-alert');
     });
 
-    teardown(function() {
+    teardown(() => {
       if (element.parentNode) {
         element.parentNode.removeChild(element);
       }
     });
 
-    test('show/hide', function() {
+    test('show/hide', () => {
       assert.isNull(element.parentNode);
       element.show();
       assert.equal(element.parentNode, document.body);
@@ -48,11 +48,10 @@ limitations under the License.
       assert.isNull(element.parentNode);
     });
 
-    test('action event', function(done) {
+    test('action event', done => {
       element.show();
       element._actionCallback = done;
       MockInteractions.tap(element.$$('.action'));
     });
-
-  });
+});
 </script>

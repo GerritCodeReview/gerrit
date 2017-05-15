@@ -26,16 +26,16 @@
       _xhrPromise: Object,  // Used for testing.
     },
 
-    _computeStarClass: function(starred) {
-      var classes = ['starButton'];
+    _computeStarClass(starred) {
+      const classes = ['starButton'];
       if (starred) {
         classes.push('starButton-active');
       }
       return classes.join(' ');
     },
 
-    toggleStar: function() {
-      var newVal = !this.change.starred;
+    toggleStar() {
+      const newVal = !this.change.starred;
       this.set('change.starred', newVal);
       this._xhrPromise = this.$.restAPI.saveChangeStarred(this.change._number,
           newVal);

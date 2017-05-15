@@ -15,10 +15,10 @@
   'use strict';
 
   // Date cutoff is one day:
-  var DRAFT_MAX_AGE = 24 * 60 * 60 * 1000;
+  const DRAFT_MAX_AGE = 24 * 60 * 60 * 1000;
 
   // Clean up old entries no more frequently than one day.
-  var CLEANUP_THROTTLE_INTERVAL = 24 * 60 * 60 * 1000;
+  const CLEANUP_THROTTLE_INTERVAL = 24 * 60 * 60 * 1000;
 
   Polymer({
     is: 'gr-storage',
@@ -27,7 +27,7 @@
       _lastCleanup: Number,
       _storage: {
         type: Object,
-        value: function() {
+        value() {
           return window.localStorage;
         },
       },
@@ -37,42 +37,42 @@
       },
     },
 
-    getDraftComment: function(location) {
+    getDraftComment(location) {
       this._cleanupDrafts();
       return this._getObject(this._getDraftKey(location));
     },
 
-    setDraftComment: function(location, message) {
-      var key = this._getDraftKey(location);
-      this._setObject(key, {message: message, updated: Date.now()});
+    setDraftComment(location, message) {
+      const key = this._getDraftKey(location);
+      this._setObject(key, {message, updated: Date.now()});
     },
 
-    eraseDraftComment: function(location) {
-      var key = this._getDraftKey(location);
+    eraseDraftComment(location) {
+      const key = this._getDraftKey(location);
       this._storage.removeItem(key);
     },
 
-    getPreferences: function() {
+    getPreferences() {
       return this._getObject('localPrefs');
     },
 
-    savePreferences: function(localPrefs) {
+    savePreferences(localPrefs) {
       this._setObject('localPrefs', localPrefs || null);
     },
 
-    _getDraftKey: function(location) {
-      var range = location.range ? location.range.start_line + '-' +
+    _getDraftKey(location) {
+      const range = location.range ? location.range.start_line + '-' +
           location.range.start_character + '-' + location.range.end_character +
           '-' + location.range.end_line : null;
-      var key = ['draft', location.changeNum, location.patchNum, location.path,
-          location.line || ''].join(':');
+      let key = ['draft', location.changeNum, location.patchNum, location.path,
+        location.line || ''].join(':');
       if (range) {
         key = key + ':' + range;
       }
       return key;
     },
 
-    _cleanupDrafts: function() {
+    _cleanupDrafts() {
       // Throttle cleanup to the throttle interval.
       if (this._lastCleanup &&
           Date.now() - this._lastCleanup < CLEANUP_THROTTLE_INTERVAL) {
@@ -80,8 +80,8 @@
       }
       this._lastCleanup = Date.now();
 
-      var draft;
-      for (var key in this._storage) {
+      let draft;
+      for (const key in this._storage) {
         if (key.indexOf('draft:') === 0) {
           draft = this._getObject(key);
           if (Date.now() - draft.updated > DRAFT_MAX_AGE) {
@@ -91,13 +91,13 @@
       }
     },
 
-    _getObject: function(key) {
-      var serial = this._storage.getItem(key);
+    _getObject(key) {
+      const serial = this._storage.getItem(key);
       if (!serial) { return null; }
       return JSON.parse(serial);
     },
 
-    _setObject: function(key, obj) {
+    _setObject(key, obj) {
       if (this._exceededQuota) { return; }
       try {
         this._storage.setItem(key, JSON.stringify(obj));

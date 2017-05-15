@@ -49,18 +49,18 @@
       tabindex: '0',
     },
 
-    _usePlaceholder: function(value, placeholder) {
+    _usePlaceholder(value, placeholder) {
       return (!value || !value.length) && placeholder;
     },
 
-    _computeLabel: function(value, placeholder) {
+    _computeLabel(value, placeholder) {
       if (this._usePlaceholder(value, placeholder)) {
         return placeholder;
       }
       return value;
     },
 
-    _open: function() {
+    _open() {
       if (this.readOnly || this.editing) { return; }
 
       this._inputText = this.value;
@@ -72,7 +72,7 @@
       });
     },
 
-    _save: function() {
+    _save() {
       if (!this.editing) { return; }
 
       this.value = this._inputText;
@@ -80,14 +80,14 @@
       this.fire('changed', this.value);
     },
 
-    _cancel: function() {
+    _cancel() {
       if (!this.editing) { return; }
 
       this.editing = false;
       this._inputText = this.value;
     },
 
-    _handleInputKeydown: function(e) {
+    _handleInputKeydown(e) {
       if (e.keyCode === 13) {  // Enter key
         e.preventDefault();
         this._save();
@@ -97,8 +97,8 @@
       }
     },
 
-    _computeLabelClass: function(readOnly, value, placeholder) {
-      var classes = [];
+    _computeLabelClass(readOnly, value, placeholder) {
+      const classes = [];
       if (!readOnly) { classes.push('editable'); }
       if (this._usePlaceholder(value, placeholder)) {
         classes.push('placeholder');
@@ -106,7 +106,7 @@
       return classes.join(' ');
     },
 
-    _updateTitle: function(value) {
+    _updateTitle(value) {
       this.setAttribute('title', (value && value.length) ? value : null);
     },
   });

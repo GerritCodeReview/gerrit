@@ -33,12 +33,12 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-star tests', function() {
-    var element;
+  suite('gr-change-star tests', () => {
+    let element;
 
-    setup(function() {
+    setup(() => {
       stub('gr-rest-api-interface', {
-        saveChangeStarred: function() { return Promise.resolve({ok: true}); },
+        saveChangeStarred() { return Promise.resolve({ok: true}); },
       });
       element = fixture('basic');
       element.change = {
@@ -47,7 +47,7 @@ limitations under the License.
       };
     });
 
-    test('star visibility states', function() {
+    test('star visibility states', () => {
       element.set('change.starred', true);
       assert.isTrue(element.$$('button').classList.contains('starButton'));
       assert.isTrue(
@@ -59,21 +59,21 @@ limitations under the License.
           element.$$('button').classList.contains('starButton-active'));
     });
 
-    test('starring', function(done) {
+    test('starring', done => {
       element.set('change.starred', false);
       MockInteractions.tap(element.$$('button'));
 
-      element._xhrPromise.then(function(req) {
+      element._xhrPromise.then(req => {
         assert.equal(element.change.starred, true);
         done();
       });
     });
 
-    test('unstarring', function(done) {
+    test('unstarring', done => {
       element.set('change.starred', true);
       MockInteractions.tap(element.$$('button'));
 
-      element._xhrPromise.then(function(req) {
+      element._xhrPromise.then(req => {
         assert.equal(element.change.starred, false);
         done();
       });

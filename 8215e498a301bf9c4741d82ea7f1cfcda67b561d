@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "028b409d_9e5972f7",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-05-15T21:22:41Z",
+      "side": 1,
+      "message": "Does this indicate a fixture that isn\u0027t used?",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 16
+      },
+      "revId": "8215e498a301bf9c4741d82ea7f1cfcda67b561d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

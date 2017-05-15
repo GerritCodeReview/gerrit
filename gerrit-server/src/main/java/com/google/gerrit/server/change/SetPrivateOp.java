@@ -48,9 +48,6 @@ public class SetPrivateOp implements BatchUpdateOp {
   @Override
   public boolean updateChange(ChangeContext ctx) throws ResourceConflictException, OrmException {
     Change change = ctx.getChange();
-    if (change.getStatus() == Change.Status.MERGED) {
-      throw new ResourceConflictException("change is merged");
-    }
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     change.setPrivate(isPrivate);
     change.setLastUpdatedOn(ctx.getWhen());

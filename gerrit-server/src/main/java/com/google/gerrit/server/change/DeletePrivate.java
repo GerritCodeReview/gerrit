@@ -19,9 +19,11 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
@@ -36,19 +38,25 @@ public class DeletePrivate
     extends RetryingRestModifyView<ChangeResource, SetPrivateOp.Input, Response<String>> {
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> dbProvider;
+  private final PermissionBackend permissionBackend;
 
   @Inject
-  DeletePrivate(Provider<ReviewDb> dbProvider, RetryHelper retryHelper, ChangeMessagesUtil cmUtil) {
+  DeletePrivate(
+      Provider<ReviewDb> dbProvider,
+      RetryHelper retryHelper,
+      ChangeMessagesUtil cmUtil,
+      PermissionBackend permissionBackend) {
     super(retryHelper);
     this.dbProvider = dbProvider;
     this.cmUtil = cmUtil;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
   protected Response<String> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, SetPrivateOp.Input input)
       throws RestApiException, UpdateException {
-    if (!rsrc.isUserOwner()) {
+    if (!canDeletePrivate(rsrc)) {
       throw new AuthException("not allowed to unmark private");
     }
 
@@ -70,20 +78,9 @@ public class DeletePrivate
     return Response.none();
   }
 
-  public static class DeletePrivateByPost extends DeletePrivate
-      implements UiAction<ChangeResource> {
-    @Inject
-    DeletePrivateByPost(
-        Provider<ReviewDb> dbProvider, RetryHelper retryHelper, ChangeMessagesUtil cmUtil) {
-      super(dbProvider, retryHelper, cmUtil);
-    }
-
-    @Override
-    public Description getDescription(ChangeResource rsrc) {
-      return new UiAction.Description()
-          .setLabel("Unmark private")
-          .setTitle("Unmark change as private")
-          .setVisible(rsrc.getChange().isPrivate() && rsrc.isUserOwner());
-    }
+  protected boolean canDeletePrivate(ChangeResource rsrc) {
+    PermissionBackend.WithUser user = permissionBackend.user(rsrc.getUser());
+    return user.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER)
+        || (rsrc.isUserOwner() && rsrc.getChange().getStatus() != Change.Status.MERGED);
   }
 }

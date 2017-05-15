@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e6bec078_66e656d2",
+        "filename": "gerrit-acceptance-framework/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-15T07:27:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6210d089_e97841cd",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 5
+      },
+      "revId": "0142318cbaf8a90053c2f7a0f4123e8e6de128b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca0a3307_5169f06d",
         "filename": "gerrit-extension-api/pom.xml",
         "patchSetId": 2

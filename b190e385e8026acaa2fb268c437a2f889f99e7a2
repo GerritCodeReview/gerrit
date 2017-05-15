@@ -46,6 +46,30 @@
       "revId": "b190e385e8026acaa2fb268c437a2f889f99e7a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00c9741f_94f6c72a",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T19:11:39Z",
+      "side": 1,
+      "message": "I say we remove it, then.",
+      "parentUuid": "5b21d485_8846ab2b",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 16
+      },
+      "revId": "b190e385e8026acaa2fb268c437a2f889f99e7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

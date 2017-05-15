@@ -136,11 +136,9 @@ limitations under the License.
           element.$$('iron-selector[data-label="Code-Review"] .iron-selected')
               .textContent.trim(), '+1');
 
-      // Even though there there is only a -1 0 +1 displayed, placeholders
-      // are part of the iron-selector so the selected item (+1) should
-      // still be in the 4th position / index 3.
+      // +1 is in the third position (-1, 0, +1).
       assert.equal(element.$$('iron-selector[data-label="Verified"]')
-          .selected, 3);
+          .selected, 2);
       assert.equal(element.$$(
           'iron-selector[data-label="Verified"] .iron-selected')
           .textContent.trim(), '+1');
@@ -239,7 +237,7 @@ limitations under the License.
       element.set(['change', 'labels', 'Verified', 'all'],
          [{_account_id: 123, value: 1}]);
       flushAsynchronousOperations();
-      assert.equal(selector.selected, 3); // Index 3, value 1
+      assert.equal(selector.selected, 2); // Index 2, value 1
     });
 
     test('without permitted labels', function() {
@@ -274,9 +272,13 @@ limitations under the License.
       };
       flushAsynchronousOperations();
       assert.equal(element.$$('iron-selector[data-label="Verified"]')
-          .items.length, 5);
+          .items.length, 2);
+      assert.equal(Polymer.dom(element.root).
+          querySelectorAll('.placeholder[data-label="Verified"]').length, 3);
       assert.equal(element.$$('iron-selector[data-label="Code-Review"]')
           .items.length, 5);
+      assert.equal(Polymer.dom(element.root).
+          querySelectorAll('.placeholder[data-label="Code-Review"]').length, 0);
     });
   });
 </script>

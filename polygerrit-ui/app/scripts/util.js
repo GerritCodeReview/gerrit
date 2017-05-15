@@ -14,7 +14,7 @@
 (function(window) {
   'use strict';
 
-  var util = window.util || {};
+  const util = window.util || {};
 
   util.parseDate = function(dateStr) {
     // Timestamps are given in UTC and have the format
@@ -25,14 +25,14 @@
   };
 
   util.getCookie = function(name) {
-    var key = name + '=';
-    var cookies = document.cookie.split(';');
-    for (var i = 0; i < cookies.length; i++) {
-      var c = cookies[i];
-      while (c.charAt(0) == ' ') {
+    const key = name + '=';
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      let c = cookies[i];
+      while (c.charAt(0) === ' ') {
         c = c.substring(1);
       }
-      if (c.indexOf(key) == 0) {
+      if (c.startsWith(key)) {
         return c.substring(key.length, c.length);
       }
     }
@@ -50,7 +50,7 @@
    * @return {String} Returns the truncated value of a URL.
    */
   util.truncatePath = function(path) {
-    var pathPieces = path.split('/');
+    const pathPieces = path.split('/');
 
     if (pathPieces.length < 2) {
       return path;

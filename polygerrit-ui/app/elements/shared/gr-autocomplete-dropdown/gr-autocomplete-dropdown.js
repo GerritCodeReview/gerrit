@@ -46,20 +46,20 @@
     ],
 
     keyBindings: {
-      'up': '_handleUp',
-      'down': '_handleDown',
-      'enter': '_handleEnter',
-      'esc': '_handleEscape',
-      'tab': '_handleTab',
+      up: '_handleUp',
+      down: '_handleDown',
+      enter: '_handleEnter',
+      esc: '_handleEscape',
+      tab: '_handleTab',
     },
 
-    close: function() {
+    close() {
       if (this.moveToRoot) {
         Gerrit.getRootElement().removeChild(this);
       }
     },
 
-    open: function() {
+    open() {
       if (this.moveToRoot) {
         Gerrit.getRootElement().appendChild(this);
       }
@@ -67,7 +67,7 @@
       this._resetCursorIndex();
     },
 
-    setPosition: function(top, left) {
+    setPosition(top, left) {
       this.style.top = top;
       this.style.left = left;
     },
@@ -102,7 +102,7 @@
       }
     },
 
-    _handleTab: function(e) {
+    _handleTab(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('item-selected', {
@@ -111,7 +111,7 @@
       });
     },
 
-    _handleEnter: function(e) {
+    _handleEnter(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('item-selected', {
@@ -120,12 +120,12 @@
       });
     },
 
-    _handleEscape: function() {
+    _handleEscape() {
       this._fireClose();
       this.close();
     },
 
-    _handleTapItem: function(e) {
+    _handleTapItem(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('item-selected', {
@@ -134,20 +134,20 @@
       });
     },
 
-    _fireClose: function() {
+    _fireClose() {
       this.fire('dropdown-closed');
     },
 
-    getCursorTarget: function() {
+    getCursorTarget() {
       return this.$.cursor.target;
     },
 
-    _resetCursorStops: function() {
+    _resetCursorStops() {
       Polymer.dom.flush();
       this._suggestionEls = this.$.suggestions.querySelectorAll('li');
     },
 
-    _resetCursorIndex: function() {
+    _resetCursorIndex() {
       this.$.cursor.setCursorAtIndex(0);
     },
   });

@@ -70,6 +70,30 @@
       "revId": "d0441d1a719bf43f16495c6f882ebf99666449c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf89f108_d18861da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostPrivate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-15T09:53:00Z",
+      "side": 1,
+      "message": "Not necessarily.  It may have been set for a reason by admin, in which case removing it should not be allowed. \n\nThis might seem too restrictive,  which is why I plan to allow for project owners later.",
+      "parentUuid": "ecfb1870_032efaed",
+      "range": {
+        "startLine": 94,
+        "startChar": 34,
+        "endLine": 94,
+        "endChar": 86
+      },
+      "revId": "d0441d1a719bf43f16495c6f882ebf99666449c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

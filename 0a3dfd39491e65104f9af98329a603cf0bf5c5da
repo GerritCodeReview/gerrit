@@ -23,6 +23,30 @@
       "revId": "0a3dfd39491e65104f9af98329a603cf0bf5c5da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43fda6ae_7e23b7a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-15T15:02:33Z",
+      "side": 1,
+      "message": "Good catch. I removed this block.\n\nThis code is still reachable, because this block runs inside a RetryHelper.Action. But the effect of this block is to take a LockFailureException that should be caught and retried by the outer loop, and wraps it in a ResourceConflictException, which will the not be retried.",
+      "parentUuid": "da46eac8_f96ab7a3",
+      "range": {
+        "startLine": 228,
+        "startChar": 8,
+        "endLine": 239,
+        "endChar": 7
+      },
+      "revId": "0a3dfd39491e65104f9af98329a603cf0bf5c5da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

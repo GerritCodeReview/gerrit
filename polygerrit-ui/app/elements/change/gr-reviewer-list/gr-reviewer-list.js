@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  var MAX_REVIEWERS_DISPLAYED = 10;
+  const MAX_REVIEWERS_DISPLAYED = 10;
 
   Polymer({
     is: 'gr-reviewer-list',
@@ -47,11 +47,11 @@
 
       _displayedReviewers: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
       _reviewers: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
       _showInput: {
         type: Boolean,
@@ -76,10 +76,10 @@
       '_reviewersChanged(change.reviewers.*, change.owner)',
     ],
 
-    _reviewersChanged: function(changeRecord, owner) {
-      var result = [];
-      var reviewers = changeRecord.base;
-      for (var key in reviewers) {
+    _reviewersChanged(changeRecord, owner) {
+      let result = [];
+      const reviewers = changeRecord.base;
+      for (const key in reviewers) {
         if (this.reviewersOnly && key !== 'REVIEWER') {
           continue;
         }
@@ -90,22 +90,22 @@
           result = result.concat(reviewers[key]);
         }
       }
-      this._reviewers = result.filter(function(reviewer) {
+      this._reviewers = result.filter(reviewer => {
         return reviewer._account_id != owner._account_id;
       });
       this._displayedReviewers =
           this._reviewers.slice(0, MAX_REVIEWERS_DISPLAYED);
     },
 
-    _computeHiddenCount: function(reviewers, displayedReviewers) {
+    _computeHiddenCount(reviewers, displayedReviewers) {
       return reviewers.length - displayedReviewers.length;
     },
 
-    _computeCanRemoveReviewer: function(reviewer, mutable) {
+    _computeCanRemoveReviewer(reviewer, mutable) {
       if (!mutable) { return false; }
 
-      var current;
-      for (var i = 0; i < this.change.removable_reviewers.length; i++) {
+      let current;
+      for (let i = 0; i < this.change.removable_reviewers.length; i++) {
         current = this.change.removable_reviewers[i];
         if (current._account_id === reviewer._account_id ||
             (!reviewer._account_id && current.email === reviewer.email)) {
@@ -115,55 +115,55 @@
       return false;
     },
 
-    _handleRemove: function(e) {
+    _handleRemove(e) {
       e.preventDefault();
-      var target = Polymer.dom(e).rootTarget;
+      const target = Polymer.dom(e).rootTarget;
       if (!target.account) { return; }
-      var accountID = target.account._account_id || target.account.email;
+      const accountID = target.account._account_id || target.account.email;
       this.disabled = true;
-      this._xhrPromise =
-          this._removeReviewer(accountID).then(function(response) {
+      this._xhrPromise = this._removeReviewer(accountID).then(response => {
         this.disabled = false;
         if (!response.ok) { return response; }
 
-        var reviewers = this.change.reviewers;
-        ['REVIEWER', 'CC'].forEach(function(type) {
+        const reviewers = this.change.reviewers;
+
+        for (const type of ['REVIEWER', 'CC']) {
           reviewers[type] = reviewers[type] || [];
-          for (var i = 0; i < reviewers[type].length; i++) {
+          for (let i = 0; i < reviewers[type].length; i++) {
             if (reviewers[type][i]._account_id == accountID ||
-                reviewers[type][i].email == accountID) {
+            reviewers[type][i].email == accountID) {
               this.splice('change.reviewers.' + type, i, 1);
               break;
             }
           }
-        }, this);
-      }.bind(this)).catch(function(err) {
+        }
+      }).catch(err => {
         this.disabled = false;
         throw err;
-      }.bind(this));
+      });
     },
 
-    _handleAddTap: function(e) {
+    _handleAddTap(e) {
       e.preventDefault();
-      var value = {};
+      const value = {};
       if (this.reviewersOnly) {
         value.reviewersOnly = true;
       }
       if (this.ccsOnly) {
         value.ccsOnly = true;
       }
-      this.fire('show-reply-dialog', {value: value});
+      this.fire('show-reply-dialog', {value});
     },
 
-    _handleViewAll: function(e) {
+    _handleViewAll(e) {
       this._displayedReviewers = this._reviewers;
     },
 
-    _removeReviewer: function(id) {
+    _removeReviewer(id) {
       return this.$.restAPI.removeChangeReviewer(this.change._number, id);
     },
 
-    _computeAddLabel: function(ccsOnly) {
+    _computeAddLabel(ccsOnly) {
       return ccsOnly ? 'Add CC' : 'Add reviewer';
     },
   });

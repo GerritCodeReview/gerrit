@@ -1,4 +1,120 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1494860491 -0400\nnonce APbwY4pixFyzYZlWD9jHJMLEwZFlljZFtG2GJzHnBFfRH9a2WFQsNQCykUh8mtUYQAvlACNvKOKT\n\n0000000000000000000000000000000000000000 2de15eac8fa71dbd19bac2c6f61971146d30f919 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZGcLLAAoJEF/XxZqaEoiMdWgP/Rzj7dgK6WBSBUTqAZYILkUT\nLTbwsxyPmztukRyrVl56bRUfYW4i8e411/nAJjqkH3N94B80ZYeMu64i7kJ8piwr\nHJMffJ0WO6Huq23eUcUa5ztJNDG1tg9S77433SprKwuDpTxMUfD5GFWy9D/WIk7i\nhDsEsiGpuE5iSypj8t/OkL4XpS3yz5hsRpOforLmVwTz8ZQOAcvbEeyLd9+Klmub\n8Y6xIhpiDglXjOPOBNuwFzFGVQrKbKRT/AqVCfdj/ztXDriNNcS8GA4yNsydqzFq\nOkYMwvrDQyNFL6W+sHpU54y/1i/bNOnzKByZwxZAxP1bPgrBmEOj6gnl6CjHBkAz\ntsRiTEIHtiYnqZhYUW7mtqNdeiCpLfa3ifomynAPJ5dPwwNq0OgwF+YszToGvNBw\nbwudnJY6Luf8L5qtjT07hDFQIoA50xIV21lfBmx8y5qXWaa5lvJZNhzWYcDqpz4G\nzg39c1nGYcR0Aw+v92O5rfAAv/gh1eEfUpuuJBry4Tlod2+neXDsQm60Uyi9kltH\nzPGaAzWMtild6Et4QCqKrwxCoKGCSd9eKRCx+Lf8Ir/kZnvEt2jG1ZFSYPhYMgxl\nLZi/bcHZBcVEnqTD49B1SSTjhTdZXDI7WRqS5IsrNnEMDgrydJkQJtMxEe4qzgNc\nNGHKAAjM5Rrx4SGs5BUp\n\u003dklME\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e1aab06_0885efb4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-15T16:14:16Z",
+      "side": 1,
+      "message": "Never thrown.",
+      "range": {
+        "startLine": 126,
+        "startChar": 26,
+        "endLine": 126,
+        "endChar": 38
+      },
+      "revId": "2de15eac8fa71dbd19bac2c6f61971146d30f919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad490e17_b88fcbfc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-15T16:14:16Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this (as well as the exception two lines below) be an AuthException so that it can be mapped to a PermissionDeniedException outside of the RetryHelper?",
+      "range": {
+        "startLine": 152,
+        "startChar": 16,
+        "endLine": 152,
+        "endChar": 41
+      },
+      "revId": "2de15eac8fa71dbd19bac2c6f61971146d30f919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9d29580_20dffc73",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-15T16:14:16Z",
+      "side": 1,
+      "message": "Is this operation safe to repeat?",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 162,
+        "endChar": 84
+      },
+      "revId": "2de15eac8fa71dbd19bac2c6f61971146d30f919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15ee1f31_9fd9b8dd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-15T16:14:16Z",
+      "side": 1,
+      "message": "Doesn\u0027t this circumvent the RetryHelper?",
+      "range": {
+        "startLine": 180,
+        "startChar": 5,
+        "endLine": 182,
+        "endChar": 5
+      },
+      "revId": "2de15eac8fa71dbd19bac2c6f61971146d30f919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ec874cf_816ed2c7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-15T16:14:16Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the ResourceNotFoundException be passed to the RetryHelper?",
+      "range": {
+        "startLine": 187,
+        "startChar": 5,
+        "endLine": 189,
+        "endChar": 5
+      },
+      "revId": "2de15eac8fa71dbd19bac2c6f61971146d30f919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

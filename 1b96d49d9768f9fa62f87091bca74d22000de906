@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3e83421c_5cdef1e6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T18:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1b032e3_7d537615",
+      "range": {
+        "startLine": 234,
+        "startChar": 6,
+        "endLine": 235,
+        "endChar": 29
+      },
+      "revId": "1b96d49d9768f9fa62f87091bca74d22000de906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "860ca193_e0d75ba4",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-15T18:15:19Z",
       "side": 1,
       "message": "Optional: since the breakpoint constants are only used in this way, consider just defining the MediaQueryList object in the constant to simplify this method.\n\n const BREAKPOINT_RELATED_SMALL \u003d window.matchMedia(\u0027(max-width: 50em)\u0027);\n\n... where this `if` can be just ... \n\n if (BREAKPOINT_RELATED_SMALL.matches) {",
+      "range": {
+        "startLine": 1203,
+        "startChar": 10,
+        "endLine": 1203,
+        "endChar": 71
+      },
+      "revId": "1b96d49d9768f9fa62f87091bca74d22000de906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0242dcf_25c8e528",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1203,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T18:36:52Z",
+      "side": 1,
+      "message": "I just tried this, but it ended up making the stubbing of matchMedia harder in test cases, so I changed it back.",
+      "parentUuid": "860ca193_e0d75ba4",
       "range": {
         "startLine": 1203,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a7ae1c6d_6b7688fc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1206,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T18:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4288f675_e16a6fcf",
+      "range": {
+        "startLine": 1206,
+        "startChar": 20,
+        "endLine": 1206,
+        "endChar": 23
+      },
+      "revId": "1b96d49d9768f9fa62f87091bca74d22000de906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7037fb0_e446a7f3",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 5
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "c91ee789_4b97f60f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1211,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T18:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7037fb0_e446a7f3",
+      "range": {
+        "startLine": 1210,
+        "startChar": 12,
+        "endLine": 1211,
+        "endChar": 74
+      },
+      "revId": "1b96d49d9768f9fa62f87091bca74d22000de906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27b7f58f_e4cc01c6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 5
@@ -114,6 +210,30 @@
       "revId": "1b96d49d9768f9fa62f87091bca74d22000de906",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea5dd148_3f25afdd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 1128,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T18:36:52Z",
+      "side": 1,
+      "message": "fine with it",
+      "parentUuid": "27b7f58f_e4cc01c6",
+      "range": {
+        "startLine": 1126,
+        "startChar": 8,
+        "endLine": 1128,
+        "endChar": 11
+      },
+      "revId": "1b96d49d9768f9fa62f87091bca74d22000de906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

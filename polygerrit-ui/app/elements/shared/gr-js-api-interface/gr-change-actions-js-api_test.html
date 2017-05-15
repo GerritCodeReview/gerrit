@@ -37,43 +37,43 @@ breaking changes to gr-change-actions won’t be noticed.
 </test-fixture>
 
 <script>
-  suite('gr-js-api-interface tests', function() {
-    var element;
-    var changeActions;
+  suite('gr-js-api-interface tests', () => {
+    let element;
+    let changeActions;
 
     // Because deepEqual doesn’t behave in Safari.
     function assertArraysEqual(actual, expected) {
       assert.equal(actual.length, expected.length);
-      for (var i = 0; i < actual.length; i++) {
+      for (let i = 0; i < actual.length; i++) {
         assert.equal(actual[i], expected[i]);
       }
     }
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
       element.change = {};
       element._hasKnownChainState = false;
-      var plugin;
-      Gerrit.install(function(p) { plugin = p; }, '0.1',
+      let plugin;
+      Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       changeActions = plugin.changeActions();
     });
 
-    teardown(function() {
+    teardown(() => {
       changeActions = null;
     });
 
-    test('property existence', function() {
+    test('property existence', () => {
       [
         'ActionType',
         'ChangeActions',
         'RevisionActions',
-      ].forEach(function(p) {
+      ].forEach(p => {
         assertArraysEqual(changeActions[p], element[p]);
       });
     });
 
-    test('add/remove primary action keys', function() {
+    test('add/remove primary action keys', () => {
       element.primaryActionKeys = [];
       changeActions.addPrimaryActionKey('foo');
       assertArraysEqual(element.primaryActionKeys, ['foo']);
@@ -89,34 +89,34 @@ breaking changes to gr-change-actions won’t be noticed.
       assertArraysEqual(element.primaryActionKeys, []);
     });
 
-    test('action buttons', function(done) {
-      var key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
-      var handler = sinon.spy();
+    test('action buttons', done => {
+      const key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
+      const handler = sinon.spy();
       changeActions.addTapListener(key, handler);
-      flush(function() {
+      flush(() => {
         MockInteractions.tap(element.$$('[data-action-key="' + key + '"]'));
         assert(handler.calledOnce);
         changeActions.removeTapListener(key, handler);
         MockInteractions.tap(element.$$('[data-action-key="' + key + '"]'));
         assert(handler.calledOnce);
         changeActions.remove(key);
-        flush(function() {
+        flush(() => {
           assert.isNull(element.$$('[data-action-key="' + key + '"]'));
           done();
         });
       });
     });
 
-    test('action button properties', function(done) {
-      var key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
-      flush(function() {
-        var button = element.$$('[data-action-key="' + key + '"]');
+    test('action button properties', done => {
+      const key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
+      flush(() => {
+        const button = element.$$('[data-action-key="' + key + '"]');
         assert.isOk(button);
         assert.equal(button.getAttribute('data-label'), 'Bork!');
         assert.isNotOk(button.disabled);
         changeActions.setLabel(key, 'Yo');
         changeActions.setEnabled(key, false);
-        flush(function() {
+        flush(() => {
           assert.equal(button.getAttribute('data-label'), 'Yo');
           assert.isTrue(button.disabled);
           done();
@@ -124,30 +124,30 @@ breaking changes to gr-change-actions won’t be noticed.
       });
     });
 
-    test('hide action buttons', function(done) {
-      var key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
-      flush(function() {
-        var button = element.$$('[data-action-key="' + key + '"]');
+    test('hide action buttons', done => {
+      const key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
+      flush(() => {
+        const button = element.$$('[data-action-key="' + key + '"]');
         assert.isOk(button);
         assert.isFalse(button.hasAttribute('hidden'));
         changeActions.setActionHidden(
             changeActions.ActionType.REVISION, key, true);
-        flush(function() {
-          var button = element.$$('[data-action-key="' + key + '"]');
+        flush(() => {
+          const button = element.$$('[data-action-key="' + key + '"]');
           assert.isNotOk(button);
           done();
         });
       });
     });
 
-    test('move action button to overflow', function(done) {
-      var key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
-      flush(function() {
+    test('move action button to overflow', done => {
+      const key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
+      flush(() => {
         assert.isTrue(element.$.moreActions.hidden);
         assert.isOk(element.$$('[data-action-key="' + key + '"]'));
         changeActions.setActionOverflow(
             changeActions.ActionType.REVISION, key, true);
-        flush(function() {
+        flush(() => {
           assert.isNotOk(element.$$('[data-action-key="' + key + '"]'));
           assert.isFalse(element.$.moreActions.hidden);
           assert.strictEqual(element.$.moreActions.items[0].name, 'Bork!');
@@ -156,17 +156,17 @@ breaking changes to gr-change-actions won’t be noticed.
       });
     });
 
-    test('change actions priority', function(done) {
-      var key1 = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
-      var key2 = changeActions.add(changeActions.ActionType.CHANGE, 'Squanch?');
-      flush(function() {
-        var buttons =
+    test('change actions priority', done => {
+      const key1 = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
+      const key2 = changeActions.add(changeActions.ActionType.CHANGE, 'Squanch?');
+      flush(() => {
+        let buttons =
             Polymer.dom(element.root).querySelectorAll('[data-action-key]');
         assert.equal(buttons[0].getAttribute('data-action-key'), key1);
         assert.equal(buttons[1].getAttribute('data-action-key'), key2);
         changeActions.setActionPriority(
             changeActions.ActionType.REVISION, key1, 10);
-        flush(function() {
+        flush(() => {
           buttons =
               Polymer.dom(element.root).querySelectorAll('[data-action-key]');
           assert.equal(buttons[0].getAttribute('data-action-key'), key2);

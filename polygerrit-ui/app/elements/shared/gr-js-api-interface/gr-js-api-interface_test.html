@@ -31,45 +31,45 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-js-api-interface tests', function() {
-    var element;
-    var plugin;
-    var errorStub;
-    var sandbox;
+  suite('gr-js-api-interface tests', () => {
+    let element;
+    let plugin;
+    let errorStub;
+    let sandbox;
 
-    var throwErrFn = function() {
+    const throwErrFn = function() {
       throw Error('Unfortunately, this handler has stopped');
     };
 
-    setup(function() {
+    setup(() => {
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
-        getAccount: function() {
+        getAccount() {
           return Promise.resolve({name: 'Judy Hopps'});
         },
       });
       element = fixture('basic');
       errorStub = sandbox.stub(console, 'error');
       Gerrit._setPluginsCount(1);
-      Gerrit.install(function(p) { plugin = p; }, '0.1',
+      Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
       element._removeEventCallbacks();
       plugin = null;
     });
 
-    test('url', function() {
+    test('url', () => {
       assert.equal(plugin.url(), 'http://test.com/plugins/testplugin/');
       assert.equal(plugin.url('/static/test.js'),
           'http://test.com/plugins/testplugin/static/test.js');
     });
 
-    test('history event', function(done) {
+    test('history event', done => {
       plugin.on(element.EventType.HISTORY, throwErrFn);
-      plugin.on(element.EventType.HISTORY, function(path) {
+      plugin.on(element.EventType.HISTORY, path => {
         assert.equal(path, '/path/to/awesomesauce');
         assert.isTrue(errorStub.calledOnce);
         done();
@@ -78,13 +78,13 @@ limitations under the License.
           {path: '/path/to/awesomesauce'});
     });
 
-    test('showchange event', function(done) {
-      var testChange = {
+    test('showchange event', done => {
+      const testChange = {
         _number: 42,
         revisions: {def: {_number: 2}, abc: {_number: 1}},
       };
       plugin.on(element.EventType.SHOW_CHANGE, throwErrFn);
-      plugin.on(element.EventType.SHOW_CHANGE, function(change, revision) {
+      plugin.on(element.EventType.SHOW_CHANGE, (change, revision) => {
         assert.deepEqual(change, testChange);
         assert.deepEqual(revision, testChange.revisions.abc);
         assert.isTrue(errorStub.calledOnce);
@@ -94,28 +94,28 @@ limitations under the License.
           {change: testChange, patchNum: 1});
     });
 
-    test('handleEvent awaits plugins load', function(done) {
-      var testChange = {
+    test('handleEvent awaits plugins load', done => {
+      const testChange = {
         _number: 42,
         revisions: {def: {_number: 2}, abc: {_number: 1}},
       };
-      var spy = sandbox.spy();
+      const spy = sandbox.spy();
       Gerrit._setPluginsCount(1);
       plugin.on(element.EventType.SHOW_CHANGE, spy);
       element.handleEvent(element.EventType.SHOW_CHANGE,
           {change: testChange, patchNum: 1});
       assert.isFalse(spy.called);
       Gerrit._setPluginsCount(0);
-      flush(function() {
+      flush(() => {
         assert.isTrue(spy.called);
         done();
       });
     });
 
-    test('comment event', function(done) {
-      var testCommentNode = {foo: 'bar'};
+    test('comment event', done => {
+      const testCommentNode = {foo: 'bar'};
       plugin.on(element.EventType.COMMENT, throwErrFn);
-      plugin.on(element.EventType.COMMENT, function(commentNode) {
+      plugin.on(element.EventType.COMMENT, commentNode => {
         assert.deepEqual(commentNode, testCommentNode);
         assert.isTrue(errorStub.calledOnce);
         done();
@@ -123,7 +123,7 @@ limitations under the License.
       element.handleEvent(element.EventType.COMMENT, {node: testCommentNode});
     });
 
-    test('revert event', function() {
+    test('revert event', () => {
       function appendToRevertMsg(c, revertMsg, originalMsg) {
         return revertMsg + '\n' + originalMsg.replace(/^/gm, '> ') + '\ninfo';
       }
@@ -134,16 +134,16 @@ limitations under the License.
       plugin.on(element.EventType.REVERT, throwErrFn);
       plugin.on(element.EventType.REVERT, appendToRevertMsg);
       assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'),
-                   'test\n> origTest\ninfo');
+          'test\n> origTest\ninfo');
       assert.isTrue(errorStub.calledOnce);
 
       plugin.on(element.EventType.REVERT, appendToRevertMsg);
       assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'),
-                   'test\n> origTest\ninfo\n> origTest\ninfo');
+          'test\n> origTest\ninfo\n> origTest\ninfo');
       assert.isTrue(errorStub.calledTwice);
     });
 
-    test('postrevert event', function() {
+    test('postrevert event', () => {
       function getLabels(c) {
         return {'Code-Review': 1};
       }
@@ -158,10 +158,10 @@ limitations under the License.
       assert.isTrue(errorStub.calledOnce);
     });
 
-    test('commitmsgedit event', function(done) {
-      var testMsg = 'Test CL commit message';
+    test('commitmsgedit event', done => {
+      const testMsg = 'Test CL commit message';
       plugin.on(element.EventType.COMMIT_MSG_EDIT, throwErrFn);
-      plugin.on(element.EventType.COMMIT_MSG_EDIT, function(change, msg) {
+      plugin.on(element.EventType.COMMIT_MSG_EDIT, (change, msg) => {
         assert.deepEqual(msg, testMsg);
         assert.isTrue(errorStub.calledOnce);
         done();
@@ -169,10 +169,10 @@ limitations under the License.
       element.handleCommitMessage(null, testMsg);
     });
 
-    test('labelchange event', function(done) {
-      var testChange = {_number: 42};
+    test('labelchange event', done => {
+      const testChange = {_number: 42};
       plugin.on(element.EventType.LABEL_CHANGE, throwErrFn);
-      plugin.on(element.EventType.LABEL_CHANGE, function(change) {
+      plugin.on(element.EventType.LABEL_CHANGE, change => {
         assert.deepEqual(change, testChange);
         assert.isTrue(errorStub.calledOnce);
         done();
@@ -180,41 +180,41 @@ limitations under the License.
       element.handleEvent(element.EventType.LABEL_CHANGE, {change: testChange});
     });
 
-    test('submitchange', function() {
+    test('submitchange', () => {
       plugin.on(element.EventType.SUBMIT_CHANGE, throwErrFn);
-      plugin.on(element.EventType.SUBMIT_CHANGE, function() { return true; });
+      plugin.on(element.EventType.SUBMIT_CHANGE, () => { return true; });
       assert.isTrue(element.canSubmitChange());
       assert.isTrue(errorStub.calledOnce);
-      plugin.on(element.EventType.SUBMIT_CHANGE, function() { return false; });
-      plugin.on(element.EventType.SUBMIT_CHANGE, function() { return true; });
+      plugin.on(element.EventType.SUBMIT_CHANGE, () => { return false; });
+      plugin.on(element.EventType.SUBMIT_CHANGE, () => { return true; });
       assert.isFalse(element.canSubmitChange());
       assert.isTrue(errorStub.calledTwice);
     });
 
-    test('versioning', function() {
-      var callback = sandbox.spy();
+    test('versioning', () => {
+      const callback = sandbox.spy();
       Gerrit.install(callback, '0.0pre-alpha');
       assert(callback.notCalled);
     });
 
-    test('getAccount', function(done) {
-      Gerrit.getLoggedIn().then(function(loggedIn) {
+    test('getAccount', done => {
+      Gerrit.getLoggedIn().then(loggedIn => {
         assert.isTrue(loggedIn);
         done();
       });
     });
 
-    test('_setPluginsCount', function(done) {
+    test('_setPluginsCount', done => {
       stub('gr-reporting', {
-        pluginsLoaded: function() {
+        pluginsLoaded() {
           assert.equal(Gerrit._pluginsPending, 0);
           done();
-        }
+        },
       });
       Gerrit._setPluginsCount(0);
     });
 
-    test('_arePluginsLoaded', function() {
+    test('_arePluginsLoaded', () => {
       assert.isTrue(Gerrit._arePluginsLoaded());
       Gerrit._setPluginsCount(1);
       assert.isFalse(Gerrit._arePluginsLoaded());
@@ -222,12 +222,12 @@ limitations under the License.
       assert.isTrue(Gerrit._arePluginsLoaded());
     });
 
-    test('_pluginInstalled', function(done) {
+    test('_pluginInstalled', done => {
       stub('gr-reporting', {
-        pluginsLoaded: function() {
+        pluginsLoaded() {
           assert.equal(Gerrit._pluginsPending, 0);
           done();
-        }
+        },
       });
       Gerrit._setPluginsCount(2);
       Gerrit._pluginInstalled();
@@ -235,30 +235,30 @@ limitations under the License.
       Gerrit._pluginInstalled();
     });
 
-    test('install calls _pluginInstalled', function() {
+    test('install calls _pluginInstalled', () => {
       sandbox.stub(Gerrit, '_pluginInstalled');
-      Gerrit.install(function(p) { plugin = p; }, '0.1',
+      Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       assert.isTrue(Gerrit._pluginInstalled.calledOnce);
     });
 
-    test('install calls _pluginInstalled on error', function() {
+    test('install calls _pluginInstalled on error', () => {
       sandbox.stub(Gerrit, '_pluginInstalled');
-      Gerrit.install(function() {}, '0.0pre-alpha');
+      Gerrit.install(() => {}, '0.0pre-alpha');
       assert.isTrue(Gerrit._pluginInstalled.calledOnce);
     });
 
-    test('installGwt calls _pluginInstalled', function() {
+    test('installGwt calls _pluginInstalled', () => {
       sandbox.stub(Gerrit, '_pluginInstalled');
       Gerrit.installGwt();
       assert.isTrue(Gerrit._pluginInstalled.calledOnce);
     });
 
-    test('installGwt returns a stub object', function() {
-      var plugin = Gerrit.installGwt();
+    test('installGwt returns a stub object', () => {
+      const plugin = Gerrit.installGwt();
       sandbox.stub(console, 'warn');
       assert.isAbove(Object.keys(plugin).length, 0);
-      Object.keys(plugin).forEach(function(name) {
+      Object.keys(plugin).forEach(name => {
         console.warn.reset();
         plugin[name]();
         assert.isTrue(console.warn.calledOnce);

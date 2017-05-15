@@ -29,13 +29,13 @@
       Gerrit.BaseUrlBehavior,
     ],
 
-    _computeOwnerLink: function(account) {
+    _computeOwnerLink(account) {
       if (!account) { return; }
-      var accountID = account.email || account._account_id;
+      const accountID = account.email || account._account_id;
       return this.getBaseUrl() + '/q/owner:' + encodeURIComponent(accountID);
     },
 
-    _computeShowEmail: function(account) {
+    _computeShowEmail(account) {
       return !!(account && !account.name);
     },
   });

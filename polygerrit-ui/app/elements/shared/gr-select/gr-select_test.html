@@ -36,15 +36,15 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-select tests', function() {
-    var element;
+  suite('gr-select tests', () => {
+    let element;
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
     });
 
-    test('bidirectional binding property-to-attribute', function() {
-      var changeStub = sinon.stub();
+    test('bidirectional binding property-to-attribute', () => {
+      const changeStub = sinon.stub();
       element.addEventListener('bind-value-changed', changeStub);
 
       // The selected element should be the first one by default.
@@ -61,8 +61,8 @@ limitations under the License.
       assert.isTrue(changeStub.called);
     });
 
-    test('bidirectional binding attribute-to-property', function() {
-      var changeStub = sinon.stub();
+    test('bidirectional binding attribute-to-property', () => {
+      const changeStub = sinon.stub();
       element.addEventListener('bind-value-changed', changeStub);
 
       // The selected element should be the first one by default.

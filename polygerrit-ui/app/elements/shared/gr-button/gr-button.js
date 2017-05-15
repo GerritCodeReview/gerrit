@@ -34,8 +34,8 @@
     },
 
     listeners: {
-      'tap': '_handleAction',
-      'click': '_handleAction',
+      tap: '_handleAction',
+      click: '_handleAction',
     },
 
     behaviors: [
@@ -52,21 +52,21 @@
       'space enter': '_handleCommitKey',
     },
 
-    _handleAction: function(e) {
+    _handleAction(e) {
       if (this.disabled) {
         e.preventDefault();
         e.stopImmediatePropagation();
       }
     },
 
-    _disabledChanged: function(disabled) {
+    _disabledChanged(disabled) {
       if (disabled) {
         this._enabledTabindex = this.getAttribute('tabindex');
       }
       this.setAttribute('tabindex', disabled ? '-1' : this._enabledTabindex);
     },
 
-    _handleCommitKey: function(e) {
+    _handleCommitKey(e) {
       e.preventDefault();
       this.click();
     },

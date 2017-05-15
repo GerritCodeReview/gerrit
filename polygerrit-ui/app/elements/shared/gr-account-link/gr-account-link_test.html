@@ -32,21 +32,21 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-account-link tests', function() {
-    var element;
+  suite('gr-account-link tests', () => {
+    let element;
 
-    setup(function() {
+    setup(() => {
       stub('gr-rest-api-interface', {
-        getConfig: function() { return Promise.resolve({}); },
+        getConfig() { return Promise.resolve({}); },
       });
       element = fixture('basic');
     });
 
-    test('computed fields', function() {
+    test('computed fields', () => {
       assert.equal(element._computeOwnerLink(
           {
             _account_id: 123,
-            email: 'andybons+gerrit@gmail.com'
+            email: 'andybons+gerrit@gmail.com',
           }),
           '/q/owner:andybons%2Bgerrit%40gmail.com');
 
@@ -57,6 +57,5 @@ limitations under the License.
 
       assert.equal(element._computeShowEmail({}), true);
     });
-
-  });
+});
 </script>

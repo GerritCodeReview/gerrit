@@ -32,18 +32,18 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-tooltip-content tests', function() {
-    var element;
-    setup(function() {
+  suite('gr-tooltip-content tests', () => {
+    let element;
+    setup(() => {
       element = fixture('basic');
     });
 
-    test('icon is not visible by default', function() {
+    test('icon is not visible by default', () => {
       assert.equal(Polymer.dom(element.root)
           .querySelector('.arrow').hidden, true);
     });
 
-    test('icon is visible with showIcon property', function() {
+    test('icon is visible with showIcon property', () => {
       element.showIcon = true;
       assert.equal(Polymer.dom(element.root)
           .querySelector('.arrow').hidden, false);

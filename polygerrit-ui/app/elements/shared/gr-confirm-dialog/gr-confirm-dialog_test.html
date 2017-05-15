@@ -33,15 +33,15 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-confirm-dialog tests', function() {
-    var element;
+  suite('gr-confirm-dialog tests', () => {
+    let element;
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
     });
 
-    test('events', function(done) {
-      var numEvents = 0;
+    test('events', done => {
+      let numEvents = 0;
       function handler() { if (++numEvents == 2) { done(); } }
 
       element.addEventListener('confirm', handler);
@@ -50,6 +50,5 @@ limitations under the License.
       MockInteractions.tap(element.$$('gr-button[primary]'));
       MockInteractions.tap(element.$$('gr-button:not([primary])'));
     });
-
-  });
+});
 </script>

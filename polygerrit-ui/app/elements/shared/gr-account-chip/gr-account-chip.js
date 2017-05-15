@@ -47,23 +47,23 @@
       },
     },
 
-    ready: function() {
-      this._getHasAvatars().then(function(hasAvatars) {
+    ready() {
+      this._getHasAvatars().then(hasAvatars => {
         this.showAvatar = hasAvatars;
-      }.bind(this));
+      });
     },
 
-    _getBackgroundClass: function(transparent) {
+    _getBackgroundClass(transparent) {
       return transparent ? 'transparentBackground' : '';
     },
 
-    _handleRemoveTap: function(e) {
+    _handleRemoveTap(e) {
       e.preventDefault();
       this.fire('remove', {account: this.account});
     },
 
-    _getHasAvatars: function() {
-      return this.$.restAPI.getConfig().then(function(cfg) {
+    _getHasAvatars() {
+      return this.$.restAPI.getConfig().then(cfg => {
         return Promise.resolve(!!(cfg && cfg.plugin && cfg.plugin.has_avatars));
       });
     },

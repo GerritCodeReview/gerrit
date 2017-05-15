@@ -21,7 +21,7 @@
       changeNum: String,
       comments: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
       patchForNewThreads: String,
       projectConfig: Object,
@@ -32,7 +32,7 @@
       },
       _threads: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
     },
 
@@ -40,16 +40,16 @@
       '_commentsChanged(comments.*)',
     ],
 
-    addNewThread: function(locationRange) {
+    addNewThread(locationRange) {
       this.push('_threads', {
         comments: [],
-        locationRange: locationRange,
+        locationRange,
         patchNum: this.patchForNewThreads,
       });
     },
 
-    removeThread: function(locationRange) {
-      for (var i = 0; i < this._threads.length; i++) {
+    removeThread(locationRange) {
+      for (let i = 0; i < this._threads.length; i++) {
         if (this._threads[i].locationRange === locationRange) {
           this.splice('_threads', i, 1);
           return;
@@ -57,10 +57,10 @@
       }
     },
 
-    getThreadForRange: function(rangeToCheck) {
-      var threads = [].filter.call(
+    getThreadForRange(rangeToCheck) {
+      const threads = [].filter.call(
           Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread'),
-          function(thread) {
+          thread => {
             return thread.locationRange === rangeToCheck;
           });
       if (threads.length === 1) {
@@ -68,13 +68,13 @@
       }
     },
 
-    _commentsChanged: function() {
+    _commentsChanged() {
       this._threads = this._getThreadGroups(this.comments);
     },
 
-    _sortByDate: function(threadGroups) {
+    _sortByDate(threadGroups) {
       if (!threadGroups.length) { return; }
-      return threadGroups.sort(function(a, b) {
+      return threadGroups.sort((a, b) => {
         // If a comment is a draft, it doesn't have a start_datetime yet.
         // Assume it is newer than the comment it is being compared to.
         if (!a.start_datetime) {
@@ -88,7 +88,7 @@
       });
     },
 
-    _calculateLocationRange: function(range, comment) {
+    _calculateLocationRange(range, comment) {
       return 'range-' + range.start_line + '-' +
           range.start_character + '-' +
           range.end_line + '-' +
@@ -102,15 +102,15 @@
      * This is needed for switching between side-by-side and unified views when
      * there are unsaved drafts.
      */
-    _getPatchNum: function(comment) {
+    _getPatchNum(comment) {
       return comment.patchNum || this.patchForNewThreads;
     },
 
-    _getThreadGroups: function(comments) {
-      var threadGroups = {};
+    _getThreadGroups(comments) {
+      const threadGroups = {};
 
-      comments.forEach(function(comment) {
-        var locationRange;
+      comments.forEach(comment => {
+        let locationRange;
         if (!comment.range) {
           locationRange = 'line-' + comment.__commentSide;
         } else {
@@ -123,16 +123,16 @@
           threadGroups[locationRange] = {
             start_datetime: comment.updated,
             comments: [comment],
-            locationRange: locationRange,
+            locationRange,
             commentSide: comment.__commentSide,
             patchNum: this._getPatchNum(comment),
           };
         }
-      }.bind(this));
+      });
 
-      var threadGroupArr = [];
-      var threadGroupKeys = Object.keys(threadGroups);
-      threadGroupKeys.forEach(function(threadGroupKey) {
+      const threadGroupArr = [];
+      const threadGroupKeys = Object.keys(threadGroups);
+      threadGroupKeys.forEach(threadGroupKey => {
         threadGroupArr.push(threadGroups[threadGroupKey]);
       });
 

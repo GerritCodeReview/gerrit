@@ -34,22 +34,22 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-patch-range-select tests', function() {
-    var element;
+  suite('gr-patch-range-select tests', () => {
+    let element;
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
     });
 
-    test('enabled/disabled options', function() {
-      var patchRange = {
+    test('enabled/disabled options', () => {
+      const patchRange = {
         basePatchNum: 'PARENT',
         patchNum: '3',
       };
-      ['1', '2', '3'].forEach(function(patchNum) {
+      ['1', '2', '3'].forEach(patchNum => {
         assert.isFalse(element._computeRightDisabled(patchNum, patchRange));
       });
-      ['PARENT', '1', '2'].forEach(function(patchNum) {
+      ['PARENT', '1', '2'].forEach(patchNum => {
         assert.isFalse(element._computeLeftDisabled(patchNum, patchRange));
       });
       assert.isTrue(element._computeLeftDisabled('3', patchRange));
@@ -61,11 +61,11 @@ limitations under the License.
       assert.isFalse(element._computeRightDisabled('3', patchRange));
     });
 
-    test('navigation', function(done) {
-      var showStub = sinon.stub(page, 'show');
-      var leftSelectEl = element.$.leftPatchSelect;
-      var rightSelectEl = element.$.rightPatchSelect;
-      var blurSpy = sinon.spy(leftSelectEl, 'blur');
+    test('navigation', done => {
+      const showStub = sinon.stub(page, 'show');
+      const leftSelectEl = element.$.leftPatchSelect;
+      const rightSelectEl = element.$.rightPatchSelect;
+      const blurSpy = sinon.spy(leftSelectEl, 'blur');
       element.changeNum = '42';
       element.path = 'path/to/file.txt';
       element.availablePatches = ['1', '2', '3'];
@@ -75,8 +75,8 @@ limitations under the License.
       };
       flushAsynchronousOperations();
 
-      var numEvents = 0;
-      leftSelectEl.addEventListener('change', function(e) {
+      let numEvents = 0;
+      leftSelectEl.addEventListener('change', e => {
         numEvents++;
         if (numEvents == 1) {
           assert(showStub.lastCall.calledWithExactly(
@@ -98,23 +98,23 @@ limitations under the License.
       element.fire('change', {}, {node: leftSelectEl});
     });
 
-    test('filesWeblinks', function() {
+    test('filesWeblinks', () => {
       element.filesWeblinks = {
         meta_a: [
           {
             name: 'foo',
             url: 'f.oo',
-          }
+          },
         ],
         meta_b: [
           {
             name: 'bar',
             url: 'ba.r',
-          }
+          },
         ],
       };
       flushAsynchronousOperations();
-      var domApi = Polymer.dom(element.root);
+      const domApi = Polymer.dom(element.root);
       assert.equal(
           domApi.querySelector('a[href="f.oo"]').textContent, 'foo');
       assert.equal(

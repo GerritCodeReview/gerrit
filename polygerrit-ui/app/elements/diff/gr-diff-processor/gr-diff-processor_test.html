@@ -33,40 +33,39 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-diff-processor tests', function() {
-    var WHOLE_FILE = -1;
-    var loremIpsum = 'Lorem ipsum dolor sit amet, ei nonumes vituperata ius. ' +
+  suite('gr-diff-processor tests', () => {
+    const WHOLE_FILE = -1;
+    const loremIpsum = 'Lorem ipsum dolor sit amet, ei nonumes vituperata ius. ' +
         'Duo  animal omnesque fabellas et. Id has phaedrum dignissim ' +
         'deterruisset, pro ei petentium comprehensam, ut vis solum dicta. ' +
         'Eos cu aliquam labores qualisque, usu postea inermis te, et solum ' +
         'fugit assum per.';
 
-    var element;
-    var sandbox;
+    let element;
+    let sandbox;
 
-    setup(function() {
+    setup(() => {
       sandbox = sinon.sandbox.create();
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    suite('not logged in', function() {
-
-      setup(function() {
+    suite('not logged in', () => {
+      setup(() => {
         element = fixture('basic');
 
         element.context = 4;
       });
 
-      test('process loaded content', function(done) {
-        var content = [
+      test('process loaded content', done => {
+        const content = [
           {
             ab: [
               '<!DOCTYPE html>',
               '<meta charset="utf-8">',
-            ]
+            ],
           },
           {
             a: [
@@ -82,16 +81,16 @@ limitations under the License.
               'Leela: This is the only place the ship can’t hear us, so ',
               'everyone pretend to shower.',
               'Fry: Same as every day. Got it.',
-            ]
+            ],
           },
         ];
 
-        element.process(content).then(function() {
-          var groups = element.groups;
+        element.process(content).then(() => {
+          const groups = element.groups;
 
           assert.equal(groups.length, 4);
 
-          var group = groups[0];
+          let group = groups[0];
           assert.equal(group.type, GrDiffGroup.Type.BOTH);
           assert.equal(group.lines.length, 1);
           assert.equal(group.lines[0].text, '');
@@ -144,8 +143,8 @@ limitations under the License.
         });
       });
 
-      test('insert context groups', function(done) {
-        var content = [
+      test('insert context groups', done => {
+        const content = [
           {ab: []},
           {a: ['all work and no play make andybons a dull boy']},
           {ab: []},
@@ -160,11 +159,11 @@ limitations under the License.
           content[2].ab.push('no tv and no beer make homer go crazy');
         }
 
-        var context = 10;
+        const context = 10;
         element.context = context;
 
-        element.process(content).then(function() {
-          var groups = element.groups;
+        element.process(content).then(() => {
+          const groups = element.groups;
 
           assert.equal(groups[0].type, GrDiffGroup.Type.BOTH);
           assert.equal(groups[0].lines.length, 1);
@@ -175,13 +174,13 @@ limitations under the License.
           assert.equal(groups[1].type, GrDiffGroup.Type.CONTEXT_CONTROL);
           assert.instanceOf(groups[1].lines[0].contextGroup, GrDiffGroup);
           assert.equal(groups[1].lines[0].contextGroup.lines.length, 90);
-          groups[1].lines[0].contextGroup.lines.forEach(function(l) {
+          groups[1].lines[0].contextGroup.lines.forEach(l => {
             assert.equal(l.text, content[0].ab[0]);
           });
 
           assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
           assert.equal(groups[2].lines.length, context);
-          groups[2].lines.forEach(function(l) {
+          groups[2].lines.forEach(l => {
             assert.equal(l.text, content[0].ab[0]);
           });
 
@@ -193,7 +192,7 @@ limitations under the License.
 
           assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
           assert.equal(groups[4].lines.length, 5);
-          groups[4].lines.forEach(function(l) {
+          groups[4].lines.forEach(l => {
             assert.equal(l.text, content[2].ab[0]);
           });
 
@@ -204,14 +203,14 @@ limitations under the License.
 
           assert.equal(groups[6].type, GrDiffGroup.Type.BOTH);
           assert.equal(groups[6].lines.length, context);
-          groups[6].lines.forEach(function(l) {
+          groups[6].lines.forEach(l => {
             assert.equal(l.text, content[4].ab[0]);
           });
 
           assert.equal(groups[7].type, GrDiffGroup.Type.CONTEXT_CONTROL);
           assert.instanceOf(groups[7].lines[0].contextGroup, GrDiffGroup);
           assert.equal(groups[7].lines[0].contextGroup.lines.length, 90);
-          groups[7].lines[0].contextGroup.lines.forEach(function(l) {
+          groups[7].lines[0].contextGroup.lines.forEach(l => {
             assert.equal(l.text, content[4].ab[0]);
           });
 
@@ -219,21 +218,21 @@ limitations under the License.
         });
       });
 
-      test('insert context groups', function(done) {
-        var content = [
+      test('insert context groups', done => {
+        const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {ab: []},
           {b: ['elgoog elgoog elgoog']},
         ];
-        for (var i = 0; i < 50; i++) {
+        for (let i = 0; i < 50; i++) {
           content[1].ab.push('no tv and no beer make homer go crazy');
         }
 
-        var context = 10;
+        const context = 10;
         element.context = context;
 
-        element.process(content).then(function() {
-          var groups = element.groups;
+        element.process(content).then(() => {
+          const groups = element.groups;
 
           assert.equal(groups[0].type, GrDiffGroup.Type.BOTH);
           assert.equal(groups[0].lines.length, 1);
@@ -249,20 +248,20 @@ limitations under the License.
 
           assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
           assert.equal(groups[2].lines.length, context);
-          groups[2].lines.forEach(function(l) {
+          groups[2].lines.forEach(l => {
             assert.equal(l.text, content[1].ab[0]);
           });
 
           assert.equal(groups[3].type, GrDiffGroup.Type.CONTEXT_CONTROL);
           assert.instanceOf(groups[3].lines[0].contextGroup, GrDiffGroup);
           assert.equal(groups[3].lines[0].contextGroup.lines.length, 30);
-          groups[3].lines[0].contextGroup.lines.forEach(function(l) {
+          groups[3].lines[0].contextGroup.lines.forEach(l => {
             assert.equal(l.text, content[1].ab[0]);
           });
 
           assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
           assert.equal(groups[4].lines.length, context);
-          groups[4].lines.forEach(function(l) {
+          groups[4].lines.forEach(l => {
             assert.equal(l.text, content[1].ab[0]);
           });
 
@@ -275,14 +274,14 @@ limitations under the License.
         });
       });
 
-      test('break up common diff chunks', function() {
+      test('break up common diff chunks', () => {
         element.keyLocations = {
           left: {1: true},
           right: {10: true},
         };
-        var lineNums = {left: 0, right: 0};
+        const lineNums = {left: 0, right: 0};
 
-        var content = [
+        const content = [
           {
             ab: [
               'Copyright (C) 2015 The Android Open Source Project',
@@ -300,10 +299,10 @@ limitations under the License.
               'either express or implied. See the License for the specific ',
               'language governing permissions and limitations under the ' +
                   'License.',
-            ]
-          }
+            ],
+          },
         ];
-        var result = element._splitCommonGroupsWithComments(content, lineNums);
+        const result = element._splitCommonGroupsWithComments(content, lineNums);
         assert.deepEqual(result, [
           {
             ab: ['Copyright (C) 2015 The Android Open Source Project'],
@@ -319,11 +318,11 @@ limitations under the License.
               'http://www.apache.org/licenses/LICENSE-2.0',
               '',
               'Unless required by applicable law or agreed to in writing, ',
-            ]
+            ],
           },
           {
             ab: [
-                'software distributed under the License is distributed on an '],
+              'software distributed under the License is distributed on an '],
           },
           {
             ab: [
@@ -331,48 +330,48 @@ limitations under the License.
               'either express or implied. See the License for the specific ',
               'language governing permissions and limitations under the ' +
                   'License.',
-            ]
-          }
+            ],
+          },
         ]);
       });
 
-      test('breaks-down shared chunks w/ whole-file', function() {
-        var size = 120 * 2 + 5;
-        var lineNums = {left: 0, right: 0};
-        var content = [{
-          ab: _.times(size, function() { return '' + Math.random(); }),
+      test('breaks-down shared chunks w/ whole-file', () => {
+        const size = 120 * 2 + 5;
+        const lineNums = {left: 0, right: 0};
+        const content = [{
+          ab: _.times(size, () => { return '' + Math.random(); }),
         }];
         element.context = -1;
-        var result = element._splitCommonGroupsWithComments(content, lineNums);
+        const result = element._splitCommonGroupsWithComments(content, lineNums);
         assert.equal(result.length, 2);
         assert.deepEqual(result[0].ab, content[0].ab.slice(0, 120));
         assert.deepEqual(result[1].ab, content[0].ab.slice(120));
       });
 
-      test('does not break-down shared chunks w/ context', function() {
-        var lineNums = {left: 0, right: 0};
-        var content = [{
-          ab: _.times(75, function() { return '' + Math.random(); }),
+      test('does not break-down shared chunks w/ context', () => {
+        const lineNums = {left: 0, right: 0};
+        const content = [{
+          ab: _.times(75, () => { return '' + Math.random(); }),
         }];
         element.context = 4;
-        var result = element._splitCommonGroupsWithComments(content, lineNums);
+        const result = element._splitCommonGroupsWithComments(content, lineNums);
         assert.deepEqual(result, content);
       });
 
-      test('intraline normalization', function() {
+      test('intraline normalization', () => {
         // The content and highlights are in the format returned by the Gerrit
         // REST API.
-        var content = [
+        let content = [
           '      <section class="summary">',
           '        <gr-linked-text content="' +
               '[[_computeCurrentRevisionMessage(change)]]"></gr-linked-text>',
           '      </section>',
         ];
-        var highlights = [
-          [31, 34], [42, 26]
+        let highlights = [
+          [31, 34], [42, 26],
         ];
 
-        var results = element._normalizeIntralineHighlights(content,
+        let results = element._normalizeIntralineHighlights(content,
             highlights);
         assert.deepEqual(results, [
           {
@@ -392,7 +391,7 @@ limitations under the License.
             contentIndex: 2,
             startIndex: 0,
             endIndex: 6,
-          }
+          },
         ]);
 
         content = [
@@ -439,18 +438,18 @@ limitations under the License.
             contentIndex: 5,
             startIndex: 12,
             endIndex: 41,
-          }
+          },
         ]);
       });
 
-      test('scrolling pauses rendering', function() {
-        var contentRow = {
+      test('scrolling pauses rendering', () => {
+        const contentRow = {
           ab: [
             '<!DOCTYPE html>',
             '<meta charset="utf-8">',
-          ]
+          ],
         };
-        var content = _.times(200, _.constant(contentRow));
+        const content = _.times(200, _.constant(contentRow));
         sandbox.stub(element, 'async');
         element._isScrolling = true;
         element.process(content);
@@ -460,14 +459,14 @@ limitations under the License.
         assert.equal(element.groups.length, 33);
       });
 
-      test('image diffs', function() {
-        var contentRow = {
+      test('image diffs', () => {
+        const contentRow = {
           ab: [
             '<!DOCTYPE html>',
             '<meta charset="utf-8">',
-          ]
+          ],
         };
-        var content = _.times(200, _.constant(contentRow));
+        const content = _.times(200, _.constant(contentRow));
         sandbox.stub(element, 'async');
         element.process(content, true);
         assert.equal(element.groups.length, 1);
@@ -477,17 +476,17 @@ limitations under the License.
       });
 
 
-      suite('gr-diff-processor helpers', function() {
-        var rows;
+      suite('gr-diff-processor helpers', () => {
+        let rows;
 
-        setup(function() {
+        setup(() => {
           rows = loremIpsum.split(' ');
         });
 
-        test('_sharedGroupsFromRows WHOLE_FILE', function() {
-          var context = WHOLE_FILE;
-          var lineNumbers = {left: 10, right: 100};
-          var result = element._sharedGroupsFromRows(
+        test('_sharedGroupsFromRows WHOLE_FILE', () => {
+          const context = WHOLE_FILE;
+          const lineNumbers = {left: 10, right: 100};
+          const result = element._sharedGroupsFromRows(
               rows, context, lineNumbers.left, lineNumbers.right, null);
 
           // Results in one, uncollapsed group with all rows.
@@ -505,11 +504,11 @@ limitations under the License.
               lineNumbers.right + rows.length);
         });
 
-        test('_sharedGroupsFromRows context', function() {
-          var context = 10;
-          var result = element._sharedGroupsFromRows(
+        test('_sharedGroupsFromRows context', () => {
+          const context = 10;
+          const result = element._sharedGroupsFromRows(
               rows, context, 10, 100, null);
-          var expectedCollapseSize = rows.length - 2 * context;
+          const expectedCollapseSize = rows.length - 2 * context;
 
           assert.equal(result.length, 3, 'Results in three groups');
 
@@ -524,11 +523,11 @@ limitations under the License.
               expectedCollapseSize);
         });
 
-        test('_sharedGroupsFromRows first', function() {
-          var context = 10;
-          var result = element._sharedGroupsFromRows(
+        test('_sharedGroupsFromRows first', () => {
+          const context = 10;
+          const result = element._sharedGroupsFromRows(
               rows, context, 10, 100, 'first');
-          var expectedCollapseSize = rows.length - context;
+          const expectedCollapseSize = rows.length - context;
 
           assert.equal(result.length, 2, 'Results in two groups');
 
@@ -541,11 +540,11 @@ limitations under the License.
               expectedCollapseSize);
         });
 
-        test('_sharedGroupsFromRows few-rows', function() {
+        test('_sharedGroupsFromRows few-rows', () => {
           // Only ten rows.
           rows = rows.slice(0, 10);
-          var context = 10;
-          var result = element._sharedGroupsFromRows(
+          const context = 10;
+          const result = element._sharedGroupsFromRows(
               rows, context, 10, 100, 'first');
 
           // Results in one uncollapsed group with all rows.
@@ -553,10 +552,10 @@ limitations under the License.
           assert.equal(result[0].lines.length, rows.length);
         });
 
-        test('_sharedGroupsFromRows no single line collapse', function() {
+        test('_sharedGroupsFromRows no single line collapse', () => {
           rows = rows.slice(0, 7);
-          var context = 3;
-          var result = element._sharedGroupsFromRows(
+          const context = 3;
+          const result = element._sharedGroupsFromRows(
               rows, context, 10, 100);
 
           // Results in one uncollapsed group with all rows.
@@ -564,9 +563,9 @@ limitations under the License.
           assert.equal(result[0].lines.length, rows.length);
         });
 
-        test('_deltaLinesFromRows', function() {
-          var startLineNum = 10;
-          var result = element._deltaLinesFromRows(GrDiffLine.Type.ADD, rows,
+        test('_deltaLinesFromRows', () => {
+          const startLineNum = 10;
+          let result = element._deltaLinesFromRows(GrDiffLine.Type.ADD, rows,
               startLineNum);
 
           assert.equal(result.length, rows.length);
@@ -590,54 +589,54 @@ limitations under the License.
         });
       });
 
-      suite('_breakdown*', function() {
-        test('_breakdownGroup breaks down additions', function() {
+      suite('_breakdown*', () => {
+        test('_breakdownGroup breaks down additions', () => {
           sandbox.spy(element, '_breakdown');
-          var chunk = {b: ['blah', 'blah', 'blah']};
-          var result = element._breakdownGroup(chunk);
+          const chunk = {b: ['blah', 'blah', 'blah']};
+          const result = element._breakdownGroup(chunk);
           assert.deepEqual(result, [chunk]);
           assert.isTrue(element._breakdown.called);
         });
 
-        test('_breakdown common case', function() {
-          var array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'
+        test('_breakdown common case', () => {
+          const array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'
               .split(' ');
-          var size = 3;
+          const size = 3;
 
-          var result = element._breakdown(array, size);
+          const result = element._breakdown(array, size);
 
-          result.forEach(function(subResult) {
+          result.forEach(subResult => {
             assert.isAtMost(subResult.length, size);
           });
-          var flattened = result
-              .reduce(function(a, b) { return a.concat(b); }, []);
+          const flattened = result
+              .reduce((a, b) => { return a.concat(b); }, []);
           assert.deepEqual(flattened, array);
         });
 
-        test('_breakdown smaller than size', function() {
-          var array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'
+        test('_breakdown smaller than size', () => {
+          const array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'
               .split(' ');
-          var size = 10;
-          var expected = [array];
+          const size = 10;
+          const expected = [array];
 
-          var result = element._breakdown(array, size);
+          const result = element._breakdown(array, size);
 
           assert.deepEqual(result, expected);
         });
 
-        test('_breakdown empty', function() {
-          var array = [];
-          var size = 10;
-          var expected = [];
+        test('_breakdown empty', () => {
+          const array = [];
+          const size = 10;
+          const expected = [];
 
-          var result = element._breakdown(array, size);
+          const result = element._breakdown(array, size);
 
           assert.deepEqual(result, expected);
         });
       });
     });
 
-    test('detaching cancels', function() {
+    test('detaching cancels', () => {
       element = fixture('basic');
       sandbox.stub(element, 'cancel');
       element.detached();

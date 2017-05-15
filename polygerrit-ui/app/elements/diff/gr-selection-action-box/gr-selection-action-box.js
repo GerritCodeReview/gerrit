@@ -26,7 +26,7 @@
     properties: {
       keyEventTarget: {
         type: Object,
-        value: function() { return document.body; },
+        value() { return document.body; },
       },
       range: {
         type: Object,
@@ -48,27 +48,27 @@
     ],
 
     listeners: {
-      'mousedown': '_handleMouseDown', // See https://crbug.com/gerrit/4767
+      mousedown: '_handleMouseDown', // See https://crbug.com/gerrit/4767
     },
 
     keyBindings: {
-      'c': '_handleCKey',
+      c: '_handleCKey',
     },
 
-    placeAbove: function(el) {
-      var rect = this._getTargetBoundingRect(el);
-      var boxRect = this.getBoundingClientRect();
-      var parentRect = this.parentElement.getBoundingClientRect();
+    placeAbove(el) {
+      const rect = this._getTargetBoundingRect(el);
+      const boxRect = this.getBoundingClientRect();
+      const parentRect = this.parentElement.getBoundingClientRect();
       this.style.top =
           rect.top - parentRect.top - boxRect.height - 4 + 'px';
       this.style.left =
           rect.left - parentRect.left + (rect.width - boxRect.width) / 2 + 'px';
     },
 
-    _getTargetBoundingRect: function(el) {
-      var rect;
+    _getTargetBoundingRect(el) {
+      let rect;
       if (el instanceof Text) {
-        var range = document.createRange();
+        const range = document.createRange();
         range.selectNode(el);
         rect = range.getBoundingClientRect();
         range.detach();
@@ -78,7 +78,7 @@
       return rect;
     },
 
-    _handleCKey: function(e) {
+    _handleCKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -86,14 +86,14 @@
       this._fireCreateComment();
     },
 
-    _handleMouseDown: function(e) {
+    _handleMouseDown(e) {
       if (e.button !== 0) { return; } // 0 = main button
       e.preventDefault();
       e.stopPropagation();
       this._fireCreateComment();
     },
 
-    _fireCreateComment: function() {
+    _fireCreateComment() {
       this.fire('create-comment', {side: this.side, range: this.range});
     },
   });

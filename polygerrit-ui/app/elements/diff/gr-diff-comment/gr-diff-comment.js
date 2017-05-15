@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  var STORAGE_DEBOUNCE_INTERVAL = 400;
+  const STORAGE_DEBOUNCE_INTERVAL = 400;
 
   Polymer({
     is: 'gr-diff-comment',
@@ -112,7 +112,7 @@
       '_calculateActionstoShow(showActions, isRobotComment)',
     ],
 
-    attached: function() {
+    attached() {
       if (this.editing) {
         this.collapsed = false;
       } else if (this.comment) {
@@ -120,40 +120,40 @@
       }
     },
 
-    detached: function() {
+    detached() {
       this.cancelDebouncer('fire-update');
     },
 
-    _computeShowHideText: function(collapsed) {
+    _computeShowHideText(collapsed) {
       return collapsed ? '◀' : '▼';
     },
 
-    _calculateActionstoShow: function(showActions, isRobotComment) {
+    _calculateActionstoShow(showActions, isRobotComment) {
       this._showHumanActions = showActions && !isRobotComment;
       this._showRobotActions = showActions && isRobotComment;
     },
 
-    _isRobotComment: function(comment) {
+    _isRobotComment(comment) {
       this.isRobotComment = !!comment.robot_id;
     },
 
-    isOnParent: function() {
+    isOnParent() {
       return this.side === 'PARENT';
     },
 
-    save: function() {
+    save() {
       this.comment.message = this._messageText;
 
       this.disabled = true;
 
       this._eraseDraftComment();
 
-      this._xhrPromise = this._saveDraft(this.comment).then(function(response) {
+      this._xhrPromise = this._saveDraft(this.comment).then(response => {
         this.disabled = false;
         if (!response.ok) { return response; }
 
-        return this.$.restAPI.getResponseObject(response).then(function(obj) {
-          var comment = obj;
+        return this.$.restAPI.getResponseObject(response).then(obj => {
+          const comment = obj;
           comment.__draft = true;
           // Maintain the ephemeral draft ID for identification by other
           // elements.
@@ -165,14 +165,14 @@
           this.editing = false;
           this._fireSave();
           return obj;
-        }.bind(this));
-      }.bind(this)).catch(function(err) {
+        });
+      }).catch(err => {
         this.disabled = false;
         throw err;
-      }.bind(this));
+      });
     },
 
-    _eraseDraftComment: function() {
+    _eraseDraftComment() {
       this.$.storage.eraseDraftComment({
         changeNum: this.changeNum,
         patchNum: this._getPatchNum(),
@@ -182,7 +182,7 @@
       });
     },
 
-    _commentChanged: function(comment) {
+    _commentChanged(comment) {
       this.editing = !!comment.__editing;
       this.resolved = !comment.unresolved;
       if (this.editing) { // It's a new draft/reply, notify.
@@ -190,41 +190,41 @@
       }
     },
 
-    _getEventPayload: function(opt_mixin) {
-      var payload = {
+    _getEventPayload(opt_mixin) {
+      const payload = {
         comment: this.comment,
         patchNum: this.patchNum,
       };
-      for (var k in opt_mixin) {
+      for (const k in opt_mixin) {
         payload[k] = opt_mixin[k];
       }
       return payload;
     },
 
-    _fireSave: function() {
+    _fireSave() {
       this.fire('comment-save', this._getEventPayload());
     },
 
-    _fireUpdate: function() {
+    _fireUpdate() {
       this.debounce('fire-update', function() {
         this.fire('comment-update', this._getEventPayload());
       });
     },
 
-    _draftChanged: function(draft) {
+    _draftChanged(draft) {
       this.$.container.classList.toggle('draft', draft);
     },
 
-    _editingChanged: function(editing, previousValue) {
+    _editingChanged(editing, previousValue) {
       this.$.container.classList.toggle('editing', editing);
       if (editing) {
-        var textarea = this.$.editTextarea.textarea;
+        const textarea = this.$.editTextarea.textarea;
         // Put the cursor at the end always.
         textarea.selectionStart = textarea.value.length;
         textarea.selectionEnd = textarea.selectionStart;
-        this.async(function() {
+        this.async(() => {
           textarea.focus();
-        }.bind(this));
+        });
       }
       if (this.comment && this.comment.id) {
         this.$$('.cancel').hidden = !editing;
@@ -238,15 +238,15 @@
       }
     },
 
-    _computeLinkToComment: function(comment) {
+    _computeLinkToComment(comment) {
       return '#' + comment.line;
     },
 
-    _computeSaveDisabled: function(draft) {
+    _computeSaveDisabled(draft) {
       return draft == null || draft.trim() == '';
     },
 
-    _handleTextareaKeydown: function(e) {
+    _handleTextareaKeydown(e) {
       switch (e.keyCode) {
         case 13: // 'enter'
           if (this._messageText.length !== 0 && (e.metaKey || e.ctrlKey)) {
@@ -266,11 +266,11 @@
       }
     },
 
-    _handleToggleCollapsed: function() {
+    _handleToggleCollapsed() {
       this.collapsed = !this.collapsed;
     },
 
-    _toggleCollapseClass: function(collapsed) {
+    _toggleCollapseClass(collapsed) {
       if (collapsed) {
         this.$.container.classList.add('collapsed');
       } else {
@@ -278,20 +278,20 @@
       }
     },
 
-    _commentMessageChanged: function(message) {
+    _commentMessageChanged(message) {
       this._messageText = message || '';
     },
 
-    _messageTextChanged: function(newValue, oldValue) {
+    _messageTextChanged(newValue, oldValue) {
       if (!this.comment || (this.comment && this.comment.id)) { return; }
 
       // Keep comment.message in sync so that gr-diff-comment-thread is aware
       // of the current message in the case that another comment is deleted.
       this.comment.message = this._messageText || '';
       this.debounce('store', function() {
-        var message = this._messageText;
+        const message = this._messageText;
 
-        var commentLocation = {
+        const commentLocation = {
           changeNum: this.changeNum,
           patchNum: this._getPatchNum(),
           path: this.comment.path,
@@ -310,9 +310,9 @@
       }, STORAGE_DEBOUNCE_INTERVAL);
     },
 
-    _handleLinkTap: function(e) {
+    _handleLinkTap(e) {
       e.preventDefault();
-      var hash = this._computeLinkToComment(this.comment);
+      const hash = this._computeLinkToComment(this.comment);
       // Don't add the hash to the window history if it's already there.
       // Otherwise you mess up expected back button behavior.
       if (window.location.hash == hash) { return; }
@@ -321,49 +321,49 @@
       page.show(window.location.pathname + hash, null, false);
     },
 
-    _handleReply: function(e) {
+    _handleReply(e) {
       e.preventDefault();
       this.fire('create-reply-comment', this._getEventPayload(),
           {bubbles: false});
     },
 
-    _handleQuote: function(e) {
+    _handleQuote(e) {
       e.preventDefault();
       this.fire('create-reply-comment', this._getEventPayload({quote: true}),
           {bubbles: false});
     },
 
-    _handleFix: function(e) {
+    _handleFix(e) {
       e.preventDefault();
       this.fire('create-fix-comment', this._getEventPayload({quote: true}),
           {bubbles: false});
     },
 
-    _handleAck: function(e) {
+    _handleAck(e) {
       e.preventDefault();
       this.fire('create-ack-comment', this._getEventPayload(),
           {bubbles: false});
     },
 
-    _handleDone: function(e) {
+    _handleDone(e) {
       e.preventDefault();
       this.fire('create-done-comment', this._getEventPayload(),
           {bubbles: false});
     },
 
-    _handleEdit: function(e) {
+    _handleEdit(e) {
       e.preventDefault();
       this._messageText = this.comment.message;
       this.editing = true;
     },
 
-    _handleSave: function(e) {
+    _handleSave(e) {
       e.preventDefault();
       this.set('comment.__editing', false);
       this.save();
     },
 
-    _handleCancel: function(e) {
+    _handleCancel(e) {
       e.preventDefault();
       if (!this.comment.message ||
           this.comment.message.trim().length === 0) {
@@ -374,12 +374,12 @@
       this.editing = false;
     },
 
-    _fireDiscard: function() {
+    _fireDiscard() {
       this.cancelDebouncer('fire-update');
       this.fire('comment-discard', this._getEventPayload());
     },
 
-    _handleDiscard: function(e) {
+    _handleDiscard(e) {
       e.preventDefault();
       if (!this.comment.__draft) {
         throw Error('Cannot discard a non-draft comment.');
@@ -395,31 +395,31 @@
       }
 
       this._xhrPromise = this._deleteDraft(this.comment).then(
-          function(response) {
+          response => {
             this.disabled = false;
             if (!response.ok) { return response; }
 
             this._fireDiscard();
-          }.bind(this)).catch(function(err) {
+          }).catch(err => {
             this.disabled = false;
             throw err;
-          }.bind(this));
+          });
     },
 
-    _saveDraft: function(draft) {
+    _saveDraft(draft) {
       return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft);
     },
 
-    _deleteDraft: function(draft) {
+    _deleteDraft(draft) {
       return this.$.restAPI.deleteDiffDraft(this.changeNum, this.patchNum,
           draft);
     },
 
-    _getPatchNum: function() {
+    _getPatchNum() {
       return this.isOnParent() ? 'PARENT' : this.patchNum;
     },
 
-    _loadLocalDraft: function(changeNum, patchNum, comment) {
+    _loadLocalDraft(changeNum, patchNum, comment) {
       // Only apply local drafts to comments that haven't been saved
       // remotely, and haven't been given a default message already.
       //
@@ -430,8 +430,8 @@
         return;
       }
 
-      var draft = this.$.storage.getDraftComment({
-        changeNum: changeNum,
+      const draft = this.$.storage.getDraftComment({
+        changeNum,
         patchNum: this._getPatchNum(),
         path: comment.path,
         line: comment.line,
@@ -443,19 +443,19 @@
       }
     },
 
-    _handleMouseEnter: function(e) {
+    _handleMouseEnter(e) {
       this.fire('comment-mouse-over', this._getEventPayload());
     },
 
-    _handleMouseLeave: function(e) {
+    _handleMouseLeave(e) {
       this.fire('comment-mouse-out', this._getEventPayload());
     },
 
-    _handleToggleResolved: function() {
+    _handleToggleResolved() {
       this.resolved = !this.resolved;
     },
 
-    _toggleResolved: function(resolved) {
+    _toggleResolved(resolved) {
       this.comment.unresolved = !resolved;
       this.fire('comment-update', this._getEventPayload());
     },

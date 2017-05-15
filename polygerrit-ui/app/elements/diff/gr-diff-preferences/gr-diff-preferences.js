@@ -41,19 +41,19 @@
       '_localPrefsChanged(localPrefs.*)',
     ],
 
-    getFocusStops: function() {
+    getFocusStops() {
       return {
         start: this.$.contextSelect,
         end: this.$.cancelButton,
       };
     },
 
-    resetFocus: function() {
+    resetFocus() {
       this.$.contextSelect.focus();
     },
 
-    _prefsChanged: function(changeRecord) {
-      var prefs = changeRecord.base;
+    _prefsChanged(changeRecord) {
+      const prefs = changeRecord.base;
       // TODO(andybons): This is not supported in IE. Implement a polyfill.
       // NOTE: Object.assign is NOT automatically a deep copy. If prefs adds
       // an object as a value, it must be marked enumerable.
@@ -65,71 +65,71 @@
       this.$.syntaxHighlightInput.checked = prefs.syntax_highlighting;
     },
 
-    _localPrefsChanged: function(changeRecord) {
-      var localPrefs = changeRecord.base || {};
+    _localPrefsChanged(changeRecord) {
+      const localPrefs = changeRecord.base || {};
       // TODO(viktard): This is not supported in IE. Implement a polyfill.
       this._newLocalPrefs = Object.assign({}, localPrefs);
     },
 
-    _handleContextSelectChange: function(e) {
-      var selectEl = Polymer.dom(e).rootTarget;
+    _handleContextSelectChange(e) {
+      const selectEl = Polymer.dom(e).rootTarget;
       this.set('_newPrefs.context', parseInt(selectEl.value, 10));
     },
 
-    _handleShowTabsTap: function(e) {
+    _handleShowTabsTap(e) {
       this.set('_newPrefs.show_tabs', Polymer.dom(e).rootTarget.checked);
     },
 
-    _handleShowTrailingWhitespaceTap: function(e) {
+    _handleShowTrailingWhitespaceTap(e) {
       this.set('_newPrefs.show_whitespace_errors',
           Polymer.dom(e).rootTarget.checked);
     },
 
-    _handleSyntaxHighlightTap: function(e) {
+    _handleSyntaxHighlightTap(e) {
       this.set('_newPrefs.syntax_highlighting',
           Polymer.dom(e).rootTarget.checked);
     },
 
-    _handlelineWrappingTap: function(e) {
+    _handlelineWrappingTap(e) {
       this.set('_newPrefs.line_wrapping', Polymer.dom(e).rootTarget.checked);
     },
 
-    _handleSave: function(e) {
+    _handleSave(e) {
       e.stopPropagation();
       this.prefs = this._newPrefs;
       this.localPrefs = this._newLocalPrefs;
-      var el = Polymer.dom(e).rootTarget;
+      const el = Polymer.dom(e).rootTarget;
       el.disabled = true;
       this.$.storage.savePreferences(this._localPrefs);
-      this._saveDiffPreferences().then(function(response) {
+      this._saveDiffPreferences().then(response => {
         el.disabled = false;
         if (!response.ok) { return response; }
 
         this.$.prefsOverlay.close();
-      }.bind(this)).catch(function(err) {
+      }).catch(err => {
         el.disabled = false;
-      }.bind(this));
+      });
     },
 
-    _handleCancel: function(e) {
+    _handleCancel(e) {
       e.stopPropagation();
       this.$.prefsOverlay.close();
     },
 
-    _handlePrefsTap: function(e) {
+    _handlePrefsTap(e) {
       e.preventDefault();
       this._openPrefs();
     },
 
-    open: function() {
-      this.$.prefsOverlay.open().then(function() {
-        var focusStops = this.getFocusStops();
+    open() {
+      this.$.prefsOverlay.open().then(() => {
+        const focusStops = this.getFocusStops();
         this.$.prefsOverlay.setFocusStops(focusStops);
         this.resetFocus();
-      }.bind(this));
+      });
     },
 
-    _saveDiffPreferences: function() {
+    _saveDiffPreferences() {
       return this.$.restAPI.saveDiffPreferences(this.prefs);
     },
   });

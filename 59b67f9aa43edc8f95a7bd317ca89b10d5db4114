@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc2119ca_499727ea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-link/gr-account-link_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T22:59:39Z",
+      "side": 1,
+      "message": "Indent this line.",
+      "revId": "59b67f9aa43edc8f95a7bd317ca89b10d5db4114",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

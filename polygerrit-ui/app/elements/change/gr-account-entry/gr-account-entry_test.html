@@ -34,11 +34,11 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-account-entry tests', function() {
-    var sandbox;
-    var _nextAccountId = 0;
-    var makeAccount = function(opt_status) {
-      var accountId = ++_nextAccountId;
+  suite('gr-account-entry tests', () => {
+    let sandbox;
+    let _nextAccountId = 0;
+    const makeAccount = function(opt_status) {
+      const accountId = ++_nextAccountId;
       return {
         _account_id: accountId,
         name: 'name ' + accountId,
@@ -47,15 +47,15 @@ limitations under the License.
       };
     };
 
-    var owner;
-    var existingReviewer1;
-    var existingReviewer2;
-    var suggestion1;
-    var suggestion2;
-    var suggestion3;
-    var element;
+    let owner;
+    let existingReviewer1;
+    let existingReviewer2;
+    let suggestion1;
+    let suggestion2;
+    let suggestion3;
+    let element;
 
-    setup(function() {
+    setup(() => {
       owner = makeAccount();
       existingReviewer1 = makeAccount();
       existingReviewer2 = makeAccount();
@@ -70,7 +70,7 @@ limitations under the License.
 
       element = fixture('basic');
       element.change = {
-        owner: owner,
+        owner,
         reviewers: {
           CC: [existingReviewer1],
           REVIEWER: [existingReviewer2],
@@ -79,92 +79,92 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    suite('stubbed values for _getReviewerSuggestions', function() {
-      setup(function() {
+    suite('stubbed values for _getReviewerSuggestions', () => {
+      setup(() => {
         stub('gr-rest-api-interface', {
-          getChangeSuggestedReviewers: function() {
-            var redundantSuggestion1 = {account: existingReviewer1};
-            var redundantSuggestion2 = {account: existingReviewer2};
-            var redundantSuggestion3 = {account: owner};
+          getChangeSuggestedReviewers() {
+            const redundantSuggestion1 = {account: existingReviewer1};
+            const redundantSuggestion2 = {account: existingReviewer2};
+            const redundantSuggestion3 = {account: owner};
             return Promise.resolve([redundantSuggestion1, redundantSuggestion2,
-                redundantSuggestion3, suggestion1, suggestion2, suggestion3]);
+              redundantSuggestion3, suggestion1, suggestion2, suggestion3]);
           },
         });
       });
 
-      test('_makeSuggestion formats account or group accordingly', function() {
-        var account = makeAccount();
-        var suggestion = element._makeSuggestion({account: account});
+      test('_makeSuggestion formats account or group accordingly', () => {
+        let account = makeAccount();
+        let suggestion = element._makeSuggestion({account});
         assert.deepEqual(suggestion, {
           name: account.name + ' <' + account.email + '>',
-          value: {account: account},
+          value: {account},
         });
 
-        var group = {name: 'test'};
-        suggestion = element._makeSuggestion({group: group});
+        const group = {name: 'test'};
+        suggestion = element._makeSuggestion({group});
         assert.deepEqual(suggestion, {
           name: group.name + ' (group)',
-          value: {group: group},
+          value: {group},
         });
 
         suggestion = element._makeSuggestion(account);
         assert.deepEqual(suggestion, {
           name: account.name + ' <' + account.email + '>',
-          value: {account: account, count: 1},
+          value: {account, count: 1},
         });
 
         account = makeAccount('OOO');
 
-        suggestion = element._makeSuggestion({account: account});
+        suggestion = element._makeSuggestion({account});
         assert.deepEqual(suggestion, {
           name: account.name + ' <' + account.email + '> (OOO)',
-          value: {account: account},
+          value: {account},
         });
 
         suggestion = element._makeSuggestion(account);
         assert.deepEqual(suggestion, {
           name: account.name + ' <' + account.email + '> (OOO)',
-          value: {account: account, count: 1},
+          value: {account, count: 1},
         });
       });
 
-      test('_getReviewerSuggestions excludes owner+reviewers', function(done) {
-        element._getReviewerSuggestions().then(function(reviewers) {
+      test('_getReviewerSuggestions excludes owner+reviewers', done => {
+        element._getReviewerSuggestions().then(reviewers => {
           // Default is no filtering.
           assert.equal(reviewers.length, 6);
 
           // Set up filter that only accepts suggestion1.
-          var accountId = suggestion1.account._account_id;
+          const accountId = suggestion1.account._account_id;
           element.filter = function(suggestion) {
             return suggestion.account &&
                 suggestion.account._account_id === accountId;
           };
 
-          element._getReviewerSuggestions().then(function(reviewers) {
+          element._getReviewerSuggestions().then(reviewers => {
             assert.deepEqual(reviewers, [element._makeSuggestion(suggestion1)]);
           }).then(done);
         });
       });
     });
 
-    test('allowAnyUser', function(done) {
-      var suggestReviewerStub =
+    test('allowAnyUser', done => {
+      const suggestReviewerStub =
           sandbox.stub(element.$.restAPI, 'getChangeSuggestedReviewers')
           .returns(Promise.resolve([]));
-      var suggestAccountStub =
+      const suggestAccountStub =
           sandbox.stub(element.$.restAPI, 'getSuggestedAccounts')
           .returns(Promise.resolve([]));
 
-      element._getReviewerSuggestions('').then(function() {
+      element._getReviewerSuggestions('').then(() => {
         assert.isTrue(suggestReviewerStub.calledOnce);
         assert.isFalse(suggestAccountStub.called);
         element.allowAnyUser = true;
 
-        element._getReviewerSuggestions('').then(function() {
+        element._getReviewerSuggestions('').then(() => {
           assert.isTrue(suggestReviewerStub.calledOnce);
           assert.isTrue(suggestAccountStub.calledOnce);
           done();
@@ -172,9 +172,9 @@ limitations under the License.
       });
     });
 
-    test('setText', function() {
+    test('setText', () => {
       // Spy on query, as that is called when _updateSuggestions proceeds.
-      var suggestSpy = sandbox.spy(element.$.input, 'query');
+      const suggestSpy = sandbox.spy(element.$.input, 'query');
       element.setText('test text');
       flushAsynchronousOperations();
 

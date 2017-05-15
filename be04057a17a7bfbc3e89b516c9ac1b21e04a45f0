@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3d9cf72_645ddd64",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T17:23:26Z",
+      "side": 1,
+      "message": "Line exceeds 80 characters.",
+      "revId": "be04057a17a7bfbc3e89b516c9ac1b21e04a45f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c929d96_7141c54a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T17:23:26Z",
+      "side": 1,
+      "message": "The indentation was definitely weird beforehand, but can this be ...\n\n }).then(() \u003d\u003e {\n\n...?",
+      "range": {
+        "startLine": 259,
+        "startChar": 8,
+        "endLine": 260,
+        "endChar": 22
+      },
+      "revId": "be04057a17a7bfbc3e89b516c9ac1b21e04a45f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

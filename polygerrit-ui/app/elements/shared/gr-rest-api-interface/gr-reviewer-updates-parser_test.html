@@ -249,5 +249,56 @@ limitations under the License.
       assert.equal(items[2].message, 'added to REVIEWER: ');
       assert.deepEqual(items[2].reviewers, [reviewer1, reviewer2]);
     });
+
+    test('_advanceUpdates', () => {
+      const T0 = util.parseDate('2017-02-17 19:04:18.000000000').getTime();
+      const tplus = delta => {
+        return new Date(T0 + delta)
+            .toISOString().replace('T', ' ').replace('Z', '000000');
+      };
+      const change = {
+        reviewer_updates: [{
+          date: tplus(0),
+          type: 'REVIEWER_UPDATE',
+          updates: [{
+            message: 'same time update',
+          }]
+        }, {
+          date: tplus(200),
+          type: 'REVIEWER_UPDATE',
+          updates: [{
+            message: 'update within threshold',
+          }]
+        }, {
+          date: tplus(600),
+          type: 'REVIEWER_UPDATE',
+          updates: [{
+            message: 'update between messages',
+          }]
+        }, {
+          date: tplus(1000),
+          type: 'REVIEWER_UPDATE',
+          updates: [{
+            message: 'late update',
+          }]
+        }],
+        messages: [{
+          id: '6734489eb9d642de28dbf2bcf9bda875923800d8',
+          date: tplus(0),
+          message: 'Uploaded patch set 1.',
+        }, {
+          id: '6734489eb9d642de28dbf2bcf9bda875923800d8',
+          date: tplus(800),
+          message: 'Uploaded patch set 2.',
+        }],
+      };
+      instance = new GrReviewerUpdatesParser(change);
+      instance._advanceUpdates();
+      const updates = instance.result.reviewer_updates;
+      assert.isBelow(util.parseDate(updates[0].date).getTime(), T0);
+      assert.isBelow(util.parseDate(updates[1].date).getTime(), T0);
+      assert.equal(updates[2].date, tplus(100));
+      assert.equal(updates[3].date, tplus(500));
+    });
   });
 </script>

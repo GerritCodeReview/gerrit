@@ -14,17 +14,17 @@
 (function(window) {
   'use strict';
 
-  var warnNotSupported = function(opt_name) {
+  const warnNotSupported = function(opt_name) {
     console.warn('Plugin API method ' + (opt_name || '') + ' is not supported');
   };
 
-  var stubbedMethods = ['_loadedGwt', 'screen', 'settingsScreen', 'panel'];
-  var GWT_PLUGIN_STUB = {};
-  stubbedMethods.forEach(function(name) {
+  const stubbedMethods = ['_loadedGwt', 'screen', 'settingsScreen', 'panel'];
+  const GWT_PLUGIN_STUB = {};
+  for (const name of stubbedMethods) {
     GWT_PLUGIN_STUB[name] = warnNotSupported.bind(null, name);
-  });
+  }
 
-  var API_VERSION = '0.1';
+  const API_VERSION = '0.1';
 
   // GWT JSNI uses $wnd to refer to window.
   // http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html
@@ -38,7 +38,7 @@
     }
 
     this._url = new URL(opt_url);
-    if (this._url.pathname.indexOf('/plugins') !== 0) {
+    if (!this._url.pathname.startsWith('/plugins')) {
       console.warn('Plugin not being loaded from /plugins base path:',
           this._url.href, '— Unable to determine name.');
       return;
@@ -56,14 +56,14 @@
 
   Plugin.prototype.registerStyleModule =
       function(stylingEndpointName, moduleName) {
-    if (!Gerrit._styleModules[stylingEndpointName]) {
-      Gerrit._styleModules[stylingEndpointName] = [];
-    }
-    Gerrit._styleModules[stylingEndpointName].push({
-      pluginUrl: this._url,
-      moduleName: moduleName,
-    });
-  };
+        if (!Gerrit._styleModules[stylingEndpointName]) {
+          Gerrit._styleModules[stylingEndpointName] = [];
+        }
+        Gerrit._styleModules[stylingEndpointName].push({
+          pluginUrl: this._url,
+          moduleName,
+        });
+      };
 
   Plugin.prototype.getServerInfo = function() {
     return document.createElement('gr-rest-api-interface').getConfig();
@@ -87,7 +87,7 @@
         Plugin._sharedAPIElement.Element.REPLY_DIALOG));
   };
 
-  var Gerrit = window.Gerrit || {};
+  const Gerrit = window.Gerrit || {};
 
   // Number of plugins to initialize, -1 means 'not yet known'.
   Gerrit._pluginsPending = -1;
@@ -102,12 +102,13 @@
 
   Gerrit.css = function(rulesStr) {
     if (!Gerrit._customStyleSheet) {
-      var styleEl = document.createElement('style');
+      const styleEl = document.createElement('style');
       document.head.appendChild(styleEl);
       Gerrit._customStyleSheet = styleEl.sheet;
     }
 
-    var name = '__pg_js_api_class_' + Gerrit._customStyleSheet.cssRules.length;
+    const name = '__pg_js_api_class_' +
+        Gerrit._customStyleSheet.cssRules.length;
     Gerrit._customStyleSheet.insertRule('.' + name + '{' + rulesStr + '}', 0);
     return name;
   };
@@ -121,9 +122,9 @@
     }
 
     // TODO(andybons): Polyfill currentScript for IE10/11 (edge supports it).
-    var src = opt_src || (document.currentScript &&
+    const src = opt_src || (document.currentScript &&
          document.currentScript.src || document.currentScript.baseURI);
-    var plugin = new Plugin(src);
+    const plugin = new Plugin(src);
     try {
       callback(plugin);
     } catch (e) {
@@ -155,7 +156,7 @@
       if (Gerrit._arePluginsLoaded()) {
         Gerrit._allPluginsPromise = Promise.resolve();
       } else {
-        Gerrit._allPluginsPromise = new Promise(function(resolve) {
+        Gerrit._allPluginsPromise = new Promise(resolve => {
           Gerrit._resolveAllPluginsLoaded = resolve;
         });
       }

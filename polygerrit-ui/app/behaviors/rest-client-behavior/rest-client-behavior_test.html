@@ -44,11 +44,12 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('rest-client-behavior tests', function() {
-    var element;
-    var overlay;
+  suite('rest-client-behavior tests', () => {
+    let element;
+    // eslint-disable-next-line no-unused-vars
+    let overlay;
 
-    suiteSetup(function() {
+    suiteSetup(() => {
       // Define a Polymer element that uses this behavior.
       Polymer({
         is: 'test-element',
@@ -59,19 +60,19 @@ limitations under the License.
       });
     });
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
       overlay = fixture('within-overlay');
     });
 
-    test('changeBaseURL', function() {
+    test('changeBaseURL', () => {
       assert.deepEqual(
-        element.changeBaseURL('1', '1'),
-        '/r/changes/1/revisions/1'
+          element.changeBaseURL('1', '1'),
+          '/r/changes/1/revisions/1'
       );
     });
 
-    test('changePath', function() {
+    test('changePath', () => {
       assert.deepEqual(element.changePath('1'), '/r/c/1');
     });
   });

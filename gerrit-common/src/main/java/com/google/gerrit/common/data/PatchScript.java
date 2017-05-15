@@ -16,7 +16,6 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
-import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -209,14 +208,6 @@ public class PatchScript {
 
   public List<Edit> getEdits() {
     return edits;
-  }
-
-  public Iterable<EditList.Hunk> getHunks() {
-    int ctx = diffPrefs.context;
-    if (ctx == DiffPreferencesInfo.WHOLE_FILE_CONTEXT) {
-      ctx = Math.max(a.size(), b.size());
-    }
-    return new EditList(edits, ctx, a.size(), b.size()).getHunks();
   }
 
   public boolean isBinary() {

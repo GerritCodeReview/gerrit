@@ -534,11 +534,7 @@ class PatchScriptBuilder {
           }
         }
 
-        if (srcContent.length > 0 && srcContent[srcContent.length - 1] != '\n') {
-          dst.setMissingNewlineAtEnd(true);
-        }
         dst.setSize(size());
-        dst.setPath(path);
 
         if (mode == FileMode.SYMLINK) {
           fileMode = PatchScript.FileMode.SYMLINK;

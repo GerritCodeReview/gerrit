@@ -116,9 +116,9 @@ limitations under the License.
       }
       .commitMessage {
         font-family: var(--monospace-font-family);
-        max-width: 100ch;
         margin-right: 1em;
         margin-bottom: 1em;
+        max-width: 72ch;
       }
       .commitMessage gr-linked-text {
         overflow: auto;
@@ -143,7 +143,7 @@ limitations under the License.
         flex-direction: column;
         min-width: 0;
       }
-      .commitAndRelated {
+      #commitAndRelated {
         align-content: flex-start;
         display: flex;
         flex: 1;
@@ -218,6 +218,7 @@ limitations under the License.
       .commitContainer {
         display: flex;
         flex-direction: column;
+        flex-shrink: 0;
       }
       .collapseToggleContainer {
         display: flex;
@@ -229,6 +230,17 @@ limitations under the License.
         margin-left: 1em;
         padding-top: var(--related-change-btn-top-padding, 0);
       }
+
+      /* NOTE: If you update this breakpoint, also update the
+      BREAKPOINT_RELATED_MED in the JS */
+      @media screen and (max-width: 60em) {
+        #commitAndRelated {
+          flex-direction: column;
+          flex-wrap: nowrap;
+        }
+      }
+      /* NOTE: If you update this breakpoint, also update the
+      BREAKPOINT_RELATED_SMALL in the JS */
       @media screen and (max-width: 50em) {
         .mobile {
           display: block;
@@ -261,7 +273,7 @@ limitations under the License.
           padding-right: 0;
         }
         .changeInfo,
-        .commitAndRelated {
+        #commitAndRelated {
           flex-direction: column;
           flex-wrap: nowrap;
         }
@@ -352,7 +364,7 @@ limitations under the License.
                 on-download-tap="_handleDownloadTap"></gr-change-actions>
           </div>
           <hr class="mobile">
-          <div class="commitAndRelated">
+          <div id="commitAndRelated">
             <div class="commitContainer">
               <div
                   id="commitMessage"

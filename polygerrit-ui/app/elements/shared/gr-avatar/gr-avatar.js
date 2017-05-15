@@ -28,38 +28,38 @@
       },
     },
 
-    created: function() {
+    created() {
       this.hidden = true;
     },
 
-    attached: function() {
-      this.$.restAPI.getConfig().then(function(cfg) {
-        var hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
+    attached() {
+      this.$.restAPI.getConfig().then(cfg => {
+        const hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
         if (hasAvatars) {
           this.hidden = false;
           // src needs to be set if avatar becomes visible
           this._updateAvatarURL(this.account);
         }
-      }.bind(this));
+      });
     },
 
-    _accountChanged: function(account) {
+    _accountChanged(account) {
       this._updateAvatarURL(account);
     },
 
-    _updateAvatarURL: function(account) {
+    _updateAvatarURL(account) {
       if (!this.hidden && account) {
-        var url = this._buildAvatarURL(this.account);
+        const url = this._buildAvatarURL(this.account);
         if (url) {
           this.style.backgroundImage = 'url("' + url + '")';
         }
       }
     },
 
-    _buildAvatarURL: function(account) {
+    _buildAvatarURL(account) {
       if (!account) { return ''; }
-      var avatars = account.avatars || [];
-      for (var i = 0; i < avatars.length; i++) {
+      const avatars = account.avatars || [];
+      for (let i = 0; i < avatars.length; i++) {
         if (avatars[i].height === this.imageSize) {
           return avatars[i].url;
         }

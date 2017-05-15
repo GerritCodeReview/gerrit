@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "915832d4_40fbd659",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T16:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a857b8d0_8d5cf26a",
+      "range": {
+        "startLine": 27,
+        "startChar": 34,
+        "endLine": 27,
+        "endChar": 37
+      },
+      "revId": "c740096d4036bacebe1911acee1970b1520b0905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff9c9372_8d272bc2",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "08093f4d_e6cf5c9a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T16:50:32Z",
+      "side": 1,
+      "message": "Yeah, I think I added them because I looked at what this looked like with shadow dom, but I guess we will just import all our global styles eventually.",
+      "parentUuid": "ff9c9372_8d272bc2",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 19
+      },
+      "revId": "c740096d4036bacebe1911acee1970b1520b0905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b22f863a_83412401",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
         "patchSetId": 11
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "79fd3c2b_9f01d334",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T16:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b22f863a_83412401",
+      "revId": "c740096d4036bacebe1911acee1970b1520b0905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1b1ef8_3902cd21",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
         "patchSetId": 11
@@ -79,6 +145,24 @@
       "revId": "c740096d4036bacebe1911acee1970b1520b0905",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "871fe6ae_44fdff84",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T16:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1b1ef8_3902cd21",
+      "revId": "c740096d4036bacebe1911acee1970b1520b0905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "92ded3ba_0d08292f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T16:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f55fda6_98811b41",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "c740096d4036bacebe1911acee1970b1520b0905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c497cbb_9bc052ce",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
         "patchSetId": 11
@@ -116,6 +224,24 @@
       "writtenOn": "2017-05-12T16:27:05Z",
       "side": 1,
       "message": "Shouldn\u0027t this be private?",
+      "revId": "c740096d4036bacebe1911acee1970b1520b0905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e5cef1e_34d976b1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T16:50:32Z",
+      "side": 1,
+      "message": "No, this ends up being called by elements that use it (in follow-up cl). If there is focus on the input and they press a down key, the input element will call down on the dropdown.",
+      "parentUuid": "9c497cbb_9bc052ce",
       "revId": "c740096d4036bacebe1911acee1970b1520b0905",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -139,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "e4acb1db_0fcf619e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T16:50:32Z",
+      "side": 1,
+      "message": "see above.",
+      "parentUuid": "9cdad0c9_0f856080",
+      "revId": "c740096d4036bacebe1911acee1970b1520b0905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e8e4284_651db515",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
         "patchSetId": 11
@@ -153,6 +297,24 @@
       "revId": "c740096d4036bacebe1911acee1970b1520b0905",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c25184ac_581c9d67",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T16:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e8e4284_651db515",
+      "revId": "c740096d4036bacebe1911acee1970b1520b0905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -173,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "a068ab8b_b868da61",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T16:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6884e5b_b1f09345",
+      "revId": "c740096d4036bacebe1911acee1970b1520b0905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4245a035_b5f00831",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.html",
         "patchSetId": 11
@@ -187,6 +367,24 @@
       "revId": "c740096d4036bacebe1911acee1970b1520b0905",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1d44109_baa6a974",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T16:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4245a035_b5f00831",
+      "revId": "c740096d4036bacebe1911acee1970b1520b0905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

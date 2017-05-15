@@ -16,6 +16,24 @@
       "revId": "b501394770e6fba39df5e3bbf84ad59d2a798dbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32e9f62c_df2aee7e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-05-15T18:38:04Z",
+      "side": 1,
+      "message": "Two things, but done.",
+      "parentUuid": "8905d0d4_5b38270d",
+      "revId": "b501394770e6fba39df5e3bbf84ad59d2a798dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

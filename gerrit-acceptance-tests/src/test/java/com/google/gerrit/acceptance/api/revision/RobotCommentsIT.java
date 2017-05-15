@@ -85,7 +85,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void retrievingRobotCommentsBeforeAddingAnyDoesNotRaiseAnException() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     Map<String, List<RobotCommentInfo>> robotComments =
         gApi.changes().id(changeId).current().robotComments();
@@ -96,7 +96,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void addedRobotCommentsCanBeRetrieved() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     RobotCommentInput in = createRobotCommentInput();
     addRobotComment(changeId, in);
@@ -110,7 +110,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void addedRobotCommentsCanBeRetrievedByChange() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     RobotCommentInput in = createRobotCommentInput();
     addRobotComment(changeId, in);
@@ -133,7 +133,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void robotCommentsCanBeRetrievedAsList() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     RobotCommentInput robotCommentInput = createRobotCommentInput();
     addRobotComment(changeId, robotCommentInput);
@@ -148,7 +148,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void specificRobotCommentCanBeRetrieved() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     RobotCommentInput robotCommentInput = createRobotCommentInput();
     addRobotComment(changeId, robotCommentInput);
@@ -163,7 +163,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void robotCommentWithoutOptionalFieldsCanBeAdded() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     RobotCommentInput in = createRobotCommentInputWithMandatoryFields();
     addRobotComment(changeId, in);
@@ -176,7 +176,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void hugeRobotCommentIsRejected() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     int defaultSizeLimit = 1024 * 1024;
     int sizeOfRest = 451;
@@ -189,7 +189,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void reasonablyLargeRobotCommentIsAccepted() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     int defaultSizeLimit = 1024 * 1024;
     int sizeOfRest = 451;
@@ -204,7 +204,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "change.robotCommentSizeLimit", value = "10k")
   public void maximumAllowedSizeOfRobotCommentCanBeAdjusted() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     int sizeLimit = 10 * 1024;
     fixReplacementInfo.replacement = getStringFor(sizeLimit);
@@ -217,7 +217,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "change.robotCommentSizeLimit", value = "0")
   public void zeroForMaximumAllowedSizeOfRobotCommentRemovesRestriction() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     int defaultSizeLimit = 1024 * 1024;
     fixReplacementInfo.replacement = getStringFor(defaultSizeLimit);
@@ -232,7 +232,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @GerritConfig(name = "change.robotCommentSizeLimit", value = "-1")
   public void negativeValueForMaximumAllowedSizeOfRobotCommentRemovesRestriction()
       throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     int defaultSizeLimit = 1024 * 1024;
     fixReplacementInfo.replacement = getStringFor(defaultSizeLimit);
@@ -245,7 +245,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void addedFixSuggestionCanBeRetrieved() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
@@ -255,7 +255,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixIdIsGeneratedForFixSuggestion() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
@@ -270,7 +270,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void descriptionOfFixSuggestionIsAcceptedAsIs() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
@@ -284,7 +284,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void descriptionOfFixSuggestionIsMandatory() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     fixSuggestionInfo.description = null;
 
@@ -298,7 +298,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void addedFixReplacementCanBeRetrieved() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
@@ -312,7 +312,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixReplacementsAreMandatory() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     fixSuggestionInfo.replacements = Collections.emptyList();
 
@@ -327,7 +327,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void pathOfFixReplacementIsAcceptedAsIs() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     addRobotComment(changeId, withFixRobotCommentInput);
 
@@ -343,7 +343,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void pathOfFixReplacementIsMandatory() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     fixReplacementInfo.path = null;
 
@@ -357,7 +357,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void rangeOfFixReplacementIsAcceptedAsIs() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     addRobotComment(changeId, withFixRobotCommentInput);
 
@@ -373,7 +373,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void rangeOfFixReplacementIsMandatory() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     fixReplacementInfo.range = null;
 
@@ -387,7 +387,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void rangeOfFixReplacementNeedsToBeValid() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     fixReplacementInfo.range = createRange(13, 9, 5, 10);
     exception.expect(BadRequestException.class);
@@ -398,7 +398,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @Test
   public void rangesOfFixReplacementsOfSameFixSuggestionForSameFileMayNotOverlap()
       throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
@@ -422,7 +422,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @Test
   public void rangesOfFixReplacementsOfSameFixSuggestionForDifferentFileMayOverlap()
       throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
@@ -447,7 +447,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @Test
   public void rangesOfFixReplacementsOfDifferentFixSuggestionsForSameFileMayOverlap()
       throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
@@ -472,7 +472,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixReplacementsDoNotNeedToBeOrderedAccordingToRange() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
@@ -501,7 +501,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void replacementStringOfFixReplacementIsAcceptedAsIs() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     addRobotComment(changeId, withFixRobotCommentInput);
 
@@ -517,7 +517,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void replacementStringOfFixReplacementIsMandatory() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     fixReplacementInfo.replacement = null;
 
@@ -532,7 +532,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixWithinALineCanBeApplied() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
@@ -557,7 +557,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixSpanningMultipleLinesCanBeApplied() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content\n5";
@@ -581,7 +581,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixWithTwoCloseReplacementsOnSameFileCanBeApplied() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
@@ -615,7 +615,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void twoFixesOnSameFileCanBeApplied() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
@@ -650,7 +650,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void twoConflictingFixesOnSameFileCannotBeApplied() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
@@ -679,7 +679,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void twoFixesOfSameRobotCommentCanBeApplied() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
@@ -714,7 +714,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixReferringToDifferentFileThanRobotCommentCanBeApplied() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     fixReplacementInfo.path = FILE_NAME2;
     fixReplacementInfo.range = createRange(2, 0, 3, 0);
@@ -736,7 +736,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixInvolvingTwoFilesCanBeApplied() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
@@ -775,7 +775,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixReferringToNonExistentFileCannotBeApplied() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     fixReplacementInfo.path = "a_non_existent_file.txt";
     fixReplacementInfo.range = createRange(1, 0, 2, 0);
@@ -792,7 +792,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixOnPreviousPatchSetWithoutChangeEditCannotBeApplied() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
@@ -815,7 +815,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixOnPreviousPatchSetWithExistingChangeEditCanBeApplied() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     // Create an empty change edit.
     gApi.changes().id(changeId).edit().create();
@@ -849,7 +849,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @Test
   public void fixOnCurrentPatchSetWithChangeEditOnPreviousPatchSetCannotBeApplied()
       throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     // Create an empty change edit.
     gApi.changes().id(changeId).edit().create();
@@ -874,7 +874,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixDoesNotModifyCommitMessageOfChangeEdit() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     String changeEditCommitMessage = "This is the commit message of the change edit.\n";
     gApi.changes().id(changeId).edit().modifyCommitMessage(changeEditCommitMessage);
@@ -897,7 +897,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void applyingFixTwiceIsIdempotent() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
@@ -922,7 +922,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void nonExistentFixCannotBeApplied() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
@@ -941,7 +941,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void applyingFixReturnsEditInfoForCreatedChangeEdit() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
@@ -964,7 +964,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void applyingFixOnTopOfChangeEditReturnsEditInfoForUpdatedChangeEdit() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     gApi.changes().id(changeId).edit().create();
 
@@ -989,7 +989,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void createdChangeEditIsBasedOnCurrentPatchSet() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
     String currentRevision = gApi.changes().id(changeId).get().currentRevision;
 
     fixReplacementInfo.path = FILE_NAME;
@@ -1009,7 +1009,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void robotCommentsNotSupportedWithoutNoteDb() throws Exception {
-    assume().that(notesMigration.enabled()).isFalse();
+    assume().that(notesMigration.readChanges()).isFalse();
 
     RobotCommentInput in = createRobotCommentInput();
     ReviewInput reviewInput = new ReviewInput();
@@ -1025,7 +1025,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void queryChangesWithUnresolvedCommentCount() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 =

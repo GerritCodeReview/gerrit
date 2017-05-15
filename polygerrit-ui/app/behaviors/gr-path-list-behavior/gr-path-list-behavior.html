@@ -18,10 +18,10 @@ limitations under the License.
   'use strict';
 
   /** @polymerBehavior Gerrit.PathListBehavior */
-  var PathListBehavior = {
-    specialFilePathCompare: function(a, b) {
+  const PathListBehavior = {
+    specialFilePathCompare(a, b) {
       // The commit message always goes first.
-      var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
+      const COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
       if (a === COMMIT_MESSAGE_PATH) {
         return -1;
       }
@@ -30,7 +30,7 @@ limitations under the License.
       }
 
       // The merge list always comes next.
-      var MERGE_LIST_PATH = '/MERGE_LIST';
+      const MERGE_LIST_PATH = '/MERGE_LIST';
       if (a === MERGE_LIST_PATH) {
         return -1;
       }
@@ -38,25 +38,24 @@ limitations under the License.
         return 1;
       }
 
-      var aLastDotIndex = a.lastIndexOf('.');
-      var aExt = a.substr(aLastDotIndex + 1);
-      var aFile = a.substr(0, aLastDotIndex) || a;
+      const aLastDotIndex = a.lastIndexOf('.');
+      const aExt = a.substr(aLastDotIndex + 1);
+      const aFile = a.substr(0, aLastDotIndex) || a;
 
-      var bLastDotIndex = b.lastIndexOf('.');
-      var bExt = b.substr(bLastDotIndex + 1);
-      var bFile = b.substr(0, bLastDotIndex) || b;
+      const bLastDotIndex = b.lastIndexOf('.');
+      const bExt = b.substr(bLastDotIndex + 1);
+      const bFile = b.substr(0, bLastDotIndex) || b;
 
       // Sort header files above others with the same base name.
-      var headerExts = ['h', 'hxx', 'hpp'];
+      const headerExts = ['h', 'hxx', 'hpp'];
       if (aFile.length > 0 && aFile === bFile) {
-        if (headerExts.indexOf(aExt) !== -1 &&
-            headerExts.indexOf(bExt) !== -1) {
+        if (headerExts.includes(aExt) && headerExts.includes(bExt)) {
           return a.localeCompare(b);
         }
-        if (headerExts.indexOf(aExt) !== -1) {
+        if (headerExts.includes(aExt)) {
           return -1;
         }
-        if (headerExts.indexOf(bExt) !== -1) {
+        if (headerExts.includes(bExt)) {
           return 1;
         }
       }

@@ -29,22 +29,20 @@
       _labelValues: Object,
     },
 
-    getLabelValues: function() {
-      var labels = {};
-      for (var label in this.permittedLabels) {
+    getLabelValues() {
+      const labels = {};
+      for (const label in this.permittedLabels) {
         if (!this.permittedLabels.hasOwnProperty(label)) { continue; }
 
-        var selectorEl = this.$$('iron-selector[data-label="' +
-            label + '"]');
-
+        const selectorEl = this.$$(`iron-selector[data-label="${label}"]`);
         // The user may have not voted on this label.
         if (!selectorEl || !selectorEl.selectedItem) { continue; }
 
-        var selectedVal = selectorEl.selectedItem.getAttribute('data-value');
+        let selectedVal = selectorEl.selectedItem.getAttribute('data-value');
         selectedVal = parseInt(selectedVal, 10);
 
         // Only send the selection if the user changed it.
-        var prevVal = this._getVoteForAccount(this.change.labels, label,
+        let prevVal = this._getVoteForAccount(this.change.labels, label,
             this.account);
         if (prevVal !== null) {
           prevVal = parseInt(prevVal, 10);
@@ -56,10 +54,10 @@
       return labels;
     },
 
-    _getVoteForAccount: function(labels, labelName, account) {
-      var votes = labels[labelName];
+    _getVoteForAccount(labels, labelName, account) {
+      const votes = labels[labelName];
       if (votes.all && votes.all.length > 0) {
-        for (var i = 0; i < votes.all.length; i++) {
+        for (let i = 0; i < votes.all.length; i++) {
           if (votes.all[i]._account_id == account._account_id) {
             return votes.all[i].value;
           }
@@ -68,44 +66,43 @@
       return null;
     },
 
-    _computeLabels: function(labelRecord) {
-      var labelsObj = labelRecord.base;
+    _computeLabels(labelRecord) {
+      const labelsObj = labelRecord.base;
       if (!labelsObj) { return []; }
-      return Object.keys(labelsObj).sort().map(function(key) {
+      return Object.keys(labelsObj).sort().map(key => {
         return {
           name: key,
           value: this._getVoteForAccount(labelsObj, key, this.account),
         };
-      }.bind(this));
+      });
     },
 
-    _computeColumns: function(permittedLabels) {
-      var labels = Object.keys(permittedLabels);
-      var values = {};
-
-      labels.forEach(function(label) {
-        permittedLabels[label].forEach(function(value) {
+    _computeColumns(permittedLabels) {
+      const labels = Object.keys(permittedLabels);
+      const values = {};
+      for (const label of labels) {
+        for (const value of permittedLabels[label]) {
           values[parseInt(value, 10)] = true;
-        });
-      });
+        }
+      }
 
-      var orderedValues = Object.keys(values).sort(function(a, b) {
+      const orderedValues = Object.keys(values).sort((a, b) => {
         return a - b;
       });
 
-      for (var i = 0; i < orderedValues.length; i++) {
+      for (let i = 0; i < orderedValues.length; i++) {
         values[orderedValues[i]] = i;
       }
       this._labelValues = values;
     },
 
-    _computeIndexOfLabelValue: function(labels, permittedLabels, label) {
+    _computeIndexOfLabelValue(labels, permittedLabels, label) {
       if (!labels[label.name]) { return null; }
-      var labelValue = label.value;
-      var len = permittedLabels[label.name] != null ?
+      const labelValue = label.value;
+      const len = permittedLabels[label.name] != null ?
           permittedLabels[label.name].length : 0;
-      for (var i = 0; i < len; i++) {
-        var val = parseInt(permittedLabels[label.name][i], 10);
+      for (let i = 0; i < len; i++) {
+        const val = parseInt(permittedLabels[label.name][i], 10);
         if (val == labelValue) {
           return i;
         }
@@ -113,23 +110,23 @@
       return null;
     },
 
-    _computePermittedLabelValues: function(permittedLabels, label) {
+    _computePermittedLabelValues(permittedLabels, label) {
       return permittedLabels[label];
     },
 
-    _computeBlankItems: function(permittedLabels, label, side) {
+    _computeBlankItems(permittedLabels, label, side) {
       if (!permittedLabels[label]) { return []; }
-      var startPosition = this._labelValues[parseInt(
+      const startPosition = this._labelValues[parseInt(
           permittedLabels[label][0])];
       if (side === 'start') {
         return new Array(startPosition);
       }
-      var endPosition = this._labelValues[parseInt(
+      const endPosition = this._labelValues[parseInt(
           permittedLabels[label][permittedLabels[label].length - 1])];
       return new Array(Object.keys(this._labelValues).length - endPosition - 1);
     },
 
-    _computeAnyPermittedLabelValues: function(permittedLabels, label) {
+    _computeAnyPermittedLabelValues(permittedLabels, label) {
       return permittedLabels.hasOwnProperty(label);
     },
 
@@ -137,7 +134,7 @@
       return changeStatus === 'MERGED';
     },
 
-     _computeLabelValueTitle: function(labels, label, value) {
+    _computeLabelValueTitle(labels, label, value) {
       return labels[label] && labels[label].values[value];
     },
   });

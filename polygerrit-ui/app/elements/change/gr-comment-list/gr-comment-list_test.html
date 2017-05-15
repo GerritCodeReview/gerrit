@@ -31,41 +31,41 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-comment-list tests', function() {
-    var element;
+  suite('gr-comment-list tests', () => {
+    let element;
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
     });
 
-    test('_computeFilesFromComments w/ special file path sorting', function() {
-      var comments = {
+    test('_computeFilesFromComments w/ special file path sorting', () => {
+      const comments = {
         'file_b.html': [],
         'file_c.css': [],
         'file_a.js': [],
         'test.cc': [],
         'test.h': [],
       };
-      var expected = [
+      const expected = [
         'file_a.js',
         'file_b.html',
         'file_c.css',
         'test.h',
-        'test.cc'
+        'test.cc',
       ];
-      var actual = element._computeFilesFromComments(comments);
+      const actual = element._computeFilesFromComments(comments);
       assert.deepEqual(actual, expected);
 
       assert.deepEqual(element._computeFilesFromComments(null), []);
     });
 
-    test('_computeFileDiffURL', function() {
-      var expected = '/c/<change>/<patch>/<file>';
-      var actual = element._computeFileDiffURL('<file>', '<change>', '<patch>');
+    test('_computeFileDiffURL', () => {
+      const expected = '/c/<change>/<patch>/<file>';
+      const actual = element._computeFileDiffURL('<file>', '<change>', '<patch>');
       assert.equal(actual, expected);
     });
 
-    test('_computeFileDisplayName', function() {
+    test('_computeFileDisplayName', () => {
       assert.equal(element._computeFileDisplayName('/COMMIT_MSG'),
           'Commit message');
       assert.equal(element._computeFileDisplayName('/MERGE_LIST'),
@@ -74,10 +74,10 @@ limitations under the License.
           '/foo/bar/baz');
     });
 
-    test('_computeDiffLineURL', function() {
-      var comment = {line: 123, side: 'REVISION', patch_set: 10};
-      var expected = '/c/<change>/<patch>/<file>#123';
-      var actual = element._computeDiffLineURL('<file>', '<change>', '<patch>',
+    test('_computeDiffLineURL', () => {
+      const comment = {line: 123, side: 'REVISION', patch_set: 10};
+      let expected = '/c/<change>/<patch>/<file>#123';
+      let actual = element._computeDiffLineURL('<file>', '<change>', '<patch>',
           comment);
       assert.equal(actual, expected);
 
@@ -89,8 +89,8 @@ limitations under the License.
           comment);
     });
 
-    test('_computePatchDisplayName', function() {
-      var comment = {line: 123, side: 'REVISION', patch_set: 10};
+    test('_computePatchDisplayName', () => {
+      const comment = {line: 123, side: 'REVISION', patch_set: 10};
 
       element.patchNum = 10;
       assert.equal(element._computePatchDisplayName(comment), '');

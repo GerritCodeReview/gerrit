@@ -33,42 +33,42 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-confirm-cherrypick-dialog tests', function() {
-    var element;
+  suite('gr-confirm-cherrypick-dialog tests', () => {
+    let element;
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
     });
 
-    test('with merged change', function() {
+    test('with merged change', () => {
       element.changeStatus = 'MERGED';
       element.commitMessage = 'message\n';
       element.commitNum = '123';
       element.branch = 'master';
       flushAsynchronousOperations();
-      var expectedMessage = 'message\n(cherry picked from commit 123)';
+      const expectedMessage = 'message\n(cherry picked from commit 123)';
       assert.equal(element.message, expectedMessage);
     });
 
-    test('with unmerged change', function() {
+    test('with unmerged change', () => {
       element.changeStatus = 'OPEN';
       element.commitMessage = 'message\n';
       element.commitNum = '123';
       element.branch = 'master';
       flushAsynchronousOperations();
-      var expectedMessage = 'message\n';
+      const expectedMessage = 'message\n';
       assert.equal(element.message, expectedMessage);
     });
 
-    test('with updated commit message', function() {
+    test('with updated commit message', () => {
       element.changeStatus = 'OPEN';
       element.commitMessage = 'message\n';
       element.commitNum = '123';
       element.branch = 'master';
-      var myNewMessage = 'updated commit message';
+      const myNewMessage = 'updated commit message';
       element.message = myNewMessage;
       flushAsynchronousOperations();
-      var expectedMessage = 'message\n';
+      const expectedMessage = 'message\n';
       assert.equal(element.message, myNewMessage);
     });
   });

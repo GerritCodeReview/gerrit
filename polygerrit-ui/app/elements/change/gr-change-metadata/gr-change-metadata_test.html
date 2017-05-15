@@ -33,25 +33,25 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-metadata tests', function() {
-    var element;
-    var sandbox;
+  suite('gr-change-metadata tests', () => {
+    let element;
+    let sandbox;
 
-    setup(function() {
+    setup(() => {
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
-        getConfig: function() { return Promise.resolve({}); },
-        getLoggedIn: function() { return Promise.resolve(false); },
+        getConfig() { return Promise.resolve({}); },
+        getLoggedIn() { return Promise.resolve(false); },
       });
 
       element = fixture('basic');
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('computed fields', function() {
+    test('computed fields', () => {
       assert.isFalse(element._computeHideStrategy({status: 'NEW'}));
       assert.isFalse(element._computeHideStrategy({status: 'DRAFT'}));
       assert.isTrue(element._computeHideStrategy({status: 'MERGED'}));
@@ -60,22 +60,22 @@ limitations under the License.
           'Cherry Pick');
     });
 
-    test('show strategy for open change', function() {
+    test('show strategy for open change', () => {
       element.change = {status: 'NEW', submit_type: 'CHERRY_PICK', labels: {}};
       flushAsynchronousOperations();
-      var strategy = element.$$('.strategy');
+      const strategy = element.$$('.strategy');
       assert.ok(strategy);
       assert.isFalse(strategy.hasAttribute('hidden'));
       assert.equal(strategy.children[1].innerHTML, 'Cherry Pick');
     });
 
-    test('hide strategy for closed change', function() {
+    test('hide strategy for closed change', () => {
       element.change = {status: 'MERGED', labels: {}};
       flushAsynchronousOperations();
       assert.isTrue(element.$$('.strategy').hasAttribute('hidden'));
     });
 
-    test('show CC section when NoteDb enabled', function() {
+    test('show CC section when NoteDb enabled', () => {
       function hasCc() {
         return element._showReviewersByState;
       }
@@ -87,9 +87,9 @@ limitations under the License.
       assert.isTrue(hasCc());
     });
 
-    test('computes submit status', function() {
-      var showMissingLabels = false;
-      sandbox.stub(element, '_showMissingLabels', function() {
+    test('computes submit status', () => {
+      let showMissingLabels = false;
+      sandbox.stub(element, '_showMissingLabels', () => {
         return showMissingLabels;
       });
       assert.isFalse(element._showMissingRequirements(null, false));
@@ -98,8 +98,8 @@ limitations under the License.
       assert.isTrue(element._showMissingRequirements(null, false));
     });
 
-    test('show missing labels', function() {
-      var labels = {};
+    test('show missing labels', () => {
+      let labels = {};
       assert.isFalse(element._showMissingLabels(labels));
       labels = {test: {}};
       assert.isTrue(element._showMissingLabels(labels));
@@ -116,25 +116,25 @@ limitations under the License.
           ['test', 'test2']);
     });
 
-    test('weblinks hidden when no weblinks', function() {
+    test('weblinks hidden when no weblinks', () => {
       element.commitInfo = {};
       flushAsynchronousOperations();
-      var webLinks = element.$.webLinks;
+      const webLinks = element.$.webLinks;
       assert.isTrue(webLinks.hasAttribute('hidden'));
     });
 
-    test('weblinks hidden when only gitiles weblink', function() {
+    test('weblinks hidden when only gitiles weblink', () => {
       element.commitInfo = {web_links: [{name: 'gitiles', url: '#'}]};
       flushAsynchronousOperations();
-      var webLinks = element.$.webLinks;
+      const webLinks = element.$.webLinks;
       assert.isTrue(webLinks.hasAttribute('hidden'));
       assert.equal(element._computeWebLinks(element.commitInfo), null);
     });
 
-    test('weblinks are visible when other weblinks', function() {
+    test('weblinks are visible when other weblinks', () => {
       element.commitInfo = {web_links: [{name: 'test', url: '#'}]};
       flushAsynchronousOperations();
-      var webLinks = element.$.webLinks;
+      const webLinks = element.$.webLinks;
       assert.isFalse(webLinks.hasAttribute('hidden'));
       assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
       // With two non-gitiles weblinks, there are two returned.
@@ -143,18 +143,18 @@ limitations under the License.
       assert.equal(element._computeWebLinks(element.commitInfo).length, 2);
     });
 
-    test('weblinks are visible when gitiles and other weblinks', function() {
+    test('weblinks are visible when gitiles and other weblinks', () => {
       element.commitInfo = {
         web_links: [{name: 'test', url: '#'}, {name: 'gitiles', url: '#'}]};
       flushAsynchronousOperations();
-      var webLinks = element.$.webLinks;
+      const webLinks = element.$.webLinks;
       assert.isFalse(webLinks.hasAttribute('hidden'));
       // Only the non-gitiles weblink is returned.
       assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
     });
 
-    test('determines whether to show "Ready to Submit" label', function() {
-      var showMissingSpy = sandbox.spy(element, '_showMissingRequirements');
+    test('determines whether to show "Ready to Submit" label', () => {
+      const showMissingSpy = sandbox.spy(element, '_showMissingRequirements');
       element.change = {status: 'NEW', submit_type: 'CHERRY_PICK', labels: {
         test: {
           all: [{_account_id: 1, name: 'bojack', value: 1}],
@@ -166,9 +166,9 @@ limitations under the License.
       assert.isTrue(showMissingSpy.called);
     });
 
-    suite('Topic removal', function() {
-      var change;
-      setup(function() {
+    suite('Topic removal', () => {
+      let change;
+      setup(() => {
         change = {
           _number: 'the number',
           actions: {
@@ -189,8 +189,8 @@ limitations under the License.
         };
       });
 
-      test('_computeTopicReadOnly', function() {
-        var mutable = false;
+      test('_computeTopicReadOnly', () => {
+        let mutable = false;
         assert.isTrue(element._computeTopicReadOnly(mutable, change));
         mutable = true;
         assert.isTrue(element._computeTopicReadOnly(mutable, change));
@@ -200,26 +200,26 @@ limitations under the License.
         assert.isTrue(element._computeTopicReadOnly(mutable, change));
       });
 
-      test('topic read only hides delete button', function() {
+      test('topic read only hides delete button', () => {
         element.mutable = false;
         element.change = change;
         flushAsynchronousOperations();
-        var button = element.$$('gr-linked-chip').$$('gr-button');
+        const button = element.$$('gr-linked-chip').$$('gr-button');
         assert.isTrue(button.hasAttribute('hidden'));
       });
 
-      test('topic not read only does not hide delete button', function() {
+      test('topic not read only does not hide delete button', () => {
         element.mutable = true;
         change.actions.topic.enabled = true;
         element.change = change;
         flushAsynchronousOperations();
-        var button = element.$$('gr-linked-chip').$$('gr-button');
+        const button = element.$$('gr-linked-chip').$$('gr-button');
         assert.isFalse(button.hasAttribute('hidden'));
       });
     });
 
-    suite('remove reviewer votes', function() {
-      setup(function() {
+    suite('remove reviewer votes', () => {
+      setup(() => {
         sandbox.stub(element, '_computeValueTooltip').returns('');
         sandbox.stub(element, '_computeTopicReadOnly').returns(true);
         element.change = {
@@ -240,30 +240,30 @@ limitations under the License.
         };
       });
 
-      test('_computeCanDeleteVote hides delete button', function() {
+      test('_computeCanDeleteVote hides delete button', () => {
         flushAsynchronousOperations();
-        var button = element.$$('gr-account-chip').$$('gr-button');
+        const button = element.$$('gr-account-chip').$$('gr-button');
         assert.isTrue(button.hasAttribute('hidden'));
         element.mutable = true;
         assert.isTrue(button.hasAttribute('hidden'));
       });
 
-      test('_computeCanDeleteVote shows delete button', function() {
+      test('_computeCanDeleteVote shows delete button', () => {
         element.change.removable_reviewers = [
           {
             _account_id: 1,
             name: 'bojack',
-          }
+          },
         ];
         element.mutable = true;
         flushAsynchronousOperations();
-        var button = element.$$('gr-account-chip').$$('gr-button');
+        const button = element.$$('gr-account-chip').$$('gr-button');
         assert.isFalse(button.hasAttribute('hidden'));
       });
 
-      test('deletes votes', function(done) {
+      test('deletes votes', done => {
         sandbox.stub(element.$.restAPI, 'deleteVote')
-            .returns(Promise.resolve({'ok': true}));
+            .returns(Promise.resolve({ok: true}));
         element.change.removable_reviewers = [
           {
             _account_id: 1,
@@ -273,70 +273,70 @@ limitations under the License.
         element.change.labels.test.recommended = {_account_id: 1};
         element.mutable = true;
         flushAsynchronousOperations();
-        var button = element.$$('gr-account-chip').$$('gr-button');
+        const button = element.$$('gr-account-chip').$$('gr-button');
         MockInteractions.tap(button);
         flushAsynchronousOperations();
         var spliceStub = sinon.stub(element, 'splice',
-            function(path, index, length) {
-          assert.deepEqual(path, ['change.labels', 'test', 'all']);
-          assert.equal(index, 0);
-          assert.equal(length, 1);
-          assert.notOk(element.change.labels.test.recommended);
-          spliceStub.restore();
-          done();
-        });
+            (path, index, length) => {
+              assert.deepEqual(path, ['change.labels', 'test', 'all']);
+              assert.equal(index, 0);
+              assert.equal(length, 1);
+              assert.notOk(element.change.labels.test.recommended);
+              spliceStub.restore();
+              done();
+            });
       });
 
-      test('changing topic calls setChangeTopic', function() {
-        var topicStub = sandbox.stub(element.$.restAPI, 'setChangeTopic',
-            function() {});
+      test('changing topic calls setChangeTopic', () => {
+        const topicStub = sandbox.stub(element.$.restAPI, 'setChangeTopic',
+            () => {});
         element._handleTopicChanged({}, 'the new topic');
         assert.isTrue(topicStub.calledWith('the number', 'the new topic'));
       });
 
-      test('topic href has quotes', function() {
-        var hrefArr = element._computeTopicURL('test')
+      test('topic href has quotes', () => {
+        const hrefArr = element._computeTopicURL('test')
             .split('%2522'); // Double-escaped quote.
         assert.equal(hrefArr[1], 'test');
       });
 
-      test('clicking x on topic chip removes topic', function() {
-        var topicStub = sandbox.stub(element.$.restAPI, 'setChangeTopic');
+      test('clicking x on topic chip removes topic', () => {
+        const topicStub = sandbox.stub(element.$.restAPI, 'setChangeTopic');
         flushAsynchronousOperations();
-        var remove = element.$$('gr-linked-chip').$.remove;
+        const remove = element.$$('gr-linked-chip').$.remove;
         MockInteractions.tap(remove);
         assert.equal(element.change.topic, '');
         assert.isTrue(topicStub.called);
       });
 
-      suite('assignee field', function() {
-        var dummyAccount = {
+      suite('assignee field', () => {
+        const dummyAccount = {
           _account_id: 1,
           name: 'bojack',
         };
-        var change = {
+        const change = {
           actions: {
             assignee: {enabled: false},
           },
           assignee: dummyAccount,
         };
-        var deleteStub;
-        var setStub;
+        let deleteStub;
+        let setStub;
 
-        setup(function() {
+        setup(() => {
           deleteStub = sandbox.stub(element.$.restAPI, 'deleteAssignee');
           setStub = sandbox.stub(element.$.restAPI, 'setAssignee');
         });
 
-        test('changing change recomputes _assignee', function() {
+        test('changing change recomputes _assignee', () => {
           assert.isFalse(!!element._assignee.length);
-          var change = element.change;
+          const change = element.change;
           change.assignee = dummyAccount;
           element._changeChanged(change);
           assert.deepEqual(element._assignee[0], dummyAccount);
         });
 
-        test('modifying _assignee calls API', function() {
+        test('modifying _assignee calls API', () => {
           assert.isFalse(!!element._assignee.length);
           element.set('_assignee', [dummyAccount]);
           assert.isTrue(setStub.calledOnce);
@@ -350,8 +350,8 @@ limitations under the License.
           assert.isTrue(deleteStub.calledOnce);
         });
 
-        test('_computeAssigneeReadOnly', function() {
-          var mutable = false;
+        test('_computeAssigneeReadOnly', () => {
+          let mutable = false;
           assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
           mutable = true;
           assert.isTrue(element._computeAssigneeReadOnly(mutable, change));

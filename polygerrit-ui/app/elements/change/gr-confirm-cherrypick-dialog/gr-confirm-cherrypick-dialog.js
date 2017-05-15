@@ -41,8 +41,8 @@
       '_computeMessage(changeStatus, commitNum, commitMessage)',
     ],
 
-    _computeMessage: function(changeStatus, commitNum, commitMessage) {
-      var newMessage = commitMessage;
+    _computeMessage(changeStatus, commitNum, commitMessage) {
+      let newMessage = commitMessage;
 
       if (changeStatus === 'MERGED') {
         newMessage += '(cherry picked from commit ' + commitNum + ')';
@@ -50,12 +50,12 @@
       this.message = newMessage;
     },
 
-    _handleConfirmTap: function(e) {
+    _handleConfirmTap(e) {
       e.preventDefault();
       this.fire('confirm', null, {bubbles: false});
     },
 
-    _handleCancelTap: function(e) {
+    _handleCancelTap(e) {
       e.preventDefault();
       this.fire('cancel', null, {bubbles: false});
     },

@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  var SubmitTypeLabel = {
+  const SubmitTypeLabel = {
     FAST_FORWARD_ONLY: 'Fast Forward Only',
     MERGE_IF_NECESSARY: 'Merge if Necessary',
     REBASE_IF_NECESSARY: 'Rebase if Necessary',
@@ -61,15 +61,15 @@
       '_assigneeChanged(_assignee.*)',
     ],
 
-    _changeChanged: function(change) {
+    _changeChanged(change) {
       this._assignee = change.assignee ? [change.assignee] : [];
     },
 
-    _assigneeChanged: function(assigneeRecord) {
+    _assigneeChanged(assigneeRecord) {
       if (!this.change) { return; }
-      var assignee = assigneeRecord.base;
+      const assignee = assigneeRecord.base;
       if (assignee.length) {
-        var acct = assignee[0];
+        const acct = assignee[0];
         if (this.change.assignee &&
             acct._account_id === this.change.assignee._account_id) { return; }
         this.set(['change', 'assignee'], acct);
@@ -81,7 +81,7 @@
       }
     },
 
-    _computeHideStrategy: function(change) {
+    _computeHideStrategy(change) {
       return !this.changeIsOpen(change.status);
     },
 
@@ -89,7 +89,7 @@
      * This is a whitelist of web link types that provide direct links to
      * the commit in the url property.
      */
-    _isCommitWebLink: function(link) {
+    _isCommitWebLink(link) {
       return link.name === 'gitiles' || link.name === 'gitweb';
     },
 
@@ -99,34 +99,34 @@
      * an existential check can be used to hide or show the webLinks
      * section.
      */
-    _computeWebLinks: function(commitInfo) {
-      if (!commitInfo || !commitInfo.web_links) { return null }
+    _computeWebLinks(commitInfo) {
+      if (!commitInfo || !commitInfo.web_links) { return null; }
       // We are already displaying these types of links elsewhere,
       // don't include in the metadata links section.
-      var webLinks = commitInfo.web_links.filter(
-          function(l) {return !this._isCommitWebLink(l); }.bind(this));
+      const webLinks = commitInfo.web_links.filter(
+          l => {return !this._isCommitWebLink(l); });
 
       return webLinks.length ? webLinks : null;
     },
 
-    _computeStrategy: function(change) {
+    _computeStrategy(change) {
       return SubmitTypeLabel[change.submit_type];
     },
 
-    _computeLabelNames: function(labels) {
+    _computeLabelNames(labels) {
       return Object.keys(labels).sort();
     },
 
-    _computeLabelValues: function(labelName, _labels) {
-      var result = [];
-      var labels = _labels.base;
-      var t = labels[labelName];
+    _computeLabelValues(labelName, _labels) {
+      const result = [];
+      const labels = _labels.base;
+      const t = labels[labelName];
       if (!t) { return result; }
-      var approvals = t.all || [];
-      approvals.forEach(function(label) {
+      const approvals = t.all || [];
+      approvals.forEach(label => {
         if (label.value && label.value != labels[labelName].default_value) {
-          var labelClassName;
-          var labelValPrefix = '';
+          let labelClassName;
+          let labelValPrefix = '';
           if (label.value > 0) {
             labelValPrefix = '+';
             labelClassName = 'approved';
@@ -143,31 +143,31 @@
       return result;
     },
 
-    _computeValueTooltip: function(score, labelName) {
-      var values = this.change.labels[labelName].values;
+    _computeValueTooltip(score, labelName) {
+      const values = this.change.labels[labelName].values;
       return values[score];
     },
 
-    _handleTopicChanged: function(e, topic) {
+    _handleTopicChanged(e, topic) {
       if (!topic.length) { topic = null; }
       this.$.restAPI.setChangeTopic(this.change._number, topic);
     },
 
-    _computeTopicReadOnly: function(mutable, change) {
+    _computeTopicReadOnly(mutable, change) {
       return !mutable || !change.actions.topic || !change.actions.topic.enabled;
     },
 
-    _computeAssigneeReadOnly: function(mutable, change) {
+    _computeAssigneeReadOnly(mutable, change) {
       return !mutable ||
           !change.actions.assignee ||
           !change.actions.assignee.enabled;
     },
 
-    _computeTopicPlaceholder: function(_topicReadOnly) {
+    _computeTopicPlaceholder(_topicReadOnly) {
       return _topicReadOnly ? 'No Topic' : 'Click to add topic';
     },
 
-    _computeShowReviewersByState: function(serverConfig) {
+    _computeShowReviewersByState(serverConfig) {
       return !!serverConfig.note_db_enabled;
     },
 
@@ -181,9 +181,9 @@
      * @param {boolean} mutable this.mutable describes whether the
      *     change-metadata section is modifiable by the current user.
      */
-    _computeCanDeleteVote: function(reviewer, mutable) {
+    _computeCanDeleteVote(reviewer, mutable) {
       if (!mutable) { return false; }
-      for (var i = 0; i < this.change.removable_reviewers.length; i++) {
+      for (let i = 0; i < this.change.removable_reviewers.length; i++) {
         if (this.change.removable_reviewers[i]._account_id ===
             reviewer._account_id) {
           return true;
@@ -192,20 +192,20 @@
       return false;
     },
 
-    _onDeleteVote: function(e) {
+    _onDeleteVote(e) {
       e.preventDefault();
-      var target = Polymer.dom(e).rootTarget;
-      var labelName = target.labelName;
-      var accountID = parseInt(target.getAttribute('data-account-id'), 10);
+      const target = Polymer.dom(e).rootTarget;
+      const labelName = target.labelName;
+      const accountID = parseInt(target.getAttribute('data-account-id'), 10);
       this._xhrPromise =
           this.$.restAPI.deleteVote(this.change.id, accountID, labelName)
-          .then(function(response) {
+          .then(response => {
             if (!response.ok) { return response; }
-            var label = this.change.labels[labelName];
-            var labels = label.all || [];
-            for (var i = 0; i < labels.length; i++) {
+            const label = this.change.labels[labelName];
+            const labels = label.all || [];
+            for (let i = 0; i < labels.length; i++) {
               if (labels[i]._account_id === accountID) {
-                for (var key in label) {
+                for (const key in label) {
                   if (label.hasOwnProperty(key) &&
                       label[key]._account_id === accountID) {
                     // Remove special label field, keeping change label values
@@ -217,19 +217,19 @@
                 break;
               }
             }
-          }.bind(this));
+          });
     },
 
-    _computeShowLabelStatus: function(change) {
-      var isNewChange = change.status === this.ChangeStatus.NEW;
-      var hasLabels = Object.keys(change.labels).length > 0;
+    _computeShowLabelStatus(change) {
+      const isNewChange = change.status === this.ChangeStatus.NEW;
+      const hasLabels = Object.keys(change.labels).length > 0;
       return isNewChange && hasLabels;
     },
 
-    _computeMissingLabels: function(labels) {
-      var missingLabels = [];
-      for (var label in labels) {
-        var obj = labels[label];
+    _computeMissingLabels(labels) {
+      const missingLabels = [];
+      for (const label in labels) {
+        const obj = labels[label];
         if (!obj.optional && !obj.approved) {
           missingLabels.push(label);
         }
@@ -237,26 +237,26 @@
       return missingLabels;
     },
 
-    _computeMissingLabelsHeader: function(labels) {
+    _computeMissingLabelsHeader(labels) {
       return 'Needs label' +
           (this._computeMissingLabels(labels).length > 1 ? 's' : '') + ':';
     },
 
-    _showMissingLabels: function(labels) {
+    _showMissingLabels(labels) {
       return !!this._computeMissingLabels(labels).length;
     },
 
-    _showMissingRequirements: function(labels, workInProgress) {
+    _showMissingRequirements(labels, workInProgress) {
       return workInProgress || this._showMissingLabels(labels);
     },
 
-    _computeProjectURL: function(project) {
+    _computeProjectURL(project) {
       return this.getBaseUrl() + '/q/project:' +
         this.encodeURL(project, false);
     },
 
-    _computeBranchURL: function(project, branch) {
-      var status;
+    _computeBranchURL(project, branch) {
+      let status;
       if (this.change.status == this.ChangeStatus.NEW) {
         status = 'open';
       } else {
@@ -268,13 +268,13 @@
               ' status:' + this.encodeURL(status, false);
     },
 
-    _computeTopicURL: function(topic) {
+    _computeTopicURL(topic) {
       return this.getBaseUrl() + '/q/topic:' +
           this.encodeURL('"' + topic + '"', false) +
             '+(status:open OR status:merged)';
     },
 
-    _handleTopicRemoved: function() {
+    _handleTopicRemoved() {
       this.set(['change', 'topic'], '');
       this.$.restAPI.setChangeTopic(this.change._number, null);
     },

@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf4442d2_f7bbe3b7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-link/gr-account-link_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T22:47:09Z",
+      "side": 1,
+      "message": "Indent this line.",
+      "revId": "64747d9f1273ccbc090bf048464725a2e776ca85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee0709ee_a6b92d7a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T22:47:09Z",
+      "side": 1,
+      "message": "This line exceeds 80 characters.",
+      "revId": "64747d9f1273ccbc090bf048464725a2e776ca85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3a163aa_41ef14d5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T22:47:09Z",
+      "side": 1,
+      "message": "This line exceeds 80 characters.",
+      "revId": "64747d9f1273ccbc090bf048464725a2e776ca85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e0ac060_a8132264",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-actions-js-api_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T22:47:09Z",
+      "side": 1,
+      "message": "These lines exceed 80 characters.",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 82
+      },
+      "revId": "64747d9f1273ccbc090bf048464725a2e776ca85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccdd24cf_7b100ba6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T22:47:09Z",
+      "side": 1,
+      "message": "This line exceeds 80 characters.",
+      "revId": "64747d9f1273ccbc090bf048464725a2e776ca85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59601578_fde72538",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T22:47:09Z",
+      "side": 1,
+      "message": "Why not an arrow function here? Can be rid of the .bind(this) that way too.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 29
+      },
+      "revId": "64747d9f1273ccbc090bf048464725a2e776ca85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

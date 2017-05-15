@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "916b4e87_c6e74fe8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T16:26:32Z",
+      "side": 1,
+      "message": "This was modelled after and to be drop-in-repleceable with Modernizr:\nhttps://github.com/Modernizr/Modernizr/blob/5eea7e2a213edc9e83a47b6414d0250468d83471/feature-detects/hiddenscroll.js",
+      "parentUuid": "448b455b_25002934",
+      "range": {
+        "startLine": 26,
+        "startChar": 30,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "1057e0505fa539c05eecef445f7ac51e547301cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "357ba5f2_ecdf0287",
         "filename": "polygerrit-ui/app/scripts/hiddenscroll.js",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2017-05-12T22:14:05Z",
       "side": 1,
       "message": "Side note: do we currently have any way to unit-test a vanilla JS file?",
+      "revId": "1057e0505fa539c05eecef445f7ac51e547301cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "944c3c6b_0a24f044",
+        "filename": "polygerrit-ui/app/scripts/hiddenscroll.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T16:26:32Z",
+      "side": 1,
+      "message": "We don\u0027t do that as of now.\nNothing prevents us technically though.",
+      "parentUuid": "357ba5f2_ecdf0287",
       "revId": "1057e0505fa539c05eecef445f7ac51e547301cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

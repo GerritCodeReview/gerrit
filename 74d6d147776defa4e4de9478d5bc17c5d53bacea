@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "350d15bc_d88070ff",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-15T17:36:02Z",
+      "side": 1,
+      "message": "This indentation looks off, but it looks like it was weird to start with. Maybe the actual value can be moved into a const for clearer separation of the parameters?\n\ntest(\u0027fix my menu item\u0027, () \u003d\u003e {\n  const actual \u003d [\n    {url: \u0027#/q/owner:self+is:draft\u0027},\n    {url: \u0027https://awesometown.com/#hashyhash\u0027},\n    {url: \u0027url\u0027, target: \u0027_blank\u0027},\n  ].map(element._fixMyMenuItem);\n  assert.deepEqual(actual, [\n    {url: \u0027/q/owner:self+is:draft\u0027},\n    {url: \u0027https://awesometown.com/#hashyhash\u0027},\n    {url: \u0027url\u0027},\n  ]);\n});\n\nOr, alternatively, just tweak the whitespace...\n\ntest(\u0027fix my menu item\u0027, () \u003d\u003e {\n  assert.deepEqual([\n    {url: \u0027#/q/owner:self+is:draft\u0027},\n    {url: \u0027https://awesometown.com/#hashyhash\u0027},\n    {url: \u0027url\u0027, target: \u0027_blank\u0027},\n  ].map(element._fixMyMenuItem), [\n    {url: \u0027/q/owner:self+is:draft\u0027},\n    {url: \u0027https://awesometown.com/#hashyhash\u0027},\n    {url: \u0027url\u0027},\n  ]);\n});\n\nSame goes for the following test.",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 13
+      },
+      "revId": "74d6d147776defa4e4de9478d5bc17c5d53bacea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

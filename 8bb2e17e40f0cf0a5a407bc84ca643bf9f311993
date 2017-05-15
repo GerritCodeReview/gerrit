@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "43c293f7_d307cff4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T16:54:23Z",
+      "side": 1,
+      "message": "Most of confirm dialogs we have in the app follow this pattern.\nI\u0027m not sure it\u0027s a good idea to refactor just one.\nAlso, I\u0027m not sure this is a good idea structurally.",
+      "parentUuid": "9cc50fbf_edb6d35a",
+      "revId": "8bb2e17e40f0cf0a5a407bc84ca643bf9f311993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17941b67_d8081d01",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2017-05-12T22:51:04Z",
       "side": 1,
       "message": "Does this mean that only the last comment of a thread can be deleted?",
+      "revId": "8bb2e17e40f0cf0a5a407bc84ca643bf9f311993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51cf393e_cf93493d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T16:54:23Z",
+      "side": 1,
+      "message": "Hm, yes - let me rework this.",
+      "parentUuid": "17941b67_d8081d01",
       "revId": "8bb2e17e40f0cf0a5a407bc84ca643bf9f311993",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "df84d6d0_98f20028",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T16:54:23Z",
+      "side": 1,
+      "message": "It replaces a comment in comments[idx] with a newComment, returned by server.\n\n\u003e this should be indicated in the confirm dialog.\n\nIs your suggesting to change wording on confirm dialog?",
+      "parentUuid": "f8c97cf8_3e597a07",
+      "range": {
+        "startLine": 370,
+        "startChar": 40,
+        "endLine": 370,
+        "endChar": 50
+      },
+      "revId": "8bb2e17e40f0cf0a5a407bc84ca643bf9f311993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2f29cc7_88efdc60",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 6
@@ -70,6 +130,24 @@
       "writtenOn": "2017-05-12T22:51:04Z",
       "side": 1,
       "message": "When I tried this locally, the server gave a 500 saying \n\ncom.google.gerrit.server.update.UpdateException:\n  java.util.concurrent.ExecutionException:\n    java.lang.UnsupportedOperationException:\n      This table has been migrated to NoteDb\n\nDoes this happen for you? Is this not a problem in production?",
+      "revId": "8bb2e17e40f0cf0a5a407bc84ca643bf9f311993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c2ef51d_220bc50f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1140,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-15T16:54:23Z",
+      "side": 1,
+      "message": "*sigh*\nIt works with ReviewDB, and it doesn\u0027t work with NoteDB.\nLet me figure out what the problem is.",
+      "parentUuid": "e2f29cc7_88efdc60",
       "revId": "8bb2e17e40f0cf0a5a407bc84ca643bf9f311993",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

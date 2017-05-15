@@ -32,18 +32,18 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-dashboard-view tests', function() {
-    var element;
+  suite('gr-dashboard-view tests', () => {
+    let element;
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
     });
 
-    test('content is refreshed with same dropdown selected twice', function() {
-      var getChangesStub = sinon.stub(element, '_getDashboardChanges',
-          function() {
-        return Promise.resolve();
-      });
+    test('content is refreshed with same dropdown selected twice', () => {
+      const getChangesStub = sinon.stub(element, '_getDashboardChanges',
+          () => {
+            return Promise.resolve();
+          });
 
       element.params = {view: 'gr-dashboard-view'};
 

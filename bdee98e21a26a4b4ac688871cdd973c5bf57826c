@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a69ef4e_9696b251",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T20:28:39Z",
+      "side": 1,
+      "message": "Well, in this case there is \"small\" and \"medium\", but \"small\" is what we are considering mobile on most of the app",
+      "parentUuid": "e7bae6cc_a804d1b8",
+      "range": {
+        "startLine": 1205,
+        "startChar": 16,
+        "endLine": 1205,
+        "endChar": 22
+      },
+      "revId": "bdee98e21a26a4b4ac688871cdd973c5bf57826c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49caa177_5ccf99f7",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "bdee98e21a26a4b4ac688871cdd973c5bf57826c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "855bdbf3_7c83d6b5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 1217,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T20:28:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49caa177_5ccf99f7",
+      "range": {
+        "startLine": 1215,
+        "startChar": 8,
+        "endLine": 1217,
+        "endChar": 11
+      },
+      "revId": "bdee98e21a26a4b4ac688871cdd973c5bf57826c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

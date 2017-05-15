@@ -30,11 +30,11 @@
       },
     },
 
-    _getBackgroundClass: function(transparent) {
+    _getBackgroundClass(transparent) {
       return transparent ? 'transparentBackground' : '';
     },
 
-    _handleRemoveTap: function(e) {
+    _handleRemoveTap(e) {
       e.preventDefault();
       this.fire('remove');
     },

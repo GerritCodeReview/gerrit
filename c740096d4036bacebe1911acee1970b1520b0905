@@ -302,6 +302,24 @@
     },
     {
       "key": {
+        "uuid": "ddc84fa8_b6de2350",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-15T19:07:11Z",
+      "side": 1,
+      "message": "I see. The events were needed for when this element was handling them (rather than the other one), but I\u0027ve separated it into two functions- one that handles the events and one that handles the cursor. That way, the element calling it doesn\u0027t need to worry about the event.",
+      "parentUuid": "c826ef8b_26e3f047",
+      "revId": "c740096d4036bacebe1911acee1970b1520b0905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9cdad0c9_0f856080",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
         "patchSetId": 11

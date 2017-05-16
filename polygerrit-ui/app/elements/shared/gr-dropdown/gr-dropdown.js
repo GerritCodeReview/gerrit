@@ -56,7 +56,7 @@
        */
       disabledIds: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
 
       _hasAvatars: String,
@@ -66,54 +66,54 @@
       Gerrit.BaseUrlBehavior,
     ],
 
-    attached: function() {
-      this.$.restAPI.getConfig().then(function(cfg) {
+    attached() {
+      this.$.restAPI.getConfig().then(cfg => {
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-      }.bind(this));
+      });
     },
 
-    _handleDropdownTap: function(e) {
+    _handleDropdownTap(e) {
       // async is needed so that that the click event is fired before the
       // dropdown closes (This was a bug for touch devices).
-      this.async(function() {
+      this.async(() => {
         this.$.dropdown.close();
       }, 1);
     },
 
-    _showDropdownTapHandler: function(e) {
+    _showDropdownTapHandler(e) {
       this.$.dropdown.open();
     },
 
-    _getClassIfBold: function(bold) {
+    _getClassIfBold(bold) {
       return bold ? 'bold-text' : '';
     },
 
-    _computeURLHelper: function(host, path) {
+    _computeURLHelper(host, path) {
       return '//' + host + this.getBaseUrl() + path;
     },
 
-    _computeRelativeURL: function(path) {
-      var host = window.location.host;
+    _computeRelativeURL(path) {
+      const host = window.location.host;
       return this._computeURLHelper(host, path);
     },
 
-    _computeLinkURL: function(link) {
+    _computeLinkURL(link) {
       if (link.target) {
         return link.url;
       }
       return this._computeRelativeURL(link.url);
     },
 
-    _computeLinkRel: function(link) {
+    _computeLinkRel(link) {
       return link.target ? 'noopener' : null;
     },
 
-    _handleItemTap: function(e) {
-      var id = e.target.getAttribute('data-id');
-      var item = this.items.find(function(item) {
+    _handleItemTap(e) {
+      const id = e.target.getAttribute('data-id');
+      const item = this.items.find(item => {
         return item.id === id;
       });
-      if (id && this.disabledIds.indexOf(id) === -1) {
+      if (id && !this.disabledIds.includes(id)) {
         if (item) {
           this.dispatchEvent(new CustomEvent('tap-item', {detail: item}));
         }
@@ -121,8 +121,8 @@
       }
     },
 
-    _computeDisabledClass: function(id, disabledIdsRecord) {
-      return disabledIdsRecord.base.indexOf(id) === -1 ? '' : 'disabled';
+    _computeDisabledClass(id, disabledIdsRecord) {
+      return disabledIdsRecord.base.includes(id) ? 'disabled' : '';
     },
   });
 })();

@@ -173,6 +173,9 @@
     },
 
     _eraseDraftComment: function() {
+      // Prevents a race condition in which removing the draft comment occurs
+      // prior to it being saved.
+      this.cancelDebouncer('store');
       this.$.storage.eraseDraftComment({
         changeNum: this.changeNum,
         patchNum: this._getPatchNum(),

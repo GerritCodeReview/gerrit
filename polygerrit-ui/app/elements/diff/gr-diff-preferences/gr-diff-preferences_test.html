@@ -33,20 +33,20 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-diff-preferences tests', function() {
-    var element;
-    var sandbox;
+  suite('gr-diff-preferences tests', () => {
+    let element;
+    let sandbox;
 
-    setup(function() {
+    setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('model changes', function() {
+    test('model changes', () => {
       element.prefs = {
         context: 10,
         font_size: 12,
@@ -78,7 +78,7 @@ limitations under the License.
       assert.isFalse(element._newPrefs.syntax_highlighting);
     });
 
-    test('clicking fit to screen hides line length input', function() {
+    test('clicking fit to screen hides line length input', () => {
       element.prefs = {line_wrapping: false};
 
       assert.isFalse(element.$.columnsPref.hidden);
@@ -90,31 +90,31 @@ limitations under the License.
       assert.isFalse(element.$.columnsPref.hidden);
     });
 
-    test('clicking save button calls _handleSave function', function() {
-      var savePrefs = sinon.stub(element, '_handleSave');
+    test('clicking save button calls _handleSave function', () => {
+      const savePrefs = sinon.stub(element, '_handleSave');
       MockInteractions.tap(element.$.saveButton);
       flushAsynchronousOperations();
       assert(savePrefs.calledOnce);
       savePrefs.restore();
     });
 
-    test('save button', function() {
+    test('save button', () => {
       element.prefs = {
         font_size: '11',
       };
       element._newPrefs = {
         font_size: '12',
       };
-      var saveStub = sandbox.stub(element.$.restAPI, 'saveDiffPreferences',
-          function() { return Promise.resolve(); });
+      const saveStub = sandbox.stub(element.$.restAPI, 'saveDiffPreferences',
+          () => { return Promise.resolve(); });
 
       MockInteractions.tap(element.$$('gr-button[primary]'));
       assert.deepEqual(element.prefs, element._newPrefs);
       assert.deepEqual(saveStub.lastCall.args[0], element._newPrefs);
     });
 
-    test('cancel button', function() {
-      var closeStub = sandbox.stub(element.$.prefsOverlay, 'close');
+    test('cancel button', () => {
+      const closeStub = sandbox.stub(element.$.prefsOverlay, 'close');
       MockInteractions.tap(element.$$('gr-button:not([primary])'));
       assert.isTrue(closeStub.called);
     });

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6670833d_0196a560",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-16T17:53:39Z",
+      "side": 1,
+      "message": "I\u0027d rather es6fy whole file separately.",
+      "parentUuid": "0c341a9d_8c7740e1",
+      "range": {
+        "startLine": 199,
+        "startChar": 41,
+        "endLine": 199,
+        "endChar": 59
+      },
+      "revId": "b0193bd9bfc49f61ba374e9e898198e6a96e0cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c2509c5_060fe93f",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "b0193bd9bfc49f61ba374e9e898198e6a96e0cc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80e77a91_b98a7635",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-16T17:53:39Z",
+      "side": 1,
+      "message": "This was reworked.",
+      "parentUuid": "1c2509c5_060fe93f",
+      "revId": "b0193bd9bfc49f61ba374e9e898198e6a96e0cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "b0193bd9bfc49f61ba374e9e898198e6a96e0cc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "492f047c_d5eba37d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-16T17:53:39Z",
+      "side": 1,
+      "message": "No, because they should appear before the message.",
+      "parentUuid": "6b260cf6_317e2951",
+      "range": {
+        "startLine": 208,
+        "startChar": 8,
+        "endLine": 209,
+        "endChar": 71
+      },
+      "revId": "b0193bd9bfc49f61ba374e9e898198e6a96e0cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

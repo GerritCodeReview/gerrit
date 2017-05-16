@@ -355,7 +355,7 @@ public class SubmoduleOp {
     return ret;
   }
 
-  public void updateSuperProjects() throws SubmoduleException {
+  public void updateSuperProjects(BatchUpdate.Factory updateFactory) throws SubmoduleException {
     ImmutableSet<Project.NameKey> projects = getProjectsInOrder();
     if (projects == null) {
       return;
@@ -370,12 +370,15 @@ public class SubmoduleOp {
           // get a new BatchUpdate for the super project
           OpenRepo or = orm.getRepo(project);
           for (Branch.NameKey branch : branchesByProject.get(project)) {
-            addOp(or.getUpdate(), branch);
+            addOp(or.getUpdate(updateFactory), branch);
           }
         }
       }
       batchUpdateFactory.execute(
-          orm.batchUpdates(superProjects), BatchUpdateListener.NONE, orm.getSubmissionId(), false);
+          orm.batchUpdates(updateFactory, superProjects),
+          BatchUpdateListener.NONE,
+          orm.getSubmissionId(),
+          false);
     } catch (RestApiException | UpdateException | IOException | NoSuchProjectException e) {
       throw new SubmoduleException("Cannot update gitlinks", e);
     }

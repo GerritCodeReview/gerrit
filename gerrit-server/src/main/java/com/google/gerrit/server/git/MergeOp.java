@@ -70,6 +70,7 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -103,6 +104,10 @@ public class MergeOp implements AutoCloseable {
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
 
   private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS = SubmitRuleOptions.defaults().build();
+
+  public interface Factory {
+    MergeOp create(BatchUpdate.Factory batchUpdateFactory);
+  }
 
   public static class CommitStatus {
     private final ImmutableMap<Change.Id, ChangeData> changes;
@@ -234,7 +239,6 @@ public class MergeOp implements AutoCloseable {
   @Inject
   MergeOp(
       ChangeMessagesUtil cmUtil,
-      BatchUpdate.Factory batchUpdateFactory,
       InternalUser.Factory internalUserFactory,
       MergeSuperSet mergeSuperSet,
       MergeValidators.Factory mergeValidatorsFactory,
@@ -242,9 +246,9 @@ public class MergeOp implements AutoCloseable {
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleOp.Factory subOpFactory,
       MergeOpRepoManager orm,
-      NotifyUtil notifyUtil) {
+      NotifyUtil notifyUtil,
+      @Assisted BatchUpdate.Factory batchUpdateFactory) {
     this.cmUtil = cmUtil;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
     this.mergeSuperSet = mergeSuperSet;
     this.mergeValidatorsFactory = mergeValidatorsFactory;
@@ -253,6 +257,7 @@ public class MergeOp implements AutoCloseable {
     this.subOpFactory = subOpFactory;
     this.orm = orm;
     this.notifyUtil = notifyUtil;
+    this.batchUpdateFactory = batchUpdateFactory;
   }
 
   @Override
@@ -465,7 +470,7 @@ public class MergeOp implements AutoCloseable {
       List<SubmitStrategy> strategies = getSubmitStrategies(toSubmit, submoduleOp, dryrun);
       this.allProjects = submoduleOp.getProjectsInOrder();
       batchUpdateFactory.execute(
-          orm.batchUpdates(allProjects),
+          orm.batchUpdates(batchUpdateFactory, allProjects),
           new SubmitStrategyListener(submitInput, strategies, commitStatus),
           submissionId,
           dryrun);
@@ -497,6 +502,10 @@ public class MergeOp implements AutoCloseable {
 
   public MergeOpRepoManager getMergeOpRepoManager() {
     return orm;
+  }
+
+  public BatchUpdate.Factory getBatchUpdateFactory() {
+    return batchUpdateFactory;
   }
 
   private List<SubmitStrategy> getSubmitStrategies(
@@ -535,15 +544,15 @@ public class MergeOp implements AutoCloseable {
                 submoduleOp,
                 dryrun);
         strategies.add(strategy);
-        strategy.addOps(or.getUpdate(), commitsToSubmit);
+        strategy.addOps(or.getUpdate(batchUpdateFactory), commitsToSubmit);
         if (submitting.submitType().equals(SubmitType.FAST_FORWARD_ONLY)
             && submoduleOp.hasSubscription(branch)) {
-          submoduleOp.addOp(or.getUpdate(), branch);
+          submoduleOp.addOp(or.getUpdate(batchUpdateFactory), branch);
         }
       } else {
         // no open change for this branch
         // add submodule triggered op into BatchUpdate
-        submoduleOp.addOp(or.getUpdate(), branch);
+        submoduleOp.addOp(or.getUpdate(batchUpdateFactory), branch);
       }
     }
     return strategies;

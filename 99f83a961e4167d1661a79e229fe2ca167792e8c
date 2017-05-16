@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "74f79078_1916c8be",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T23:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54a0086a_c406b786",
+      "revId": "99f83a961e4167d1661a79e229fe2ca167792e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "952a6abc_1097ea53",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "8235bd85_dcc86881",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T23:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "952a6abc_1097ea53",
+      "revId": "99f83a961e4167d1661a79e229fe2ca167792e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "687798b4_7d5c5b1d",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 1
@@ -50,6 +86,24 @@
       "revId": "99f83a961e4167d1661a79e229fe2ca167792e8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3fe100b_df972e5c",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T23:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "687798b4_7d5c5b1d",
+      "revId": "99f83a961e4167d1661a79e229fe2ca167792e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

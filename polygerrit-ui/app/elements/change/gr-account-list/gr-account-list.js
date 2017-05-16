@@ -90,11 +90,13 @@
     },
 
     _handleAdd(e) {
-      const reviewer = e.detail.value;
+      this._addReviewer(e.detail.value);
+    },
+
+    _addReviewer(reviewer) {
       // Append new account or group to the accounts property. We add our own
       // internal properties to the account/group here, so we clone the object
       // to avoid cluttering up the shared change object.
-      // TODO(logan): Polyfill for Object.assign in IE.
       if (reviewer.account) {
         const account =
             Object.assign({}, reviewer.account, {_pendingAdd: true});
@@ -114,12 +116,14 @@
           this.$.entry.setText(reviewer);
           this.dispatchEvent(new CustomEvent('show-alert',
             {detail: {message: VALID_EMAIL_ALERT}, bubbles: true}));
+          return false;
         } else {
           const account = {email: reviewer, _pendingAdd: true};
           this.push('accounts', account);
         }
       }
       this.pendingConfirmation = null;
+      return true;
     },
 
     confirmGroup(group) {
@@ -242,6 +246,22 @@
             this.$.entry.focus();
           }
           break;
+      }
+    },
+
+    /**
+     * If allowAnyUser is set on the account-list,
+     * @return {[type]} [description]
+     */
+    submitEntryText() {
+      if (this.allowAnyUser) {
+        // The text content of the input may be an unsubmitted account.
+        const addReviewerSuccessful = this._addReviewer(this.$.entry.getText());
+        if (!addReviewerSuccessful) {
+        }
+      } else {
+        this.$.entry.setText('');
+        return true;
       }
     },
 

@@ -320,6 +320,7 @@
       });
       const ccsEl = this.$$('#ccs');
       if (ccsEl) {
+        debugger;
         for (let reviewer of ccsEl.additions()) {
           if (reviewer.account) {
             accountAdditions[reviewer.account._account_id] = true;

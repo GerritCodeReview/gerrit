@@ -16,6 +16,24 @@
       "revId": "a59b9c587dfcd18791ccb55007f3d4b82135d0b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d6da8a6_8ac72f79",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T23:17:18Z",
+      "side": 1,
+      "message": "We decided that\u0027s not part of the migration, so I\u0027d rather do that as we see fit in the future. Definitely a good idea, but I\u0027d rather just merge this and move on because of how many changes are left :)",
+      "parentUuid": "e5ca78e8_8f4c412e",
+      "revId": "a59b9c587dfcd18791ccb55007f3d4b82135d0b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

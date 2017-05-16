@@ -167,6 +167,30 @@
       "revId": "378811f54e45b92f94dfc122c912be435e31c7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b416ba2_03c7bae4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-16T15:10:19Z",
+      "side": 1,
+      "message": "You can configure the index versions now as you suggested.\n\nHowever for the change index tests, configuring more than 2 index versions makes the test timeout for me. But this is nothing I want to address in this change.\n\nDone",
+      "parentUuid": "94167f7a_fc2bfb5c",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 62
+      },
+      "revId": "378811f54e45b92f94dfc122c912be435e31c7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

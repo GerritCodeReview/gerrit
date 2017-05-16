@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  var LANGUAGE_MAP = {
+  const LANGUAGE_MAP = {
     'application/dart': 'dart',
     'application/json': 'json',
     'application/typescript': 'typescript',
@@ -46,9 +46,9 @@
     'text/x-swift': 'swift',
     'text/x-yaml': 'yaml',
   };
-  var ASYNC_DELAY = 10;
+  const ASYNC_DELAY = 10;
 
-  var CLASS_WHITELIST = {
+  const CLASS_WHITELIST = {
     'gr-diff gr-syntax gr-syntax-literal': true,
     'gr-diff gr-syntax gr-syntax-keyword': true,
     'gr-diff gr-syntax gr-syntax-selector-tag': true,
@@ -77,11 +77,11 @@
     'gr-diff gr-syntax gr-syntax-selector-class': true,
   };
 
-  var CPP_DIRECTIVE_WITH_LT_PATTERN = /^\s*#(if|define).*</;
-  var CPP_WCHAR_PATTERN = /L\'(\\)?.\'/g;
-  var JAVA_PARAM_ANNOT_PATTERN = /(@[^\s]+)\(([^)]+)\)/g;
-  var GO_BACKSLASH_LITERAL = '\'\\\\\'';
-  var GLOBAL_LT_PATTERN = /</g;
+  const CPP_DIRECTIVE_WITH_LT_PATTERN = /^\s*#(if|define).*</;
+  const CPP_WCHAR_PATTERN = /L\'(\\)?.\'/g;
+  const JAVA_PARAM_ANNOT_PATTERN = /(@[^\s]+)\(([^)]+)\)/g;
+  const GO_BACKSLASH_LITERAL = '\'\\\\\'';
+  const GLOBAL_LT_PATTERN = /</g;
 
   Polymer({
     is: 'gr-syntax-layer',
@@ -97,23 +97,23 @@
       },
       _baseRanges: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
       _revisionRanges: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
       _baseLanguage: String,
       _revisionLanguage: String,
       _listeners: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
       _processHandle: Number,
       _hljs: Object,
     },
 
-    addListener: function(fn) {
+    addListener(fn) {
       this.push('_listeners', fn);
     },
 
@@ -123,11 +123,11 @@
      * @param {!HTMLElement} el
      * @param {!GrDiffLine} line
      */
-    annotate: function(el, line) {
+    annotate(el, line) {
       if (!this.enabled) { return; }
 
       // Determine the side.
-      var side;
+      let side;
       if (line.type === GrDiffLine.Type.REMOVE || (
           line.type === GrDiffLine.Type.BOTH &&
           el.getAttribute('data-side') !== 'right')) {
@@ -138,7 +138,7 @@
       }
 
       // Find the relevant syntax ranges, if any.
-      var ranges = [];
+      let ranges = [];
       if (side === 'left' && this._baseRanges.length >= line.beforeNumber) {
         ranges = this._baseRanges[line.beforeNumber - 1] || [];
       } else if (side === 'right' &&
@@ -147,10 +147,10 @@
       }
 
       // Apply the ranges to the element.
-      ranges.forEach(function(range) {
+      for (const range of ranges) {
         GrAnnotation.annotateElement(
             el, range.start, range.length, range.className);
-      });
+      }
     },
 
     /**
@@ -158,7 +158,7 @@
      * as syntax info comes online.
      * @return {Promise}
      */
-    process: function() {
+    process() {
       // Discard existing ranges.
       this._baseRanges = [];
       this._revisionRanges = [];
@@ -179,7 +179,7 @@
         return Promise.resolve();
       }
 
-      var state = {
+      const state = {
         sectionIndex: 0,
         lineIndex: 0,
         baseContext: undefined,
@@ -188,9 +188,9 @@
         lastNotify: {left: 1, right: 1},
       };
 
-      return this._loadHLJS().then(function() {
-        return new Promise(function(resolve) {
-          var nextStep = function() {
+      return this._loadHLJS().then(() => {
+        return new Promise(resolve => {
+          const nextStep = () => {
             this._processHandle = null;
             this._processNextLine(state);
 
@@ -219,21 +219,21 @@
           };
 
           this._processHandle = this.async(nextStep, 1);
-        }.bind(this));
-      }.bind(this));
+        });
+      });
     },
 
     /**
      * Cancel any asynchronous syntax processing jobs.
      */
-    cancel: function() {
+    cancel() {
       if (this._processHandle) {
         this.cancelAsync(this._processHandle);
         this._processHandle = null;
       }
     },
 
-    _diffChanged: function() {
+    _diffChanged() {
       this.cancel();
       this._baseRanges = [];
       this._revisionRanges = [];
@@ -246,17 +246,17 @@
      * @param {string} str The string of HTML.
      * @return {!Array<!Object>} The list of ranges.
      */
-    _rangesFromString: function(str) {
-      var div = document.createElement('div');
+    _rangesFromString(str) {
+      const div = document.createElement('div');
       div.innerHTML = str;
       return this._rangesFromElement(div, 0);
     },
 
-    _rangesFromElement: function(elem, offset) {
-      var result = [];
-      for (var i = 0; i < elem.childNodes.length; i++) {
-        var node = elem.childNodes[i];
-        var nodeLength = GrAnnotation.getLength(node);
+    _rangesFromElement(elem, offset) {
+      let result = [];
+      for (let i = 0; i < elem.childNodes.length; i++) {
+        const node = elem.childNodes[i];
+        const nodeLength = GrAnnotation.getLength(node);
         // Note: HLJS may emit a span with class undefined when it thinks there
         // may be a syntax error.
         if (node.tagName === 'SPAN' && node.className !== 'undefined') {
@@ -281,11 +281,11 @@
      * lines).
      * @param {!Object} state The processing state for the layer.
      */
-    _processNextLine: function(state) {
-      var baseLine;
-      var revisionLine;
+    _processNextLine(state) {
+      let baseLine;
+      let revisionLine;
 
-      var section = this.diff.content[state.sectionIndex];
+      const section = this.diff.content[state.sectionIndex];
       if (section.ab) {
         baseLine = section.ab[state.lineIndex];
         revisionLine = section.ab[state.lineIndex];
@@ -303,7 +303,7 @@
       }
 
       // To store the result of the syntax highlighter.
-      var result;
+      let result;
 
       if (this._baseLanguage && baseLine !== undefined) {
         baseLine = this._workaround(this._baseLanguage, baseLine);
@@ -341,7 +341,7 @@
      * @param {!string} line The line of code to potentially rewrite.
      * @return {string} A potentially-rewritten line of code.
      */
-    _workaround: function(language, line) {
+    _workaround(language, line) {
       if (language === 'cpp') {
         /**
          * Prevent confusing < and << operators for the start of a meta string
@@ -382,7 +382,7 @@
        * {@see Issue 5007}
        * {#see https://github.com/isagalaev/highlight.js/issues/1411}
        */
-      if (language === 'go' && line.indexOf(GO_BACKSLASH_LITERAL) !== -1) {
+      if (language === 'go' && line.includes(GO_BACKSLASH_LITERAL)) {
         return line.replace(GO_BACKSLASH_LITERAL, '"\\\\"');
       }
 
@@ -394,8 +394,8 @@
      * @param {!Object} state
      * @return {boolean}
      */
-    _isSectionDone: function(state) {
-      var section = this.diff.content[state.sectionIndex];
+    _isSectionDone(state) {
+      const section = this.diff.content[state.sectionIndex];
       if (section.ab) {
         return state.lineIndex >= section.ab.length;
       } else {
@@ -409,33 +409,33 @@
      * that have not yet been notified.
      * @param {!Object} state
      */
-    _notify: function(state) {
+    _notify(state) {
       if (state.lineNums.left - state.lastNotify.left) {
         this._notifyRange(
-          state.lastNotify.left,
-          state.lineNums.left,
-          'left');
+            state.lastNotify.left,
+            state.lineNums.left,
+            'left');
         state.lastNotify.left = state.lineNums.left;
       }
       if (state.lineNums.right - state.lastNotify.right) {
         this._notifyRange(
-          state.lastNotify.right,
-          state.lineNums.right,
-          'right');
+            state.lastNotify.right,
+            state.lineNums.right,
+            'right');
         state.lastNotify.right = state.lineNums.right;
       }
     },
 
-    _notifyRange: function(start, end, side) {
-      this._listeners.forEach(function(fn) {
+    _notifyRange(start, end, side) {
+      for (const fn of this._listeners) {
         fn(start, end, side);
-      });
+      }
     },
 
-    _loadHLJS: function() {
-      return this.$.libLoader.get().then(function(hljs) {
+    _loadHLJS() {
+      return this.$.libLoader.get().then(hljs => {
         this._hljs = hljs;
-      }.bind(this));
+      });
     },
   });
 })();

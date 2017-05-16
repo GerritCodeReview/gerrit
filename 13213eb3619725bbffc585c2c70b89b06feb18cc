@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "6b65d726_d8c3a3ae",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T00:28:00Z",
+      "side": 1,
+      "message": "Do we really want it to? I think that would make the spacing more confusing, not less. Will wait on your call.",
+      "parentUuid": "6b13da63_c7eede2f",
+      "range": {
+        "startLine": 126,
+        "startChar": 12,
+        "endLine": 126,
+        "endChar": 20
+      },
+      "revId": "13213eb3619725bbffc585c2c70b89b06feb18cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "adac2f5e_92f58cbc",
         "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
         "patchSetId": 1
@@ -53,6 +77,30 @@
       "writtenOn": "2017-05-16T00:17:37Z",
       "side": 1,
       "message": "can this fit on previous line?",
+      "range": {
+        "startLine": 185,
+        "startChar": 12,
+        "endLine": 185,
+        "endChar": 19
+      },
+      "revId": "13213eb3619725bbffc585c2c70b89b06feb18cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78be5639_6256c650",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T00:28:00Z",
+      "side": 1,
+      "message": "Do we really want it to?",
+      "parentUuid": "adac2f5e_92f58cbc",
       "range": {
         "startLine": 185,
         "startChar": 12,

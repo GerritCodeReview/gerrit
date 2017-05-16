@@ -14,20 +14,20 @@
 (function() {
   'use strict';
 
-  var WHOLE_FILE = -1;
+  const WHOLE_FILE = -1;
 
-  var DiffSide = {
+  const DiffSide = {
     LEFT: 'left',
     RIGHT: 'right',
   };
 
-  var DiffGroupType = {
+  const DiffGroupType = {
     ADDED: 'b',
     BOTH: 'ab',
     REMOVED: 'a',
   };
 
-  var DiffHighlights = {
+  const DiffHighlights = {
     ADDED: 'edit_b',
     REMOVED: 'edit_a',
   };
@@ -40,7 +40,7 @@
    * _asyncThreshold of 64, but feel free to tune this constant to your
    * performance needs.
    */
-  var MAX_GROUP_SIZE = 120;
+  const MAX_GROUP_SIZE = 120;
 
   Polymer({
     is: 'gr-diff-processor',
@@ -66,7 +66,7 @@
        */
       keyLocations: {
         type: Object,
-        value: function() { return {left: {}, right: {}}; },
+        value() { return {left: {}, right: {}}; },
       },
 
       /**
@@ -81,18 +81,18 @@
       _isScrolling: Boolean,
     },
 
-    attached: function() {
+    attached() {
       this.listen(window, 'scroll', '_handleWindowScroll');
     },
 
-    detached: function() {
+    detached() {
       this.cancel();
       this.unlisten(window, 'scroll', '_handleWindowScroll');
     },
 
-    _handleWindowScroll: function() {
+    _handleWindowScroll() {
       this._isScrolling = true;
-      this.debounce('resetIsScrolling', function() {
+      this.debounce('resetIsScrolling', () => {
         this._isScrolling = false;
       }, 50);
     },
@@ -103,23 +103,23 @@
      * @return {Promise} A promise that resolves when the diff is completely
      *     processed.
      */
-    process: function(content, isImageDiff) {
+    process(content, isImageDiff) {
       this.groups = [];
       this.push('groups', this._makeFileComments());
 
       // If image diff, only render the file lines.
       if (isImageDiff) { return Promise.resolve(); }
 
-      return new Promise(function(resolve) {
-        var state = {
+      return new Promise(resolve => {
+        const state = {
           lineNums: {left: 0, right: 0},
           sectionIndex: 0,
         };
 
         content = this._splitCommonGroupsWithComments(content);
 
-        var currentBatch = 0;
-        var nextStep = function() {
+        let currentBatch = 0;
+        const nextStep = () => {
           if (this._isScrolling) {
             this.async(nextStep, 100);
             return;
@@ -132,11 +132,11 @@
           }
 
           // Process the next section and incorporate the result.
-          var result = this._processNext(state, content);
-          result.groups.forEach(function(group) {
+          const result = this._processNext(state, content);
+          for (const group of result.groups) {
             this.push('groups', group);
             currentBatch += group.lines.length;
-          }, this);
+          }
           state.lineNums.left += result.lineDelta.left;
           state.lineNums.right += result.lineDelta.right;
 
@@ -151,13 +151,13 @@
         };
 
         nextStep.call(this);
-      }.bind(this));
+      });
     },
 
     /**
      * Cancel any jobs that are running.
      */
-    cancel: function() {
+    cancel() {
       if (this._nextStepHandle !== undefined) {
         this.cancelAsync(this._nextStepHandle);
         this._nextStepHandle = undefined;
@@ -167,29 +167,29 @@
     /**
      * Process the next section of the diff.
      */
-    _processNext: function(state, content) {
-      var section = content[state.sectionIndex];
+    _processNext(state, content) {
+      const section = content[state.sectionIndex];
 
-      var rows = {
+      const rows = {
         both: section[DiffGroupType.BOTH] || null,
         added: section[DiffGroupType.ADDED] || null,
         removed: section[DiffGroupType.REMOVED] || null,
       };
 
-      var highlights = {
+      const highlights = {
         added: section[DiffHighlights.ADDED] || null,
         removed: section[DiffHighlights.REMOVED] || null,
       };
 
       if (rows.both) { // If it's a shared section.
-        var sectionEnd = null;
+        let sectionEnd = null;
         if (state.sectionIndex === 0) {
           sectionEnd = 'first';
         } else if (state.sectionIndex === content.length - 1) {
           sectionEnd = 'last';
         }
 
-        var sharedGroups = this._sharedGroupsFromRows(
+        const sharedGroups = this._sharedGroupsFromRows(
             rows.both,
             content.length > 1 ? this.context : WHOLE_FILE,
             state.lineNums.left,
@@ -204,8 +204,7 @@
           groups: sharedGroups,
         };
       } else { // Otherwise it's a delta section.
-
-        var deltaGroup = this._deltaGroupFromRows(
+        const deltaGroup = this._deltaGroupFromRows(
             rows.added,
             rows.removed,
             state.lineNums.left,
@@ -234,14 +233,14 @@
      *     'last' and null respectively.
      * @return {Array<GrDiffGroup>}
      */
-    _sharedGroupsFromRows: function(rows, context, startLineNumLeft,
+    _sharedGroupsFromRows(rows, context, startLineNumLeft,
         startLineNumRight, opt_sectionEnd) {
-      var result = [];
-      var lines = [];
-      var line;
+      const result = [];
+      const lines = [];
+      let line;
 
       // Map each row to a GrDiffLine.
-      for (var i = 0; i < rows.length; i++) {
+      for (let i = 0; i < rows.length; i++) {
         line = new GrDiffLine(GrDiffLine.Type.BOTH);
         line.text = rows[i];
         line.beforeNumber = ++startLineNumLeft;
@@ -252,7 +251,7 @@
       // Find the hidden range based on the user's context preference. If this
       // is the first or the last section of the diff, make sure the collapsed
       // part of the section extends to the edge of the file.
-      var hiddenRange = [context, rows.length - context];
+      const hiddenRange = [context, rows.length - context];
       if (opt_sectionEnd === 'first') {
         hiddenRange[0] = 0;
       } else if (opt_sectionEnd === 'last') {
@@ -261,15 +260,15 @@
 
       // If there is a range to hide.
       if (context !== WHOLE_FILE && hiddenRange[1] - hiddenRange[0] > 1) {
-        var linesBeforeCtx = lines.slice(0, hiddenRange[0]);
-        var hiddenLines = lines.slice(hiddenRange[0], hiddenRange[1]);
-        var linesAfterCtx = lines.slice(hiddenRange[1]);
+        const linesBeforeCtx = lines.slice(0, hiddenRange[0]);
+        const hiddenLines = lines.slice(hiddenRange[0], hiddenRange[1]);
+        const linesAfterCtx = lines.slice(hiddenRange[1]);
 
         if (linesBeforeCtx.length > 0) {
           result.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, linesBeforeCtx));
         }
 
-        var ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
+        const ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
         ctxLine.contextGroup =
             new GrDiffGroup(GrDiffGroup.Type.BOTH, hiddenLines);
         result.push(new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL,
@@ -294,9 +293,9 @@
      * @param {Number} startLineNumRight
      * @return {GrDiffGroup}
      */
-    _deltaGroupFromRows: function(rowsAdded, rowsRemoved, startLineNumLeft,
+    _deltaGroupFromRows(rowsAdded, rowsRemoved, startLineNumLeft,
         startLineNumRight, highlights) {
-      var lines = [];
+      let lines = [];
       if (rowsRemoved) {
         lines = lines.concat(this._deltaLinesFromRows(GrDiffLine.Type.REMOVE,
             rowsRemoved, startLineNumLeft, highlights.removed));
@@ -311,7 +310,7 @@
     /**
      * @return {Array<GrDiffLine>}
      */
-    _deltaLinesFromRows: function(lineType, rows, startLineNum,
+    _deltaLinesFromRows(lineType, rows, startLineNum,
         opt_highlights) {
       // Normalize highlights if they have been passed.
       if (opt_highlights) {
@@ -319,9 +318,9 @@
             opt_highlights);
       }
 
-      var lines = [];
-      var line;
-      for (var i = 0; i < rows.length; i++) {
+      const lines = [];
+      let line;
+      for (let i = 0; i < rows.length; i++) {
         line = new GrDiffLine(lineType);
         line.text = rows[i];
         if (lineType === GrDiffLine.Type.ADD) {
@@ -330,16 +329,15 @@
           line.beforeNumber = ++startLineNum;
         }
         if (opt_highlights) {
-          line.highlights = opt_highlights.filter(
-              function(hl) { return hl.contentIndex === i; });
+          line.highlights = opt_highlights.filter(hl => hl.contentIndex === i);
         }
         lines.push(line);
       }
       return lines;
     },
 
-    _makeFileComments: function() {
-      var line = new GrDiffLine(GrDiffLine.Type.BOTH);
+    _makeFileComments() {
+      const line = new GrDiffLine(GrDiffLine.Type.BOTH);
       line.beforeNumber = GrDiffLine.FILE;
       line.afterNumber = GrDiffLine.FILE;
       return new GrDiffGroup(GrDiffGroup.Type.BOTH, [line]);
@@ -352,18 +350,18 @@
      * @param {Object} content The diff content object.
      * @return {Object} A new diff content object with regions split up.
      */
-    _splitCommonGroupsWithComments: function(content) {
-      var result = [];
-      var leftLineNum = 0;
-      var rightLineNum = 0;
+    _splitCommonGroupsWithComments(content) {
+      const result = [];
+      let leftLineNum = 0;
+      let rightLineNum = 0;
 
       // If the context is set to "whole file", then break down the shared
       // chunks so they can be rendered incrementally. Note: this is not enabled
       // for any other context preference because manipulating the chunks in
       // this way violates assumptions by the context grouper logic.
       if (this.context === -1) {
-        var newContent = [];
-        content.forEach(function(group) {
+        const newContent = [];
+        for (const group of content) {
           if (group.ab && group.ab.length > MAX_GROUP_SIZE * 2) {
             // Split large shared groups in two, where the first is the maximum
             // group size.
@@ -372,13 +370,12 @@
           } else {
             newContent.push(group);
           }
-        }.bind(this));
+        }
         content = newContent;
       }
 
       // For each section in the diff.
-      for (var i = 0; i < content.length; i++) {
-
+      for (let i = 0; i < content.length; i++) {
         // If it isn't a common group, append it as-is and update line numbers.
         if (!content[i].ab) {
           if (content[i].a) {
@@ -388,25 +385,24 @@
             rightLineNum += content[i].b.length;
           }
 
-          this._breakdownGroup(content[i]).forEach(function(group) {
+          for (const group of this._breakdownGroup(content[i])) {
             result.push(group);
-          });
+          }
 
           continue;
         }
 
-        var chunk = content[i].ab;
-        var currentChunk = {ab: []};
+        const chunk = content[i].ab;
+        let currentChunk = {ab: []};
 
         // For each line in the common group.
-        for (var j = 0; j < chunk.length; j++) {
+        for (let j = 0; j < chunk.length; j++) {
           leftLineNum++;
           rightLineNum++;
 
           // If this line should not be collapsed.
           if (this.keyLocations[DiffSide.LEFT][leftLineNum] ||
               this.keyLocations[DiffSide.RIGHT][rightLineNum]) {
-
             // If any lines have been accumulated into the chunk leading up to
             // this non-collapse line, then add them as a chunk and start a new
             // one.
@@ -449,14 +445,14 @@
      * - endIndex: (optional) Where the highlight should end. If omitted, the
      *   highlight is meant to be a continuation onto the next line.
      */
-    _normalizeIntralineHighlights: function(content, highlights) {
-      var contentIndex = 0;
-      var idx = 0;
-      var normalized = [];
-      for (var i = 0; i < highlights.length; i++) {
-        var line = content[contentIndex] + '\n';
-        var hl = highlights[i];
-        var j = 0;
+    _normalizeIntralineHighlights(content, highlights) {
+      let contentIndex = 0;
+      let idx = 0;
+      const normalized = [];
+      for (let i = 0; i < highlights.length; i++) {
+        let line = content[contentIndex] + '\n';
+        const hl = highlights[i];
+        let j = 0;
         while (j < hl[0]) {
           if (idx === line.length) {
             idx = 0;
@@ -466,8 +462,8 @@
           idx++;
           j++;
         }
-        var lineHighlight = {
-          contentIndex: contentIndex,
+        let lineHighlight = {
+          contentIndex,
           startIndex: idx,
         };
 
@@ -478,7 +474,7 @@
             line = content[++contentIndex] + '\n';
             normalized.push(lineHighlight);
             lineHighlight = {
-              contentIndex: contentIndex,
+              contentIndex,
               startIndex: idx,
             };
             continue;
@@ -499,8 +495,8 @@
      * @param {!Object} A raw chunk from a diff response.
      * @return {!Array<!Array<!Object>>}
      */
-    _breakdownGroup: function(group) {
-      var key = null;
+    _breakdownGroup(group) {
+      let key = null;
       if (group.a && !group.b) {
         key = 'a';
       } else if (group.b && !group.a) {
@@ -512,11 +508,11 @@
       if (!key) { return [group]; }
 
       return this._breakdown(group[key], MAX_GROUP_SIZE)
-        .map(function(subgroupLines) {
-          var subGroup = {};
-          subGroup[key] = subgroupLines;
-          return subGroup;
-        });
+          .map(subgroupLines => {
+            const subGroup = {};
+            subGroup[key] = subgroupLines;
+            return subGroup;
+          });
     },
 
     /**
@@ -527,12 +523,12 @@
      * @return {!Array<!Array<T>>}
      * @template T
      */
-    _breakdown: function(array, size) {
+    _breakdown(array, size) {
       if (!array.length) { return []; }
       if (array.length < size) { return [array]; }
 
-      var head = array.slice(0, array.length - size);
-      var tail = array.slice(array.length - size);
+      const head = array.slice(0, array.length - size);
+      const tail = array.slice(array.length - size);
 
       return this._breakdown(head, size).concat([tail]);
     },

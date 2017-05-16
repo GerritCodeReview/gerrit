@@ -36,6 +36,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Collections;
@@ -45,6 +46,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -58,6 +60,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class NoteDbOnlyIT extends AbstractDaemonTest {
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    // Avoid spurious timeouts during intentional retries due to overloaded test machines.
+    cfg.setString("noteDb", null, "retryTimeout", Integer.MAX_VALUE + "s");
+    return cfg;
+  }
+
   @Inject private RetryHelper retryHelper;
 
   @Before

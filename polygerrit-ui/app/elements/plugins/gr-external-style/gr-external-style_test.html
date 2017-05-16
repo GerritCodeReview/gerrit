@@ -31,30 +31,30 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-metadata integration tests', function() {
-    var sandbox;
-    var element;
+  suite('gr-change-metadata integration tests', () => {
+    let sandbox;
+    let element;
 
-    setup(function(done) {
+    setup(done => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
-      Gerrit._styleModules = {'foo': [{pluginUrl: 'bar', moduleName: 'baz',}]};
+      Gerrit._styleModules = {foo: [{pluginUrl: 'bar', moduleName: 'baz'}]};
 
       element = fixture('basic');
       sandbox.stub(element, '_applyStyle');
-      sandbox.stub(element, 'importHref', function(url, resolve) { resolve() });
+      sandbox.stub(element, 'importHref', (url, resolve) => { resolve(); });
       flush(done);
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('imports plugin-provided module', function() {
+    test('imports plugin-provided module', () => {
       assert.isTrue(element.importHref.calledWith('bar'));
     });
 
-    test('applies plugin-provided styles', function() {
+    test('applies plugin-provided styles', () => {
       assert.isTrue(element._applyStyle.calledWith('baz'));
     });
   });

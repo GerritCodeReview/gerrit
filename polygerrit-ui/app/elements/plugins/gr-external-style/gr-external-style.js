@@ -21,39 +21,39 @@
       name: String,
     },
 
-    _import: function(url) {
-      return new Promise(function(resolve, reject) {
+    _import(url) {
+      return new Promise((resolve, reject) => {
         this.importHref(url, resolve, reject);
-      }.bind(this));
+      });
     },
 
-    _applyStyle: function(name) {
-      var s = document.createElement('style', 'custom-style');
+    _applyStyle(name) {
+      const s = document.createElement('style', 'custom-style');
       s.setAttribute('include', name);
       Polymer.dom(this.root).appendChild(s);
     },
 
-    ready: function() {
-      Gerrit.awaitPluginsLoaded().then(function() {
-        var sharedStyles = Gerrit._styleModules[this.name];
+    ready() {
+      Gerrit.awaitPluginsLoaded().then(() => {
+        const sharedStyles = Gerrit._styleModules[this.name];
         if (sharedStyles) {
-          var pluginUrls = [];
-          var moduleNames = [];
-          sharedStyles.reduce(function(result, item) {
+          const pluginUrls = [];
+          const moduleNames = [];
+          sharedStyles.reduce((result, item) => {
             if (!result.pluginUrls.includes(item.pluginUrl)) {
               result.pluginUrls.push(item.pluginUrl);
             }
             result.moduleNames.push(item.moduleName);
             return result;
-          }, {pluginUrls: pluginUrls, moduleNames: moduleNames});
+          }, {pluginUrls, moduleNames});
           Promise.all(pluginUrls.map(this._import.bind(this)))
-            .then(function() {
-              moduleNames.forEach(function(name) {
-                this._applyStyle(name);
-              }.bind(this));
-            }.bind(this));
+              .then(() => {
+                for (const name of moduleNames) {
+                  this._applyStyle(name);
+                }
+              });
         }
-      }.bind(this));
+      });
     },
   });
 })();

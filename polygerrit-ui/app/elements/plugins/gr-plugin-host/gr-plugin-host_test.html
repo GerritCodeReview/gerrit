@@ -30,22 +30,22 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-diff tests', function() {
-    var element;
-    var sandbox;
+  suite('gr-diff tests', () => {
+    let element;
+    let sandbox;
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
       sandbox.stub(document.body, 'appendChild');
       sandbox.stub(element, 'importHref');
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('counts plugins', function() {
+    test('counts plugins', () => {
       sandbox.stub(Gerrit, '_setPluginsCount');
       element.config = {
         html_resource_paths: ['foo/bar', 'baz'],
@@ -54,7 +54,7 @@ limitations under the License.
       assert.isTrue(Gerrit._setPluginsCount.calledWith(3));
     });
 
-    test('imports html plugins from config', function() {
+    test('imports html plugins from config', () => {
       element.config = {
         html_resource_paths: ['foo/bar', 'baz'],
       };

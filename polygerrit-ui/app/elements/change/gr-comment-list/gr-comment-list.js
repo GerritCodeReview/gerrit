@@ -14,8 +14,8 @@
 (function() {
   'use strict';
 
-  var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
-  var MERGE_LIST_PATH = '/MERGE_LIST';
+  const COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
+  const MERGE_LIST_PATH = '/MERGE_LIST';
 
   Polymer({
     is: 'gr-comment-list',
@@ -32,17 +32,16 @@
       projectConfig: Object,
     },
 
-    _computeFilesFromComments: function(comments) {
-      var arr = Object.keys(comments || {});
+    _computeFilesFromComments(comments) {
+      const arr = Object.keys(comments || {});
       return arr.sort(this.specialFilePathCompare);
     },
 
-    _computeFileDiffURL: function(file, changeNum, patchNum) {
-      return this.getBaseUrl() + '/c/' + changeNum +
-        '/' + patchNum + '/' + file;
+    _computeFileDiffURL(file, changeNum, patchNum) {
+      return `${this.getBaseUrl()}/c/${changeNum}/${patchNum}/${file}`;
     },
 
-    _computeFileDisplayName: function(path) {
+    _computeFileDisplayName(path) {
       if (path === COMMIT_MESSAGE_PATH) {
         return 'Commit message';
       } else if (path === MERGE_LIST_PATH) {
@@ -51,12 +50,12 @@
       return path;
     },
 
-    _isOnParent: function(comment) {
+    _isOnParent(comment) {
       return comment.side === 'PARENT';
     },
 
-    _computeDiffLineURL: function(file, changeNum, patchNum, comment) {
-      var diffURL = this._computeFileDiffURL(file, changeNum, patchNum);
+    _computeDiffLineURL(file, changeNum, patchNum, comment) {
+      let diffURL = this._computeFileDiffURL(file, changeNum, patchNum);
       if (comment.line) {
         diffURL += '#';
         if (this._isOnParent(comment)) { diffURL += 'b'; }
@@ -65,18 +64,18 @@
       return diffURL;
     },
 
-    _computeCommentsForFile: function(comments, file) {
+    _computeCommentsForFile(comments, file) {
       // Changes are not picked up by the dom-repeat due to the array instance
       // identity not changing even when it has elements added/removed from it.
       return (comments[file] || []).slice();
     },
 
-    _computePatchDisplayName: function(comment) {
+    _computePatchDisplayName(comment) {
       if (this._isOnParent(comment)) {
         return 'Base, ';
       }
       if (comment.patch_set != this.patchNum) {
-        return 'PS' + comment.patch_set + ', ';
+        return `PS${comment.patch_set}, `;
       }
       return '';
     },

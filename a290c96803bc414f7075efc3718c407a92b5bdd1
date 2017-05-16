@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1494947237 +0200\nnonce APbwY4r8tOsfO8TdPSP6IU6KH9rRkj3U018ueSdrwSvgR1rmc0dgVTG0yLrDUJb+2cZ00fXJX2nR\n\n0000000000000000000000000000000000000000 1a80f03b7540d8312727b94b3666fe6af5f3c92e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZGxWlAAoJEHFVO370GiZWE+YH/3y6zK8IwHSD69JTLZ9VgMmx\nls1zDVVpvMjuhatzSvbQa+Kkph5fTsqLcFqdJSPriQxii22mNwMo4uY49cHq92OB\nZe4Tgd+R+xu6oK1g8LyzwX//PM85z/F68sOoTxHaGYcxBMiINADGlmTbcrMC6UoD\njXFzUpA8YVU+k8Wrp3Xffnz7oa6FBRbMkxH0hI0L4+kjf908WSdX0ZcZINJgHqRh\nBPt+gbn//0RbplzbRs1g+hh+dx0an5LS5qztVU2x1nfJgWzFhPuGeemtpZecCR1M\n/wwB2W9SpoIGeBbo7Dq15QRPyrqEE2pqJv87P2+PuG3QoE+vEpo7wV3kbW50kfY\u003d\n\u003dtDro\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2e6e394_6c82d7c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SchemaDefinitions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-16T19:51:41Z",
+      "side": 1,
+      "message": "Nit: Please annotate @Nullable",
+      "revId": "a290c96803bc414f7075efc3718c407a92b5bdd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "705ce3e8_011aacb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SchemaDefinitions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-16T19:51:41Z",
+      "side": 1,
+      "message": "Optional: In general Iterables.get(schemas.descendingMap().values(), 1) will be faster because the map is navigable, but in this case of course the map has like \u003c10 elements anyway.",
+      "revId": "a290c96803bc414f7075efc3718c407a92b5bdd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24c630e3_7431462b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/GerritBaseTests.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-16T19:51:41Z",
+      "side": 1,
+      "message": "Unneccessary.",
+      "revId": "a290c96803bc414f7075efc3718c407a92b5bdd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

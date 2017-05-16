@@ -712,6 +712,12 @@ limitations under the License.
           assert.equal(element.getCursorStops().length, 50);
         });
       });
+
+      test('adds .hiddenscroll', function() {
+        Gerrit.hiddenscroll = true;
+        element.displayLine = true;
+        assert.include(element.$$('.diffContainer').className, 'hiddenscroll');
+      });
     });
 
     suite('logged in', function() {

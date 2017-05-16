@@ -114,7 +114,6 @@
       this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
       }.bind(this));
-
     },
 
     ready: function() {
@@ -202,6 +201,9 @@
           break;
         default:
           throw Error('Invalid view mode: ', viewMode);
+      }
+      if (Gerrit.hiddenscroll) {
+        classes.push('hiddenscroll');
       }
       if (loggedIn) {
         classes.push('canComment');

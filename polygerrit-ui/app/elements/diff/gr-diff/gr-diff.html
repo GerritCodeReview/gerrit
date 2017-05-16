@@ -23,6 +23,8 @@ limitations under the License.
 <link rel="import" href="../gr-diff-selection/gr-diff-selection.html">
 <link rel="import" href="../gr-syntax-themes/gr-theme-default.html">
 
+<script src="../../../scripts/hiddenscroll.js"></script>
+
 <dom-module id="gr-diff">
   <template>
     <style>
@@ -31,7 +33,6 @@ limitations under the License.
         --dark-remove-highlight-color: rgba(255, 0, 0, 0.15);
         --light-add-highlight-color: #efe;
         --dark-add-highlight-color: rgba(0, 255, 0, 0.15);
-
       }
       :host.no-left .sideBySide ::content .left,
       :host.no-left .sideBySide ::content .left + td,
@@ -46,6 +47,9 @@ limitations under the License.
         font: 12px var(--monospace-font-family);
         overflow-x: auto;
         will-change: transform;
+      }
+      .diffContainer.hiddenscroll {
+        padding-bottom: .8em;
       }
       table {
         border-collapse: collapse;

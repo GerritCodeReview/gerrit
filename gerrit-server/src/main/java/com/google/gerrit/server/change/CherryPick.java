@@ -96,8 +96,8 @@ public class CherryPick
 
     try {
       Change.Id cherryPickedChangeId =
-          // TODO(dborowitz): Pass updateFactory here.
           cherryPickChange.cherryPick(
+              updateFactory,
               revision.getChange(),
               revision.getPatchSet(),
               input.message,

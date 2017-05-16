@@ -52,6 +52,7 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -82,7 +83,6 @@ public class PrimaryStorageMigrator {
   private static final Logger log = LoggerFactory.getLogger(PrimaryStorageMigrator.class);
 
   private final AllUsersName allUsers;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeRebuilder rebuilder;
   private final ChangeUpdate.Factory updateFactory;
@@ -90,6 +90,7 @@ public class PrimaryStorageMigrator {
   private final InternalUser.Factory internalUserFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<ReviewDb> db;
+  private final RetryHelper retryHelper;
 
   private final long skewMs;
   private final long timeoutMs;
@@ -106,7 +107,7 @@ public class PrimaryStorageMigrator {
       Provider<InternalChangeQuery> queryProvider,
       ChangeUpdate.Factory updateFactory,
       InternalUser.Factory internalUserFactory,
-      BatchUpdate.Factory batchUpdateFactory) {
+      RetryHelper retryHelper) {
     this(
         cfg,
         db,
@@ -118,7 +119,7 @@ public class PrimaryStorageMigrator {
         queryProvider,
         updateFactory,
         internalUserFactory,
-        batchUpdateFactory);
+        retryHelper);
   }
 
   @VisibleForTesting
@@ -133,7 +134,7 @@ public class PrimaryStorageMigrator {
       Provider<InternalChangeQuery> queryProvider,
       ChangeUpdate.Factory updateFactory,
       InternalUser.Factory internalUserFactory,
-      BatchUpdate.Factory batchUpdateFactory) {
+      RetryHelper retryHelper) {
     this.db = db;
     this.repoManager = repoManager;
     this.allUsers = allUsers;
@@ -143,7 +144,7 @@ public class PrimaryStorageMigrator {
     this.queryProvider = queryProvider;
     this.updateFactory = updateFactory;
     this.internalUserFactory = internalUserFactory;
-    this.batchUpdateFactory = batchUpdateFactory;
+    this.retryHelper = retryHelper;
     skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
 
     String s = "notedb";
@@ -451,19 +452,27 @@ public class PrimaryStorageMigrator {
   private void releaseReadOnlyLeaseInNoteDb(Project.NameKey project, Change.Id id)
       throws OrmException {
     // Use a BatchUpdate since ReviewDb is primary at this point, so it needs to reflect the update.
-    try (BatchUpdate bu =
-        batchUpdateFactory.create(
-            db.get(), project, internalUserFactory.create(), TimeUtil.nowTs())) {
-      bu.addOp(
-          id,
-          new BatchUpdateOp() {
-            @Override
-            public boolean updateChange(ChangeContext ctx) {
-              ctx.getUpdate(ctx.getChange().currentPatchSetId()).setReadOnlyUntil(new Timestamp(0));
-              return true;
+    // (In practice retrying won't happen, since we aren't using fused updates at this point.)
+    try {
+      retryHelper.execute(
+          updateFactory -> {
+            try (BatchUpdate bu =
+                updateFactory.create(
+                    db.get(), project, internalUserFactory.create(), TimeUtil.nowTs())) {
+              bu.addOp(
+                  id,
+                  new BatchUpdateOp() {
+                    @Override
+                    public boolean updateChange(ChangeContext ctx) {
+                      ctx.getUpdate(ctx.getChange().currentPatchSetId())
+                          .setReadOnlyUntil(new Timestamp(0));
+                      return true;
+                    }
+                  });
+              bu.execute();
+              return null;
             }
           });
-      bu.execute();
     } catch (RestApiException | UpdateException e) {
       throw new OrmException(e);
     }

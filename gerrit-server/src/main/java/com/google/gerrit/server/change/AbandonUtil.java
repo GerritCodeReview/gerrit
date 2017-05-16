@@ -39,7 +39,6 @@ import org.slf4j.LoggerFactory;
 public class AbandonUtil {
   private static final Logger log = LoggerFactory.getLogger(AbandonUtil.class);
 
-  private final BatchUpdate.Factory updateFactory;
   private final ChangeCleanupConfig cfg;
   private final ChangeQueryProcessor queryProcessor;
   private final ChangeQueryBuilder queryBuilder;
@@ -48,13 +47,11 @@ public class AbandonUtil {
 
   @Inject
   AbandonUtil(
-      BatchUpdate.Factory updateFactory,
       ChangeCleanupConfig cfg,
       InternalUser.Factory internalUserFactory,
       ChangeQueryProcessor queryProcessor,
       ChangeQueryBuilder queryBuilder,
       Abandon abandon) {
-    this.updateFactory = updateFactory;
     this.cfg = cfg;
     this.queryProcessor = queryProcessor;
     this.queryBuilder = queryBuilder;
@@ -62,7 +59,7 @@ public class AbandonUtil {
     internalUser = internalUserFactory.create();
   }
 
-  public void abandonInactiveOpenChanges() {
+  public void abandonInactiveOpenChanges(BatchUpdate.Factory updateFactory) {
     if (cfg.getAbandonAfter() <= 0) {
       return;
     }

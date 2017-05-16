@@ -50,6 +50,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -72,7 +73,7 @@ public class MailProcessor {
   private static final Logger log = LoggerFactory.getLogger(MailProcessor.class);
 
   private final AccountByEmailCache accountByEmailCache;
-  private final BatchUpdate.Factory buf;
+  private final RetryHelper retryHelper;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final CommentsUtil commentsUtil;
   private final OneOffRequestContext oneOffRequestContext;
@@ -89,7 +90,7 @@ public class MailProcessor {
   @Inject
   public MailProcessor(
       AccountByEmailCache accountByEmailCache,
-      BatchUpdate.Factory buf,
+      RetryHelper retryHelper,
       ChangeMessagesUtil changeMessagesUtil,
       CommentsUtil commentsUtil,
       OneOffRequestContext oneOffRequestContext,
@@ -103,7 +104,7 @@ public class MailProcessor {
       AccountCache accountCache,
       @CanonicalWebUrl Provider<String> canonicalUrl) {
     this.accountByEmailCache = accountByEmailCache;
-    this.buf = buf;
+    this.retryHelper = retryHelper;
     this.changeMessagesUtil = changeMessagesUtil;
     this.commentsUtil = commentsUtil;
     this.oneOffRequestContext = oneOffRequestContext;
@@ -122,9 +123,17 @@ public class MailProcessor {
    * Parse comments from MailMessage and persist them on the change.
    *
    * @param message MailMessage to process.
-   * @throws OrmException
    */
-  public void process(MailMessage message) throws OrmException {
+  public void process(MailMessage message) throws RestApiException, UpdateException {
+    retryHelper.execute(
+        buf -> {
+          processImpl(buf, message);
+          return null;
+        });
+  }
+
+  private void processImpl(BatchUpdate.Factory buf, MailMessage message)
+      throws OrmException, UpdateException, RestApiException {
     for (DynamicMap.Entry<MailFilter> filter : mailFilters) {
       if (!filter.getProvider().get().shouldProcessMessage(message)) {
         log.warn(
@@ -200,11 +209,7 @@ public class MailProcessor {
       Op o = new Op(new PatchSet.Id(cd.getId(), metadata.patchSet), parsedComments, message.id());
       BatchUpdate batchUpdate = buf.create(cd.db(), project, ctx.getUser(), TimeUtil.nowTs());
       batchUpdate.addOp(cd.getId(), o);
-      try {
-        batchUpdate.execute();
-      } catch (UpdateException | RestApiException e) {
-        throw new OrmException(e);
-      }
+      batchUpdate.execute();
     }
   }
 

@@ -22,6 +22,7 @@ import static com.google.gerrit.server.ChangeUtil.PS_ID_ORDER;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
@@ -53,6 +54,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -101,7 +103,6 @@ public class ConsistencyChecker {
     public abstract List<ProblemInfo> problems();
   }
 
-  private final BatchUpdate.Factory updateFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeNotes.Factory notesFactory;
   private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
@@ -112,7 +113,9 @@ public class ConsistencyChecker {
   private final Provider<CurrentUser> user;
   private final Provider<PersonIdent> serverIdent;
   private final Provider<ReviewDb> db;
+  private final RetryHelper retryHelper;
 
+  private BatchUpdate.Factory updateFactory;
   private FixInput fix;
   private ChangeControl ctl;
   private Repository repo;
@@ -129,7 +132,6 @@ public class ConsistencyChecker {
   @Inject
   ConsistencyChecker(
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
-      BatchUpdate.Factory updateFactory,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeNotes.Factory notesFactory,
       DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
@@ -138,7 +140,8 @@ public class ConsistencyChecker {
       PatchSetInserter.Factory patchSetInserterFactory,
       PatchSetUtil psUtil,
       Provider<CurrentUser> user,
-      Provider<ReviewDb> db) {
+      Provider<ReviewDb> db,
+      RetryHelper retryHelper) {
     this.accountPatchReviewStore = accountPatchReviewStore;
     this.changeControlFactory = changeControlFactory;
     this.db = db;
@@ -147,13 +150,14 @@ public class ConsistencyChecker {
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.psUtil = psUtil;
     this.repoManager = repoManager;
+    this.retryHelper = retryHelper;
     this.serverIdent = serverIdent;
-    this.updateFactory = updateFactory;
     this.user = user;
     reset();
   }
 
   private void reset() {
+    updateFactory = null;
     ctl = null;
     repo = null;
     rw = null;
@@ -167,21 +171,36 @@ public class ConsistencyChecker {
   public Result check(ChangeControl cc, @Nullable FixInput f) {
     checkNotNull(cc);
     try {
-      reset();
-      ctl = cc;
-      fix = f;
-      checkImpl();
-      return result();
-    } finally {
-      if (rw != null) {
-        rw.getObjectReader().close();
-        rw.close();
-        oi.close();
-      }
-      if (repo != null) {
-        repo.close();
-      }
+      return retryHelper.execute(
+          buf -> {
+            try {
+              reset();
+              this.updateFactory = buf;
+              ctl = cc;
+              fix = f;
+              checkImpl();
+              return result();
+            } finally {
+              if (rw != null) {
+                rw.getObjectReader().close();
+                rw.close();
+                oi.close();
+              }
+              if (repo != null) {
+                repo.close();
+              }
+            }
+          });
+    } catch (RestApiException e) {
+      return logAndReturnOneProblem(e, cc, "Error checking change: " + e.getMessage());
+    } catch (UpdateException e) {
+      return logAndReturnOneProblem(e, cc, "Error checking change");
     }
+  }
+
+  private Result logAndReturnOneProblem(Exception e, ChangeControl cc, String problem) {
+    log.warn("Error checking change " + cc.getId(), e);
+    return Result.create(cc, ImmutableList.of(problem(problem)));
   }
 
   private void checkImpl() {

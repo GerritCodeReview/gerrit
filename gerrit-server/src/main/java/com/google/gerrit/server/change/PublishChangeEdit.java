@@ -25,10 +25,12 @@ import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -69,19 +71,22 @@ public class PublishChangeEdit
   }
 
   @Singleton
-  public static class Publish implements RestModifyView<ChangeResource, PublishChangeEditInput> {
+  public static class Publish
+      extends RetryingRestModifyView<ChangeResource, PublishChangeEditInput, Response<?>> {
 
     private final ChangeEditUtil editUtil;
     private final NotifyUtil notifyUtil;
 
     @Inject
-    Publish(ChangeEditUtil editUtil, NotifyUtil notifyUtil) {
+    Publish(RetryHelper retryHelper, ChangeEditUtil editUtil, NotifyUtil notifyUtil) {
+      super(retryHelper);
       this.editUtil = editUtil;
       this.notifyUtil = notifyUtil;
     }
 
     @Override
-    public Response<?> apply(ChangeResource rsrc, PublishChangeEditInput in)
+    protected Response<?> applyImpl(
+        BatchUpdate.Factory updateFactory, ChangeResource rsrc, PublishChangeEditInput in)
         throws IOException, OrmException, RestApiException, UpdateException {
       Capable r = rsrc.getControl().getProjectControl().canPushToAtLeastOneRef();
       if (r != Capable.OK) {
@@ -97,7 +102,11 @@ public class PublishChangeEdit
         in = new PublishChangeEditInput();
       }
       editUtil.publish(
-          rsrc.getControl(), edit.get(), in.notify, notifyUtil.resolveAccounts(in.notifyDetails));
+          updateFactory,
+          rsrc.getControl(),
+          edit.get(),
+          in.notify,
+          notifyUtil.resolveAccounts(in.notifyDetails));
       return Response.none();
     }
   }

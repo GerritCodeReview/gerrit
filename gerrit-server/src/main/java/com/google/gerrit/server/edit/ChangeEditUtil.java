@@ -75,7 +75,6 @@ public class ChangeEditUtil {
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
   private final ChangeKindCache changeKindCache;
-  private final BatchUpdate.Factory updateFactory;
   private final PatchSetUtil psUtil;
 
   @Inject
@@ -87,7 +86,6 @@ public class ChangeEditUtil {
       Provider<ReviewDb> db,
       Provider<CurrentUser> user,
       ChangeKindCache changeKindCache,
-      BatchUpdate.Factory updateFactory,
       PatchSetUtil psUtil) {
     this.gitManager = gitManager;
     this.patchSetInserterFactory = patchSetInserterFactory;
@@ -96,7 +94,6 @@ public class ChangeEditUtil {
     this.db = db;
     this.user = user;
     this.changeKindCache = changeKindCache;
-    this.updateFactory = updateFactory;
     this.psUtil = psUtil;
   }
 
@@ -158,6 +155,7 @@ public class ChangeEditUtil {
   /**
    * Promote change edit to patch set, by squashing the edit into its parent.
    *
+   * @param updateFactory factory for creating updates.
    * @param ctl the {@code ChangeControl} of the change to which the change edit belongs
    * @param edit change edit to publish
    * @param notify Notify handling that defines to whom email notifications should be sent after the
@@ -169,6 +167,7 @@ public class ChangeEditUtil {
    * @throws RestApiException
    */
   public void publish(
+      BatchUpdate.Factory updateFactory,
       ChangeControl ctl,
       final ChangeEdit edit,
       NotifyHandling notify,
@@ -226,17 +225,6 @@ public class ChangeEditUtil {
               }
             });
         bu.execute();
-      } catch (UpdateException e) {
-        if (e.getCause() instanceof IOException
-            && e.getMessage()
-                .equals(
-                    String.format(
-                        "%s: Failed to delete ref %s: %s",
-                        IOException.class.getName(),
-                        edit.getRefName(),
-                        RefUpdate.Result.LOCK_FAILURE.name()))) {
-          throw new ResourceConflictException("edit ref was updated");
-        }
       }
 
       indexer.index(db.get(), inserter.getChange());

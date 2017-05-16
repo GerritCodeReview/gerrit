@@ -52,6 +52,24 @@
       "revId": "1cd5f3beaa43900749116b980deac3965467ec9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d2204b2_749bb36d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T19:20:31Z",
+      "side": 1,
+      "message": "I\u0027m going to have to fudge it a bit to make it pass the linter, then.",
+      "parentUuid": "abf0e390_e5dd441a",
+      "revId": "1cd5f3beaa43900749116b980deac3965467ec9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

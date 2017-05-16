@@ -33,14 +33,14 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-settings-view tests', function() {
-    var element;
-    var menu;
+  suite('gr-settings-view tests', () => {
+    let element;
+    let menu;
 
     function assertMenuNamesEqual(element, expected) {
-      var names = element.menuItems.map(function(i) { return i.name; });
+      const names = element.menuItems.map(i => { return i.name; });
       assert.equal(names.length, expected.length);
-      for (var i = 0; i < names.length; i++) {
+      for (let i = 0; i < names.length; i++) {
         assert.equal(names[i], expected[i]);
       }
     }
@@ -48,13 +48,13 @@ limitations under the License.
     // Click the up/down button (according to direction) for the index'th row.
     // The index of the first row is 0, corresponding to the array.
     function move(element, index, direction) {
-      var selector =
+      const selector =
           'tr:nth-child(' + (index + 1) + ') .move-' + direction + '-button';
-      var button = element.$$('tbody').querySelector(selector);
+      const button = element.$$('tbody').querySelector(selector);
       MockInteractions.tap(button);
     }
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
       menu = [
         {url: '/first/url', name: 'first name', target: '_blank'},
@@ -65,12 +65,12 @@ limitations under the License.
       Polymer.dom.flush();
     });
 
-    test('renders', function() {
-      var rows = element.$$('tbody').querySelectorAll('tr');
-      var tds;
+    test('renders', () => {
+      const rows = element.$$('tbody').querySelectorAll('tr');
+      let tds;
 
       assert.equal(rows.length, menu.length);
-      for (var i = 0; i < menu.length; i++) {
+      for (let i = 0; i < menu.length; i++) {
         tds = rows[i].querySelectorAll('td');
         assert.equal(tds[0].textContent, menu[i].name);
         assert.equal(tds[1].textContent, menu[i].url);
@@ -80,23 +80,23 @@ limitations under the License.
           element._newUrl));
     });
 
-    test('_computeAddDisabled', function() {
+    test('_computeAddDisabled', () => {
       assert.isTrue(element._computeAddDisabled('', ''));
       assert.isTrue(element._computeAddDisabled('name', ''));
       assert.isTrue(element._computeAddDisabled('', 'url'));
       assert.isFalse(element._computeAddDisabled('name', 'url'));
     });
 
-    test('add a new menu item', function() {
-      var newName = 'new name';
-      var newUrl = 'new url';
+    test('add a new menu item', () => {
+      const newName = 'new name';
+      const newUrl = 'new url';
 
       element._newName = newName;
       element._newUrl = newUrl;
       assert.isFalse(element._computeAddDisabled(element._newName,
           element._newUrl));
 
-      var originalMenuLength = element.menuItems.length;
+      const originalMenuLength = element.menuItems.length;
 
       element._handleAddButton();
 
@@ -106,7 +106,7 @@ limitations under the License.
       assert.equal(element.menuItems[element.menuItems.length - 1].url, newUrl);
     });
 
-    test('move items down', function() {
+    test('move items down', () => {
       assertMenuNamesEqual(element,
           ['first name', 'second name', 'third name']);
 
@@ -121,7 +121,7 @@ limitations under the License.
           ['first name', 'third name', 'second name']);
     });
 
-    test('move items up', function() {
+    test('move items up', () => {
       assertMenuNamesEqual(element,
           ['first name', 'second name', 'third name']);
 
@@ -137,7 +137,7 @@ limitations under the License.
           ['third name', 'first name', 'second name']);
     });
 
-    test('remove item', function() {
+    test('remove item', () => {
       assertMenuNamesEqual(element,
           ['first name', 'second name', 'third name']);
 
@@ -148,7 +148,7 @@ limitations under the License.
       assertMenuNamesEqual(element, ['first name', 'third name']);
 
       // Delete remaining items.
-      for (var i = 0; i < 2; i++) {
+      for (let i = 0; i < 2; i++) {
         MockInteractions.tap(
             element.$$('tbody').querySelector('tr:first-child .remove-button'));
       }

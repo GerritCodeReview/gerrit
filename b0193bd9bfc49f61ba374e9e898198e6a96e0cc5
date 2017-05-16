@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c341a9d_8c7740e1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-16T16:43:39Z",
+      "side": 1,
+      "message": "Arrow function here?\n\n update \u003d\u003e {\n\nAlso on l.201.\n\n message \u003d\u003e {",
+      "range": {
+        "startLine": 199,
+        "startChar": 41,
+        "endLine": 199,
+        "endChar": 59
+      },
+      "revId": "b0193bd9bfc49f61ba374e9e898198e6a96e0cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c2509c5_060fe93f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-16T16:43:39Z",
+      "side": 1,
+      "message": "Nit: Indent one more level.",
+      "revId": "b0193bd9bfc49f61ba374e9e898198e6a96e0cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b260cf6_317e2951",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-16T16:43:39Z",
+      "side": 1,
+      "message": "So this subtracts the threshold from the date to shift it before the message? Can it just set it to the same timestamp as the message?",
+      "range": {
+        "startLine": 208,
+        "startChar": 8,
+        "endLine": 209,
+        "endChar": 71
+      },
+      "revId": "b0193bd9bfc49f61ba374e9e898198e6a96e0cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

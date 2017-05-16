@@ -239,7 +239,7 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void createTagNotAllowed() throws Exception {
-    block(Permission.CREATE, REGISTERED_USERS, R_TAGS + "*");
+    block(R_TAGS + "*", Permission.CREATE, REGISTERED_USERS);
     TagInput input = new TagInput();
     input.ref = "test";
     exception.expect(AuthException.class);
@@ -249,7 +249,7 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void createAnnotatedTagNotAllowed() throws Exception {
-    block(Permission.CREATE_TAG, REGISTERED_USERS, R_TAGS + "*");
+    block(R_TAGS + "*", Permission.CREATE_TAG, REGISTERED_USERS);
     TagInput input = new TagInput();
     input.ref = "test";
     input.message = "annotation";

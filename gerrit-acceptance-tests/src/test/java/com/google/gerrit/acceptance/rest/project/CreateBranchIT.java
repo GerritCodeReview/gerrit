@@ -80,7 +80,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   private void blockCreateReference() throws Exception {
-    block(Permission.CREATE, ANONYMOUS_USERS, "refs/*");
+    block("refs/*", Permission.CREATE, ANONYMOUS_USERS);
   }
 
   private void grantOwner() throws Exception {

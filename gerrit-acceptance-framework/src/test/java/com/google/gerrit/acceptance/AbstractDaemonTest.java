@@ -811,24 +811,21 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  protected void deny(String permission, AccountGroup.UUID id, String ref) throws Exception {
-    deny(project, permission, id, ref);
+  protected void deny(String ref, String permission, AccountGroup.UUID id) throws Exception {
+    deny(project, ref, permission, id);
   }
 
-  protected void deny(Project.NameKey p, String permission, AccountGroup.UUID id, String ref)
-      throws Exception {
+  protected void deny(Project.NameKey p, String ref, String permission, AccountGroup.UUID id) throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
     Util.deny(cfg, permission, id, ref);
     saveProjectConfig(p, cfg);
   }
 
-  protected PermissionRule block(String permission, AccountGroup.UUID id, String ref)
-      throws Exception {
-    return block(permission, id, ref, project);
+  protected PermissionRule block(String ref, String permission, AccountGroup.UUID id) throws Exception {
+    return block(project, ref, permission, id);
   }
 
-  protected PermissionRule block(
-      String permission, AccountGroup.UUID id, String ref, Project.NameKey project)
+  protected PermissionRule block(Project.NameKey project, String ref, String permission, AccountGroup.UUID id)
       throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     PermissionRule rule = Util.block(cfg, permission, id, ref);
@@ -848,23 +845,19 @@ public abstract class AbstractDaemonTest {
     saveProjectConfig(project, cfg);
   }
 
-  protected void grant(String permission, Project.NameKey project, String ref)
+  protected void grant(Project.NameKey project, String ref, String permission)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    grant(permission, project, ref, false);
+    grant(project, ref, permission, false);
   }
 
-  protected void grant(String permission, Project.NameKey project, String ref, boolean force)
+  protected void grant(Project.NameKey project, String ref, String permission, boolean force)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
-    grant(permission, project, ref, force, adminGroup.getGroupUUID());
+    grant(project, ref, permission, force, adminGroup.getGroupUUID());
   }
 
   protected void grant(
-      String permission,
-      Project.NameKey project,
-      String ref,
-      boolean force,
-      AccountGroup.UUID groupUUID)
+      Project.NameKey project, String ref, String permission, boolean force, AccountGroup.UUID groupUUID)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       md.setMessage(String.format("Grant %s on %s", permission, ref));
@@ -879,7 +872,7 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  protected void removePermission(String permission, Project.NameKey project, String ref)
+  protected void removePermission(Project.NameKey project, String ref, String permission)
       throws IOException, ConfigInvalidException {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       md.setMessage(String.format("Remove %s on %s", permission, ref));
@@ -893,7 +886,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void blockRead(String ref) throws Exception {
-    block(Permission.READ, REGISTERED_USERS, ref);
+    block(ref, Permission.READ, REGISTERED_USERS);
   }
 
   protected void blockForgeCommitter(Project.NameKey project, String ref) throws Exception {
@@ -1007,10 +1000,10 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void grantTagPermissions() throws Exception {
-    grant(Permission.CREATE, project, R_TAGS + "*");
-    grant(Permission.DELETE, project, R_TAGS + "");
-    grant(Permission.CREATE_TAG, project, R_TAGS + "*");
-    grant(Permission.CREATE_SIGNED_TAG, project, R_TAGS + "*");
+    grant(project, R_TAGS + "*", Permission.CREATE);
+    grant(project, R_TAGS + "", Permission.DELETE);
+    grant(project, R_TAGS + "*", Permission.CREATE_TAG);
+    grant(project, R_TAGS + "*", Permission.CREATE_SIGNED_TAG);
   }
 
   protected void assertMailReplyTo(Message message, String email) throws Exception {
@@ -1178,8 +1171,8 @@ public abstract class AbstractDaemonTest {
   protected TestRepository<?> createProjectWithPush(
       String name, @Nullable Project.NameKey parent, SubmitType submitType) throws Exception {
     Project.NameKey project = createProject(name, parent, true, submitType);
-    grant(Permission.PUSH, project, "refs/heads/*");
-    grant(Permission.SUBMIT, project, "refs/for/refs/heads/*");
+    grant(project, "refs/heads/*", Permission.PUSH);
+    grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
     return cloneProject(project);
   }
 

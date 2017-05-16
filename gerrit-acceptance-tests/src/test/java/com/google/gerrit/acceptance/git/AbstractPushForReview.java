@@ -119,7 +119,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     Util.allow(
         cfg, Permission.forLabel(patchSetLock.getName()), 0, 1, anonymousUsers, "refs/heads/*");
     saveProjectConfig(cfg);
-    grant(Permission.LABEL + "Patch-Set-Lock", project, "refs/heads/*");
+    grant(project, "refs/heads/*", Permission.LABEL + "Patch-Set-Lock");
   }
 
   @After
@@ -932,7 +932,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushSameCommitTwiceUsingMagicBranchBaseOption() throws Exception {
-    grant(Permission.PUSH, project, "refs/heads/master");
+    grant(project, "refs/heads/master", Permission.PUSH);
     PushOneCommit.Result rBase = pushTo("refs/heads/master");
     rBase.assertOkStatus();
 
@@ -1356,7 +1356,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void createChangeForMergedCommit() throws Exception {
     String master = "refs/heads/master";
-    grant(Permission.PUSH, project, master, true);
+    grant(project, master, Permission.PUSH, true);
 
     // Update master with a direct push.
     RevCommit c1 = testRepo.commit().message("Non-change 1").create();
@@ -1455,7 +1455,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void mergedOptionWithExistingChangeInsertsPatchSet() throws Exception {
     String master = "refs/heads/master";
-    grant(Permission.PUSH, project, master, true);
+    grant(project, master, Permission.PUSH, true);
 
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();

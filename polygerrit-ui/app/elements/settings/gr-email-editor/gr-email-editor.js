@@ -27,7 +27,7 @@
       _emails: Array,
       _emailsToRemove: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
       _newPreferred: {
         type: String,
@@ -35,16 +35,16 @@
       },
     },
 
-    loadData: function() {
-      return this.$.restAPI.getAccountEmails().then(function(emails) {
+    loadData() {
+      return this.$.restAPI.getAccountEmails().then(emails => {
         this._emails = emails;
-      }.bind(this));
+      });
     },
 
-    save: function() {
-      var promises = [];
+    save() {
+      const promises = [];
 
-      for (var i = 0; i < this._emailsToRemove.length; i++) {
+      for (let i = 0; i < this._emailsToRemove.length; i++) {
         promises.push(this.$.restAPI.deleteAccountEmail(
             this._emailsToRemove[i].email));
       }
@@ -54,30 +54,30 @@
             this._newPreferred));
       }
 
-      return Promise.all(promises).then(function() {
+      return Promise.all(promises).then(() => {
         this._emailsToRemove = [];
         this._newPreferred = null;
         this.hasUnsavedChanges = false;
-      }.bind(this));
+      });
     },
 
-    _handleDeleteButton: function(e) {
-      var index = parseInt(e.target.getAttribute('data-index'));
-      var email = this._emails[index];
+    _handleDeleteButton(e) {
+      const index = parseInt(e.target.getAttribute('data-index'));
+      const email = this._emails[index];
       this.push('_emailsToRemove', email);
       this.splice('_emails', index, 1);
       this.hasUnsavedChanges = true;
     },
 
-    _handlePreferredControlTap: function(e) {
+    _handlePreferredControlTap(e) {
       if (e.target.classList.contains('preferredControl')) {
         e.target.firstElementChild.click();
       }
     },
 
-    _handlePreferredChange: function(e) {
-      var preferred = e.target.value;
-      for (var i = 0; i < this._emails.length; i++) {
+    _handlePreferredChange(e) {
+      const preferred = e.target.value;
+      for (let i = 0; i < this._emails.length; i++) {
         if (preferred === this._emails[i].email) {
           this.set(['_emails', i, 'preferred'], true);
           this._newPreferred = preferred;

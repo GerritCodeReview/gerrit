@@ -48,6 +48,8 @@
       _showChangeView: Boolean,
       _showDiffView: Boolean,
       _showSettingsView: Boolean,
+      _showAdminView: Boolean,
+      _showCLAView: Boolean,
       _viewState: Object,
       _lastError: Object,
       _lastSearchPage: String,

@@ -40,6 +40,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -49,6 +50,7 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.update.BatchUpdateReviewDb;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -410,6 +412,12 @@ public class CommentsUtil {
     if (PrimaryStorage.of(update.getChange()).equals(PrimaryStorage.REVIEW_DB)) {
       PatchLineComment.Key key =
           new PatchLineComment.Key(new Patch.Key(psId, commentKey.filename), commentKey.uuid);
+
+      if (db instanceof BatchUpdateReviewDb) {
+        db = ((BatchUpdateReviewDb) db).unsafeGetDelegate();
+      }
+      db = ReviewDbUtil.unwrapDb(db);
+
       PatchLineComment patchLineComment = db.patchComments().get(key);
 
       if (!patchLineComment.getStatus().equals(PUBLISHED)) {

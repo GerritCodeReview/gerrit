@@ -31,64 +31,63 @@
       },
       _keysToRemove: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
     },
 
-    loadData: function() {
-      return this.$.restAPI.getAccountSSHKeys().then(function(keys) {
+    loadData() {
+      return this.$.restAPI.getAccountSSHKeys().then(keys => {
         this._keys = keys;
-      }.bind(this));
+      });
     },
 
-    save: function() {
-      var promises = this._keysToRemove.map(function(key) {
+    save() {
+      const promises = this._keysToRemove.map(key => {
         this.$.restAPI.deleteAccountSSHKey(key.seq);
-      }.bind(this));
+      });
 
-      return Promise.all(promises).then(function() {
+      return Promise.all(promises).then(() => {
         this._keysToRemove = [];
         this.hasUnsavedChanges = false;
-      }.bind(this));
+      });
     },
 
-    _getStatusLabel: function(isValid) {
+    _getStatusLabel(isValid) {
       return isValid ? 'Valid' : 'Invalid';
     },
 
-    _showKey: function(e) {
-      var index = parseInt(e.target.getAttribute('data-index'), 10);
+    _showKey(e) {
+      const index = parseInt(e.target.getAttribute('data-index'), 10);
       this._keyToView = this._keys[index];
       this.$.viewKeyOverlay.open();
     },
 
-    _closeOverlay: function() {
+    _closeOverlay() {
       this.$.viewKeyOverlay.close();
     },
 
-    _handleDeleteKey: function(e) {
-      var index = parseInt(e.target.getAttribute('data-index'), 10);
+    _handleDeleteKey(e) {
+      const index = parseInt(e.target.getAttribute('data-index'), 10);
       this.push('_keysToRemove', this._keys[index]);
       this.splice('_keys', index, 1);
       this.hasUnsavedChanges = true;
     },
 
-    _handleAddKey: function() {
+    _handleAddKey() {
       this.$.addButton.disabled = true;
       this.$.newKey.disabled = true;
       return this.$.restAPI.addAccountSSHKey(this._newKey.trim())
-          .then(function(key) {
+          .then(key => {
             this.$.newKey.disabled = false;
             this._newKey = '';
             this.push('_keys', key);
-          }.bind(this))
-          .catch(function() {
+          }).catch(() => {
             this.$.addButton.disabled = false;
             this.$.newKey.disabled = false;
-          }.bind(this));
+          });
     },
 
-    _computeAddButtonDisabled: function(newKey) {
+    _computeAddButtonDisabled(newKey) {
       return !newKey.length;
     },
   });

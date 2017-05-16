@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af467d89_025e6696",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-16T18:27:30Z",
+      "side": 1,
+      "message": "I think this would fit better in around line 278, for two reasons: \n1) If a user is an admin, and comments are collapsed the delete button adds space. More often than not, they are not deleting the comment.\n2) I think the placement below the comment looks better visually too.",
+      "range": {
+        "startLine": 210,
+        "startChar": 7,
+        "endLine": 216,
+        "endChar": 20
+      },
+      "revId": "c90d10c4033fc5f6279f164c802eb0ba4a3823e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f6a636e_f49d35f1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-16T18:27:30Z",
+      "side": 1,
+      "message": "See here for similar placement for robot comment \u0027please fix\u0027 button",
+      "range": {
+        "startLine": 278,
+        "startChar": 6,
+        "endLine": 283,
+        "endChar": 20
+      },
+      "revId": "c90d10c4033fc5f6279f164c802eb0ba4a3823e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

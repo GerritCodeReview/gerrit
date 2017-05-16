@@ -118,7 +118,7 @@ limitations under the License.
         font-family: var(--monospace-font-family);
         margin-right: 1em;
         margin-bottom: 1em;
-        max-width: 72ch;
+        max-width: var(--commit-message-max-width, 72ch);;
       }
       .commitMessage gr-linked-text {
         overflow: auto;
@@ -230,7 +230,11 @@ limitations under the License.
         margin-left: 1em;
         padding-top: var(--related-change-btn-top-padding, 0);
       }
-
+      @media screen and (min-width: 80em) {
+        .commitMessage {
+          max-width: var(--commit-message-max-width, 100ch);
+        }
+      }
       /* NOTE: If you update this breakpoint, also update the
       BREAKPOINT_RELATED_MED in the JS */
       @media screen and (max-width: 60em) {

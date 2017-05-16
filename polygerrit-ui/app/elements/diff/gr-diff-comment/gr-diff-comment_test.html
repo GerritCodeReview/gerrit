@@ -476,6 +476,7 @@ limitations under the License.
 
     test('draft saving/editing', function(done) {
       var fireStub = sinon.stub(element, 'fire');
+      let cancelDebounce = sandbox.stub(element, 'cancelDebouncer');
 
       element.draft = true;
       MockInteractions.tap(element.$$('.edit'));
@@ -507,6 +508,7 @@ limitations under the License.
       element._xhrPromise.then(function(draft) {
         assert(fireStub.calledWith('comment-save'),
                'comment-save should be sent');
+        assert(cancelDebounce.calledWith('store'));
         assert.deepEqual(fireStub.lastCall.args[1], {
           comment: {
             __commentSide: 'right',

@@ -14,8 +14,8 @@
 (function() {
   'use strict';
 
-  var AWAIT_MAX_ITERS = 10;
-  var AWAIT_STEP = 5;
+  const AWAIT_MAX_ITERS = 10;
+  const AWAIT_STEP = 5;
 
   Polymer({
     is: 'gr-overlay',
@@ -24,17 +24,17 @@
       Polymer.IronOverlayBehavior,
     ],
 
-    open: function() {
-      return new Promise(function(resolve) {
-        Polymer.IronOverlayBehaviorImpl.open.apply(this, arguments);
+    open(...args) {
+      return new Promise(resolve => {
+        Polymer.IronOverlayBehaviorImpl.open.apply(this, args);
         this._awaitOpen(resolve);
-      }.bind(this));
+      });
     },
 
     /**
      * Override the focus stops that iron-overlay-behavior tries to find.
      */
-    setFocusStops: function(stops) {
+    setFocusStops(stops) {
       this.__firstFocusableNode = stops.start;
       this.__lastFocusableNode = stops.end;
     },
@@ -43,21 +43,21 @@
      * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
      * opening. Eventually replace with a direct way to listen to the overlay.
      */
-    _awaitOpen: function(fn) {
-      var iters = 0;
-      var step = function() {
-        this.async(function() {
+    _awaitOpen(fn) {
+      let iters = 0;
+      const step = () => {
+        this.async(() => {
           if (this.style.display !== 'none') {
             fn.call(this);
           } else if (iters++ < AWAIT_MAX_ITERS) {
             step.call(this);
           }
-        }.bind(this), AWAIT_STEP);
-      }.bind(this);
+        }, AWAIT_STEP);
+      };
       step.call(this);
     },
 
-    _id: function() {
+    _id() {
       return this.getAttribute('id') || 'global';
     },
   });

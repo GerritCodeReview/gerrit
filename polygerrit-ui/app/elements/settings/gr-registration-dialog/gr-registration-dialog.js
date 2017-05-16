@@ -38,39 +38,39 @@
       role: 'dialog',
     },
 
-    attached: function() {
-      this.$.restAPI.getAccount().then(function(account) {
+    attached() {
+      this.$.restAPI.getAccount().then(account => {
         this._account = account;
-      }.bind(this));
+      });
     },
 
-    _handleNameKeydown: function(e) {
+    _handleNameKeydown(e) {
       if (e.keyCode === 13) { // Enter
         e.stopPropagation();
         this._save();
       }
     },
 
-    _save: function() {
+    _save() {
       this._saving = true;
-      var promises = [
+      const promises = [
         this.$.restAPI.setAccountName(this.$.name.value),
         this.$.restAPI.setPreferredAccountEmail(this.$.email.value),
       ];
-      return Promise.all(promises).then(function() {
+      return Promise.all(promises).then(() => {
         this._saving = false;
         this.fire('account-detail-update');
-      }.bind(this));
+      });
     },
 
-    _handleSave: function(e) {
+    _handleSave(e) {
       e.preventDefault();
-      this._save().then(function() {
+      this._save().then(() => {
         this.fire('close');
-      }.bind(this));
+      });
     },
 
-    _handleClose: function(e) {
+    _handleClose(e) {
       e.preventDefault();
       this._saving = true; // disable buttons indefinitely
       this.fire('close');

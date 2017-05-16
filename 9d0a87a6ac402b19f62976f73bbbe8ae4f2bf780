@@ -22,6 +22,30 @@
       "revId": "9d0a87a6ac402b19f62976f73bbbe8ae4f2bf780",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d062b2f_1fb5968f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T00:26:00Z",
+      "side": 1,
+      "message": "http://eslint.org/docs/rules/prefer-rest-params :)",
+      "parentUuid": "ebc1bf3b_f6f79add",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 16
+      },
+      "revId": "9d0a87a6ac402b19f62976f73bbbe8ae4f2bf780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

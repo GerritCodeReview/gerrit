@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a3a6903f_8118ad66",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T23:41:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95c7b9d1_ae933860",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 36
+      },
+      "revId": "cf4513d14b4b8ea1801c3fdf09b9bca5d1835b6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55e557c8_3c986e1f",
         "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.js",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "cf4513d14b4b8ea1801c3fdf09b9bca5d1835b6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36ac060e_9fb7fe2a",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T23:41:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55e557c8_3c986e1f",
+      "revId": "cf4513d14b4b8ea1801c3fdf09b9bca5d1835b6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

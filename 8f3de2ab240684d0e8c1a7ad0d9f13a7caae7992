@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9b64c150_27675d6e",
+        "filename": "tools/bzl/check-format.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-16T13:18:59Z",
+      "side": 1,
+      "message": "in the interest of readabiity (I\u0027m not a shell guru), I\u0027d rather keep it like this.",
+      "parentUuid": "1b21b032_7c85e794",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "8f3de2ab240684d0e8c1a7ad0d9f13a7caae7992",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e10bf8a_8cda9818",
         "filename": "tools/bzl/check-format.sh",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-15T14:25:14Z",
       "side": 1,
       "message": "Use parameter substitution?\n\n  src\u003d${1:-\"\"}",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 2
+      },
+      "revId": "8f3de2ab240684d0e8c1a7ad0d9f13a7caae7992",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c825328_52cfc01f",
+        "filename": "tools/bzl/check-format.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-16T13:18:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e10bf8a_8cda9818",
       "range": {
         "startLine": 22,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "40c1f433_e5b2390f",
+        "filename": "tools/bzl/check-format.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-16T13:18:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6a6604b_ee28118e",
+      "range": {
+        "startLine": 33,
+        "startChar": 11,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "8f3de2ab240684d0e8c1a7ad0d9f13a7caae7992",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18ac4af1_07d9a1db",
         "filename": "tools/bzl/check-format.sh",
         "patchSetId": 8
@@ -82,6 +154,30 @@
       "writtenOn": "2017-05-15T14:25:14Z",
       "side": 1,
       "message": "Same as above",
+      "range": {
+        "startLine": 36,
+        "startChar": 24,
+        "endLine": 36,
+        "endChar": 28
+      },
+      "revId": "8f3de2ab240684d0e8c1a7ad0d9f13a7caae7992",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a957e01_32e3f7ff",
+        "filename": "tools/bzl/check-format.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-16T13:18:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18ac4af1_07d9a1db",
       "range": {
         "startLine": 36,
         "startChar": 24,

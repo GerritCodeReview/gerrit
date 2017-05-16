@@ -67,6 +67,10 @@
       this.$.input.setText(text);
     },
 
+    getText() {
+      return this.$.input.text;
+    },
+
     _handleInputCommit(e) {
       this.fire('add', {value: e.detail.value});
     },

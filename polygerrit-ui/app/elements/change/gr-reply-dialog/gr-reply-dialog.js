@@ -136,6 +136,10 @@
         type: String,
         computed: '_computeSendButtonLabel(canBeStarted)',
       },
+      _ccsEnabled: {
+        type: Boolean,
+        computed: '_computeCCsEnabled(serverConfig)',
+      },
     },
 
     FocusTarget,
@@ -472,7 +476,7 @@
         }
       }
 
-      if (serverConfig.note_db_enabled) {
+      if (this._ccsEnabled) {
         this._ccs = ccs;
       } else {
         this._ccs = [];
@@ -500,9 +504,7 @@
       }
 
       const key = this._accountOrGroupKey(entry);
-      const finder = function(entry) {
-        return this._accountOrGroupKey(entry) === key;
-      }.bind(this);
+      const finder = entry => this._accountOrGroupKey(entry) === key;
 
       return this._reviewers.find(finder) === undefined &&
           this._ccs.find(finder) === undefined;
@@ -526,6 +528,11 @@
 
     _saveTapHandler(e) {
       e.preventDefault();
+      if (this._ccsEnabled && !this.$$('#ccs').submitEntryText()) {
+        // Do not proceed with the save if there is an invalid email entry in
+        // the text field of the CC entry.
+        return;
+      }
       this.send(this._includeComments).then(keepReviewers => {
         this._purgeReviewersPendingRemove(false, keepReviewers);
       });
@@ -533,14 +540,17 @@
 
     _sendTapHandler(e) {
       e.preventDefault();
+      if (this._ccsEnabled && !this.$$('#ccs').submitEntryText()) {
+        // Do not proceed with the send if there is an invalid email entry in
+        // the text field of the CC entry.
+        return;
+      }
       if (this.canBeStarted) {
-        this._startReview()
-            .then(() => {
-              return this.send(this._includeComments);
-            })
-            .then(keepReviewers => {
-              this._purgeReviewersPendingRemove(false, keepReviewers);
-            });
+        this._startReview().then(() => {
+          return this.send(this._includeComments);
+        }).then(keepReviewers => {
+          this._purgeReviewersPendingRemove(false, keepReviewers);
+        });
         return;
       }
       this.send(this._includeComments).then(keepReviewers => {
@@ -635,6 +645,10 @@
 
     _computeSendButtonLabel(canBeStarted) {
       return canBeStarted ? 'Start review' : 'Send';
+    },
+
+    _computeCCsEnabled(serverConfig) {
+      return serverConfig && serverConfig.note_db_enabled;
     },
   });
 })();

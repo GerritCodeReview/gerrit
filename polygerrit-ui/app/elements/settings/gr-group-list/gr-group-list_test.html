@@ -32,11 +32,11 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-group-list tests', function() {
-    var element;
-    var groups;
+  suite('gr-group-list tests', () => {
+    let element;
+    let groups;
 
-    setup(function(done) {
+    setup(done => {
       groups = [{
         url: 'some url',
         options: {},
@@ -46,39 +46,40 @@ limitations under the License.
         owner_id: '123',
         id: 'abc',
         name: 'Group 1',
-      },{
+      }, {
         options: {visible_to_all: true},
         id: '456',
         name: 'Group 2',
-      },{
+      }, {
         options: {},
         id: '789',
         name: 'Group 3',
       }];
 
       stub('gr-rest-api-interface', {
-        getAccountGroups: function() { return Promise.resolve(groups); },
+        getAccountGroups() { return Promise.resolve(groups); },
       });
 
       element = fixture('basic');
 
-      element.loadData().then(function() { flush(done); });
+      element.loadData().then(() => { flush(done); });
     });
 
-    test('renders', function() {
-      var rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
+    test('renders', () => {
+      const rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
 
       assert.equal(rows.length, 3);
 
-      var nameCells = rows.map(
-          function(row) { return row.querySelectorAll('td')[0].textContent; });
+      const nameCells = rows.map(row =>
+        row.querySelectorAll('td')[0].textContent
+      );
 
       assert.equal(nameCells[0], 'Group 1');
       assert.equal(nameCells[1], 'Group 2');
       assert.equal(nameCells[2], 'Group 3');
     });
 
-    test('_computeVisibleToAll', function() {
+    test('_computeVisibleToAll', () => {
       assert.equal(element._computeVisibleToAll(groups[0]), 'No');
       assert.equal(element._computeVisibleToAll(groups[1]), 'Yes');
     });

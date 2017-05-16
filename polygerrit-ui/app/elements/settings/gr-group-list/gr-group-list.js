@@ -21,15 +21,15 @@
       _groups: Array,
     },
 
-    loadData: function() {
-      return this.$.restAPI.getAccountGroups().then(function(groups) {
-        this._groups = groups.sort(function(a, b) {
+    loadData() {
+      return this.$.restAPI.getAccountGroups().then(groups => {
+        this._groups = groups.sort((a, b) => {
           return a.name.localeCompare(b.name);
         });
-      }.bind(this));
+      });
     },
 
-    _computeVisibleToAll: function(group) {
+    _computeVisibleToAll(group) {
       return group.options.visible_to_all ? 'Yes' : 'No';
     },
   });

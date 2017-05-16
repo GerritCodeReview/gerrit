@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7822dbbe_f5e55969",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-16T18:14:52Z",
+      "side": 1,
+      "message": "-2 indent to the block?\nUp to you.",
+      "revId": "c7add0e678171b7bc7124deb8513b7d5326eb20b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

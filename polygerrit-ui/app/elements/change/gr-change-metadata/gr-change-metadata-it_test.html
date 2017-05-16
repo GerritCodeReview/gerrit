@@ -40,76 +40,76 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-metadata integration tests', function() {
-    var sandbox;
-    var element;
+  suite('gr-change-metadata integration tests', () => {
+    let sandbox;
+    let element;
 
-    var sectionSelectors = [
+    const sectionSelectors = [
       'section.assignee',
       'section.labelStatus',
       'section.strategy',
       'section.topic',
     ];
 
-    var getStyle = function(selector, name) {
+    const getStyle = function(selector, name) {
       return window.getComputedStyle(
           Polymer.dom(element.root).querySelector(selector))[name];
     };
 
-    setup(function() {
+    setup(() => {
       sandbox = sinon.sandbox.create();
       stub('gr-change-metadata', {
-        _computeShowLabelStatus: function() { return true; },
-        _computeShowReviewersByState: function() { return true; },
-        ready: function() {
+        _computeShowLabelStatus() { return true; },
+        _computeShowReviewersByState() { return true; },
+        ready() {
           this.change = {labels: []};
           this.serverConfig = {};
         },
       });
     });
 
-    teardown(function() {
+    teardown(() => {
       Gerrit._pluginsPending = -1;
       Gerrit._allPluginsPromise = undefined;
       sandbox.restore();
     });
 
-    suite('by default', function() {
-      setup(function(done) {
+    suite('by default', () => {
+      setup(done => {
         element = fixture('element');
         flush(done);
       });
 
-      sectionSelectors.forEach(function(sectionSelector) {
-        test(sectionSelector + ' does not have display: none', function() {
+      for (const sectionSelector of sectionSelectors) {
+        test(sectionSelector + ' does not have display: none', () => {
           assert.notEqual(getStyle(sectionSelector, 'display'), 'none');
         });
-      });
+      }
     });
 
-    suite('with plugin style', function() {
-      setup(function(done) {
-        var pluginHost = fixture('plugin-host');
+    suite('with plugin style', () => {
+      setup(done => {
+        const pluginHost = fixture('plugin-host');
         pluginHost.config = {
           js_resource_paths: [],
           html_resource_paths: [
             new URL('test/plugin.html', window.location.href).toString(),
-          ]
+          ],
         };
         element = fixture('element');
-        var importSpy = sandbox.spy(element.$.externalStyle, '_import');
-        Gerrit.awaitPluginsLoaded().then(function() {
-          Promise.all(importSpy.returnValues).then(function() {
+        const importSpy = sandbox.spy(element.$.externalStyle, '_import');
+        Gerrit.awaitPluginsLoaded().then(() => {
+          Promise.all(importSpy.returnValues).then(() => {
             flush(done);
           });
         });
       });
 
-      sectionSelectors.forEach(function(sectionSelector) {
-        test(sectionSelector + ' may have display: none', function() {
+      for (const sectionSelector of sectionSelectors) {
+        test(sectionSelector + ' may have display: none', () => {
           assert.equal(getStyle(sectionSelector, 'display'), 'none');
         });
-      });
+      }
     });
   });
 </script>

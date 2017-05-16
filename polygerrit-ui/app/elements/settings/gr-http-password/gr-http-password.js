@@ -23,33 +23,33 @@
       _passwordUrl: String,
     },
 
-    loadData: function() {
-      var promises = [];
+    loadData() {
+      const promises = [];
 
-      promises.push(this.$.restAPI.getAccount().then(function(account) {
+      promises.push(this.$.restAPI.getAccount().then(account => {
         this._username = account.username;
-      }.bind(this)));
+      }));
 
-      promises.push(this.$.restAPI.getConfig().then(function(info) {
+      promises.push(this.$.restAPI.getConfig().then(info => {
         this._passwordUrl = info.auth.http_password_url || null;
-      }.bind(this)));
+      }));
 
       return Promise.all(promises);
     },
 
-    _handleGenerateTap: function() {
+    _handleGenerateTap() {
       this._generatedPassword = 'Generating...';
       this.$.generatedPasswordOverlay.open();
-      this.$.restAPI.generateAccountHttpPassword().then(function(newPassword) {
+      this.$.restAPI.generateAccountHttpPassword().then(newPassword => {
         this._generatedPassword = newPassword;
-      }.bind(this));
+      });
     },
 
-    _closeOverlay: function() {
+    _closeOverlay() {
       this.$.generatedPasswordOverlay.close();
     },
 
-    _generatedPasswordOverlayClosed: function() {
+    _generatedPasswordOverlayClosed() {
       this._generatedPassword = null;
     },
   });

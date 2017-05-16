@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "719baea0_74dd7562",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-16T20:09:53Z",
+      "side": 1,
+      "message": "To run internally we will need to support system properties as wel.",
+      "range": {
+        "startLine": 7,
+        "startChar": 52,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ab189c3a_baad71a4",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/LuceneQueryAccountsTest.java",
         "patchSetId": 6

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae6eb9f0_c531f904",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-16T20:21:48Z",
+      "side": 1,
+      "message": "person.toExternalString().toLowerCase(Locale.US)",
+      "range": {
+        "startLine": 349,
+        "startChar": 23,
+        "endLine": 349,
+        "endChar": 60
+      },
+      "revId": "501e66a99d1e1d2d918bffdba1cb63c51fbc3377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16f56871_8b6fba3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-16T20:21:48Z",
+      "side": 1,
+      "message": "We can only generate predicates with the exact variants if the exact field is present in the index, otherwise it will be an error, I believe. In other words I don\u0027t think this will work with old versions of the index; maybe try rebasing on Edwin\u0027s series to run tests against old schema versions and seeing if it passes?",
+      "revId": "501e66a99d1e1d2d918bffdba1cb63c51fbc3377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c23e62e_77742c04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-16T20:21:48Z",
+      "side": 1,
+      "message": "We can only generate predicates with the exact variants if the exact field is present in the index, otherwise it will be an error, I believe. In other words I don\u0027t think this will work with old versions of the index; maybe try rebasing on Edwin\u0027s series to run tests against old schema versions and seeing if it passes?",
+      "revId": "501e66a99d1e1d2d918bffdba1cb63c51fbc3377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28f03ca6_c40b438a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1225,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-16T20:21:48Z",
+      "side": 1,
+      "message": "Hm, I think this can never match if Address.tryParse(who) returned null?",
+      "range": {
+        "startLine": 1225,
+        "startChar": 24,
+        "endLine": 1225,
+        "endChar": 53
+      },
+      "revId": "501e66a99d1e1d2d918bffdba1cb63c51fbc3377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -38,20 +38,20 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-diff-cursor tests', function() {
-    var sandbox;
-    var cursorElement;
-    var diffElement;
-    var mockDiffResponse;
+  suite('gr-diff-cursor tests', () => {
+    let sandbox;
+    let cursorElement;
+    let diffElement;
+    let mockDiffResponse;
 
-    setup(function(done) {
+    setup(done => {
       sandbox = sinon.sandbox.create();
 
       stub('gr-rest-api-interface', {
-        getLoggedIn: function() { return Promise.resolve(false); },
+        getLoggedIn() { return Promise.resolve(false); },
       });
 
-      var fixtureElems = fixture('basic');
+      const fixtureElems = fixture('basic');
       mockDiffResponse = fixtureElems[0];
       diffElement = fixtureElems[1];
       cursorElement = fixtureElems[2];
@@ -59,27 +59,27 @@ limitations under the License.
       // Register the diff with the cursor.
       cursorElement.push('diffs', diffElement);
 
-      diffElement.$.restAPI.getDiffPreferences().then(function(prefs) {
+      diffElement.$.restAPI.getDiffPreferences().then(prefs => {
         diffElement.prefs = prefs;
       });
 
-      sandbox.stub(diffElement, '_getDiff', function() {
+      sandbox.stub(diffElement, '_getDiff', () => {
         return Promise.resolve(mockDiffResponse.diffResponse);
       });
 
-      sandbox.stub(diffElement, '_getDiffComments', function() {
+      sandbox.stub(diffElement, '_getDiffComments', () => {
         return Promise.resolve({baseComments: [], comments: []});
       });
 
-      sandbox.stub(diffElement, '_getDiffDrafts', function() {
+      sandbox.stub(diffElement, '_getDiffDrafts', () => {
         return Promise.resolve({baseComments: [], comments: []});
       });
 
-      sandbox.stub(diffElement, '_getDiffRobotComments', function() {
+      sandbox.stub(diffElement, '_getDiffRobotComments', () => {
         return Promise.resolve({baseComments: [], comments: []});
       });
 
-      var setupDone = function() {
+      const setupDone = () => {
         cursorElement.moveToFirstChunk();
         diffElement.removeEventListener('render', setupDone);
         done();
@@ -89,13 +89,13 @@ limitations under the License.
       diffElement.reload();
     });
 
-    teardown(() => { sandbox.restore(); });
+    teardown(() => sandbox.restore());
 
-    test('diff cursor functionality (side-by-side)', function() {
+    test('diff cursor functionality (side-by-side)', () => {
       // The cursor has been initialized to the first delta.
       assert.isOk(cursorElement.diffRow);
 
-      var firstDeltaRow = diffElement.$$('.section.delta .diff-row');
+      const firstDeltaRow = diffElement.$$('.section.delta .diff-row');
       assert.equal(cursorElement.diffRow, firstDeltaRow);
 
       cursorElement.moveDown();
@@ -109,7 +109,7 @@ limitations under the License.
       assert.equal(cursorElement.diffRow, firstDeltaRow);
     });
 
-    test('cursor scroll behavior', function() {
+    test('cursor scroll behavior', () => {
       cursorElement._handleDiffRenderStart();
       assert.equal(cursorElement._scrollBehavior, 'keep-visible');
 
@@ -120,11 +120,10 @@ limitations under the License.
       assert.equal(cursorElement._scrollBehavior, 'keep-visible');
     });
 
-    suite('unified diff', function() {
-
-      setup(function(done) {
+    suite('unified diff', () => {
+      setup(done => {
         // We must allow the diff to re-render after setting the viewMode.
-        var renderHandler = function() {
+        const renderHandler = function() {
           diffElement.removeEventListener('render', renderHandler);
           cursorElement.reInitCursor();
           done();
@@ -133,11 +132,11 @@ limitations under the License.
         diffElement.viewMode = 'UNIFIED_DIFF';
       });
 
-      test('diff cursor functionality (unified)', function() {
+      test('diff cursor functionality (unified)', () => {
         // The cursor has been initialized to the first delta.
         assert.isOk(cursorElement.diffRow);
 
-        var firstDeltaRow = diffElement.$$('.section.delta .diff-row');
+        let firstDeltaRow = diffElement.$$('.section.delta .diff-row');
         assert.equal(cursorElement.diffRow, firstDeltaRow);
 
         firstDeltaRow = diffElement.$$('.section.delta .diff-row');
@@ -155,19 +154,19 @@ limitations under the License.
       });
     });
 
-    test('cursor side functionality', function() {
+    test('cursor side functionality', () => {
       // The side only applies to side-by-side mode, which should be the default
       // mode.
       assert.equal(diffElement.viewMode, 'SIDE_BY_SIDE');
 
-      var firstDeltaSection = diffElement.$$('.section.delta');
-      var firstDeltaRow = firstDeltaSection.querySelector('.diff-row');
+      const firstDeltaSection = diffElement.$$('.section.delta');
+      const firstDeltaRow = firstDeltaSection.querySelector('.diff-row');
 
       // Because the first delta in this diff is on the right, it should be set
       // to the right side.
       assert.equal(cursorElement.side, 'right');
       assert.equal(cursorElement.diffRow, firstDeltaRow);
-      var firstIndex = cursorElement.$.cursorManager.index;
+      const firstIndex = cursorElement.$.cursorManager.index;
 
       // Move the side to the left. Because this delta only has a right side, we
       // should be moved up to the previous line where there is content on the
@@ -191,16 +190,16 @@ limitations under the License.
           firstDeltaSection.nextSibling);
     });
 
-    test('chunk skip functionality', function() {
-      var chunks = Polymer.dom(diffElement.root).querySelectorAll(
+    test('chunk skip functionality', () => {
+      const chunks = Polymer.dom(diffElement.root).querySelectorAll(
           '.section.delta');
-      var indexOfChunk = function(chunk) {
+      const indexOfChunk = function(chunk) {
         return Array.prototype.indexOf.call(chunks, chunk);
       };
 
       // We should be initialized to the first chunk. Since this chunk only has
       // content on the right side, our side should be right.
-      var currentIndex = indexOfChunk(cursorElement.diffRow.parentElement);
+      let currentIndex = indexOfChunk(cursorElement.diffRow.parentElement);
       assert.equal(currentIndex, 0);
       assert.equal(cursorElement.side, 'right');
 
@@ -209,17 +208,17 @@ limitations under the License.
 
       // Since this chunk only has content on the left side. we should have been
       // automatically mvoed over.
-      var previousIndex = currentIndex;
+      const previousIndex = currentIndex;
       currentIndex = indexOfChunk(cursorElement.diffRow.parentElement);
       assert.equal(currentIndex, previousIndex + 1);
       assert.equal(cursorElement.side, 'left');
     });
 
-    test('initialLineNumber disabled', function(done) {
-      var moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber');
-      var moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk');
+    test('initialLineNumber disabled', done => {
+      const moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber');
+      const moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk');
 
-      diffElement.addEventListener('render', function() {
+      diffElement.addEventListener('render', () => {
         assert.isFalse(moveToNumStub.called);
         assert.isTrue(moveToChunkStub.called);
         done();
@@ -228,11 +227,11 @@ limitations under the License.
       diffElement.reload();
     });
 
-    test('initialLineNumber enabled', function(done) {
-      var moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber');
-      var moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk');
+    test('initialLineNumber enabled', done => {
+      const moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber');
+      const moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk');
 
-      diffElement.addEventListener('render', function() {
+      diffElement.addEventListener('render', () => {
         assert.isFalse(moveToChunkStub.called);
         assert.isTrue(moveToNumStub.called);
         assert.equal(moveToNumStub.lastCall.args[0], 10);
@@ -246,7 +245,7 @@ limitations under the License.
       diffElement.reload();
     });
 
-    test('getAddress', function() {
+    test('getAddress', () => {
       // It should initialize to the first chunk: line 5 of the revision.
       assert.equal(cursorElement.getAddress(), '5');
 
@@ -271,9 +270,9 @@ limitations under the License.
       assert.equal(cursorElement.getAddress(), '');
     });
 
-    test('_findRowByNumberAndFile', function() {
+    test('_findRowByNumberAndFile', () => {
       // Get the first ab row after the first chunk.
-      var row = Polymer.dom(diffElement.root).querySelectorAll('tr')[8];
+      const row = Polymer.dom(diffElement.root).querySelectorAll('tr')[8];
 
       // It should be line 8 on the right, but line 5 on the left.
       assert.equal(cursorElement._findRowByNumberAndFile(8, 'right'), row);

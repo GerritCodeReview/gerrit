@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe6bf45c_c78208f0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-16T00:27:34Z",
+      "side": 1,
+      "message": "Should this really be a const since items are getting pushed to it? or is it a const b/c the reference doesn\u0027t change?",
+      "revId": "2eef92ce88e3faead1336061e24fb00ed8067ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

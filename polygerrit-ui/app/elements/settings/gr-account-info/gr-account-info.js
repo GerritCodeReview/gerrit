@@ -60,25 +60,25 @@
       '_statusChanged(_account.status)',
     ],
 
-    loadData: function() {
-      var promises = [];
+    loadData() {
+      const promises = [];
 
       this._loading = true;
 
-      promises.push(this.$.restAPI.getConfig().then(function(config) {
+      promises.push(this.$.restAPI.getConfig().then(config => {
         this._serverConfig = config;
-      }.bind(this)));
+      }));
 
-      promises.push(this.$.restAPI.getAccount().then(function(account) {
+      promises.push(this.$.restAPI.getAccount().then(account => {
         this._account = account;
-      }.bind(this)));
+      }));
 
-      return Promise.all(promises).then(function() {
+      return Promise.all(promises).then(() => {
         this._loading = false;
-      }.bind(this));
+      });
     },
 
-    save: function() {
+    save() {
       if (!this.hasUnsavedChanges) {
         return Promise.resolve();
       }
@@ -88,45 +88,45 @@
       // Must be done in sequence to avoid race conditions (@see Issue 5721)
       return this._maybeSetName()
           .then(this._maybeSetStatus.bind(this))
-          .then(function() {
+          .then(() => {
             this._hasNameChange = false;
             this._hasStatusChange = false;
             this._saving = false;
             this.fire('account-detail-update');
-          }.bind(this));
+          });
     },
 
-    _maybeSetName: function() {
+    _maybeSetName() {
       return this._hasNameChange && this.mutable ?
                 this.$.restAPI.setAccountName(this._account.name) :
                 Promise.resolve();
     },
 
-    _maybeSetStatus: function() {
+    _maybeSetStatus() {
       return this._hasStatusChange ?
           this.$.restAPI.setAccountStatus(this._account.status) :
           Promise.resolve();
     },
 
-    _computeHasUnsavedChanges: function(name, status) {
+    _computeHasUnsavedChanges(name, status) {
       return name || status;
     },
 
-    _computeMutable: function(config) {
-      return config.auth.editable_account_fields.indexOf('FULL_NAME') !== -1;
+    _computeMutable(config) {
+      return config.auth.editable_account_fields.includes('FULL_NAME');
     },
 
-    _statusChanged: function() {
+    _statusChanged() {
       if (this._loading) { return; }
       this._hasStatusChange = true;
     },
 
-    _nameChanged: function() {
+    _nameChanged() {
       if (this._loading) { return; }
       this._hasNameChange = true;
     },
 
-    _handleKeydown: function(e) {
+    _handleKeydown(e) {
       if (e.keyCode === 13) { // Enter
         e.stopPropagation();
         this.save();

@@ -104,6 +104,24 @@
       "revId": "358833d7679e937cae3f7ac35990e1bcb0c9e67f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d538575_1c68cf64",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-16T18:05:51Z",
+      "side": 1,
+      "message": "You did the right thing, I\u0027m not arguing that.\nIt\u0027s just it\u0027s inconsistent with the rest and may cause churn with larger refactorings - like the one you\u0027re doing right now.",
+      "parentUuid": "1ed7c7fc_775b5b6f",
+      "revId": "358833d7679e937cae3f7ac35990e1bcb0c9e67f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

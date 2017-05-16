@@ -33,6 +33,7 @@ public class RetryHelper {
     T call(BatchUpdate.Factory updateFactory) throws Exception;
   }
 
+  private final NotesMigration migration;
   private final BatchUpdate.Factory updateFactory;
 
   @Inject
@@ -41,6 +42,7 @@ public class RetryHelper {
       ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory,
       FusedNoteDbBatchUpdate.AssistedFactory fusedNoteDbBatchUpdateFactory,
       UnfusedNoteDbBatchUpdate.AssistedFactory unfusedNoteDbBatchUpdateFactory) {
+    this.migration = migration;
     this.updateFactory =
         new BatchUpdate.Factory(
             migration,
@@ -51,16 +53,22 @@ public class RetryHelper {
 
   public <T> T execute(Action<T> action) throws RestApiException, UpdateException {
     try {
-      // TODO(dborowitz): Make configurable.
-      return RetryerBuilder.<T>newBuilder()
-          .withStopStrategy(StopStrategies.stopAfterDelay(20, TimeUnit.SECONDS))
-          .withWaitStrategy(
-              WaitStrategies.join(
-                  WaitStrategies.exponentialWait(5, TimeUnit.SECONDS),
-                  WaitStrategies.randomWait(50, TimeUnit.MILLISECONDS)))
-          .retryIfException(RetryHelper::isLockFailure)
-          .build()
-          .call(() -> action.call(updateFactory));
+      RetryerBuilder<T> builder = RetryerBuilder.newBuilder();
+      if (migration.disableChangeReviewDb() && migration.fuseUpdates()) {
+        // TODO(dborowitz): Make configurable.
+        builder
+            .withStopStrategy(StopStrategies.stopAfterDelay(20, TimeUnit.SECONDS))
+            .withWaitStrategy(
+                WaitStrategies.join(
+                    WaitStrategies.exponentialWait(5, TimeUnit.SECONDS),
+                    WaitStrategies.randomWait(50, TimeUnit.MILLISECONDS)))
+            .retryIfException(RetryHelper::isLockFailure);
+      } else {
+        // Either we aren't full-NoteDb, or the underlying ref storage doesn't support atomic
+        // transactions. Either way, retrying a partially-failed operation is not idempotent, so
+        // don't do it automatically. Let the end user decide whether they want to retry.
+      }
+      return builder.build().call(() -> action.call(updateFactory));
     } catch (ExecutionException | RetryException e) {
       if (e.getCause() != null) {
         Throwables.throwIfInstanceOf(e.getCause(), UpdateException.class);

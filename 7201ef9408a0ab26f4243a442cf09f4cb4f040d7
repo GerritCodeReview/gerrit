@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0252e1d3_03f17469",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-16T15:55:12Z",
+      "side": 1,
+      "message": "Weird indentation.",
+      "range": {
+        "startLine": 169,
+        "startChar": 10,
+        "endLine": 171,
+        "endChar": 43
+      },
+      "revId": "7201ef9408a0ab26f4243a442cf09f4cb4f040d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24019c96_a318e665",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-16T15:55:12Z",
+      "side": 1,
+      "message": "Indentation.",
+      "range": {
+        "startLine": 274,
+        "startChar": 8,
+        "endLine": 275,
+        "endChar": 45
+      },
+      "revId": "7201ef9408a0ab26f4243a442cf09f4cb4f040d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b41f1d51_007c4405",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1017,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-16T15:55:12Z",
+      "side": 1,
+      "message": "Indentation.\n\nHowever, optionally, this whole promise chain might be better indented/wrapped as...\n\nreturn Promise.all([promiseA, promiseB]).then(results \u003d\u003e {\n  const baseImage \u003d results[0];\n  const revisionImage \u003d results[1];\n\n  // Sometimes the server doesn\u0027t send back the content type.\n  if (baseImage) {\n    baseImage._expectedType \u003d diff.meta_a.content_type;\n    baseImage._name \u003d diff.meta_a.name;\n  }\n  if (revisionImage) {\n    revisionImage._expectedType \u003d diff.meta_b.content_type;\n    revisionImage._name \u003d diff.meta_b.name;\n  }\n\n  return {baseImage, revisionImage};\n});",
+      "revId": "7201ef9408a0ab26f4243a442cf09f4cb4f040d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

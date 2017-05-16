@@ -33,12 +33,12 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-table-editor tests', function() {
-    var element;
-    var columns;
-    var sandbox;
+  suite('gr-change-table-editor tests', () => {
+    let element;
+    let columns;
+    let sandbox;
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
 
@@ -55,25 +55,25 @@ limitations under the License.
       flushAsynchronousOperations();
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('renders', function() {
-      var rows = element.$$('tbody').querySelectorAll('tr');
-      var tds;
+    test('renders', () => {
+      const rows = element.$$('tbody').querySelectorAll('tr');
+      let tds;
 
       assert.equal(rows.length, element.columnNames.length);
-      for (var i = 0; i < columns.length; i++) {
+      for (let i = 0; i < columns.length; i++) {
         tds = rows[i].querySelectorAll('td');
         assert.equal(tds[0].textContent, columns[i]);
       }
     });
 
-    test('hide item', function() {
-      var checkbox = element.$$('table input');
-      var isChecked = checkbox.checked;
-      var displayedLength = element.displayedColumns.length;
+    test('hide item', () => {
+      const checkbox = element.$$('table input');
+      const isChecked = checkbox.checked;
+      const displayedLength = element.displayedColumns.length;
       assert.isTrue(isChecked);
 
       MockInteractions.tap(checkbox);
@@ -83,7 +83,7 @@ limitations under the License.
           displayedLength - 1);
     });
 
-    test('show item', function() {
+    test('show item', () => {
       element.set('displayedColumns', [
         'Status',
         'Owner',
@@ -92,9 +92,9 @@ limitations under the License.
         'Updated',
       ]);
       flushAsynchronousOperations();
-      var checkbox = element.$$('table input');
-      var isChecked = checkbox.checked;
-      var displayedLength = element.displayedColumns.length;
+      const checkbox = element.$$('table input');
+      const isChecked = checkbox.checked;
+      const displayedLength = element.displayedColumns.length;
       assert.isFalse(isChecked);
       assert.equal(element.$$('table').style.display, '');
 
@@ -105,11 +105,11 @@ limitations under the License.
           displayedLength + 1);
     });
 
-    test('_handleTargetTap', function() {
-      var checkbox = element.$$('table input');
-      var originalDisplayedColumns = element.displayedColumns;
-      var td = element.$$('table .checkboxContainer');
-      var displayedColumnStub =
+    test('_handleTargetTap', () => {
+      const checkbox = element.$$('table input');
+      let originalDisplayedColumns = element.displayedColumns;
+      const td = element.$$('table .checkboxContainer');
+      const displayedColumnStub =
           sandbox.stub(element, '_updateDisplayedColumns');
 
       MockInteractions.tap(checkbox);
@@ -126,9 +126,9 @@ limitations under the License.
           checkbox.checked));
     });
 
-    test('_updateDisplayedColumns', function() {
-      var name = 'Subject';
-      var checked = false;
+    test('_updateDisplayedColumns', () => {
+      let name = 'Subject';
+      let checked = false;
       assert.deepEqual(element._updateDisplayedColumns(columns, name, checked),
           [
             'Status',

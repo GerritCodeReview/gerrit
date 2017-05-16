@@ -28,13 +28,13 @@
       Gerrit.ChangeTableBehavior,
     ],
 
-    _getButtonText: function(isShown) {
+    _getButtonText(isShown) {
       return isShown ? 'Hide' : 'Show';
     },
 
-    _updateDisplayedColumns: function(displayedColumns, name, checked) {
+    _updateDisplayedColumns(displayedColumns, name, checked) {
       if (!checked) {
-        return displayedColumns.filter(function(column) {
+        return displayedColumns.filter(column => {
           return name.toLowerCase() !== column.toLowerCase();
         });
       } else {
@@ -45,8 +45,8 @@
     /**
      * Handles tap on either the checkbox itself or the surrounding table cell.
      */
-    _handleTargetTap: function(e) {
-      var checkbox = Polymer.dom(e.target).querySelector('input');
+    _handleTargetTap(e) {
+      let checkbox = Polymer.dom(e.target).querySelector('input');
       if (checkbox) {
         checkbox.click();
       } else {

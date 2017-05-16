@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "63836858_400bda32",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/LuceneQueryAccountsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-16T15:09:04Z",
+      "side": 1,
+      "message": "Done in\n  https://gerrit-review.googlesource.com/106353",
+      "parentUuid": "e9266457_91daad1a",
+      "range": {
+        "startLine": 38,
+        "startChar": 23,
+        "endLine": 38,
+        "endChar": 50
+      },
+      "revId": "63928c10537ccffffe92dab72db41123fc5b9d9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ad4acd52_4a1c3549",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 3

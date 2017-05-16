@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "0764a602_3bda075f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-16T15:09:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a60e687_f7658f93",
+      "range": {
+        "startLine": 453,
+        "startChar": 32,
+        "endLine": 453,
+        "endChar": 40
+      },
+      "revId": "798c7c1524c6eeea4173620f1398890fe8f56f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f59760a8_ff1f1786",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
         "patchSetId": 8
@@ -37,6 +61,24 @@
       "writtenOn": "2017-05-10T15:10:36Z",
       "side": 1,
       "message": "Optional:\n\n CharMatcher.is(\u0027_\u0027).trimTrailingFrom(suffix)",
+      "revId": "798c7c1524c6eeea4173620f1398890fe8f56f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "629e9088_1fc7ba9a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-16T15:09:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f59760a8_ff1f1786",
       "revId": "798c7c1524c6eeea4173620f1398890fe8f56f28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -60,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "11442578_b7841303",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/LuceneQueryAccountsTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-16T15:09:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc066fd4_442b7fb5",
+      "revId": "798c7c1524c6eeea4173620f1398890fe8f56f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0bcb01d_ac650e98",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
         "patchSetId": 8
@@ -77,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "0375f503_72f8950b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-16T15:09:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0bcb01d_ac650e98",
+      "revId": "798c7c1524c6eeea4173620f1398890fe8f56f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c9489839_d5725646",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/group/AbstractQueryGroupsTest.java",
         "patchSetId": 8
@@ -88,6 +166,30 @@
       "writtenOn": "2017-05-10T15:10:36Z",
       "side": 1,
       "message": "Maybe move this into a method in GerritBaseTests, getSanitizedMethodName or something?",
+      "range": {
+        "startLine": 194,
+        "startChar": 4,
+        "endLine": 195,
+        "endChar": 51
+      },
+      "revId": "798c7c1524c6eeea4173620f1398890fe8f56f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2aabf5c_6ce67627",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/group/AbstractQueryGroupsTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-16T15:09:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9489839_d5725646",
       "range": {
         "startLine": 194,
         "startChar": 4,

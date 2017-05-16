@@ -33,18 +33,18 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-email-editor tests', function() {
-    var element;
+  suite('gr-email-editor tests', () => {
+    let element;
 
-    setup(function(done) {
-      var emails = [
+    setup(done => {
+      const emails = [
         {email: 'email@one.com'},
         {email: 'email@two.com', preferred: true},
         {email: 'email@three.com'},
       ];
 
       stub('gr-rest-api-interface', {
-        getAccountEmails: function() { return Promise.resolve(emails); },
+        getAccountEmails() { return Promise.resolve(emails); },
       });
 
       element = fixture('basic');
@@ -52,8 +52,8 @@ limitations under the License.
       element.loadData().then(done);
     });
 
-    test('renders', function() {
-      var rows = element.$$('table').querySelectorAll('tbody tr');
+    test('renders', () => {
+      const rows = element.$$('table').querySelectorAll('tbody tr');
 
       assert.equal(rows.length, 3);
 
@@ -69,9 +69,9 @@ limitations under the License.
       assert.isFalse(element.hasUnsavedChanges);
     });
 
-    test('edit preferred', function() {
-      var preferredChangedSpy = sinon.spy(element, '_handlePreferredChange');
-      var radios = element.$$('table').querySelectorAll('input[type=radio]');
+    test('edit preferred', () => {
+      const preferredChangedSpy = sinon.spy(element, '_handlePreferredChange');
+      const radios = element.$$('table').querySelectorAll('input[type=radio]');
 
       assert.isFalse(element.hasUnsavedChanges);
       assert.isNotOk(element._newPreferred);
@@ -92,8 +92,8 @@ limitations under the License.
       assert.isTrue(preferredChangedSpy.called);
     });
 
-    test('delete email', function() {
-      var buttons = element.$$('table').querySelectorAll('gr-button');
+    test('delete email', () => {
+      const buttons = element.$$('table').querySelectorAll('gr-button');
 
       assert.isFalse(element.hasUnsavedChanges);
       assert.isNotOk(element._newPreferred);
@@ -110,11 +110,12 @@ limitations under the License.
       assert.equal(element._emailsToRemove[0].email, 'email@three.com');
     });
 
-    test('save changes', function(done) {
-      var deleteEmailStub = sinon.stub(element.$.restAPI, 'deleteAccountEmail');
-      var setPreferredStub = sinon.stub(element.$.restAPI,
+    test('save changes', done => {
+      const deleteEmailStub =
+          sinon.stub(element.$.restAPI, 'deleteAccountEmail');
+      const setPreferredStub = sinon.stub(element.$.restAPI,
           'setPreferredAccountEmail');
-      var rows = element.$$('table').querySelectorAll('tbody tr');
+      const rows = element.$$('table').querySelectorAll('tbody tr');
 
       assert.isFalse(element.hasUnsavedChanges);
       assert.isNotOk(element._newPreferred);
@@ -132,7 +133,7 @@ limitations under the License.
       assert.equal(element._emails.length, 2);
 
       // Save the changes.
-      element.save().then(function() {
+      element.save().then(() => {
         assert.equal(deleteEmailStub.callCount, 1);
         assert.equal(deleteEmailStub.getCall(0).args[0], 'email@one.com');
 

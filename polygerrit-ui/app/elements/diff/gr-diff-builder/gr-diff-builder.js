@@ -14,8 +14,8 @@
 (function(window, GrDiffGroup, GrDiffLine) {
   'use strict';
 
-  var HTML_ENTITY_PATTERN = /[&<>"'`\/]/g;
-  var HTML_ENTITY_MAP = {
+  const HTML_ENTITY_PATTERN = /[&<>"'`\/]/g;
+  const HTML_ENTITY_MAP = {
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
@@ -28,7 +28,7 @@
   // Prevent redefinition.
   if (window.GrDiffBuilder) { return; }
 
-  var REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+  const REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
   function GrDiffBuilder(diff, comments, prefs, outputEl, layers) {
     this._diff = diff;
@@ -39,11 +39,11 @@
 
     this.layers = layers || [];
 
-    this.layers.forEach(function(layer) {
+    for (const layer of this.layers) {
       if (layer.addListener) {
         layer.addListener(this._handleLayerUpdate.bind(this));
       }
-    }.bind(this));
+    }
   }
 
   GrDiffBuilder.LESS_THAN_CODE = '<'.charCodeAt(0);
@@ -76,7 +76,7 @@
     ALL: 'all',
   };
 
-  var PARTIAL_CONTEXT_AMOUNT = 10;
+  const PARTIAL_CONTEXT_AMOUNT = 10;
 
   /**
    * Abstract method
@@ -96,16 +96,16 @@
   };
 
   GrDiffBuilder.prototype.emitGroup = function(group, opt_beforeSection) {
-    var element = this.buildSectionElement(group);
+    const element = this.buildSectionElement(group);
     this._outputEl.insertBefore(element, opt_beforeSection);
     group.element = element;
   };
 
   GrDiffBuilder.prototype.renderSection = function(element) {
-    for (var i = 0; i < this.groups.length; i++) {
-      var group = this.groups[i];
+    for (let i = 0; i < this.groups.length; i++) {
+      const group = this.groups[i];
       if (group.element === element) {
-        var newElement = this.buildSectionElement(group);
+        const newElement = this.buildSectionElement(group);
         group.element.parentElement.replaceChild(newElement, group.element);
         group.element = newElement;
         break;
@@ -115,14 +115,14 @@
 
   GrDiffBuilder.prototype.getGroupsByLineRange = function(
       startLine, endLine, opt_side) {
-    var groups = [];
-    for (var i = 0; i < this.groups.length; i++) {
-      var group = this.groups[i];
+    const groups = [];
+    for (let i = 0; i < this.groups.length; i++) {
+      const group = this.groups[i];
       if (group.lines.length === 0) {
         continue;
       }
-      var groupStartLine = 0;
-      var groupEndLine = 0;
+      let groupStartLine = 0;
+      let groupEndLine = 0;
       if (opt_side) {
         groupStartLine = group.lineRange[opt_side].start;
         groupEndLine = group.lineRange[opt_side].end;
@@ -143,8 +143,8 @@
 
   GrDiffBuilder.prototype.getContentByLine = function(lineNumber, opt_side,
       opt_root) {
-    var root = Polymer.dom(opt_root || this._outputEl);
-    var sideSelector = !!opt_side ? ('.' + opt_side) : '';
+    const root = Polymer.dom(opt_root || this._outputEl);
+    const sideSelector = opt_side ? ('.' + opt_side) : '';
     return root.querySelector('td.lineNum[data-value="' + lineNumber +
         '"]' + sideSelector + ' ~ td.content .contentText');
   };
@@ -162,15 +162,15 @@
    */
   GrDiffBuilder.prototype.findLinesByRange = function(start, end, opt_side,
       out_lines, out_elements) {
-    var groups = this.getGroupsByLineRange(start, end, opt_side);
-    groups.forEach(function(group) {
-      var content = null;
-      group.lines.forEach(function(line) {
+    const groups = this.getGroupsByLineRange(start, end, opt_side);
+    for (const group of groups) {
+      let content = null;
+      for (const line of group.lines) {
         if ((opt_side === 'left' && line.type === GrDiffLine.Type.ADD) ||
             (opt_side === 'right' && line.type === GrDiffLine.Type.REMOVE)) {
           return;
         }
-        var lineNumber = opt_side === 'left' ?
+        const lineNumber = opt_side === 'left' ?
             line.beforeNumber : line.afterNumber;
         if (lineNumber < start || lineNumber > end) { return; }
 
@@ -184,8 +184,8 @@
           }
           if (content) { out_elements.push(content); }
         }
-      }.bind(this));
-    }.bind(this));
+      }
+    }
   };
 
   /**
@@ -193,12 +193,12 @@
    * diff content.
    */
   GrDiffBuilder.prototype._renderContentByRange = function(start, end, side) {
-    var lines = [];
-    var elements = [];
-    var line;
-    var el;
+    const lines = [];
+    const elements = [];
+    let line;
+    let el;
     this.findLinesByRange(start, end, side, lines, elements);
-    for (var i = 0; i < lines.length; i++) {
+    for (let i = 0; i < lines.length; i++) {
       line = lines[i];
       el = elements[i];
       el.parentElement.replaceChild(this._createTextEl(line, side).firstChild,
@@ -209,7 +209,7 @@
   GrDiffBuilder.prototype.getSectionsByLineRange = function(
       startLine, endLine, opt_side) {
     return this.getGroupsByLineRange(startLine, endLine, opt_side).map(
-        function(group) { return group.element; });
+        group => { return group.element; });
   };
 
   GrDiffBuilder.prototype._commentIsAtLineNum = function(side, lineNum) {
@@ -219,15 +219,15 @@
   // TODO(wyatta): Move this completely into the processor.
   GrDiffBuilder.prototype._insertContextGroups = function(groups, lines,
       hiddenRange) {
-    var linesBeforeCtx = lines.slice(0, hiddenRange[0]);
-    var hiddenLines = lines.slice(hiddenRange[0], hiddenRange[1]);
-    var linesAfterCtx = lines.slice(hiddenRange[1]);
+    const linesBeforeCtx = lines.slice(0, hiddenRange[0]);
+    const hiddenLines = lines.slice(hiddenRange[0], hiddenRange[1]);
+    const linesAfterCtx = lines.slice(hiddenRange[1]);
 
     if (linesBeforeCtx.length > 0) {
       groups.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, linesBeforeCtx));
     }
 
-    var ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
+    const ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
     ctxLine.contextGroup =
         new GrDiffGroup(GrDiffGroup.Type.BOTH, hiddenLines);
     groups.push(new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL,
@@ -243,8 +243,8 @@
       return null;
     }
 
-    var td = this._createElement('td');
-    var showPartialLinks =
+    const td = this._createElement('td');
+    const showPartialLinks =
         line.contextGroup.lines.length > PARTIAL_CONTEXT_AMOUNT;
 
     if (showPartialLinks) {
@@ -266,14 +266,14 @@
   };
 
   GrDiffBuilder.prototype._createContextButton = function(type, section, line) {
-    var contextLines = line.contextGroup.lines;
-    var context = PARTIAL_CONTEXT_AMOUNT;
+    const contextLines = line.contextGroup.lines;
+    const context = PARTIAL_CONTEXT_AMOUNT;
 
-    var button = this._createElement('gr-button', 'showContext');
+    const button = this._createElement('gr-button', 'showContext');
     button.setAttribute('link', true);
 
-    var text;
-    var groups = []; // The groups that replace this one if tapped.
+    let text;
+    const groups = []; // The groups that replace this one if tapped.
 
     if (type === GrDiffBuilder.ContextButtonType.ALL) {
       text = 'Show ' + contextLines.length + ' common line';
@@ -291,10 +291,10 @@
 
     button.textContent = text;
 
-    button.addEventListener('tap', function(e) {
+    button.addEventListener('tap', e => {
       e.detail = {
-        groups: groups,
-        section: section,
+        groups,
+        section,
       };
       // Let it bubble up the DOM tree.
     });
@@ -310,15 +310,15 @@
                (c.line === undefined && lineNum === GrDiffLine.FILE);
       };
     }
-    var leftComments =
+    const leftComments =
         comments[GrDiffBuilder.Side.LEFT].filter(byLineNum(line.beforeNumber));
-    var rightComments =
+    const rightComments =
         comments[GrDiffBuilder.Side.RIGHT].filter(byLineNum(line.afterNumber));
 
-    leftComments.forEach(function(c) { c.__commentSide = 'left'; });
-    rightComments.forEach(function(c) { c.__commentSide = 'right'; });
+    leftComments.forEach(c => { c.__commentSide = 'left'; });
+    rightComments.forEach(c => { c.__commentSide = 'right'; });
 
-    var result;
+    let result;
 
     switch (opt_side) {
       case GrDiffBuilder.Side.LEFT:
@@ -337,7 +337,7 @@
 
   GrDiffBuilder.prototype.createCommentThreadGroup = function(changeNum,
       patchNum, path, isOnParent, projectConfig, range) {
-    var threadGroupEl =
+    const threadGroupEl =
         document.createElement('gr-diff-comment-thread-group');
     threadGroupEl.changeNum = changeNum;
     threadGroupEl.patchForNewThreads = patchNum;
@@ -348,24 +348,25 @@
     return threadGroupEl;
   };
 
-  GrDiffBuilder.prototype._commentThreadGroupForLine =
-      function(line, opt_side) {
-    var comments = this._getCommentsForLine(this._comments, line, opt_side);
+  GrDiffBuilder.prototype._commentThreadGroupForLine = function(line,
+      opt_side) {
+    const comments =
+        this._getCommentsForLine(this._comments, line, opt_side);
     if (!comments || comments.length === 0) {
       return null;
     }
 
-    var patchNum = this._comments.meta.patchRange.patchNum;
-    var isOnParent = comments[0].side === 'PARENT' || false;
+    let patchNum = this._comments.meta.patchRange.patchNum;
+    let isOnParent = comments[0].side === 'PARENT' || false;
     if (line.type === GrDiffLine.Type.REMOVE ||
-        opt_side === GrDiffBuilder.Side.LEFT) {
+    opt_side === GrDiffBuilder.Side.LEFT) {
       if (this._comments.meta.patchRange.basePatchNum === 'PARENT') {
         isOnParent = true;
       } else {
         patchNum = this._comments.meta.patchRange.basePatchNum;
       }
     }
-    var threadGroupEl = this.createCommentThreadGroup(
+    const threadGroupEl = this.createCommentThreadGroup(
         this._comments.meta.changeNum,
         patchNum,
         this._comments.meta.path,
@@ -380,7 +381,7 @@
 
   GrDiffBuilder.prototype._createLineEl = function(line, number, type,
       opt_class) {
-    var td = this._createElement('td');
+    const td = this._createElement('td');
     if (opt_class) {
       td.classList.add(opt_class);
     }
@@ -397,13 +398,13 @@
   };
 
   GrDiffBuilder.prototype._createTextEl = function(line, opt_side) {
-    var td = this._createElement('td');
-    var text = line.text;
+    const td = this._createElement('td');
+    const text = line.text;
     if (line.type !== GrDiffLine.Type.BLANK) {
       td.classList.add('content');
     }
     td.classList.add(line.type);
-    var html = this._escapeHTML(text);
+    let html = this._escapeHTML(text);
     html = this._addTabWrappers(html, this._prefs.tab_size);
     if (!this._prefs.line_wrapping &&
         this._textLength(text, this._prefs.tab_size) >
@@ -411,7 +412,7 @@
       html = this._addNewlines(text, html);
     }
 
-    var contentText = this._createElement('div', 'contentText');
+    const contentText = this._createElement('div', 'contentText');
     if (opt_side) {
       contentText.setAttribute('data-side', opt_side);
     }
@@ -424,9 +425,9 @@
       contentText.innerHTML = html;
     }
 
-    this.layers.forEach(function(layer) {
+    for (const layer of this.layers) {
       layer.annotate(contentText, line);
-    });
+    }
 
     td.appendChild(contentText);
 
@@ -439,8 +440,8 @@
    */
   GrDiffBuilder.prototype._textLength = function(text, tabSize) {
     text = text.replace(REGEX_ASTRAL_SYMBOL, '_');
-    var numChars = 0;
-    for (var i = 0; i < text.length; i++) {
+    let numChars = 0;
+    for (let i = 0; i < text.length; i++) {
       if (text[i] === '\t') {
         numChars += tabSize - (numChars % tabSize);
       } else {
@@ -488,11 +489,11 @@
   };
 
   GrDiffBuilder.prototype._addNewlines = function(text, html) {
-    var htmlIndex = 0;
-    var indices = [];
-    var numChars = 0;
-    var prevHtmlIndex = 0;
-    for (var i = 0; i < text.length; i++) {
+    let htmlIndex = 0;
+    const indices = [];
+    let numChars = 0;
+    let prevHtmlIndex = 0;
+    for (let i = 0; i < text.length; i++) {
       if (numChars > 0 && numChars % this._prefs.line_length === 0) {
         indices.push(htmlIndex);
       }
@@ -512,11 +513,11 @@
       }
       prevHtmlIndex = htmlIndex;
     }
-    var result = html;
+    let result = html;
     // Since the result string is being altered in place, start from the end
     // of the string so that the insertion indices are not affected as the
     // result string changes.
-    for (var i = indices.length - 1; i >= 0; i--) {
+    for (let i = indices.length - 1; i >= 0; i--) {
       result = result.slice(0, indices[i]) + GrDiffBuilder.LINE_FEED_HTML +
           result.slice(indices[i]);
     }
@@ -535,12 +536,12 @@
   GrDiffBuilder.prototype._addTabWrappers = function(line, tabSize) {
     if (!line.length) { return ''; }
 
-    var result = '';
-    var offset = 0;
-    var split = line.split('\t');
-    var width;
+    let result = '';
+    let offset = 0;
+    const split = line.split('\t');
+    let width;
 
-    for (var i = 0; i < split.length - 1; i++) {
+    for (let i = 0; i < split.length - 1; i++) {
       offset += split[i].length;
       width = tabSize - (offset % tabSize);
       result += split[i] + this._getTabWrapper(width);
@@ -560,7 +561,7 @@
       throw Error('Invalid tab size from preferences.');
     }
 
-    var str = '<span class="style-scope gr-diff tab ';
+    let str = '<span class="style-scope gr-diff tab ';
     str += '" style="';
     // TODO(andybons): CSS tab-size is not supported in IE.
     str += 'tab-size:' + tabSize + ';';
@@ -570,7 +571,7 @@
   };
 
   GrDiffBuilder.prototype._createElement = function(tagName, className) {
-    var el = document.createElement(tagName);
+    const el = document.createElement(tagName);
     // When Shady DOM is being used, these classes are added to account for
     // Polymer's polyfill behavior. In order to guarantee sufficient
     // specificity within the CSS rules, these are added to every element.
@@ -578,7 +579,7 @@
     // automatically) are not being used for performance reasons, this is
     // done manually.
     el.classList.add('style-scope', 'gr-diff');
-    if (!!className) {
+    if (className) {
       el.classList.add(className);
     }
     return el;
@@ -612,7 +613,7 @@
   };
 
   GrDiffBuilder.prototype._escapeHTML = function(str) {
-    return str.replace(HTML_ENTITY_PATTERN, function(s) {
+    return str.replace(HTML_ENTITY_PATTERN, s => {
       return HTML_ENTITY_MAP[s];
     });
   };

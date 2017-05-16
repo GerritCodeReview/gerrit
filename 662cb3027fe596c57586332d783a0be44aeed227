@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "73a10d69_a53b0515",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T00:24:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bebc80e_173eef33",
+      "revId": "662cb3027fe596c57586332d783a0be44aeed227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "663ac936_d7cdc9d4",
         "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "662cb3027fe596c57586332d783a0be44aeed227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9617eb65_3aa243ff",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T00:24:56Z",
+      "side": 1,
+      "message": "I don\u0027t think so, that would really make the `this.set` call complicated.",
+      "parentUuid": "663ac936_d7cdc9d4",
+      "revId": "662cb3027fe596c57586332d783a0be44aeed227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

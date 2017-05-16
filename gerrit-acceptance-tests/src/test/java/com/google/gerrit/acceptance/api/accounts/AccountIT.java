@@ -630,7 +630,7 @@ public class AccountIT extends AbstractDaemonTest {
     saveProjectConfig(allUsers, cfg);
 
     // deny READ permission that is inherited from All-Projects
-    deny(allUsers, Permission.READ, ANONYMOUS_USERS, RefNames.REFS + "*");
+    deny(allUsers, RefNames.REFS + "*", Permission.READ, ANONYMOUS_USERS);
 
     // fetching user branch without READ permission fails
     try {
@@ -642,9 +642,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     // allow each user to read its own user branch
     grant(
-        Permission.READ,
-        allUsers,
-        RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}",
+        allUsers, RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", Permission.READ,
         false,
         REGISTERED_USERS);
 
@@ -752,9 +750,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Sandboxed
   public void cannotDeleteUserBranch() throws Exception {
     grant(
-        Permission.DELETE,
-        allUsers,
-        RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}",
+        allUsers, RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", Permission.DELETE,
         true,
         REGISTERED_USERS);
 
@@ -775,9 +771,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void deleteUserBranchWithAccessDatabaseCapability() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     grant(
-        Permission.DELETE,
-        allUsers,
-        RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}",
+        allUsers, RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", Permission.DELETE,
         true,
         REGISTERED_USERS);
 

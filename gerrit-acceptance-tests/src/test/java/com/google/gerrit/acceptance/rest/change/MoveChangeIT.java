@@ -159,9 +159,9 @@ public class MoveChangeIT extends AbstractDaemonTest {
         new Branch.NameKey(r.getChange().change().getProject(), "blocked_branch");
     createBranch(newBranch);
     block(
-        Permission.PUSH,
-        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID(),
-        "refs/for/" + newBranch.get());
+        "refs/for/" + newBranch.get(), Permission.PUSH,
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID()
+    );
     exception.expect(AuthException.class);
     exception.expectMessage("move not permitted");
     move(r.getChangeId(), newBranch.get());
@@ -174,9 +174,9 @@ public class MoveChangeIT extends AbstractDaemonTest {
     Branch.NameKey newBranch = new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     block(
-        Permission.ABANDON,
-        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID(),
-        r.getChange().change().getDest().get());
+        r.getChange().change().getDest().get(), Permission.ABANDON,
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID()
+    );
     setApiUser(user);
     exception.expect(AuthException.class);
     exception.expectMessage("move not permitted");
@@ -219,7 +219,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
     Util.allow(
         cfg, Permission.forLabel(patchSetLock.getName()), 0, 1, registeredUsers, "refs/heads/*");
     saveProjectConfig(cfg);
-    grant(Permission.LABEL + "Patch-Set-Lock", project, "refs/heads/*");
+    grant(project, "refs/heads/*", Permission.LABEL + "Patch-Set-Lock");
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
 
     exception.expect(AuthException.class);

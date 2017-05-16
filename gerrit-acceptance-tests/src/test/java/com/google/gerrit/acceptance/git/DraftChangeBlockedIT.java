@@ -28,7 +28,7 @@ public class DraftChangeBlockedIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    block(Permission.PUSH, ANONYMOUS_USERS, "refs/drafts/*");
+    block("refs/drafts/*", Permission.PUSH, ANONYMOUS_USERS);
   }
 
   @Test

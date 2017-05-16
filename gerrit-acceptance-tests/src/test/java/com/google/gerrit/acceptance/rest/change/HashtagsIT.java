@@ -259,7 +259,7 @@ public class HashtagsIT extends AbstractDaemonTest {
   @Test
   public void addHashtagWithPermissionAllowed() throws Exception {
     PushOneCommit.Result r = createChange();
-    grant(Permission.EDIT_HASHTAGS, project, "refs/heads/master", false, REGISTERED_USERS);
+    grant(project, "refs/heads/master", Permission.EDIT_HASHTAGS, false, REGISTERED_USERS);
     setApiUser(user);
     addHashtags(r, "MyHashtag");
     assertThatGet(r).containsExactly("MyHashtag");

@@ -556,9 +556,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // create group that can view all drafts
     GroupInfo groupThatCanViewDrafts = gApi.groups().create("groupThatCanViewDrafts").get();
     grant(
-        Permission.VIEW_DRAFTS,
-        new Project.NameKey(watchedProject),
-        "refs/*",
+        new Project.NameKey(watchedProject), "refs/*", Permission.VIEW_DRAFTS,
         false,
         new AccountGroup.UUID(groupThatCanViewDrafts.id));
 
@@ -682,9 +680,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     GroupInfo groupThatCanViewPrivateChanges =
         gApi.groups().create("groupThatCanViewPrivateChanges").get();
     grant(
-        Permission.VIEW_PRIVATE_CHANGES,
-        new Project.NameKey(watchedProject),
-        "refs/*",
+        new Project.NameKey(watchedProject), "refs/*", Permission.VIEW_PRIVATE_CHANGES,
         false,
         new AccountGroup.UUID(groupThatCanViewPrivateChanges.id));
 

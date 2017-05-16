@@ -220,7 +220,7 @@ public class PushTagIT extends AbstractDaemonTest {
     }
 
     if (!newCommit) {
-      grant(Permission.SUBMIT, project, "refs/for/refs/heads/master", false, REGISTERED_USERS);
+      grant(project, "refs/for/refs/heads/master", Permission.SUBMIT, false, REGISTERED_USERS);
       pushHead(testRepo, "refs/for/master%submit");
     }
 
@@ -243,26 +243,26 @@ public class PushTagIT extends AbstractDaemonTest {
   }
 
   private void allowTagCreation(TagType tagType) throws Exception {
-    grant(tagType.createPermission, project, "refs/tags/*", false, REGISTERED_USERS);
+    grant(project, "refs/tags/*", tagType.createPermission, false, REGISTERED_USERS);
   }
 
   private void allowPushOnRefsTags() throws Exception {
     removePushFromRefsTags();
-    grant(Permission.PUSH, project, "refs/tags/*", false, REGISTERED_USERS);
+    grant(project, "refs/tags/*", Permission.PUSH, false, REGISTERED_USERS);
   }
 
   private void allowForcePushOnRefsTags() throws Exception {
     removePushFromRefsTags();
-    grant(Permission.PUSH, project, "refs/tags/*", true, REGISTERED_USERS);
+    grant(project, "refs/tags/*", Permission.PUSH, true, REGISTERED_USERS);
   }
 
   private void allowTagDeletion() throws Exception {
     removePushFromRefsTags();
-    grant(Permission.DELETE, project, "refs/tags/*", true, REGISTERED_USERS);
+    grant(project, "refs/tags/*", Permission.DELETE, true, REGISTERED_USERS);
   }
 
   private void removePushFromRefsTags() throws Exception {
-    removePermission(Permission.PUSH, project, "refs/tags/*");
+    removePermission(project, "refs/tags/*", Permission.PUSH);
   }
 
   private void commit(PersonIdent ident, String subject) throws Exception {

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fe1997_05f5a02f",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-16T23:17:36Z",
+      "side": 1,
+      "message": "maybe use for-of here?",
+      "range": {
+        "startLine": 50,
+        "startChar": 5,
+        "endLine": 54,
+        "endChar": 7
+      },
+      "revId": "78bc2102b2b84b48bb6aa58add3da621feb610ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c55ce462_863b62d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-16T23:17:36Z",
+      "side": 1,
+      "message": "maybe use for-of here?",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 7
+      },
+      "revId": "78bc2102b2b84b48bb6aa58add3da621feb610ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

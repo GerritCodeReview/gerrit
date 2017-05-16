@@ -15,7 +15,7 @@
   'use strict';
 
   // Maximum length for patch set descriptions.
-  var PATCH_DESC_MAX_LENGTH = 500;
+  const PATCH_DESC_MAX_LENGTH = 500;
 
   Polymer({
     is: 'gr-patch-range-select',
@@ -36,15 +36,15 @@
 
     behaviors: [Gerrit.PatchSetBehavior],
 
-    _updateSelected: function() {
+    _updateSelected() {
       this._rightSelected = this.patchRange.patchNum;
       this._leftSelected = this.patchRange.basePatchNum;
     },
 
-    _handlePatchChange: function(e) {
-      var leftPatch = this._leftSelected;
-      var rightPatch = this._rightSelected;
-      var rangeStr = rightPatch;
+    _handlePatchChange(e) {
+      const leftPatch = this._leftSelected;
+      const rightPatch = this._rightSelected;
+      let rangeStr = rightPatch;
       if (leftPatch != 'PARENT') {
         rangeStr = leftPatch + '..' + rangeStr;
       }
@@ -52,11 +52,11 @@
       e.target.blur();
     },
 
-    _computeLeftDisabled: function(patchNum, patchRange) {
+    _computeLeftDisabled(patchNum, patchRange) {
       return parseInt(patchNum, 10) >= parseInt(patchRange.patchNum, 10);
     },
 
-    _computeRightDisabled: function(patchNum, patchRange) {
+    _computeRightDisabled(patchNum, patchRange) {
       if (patchRange.basePatchNum == 'PARENT') { return false; }
       return parseInt(patchNum, 10) <= parseInt(patchRange.basePatchNum, 10);
     },
@@ -66,16 +66,16 @@
     // are loaded, the correct value will get selected.  I attempted to
     // debounce these, but because they are detecting two different
     // events, sometimes the timing was off and one ended up missing.
-    _synchronizeSelectionRight: function() {
+    _synchronizeSelectionRight() {
       this.$.rightPatchSelect.value = this._rightSelected;
     },
 
-    _synchronizeSelectionLeft: function() {
+    _synchronizeSelectionLeft() {
       this.$.leftPatchSelect.value = this._leftSelected;
     },
 
-    _computePatchSetDescription: function(revisions, patchNum) {
-      var rev = this.getRevisionByPatchNum(revisions, patchNum);
+    _computePatchSetDescription(revisions, patchNum) {
+      const rev = this.getRevisionByPatchNum(revisions, patchNum);
       return (rev && rev.description) ?
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },

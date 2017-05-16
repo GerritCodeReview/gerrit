@@ -1239,6 +1239,9 @@
             remainder + 'px';
         }
       }
+      if (this.$.relatedChanges.hidden) {
+        this.customStyle['--commit-message-max-width'] = 'none';
+      }
       this.customStyle['--relation-chain-max-height'] = newHeight + 'px';
       this.updateStyles();
     },

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e65ee77_69c0cf9d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-16T16:03:45Z",
+      "side": 1,
+      "message": "Why not a for..of here?",
+      "range": {
+        "startLine": 90,
+        "startChar": 12,
+        "endLine": 90,
+        "endChar": 41
+      },
+      "revId": "78c7935398637eb74047c329730c63d86f17300d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ec44cbf_52238297",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-16T16:03:45Z",
+      "side": 1,
+      "message": "Why is i declared outside the for?",
+      "range": {
+        "startLine": 125,
+        "startChar": 6,
+        "endLine": 125,
+        "endChar": 12
+      },
+      "revId": "78c7935398637eb74047c329730c63d86f17300d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "165bc753_36cb1f6c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-16T16:03:45Z",
+      "side": 1,
+      "message": "The previous indentation looks better.",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 8
+      },
+      "revId": "78c7935398637eb74047c329730c63d86f17300d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

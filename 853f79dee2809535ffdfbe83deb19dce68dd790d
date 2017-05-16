@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "631d0fb4_33c4d9b3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-16T18:11:50Z",
+      "side": 1,
+      "message": ".map(l \u003d\u003el.replace(/^[ ]?\u003e[ ]?/, \u0027\u0027))",
+      "range": {
+        "startLine": 204,
+        "startChar": 10,
+        "endLine": 204,
+        "endChar": 60
+      },
+      "revId": "853f79dee2809535ffdfbe83deb19dce68dd790d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

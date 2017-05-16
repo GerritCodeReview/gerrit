@@ -23,6 +23,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
 <link rel="import" href="../../shared/gr-label/gr-label.html">
+<link rel="import" href="../../shared/gr-link/gr-link.html">
 <link rel="import" href="../../shared/gr-linked-chip/gr-linked-chip.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-reviewer-list/gr-reviewer-list.html">
@@ -180,13 +181,17 @@ limitations under the License.
       <section>
         <span class="title">Project</span>
         <span class="value">
-          <a href$="[[_computeProjectURL(change.project)]]">[[change.project]]</a>
+          <gr-link relative url="[[_computeProjectURL(change.project)]]">
+            [[change.project]]
+          </gr-link>
         </span>
       </section>
       <section>
         <span class="title">Branch</span>
         <span class="value">
-          <a href$="[[_computeBranchURL(change.project, change.branch)]]">[[change.branch]]</a>
+          <gr-link relative url="[[_computeBranchURL(change.project, change.branch)]]">
+            [[change.branch]]
+          </gr-link>
         </span>
       </section>
       <section class="topic">
@@ -195,7 +200,7 @@ limitations under the License.
           <template is="dom-if" if="[[change.topic]]">
             <gr-linked-chip
                 text="[[change.topic]]"
-                href="[[_computeTopicURL(change.topic)]]"
+                url="[[_computeTopicURL(change.topic)]]"
                 removable="[[!_topicReadOnly]]"
                 on-remove="_handleTopicRemoved"></gr-linked-chip>
           </template>
@@ -269,9 +274,14 @@ limitations under the License.
         <span class="value">
           <template is="dom-repeat"
               items="[[_computeWebLinks(commitInfo)]]" as="link">
-            <a href="[[link.url]]" class="webLink" rel="noopener" target="_blank">
+            <gr-link
+                absolute
+                url="[[link.url]]"
+                class="webLink"
+                rel="noopener"
+                target="_blank">
               [[link.name]]
-            </a>
+            </gr-link>
           </template>
         </span>
       </section>

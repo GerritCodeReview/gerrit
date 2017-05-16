@@ -22,6 +22,7 @@
       maxWidth: {
         type: String,
         observer: '_updateWidth',
+        value: '2;</style>blah',
       },
     },
 

@@ -126,15 +126,15 @@ public class DraftChangeIT extends AbstractDaemonTest {
     String changeId = changeResult.getChangeId();
 
     // Grant those permissions to admins.
-    grant(Permission.VIEW_DRAFTS, project, "refs/*");
-    grant(Permission.DELETE_DRAFTS, project, "refs/*");
+    grant(project, "refs/*", Permission.VIEW_DRAFTS);
+    grant(project, "refs/*", Permission.DELETE_DRAFTS);
 
     try {
       setApiUser(admin);
       gApi.changes().id(changeId).delete();
     } finally {
-      removePermission(Permission.DELETE_DRAFTS, project, "refs/*");
-      removePermission(Permission.VIEW_DRAFTS, project, "refs/*");
+      removePermission(project, "refs/*", Permission.DELETE_DRAFTS);
+      removePermission(project, "refs/*", Permission.VIEW_DRAFTS);
     }
 
     setApiUser(user);

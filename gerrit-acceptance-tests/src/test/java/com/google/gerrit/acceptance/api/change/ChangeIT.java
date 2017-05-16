@@ -514,7 +514,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
-    grant(Permission.ABANDON, project, "refs/heads/master", false, REGISTERED_USERS);
+    grant(project, "refs/heads/master", Permission.ABANDON, false, REGISTERED_USERS);
     setApiUser(user);
     gApi.changes().id(changeId).abandon();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
@@ -671,7 +671,7 @@ public class ChangeIT extends AbstractDaemonTest {
     revision.review(ReviewInput.approve());
     revision.submit();
 
-    grant(Permission.REBASE, project, "refs/heads/master", false, REGISTERED_USERS);
+    grant(project, "refs/heads/master", Permission.REBASE, false, REGISTERED_USERS);
 
     // Rebase the second
     String changeId = r2.getChangeId();
@@ -691,8 +691,8 @@ public class ChangeIT extends AbstractDaemonTest {
     revision.review(ReviewInput.approve());
     revision.submit();
 
-    grant(Permission.REBASE, project, "refs/heads/master", false, REGISTERED_USERS);
-    block(Permission.PUSH, REGISTERED_USERS, "refs/for/*");
+    grant(project, "refs/heads/master", Permission.REBASE, false, REGISTERED_USERS);
+    block("refs/for/*", Permission.PUSH, REGISTERED_USERS);
 
     // Rebase the second
     String changeId = r2.getChangeId();
@@ -714,7 +714,7 @@ public class ChangeIT extends AbstractDaemonTest {
     revision.review(ReviewInput.approve());
     revision.submit();
 
-    block(Permission.PUSH, REGISTERED_USERS, "refs/for/*");
+    block("refs/for/*", Permission.PUSH, REGISTERED_USERS);
 
     // Rebase the second
     String changeId = r2.getChangeId();
@@ -783,7 +783,7 @@ public class ChangeIT extends AbstractDaemonTest {
       String ref = new Change.Id(id).toRefPrefix() + "1";
       eventRecorder.assertRefUpdatedEvents(project.get(), ref, null, commit, commit, null);
     } finally {
-      removePermission(Permission.DELETE_OWN_CHANGES, project, "refs/*");
+      removePermission(project, "refs/*", Permission.DELETE_OWN_CHANGES);
     }
   }
 
@@ -814,7 +814,7 @@ public class ChangeIT extends AbstractDaemonTest {
       exception.expectMessage("delete not permitted");
       gApi.changes().id(changeId).delete();
     } finally {
-      removePermission(Permission.DELETE_OWN_CHANGES, project, "refs/*");
+      removePermission(project, "refs/*", Permission.DELETE_OWN_CHANGES);
     }
   }
 
@@ -887,7 +887,7 @@ public class ChangeIT extends AbstractDaemonTest {
       exception.expectMessage("delete not permitted");
       gApi.changes().id(changeId).delete();
     } finally {
-      removePermission(Permission.DELETE_OWN_CHANGES, project, "refs/*");
+      removePermission(project, "refs/*", Permission.DELETE_OWN_CHANGES);
     }
   }
 
@@ -1973,7 +1973,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void editTopicWithPermissionAllowed() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(gApi.changes().id(r.getChangeId()).topic()).isEqualTo("");
-    grant(Permission.EDIT_TOPIC_NAME, project, "refs/heads/master", false, REGISTERED_USERS);
+    grant(project, "refs/heads/master", Permission.EDIT_TOPIC_NAME, false, REGISTERED_USERS);
     setApiUser(user);
     gApi.changes().id(r.getChangeId()).topic("mytopic");
     assertThat(gApi.changes().id(r.getChangeId()).topic()).isEqualTo("mytopic");
@@ -2019,7 +2019,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void submitAllowedWithPermission() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
-    grant(Permission.SUBMIT, project, "refs/heads/master", false, REGISTERED_USERS);
+    grant(project, "refs/heads/master", Permission.SUBMIT, false, REGISTERED_USERS);
     setApiUser(user);
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
     assertThat(gApi.changes().id(r.getChangeId()).info().status).isEqualTo(ChangeStatus.MERGED);
@@ -2368,7 +2368,7 @@ public class ChangeIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> userTestRepo = cloneProject(p, user);
 
     // Block default permission
-    block(Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/for/*", p);
+    block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
 
     // Create change as admin
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);
@@ -2412,7 +2412,7 @@ public class ChangeIT extends AbstractDaemonTest {
     TestRepository<?> adminTestRepo = cloneProject(project, admin);
 
     // Block default permission
-    block(Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/for/*", p);
+    block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
 
     // Create change as admin
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);
@@ -2463,7 +2463,7 @@ public class ChangeIT extends AbstractDaemonTest {
     TestRepository<?> userTestRepo = cloneProject(p, user);
 
     // Block default permission
-    block(Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/for/*", p);
+    block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
 
     // Create change as admin
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);

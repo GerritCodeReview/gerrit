@@ -206,7 +206,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Test
   public void uploadPackSubsetOfBranchesVisibleIncludingHead() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
-    deny(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
+    deny("refs/heads/branch", Permission.READ, REGISTERED_USERS);
 
     setApiUser(user);
     assertUploadPackRefs(
@@ -221,7 +221,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackSubsetOfBranchesVisibleNotIncludingHead() throws Exception {
-    deny(Permission.READ, REGISTERED_USERS, "refs/heads/master");
+    deny("refs/heads/master", Permission.READ, REGISTERED_USERS);
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
     setApiUser(user);
@@ -300,7 +300,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void uploadPackSubsetOfRefsVisibleWithAccessDatabase() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     try {
-      deny(Permission.READ, REGISTERED_USERS, "refs/heads/master");
+      deny("refs/heads/master", Permission.READ, REGISTERED_USERS);
       allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
       String changeId = c1.change().getKey().get();
@@ -440,7 +440,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Test
   public void receivePackRespectsVisibilityOfOpenChanges() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
-    deny(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
+    deny("refs/heads/branch", Permission.READ, REGISTERED_USERS);
     setApiUser(user);
 
     assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(c3, 1));

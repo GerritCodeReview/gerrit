@@ -788,7 +788,7 @@ public class RevisionIT extends AbstractDaemonTest {
   public void setDescriptionAllowedWithPermission() throws Exception {
     PushOneCommit.Result r = createChange();
     assertDescription(r, "");
-    grant(Permission.OWNER, project, "refs/heads/master", false, REGISTERED_USERS);
+    grant(project, "refs/heads/master", Permission.OWNER, false, REGISTERED_USERS);
     setApiUser(user);
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("test");
     assertDescription(r, "test");

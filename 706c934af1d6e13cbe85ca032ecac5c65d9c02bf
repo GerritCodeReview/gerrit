@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "feb57a4f_82c63e68",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-16T18:13:32Z",
+      "side": 1,
+      "message": "() \u003d\u003e false",
+      "range": {
+        "startLine": 148,
+        "startChar": 48,
+        "endLine": 148,
+        "endChar": 71
+      },
+      "revId": "706c934af1d6e13cbe85ca032ecac5c65d9c02bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc700a06_272d9da2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-16T18:13:32Z",
+      "side": 1,
+      "message": "Indentation looks strange.",
+      "revId": "706c934af1d6e13cbe85ca032ecac5c65d9c02bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a95bcf97_6977fa94",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-16T18:13:32Z",
+      "side": 1,
+      "message": "Indentation looks strange.",
+      "revId": "706c934af1d6e13cbe85ca032ecac5c65d9c02bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

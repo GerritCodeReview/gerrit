@@ -179,7 +179,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
   public void createChangeWithoutAccessToParentCommitFails() throws Exception {
     Map<String, PushOneCommit.Result> results =
         changeInTwoBranches("invisible-branch", "a.txt", "visible-branch", "b.txt");
-    block(READ, REGISTERED_USERS, "refs/heads/invisible-branch", project);
+    block(project, "refs/heads/invisible-branch", READ, REGISTERED_USERS);
 
     ChangeInput in = newChangeInput(ChangeStatus.NEW);
     in.branch = "visible-branch";
@@ -191,7 +191,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Test
   public void createChangeOnInvisibleBranchFails() throws Exception {
     changeInTwoBranches("invisible-branch", "a.txt", "branchB", "b.txt");
-    block(READ, REGISTERED_USERS, "refs/heads/invisible-branch", project);
+    block(project, "refs/heads/invisible-branch", READ, REGISTERED_USERS);
 
     ChangeInput in = newChangeInput(ChangeStatus.NEW);
     in.branch = "invisible-branch";

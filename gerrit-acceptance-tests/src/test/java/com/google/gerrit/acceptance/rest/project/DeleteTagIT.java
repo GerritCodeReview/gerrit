@@ -83,11 +83,11 @@ public class DeleteTagIT extends AbstractDaemonTest {
   }
 
   private void blockForcePush() throws Exception {
-    block(Permission.PUSH, ANONYMOUS_USERS, "refs/tags/*").setForce(true);
+    block("refs/tags/*", Permission.PUSH, ANONYMOUS_USERS).setForce(true);
   }
 
   private void grantForcePush() throws Exception {
-    grant(Permission.PUSH, project, "refs/tags/*", true, ANONYMOUS_USERS);
+    grant(project, "refs/tags/*", Permission.PUSH, true, ANONYMOUS_USERS);
   }
 
   private void grantDelete() throws Exception {

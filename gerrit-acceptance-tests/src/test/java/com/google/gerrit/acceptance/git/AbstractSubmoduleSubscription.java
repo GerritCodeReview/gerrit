@@ -87,8 +87,8 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
       SubmitType submitType)
       throws Exception {
     Project.NameKey project = createProject(name, parent, createEmptyCommit, submitType);
-    grant(Permission.PUSH, project, "refs/heads/*");
-    grant(Permission.SUBMIT, project, "refs/for/refs/heads/*");
+    grant(project, "refs/heads/*", Permission.PUSH);
+    grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
     return cloneProject(project);
   }
 

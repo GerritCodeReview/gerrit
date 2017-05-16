@@ -163,7 +163,7 @@ public class AssigneeIT extends AbstractDaemonTest {
   @Test
   public void setAssigneeAllowedWithPermission() throws Exception {
     PushOneCommit.Result r = createChange();
-    grant(Permission.EDIT_ASSIGNEE, project, "refs/heads/master", false, REGISTERED_USERS);
+    grant(project, "refs/heads/master", Permission.EDIT_ASSIGNEE, false, REGISTERED_USERS);
     setApiUser(user);
     assertThat(setAssignee(r, user.email)._accountId).isEqualTo(user.getId().get());
   }

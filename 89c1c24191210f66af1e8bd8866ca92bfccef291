@@ -23,6 +23,30 @@
       "revId": "89c1c24191210f66af1e8bd8866ca92bfccef291",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ece8d94_17006448",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-16T09:05:21Z",
+      "side": 1,
+      "message": "There is one test (robotCommentsNotSupportedWithoutNoteDb()) with a different condition. As long as it is part of this test class, we can\u0027t move the condition to the setUp method.",
+      "parentUuid": "5cda793c_1fbec680",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 57
+      },
+      "revId": "89c1c24191210f66af1e8bd8866ca92bfccef291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

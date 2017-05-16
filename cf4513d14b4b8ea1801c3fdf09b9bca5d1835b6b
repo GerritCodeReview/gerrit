@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95c7b9d1_ae933860",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-16T23:22:22Z",
+      "side": 1,
+      "message": "maybe use template literal here?",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 36
+      },
+      "revId": "cf4513d14b4b8ea1801c3fdf09b9bca5d1835b6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55e557c8_3c986e1f",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-16T23:22:22Z",
+      "side": 1,
+      "message": "maybe use template literal here?",
+      "revId": "cf4513d14b4b8ea1801c3fdf09b9bca5d1835b6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

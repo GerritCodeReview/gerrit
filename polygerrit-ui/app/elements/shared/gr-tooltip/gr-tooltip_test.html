@@ -32,13 +32,13 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-tooltip tests', function() {
-    var element;
-    setup(function() {
+  suite('gr-tooltip tests', () => {
+    let element;
+    setup(() => {
       element = fixture('basic');
     });
 
-    test('max-width is respected if set', function() {
+    test('max-width is respected if set', () => {
       element.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' +
           ', sed do eiusmod tempor incididunt ut labore et dolore magna aliqua';
       element.maxWidth = '50px';

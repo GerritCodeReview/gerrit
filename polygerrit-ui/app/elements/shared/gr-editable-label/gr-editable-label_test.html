@@ -44,19 +44,19 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-editable-label tests', function() {
-    var element;
-    var input;
-    var label;
+  suite('gr-editable-label tests', () => {
+    let element;
+    let input;
+    let label;
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
 
       input = element.$$('input');
       label = element.$$('label');
     });
 
-    test('element render', function() {
+    test('element render', () => {
       // The input is hidden and the label is visible:
       assert.isNotNull(input.getAttribute('hidden'));
       assert.isNull(label.getAttribute('hidden'));
@@ -76,8 +76,8 @@ limitations under the License.
       assert.equal(input.value, 'value text');
     });
 
-    test('edit value', function(done) {
-      var editedStub = sinon.stub();
+    test('edit value', done => {
+      const editedStub = sinon.stub();
       element.addEventListener('changed', editedStub);
 
       MockInteractions.tap(label);
@@ -88,7 +88,7 @@ limitations under the License.
 
       assert.isFalse(editedStub.called);
 
-      element.async(function() {
+      element.async(() => {
         assert.isTrue(editedStub.called);
         assert.equal(input.value, 'new text');
         done();
@@ -99,19 +99,19 @@ limitations under the License.
     });
   });
 
-  suite('gr-editable-label read-only tests', function() {
-    var element;
-    var input;
-    var label;
+  suite('gr-editable-label read-only tests', () => {
+    let element;
+    let input;
+    let label;
 
-    setup(function() {
+    setup(() => {
       element = fixture('read-only');
 
       input = element.$$('input');
       label = element.$$('label');
     });
 
-    test('disallows edit when read-only', function() {
+    test('disallows edit when read-only', () => {
       // The input is hidden and the label is visible:
       assert.isNotNull(input.getAttribute('hidden'));
       assert.isNull(label.getAttribute('hidden'));
@@ -125,7 +125,7 @@ limitations under the License.
       assert.isNull(label.getAttribute('hidden'));
     });
 
-    test('label is not marked as editable', function() {
+    test('label is not marked as editable', () => {
       assert.isFalse(label.classList.contains('editable'));
     });
   });

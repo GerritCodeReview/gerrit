@@ -24,28 +24,27 @@
       },
     },
 
-    _configChanged: function(config) {
-      var jsPlugins = config.js_resource_paths || [];
-      var htmlPlugins = config.html_resource_paths || [];
+    _configChanged(config) {
+      const jsPlugins = config.js_resource_paths || [];
+      const htmlPlugins = config.html_resource_paths || [];
       Gerrit._setPluginsCount(jsPlugins.length + htmlPlugins.length);
       this._loadJsPlugins(jsPlugins);
       this._importHtmlPlugins(htmlPlugins);
     },
 
-    _importHtmlPlugins: function(plugins) {
-      plugins.forEach(function(url) {
-        if (url.indexOf('http') !== 0) {
+    _importHtmlPlugins(plugins) {
+      for (let url of plugins) {
+        if (!url.startsWith('http')) {
           url = '/' + url;
         }
         this.importHref(
             url, Gerrit._pluginInstalled, Gerrit._pluginInstalled, true);
-      }.bind(this));
+      }
     },
 
-    _loadJsPlugins: function(plugins) {
-      for (var i = 0; i < plugins.length; i++) {
-        var url = plugins[i];
-        var scriptEl = document.createElement('script');
+    _loadJsPlugins(plugins) {
+      for (let i = 0; i < plugins.length; i++) {
+        const scriptEl = document.createElement('script');
         scriptEl.defer = true;
         scriptEl.src = '/' + plugins[i];
         scriptEl.onerror = Gerrit._pluginInstalled;

@@ -118,6 +118,12 @@ limitations under the License.
           padding-right: .5em;
         }
       }
+      span.merge-conflict {
+        float: right;
+        font-weight: bold;
+        color: #d00;
+        padding-top: .5em;
+      }
     </style>
     <gr-external-style id="externalStyle" name="change-metadata">
       <section>
@@ -211,6 +217,12 @@ limitations under the License.
       <section class="strategy" hidden$="[[_computeHideStrategy(change)]]" hidden>
         <span class="title">Strategy</span>
         <span class="value">[[_computeStrategy(change)]]</span>
+        <span class="merge-conflict" title="The change cannot be merged due to a path conflict.
+                                            Rebase the change and upload the rebased commit for
+                                            review."
+              hidden$="[[change.mergeable]]">
+          Cannot Merge
+        </span>
       </section>
       <template is="dom-repeat"
           items="[[_computeLabelNames(change.labels)]]" as="labelName">

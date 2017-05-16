@@ -14,18 +14,24 @@
 
 package com.google.gerrit.server.update;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import com.github.rholder.retry.RetryException;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
+import com.github.rholder.retry.StopStrategy;
 import com.github.rholder.retry.WaitStrategies;
+import com.github.rholder.retry.WaitStrategy;
 import com.google.common.base.Throwables;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class RetryHelper {
@@ -35,9 +41,12 @@ public class RetryHelper {
 
   private final NotesMigration migration;
   private final BatchUpdate.Factory updateFactory;
+  private final StopStrategy stopStrategy;
+  private final WaitStrategy waitStrategy;
 
   @Inject
   RetryHelper(
+      @GerritServerConfig Config cfg,
       NotesMigration migration,
       ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory,
       FusedNoteDbBatchUpdate.AssistedFactory fusedNoteDbBatchUpdateFactory,
@@ -49,19 +58,25 @@ public class RetryHelper {
             reviewDbBatchUpdateFactory,
             fusedNoteDbBatchUpdateFactory,
             unfusedNoteDbBatchUpdateFactory);
+    this.stopStrategy =
+        StopStrategies.stopAfterDelay(
+            cfg.getTimeUnit("noteDb", null, "retryTimeout", SECONDS.toMillis(5), MILLISECONDS),
+            MILLISECONDS);
+    this.waitStrategy =
+        WaitStrategies.join(
+            WaitStrategies.exponentialWait(
+                cfg.getTimeUnit("noteDb", null, "retryMaxWait", SECONDS.toMillis(20), MILLISECONDS),
+                MILLISECONDS),
+            WaitStrategies.randomWait(50, MILLISECONDS));
   }
 
   public <T> T execute(Action<T> action) throws RestApiException, UpdateException {
     try {
       RetryerBuilder<T> builder = RetryerBuilder.newBuilder();
       if (migration.disableChangeReviewDb() && migration.fuseUpdates()) {
-        // TODO(dborowitz): Make configurable.
         builder
-            .withStopStrategy(StopStrategies.stopAfterDelay(20, TimeUnit.SECONDS))
-            .withWaitStrategy(
-                WaitStrategies.join(
-                    WaitStrategies.exponentialWait(5, TimeUnit.SECONDS),
-                    WaitStrategies.randomWait(50, TimeUnit.MILLISECONDS)))
+            .withStopStrategy(stopStrategy)
+            .withWaitStrategy(waitStrategy)
             .retryIfException(RetryHelper::isLockFailure);
       } else {
         // Either we aren't full-NoteDb, or the underlying ref storage doesn't support atomic

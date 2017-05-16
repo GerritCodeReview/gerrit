@@ -16,6 +16,24 @@
       "revId": "c7add0e678171b7bc7124deb8513b7d5326eb20b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6ce92fa_510580a9",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T18:28:54Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027ll pass the linter. THat\u0027s a pretty strange style rule we had in the first place.",
+      "parentUuid": "7822dbbe_f5e55969",
+      "revId": "c7add0e678171b7bc7124deb8513b7d5326eb20b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

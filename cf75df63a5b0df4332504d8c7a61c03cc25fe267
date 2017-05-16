@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab87f3fe_8ff7fed5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-16T19:24:22Z",
+      "side": 1,
+      "message": "This is still a little off.",
+      "range": {
+        "startLine": 272,
+        "startChar": 10,
+        "endLine": 273,
+        "endChar": 70
+      },
+      "revId": "cf75df63a5b0df4332504d8c7a61c03cc25fe267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

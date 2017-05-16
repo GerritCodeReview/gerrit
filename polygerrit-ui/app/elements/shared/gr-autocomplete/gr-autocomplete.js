@@ -116,17 +116,15 @@
       },
 
       _index: Number,
-
       _disableSuggestions: {
         type: Boolean,
         value: false,
       },
-
       _focused: {
         type: Boolean,
         value: false,
       },
-
+      _selected: Object,
     },
 
     attached() {
@@ -151,6 +149,18 @@
 
     clear() {
       this.text = '';
+    },
+
+    _handleItemSelect(e) {
+      let silent = false;
+      if (e.detail.trigger === 'tab' && this.tabCompleteWithoutCommit) {
+        silent = true;
+      }
+      this._selected = e.detail.selected;
+      this._commit(silent);
+      if (e.detail.trigger === 'tap') {
+        this.focus();
+      }
     },
 
     /**
@@ -182,10 +192,11 @@
           // Late response.
           return;
         }
+        for (const suggestion of suggestions) {
+          suggestion.text = suggestion.name;
+        }
         this._suggestions = suggestions;
         Polymer.dom.flush();
-        this._suggestionEls = this.$.suggestions.querySelectorAll('li');
-        this.$.cursor.moveToStart();
         if (this._index === -1) {
           this.value = null;
         }
@@ -209,11 +220,11 @@
       switch (e.keyCode) {
         case 38: // Up
           e.preventDefault();
-          this.$.cursor.previous();
+          this.$.suggestions.cursorUp();
           break;
         case 40: // Down
           e.preventDefault();
-          this.$.cursor.next();
+          this.$.suggestions.cursorDown();
           break;
         case 27: // Escape
           e.preventDefault();
@@ -222,12 +233,12 @@
         case 9: // Tab
           if (this._suggestions.length > 0) {
             e.preventDefault();
-            this._commit(this.tabCompleteWithoutCommit);
+            this._handleEnter(this.tabCompleteWithoutCommit);
           }
           break;
         case 13: // Enter
           e.preventDefault();
-          this._commit();
+          this._handleEnter();
           break;
         default:
           // For any normal keypress, return focus to the input to allow for
@@ -245,9 +256,15 @@
       }
     },
 
-    _updateValue(suggestions, index) {
-      if (!suggestions.length || index === -1) { return; }
-      const completed = suggestions[index].value;
+    _handleEnter(opt_tabCompleteWithoutCommit) {
+      this._selected = this.$.suggestions.getCursorTarget();
+      this._commit(opt_tabCompleteWithoutCommit);
+      this.focus();
+    },
+
+    _updateValue(suggestion, suggestions) {
+      if (!suggestion) { return; }
+      const completed = suggestions[suggestion.dataset.index].value;
       if (this.multi) {
         // Append the completed text to the end of the string.
         // Allow spaces within quoted terms.
@@ -286,7 +303,7 @@
     _commit(silent) {
       // Allow values that are not in suggestion list iff suggestions are empty.
       if (this._suggestions.length > 0) {
-        this._updateValue(this._suggestions, this._index);
+        this._updateValue(this._selected, this._suggestions);
       } else {
         this.value = this.text || '';
       }
@@ -297,8 +314,8 @@
       if (this.multi) {
         this.setText(this.value);
       } else {
-        if (!this.clearOnCommit && this._suggestions[this._index]) {
-          this.setText(this._suggestions[this._index].name);
+        if (!this.clearOnCommit && this._selected) {
+          this.setText(this._suggestions[this._selected.dataset.index].name);
         } else {
           this.clear();
         }

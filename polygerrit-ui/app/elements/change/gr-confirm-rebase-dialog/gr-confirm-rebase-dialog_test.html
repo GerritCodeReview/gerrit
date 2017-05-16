@@ -33,14 +33,14 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-confirm-rebase-dialog tests', function() {
-    var element;
+  suite('gr-confirm-rebase-dialog tests', () => {
+    let element;
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
     });
 
-    test('controls with parent and rebase on current available', function() {
+    test('controls with parent and rebase on current available', () => {
       element.rebaseOnCurrent = true;
       element.hasParent = true;
       flushAsynchronousOperations();
@@ -51,7 +51,7 @@ limitations under the License.
       assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
     });
 
-    test('controls with parent rebase on current not available', function() {
+    test('controls with parent rebase on current not available', () => {
       element.rebaseOnCurrent = false;
       element.hasParent = true;
       flushAsynchronousOperations();
@@ -62,7 +62,7 @@ limitations under the License.
       assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
     });
 
-    test('controls without parent and rebase on current available', function() {
+    test('controls without parent and rebase on current available', () => {
       element.rebaseOnCurrent = true;
       element.hasParent = false;
       flushAsynchronousOperations();
@@ -73,7 +73,7 @@ limitations under the License.
       assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
     });
 
-    test('controls without parent rebase on current not available', function() {
+    test('controls without parent rebase on current not available', () => {
       element.rebaseOnCurrent = false;
       element.hasParent = false;
       flushAsynchronousOperations();

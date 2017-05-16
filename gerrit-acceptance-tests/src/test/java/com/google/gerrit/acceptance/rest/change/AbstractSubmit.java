@@ -306,7 +306,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void submitNoPermission() throws Exception {
     // create project where submit is blocked
     Project.NameKey p = createProject("p");
-    block(Permission.SUBMIT, REGISTERED_USERS, "refs/*", p);
+    block(p, "refs/*", Permission.SUBMIT, REGISTERED_USERS);
 
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo);

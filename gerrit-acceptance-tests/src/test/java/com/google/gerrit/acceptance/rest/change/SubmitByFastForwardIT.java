@@ -193,8 +193,8 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   public void submitSameCommitsAsInExperimentalBranch() throws Exception {
     RevCommit initialHead = getRemoteHead();
 
-    grant(Permission.CREATE, project, "refs/heads/*");
-    grant(Permission.PUSH, project, "refs/heads/experimental");
+    grant(project, "refs/heads/*", Permission.CREATE);
+    grant(project, "refs/heads/experimental", Permission.PUSH);
 
     RevCommit c1 = commitBuilder().add("b.txt", "1").message("commit at tip").create();
     String id1 = GitUtil.getChangeId(testRepo, c1).get();

@@ -54,27 +54,26 @@ public class CheckAccessIT extends AbstractDaemonTest {
     assertThat(gApi.groups().id(privilegedGroup.getGroupUUID().get()).members().get(0).email)
         .contains("snowden");
 
-    // deny(secretProject, Permission.READ, SystemGroupBackend.REGISTERED_USERS, "refs/*");
-    grant(Permission.READ, secretProject, "refs/*", false, privilegedGroup.getGroupUUID());
-    block(Permission.READ, SystemGroupBackend.REGISTERED_USERS, "refs/*", secretProject);
+    grant(secretProject, "refs/*", Permission.READ, false, privilegedGroup.getGroupUUID());
+    block(secretProject, "refs/*", Permission.READ, SystemGroupBackend.REGISTERED_USERS);
 
     // deny/grant/block arg ordering is screwy.
-    deny(secretRefProject, Permission.READ, SystemGroupBackend.ANONYMOUS_USERS, "refs/*");
+    deny(secretRefProject, "refs/*", Permission.READ, SystemGroupBackend.ANONYMOUS_USERS);
     grant(
-        Permission.READ,
         secretRefProject,
         "refs/heads/secret/*",
+        Permission.READ,
         false,
         privilegedGroup.getGroupUUID());
     block(
-        Permission.READ,
-        SystemGroupBackend.REGISTERED_USERS,
+        secretRefProject,
         "refs/heads/secret/*",
-        secretRefProject);
-    grant(
         Permission.READ,
+        SystemGroupBackend.REGISTERED_USERS);
+    grant(
         secretRefProject,
         "refs/heads/*",
+        Permission.READ,
         false,
         SystemGroupBackend.REGISTERED_USERS);
   }

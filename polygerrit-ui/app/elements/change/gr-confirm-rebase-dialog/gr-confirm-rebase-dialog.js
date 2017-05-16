@@ -40,29 +40,29 @@
       '_updateSelectedOption(rebaseOnCurrent, hasParent)',
     ],
 
-    _displayParentOption: function(rebaseOnCurrent, hasParent) {
+    _displayParentOption(rebaseOnCurrent, hasParent) {
       return hasParent && rebaseOnCurrent;
     },
 
-    _displayParentUpToDateMsg: function(rebaseOnCurrent, hasParent) {
+    _displayParentUpToDateMsg(rebaseOnCurrent, hasParent) {
       return hasParent && !rebaseOnCurrent;
     },
 
-    _displayTipOption: function(rebaseOnCurrent, hasParent) {
+    _displayTipOption(rebaseOnCurrent, hasParent) {
       return !(!rebaseOnCurrent && !hasParent);
     },
 
-    _handleConfirmTap: function(e) {
+    _handleConfirmTap(e) {
       e.preventDefault();
       this.fire('confirm', null, {bubbles: false});
     },
 
-    _handleCancelTap: function(e) {
+    _handleCancelTap(e) {
       e.preventDefault();
       this.fire('cancel', null, {bubbles: false});
     },
 
-    _handleRebaseOnOther: function(e) {
+    _handleRebaseOnOther(e) {
       this.$.parentInput.focus();
     },
 
@@ -73,15 +73,15 @@
      * rebased on top of the target branch. Leaving out the base implies that it
      * should be rebased on top of its current parent.
      */
-    _handleRebaseOnTip: function(e) {
+    _handleRebaseOnTip(e) {
       this.base = '';
     },
 
-    _handleRebaseOnParent: function(e) {
+    _handleRebaseOnParent(e) {
       this.base = null;
     },
 
-    _handleEnterChangeNumberTap: function(e) {
+    _handleEnterChangeNumberTap(e) {
       this.$.rebaseOnOtherInput.checked = true;
     },
 
@@ -89,7 +89,7 @@
      * Sets the default radio button based on the state of the app and
      * the corresponding value to be submitted.
      */
-    _updateSelectedOption: function(rebaseOnCurrent, hasParent) {
+    _updateSelectedOption(rebaseOnCurrent, hasParent) {
       if (this._displayParentOption(rebaseOnCurrent, hasParent)) {
         this.$.rebaseOnParentInput.checked = true;
         this._handleRebaseOnParent();

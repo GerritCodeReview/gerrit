@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "121b0e07_d6dd8861",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-16T23:28:24Z",
+      "side": 1,
+      "message": "looks like this can use for-of",
+      "range": {
+        "startLine": 246,
+        "startChar": 5,
+        "endLine": 250,
+        "endChar": 7
+      },
+      "revId": "4cc1e7ba319e5c9d4d1f19ecd141d989f37562ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f1af8c3_57853701",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-16T23:28:24Z",
+      "side": 1,
+      "message": "looks like this can use for-of",
+      "range": {
+        "startLine": 312,
+        "startChar": 5,
+        "endLine": 323,
+        "endChar": 7
+      },
+      "revId": "4cc1e7ba319e5c9d4d1f19ecd141d989f37562ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dcaeeb6_b1692e71",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-16T23:28:24Z",
+      "side": 1,
+      "message": "this formatting seems off",
+      "range": {
+        "startLine": 177,
+        "startChar": 11,
+        "endLine": 184,
+        "endChar": 16
+      },
+      "revId": "4cc1e7ba319e5c9d4d1f19ecd141d989f37562ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

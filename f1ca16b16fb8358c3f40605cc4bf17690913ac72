@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6ec65535_8d0a82a7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T00:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33772fc3_af1582a7",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 47
+      },
+      "revId": "f1ca16b16fb8358c3f40605cc4bf17690913ac72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1996a499_b4aab252",
         "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage_test.html",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "f1ca16b16fb8358c3f40605cc4bf17690913ac72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0dc29c7_e7f412f9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T00:21:23Z",
+      "side": 1,
+      "message": "http://eslint.org/docs/rules/no-throw-literal",
+      "parentUuid": "1996a499_b4aab252",
+      "range": {
+        "startLine": 42,
+        "startChar": 8,
+        "endLine": 42,
+        "endChar": 54
+      },
+      "revId": "f1ca16b16fb8358c3f40605cc4bf17690913ac72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

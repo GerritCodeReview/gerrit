@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33772fc3_af1582a7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-16T00:15:15Z",
+      "side": 1,
+      "message": "Maybe use a template literal here?",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 47
+      },
+      "revId": "f1ca16b16fb8358c3f40605cc4bf17690913ac72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1996a499_b4aab252",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-16T00:15:15Z",
+      "side": 1,
+      "message": "why is this needed?",
+      "range": {
+        "startLine": 42,
+        "startChar": 8,
+        "endLine": 42,
+        "endChar": 54
+      },
+      "revId": "f1ca16b16fb8358c3f40605cc4bf17690913ac72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

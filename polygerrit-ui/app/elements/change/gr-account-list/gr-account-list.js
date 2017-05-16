@@ -90,11 +90,13 @@
     },
 
     _handleAdd(e) {
-      const reviewer = e.detail.value;
+      this._addReviewer(e.detail.value);
+    },
+
+    _addReviewer(reviewer) {
       // Append new account or group to the accounts property. We add our own
       // internal properties to the account/group here, so we clone the object
       // to avoid cluttering up the shared change object.
-      // TODO(logan): Polyfill for Object.assign in IE.
       if (reviewer.account) {
         const account =
             Object.assign({}, reviewer.account, {_pendingAdd: true});
@@ -114,12 +116,14 @@
           this.$.entry.setText(reviewer);
           this.dispatchEvent(new CustomEvent('show-alert',
             {detail: {message: VALID_EMAIL_ALERT}, bubbles: true}));
+          return false;
         } else {
           const account = {email: reviewer, _pendingAdd: true};
           this.push('accounts', account);
         }
       }
       this.pendingConfirmation = null;
+      return true;
     },
 
     confirmGroup(group) {
@@ -243,6 +247,22 @@
           }
           break;
       }
+    },
+
+    /**
+     * Submit the text of the entry as a reviewer value, if it exists. If it is
+     * a successful submit of the text, clear the entry value.
+     *
+     * @return {boolean} If there is text in the entry, return true if the
+     *     submission was successful and false if not. If there is no text,
+     *     return true.
+     */
+    submitEntryText() {
+      const text = this.$.entry.getText();
+      if (!text.length) { return true; }
+      const wasSubmitted = this._addReviewer(text);
+      if (wasSubmitted) { this.$.entry.clear(); }
+      return wasSubmitted;
     },
 
     additions() {

@@ -16,6 +16,24 @@
       "revId": "2eef92ce88e3faead1336061e24fb00ed8067ab8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "469b2af3_a637515c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-16T00:28:37Z",
+      "side": 1,
+      "message": "The second one.\n\nConst doesn\u0027t mean immutable, it means the reference is never changed.",
+      "parentUuid": "fe6bf45c_c78208f0",
+      "revId": "2eef92ce88e3faead1336061e24fb00ed8067ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

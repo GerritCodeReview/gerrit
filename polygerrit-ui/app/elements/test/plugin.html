@@ -1,8 +1,8 @@
 <dom-module id="my-plugin">
   <script>
-    Gerrit.install(function(plugin) {
-        plugin.registerStyleModule('app-theme', 'myplugin-app-theme');
-    });
+    Gerrit.install(plugin =>
+      plugin.registerStyleModule('app-theme', 'myplugin-app-theme');
+    );
   </script>
 </dom-module>
 

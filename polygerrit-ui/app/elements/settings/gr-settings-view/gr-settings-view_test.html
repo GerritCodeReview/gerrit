@@ -39,18 +39,18 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-settings-view tests', function() {
-    var element;
-    var account;
-    var preferences;
-    var diffPreferences;
-    var config;
-    var sandbox;
+  suite('gr-settings-view tests', () => {
+    let element;
+    let account;
+    let preferences;
+    let diffPreferences;
+    let config;
+    let sandbox;
 
     function valueOf(title, fieldsetid) {
-      var sections = element.$[fieldsetid].querySelectorAll('section');
-      var titleEl;
-      for (var i = 0; i < sections.length; i++) {
+      const sections = element.$[fieldsetid].querySelectorAll('section');
+      let titleEl;
+      for (let i = 0; i < sections.length; i++) {
         titleEl = sections[i].querySelector('.title');
         if (titleEl.textContent === title) {
           return sections[i].querySelector('.value');
@@ -61,7 +61,7 @@ limitations under the License.
     // Because deepEqual isn't behaving in Safari.
     function assertMenusEqual(actual, expected) {
       assert.equal(actual.length, expected.length);
-      for (var i = 0; i < actual.length; i++) {
+      for (let i = 0; i < actual.length; i++) {
         assert.equal(actual[i].name, expected[i].name);
         assert.equal(actual[i].url, expected[i].url);
       }
@@ -69,10 +69,10 @@ limitations under the License.
 
     function stubAddAccountEmail(statusCode) {
       return sandbox.stub(element.$.restAPI, 'addAccountEmail',
-          function() { return Promise.resolve({status: statusCode}); });
+          () => { return Promise.resolve({status: statusCode}); });
     }
 
-    setup(function(done) {
+    setup(done => {
       sandbox = sinon.sandbox.create();
       account = {
         _account_id: 123,
@@ -109,23 +109,23 @@ limitations under the License.
         syntax_highlighting: true,
         auto_hide_diff_table_header: true,
         theme: 'DEFAULT',
-        ignore_whitespace: 'IGNORE_NONE'
+        ignore_whitespace: 'IGNORE_NONE',
       };
       config = {auth: {editable_account_fields: []}};
 
       stub('gr-rest-api-interface', {
-        getLoggedIn: function() { return Promise.resolve(true); },
-        getAccount: function() { return Promise.resolve(account); },
-        getPreferences: function() { return Promise.resolve(preferences); },
-        getDiffPreferences: function() {
+        getLoggedIn() { return Promise.resolve(true); },
+        getAccount() { return Promise.resolve(account); },
+        getPreferences() { return Promise.resolve(preferences); },
+        getDiffPreferences() {
           return Promise.resolve(diffPreferences);
         },
-        getWatchedProjects: function() {
+        getWatchedProjects() {
           return Promise.resolve([]);
         },
-        getAccountEmails: function() { return Promise.resolve(); },
-        getConfig: function() { return Promise.resolve(config); },
-        getAccountGroups: function() { return Promise.resolve([]); },
+        getAccountEmails() { return Promise.resolve(); },
+        getConfig() { return Promise.resolve(config); },
+        getAccountGroups() { return Promise.resolve([]); },
       });
       element = fixture('basic');
 
@@ -133,19 +133,19 @@ limitations under the License.
       element._loadingPromise.then(done);
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('calls the title-change event', function() {
-      var titleChangedStub = sandbox.stub();
+    test('calls the title-change event', () => {
+      const titleChangedStub = sandbox.stub();
 
       // Create a new view.
-      var newElement = document.createElement('gr-settings-view');
+      const newElement = document.createElement('gr-settings-view');
       newElement.addEventListener('title-change', titleChangedStub);
 
       // Attach it to the fixture.
-      var blank = fixture('blank');
+      const blank = fixture('blank');
       blank.appendChild(newElement);
 
       Polymer.dom.flush();
@@ -155,7 +155,7 @@ limitations under the License.
           'Settings');
     });
 
-    test('user preferences', function(done) {
+    test('user preferences', done => {
       // Rendered with the expected preferences selected.
       assert.equal(valueOf('Changes per page', 'preferences')
           .firstElementChild.bindValue, preferences.changes_per_page);
@@ -178,10 +178,10 @@ limitations under the License.
       assert.isFalse(element._menuChanged);
 
       // Change the diff view element.
-      var diffSelect = valueOf('Diff view', 'preferences').firstElementChild;
+      const diffSelect = valueOf('Diff view', 'preferences').firstElementChild;
       diffSelect.bindValue = 'SIDE_BY_SIDE';
 
-      var expandInlineDiffs =
+      const expandInlineDiffs =
           valueOf('Expand inline diffs', 'preferences').firstElementChild;
       diffSelect.fire('change');
 
@@ -191,24 +191,24 @@ limitations under the License.
       assert.isFalse(element._menuChanged);
 
       stub('gr-rest-api-interface', {
-        savePreferences: function(prefs) {
+        savePreferences(prefs) {
           assert.equal(prefs.diff_view, 'SIDE_BY_SIDE');
           assertMenusEqual(prefs.my, preferences.my);
           assert.equal(prefs.expand_inline_diffs, true);
           return Promise.resolve();
-        }
+        },
       });
 
       // Save the change.
-      element._handleSavePreferences().then(function() {
+      element._handleSavePreferences().then(() => {
         assert.isFalse(element._prefsChanged);
         assert.isFalse(element._menuChanged);
         done();
       });
     });
 
-    test('publish comments on push', function(done) {
-      var publishCommentsOnPush =
+    test('publish comments on push', done => {
+      const publishCommentsOnPush =
         valueOf('Publish comments on push', 'preferences').firstElementChild;
       MockInteractions.tap(publishCommentsOnPush);
 
@@ -216,21 +216,21 @@ limitations under the License.
       assert.isTrue(element._prefsChanged);
 
       stub('gr-rest-api-interface', {
-        savePreferences: function(prefs) {
+        savePreferences(prefs) {
           assert.equal(prefs.publish_comments_on_push, true);
           return Promise.resolve();
-        }
+        },
       });
 
       // Save the change.
-      element._handleSavePreferences().then(function() {
+      element._handleSavePreferences().then(() => {
         assert.isFalse(element._prefsChanged);
         assert.isFalse(element._menuChanged);
         done();
       });
     });
 
-    test('diff preferences', function(done) {
+    test('diff preferences', done => {
       // Rendered with the expected preferences selected.
       assert.equal(valueOf('Context', 'diffPreferences')
           .firstElementChild.bindValue, diffPreferences.context);
@@ -249,7 +249,7 @@ limitations under the License.
 
       assert.isFalse(element._diffPrefsChanged);
 
-      var showTabsCheckbox = valueOf('Show tabs', 'diffPreferences')
+      const showTabsCheckbox = valueOf('Show tabs', 'diffPreferences')
           .firstElementChild;
       showTabsCheckbox.checked = false;
       element._handleShowTabsChanged();
@@ -257,20 +257,20 @@ limitations under the License.
       assert.isTrue(element._diffPrefsChanged);
 
       stub('gr-rest-api-interface', {
-        saveDiffPreferences: function(prefs) {
+        saveDiffPreferences(prefs) {
           assert.equal(prefs.show_tabs, false);
           return Promise.resolve();
-        }
+        },
       });
 
       // Save the change.
-      element._handleSaveDiffPreferences().then(function() {
+      element._handleSaveDiffPreferences().then(() => {
         assert.isFalse(element._diffPrefsChanged);
         done();
       });
     });
 
-    test('columns input is hidden with fit to scsreen is selected', function() {
+    test('columns input is hidden with fit to scsreen is selected', () => {
       assert.isFalse(element.$.columnsPref.hidden);
 
       MockInteractions.tap(element.$.lineWrapping);
@@ -280,14 +280,14 @@ limitations under the License.
       assert.isFalse(element.$.columnsPref.hidden);
     });
 
-    test('menu', function(done) {
+    test('menu', done => {
       assert.isFalse(element._menuChanged);
       assert.isFalse(element._prefsChanged);
 
       assertMenusEqual(element._localMenu, preferences.my);
 
-      var menu = element.$.menu.firstElementChild;
-      var tableRows = Polymer.dom(menu.root).querySelectorAll('tbody tr');
+      const menu = element.$.menu.firstElementChild;
+      let tableRows = Polymer.dom(menu.root).querySelectorAll('tbody tr');
       assert.equal(tableRows.length, preferences.my.length);
 
       // Add a menu item:
@@ -301,13 +301,13 @@ limitations under the License.
       assert.isFalse(element._prefsChanged);
 
       stub('gr-rest-api-interface', {
-        savePreferences: function(prefs) {
+        savePreferences(prefs) {
           assertMenusEqual(prefs.my, element._localMenu);
           return Promise.resolve();
-        }
+        },
       });
 
-      element._handleSaveMenu().then(function() {
+      element._handleSaveMenu().then(() => {
         assert.isFalse(element._menuChanged);
         assert.isFalse(element._prefsChanged);
         assertMenusEqual(element.prefs.my, element._localMenu);
@@ -315,7 +315,7 @@ limitations under the License.
       });
     });
 
-    test('add email validation', function() {
+    test('add email validation', () => {
       assert.isFalse(element._isNewEmailValid('invalid email'));
       assert.isTrue(element._isNewEmailValid('vaguely@valid.email'));
 
@@ -327,8 +327,8 @@ limitations under the License.
           element._computeAddEmailButtonEnabled('vaguely@valid.email', false));
     });
 
-    test('add email does not save invalid', function() {
-      var addEmailStub = stubAddAccountEmail(201);
+    test('add email does not save invalid', () => {
+      const addEmailStub = stubAddAccountEmail(201);
 
       assert.isFalse(element._addingEmail);
       assert.isNotOk(element._lastSentVerificationEmail);
@@ -343,8 +343,8 @@ limitations under the License.
       assert.isFalse(addEmailStub.called);
     });
 
-    test('add email does save valid', function(done) {
-      var addEmailStub = stubAddAccountEmail(201);
+    test('add email does save valid', done => {
+      const addEmailStub = stubAddAccountEmail(201);
 
       assert.isFalse(element._addingEmail);
       assert.isNotOk(element._lastSentVerificationEmail);
@@ -356,14 +356,14 @@ limitations under the License.
       assert.isTrue(addEmailStub.called);
 
       assert.isTrue(addEmailStub.called);
-      addEmailStub.lastCall.returnValue.then(function() {
+      addEmailStub.lastCall.returnValue.then(() => {
         assert.isOk(element._lastSentVerificationEmail);
         done();
       });
     });
 
-    test('add email does not set last-email if error', function(done) {
-      var addEmailStub = stubAddAccountEmail(500);
+    test('add email does not set last-email if error', done => {
+      const addEmailStub = stubAddAccountEmail(500);
 
       assert.isNotOk(element._lastSentVerificationEmail);
       element._newEmail = 'valid@email.com';
@@ -371,58 +371,57 @@ limitations under the License.
       element._handleAddEmailButton();
 
       assert.isTrue(addEmailStub.called);
-      addEmailStub.lastCall.returnValue.then(function() {
+      addEmailStub.lastCall.returnValue.then(() => {
         assert.isNotOk(element._lastSentVerificationEmail);
         done();
       });
     });
 
-    test('emails are loaded without emailToken', function() {
+    test('emails are loaded without emailToken', () => {
       sandbox.stub(element.$.emailEditor, 'loadData');
       element.params = {};
       element.attached();
       assert.isTrue(element.$.emailEditor.loadData.calledOnce);
     });
 
-    suite('when email verification token is provided', function() {
-      var resolveConfirm;
+    suite('when email verification token is provided', () => {
+      let resolveConfirm;
 
-      setup(function() {
+      setup(() => {
         sandbox.stub(element.$.emailEditor, 'loadData');
-        sandbox.stub(element.$.restAPI, 'confirmEmail', function() {
-          return new Promise(function(resolve) { resolveConfirm = resolve; });
+        sandbox.stub(element.$.restAPI, 'confirmEmail', () => {
+          return new Promise(resolve => { resolveConfirm = resolve; });
         });
         element.params = {emailToken: 'foo'};
         element.attached();
       });
 
-      test('it is used to confirm email via rest API', function() {
+      test('it is used to confirm email via rest API', () => {
         assert.isTrue(element.$.restAPI.confirmEmail.calledOnce);
         assert.isTrue(element.$.restAPI.confirmEmail.calledWith('foo'));
       });
 
-      test('emails are not loaded initially', function() {
+      test('emails are not loaded initially', () => {
         assert.isFalse(element.$.emailEditor.loadData.called);
       });
 
-      test('user emails are loaded after email confirmed', function(done) {
-        element._loadingPromise.then(function() {
+      test('user emails are loaded after email confirmed', done => {
+        element._loadingPromise.then(() => {
           assert.isTrue(element.$.emailEditor.loadData.calledOnce);
           done();
         });
         resolveConfirm();
       });
 
-      test('show-alert is fired when email is confirmed', function(done) {
+      test('show-alert is fired when email is confirmed', done => {
         sandbox.spy(element, 'fire');
-        element._loadingPromise.then(function() {
+        element._loadingPromise.then(() => {
           assert.isTrue(
               element.fire.calledWith('show-alert', {message: 'bar'}));
           done();
         });
         resolveConfirm('bar');
       });
-
     });
   });
 </script>

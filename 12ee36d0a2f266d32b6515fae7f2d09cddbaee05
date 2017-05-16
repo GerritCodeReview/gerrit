@@ -34,6 +34,24 @@
       "revId": "12ee36d0a2f266d32b6515fae7f2d09cddbaee05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9a27d75_ba140f71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-16T19:19:43Z",
+      "side": 1,
+      "message": "Yeah I think you\u0027re right, in this case you do need the exact object in order to update it.",
+      "parentUuid": "4023f907_2ee5863d",
+      "revId": "12ee36d0a2f266d32b6515fae7f2d09cddbaee05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "f091bb9b_b31eaf0b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-16T11:00:38Z",
+      "side": 1,
+      "message": "I prefer variant 2 (try to move the ref update into BatchUpdate in the near future). As you said, users would manually retry the operation anyway. To provide a better user experience (with less frustration), I think we should provide the automatic retry mechanism now.\n\nDo we have an automatic mechanism to clean up unnecessary references (say patch set refs without existing changes)?",
+      "parentUuid": "de7221bd_3a1fa162",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 162,
+        "endChar": 84
+      },
+      "revId": "2de15eac8fa71dbd19bac2c6f61971146d30f919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "15ee1f31_9fd9b8dd",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
         "patchSetId": 2

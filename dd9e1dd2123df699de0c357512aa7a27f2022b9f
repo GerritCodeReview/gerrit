@@ -1,4 +1,113 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1494947237 +0200\nnonce APbwY4r8tOsfO8TdPSP6IU6KH9rRkj3U018ueSdrwSvgR1rmc0dgVTG0yLrDUJb+2cZ00fXJX2nR\n\n0000000000000000000000000000000000000000 1a80f03b7540d8312727b94b3666fe6af5f3c92e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZGxWlAAoJEHFVO370GiZWE+YH/3y6zK8IwHSD69JTLZ9VgMmx\nls1zDVVpvMjuhatzSvbQa+Kkph5fTsqLcFqdJSPriQxii22mNwMo4uY49cHq92OB\nZe4Tgd+R+xu6oK1g8LyzwX//PM85z/F68sOoTxHaGYcxBMiINADGlmTbcrMC6UoD\njXFzUpA8YVU+k8Wrp3Xffnz7oa6FBRbMkxH0hI0L4+kjf908WSdX0ZcZINJgHqRh\nBPt+gbn//0RbplzbRs1g+hh+dx0an5LS5qztVU2x1nfJgWzFhPuGeemtpZecCR1M\n/wwB2W9SpoIGeBbo7Dq15QRPyrqEE2pqJv87P2+PuG3QoE+vEpo7wV3kbW50kfY\u003d\n\u003dtDro\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab189c3a_baad71a4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/LuceneQueryAccountsTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-16T20:09:09Z",
+      "side": 1,
+      "message": "Another place where we could eliminate copy/pasting by adding a static helper somewhere.",
+      "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6666cc9_87a47e0b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-16T20:09:09Z",
+      "side": 1,
+      "message": "This behavior seems non-obvious; I would have guessed it returns just the current version. That way it would work for a brand new index where there is exactly one version.",
+      "range": {
+        "startLine": 60,
+        "startChar": 78,
+        "endLine": 62,
+        "endChar": 30
+      },
+      "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0887df78_edb626af",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-16T20:09:09Z",
+      "side": 1,
+      "message": "There is enough logic in here that I feel like this needs a small test.",
+      "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3f25f71_e9199c7b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-16T20:09:09Z",
+      "side": 1,
+      "message": "This level of nesting is kind of hard to read. What if you just did:\n\n String value \u003d System.getenv(envVar);\n if (isNullOrEmpty(value)) {\n   value \u003d \"current,previous\";\n }\n\nor if you really like one-liners:\n\n String value \u003d firstNonNull(emptyToNull(System.getenv(envVar)), \"current,previous\");",
+      "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3a7d4b8_f547317f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-16T20:09:09Z",
+      "side": 1,
+      "message": ".trimResults()? Not a big deal.",
+      "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24b970ce_70626269",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-16T20:09:09Z",
+      "side": 1,
+      "message": "Nit: checkArgument here and below.",
+      "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

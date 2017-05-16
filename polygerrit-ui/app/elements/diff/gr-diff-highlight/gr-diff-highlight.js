@@ -42,7 +42,7 @@
       return this._cachedDiffBuilder;
     },
 
-    _enableSelectionObserver: function(loggedIn, isAttached) {
+    _enableSelectionObserver(loggedIn, isAttached) {
       if (loggedIn && isAttached) {
         this.listen(document, 'selectionchange', '_handleSelectionChange');
       } else {
@@ -50,11 +50,11 @@
       }
     },
 
-    isRangeSelected: function() {
+    isRangeSelected() {
       return !!this.$$('gr-selection-action-box');
     },
 
-    _handleSelectionChange: function() {
+    _handleSelectionChange() {
       // Can't use up or down events to handle selection started and/or ended in
       // in comment threads or outside of diff.
       // Debounce removeActionBox to give it a chance to react to click/tap.
@@ -62,31 +62,31 @@
       this.debounce('selectionChange', this._handleSelection, 200);
     },
 
-    _handleCommentMouseOver: function(e) {
-      var comment = e.detail.comment;
+    _handleCommentMouseOver(e) {
+      const comment = e.detail.comment;
       if (!comment.range) { return; }
-      var lineEl = this.diffBuilder.getLineElByChild(e.target);
-      var side = this.diffBuilder.getSideByLineEl(lineEl);
-      var index = this._indexOfComment(side, comment);
+      const lineEl = this.diffBuilder.getLineElByChild(e.target);
+      const side = this.diffBuilder.getSideByLineEl(lineEl);
+      const index = this._indexOfComment(side, comment);
       if (index !== undefined) {
         this.set(['comments', side, index, '__hovering'], true);
       }
     },
 
-    _handleCommentMouseOut: function(e) {
-      var comment = e.detail.comment;
+    _handleCommentMouseOut(e) {
+      const comment = e.detail.comment;
       if (!comment.range) { return; }
-      var lineEl = this.diffBuilder.getLineElByChild(e.target);
-      var side = this.diffBuilder.getSideByLineEl(lineEl);
-      var index = this._indexOfComment(side, comment);
+      const lineEl = this.diffBuilder.getLineElByChild(e.target);
+      const side = this.diffBuilder.getSideByLineEl(lineEl);
+      const index = this._indexOfComment(side, comment);
       if (index !== undefined) {
         this.set(['comments', side, index, '__hovering'], false);
       }
     },
 
-    _indexOfComment: function(side, comment) {
-      var idProp = comment.id ? 'id' : '__draftID';
-      for (var i = 0; i < this.comments[side].length; i++) {
+    _indexOfComment(side, comment) {
+      const idProp = comment.id ? 'id' : '__draftID';
+      for (let i = 0; i < this.comments[side].length; i++) {
         if (comment[idProp] &&
             this.comments[side][i][idProp] === comment[idProp]) {
           return i;
@@ -94,8 +94,8 @@
       }
     },
 
-    _normalizeRange: function(domRange) {
-      var range = GrRangeNormalizer.normalize(domRange);
+    _normalizeRange(domRange) {
+      const range = GrRangeNormalizer.normalize(domRange);
       return this._fixTripleClickSelection({
         start: this._normalizeSelectionSide(
             range.startContainer, range.startOffset),
@@ -115,19 +115,19 @@
      * @param {!Range} domRange DOM Range object
      * @return {!Object} fixed normalized range
      */
-    _fixTripleClickSelection: function(range, domRange) {
+    _fixTripleClickSelection(range, domRange) {
       if (!range.start) {
         // Selection outside of current diff.
         return range;
       }
-      var start = range.start;
-      var end = range.end;
-      var endsAtOtherSideLineNum =
+      const start = range.start;
+      const end = range.end;
+      const endsAtOtherSideLineNum =
           domRange.endOffset === 0 &&
           domRange.endContainer.nodeName === 'TD' &&
           (domRange.endContainer.classList.contains('left') ||
               domRange.endContainer.classList.contains('right'));
-      var endsOnOtherSideStart = endsAtOtherSideLineNum ||
+      const endsOnOtherSideStart = endsAtOtherSideLineNum ||
           end &&
           end.column === 0 &&
           end.line === start.line &&
@@ -160,33 +160,33 @@
      *   column: Number
      * }}
      */
-    _normalizeSelectionSide: function(node, offset) {
-      var column;
+    _normalizeSelectionSide(node, offset) {
+      let column;
       if (!this.contains(node)) {
         return;
       }
-      var lineEl = this.diffBuilder.getLineElByChild(node);
+      const lineEl = this.diffBuilder.getLineElByChild(node);
       if (!lineEl) {
         return;
       }
-      var side = this.diffBuilder.getSideByLineEl(lineEl);
+      const side = this.diffBuilder.getSideByLineEl(lineEl);
       if (!side) {
         return;
       }
-      var line = this.diffBuilder.getLineNumberByChild(lineEl);
+      const line = this.diffBuilder.getLineNumberByChild(lineEl);
       if (!line) {
         return;
       }
-      var contentText = this.diffBuilder.getContentByLineEl(lineEl);
+      const contentText = this.diffBuilder.getContentByLineEl(lineEl);
       if (!contentText) {
         return;
       }
-      var contentTd = contentText.parentElement;
+      const contentTd = contentText.parentElement;
       if (!contentTd.contains(node)) {
         node = contentText;
         column = 0;
       } else {
-        var thread = contentTd.querySelector('gr-diff-comment-thread');
+        const thread = contentTd.querySelector('gr-diff-comment-thread');
         if (thread && thread.contains(node)) {
           column = this._getLength(contentText);
           node = contentText;
@@ -196,28 +196,28 @@
       }
 
       return {
-        node: node,
-        side: side,
-        line: line,
-        column: column,
+        node,
+        side,
+        line,
+        column,
       };
     },
 
-    _handleSelection: function() {
-      var selection = window.getSelection();
+    _handleSelection() {
+      const selection = window.getSelection();
       if (selection.rangeCount != 1) {
         return;
       }
-      var range = selection.getRangeAt(0);
+      const range = selection.getRangeAt(0);
       if (range.collapsed) {
         return;
       }
-      var normalizedRange = this._normalizeRange(range);
-      var start = normalizedRange.start;
+      const normalizedRange = this._normalizeRange(range);
+      const start = normalizedRange.start;
       if (!start) {
         return;
       }
-      var end = normalizedRange.end;
+      const end = normalizedRange.end;
       if (!end) {
         return;
       }
@@ -229,7 +229,7 @@
 
       // TODO (viktard): Drop empty first and last lines from selection.
 
-      var actionBox = document.createElement('gr-selection-action-box');
+      const actionBox = document.createElement('gr-selection-action-box');
       Polymer.dom(this.root).appendChild(actionBox);
       actionBox.range = {
         startLine: start.line,
@@ -251,22 +251,22 @@
       }
     },
 
-    _createComment: function(e) {
+    _createComment(e) {
       this._removeActionBox();
     },
 
-    _removeActionBoxDebounced: function() {
+    _removeActionBoxDebounced() {
       this.debounce('removeActionBox', this._removeActionBox, 10);
     },
 
-    _removeActionBox: function() {
-      var actionBox = this.$$('gr-selection-action-box');
+    _removeActionBox() {
+      const actionBox = this.$$('gr-selection-action-box');
       if (actionBox) {
         Polymer.dom(this.root).removeChild(actionBox);
       }
     },
 
-    _convertOffsetToColumn: function(el, offset) {
+    _convertOffsetToColumn(el, offset) {
       if (el instanceof Element && el.classList.contains('content')) {
         return offset;
       }
@@ -290,16 +290,16 @@
      * @param {function(Node):boolean} callback
      * @param {Object=} opt_flags If flags.left is true, traverse left.
      */
-    _traverseContentSiblings: function(startNode, callback, opt_flags) {
-      var travelLeft = opt_flags && opt_flags.left;
-      var node = startNode;
+    _traverseContentSiblings(startNode, callback, opt_flags) {
+      const travelLeft = opt_flags && opt_flags.left;
+      let node = startNode;
       while (node) {
         if (node instanceof Element &&
             node.tagName !== 'HL' &&
             node.tagName !== 'SPAN') {
           break;
         }
-        var nextNode = travelLeft ? node.previousSibling : node.nextSibling;
+        const nextNode = travelLeft ? node.previousSibling : node.nextSibling;
         if (callback(node)) {
           break;
         }
@@ -314,7 +314,7 @@
      * @param {!Node} node
      * @return {number}
      */
-    _getLength: function(node) {
+    _getLength(node) {
       if (node instanceof Element && node.classList.contains('content')) {
         return this._getLength(node.querySelector('.contentText'));
       } else {

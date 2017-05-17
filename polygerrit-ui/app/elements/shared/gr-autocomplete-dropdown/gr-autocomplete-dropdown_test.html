@@ -48,8 +48,8 @@ limitations under the License.
       element = fixture('basic');
       element.open();
       element.suggestions = [
-        {value: 'test value 1', name: 'test name 1', text: 1},
-        {value: 'test value 2', name: 'test name 2', text: 2}];
+        {dataValue: 'test value 1', name: 'test name 1', text: 1},
+        {dataValue: 'test value 2', name: 'test name 2', text: 2}];
     });
 
     teardown(() => {
@@ -160,8 +160,8 @@ limitations under the License.
       element = Polymer.dom(document.root)
         .querySelector('gr-autocomplete-dropdown');
       element.suggestions = [
-        {value: 'test value 1', name: 'test name 1', text: 1},
-        {value: 'test value 2', name: 'test name 2', text: 2}];
+        {dataValue: 'test value 1', name: 'test name 1', text: 1},
+        {dataValue: 'test value 2', name: 'test name 2', text: 2}];
     });
 
     teardown(() => {
@@ -194,6 +194,10 @@ limitations under the License.
       element.setPosition(top, left);
       assert.equal(getComputedStyle(element).top, top);
       assert.equal(getComputedStyle(element).left, left);
+    });
+
+    test('getCurrentText', () => {
+      assert.equal(element.getCurrentText(), "test value 1");
     });
   });
 </script>

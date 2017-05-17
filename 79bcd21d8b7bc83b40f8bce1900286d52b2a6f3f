@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "7788f09e_66e532e0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-17T09:54:54Z",
+      "side": 1,
+      "message": "Surprisingly it\u0027s not a problem for Eclipse. But I guess we should anyway not allow it.\n\nDone",
+      "parentUuid": "3bb9fef7_5c16f6ec",
+      "revId": "79bcd21d8b7bc83b40f8bce1900286d52b2a6f3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e6216c5_c5543710",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2017-05-16T19:47:56Z",
       "side": 1,
       "message": "I feel like there must be some reasonable way to do this without comparing names, like\n\n String.class.isAssignableFrom((Class\u003c?\u003e)types[0])\n\nbut I also can\u0027t justify spending too much time on this, so *shrug*.",
+      "revId": "79bcd21d8b7bc83b40f8bce1900286d52b2a6f3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3772865f_7f28a025",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-17T09:54:54Z",
+      "side": 1,
+      "message": "Yes, this works.\n\nDone",
+      "parentUuid": "8e6216c5_c5543710",
       "revId": "79bcd21d8b7bc83b40f8bce1900286d52b2a6f3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

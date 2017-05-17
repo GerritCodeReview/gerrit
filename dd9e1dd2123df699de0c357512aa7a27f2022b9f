@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "194af692_3441f366",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-17T09:56:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "719baea0_74dd7562",
+      "range": {
+        "startLine": 7,
+        "startChar": 52,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ab189c3a_baad71a4",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/LuceneQueryAccountsTest.java",
         "patchSetId": 6
@@ -37,6 +61,24 @@
       "writtenOn": "2017-05-16T20:09:09Z",
       "side": 1,
       "message": "Another place where we could eliminate copy/pasting by adding a static helper somewhere.",
+      "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9805b77c_77910b6f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/LuceneQueryAccountsTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-17T09:56:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab189c3a_baad71a4",
       "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -66,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "3c145f6a_5e0ea211",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-17T09:56:06Z",
+      "side": 1,
+      "message": "Yes, this description is outdated. Fixed.\n\n\u003e This behavior seems non-obvious; I would have guessed it\n\u003e returns just the current version. That way it would work \n\u003e for a brand new index where there is exactly one version\n\nThis is what the code does :)\n\nDone",
+      "parentUuid": "d6666cc9_87a47e0b",
+      "range": {
+        "startLine": 60,
+        "startChar": 78,
+        "endLine": 62,
+        "endChar": 30
+      },
+      "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0887df78_edb626af",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersions.java",
         "patchSetId": 6
@@ -77,6 +143,24 @@
       "writtenOn": "2017-05-16T20:09:09Z",
       "side": 1,
       "message": "There is enough logic in here that I feel like this needs a small test.",
+      "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03129991_8498eb55",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-17T09:56:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0887df78_edb626af",
       "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -100,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "899b9eea_dc69aa15",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-17T09:56:06Z",
+      "side": 1,
+      "message": "This doesn\u0027t work, since \"current,previous\" behaves different from no value. For \"current,previous\" we check that a previous version exists and fail if it doesn\u0027t (since we can\u0027t deliver what is requested). For no value we would just return the latest schema version in this case.",
+      "parentUuid": "c3f25f71_e9199c7b",
+      "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c3a7d4b8_f547317f",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersions.java",
         "patchSetId": 6
@@ -117,6 +219,24 @@
     },
     {
       "key": {
+        "uuid": "f964512c_5ef904b8",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-17T09:56:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3a7d4b8_f547317f",
+      "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24b970ce_70626269",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersions.java",
         "patchSetId": 6
@@ -128,6 +248,24 @@
       "writtenOn": "2017-05-16T20:09:09Z",
       "side": 1,
       "message": "Nit: checkArgument here and below.",
+      "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d01d48d3_7e736b63",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-17T09:56:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24b970ce_70626269",
       "revId": "dd9e1dd2123df699de0c357512aa7a27f2022b9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

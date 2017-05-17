@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "74c98f86_22e3d659",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SchemaDefinitions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-17T09:54:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e6e394_6c82d7c6",
+      "revId": "a290c96803bc414f7075efc3718c407a92b5bdd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "705ce3e8_011aacb6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SchemaDefinitions.java",
         "patchSetId": 9
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "6258b961_e1c3d060",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SchemaDefinitions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-17T09:54:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "705ce3e8_011aacb6",
+      "revId": "a290c96803bc414f7075efc3718c407a92b5bdd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24c630e3_7431462b",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/GerritBaseTests.java",
         "patchSetId": 9
@@ -48,6 +84,24 @@
       "writtenOn": "2017-05-16T19:51:41Z",
       "side": 1,
       "message": "Unneccessary.",
+      "revId": "a290c96803bc414f7075efc3718c407a92b5bdd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c836856_a8a17d4f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/GerritBaseTests.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-17T09:54:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24c630e3_7431462b",
       "revId": "a290c96803bc414f7075efc3718c407a92b5bdd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

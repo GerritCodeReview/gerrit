@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "14df1010_0894aa1b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T17:08:49Z",
+      "side": 1,
+      "message": "Agree option 2 is better. I think it could use a little more margin above the button to have the same amount of space as between the textarea and other buttons when it\u0027s in edit mode.",
+      "parentUuid": "e9c7b699_b91e3b5b",
+      "range": {
+        "startLine": 210,
+        "startChar": 7,
+        "endLine": 216,
+        "endChar": 20
+      },
+      "revId": "c90d10c4033fc5f6279f164c802eb0ba4a3823e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f6a636e_f49d35f1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
         "patchSetId": 8

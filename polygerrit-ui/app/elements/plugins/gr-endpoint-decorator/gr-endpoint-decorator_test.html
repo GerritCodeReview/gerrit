@@ -16,39 +16,39 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-external-style</title>
+<title>gr-endpoint-decorator</title>
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
-<link rel="import" href="gr-external-style.html">
+<link rel="import" href="gr-endpoint-decorator.html">
 
 <test-fixture id="basic">
   <template>
-    <gr-external-style name="foo"></gr-external-style>
+    <gr-endpoint-decorator name="foo"></gr-endpoint-decorator>
   </template>
 </test-fixture>
 
 <script>
-  suite('gr-external-style integration tests', () => {
+  suite('gr-endpoint-decorator', () => {
     let sandbox;
     let element;
+    let plugin;
 
     setup(done => {
       sandbox = sinon.sandbox.create();
 
       // NB: Order is important.
-      let plugin;
       Gerrit.install(p => {
         plugin = p;
-        plugin.registerStyleModule('foo', 'some-module');
+        plugin.registerCustomComponent('foo', 'some-module');
       }, '0.1', 'http://some/plugin/url.html');
 
       sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
 
       element = fixture('basic');
-      sandbox.stub(element, '_applyStyle');
+      sandbox.stub(element, '_initPluginDomHook');
       sandbox.stub(element, 'importHref', (url, resolve) => { resolve(); });
 
       flush(done);
@@ -59,12 +59,13 @@ limitations under the License.
     });
 
     test('imports plugin-provided module', () => {
-      assert.isTrue(element.importHref.calledWith(
-          new URL('http://some/plugin/url.html')));
+      assert.isTrue(
+          element.importHref.calledWith(new URL('http://some/plugin/url.html')));
     });
 
-    test('applies plugin-provided styles', () => {
-      assert.isTrue(element._applyStyle.calledWith('some-module'));
+    test('inits plugin-provided dom hook', () => {
+      assert.isTrue(
+          element._initPluginDomHook.calledWith('some-module', plugin));
     });
   });
 </script>

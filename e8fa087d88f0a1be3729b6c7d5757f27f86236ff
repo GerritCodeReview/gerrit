@@ -128,6 +128,30 @@
       "revId": "e8fa087d88f0a1be3729b6c7d5757f27f86236ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b8bdf7d_daa8bd48",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T20:51:03Z",
+      "side": 1,
+      "message": "why couldn\u0027t it be? Wouldn\u0027t that eliminate the need to break up the string with the \u0027+\u0027 on two lines?",
+      "parentUuid": "8257066d_fbaa9b89",
+      "range": {
+        "startLine": 370,
+        "startChar": 10,
+        "endLine": 371,
+        "endChar": 77
+      },
+      "revId": "e8fa087d88f0a1be3729b6c7d5757f27f86236ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

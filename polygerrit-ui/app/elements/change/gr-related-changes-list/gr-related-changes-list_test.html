@@ -33,21 +33,21 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-related-changes-list tests', function() {
-    var element;
-    var sandbox;
+  suite('gr-related-changes-list tests', () => {
+    let element;
+    let sandbox;
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('connected revisions', function() {
-      var change = {
+    test('connected revisions', () => {
+      const change = {
         revisions: {
           'e3c6d60783bfdec9ebae7dcfec4662360433449e': {
             _number: 1,
@@ -72,8 +72,8 @@ limitations under the License.
           },
         },
       };
-      var patchNum = 7;
-      var relatedChanges = [
+      let patchNum = 7;
+      let relatedChanges = [
         {
           commit: {
             commit: '2cebeedfb1e80f4b872d0a13ade529e70652c0c8',
@@ -136,7 +136,7 @@ limitations under the License.
         },
       ];
 
-      var connectedChanges =
+      let connectedChanges =
           element._computeConnectedRevisions(change, patchNum, relatedChanges);
       assert.deepEqual(connectedChanges, [
         '613bc4f81741a559c6667ac08d71dcc3348f73ce',
@@ -222,9 +222,9 @@ limitations under the License.
       ]);
     });
 
-    test('_computeChangeContainerClass', function() {
-      var change1 = {change_id: 123};
-      var change2 = {change_id: 456};
+    test('_computeChangeContainerClass', () => {
+      const change1 = {change_id: 123};
+      const change2 = {change_id: 456};
 
       assert.notEqual(element._computeChangeContainerClass(
           change1, change1).indexOf('thisChange'), -1);
@@ -232,26 +232,25 @@ limitations under the License.
           change1, change2).indexOf('thisChange'), -1);
     });
 
-    suite('get conflicts tests', function() {
-      var element;
-      var conflictsStub;
+    suite('get conflicts tests', () => {
+      let element;
+      let conflictsStub;
 
-      setup(function() {
+      setup(() => {
         element = fixture('basic');
 
-        sandbox.stub(element, '_getRelatedChanges',
-            function() {
-              return Promise.resolve({changes: []});
-            });
+        sandbox.stub(element, '_getRelatedChanges', () => {
+          return Promise.resolve({changes: []});
+        });
         sandbox.stub(element, '_getSubmittedTogether',
-            function() { return Promise.resolve(); });
+            () => { return Promise.resolve(); });
         sandbox.stub(element, '_getCherryPicks',
-            function() { return Promise.resolve(); });
+            () => { return Promise.resolve(); });
         conflictsStub = sandbox.stub(element, '_getConflicts',
-            function() { return Promise.resolve(['test data']); });
+            () => { return Promise.resolve(['test data']); });
       });
 
-      test('request conflicts if open and mergeable', function() {
+      test('request conflicts if open and mergeable', () => {
         element.patchNum = 7;
         element.change = {
           change_id: 123,
@@ -262,7 +261,7 @@ limitations under the License.
         assert.isTrue(conflictsStub.called);
       });
 
-      test('does not request conflicts if closed and mergeable', function() {
+      test('does not request conflicts if closed and mergeable', () => {
         element.patchNum = 7;
         element.change = {
           change_id: 123,
@@ -273,7 +272,7 @@ limitations under the License.
         assert.isFalse(conflictsStub.called);
       });
 
-      test('does not request conflicts if open and not mergeable', function() {
+      test('does not request conflicts if open and not mergeable', () => {
         element.patchNum = 7;
         element.change = {
           change_id: 123,
@@ -284,7 +283,7 @@ limitations under the License.
         assert.isFalse(conflictsStub.called);
       });
 
-      test('doesnt request conflicts if closed and not mergeable', function() {
+      test('doesnt request conflicts if closed and not mergeable', () => {
         element.patchNum = 7;
         element.change = {
           change_id: 123,
@@ -296,9 +295,9 @@ limitations under the License.
       });
     });
 
-    test('_calculateHasParent', function() {
-      var changeId = 123;
-      var relatedChanges = [];
+    test('_calculateHasParent', () => {
+      const changeId = 123;
+      const relatedChanges = [];
 
       assert.equal(element._calculateHasParent(changeId, relatedChanges),
           false);
@@ -310,10 +309,9 @@ limitations under the License.
       relatedChanges.push({change_id: 234});
       assert.equal(element._calculateHasParent(changeId, relatedChanges),
           true);
-
     });
 
-    test('clear hides', function() {
+    test('clear hides', () => {
       element.loading = false;
       element.hidden = false;
       element.clear();
@@ -321,8 +319,8 @@ limitations under the License.
       assert.isTrue(element.hidden);
     });
 
-    test('update fires', function() {
-      var updateHandler = sandbox.stub();
+    test('update fires', () => {
+      const updateHandler = sandbox.stub();
       element.addEventListener('update', updateHandler);
 
       element._resultsChanged([], [], [], [], []);

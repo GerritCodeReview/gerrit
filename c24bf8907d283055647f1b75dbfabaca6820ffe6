@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92ac93c8_cc3dc3b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-17T22:09:13Z",
+      "side": 1,
+      "message": "Does this hide regressions if anything treats it like a number too? Should the tests include both?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "c24bf8907d283055647f1b75dbfabaca6820ffe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c252140_ee91df44",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-17T22:09:13Z",
+      "side": 1,
+      "message": "If we expect patchNum to always be a string, let\u0027s add a JSDoc that says this.\n\nHowever, consider: if it\u0027s sometimes a String and sometimes a Number, it can be safer/simpler to coerce both sides of the equality to be a String (by appending + \u0027\u0027) compared with parseInt-ing a potential number.",
+      "range": {
+        "startLine": 79,
+        "startChar": 37,
+        "endLine": 79,
+        "endChar": 45
+      },
+      "revId": "c24bf8907d283055647f1b75dbfabaca6820ffe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

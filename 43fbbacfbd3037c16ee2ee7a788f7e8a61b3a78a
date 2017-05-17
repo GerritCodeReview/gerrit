@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "71827f1b_467c99bd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T18:31:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63372fb0_5c50fd6c",
+      "range": {
+        "startLine": 53,
+        "startChar": 5,
+        "endLine": 53,
+        "endChar": 46
+      },
+      "revId": "43fbbacfbd3037c16ee2ee7a788f7e8a61b3a78a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36c520a1_5672453f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-17T18:18:44Z",
       "side": 1,
       "message": "Indentation",
+      "range": {
+        "startLine": 129,
+        "startChar": 10,
+        "endLine": 129,
+        "endChar": 14
+      },
+      "revId": "43fbbacfbd3037c16ee2ee7a788f7e8a61b3a78a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "930bdb4d_b9a8fb94",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T18:31:55Z",
+      "side": 1,
+      "message": "What\u0027s wrong with this indentation?",
+      "parentUuid": "36c520a1_5672453f",
       "range": {
         "startLine": 129,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "42e0d3d2_46e43717",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T18:31:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86d099a3_5bf969d3",
+      "range": {
+        "startLine": 214,
+        "startChar": 45,
+        "endLine": 215,
+        "endChar": 73
+      },
+      "revId": "43fbbacfbd3037c16ee2ee7a788f7e8a61b3a78a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a9e617b_532abc3c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "1df6ffb0_928c609d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T18:31:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a9e617b_532abc3c",
+      "range": {
+        "startLine": 218,
+        "startChar": 12,
+        "endLine": 218,
+        "endChar": 62
+      },
+      "revId": "43fbbacfbd3037c16ee2ee7a788f7e8a61b3a78a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33f5657b_c1310a6d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-range-normalizer.js",
         "patchSetId": 1
@@ -114,6 +210,30 @@
       "revId": "43fbbacfbd3037c16ee2ee7a788f7e8a61b3a78a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a32eea79_7c34202d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-range-normalizer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T18:31:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33f5657b_c1310a6d",
+      "range": {
+        "startLine": 82,
+        "startChar": 10,
+        "endLine": 82,
+        "endChar": 57
+      },
+      "revId": "43fbbacfbd3037c16ee2ee7a788f7e8a61b3a78a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

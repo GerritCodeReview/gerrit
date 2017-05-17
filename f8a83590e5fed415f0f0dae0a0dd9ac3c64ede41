@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ec73e431_a6f7cf41",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-17T17:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33d39fdf_f75fef86",
+      "range": {
+        "startLine": 203,
+        "startChar": 62,
+        "endLine": 203,
+        "endChar": 67
+      },
+      "revId": "f8a83590e5fed415f0f0dae0a0dd9ac3c64ede41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f9b2983_ac22adde",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
         "patchSetId": 5
@@ -39,6 +63,24 @@
       "revId": "f8a83590e5fed415f0f0dae0a0dd9ac3c64ede41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1de4f7d9_2ce6084a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-17T17:57:07Z",
+      "side": 1,
+      "message": "Good point.\n\nHowever, I think we don\u0027t have to compromise with mediocrity here - I\u0027ve added a simple check to optimize tail processing, and an endurance smoke test.",
+      "parentUuid": "8f9b2983_ac22adde",
+      "revId": "f8a83590e5fed415f0f0dae0a0dd9ac3c64ede41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

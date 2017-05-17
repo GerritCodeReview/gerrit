@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbb14698_434f93a3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T17:21:48Z",
+      "side": 1,
+      "message": "maybe use for-of here?",
+      "revId": "eb232124ee8208e08198ca4a2730aa653a56a96b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "249cd4ca_bb6e91de",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T17:21:48Z",
+      "side": 1,
+      "message": "this may fit on previous line now",
+      "revId": "eb232124ee8208e08198ca4a2730aa653a56a96b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4eed31cf_c15c0930",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T17:21:48Z",
+      "side": 1,
+      "message": "can this use for-of now?",
+      "revId": "eb232124ee8208e08198ca4a2730aa653a56a96b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ae9739d_3e3e3a3b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T17:21:48Z",
+      "side": 1,
+      "message": "template literal would be nice here",
+      "revId": "eb232124ee8208e08198ca4a2730aa653a56a96b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28f82b98_03d8ccf1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T17:21:48Z",
+      "side": 1,
+      "message": "for-of?",
+      "revId": "eb232124ee8208e08198ca4a2730aa653a56a96b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

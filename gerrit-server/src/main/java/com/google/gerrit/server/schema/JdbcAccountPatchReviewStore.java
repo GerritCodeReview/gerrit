@@ -118,7 +118,7 @@ public abstract class JdbcAccountPatchReviewStore
     } else if (url.contains("h2")) {
       datasource.setDriverClassName("org.h2.Driver");
     } else if (url.contains("mysql")) {
-      datasource.setDriverClassName("com.mysql.jdbc.Driver");
+      datasource.setDriverClassName("com.mysql.cj.jdbc.Driver");
     } else if (url.contains("mariadb")) {
       datasource.setDriverClassName("org.mariadb.jdbc.Driver");
     }

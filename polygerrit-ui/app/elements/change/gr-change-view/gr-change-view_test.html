@@ -607,6 +607,26 @@ limitations under the License.
       assert.equal(status, 'Draft');
     });
 
+    test('change status conflict', function() {
+      element._changeNum = '1';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+        },
+        current_revision: 'rev1',
+        mergeable: false,
+        status: 'NEW',
+        labels: {},
+      };
+      var status = element._computeChangeStatus(element._change, '1');
+      assert.equal(status, 'Merge Conflict');
+    });
+
     test('change status merged', function() {
       element._changeNum = '1';
       element._patchRange = {

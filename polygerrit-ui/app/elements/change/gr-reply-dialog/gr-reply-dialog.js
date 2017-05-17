@@ -202,6 +202,16 @@
       selectorEl.selectIndex(selectorEl.indexOf(item));
     },
 
+    getLabelValue(label) {
+      const selectorEl =
+          this.$.labelScores.$$('iron-selector[data-label="' + label + '"]');
+      // The selector may not be present if it’s not at the latest patch set.
+      if (!selectorEl) { return null; }
+      const item = selectorEl.querySelector('gr-button.iron-selected');
+      if (!item) { return null; }
+      return item.getAttribute('data-value');
+    },
+
     _handleEscKey(e) {
       this.cancel();
     },

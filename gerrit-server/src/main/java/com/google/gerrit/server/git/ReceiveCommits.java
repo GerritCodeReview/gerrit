@@ -277,7 +277,7 @@ public class ReceiveCommits {
     }
   }
 
-  private static final Function<Exception, RestApiException> INSERT_EXCEPTION =
+  private static final Function<Exception, RestApiException> INSERT_THE_EXCEPTION =
       new Function<Exception, RestApiException>() {
         @Override
         public RestApiException apply(Exception input) {

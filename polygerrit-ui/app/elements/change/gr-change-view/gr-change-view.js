@@ -576,16 +576,14 @@
     },
 
     _computeChangeStatus: function(change, patchNum) {
-      var statusString;
+      var statusString = this.changeStatusString(change);
       if (change.status === this.ChangeStatus.NEW) {
         var rev = this.getRevisionByPatchNum(change.revisions, patchNum);
         if (rev && rev.draft === true) {
           statusString = 'Draft';
         }
-      } else {
-        statusString = this.changeStatusString(change);
       }
-      return statusString || '';
+      return statusString;
     },
 
     _computeShowCommitInfo: function(changeStatus, current_revision) {

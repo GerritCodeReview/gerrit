@@ -55,7 +55,7 @@ limitations under the License.
         border-bottom-right-radius: 2px;
         border-top-right-radius: 2px;
       }
-      iron-selector > gr-button.iron-selected {
+      iron-selector > gr-button.selected {
         background-color: #ddd;
       }
       gr-button {
@@ -77,35 +77,43 @@ limitations under the License.
       }
     </style>
     <template is="dom-repeat" items="[[_labels]]" as="label">
-      <div class="labelContainer">
-        <span class="labelName">[[label.name]]</span>
-        <span id="spaces[[index]]"></span>
-        <template is="dom-repeat"
-            items="[[_computeBlankItems(permittedLabels, label.name, 'start')]]"
-            as="value">
-          <span class="placeholder" data-label$="[[label.name]]"></span>
-        </template>
-        <iron-selector data-label$="[[label.name]]"
-            selected="[[_computeIndexOfLabelValue(change.labels, permittedLabels, label)]]"
-            hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
+      <gr-endpoint-decorator name="label-scores">
+        <div class="labelContainer">
+          <span class="labelName">[[label.name]]</span>
+          <span id="spaces[[index]]"></span>
           <template is="dom-repeat"
-              items="[[_computePermittedLabelValues(permittedLabels, label.name)]]"
+              items="[[_computeBlankItems(permittedLabels, label.name, 'start')]]"
               as="value">
-            <gr-button has-tooltip data-value$="[[value]]"
-              title$="[[_computeLabelValueTitle(change.labels, label.name, value)]]">
-            [[value]]</gr-button>
+            <span class="placeholder" data-label$="[[label.name]]"></span>
           </template>
-        </iron-selector>
-        <template is="dom-repeat"
-            items="[[_computeBlankItems(permittedLabels, label.name, 'end')]]"
-            as="value">
-          <span class="placeholder" data-label$="[[label.name]]"></span>
-        </template>
-        <span class="labelMessage"
-            hidden$="[[_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
-          You don't have permission to edit this label.
-        </span>
-      </div>
+          <iron-selector
+              label$="[[label.name]]"
+              attr-for-selected="value"
+              selected-class="selected"
+              selected$="[[_computeLabelValue(change.labels, permittedLabels, label)]]"
+              hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]  ]">
+            <template is="dom-repeat"
+                items="[[_computePermittedLabelValues(permittedLabels, label.name)]]"
+                as="value">
+              <gr-button
+                  has-tooltip
+                  value$="[[value]]"
+                  title$="[[_computeLabelValueTitle(change.labels, label.name, value)]]  "
+                  data-label="[[label.name]]">
+              [[value]]</gr-button>
+            </template>
+          </iron-selector>
+          <template is="dom-repeat"
+              items="[[_computeBlankItems(permittedLabels, label.name, 'end')]]"
+              as="value">
+            <span class="placeholder" data-label$="[[label.name]]"></span>
+          </template>
+          <span class="labelMessage"
+              hidden$="[[_computeAnyPermittedLabelValues(permittedLabels, label.name)]]  ">
+            You don't have permission to edit this label.
+          </span>
+        </div>
+      </gr-endpoint-decorator>
     </template>
     <div class="mergedMessage"
         hidden$="[[!_changeIsMerged(change.status)]]">

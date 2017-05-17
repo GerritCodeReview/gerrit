@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c22693a5_bec86f51",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T17:38:38Z",
+      "side": 1,
+      "message": "for-of?",
+      "revId": "8f5af3521e4fe4e3a610d0046293a38060ec0c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a52723e_44f2bc35",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T17:38:38Z",
+      "side": 1,
+      "message": "for-of?",
+      "revId": "8f5af3521e4fe4e3a610d0046293a38060ec0c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa75ed4e_e451d1ff",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T17:38:38Z",
+      "side": 1,
+      "message": "for-of?",
+      "revId": "8f5af3521e4fe4e3a610d0046293a38060ec0c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e369955_03b841c5",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T17:38:38Z",
+      "side": 1,
+      "message": "for-of?",
+      "revId": "8f5af3521e4fe4e3a610d0046293a38060ec0c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eff2bf55_526f3e2f",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T17:38:38Z",
+      "side": 1,
+      "message": "can be move to previous line",
+      "range": {
+        "startLine": 239,
+        "startChar": 8,
+        "endLine": 239,
+        "endChar": 15
+      },
+      "revId": "8f5af3521e4fe4e3a610d0046293a38060ec0c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

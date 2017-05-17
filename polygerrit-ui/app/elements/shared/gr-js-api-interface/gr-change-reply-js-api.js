@@ -14,17 +14,44 @@
 (function(window) {
   'use strict';
 
-  function GrChangeReplyInterface(el) {
-    this._el = el;
+  /**
+   * Don't add new API methods to GrChangeReplyInterfaceOld.
+   * All new API should be added to GrChangeReplyInterface.
+   * @deprecated
+   */
+  class GrChangeReplyInterfaceOld {
+    constructor(el) {
+      this._el = el;
+    }
+
+    getLabelValue(label) {
+      return this._el.getLabelValue(label);
+    }
+
+    setLabelValue(label, value) {
+      this._el.setLabelValue(label, value);
+    }
+
+    send(opt_includeComments) {
+      return this._el.send(opt_includeComments);
+    }
   }
 
-  GrChangeReplyInterface.prototype.setLabelValue = function(label, value) {
-    this._el.setLabelValue(label, value);
-  };
+  class GrChangeReplyInterface extends GrChangeReplyInterfaceOld {
+    constructor(plugin, el) {
+      super(el);
+      this.plugin = plugin;
+    }
 
-  GrChangeReplyInterface.prototype.send = function(opt_includeComments) {
-    return this._el.send(opt_includeComments);
-  };
+    addReplyTextChangedCallback(handler) {
+      this.plugin.getDomHook('reply-text').then(el => {
+        if (!el.content) { return; }
+        el.content.addEventListener('value-changed', e => {
+          handler(e.detail.value);
+        });
+      });
+    }
+  }
 
   window.GrChangeReplyInterface = GrChangeReplyInterface;
 })(window);

@@ -211,6 +211,26 @@ limitations under the License.
       });
     });
 
+    test('getlabelValue returns value', done => {
+      flush(() => {
+        MockInteractions.tap(element.$$('gr-label-scores').$$(
+            'iron-selector[data-label="Verified"] > ' +
+            'gr-button[data-value="-1"]'));
+        assert.equal('-1', element.getLabelValue('Verified'));
+        done();
+      });
+    });
+
+    test('getlabelValue when no score is selected', done => {
+      flush(() => {
+        MockInteractions.tap(element.$$('gr-label-scores').$$(
+            'iron-selector[data-label="Code-Review"] > ' +
+            'gr-button[data-value="-1"]'));
+        assert.isNull(element.getLabelValue('Verified'));
+        done();
+      });
+    });
+
     test('setlabelValue', () => {
       element._account = {_account_id: 1};
       flushAsynchronousOperations();

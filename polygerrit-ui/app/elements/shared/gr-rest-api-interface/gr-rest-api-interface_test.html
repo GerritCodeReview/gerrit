@@ -630,5 +630,18 @@ limitations under the License.
       assert.isTrue(element.send.calledWith(
           'POST', '/changes/42/ready', {message: 'Please review.'}));
     });
+
+    test('deleteComment', done => {
+      sandbox.stub(element, 'send').returns(Promise.resolve());
+      sandbox.stub(element, 'getResponseObject').returns('some response');
+      element.deleteComment('foo', 'bar', '01234', 'removal reason')
+        .then(response => {
+          assert.equal(response, 'some response');
+          done();
+        });
+      assert.isTrue(element.send.calledWith(
+          'POST', '/changes/foo/revisions/bar/comments/01234/delete',
+          {reason:'removal reason'}));
+    });
   });
 </script>

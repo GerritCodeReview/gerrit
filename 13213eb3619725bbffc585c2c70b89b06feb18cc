@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "068f0349_f38ae2ea",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T17:13:36Z",
+      "side": 1,
+      "message": "I think I would, however it\u0027s not a strong preference, that way the next line doesn\u0027t need a double indent.",
+      "parentUuid": "6b65d726_d8c3a3ae",
+      "range": {
+        "startLine": 126,
+        "startChar": 12,
+        "endLine": 126,
+        "endChar": 20
+      },
+      "revId": "13213eb3619725bbffc585c2c70b89b06feb18cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "adac2f5e_92f58cbc",
         "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
         "patchSetId": 1

@@ -31,6 +31,7 @@
 
     properties: {
       moveToRoot: Boolean,
+      fixedPosition: Boolean,
       suggestions: {
         type: Array,
         observer: '_resetCursorStops',
@@ -51,6 +52,12 @@
       enter: '_handleEnter',
       esc: '_handleEscape',
       tab: '_handleTab',
+    },
+
+    attached() {
+      if (this.fixedPosition) {
+         this.classList.add('fixed');
+      }
     },
 
     close() {

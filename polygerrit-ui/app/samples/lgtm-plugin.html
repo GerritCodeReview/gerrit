@@ -1,0 +1,15 @@
+<dom-module id="my-plugin">
+  <script>
+    Gerrit.install(plugin => {
+      plugin.changeReply().addReplyTextChangedCallback(text => {
+        const label = 'Code-Review';
+        const labelValue = plugin.changeReply().getLabelValue(label);
+        if (labelValue &&
+            labelValue === ' 0' &&
+            text.indexOf('LGTM') === 0) {
+          plugin.changeReply().setLabelValue(label, '+1');
+        }
+      });
+    });
+  </script>
+</dom-module>

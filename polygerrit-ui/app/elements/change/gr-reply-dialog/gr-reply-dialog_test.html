@@ -211,6 +211,15 @@ limitations under the License.
       });
     });
 
+    test('getlabelValue', () => {
+      flush(() => {
+        MockInteractions.tap(element.$$('gr-label-scores').$$(
+            'iron-selector[data-label="Verified"] > ' +
+            'gr-button[data-value="-1"]'));
+        assert.equal('-1', element.getLabelValue('Verified'));
+      });
+    });
+
     test('setlabelValue', () => {
       element._account = {_account_id: 1};
       flushAsynchronousOperations();

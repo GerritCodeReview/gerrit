@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58fbf641_368325fa",
+        "filename": "gerrit-plugin-api/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-17T07:10:12Z",
+      "side": 1,
+      "message": "Unrelated to this change, because it\u0027s like this in other places too, but why do we need to explicitly specify \"src/main\" here?",
+      "revId": "b9400254a699f85ff9d9afe36676f9bf010738fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

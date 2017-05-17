@@ -63,7 +63,7 @@
 
   const catchErrors = function(opt_context) {
     const context = opt_context || window;
-    context.onerror = onError.bind(null, context.onerror);
+    // context.onerror = onError.bind(null, context.onerror);
   };
   catchErrors();
 

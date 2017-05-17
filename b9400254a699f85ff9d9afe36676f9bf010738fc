@@ -34,6 +34,24 @@
       "revId": "b9400254a699f85ff9d9afe36676f9bf010738fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "292c6416_0e1aa871",
+        "filename": "gerrit-plugin-api/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-17T08:15:35Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "a90875bc_6f46283f",
+      "revId": "b9400254a699f85ff9d9afe36676f9bf010738fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

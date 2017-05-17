@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4cbeebd4_2897aa24",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T18:00:18Z",
+      "side": 1,
+      "message": "Unfortunately not. The spread operator only works for iterables:\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator\n\nThe feature you\u0027re talking about is hopefully coming, but is still in proposal phase:\nhttps://github.com/tc39/proposal-object-rest-spread#status-of-this-proposal",
+      "parentUuid": "78216ce5_3e007365",
+      "range": {
+        "startLine": 194,
+        "startChar": 6,
+        "endLine": 201,
+        "endChar": 7
+      },
+      "revId": "dfe4ea106d7a083aa6e1af796db28e082121e7bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c7b1c39_deac95b7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "dfe4ea106d7a083aa6e1af796db28e082121e7bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22716eeb_0d28a94d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T18:00:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c7b1c39_deac95b7",
+      "revId": "dfe4ea106d7a083aa6e1af796db28e082121e7bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

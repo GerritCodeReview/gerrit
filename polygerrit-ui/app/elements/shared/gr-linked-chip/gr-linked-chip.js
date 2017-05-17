@@ -18,7 +18,7 @@
     is: 'gr-linked-chip',
 
     properties: {
-      href: String,
+      url: String,
       removable: {
         type: Boolean,
         value: false,

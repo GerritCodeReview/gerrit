@@ -14,8 +14,8 @@
 (function() {
   'use strict';
 
-  var HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
-  var LIB_ROOT_PATTERN = /(.+\/)elements\/gr-app\.html/;
+  const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
+  const LIB_ROOT_PATTERN = /(.+\/)elements\/gr-app\.html/;
 
   Polymer({
     is: 'gr-syntax-lib-loader',
@@ -30,11 +30,11 @@
           loading: false,
           callbacks: [],
         },
-      }
+      },
     },
 
-    get: function() {
-      return new Promise(function(resolve) {
+    get() {
+      return new Promise(resolve => {
         // If the lib is totally loaded, resolve immediately.
         if (this._state.loaded) {
           resolve(this._getHighlightLib());
@@ -48,27 +48,29 @@
         }
 
         this._state.callbacks.push(resolve);
-      }.bind(this));
+      });
     },
 
-    _onLibLoaded: function() {
-      var lib = this._getHighlightLib();
+    _onLibLoaded() {
+      const lib = this._getHighlightLib();
       this._state.loaded = true;
       this._state.loading = false;
-      this._state.callbacks.forEach(function(cb) { cb(lib); });
+      for (const cb of this._state.callbacks) {
+        cb(lib);
+      }
       this._state.callbacks = [];
     },
 
-    _getHighlightLib: function() {
+    _getHighlightLib() {
       return window.hljs;
     },
 
-    _configureHighlightLib: function() {
+    _configureHighlightLib() {
       this._getHighlightLib().configure(
           {classPrefix: 'gr-diff gr-syntax gr-syntax-'});
     },
 
-    _getLibRoot: function() {
+    _getLibRoot() {
       if (this._cachedLibRoot) { return this._cachedLibRoot; }
 
       return this._cachedLibRoot = document.head
@@ -78,16 +80,16 @@
     },
     _cachedLibRoot: null,
 
-    _loadHLJS: function() {
-      return new Promise(function(resolve) {
-        var script = document.createElement('script');
+    _loadHLJS() {
+      return new Promise(resolve => {
+        const script = document.createElement('script');
         script.src = this._getLibRoot() + HLJS_PATH;
         script.onload = function() {
           this._configureHighlightLib();
           resolve();
         }.bind(this);
         Polymer.dom(document.head).appendChild(script);
-      }.bind(this));
+      });
     },
   });
 })();

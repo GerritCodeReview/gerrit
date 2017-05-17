@@ -32,26 +32,24 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-syntax-lib-loader tests', function() {
-    var element;
-    var resolveLoad;
-    var loadStub;
+  suite('gr-syntax-lib-loader tests', () => {
+    let element;
+    let resolveLoad;
+    let loadStub;
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
 
-      loadStub = sinon.stub(element, '_loadHLJS', function() {
-        return new Promise(function(resolve) {
-          resolveLoad = resolve;
-        });
-      });
+      loadStub = sinon.stub(element, '_loadHLJS', () =>
+        new Promise(resolve => resolveLoad = resolve)
+      );
 
       // Assert preconditions:
       assert.isFalse(element._state.loaded);
       assert.isFalse(element._state.loading);
     });
 
-    teardown(function() {
+    teardown(() => {
       if (window.hljs) {
         delete window.hljs;
       }
@@ -63,8 +61,8 @@ limitations under the License.
       element._state.callbacks = [];
     });
 
-    test('only load once', function(done) {
-      var firstCallHandler = sinon.stub();
+    test('only load once', done => {
+      const firstCallHandler = sinon.stub();
       element.get().then(firstCallHandler);
 
       // It should now be in the loading state.
@@ -73,7 +71,7 @@ limitations under the License.
       assert.isFalse(element._state.loaded);
       assert.isFalse(firstCallHandler.called);
 
-      var secondCallHandler = sinon.stub();
+      const secondCallHandler = sinon.stub();
       element.get().then(secondCallHandler);
 
       // No change in state.
@@ -84,7 +82,7 @@ limitations under the License.
 
       // Now load the library.
       resolveLoad();
-      flush(function() {
+      flush(() => {
         // The state should be loaded and both handlers called.
         assert.isFalse(element._state.loading);
         assert.isTrue(element._state.loaded);

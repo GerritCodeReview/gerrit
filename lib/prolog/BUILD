@@ -6,6 +6,13 @@ java_library(
 )
 
 java_library(
+    name = "runtime-neverlink",
+    data = ["//lib:LICENSE-prologcafe"],
+    visibility = ["//visibility:public"],
+    exports = ["@prolog_runtime//jar:neverlink"],
+)
+
+java_library(
     name = "compiler",
     data = ["//lib:LICENSE-prologcafe"],
     visibility = ["//visibility:public"],

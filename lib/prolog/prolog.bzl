@@ -29,6 +29,6 @@ def prolog_cafe_library(
   native.java_library(
     name = name,
     srcs = [':' + name + '__pl2j'],
-    deps = ['//lib/prolog:runtime'] + deps,
+    deps = ['//lib/prolog:runtime-neverlink'] + deps,
     **kwargs
   )

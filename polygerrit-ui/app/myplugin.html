@@ -1,0 +1,87 @@
+<dom-module id="my-plugin">
+  <script>
+    Gerrit.install(function(plugin) {
+      plugin._codeReviewEl = null;
+
+      plugin.registerCustomComponent('label-scores', 'my-plugin-label-scores');
+
+      plugin.registerCustomComponent('reply-text', 'my-plugin-reply');
+      /* Syntax sugar for reply-text:
+      plugin.setReplyTextChangedHandler(function(text) {
+        console.log(text);
+      }); */
+
+      plugin._onReplyTextChanged = function(text) {
+        if (!this._codeReviewEl) {
+          return;
+        }
+        if (text.indexOf('LGTM') === 0
+          && !this._codeReviewEl._getSelectedCodeReview()) {
+          this._codeReviewEl._setSelectedCodeReview('+1');
+        }
+      }.bind(plugin);
+    });
+  </script>
+</dom-module>
+
+<dom-module id="my-plugin-label-scores">
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'my-plugin-label-scores',
+        properties: {
+          plugin: Object,
+          content: Object,
+          _codeReviewEl: Object,
+        },
+
+        attached: function() {
+          if (!this.content) {
+            return;
+          }
+          this._codeReviewEl =
+              this.content.querySelector('[label="Code-Review"]');
+          if (this._codeReviewEl) {
+            this.plugin._codeReviewEl = this;
+          }
+        },
+        _getSelectedCodeReview: function() {
+          var score = this._codeReviewEl.selected || 0;
+          return parseInt(score, 10);
+        },
+
+        _setSelectedCodeReview: function(value) {
+          this._codeReviewEl.selected = value;
+        },
+      });
+    })();
+  </script>
+</dom-module>
+
+<dom-module id="my-plugin-reply">
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'my-plugin-reply',
+        properties: {
+          plugin: Object,
+          content: Object,
+        },
+
+        attached: function() {
+          if (!this.content) {
+            return;
+          }
+          this.content.addEventListener('value-changed',
+            function(event) {
+              this.plugin._onReplyTextChanged(event.detail.value);
+            }.bind(this))
+        },
+      });
+    })();
+  </script>
+</dom-module>

@@ -34,16 +34,15 @@
       for (const label in this.permittedLabels) {
         if (!this.permittedLabels.hasOwnProperty(label)) { continue; }
 
-        const selectorEl = this.$$(`iron-selector[data-label="${label}"]`);
+        const selectorEl = this.$$(`iron-selector[label="${label}"]`);
         // The user may have not voted on this label.
         if (!selectorEl || !selectorEl.selectedItem) { continue; }
 
-        let selectedVal = selectorEl.selectedItem.getAttribute('data-value');
-        selectedVal = parseInt(selectedVal, 10);
+        let selectedVal = parseInt(selectorEl.selected, 10);
 
         // Only send the selection if the user changed it.
-        let prevVal = this._getVoteForAccount(this.change.labels, label,
-            this.account);
+        let prevVal =
+            this._getVoteForAccount(this.change.labels, label, this.account);
         if (prevVal !== null) {
           prevVal = parseInt(prevVal, 10);
         }
@@ -94,6 +93,28 @@
         values[orderedValues[i]] = i;
       }
       this._labelValues = values;
+    },
+
+    _getLabelValueByIntScore: function(labels, score) {
+      for(const labelValue in labels) {
+        if (parseInt(labelValue, 10) === score) {
+          return labelValue;
+        }
+      }
+    },
+
+    _computeLabelValue(labels, permittedLabels, label) {
+      if (!labels[label.name]) { return null; }
+      const labelValue = label.value;
+      const len = permittedLabels[label.name] != null ?
+          permittedLabels[label.name].length : 0;
+      for (let i = 0; i < len; i++) {
+        const val = parseInt(permittedLabels[label.name][i], 10);
+        if (val == labelValue) {
+          return this._getLabelValueByIntScore(labels[label.name].values, val);
+        }
+      }
+      return null;
     },
 
     _computeIndexOfLabelValue(labels, permittedLabels, label) {

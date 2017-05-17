@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09c717b2_98b6a0d9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-05-17T16:23:56Z",
+      "side": 1,
+      "message": "This probably needs some manual re-indentation",
+      "revId": "72974edab47da23f863c0605da7c356d30c444bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0df042e1_506fdb07",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-05-17T16:23:56Z",
+      "side": 1,
+      "message": "Indentation here as well",
+      "revId": "72974edab47da23f863c0605da7c356d30c444bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

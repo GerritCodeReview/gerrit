@@ -93,6 +93,30 @@
       "revId": "c24bf8907d283055647f1b75dbfabaca6820ffe6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d4fb5d8_fdc0f205",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-17T22:17:33Z",
+      "side": 1,
+      "message": "SGTM will CR+2 once the V-1 is cleared.",
+      "parentUuid": "d6503a73_9c033f8f",
+      "range": {
+        "startLine": 79,
+        "startChar": 37,
+        "endLine": 79,
+        "endChar": 45
+      },
+      "revId": "c24bf8907d283055647f1b75dbfabaca6820ffe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

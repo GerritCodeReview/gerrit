@@ -47,12 +47,12 @@ limitations under the License.
     return getComputedStyle(el).getPropertyValue('display') !== 'none';
   }
 
-  suite('gr-diff-comment tests', function() {
-    var element;
-    var sandbox;
-    setup(function() {
+  suite('gr-diff-comment tests', () => {
+    let element;
+    let sandbox;
+    setup(() => {
       stub('gr-rest-api-interface', {
-        getAccount: function() { return Promise.resolve(null); },
+        getAccount() { return Promise.resolve(null); },
       });
       element = fixture('basic');
       element.comment = {
@@ -68,11 +68,11 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('collapsible comments', function() {
+    test('collapsible comments', () => {
       // When a comment (not draft) is loaded, it should be collapsed
       assert.isTrue(element.collapsed);
       assert.isFalse(isVisible(element.$$('gr-formatted-text')),
@@ -100,21 +100,20 @@ limitations under the License.
           'header middle content is not visible');
     });
 
-    test('clicking on date link does not trigger nav', function() {
-      var showStub = sinon.stub(page, 'show');
-      var dateEl = element.$$('.date');
+    test('clicking on date link does not trigger nav', () => {
+      const showStub = sinon.stub(page, 'show');
+      const dateEl = element.$$('.date');
       assert.ok(dateEl);
       MockInteractions.tap(dateEl);
-      var dest = window.location.pathname + '#5';
+      const dest = window.location.pathname + '#5';
       assert(showStub.lastCall.calledWithExactly(dest, null, false),
           'Should navigate to ' + dest + ' without triggering nav');
       showStub.restore();
     });
 
-    test('message is not retrieved from storage when other editing is true',
-        function(done) {
-      var storageStub = sandbox.stub(element.$.storage, 'getDraftComment');
-      var loadSpy = sandbox.spy(element, '_loadLocalDraft');
+    test('message is not retrieved from storage when other edits', done => {
+      const storageStub = sandbox.stub(element.$.storage, 'getDraftComment');
+      const loadSpy = sandbox.spy(element, '_loadLocalDraft');
 
       element.changeNum = 1;
       element.patchNum = 1;
@@ -126,17 +125,16 @@ limitations under the License.
         line: 5,
         __otherEditing: true,
       };
-      flush(function() {
+      flush(() => {
         assert.isTrue(loadSpy.called);
         assert.isFalse(storageStub.called);
         done();
       });
     });
 
-    test('message is retrieved from storage when there is no other editing',
-        function(done) {
-      var storageStub = sandbox.stub(element.$.storage, 'getDraftComment');
-      var loadSpy = sandbox.spy(element, '_loadLocalDraft');
+    test('message is retrieved from storage when no other edits', done => {
+      const storageStub = sandbox.stub(element.$.storage, 'getDraftComment');
+      const loadSpy = sandbox.spy(element, '_loadLocalDraft');
 
       element.changeNum = 1;
       element.patchNum = 1;
@@ -147,14 +145,14 @@ limitations under the License.
         },
         line: 5,
       };
-      flush(function() {
+      flush(() => {
         assert.isTrue(loadSpy.called);
         assert.isTrue(storageStub.called);
         done();
       });
     });
 
-    test('_getPatchNum', function() {
+    test('_getPatchNum', () => {
       element.side = 'PARENT';
       element.patchNum = 1;
       assert.equal(element._getPatchNum(), 'PARENT');
@@ -162,7 +160,7 @@ limitations under the License.
       assert.equal(element._getPatchNum(), 1);
     });
 
-    test('comment expand and collapse', function() {
+    test('comment expand and collapse', () => {
       element.collapsed = true;
       assert.isFalse(isVisible(element.$$('gr-formatted-text')),
           'gr-formatted-text is not visible');
@@ -185,8 +183,8 @@ limitations under the License.
           'header middle content is is not visible');
     });
 
-    suite('while editing', function() {
-      setup(function() {
+    suite('while editing', () => {
+      setup(() => {
         element.editing = true;
         element._messageText = 'test';
         sandbox.stub(element, '_handleCancel');
@@ -194,55 +192,55 @@ limitations under the License.
         flushAsynchronousOperations();
       });
 
-      suite('when text is empty', function() {
-        setup(function() {
+      suite('when text is empty', () => {
+        setup(() => {
           element._messageText = '';
         });
 
-        test('esc closes comment when text is empty', function() {
+        test('esc closes comment when text is empty', () => {
           MockInteractions.pressAndReleaseKeyOn(
               element.$.editTextarea, 27); // esc
           assert.isTrue(element._handleCancel.called);
         });
 
-        test('ctrl+enter does not save', function() {
+        test('ctrl+enter does not save', () => {
           MockInteractions.pressAndReleaseKeyOn(
               element.$.editTextarea, 13, 'ctrl'); // ctrl + enter
           assert.isFalse(element._handleSave.called);
         });
 
-        test('meta+enter does not save', function() {
+        test('meta+enter does not save', () => {
           MockInteractions.pressAndReleaseKeyOn(
               element.$.editTextarea, 13, 'meta'); // meta + enter
           assert.isFalse(element._handleSave.called);
         });
 
-        test('ctrl+s does not save', function() {
+        test('ctrl+s does not save', () => {
           MockInteractions.pressAndReleaseKeyOn(
               element.$.editTextarea, 83, 'ctrl'); // ctrl + s
           assert.isFalse(element._handleSave.called);
         });
       });
 
-      test('esc does not close comment that has content', function() {
+      test('esc does not close comment that has content', () => {
         MockInteractions.pressAndReleaseKeyOn(
             element.$.editTextarea, 27); // esc
         assert.isFalse(element._handleCancel.called);
       });
 
-      test('ctrl+enter saves', function() {
+      test('ctrl+enter saves', () => {
         MockInteractions.pressAndReleaseKeyOn(
             element.$.editTextarea, 13, 'ctrl'); // ctrl + enter
         assert.isTrue(element._handleSave.called);
       });
 
-      test('meta+enter saves', function() {
+      test('meta+enter saves', () => {
         MockInteractions.pressAndReleaseKeyOn(
             element.$.editTextarea, 13, 'meta'); // meta + enter
         assert.isTrue(element._handleSave.called);
       });
 
-      test('ctrl+s saves', function() {
+      test('ctrl+s saves', () => {
         MockInteractions.pressAndReleaseKeyOn(
             element.$.editTextarea, 83, 'ctrl'); // ctrl + s
         assert.isTrue(element._handleSave.called);
@@ -271,19 +269,19 @@ limitations under the License.
     });
   });
 
-  suite('gr-diff-comment draft tests', function() {
-    var element;
-    var sandbox;
+  suite('gr-diff-comment draft tests', () => {
+    let element;
+    let sandbox;
 
-    setup(function() {
+    setup(() => {
       stub('gr-rest-api-interface', {
-        getAccount: function() { return Promise.resolve(null); },
-        saveDiffDraft: function() {
+        getAccount() { return Promise.resolve(null); },
+        saveDiffDraft() {
           return Promise.resolve({
             ok: true,
-            text: function() {
+            text() {
               return Promise.resolve(
-                ')]}\'\n{' +
+                  ')]}\'\n{' +
                   '"id": "baf0414d_40572e03",' +
                   '"path": "/path/to/file",' +
                   '"line": 5,' +
@@ -294,12 +292,12 @@ limitations under the License.
             },
           });
         },
-        removeChangeReviewer: function() {
+        removeChangeReviewer() {
           return Promise.resolve({ok: true});
         },
       });
       stub('gr-storage', {
-        getDraftComment: function() { return null; },
+        getDraftComment() { return null; },
       });
       element = fixture('draft');
       element.changeNum = 42;
@@ -316,11 +314,11 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('button visibility states', function() {
+    test('button visibility states', () => {
       element.showActions = false;
       assert.isTrue(element.$$('.humanActions').hasAttribute('hidden'));
       assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
@@ -377,7 +375,7 @@ limitations under the License.
       assert.isFalse(element.$$('.robotActions').hasAttribute('hidden'));
     });
 
-    test('collapsible drafts', function() {
+    test('collapsible drafts', () => {
       assert.isTrue(element.collapsed);
       assert.isFalse(isVisible(element.$$('gr-formatted-text')),
           'gr-formatted-text is not visible');
@@ -438,26 +436,26 @@ limitations under the License.
           'header middle content is not visible');
     });
 
-    test('draft creation/cancelation', function(done) {
+    test('draft creation/cancelation', done => {
       assert.isFalse(element.editing);
       MockInteractions.tap(element.$$('.edit'));
       assert.isTrue(element.editing);
 
       element._messageText = '';
-      var eraseMessageDraftSpy = sandbox.spy(element, '_eraseDraftComment');
+      const eraseMessageDraftSpy = sandbox.spy(element, '_eraseDraftComment');
 
       // Save should be disabled on an empty message.
-      var disabled = element.$$('.save').hasAttribute('disabled');
+      let disabled = element.$$('.save').hasAttribute('disabled');
       assert.isTrue(disabled, 'save button should be disabled.');
       element._messageText = '     ';
       disabled = element.$$('.save').hasAttribute('disabled');
       assert.isTrue(disabled, 'save button should be disabled.');
 
-      var updateStub = sinon.stub();
+      const updateStub = sinon.stub();
       element.addEventListener('comment-update', updateStub);
 
-      var numDiscardEvents = 0;
-      element.addEventListener('comment-discard', function(e) {
+      let numDiscardEvents = 0;
+      element.addEventListener('comment-discard', e => {
         numDiscardEvents++;
         assert.isFalse(eraseMessageDraftSpy.called);
         if (numDiscardEvents === 2) {
@@ -471,32 +469,31 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element.$.editTextarea, 27); // esc
     });
 
-    test('draft discard removes message from storage', function(done) {
+    test('draft discard removes message from storage', done => {
       element._messageText = '';
-      var eraseMessageDraftSpy = sandbox.spy(element, '_eraseDraftComment');
+      const eraseMessageDraftSpy = sandbox.spy(element, '_eraseDraftComment');
 
-      var numDiscardEvents = 0;
-      element.addEventListener('comment-discard', function(e) {
+      element.addEventListener('comment-discard', e => {
         assert.isTrue(eraseMessageDraftSpy.called);
         done();
       });
       MockInteractions.tap(element.$$('.discard'));
     });
 
-    test('ctrl+s saves comment', function(done) {
-      var stub = sinon.stub(element, 'save', function() {
+    test('ctrl+s saves comment', done => {
+      const stub = sinon.stub(element, 'save', () => {
         assert.isTrue(stub.called);
         stub.restore();
         done();
       });
       element._messageText = 'is that the horse from horsing around??';
       MockInteractions.pressAndReleaseKeyOn(
-        element.$.editTextarea.textarea,
-        83, 'ctrl');  // 'ctrl + s'
+          element.$.editTextarea.textarea,
+          83, 'ctrl');  // 'ctrl + s'
     });
 
-    test('draft saving/editing', function(done) {
-      var fireStub = sinon.stub(element, 'fire');
+    test('draft saving/editing', done => {
+      const fireStub = sinon.stub(element, 'fire');
       let cancelDebounce = sandbox.stub(element, 'cancelDebouncer');
 
       element.draft = true;
@@ -505,7 +502,7 @@ limitations under the License.
       element.flushDebouncer('fire-update');
       element.flushDebouncer('store');
       assert(fireStub.calledWith('comment-update'),
-             'comment-update should be sent');
+          'comment-update should be sent');
       assert.deepEqual(fireStub.lastCall.args, [
         'comment-update', {
           comment: {
@@ -526,10 +523,11 @@ limitations under the License.
       assert.isTrue(element.disabled,
           'Element should be disabled when creating draft.');
 
-      element._xhrPromise.then(function(draft) {
+      element._xhrPromise.then(draft => {
         assert(fireStub.calledWith('comment-save'),
-               'comment-save should be sent');
+            'comment-save should be sent');
         assert(cancelDebounce.calledWith('store'));
+
         assert.deepEqual(fireStub.lastCall.args[1], {
           comment: {
             __commentSide: 'right',
@@ -545,10 +543,10 @@ limitations under the License.
           patchNum: 1,
         });
         assert.isFalse(element.disabled,
-                       'Element should be enabled when done creating draft.');
+            'Element should be enabled when done creating draft.');
         assert.equal(draft.message, 'saved!');
         assert.isFalse(element.editing);
-      }).then(function() {
+      }).then(() => {
         MockInteractions.tap(element.$$('.edit'));
         element._messageText = 'You’ll be delivering a package to Chapek 9, ' +
             'a world where humans are killed on sight.';
@@ -556,7 +554,7 @@ limitations under the License.
         assert.isTrue(element.disabled,
             'Element should be disabled when updating draft.');
 
-        element._xhrPromise.then(function(draft) {
+        element._xhrPromise.then(draft => {
           assert.isFalse(element.disabled,
               'Element should be enabled when done updating draft.');
           assert.equal(draft.message, 'saved!');
@@ -567,26 +565,26 @@ limitations under the License.
       });
     });
 
-    test('clicking on date link does not trigger nav', function() {
-      var showStub = sinon.stub(page, 'show');
-      var dateEl = element.$$('.date');
+    test('clicking on date link does not trigger nav', () => {
+      const showStub = sinon.stub(page, 'show');
+      const dateEl = element.$$('.date');
       assert.ok(dateEl);
       MockInteractions.tap(dateEl);
-      var dest = window.location.pathname + '#5';
+      const dest = window.location.pathname + '#5';
       assert(showStub.lastCall.calledWithExactly(dest, null, false),
           'Should navigate to ' + dest + ' without triggering nav');
       showStub.restore();
     });
 
-    test('proper event fires on resolve', function(done) {
-      element.addEventListener('comment-update', function(e) {
+    test('proper event fires on resolve', done => {
+      element.addEventListener('comment-update', e => {
         assert.isTrue(e.detail.comment.unresolved);
         done();
       });
       MockInteractions.tap(element.$$('.resolve input'));
     });
 
-    test('resolved comment state indicated by checkbox', function() {
+    test('resolved comment state indicated by checkbox', () => {
       element.comment = {unresolved: false};
       assert.isTrue(element.$$('.resolve input').checked);
       element.comment = {unresolved: true};

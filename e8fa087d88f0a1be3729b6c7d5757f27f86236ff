@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5e23575f_3847d402",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T18:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96095cd7_a9e01500",
+      "revId": "e8fa087d88f0a1be3729b6c7d5757f27f86236ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0ed08b3_ea459cff",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "46d94f7a_8ccedabe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T18:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0ed08b3_ea459cff",
+      "range": {
+        "startLine": 452,
+        "startChar": 6,
+        "endLine": 452,
+        "endChar": 51
+      },
+      "revId": "e8fa087d88f0a1be3729b6c7d5757f27f86236ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93280a40_b3a3f44b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
         "patchSetId": 1
@@ -62,6 +104,30 @@
       "revId": "e8fa087d88f0a1be3729b6c7d5757f27f86236ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8257066d_fbaa9b89",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T18:28:03Z",
+      "side": 1,
+      "message": "This isn\u0027t a templatable string.",
+      "parentUuid": "93280a40_b3a3f44b",
+      "range": {
+        "startLine": 370,
+        "startChar": 10,
+        "endLine": 371,
+        "endChar": 77
+      },
+      "revId": "e8fa087d88f0a1be3729b6c7d5757f27f86236ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

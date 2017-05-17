@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8bef1b9e_65c23b4e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T00:24:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e84a4ed_886ac1d2",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 58
+      },
+      "revId": "20cea6a736b0942f6785c32520f8f57f7f5f30c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18635cb4_1f2e03e1",
         "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.html",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "20cea6a736b0942f6785c32520f8f57f7f5f30c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cedb146b_d290dadb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T00:24:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18635cb4_1f2e03e1",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 28
+      },
+      "revId": "20cea6a736b0942f6785c32520f8f57f7f5f30c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ae432361_0e094942",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T00:24:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8abe6783_65e3a8cf",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 39,
+        "endChar": 56
+      },
+      "revId": "20cea6a736b0942f6785c32520f8f57f7f5f30c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abefd15f_8db51c24",
         "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.html",
         "patchSetId": 8
@@ -82,6 +154,30 @@
       "writtenOn": "2017-05-12T22:05:50Z",
       "side": 1,
       "message": "Why is this one a two way data binding? Can the iron-autogrow-textarea disable itself somehow?",
+      "range": {
+        "startLine": 72,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 31
+      },
+      "revId": "20cea6a736b0942f6785c32520f8f57f7f5f30c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d684a124_121c34df",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T00:24:37Z",
+      "side": 1,
+      "message": "hmmm I\u0027m not sure why, it was a two-way binding when included in elements prior: https://gerrit-review.googlesource.com/c/105437/",
+      "parentUuid": "abefd15f_8db51c24",
       "range": {
         "startLine": 72,
         "startChar": 8,

@@ -14,12 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
@@ -94,6 +95,9 @@ limitations under the License.
         flex: 1;
         min-height: 6em;
         position: relative;
+      }
+      .textareaContainer > * {
+        flex: 1;
       }
       iron-autogrow-textarea {
         padding: 0;
@@ -202,17 +206,19 @@ limitations under the License.
         </gr-overlay>
       </section>
       <section class="textareaContainer">
-        <iron-autogrow-textarea
-            id="textarea"
-            class="message"
-            autocomplete="on"
-            placeholder=[[_messagePlaceholder]]
-            disabled="{{disabled}}"
-            rows="4"
-            max-rows="15"
-            bind-value="{{draft}}"
-            on-bind-value-changed="_handleHeightChanged">
-        </iron-autogrow-textarea>
+        <gr-endpoint-decorator name="reply-text">
+          <iron-autogrow-textarea
+              id="textarea"
+              class="message"
+              autocomplete="on"
+              placeholder=[[_messagePlaceholder]]
+              disabled="{{disabled}}"
+              rows="4"
+              max-rows="15"
+              bind-value="{{draft}}"
+              on-bind-value-changed="_handleHeightChanged">
+          </iron-autogrow-textarea>
+        </gr-endpoint-decorator>
       </section>
       <section class="previewContainer">
         <label>

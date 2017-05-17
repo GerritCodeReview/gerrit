@@ -15,7 +15,7 @@
   'use strict';
 
   Polymer({
-    is: 'gr-external-style',
+    is: 'gr-endpoint-decorator',
 
     properties: {
       name: String,
@@ -27,10 +27,11 @@
       });
     },
 
-    _applyStyle(name) {
-      const s = document.createElement('style', 'custom-style');
-      s.setAttribute('include', name);
-      Polymer.dom(this.root).appendChild(s);
+    _initPluginDomHook(name, plugin) {
+      const el = document.createElement(name);
+      el.plugin = plugin;
+      el.content = this.getContentChildren()[0];
+      return Polymer.dom(this.root).appendChild(el);
     },
 
     ready() {
@@ -39,9 +40,9 @@
               Gerrit._getPluginsForEndpoint(this.name).map(
                   pluginUrl => this._import(pluginUrl)))
       ).then(() => {
-        const moduleNames = Gerrit._getModulesForEndoint(this.name);
-        for (const name of moduleNames) {
-          this._applyStyle(name);
+        const modulesData = Gerrit._getEndpointDetails(this.name);
+        for (const {moduleName, plugin} of modulesData) {
+          this._initPluginDomHook(moduleName, plugin);
         }
       });
     },

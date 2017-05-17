@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-link/gr-link.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 
 <!--
@@ -53,23 +54,25 @@ limitations under the License.
     </style>
     <template is="dom-repeat" items="[[_computeFilesFromComments(comments)]]" as="file">
       <div class="file">
-        <a href$="[[_computeFileDiffURL(file, changeNum, patchNum)]]">
+        <gr-link relative url="[[_computeFileDiffURL(file, changeNum, patchNum)]]">
           [[_computeFileDisplayName(file)]]
-        </a>:
+        </gr-link>:
       </div>
       <template is="dom-repeat"
                 items="[[_computeCommentsForFile(comments, file)]]" as="comment">
         <div class="container">
-          <a class="lineNum"
-             href$="[[_computeDiffLineURL(file, changeNum, comment.patch_set, comment)]]">
-             <span hidden$="[[!comment.line]]">
-               <span>[[_computePatchDisplayName(comment)]]</span>
-               Line <span>[[comment.line]]</span>:
-             </span>
-             <span hidden$="[[comment.line]]">
-               File comment:
-             </span>
-          </a>
+          <gr-link
+              class="lineNum"
+              relative
+              url="[[_computeDiffLineURL(file, changeNum, comment.patch_set, comment)]]">
+            <span hidden$="[[!comment.line]]">
+              <span>[[_computePatchDisplayName(comment)]]</span>
+              Line <span>[[comment.line]]</span>:
+            </span>
+            <span hidden$="[[comment.line]]">
+              File comment:
+            </span>
+          </gr-link>
           <gr-formatted-text
               class="message"
               no-trailing-margin

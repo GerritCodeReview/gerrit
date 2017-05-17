@@ -202,7 +202,7 @@ limitations under the License.
           <template is="dom-if" if="[[change.topic]]">
             <gr-linked-chip
                 text="[[change.topic]]"
-                href="[[_computeTopicURL(change.topic)]]"
+                url="[[_computeTopicURL(change.topic)]]"
                 removable="[[!_topicReadOnly]]"
                 on-remove="_handleTopicRemoved"></gr-linked-chip>
           </template>

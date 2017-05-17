@@ -34,83 +34,55 @@
         type: Boolean,
         value: false,
       },
-      target: String,
-      rel: String,
+      targetBlank: {
+        type: Boolean,
+        vlaue: false,
+      },
       title: String,
       hoverUnderline: {
         type: Boolean,
         value: false,
       },
-
-      _href: {
-        type: String,
-        computed: '_computeHref(url, absolute, relative)',
-      },
-      _target: {
-        type: String,
-        value: EMPTY,
-        computed: '_computeTarget(target)',
-      },
-      _rel: {
-        type: String,
-        value: EMPTY,
-        computed: '_computeRel(_target, rel)',
-      },
+      ariaLabel: String,
     },
+
+    observers: [
+      '_urlChanged(url, absolute, relative)',
+    ],
 
     ready() {
       if (this.hoverUnderline) {
         this.classList.add('underlineOnHover');
       }
+      if (this.targetBlank) {
+        this.$.a.rel = NOOPENER;
+        this.$.a.target = BLANK;
+      }
     },
 
-    _computeHref(url, absolute, relative) {
+    _urlChanged(url, absolute, relative) {
       if (!absolute && !relative) {
         console.error('Link not specified as relative or absolute');
-        return EMPTY;
+        return;
       }
 
       if (JS_SCHEME_PATTERN.test(url)) {
         console.error('Refused JS scheme href', url);
-        return EMPTY;
+        return;
       }
 
       if (relative && ABSOLUTE_URL_PATTERN.test(url)) {
         console.error('Refused absolute href', url);
-        return EMPTY;
+        return;
       }
 
       if (absolute && !ABSOLUTE_URL_PATTERN.test(url)) {
         console.error('Refused relative href', url);
-        return EMPTY;
-      }
-
-      return url;
-    },
-
-    _computeTarget(target) {
-      if (target !== BLANK && target !== EMPTY) {
-        console.error('Invalid target value', target);
         return;
       }
 
-      if (target === BLANK) {
-        return BLANK;
-      }
-      return EMPTY;
+      // Assign the href directly now that it has been verified as safe.
+      this.$.a.href = url;
     },
-
-    _computeRel(target, rel) {
-      if (rel !== NOOPENER && rel !== EMPTY) {
-        console.error('Invalid rel value', rel);
-      }
-      if (target === BLANK) {
-        if (rel !== NOOPENER) {
-          console.warn('Forcing rel to be noopener');
-        }
-        return NOOPENER;
-      }
-      return EMPTY;
-    }
   });
 })();

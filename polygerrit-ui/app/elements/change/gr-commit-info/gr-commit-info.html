@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-link/gr-link.html">
 
 <dom-module id="gr-commit-info">
   <template>
@@ -24,8 +25,10 @@ limitations under the License.
       }
     </style>
     <template is="dom-if" if="[[_showWebLink]]">
-      <a target="_blank" rel="noopener"
-         href$="[[_webLink]]">[[_computeShortHash(commitInfo)]]</a>
+      <gr-link
+          target-blank
+          absolute
+          url="[[_webLink]]">[[_computeShortHash(commitInfo)]]</gr-link>
     </template>
     <template is="dom-if" if="[[!_showWebLink]]">
       [[_computeShortHash(commitInfo)]]

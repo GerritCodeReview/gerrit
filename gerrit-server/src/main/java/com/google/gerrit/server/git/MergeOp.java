@@ -460,8 +460,8 @@ public class MergeOp implements AutoCloseable {
     }
     // Done checks that don't involve running submit strategies.
     commitStatus.maybeFailVerbose();
-    SubmoduleOp submoduleOp = subOpFactory.create(branches, orm);
     try {
+      SubmoduleOp submoduleOp = subOpFactory.create(branches, orm);
       List<SubmitStrategy> strategies = getSubmitStrategies(toSubmit, submoduleOp, dryrun);
       this.allProjects = submoduleOp.getProjectsInOrder();
       batchUpdateFactory.execute(

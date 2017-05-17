@@ -261,7 +261,7 @@
 
         if (block.type === 'list') {
           const ul = document.createElement('ul');
-          for (const item of bloc.items) {
+          for (const item of block.items) {
             const li = document.createElement('li');
             li.appendChild(this._makeLinkedText(item));
             ul.appendChild(li);

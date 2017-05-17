@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "101e4e9e_e903f11c",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T18:24:16Z",
+      "side": 1,
+      "message": "missed that, sorry!",
+      "parentUuid": "e0e73ba1_e917d305",
+      "revId": "8f5af3521e4fe4e3a610d0046293a38060ec0c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a52723e_44f2bc35",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 3

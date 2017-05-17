@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67e06325_8eab3c23",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-05-17T16:41:46Z",
+      "side": 1,
+      "message": "The syntax highlighting of this really throws me off, but I suppose it\u0027s fine",
+      "revId": "c90ada96667898d9c9d60b1918176405ac3f199f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-textarea</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="gr-textarea.html">
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-textarea></gr-textarea>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-textarea tests', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('monospace is set properly', () => {
+      assert.isFalse(element.classList.contains('monospace'));
+      element.monospace = true;
+      element.ready();
+      assert.isTrue(element.classList.contains('monospace'));
+    });
+
+    test('hideBorder is set properly', () => {
+      assert.isFalse(element.$.textarea.classList.contains('no-border'));
+      element.hideBorder = true;
+      element.ready();
+      assert.isTrue(element.$.textarea.classList.contains('no-border'));
+    });
+
+    test('background color is set properly', () => {
+      assert.equal(getComputedStyle(element.$.textarea).backgroundColor,
+          'rgb(255, 255, 255)');
+      element.backgroundColor = 'pink';
+      element.ready();
+      assert.equal(getComputedStyle(element.$.textarea).backgroundColor,
+          'rgb(255, 192, 203)');
+    });
+
+    test('emoji selector is not open with the textarea lacks focus', () => {
+      element.text = ':';
+      assert.isFalse(!element.$.emojiSuggestions.hidden);
+    });
+
+    test('emoji selector is not open when a general text is entered', () => {
+      MockInteractions.focus(element.$.textarea);
+      element.text = 'some text';
+      assert.isFalse(!element.$.emojiSuggestions.hidden);
+    });
+
+    test('emoji selector opens when a colon is typed & the textarea has focus',
+        () => {
+      MockInteractions.focus(element.$.textarea);
+      flushAsynchronousOperations();
+      element.text = ':';
+      element.text = ':t';
+      assert.isTrue(!element.$.emojiSuggestions.hidden);
+      assert.equal(element._colonIndex, 0);
+      assert.isFalse(element._hideAutocomplete);
+      assert.equal(element._currentSearchString, 't');
+    });
+
+    test('emoji selector closes when text changes before the colon', () => {
+      const resetStub = sandbox.stub(element, '_resetEmojiDropdown');
+      MockInteractions.focus(element.$.textarea);
+      flushAsynchronousOperations();
+      element.text = 'test test ';
+      element.text = 'test test :';
+      element.text = 'test test :smi';
+
+      assert.equal(element._currentSearchString, 'smi');
+      assert.isFalse(resetStub.called);
+      element.text = 'test test test :smi';
+      assert.isTrue(resetStub.called);
+    });
+
+    test('_resetEmojiDropdown', () => {
+      const closeSpy = sandbox.spy(element, 'closeDropdown');
+      element._resetEmojiDropdown();
+      assert.equal(element._currentSearchString, '');
+      assert.isTrue(element._hideAutocomplete);
+      assert.equal(element._colonIndex, null);
+
+      element.$.emojiSuggestions.open();
+      flushAsynchronousOperations();
+      element._resetEmojiDropdown();
+      assert.isTrue(closeSpy.called);
+    });
+
+    test('_determineSuggestions', () => {
+      const emojiText = 'tear';
+      const formatSpy = sandbox.spy(element, '_formatSuggestions');
+      element._determineSuggestions(emojiText);
+      assert.isTrue(formatSpy.called);
+      assert.isTrue(formatSpy.lastCall.calledWithExactly(
+          [{dataValue: '😢', value: '😢', match: 'tear', text: '😢 tear'},
+          {dataValue: '😂', value: '😂', match: 'tears', text: '😂 tears'}]));
+    });
+
+    test('_formatSuggestions', () => {
+      const matchedSuggestions = [{value: '😢', match: 'tear'},
+          {value: '😂', match: 'tears'}];
+      element._formatSuggestions(matchedSuggestions);
+      assert.deepEqual(
+          [{value: '😢', dataValue: '😢', match: 'tear', text: '😢 tear'},
+          {value: '😂', dataValue: '😂', match: 'tears', text: '😂 tears'}],
+          element._suggestions);
+    });
+
+    test('_handleEmojiSelect', () => {
+      element.text = 'test test :tears';
+      element._colonIndex = 10;
+      const selectedItem = {dataset: {value: '😂'}};
+      const event = {detail: {selected: selectedItem}};
+      element._handleEmojiSelect(event);
+      assert.equal(element.text, 'test test 😂 ');
+    });
+
+    test('_getPositionOfCursor', () => {
+      element.text = 'test';
+      element._getPositionOfCursor();
+      assert.deepEqual(element.$.hiddenText.innerHTML, element.text +
+          '<span></span>');
+    });
+
+    test('_updateSelectorPosition', () => {
+      const setPositionSpy =
+          sandbox.spy(element.$.emojiSuggestions, 'setPosition');
+      sandbox.stub(element, '_getPositionOfCursor', () => {
+        return {top: 100, left: 30};
+      });
+      sandbox.stub(element, '_getFontSize', () => {
+        return 12;
+      });
+      element._updateSelectorPosition();
+      assert.isTrue(setPositionSpy.lastCall.calledWithExactly('119px', '30px'));
+    });
+
+    test('emoji dropdown is closed when dropdown-closed is fired', () => {
+      const resetSpy = sandbox.spy(element, '_resetAndFocus');
+      element.$.emojiSuggestions.fire('dropdown-closed');
+      assert.isTrue(resetSpy.called);
+    });
+
+    suite('keyboard shortcuts', () => {
+      function setupDropdown() {
+        MockInteractions.focus(element.$.textarea);
+        flushAsynchronousOperations();
+        element.text = ':';
+        element.text = ':1';
+      }
+
+      test('escape key', () => {
+        const resestSpy = sandbox.spy(element, '_resetAndFocus');
+        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 27);
+        assert.isFalse(resestSpy.called);
+        setupDropdown();
+        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 27);
+        assert.isTrue(resestSpy.called);
+        assert.isFalse(!element.$.emojiSuggestions.hidden);
+      });
+
+      test('up key', () => {
+        const upSpy = sandbox.spy(element.$.emojiSuggestions, 'cursorUp');
+        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 38);
+        assert.isFalse(upSpy.called);
+        setupDropdown();
+        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 38);
+        assert.isTrue(upSpy.called);
+      });
+
+      test('down key', () => {
+        const downSpy = sandbox.spy(element.$.emojiSuggestions, 'cursorDown');
+        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 40);
+        assert.isFalse(downSpy.called);
+        setupDropdown();
+        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 40);
+        assert.isTrue(downSpy.called);
+      });
+
+      test('enter key', () => {
+        const enterSpy = sandbox.spy(element.$.emojiSuggestions,
+            'getCursorTarget');
+        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
+        assert.isFalse(enterSpy.called);
+        setupDropdown();
+        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
+        assert.isTrue(enterSpy.called);
+        flushAsynchronousOperations();
+        // A space is automatically added at the end.
+        assert.equal(element.text, '💯 ');
+      });
+    });
+  });
+</script>

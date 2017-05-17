@@ -131,6 +131,29 @@
       "revId": "b67a14a723f68d006e1ff118e8bd6ce4983374a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93378c25_17347a62",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-17T21:57:21Z",
+      "side": 1,
+      "message": "This and most of the tests below might be formatted more tidily like...\n\ntest(\u0027monospace is set properly\u0027, () \u003d\u003e {\n  assert.isFalse(element.$.textarea.classList.contains(\u0027monospace\u0027));\n  element.monospace \u003d true;\n  element.ready();\n  assert.isTrue(element.$.textarea.classList.contains(\u0027monospace\u0027));\n});",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 11
+      },
+      "revId": "b67a14a723f68d006e1ff118e8bd6ce4983374a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

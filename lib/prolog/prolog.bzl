@@ -12,14 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-load("//tools/bzl:genrule2.bzl", "genrule2")
-
 def prolog_cafe_library(
     name,
     srcs,
     deps = [],
     **kwargs):
-  genrule2(
+  native.genrule(
     name = name + '__pl2j',
     cmd = '$(location //lib/prolog:compiler_bin) ' +
       '$$(dirname $@) $@ ' +

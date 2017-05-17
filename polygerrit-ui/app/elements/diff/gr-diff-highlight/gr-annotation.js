@@ -46,7 +46,6 @@
      */
     annotateElement(parent, offset, length, cssClass) {
       const nodes = [].slice.apply(parent.childNodes);
-      let node;
       let nodeLength;
       let subLength;
 

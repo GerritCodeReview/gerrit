@@ -214,7 +214,7 @@
         if (nextMessageDate && date > nextMessageDate) {
           break;
         }
-      };
+      }
     });
   };
 

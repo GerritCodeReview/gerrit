@@ -51,7 +51,7 @@ limitations under the License.
       return document.activeElement.shadowRoot ?
           document.activeElement.shadowRoot.activeElement :
           document.activeElement;
-    }
+    };
 
     test('tap on search button triggers nav', done => {
       sinon.stub(page, 'show', () => {
@@ -203,11 +203,11 @@ limitations under the License.
       });
 
       test('Autocomplete doesnt override exact matches to input', done => {
-            element._getSearchSuggestions('ownerin:gerrit').then(s => {
-              assert.equal(s[0].value, 'ownerin:gerrit');
-              done();
-            });
-          });
+        element._getSearchSuggestions('ownerin:gerrit').then(s => {
+          assert.equal(s[0].value, 'ownerin:gerrit');
+          done();
+        });
+      });
 
       test('Autocomplete respects spaces', done => {
         element._getSearchSuggestions('is:ope').then(s => {

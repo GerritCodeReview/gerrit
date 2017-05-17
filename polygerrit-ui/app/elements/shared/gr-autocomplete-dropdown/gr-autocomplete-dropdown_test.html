@@ -57,8 +57,7 @@ limitations under the License.
       if (element.isOpen) element.close();
     });
 
-    test('the dropdown has not been moved from the text fixture to the body',
-        () => {
+    test('dropdown has not been moved from text fixture to the body', () => {
       assert.equal(Polymer.dom(document.root)
           .querySelectorAll('gr-autocomplete-dropdown').length, 1);
       const dropdown = Polymer.dom(document.root)
@@ -148,54 +147,53 @@ limitations under the License.
       element.suggestions = [];
       assert.isTrue(resetStopsSpy.called);
     });
-});
-
-suite('gr-autocomplete-dropdown to root', () => {
-  let element;
-  let sandbox;
-
-  setup(() => {
-    sandbox = sinon.sandbox.create();
-    fixture('move').open();
-    // The element was moved to the body, so look for it there.
-    element = Polymer.dom(document.root)
-      .querySelector('gr-autocomplete-dropdown');
-    element.suggestions = [
-      {value: 'test value 1', name: 'test name 1', text: 1},
-      {value: 'test value 2', name: 'test name 2', text: 2}];
   });
 
-  teardown(() => {
-    sandbox.restore();
-    if (!element.hidden) element.close();
-  });
+  suite('gr-autocomplete-dropdown to root', () => {
+    let element;
+    let sandbox;
 
-  test('the dropdown has been moved from the text fixture to the body',
-      () => {
-    assert.equal(Polymer.dom(document.root)
-        .querySelectorAll('gr-autocomplete-dropdown').length, 1);
-    const dropdown = Polymer.dom(document.root)
-      .querySelector('gr-autocomplete-dropdown');
-    assert.isOk(dropdown);
-    assert.deepEqual(dropdown.parentElement, Polymer.dom(document.root)
-        .querySelector('body'));
-  });
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      fixture('move').open();
+      // The element was moved to the body, so look for it there.
+      element = Polymer.dom(document.root)
+        .querySelector('gr-autocomplete-dropdown');
+      element.suggestions = [
+        {value: 'test value 1', name: 'test name 1', text: 1},
+        {value: 'test value 2', name: 'test name 2', text: 2}];
+    });
 
-  test('closing removes from body and adding adds to body', () => {
-    element.close();
-    assert.equal(Polymer.dom(document.root)
-        .querySelectorAll('gr-autocomplete-dropdown').length, 0);
-    element.open();
-    assert.equal(Polymer.dom(document.root)
-        .querySelectorAll('gr-autocomplete-dropdown').length, 1);
-  });
+    teardown(() => {
+      sandbox.restore();
+      if (!element.hidden) element.close();
+    });
 
-  test('setPosition', () => {
-    const top = '10px';
-    const left = '20px';
-    element.setPosition(top, left);
-    assert.equal(getComputedStyle(element).top, top);
-    assert.equal(getComputedStyle(element).left, left);
+    test('dropdown has been moved from the text fixture to the body', () => {
+      assert.equal(Polymer.dom(document.root)
+          .querySelectorAll('gr-autocomplete-dropdown').length, 1);
+      const dropdown = Polymer.dom(document.root)
+        .querySelector('gr-autocomplete-dropdown');
+      assert.isOk(dropdown);
+      assert.deepEqual(dropdown.parentElement, Polymer.dom(document.root)
+          .querySelector('body'));
+    });
+
+    test('closing removes from body and adding adds to body', () => {
+      element.close();
+      assert.equal(Polymer.dom(document.root)
+          .querySelectorAll('gr-autocomplete-dropdown').length, 0);
+      element.open();
+      assert.equal(Polymer.dom(document.root)
+          .querySelectorAll('gr-autocomplete-dropdown').length, 1);
+    });
+
+    test('setPosition', () => {
+      const top = '10px';
+      const left = '20px';
+      element.setPosition(top, left);
+      assert.equal(getComputedStyle(element).top, top);
+      assert.equal(getComputedStyle(element).left, left);
+    });
   });
-});
 </script>

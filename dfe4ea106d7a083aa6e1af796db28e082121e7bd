@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "185ab9bc_5bc25603",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T18:35:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dd26a7e_e95259b6",
+      "range": {
+        "startLine": 194,
+        "startChar": 6,
+        "endLine": 201,
+        "endChar": 7
+      },
+      "revId": "dfe4ea106d7a083aa6e1af796db28e082121e7bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c7b1c39_deac95b7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
         "patchSetId": 1

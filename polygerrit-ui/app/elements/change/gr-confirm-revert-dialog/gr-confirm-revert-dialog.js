@@ -33,27 +33,26 @@
       message: String,
     },
 
-    populateRevertMessage: function(message, commitHash) {
+    populateRevertMessage(message, commitHash) {
       // Figure out what the revert title should be.
-      var originalTitle = message.split('\n')[0];
-      var revertTitle = 'Revert "' + originalTitle + '"';
+      const originalTitle = message.split('\n')[0];
+      const revertTitle = `Revert "${originalTitle}"`;
       if (!commitHash) {
         alert('Unable to find the commit hash of this change.');
         return;
       }
-      var revertCommitText = 'This reverts commit ' + commitHash + '.';
+      const revertCommitText = `This reverts commit ${commitHash}.`;
 
-      this.message = revertTitle + '\n\n' +
-                     revertCommitText + '\n\n' +
-                     'Reason for revert: <INSERT REASONING HERE>\n';
+      this.message = `${revertTitle}\n\n${revertCommitText}\n\n` +
+          `Reason for revert: <INSERT REASONING HERE>\n`;
     },
 
-    _handleConfirmTap: function(e) {
+    _handleConfirmTap(e) {
       e.preventDefault();
       this.fire('confirm', null, {bubbles: false});
     },
 
-    _handleCancelTap: function(e) {
+    _handleCancelTap(e) {
       e.preventDefault();
       this.fire('cancel', null, {bubbles: false});
     },

@@ -175,7 +175,7 @@ public class ConfigSuite extends Suite {
         callConfigMapMethod(getConfigMap(clazz), configs);
 
     Field parameterField = getOnlyField(clazz, Parameter.class);
-    checkArgument(parameterField != null, "No @ConfigSuite.Field found");
+    checkArgument(parameterField != null, "No @ConfigSuite.Parameter found");
     Field nameField = getOnlyField(clazz, Name.class);
     List<Runner> result = Lists.newArrayListWithCapacity(configs.size() + 1);
     try {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a3044485_4fbdffca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T22:12:10Z",
+      "side": 1,
+      "message": "parseInt is used everywhere a comparison is made, and parseInt of a number is still a number, so I don\u0027t think so.",
+      "parentUuid": "92ac93c8_cc3dc3b1",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "c24bf8907d283055647f1b75dbfabaca6820ffe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c252140_ee91df44",
         "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "c24bf8907d283055647f1b75dbfabaca6820ffe6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6503a73_9c033f8f",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T22:12:10Z",
+      "side": 1,
+      "message": "It\u0027s already documented in the properties of this element, this was just a mistake.\n\nAlso, parseInt of a number is still a number, so I don\u0027t think that should be an issue.",
+      "parentUuid": "4c252140_ee91df44",
+      "range": {
+        "startLine": 79,
+        "startChar": 37,
+        "endLine": 79,
+        "endChar": 45
+      },
+      "revId": "c24bf8907d283055647f1b75dbfabaca6820ffe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

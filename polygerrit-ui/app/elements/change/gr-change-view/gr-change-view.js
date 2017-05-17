@@ -631,16 +631,14 @@
     },
 
     _computeChangeStatus(change, patchNum) {
-      let statusString;
+      let statusString = this.changeStatusString(change);
       if (change.status === this.ChangeStatus.NEW) {
         const rev = this.getRevisionByPatchNum(change.revisions, patchNum);
         if (rev && rev.draft === true) {
           statusString = 'Draft';
         }
-      } else {
-        statusString = this.changeStatusString(change);
       }
-      return statusString || '';
+      return statusString;
     },
 
     _computeShowCommitInfo(changeStatus, current_revision) {
@@ -835,8 +833,8 @@
     },
 
     _handleLabelRemoved(splices, path) {
-      for (let splice of splices) {
-        for (let removed of splice.removed) {
+      for (const splice of splices) {
+        for (const removed of splice.removed) {
           const changePath = path.split('.');
           const labelPath = changePath.splice(0, changePath.length - 2);
           const labelDict = this.get(labelPath);

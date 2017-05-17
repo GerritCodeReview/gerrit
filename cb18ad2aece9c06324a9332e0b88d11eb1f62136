@@ -70,6 +70,30 @@
       "revId": "cb18ad2aece9c06324a9332e0b88d11eb1f62136",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c35c3543_6cd6c614",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T22:43:57Z",
+      "side": 1,
+      "message": "I hear you. At the same time, I have a feeling your opinion of them will change quite a bit as you get used to seeing them :)",
+      "parentUuid": "1ee944ad_e0570063",
+      "range": {
+        "startLine": 453,
+        "startChar": 19,
+        "endLine": 453,
+        "endChar": 48
+      },
+      "revId": "cb18ad2aece9c06324a9332e0b88d11eb1f62136",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

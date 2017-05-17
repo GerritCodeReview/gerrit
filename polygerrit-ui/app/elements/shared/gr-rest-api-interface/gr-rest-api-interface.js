@@ -1126,13 +1126,11 @@
           'POST', this.getChangeActionURL(changeNum, null, '/ready'), review);
     },
 
-    deleteComment: function(changeNum, patchNum, commentID, reason) {
-      var url = this._changeBaseURL(changeNum, patchNum) +
+    deleteComment(changeNum, patchNum, commentID, reason) {
+      const url = this._changeBaseURL(changeNum, patchNum) +
           '/comments/' + commentID + '/delete';
-      return this.send('POST', url, {reason: reason}).then(
-        function(response) {
-          return this.getResponseObject(response);
-        }.bind(this));
+      return this.send('POST', url, {reason}).then(response =>
+        this.getResponseObject(response));
     },
   });
 })();

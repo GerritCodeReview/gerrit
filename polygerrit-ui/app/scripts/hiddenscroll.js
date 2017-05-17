@@ -18,10 +18,10 @@
 
   window.Gerrit.hiddenscroll = undefined;
 
-  window.addEventListener('WebComponentsReady', function() {
-    var elem = document.createElement('div');
+  window.addEventListener('WebComponentsReady', () => {
+    const elem = document.createElement('div');
     elem.setAttribute(
-      'style', 'width:100px;height:100px;overflow:scroll');
+        'style', 'width:100px;height:100px;overflow:scroll');
     document.body.appendChild(elem);
     window.Gerrit.hiddenscroll = elem.offsetWidth === elem.clientWidth;
     elem.remove();

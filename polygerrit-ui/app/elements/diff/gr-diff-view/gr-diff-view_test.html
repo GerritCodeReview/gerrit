@@ -41,34 +41,34 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-diff-view tests', function() {
-    var element;
-    var sandbox;
+  suite('gr-diff-view tests', () => {
+    let element;
+    let sandbox;
 
-    setup(function() {
+    setup(() => {
       sandbox = sinon.sandbox.create();
 
       stub('gr-rest-api-interface', {
-        getLoggedIn: function() { return Promise.resolve(false); },
-        getProjectConfig: function() { return Promise.resolve({}); },
-        getDiffChangeDetail: function() { return Promise.resolve(null); },
-        getChangeFiles: function() { return Promise.resolve({}); },
-        saveFileReviewed: function() { return Promise.resolve(); },
+        getLoggedIn() { return Promise.resolve(false); },
+        getProjectConfig() { return Promise.resolve({}); },
+        getDiffChangeDetail() { return Promise.resolve(null); },
+        getChangeFiles() { return Promise.resolve({}); },
+        saveFileReviewed() { return Promise.resolve(); },
       });
       element = fixture('basic');
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('toggle left diff with a hotkey', function() {
-      var toggleLeftDiffStub = sandbox.stub(element.$.diff, 'toggleLeftDiff');
+    test('toggle left diff with a hotkey', () => {
+      const toggleLeftDiffStub = sandbox.stub(element.$.diff, 'toggleLeftDiff');
       MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
       assert.isTrue(toggleLeftDiffStub.calledOnce);
     });
 
-    test('keyboard shortcuts', function() {
+    test('keyboard shortcuts', () => {
       element._changeNum = '42';
       element._patchRange = {
         basePatchNum: 'PARENT',
@@ -83,7 +83,7 @@ limitations under the License.
       element._path = 'glados.txt';
       element.changeViewState.selectedFileIndex = 1;
 
-      var showStub = sandbox.stub(page, 'show');
+      const showStub = sandbox.stub(page, 'show');
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
       assert(showStub.lastCall.calledWithExactly('/c/42/'),
           'Should navigate to /c/42/');
@@ -111,13 +111,14 @@ limitations under the License.
           'Should navigate to /c/42/');
       assert.equal(element.changeViewState.selectedFileIndex, 0);
 
-      var showPrefsStub = sandbox.stub(element.$.diffPreferences.$.prefsOverlay,
-          'open', function() { return Promise.resolve({}); });
+      const showPrefsStub =
+          sandbox.stub(element.$.diffPreferences.$.prefsOverlay, 'open',
+              () => Promise.resolve());
 
       MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
       assert(showPrefsStub.calledOnce);
 
-      var scrollStub = sandbox.stub(element.$.cursor, 'moveToNextChunk');
+      let scrollStub = sandbox.stub(element.$.cursor, 'moveToNextChunk');
       MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
       assert(scrollStub.calledOnce);
 
@@ -134,7 +135,7 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 80, 'shift', 'p');
       assert(scrollStub.calledOnce);
 
-      var computeContainerClassStub = sandbox.stub(element.$.diff,
+      const computeContainerClassStub = sandbox.stub(element.$.diff,
           '_computeContainerClass');
       MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
       assert(computeContainerClassStub.lastCall.calledWithExactly(
@@ -145,7 +146,7 @@ limitations under the License.
           false, 'SIDE_BY_SIDE', false));
     });
 
-    test('keyboard shortcuts with patch range', function() {
+    test('keyboard shortcuts with patch range', () => {
       element._changeNum = '42';
       element._patchRange = {
         basePatchNum: '5',
@@ -159,7 +160,7 @@ limitations under the License.
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
 
-      var showStub = sandbox.stub(page, 'show');
+      const showStub = sandbox.stub(page, 'show');
 
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
@@ -198,7 +199,7 @@ limitations under the License.
           'Should navigate to /c/42/5..10');
     });
 
-    test('keyboard shortcuts with old patch number', function() {
+    test('keyboard shortcuts with old patch number', () => {
       element._changeNum = '42';
       element._patchRange = {
         basePatchNum: 'PARENT',
@@ -213,7 +214,7 @@ limitations under the License.
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
 
-      var showStub = sandbox.stub(page, 'show');
+      const showStub = sandbox.stub(page, 'show');
 
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
@@ -252,8 +253,7 @@ limitations under the License.
           'Should navigate to /c/42/1');
     });
 
-    test('Diff preferences hidden when no prefs or logged out',
-        function() {
+    test('Diff preferences hidden when no prefs or logged out', () => {
       element._loggedIn = false;
       flushAsynchronousOperations();
       assert.isTrue(element.$.diffPrefsContainer.hidden);
@@ -263,7 +263,7 @@ limitations under the License.
       assert.isTrue(element.$.diffPrefsContainer.hidden);
 
       element._loggedIn = false;
-      element._prefs = {'font_size': '12'};
+      element._prefs = {font_size: '12'};
       flushAsynchronousOperations();
       assert.isTrue(element.$.diffPrefsContainer.hidden);
 
@@ -272,11 +272,12 @@ limitations under the License.
       assert.isFalse(element.$.diffPrefsContainer.hidden);
     });
 
-    test('prefsButton opens gr-diff-preferences', function() {
-      var handlePrefsTapSpy = sandbox.spy(element, '_handlePrefsTap');
-      var overlayOpenStub = sandbox.stub(element.$.diffPreferences,
+    test('prefsButton opens gr-diff-preferences', () => {
+      const handlePrefsTapSpy = sandbox.spy(element, '_handlePrefsTap');
+      const overlayOpenStub = sandbox.stub(element.$.diffPreferences,
           'open');
-      var prefsButton = Polymer.dom(element.root).querySelector('.prefsButton');
+      const prefsButton =
+          Polymer.dom(element.root).querySelector('.prefsButton');
 
       MockInteractions.tap(prefsButton);
 
@@ -284,7 +285,7 @@ limitations under the License.
       assert.isTrue(overlayOpenStub.called);
     });
 
-    test('go up to change via kb without change loaded', function() {
+    test('go up to change via kb without change loaded', () => {
       element._changeNum = '42';
       element._patchRange = {
         basePatchNum: 'PARENT',
@@ -294,7 +295,7 @@ limitations under the License.
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
 
-      var showStub = sandbox.stub(page, 'show');
+      const showStub = sandbox.stub(page, 'show');
 
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
@@ -333,7 +334,7 @@ limitations under the License.
           'Should navigate to /c/42/1');
     });
 
-    test('jump to file dropdown', function() {
+    test('jump to file dropdown', () => {
       element._changeNum = '42';
       element._patchRange = {
         basePatchNum: 'PARENT',
@@ -342,7 +343,7 @@ limitations under the License.
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
       flushAsynchronousOperations();
-      var linkEls =
+      const linkEls =
           Polymer.dom(element.root).querySelectorAll('.dropdown-content > a');
       assert.equal(linkEls.length, 3);
       assert.isFalse(linkEls[0].hasAttribute('selected'));
@@ -363,7 +364,7 @@ limitations under the License.
           'Merge list');
     });
 
-    test('jump to file dropdown with patch range', function() {
+    test('jump to file dropdown with patch range', () => {
       element._changeNum = '42';
       element._patchRange = {
         basePatchNum: '5',
@@ -372,7 +373,7 @@ limitations under the License.
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
       flushAsynchronousOperations();
-      var linkEls =
+      const linkEls =
           Polymer.dom(element.root).querySelectorAll('.dropdown-content > a');
       assert.equal(linkEls.length, 3);
       assert.isFalse(linkEls[0].hasAttribute('selected'));
@@ -386,7 +387,7 @@ limitations under the License.
       assert.equal(linkEls[2].getAttribute('href'), '/c/42/5..10/wheatley.md');
     });
 
-    test('prev/up/next links', function() {
+    test('prev/up/next links', () => {
       element._changeNum = '42';
       element._patchRange = {
         basePatchNum: 'PARENT',
@@ -400,7 +401,7 @@ limitations under the License.
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
       flushAsynchronousOperations();
-      var linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
+      const linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
       assert.equal(linkEls.length, 3);
       assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/chell.go');
       assert.equal(linkEls[1].getAttribute('href'), '/c/42/');
@@ -422,7 +423,7 @@ limitations under the License.
       assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/chell.go');
     });
 
-    test('download link', function() {
+    test('download link', () => {
       element._changeNum = '42';
       element._patchRange = {
         basePatchNum: 'PARENT',
@@ -435,7 +436,7 @@ limitations under the License.
           '/changes/42/revisions/10/patch?zip&path=glados.txt');
     });
 
-    test('prev/up/next links with patch range', function() {
+    test('prev/up/next links with patch range', () => {
       element._changeNum = '42';
       element._patchRange = {
         basePatchNum: '5',
@@ -450,7 +451,7 @@ limitations under the License.
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
       flushAsynchronousOperations();
-      var linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
+      const linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
       assert.equal(linkEls.length, 3);
       assert.equal(linkEls[0].getAttribute('href'), '/c/42/5..10/chell.go');
       assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10');
@@ -467,7 +468,7 @@ limitations under the License.
       assert.equal(linkEls[2].getAttribute('href'), '/c/42/5..10/glados.txt');
     });
 
-    test('file review status', function(done) {
+    test('file review status', done => {
       element._loggedIn = true;
       element._changeNum = '42';
       element._patchRange = {
@@ -476,11 +477,11 @@ limitations under the License.
       };
       element._fileList = ['/COMMIT_MSG'];
       element._path = '/COMMIT_MSG';
-      var saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
-          function() { return Promise.resolve(); });
+      const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
+          () => Promise.resolve());
 
-      flush(function() {
-        var commitMsg = Polymer.dom(element.root).querySelector(
+      flush(() => {
+        const commitMsg = Polymer.dom(element.root).querySelector(
             'input[type="checkbox"]');
 
         assert.isTrue(commitMsg.checked);
@@ -496,9 +497,9 @@ limitations under the License.
       });
     });
 
-    test('diff mode selector correctly toggles the diff', function() {
-      var select = element.$.modeSelect;
-      var diffDisplay = element.$.diff;
+    test('diff mode selector correctly toggles the diff', () => {
+      const select = element.$.modeSelect;
+      const diffDisplay = element.$.diff;
       element._userPrefs = {default_diff_view: 'SIDE_BY_SIDE'};
 
       // The mode selected in the view state reflects the selected option.
@@ -509,7 +510,7 @@ limitations under the License.
       assert.equal(select.value, diffDisplay.viewMode);
 
       // We will simulate a user change of the selected mode.
-      var newMode = 'UNIFIED_DIFF';
+      const newMode = 'UNIFIED_DIFF';
       // Set the actual value of the select, and simulate the change event.
       select.value = newMode;
       element.fire('change', {}, {node: select});
@@ -520,17 +521,16 @@ limitations under the License.
       assert.equal(element._getDiffViewMode(), diffDisplay.viewMode);
     });
 
-    test('diff mode selector initializes from preferences', function() {
-      var resolvePrefs;
-      var prefsPromise = new Promise(function(resolve) {
+    test('diff mode selector initializes from preferences', () => {
+      let resolvePrefs;
+      const prefsPromise = new Promise(resolve => {
         resolvePrefs = resolve;
       });
-      var getPreferencesStub = sandbox.stub(element.$.restAPI, 'getPreferences',
-          function() { return prefsPromise; });
+      sandbox.stub(element.$.restAPI, 'getPreferences', () => prefsPromise);
 
       // Attach a new gr-diff-view so we can intercept the preferences fetch.
-      var view = document.createElement('gr-diff-view');
-      var select = view.$.modeSelect;
+      const view = document.createElement('gr-diff-view');
+      const select = view.$.modeSelect;
       fixture('blank').appendChild(view);
       flushAsynchronousOperations();
 
@@ -543,7 +543,7 @@ limitations under the License.
       assert.equal(select.value, 'SIDE_BY_SIDE');
     });
 
-    test('_loadHash', function() {
+    test('_loadHash', () => {
       assert.isNotOk(element.$.cursor.initialLineNumber);
 
       // Ignores invalid hashes:
@@ -566,32 +566,31 @@ limitations under the License.
       assert.equal(element.$.cursor.side, 'left');
     });
 
-    test('_shortenPath with long path should add ellipsis', function() {
-      var path =
-          'level1/level2/level3/level4/file.js';
-      var shortenedPath = util.truncatePath(path);
+    test('_shortenPath with long path should add ellipsis', () => {
+      let path = 'level1/level2/level3/level4/file.js';
+      let shortenedPath = util.truncatePath(path);
       // The expected path is truncated with an ellipsis.
-      var expectedPath = '\u2026/file.js';
+      const expectedPath = '\u2026/file.js';
       assert.equal(shortenedPath, expectedPath);
 
-      var path = 'level2/file.js';
-      var shortenedPath = util.truncatePath(path);
-      assert.equal(shortenedPath, expectedPath);
-    });
-
-    test('_shortenPath with short path should not add ellipsis', function() {
-      var path = 'file.js';
-      var expectedPath = 'file.js';
-      var shortenedPath = util.truncatePath(path);
+      path = 'level2/file.js';
+      shortenedPath = util.truncatePath(path);
       assert.equal(shortenedPath, expectedPath);
     });
 
-    test('_onLineSelected', function() {
-      var replaceStateStub = sandbox.stub(history, 'replaceState');
-      var moveStub = sandbox.stub(element.$.cursor, 'moveToLineNumber');
+    test('_shortenPath with short path should not add ellipsis', () => {
+      const path = 'file.js';
+      const expectedPath = 'file.js';
+      const shortenedPath = util.truncatePath(path);
+      assert.equal(shortenedPath, expectedPath);
+    });
 
-      var e = {};
-      var detail = {number: 123, side: 'right'};
+    test('_onLineSelected', () => {
+      const replaceStateStub = sandbox.stub(history, 'replaceState');
+      const moveStub = sandbox.stub(element.$.cursor, 'moveToLineNumber');
+
+      const e = {};
+      const detail = {number: 123, side: 'right'};
 
       element._onLineSelected(e, detail);
 
@@ -602,15 +601,15 @@ limitations under the License.
       assert.isTrue(replaceStateStub.called);
     });
 
-    test('_getDiffURL encodes special characters', function() {
-      var changeNum = 123;
-      var patchRange = {basePatchNum: 123, patchNum: 456};
-      var path = 'c++/cpp.cpp';
+    test('_getDiffURL encodes special characters', () => {
+      const changeNum = 123;
+      const patchRange = {basePatchNum: 123, patchNum: 456};
+      const path = 'c++/cpp.cpp';
       assert.equal(element._getDiffURL(changeNum, patchRange, path),
           '/c/123/123..456/c%252B%252B/cpp.cpp');
     });
 
-    test('_getDiffViewMode', function() {
+    test('_getDiffViewMode', () => {
       // No user prefs or change view state set.
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
 
@@ -623,22 +622,22 @@ limitations under the License.
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
     });
 
-    suite('_loadCommentMap', function() {
-      test('empty', function(done) {
+    suite('_loadCommentMap', () => {
+      test('empty', done => {
         stub('gr-rest-api-interface', {
-          getDiffRobotComments: function() { return Promise.resolve({}); },
-          getDiffComments: function() { return Promise.resolve({}); },
+          getDiffRobotComments() { return Promise.resolve({}); },
+          getDiffComments() { return Promise.resolve({}); },
         });
-        element._loadCommentMap().then(function(map) {
+        element._loadCommentMap().then(map => {
           assert.equal(Object.keys(map).length, 0);
           done();
         });
       });
 
-      test('paths in patch range', function(done) {
+      test('paths in patch range', done => {
         stub('gr-rest-api-interface', {
-          getDiffRobotComments: function() { return Promise.resolve({}); },
-          getDiffComments: function() {
+          getDiffRobotComments() { return Promise.resolve({}); },
+          getDiffComments() {
             return Promise.resolve({
               'path/to/file/one.cpp': [{patch_set: 3, message: 'lorem'}],
               'path-to/file/two.py': [{patch_set: 5, message: 'ipsum'}],
@@ -650,17 +649,17 @@ limitations under the License.
           basePatchNum: '3',
           patchNum: '5',
         };
-        element._loadCommentMap().then(function(map) {
+        element._loadCommentMap().then(map => {
           assert.deepEqual(Object.keys(map),
               ['path/to/file/one.cpp', 'path-to/file/two.py']);
           done();
         });
       });
 
-      test('empty for paths outside patch range', function(done) {
+      test('empty for paths outside patch range', done => {
         stub('gr-rest-api-interface', {
-          getDiffRobotComments: function() { return Promise.resolve({}); },
-          getDiffComments: function() {
+          getDiffRobotComments() { return Promise.resolve({}); },
+          getDiffComments() {
             return Promise.resolve({
               'path/to/file/one.cpp': [{patch_set: 'PARENT', message: 'lorem'}],
               'path-to/file/two.py': [{patch_set: 2, message: 'ipsum'}],
@@ -672,35 +671,35 @@ limitations under the License.
           basePatchNum: '3',
           patchNum: '5',
         };
-        element._loadCommentMap().then(function(map) {
+        element._loadCommentMap().then(map => {
           assert.equal(Object.keys(map).length, 0);
           done();
         });
       });
     });
 
-    suite('_computeCommentSkips', function() {
-      test('empty file list', function() {
-        var commentMap = {
+    suite('_computeCommentSkips', () => {
+      test('empty file list', () => {
+        const commentMap = {
           'path/one.jpg': true,
           'path/three.wav': true,
         };
-        var path = 'path/two.m4v';
-        var fileList = [];
-        var result = element._computeCommentSkips(commentMap, fileList, path);
+        const path = 'path/two.m4v';
+        const fileList = [];
+        const result = element._computeCommentSkips(commentMap, fileList, path);
         assert.isNull(result.previous);
         assert.isNull(result.next);
       });
 
-      test('finds skips', function() {
-        var fileList = ['path/one.jpg', 'path/two.m4v', 'path/three.wav'];
-        var path = fileList[1];
-        var commentMap = {};
+      test('finds skips', () => {
+        const fileList = ['path/one.jpg', 'path/two.m4v', 'path/three.wav'];
+        let path = fileList[1];
+        const commentMap = {};
         commentMap[fileList[0]] = true;
         commentMap[fileList[1]] = false;
         commentMap[fileList[2]] = true;
 
-        var result = element._computeCommentSkips(commentMap, fileList, path);
+        let result = element._computeCommentSkips(commentMap, fileList, path);
         assert.equal(result.previous, fileList[0]);
         assert.equal(result.next, fileList[2]);
 

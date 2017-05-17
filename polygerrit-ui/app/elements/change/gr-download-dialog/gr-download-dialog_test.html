@@ -117,7 +117,7 @@ limitations under the License.
     setup(() => {
       element = fixture('basic');
       element.change = getChangeObjectNoFetch();
-      element.patchNum = 1;
+      element.patchNum = '1';
       element.config = {
         schemes: {
           'anonymous http': {},
@@ -144,7 +144,7 @@ limitations under the License.
     setup(() => {
       element = fixture('basic');
       element.change = getChangeObject();
-      element.patchNum = 1;
+      element.patchNum = '1';
       element.config = {
         schemes: {
           'anonymous http': {},
@@ -242,7 +242,7 @@ limitations under the License.
 
       element = fixture('loggedIn');
       element.change = getChangeObject();
-      element.patchNum = 1;
+      element.patchNum = '1';
       element.config = {
         schemes: {
           'anonymous http': {},
@@ -285,7 +285,7 @@ limitations under the License.
     });
     element = fixture('loggedIn');
     element.change = getChangeObject();
-    element.patchNum = 1;
+    element.patchNum = '1';
     element.config = {
       schemes: {'anonymous http': {}, 'http': {}, 'repo': {}, 'ssh': {}},
       archives: ['tgz', 'tar', 'tbz2', 'txz'],

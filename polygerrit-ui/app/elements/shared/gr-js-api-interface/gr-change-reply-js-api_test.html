@@ -23,9 +23,9 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <!--
-     This must refer to the element this interface is wrapping around. Otherwise
-     breaking changes to gr-reply-dialog won’t be noticed.
-   -->
+This must refer to the element this interface is wrapping around. Otherwise
+breaking changes to gr-reply-dialog won’t be noticed.
+-->
 <link rel="import" href="../../change/gr-reply-dialog/gr-reply-dialog.html">
 
 <script>void(0);</script>
@@ -61,13 +61,17 @@ limitations under the License.
     });
 
     test('calls', () => {
-      const setLabelValueStub = sinon.stub(element, 'setLabelValue');
-      changeReply.setLabelValue('My-Label', '+1337');
-      assert(setLabelValueStub.calledWithExactly('My-Label', '+1337'));
+      sandbox.stub(element, 'getLabelValue').returns('+123');
+      assert.equal(changeReply.getLabelValue('My-Label'), '+123');
 
-      const sendStub = sinon.stub(element, 'send');
+      sandbox.stub(element, 'setLabelValue');
+      changeReply.setLabelValue('My-Label', '+1337');
+      assert.isTrue(
+        element.setLabelValue.calledWithExactly('My-Label', '+1337'));
+
+      sandbox.stub(element, 'send');
       changeReply.send(false);
-      assert(sendStub.calledWithExactly(false));
+      assert.isTrue(element.send.calledWithExactly(false));
     });
   });
 </script>

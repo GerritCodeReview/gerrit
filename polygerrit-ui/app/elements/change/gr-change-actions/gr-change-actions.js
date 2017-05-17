@@ -17,7 +17,7 @@
   /**
    * @enum {number}
    */
-  var LabelStatus = {
+  const LabelStatus = {
     /**
      * This label provides what is necessary for submission.
      */
@@ -44,7 +44,7 @@
   };
 
   // TODO(davido): Add the rest of the change actions.
-  var ChangeActions = {
+  const ChangeActions = {
     ABANDON: 'abandon',
     DELETE: '/',
     IGNORE: 'ignore',
@@ -55,7 +55,7 @@
   };
 
   // TODO(andybons): Add the rest of the revision actions.
-  var RevisionActions = {
+  const RevisionActions = {
     CHERRYPICK: 'cherrypick',
     DELETE: '/',
     PUBLISH: 'publish',
@@ -64,25 +64,25 @@
     DOWNLOAD: 'download',
   };
 
-  var ActionLoadingLabels = {
-    'abandon': 'Abandoning...',
-    'cherrypick': 'Cherry-Picking...',
-    'delete': 'Deleting...',
-    'publish': 'Publishing...',
-    'rebase': 'Rebasing...',
-    'restore': 'Restoring...',
-    'revert': 'Reverting...',
-    'submit': 'Submitting...',
+  const ActionLoadingLabels = {
+    abandon: 'Abandoning...',
+    cherrypick: 'Cherry-Picking...',
+    delete: 'Deleting...',
+    publish: 'Publishing...',
+    rebase: 'Rebasing...',
+    restore: 'Restoring...',
+    revert: 'Reverting...',
+    submit: 'Submitting...',
   };
 
-  var ActionType = {
+  const ActionType = {
     CHANGE: 'change',
     REVISION: 'revision',
   };
 
-  var ADDITIONAL_ACTION_KEY_PREFIX = '__additionalAction_';
+  const ADDITIONAL_ACTION_KEY_PREFIX = '__additionalAction_';
 
-  var QUICK_APPROVE_ACTION = {
+  const QUICK_APPROVE_ACTION = {
     __key: 'review',
     __type: 'change',
     enabled: true,
@@ -91,7 +91,7 @@
     method: 'POST',
   };
 
-  var ActionPriority = {
+  const ActionPriority = {
     CHANGE: 2,
     DEFAULT: 0,
     PRIMARY: 3,
@@ -99,7 +99,7 @@
     REVISION: 1,
   };
 
-  var DOWNLOAD_ACTION = {
+  const DOWNLOAD_ACTION = {
     enabled: true,
     label: 'Download patch',
     title: 'Open download dialog',
@@ -133,11 +133,11 @@
       change: Object,
       actions: {
         type: Object,
-        value: function() { return {}; },
+        value() { return {}; },
       },
       primaryActionKeys: {
         type: Array,
-        value: function() {
+        value() {
           return [
             RevisionActions.PUBLISH,
             RevisionActions.SUBMIT,
@@ -162,7 +162,7 @@
       },
       revisionActions: {
         type: Object,
-        value: function() { return {}; },
+        value() { return {}; },
       },
 
       _loading: {
@@ -191,8 +191,8 @@
       },
       _overflowActions: {
         type: Array,
-        value: function() {
-          var value = [
+        value() {
+          const value = [
             {
               type: ActionType.CHANGE,
               key: ChangeActions.DELETE,
@@ -223,25 +223,25 @@
       },
       _actionPriorityOverrides: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
       _additionalActions: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
       _hiddenActions: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
       _disabledMenuActions: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
     },
 
-    ActionType: ActionType,
-    ChangeActions: ChangeActions,
-    RevisionActions: RevisionActions,
+    ActionType,
+    ChangeActions,
+    RevisionActions,
 
     behaviors: [
       Gerrit.PatchSetBehavior,
@@ -252,37 +252,37 @@
       '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*)',
     ],
 
-    ready: function() {
+    ready() {
       this.$.jsAPI.addElement(this.$.jsAPI.Element.CHANGE_ACTIONS, this);
       this._loading = false;
     },
 
-    reload: function() {
+    reload() {
       if (!this.changeNum || !this.patchNum) {
         return Promise.resolve();
       }
 
       this._loading = true;
-      return this._getRevisionActions().then(function(revisionActions) {
+      return this._getRevisionActions().then(revisionActions => {
         if (!revisionActions) { return; }
 
         this.revisionActions = revisionActions;
         this._loading = false;
-      }.bind(this)).catch(function(err) {
+      }).catch(err => {
         alert('Couldn’t load revision actions. Check the console ' +
             'and contact the PolyGerrit team for assistance.');
         this._loading = false;
         throw err;
-      }.bind(this));
+      });
     },
 
-    addActionButton: function(type, label) {
+    addActionButton(type, label) {
       if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
-        throw Error('Invalid action type: ' + type);
+        throw Error(`Invalid action type: ${type}`);
       }
-      var action = {
+      const action = {
         enabled: true,
-        label: label,
+        label,
         __type: type,
         __key: ADDITIONAL_ACTION_KEY_PREFIX +
             Math.random().toString(36).substr(2),
@@ -291,15 +291,15 @@
       return action.__key;
     },
 
-    removeActionButton: function(key) {
-      var idx = this._indexOfActionButtonWithKey(key);
+    removeActionButton(key) {
+      const idx = this._indexOfActionButtonWithKey(key);
       if (idx === -1) {
         return;
       }
       this.splice('_additionalActions', idx, 1);
     },
 
-    setActionButtonProp: function(key, prop, value) {
+    setActionButtonProp(key, prop, value) {
       this.set([
         '_additionalActions',
         this._indexOfActionButtonWithKey(key),
@@ -307,15 +307,15 @@
       ], value);
     },
 
-    setActionOverflow: function(type, key, overflow) {
+    setActionOverflow(type, key, overflow) {
       if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
-        throw Error('Invalid action type given: ' + type);
+        throw Error(`Invalid action type given: ${type}`);
       }
-      var index = this._getActionOverflowIndex(type, key);
-      var action = {
-        type: type,
-        key: key,
-        overflow: overflow,
+      const index = this._getActionOverflowIndex(type, key);
+      const action = {
+        type,
+        key,
+        overflow,
       };
       if (!overflow && index !== -1) {
         this.splice('_overflowActions', index, 1);
@@ -324,17 +324,17 @@
       }
     },
 
-    setActionPriority: function(type, key, priority) {
+    setActionPriority(type, key, priority) {
       if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
-        throw Error('Invalid action type given: ' + type);
+        throw Error(`Invalid action type given: ${type}`);
       }
-      var index = this._actionPriorityOverrides.findIndex(function(action) {
+      const index = this._actionPriorityOverrides.findIndex(action => {
         return action.type === type && action.key === key;
       });
-      var action = {
-        type: type,
-        key: key,
-        priority: priority,
+      const action = {
+        type,
+        key,
+        priority,
       };
       if (index !== -1) {
         this.set('_actionPriorityOverrides', index, action);
@@ -343,12 +343,12 @@
       }
     },
 
-    setActionHidden: function(type, key, hidden) {
+    setActionHidden(type, key, hidden) {
       if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
-        throw Error('Invalid action type given: ' + type);
+        throw Error(`Invalid action type given: ${type}`);
       }
 
-      var idx = this._hiddenActions.indexOf(key);
+      const idx = this._hiddenActions.indexOf(key);
       if (hidden && idx === -1) {
         this.push('_hiddenActions', key);
       } else if (!hidden && idx !== -1) {
@@ -356,8 +356,8 @@
       }
     },
 
-    _indexOfActionButtonWithKey: function(key) {
-      for (var i = 0; i < this._additionalActions.length; i++) {
+    _indexOfActionButtonWithKey(key) {
+      for (let i = 0; i < this._additionalActions.length; i++) {
         if (this._additionalActions[i].__key === key) {
           return i;
         }
@@ -365,22 +365,22 @@
       return -1;
     },
 
-    _getRevisionActions: function() {
+    _getRevisionActions() {
       return this.$.restAPI.getChangeRevisionActions(this.changeNum,
           this.patchNum);
     },
 
-    _shouldHideActions: function(actions, loading) {
+    _shouldHideActions(actions, loading) {
       return loading || !actions || !actions.base || !actions.base.length;
     },
 
-    _keyCount: function(changeRecord) {
+    _keyCount(changeRecord) {
       return Object.keys((changeRecord && changeRecord.base) || {}).length;
     },
 
-    _actionsChanged: function(actionsChangeRecord, revisionActionsChangeRecord,
+    _actionsChanged(actionsChangeRecord, revisionActionsChangeRecord,
         additionalActionsChangeRecord) {
-      var additionalActions = (additionalActionsChangeRecord &&
+      const additionalActions = (additionalActionsChangeRecord &&
           additionalActionsChangeRecord.base) || [];
       this.hidden = this._keyCount(actionsChangeRecord) === 0 &&
           this._keyCount(revisionActionsChangeRecord) === 0 &&
@@ -388,20 +388,20 @@
       this._actionLoadingMessage = null;
       this._disabledMenuActions = [];
 
-      var revisionActions = revisionActionsChangeRecord.base || {};
+      const revisionActions = revisionActionsChangeRecord.base || {};
       if (Object.keys(revisionActions).length !== 0 &&
           !revisionActions.download) {
         this.set('revisionActions.download', DOWNLOAD_ACTION);
       }
     },
 
-    _getValuesFor: function(obj) {
-      return Object.keys(obj).map(function(key) {
+    _getValuesFor(obj) {
+      return Object.keys(obj).map(key => {
         return obj[key];
       });
     },
 
-    _getLabelStatus: function(label) {
+    _getLabelStatus(label) {
       if (label.approved) {
         return LabelStatus.OK;
       } else if (label.rejected) {
@@ -419,21 +419,21 @@
      *
      * @return {{label: string, score: string}}
      */
-    _getTopMissingApproval: function() {
+    _getTopMissingApproval() {
       if (!this.change ||
           !this.change.labels ||
           !this.change.permitted_labels) {
         return null;
       }
-      var result;
-      for (var label in this.change.labels) {
+      let result;
+      for (const label in this.change.labels) {
         if (!(label in this.change.permitted_labels)) {
           continue;
         }
         if (this.change.permitted_labels[label].length === 0) {
           continue;
         }
-        var status = this._getLabelStatus(this.change.labels[label]);
+        const status = this._getLabelStatus(this.change.labels[label]);
         if (status === LabelStatus.NEED) {
           if (result) {
             // More than one label is missing, so it's unclear which to quick
@@ -442,33 +442,33 @@
           }
           result = label;
         } else if (status === LabelStatus.REJECT ||
-                   status === LabelStatus.IMPOSSIBLE) {
+            status === LabelStatus.IMPOSSIBLE) {
           return null;
         }
       }
       if (result) {
-        var score = this.change.permitted_labels[result].slice(-1)[0];
-        var maxScore =
+        const score = this.change.permitted_labels[result].slice(-1)[0];
+        const maxScore =
             Object.keys(this.change.labels[result].values).slice(-1)[0];
         if (score === maxScore) {
           // Allow quick approve only for maximal score.
           return {
             label: result,
-            score: score,
+            score,
           };
         }
       }
       return null;
     },
 
-    _getQuickApproveAction: function() {
-      var approval = this._getTopMissingApproval();
+    _getQuickApproveAction() {
+      const approval = this._getTopMissingApproval();
       if (!approval) {
         return null;
       }
-      var action = Object.assign({}, QUICK_APPROVE_ACTION);
+      const action = Object.assign({}, QUICK_APPROVE_ACTION);
       action.label = approval.label + approval.score;
-      var review = {
+      const review = {
         drafts: 'PUBLISH_ALL_REVISIONS',
         labels: {},
       };
@@ -477,20 +477,20 @@
       return action;
     },
 
-    _getActionValues: function(actionsChangeRecord, primariesChangeRecord,
+    _getActionValues(actionsChangeRecord, primariesChangeRecord,
         additionalActionsChangeRecord, type) {
       if (!actionsChangeRecord || !primariesChangeRecord) { return []; }
 
-      var actions = actionsChangeRecord.base || {};
-      var primaryActionKeys = primariesChangeRecord.base || [];
-      var result = [];
-      var values = this._getValuesFor(
+      const actions = actionsChangeRecord.base || {};
+      const primaryActionKeys = primariesChangeRecord.base || [];
+      const result = [];
+      const values = this._getValuesFor(
           type === ActionType.CHANGE ? ChangeActions : RevisionActions);
-      for (var a in actions) {
-        if (values.indexOf(a) === -1) { continue; }
+      for (const a in actions) {
+        if (!values.includes(a)) { continue; }
         actions[a].__key = a;
         actions[a].__type = type;
-        actions[a].__primary = primaryActionKeys.indexOf(a) !== -1;
+        actions[a].__primary = primaryActionKeys.includes(a);
         if (actions[a].label === 'Delete') {
           // This label is common within change and revision actions. Make it
           // more explicit to the user.
@@ -505,32 +505,30 @@
         result.push(Object.assign({}, actions[a]));
       }
 
-      var additionalActions = (additionalActionsChangeRecord &&
+      let additionalActions = (additionalActionsChangeRecord &&
       additionalActionsChangeRecord.base) || [];
-      additionalActions = additionalActions.filter(function(a) {
+      additionalActions = additionalActions.filter(a => {
         return a.__type === type;
-      }).map(function(a) {
-        a.__primary = primaryActionKeys.indexOf(a.__key) !== -1;
+      }).map(a => {
+        a.__primary = primaryActionKeys.includes(a.__key);
         // Triggers a re-render by ensuring object inequality.
-        // TODO(andybons): Polyfill for Object.assign.
         return Object.assign({}, a);
       });
       return result.concat(additionalActions);
     },
 
-    _computeLoadingLabel: function(action) {
+    _computeLoadingLabel(action) {
       return ActionLoadingLabels[action] || 'Working...';
     },
 
-    _canSubmitChange: function() {
+    _canSubmitChange() {
       return this.$.jsAPI.canSubmitChange(this.change,
           this._getRevision(this.change, this.patchNum));
     },
 
-    _getRevision: function(change, patchNum) {
-      var num = window.parseInt(patchNum, 10);
-      for (var hash in change.revisions) {
-        var rev = change.revisions[hash];
+    _getRevision(change, patchNum) {
+      const num = window.parseInt(patchNum, 10);
+      for (const rev of Object.values(change.revisions)) {
         if (rev._number === num) {
           return rev;
         }
@@ -538,35 +536,35 @@
       return null;
     },
 
-    _modifyRevertMsg: function() {
+    _modifyRevertMsg() {
       return this.$.jsAPI.modifyRevertMsg(this.change,
           this.$.confirmRevertDialog.message, this.commitMessage);
     },
 
-    showRevertDialog: function() {
+    showRevertDialog() {
       this.$.confirmRevertDialog.populateRevertMessage(
           this.commitMessage, this.change.current_revision);
       this.$.confirmRevertDialog.message = this._modifyRevertMsg();
       this._showActionDialog(this.$.confirmRevertDialog);
     },
 
-    _handleActionTap: function(e) {
+    _handleActionTap(e) {
       e.preventDefault();
-      var el = Polymer.dom(e).rootTarget;
-      var key = el.getAttribute('data-action-key');
-      if (key.indexOf(ADDITIONAL_ACTION_KEY_PREFIX) === 0) {
-        this.fire(key + '-tap', {node: el});
+      const el = Polymer.dom(e).rootTarget;
+      const key = el.getAttribute('data-action-key');
+      if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX)) {
+        this.fire(`${key}-tap`, {node: el});
         return;
       }
-      var type = el.getAttribute('data-action-type');
+      const type = el.getAttribute('data-action-type');
       this._handleAction(type, key);
     },
 
-    _handleOveflowItemTap: function(e) {
+    _handleOveflowItemTap(e) {
       this._handleAction(e.detail.action.__type, e.detail.action.__key);
     },
 
-    _handleAction: function(type, key) {
+    _handleAction(type, key) {
       switch (type) {
         case ActionType.REVISION:
           this._handleRevisionAction(key);
@@ -579,7 +577,8 @@
       }
     },
 
-    _handleChangeAction: function(key) {
+    _handleChangeAction(key) {
+      let action;
       switch (key) {
         case ChangeActions.REVERT:
           this.showRevertDialog();
@@ -588,7 +587,7 @@
           this._showActionDialog(this.$.confirmAbandonDialog);
           break;
         case QUICK_APPROVE_ACTION.key:
-          var action = this._allActionValues.find(function(o) {
+          action = this._allActionValues.find(o => {
             return o.key === key;
           });
           this._fireAction(
@@ -605,7 +604,7 @@
       }
     },
 
-    _handleRevisionAction: function(key) {
+    _handleRevisionAction(key) {
       switch (key) {
         case RevisionActions.REBASE:
           this._showActionDialog(this.$.confirmRebase);
@@ -623,15 +622,15 @@
           if (!this._canSubmitChange()) {
             return;
           }
-        /* falls through */ // required by JSHint
+        // eslint-disable-next-line no-fallthrough
         default:
           this._fireAction(this._prependSlash(key),
               this.revisionActions[key], true);
       }
     },
 
-    _prependSlash: function(key) {
-      return key === '/' ? key : '/' + key;
+    _prependSlash(key) {
+      return key === '/' ? key : `/${key}`;
     },
 
     /**
@@ -639,40 +638,38 @@
      * returns false otherwise.
      * @return {boolean} hasParent
      */
-    _computeChainState: function(hasParent) {
+    _computeChainState(hasParent) {
       this._hasKnownChainState = true;
     },
 
-    _calculateDisabled: function(action, hasKnownChainState) {
+    _calculateDisabled(action, hasKnownChainState) {
       if (action.__key === 'rebase' && hasKnownChainState === false) {
         return true;
       }
       return !action.enabled;
     },
 
-    _handleConfirmDialogCancel: function() {
+    _handleConfirmDialogCancel() {
       this._hideAllDialogs();
     },
 
-    _hideAllDialogs: function() {
-      var dialogEls =
+    _hideAllDialogs() {
+      const dialogEls =
           Polymer.dom(this.root).querySelectorAll('.confirmDialog');
-      for (var i = 0; i < dialogEls.length; i++) {
-        dialogEls[i].hidden = true;
-      }
+      for (const dialogEl of dialogEls) { dialogEl.hidden = true; }
       this.$.overlay.close();
     },
 
-    _handleRebaseConfirm: function() {
-      var el = this.$.confirmRebase;
-      var payload = {base: el.base};
+    _handleRebaseConfirm() {
+      const el = this.$.confirmRebase;
+      const payload = {base: el.base};
       this.$.overlay.close();
       el.hidden = true;
       this._fireAction('/rebase', this.revisionActions.rebase, true, payload);
     },
 
-    _handleCherrypickConfirm: function() {
-      var el = this.$.confirmCherrypick;
+    _handleCherrypickConfirm() {
+      const el = this.$.confirmCherrypick;
       if (!el.branch) {
         // TODO(davido): Fix error handling
         alert('The destination branch can’t be empty.');
@@ -695,33 +692,33 @@
       );
     },
 
-    _handleRevertDialogConfirm: function() {
-      var el = this.$.confirmRevertDialog;
+    _handleRevertDialogConfirm() {
+      const el = this.$.confirmRevertDialog;
       this.$.overlay.close();
       el.hidden = true;
       this._fireAction('/revert', this.actions.revert, false,
           {message: el.message});
     },
 
-    _handleAbandonDialogConfirm: function() {
-      var el = this.$.confirmAbandonDialog;
+    _handleAbandonDialogConfirm() {
+      const el = this.$.confirmAbandonDialog;
       this.$.overlay.close();
       el.hidden = true;
       this._fireAction('/abandon', this.actions.abandon, false,
           {message: el.message});
     },
 
-    _handleDeleteConfirm: function() {
+    _handleDeleteConfirm() {
       this._fireAction('/', this.actions[ChangeActions.DELETE], false);
     },
 
-    _getActionOverflowIndex: function(type, key) {
-      return this._overflowActions.findIndex(function(action) {
+    _getActionOverflowIndex(type, key) {
+      return this._overflowActions.findIndex(action => {
         return action.type === type && action.key === key;
       });
     },
 
-    _setLoadingOnButtonWithKey: function(type, key) {
+    _setLoadingOnButtonWithKey(type, key) {
       this._actionLoadingMessage = this._computeLoadingLabel(key);
 
       // If the action appears in the overflow menu.
@@ -734,7 +731,7 @@
       }
 
       // Otherwise it's a top-level action.
-      var buttonEl = this.$$('[data-action-key="' + key + '"]');
+      const buttonEl = this.$$(`[data-action-key="${key}"]`);
       buttonEl.setAttribute('loading', true);
       buttonEl.disabled = true;
       return function() {
@@ -744,18 +741,18 @@
       }.bind(this);
     },
 
-    _fireAction: function(endpoint, action, revAction, opt_payload) {
-      var cleanupFn =
+    _fireAction(endpoint, action, revAction, opt_payload) {
+      const cleanupFn =
           this._setLoadingOnButtonWithKey(action.__type, action.__key);
       this._send(action.method, opt_payload, endpoint, revAction, cleanupFn)
           .then(this._handleResponse.bind(this, action));
     },
 
-    _showActionDialog: function(dialog) {
+    _showActionDialog(dialog) {
       this._hideAllDialogs();
 
       dialog.hidden = false;
-      this.$.overlay.open().then(function() {
+      this.$.overlay.open().then(() => {
         if (dialog.resetFocus) {
           dialog.resetFocus();
         }
@@ -764,17 +761,17 @@
 
     // TODO(rmistry): Redo this after
     // https://bugs.chromium.org/p/gerrit/issues/detail?id=4671 is resolved.
-    _setLabelValuesOnRevert: function(newChangeId) {
-      var labels = this.$.jsAPI.getLabelValuesPostRevert(this.change);
+    _setLabelValuesOnRevert(newChangeId) {
+      const labels = this.$.jsAPI.getLabelValuesPostRevert(this.change);
       if (labels) {
-        var url = '/changes/' + newChangeId + '/revisions/current/review';
-        this.$.restAPI.send(this.actions.revert.method, url, {labels: labels});
+        const url = `/changes/${newChangeId}/revisions/current/review`;
+        this.$.restAPI.send(this.actions.revert.method, url, {labels});
       }
     },
 
-    _handleResponse: function(action, response) {
+    _handleResponse(action, response) {
       if (!response) { return; }
-      return this.$.restAPI.getResponseObject(response).then(function(obj) {
+      return this.$.restAPI.getResponseObject(response).then(obj => {
         switch (action.__key) {
           case ChangeActions.REVERT:
             this._setLabelValuesOnRevert(obj.change_id);
@@ -798,66 +795,66 @@
                 {detail: {action: action.__key}, bubbles: false}));
             break;
         }
-      }.bind(this));
+      });
     },
 
-    _handleResponseError: function(response) {
-      return response.text().then(function(errText) {
+    _handleResponseError(response) {
+      return response.text().then(errText => {
         this.fire('show-alert',
-            { message: 'Could not perform action: ' + errText });
-        if (errText.indexOf('Change is already up to date') !== 0) {
+            {message: `Could not perform action: ${errText}`});
+        if (!errText.startsWith('Change is already up to date')) {
           throw Error(errText);
         }
-      }.bind(this));
+      });
     },
 
-    _send: function(method, payload, actionEndpoint, revisionAction, cleanupFn,
+    _send(method, payload, actionEndpoint, revisionAction, cleanupFn,
         opt_errorFn) {
       return this.fetchIsLatestKnown(this.change, this.$.restAPI)
-          .then(function(isLatest) {
+          .then(isLatest => {
             if (!isLatest) {
               this.fire('show-alert', {
-                  message: 'Cannot set label: a newer patch has been ' +
-                      'uploaded to this change.',
-                  action: 'Reload',
-                  callback: function() {
+                message: 'Cannot set label: a newer patch has been ' +
+                    'uploaded to this change.',
+                action: 'Reload',
+                callback: () => {
                     // Load the current change without any patch range.
-                    location.href = this.getBaseUrl() + '/c/' +
-                        this.change._number;
-                  }.bind(this),
+                  location.href = `${this.getBaseUrl()}/c/${
+                      this.change._number}`;
+                },
               });
               cleanupFn();
               return Promise.resolve();
             }
 
-            var url = this.$.restAPI.getChangeActionURL(this.changeNum,
+            const url = this.$.restAPI.getChangeActionURL(this.changeNum,
                 revisionAction ? this.patchNum : null, actionEndpoint);
             return this.$.restAPI.send(method, url, payload,
-                this._handleResponseError, this).then(function(response) {
+                this._handleResponseError, this).then(response => {
                   cleanupFn.call(this);
                   return response;
-            }.bind(this));
-        }.bind(this));
+                });
+          });
     },
 
-    _handleAbandonTap: function() {
+    _handleAbandonTap() {
       this._showActionDialog(this.$.confirmAbandonDialog);
     },
 
-    _handleCherrypickTap: function() {
+    _handleCherrypickTap() {
       this.$.confirmCherrypick.branch = '';
       this._showActionDialog(this.$.confirmCherrypick);
     },
 
-    _handleDownloadTap: function() {
+    _handleDownloadTap() {
       this.fire('download-tap', null, {bubbles: false});
     },
 
-    _handleDeleteTap: function() {
+    _handleDeleteTap() {
       this._showActionDialog(this.$.confirmDeleteDialog);
     },
 
-    _handleWipTap: function() {
+    _handleWipTap() {
       this._fireAction('/wip', this.actions.wip, false);
     },
 
@@ -871,13 +868,13 @@
      * @param {Object} change The change object.
      * @return {Array}
      */
-    _computeAllActions: function(changeActionsRecord, revisionActionsRecord,
+    _computeAllActions(changeActionsRecord, revisionActionsRecord,
         primariesRecord, additionalActionsRecord, change) {
-      var revisionActionValues = this._getActionValues(revisionActionsRecord,
+      const revisionActionValues = this._getActionValues(revisionActionsRecord,
           primariesRecord, additionalActionsRecord, ActionType.REVISION);
-      var changeActionValues = this._getActionValues(changeActionsRecord,
+      const changeActionValues = this._getActionValues(changeActionsRecord,
           primariesRecord, additionalActionsRecord, ActionType.CHANGE, change);
-      var quickApprove = this._getQuickApproveAction();
+      const quickApprove = this._getQuickApproveAction();
       if (quickApprove) {
         changeActionValues.unshift(quickApprove);
       }
@@ -886,9 +883,9 @@
           .sort(this._actionComparator.bind(this));
     },
 
-    _getActionPriority: function(action) {
+    _getActionPriority(action) {
       if (action.__type && action.__key) {
-        var overrideAction = this._actionPriorityOverrides.find(function(i) {
+        const overrideAction = this._actionPriorityOverrides.find(i => {
           return i.type === action.__type && i.key === action.__key;
         });
 
@@ -911,8 +908,8 @@
     /**
      * Sort comparator to define the order of change actions.
      */
-    _actionComparator: function(actionA, actionB) {
-      var priorityDelta = this._getActionPriority(actionA) -
+    _actionComparator(actionA, actionB) {
+      const priorityDelta = this._getActionPriority(actionA) -
           this._getActionPriority(actionB);
       // Sort by the button label if same priority.
       if (priorityDelta === 0) {
@@ -922,26 +919,26 @@
       }
     },
 
-    _computeTopLevelActions: function(actionRecord, hiddenActionsRecord) {
-      var hiddenActions = hiddenActionsRecord.base || [];
-      return actionRecord.base.filter(function(a) {
-        var overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
-        return !overflow && hiddenActions.indexOf(a.__key) === -1;
-      }.bind(this));
+    _computeTopLevelActions(actionRecord, hiddenActionsRecord) {
+      const hiddenActions = hiddenActionsRecord.base || [];
+      return actionRecord.base.filter(a => {
+        const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
+        return !(overflow || hiddenActions.includes(a.__key));
+      });
     },
 
-    _computeMenuActions: function(actionRecord, hiddenActionsRecord) {
-      var hiddenActions = hiddenActionsRecord.base || [];
-      return actionRecord.base.filter(function(a) {
-        var overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
-        return overflow && hiddenActions.indexOf(a.__key) === -1;
-      }.bind(this)).map(function(action) {
-        var key = action.__key;
+    _computeMenuActions(actionRecord, hiddenActionsRecord) {
+      const hiddenActions = hiddenActionsRecord.base || [];
+      return actionRecord.base.filter(a => {
+        const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
+        return overflow && !hiddenActions.includes(a.__key);
+      }).map(action => {
+        let key = action.__key;
         if (key === '/') { key = 'delete'; }
         return {
           name: action.label,
-          id: key + '-' + action.__type,
-          action: action,
+          id: `${key}-${action.__type}`,
+          action,
         };
       });
     },

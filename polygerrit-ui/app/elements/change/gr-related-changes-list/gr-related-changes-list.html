@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-link/gr-link.html">
 
 <dom-module id="gr-related-changes-list">
   <template>
@@ -103,11 +104,13 @@ limitations under the License.
             items="[[_relatedResponse.changes]]"
             as="related">
           <div class$="rightIndent [[_computeChangeContainerClass(change, related)]]">
-            <a href$="[[_computeChangeURL(related._change_number, related._revision_number)]]"
+            <gr-link
+                relative
+                url="[[_computeChangeURL(related._change_number, related._revision_number)]]"
                 class$="[[_computeLinkClass(related)]]"
-                title$="[[related.commit.subject]]">
+                title="[[related.commit.subject]]">
               [[related.commit.subject]]
-            </a>
+            </gr-link>
             <span class$="[[_computeChangeStatusClass(related)]]">
               ([[_computeChangeStatus(related)]])
             </span>
@@ -118,11 +121,13 @@ limitations under the License.
         <h4>Submitted together</h4>
         <template is="dom-repeat" items="[[_submittedTogether]]" as="change">
           <div>
-            <a href$="[[_computeChangeURL(change._number)]]"
+            <gr-link
+                relative
+                url="[[_computeChangeURL(change._number)]]"
                 class$="[[_computeLinkClass(change)]]"
-                title$="[[change.project]]: [[change.branch]]: [[change.subject]]">
+                title="[[change.project]]: [[change.branch]]: [[change.subject]]">
               [[change.project]]: [[change.branch]]: [[change.subject]]
-            </a>
+            </gr-link>
           </div>
         </template>
       </section>
@@ -130,11 +135,13 @@ limitations under the License.
         <h4>Same topic</h4>
         <template is="dom-repeat" items="[[_sameTopic]]" as="change">
           <div>
-            <a href$="[[_computeChangeURL(change._number)]]"
+            <gr-link
+                relative
+                url="[[_computeChangeURL(change._number)]]"
                 class$="[[_computeLinkClass(change)]]"
-                title$="[[change.project]]: [[change.branch]]: [[change.subject]]">
+                title="[[change.project]]: [[change.branch]]: [[change.subject]]">
               [[change.project]]: [[change.branch]]: [[change.subject]]
-            </a>
+            </gr-link>
           </div>
         </template>
       </section>
@@ -142,11 +149,13 @@ limitations under the License.
         <h4>Merge conflicts</h4>
         <template is="dom-repeat" items="[[_conflicts]]" as="change">
           <div>
-            <a href$="[[_computeChangeURL(change._number)]]"
+            <gr-link
+                relative
+                url="[[_computeChangeURL(change._number)]]"
                 class$="[[_computeLinkClass(change)]]"
-                title$="[[change.subject]]">
+                title="[[change.subject]]">
               [[change.subject]]
-            </a>
+            </gr-link>
           </div>
         </template>
       </section>
@@ -154,11 +163,13 @@ limitations under the License.
         <h4>Cherry picks</h4>
         <template is="dom-repeat" items="[[_cherryPicks]]" as="change">
           <div>
-            <a href$="[[_computeChangeURL(change._number)]]"
+            <gr-link
+                relative
+                url="[[_computeChangeURL(change._number)]]"
                 class$="[[_computeLinkClass(change)]]"
-                title$="[[change.branch]]: [[change.subject]]">
+                title="[[change.branch]]: [[change.subject]]">
               [[change.branch]]: [[change.subject]]
-            </a>
+            </gr-link>
           </div>
         </template>
       </section>

@@ -22,6 +22,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
+<link rel="import" href="../../shared/gr-link/gr-link.html">
 
 <dom-module id="gr-change-list-item">
   <template>
@@ -69,13 +70,11 @@ limitations under the License.
         height: 0;
         overflow: hidden;
       }
-      a {
-        color: var(--default-text-color);
+      gr-link {
         display: block;
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
+        --gr-link-anchor: {
+          color: var(--default-text-color);
+        }
       }
       .positionIndicator {
         visibility: hidden;
@@ -109,15 +108,19 @@ limitations under the License.
       <gr-change-star change="{{change}}"></gr-change-star>
     </td>
     <td class="cell number" hidden$="[[!showNumber]]" hidden>
-      <a href$="[[changeURL]]"> [[change._number]]</a>
+      <gr-link relative url="[[changeURL]]"> [[change._number]]</gr-link>
     </td>
     <td class="cell subject"
         hidden$="[[isColumnHidden('Subject', visibleChangeTableColumns)]]">
       <div class="container">
         <div class="content">
-          <a title$="[[change.subject]]" href$="[[changeURL]]">
-            [[change.subject]]
-          </a>
+          <gr-link
+              relative
+              hover-underline
+              url="[[changeURL]]"
+              title="[[change.subject]]">
+           [[change.subject]]
+         </gr-link>
         </div>
         <div class="spacer">
            [[change.subject]]
@@ -135,13 +138,22 @@ limitations under the License.
     </td>
     <td class="cell project"
         hidden$="[[isColumnHidden('Project', visibleChangeTableColumns)]]">
-      <a href$="[[_computeProjectURL(change.project)]]">[[change.project]]</a>
+      <gr-link
+          relative
+          hover-underline
+          url="[[_computeProjectURL(change.project)]]"
+          title="[[change.subject]]">
+       [[change.project]]
+     </gr-link>
     </td>
     <td class="cell branch"
         hidden$="[[isColumnHidden('Branch', visibleChangeTableColumns)]]">
-      <a href$="[[_computeProjectBranchURL(change.project, change.branch)]]">
-        [[change.branch]]
-      </a>
+      <gr-link
+          relative
+          hover-underline
+          url="[[_computeProjectBranchURL(change.project, change.branch)]]">
+       [[change.branch]]
+     </gr-link>
     </td>
     <td class="cell updated"
         hidden$="[[isColumnHidden('Updated', visibleChangeTableColumns)]]">

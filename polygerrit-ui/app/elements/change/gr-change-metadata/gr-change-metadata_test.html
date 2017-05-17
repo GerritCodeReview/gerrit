@@ -132,20 +132,30 @@ limitations under the License.
     });
 
     test('weblinks are visible when other weblinks', () => {
-      element.commitInfo = {web_links: [{name: 'test', url: '#'}]};
+      element.commitInfo = {
+        web_links: [{name: 'test', url: 'http://google.com/'}]
+      };
       flushAsynchronousOperations();
       const webLinks = element.$.webLinks;
       assert.isFalse(webLinks.hasAttribute('hidden'));
       assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
       // With two non-gitiles weblinks, there are two returned.
       element.commitInfo = {
-        web_links: [{name: 'test', url: '#'}, {name: 'test2', url: '#'}]};
+        web_links: [
+          {name: 'test', url: 'http://google.com/'},
+          {name: 'test2', url: 'http://google.com/'}
+        ]
+      };
       assert.equal(element._computeWebLinks(element.commitInfo).length, 2);
     });
 
     test('weblinks are visible when gitiles and other weblinks', () => {
       element.commitInfo = {
-        web_links: [{name: 'test', url: '#'}, {name: 'gitiles', url: '#'}]};
+        web_links: [
+          {name: 'test', url: 'http://google.com/'},
+          {name: 'gitiles', url: 'http://google.com/'}
+        ]
+      };
       flushAsynchronousOperations();
       const webLinks = element.$.webLinks;
       assert.isFalse(webLinks.hasAttribute('hidden'));

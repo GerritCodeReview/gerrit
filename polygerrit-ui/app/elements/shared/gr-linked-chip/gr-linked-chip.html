@@ -16,6 +16,8 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../gr-button/gr-button.html">
+<link rel="import" href="../gr-link/gr-link.html">
+
 <dom-module id="gr-linked-chip">
   <template>
     <style>
@@ -55,7 +57,7 @@ limitations under the License.
       }
     </style>
     <div class$="container [[_getBackgroundClass(transparentBackground)]]">
-      <a href$="[[href]]">[[text]]</a>
+      <gr-link relative url="[[url]]">[[text]]</gr-link>
       <gr-button
           id="remove"
           hidden$="[[!removable]]"

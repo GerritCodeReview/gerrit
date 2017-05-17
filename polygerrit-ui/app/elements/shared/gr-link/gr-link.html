@@ -1,5 +1,5 @@
 <!--
-Copyright (C) 2016 The Android Open Source Project
+Copyright (C) 2017 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,26 +13,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../shared/gr-link/gr-link.html">
-
-<dom-module id="gr-commit-info">
-  <template>
+<dom-module id="gr-link">
+  <template strip-whitespace>
     <style>
-      :host {
-        display: inline-block;
+      :host a {
+        @apply --gr-link-anchor;
+      }
+      :host(.underlineOnHover) a {
+        text-decoration: none;
+      }
+      :host(.underlineOnHover):hover a {
+        text-decoration: underline;
       }
     </style>
-    <template is="dom-if" if="[[_showWebLink]]">
-      <gr-link
-          target-blank
-          absolute
-          url="[[_webLink]]">[[_computeShortHash(commitInfo)]]</gr-link>
-    </template>
-    <template is="dom-if" if="[[!_showWebLink]]">
-      [[_computeShortHash(commitInfo)]]
-    </template>
+    <a id="a"
+        title$="[[title]]"
+        aria-label$="[[ariaLabel]]">
+      <content></content>
+    </a>
   </template>
-  <script src="gr-commit-info.js"></script>
+  <script src="gr-link.js"></script>
 </dom-module>

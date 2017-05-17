@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "bab451de_7974ff54",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T18:41:20Z",
+      "side": 1,
+      "message": "Reverted.. Whoops.",
+      "parentUuid": "99417903_53069b40",
+      "revId": "8f5af3521e4fe4e3a610d0046293a38060ec0c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa75ed4e_e451d1ff",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 3

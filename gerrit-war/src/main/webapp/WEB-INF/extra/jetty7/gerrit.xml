@@ -46,7 +46,7 @@
         <Set name="password">secretkey</Set>
 -->
 <!--  MySQL
-        <Set name="driverClassName">com.mysql.jdbc.Driver</Set>
+        <Set name="driverClassName">com.mysql.cj.jdbc.Driver</Set>
         <Set name="url">jdbc:mysql://localhost/reviewdb?user=gerrit2&amp;password=secretkey</Set>
 -->
 <!--  MariaDB

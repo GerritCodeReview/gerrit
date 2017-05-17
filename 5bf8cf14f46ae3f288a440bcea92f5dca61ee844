@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14e3b628_2600c40f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 74
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T00:00:56Z",
+      "side": 1,
+      "message": "Transpile this file to ES6, please.",
+      "revId": "5bf8cf14f46ae3f288a440bcea92f5dca61ee844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4332d3c1_d28d8ba4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html",
+        "patchSetId": 74
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T00:00:56Z",
+      "side": 1,
+      "message": "Transpile this file to ES6, please.",
+      "revId": "5bf8cf14f46ae3f288a440bcea92f5dca61ee844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "456b4b2e_ea154348",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html",
+        "patchSetId": 74
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-17T00:00:56Z",
+      "side": 1,
+      "message": "\u003e80ch.",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 9
+      },
+      "revId": "5bf8cf14f46ae3f288a440bcea92f5dca61ee844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "072306a3_e77c0d4d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-17T21:54:27Z",
+      "side": 1,
+      "message": "For shadow DOM, this may need to be:\n\n :host(.fixedPosition)",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 27
+      },
+      "revId": "b67a14a723f68d006e1ff118e8bd6ce4983374a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70799308_fc563397",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-17T21:54:27Z",
+      "side": 1,
+      "message": "s/fixedl/fixed;/",
+      "range": {
+        "startLine": 32,
+        "startChar": 18,
+        "endLine": 32,
+        "endChar": 24
+      },
+      "revId": "b67a14a723f68d006e1ff118e8bd6ce4983374a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "549fefaa_355b6b69",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-17T21:54:27Z",
+      "side": 1,
+      "message": "Super nitpicky nit: what if this were just called\n\n fixed\n\nDon\u0027t feel strongly, just to avoid redundancy/coupling between the classname and the CSS props that are under it.\n\nWith a name that describes the intent more-abstractly, then it might feel more appropriate to add related CSS properties someday if needed.\n\nThe same is true for the Polymer property. Maybe that can just be called fixed too. fixedPosition is good too, though.",
+      "range": {
+        "startLine": 59,
+        "startChar": 29,
+        "endLine": 59,
+        "endChar": 42
+      },
+      "revId": "b67a14a723f68d006e1ff118e8bd6ce4983374a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06e896ca_e0fabea9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-17T21:54:27Z",
+      "side": 1,
+      "message": "Nit: Can we just call it gr-textarea? The autogrow aspect can maybe be assumed as part of our unique brand of fancy customized textareas.",
+      "range": {
+        "startLine": 25,
+        "startChar": 16,
+        "endLine": 25,
+        "endChar": 36
+      },
+      "revId": "b67a14a723f68d006e1ff118e8bd6ce4983374a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcd24945_cf2cf132",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-17T21:54:27Z",
+      "side": 1,
+      "message": "Remove these internal blank lines.",
+      "revId": "b67a14a723f68d006e1ff118e8bd6ce4983374a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50a00728_fa106676",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-17T21:54:27Z",
+      "side": 1,
+      "message": "This can be\n\n _suggestions: Array,",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 95,
+        "endChar": 8
+      },
+      "revId": "b67a14a723f68d006e1ff118e8bd6ce4983374a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

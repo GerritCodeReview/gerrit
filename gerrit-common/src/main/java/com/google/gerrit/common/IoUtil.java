@@ -56,6 +56,10 @@ public final class IoUtil {
   }
 
   public static void loadJARs(Collection<Path> jars) {
+    if (jars.isEmpty()) {
+      return;
+    }
+
     ClassLoader cl = IoUtil.class.getClassLoader();
     if (!(cl instanceof URLClassLoader)) {
       throw noAddURL("Not loaded by URLClassLoader", null);

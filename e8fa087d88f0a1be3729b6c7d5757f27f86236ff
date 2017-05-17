@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96095cd7_a9e01500",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T18:15:38Z",
+      "side": 1,
+      "message": "for-of?",
+      "revId": "e8fa087d88f0a1be3729b6c7d5757f27f86236ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0ed08b3_ea459cff",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T18:15:38Z",
+      "side": 1,
+      "message": "can for-of work here?",
+      "range": {
+        "startLine": 452,
+        "startChar": 6,
+        "endLine": 452,
+        "endChar": 51
+      },
+      "revId": "e8fa087d88f0a1be3729b6c7d5757f27f86236ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93280a40_b3a3f44b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-17T18:15:38Z",
+      "side": 1,
+      "message": "maybe use `` here so that the + is not needed.",
+      "range": {
+        "startLine": 370,
+        "startChar": 10,
+        "endLine": 371,
+        "endChar": 77
+      },
+      "revId": "e8fa087d88f0a1be3729b6c7d5757f27f86236ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -46,6 +46,122 @@
       "revId": "be84e3bceb71cd8a10ab30c5b9179d98970c4d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9508f11a_d016dbed",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 77
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-18T21:47:00Z",
+      "side": 1,
+      "message": "Should it be shown all the time? Why an S?",
+      "parentUuid": "e0378abd_301999f9",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 45
+      },
+      "revId": "be84e3bceb71cd8a10ab30c5b9179d98970c4d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07a44cc7_9d740792",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 77
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-18T21:47:00Z",
+      "side": 1,
+      "message": "We may not want this... Not all emojis are supported on all platforms.",
+      "range": {
+        "startLine": 86,
+        "startChar": 15,
+        "endLine": 86,
+        "endChar": 19
+      },
+      "revId": "be84e3bceb71cd8a10ab30c5b9179d98970c4d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e83927a2_561f1587",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 77
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-18T21:47:00Z",
+      "side": 1,
+      "message": "This can be:\n\n  l \u003d\u003e !this._isProjectWebLink(l));\n\nand then maybe it can fit on the prior line. Not sure.",
+      "range": {
+        "startLine": 105,
+        "startChar": 10,
+        "endLine": 105,
+        "endChar": 54
+      },
+      "revId": "be84e3bceb71cd8a10ab30c5b9179d98970c4d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c360b52_9de53d4c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 77
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-18T21:47:00Z",
+      "side": 1,
+      "message": "It isn\u0027t super clear to me what patterns of URLs this matches, could you add a JSDoc style comment explaining it?",
+      "range": {
+        "startLine": 111,
+        "startChar": 9,
+        "endLine": 111,
+        "endChar": 44
+      },
+      "revId": "be84e3bceb71cd8a10ab30c5b9179d98970c4d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99ee5ddd_8e570ce1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 77
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-18T21:47:00Z",
+      "side": 1,
+      "message": "This seems like a good candidate for string templating.\n\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals",
+      "range": {
+        "startLine": 565,
+        "startChar": 8,
+        "endLine": 565,
+        "endChar": 60
+      },
+      "revId": "be84e3bceb71cd8a10ab30c5b9179d98970c4d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

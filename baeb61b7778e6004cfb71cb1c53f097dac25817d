@@ -16,6 +16,24 @@
       "revId": "baeb61b7778e6004cfb71cb1c53f097dac25817d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e10e82a8_7a886c8c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T23:58:51Z",
+      "side": 1,
+      "message": "Good point. It isn\u0027t needed. Fixed.",
+      "parentUuid": "17331079_80e5acd6",
+      "revId": "baeb61b7778e6004cfb71cb1c53f097dac25817d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

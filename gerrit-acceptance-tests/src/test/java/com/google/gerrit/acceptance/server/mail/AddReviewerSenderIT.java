@@ -1,0 +1,187 @@
+// Copyright (C) 2017 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.acceptance.server.mail;
+
+import static com.google.common.truth.TruthJUnit.assume;
+
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.acceptance.AbstractNotificationTest;
+import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import org.junit.Test;
+
+public class AddReviewerSenderIT extends AbstractNotificationTest {
+  private interface Adder {
+    void addReviewer(String changeId, String reviewer, @Nullable NotifyHandling notify)
+        throws Exception;
+
+    default void addReviewer(String changeId, String reviewer) throws Exception {
+      addReviewer(changeId, reviewer, null);
+    }
+  }
+
+  private Adder singly() {
+    return (String changeId, String reviewer, @Nullable NotifyHandling notify) -> {
+      AddReviewerInput in = new AddReviewerInput();
+      in.reviewer = reviewer;
+      in.notify = notify;
+      gApi.changes().id(changeId).addReviewer(in);
+    };
+  }
+
+  private Adder batch() {
+    return (String changeId, String reviewer, @Nullable NotifyHandling notify) -> {
+      ReviewInput in = ReviewInput.noScore();
+      in.reviewer(reviewer);
+      in.notify = notify;
+      gApi.changes().id(changeId).revision("current").review(in);
+    };
+  }
+
+  private interface Tester {
+    void test(Adder adder) throws Exception;
+  }
+
+  private void forAll(Tester tester) throws Exception {
+    for (Adder adder : ImmutableList.of(singly(), batch())) {
+      tester.test(adder);
+    }
+  }
+
+  @Test
+  public void addReviewerToReviewableChangeInReviewDb() throws Exception {
+    forAll(
+        adder -> {
+          assume().that(notesMigration.enabled()).isFalse();
+          StagedChange sc = stageReviewableChange();
+          TestAccount reviewer = accounts.create("added", "added@example.com", "added");
+          adder.addReviewer(sc.changeId, reviewer.email);
+          assertThat(sender)
+              .sent("newchange", sc)
+              .to(reviewer)
+              .cc(sc.reviewer, sc.ccer)
+              .cc(sc.reviewerByEmail, sc.ccerByEmail)
+              .notTo(sc.owner, sc.starrer);
+        });
+  }
+
+  @Test
+  public void addReviewerToReviewableChangeInNoteDb() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+    forAll(
+        adder -> {
+          StagedChange sc = stageReviewableChange();
+          TestAccount reviewer = accounts.create("added", "added@example.com", "added");
+          addReviewer(singly(), sc.changeId, reviewer.email);
+          // TODO(logan): Existing reviewers by email should be CC.
+          // TODO(logan): Should CCs be included?
+          assertThat(sender)
+              .sent("newchange", sc)
+              .to(reviewer)
+              .to(sc.reviewerByEmail)
+              .cc(sc.reviewer)
+              .cc(sc.ccerByEmail)
+              .notTo(sc.owner, sc.starrer);
+        });
+  }
+
+  @Test
+  public void addReviewerByEmailToReviewableChangeInReviewDb() throws Exception {
+    assume().that(notesMigration.enabled()).isFalse();
+    forAll(
+        adder -> {
+          String email = "addedbyemail@example.com";
+          StagedChange sc = stageReviewableChange();
+          addReviewer(singly(), sc.changeId, email);
+          assertThat(sender).notSent();
+        });
+  }
+
+  @Test
+  public void addReviewerByEmailToReviewableChangeInNoteDb() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+    forAll(
+        adder -> {
+          String email = "addedbyemail@example.com";
+          StagedChange sc = stageReviewableChange();
+          addReviewer(singly(), sc.changeId, email);
+          // TODO(logan): Existing reviewers by email should be CC.
+          // TODO(logan): Should CCs be included?
+          assertThat(sender)
+              .sent("newchange", sc)
+              .to(email, sc.reviewerByEmail)
+              .cc(sc.reviewer)
+              .cc(sc.ccerByEmail)
+              .notTo(sc.owner, sc.starrer);
+        });
+  }
+
+  @Test
+  public void addReviewerToWipChange() throws Exception {
+    forAll(
+        adder -> {
+          StagedChange sc = stageWipChange();
+          TestAccount reviewer = accounts.create("added", "added@example.com", "added");
+          adder.addReviewer(sc.changeId, reviewer.email);
+          assertThat(sender).notSent();
+        }
+    );
+  }
+
+  @Test
+  public void addReviewerToWipChangeInNoteDbNotifyAll() throws Exception {
+    forAll(
+        adder -> {
+          assume().that(notesMigration.enabled()).isTrue();
+          StagedChange sc = stageWipChange();
+          TestAccount reviewer = accounts.create("added", "added@example.com", "added");
+          adder.addReviewer(sc.changeId, reviewer.email, NotifyHandling.ALL);
+          // TODO(logan): Existing reviewers by email should be CC.
+          // TODO(logan): Should CCs be included?
+          assertThat(sender)
+              .sent("newchange", sc)
+              .to(reviewer)
+              .to(sc.reviewerByEmail)
+              .cc(sc.reviewer)
+              .cc(sc.ccerByEmail)
+              .notTo(sc.owner, sc.starrer);
+        }
+    );
+  }
+
+  @Test
+  public void addReviewerToWipChangeInReviewDbNotifyAll() throws Exception {
+    forAll(
+        adder -> {
+          assume().that(notesMigration.enabled()).isFalse();
+          StagedChange sc = stageWipChange();
+          TestAccount reviewer = accounts.create("added", "added@example.com", "added");
+          adder.addReviewer(sc.changeId, reviewer.email, NotifyHandling.ALL);
+          assertThat(sender)
+              .sent("newchange", sc)
+              .to(reviewer)
+              .cc(sc.reviewer, sc.ccer)
+              .cc(sc.reviewerByEmail, sc.ccerByEmail)
+              .notTo(sc.owner, sc.starrer);
+        });
+  }
+
+  private void addReviewer(Adder adder, String changeId, String reviewer) throws Exception {
+    adder.addReviewer(changeId, reviewer);
+  }
+}

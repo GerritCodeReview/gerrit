@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "5138eaed_098e0304",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-18T09:26:46Z",
+      "side": 1,
+      "message": "Splitting the commit will only fix the problem for us, but upstream servers would still run into the issue:\n\n1. upstream uses old index without the field\n2. upstream deploys a new release that contains both your changes\n3. online reindexing starts to upgrade the index to the new version\n4. while the online reindexing is not finished yet, your new code runs against the old index and fails\n\nRather check with\n\n  if (args.getSchema().hasField(ChangeField.EXACT_AUTHOR)) {\n\nif the new field exists and execute the new code if yes, and otherwise the old code.",
+      "parentUuid": "86c085ee_7f85618a",
+      "revId": "501e66a99d1e1d2d918bffdba1cb63c51fbc3377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28f03ca6_c40b438a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 21

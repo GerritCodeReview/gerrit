@@ -28,11 +28,7 @@ import com.google.gerrit.server.mail.send.EmailSender;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,11 +78,13 @@ public class FakeEmailSender implements EmailSender {
 
   private final WorkQueue workQueue;
   private final List<Message> messages;
+  private int messagesRead;
 
   @Inject
   FakeEmailSender(WorkQueue workQueue) {
     this.workQueue = workQueue;
     messages = Collections.synchronizedList(new ArrayList<Message>());
+    messagesRead = 0;
   }
 
   @Override
@@ -121,7 +119,21 @@ public class FakeEmailSender implements EmailSender {
     waitForEmails();
     synchronized (messages) {
       messages.clear();
+      messagesRead = 0;
     }
+  }
+
+  public synchronized @Nullable Message peekMessage() {
+    if (messagesRead >= messages.size()) {
+      return null;
+    }
+    return messages.get(messagesRead);
+  }
+
+  public synchronized @Nullable Message nextMessage() {
+    Message msg = peekMessage();
+    messagesRead++;
+    return msg;
   }
 
   public ImmutableList<Message> getMessages() {

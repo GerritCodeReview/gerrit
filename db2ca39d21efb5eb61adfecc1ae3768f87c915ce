@@ -22,6 +22,30 @@
       "revId": "db2ca39d21efb5eb61adfecc1ae3768f87c915ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "334b7567_70b763d0",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-18T19:42:59Z",
+      "side": 0,
+      "message": "This is a complete test change, it will not be merged without considering things like this. I literally just removed this so that I was able to install Polymer2 for test purposes. Please, no code review on this change.",
+      "parentUuid": "f16fcc87_5f1ac302",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 3
+      },
+      "revId": "db2ca39d21efb5eb61adfecc1ae3768f87c915ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7a642b4_1927d4e2",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-18T13:56:13Z",
+      "side": 1,
+      "message": "This is actually misleading, as for open source Gerrit the main thing is that inactive users cannot login. It\u0027s Google-specific that the inactive flag is only used to avoid showing users in auto-suggestion, but that accounts get automatically reactivated on next login.",
+      "range": {
+        "startLine": 158,
+        "startChar": 29,
+        "endLine": 159,
+        "endChar": 21
+      },
+      "revId": "04c90192d66dfb11e5a1963576e759d93964c2be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

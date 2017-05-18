@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "ae860d21_709bdcbd",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-18T18:42:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1fea7639_e9c2b83f",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 5
+      },
+      "revId": "b857121ee3c9fe84c28f4e173d4b50df0afafa8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36ee55d8_ddba9640",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-18T18:42:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7dddbe8c_6e996bc8",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 19,
+        "endChar": 10
+      },
+      "revId": "b857121ee3c9fe84c28f4e173d4b50df0afafa8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d491b3c4_4b1fa0a7",
         "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
         "patchSetId": 21
@@ -59,6 +107,30 @@
       "writtenOn": "2017-05-18T18:27:12Z",
       "side": 1,
       "message": "Same here, this can be called\n\n _anonymousName",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 11
+      },
+      "revId": "b857121ee3c9fe84c28f4e173d4b50df0afafa8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5f60856_e1d4129d",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-18T18:42:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d491b3c4_4b1fa0a7",
       "range": {
         "startLine": 26,
         "startChar": 6,
@@ -111,6 +183,30 @@
     },
     {
       "key": {
+        "uuid": "ef00dd50_1ade9052",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-18T18:42:13Z",
+      "side": 1,
+      "message": "Yes, but then wont it Anonymous Coward show that since it would be in the rest api by default unless a user changes it through the config?",
+      "parentUuid": "772f26ba_a653fd52",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 105,
+        "endChar": 7
+      },
+      "revId": "b857121ee3c9fe84c28f4e173d4b50df0afafa8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a73b3817_c5e0706c",
         "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown_test.html",
         "patchSetId": 21
@@ -122,6 +218,24 @@
       "writtenOn": "2017-05-18T18:27:12Z",
       "side": 1,
       "message": "There should be a test for when the name is set in the gerrit config.",
+      "revId": "b857121ee3c9fe84c28f4e173d4b50df0afafa8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef78112c_e6d1f3c1",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown_test.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-18T18:42:13Z",
+      "side": 1,
+      "message": "Oh, what do you mean by set name in the gerrit config?",
+      "parentUuid": "a73b3817_c5e0706c",
       "revId": "b857121ee3c9fe84c28f4e173d4b50df0afafa8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

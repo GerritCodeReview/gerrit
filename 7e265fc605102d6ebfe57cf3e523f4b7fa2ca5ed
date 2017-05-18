@@ -22,6 +22,30 @@
       "revId": "7e265fc605102d6ebfe57cf3e523f4b7fa2ca5ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75945f6d_860052a1",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T17:24:24Z",
+      "side": 1,
+      "message": "Polylint needs to load the transitive closure of PG dependencies so that it can, for example, lint the use of properties and methods that are provided by bower-sourced behaviors and components.",
+      "parentUuid": "3c517091_e886d315",
+      "range": {
+        "startLine": 192,
+        "startChar": 9,
+        "endLine": 192,
+        "endChar": 26
+      },
+      "revId": "7e265fc605102d6ebfe57cf3e523f4b7fa2ca5ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fea7639_e9c2b83f",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T18:27:12Z",
+      "side": 1,
+      "message": "Nit: now that we have ES6, use const here instead of var.",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 5
+      },
+      "revId": "b857121ee3c9fe84c28f4e173d4b50df0afafa8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dddbe8c_6e996bc8",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T18:27:12Z",
+      "side": 1,
+      "message": "This can have a more descriptive name, such as\n\n ANONYMOUS_NAME",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 19,
+        "endChar": 10
+      },
+      "revId": "b857121ee3c9fe84c28f4e173d4b50df0afafa8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d491b3c4_4b1fa0a7",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T18:27:12Z",
+      "side": 1,
+      "message": "Same here, this can be called\n\n _anonymousName",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 11
+      },
+      "revId": "b857121ee3c9fe84c28f4e173d4b50df0afafa8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad255a1f_23569c1f",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T18:27:12Z",
+      "side": 1,
+      "message": "In the case that there is no username but there is an email, can we use the email? It seems more informative than Anonymous when it\u0027s available.",
+      "revId": "b857121ee3c9fe84c28f4e173d4b50df0afafa8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "772f26ba_a653fd52",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T18:27:12Z",
+      "side": 1,
+      "message": "Since the Polymer parameter gets the default value if there is none configured, why do you need to test. Can\u0027t we just...\n\n return _anon;\n\n...here?",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 105,
+        "endChar": 7
+      },
+      "revId": "b857121ee3c9fe84c28f4e173d4b50df0afafa8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a73b3817_c5e0706c",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown_test.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T18:27:12Z",
+      "side": 1,
+      "message": "There should be a test for when the name is set in the gerrit config.",
+      "revId": "b857121ee3c9fe84c28f4e173d4b50df0afafa8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

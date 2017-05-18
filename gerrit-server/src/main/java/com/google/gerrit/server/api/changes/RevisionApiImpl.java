@@ -52,6 +52,7 @@ import com.google.gerrit.server.change.DraftComments;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.Files;
 import com.google.gerrit.server.change.Fixes;
+import com.google.gerrit.server.change.GetCommit;
 import com.google.gerrit.server.change.GetDescription;
 import com.google.gerrit.server.change.GetMergeList;
 import com.google.gerrit.server.change.GetPatch;
@@ -103,6 +104,7 @@ class RevisionApiImpl implements RevisionApi {
   private final RevisionResource revision;
   private final Files files;
   private final Files.ListFiles listFiles;
+  private final GetCommit getCommit;
   private final GetPatch getPatch;
   private final PostReview review;
   private final Mergeable mergeable;
@@ -143,6 +145,7 @@ class RevisionApiImpl implements RevisionApi {
       Reviewed.DeleteReviewed deleteReviewed,
       Files files,
       Files.ListFiles listFiles,
+      GetCommit getCommit,
       GetPatch getPatch,
       PostReview review,
       Mergeable mergeable,
@@ -182,6 +185,7 @@ class RevisionApiImpl implements RevisionApi {
     this.putReviewed = putReviewed;
     this.deleteReviewed = deleteReviewed;
     this.listFiles = listFiles;
+    this.getCommit = getCommit;
     this.getPatch = getPatch;
     this.mergeable = mergeable;
     this.fileApi = fileApi;
@@ -389,6 +393,15 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public FileApi file(String path) {
     return fileApi.create(files.parse(revision, IdString.fromDecoded(path)));
+  }
+
+  @Override
+  public CommitInfo commit(boolean addLinks) throws RestApiException {
+    try {
+      return getCommit.setAddLinks(addLinks).apply(revision).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve comments", e);
+    }
   }
 
   @Override

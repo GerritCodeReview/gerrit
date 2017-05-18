@@ -37,6 +37,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.Permission;
@@ -56,11 +57,15 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.WebLinkInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -68,6 +73,7 @@ import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -77,6 +83,7 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -99,6 +106,7 @@ import org.junit.Test;
 public class RevisionIT extends AbstractDaemonTest {
 
   @Inject private GetRevisionActions getRevisionActions;
+  @Inject private DynamicSet<PatchSetWebLink> patchSetLinks;
 
   @Test
   public void reviewTriplet() throws Exception {
@@ -822,6 +830,47 @@ public class RevisionIT extends AbstractDaemonTest {
     response.assertOK();
     assertThat(response.getContentType()).startsWith("text/plain");
     assertThat(response.hasContent()).isFalse();
+  }
+
+  @Test
+  public void commit() throws Exception {
+    WebLinkInfo expectedWebLinkInfo = new WebLinkInfo("foo", "imageUrl", "url");
+    patchSetLinks.add(
+        new PatchSetWebLink() {
+          @Override
+          public WebLinkInfo getPatchSetWebLink(String projectName, String commit) {
+            return expectedWebLinkInfo;
+          }
+        });
+
+    Result r = createChange();
+    RevCommit c = r.getCommit();
+
+    CommitInfo commitInfo = gApi.changes().id(r.getChangeId()).current().commit(false);
+    assertThat(commitInfo.commit).isEqualTo(c.name());
+    assertPersonIdent(commitInfo.author, c.getAuthorIdent());
+    assertPersonIdent(commitInfo.committer, c.getCommitterIdent());
+    assertThat(commitInfo.message).isEqualTo(c.getFullMessage());
+    assertThat(commitInfo.subject).isEqualTo(c.getShortMessage());
+    assertThat(commitInfo.parents).hasSize(1);
+    assertThat(Iterables.getOnlyElement(commitInfo.parents).commit)
+        .isEqualTo(c.getParent(0).name());
+    assertThat(commitInfo.webLinks).isNull();
+
+    commitInfo = gApi.changes().id(r.getChangeId()).current().commit(true);
+    assertThat(commitInfo.webLinks).hasSize(1);
+    WebLinkInfo webLinkInfo = Iterables.getOnlyElement(commitInfo.webLinks);
+    assertThat(webLinkInfo.name).isEqualTo(expectedWebLinkInfo.name);
+    assertThat(webLinkInfo.imageUrl).isEqualTo(expectedWebLinkInfo.imageUrl);
+    assertThat(webLinkInfo.url).isEqualTo(expectedWebLinkInfo.url);
+    assertThat(webLinkInfo.target).isEqualTo(expectedWebLinkInfo.target);
+  }
+
+  private void assertPersonIdent(GitPerson gitPerson, PersonIdent expectedIdent) {
+    assertThat(gitPerson.name).isEqualTo(expectedIdent.getName());
+    assertThat(gitPerson.email).isEqualTo(expectedIdent.getEmailAddress());
+    assertThat(gitPerson.date).isEqualTo(new Timestamp(expectedIdent.getWhen().getTime()));
+    assertThat(gitPerson.tz).isEqualTo(expectedIdent.getTimeZoneOffset());
   }
 
   private void assertMergeable(String id, boolean expected) throws Exception {

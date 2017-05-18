@@ -235,6 +235,7 @@ public abstract class AbstractDaemonTest {
   protected TestAccount admin;
   protected TestAccount user;
   protected TestRepository<InMemoryRepository> testRepo;
+  protected String resourcePrefix;
 
   @Inject private ChangeIndexCollection changeIndexes;
   @Inject private EventRecorder.Factory eventRecorderFactory;
@@ -243,7 +244,6 @@ public abstract class AbstractDaemonTest {
   @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
 
   private List<Repository> toClose;
-  private String resourcePrefix;
   private boolean useSsh;
 
   @Before
@@ -1230,16 +1230,36 @@ public abstract class AbstractDaemonTest {
     assertThat(m.headers().get("CC").isEmpty()).isTrue();
   }
 
-  protected void watch(String project, String filter) throws RestApiException {
-    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
+  protected interface ProjectWatchInfoConfiguration {
+    void configure(ProjectWatchInfo pwi);
+  }
+
+  protected void watch(String project, ProjectWatchInfoConfiguration config)
+      throws OrmException, RestApiException {
     ProjectWatchInfo pwi = new ProjectWatchInfo();
     pwi.project = project;
-    pwi.filter = filter;
-    pwi.notifyAbandonedChanges = true;
-    pwi.notifyNewChanges = true;
-    pwi.notifyAllComments = true;
-    projectsToWatch.add(pwi);
-    gApi.accounts().self().setWatchedProjects(projectsToWatch);
+    config.configure(pwi);
+    gApi.accounts().self().setWatchedProjects(ImmutableList.of(pwi));
+  }
+
+  protected void watch(PushOneCommit.Result r, ProjectWatchInfoConfiguration config)
+      throws OrmException, RestApiException {
+    watch(r.getChange().project().get(), config);
+  }
+
+  protected void watch(String project, String filter) throws OrmException, RestApiException {
+    watch(
+        project,
+        pwi -> {
+          pwi.filter = filter;
+          pwi.notifyAbandonedChanges = true;
+          pwi.notifyNewChanges = true;
+          pwi.notifyAllComments = true;
+        });
+  }
+
+  protected void watch(String project) throws OrmException, RestApiException {
+    watch(project, (String) null);
   }
 
   protected void assertContent(PushOneCommit.Result pushResult, String path, String expectedContent)

@@ -22,6 +22,30 @@
       "revId": "be84e3bceb71cd8a10ab30c5b9179d98970c4d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0378abd_301999f9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 77
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-18T21:28:20Z",
+      "side": 1,
+      "message": "I think that\u0027s when the repo is read only. It is S for gwtui.",
+      "parentUuid": "c6211aea_6d0b7ea9",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 45
+      },
+      "revId": "be84e3bceb71cd8a10ab30c5b9179d98970c4d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

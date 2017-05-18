@@ -22,6 +22,29 @@
       "revId": "1bae57b4cf6ba430aebaf572bb7ca737aaa1272b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f64f8794_171f14fc",
+        "filename": "tools/check-format.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-18T06:44:04Z",
+      "side": 1,
+      "message": "Alternative approach is not to mess around with copying files around at all:\n\n* 1. gjf could offer --dry-run option, that checks if passed files are sane or not.\n* 2. Just do the check in place, in clean tree, and check where there were any differences after running gjf.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 46
+      },
+      "revId": "1bae57b4cf6ba430aebaf572bb7ca737aaa1272b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

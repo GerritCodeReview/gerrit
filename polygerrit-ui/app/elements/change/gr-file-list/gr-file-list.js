@@ -15,12 +15,12 @@
   'use strict';
 
   // Maximum length for patch set descriptions.
-  var PATCH_DESC_MAX_LENGTH = 500;
-  var WARN_SHOW_ALL_THRESHOLD = 1000;
-  var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
-  var MERGE_LIST_PATH = '/MERGE_LIST';
+  const PATCH_DESC_MAX_LENGTH = 500;
+  const WARN_SHOW_ALL_THRESHOLD = 1000;
+  const COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
+  const MERGE_LIST_PATH = '/MERGE_LIST';
 
-  var FileStatus = {
+  const FileStatus = {
     A: 'Added',
     C: 'Copied',
     D: 'Deleted',
@@ -48,7 +48,7 @@
       },
       keyEventTarget: {
         type: Object,
-        value: function() { return document.body; },
+        value() { return document.body; },
       },
       change: Object,
       diffViewMode: {
@@ -59,7 +59,7 @@
       _files: {
         type: Array,
         observer: '_filesChanged',
-        value: function() { return []; },
+        value() { return []; },
       },
       _loggedIn: {
         type: Boolean,
@@ -67,7 +67,7 @@
       },
       _reviewed: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
       _diffAgainst: String,
       diffPrefs: {
@@ -108,7 +108,7 @@
       },
       _expandedFilePaths: {
         type: Array,
-        value: function() { return []; },
+        value() { return []; },
       },
     },
 
@@ -140,60 +140,59 @@
       'shift+a': '_handleCapitalAKey',
     },
 
-    reload: function() {
+    reload() {
       if (!this.changeNum || !this.patchRange.patchNum) {
         return Promise.resolve();
       }
       this._collapseAllDiffs();
-      var promises = [];
-      var _this = this;
+      const promises = [];
 
-      promises.push(this._getFiles().then(function(files) {
-        _this._files = files;
+      promises.push(this._getFiles().then(files => {
+        this._files = files;
       }));
-      promises.push(this._getLoggedIn().then(function(loggedIn) {
-        return _this._loggedIn = loggedIn;
-      }).then(function(loggedIn) {
+      promises.push(this._getLoggedIn().then(loggedIn => {
+        return this._loggedIn = loggedIn;
+      }).then(loggedIn => {
         if (!loggedIn) { return; }
 
-        return _this._getReviewedFiles().then(function(reviewed) {
-          _this._reviewed = reviewed;
+        return this._getReviewedFiles().then(reviewed => {
+          this._reviewed = reviewed;
         });
       }));
 
       this._localPrefs = this.$.storage.getPreferences();
-      promises.push(this._getDiffPreferences().then(function(prefs) {
+      promises.push(this._getDiffPreferences().then(prefs => {
         this.diffPrefs = prefs;
-      }.bind(this)));
+      }));
 
-      promises.push(this._getPreferences().then(function(prefs) {
+      promises.push(this._getPreferences().then(prefs => {
         this._userPrefs = prefs;
         if (!this.diffViewMode) {
           this.set('diffViewMode', prefs.default_diff_view);
         }
-      }.bind(this)));
+      }));
     },
 
     get diffs() {
       return Polymer.dom(this.root).querySelectorAll('gr-diff');
     },
 
-    openDiffPrefs: function() {
+    openDiffPrefs() {
       this.$.diffPreferences.open();
     },
 
-    _calculatePatchChange: function(files) {
-      var filesNoCommitMsg = files.filter(function(files) {
+    _calculatePatchChange(files) {
+      const filesNoCommitMsg = files.filter(files => {
         return files.__path !== '/COMMIT_MSG';
       });
 
-      return filesNoCommitMsg.reduce(function(acc, obj) {
-        var inserted = obj.lines_inserted ? obj.lines_inserted : 0;
-        var deleted = obj.lines_deleted ? obj.lines_deleted : 0;
-        var total_size = (obj.size && obj.binary) ? obj.size : 0;
-        var size_delta_inserted =
+      return filesNoCommitMsg.reduce((acc, obj) => {
+        const inserted = obj.lines_inserted ? obj.lines_inserted : 0;
+        const deleted = obj.lines_deleted ? obj.lines_deleted : 0;
+        const total_size = (obj.size && obj.binary) ? obj.size : 0;
+        const size_delta_inserted =
             obj.binary && obj.size_delta > 0 ? obj.size_delta : 0;
-        var size_delta_deleted =
+        const size_delta_deleted =
             obj.binary && obj.size_delta < 0 ? obj.size_delta : 0;
 
         return {
@@ -207,22 +206,22 @@
         size_delta_deleted: 0, total_size: 0});
     },
 
-    _getDiffPreferences: function() {
+    _getDiffPreferences() {
       return this.$.restAPI.getDiffPreferences();
     },
 
-    _getPreferences: function() {
+    _getPreferences() {
       return this.$.restAPI.getPreferences();
     },
 
-    _computePatchSetDisabled: function(patchNum, currentPatchNum) {
+    _computePatchSetDisabled(patchNum, currentPatchNum) {
       return parseInt(patchNum, 10) >= parseInt(currentPatchNum, 10);
     },
 
-    _togglePathExpanded: function(path) {
+    _togglePathExpanded(path) {
       // Is the path in the list of expanded diffs? IF so remove it, otherwise
       // add it to the list.
-      var pathIndex = this._expandedFilePaths.indexOf(path);
+      const pathIndex = this._expandedFilePaths.indexOf(path);
       if (pathIndex === -1) {
         this.push('_expandedFilePaths', path);
       } else {
@@ -230,92 +229,92 @@
       }
     },
 
-    _togglePathExpandedByIndex: function(index) {
+    _togglePathExpandedByIndex(index) {
       this._togglePathExpanded(this._files[index].__path);
     },
 
-    _handlePatchChange: function(e) {
-      var patchRange = Object.assign({}, this.patchRange);
+    _handlePatchChange(e) {
+      const patchRange = Object.assign({}, this.patchRange);
       patchRange.basePatchNum = Polymer.dom(e).rootTarget.value;
       page.show(this.encodeURL('/c/' + this.changeNum + '/' +
           this._patchRangeStr(patchRange), true));
     },
 
-    _updateDiffPreferences: function() {
+    _updateDiffPreferences() {
       if (!this.diffs.length) { return; }
       // Re-render all expanded diffs sequentially.
-      var timerName = 'Update ' + this._expandedFilePaths.length +
+      const timerName = 'Update ' + this._expandedFilePaths.length +
           ' diffs with new prefs';
       this._renderInOrder(this._expandedFilePaths, this.diffs,
           this._expandedFilePaths.length)
-          .then(function() {
+          .then(() => {
             this.$.reporting.timeEnd(timerName);
             this.$.diffCursor.handleDiffUpdate();
-          }.bind(this));
+          });
     },
 
-    _forEachDiff: function(fn) {
-      var diffs = this.diffs;
-      for (var i = 0; i < diffs.length; i++) {
+    _forEachDiff(fn) {
+      const diffs = this.diffs;
+      for (let i = 0; i < diffs.length; i++) {
         fn(diffs[i]);
       }
     },
 
-    _expandAllDiffs: function(e) {
+    _expandAllDiffs(e) {
       this._showInlineDiffs = true;
 
       // Find the list of paths that are in the file list, but not in the
       // expanded list.
-      var newPaths = [];
-      var path;
-      for (var i = 0; i < this._shownFiles.length; i++) {
+      const newPaths = [];
+      let path;
+      for (let i = 0; i < this._shownFiles.length; i++) {
         path = this._shownFiles[i].__path;
-        if (this._expandedFilePaths.indexOf(path) === -1) {
+        if (!this._expandedFilePaths.includes(path)) {
           newPaths.push(path);
         }
       }
 
-      this.splice.apply(this, ['_expandedFilePaths', 0, 0].concat(newPaths));
+      this.splice(...['_expandedFilePaths', 0, 0].concat(newPaths));
     },
 
-    _collapseAllDiffs: function(e) {
+    _collapseAllDiffs(e) {
       this._showInlineDiffs = false;
       this._expandedFilePaths = [];
       this.$.diffCursor.handleDiffUpdate();
     },
 
-    _computeCommentsString: function(comments, patchNum, path) {
+    _computeCommentsString(comments, patchNum, path) {
       return this._computeCountString(comments, patchNum, path, 'comment');
     },
 
-    _computeDraftsString: function(drafts, patchNum, path) {
+    _computeDraftsString(drafts, patchNum, path) {
       return this._computeCountString(drafts, patchNum, path, 'draft');
     },
 
-    _computeDraftsStringMobile: function(drafts, patchNum, path) {
-      var draftCount = this._computeCountString(drafts, patchNum, path);
+    _computeDraftsStringMobile(drafts, patchNum, path) {
+      const draftCount = this._computeCountString(drafts, patchNum, path);
       return draftCount ? draftCount + 'd' : '';
     },
 
-    _computeCommentsStringMobile: function(comments, patchNum, path) {
-      var commentCount = this._computeCountString(comments, patchNum, path);
+    _computeCommentsStringMobile(comments, patchNum, path) {
+      const commentCount = this._computeCountString(comments, patchNum, path);
       return commentCount ? commentCount + 'c' : '';
     },
 
-    getCommentsForPath: function(comments, patchNum, path) {
-      return (comments[path] || []).filter(function(c) {
+    getCommentsForPath(comments, patchNum, path) {
+      return (comments[path] || []).filter(c => {
         return parseInt(c.patch_set, 10) === parseInt(patchNum, 10);
       });
     },
 
-    _computeCountString: function(comments, patchNum, path, opt_noun) {
+    _computeCountString(comments, patchNum, path, opt_noun) {
       if (!comments) { return ''; }
 
-      var patchComments = this.getCommentsForPath(comments, patchNum, path);
-      var num = patchComments.length;
+      const patchComments = this.getCommentsForPath(comments, patchNum, path);
+      const num = patchComments.length;
       if (num === 0) { return ''; }
       if (!opt_noun) { return num; }
-      var output = num + ' ' + opt_noun + (num > 1 ? 's' : '');
+      const output = num + ' ' + opt_noun + (num > 1 ? 's' : '');
       return output;
     },
 
@@ -329,13 +328,13 @@
      * @param {string} path
      * @return {string}
      */
-    _computeUnresolvedString: function(comments, drafts, patchNum, path) {
-      var unresolvedNum = this.computeUnresolvedNum(
+    _computeUnresolvedString(comments, drafts, patchNum, path) {
+      const unresolvedNum = this.computeUnresolvedNum(
           comments, drafts, patchNum, path);
       return unresolvedNum === 0 ? '' : '(' + unresolvedNum + ' unresolved)';
     },
 
-    computeUnresolvedNum: function(comments, drafts, patchNum, path) {
+    computeUnresolvedNum(comments, drafts, patchNum, path) {
       comments = this.getCommentsForPath(comments, patchNum, path);
       drafts = this.getCommentsForPath(drafts, patchNum, path);
       comments = comments.concat(drafts);
@@ -343,7 +342,7 @@
       // Create an object where every comment ID is the key of an unresolved
       // comment.
 
-      var idMap = comments.reduce(function(acc, comment) {
+      const idMap = comments.reduce((acc, comment) => {
         if (comment.unresolved) {
           acc[comment.id] = true;
         }
@@ -351,25 +350,25 @@
       }, {});
 
       // Set false for the comments that are marked as parents.
-      comments.forEach(function(comment) {
+      for (const comment of comments) {
         idMap[comment.in_reply_to] = false;
-      });
+      }
 
       // The unresolved comments are the comments that still have true.
-      var unresolvedLeaves = Object.keys(idMap).filter(function(key) {
+      const unresolvedLeaves = Object.keys(idMap).filter(key => {
         return idMap[key];
       });
 
       return unresolvedLeaves.length;
     },
 
-    _computeReviewed: function(file, _reviewed) {
-      return _reviewed.indexOf(file.__path) !== -1;
+    _computeReviewed(file, _reviewed) {
+      return _reviewed.includes(file.__path);
     },
 
-    _reviewFile: function(path) {
-      var index = this._reviewed.indexOf(path);
-      var reviewed = index !== -1;
+    _reviewFile(path) {
+      const index = this._reviewed.indexOf(path);
+      const reviewed = index !== -1;
       if (reviewed) {
         this.splice('_reviewed', index, 1);
       } else {
@@ -379,25 +378,25 @@
       this._saveReviewedState(path, !reviewed);
     },
 
-    _saveReviewedState: function(path, reviewed) {
+    _saveReviewedState(path, reviewed) {
       return this.$.restAPI.saveFileReviewed(this.changeNum,
           this.patchRange.patchNum, path, reviewed);
     },
 
-    _getLoggedIn: function() {
+    _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
     },
 
-    _getReviewedFiles: function() {
+    _getReviewedFiles() {
       return this.$.restAPI.getReviewedFiles(this.changeNum,
           this.patchRange.patchNum);
     },
 
-    _getFiles: function() {
+    _getFiles() {
       return this.$.restAPI.getChangeFilesAsSpeciallySortedArray(
-          this.changeNum, this.patchRange).then(function(files) {
+          this.changeNum, this.patchRange).then(files => {
             // Append UI-specific properties.
-            return files.map(function(file) {
+            return files.map(file => {
               return file;
             });
           });
@@ -407,13 +406,13 @@
      * Handle all events from the file list dom-repeat so event handleers don't
      * have to get registered for potentially very long lists.
      */
-    _handleFileListTap: function(e) {
+    _handleFileListTap(e) {
       // Traverse upwards to find the row element if the target is not the row.
-      var row = e.target;
+      let row = e.target;
       while (!row.classList.contains('row') && row.parentElement) {
         row = row.parentElement;
       }
-      var path = row.dataset.path;
+      const path = row.dataset.path;
 
       // Handle checkbox mark as reviewed.
       if (e.target.classList.contains('reviewed')) {
@@ -438,12 +437,12 @@
       // anchor.
       if (e.target.classList.contains('path') ||
           e.target.classList.contains('oldPath')) {
-        var a = row.querySelector('a');
+        const a = row.querySelector('a');
         if (a) { a.click(); }
       }
     },
 
-    _handleShiftLeftKey: function(e) {
+    _handleShiftLeftKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       if (!this._showInlineDiffs) { return; }
 
@@ -451,7 +450,7 @@
       this.$.diffCursor.moveLeft();
     },
 
-    _handleShiftRightKey: function(e) {
+    _handleShiftRightKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       if (!this._showInlineDiffs) { return; }
 
@@ -459,7 +458,7 @@
       this.$.diffCursor.moveRight();
     },
 
-    _handleIKey: function(e) {
+    _handleIKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e) ||
           this.$.fileCursor.index === -1) { return; }
@@ -468,14 +467,14 @@
       this._togglePathExpandedByIndex(this.$.fileCursor.index);
     },
 
-    _handleCapitalIKey: function(e) {
+    _handleCapitalIKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this._toggleInlineDiffs();
     },
 
-    _handleDownKey: function(e) {
+    _handleDownKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
         return;
       }
@@ -489,7 +488,7 @@
       }
     },
 
-    _handleUpKey: function(e) {
+    _handleUpKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
         return;
       }
@@ -503,11 +502,11 @@
       }
     },
 
-    _handleCKey: function(e) {
+    _handleCKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
-      var isRangeSelected = this.diffs.some(function(diff) {
+      const isRangeSelected = this.diffs.some(diff => {
         return diff.isRangeSelected();
       }, this);
       if (this._showInlineDiffs && !isRangeSelected) {
@@ -516,21 +515,21 @@
       }
     },
 
-    _handleLeftBracketKey: function(e) {
+    _handleLeftBracketKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this._openSelectedFile(this._files.length - 1);
     },
 
-    _handleRightBracketKey: function(e) {
+    _handleRightBracketKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this._openSelectedFile(0);
     },
 
-    _handleEnterKey: function(e) {
+    _handleEnterKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -549,7 +548,7 @@
       }
     },
 
-    _handleNKey: function(e) {
+    _handleNKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) {
         return;
@@ -564,7 +563,7 @@
       }
     },
 
-    _handlePKey: function(e) {
+    _handlePKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) {
         return;
@@ -579,16 +578,16 @@
       }
     },
 
-    _handleCapitalAKey: function(e) {
+    _handleCapitalAKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
-      this._forEachDiff(function(diff) {
+      this._forEachDiff(diff => {
         diff.toggleLeftDiff();
       });
     },
 
-    _toggleInlineDiffs: function() {
+    _toggleInlineDiffs() {
       if (this._showInlineDiffs) {
         this._collapseAllDiffs();
       } else {
@@ -596,13 +595,13 @@
       }
     },
 
-    _openCursorFile: function() {
-      var diff = this.$.diffCursor.getTargetDiffElement();
+    _openCursorFile() {
+      const diff = this.$.diffCursor.getTargetDiffElement();
       page.show(this._computeDiffURL(diff.changeNum, diff.patchRange,
           diff.path));
     },
 
-    _openSelectedFile: function(opt_index) {
+    _openSelectedFile(opt_index) {
       if (opt_index != null) {
         this.$.fileCursor.setCursorAtIndex(opt_index);
       }
@@ -611,39 +610,39 @@
           this._files[this.$.fileCursor.index].__path));
     },
 
-    _addDraftAtTarget: function() {
-      var diff = this.$.diffCursor.getTargetDiffElement();
-      var target = this.$.diffCursor.getTargetLineElement();
+    _addDraftAtTarget() {
+      const diff = this.$.diffCursor.getTargetDiffElement();
+      const target = this.$.diffCursor.getTargetLineElement();
       if (diff && target) {
         diff.addDraftAtLine(target);
       }
     },
 
-    _shouldHideChangeTotals: function(_patchChange) {
+    _shouldHideChangeTotals(_patchChange) {
       return _patchChange.inserted === 0 && _patchChange.deleted === 0;
     },
 
-    _shouldHideBinaryChangeTotals: function(_patchChange) {
+    _shouldHideBinaryChangeTotals(_patchChange) {
       return _patchChange.size_delta_inserted === 0 &&
           _patchChange.size_delta_deleted === 0;
     },
 
-    _computeFileStatus: function(status) {
+    _computeFileStatus(status) {
       return status || 'M';
     },
 
-    _computeDiffURL: function(changeNum, patchRange, path) {
+    _computeDiffURL(changeNum, patchRange, path) {
       return this.encodeURL(this.getBaseUrl() + '/c/' + changeNum + '/' +
           this._patchRangeStr(patchRange) + '/' + path, true);
     },
 
-    _patchRangeStr: function(patchRange) {
+    _patchRangeStr(patchRange) {
       return patchRange.basePatchNum !== 'PARENT' ?
           patchRange.basePatchNum + '..' + patchRange.patchNum :
           patchRange.patchNum + '';
     },
 
-    _computeFileDisplayName: function(path) {
+    _computeFileDisplayName(path) {
       if (path === COMMIT_MESSAGE_PATH) {
         return 'Commit message';
       } else if (path === MERGE_LIST_PATH) {
@@ -652,65 +651,66 @@
       return path;
     },
 
-    _computeTruncatedFileDisplayName: function(path) {
+    _computeTruncatedFileDisplayName(path) {
       return util.truncatePath(this._computeFileDisplayName(path));
     },
 
-    _formatBytes: function(bytes) {
+    _formatBytes(bytes) {
       if (bytes == 0) return '+/-0 B';
-      var bits = 1024;
-      var decimals = 1;
-      var sizes = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
-      var exponent = Math.floor(Math.log(Math.abs(bytes)) / Math.log(bits));
-      var prepend = bytes > 0 ? '+' : '';
+      const bits = 1024;
+      const decimals = 1;
+      const sizes =
+          ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+      const exponent = Math.floor(Math.log(Math.abs(bytes)) / Math.log(bits));
+      const prepend = bytes > 0 ? '+' : '';
       return prepend + parseFloat((bytes / Math.pow(bits, exponent))
           .toFixed(decimals)) + ' ' + sizes[exponent];
     },
 
-    _formatPercentage: function(size, delta) {
-      var oldSize = size - delta;
+    _formatPercentage(size, delta) {
+      const oldSize = size - delta;
 
       if (oldSize === 0) { return ''; }
 
-      var percentage = Math.round(Math.abs(delta * 100 / oldSize));
+      const percentage = Math.round(Math.abs(delta * 100 / oldSize));
       return '(' + (delta > 0 ? '+' : '-') + percentage + '%)';
     },
 
-    _computeBinaryClass: function(delta) {
+    _computeBinaryClass(delta) {
       if (delta === 0) { return; }
       return delta >= 0 ? 'added' : 'removed';
     },
 
-    _computeClass: function(baseClass, path) {
-      var classes = [baseClass];
+    _computeClass(baseClass, path) {
+      const classes = [baseClass];
       if (path === COMMIT_MESSAGE_PATH || path === MERGE_LIST_PATH) {
         classes.push('invisible');
       }
       return classes.join(' ');
     },
 
-    _computeExpandInlineClass: function(userPrefs) {
+    _computeExpandInlineClass(userPrefs) {
       return userPrefs.expand_inline_diffs ? 'expandInline' : '';
     },
 
-    _computePathClass: function(path, expandedFilesRecord) {
+    _computePathClass(path, expandedFilesRecord) {
       return this._isFileExpanded(path, expandedFilesRecord) ? 'path expanded' :
           'path';
     },
 
-    _computeShowHideText: function(path, expandedFilesRecord) {
+    _computeShowHideText(path, expandedFilesRecord) {
       return this._isFileExpanded(path, expandedFilesRecord) ? '▼' : '◀';
     },
 
-    _computeFilesShown: function(numFilesShown, files) {
+    _computeFilesShown(numFilesShown, files) {
       return files.base.slice(0, numFilesShown);
     },
 
-    _setReviewedFiles: function(shownFiles, files, reviewedRecord, loggedIn) {
+    _setReviewedFiles(shownFiles, files, reviewedRecord, loggedIn) {
       if (!loggedIn) { return; }
-      var reviewed = reviewedRecord.base;
-      var fileReviewed;
-      for (var i = 0; i < files.length; i++) {
+      const reviewed = reviewedRecord.base;
+      let fileReviewed;
+      for (let i = 0; i < files.length; i++) {
         fileReviewed = this._computeReviewed(files[i], reviewed);
         this._files[i].isReviewed = fileReviewed;
         if (i < shownFiles.length) {
@@ -719,56 +719,56 @@
       }
     },
 
-    _updateDiffCursor: function() {
-      var diffElements = Polymer.dom(this.root).querySelectorAll('gr-diff');
+    _updateDiffCursor() {
+      const diffElements = Polymer.dom(this.root).querySelectorAll('gr-diff');
 
       // Overwrite the cursor's list of diffs:
-      this.$.diffCursor.splice.apply(this.$.diffCursor,
-          ['diffs', 0, this.$.diffCursor.diffs.length].concat(diffElements));
+      this.$.diffCursor.splice(
+          ...['diffs', 0, this.$.diffCursor.diffs.length].concat(diffElements));
     },
 
-    _filesChanged: function() {
+    _filesChanged() {
       Polymer.dom.flush();
-      var files = Polymer.dom(this.root).querySelectorAll('.file-row');
+      const files = Polymer.dom(this.root).querySelectorAll('.file-row');
       this.$.fileCursor.stops = files;
       this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
     },
 
-    _incrementNumFilesShown: function() {
+    _incrementNumFilesShown() {
       this.numFilesShown += this.fileListIncrement;
     },
 
-    _computeFileListButtonHidden: function(numFilesShown, files) {
+    _computeFileListButtonHidden(numFilesShown, files) {
       return numFilesShown >= files.length;
     },
 
-    _computeIncrementText: function(numFilesShown, files) {
+    _computeIncrementText(numFilesShown, files) {
       if (!files) { return ''; }
-      var text =
+      const text =
           Math.min(this.fileListIncrement, files.length - numFilesShown);
       return 'Show ' + text + ' more';
     },
 
-    _computeShowAllText: function(files) {
+    _computeShowAllText(files) {
       if (!files) { return ''; }
       return 'Show all ' + files.length + ' files';
     },
 
-    _computeWarnShowAll: function(files) {
+    _computeWarnShowAll(files) {
       return files.length > WARN_SHOW_ALL_THRESHOLD;
     },
 
-    _computeShowAllWarning: function(files) {
+    _computeShowAllWarning(files) {
       if (!this._computeWarnShowAll(files)) { return ''; }
       return 'Warning: showing all ' + files.length +
           ' files may take several seconds.';
     },
 
-    _showAllFiles: function() {
+    _showAllFiles() {
       this.numFilesShown = this._files.length;
     },
 
-    _updateSelected: function(patchRange) {
+    _updateSelected(patchRange) {
       this._diffAgainst = patchRange.basePatchNum;
     },
 
@@ -783,7 +783,7 @@
      *
      * @return {String}
      */
-    _getDiffViewMode: function(diffViewMode, userPrefs) {
+    _getDiffViewMode(diffViewMode, userPrefs) {
       if (diffViewMode) {
         return diffViewMode;
       } else if (userPrefs) {
@@ -792,28 +792,28 @@
       return 'SIDE_BY_SIDE';
     },
 
-    _fileListActionsVisible: function(shownFilesRecord,
+    _fileListActionsVisible(shownFilesRecord,
         maxFilesForBulkActions) {
       return shownFilesRecord.base.length <= maxFilesForBulkActions;
     },
 
-    _computePatchSetDescription: function(revisions, patchNum) {
-      var rev = this.getRevisionByPatchNum(revisions, patchNum);
+    _computePatchSetDescription(revisions, patchNum) {
+      const rev = this.getRevisionByPatchNum(revisions, patchNum);
       return (rev && rev.description) ?
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
 
-    _computeFileStatusLabel: function(status) {
-      var statusCode = this._computeFileStatus(status);
+    _computeFileStatusLabel(status) {
+      const statusCode = this._computeFileStatus(status);
       return FileStatus.hasOwnProperty(statusCode) ?
           FileStatus[statusCode] : 'Status Unknown';
     },
 
-    _isFileExpanded: function(path, expandedFilesRecord) {
-      return expandedFilesRecord.base.indexOf(path) !== -1;
+    _isFileExpanded(path, expandedFilesRecord) {
+      return expandedFilesRecord.base.includes(path);
     },
 
-    _onLineSelected: function(e, detail) {
+    _onLineSelected(e, detail) {
       this.$.diffCursor.moveToLineNumber(detail.number, detail.side,
           detail.path);
     },
@@ -825,28 +825,28 @@
      * one.
      * @param  {splice} record The splice record in the expanded paths list.
      */
-    _expandedPathsChanged: function(record) {
+    _expandedPathsChanged(record) {
       if (!record) { return; }
 
       // Find the paths introduced by the new index splices:
-      var newPaths = record.indexSplices
-          .map(function(splice) {
+      const newPaths = record.indexSplices
+          .map(splice => {
             return splice.object.slice(splice.index,
                 splice.index + splice.addedCount);
           })
-          .reduce(function(acc, paths) { return acc.concat(paths); }, []);
+          .reduce((acc, paths) => { return acc.concat(paths); }, []);
 
-      var timerName = 'Expand ' + newPaths.length + ' diffs';
+      const timerName = 'Expand ' + newPaths.length + ' diffs';
       this.$.reporting.time(timerName);
 
       // Required so that the newly created diff view is included in this.diffs.
       Polymer.dom.flush();
 
       this._renderInOrder(newPaths, this.diffs, newPaths.length)
-          .then(function() {
+          .then(() => {
             this.$.reporting.timeEnd(timerName);
             this.$.diffCursor.handleDiffUpdate();
-          }.bind(this));
+          });
       this._updateDiffCursor();
       this.$.diffCursor.handleDiffUpdate();
     },
@@ -861,21 +861,21 @@
      *   is used to generate log messages.
      * @return {!Promise}
      */
-    _renderInOrder: function(paths, diffElements, initialCount) {
+    _renderInOrder(paths, diffElements, initialCount) {
       if (!paths.length) {
         console.log('Finished expanding', initialCount, 'diff(s)');
         return Promise.resolve();
       }
       console.log('Expanding diff', 1 + initialCount - paths.length, 'of',
           initialCount, ':', paths[0]);
-      var diffElem = this._findDiffByPath(paths[0], diffElements);
-      var promises = [diffElem.reload()];
+      const diffElem = this._findDiffByPath(paths[0], diffElements);
+      const promises = [diffElem.reload()];
       if (this._isLoggedIn) {
         promises.push(this._reviewFile(paths[0]));
       }
-      return Promise.all(promises).then(function() {
+      return Promise.all(promises).then(() => {
         return this._renderInOrder(paths.slice(1), diffElements, initialCount);
-      }.bind(this));
+      });
     },
 
     /**
@@ -884,8 +884,8 @@
      * @param  {!NodeList<!GrDiffElement>} diffElements
      * @return {!GrDiffElement}
      */
-    _findDiffByPath: function(path, diffElements) {
-      for (var i = 0; i < diffElements.length; i++) {
+    _findDiffByPath(path, diffElements) {
+      for (let i = 0; i < diffElements.length; i++) {
         if (diffElements[i].path === path) {
           return diffElements[i];
         }

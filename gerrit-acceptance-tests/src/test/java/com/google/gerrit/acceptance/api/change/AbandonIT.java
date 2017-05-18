@@ -16,10 +16,14 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -28,13 +32,19 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.change.AbandonUtil;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Test;
 
 public class AbandonIT extends AbstractDaemonTest {
+  @Inject private AbandonUtil abandonUtil;
+
   @Test
   public void abandon() throws Exception {
     PushOneCommit.Result r = createChange();
@@ -109,6 +119,30 @@ public class AbandonIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "changeCleanup.abandonAfter", value = "1w")
+  public void abandonInactiveOpenChanges() throws Exception {
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+
+    // create 2 changes which will be abandoned ...
+    int id1 = createChange().getChange().getId().get();
+    int id2 = createChange().getChange().getId().get();
+
+    // ... because they are older than 1 week
+    TestTimeUtil.incrementClock(7 * 24, HOURS);
+
+    // create 1 new change that will not be abandoned
+    ChangeData cd = createChange().getChange();
+    int id3 = cd.getId().get();
+
+    assertThat(toChangeNumbers(query("is:open"))).containsExactly(id1, id2, id3);
+    assertThat(query("is:abandoned")).isEmpty();
+
+    abandonUtil.abandonInactiveOpenChanges(batchUpdateFactory);
+    assertThat(toChangeNumbers(query("is:open"))).containsExactly(id3);
+    assertThat(toChangeNumbers(query("is:abandoned"))).containsExactly(id1, id2);
+  }
+
+  @Test
   public void abandonNotAllowedWithoutPermission() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -161,5 +195,9 @@ public class AbandonIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("restore not permitted");
     gApi.changes().id(changeId).restore();
+  }
+
+  private List<Integer> toChangeNumbers(List<ChangeInfo> changes) {
+    return changes.stream().map(i -> i._number).collect(toList());
   }
 }

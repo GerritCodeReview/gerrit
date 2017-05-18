@@ -1,3 +1,4 @@
+load("//lib/prolog:prolog.bzl", "prolog_cafe_library")
 load("//tools/bzl:junit.bzl", "junit_tests")
 
 CONSTANTS_SRC = [
@@ -15,6 +16,13 @@ java_library(
     name = "constants",
     srcs = CONSTANTS_SRC,
     visibility = ["//visibility:public"],
+)
+
+prolog_cafe_library(
+    name = "prolog-common",
+    srcs = ["src/main/prolog/gerrit_common.pl"],
+    visibility = ["//visibility:public"],
+    deps = [":server"],
 )
 
 java_library(
@@ -185,9 +193,9 @@ junit_tests(
     srcs = PROLOG_TESTS,
     resources = glob(["src/test/resources/com/google/gerrit/rules/**/*"]),
     deps = TESTUTIL_DEPS + [
+        ":prolog-common",
         ":prolog_test_case",
         ":testutil",
-        "//gerrit-server/src/main/prolog:common",
         "//lib/prolog:runtime",
     ],
 )
@@ -202,10 +210,10 @@ java_library(
     srcs = QUERY_TESTS,
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
+        ":prolog-common",
         ":testutil",
         "//gerrit-antlr:query_exception",
         "//gerrit-antlr:query_parser",
-        "//gerrit-server/src/main/prolog:common",
         "//lib/antlr:java_runtime",
     ],
 )
@@ -216,10 +224,10 @@ junit_tests(
     srcs = QUERY_TESTS,
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
+        ":prolog-common",
         ":testutil",
         "//gerrit-antlr:query_exception",
         "//gerrit-antlr:query_parser",
-        "//gerrit-server/src/main/prolog:common",
         "//lib/antlr:java_runtime",
     ],
 )
@@ -235,10 +243,10 @@ junit_tests(
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
         ":custom-truth-subjects",
+        ":prolog-common",
         ":testutil",
         "//gerrit-antlr:query_exception",
         "//gerrit-patch-jgit:server",
-        "//gerrit-server/src/main/prolog:common",
         "//gerrit-test-util:test_util",
         "//lib:args4j",
         "//lib:grappa",

@@ -19,7 +19,7 @@ EXPORTS = [
     "//gerrit-extension-api:api",
     "//gerrit-gwtexpui:server",
     "//gerrit-reviewdb:server",
-    "//gerrit-server/src/main/prolog:common",
+    "//gerrit-server:prolog-common",
     "//lib/commons:lang",
     "//lib/commons:lang3",
     "//lib/dropwizard:dropwizard-core",

@@ -159,7 +159,7 @@ limitations under the License.
         assert.isTrue(commitHandler.called);
         assert.equal(commitHandler.getCall(0).args[0].detail.value, 1);
         assert.isTrue(element.$.suggestions.hidden);
-
+        assert.equal(element.$.input, document.activeElement);
         done();
       });
     });
@@ -266,6 +266,7 @@ limitations under the License.
       element._suggestions = ['tunnel snakes rule!'];
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
       assert.isTrue(commitStub.called);
+      assert.equal(element.$.input, document.activeElement);
     });
 
     test('tabCompleteWithoutCommit flag functions', () => {
@@ -310,6 +311,7 @@ limitations under the License.
       assert.isTrue(commitSpy.called);
       assert.isTrue(element.$.suggestions.hidden);
       assert.isTrue(element._focused);
+      assert.equal(element.$.input, document.activeElement);
     });
 
     test('input-keydown event fired', () => {

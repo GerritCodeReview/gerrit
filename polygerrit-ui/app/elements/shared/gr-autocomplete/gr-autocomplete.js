@@ -158,9 +158,7 @@
       }
       this._selected = e.detail.selected;
       this._commit(silent);
-      if (e.detail.trigger === 'tap') {
-        this.focus();
-      }
+      this.focus();
     },
 
     /**

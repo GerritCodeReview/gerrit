@@ -274,7 +274,7 @@ limitations under the License.
             id="deleteBtn"
             class="action delete"
             on-tap="_handleCommentDelete"
-            hidden$="[[!_isAdmin]]">
+            hidden$="[[!_shouldShowDeleteBtn(_isAdmin, draft)]]">
           Delete
         </gr-button>
       </div>

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "3413b127_224db61f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 77
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T21:57:47Z",
+      "side": 1,
+      "message": "Can we just replace it with the text \"Read only\"?",
+      "parentUuid": "f6e5e42f_fd0f9757",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 45
+      },
+      "revId": "be84e3bceb71cd8a10ab30c5b9179d98970c4d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "07a44cc7_9d740792",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
         "patchSetId": 77

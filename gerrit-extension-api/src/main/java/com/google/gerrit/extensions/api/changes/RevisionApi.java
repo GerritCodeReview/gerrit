@@ -71,6 +71,8 @@ public interface RevisionApi {
 
   FileApi file(String path);
 
+  CommitInfo commit(boolean addLinks) throws RestApiException;
+
   MergeableInfo mergeable() throws RestApiException;
 
   MergeableInfo mergeableOtherBranches() throws RestApiException;
@@ -238,6 +240,11 @@ public interface RevisionApi {
 
     @Override
     public FileApi file(String path) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public CommitInfo commit(boolean addLinks) {
       throw new NotImplementedException();
     }
 

@@ -42,6 +42,11 @@ public class GetCommit implements RestReadView<RevisionResource> {
     this.json = json;
   }
 
+  public GetCommit setAddLinks(boolean addLinks) {
+    this.addLinks = addLinks;
+    return this;
+  }
+
   @Override
   public Response<CommitInfo> apply(RevisionResource rsrc) throws IOException {
     Project.NameKey p = rsrc.getChange().getProject();

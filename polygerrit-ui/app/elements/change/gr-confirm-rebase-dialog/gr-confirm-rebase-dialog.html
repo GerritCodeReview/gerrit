@@ -75,7 +75,8 @@ limitations under the License.
               disabled$="[[!_displayTipOption(rebaseOnCurrent, hasParent)]]"
               on-tap="_handleRebaseOnTip">
           <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
-            Rebase on top of the [[branch]] branch<span hidden="[[!hasParent]]">
+            Rebase on top of the [[branch]]
+            branch<span hidden$="[[!hasParent]]">
               (breaks relation chain)
             </span>
           </label>
@@ -90,7 +91,7 @@ limitations under the License.
               type="radio"
               on-tap="_handleRebaseOnOther">
           <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
-            Rebase on a specific change or ref <span hidden="[[!hasParent]]">
+            Rebase on a specific change or ref <span hidden$="[[!hasParent]]">
               (breaks relation chain)
             </span>
           </label>

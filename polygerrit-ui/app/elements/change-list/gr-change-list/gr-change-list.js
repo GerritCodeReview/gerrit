@@ -85,6 +85,7 @@
         type: Object,
         value() { return document.body; },
       },
+      changeTableColumns: Array,
     },
 
     behaviors: [

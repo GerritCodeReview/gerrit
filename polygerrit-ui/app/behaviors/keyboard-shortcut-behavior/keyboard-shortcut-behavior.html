@@ -24,6 +24,7 @@ limitations under the License.
     return Polymer.dom(e.detail ? e.detail.keyboardEvent : e);
   };
 
+  /** @polymerBehavior KeyboardShortcutBehaviorImpl */
   const KeyboardShortcutBehaviorImpl = {
     modifierPressed(e) {
       e = getKeyboardEvent(e);

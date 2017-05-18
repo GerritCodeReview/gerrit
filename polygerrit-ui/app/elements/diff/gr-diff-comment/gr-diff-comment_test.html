@@ -251,6 +251,12 @@ limitations under the License.
       assert.isTrue(element.$$('.action.delete').hidden);
     });
 
+    test('delete comment button for admins with draft is hidden', () => {
+      element._isAdmin = false;
+      element.draft = true;
+      assert.isTrue(element.$$('.action.delete').hidden);
+    });
+
     test('delete comment', done => {
       sandbox.stub(
           element.$.restAPI, 'deleteComment').returns(Promise.resolve());

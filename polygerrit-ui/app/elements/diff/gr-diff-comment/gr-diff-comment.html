@@ -252,7 +252,8 @@ limitations under the License.
       </div>
       <div class="actions humanActions" hidden$="[[!_showHumanActions]]">
         <gr-button class="action edit hideOnPublished" on-tap="_handleEdit">
-            Edit</gr-button>
+            Edit
+        </gr-button>
         <gr-button class="action save hideOnPublished" on-tap="_handleSave"
             disabled$="[[_computeSaveDisabled(_messageText)]]">Save</gr-button>
         <gr-button class="action cancel hideOnPublished"
@@ -274,7 +275,7 @@ limitations under the License.
             id="deleteBtn"
             class="action delete"
             on-tap="_handleCommentDelete"
-            hidden$="[[!_isAdmin]]">
+            hidden$="[[!_shouldShowDeleteBtn(_isAdmin, draft)]]">
           Delete
         </gr-button>
       </div>

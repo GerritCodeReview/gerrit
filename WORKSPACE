@@ -1033,8 +1033,8 @@ npm_binary(
 bower_archive(
     name = "iron-autogrow-textarea",
     package = "polymerelements/iron-autogrow-textarea",
-    sha1 = "b9b6874c9a2b5be435557a827ff8bd6661672ee3",
-    version = "1.0.12",
+    sha1 = "36c07d552cd6068175ee66e1174bdafe3d14ba5b",
+    version = "2.0.0",
 )
 
 bower_archive(
@@ -1054,29 +1054,29 @@ bower_archive(
 bower_archive(
     name = "iron-dropdown",
     package = "polymerelements/iron-dropdown",
-    sha1 = "63e3d669a09edaa31c4f05afc76b53b919ef0595",
-    version = "1.4.0",
+    sha1 = "6efac5438baeeffff77da4e2073a3286760cd255",
+    version = "2.0.0",
 )
 
 bower_archive(
     name = "iron-input",
     package = "polymerelements/iron-input",
-    sha1 = "9bc0c8e81de2527125383cbcf74dd9f27e7fa9ac",
-    version = "1.0.10",
+    sha1 = "42f233d8adf3883bcce2fa364c7785a5d2571db4",
+    version = "2.0.0",
 )
 
 bower_archive(
     name = "iron-overlay-behavior",
     package = "polymerelements/iron-overlay-behavior",
-    sha1 = "83181085fda59446ce74fd0d5ca30c223f38ee4a",
-    version = "1.7.6",
+    sha1 = "74cda9d7bf98e7a5e5004bc7ebdb6d208d49e11e",
+    version = "2.0.0",
 )
 
 bower_archive(
     name = "iron-selector",
     package = "polymerelements/iron-selector",
-    sha1 = "c57235dfda7fbb987c20ad0e97aac70babf1a1bf",
-    version = "1.5.2",
+    sha1 = "e0ee46c28523bf17730318c3b481a8ed4331c3b2",
+    version = "2.0.0",
 )
 
 bower_archive(
@@ -1096,38 +1096,40 @@ bower_archive(
 bower_archive(
     name = "polymer",
     package = "polymer/polymer",
-    sha1 = "2c7dd638d55ea91242525139cba18a308b9426d5",
-    version = "1.9.1",
+    sha1 = "53cec7d44c86da620badef1d0c0982c15e2c009f",
+    version = "2.0.0",
 )
 
 bower_archive(
-    name = "promise-polyfill",
-    package = "polymerlabs/promise-polyfill",
-    sha1 = "a3b598c06cbd7f441402e666ff748326030905d6",
-    version = "1.0.0",
+    name = "shadycss",
+    package = "webcomponents/shadycss",
+    sha1 = "d5b7337653965fb6582bad46b4b6dddd0742e6c6",
+    version = '^v1.0.0',
 )
+
+
 
 # bower test stuff
 
 bower_archive(
     name = "iron-test-helpers",
     package = "polymerelements/iron-test-helpers",
-    sha1 = "433b03b106f5ff32049b84150cd70938e18b67ac",
-    version = "1.2.5",
+    sha1 = "c595fb9db28fa197c0c1639a8d147a829bfc11ae",
+    version = "2.0.0",
 )
 
 bower_archive(
     name = "test-fixture",
     package = "polymerelements/test-fixture",
-    sha1 = "e373bd21c069163c3a754e234d52c07c77b20d3c",
-    version = "1.1.1",
+    sha1 = "fbb84c9bcab89b88b99fbf74b64b5da3fb03f95e",
+    version = "3.0.0-rc.1",
 )
 
 bower_archive(
     name = "web-component-tester",
     package = "web-component-tester",
-    sha1 = "4e778f8b7d784ba2a069d83d0cd146125c5c4fcb",
-    version = "5.0.1",
+    sha1 = "031e7120662637a46b88c8f37d126cd759472016",
+    version = "6.0.0",
 )
 
 # Bower component transitive dependencies.

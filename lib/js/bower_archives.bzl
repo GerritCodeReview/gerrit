@@ -25,48 +25,43 @@ def load_bower_archives():
   bower_archive(
     name = "iron-a11y-announcer",
     package = "iron-a11y-announcer",
-    version = "1.0.5",
-    sha1 = "007902c041dd8863a1fe893f62450852f4d8c69b")
+    version = "2.0.0",
+    sha1 = "8a7cc8d63eab3c068e0f8fcf4bf129a85922edc6")
   bower_archive(
     name = "iron-a11y-keys-behavior",
     package = "iron-a11y-keys-behavior",
-    version = "1.1.9",
-    sha1 = "f58358ee652c67e6e721364ba50fb77a2ece1465")
+    version = "2.0.0",
+    sha1 = "fd6d16a0aca6890471c30ae40b8e0b24292f0c8c")
   bower_archive(
     name = "iron-behaviors",
     package = "iron-behaviors",
-    version = "1.0.17",
-    sha1 = "47df7e1c2b97978dcafa13edb50fbdb702570acd")
+    version = "2.0.0",
+    sha1 = "8ccbab7c3686bd7d71aba237685b4995ba2f42ba")
   bower_archive(
     name = "iron-fit-behavior",
     package = "iron-fit-behavior",
-    version = "1.2.6",
-    sha1 = "59daa8526aac59aa72b8edcbbd24d9eed555a0f5")
+    version = "2.0.0",
+    sha1 = "3184366a1530defec739114264d65ccc518949d1")
   bower_archive(
     name = "iron-flex-layout",
     package = "iron-flex-layout",
-    version = "1.3.2",
-    sha1 = "b896041aad049a5e889a0165828d7b1262e32612")
-  bower_archive(
-    name = "iron-form-element-behavior",
-    package = "iron-form-element-behavior",
-    version = "1.0.6",
-    sha1 = "8d9e6530edc1b99bec1a5c34853911fba3701220")
+    version = "2.0.0",
+    sha1 = "feae42cc5d2d948a50074f430cfb8ab28cb6dc9e")
   bower_archive(
     name = "iron-meta",
     package = "iron-meta",
-    version = "1.1.2",
-    sha1 = "dc22fe05e1cb5f94f30a7193d3433ca1808773b8")
+    version = "2.0.0",
+    sha1 = "e0d2ed43600a30f3fbbfb2410e36cd756d0d2734")
   bower_archive(
     name = "iron-resizable-behavior",
     package = "iron-resizable-behavior",
-    version = "1.0.5",
-    sha1 = "2ebe983377dceb3794dd335131050656e23e2beb")
+    version = "2.0.0",
+    sha1 = "2610e258dd966e2e9e4c39f2632415ac8b150e10")
   bower_archive(
     name = "iron-validatable-behavior",
     package = "iron-validatable-behavior",
-    version = "1.1.1",
-    sha1 = "480423380be0536f948735d91bc472f6e7ced5b4")
+    version = "2.0.0",
+    sha1 = "430ccd3c57d44171b2d9837faea46d8e815be3f9")
   bower_archive(
     name = "lodash",
     package = "lodash",
@@ -75,18 +70,23 @@ def load_bower_archives():
   bower_archive(
     name = "mocha",
     package = "mocha",
-    version = "3.2.0",
-    sha1 = "b77f23f7ad1f1363501bcae96f0f4f47745dad0f")
+    version = "3.4.1",
+    sha1 = "91ee7464c109cfb65c130ca6f9a89a9b7abf2cbd")
   bower_archive(
     name = "neon-animation",
     package = "neon-animation",
-    version = "1.2.4",
-    sha1 = "e8ccbb930c4b7ff470b1450baa901618888a7fd3")
+    version = "2.0.0",
+    sha1 = "26283b9bfdffe32bafe22660e62b81372bc9b42e")
+  bower_archive(
+    name = "shadycss",
+    package = "shadycss",
+    version = "1.0.0",
+    sha1 = "d5b7337653965fb6582bad46b4b6dddd0742e6c6")
   bower_archive(
     name = "sinon-chai",
     package = "sinon-chai",
-    version = "2.8.0",
-    sha1 = "0464b5d944fdf8116bb23e0b02ecfbac945b3517")
+    version = "2.10.0",
+    sha1 = "ceb964bef6c1deb1f1e7cda8fb8de4b7987efe05")
   bower_archive(
     name = "sinonjs",
     package = "sinonjs",
@@ -98,12 +98,7 @@ def load_bower_archives():
     version = "1.3.2",
     sha1 = "d6c07a0112ab2e9677fe085933744466a89232fb")
   bower_archive(
-    name = "web-animations-js",
-    package = "web-animations-js",
-    version = "2.2.2",
-    sha1 = "6276a9f227da7d4ccaf77c202b50e174dd11a2c2")
-  bower_archive(
     name = "webcomponentsjs",
     package = "webcomponentsjs",
-    version = "0.7.24",
-    sha1 = "559227f8ee9db9bfbd81989f24510cc0c1bfc65c")
+    version = "1.0.0",
+    sha1 = "3c5ec61d1bb81e5acc899cd0941cf215ac9bdb70")

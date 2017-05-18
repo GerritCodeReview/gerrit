@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ddd3835_8ea75547",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T23:54:56Z",
+      "side": 0,
+      "message": "Note: here\u0027s why the test did not catch the problem.\n\nThis would call the `done` function before the `server-error` event had fired and been caught on l.403.\n\n   /(,-.   )\\.---.       .\u0027(     /`-.      /`-.   )\\.---.  \n ,\u0027 _   ) (   ,-._(  ,\u0027) \\  )  ,\u0027 _  \\   ,\u0027 _  \\ (   ,-._( \n(  \u0027-\u0027 (   \\  \u0027-,   (  /(/ /  (  \u0027-\u0027 (  (  \u0027-\u0027 (  \\  \u0027-,   \n )  _   )   ) ,-`    )    (    )   _  )  ) ,_ .\u0027   ) ,-`   \n(  \u0027-\u0027 /   (  ``-.  (  .\u0027\\ \\  (  ,\u0027 ) \\ (  \u0027 ) \\  (  ``-.  \n )/._.\u0027     )..-.(   )/   )/   )/    )/  )/   )/   )..-.(",
+      "range": {
+        "startLine": 414,
+        "startChar": 34,
+        "endLine": 414,
+        "endChar": 46
+      },
+      "revId": "2a992d60adbb05436fbf4590d25438be08a6d5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

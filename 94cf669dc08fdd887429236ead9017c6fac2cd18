@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67838dc6_05dc3c35",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T20:19:06Z",
+      "side": 1,
+      "message": "Not a blocker, but this is an odd name.\n\nFor the sake of discussion, I would think of maybe setting something like a .canDelete CSS class on the entire thread element or on the container element and hide buttons under that.\n\nThen this could be called\n\n _computeContainerClass",
+      "range": {
+        "startLine": 256,
+        "startChar": 4,
+        "endLine": 256,
+        "endChar": 19
+      },
+      "revId": "94cf669dc08fdd887429236ead9017c6fac2cd18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

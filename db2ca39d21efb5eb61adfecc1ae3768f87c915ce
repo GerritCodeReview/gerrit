@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f16fcc87_5f1ac302",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-18T19:23:34Z",
+      "side": 0,
+      "message": "This is needes to support es6 on unsupported browsers, like ie.",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 3
+      },
+      "revId": "db2ca39d21efb5eb61adfecc1ae3768f87c915ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

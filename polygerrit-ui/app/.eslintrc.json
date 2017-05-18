@@ -41,17 +41,6 @@
     ],
     "new-cap": ["error", { "capIsNewExceptions": ["Polymer"] }],
     "no-console": "off",
-    "no-restricted-syntax": [
-      "error",
-      {
-        "selector": "BinaryExpression > CallExpression > MemberExpression > Identifier[name = 'indexOf']",
-        "message": "Prefer includes/startsWith to indexOf."
-      },
-      {
-        "selector": "ExpressionStatement > CallExpression > MemberExpression > Identifier[name = 'forEach']",
-        "message": "Prefer for-of to Array.forEach."
-      }
-    ],
     "no-undef": "off",
     "no-var": "error",
     "object-shorthand": ["error", "always"],

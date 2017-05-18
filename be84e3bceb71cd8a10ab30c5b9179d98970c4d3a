@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "a6bcbf75_79d7d73d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 77
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-18T21:56:30Z",
+      "side": 1,
+      "message": "Maybe text that says \"Read only\"?\n\nThe ES6 code is all transpiled. If you use the built gr-app in the war file, all platforms that support ES5 should work just fine.",
+      "parentUuid": "039cbe4f_cf190429",
+      "range": {
+        "startLine": 86,
+        "startChar": 15,
+        "endLine": 86,
+        "endChar": 19
+      },
+      "revId": "be84e3bceb71cd8a10ab30c5b9179d98970c4d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e83927a2_561f1587",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
         "patchSetId": 77

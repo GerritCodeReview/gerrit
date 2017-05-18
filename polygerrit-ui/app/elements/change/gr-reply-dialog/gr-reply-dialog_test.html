@@ -406,12 +406,13 @@ limitations under the License.
         }
         event.detail.response.text().then(body => {
           assert.equal(body, 'first error, second error');
+          done();
         });
       });
 
       // Async tick is needed because iron-selector content is distributed and
       // distributed content requires an observer to be set up.
-      flush(() => { element.send().then(done); });
+      flush(() => { element.send(); });
     });
 
     test('ccs are displayed if NoteDb is enabled', () => {
@@ -691,6 +692,42 @@ limitations under the License.
       assert.equal(
           element._computeSendButtonLabel(true),
           'Start review');
+    });
+
+    test('_handle400Error', done => {
+      const error1 = 'error 1';
+      const error2 = 'error 2';
+      const error3 = 'error 3';
+      const response = {
+        status: 400,
+        text() {
+          return Promise.resolve(')]}\'' + JSON.stringify({
+            reviewers: {
+              username1: {
+                input: 'user 1',
+                error: error1,
+              },
+              username2: {
+                input: 'user 2',
+                error: error2,
+              },
+            },
+            ccs: {
+              username3: {
+                input: 'user 3',
+                error: error3,
+              }
+            },
+          }));
+        }
+      };
+      element.addEventListener('server-error', e => {
+        e.detail.response.text().then(text => {
+          assert.equal(text, [error1, error2, error3].join(', '));
+          done();
+        })
+      });
+      element._handle400Error(response);
     });
   });
 </script>

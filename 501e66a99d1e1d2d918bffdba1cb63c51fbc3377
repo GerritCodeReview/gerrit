@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "86c085ee_7f85618a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1128,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-18T06:59:52Z",
+      "side": 1,
+      "message": "Right. We add a new field, which may be used in the old execution path. \n\nThen how about split this fix into two steps:\n1- Add new fields and upgrdade ST-BTI schema.\n2- Update ChangeQueryBuilder to query with the new fields.",
+      "parentUuid": "176f506e_4e167500",
+      "revId": "501e66a99d1e1d2d918bffdba1cb63c51fbc3377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28f03ca6_c40b438a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 21

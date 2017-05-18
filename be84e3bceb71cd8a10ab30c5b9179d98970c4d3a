@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "039cbe4f_cf190429",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 77
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-18T21:54:47Z",
+      "side": 1,
+      "message": "Oh, what should i replace this with?\n\nAs we are now with es6, this discontinues support for most of ie browser maybe ie 9-11 will work.",
+      "parentUuid": "07a44cc7_9d740792",
+      "range": {
+        "startLine": 86,
+        "startChar": 15,
+        "endLine": 86,
+        "endChar": 19
+      },
+      "revId": "be84e3bceb71cd8a10ab30c5b9179d98970c4d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e83927a2_561f1587",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
         "patchSetId": 77
@@ -131,6 +155,30 @@
       "writtenOn": "2017-05-18T21:47:00Z",
       "side": 1,
       "message": "This can be:\n\n  l \u003d\u003e !this._isProjectWebLink(l));\n\nand then maybe it can fit on the prior line. Not sure.",
+      "range": {
+        "startLine": 105,
+        "startChar": 10,
+        "endLine": 105,
+        "endChar": 54
+      },
+      "revId": "be84e3bceb71cd8a10ab30c5b9179d98970c4d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "934ea97a_edd3ada1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 77
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-18T21:54:47Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e83927a2_561f1587",
       "range": {
         "startLine": 105,
         "startChar": 10,

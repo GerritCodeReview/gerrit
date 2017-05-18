@@ -635,13 +635,13 @@ limitations under the License.
       sandbox.stub(element, 'send').returns(Promise.resolve());
       sandbox.stub(element, 'getResponseObject').returns('some response');
       element.deleteComment('foo', 'bar', '01234', 'removal reason')
-        .then(response => {
-          assert.equal(response, 'some response');
-          done();
-        });
+          .then(response => {
+            assert.equal(response, 'some response');
+            done();
+          });
       assert.isTrue(element.send.calledWith(
           'POST', '/changes/foo/revisions/bar/comments/01234/delete',
-          {reason:'removal reason'}));
+          {reason: 'removal reason'}));
     });
   });
 </script>

@@ -253,8 +253,8 @@
       return '#' + comment.line;
     },
 
-    _maybeAddHidden(isAdmin, draft) {
-      return isAdmin && !draft ? '' : 'hidden';
+    _computeClass(isAdmin) {
+      return isAdmin  && !this.draft ? 'show' : '';
     },
 
     _computeSaveDisabled(draft) {

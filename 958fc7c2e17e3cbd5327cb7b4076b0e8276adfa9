@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1495116630 +0200\nnonce APbwY4reH3tpSPuGSBoyZuKSDOol6YpEF5E0AVBGbJZ23K7UqPcGnUExMnhzgiR8hN/duj2l9/Ee\n\n0000000000000000000000000000000000000000 dd7f22834d64488a20b26f1b40b158cd6ec11f94 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZHatWAAoJEFG1/Zeg0O9RJ2oH/1jI4fcyfMKonNqYXKrHkv3O\niWMNANnvnXMzu0zecfPe/lmy1CfeV2Ced1wwsxiR+JqsztwFp5q0fPCZea9oM/6N\n6kWK1OeWEYJFOpJjUO2QCcQBW9HWKXAFFs47dp6hHMR7r/M3ASh9w/Tk9P3rv4zx\nXFEoTCpkVWpf9FKSy8IzGjf1jdhtzlowVezePE7Oy3B7TLU318YlIPWMrLZXs3QK\nWajssGTacgPnI91g6OCCaC8spljbxO5rD5kr1b3nozpOdmM1oPfsBNcYl8t9jTdt\nBZbQBVbVjLICcEnVQjRgOaZLmVmatfXdKOVFYbED4Kb2XAPFRR+7QcC4q8IozSc\u003d\n\u003dmGr1\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "03e08946_50e9d748",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-18T23:47:59Z",
+      "side": 1,
+      "message": "This file should be reformatted with gjf.",
+      "revId": "958fc7c2e17e3cbd5327cb7b4076b0e8276adfa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

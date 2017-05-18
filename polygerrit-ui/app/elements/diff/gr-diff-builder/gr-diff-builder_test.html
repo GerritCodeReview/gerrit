@@ -54,15 +54,15 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-diff-builder tests', function() {
-    var element;
-    var builder;
+  suite('gr-diff-builder tests', () => {
+    let element;
+    let builder;
 
-    setup(function() {
+    setup(() => {
       stub('gr-rest-api-interface', {
-        getLoggedIn: function() { return Promise.resolve(false); },
+        getLoggedIn() { return Promise.resolve(false); },
       });
-      var prefs = {
+      const prefs = {
         line_length: 10,
         show_tabs: true,
         tab_size: 4,
@@ -70,18 +70,18 @@ limitations under the License.
       builder = new GrDiffBuilder({content: []}, {left: [], right: []}, prefs);
     });
 
-    test('context control buttons', function() {
-      var section = {};
-      var line = {contextGroup: {lines: []}};
+    test('context control buttons', () => {
+      const section = {};
+      const line = {contextGroup: {lines: []}};
 
       // Create 10 lines.
-      for (var i = 0; i < 10; i++) {
+      for (let i = 0; i < 10; i++) {
         line.contextGroup.lines.push('lorem upsum');
       }
 
       // Does not include +10 buttons when there are fewer than 11 lines.
-      var td = builder._createContextControl(section, line);
-      var buttons = td.querySelectorAll('gr-button.showContext');
+      let td = builder._createContextControl(section, line);
+      let buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 1);
       assert.equal(buttons[0].textContent, 'Show 10 common lines');
@@ -99,8 +99,8 @@ limitations under the License.
       assert.equal(buttons[2].textContent, '+10↓');
     });
 
-    test('newlines 1', function() {
-      var text = 'abcdef';
+    test('newlines 1', () => {
+      let text = 'abcdef';
       assert.equal(builder._addNewlines(text, text), text);
       text = 'a'.repeat(20);
       assert.equal(builder._addNewlines(text, text),
@@ -109,9 +109,10 @@ limitations under the License.
           'a'.repeat(10));
     });
 
-    test('newlines 2', function() {
-      var text = '<span class="thumbsup">👍</span>';
-      var html = '&lt;span class=&quot;thumbsup&quot;&gt;👍&lt;&#x2F;span&gt;';
+    test('newlines 2', () => {
+      const text = '<span class="thumbsup">👍</span>';
+      const html =
+          '&lt;span class=&quot;thumbsup&quot;&gt;👍&lt;&#x2F;span&gt;';
       assert.equal(builder._addNewlines(text, html),
           '&lt;span clas' +
           GrDiffBuilder.LINE_FEED_HTML +
@@ -122,23 +123,23 @@ limitations under the License.
           'n&gt;');
     });
 
-    test('newlines 3', function() {
-      var text = '01234\t56789';
-      var html = '01234<span>\t</span>56789';
+    test('newlines 3', () => {
+      const text = '01234\t56789';
+      const html = '01234<span>\t</span>56789';
       assert.equal(builder._addNewlines(text, html),
           '01234<span>\t</span>5' +
           GrDiffBuilder.LINE_FEED_HTML +
           '6789');
     });
 
-    test('_addNewlines not called if line_wrapping is true', function(done) {
+    test('_addNewlines not called if line_wrapping is true', done => {
       builder._prefs = {line_wrapping: true, tab_size: 4, line_length: 50};
-      var text = (new Array(52)).join('a');
+      const text = (new Array(52)).join('a');
 
-      var line = {text: text, highlights: []};
-      var newLineStub = sinon.stub(builder, '_addNewlines');
+      const line = {text, highlights: []};
+      const newLineStub = sinon.stub(builder, '_addNewlines');
       builder._createTextEl(line);
-      flush(function() {
+      flush(() => {
         assert.isFalse(newLineStub.called);
         newLineStub.restore();
         done();
@@ -146,33 +147,33 @@ limitations under the License.
     });
 
     test('_addNewlines called if line_wrapping is true and meets other ' +
-        'conditions', function(done) {
+        'conditions', done => {
       builder._prefs = {line_wrapping: false, tab_size: 4, line_length: 50};
-      var text = (new Array(52)).join('a');
+      const text = (new Array(52)).join('a');
 
-      var line = {text: text, highlights: []};
-      var newLineStub = sinon.stub(builder, '_addNewlines');
+      const line = {text, highlights: []};
+      const newLineStub = sinon.stub(builder, '_addNewlines');
       builder._createTextEl(line);
 
-      flush(function() {
+      flush(() => {
         assert.isTrue(newLineStub.called);
         newLineStub.restore();
         done();
       });
     });
 
-    test('_createTextEl linewrap with tabs', function() {
-      var text = _.times(7, _.constant('\t')).join('') + '!';
-      var line = {text: text, highlights: []};
-      var el = builder._createTextEl(line);
-      var tabEl = el.querySelector('.contentText > .br');
+    test('_createTextEl linewrap with tabs', () => {
+      const text = _.times(7, _.constant('\t')).join('') + '!';
+      const line = {text, highlights: []};
+      const el = builder._createTextEl(line);
+      const tabEl = el.querySelector('.contentText > .br');
       assert.isOk(tabEl);
       assert.equal(
           el.querySelector('.contentText .tab:nth-child(2)').nextSibling,
           tabEl);
     });
 
-    test('text length with tabs and unicode', function() {
+    test('text length with tabs and unicode', () => {
       assert.equal(builder._textLength('12345', 4), 5);
       assert.equal(builder._textLength('\t\t12', 4), 10);
       assert.equal(builder._textLength('abc💢123', 4), 7);
@@ -186,9 +187,9 @@ limitations under the License.
       assert.equal(builder._textLength('\t\t\t\t\t', 20), 100);
     });
 
-    test('tab wrapper insertion', function() {
-      var html = 'abc\tdef';
-      var wrapper = builder._getTabWrapper(
+    test('tab wrapper insertion', () => {
+      const html = 'abc\tdef';
+      const wrapper = builder._getTabWrapper(
           builder._prefs.tab_size - 3,
           builder._prefs.show_tabs);
       assert.ok(wrapper);
@@ -202,12 +203,12 @@ limitations under the License.
           true));
     });
 
-    test('comments', function() {
-      var line = new GrDiffLine(GrDiffLine.Type.BOTH);
+    test('comments', () => {
+      const line = new GrDiffLine(GrDiffLine.Type.BOTH);
       line.beforeNumber = 3;
       line.afterNumber = 5;
 
-      var comments = {left: [], right: []};
+      let comments = {left: [], right: []};
       assert.deepEqual(builder._getCommentsForLine(comments, line), []);
       assert.deepEqual(builder._getCommentsForLine(comments, line,
           GrDiffBuilder.Side.LEFT), []);
@@ -229,19 +230,19 @@ limitations under the License.
           {id: 'r5', line: 5, __commentSide: 'right'}]);
       assert.deepEqual(builder._getCommentsForLine(comments, line,
           GrDiffBuilder.Side.LEFT), [{id: 'l3', line: 3,
-          __commentSide: 'left'}]);
+            __commentSide: 'left'}]);
       assert.deepEqual(builder._getCommentsForLine(comments, line,
           GrDiffBuilder.Side.RIGHT), [{id: 'r5', line: 5,
-          __commentSide: 'right'}]);
+            __commentSide: 'right'}]);
     });
 
-    test('comment thread group creation', function() {
-      var l3 = {id: 'l3', line: 3, updated: '2016-08-09 00:42:32.000000000',
-          __commentSide: 'left'};
-      var l5 = {id: 'l5', line: 5, updated: '2016-08-09 00:42:32.000000000',
-          __commentSide: 'left'};
-      var r5 = {id: 'r5', line: 5, updated: '2016-08-09 00:42:32.000000000',
-          __commentSide: 'right'};
+    test('comment thread group creation', () => {
+      const l3 = {id: 'l3', line: 3, updated: '2016-08-09 00:42:32.000000000',
+        __commentSide: 'left'};
+      const l5 = {id: 'l5', line: 5, updated: '2016-08-09 00:42:32.000000000',
+        __commentSide: 'left'};
+      const r5 = {id: 'r5', line: 5, updated: '2016-08-09 00:42:32.000000000',
+        __commentSide: 'right'};
 
       builder._comments = {
         meta: {
@@ -267,10 +268,10 @@ limitations under the License.
         assert.deepEqual(threadGroupEl.comments, comments);
       }
 
-      var line = new GrDiffLine(GrDiffLine.Type.BOTH);
+      let line = new GrDiffLine(GrDiffLine.Type.BOTH);
       line.beforeNumber = 5;
       line.afterNumber = 5;
-      var threadGroupEl = builder._commentThreadGroupForLine(line);
+      let threadGroupEl = builder._commentThreadGroupForLine(line);
       checkThreadGroupProps(threadGroupEl, '3', false, [l5, r5]);
 
       threadGroupEl =
@@ -306,51 +307,51 @@ limitations under the License.
       line.beforeNumber = 3;
       line.afterNumber = 5;
       threadGroupEl = builder._commentThreadGroupForLine(line);
-    checkThreadGroupProps(threadGroupEl, '3', false, [l3, r5]);
+      checkThreadGroupProps(threadGroupEl, '3', false, [l3, r5]);
     });
 
-    suite('_isTotal', function() {
-      test('is total for add', function() {
-        var group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
-        for (var idx = 0; idx < 10; idx++) {
+    suite('_isTotal', () => {
+      test('is total for add', () => {
+        const group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
+        for (let idx = 0; idx < 10; idx++) {
           group.addLine(new GrDiffLine(GrDiffLine.Type.ADD));
         }
         assert.isTrue(GrDiffBuilder.prototype._isTotal(group));
       });
 
-      test('is total for remove', function() {
-        var group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
-        for (var idx = 0; idx < 10; idx++) {
+      test('is total for remove', () => {
+        const group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
+        for (let idx = 0; idx < 10; idx++) {
           group.addLine(new GrDiffLine(GrDiffLine.Type.REMOVE));
         }
         assert.isTrue(GrDiffBuilder.prototype._isTotal(group));
       });
 
-      test('not total for empty', function() {
-        var group = new GrDiffGroup(GrDiffGroup.Type.BOTH);
+      test('not total for empty', () => {
+        const group = new GrDiffGroup(GrDiffGroup.Type.BOTH);
         assert.isFalse(GrDiffBuilder.prototype._isTotal(group));
       });
 
-      test('not total for non-delta', function() {
-        var group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
-        for (var idx = 0; idx < 10; idx++) {
+      test('not total for non-delta', () => {
+        const group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
+        for (let idx = 0; idx < 10; idx++) {
           group.addLine(new GrDiffLine(GrDiffLine.Type.BOTH));
         }
         assert.isFalse(GrDiffBuilder.prototype._isTotal(group));
       });
     });
 
-    suite('intraline differences', function() {
-      var el;
-      var str;
-      var annotateElementSpy;
-      var layer;
+    suite('intraline differences', () => {
+      let el;
+      let str;
+      let annotateElementSpy;
+      let layer;
 
       function slice(str, start, end) {
         return Array.from(str).slice(start, end).join('');
       }
 
-      setup(function() {
+      setup(() => {
         el = fixture('div-with-text');
         str = el.textContent;
         annotateElementSpy = sinon.spy(GrAnnotation, 'annotateElement');
@@ -358,12 +359,12 @@ limitations under the License.
             ._createIntralineLayer();
       });
 
-      teardown(function() {
+      teardown(() => {
         annotateElementSpy.restore();
       });
 
-      test('annotate no highlights', function() {
-        var line = {
+      test('annotate no highlights', () => {
+        const line = {
           text: str,
           highlights: [],
         };
@@ -377,19 +378,19 @@ limitations under the License.
         assert.equal(str, el.childNodes[0].textContent);
       });
 
-      test('annotate with highlights', function() {
-        var line = {
+      test('annotate with highlights', () => {
+        const line = {
           text: str,
           highlights: [
             {startIndex: 6, endIndex: 12},
             {startIndex: 18, endIndex: 22},
           ],
         };
-        var str0 = slice(str, 0, 6);
-        var str1 = slice(str, 6, 12);
-        var str2 = slice(str, 12, 18);
-        var str3 = slice(str, 18, 22);
-        var str4 = slice(str, 22);
+        const str0 = slice(str, 0, 6);
+        const str1 = slice(str, 6, 12);
+        const str2 = slice(str, 12, 18);
+        const str3 = slice(str, 18, 22);
+        const str4 = slice(str, 22);
 
         layer.annotate(el, line);
 
@@ -412,16 +413,16 @@ limitations under the License.
         assert.equal(el.childNodes[4].textContent, str4);
       });
 
-      test('annotate without endIndex', function() {
-        var line = {
+      test('annotate without endIndex', () => {
+        const line = {
           text: str,
           highlights: [
             {startIndex: 28},
           ],
         };
 
-        var str0 = slice(str, 0, 28);
-        var str1 = slice(str, 28);
+        const str0 = slice(str, 0, 28);
+        const str1 = slice(str, 28);
 
         layer.annotate(el, line);
 
@@ -435,8 +436,8 @@ limitations under the License.
         assert.equal(el.childNodes[1].textContent, str1);
       });
 
-      test('annotate ignores empty highlights', function() {
-        var line = {
+      test('annotate ignores empty highlights', () => {
+        const line = {
           text: str,
           highlights: [
             {startIndex: 28, endIndex: 28},
@@ -449,20 +450,20 @@ limitations under the License.
         assert.equal(el.childNodes.length, 1);
       });
 
-      test('annotate handles unicode', function() {
+      test('annotate handles unicode', () => {
         // Put some unicode into the string:
         str = str.replace(/\s/g, '💢');
         el.textContent = str;
-        var line = {
+        const line = {
           text: str,
           highlights: [
             {startIndex: 6, endIndex: 12},
           ],
         };
 
-        var str0 = slice(str, 0, 6);
-        var str1 = slice(str, 6, 12);
-        var str2 = slice(str, 12);
+        const str0 = slice(str, 0, 6);
+        const str1 = slice(str, 6, 12);
+        const str2 = slice(str, 12);
 
         layer.annotate(el, line);
 
@@ -479,20 +480,20 @@ limitations under the License.
         assert.equal(el.childNodes[2].textContent, str2);
       });
 
-      test('annotate handles unicode w/o endIndex', function() {
+      test('annotate handles unicode w/o endIndex', () => {
         // Put some unicode into the string:
         str = str.replace(/\s/g, '💢');
         el.textContent = str;
 
-        var line = {
+        const line = {
           text: str,
           highlights: [
             {startIndex: 6},
           ],
         };
 
-        var str0 = slice(str, 0, 6);
-        var str1 = slice(str, 6);
+        const str0 = slice(str, 0, 6);
+        const str1 = slice(str, 6);
 
         layer.annotate(el, line);
 
@@ -507,87 +508,92 @@ limitations under the License.
       });
     });
 
-    suite('tab indicators', function() {
-      var sandbox;
-      var element;
-      var layer;
+    suite('tab indicators', () => {
+      let sandbox;
+      let element;
+      let layer;
 
-      setup(function() {
+      setup(() => {
         sandbox = sinon.sandbox.create();
         element = fixture('basic');
         element._showTabs = true;
         layer = element._createTabIndicatorLayer();
       });
 
-      teardown(function() {
+      teardown(() => {
         sandbox.restore();
       });
 
-      test('does nothing with empty line', function() {
-        var line = {text: ''};
-        var el = document.createElement('div');
-        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+      test('does nothing with empty line', () => {
+        const line = {text: ''};
+        const el = document.createElement('div');
+        const annotateElementStub =
+            sandbox.stub(GrAnnotation, 'annotateElement');
 
         layer.annotate(el, line);
 
         assert.isFalse(annotateElementStub.called);
       });
 
-      test('does nothing with no tabs', function() {
-        var str = 'lorem ipsum no tabs';
-        var line = {text: str};
-        var el = document.createElement('div');
+      test('does nothing with no tabs', () => {
+        const str = 'lorem ipsum no tabs';
+        const line = {text: str};
+        const el = document.createElement('div');
         el.textContent = str;
-        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        const annotateElementStub =
+            sandbox.stub(GrAnnotation, 'annotateElement');
 
         layer.annotate(el, line);
 
         assert.isFalse(annotateElementStub.called);
       });
 
-      test('annotates tab at beginning', function() {
-        var str = '\tlorem upsum';
-        var line = {text: str};
-        var el = document.createElement('div');
+      test('annotates tab at beginning', () => {
+        const str = '\tlorem upsum';
+        const line = {text: str};
+        const el = document.createElement('div');
         el.textContent = str;
-        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        const annotateElementStub =
+            sandbox.stub(GrAnnotation, 'annotateElement');
 
         layer.annotate(el, line);
 
         assert.equal(annotateElementStub.callCount, 1);
-        var args = annotateElementStub.getCalls()[0].args;
+        const args = annotateElementStub.getCalls()[0].args;
         assert.equal(args[0], el);
         assert.equal(args[1], 0, 'offset of tab indicator');
         assert.equal(args[2], 1, 'length of tab indicator');
         assert.include(args[3], 'tab-indicator');
       });
 
-      test('does not annotate when disabled', function() {
+      test('does not annotate when disabled', () => {
         element._showTabs = false;
 
-        var str = '\tlorem upsum';
-        var line = {text: str};
-        var el = document.createElement('div');
+        const str = '\tlorem upsum';
+        const line = {text: str};
+        const el = document.createElement('div');
         el.textContent = str;
-        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        const annotateElementStub =
+            sandbox.stub(GrAnnotation, 'annotateElement');
 
         layer.annotate(el, line);
 
         assert.isFalse(annotateElementStub.called);
       });
 
-      test('annotates multiple in beginning', function() {
-        var str = '\t\tlorem upsum';
-        var line = {text: str};
-        var el = document.createElement('div');
+      test('annotates multiple in beginning', () => {
+        const str = '\t\tlorem upsum';
+        const line = {text: str};
+        const el = document.createElement('div');
         el.textContent = str;
-        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        const annotateElementStub =
+            sandbox.stub(GrAnnotation, 'annotateElement');
 
         layer.annotate(el, line);
 
         assert.equal(annotateElementStub.callCount, 2);
 
-        var args = annotateElementStub.getCalls()[0].args;
+        let args = annotateElementStub.getCalls()[0].args;
         assert.equal(args[0], el);
         assert.equal(args[1], 0, 'offset of tab indicator');
         assert.equal(args[2], 1, 'length of tab indicator');
@@ -600,17 +606,18 @@ limitations under the License.
         assert.include(args[3], 'tab-indicator');
       });
 
-      test('annotates intermediate tabs', function() {
-        var str = 'lorem\tupsum';
-        var line = {text: str};
-        var el = document.createElement('div');
+      test('annotates intermediate tabs', () => {
+        const str = 'lorem\tupsum';
+        const line = {text: str};
+        const el = document.createElement('div');
         el.textContent = str;
-        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        const annotateElementStub =
+            sandbox.stub(GrAnnotation, 'annotateElement');
 
         layer.annotate(el, line);
 
         assert.equal(annotateElementStub.callCount, 1);
-        var args = annotateElementStub.getCalls()[0].args;
+        const args = annotateElementStub.getCalls()[0].args;
         assert.equal(args[0], el);
         assert.equal(args[1], 5, 'offset of tab indicator');
         assert.equal(args[2], 1, 'length of tab indicator');
@@ -618,108 +625,115 @@ limitations under the License.
       });
     });
 
-    suite('trailing whitespace', function() {
-      var sandbox;
-      var element;
-      var layer;
+    suite('trailing whitespace', () => {
+      let sandbox;
+      let element;
+      let layer;
 
-      setup(function() {
+      setup(() => {
         sandbox = sinon.sandbox.create();
         element = fixture('basic');
         element._showTrailingWhitespace = true;
         layer = element._createTrailingWhitespaceLayer();
       });
 
-      teardown(function() {
+      teardown(() => {
         sandbox.restore();
       });
 
-      test('does nothing with empty line', function() {
-        var line = {text: ''};
-        var el = document.createElement('div');
-        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+      test('does nothing with empty line', () => {
+        const line = {text: ''};
+        const el = document.createElement('div');
+        const annotateElementStub =
+            sandbox.stub(GrAnnotation, 'annotateElement');
         layer.annotate(el, line);
         assert.isFalse(annotateElementStub.called);
       });
 
-      test('does nothing with no trailing whitespace', function() {
-        var str = 'lorem ipsum blah blah';
-        var line = {text: str};
-        var el = document.createElement('div');
+      test('does nothing with no trailing whitespace', () => {
+        const str = 'lorem ipsum blah blah';
+        const line = {text: str};
+        const el = document.createElement('div');
         el.textContent = str;
-        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        const annotateElementStub =
+            sandbox.stub(GrAnnotation, 'annotateElement');
         layer.annotate(el, line);
         assert.isFalse(annotateElementStub.called);
       });
 
-      test('annotates trailing spaces', function() {
-        var str = 'lorem ipsum   ';
-        var line = {text: str};
-        var el = document.createElement('div');
+      test('annotates trailing spaces', () => {
+        const str = 'lorem ipsum   ';
+        const line = {text: str};
+        const el = document.createElement('div');
         el.textContent = str;
-        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        const annotateElementStub =
+            sandbox.stub(GrAnnotation, 'annotateElement');
         layer.annotate(el, line);
         assert.isTrue(annotateElementStub.called);
         assert.equal(annotateElementStub.lastCall.args[1], 11);
         assert.equal(annotateElementStub.lastCall.args[2], 3);
       });
 
-      test('annotates trailing tabs', function() {
-        var str = 'lorem ipsum\t\t\t';
-        var line = {text: str};
-        var el = document.createElement('div');
+      test('annotates trailing tabs', () => {
+        const str = 'lorem ipsum\t\t\t';
+        const line = {text: str};
+        const el = document.createElement('div');
         el.textContent = str;
-        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        const annotateElementStub =
+            sandbox.stub(GrAnnotation, 'annotateElement');
         layer.annotate(el, line);
         assert.isTrue(annotateElementStub.called);
         assert.equal(annotateElementStub.lastCall.args[1], 11);
         assert.equal(annotateElementStub.lastCall.args[2], 3);
       });
 
-      test('annotates mixed trailing whitespace', function() {
-        var str = 'lorem ipsum\t \t';
-        var line = {text: str};
-        var el = document.createElement('div');
+      test('annotates mixed trailing whitespace', () => {
+        const str = 'lorem ipsum\t \t';
+        const line = {text: str};
+        const el = document.createElement('div');
         el.textContent = str;
-        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        const annotateElementStub =
+            sandbox.stub(GrAnnotation, 'annotateElement');
         layer.annotate(el, line);
         assert.isTrue(annotateElementStub.called);
         assert.equal(annotateElementStub.lastCall.args[1], 11);
         assert.equal(annotateElementStub.lastCall.args[2], 3);
       });
 
-      test('unicode preceding trailing whitespace', function() {
-        var str = '💢\t';
-        var line = {text: str};
-        var el = document.createElement('div');
+      test('unicode preceding trailing whitespace', () => {
+        const str = '💢\t';
+        const line = {text: str};
+        const el = document.createElement('div');
         el.textContent = str;
-        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        const annotateElementStub =
+            sandbox.stub(GrAnnotation, 'annotateElement');
         layer.annotate(el, line);
         assert.isTrue(annotateElementStub.called);
         assert.equal(annotateElementStub.lastCall.args[1], 1);
         assert.equal(annotateElementStub.lastCall.args[2], 1);
       });
 
-      test('does not annotate when disabled', function() {
+      test('does not annotate when disabled', () => {
         element._showTrailingWhitespace = false;
-        var str = 'lorem upsum\t \t ';
-        var line = {text: str};
-        var el = document.createElement('div');
+        const str = 'lorem upsum\t \t ';
+        const line = {text: str};
+        const el = document.createElement('div');
         el.textContent = str;
-        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        const annotateElementStub =
+            sandbox.stub(GrAnnotation, 'annotateElement');
         layer.annotate(el, line);
         assert.isFalse(annotateElementStub.called);
       });
     });
 
-    suite('rendering', function() {
-      var content;
-      var outputEl;
-      var sandbox;
+    suite('rendering', () => {
+      let content;
+      let outputEl;
+      let sandbox;
 
-      setup(function(done) {
+      setup(done => {
         sandbox = sinon.sandbox.create();
-        var prefs = {
+        const prefs = {
           line_length: 10,
           show_tabs: true,
           tab_size: 4,
@@ -729,13 +743,13 @@ limitations under the License.
         content = [
           {
             a: ['all work and no play make andybons a dull boy'],
-            b: ['elgoog elgoog elgoog']
+            b: ['elgoog elgoog elgoog'],
           },
           {
             ab: [
               'Non eram nescius, Brute, cum, quae summis ingeniis ',
               'exquisitaque doctrina philosophi Graeco sermone tractavissent',
-            ]
+            ],
           },
         ];
         stub('gr-reporting', {
@@ -744,30 +758,30 @@ limitations under the License.
         });
         element = fixture('basic');
         outputEl = element.queryEffectiveChildren('#diffTable');
-        sandbox.stub(element, '_getDiffBuilder', function() {
-          var builder = new GrDiffBuilder(
-              {content: content}, {left: [], right: []}, prefs, outputEl);
+        sandbox.stub(element, '_getDiffBuilder', () => {
+          const builder = new GrDiffBuilder(
+              {content}, {left: [], right: []}, prefs, outputEl);
           sandbox.stub(builder, 'addColumns');
           builder.buildSectionElement = function(group) {
-            var section = document.createElement('stub');
-            section.textContent = group.lines.reduce(function(acc, line) {
+            const section = document.createElement('stub');
+            section.textContent = group.lines.reduce((acc, line) => {
               return acc + line.text;
             }, '');
             return section;
           };
           return builder;
         });
-        element.diff = {content: content};
+        element.diff = {content};
         element.render({left: [], right: []}, prefs).then(done);
       });
 
-      teardown(function() {
+      teardown(() => {
         sandbox.restore();
       });
 
-      test('reporting', function(done) {
-        var timeStub = element.$.reporting.time;
-        var timeEndStub = element.$.reporting.timeEnd;
+      test('reporting', done => {
+        const timeStub = element.$.reporting.time;
+        const timeEndStub = element.$.reporting.timeEnd;
         assert.isTrue(timeStub.calledWithExactly('Diff Total Render'));
         assert.isTrue(timeStub.calledWithExactly('Diff Content Render'));
         assert.isTrue(timeStub.calledWithExactly('Diff Syntax Render'));
@@ -777,43 +791,43 @@ limitations under the License.
         done();
       });
 
-      test('renderSection', function() {
-        var section = outputEl.querySelector('stub:nth-of-type(2)');
-        var prevInnerHTML = section.innerHTML;
+      test('renderSection', () => {
+        let section = outputEl.querySelector('stub:nth-of-type(2)');
+        const prevInnerHTML = section.innerHTML;
         section.innerHTML = 'wiped';
         element._builder.renderSection(section);
         section = outputEl.querySelector('stub:nth-of-type(2)');
         assert.equal(section.innerHTML, prevInnerHTML);
       });
 
-      test('addColumns is called', function(done) {
+      test('addColumns is called', done => {
         element.render({left: [], right: []}, {}).then(done);
         assert.isTrue(element._builder.addColumns.called);
       });
 
-      test('getSectionsByLineRange one line', function() {
-        var section = outputEl.querySelector('stub:nth-of-type(2)');
-        var sections = element._builder.getSectionsByLineRange(1, 1, 'left');
+      test('getSectionsByLineRange one line', () => {
+        const section = outputEl.querySelector('stub:nth-of-type(2)');
+        const sections = element._builder.getSectionsByLineRange(1, 1, 'left');
         assert.equal(sections.length, 1);
         assert.strictEqual(sections[0], section);
       });
 
-      test('getSectionsByLineRange over diff', function() {
-        var section = [
+      test('getSectionsByLineRange over diff', () => {
+        const section = [
           outputEl.querySelector('stub:nth-of-type(2)'),
           outputEl.querySelector('stub:nth-of-type(3)'),
         ];
-        var sections = element._builder.getSectionsByLineRange(1, 2, 'left');
+        const sections = element._builder.getSectionsByLineRange(1, 2, 'left');
         assert.equal(sections.length, 2);
         assert.strictEqual(sections[0], section[0]);
         assert.strictEqual(sections[1], section[1]);
       });
 
-      test('render-start and render are fired', function(done) {
-        var dispatchEventStub = sinon.stub(element, 'dispatchEvent');
-        element.render({left: [], right: []}, {}).then(function() {
-          var firedEventTypes = dispatchEventStub.getCalls()
-              .map(function(c) { return c.args[0].type; });
+      test('render-start and render are fired', done => {
+        const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
+        element.render({left: [], right: []}, {}).then(() => {
+          const firedEventTypes = dispatchEventStub.getCalls()
+              .map(c => { return c.args[0].type; });
           assert.include(firedEventTypes, 'render-start');
           assert.include(firedEventTypes, 'render-content');
           assert.include(firedEventTypes, 'render');
@@ -821,18 +835,18 @@ limitations under the License.
         });
       });
 
-      test('rendering normal-sized diff does not disable syntax', function() {
+      test('rendering normal-sized diff does not disable syntax', () => {
         assert.isTrue(element.$.syntaxLayer.enabled);
       });
 
-      test('rendering large diff disables syntax', function(done) {
+      test('rendering large diff disables syntax', done => {
         // Before it renders, set the first diff line to 500 '*' characters.
         element.diff.content[0].a = [new Array(501).join('*')];
-        element.addEventListener('render', function() {
+        element.addEventListener('render', () => {
           assert.isFalse(element.$.syntaxLayer.enabled);
           done();
         });
-        var prefs = {
+        const prefs = {
           line_length: 10,
           show_tabs: true,
           tab_size: 4,
@@ -843,13 +857,13 @@ limitations under the License.
       });
     });
 
-    suite('mock-diff', function() {
-      var element;
-      var builder;
-      var diff;
-      var prefs;
+    suite('mock-diff', () => {
+      let element;
+      let builder;
+      let diff;
+      let prefs;
 
-      setup(function(done) {
+      setup(done => {
         element = fixture('mock-diff');
         diff = document.createElement('mock-diff-response').diffResponse;
         element.diff = diff;
@@ -860,14 +874,14 @@ limitations under the License.
           tab_size: 4,
         };
 
-        element.render({left: [], right: []}, prefs).then(function() {
+        element.render({left: [], right: []}, prefs).then(() => {
           builder = element._builder;
           done();
         });
       });
 
-      test('getContentByLine', function() {
-        var actual;
+      test('getContentByLine', () => {
+        let actual;
 
         actual = builder.getContentByLine(2, 'left');
         assert.equal(actual.textContent, diff.content[0].ab[1]);
@@ -882,19 +896,19 @@ limitations under the License.
         assert.equal(actual.textContent, diff.content[1].b[0]);
       });
 
-      test('findLinesByRange', function() {
-        var lines = [];
-        var elems = [];
-        var start = 6;
-        var end = 10;
-        var count = end - start + 1;
+      test('findLinesByRange', () => {
+        const lines = [];
+        const elems = [];
+        const start = 6;
+        const end = 10;
+        const count = end - start + 1;
 
         builder.findLinesByRange(start, end, 'right', lines, elems);
 
         assert.equal(lines.length, count);
         assert.equal(elems.length, count);
 
-        for (var i = 0; i < 5; i++) {
+        for (let i = 0; i < 5; i++) {
           assert.instanceOf(lines[i], GrDiffLine);
           assert.equal(lines[i].afterNumber, start + i);
           assert.instanceOf(elems[i], HTMLElement);
@@ -902,59 +916,59 @@ limitations under the License.
         }
       });
 
-      test('_renderContentByRange', function() {
-        var spy = sinon.spy(builder, '_createTextEl');
-        var start = 9;
-        var end = 14;
-        var count = end - start + 1;
+      test('_renderContentByRange', () => {
+        const spy = sinon.spy(builder, '_createTextEl');
+        const start = 9;
+        const end = 14;
+        const count = end - start + 1;
 
         builder._renderContentByRange(start, end, 'left');
 
         assert.equal(spy.callCount, count);
-        spy.getCalls().forEach(function(call, i) {
+        spy.getCalls().forEach((call, i) => {
           assert.equal(call.args[0].beforeNumber, start + i);
         });
 
         spy.restore();
       });
 
-      test('_getNextContentOnSide side-by-side left', function() {
-        var startElem = builder.getContentByLine(5, 'left',
+      test('_getNextContentOnSide side-by-side left', () => {
+        const startElem = builder.getContentByLine(5, 'left',
             element.$.diffTable);
-        var expectedStartString = diff.content[2].ab[0];
-        var expectedNextString = diff.content[2].ab[1];
+        const expectedStartString = diff.content[2].ab[0];
+        const expectedNextString = diff.content[2].ab[1];
         assert.equal(startElem.textContent, expectedStartString);
 
-        var nextElem = builder._getNextContentOnSide(startElem,
+        const nextElem = builder._getNextContentOnSide(startElem,
             'left');
         assert.equal(nextElem.textContent, expectedNextString);
       });
 
-      test('_getNextContentOnSide side-by-side right', function() {
-        var startElem = builder.getContentByLine(5, 'right',
+      test('_getNextContentOnSide side-by-side right', () => {
+        const startElem = builder.getContentByLine(5, 'right',
             element.$.diffTable);
-        var expectedStartString = diff.content[1].b[0];
-        var expectedNextString = diff.content[1].b[1];
+        const expectedStartString = diff.content[1].b[0];
+        const expectedNextString = diff.content[1].b[1];
         assert.equal(startElem.textContent, expectedStartString);
 
-        var nextElem = builder._getNextContentOnSide(startElem,
+        const nextElem = builder._getNextContentOnSide(startElem,
             'right');
         assert.equal(nextElem.textContent, expectedNextString);
       });
 
-      test('_getNextContentOnSide unified left', function(done) {
+      test('_getNextContentOnSide unified left', done => {
         // Re-render as unified:
         element.viewMode = 'UNIFIED_DIFF';
-        element.render({left: [], right: []}, prefs).then(function() {
+        element.render({left: [], right: []}, prefs).then(() => {
           builder = element._builder;
 
-          var startElem = builder.getContentByLine(5, 'left',
+          const startElem = builder.getContentByLine(5, 'left',
               element.$.diffTable);
-          var expectedStartString = diff.content[2].ab[0];
-          var expectedNextString = diff.content[2].ab[1];
+          const expectedStartString = diff.content[2].ab[0];
+          const expectedNextString = diff.content[2].ab[1];
           assert.equal(startElem.textContent, expectedStartString);
 
-          var nextElem = builder._getNextContentOnSide(startElem,
+          const nextElem = builder._getNextContentOnSide(startElem,
               'left');
           assert.equal(nextElem.textContent, expectedNextString);
 
@@ -962,19 +976,19 @@ limitations under the License.
         });
       });
 
-      test('_getNextContentOnSide unified right', function(done) {
+      test('_getNextContentOnSide unified right', done => {
         // Re-render as unified:
         element.viewMode = 'UNIFIED_DIFF';
-        element.render({left: [], right: []}, prefs).then(function() {
+        element.render({left: [], right: []}, prefs).then(() => {
           builder = element._builder;
 
-          var startElem = builder.getContentByLine(5, 'right',
+          const startElem = builder.getContentByLine(5, 'right',
               element.$.diffTable);
-          var expectedStartString = diff.content[1].b[0];
-          var expectedNextString = diff.content[1].b[1];
+          const expectedStartString = diff.content[1].b[0];
+          const expectedNextString = diff.content[1].b[1];
           assert.equal(startElem.textContent, expectedStartString);
 
-          var nextElem = builder._getNextContentOnSide(startElem,
+          const nextElem = builder._getNextContentOnSide(startElem,
               'right');
           assert.equal(nextElem.textContent, expectedNextString);
 
@@ -982,11 +996,11 @@ limitations under the License.
         });
       });
 
-      test('_escapeHTML', function() {
-        var input = '<script>alert("XSS");<' + '/script>';
-        var expected = '&lt;script&gt;alert(&quot;XSS&quot;);' +
+      test('_escapeHTML', () => {
+        let input = '<script>alert("XSS");<' + '/script>';
+        let expected = '&lt;script&gt;alert(&quot;XSS&quot;);' +
             '&lt;&#x2F;script&gt;';
-        var result = GrDiffBuilder.prototype._escapeHTML(input);
+        let result = GrDiffBuilder.prototype._escapeHTML(input);
         assert.equal(result, expected);
 
         input = '& < > " \' / `';

@@ -24,24 +24,24 @@
   GrDiffBuilderUnified.prototype.constructor = GrDiffBuilderUnified;
 
   GrDiffBuilderUnified.prototype.buildSectionElement = function(group) {
-    var sectionEl = this._createElement('tbody', 'section');
+    const sectionEl = this._createElement('tbody', 'section');
     sectionEl.classList.add(group.type);
     if (this._isTotal(group)) {
       sectionEl.classList.add('total');
     }
 
-    for (var i = 0; i < group.lines.length; ++i) {
+    for (let i = 0; i < group.lines.length; ++i) {
       sectionEl.appendChild(this._createRow(sectionEl, group.lines[i]));
     }
     return sectionEl;
   };
 
   GrDiffBuilderUnified.prototype.addColumns = function(outputEl, fontSize) {
-    var width = fontSize * 4;
-    var colgroup = document.createElement('colgroup');
+    const width = fontSize * 4;
+    const colgroup = document.createElement('colgroup');
 
     // Add left-side line number.
-    var col = document.createElement('col');
+    let col = document.createElement('col');
     col.setAttribute('width', width);
     colgroup.appendChild(col);
 
@@ -57,8 +57,8 @@
   };
 
   GrDiffBuilderUnified.prototype._createRow = function(section, line) {
-    var row = this._createElement('tr', line.type);
-    var lineEl = this._createLineEl(line, line.beforeNumber,
+    const row = this._createElement('tr', line.type);
+    let lineEl = this._createLineEl(line, line.beforeNumber,
         GrDiffLine.Type.REMOVE);
     lineEl.classList.add('left');
     row.appendChild(lineEl);
@@ -68,12 +68,12 @@
     row.appendChild(lineEl);
     row.classList.add('diff-row', 'unified');
 
-    var action = this._createContextControl(section, line);
+    const action = this._createContextControl(section, line);
     if (action) {
       row.appendChild(action);
     } else {
-      var textEl = this._createTextEl(line);
-      var threadGroupEl = this._commentThreadGroupForLine(line);
+      const textEl = this._createTextEl(line);
+      const threadGroupEl = this._commentThreadGroupForLine(line);
       if (threadGroupEl) {
         textEl.appendChild(threadGroupEl);
       }
@@ -84,7 +84,7 @@
 
   GrDiffBuilderUnified.prototype._getNextContentOnSide = function(
       content, side) {
-    var tr = content.parentElement.parentElement;
+    let tr = content.parentElement.parentElement;
     while (tr = tr.nextSibling) {
       if (tr.classList.contains('both') || (
           (side === 'left' && tr.classList.contains('remove')) ||

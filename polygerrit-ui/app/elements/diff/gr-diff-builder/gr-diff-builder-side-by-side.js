@@ -24,13 +24,13 @@
   GrDiffBuilderSideBySide.prototype.constructor = GrDiffBuilderSideBySide;
 
   GrDiffBuilderSideBySide.prototype.buildSectionElement = function(group) {
-    var sectionEl = this._createElement('tbody', 'section');
+    const sectionEl = this._createElement('tbody', 'section');
     sectionEl.classList.add(group.type);
     if (this._isTotal(group)) {
       sectionEl.classList.add('total');
     }
-    var pairs = group.getSideBySidePairs();
-    for (var i = 0; i < pairs.length; i++) {
+    const pairs = group.getSideBySidePairs();
+    for (let i = 0; i < pairs.length; i++) {
       sectionEl.appendChild(this._createRow(sectionEl, pairs[i].left,
           pairs[i].right));
     }
@@ -38,11 +38,11 @@
   };
 
   GrDiffBuilderSideBySide.prototype.addColumns = function(outputEl, fontSize) {
-    var width = fontSize * 4;
-    var colgroup = document.createElement('colgroup');
+    const width = fontSize * 4;
+    const colgroup = document.createElement('colgroup');
 
     // Add left-side line number.
-    var col = document.createElement('col');
+    let col = document.createElement('col');
     col.setAttribute('width', width);
     colgroup.appendChild(col);
 
@@ -62,7 +62,7 @@
 
   GrDiffBuilderSideBySide.prototype._createRow = function(section, leftLine,
       rightLine) {
-    var row = this._createElement('tr');
+    const row = this._createElement('tr');
     row.classList.add('diff-row', 'side-by-side');
     row.setAttribute('left-type', leftLine.type);
     row.setAttribute('right-type', rightLine.type);
@@ -76,15 +76,15 @@
 
   GrDiffBuilderSideBySide.prototype._appendPair = function(section, row, line,
       lineNumber, side) {
-    var lineEl = this._createLineEl(line, lineNumber, line.type, side);
+    const lineEl = this._createLineEl(line, lineNumber, line.type, side);
     lineEl.classList.add(side);
     row.appendChild(lineEl);
-    var action = this._createContextControl(section, line);
+    const action = this._createContextControl(section, line);
     if (action) {
       row.appendChild(action);
     } else {
-      var textEl = this._createTextEl(line, side);
-      var threadGroupEl = this._commentThreadGroupForLine(line, side);
+      const textEl = this._createTextEl(line, side);
+      const threadGroupEl = this._commentThreadGroupForLine(line, side);
       if (threadGroupEl) {
         textEl.appendChild(threadGroupEl);
       }
@@ -94,7 +94,7 @@
 
   GrDiffBuilderSideBySide.prototype._getNextContentOnSide = function(
       content, side) {
-    var tr = content.parentElement.parentElement;
+    let tr = content.parentElement.parentElement;
     while (tr = tr.nextSibling) {
       content = tr.querySelector(
           'td.content .contentText[data-side="' + side + '"]');

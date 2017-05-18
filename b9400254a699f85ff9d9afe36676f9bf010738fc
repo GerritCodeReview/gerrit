@@ -52,6 +52,24 @@
       "revId": "b9400254a699f85ff9d9afe36676f9bf010738fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "464236e0_8c41894c",
+        "filename": "gerrit-plugin-api/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-18T04:19:12Z",
+      "side": 1,
+      "message": "Done in: [1].\n\n* [1] https://gerrit-review.googlesource.com/107279",
+      "parentUuid": "58fbf641_368325fa",
+      "revId": "b9400254a699f85ff9d9afe36676f9bf010738fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "94cf669dc08fdd887429236ead9017c6fac2cd18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "012c1bc7_36151210",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T20:20:07Z",
+      "side": 1,
+      "message": "But seriously it\u0027s only for the sake of discussion since we\u0027re only starting to think of phasing out hidden$.",
+      "parentUuid": "67838dc6_05dc3c35",
+      "range": {
+        "startLine": 256,
+        "startChar": 4,
+        "endLine": 256,
+        "endChar": 19
+      },
+      "revId": "94cf669dc08fdd887429236ead9017c6fac2cd18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

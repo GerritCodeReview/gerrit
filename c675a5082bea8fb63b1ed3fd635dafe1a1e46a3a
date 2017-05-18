@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "78366832_b06b6891",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-18T22:06:44Z",
+      "side": 1,
+      "message": "I\u0027ve rebase the reply dialog change",
+      "parentUuid": "671f6e35_3dcce20d",
+      "revId": "c675a5082bea8fb63b1ed3fd635dafe1a1e46a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f2339ef_d0dc7007",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
         "patchSetId": 12
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "cd65e86f_9d247d5a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-18T22:06:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f2339ef_d0dc7007",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 59,
+        "endChar": 9
+      },
+      "revId": "c675a5082bea8fb63b1ed3fd635dafe1a1e46a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "321b80a5_42cf691e",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
         "patchSetId": 12
@@ -53,6 +95,30 @@
       "writtenOn": "2017-05-18T21:31:41Z",
       "side": 1,
       "message": "Optional: can the monospace class just get added to this.classList?",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 53
+      },
+      "revId": "c675a5082bea8fb63b1ed3fd635dafe1a1e46a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9f62bbb_4e7cd8cd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-18T22:06:44Z",
+      "side": 1,
+      "message": "Ah yes, at one point the dropdpown wasn\u0027t a separate component, and this was do avoid that text being monospaced. no issues now.",
+      "parentUuid": "321b80a5_42cf691e",
       "range": {
         "startLine": 108,
         "startChar": 8,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "f0911cee_aebd139b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-18T22:06:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e21a6c1f_476827b4",
+      "range": {
+        "startLine": 205,
+        "startChar": 6,
+        "endLine": 206,
+        "endChar": 29
+      },
+      "revId": "c675a5082bea8fb63b1ed3fd635dafe1a1e46a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6e69a1f_fb7f11c5",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
         "patchSetId": 12
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "e275e83f_58cf291d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-18T22:06:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6e69a1f_fb7f11c5",
+      "range": {
+        "startLine": 227,
+        "startChar": 18,
+        "endLine": 227,
+        "endChar": 20
+      },
+      "revId": "c675a5082bea8fb63b1ed3fd635dafe1a1e46a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97e28811_fe180040",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
         "patchSetId": 12
@@ -131,6 +245,30 @@
       "revId": "c675a5082bea8fb63b1ed3fd635dafe1a1e46a3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80ee7903_18f46b09",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-18T22:06:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97e28811_fe180040",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 6
+      },
+      "revId": "c675a5082bea8fb63b1ed3fd635dafe1a1e46a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

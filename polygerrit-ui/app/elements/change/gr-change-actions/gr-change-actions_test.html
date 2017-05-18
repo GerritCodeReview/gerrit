@@ -731,6 +731,85 @@ limitations under the License.
       });
     });
 
+    suite('mute change', () => {
+      setup(done => {
+        sandbox.stub(element, '_fireAction');
+
+        const MuteAction = {
+          __key: 'mute',
+          __type: 'change',
+          __primary: false,
+          method: 'PUT',
+          label: 'Mute',
+          title: 'Working...',
+          enabled: true,
+        };
+
+        element.actions = {
+          mute: MuteAction,
+        };
+
+        element.changeNum = '2';
+        element.patchNum = '2';
+
+        element.reload().then(() => {flush(done);});
+      });
+
+      test('make sure the mute button is not outside of the overflow menu',
+          () => {
+            assert.isNotOk(element.$$('[data-action-key="mute"]'));
+          });
+
+      test('muting change', () => {
+        assert.isOk(element.$.moreActions.$$('span[data-id="mute-change"]'));
+        element.setActionOverflow('change', 'mute', false);
+        flushAsynchronousOperations();
+        assert.isOk(element.$$('[data-action-key="mute"]'));
+        assert.isNotOk(
+            element.$.moreActions.$$('span[data-id="mute-change"]'));
+      });
+    });
+
+    suite('unmute change', () => {
+      setup(done => {
+        sandbox.stub(element, '_fireAction');
+
+        const UnmuteAction = {
+          __key: 'unmute',
+          __type: 'change',
+          __primary: false,
+          method: 'PUT',
+          label: 'Unmute',
+          title: 'Working...',
+          enabled: true,
+        };
+
+        element.actions = {
+          unmute: UnmuteAction,
+        };
+
+        element.changeNum = '2';
+        element.patchNum = '2';
+
+        element.reload().then(() => {flush(done);});
+      });
+
+
+      test('unmute button not outside of the overflow menu', () => {
+        assert.isNotOk(element.$$('[data-action-key="unmute"]'));
+      });
+
+      test('unmuting change', () => {
+        assert.isOk(
+            element.$.moreActions.$$('span[data-id="unmute-change"]'));
+        element.setActionOverflow('change', 'unmute', false);
+        flushAsynchronousOperations();
+        assert.isOk(element.$$('[data-action-key="unmute"]'));
+        assert.isNotOk(
+            element.$.moreActions.$$('span[data-id="unmute-change"]'));
+      });
+    });
+
     suite('quick approve', () => {
       setup(() => {
         element.change = {
@@ -800,7 +879,7 @@ limitations under the License.
         assert.isNull(approveButton);
       });
 
-      test('approves when taped', () => {
+      test('approves when tapped', () => {
         const fireActionStub = sandbox.stub(element, '_fireAction');
         MockInteractions.tap(
             element.$$('gr-button[data-action-key=\'review\']'));

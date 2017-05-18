@@ -48,11 +48,13 @@
     ABANDON: 'abandon',
     DELETE: '/',
     IGNORE: 'ignore',
+    MUTE: 'mute',
     PRIVATE: 'private',
     PRIVATE_DELETE: 'private.delete',
     RESTORE: 'restore',
     REVERT: 'revert',
     UNIGNORE: 'unignore',
+    UNMUTE: 'unmute',
     WIP: 'wip',
   };
 
@@ -222,6 +224,14 @@
             {
               type: ActionType.CHANGE,
               key: ChangeActions.UNIGNORE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.MUTE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.UNMUTE,
             },
             {
               type: ActionType.CHANGE,

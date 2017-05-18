@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3237c891_b87f52d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T00:53:23Z",
+      "side": 1,
+      "message": "This was that issue I saw earlier!",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 68
+      },
+      "revId": "fb14d2e01854a3bcbee44a6cc9706f9a557669e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b2edc7c_4408fe49",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T00:53:23Z",
+      "side": 1,
+      "message": "Do you have any ideas on what makes this test special?",
+      "revId": "fb14d2e01854a3bcbee44a6cc9706f9a557669e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

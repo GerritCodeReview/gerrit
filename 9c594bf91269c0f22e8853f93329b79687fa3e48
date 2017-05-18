@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "392cf121_e0f9a216",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 73
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T19:58:54Z",
+      "side": 1,
+      "message": "Nit: this line exceeds 80 characters.",
+      "range": {
+        "startLine": 598,
+        "startChar": 10,
+        "endLine": 599,
+        "endChar": 81
+      },
+      "revId": "9c594bf91269c0f22e8853f93329b79687fa3e48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b307331_af355c9b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 73
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T19:58:54Z",
+      "side": 1,
+      "message": "Nit: this line exceeds 80 characters.",
+      "range": {
+        "startLine": 603,
+        "startChar": 10,
+        "endLine": 604,
+        "endChar": 81
+      },
+      "revId": "9c594bf91269c0f22e8853f93329b79687fa3e48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cd997da_3b49db23",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 73
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T19:58:54Z",
+      "side": 1,
+      "message": "Nit: remove blank line.",
+      "revId": "9c594bf91269c0f22e8853f93329b79687fa3e48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

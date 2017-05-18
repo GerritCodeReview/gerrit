@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d875a92a_2a6998a9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T00:10:59Z",
+      "side": 1,
+      "message": "This could be...\n\nreturn this.send(\u0027POST\u0027, url, {reason}).then(response \u003d\u003e {\n  return this.getResponseObject(response);\n});",
+      "range": {
+        "startLine": 1132,
+        "startChar": 6,
+        "endLine": 1135,
+        "endChar": 13
+      },
+      "revId": "d7ea6fd04d7b75554967c8601f56a31dafcba671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

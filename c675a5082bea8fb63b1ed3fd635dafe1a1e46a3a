@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "671f6e35_3dcce20d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T21:31:41Z",
+      "side": 1,
+      "message": "Optional: It might be helpful to rebase one of the dependent changes so that I can try it out.",
+      "revId": "c675a5082bea8fb63b1ed3fd635dafe1a1e46a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f2339ef_d0dc7007",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T21:31:41Z",
+      "side": 1,
+      "message": "Nit: one too many spaces.",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 59,
+        "endChar": 9
+      },
+      "revId": "c675a5082bea8fb63b1ed3fd635dafe1a1e46a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "321b80a5_42cf691e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T21:31:41Z",
+      "side": 1,
+      "message": "Optional: can the monospace class just get added to this.classList?",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 53
+      },
+      "revId": "c675a5082bea8fb63b1ed3fd635dafe1a1e46a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e21a6c1f_476827b4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T21:31:41Z",
+      "side": 1,
+      "message": "Since this is used in the calculation of top, would this be more-accurately named something like...\n\n VERTICAL_OFFSET\n\n...?\n\nCan this be moved to the top of the file?",
+      "range": {
+        "startLine": 205,
+        "startChar": 6,
+        "endLine": 206,
+        "endChar": 29
+      },
+      "revId": "c675a5082bea8fb63b1ed3fd635dafe1a1e46a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6e69a1f_fb7f11c5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T21:31:41Z",
+      "side": 1,
+      "message": "Use strict equality here and below.",
+      "range": {
+        "startLine": 227,
+        "startChar": 18,
+        "endLine": 227,
+        "endChar": 20
+      },
+      "revId": "c675a5082bea8fb63b1ed3fd635dafe1a1e46a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97e28811_fe180040",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T21:31:41Z",
+      "side": 1,
+      "message": "I\u0027d appreciate comments that briefly explain the cases of this nested if-else block.",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 6
+      },
+      "revId": "c675a5082bea8fb63b1ed3fd635dafe1a1e46a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

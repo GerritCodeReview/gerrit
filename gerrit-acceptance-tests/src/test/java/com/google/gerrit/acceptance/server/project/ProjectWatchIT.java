@@ -285,7 +285,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // watch project
     String watchedProject = createProject("watchedProject").get();
     setApiUser(user);
-    watch(watchedProject, null);
+    watch(watchedProject);
 
     // push a change to watched project -> should trigger email notification
     setApiUser(admin);
@@ -327,7 +327,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     watch(watchedProject, "file:a.txt");
 
     // watch other project as user
-    watch(otherWatchedProject, null);
+    watch(otherWatchedProject);
 
     // push a change to watched file -> should trigger email notification for
     // user
@@ -352,7 +352,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // watch project as user2
     TestAccount user2 = accountCreator.create("user2", "user2@test.com", "User2");
     setApiUser(user2);
-    watch(watchedProject, null);
+    watch(watchedProject);
 
     // push a change to non-watched file -> should not trigger email
     // notification for user, only for user2
@@ -416,7 +416,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     setApiUser(user);
 
     // watch the All-Projects project to watch all projects
-    watch(allProjects.get(), null);
+    watch(allProjects.get());
 
     // push a change to any project -> should trigger email notification
     setApiUser(admin);
@@ -469,7 +469,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // watch project as user2
     TestAccount user2 = accountCreator.create("user2", "user2@test.com", "User2");
     setApiUser(user2);
-    watch(anyProject, null);
+    watch(anyProject);
 
     // push a change to non-watched file in any project -> should not trigger
     // email notification for user, only for user2
@@ -533,7 +533,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // watch project
     String watchedProject = createProject("watchedProject").get();
     setApiUser(user);
-    watch(watchedProject, null);
+    watch(watchedProject);
 
     // push a draft change to watched project -> should not trigger email notification
     setApiUser(admin);
@@ -564,13 +564,13 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // watch project as user that can't view drafts
     setApiUser(user);
-    watch(watchedProject, null);
+    watch(watchedProject);
 
     // watch project as user that can view all drafts
     TestAccount userThatCanViewDrafts =
         accountCreator.create("user2", "user2@test.com", "User2", groupThatCanViewDrafts.name);
     setApiUser(userThatCanViewDrafts);
-    watch(watchedProject, null);
+    watch(watchedProject);
 
     // push a draft change to watched project -> should trigger email notification for
     // userThatCanViewDrafts, but not for user
@@ -597,7 +597,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // watch project
     String watchedProject = createProject("watchedProject").get();
     setApiUser(user);
-    watch(watchedProject, null);
+    watch(watchedProject);
 
     // push a change to watched project
     setApiUser(admin);
@@ -658,7 +658,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // watch project
     String watchedProject = createProject("watchedProject").get();
     setApiUser(user);
-    watch(watchedProject, null);
+    watch(watchedProject);
 
     // push a private change to watched project -> should not trigger email notification
     setApiUser(admin);
@@ -690,14 +690,14 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // watch project as user that can't view private changes
     setApiUser(user);
-    watch(watchedProject, null);
+    watch(watchedProject);
 
     // watch project as user that can view all private change
     TestAccount userThatCanViewPrivateChanges =
         accountCreator.create(
             "user2", "user2@test.com", "User2", groupThatCanViewPrivateChanges.name);
     setApiUser(userThatCanViewPrivateChanges);
-    watch(watchedProject, null);
+    watch(watchedProject);
 
     // push a private change to watched project -> should trigger email notification for
     // userThatCanViewPrivateChanges, but not for user

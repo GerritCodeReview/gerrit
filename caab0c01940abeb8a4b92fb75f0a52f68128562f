@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6bd28484_eb1b519e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-18T11:49:43Z",
+      "side": 1,
+      "message": "The ToDo comments in RevisionApiImpl for \u0027Submit\u0027 and \u0027PreviewSubmit\u0027 should be removed.",
+      "range": {
+        "startLine": 87,
+        "startChar": 13,
+        "endLine": 87,
+        "endChar": 50
+      },
+      "revId": "caab0c01940abeb8a4b92fb75f0a52f68128562f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c607690_de766101",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 1
@@ -46,6 +69,53 @@
       "revId": "caab0c01940abeb8a4b92fb75f0a52f68128562f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa87cde8_e881bb3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-18T11:49:43Z",
+      "side": 1,
+      "message": "For single constructors, @Inject should be used. [1]\n\n[1] https://gerrit-review.googlesource.com/100892",
+      "parentUuid": "07aaebda_5e827619",
+      "range": {
+        "startLine": 239,
+        "startChar": 3,
+        "endLine": 239,
+        "endChar": 9
+      },
+      "revId": "caab0c01940abeb8a4b92fb75f0a52f68128562f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0142e367_c763e623",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-18T11:49:43Z",
+      "side": 1,
+      "message": "optional: Move this down to match the order of arguments.",
+      "range": {
+        "startLine": 252,
+        "startChar": 4,
+        "endLine": 252,
+        "endChar": 49
+      },
+      "revId": "caab0c01940abeb8a4b92fb75f0a52f68128562f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

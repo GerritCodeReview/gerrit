@@ -253,6 +253,10 @@
       return '#' + comment.line;
     },
 
+    _maybeAddHidden(isAdmin, draft) {
+      return isAdmin && !draft ? '' : 'hidden';
+    },
+
     _computeSaveDisabled(draft) {
       return draft == null || draft.trim() == '';
     },

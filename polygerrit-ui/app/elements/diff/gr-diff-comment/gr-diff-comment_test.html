@@ -248,7 +248,13 @@ limitations under the License.
     });
     test('delete comment button for non-admins is hidden', () => {
       element._isAdmin = false;
-      assert.isTrue(element.$$('.action.delete').hidden);
+      assert.isTrue(element.$$('.action.delete').classList.contains('hidden'));
+    });
+
+    test('delete comment button for admins with draft is hidden', () => {
+      element._isAdmin = false;
+      element.draft = true;
+      assert.isTrue(element.$$('.action.delete').classList.contains('hidden'));
     });
 
     test('delete comment', done => {
@@ -258,6 +264,7 @@ limitations under the License.
       element.changeNum = 42;
       element.patchNum = 0xDEADBEEF;
       element._isAdmin = true;
+      assert.isFalse(element.$$('.action.delete').classList.contains('hidden'));
       MockInteractions.tap(element.$$('.action.delete'));
       element.$.overlay.open.lastCall.returnValue.then(() => {
         element.$.confirmDeleteComment.message = 'removal reason';

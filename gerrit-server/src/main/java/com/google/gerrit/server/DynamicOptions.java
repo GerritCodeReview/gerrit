@@ -18,13 +18,20 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.plugins.DelegatingClassLoader;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.inject.Provider;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Helper class to define and parse options from plugins on ssh and RestAPI commands. */
 public class DynamicOptions {
+  private static final Logger log = LoggerFactory.getLogger(DynamicOptions.class);
   /**
    * To provide additional options, bind a DynamicBean. For example:
    *
@@ -74,6 +81,37 @@ public class DynamicOptions {
    */
   public interface ClassNameProvider extends DynamicBean {
     String getClassName();
+  }
+
+  /**
+   * To provide additional Guice bindings for options to a command in another classloader, bind a
+   * ModulesClassNamesProvider which provides the name of your Modules needed for your DynamicBean
+   * in the other classLoader.
+   *
+   * <p>Do this by binding to the name of the command you are going to bind to and providing an
+   * Iterable of Module names to instantiate and add to the Injector used to instantiate the
+   * DynamicBean in the other classLoader. For example:
+   *
+   * <pre>
+   *   bind(com.google.gerrit.server.DynamicOptions.DynamicBean.class)
+   *       .annotatedWith(Exports.named(
+   *           "com.google.gerrit.plugins.otherplugin.command"))
+   *       .to(MyOptionsModulesClassNamesProvider.class);
+   *
+   *   static class MyOptionsModulesClassNamesProvider implements DynamicOptions.ClassNameProvider {
+   *     @Override
+   *     public String getClassName() {
+   *       return "com.googlesource.gerrit.plugins.myplugin.CommandOptions";
+   *     }
+   *     @Override
+   *     public Iterable<String> getModulesClassNames()() {
+   *       return "com.googlesource.gerrit.plugins.myplugin.MyOptionsModule";
+   *     }
+   *   }
+   * </pre>
+   */
+  public interface ModulesClassNamesProvider extends ClassNameProvider {
+    Iterable<String> getModulesClassNames();
   }
 
   /**
@@ -162,9 +200,25 @@ public class DynamicOptions {
     }
 
     if (className != null) {
+      List<Module> modules = new ArrayList<>();
       try {
+        if (dynamicBean instanceof ModulesClassNamesProvider) {
+          for (String moduleName :
+              ((ModulesClassNamesProvider) dynamicBean).getModulesClassNames()) {
+            try {
+              Class<?> moduleClass = loader.loadClass(moduleName);
+              modules.add((Module) moduleClass.getConstructor().newInstance());
+            } catch (NoSuchMethodException
+                | InstantiationException
+                | IllegalAccessException
+                | InvocationTargetException e) {
+              // Don't fail the command because of bad option
+              log.error("ERROR loading/instantiating module " + moduleName, e);
+            }
+          }
+        }
         return injector
-            .createChildInjector()
+            .createChildInjector(modules)
             .getInstance((Class<DynamicOptions.DynamicBean>) loader.loadClass(className));
       } catch (ClassNotFoundException e) {
         throw new RuntimeException(e);

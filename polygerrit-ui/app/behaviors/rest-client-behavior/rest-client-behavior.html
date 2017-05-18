@@ -117,6 +117,7 @@ limitations under the License.
     },
 
     changeStatusString(change) {
+      if (!change) { return; }
       // "Closed" states should take precedence over "open" ones.
       if (change.status === this.ChangeStatus.MERGED) {
         return 'Merged';

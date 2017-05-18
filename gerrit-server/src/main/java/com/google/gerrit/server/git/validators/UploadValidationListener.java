@@ -48,14 +48,14 @@ public interface UploadValidationListener {
    * @throws ValidationException to block the upload and send a message back to the end-user over
    *     the client's protocol connection.
    */
-  void onPreUpload(
+  default void onPreUpload(
       Repository repository,
       Project project,
       String remoteHost,
       UploadPack up,
       Collection<? extends ObjectId> wants,
       Collection<? extends ObjectId> haves)
-      throws ValidationException;
+      throws ValidationException {}
 
   /**
    * Invoked before negotiation round is started.
@@ -70,12 +70,12 @@ public interface UploadValidationListener {
    * @throws ValidationException to block the upload and send a message back to the end-user over
    *     the client's protocol connection.
    */
-  void onBeginNegotiate(
+  default void onBeginNegotiate(
       Repository repository,
       Project project,
       String remoteHost,
       UploadPack up,
       Collection<? extends ObjectId> wants,
       int cntOffered)
-      throws ValidationException;
+      throws ValidationException {}
 }

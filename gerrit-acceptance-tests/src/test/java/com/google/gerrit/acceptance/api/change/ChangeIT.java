@@ -35,6 +35,31 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.junit.Assert.fail;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushResult;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -103,7 +128,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeMessageModifier;
@@ -117,29 +141,6 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.PushResult;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
 @NoHttpd
 public class ChangeIT extends AbstractDaemonTest {
@@ -423,134 +424,6 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(ResourceNotFoundException.class);
     exception.expectMessage("Multiple changes found for " + changeId);
     gApi.changes().id(changeId).get();
-  }
-
-  @Test
-  public void abandon() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
-    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
-    gApi.changes().id(changeId).abandon();
-    ChangeInfo info = get(changeId);
-    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("abandoned");
-
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("change is abandoned");
-    gApi.changes().id(changeId).abandon();
-  }
-
-  @Test
-  public void batchAbandon() throws Exception {
-    CurrentUser user = atrScope.get().getUser();
-    PushOneCommit.Result a = createChange();
-    List<ChangeControl> controlA = changeFinder.find(a.getChangeId(), user);
-    assertThat(controlA).hasSize(1);
-    PushOneCommit.Result b = createChange();
-    List<ChangeControl> controlB = changeFinder.find(b.getChangeId(), user);
-    assertThat(controlB).hasSize(1);
-    List<ChangeControl> list = ImmutableList.of(controlA.get(0), controlB.get(0));
-    changeAbandoner.batchAbandon(
-        batchUpdateFactory, controlA.get(0).getProject().getNameKey(), user, list, "deadbeef");
-
-    ChangeInfo info = get(a.getChangeId());
-    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("abandoned");
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("deadbeef");
-
-    info = get(b.getChangeId());
-    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("abandoned");
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("deadbeef");
-  }
-
-  @Test
-  public void batchAbandonChangeProject() throws Exception {
-    String project1Name = name("Project1");
-    String project2Name = name("Project2");
-    gApi.projects().create(project1Name);
-    gApi.projects().create(project2Name);
-    TestRepository<InMemoryRepository> project1 = cloneProject(new Project.NameKey(project1Name));
-    TestRepository<InMemoryRepository> project2 = cloneProject(new Project.NameKey(project2Name));
-
-    CurrentUser user = atrScope.get().getUser();
-    PushOneCommit.Result a = createChange(project1, "master", "x", "x", "x", "");
-    List<ChangeControl> controlA = changeFinder.find(a.getChangeId(), user);
-    assertThat(controlA).hasSize(1);
-    PushOneCommit.Result b = createChange(project2, "master", "x", "x", "x", "");
-    List<ChangeControl> controlB = changeFinder.find(b.getChangeId(), user);
-    assertThat(controlB).hasSize(1);
-    List<ChangeControl> list = ImmutableList.of(controlA.get(0), controlB.get(0));
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        String.format("Project name \"%s\" doesn't match \"%s\"", project2Name, project1Name));
-    changeAbandoner.batchAbandon(batchUpdateFactory, new Project.NameKey(project1Name), user, list);
-  }
-
-  @Test
-  public void abandonDraft() throws Exception {
-    PushOneCommit.Result r = createDraftChange();
-    String changeId = r.getChangeId();
-    assertThat(info(changeId).status).isEqualTo(ChangeStatus.DRAFT);
-
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("draft changes cannot be abandoned");
-    gApi.changes().id(changeId).abandon();
-  }
-
-  @Test
-  public void abandonNotAllowedWithoutPermission() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
-    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
-    setApiUser(user);
-    exception.expect(AuthException.class);
-    exception.expectMessage("abandon not permitted");
-    gApi.changes().id(changeId).abandon();
-  }
-
-  @Test
-  public void abandonAndRestoreAllowedWithPermission() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
-    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
-    grant(project, "refs/heads/master", Permission.ABANDON, false, REGISTERED_USERS);
-    setApiUser(user);
-    gApi.changes().id(changeId).abandon();
-    assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
-    gApi.changes().id(changeId).restore();
-    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
-  }
-
-  @Test
-  public void restore() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
-    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
-    gApi.changes().id(changeId).abandon();
-    assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
-
-    gApi.changes().id(changeId).restore();
-    ChangeInfo info = get(changeId);
-    assertThat(info.status).isEqualTo(ChangeStatus.NEW);
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("restored");
-
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("change is new");
-    gApi.changes().id(changeId).restore();
-  }
-
-  @Test
-  public void restoreNotAllowedWithoutPermission() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
-    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
-    gApi.changes().id(changeId).abandon();
-    setApiUser(user);
-    assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
-    exception.expect(AuthException.class);
-    exception.expectMessage("restore not permitted");
-    gApi.changes().id(changeId).restore();
   }
 
   @Test

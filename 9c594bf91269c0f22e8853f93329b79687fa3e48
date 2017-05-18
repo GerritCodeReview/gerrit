@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "6624486e_b8a7e3fb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 73
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T20:03:20Z",
+      "side": 1,
+      "message": "If the test to include (Private) goes into the `_computeChangeStatus`, can\u0027t we avoid having this label in two places?",
+      "range": {
+        "startLine": 331,
+        "startChar": 9,
+        "endLine": 334,
+        "endChar": 71
+      },
+      "revId": "9c594bf91269c0f22e8853f93329b79687fa3e48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1cd997da_3b49db23",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 73
@@ -59,6 +82,29 @@
       "writtenOn": "2017-05-18T19:58:54Z",
       "side": 1,
       "message": "Nit: remove blank line.",
+      "revId": "9c594bf91269c0f22e8853f93329b79687fa3e48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e92217b6_b8b12387",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 73
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T20:03:20Z",
+      "side": 1,
+      "message": "This whole method might be simplified as\n\n_privateChanges(change) {\n  return change.is_private ? \u0027 (Private)\u0027 : \u0027\u0027;\n}",
+      "range": {
+        "startLine": 644,
+        "startChar": 4,
+        "endLine": 653,
+        "endChar": 6
+      },
       "revId": "9c594bf91269c0f22e8853f93329b79687fa3e48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

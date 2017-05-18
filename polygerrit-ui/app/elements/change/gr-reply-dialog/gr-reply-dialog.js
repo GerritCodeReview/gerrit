@@ -402,7 +402,8 @@
       return jsonPromise.then(result => {
         const errors = [];
         for (const state of ['reviewers', 'ccs']) {
-          for (const reviewer of result[state]) {
+          if (!result.hasOwnProperty(state)) { continue; }
+          for (const reviewer of Object.values(result[state])) {
             if (reviewer.error) {
               errors.push(reviewer.error);
             }

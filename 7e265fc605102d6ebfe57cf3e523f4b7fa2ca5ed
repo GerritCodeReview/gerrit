@@ -70,6 +70,30 @@
       "revId": "7e265fc605102d6ebfe57cf3e523f4b7fa2ca5ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "982af8ff_6c5148d5",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T20:11:45Z",
+      "side": 1,
+      "message": "That does not work. For \"data\", I believe it needs a filegroup rather than a dependency.",
+      "parentUuid": "a8c1c432_8f247bfe",
+      "range": {
+        "startLine": 192,
+        "startChar": 9,
+        "endLine": 192,
+        "endChar": 26
+      },
+      "revId": "7e265fc605102d6ebfe57cf3e523f4b7fa2ca5ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -253,6 +253,12 @@
       return '#' + comment.line;
     },
 
+    _shouldShowDeleteBtn(_isAdmin, draft) {
+      if (_isAdmin && !draft) {
+        return true;
+      }
+    },
+
     _computeSaveDisabled(draft) {
       return draft == null || draft.trim() == '';
     },

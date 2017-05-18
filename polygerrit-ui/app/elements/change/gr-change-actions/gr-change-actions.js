@@ -195,6 +195,10 @@
           const value = [
             {
               type: ActionType.CHANGE,
+              key: ChangeActions.WIP,
+            },
+            {
+              type: ActionType.CHANGE,
               key: ChangeActions.DELETE,
             },
             {

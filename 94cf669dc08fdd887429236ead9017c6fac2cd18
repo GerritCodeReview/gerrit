@@ -70,6 +70,30 @@
       "revId": "94cf669dc08fdd887429236ead9017c6fac2cd18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87c78252_551def48",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T20:29:35Z",
+      "side": 1,
+      "message": "Ah, you\u0027re right. Maybe have a _computeCanDeleteClass on each?",
+      "parentUuid": "99611d07_26da47c6",
+      "range": {
+        "startLine": 256,
+        "startChar": 4,
+        "endLine": 256,
+        "endChar": 19
+      },
+      "revId": "94cf669dc08fdd887429236ead9017c6fac2cd18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

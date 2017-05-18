@@ -54,9 +54,6 @@ limitations under the License.
         margin-bottom: 0.7em;
         padding-bottom: 0;
       }
-      .hidden {
-        display: none;
-      }
       .container.collapsed .header {
         margin: 0;
       }
@@ -192,7 +189,11 @@ limitations under the License.
         width: 100%;
       }
       #deleteBtn {
+        display: none;
         margin-top: .5em;
+      }
+      .showDeleteButtons #deleteBtn {
+        display: block;
       }
     </style>
     <div id="container"
@@ -275,7 +276,7 @@ limitations under the License.
         </div>
         <gr-button
             id="deleteBtn"
-            class$="action delete [[_maybeAddHidden(_isAdmin, draft)]]"
+            class$="action delete [[_computeDeleteButtonClass(_isAdmin)]]"
             on-tap="_handleCommentDelete">
           Delete
         </gr-button>

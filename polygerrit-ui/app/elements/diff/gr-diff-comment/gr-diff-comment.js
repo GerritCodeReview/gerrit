@@ -253,8 +253,8 @@
       return '#' + comment.line;
     },
 
-    _maybeAddHidden(isAdmin, draft) {
-      return isAdmin && !draft ? '' : 'hidden';
+    _computeDeleteButtonClass(isAdmin) {
+      return isAdmin && !this.draft ? 'showDeleteButtons' : '';
     },
 
     _computeSaveDisabled(draft) {

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef87f445_b345fc58",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T00:00:22Z",
+      "side": 1,
+      "message": "ಠ_ಠ\n\nProbably this was to avoid a `.bind`, which is no longer an issue thanks to the arrow functions. Can removing this be part of ES6ification?",
+      "range": {
+        "startLine": 149,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 25
+      },
+      "revId": "5019bbeef5ab2b66fea1910d4aebcdcf7ed16250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40f8969b_bccfad65",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T00:00:22Z",
+      "side": 1,
+      "message": "Does the tool want these to be strings? They don\u0027t need to be...",
+      "range": {
+        "startLine": 230,
+        "startChar": 8,
+        "endLine": 230,
+        "endChar": 12
+      },
+      "revId": "5019bbeef5ab2b66fea1910d4aebcdcf7ed16250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

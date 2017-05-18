@@ -116,7 +116,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Test
   public void notificationsOnChangeCreation() throws Exception {
     setApiUser(user);
-    watch(project.get(), null);
+    watch(project.get());
 
     // check that watcher is notified
     setApiUser(admin);

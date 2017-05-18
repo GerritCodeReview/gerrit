@@ -1228,28 +1228,34 @@ public abstract class AbstractDaemonTest {
     assertThat(m.headers().get("CC").isEmpty()).isTrue();
   }
 
-  protected void watch(String project, String filter) throws RestApiException {
-    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
-    ProjectWatchInfo pwi = new ProjectWatchInfo();
-    pwi.project = project;
-    pwi.filter = filter;
-    pwi.notifyAbandonedChanges = true;
-    pwi.notifyNewChanges = true;
-    pwi.notifyAllComments = true;
-    projectsToWatch.add(pwi);
-    gApi.accounts().self().setWatchedProjects(projectsToWatch);
-  }
-
   protected interface ProjectWatchInfoConfiguration {
     void configure(ProjectWatchInfo pwi);
   }
 
-  protected void watch(PushOneCommit.Result r, ProjectWatchInfoConfiguration config)
+  protected void watch(String project, ProjectWatchInfoConfiguration config)
       throws OrmException, RestApiException {
     ProjectWatchInfo pwi = new ProjectWatchInfo();
-    pwi.project = r.getChange().project().get();
+    pwi.project = project;
     config.configure(pwi);
     gApi.accounts().self().setWatchedProjects(ImmutableList.of(pwi));
+  }
+
+  protected void watch(PushOneCommit.Result r, ProjectWatchInfoConfiguration config)
+      throws OrmException, RestApiException {
+    watch(r.getChange().project().get(), config);
+  }
+
+  protected void watch(String project, String filter) throws OrmException, RestApiException {
+    watch(project, pwi -> {
+      pwi.filter = filter;
+      pwi.notifyAbandonedChanges = true;
+      pwi.notifyNewChanges = true;
+      pwi.notifyAllComments = true;
+    });
+  }
+
+  protected void watch(String project) throws OrmException, RestApiException {
+    watch(project, (String) null);
   }
 
   protected void assertContent(PushOneCommit.Result pushResult, String path, String expectedContent)

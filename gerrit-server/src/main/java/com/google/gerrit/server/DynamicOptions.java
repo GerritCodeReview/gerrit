@@ -50,6 +50,35 @@ public class DynamicOptions {
   public interface DynamicBean {}
 
   /**
+   * To provide additional options to a command in another classloader,
+   * bind a ClassNameProvider which provides the name of your DynamicBean
+   * in the other classLoader.
+   *
+   * Do this by binding to just the name of the command you are going
+   * to bind to so that your classLoader does not load the command's
+   * class which likely is not in your classpath.  To ensure that the
+   * command's class is not in your classpath, you can exclude it during
+   * your build.
+   *
+   * For example:
+   *   bind(com.google.gerrit.server.DynamicOptions.DynamicBean.class)
+   *       .annotatedWith(Exports.named(
+   *           "com.google.gerrit.plugins.otherplugin.command"))
+   *       .to(MyOptionsClassNameProvider.class);
+   *
+   * static class MyOptionsClassNameProvider implements
+   *     DynamicOptions.ClassNameProvider {
+   *   @Override
+   *   public String getClassName() {
+   *     return "com.googlesource.gerrit.plugins.myplugin.CommandOptions";
+   *   }
+   * }
+   */
+  public interface ClassNameProvider extends DynamicBean {
+    String getClassName();
+  }
+
+  /**
    * Implement this if your DynamicBean needs an opportunity to act on the Bean directly before or
    * after argument parsing.
    */
@@ -118,21 +147,31 @@ public class DynamicOptions {
   public DynamicBean getDynamicBean(Object bean, DynamicBean dynamicBean) {
     ClassLoader coreCl = getClass().getClassLoader();
     ClassLoader beanCl = bean.getClass().getClassLoader();
+
+    ClassLoader loader = beanCl;
     if (beanCl != coreCl) { // bean from a plugin?
       ClassLoader dynamicBeanCl = dynamicBean.getClass().getClassLoader();
       if (beanCl != dynamicBeanCl) { // in a different plugin?
-        ClassLoader mergedCL = new DelegatingClassLoader(beanCl, dynamicBeanCl);
-        try {
-          return injector
-              .createChildInjector()
-              .getInstance(
-                  (Class<DynamicOptions.DynamicBean>)
-                      mergedCL.loadClass(dynamicBean.getClass().getCanonicalName()));
-        } catch (ClassNotFoundException e) {
-          throw new RuntimeException(e);
-        }
+        loader = new DelegatingClassLoader(beanCl, dynamicBeanCl);
       }
     }
+
+    String className = null;
+    if (dynamicBean instanceof ClassNameProvider) {
+      className = ((ClassNameProvider) dynamicBean).getClassName();
+    } else if (loader != beanCl) { // in a different plugin?
+      className = dynamicBean.getClass().getCanonicalName();
+    }
+
+    if (className != null) {
+      try {
+        return injector.createChildInjector().getInstance(
+            (Class<DynamicOptions.DynamicBean>) loader.loadClass(className));
+      } catch (ClassNotFoundException e) {
+        throw new RuntimeException(e);
+      }
+    }
+
     return dynamicBean;
   }
 

@@ -269,6 +269,30 @@
       "revId": "c675a5082bea8fb63b1ed3fd635dafe1a1e46a3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4480d8f_f1659090",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-18T22:14:45Z",
+      "side": 1,
+      "message": "Very nice!",
+      "parentUuid": "80ee7903_18f46b09",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 6
+      },
+      "revId": "c675a5082bea8fb63b1ed3fd635dafe1a1e46a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

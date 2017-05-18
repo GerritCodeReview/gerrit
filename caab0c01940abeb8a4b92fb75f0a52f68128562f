@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "1b900e99_f1550bfc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-18T11:52:37Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "aa87cde8_e881bb3f",
+      "range": {
+        "startLine": 239,
+        "startChar": 3,
+        "endLine": 239,
+        "endChar": 9
+      },
+      "revId": "caab0c01940abeb8a4b92fb75f0a52f68128562f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0142e367_c763e623",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1

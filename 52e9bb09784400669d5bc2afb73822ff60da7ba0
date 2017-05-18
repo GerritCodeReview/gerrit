@@ -22,6 +22,23 @@
       "revId": "52e9bb09784400669d5bc2afb73822ff60da7ba0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6de10b8e_0a479792",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-18T23:44:55Z",
+      "side": 1,
+      "message": "if I console.log(this.draft), in all cases where it\u0027s not a draft, this.draft is undefined, not false.",
+      "revId": "52e9bb09784400669d5bc2afb73822ff60da7ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

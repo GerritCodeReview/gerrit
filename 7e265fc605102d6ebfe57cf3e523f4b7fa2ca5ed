@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c517091_e886d315",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-18T17:06:17Z",
+      "side": 1,
+      "message": "What\u0027s the purpose of this dependency?",
+      "range": {
+        "startLine": 192,
+        "startChar": 9,
+        "endLine": 192,
+        "endChar": 26
+      },
+      "revId": "7e265fc605102d6ebfe57cf3e523f4b7fa2ca5ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

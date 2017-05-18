@@ -36,7 +36,7 @@ import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -87,8 +87,43 @@ public class SubmoduleOp {
     }
   }
 
-  public interface Factory {
-    SubmoduleOp create(Set<Branch.NameKey> updatedBranches, MergeOpRepoManager orm);
+  @Singleton
+  public static class Factory {
+    private final GitModules.Factory gitmodulesFactory;
+    private final PersonIdent myIdent;
+    private final Config cfg;
+    private final ProjectCache projectCache;
+    private final ProjectState.Factory projectStateFactory;
+    private final BatchUpdate.Factory batchUpdateFactory;
+
+    @Inject
+    Factory(
+        GitModules.Factory gitmodulesFactory,
+        @GerritPersonIdent PersonIdent myIdent,
+        @GerritServerConfig Config cfg,
+        ProjectCache projectCache,
+        ProjectState.Factory projectStateFactory,
+        BatchUpdate.Factory batchUpdateFactory) {
+      this.gitmodulesFactory = gitmodulesFactory;
+      this.myIdent = myIdent;
+      this.cfg = cfg;
+      this.projectCache = projectCache;
+      this.projectStateFactory = projectStateFactory;
+      this.batchUpdateFactory = batchUpdateFactory;
+    }
+
+    public SubmoduleOp create(Set<Branch.NameKey> updatedBranches, MergeOpRepoManager orm)
+        throws SubmoduleException {
+      return new SubmoduleOp(
+          gitmodulesFactory,
+          myIdent,
+          cfg,
+          projectCache,
+          projectStateFactory,
+          batchUpdateFactory,
+          updatedBranches,
+          orm);
+    }
   }
 
   private static final Logger log = LoggerFactory.getLogger(SubmoduleOp.class);
@@ -116,16 +151,15 @@ public class SubmoduleOp {
   // map of superproject and its branches which has submodule subscriptions
   private final SetMultimap<Project.NameKey, Branch.NameKey> branchesByProject;
 
-  @Inject
-  public SubmoduleOp(
+  private SubmoduleOp(
       GitModules.Factory gitmodulesFactory,
-      @GerritPersonIdent PersonIdent myIdent,
-      @GerritServerConfig Config cfg,
+      PersonIdent myIdent,
+      Config cfg,
       ProjectCache projectCache,
       ProjectState.Factory projectStateFactory,
       BatchUpdate.Factory batchUpdateFactory,
-      @Assisted Set<Branch.NameKey> updatedBranches,
-      @Assisted MergeOpRepoManager orm)
+      Set<Branch.NameKey> updatedBranches,
+      MergeOpRepoManager orm)
       throws SubmoduleException {
     this.gitmodulesFactory = gitmodulesFactory;
     this.myIdent = myIdent;
@@ -434,7 +468,7 @@ public class SubmoduleOp {
     commit.setTreeId(newTreeId);
     commit.setParentIds(currentCommit.getParents());
     if (verboseSuperProject != VerboseSuperprojectUpdate.FALSE) {
-      //TODO:czhen handle cherrypick footer
+      // TODO(czhen): handle cherrypick footer
       commit.setMessage(currentCommit.getFullMessage() + "\n\n* submodules:\n" + msgbuf.toString());
     } else {
       commit.setMessage(currentCommit.getFullMessage());

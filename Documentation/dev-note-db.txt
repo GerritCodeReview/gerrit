@@ -146,3 +146,34 @@ Here, the migration process looks like:
 - Run a Flume to migrate all existing changes to NoteDb primary. (Also
   closed-source, but basically just a wrapper around `PrimaryStorageMigrator`.)
 - Turn off access to ReviewDb changes tables.
+
+== Configuration
+
+This section describes general configuration for the NoteDb backend that is not
+directly related to the migration process. These options will continue to be
+supported after the migration is complete and the migration-related options are
+obsolete.
+
+[[noteDb.retryMaxWait]]noteDb.retryMaxWait::
++
+Maximum time to wait between attempts to retry update operations when one
+attempt fails due to contention (aka lock failure) on the underlying ref
+storage. Operations are retried with exponential backoff, plus some random
+jitter, until the interval reaches this limit. After that, retries continue to
+occur after a fixed timeout (plus jitter), up to
+link:#noteDb.retryTimeout[`noteDb.retryTimeout`].
++
+Only applicable when `noteDb.changes.fuseUpdates=true`.
++
+Defaults to 5 seconds; unit suffixes are supported, and assumes milliseconds if
+not specified.
+
+[[noteDb.retryTimeout]]noteDb.retryTimeout::
++
+Total timeout for retrying update operations when one attempt fails due to
+contention (aka lock failure) on the underlying ref storage.
++
+Only applicable when `noteDb.changes.fuseUpdates=true`.
++
+Defaults to 20 seconds; unit suffixes are supported, and assumes milliseconds if
+not specified.

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7830b1db_e7c997b8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 73
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-18T20:08:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "392cf121_e0f9a216",
+      "range": {
+        "startLine": 598,
+        "startChar": 10,
+        "endLine": 599,
+        "endChar": 81
+      },
+      "revId": "9c594bf91269c0f22e8853f93329b79687fa3e48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b307331_af355c9b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 73
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-18T19:58:54Z",
       "side": 1,
       "message": "Nit: this line exceeds 80 characters.",
+      "range": {
+        "startLine": 603,
+        "startChar": 10,
+        "endLine": 604,
+        "endChar": 81
+      },
+      "revId": "9c594bf91269c0f22e8853f93329b79687fa3e48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8d8b95d_21833e57",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 73
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-18T20:08:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3b307331_af355c9b",
       "range": {
         "startLine": 603,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3e745b38_9bf006e0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 73
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-18T20:08:36Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "6624486e_b8a7e3fb",
+      "range": {
+        "startLine": 331,
+        "startChar": 9,
+        "endLine": 334,
+        "endChar": 71
+      },
+      "revId": "9c594bf91269c0f22e8853f93329b79687fa3e48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1cd997da_3b49db23",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 73
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "2b38109d_11399018",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 73
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-18T20:08:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1cd997da_3b49db23",
+      "revId": "9c594bf91269c0f22e8853f93329b79687fa3e48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e92217b6_b8b12387",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 73
@@ -99,6 +189,30 @@
       "writtenOn": "2017-05-18T20:03:20Z",
       "side": 1,
       "message": "This whole method might be simplified as\n\n_privateChanges(change) {\n  return change.is_private ? \u0027 (Private)\u0027 : \u0027\u0027;\n}",
+      "range": {
+        "startLine": 644,
+        "startChar": 4,
+        "endLine": 653,
+        "endChar": 6
+      },
+      "revId": "9c594bf91269c0f22e8853f93329b79687fa3e48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f07468a_c6220307",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 73
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-18T20:08:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e92217b6_b8b12387",
       "range": {
         "startLine": 644,
         "startChar": 4,

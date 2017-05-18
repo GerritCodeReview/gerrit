@@ -146,3 +146,17 @@ Some useful commands:
 `eslint --ext .html,.js polygerrit-ui/app/$YOUR_DIR_HERE`
 * To run the linter on all of your local changes:
 `git diff --name-only master | xargs eslint --ext .html,.js`
+
+We also use the polylint tool to lint use of Polymer. To install polylint,
+execute the following command.
+
+```sh
+npm install -g polylint
+```
+
+To run polylint, execute the following command.
+
+```sh
+bazel test //polygerrit-ui/app:polylint_test
+```
+

@@ -129,6 +129,16 @@ filegroup(
     ),
 )
 
+filegroup(
+    name = "bower_components",
+    srcs = glob(
+        [
+            "bower_components/**/*.html",
+            "bower_components/**/*.js",
+        ]
+    ),
+)
+
 genrule2(
     name = "pg_code_zip",
     srcs = [":pg_code"],
@@ -165,6 +175,21 @@ sh_test(
     data = [
         ":pg_code",
         ".eslintrc.json",
+    ],
+    # Should not run sandboxed.
+    tags = [
+        "local",
+        "manual",
+    ],
+)
+
+sh_test(
+    name = "polylint_test",
+    size = "large",
+    srcs = ["polylint_test.sh"],
+    data = [
+        ":pg_code",
+        ":bower_components",
     ],
     # Should not run sandboxed.
     tags = [

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17331079_80e5acd6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-18T23:56:58Z",
+      "side": 1,
+      "message": "Why do you need this hasOwnProperty check?",
+      "revId": "baeb61b7778e6004cfb71cb1c53f097dac25817d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f70e8022_0776e278",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-19T12:09:06Z",
+      "side": 1,
+      "message": "Comment removed by: Changcheng Xiao; Reason: test delete 5",
+      "revId": "fb103285ff82fe83ac3c424369870b9aee42fae0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd993dcd_7b891838",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-19T12:09:06Z",
+      "side": 1,
+      "message": "Comment removed by: Changcheng Xiao; Reason: test delete 5",
+      "revId": "fb103285ff82fe83ac3c424369870b9aee42fae0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

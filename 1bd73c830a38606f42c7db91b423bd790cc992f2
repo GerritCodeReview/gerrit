@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b9059890_12575995",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-19T22:49:28Z",
+      "side": 1,
+      "message": "_handleAdd is an event handler for the sub component gr-account-entry, whereas this is a function intended to be called from a parent component. I refactored the logic from being entirely in the event handler to the _addReviewer function so that I could reuse it.",
+      "parentUuid": "fb1c49f5_9cf40128",
+      "range": {
+        "startLine": 263,
+        "startChar": 27,
+        "endLine": 263,
+        "endChar": 51
+      },
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5fe372d_2081ef0a",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-19T20:18:20Z",
       "side": 1,
       "message": "save?",
+      "range": {
+        "startLine": 529,
+        "startChar": 35,
+        "endLine": 529,
+        "endChar": 39
+      },
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f68e2a25_c3e5e4d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-19T22:49:28Z",
+      "side": 1,
+      "message": "Eh, I guess so. We\u0027re calling the \u0027send\u0027 function in the \u0027save\u0027 handler, which is itself confusing.",
+      "parentUuid": "f5fe372d_2081ef0a",
       "range": {
         "startLine": 529,
         "startChar": 35,

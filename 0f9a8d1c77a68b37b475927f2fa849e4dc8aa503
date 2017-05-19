@@ -119,6 +119,30 @@
       "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c458bd_b0bd2e2e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-19T16:58:20Z",
+      "side": 1,
+      "message": "I believe the colon is just a special character to trigger the emoji suggestions. It\u0027s not meant to signify an ASCII emoticon in the style of\n\n :-)",
+      "parentUuid": "1e79ee6d_ee315f56",
+      "range": {
+        "startLine": 226,
+        "startChar": 23,
+        "endLine": 226,
+        "endChar": 24
+      },
+      "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

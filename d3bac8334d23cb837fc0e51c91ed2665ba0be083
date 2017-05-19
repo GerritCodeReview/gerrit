@@ -105,6 +105,30 @@
       "revId": "d3bac8334d23cb837fc0e51c91ed2665ba0be083",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4dc8469_dae6e487",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-19T16:50:22Z",
+      "side": 1,
+      "message": "My fault for having you take it out in the first place :) I always just assume that line of code is a guard agains what you\u0027re iterating over because I\u0027ve added it so many times. I didn\u0027t even realize you were checking result, not the array prototype.",
+      "parentUuid": "a88c5530_5839e3c6",
+      "range": {
+        "startLine": 405,
+        "startChar": 47,
+        "endLine": 405,
+        "endChar": 60
+      },
+      "revId": "d3bac8334d23cb837fc0e51c91ed2665ba0be083",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

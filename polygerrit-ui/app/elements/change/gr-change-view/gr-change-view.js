@@ -853,7 +853,7 @@
 
     _labelsChanged(changeRecord) {
       if (!changeRecord) { return; }
-      if (changeRecord.value.indexSplices) {
+      if (changeRecord.value && changeRecord.value.indexSplices) {
         this._handleLabelRemoved(changeRecord.value.indexSplices,
             changeRecord.path);
       }

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "079ef8cd_c23def0b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T00:47:41Z",
+      "side": 1,
+      "message": "Yeah, I think my previous patch was messed up. Without digging more, setting the style on the container was not working.",
+      "parentUuid": "b3b7b697_4da11fbf",
+      "range": {
+        "startLine": 256,
+        "startChar": 4,
+        "endLine": 256,
+        "endChar": 17
+      },
+      "revId": "d4d0f2305890d6fa4fb57fadd12c829a45a4ec98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5630bf43_211f5a48",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 2

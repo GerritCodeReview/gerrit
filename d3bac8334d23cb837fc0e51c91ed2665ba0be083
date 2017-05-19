@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcc20d0d_dc392035",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-19T16:39:34Z",
+      "side": 1,
+      "message": "Is this commit message still accurate?",
+      "revId": "d3bac8334d23cb837fc0e51c91ed2665ba0be083",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "021d7c3c_42bcc41f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-19T16:39:34Z",
+      "side": 1,
+      "message": "If result[state] is undefined, this will throw an error. Are we protected against that anywhere?",
+      "range": {
+        "startLine": 405,
+        "startChar": 47,
+        "endLine": 405,
+        "endChar": 60
+      },
+      "revId": "d3bac8334d23cb837fc0e51c91ed2665ba0be083",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

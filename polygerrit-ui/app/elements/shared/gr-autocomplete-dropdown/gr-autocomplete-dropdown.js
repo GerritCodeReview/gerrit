@@ -31,6 +31,7 @@
 
     properties: {
       moveToRoot: Boolean,
+      fixedPosition: Boolean,
       suggestions: {
         type: Array,
         observer: '_resetCursorStops',
@@ -53,6 +54,12 @@
       tab: '_handleTab',
     },
 
+    attached() {
+      if (this.fixedPosition) {
+        this.classList.add('fixed');
+      }
+    },
+
     close() {
       if (this.moveToRoot) {
         Gerrit.getRootElement().removeChild(this);
@@ -70,6 +77,10 @@
     setPosition(top, left) {
       this.style.top = top;
       this.style.left = left;
+    },
+
+    getCurrentText() {
+      return this.getCursorTarget().dataset.value;
     },
 
     _handleUp(e) {

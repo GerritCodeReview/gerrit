@@ -24,9 +24,15 @@ limitations under the License.
     <style>
       :host {
         background: #fff;
-        box-shadow: rgba(0, 0, 0, .3) 0 1px 3px;
+        box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
         position: absolute;
         z-index: 104;
+      }
+      /* This must be set here vs. the container component because in some cases
+      the element is moved in the DOM to a base element and is no longer a
+      child of its original parent. */
+      :host(.fixed){
+        position: fixed;
       }
       ul {
         list-style: none;

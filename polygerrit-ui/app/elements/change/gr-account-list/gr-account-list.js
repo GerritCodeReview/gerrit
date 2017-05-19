@@ -250,19 +250,19 @@
     },
 
     /**
-     * If allowAnyUser is set on the account-list,
-     * @return {[type]} [description]
+     * Submit the text of the entry as a reviewer value, if it exists. If it is
+     * a successful submit of the text, clear the entry value.
+     *
+     * @return boolean If there is text in the entry, return true if the
+     *     submission was successful and false if not. If there is no text,
+     *     return true.
      */
     submitEntryText() {
-      if (this.allowAnyUser) {
-        // The text content of the input may be an unsubmitted account.
-        const addReviewerSuccessful = this._addReviewer(this.$.entry.getText());
-        if (!addReviewerSuccessful) {
-        }
-      } else {
-        this.$.entry.setText('');
-        return true;
-      }
+      const text = this.$.entry.getText();
+      if (!text.length) { return true; }
+      const wasSubmitted = this._addReviewer(text);
+      if (wasSubmitted) { this.$.entry.clear(); }
+      return wasSubmitted;
     },
 
     additions() {

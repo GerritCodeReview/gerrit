@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21f7c706_98235af8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-19T16:45:05Z",
+      "side": 1,
+      "message": "Why this can\u0027t be set by the container component?\nProbably worth a comment.",
+      "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e3396ca_3e5985af",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-19T16:45:05Z",
+      "side": 1,
+      "message": "I think camelCase is more common for CSS classes.",
+      "range": {
+        "startLine": 44,
+        "startChar": 16,
+        "endLine": 44,
+        "endChar": 25
+      },
+      "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e173b15_65466c14",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-19T16:45:05Z",
+      "side": 1,
+      "message": "*sigh*",
+      "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ef89d1c_95a06b2e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-19T16:45:05Z",
+      "side": 1,
+      "message": "It feels a bit awkward to use JS to apply and manage CSS property. I\u0027m not sure this is unavoidable in this case.\n\nOptions:\na) inherit backround-color\nb) use custom css variable, somewhat like this:\nhttps://www.polymer-project.org/2.0/docs/devguide/custom-css-properties#use-css-inheritance",
+      "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac095b99_b56cb538",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-19T16:45:05Z",
+      "side": 1,
+      "message": "Could this be exposed via higher-level API?\ne.g. emojiSuggestions.getCurrentText()?",
+      "range": {
+        "startLine": 166,
+        "startChar": 32,
+        "endLine": 167,
+        "endChar": 24
+      },
+      "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e79ee6d_ee315f56",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-19T16:45:05Z",
+      "side": 1,
+      "message": "FYI, not all smileys start with colon.",
+      "range": {
+        "startLine": 226,
+        "startChar": 23,
+        "endLine": 226,
+        "endChar": 24
+      },
+      "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -81,6 +81,30 @@
       "revId": "d3bac8334d23cb837fc0e51c91ed2665ba0be083",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a88c5530_5839e3c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-19T16:48:40Z",
+      "side": 1,
+      "message": "When I removed the hasOwnProperty, the tests didn\u0027t catch the error because it used a response with both CCs and Reviewers. A new test is added.",
+      "parentUuid": "12f45295_69b70d77",
+      "range": {
+        "startLine": 405,
+        "startChar": 47,
+        "endLine": 405,
+        "endChar": 60
+      },
+      "revId": "d3bac8334d23cb837fc0e51c91ed2665ba0be083",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

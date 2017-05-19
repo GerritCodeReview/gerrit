@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b4a83c8_6e285b27",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 82
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-19T21:36:57Z",
+      "side": 1,
+      "message": "This will create a column headed \"Read only\" that has values of either \"Read only\" or \"\". Maybe we can come up with something better? How about...\n\n\n    _readOnly(item) {\n      return item.state \u003d\u003d\u003d \u0027READ_ONLY\u0027 ? \u0027Y\u0027 : \u0027N\u0027;\n    },\n\nWe can modify this later if we want, of course.",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 0
+      },
+      "revId": "7753a74a4afce1a4910e904102a5ecadd0fa0721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

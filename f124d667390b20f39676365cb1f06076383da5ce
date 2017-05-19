@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "774d0b51_495d323d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 81
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-19T20:47:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "449ef58a_3d9856ed",
+      "range": {
+        "startLine": 88,
+        "startChar": 17,
+        "endLine": 88,
+        "endChar": 21
+      },
+      "revId": "f124d667390b20f39676365cb1f06076383da5ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f7605e7f_87d07568",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
         "patchSetId": 81
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-19T18:02:30Z",
       "side": 1,
       "message": "since you already checked for value.offset, I don\u0027t think this || 0 will ever be used.",
+      "range": {
+        "startLine": 63,
+        "startChar": 36,
+        "endLine": 63,
+        "endChar": 40
+      },
+      "revId": "f124d667390b20f39676365cb1f06076383da5ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08e9b4df_8da386ea",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 81
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-19T20:47:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f7605e7f_87d07568",
       "range": {
         "startLine": 63,
         "startChar": 36,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "3804ab69_76e8e3a9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 81
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-19T20:47:34Z",
+      "side": 1,
+      "message": "Nope, thanks, done.",
+      "parentUuid": "1c8778f9_3e940b12",
+      "range": {
+        "startLine": 113,
+        "startChar": 6,
+        "endLine": 113,
+        "endChar": 37
+      },
+      "revId": "f124d667390b20f39676365cb1f06076383da5ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "97de16cd_62336b43",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
         "patchSetId": 81
@@ -105,6 +177,30 @@
       "writtenOn": "2017-05-19T18:02:30Z",
       "side": 1,
       "message": "why is loading set to true if there are less than 25 projects?  I think it would be more clear to just have a different variable that is more explanatory as to what this state is.  Something like \u0027lastPage \u003d true\u0027... or to that effect",
+      "range": {
+        "startLine": 127,
+        "startChar": 8,
+        "endLine": 127,
+        "endChar": 23
+      },
+      "revId": "f124d667390b20f39676365cb1f06076383da5ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05473fa6_91af1afe",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 81
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-19T20:47:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "97de16cd_62336b43",
       "range": {
         "startLine": 127,
         "startChar": 8,

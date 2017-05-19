@@ -56,6 +56,10 @@ limitations under the License.
     getKeyboardEvent(e) {
       return getKeyboardEvent(e);
     },
+
+    getRootTarget(e) {
+      return Polymer.dom(getKeyboardEvent(e)).rootTarget;
+    },
   };
 
   window.Gerrit = window.Gerrit || {};

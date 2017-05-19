@@ -77,6 +77,17 @@
       },
     },
 
+    behaviors: [
+      Gerrit.KeyboardShortcutBehavior,
+    ],
+
+    keyBindings: {
+      'backspace': '_handleBackspace',
+      'left': '_handleLeftArrow',
+      'right': '_handleRightArrow',
+      'enter space del': '_handleRemoveChip',
+    },
+
     listeners: {
       remove: '_handleRemove',
     },
@@ -193,59 +204,79 @@
       console.warn('received remove event for missing account', toRemove);
     },
 
-    _handleInputKeydown(e) {
-      const input = e.detail.input;
-      if (input.selectionStart !== input.selectionEnd ||
-          input.selectionStart !== 0) {
-        return;
-      }
-      switch (e.detail.keyCode) {
-        case 8: // Backspace
-          this._removeAccount(this.accounts[this.accounts.length - 1]);
-          break;
-        case 37: // Left arrow
-          if (this.accountChips[this.accountChips.length - 1]) {
-            this.accountChips[this.accountChips.length - 1].focus();
-          }
-          break;
+    _handleBackspace(e) {
+      const target = this.getRootTarget(e);
+      if (target.localName === 'input') {
+        if (target.selectionStart !== target.selectionEnd ||
+            target.selectionStart !== 0) {
+          return;
+        }
+        e.preventDefault();
+        this._removeAccount(this.accounts[this.accounts.length - 1]);
+      } else {
+        e.preventDefault();
+        this._removeSelectedChip(target);
       }
     },
 
-    _handleChipKeydown(e) {
-      const chip = e.target;
+    _handleLeftArrow(e) {
+      const target = this.getRootTarget(e);
+      if (target.localName === 'input') {
+        if (target.selectionStart !== target.selectionEnd ||
+            target.selectionStart !== 0) {
+          return;
+        }
+        if (this.accountChips[this.accountChips.length - 1]) {
+          this.accountChips[this.accountChips.length - 1].focus();
+          e.preventDefault();
+        }
+      } else {
+        const chips = this.accountChips;
+        const index = chips.indexOf(target);
+        if (index > 0) {
+          e.preventDefault();
+          target.blur();
+          chips[index - 1].focus();
+        }
+      }
+    },
+
+    _handleRightArrow(e) {
+      const target = this.getRootTarget(e);
+      if (target.localName !== 'input') {
+        e.preventDefault();
+        const chips = this.accountChips;
+        const index = chips.indexOf(target);
+        target.blur();
+        if (index < chips.length - 1) {
+          chips[index + 1].focus();
+        } else {
+          this.$.entry.focus();
+        }
+      }
+    },
+
+    _handleRemoveChip(e) {
+      const target = this.getRootTarget(e);
+      if (target.localName !== 'input') {
+        e.preventDefault();
+        this._removeSelectedChip(target);
+      }
+    },
+
+    _removeSelectedChip(chip) {
       const chips = this.accountChips;
       const index = chips.indexOf(chip);
-      switch (e.keyCode) {
-        case 8: // Backspace
-        case 13: // Enter
-        case 32: // Spacebar
-        case 46: // Delete
-          this._removeAccount(chip.account);
-          // Splice from this array to avoid inconsistent ordering of
-          // event handling.
-          chips.splice(index, 1);
-          if (index < chips.length) {
-            chips[index].focus();
-          } else if (index > 0) {
-            chips[index - 1].focus();
-          } else {
-            this.$.entry.focus();
-          }
-          break;
-        case 37: // Left arrow
-          if (index > 0) {
-            chip.blur();
-            chips[index - 1].focus();
-          }
-          break;
-        case 39: // Right arrow
-          chip.blur();
-          if (index < chips.length - 1) {
-            chips[index + 1].focus();
-          } else {
-            this.$.entry.focus();
-          }
-          break;
+      this._removeAccount(chip.account);
+      // Splice from this array to avoid inconsistent ordering of
+      // event handling.
+      chips.splice(index, 1);
+      if (index < chips.length) {
+        chips[index].focus();
+      } else if (index > 0) {
+        chips[index - 1].focus();
+      } else {
+        this.$.entry.focus();
       }
     },
 

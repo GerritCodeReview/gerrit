@@ -70,6 +70,30 @@
       "revId": "837ed154530fd4a53b44c9f38f2165395d31041a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a246eb6_d50437f1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T01:59:35Z",
+      "side": 0,
+      "message": "Yeah, I\u0027ll think about it some more tonight and pick this up tomorrow.",
+      "parentUuid": "814d4d93_e8c9c947",
+      "range": {
+        "startLine": 256,
+        "startChar": 27,
+        "endLine": 256,
+        "endChar": 34
+      },
+      "revId": "837ed154530fd4a53b44c9f38f2165395d31041a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02fe088f_e35c66c2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-19T17:25:37Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this pass the draft param now?",
+      "range": {
+        "startLine": 279,
+        "startChar": 62,
+        "endLine": 279,
+        "endChar": 70
+      },
+      "revId": "46b1cb8ae394c4280c85270dc55ba51c3c2efb3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

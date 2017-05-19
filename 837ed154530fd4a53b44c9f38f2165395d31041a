@@ -94,6 +94,30 @@
       "revId": "837ed154530fd4a53b44c9f38f2165395d31041a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c793f55_757e857f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T17:23:41Z",
+      "side": 0,
+      "message": "So, I ended up calculating draft in gr-diff-comment-thread.\n\nInterestingly, when I tried to compute the class on the container (vs the button), it seemed that I ran into some strange issues with the order of when functions were called \u0026 attributes were changed. for the sake of simplicity, I kept it on the button.",
+      "parentUuid": "3a246eb6_d50437f1",
+      "range": {
+        "startLine": 256,
+        "startChar": 27,
+        "endLine": 256,
+        "endChar": 34
+      },
+      "revId": "837ed154530fd4a53b44c9f38f2165395d31041a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

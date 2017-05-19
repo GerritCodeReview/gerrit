@@ -80,8 +80,8 @@ limitations under the License.
       assert.isFalse(!element.$.emojiSuggestions.hidden);
     });
 
-    test('emoji selector opens when a colon is typed & the textarea has focus',
-        () => {
+    test('emoji selector opens when a colon is typed & the textarea ' +
+        'has focus', () => {
       MockInteractions.focus(element.$.textarea);
       flushAsynchronousOperations();
       element.text = ':';

@@ -57,6 +57,24 @@
       "revId": "fb14d2e01854a3bcbee44a6cc9706f9a557669e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbc9f95c_2ee08fbc",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-19T16:53:14Z",
+      "side": 1,
+      "message": "I see no problem with this fix, the beginning of the list is a natural spot for this test file.\n\nWhat feels weird is the speculation in the comment. Does this mean we can\u0027t load more than one large test? What if we end up with an alternative to gr-app, such as gr-embedded-app? Would we be unable to test that? Is there any avenue to investigate further?",
+      "parentUuid": "dd4880de_9f2ff7f7",
+      "revId": "fb14d2e01854a3bcbee44a6cc9706f9a557669e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

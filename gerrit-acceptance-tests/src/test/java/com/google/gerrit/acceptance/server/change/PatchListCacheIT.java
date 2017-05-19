@@ -17,17 +17,26 @@ package com.google.gerrit.acceptance.server.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
+import com.google.gerrit.server.patch.IntraLineDiff;
+import com.google.gerrit.server.patch.IntraLineDiffArgs;
+import com.google.gerrit.server.patch.IntraLineDiffKey;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.patch.Text;
 import com.google.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
@@ -166,6 +175,33 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     assertThat(entriesReverse).hasSize(2);
     assertModified(Patch.COMMIT_MSG, entriesReverse.get(0));
     assertDeleted(FILE_C, entriesReverse.get(1));
+  }
+
+  @Test
+  public void harmfulMutationsOfEditsAreNotPossibleForIntraLineDiffArgsAndCachedValue()
+      throws Exception {
+    String a = "First line\nSecond line\n";
+    String b = "1st line\n2nd line\n";
+    Text aText = new Text(a.getBytes(UTF_8));
+    Text bText = new Text(b.getBytes(UTF_8));
+    Edit inputEdit = new Edit(0, 2, 0, 2);
+    List<Edit> inputEdits = new ArrayList<>(ImmutableList.of(inputEdit));
+
+    IntraLineDiffKey diffKey =
+        IntraLineDiffKey.create(ObjectId.zeroId(), ObjectId.zeroId(), Whitespace.IGNORE_NONE);
+    IntraLineDiffArgs diffArgs =
+        IntraLineDiffArgs.create(aText, bText, inputEdits, project, ObjectId.zeroId(), "file.txt");
+    IntraLineDiff intraLineDiff = patchListCache.getIntraLineDiff(diffKey, diffArgs);
+
+    Edit outputEdit = Iterables.getOnlyElement(intraLineDiff.getEdits());
+
+    outputEdit.shift(5);
+    inputEdit.shift(7);
+    inputEdits.add(new Edit(43, 47, 50, 51));
+
+    Edit originalEdit = new Edit(0, 2, 0, 2);
+    assertThat(diffArgs.edits()).containsExactly(originalEdit);
+    assertThat(intraLineDiff.getEdits()).containsExactly(originalEdit);
   }
 
   private static void assertAdded(String expectedNewName, PatchListEntry e) {

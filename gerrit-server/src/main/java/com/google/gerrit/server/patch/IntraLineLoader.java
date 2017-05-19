@@ -16,10 +16,12 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -102,7 +104,9 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
     }
   }
 
-  static IntraLineDiff compute(Text aText, Text bText, List<Edit> edits) throws Exception {
+  static IntraLineDiff compute(Text aText, Text bText, ImmutableList<Edit> immutableEdits)
+      throws Exception {
+    List<Edit> edits = new ArrayList<>(immutableEdits);
     combineLineEdits(edits, aText, bText);
 
     for (int i = 0; i < edits.size(); i++) {

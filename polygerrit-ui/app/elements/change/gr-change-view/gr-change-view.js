@@ -422,12 +422,7 @@
 
     _handleScroll() {
       this.debounce('scroll', () => {
-        history.replaceState(
-            {
-              scrollTop: document.body.scrollTop,
-              path: location.pathname,
-            },
-            location.pathname);
+        this.viewState.scrollTop = document.body.scrollTop;
       }, 150);
     },
 
@@ -482,9 +477,9 @@
       // a linked message is performed after related changes is fully loaded.
       this.$.relatedChanges.reload().then(() => {
         this.async(() => {
-          if (history.state && history.state.scrollTop) {
+          if (this.viewState.scrollTop) {
             document.documentElement.scrollTop =
-                document.body.scrollTop = history.state.scrollTop;
+                document.body.scrollTop = this.viewState.scrollTop;
           } else {
             this._maybeScrollToMessage();
           }
@@ -574,6 +569,7 @@
 
     _resetFileListViewState() {
       this.set('viewState.selectedFileIndex', 0);
+      this.set('viewState.scrollTop', 0);
       if (!!this.viewState.changeNum &&
           this.viewState.changeNum !== this._changeNum) {
         // Reset the diff mode to null when navigating from one change to

@@ -97,6 +97,7 @@
           showReplyDialog: false,
           diffMode: null,
           numFilesShown: null,
+          scrollTop: 0,
         },
         changeListView: {
           query: null,

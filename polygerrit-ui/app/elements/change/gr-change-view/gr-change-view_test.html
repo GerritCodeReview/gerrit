@@ -1047,35 +1047,33 @@ limitations under the License.
         const scrollStub = sandbox.stub(element, '_handleScroll',
             () => {
               assert.isTrue(scrollStub.called);
-              document.body.style.height =
-                  originalHeight + 'px';
+              document.body.style.height = originalHeight + 'px';
               scrollStub.restore();
               done();
             });
         document.body.style.height = '10000px';
-        document.body.scrollTop = TEST_SCROLL_TOP_PX;
         element._handleScroll();
       });
 
-      test('history is loaded correctly', () => {
-        history.replaceState(
-            {
-              scrollTop: 100,
-              path: location.pathname,
-            },
-            location.pathname);
+      test('scrollTop is set correctly', () => {
+        element.viewState = {scrollTop: TEST_SCROLL_TOP_PX};
 
         sandbox.stub(element, '_reload', () => {
           // When element is reloaded, ensure that the history
           // state has the scrollTop set earlier. This will then
           // be reset.
-          assert.isTrue(history.state.scrollTop == 100);
+          assert.isTrue(element.viewState.scrollTop == TEST_SCROLL_TOP_PX);
           return Promise.resolve({});
         });
 
         // simulate reloading component, which is done when route
         // changes to match a regex of change view type.
         element._paramsChanged({view: 'gr-change-view'});
+      });
+
+      test('scrollTop is reset when new change is loaded', () => {
+        element._resetFileListViewState();
+        assert.equal(element.viewState.scrollTop, 0);
       });
     });
 

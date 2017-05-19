@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cab6789e_05415abc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 82
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-19T21:54:56Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1b4a83c8_6e285b27",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 0
+      },
+      "revId": "7753a74a4afce1a4910e904102a5ecadd0fa0721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a03acbce_27a27fab",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
         "patchSetId": 82
@@ -36,6 +60,24 @@
       "writtenOn": "2017-05-19T21:37:51Z",
       "side": 1,
       "message": "doesn\u0027t _loading exist when the projects haven\u0027t been loaded? Wouldn\u0027t you still want to return if _loading is true? I was just suggesting a separate condition to return based on the project length, not re-naming loading in the context where that was accurate.",
+      "revId": "7753a74a4afce1a4910e904102a5ecadd0fa0721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82050d96_7b7e1140",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 82
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-19T21:54:56Z",
+      "side": 1,
+      "message": "Oh, i only used _loading for this. _loading didnt prevent the projects from loading if it was false it just either hid or show the next button.",
+      "parentUuid": "a03acbce_27a27fab",
       "revId": "7753a74a4afce1a4910e904102a5ecadd0fa0721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

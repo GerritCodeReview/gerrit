@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7480e077_9ddda1fb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T18:04:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21f7c706_98235af8",
+      "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e3396ca_3e5985af",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
         "patchSetId": 16
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "6e374de0_d076bac6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T18:04:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e3396ca_3e5985af",
+      "range": {
+        "startLine": 44,
+        "startChar": 16,
+        "endLine": 44,
+        "endChar": 25
+      },
+      "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e173b15_65466c14",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
         "patchSetId": 16
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "1eaec714_f37f192b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T18:04:15Z",
+      "side": 1,
+      "message": "It\u0027s hidden :) only used for computation",
+      "parentUuid": "4e173b15_65466c14",
+      "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ef89d1c_95a06b2e",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
         "patchSetId": 16
@@ -70,6 +130,24 @@
       "writtenOn": "2017-05-19T16:45:05Z",
       "side": 1,
       "message": "It feels a bit awkward to use JS to apply and manage CSS property. I\u0027m not sure this is unavoidable in this case.\n\nOptions:\na) inherit backround-color\nb) use custom css variable, somewhat like this:\nhttps://www.polymer-project.org/2.0/docs/devguide/custom-css-properties#use-css-inheritance",
+      "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66b63f53_59ddc095",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T18:04:15Z",
+      "side": 1,
+      "message": "it does use a css property (l.115) , but the parent element has to be able to set a background color. This is needed for gr-diff-comment which set a background color on the textarea that was not the same as the background color of the diff comment. I\u0027m not sure how else this can be handled.",
+      "parentUuid": "8ef89d1c_95a06b2e",
       "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -96,6 +174,30 @@
       "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b17668da_9dad3f9a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T18:04:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac095b99_b56cb538",
+      "range": {
+        "startLine": 166,
+        "startChar": 32,
+        "endLine": 167,
+        "endChar": 24
+      },
+      "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -158,6 +260,54 @@
       "side": 1,
       "message": "Exactly. This would make smileys that don\u0027t start with : to be at least unintuitive to type in.\nNot an objection, just to point out trade-off being made.",
       "parentUuid": "03c458bd_b0bd2e2e",
+      "range": {
+        "startLine": 226,
+        "startChar": 23,
+        "endLine": 226,
+        "endChar": 24
+      },
+      "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17842b2f_2f5453af",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T18:04:15Z",
+      "side": 1,
+      "message": "What @wyatt said!",
+      "parentUuid": "03c458bd_b0bd2e2e",
+      "range": {
+        "startLine": 226,
+        "startChar": 23,
+        "endLine": 226,
+        "endChar": 24
+      },
+      "revId": "0f9a8d1c77a68b37b475927f2fa849e4dc8aa503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d161b00_f293479c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T18:04:15Z",
+      "side": 1,
+      "message": "I think it\u0027s a pretty common pattern now.. with slack especially.",
+      "parentUuid": "6e286d48_05574de0",
       "range": {
         "startLine": 226,
         "startChar": 23,

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec1b1ea1_6c622c29",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 84
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T22:38:53Z",
+      "side": 1,
+      "message": "this should still be _loading",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 28
+      },
+      "revId": "70431470d00ec7d76d5992fe0a785485d08f2244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "216bf6f5_75135bee",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 84
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T22:38:53Z",
+      "side": 1,
+      "message": "this should still be _loading",
+      "range": {
+        "startLine": 77,
+        "startChar": 12,
+        "endLine": 77,
+        "endChar": 35
+      },
+      "revId": "70431470d00ec7d76d5992fe0a785485d08f2244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "431a90e5_cfc1a3fa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 84
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T22:38:53Z",
+      "side": 1,
+      "message": "This is what I had in mind because loading is a different concept that should still exist (see other comments)\n\n _hideNextArrow(loading, projects) {\n      let lastPage \u003d false;\n      if (projects.length \u003c 25) {\n        lastPage \u003d true;\n      }\n      return loading || lastPage || !projects || !projects.length;\n},",
+      "range": {
+        "startLine": 117,
+        "startChar": 3,
+        "endLine": 122,
+        "endChar": 6
+      },
+      "revId": "70431470d00ec7d76d5992fe0a785485d08f2244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

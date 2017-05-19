@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb1c49f5_9cf40128",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T20:18:20Z",
+      "side": 1,
+      "message": "It seems redundant to call this again after it\u0027s already been called on l.93. Does this end up with the same reviewers getting added twice?",
+      "range": {
+        "startLine": 263,
+        "startChar": 27,
+        "endLine": 263,
+        "endChar": 51
+      },
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5fe372d_2081ef0a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T20:18:20Z",
+      "side": 1,
+      "message": "save?",
+      "range": {
+        "startLine": 529,
+        "startChar": 35,
+        "endLine": 529,
+        "endChar": 39
+      },
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

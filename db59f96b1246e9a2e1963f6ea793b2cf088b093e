@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ee125d3_795b0214",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-19T22:51:37Z",
+      "side": 1,
+      "message": "Nit: I think there could be more info here, including maybe a link to the polylint source and perhaps an explanation of what it does that goes deeper than just \u0027lints Polymer\u0027.\n\nDefinitely not blocking, though.",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 30
+      },
+      "revId": "db59f96b1246e9a2e1963f6ea793b2cf088b093e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

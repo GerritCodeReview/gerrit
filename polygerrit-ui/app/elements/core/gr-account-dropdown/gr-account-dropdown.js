@@ -16,18 +16,24 @@
 
   const INTERPOLATE_URL_PATTERN = /\$\{([\w]+)\}/g;
 
+  const ANONYMOUS_NAME = 'Anonymous';
+
   Polymer({
     is: 'gr-account-dropdown',
 
     properties: {
       account: Object,
+      _anonymousName: {
+        type: String,
+        value: ANONYMOUS_NAME,
+      },
       links: {
         type: Array,
         computed: '_getLinks(_switchAccountUrl, _path)',
       },
       topContent: {
         type: Array,
-        computed: '_getTopContent(account)',
+        computed: '_getTopContent(account, _anonymousName)',
       },
       _path: {
         type: String,
@@ -47,6 +53,12 @@
           this._switchAccountUrl = null;
         }
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
+
+        if (cfg && cfg.user &&
+            cfg.user.anonymous_coward_name &&
+            cfg.user.anonymous_coward_name !== 'Anonymous Coward') {
+          this._anonymousName = cfg.user.anonymous_coward_name;
+        }
       });
     },
 
@@ -65,11 +77,10 @@
       return links;
     },
 
-    _getTopContent(account) {
-      // if (!account) { return []; }
+    _getTopContent(account, _anonymousName) {
       return [
-        {text: account.name, bold: true},
-        {text: account.email},
+        {text: this._accountName(account, _anonymousName), bold: true},
+        {text: account.email ? account.email : ''},
       ];
     },
 
@@ -84,6 +95,15 @@
       return url.replace(INTERPOLATE_URL_PATTERN, (match, p1) => {
         return replacements[p1] || '';
       });
+    },
+
+    _accountName(account, _anonymousName) {
+      if (account && account.name) {
+        return account.name;
+      } else if (account && account.email) {
+        return account.email;
+      }
+      return _anonymousName;
     },
   });
 })();

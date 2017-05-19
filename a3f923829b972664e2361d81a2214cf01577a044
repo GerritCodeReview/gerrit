@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6497bb41_a5b49fd1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html",
+        "patchSetId": 86
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-19T23:41:46Z",
+      "side": 1,
+      "message": "Ah, thanks.",
+      "parentUuid": "6d794c02_aedd0b7b",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 38
+      },
+      "revId": "a3f923829b972664e2361d81a2214cf01577a044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0dbb21fc_fb16374c",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html",
         "patchSetId": 86
@@ -83,6 +107,30 @@
       "writtenOn": "2017-05-19T23:37:36Z",
       "side": 1,
       "message": "Please use ES6. let offset \u003d ....",
+      "range": {
+        "startLine": 563,
+        "startChar": 5,
+        "endLine": 563,
+        "endChar": 35
+      },
+      "revId": "a3f923829b972664e2361d81a2214cf01577a044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ca72ae8_d3ea2abc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 86
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-19T23:41:46Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "adface05_ee1e9868",
       "range": {
         "startLine": 563,
         "startChar": 5,

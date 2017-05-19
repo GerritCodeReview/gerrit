@@ -22,6 +22,30 @@
       "revId": "0c7b0bf6d27e400aef61cac98ecc8f60f1e0f66a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c08e153_4eb217a2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T21:00:46Z",
+      "side": 1,
+      "message": "I think we still need to make the jsAPI call, which wouldn\u0027t happen if we returned above.",
+      "parentUuid": "cc20abda_4a0221a5",
+      "range": {
+        "startLine": 856,
+        "startChar": 10,
+        "endLine": 856,
+        "endChar": 50
+      },
+      "revId": "0c7b0bf6d27e400aef61cac98ecc8f60f1e0f66a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

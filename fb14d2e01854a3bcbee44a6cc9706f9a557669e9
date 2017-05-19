@@ -39,6 +39,24 @@
       "revId": "fb14d2e01854a3bcbee44a6cc9706f9a557669e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd4880de_9f2ff7f7",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-19T16:46:57Z",
+      "side": 1,
+      "message": "My best guess it\u0027s the size.\nIt essentially imports everything, which may cause loading to timeout, depending on internal browser behavior.\nIdeally, it should be separated into own test rule to make other tests non-flaky, but it appeared nontrivial.",
+      "parentUuid": "7b2edc7c_4408fe49",
+      "revId": "fb14d2e01854a3bcbee44a6cc9706f9a557669e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

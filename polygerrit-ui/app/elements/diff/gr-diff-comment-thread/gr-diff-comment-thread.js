@@ -205,6 +205,10 @@
       }
     },
 
+    _isDraft(comment) {
+      return !!comment.__draft;
+    },
+
     _processCommentReply(opt_quote) {
       const comment = this._lastComment;
       let quoteStr;

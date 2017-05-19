@@ -56,7 +56,7 @@ limitations under the License.
             robot-button-disabled="[[_hideActions(_showActions, _lastComment)]]"
             change-num="[[changeNum]]"
             patch-num="[[patchNum]]"
-            draft="[[comment.__draft]]"
+            draft="[[_isDraft(comment)]]"
             show-actions="[[_showActions]]"
             comment-side="[[comment.__commentSide]]"
             side="[[comment.side]]"

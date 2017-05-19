@@ -46,6 +46,30 @@
       "revId": "ed252739a4eba391579ea98dbbc7b6b537b28307",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9a1791e_0a881b70",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html",
+        "patchSetId": 85
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-19T23:21:55Z",
+      "side": 1,
+      "message": "Could look something like....\n\n  let counter \u003d 0;\n\n  const projectGenerator \u003d () \u003d\u003e {\n    return {\n      id: `test${++counter}`,\n      state: \u0027ACTIVE\u0027,\n      web_links: [\n        {\n          name: \u0027diffusion\u0027,\n          url: `https://phabricator.example.org/r/project/test${counter}`,\n        },\n      ],\n    } \n  }",
+      "parentUuid": "c4d47f3f_639e660c",
+      "range": {
+        "startLine": 104,
+        "startChar": 9,
+        "endLine": 114,
+        "endChar": 11
+      },
+      "revId": "ed252739a4eba391579ea98dbbc7b6b537b28307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

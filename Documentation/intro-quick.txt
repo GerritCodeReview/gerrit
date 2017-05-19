@@ -1,8 +1,7 @@
 = Gerrit Code Review - A Quick Introduction
 
 Gerrit is a web-based code review tool built on top of the git version
-control system, but if you've got as far as reading this guide then
-you probably already know that. The purpose of this introduction is to
+control system. The purpose of this introduction is to
 allow you to answer the question, is Gerrit the right tool for me?
 Will it fit in my work flow and in my organization?
 

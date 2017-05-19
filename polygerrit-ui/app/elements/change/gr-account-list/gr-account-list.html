@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
 <link rel="import" href="../gr-account-entry/gr-account-entry.html">
@@ -44,7 +45,6 @@ limitations under the License.
           class$="[[_computeChipClass(account)]]"
           data-account-id$="[[account._account_id]]"
           removable="[[_computeRemovable(account)]]"
-          on-keydown="_handleChipKeydown"
           tabindex$="[[index]]">
       </gr-account-chip>
     </template>
@@ -56,7 +56,6 @@ limitations under the License.
         filter="[[filter]]"
         placeholder="[[placeholder]]"
         on-add="_handleAdd"
-        on-input-keydown="_handleInputKeydown"
         allow-any-user="[[allowAnyUser]]">
     </gr-account-entry>
   </template>

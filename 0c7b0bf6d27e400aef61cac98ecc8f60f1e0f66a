@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc20abda_4a0221a5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-19T20:28:33Z",
+      "side": 1,
+      "message": "What would be the practical difference between this fix and adding it to the check in #855 instead?",
+      "range": {
+        "startLine": 856,
+        "startChar": 10,
+        "endLine": 856,
+        "endChar": 50
+      },
+      "revId": "0c7b0bf6d27e400aef61cac98ecc8f60f1e0f66a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

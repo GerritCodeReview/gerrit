@@ -111,6 +111,14 @@ public class CreateProjectScreen extends Screen {
     projectsPopup.initPopup(AdminConstants.I.projects(), PageLinks.ADMIN_PROJECTS);
   }
 
+  @Override
+  public void onShowView() {
+    super.onShowView();
+    if (project != null) {
+      project.setFocus(true);
+    }
+  }
+
   private void addCreateProjectPanel() {
     final VerticalPanel fp = new VerticalPanel();
     fp.setStyleName(Gerrit.RESOURCES.css().createProjectPanel());

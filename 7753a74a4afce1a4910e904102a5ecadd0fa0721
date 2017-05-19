@@ -22,6 +22,23 @@
       "revId": "7753a74a4afce1a4910e904102a5ecadd0fa0721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a03acbce_27a27fab",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 82
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-19T21:37:51Z",
+      "side": 1,
+      "message": "doesn\u0027t _loading exist when the projects haven\u0027t been loaded? Wouldn\u0027t you still want to return if _loading is true? I was just suggesting a separate condition to return based on the project length, not re-naming loading in the context where that was accurate.",
+      "revId": "7753a74a4afce1a4910e904102a5ecadd0fa0721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "e741f50e_0626ceca",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html",
+        "patchSetId": 86
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-19T23:39:51Z",
+      "side": 1,
+      "message": "I was trying to test the above but it seems to be failing and carn\u0027t figure out how to get the function to equl true when the next button is hidden when it is under 25 porjects.",
+      "parentUuid": "0dbb21fc_fb16374c",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 59
+      },
+      "revId": "a3f923829b972664e2361d81a2214cf01577a044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "adface05_ee1e9868",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 86

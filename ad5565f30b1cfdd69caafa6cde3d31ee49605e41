@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1495121578 +0200\nnonce APbwY4pOGwI3PQvhMJlqNnRT5Zx37JJY9ObfedMzLobWgPCKw6dB6OOSOiUYHRCM0Gcq3gnxdwTz\n\n0000000000000000000000000000000000000000 ad5565f30b1cfdd69caafa6cde3d31ee49605e41 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZHb6qAAoJEFG1/Zeg0O9RDWgIAKh+BI84DX7LxPdRgmSSRviZ\ncUwLGOQIgd0za02EoqQl+QC0nVGsSHKC3ejP3jlgAZcZOlVW36MeYa5QX6FSS0Zs\nQ6BDV6SFEH/adt7gIm1u0dTp1ezA+UBLq6GUadRrbISg82fSfwrUKhCvWwme2f8Q\ncLSHJ9x2nQS6a68PEbKavr35BoJzjq0gwf9AH4ZLBwo8anJ7BzuTLAZfOY3z7XiJ\n3OlGhWg8nIsmyrwqtDN4LwrMfIOH5ueOWIj8HUy4rs4chFOmQxuoJBZ3K6Cu/3n2\n8aPlnONPzjBVLb0w+Ejo+nccWX3L4jjbZirOBZ0wH7VfGwGxwIRJUZf3zIVqfcM\u003d\n\u003dj/lk\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "64a39bf8_d9ed77a6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-19T08:46:21Z",
+      "side": 1,
+      "message": "We usually don\u0027t explicitly import this, but refer to it as PushOneCommit.Result in the code.",
+      "revId": "ad5565f30b1cfdd69caafa6cde3d31ee49605e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6caad4_fabe5a92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-19T08:46:21Z",
+      "side": 1,
+      "message": "commit",
+      "range": {
+        "startLine": 403,
+        "startChar": 48,
+        "endLine": 403,
+        "endChar": 56
+      },
+      "revId": "ad5565f30b1cfdd69caafa6cde3d31ee49605e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad8dffc0_f967c835",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-19T08:46:21Z",
+      "side": 1,
+      "message": "Is there a way to combine this @Option annotation with the setter method?",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 27
+      },
+      "revId": "ad5565f30b1cfdd69caafa6cde3d31ee49605e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

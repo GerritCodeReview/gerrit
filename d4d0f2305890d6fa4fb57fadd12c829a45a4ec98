@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b3b7b697_4da11fbf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-19T00:39:36Z",
+      "side": 1,
+      "message": "So, now it\u0027s setting the class on the button (instead of the container), which makes the classname a little redundant.\n\nThat also means that the child selector \n\n .showDeleteButtons #deleteBtn {\n\nwould never work wouldn\u0027t it?",
+      "parentUuid": "13703cfa_41a3781e",
+      "range": {
+        "startLine": 256,
+        "startChar": 4,
+        "endLine": 256,
+        "endChar": 17
+      },
+      "revId": "d4d0f2305890d6fa4fb57fadd12c829a45a4ec98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5630bf43_211f5a48",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 2

@@ -46,6 +46,30 @@
       "revId": "837ed154530fd4a53b44c9f38f2165395d31041a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "814d4d93_e8c9c947",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-19T01:00:28Z",
+      "side": 0,
+      "message": "I think it works iff `_admin` is assigned after `draft`. Based on the way that the element is used, `draft` should be set when `ready` is called.\n\nHowever, `_admin` is assigned after a promise that\u0027s invoked from `attached`. Does this mean there is a race condition if the admin request resolves before `ready` is called? I\u0027m not certain. \n\nMaybe the admin should be called from `ready`? Alternatively, we can try to resolve the undefined `draft` problem so we can use it in the binding normally.\n\nA third option, we declare a new _isDraft parameter that is initialized to false, and is computed from the regular draft property. Then we can use _isDraft with a regular binding.",
+      "parentUuid": "3279648d_12c43533",
+      "range": {
+        "startLine": 256,
+        "startChar": 27,
+        "endLine": 256,
+        "endChar": 34
+      },
+      "revId": "837ed154530fd4a53b44c9f38f2165395d31041a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

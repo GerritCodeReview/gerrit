@@ -716,16 +716,16 @@ limitations under the License.
               username3: {
                 input: 'user 3',
                 error: error3,
-              }
+              },
             },
           }));
-        }
+        },
       };
       element.addEventListener('server-error', e => {
         e.detail.response.text().then(text => {
           assert.equal(text, [error1, error2, error3].join(', '));
           done();
-        })
+        });
       });
       element._handle400Error(response);
     });
@@ -740,16 +740,16 @@ limitations under the License.
               username1: {
                 input: 'user 1',
                 error: error1,
-              }
+              },
             },
           }));
-        }
+        },
       };
       element.addEventListener('server-error', e => {
         e.detail.response.text().then(text => {
           assert.equal(text, error1);
           done();
-        })
+        });
       });
       element._handle400Error(response);
     });

@@ -61,7 +61,7 @@ abstract class RevisionNote<T extends Comment> {
     MutableInteger p = new MutableInteger();
     trimLeadingEmptyLines(raw, p);
     if (p.value >= raw.length) {
-      comments = null;
+      comments = ImmutableList.of();
       return;
     }
 

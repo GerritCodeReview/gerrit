@@ -420,6 +420,10 @@ public class CommentsUtil {
 
       PatchLineComment patchLineComment = db.patchComments().get(key);
 
+      if (patchLineComment == null) {
+        throw new OrmException(String.format("comment %s does not exist", key));
+      }
+
       if (!patchLineComment.getStatus().equals(PUBLISHED)) {
         throw new OrmException(String.format("comment %s is not published", key));
       }

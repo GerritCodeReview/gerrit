@@ -95,9 +95,9 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
 
     ObjectReader reader = revWalk.getObjectReader();
     ObjectId newTip = revWalk.next(); // The first commit will not be rewritten.
-    NoteMap newTipNoteMap = NoteMap.read(reader, revWalk.parseCommit(newTip));
     Map<String, Comment> parentComments =
-        getPublishedComments(noteUtil, changeId, reader, newTipNoteMap);
+        getPublishedComments(
+            noteUtil, changeId, reader, NoteMap.read(reader, revWalk.parseCommit(newTip)));
 
     boolean rewrite = false;
     RevCommit originalCommit;
@@ -120,13 +120,12 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
       newTip =
           rewriteCommit(
               originalCommit,
-              newTipNoteMap,
+              NoteMap.read(reader, revWalk.parseCommit(newTip)),
               newTip,
               inserter,
               reader,
               putInComments,
               deletedComments);
-      newTipNoteMap = NoteMap.read(reader, revWalk.parseCommit(newTip));
       parentComments = currComments;
     }
 

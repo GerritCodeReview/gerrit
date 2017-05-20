@@ -22,6 +22,30 @@
       "revId": "9923f94d9b14c76389f52d8bde6a3b94972b2d8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c912e095_3db97f13",
+        "filename": "polygerrit-ui/app/lint_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-20T10:25:14Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5a2e1cd0_8fda9b1c",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 87
+      },
+      "revId": "9923f94d9b14c76389f52d8bde6a3b94972b2d8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

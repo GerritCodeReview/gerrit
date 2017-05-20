@@ -2,8 +2,10 @@
 
 ## Installing [Node.js](https://nodejs.org/en/download/)
 
+Minimum nodejs version supported is 6.x+
+
 ```sh
-# Debian/Ubuntu
+# Debian experimental
 sudo apt-get install nodejs-legacy
 
 # OS X with Homebrew

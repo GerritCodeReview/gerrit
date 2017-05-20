@@ -53,7 +53,7 @@ abstract class RevisionNote<T extends Comment> {
 
   public ImmutableList<T> getComments() {
     checkParsed();
-    return comments;
+    return comments != null ? comments : ImmutableList.of();
   }
 
   public void parse() throws IOException, ConfigInvalidException {

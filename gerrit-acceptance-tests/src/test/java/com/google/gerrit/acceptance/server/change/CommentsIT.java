@@ -57,13 +57,15 @@ import com.google.inject.Provider;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Map.Entry;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -777,79 +779,141 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void deleteCommentByRewritingCommitHistory() throws Exception {
-    // Create change (the 1st commit on the change's meta branch).
-    PushOneCommit.Result result = createChange();
-    String changeId = result.getChangeId();
-    Change.Id id = result.getChange().getId();
+    // Creates the following commit history on the meta branch of the test change. Then try to
+    // delete the comments one by one, which will rewrite most of the commits on the 'meta' branch.
+    // Commits will be rewritten N times if it puts in N comments. After each deletion, the meta
+    // branch should keep its previous state except that the target comment's message should be
+    // updated.
 
-    // Add two comments in patch set 1 (the 2nd commit on the change's meta branch).
-    ReviewInput reviewInput = new ReviewInput();
-    CommentInput comment1 = newComment(FILE_NAME, Side.REVISION, 0, "My password: abc123", false);
-    CommentInput comment2 = newComment(FILE_NAME, Side.REVISION, 1, "nit: long line", false);
-    reviewInput.comments = ImmutableMap.of(FILE_NAME, Lists.newArrayList(comment1, comment2));
-    reviewInput.label("Code-Review", 1);
-    gApi.changes().id(changeId).current().review(reviewInput);
+    // 1st commit: Create PS1.
+    PushOneCommit.Result result1 = createChange(SUBJECT, "a.txt", "a");
+    Change.Id id = result1.getChange().getId();
+    String changeId = result1.getChangeId();
+    String ps1 = result1.getCommit().name();
 
-    // Create patch set 2 (the 3rd commit on the change's meta branch).
-    amendChange(changeId);
+    // 2nd commit: Add (c1) to PS1.
+    CommentInput c1 = newComment("a.txt", "comment 1");
+    addComments(changeId, ps1, c1);
 
-    // Add 'comment3' in patch set 2 (the 4th commit on the change's meta branch).
-    CommentInput comment3 = addComment(changeId, "typo");
+    // 3rd commit: Add (c2, c3) to PS1.
+    CommentInput c2 = newComment("a.txt", "comment 2");
+    CommentInput c3 = newComment("a.txt", "comment 3");
+    addComments(changeId, ps1, c2, c3);
 
-    Map<String, List<CommentInfo>> commentsMap = getPublishedComments(changeId);
-    assertThat(commentsMap).hasSize(1);
-    assertThat(commentsMap.get(FILE_NAME)).hasSize(3);
-    Optional<CommentInfo> targetCommentInfo =
-        commentsMap
-            .get(FILE_NAME)
-            .stream()
-            .filter(c -> c.message.equals("My password: abc123"))
-            .findFirst();
-    assertThat(targetCommentInfo.isPresent()).isTrue();
+    // 4th commit: Add (c4) to PS1.
+    CommentInput c4 = newComment("a.txt", "comment 4");
+    addComments(changeId, ps1, c4);
 
-    List<RevCommit> commitsBeforeDelete = new ArrayList<>();
-    if (notesMigration.commitChangeWrites()) {
-      commitsBeforeDelete = getCommits(id);
-    }
+    // 5th commit: Create PS2.
+    PushOneCommit.Result result2 = amendChange(changeId, "refs/for/master", "b.txt", "b");
+    String ps2 = result2.getCommit().name();
 
-    String uuid = targetCommentInfo.get().id;
-    // Get the target comment.
-    CommentInfo oldComment =
-        gApi.changes().id(changeId).revision(result.getCommit().getName()).comment(uuid).get();
+    // 6th commit: Add (c5) to PS1.
+    CommentInput c5 = newComment("a.txt", "comment 5");
+    addComments(changeId, ps1, c5);
 
-    // Delete the target comment.
-    DeleteCommentInput input = new DeleteCommentInput("contains confidential information");
+    // 7th commit: Add (c6) to PS2.
+    CommentInput c6 = newComment("b.txt", "comment 6");
+    addComments(changeId, ps2, c6);
+
+    // 8th commit: Create PS3.
+    PushOneCommit.Result result3 = amendChange(changeId);
+    String ps3 = result3.getCommit().name();
+
+    // 9th commit: Create PS4.
+    PushOneCommit.Result result4 = amendChange(changeId, "refs/for/master", "c.txt", "c");
+    String ps4 = result4.getCommit().name();
+
+    // 10th commit: Add (c7, c8) to PS4.
+    CommentInput c7 = newComment("c.txt", "comment 7");
+    CommentInput c8 = newComment("b.txt", "comment 8");
+    addComments(changeId, ps4, c7, c8);
+
+    // 11th commit: Add (c4) to PS2.
+    CommentInput c9 = newComment("b.txt", "comment 9");
+    addComments(changeId, ps2, c9);
+
+    List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(changeId);
+    assertThat(commentsBeforeDelete).hasSize(9);
+    // PS1 has comments [c1, c2, c3, c4, c5].
+    assertThat(getRevisionComments(changeId, ps1)).hasSize(5);
+    // PS2 has comments [c6, c9].
+    assertThat(getRevisionComments(changeId, ps2)).hasSize(2);
+    // PS3 has no comment.
+    assertThat(getRevisionComments(changeId, ps3)).hasSize(0);
+    // PS4 has comments [c7, c8].
+    assertThat(getRevisionComments(changeId, ps4)).hasSize(2);
+
     setApiUser(admin);
-    CommentInfo updatedComment =
-        gApi.changes()
-            .id(changeId)
-            .revision(result.getCommit().getName())
-            .comment(uuid)
-            .delete(input);
+    for (int i = 0; i < commentsBeforeDelete.size(); i++) {
+      List<RevCommit> commitsBeforeDelete = new ArrayList<>();
+      if (notesMigration.commitChangeWrites()) {
+        commitsBeforeDelete = getCommits(id);
+      }
 
-    String expectedMsg =
-        String.format("Comment removed by: %s; Reason: %s", admin.fullName, input.reason);
+      CommentInfo comment = commentsBeforeDelete.get(i);
+      String uuid = comment.id;
+      int patchSet = comment.patchSet;
+      // 'oldComment' has some fields unset compared with 'comment'.
+      CommentInfo oldComment = gApi.changes().id(changeId).revision(patchSet).comment(uuid).get();
 
-    assertThat(updatedComment.message).isEqualTo(expectedMsg);
-    updatedComment.message = oldComment.message;
-    assertThat(updatedComment).isEqualTo(oldComment);
+      DeleteCommentInput input = new DeleteCommentInput("delete comment " + uuid);
+      CommentInfo updatedComment =
+          gApi.changes().id(changeId).revision(patchSet).comment(uuid).delete(input);
 
-    // Check the comment's message has been replaced in NoteDb.
-    if (notesMigration.commitChangeWrites()) {
-      assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
+      String expectedMsg =
+          String.format("Comment removed by: %s; Reason: %s", admin.fullName, input.reason);
+      assertThat(updatedComment.message).isEqualTo(expectedMsg);
+      oldComment.message = expectedMsg;
+      assertThat(updatedComment).isEqualTo(oldComment);
+
+      // Check the NoteDb state after the deletion.
+      if (notesMigration.commitChangeWrites()) {
+        assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
+      }
+
+      comment.message = expectedMsg;
+      commentsBeforeDelete.set(i, comment);
+      List<CommentInfo> commentsAfterDelete = getChangeSortedComments(changeId);
+      assertThat(commentsAfterDelete).isEqualTo(commentsBeforeDelete);
     }
 
     // Make sure that comments can still be added correctly.
-    CommentInput comment4 = addComment(changeId, "too much space");
-    commentsMap = getPublishedComments(changeId);
+    CommentInput c10 = newComment("a.txt", "comment 10");
+    CommentInput c11 = newComment("b.txt", "comment 11");
+    CommentInput c12 = newComment("a.txt", "comment 12");
+    CommentInput c13 = newComment("c.txt", "comment 13");
+    addComments(changeId, ps1, c10);
+    addComments(changeId, ps2, c11);
+    addComments(changeId, ps3, c12);
+    addComments(changeId, ps4, c13);
 
-    assertThat(commentsMap).hasSize(1);
-    List<CommentInput> comments =
-        Lists.transform(commentsMap.get(FILE_NAME), infoToInput(FILE_NAME));
+    assertThat(getChangeSortedComments(changeId)).hasSize(13);
+    assertThat(getRevisionComments(changeId, ps1)).hasSize(6);
+    assertThat(getRevisionComments(changeId, ps2)).hasSize(3);
+    assertThat(getRevisionComments(changeId, ps3)).hasSize(1);
+    assertThat(getRevisionComments(changeId, ps4)).hasSize(3);
+  }
 
-    // Change comment1's message to the expected message.
-    comment1.message = expectedMsg;
-    assertThat(comments).containsExactly(comment1, comment2, comment3, comment4);
+  private List<CommentInfo> getChangeSortedComments(String changeId) throws Exception {
+    List<CommentInfo> comments = new ArrayList<>();
+    Map<String, List<CommentInfo>> commentsMap = getPublishedComments(changeId);
+    for (Entry<String, List<CommentInfo>> e : commentsMap.entrySet()) {
+      for (CommentInfo c : e.getValue()) {
+        c.path = e.getKey(); // Set the comment's path field.
+        comments.add(c);
+      }
+    }
+    Collections.sort(comments, (c1, c2) -> c1.id.compareTo(c2.id));
+    return comments;
+  }
+
+  private List<CommentInfo> getRevisionComments(String changeId, String revId) throws Exception {
+    return getPublishedComments(changeId, revId)
+        .values()
+        .stream()
+        .flatMap(t -> t.stream())
+        .collect(Collectors.toList());
   }
 
   private CommentInput addComment(String changeId, String message) throws Exception {
@@ -858,6 +922,22 @@ public class CommentsIT extends AbstractDaemonTest {
     input.comments = ImmutableMap.of(comment.path, Lists.newArrayList(comment));
     gApi.changes().id(changeId).current().review(input);
     return comment;
+  }
+
+  private void addComments(String changeId, String revision, CommentInput... commentInputs)
+      throws Exception {
+    ReviewInput input = new ReviewInput();
+    input.comments = new HashMap<>();
+    for (int i = 0; i < commentInputs.length; i++) {
+      CommentInput c = commentInputs[i];
+      if (!input.comments.containsKey(c.path)) {
+        input.comments.put(c.path, Lists.newArrayList(c));
+      } else {
+        input.comments.get(c.path).add(c);
+      }
+    }
+    input.label("Code-Review", 1);
+    gApi.changes().id(changeId).revision(revision).review(input);
   }
 
   private List<RevCommit> getCommits(Change.Id changeId) throws IOException {
@@ -987,6 +1067,10 @@ public class CommentsIT extends AbstractDaemonTest {
 
   private CommentInfo getDraftComment(String changeId, String revId, String uuid) throws Exception {
     return gApi.changes().id(changeId).revision(revId).draft(uuid).get();
+  }
+
+  private static CommentInput newComment(String file, String message) {
+    return newComment(file, Side.REVISION, 0, message, false);
   }
 
   private static CommentInput newComment(

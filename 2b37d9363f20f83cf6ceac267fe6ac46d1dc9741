@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "509ffd2e_10f62245",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-05-21T20:52:10Z",
+      "side": 0,
+      "message": "Debian experimental has Node 6.\n\nFor other versions, I don\u0027t think we want to recommend using sudo curl | bash to add nodesource to sources.list.d. It seems simpler and less invasive to let the reader fall through to the \"All other platforms\" instructions below instead.\n\nThat is, can this heading say \"# Debian experimental\" for now, like this?\n\n ```sh\n # Debian experimental\n sudo apt-get install nodejs-legacy\n\n # OS X with Homebrew\n brew install node\n ```\n\n All other platforms: [download from\n nodejs.org](https://nodejs.org/en/download/).",
+      "revId": "2b37d9363f20f83cf6ceac267fe6ac46d1dc9741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

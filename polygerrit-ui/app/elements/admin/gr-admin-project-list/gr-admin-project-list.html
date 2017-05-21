@@ -14,11 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
+<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <link rel="import" href="../../../styles/gr-settings-styles.html">
+<link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
 
 <dom-module id="gr-admin-project-list">
   <template>
@@ -67,7 +71,29 @@ limitations under the License.
       nav a:first-of-type {
         margin-right: .5em;
       }
+      gr-autocomplete {
+         background-color: white;
+         border: 3px solid #d1d2d3;
+         border-radius: 2px 0 0 2px;
+         flex: 1;
+         font: inherit;
+         outline: none;
+         padding: 0 .25em 0 .25em;
+      }
+      #projectsSearchInput {
+         margin-top: 1em;
+         margin-bottom: 1em;
+         width: 20%;
+      }
     </style>
+    Filter <gr-autocomplete
+             id="projectsSearchInput"
+             text="{{_inputVal}}"
+             on-commit="_handleInputCommit"
+             allowNonSuggestedValues
+             multi
+             _disableSuggestions></gr-autocomplete>
+    <gr-button id="projectSearchButton">Search</gr-button>
     <table id="projectList">
       <tr class="headerRow">
         <th class="readOnly topHeader">Read only</th>
@@ -95,10 +121,10 @@ limitations under the License.
     </table>
     <nav>
       <a id="prevArrow"
-          href$="[[_computeNavLink(_offset, -1, _projectsPerPage)]]"
+          href$="[[_computeNavLink(_offset, -1, _projectsPerPage, _project)]]"
           hidden$="[[_hidePrevArrow(_offset)]]" hidden>&larr; Prev</a>
       <a id="nextArrow"
-          href$="[[_computeNavLink(_offset, 1, _projectsPerPage)]]"
+          href$="[[_computeNavLink(_offset, 1, _projectsPerPage, _project)]]"
           hidden$="[[_hideNextArrow(_loading, _projects)]]" hidden>
         Next &rarr;</a>
     </nav>

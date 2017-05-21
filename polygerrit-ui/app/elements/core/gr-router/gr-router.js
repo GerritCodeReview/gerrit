@@ -113,7 +113,23 @@
       app.params = {
         view: 'gr-admin-project-list',
         offset: data.params[1] || 0,
+        project: null,
       };
+    });
+
+    page(/^\/admin\/projects,(.*)(,(\d+))?(\/)?$/, loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          app.params = {
+            view: 'gr-admin-project-list',
+            offset: data.params[2] || 0,
+            project: data.params[0] || null,
+          };
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+>>>>>>> 59808900fb... PolyGerrit: Add a search bar to filter projects on /admin/project page
     });
 
     page('/admin/(.*)', loadUser, data => {

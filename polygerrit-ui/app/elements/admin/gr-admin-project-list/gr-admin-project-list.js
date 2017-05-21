@@ -33,6 +33,11 @@
 
       _projects: Array,
 
+      _project: {
+        type: Object,
+        value: null,
+      },
+
       _projectsPerPage: {
         type: Number,
         value: 25,
@@ -42,15 +47,63 @@
         type: Boolean,
         value: true,
       },
+
+      keyEventTarget: {
+        type: Object,
+        value() { return document.body; },
+      },
+
+      value: {
+        type: String,
+        value: '',
+        notify: true,
+        observer: '_valueChanged',
+      },
+
+      _inputVal: String,
     },
 
     behaviors: [
+      Gerrit.KeyboardShortcutBehavior,
       Gerrit.BaseUrlBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
     listeners: {
       'next-page': '_handleNextPage',
       'previous-page': '_handlePreviousPage',
+      'projectSearchButton.tap': '_preventDefaultAndNavigateToInputVal',
+    },
+
+    _valueChanged(value) {
+      this._inputVal = value;
+    },
+
+    _handleInputCommit(e) {
+      this._preventDefaultAndNavigateToInputVal(e);
+    },
+
+    /**
+     * This function is called in a few different cases:
+     *   - e.target is the search button
+     *   - e.target is the gr-autocomplete widget (#searchInput)
+     *   - e.target is the input element wrapped within #searchInput
+     *
+     * @param {!Event} e
+     */
+    _preventDefaultAndNavigateToInputVal(e) {
+      e.preventDefault();
+      const target = Polymer.dom(e).rootTarget;
+      // If the target is the #searchInput or has a sub-input component, that
+      // is what holds the focus as opposed to the target from the DOM event.
+      if (target.$.input) {
+        target.$.input.blur();
+      } else {
+        target.blur();
+      }
+      if (this._inputVal) {
+        page.show('/admin/projects' + ',' + this.encodeURL(this._inputVal, false));
+      }
     },
 
     _paramsChanged(value) {
@@ -62,7 +115,13 @@
         this._offset = 0;
       }
 
-      return this.$.restAPI.getProjects(this._projectsPerPage, this._offset)
+      if (value && value.project !== null) {
+        this._project = value.project;
+      } /*else {
+        this._project = null;
+      }*/
+
+      return this.$.restAPI.getProjects(this._project, this._projectsPerPage, this._offset)
           .then(projects => {
             if (!projects) {
               this._projects = [];
@@ -99,11 +158,14 @@
       return webLinks.length ? webLinks : null;
     },
 
-    _computeNavLink(offset, direction, projectsPerPage) {
+    _computeNavLink(offset, direction, projectsPerPage, project) {
       // Offset could be a string when passed from the router.
       offset = +(offset || 0);
       const newOffset = Math.max(0, offset + (projectsPerPage * direction));
       let href = this.getBaseUrl() + '/admin/projects';
+      if (project !== null) {
+        href += ',' + project;
+      }
       if (newOffset > 0) {
         href += ',' + newOffset;
       }
@@ -125,13 +187,13 @@
     _handleNextPage() {
       if (this.$.nextArrow.hidden) { return; }
       page.show(this._computeNavLink(
-          this._offset, 1, this._projectsPerPage));
+          this._offset, 1, this._projectsPerPage, this._project));
     },
 
     _handlePreviousPage() {
       if (this.$.prevArrow.hidden) { return; }
       page.show(this._computeNavLink(
-          this._offset, -1, this._projectsPerPage));
+          this._offset, -1, this._projectsPerPage, this._project));
     },
   });
 })();

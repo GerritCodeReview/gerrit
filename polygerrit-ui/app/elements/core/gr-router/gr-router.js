@@ -113,6 +113,15 @@
       app.params = {
         view: 'gr-admin-project-list',
         offset: data.params[1] || 0,
+        project: null,
+      };
+    });
+
+    page(/^\/admin\/projects,(.*)(,(\d+))?(\/)?$/, loadUser, data => {
+      app.params = {
+        view: 'gr-admin-project-list',
+        offset: data.params[2] || 0,
+        project: data.params[0] || null,
       };
     });
 

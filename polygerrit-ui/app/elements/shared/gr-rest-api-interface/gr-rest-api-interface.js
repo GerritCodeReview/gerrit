@@ -559,10 +559,17 @@
       });
     },
 
-    getProjects(projectsPerPage, opt_offset) {
+    getProjects(projects, projectsPerPage, opt_offset) {
       const offset = opt_offset || 0;
+      let project;
+      if (projects !==  null) {
+        project = '&m=' + projects;
+      } else {
+        project = '';
+      }
+
       return this._fetchSharedCacheURL(
-          `/projects/?d&n=${projectsPerPage}&S=${offset}`
+          `/projects/?d&n=${projectsPerPage}&S=${offset}${project}`
       );
     },
 

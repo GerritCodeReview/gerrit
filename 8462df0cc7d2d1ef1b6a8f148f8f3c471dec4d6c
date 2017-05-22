@@ -1,0 +1,464 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26a2ca7f_7a0dd059",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "didn\u0027t\n\nAlternatively:\nThe current implementation doesn\u0027t ...",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adc3842b_25c3fdfc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "implementation",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28d710aa_5eb50ff2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "every iteration",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac36cea3_aab7557f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "being lost",
+      "range": {
+        "startLine": 11,
+        "startChar": 57,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab204de1_869f52eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "Does this still occur with the code of this change? If not, please adjust the description here.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 53
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6cc483e_8b84204a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "and",
+      "range": {
+        "startLine": 21,
+        "startChar": 25,
+        "endLine": 21,
+        "endChar": 27
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0515cb1b_ed6948bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "we",
+      "range": {
+        "startLine": 24,
+        "startChar": 11,
+        "endLine": 24,
+        "endChar": 17
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd57c2db_6c8fbae5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "tries",
+      "range": {
+        "startLine": 782,
+        "startChar": 88,
+        "endLine": 782,
+        "endChar": 91
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71c5085f_6ac2815e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "for N added",
+      "range": {
+        "startLine": 784,
+        "startChar": 41,
+        "endLine": 784,
+        "endChar": 56
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0808e43_377fa67f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "c9",
+      "range": {
+        "startLine": 832,
+        "startChar": 25,
+        "endLine": 832,
+        "endChar": 27
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c478587_e4cd5448",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "optional: Can be replaced with\n\n comments.sort(Comparator.comparing(c -\u003e c.id));",
+      "range": {
+        "startLine": 907,
+        "startChar": 4,
+        "endLine": 907,
+        "endChar": 67
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf11fb24_37e99198",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "optional: Can be a method reference.",
+      "range": {
+        "startLine": 915,
+        "startChar": 17,
+        "endLine": 915,
+        "endChar": 32
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc8cbc65_e9e05771",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "optional: A for-each loop would be preferable here:\n\n for (CommentInput c : commentInputs) {",
+      "range": {
+        "startLine": 931,
+        "startChar": 4,
+        "endLine": 932,
+        "endChar": 40
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81267544_7ae00f66",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "optional: Could be replaced with:\n\n input.comments \u003d Arrays.stream(commentInputs).collect(Collectors.groupingBy(c -\u003e c.path));",
+      "range": {
+        "startLine": 930,
+        "startChar": 4,
+        "endLine": 938,
+        "endChar": 5
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9c5fb41_b7e1a205",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "Is this necessary? Shouldn\u0027t this method only add comments?",
+      "range": {
+        "startLine": 939,
+        "startChar": 4,
+        "endLine": 939,
+        "endChar": 34
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d884e7c0_2c91f151",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DeleteCommentRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "optional as unrelated: Why don\u0027t we use revWalk.parseCommit(..) here but do it the other times we call NoteMap#read?",
+      "range": {
+        "startLine": 105,
+        "startChar": 45,
+        "endLine": 105,
+        "endChar": 59
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d02d5ed7_cb963370",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DeleteCommentRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "optional as unrelated: Why is the NoteMap read again? Can\u0027t it be reused from the one generated during the previous iteration in rewriteCommit()?",
+      "range": {
+        "startLine": 123,
+        "startChar": 14,
+        "endLine": 123,
+        "endChar": 63
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da92deef_10d2f700",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DeleteCommentRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "optional as unrelated: It would be sufficient to remember the keys. The content of the comments stored in parentComments is irrelevant.",
+      "range": {
+        "startLine": 129,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 36
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "274a3bd1_e51ea87d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DeleteCommentRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "Would it be possible to add a test whose code path goes through the positive case (that is no comments during rewrite)? At the moment, such a situation shouldn\u0027t be possible in production system (except when somebody modifies NoteDb manually or as a result of a bug). However, as we have this code and will probably rely on it to work at some point in the future (or as we currently do because of a bug), we should make sure that it is working correctly.",
+      "range": {
+        "startLine": 229,
+        "startChar": 6,
+        "endLine": 233,
+        "endChar": 7
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a8c73f3_e97a15f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-22T16:22:14Z",
+      "side": 1,
+      "message": "optional: I would prefer to use ImmutableList.of() here and remove the check within getComments();",
+      "range": {
+        "startLine": 64,
+        "startChar": 17,
+        "endLine": 64,
+        "endChar": 21
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7d010d43_9466b1f7",
+        "filename": "WORKSPACE",
+        "patchSetId": 10
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-22T09:01:31Z",
+      "side": 1,
+      "message": "I don\u0027t where else is it used? \n\nor do you wnat \"bla\" + VERSION + \"-bla-\" + VERSION +\"-deps.jar\" ?\n\nLike this it\u0027s shorter to read, and people can cut \u0026 paste the URL.\n\n\nThe SHA1 checksumming prevents any confusion anyway.",
+      "parentUuid": "f3d52c90_267a9082",
+      "range": {
+        "startLine": 1078,
+        "startChar": 93,
+        "endLine": 1078,
+        "endChar": 96
+      },
+      "revId": "41d697177836763b193128ffd568c3e8ba0a48ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2db6d93_9357be55",
         "filename": "tools/check-format.sh",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-17T23:27:28Z",
       "side": 1,
       "message": "Isn\u0027t this redundant since the --diff-filter\u003dAM is selecting only added and modified files?\n\nAlso what does it do if a file is renamed and modified at the same time?  This would happen if a class is renamed or moved to a different package.",
+      "range": {
+        "startLine": 35,
+        "startChar": 22,
+        "endLine": 35,
+        "endChar": 34
+      },
+      "revId": "41d697177836763b193128ffd568c3e8ba0a48ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c48313f_ca54b633",
+        "filename": "tools/check-format.sh",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-22T09:01:31Z",
+      "side": 1,
+      "message": "If a file is renamed if might be diff-status\u003dR, but we do want to check the new file. By using --no-renames, we hopefully switch off all move detection so all files are either A, M or D.\n\nI\u0027m not intimate enough with git-diff options to know if it is superfluous, so I\u0027ll leave it for now.",
+      "parentUuid": "c2db6d93_9357be55",
       "range": {
         "startLine": 35,
         "startChar": 22,

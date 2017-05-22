@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fafff349_68d3c821",
+        "filename": "tools/check-format.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-22T09:01:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3797b101_5110832a",
+      "range": {
+        "startLine": 36,
+        "startChar": 22,
+        "endLine": 36,
+        "endChar": 51
+      },
+      "revId": "1bae57b4cf6ba430aebaf572bb7ca737aaa1272b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f64f8794_171f14fc",
         "filename": "tools/check-format.sh",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-18T06:44:04Z",
       "side": 1,
       "message": "Alternative approach is not to mess around with copying files around at all:\n\n* 1. gjf could offer --dry-run option, that checks if passed files are sane or not.\n* 2. Just do the check in place, in clean tree, and check where there were any differences after running gjf.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 46
+      },
+      "revId": "1bae57b4cf6ba430aebaf572bb7ca737aaa1272b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0ad13c_195a434e",
+        "filename": "tools/check-format.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-05-22T09:01:31Z",
+      "side": 1,
+      "message": "but it doesn\u0027t provide this option, and I\u0027m tired of waiting. See also \n\n  https://github.com/google/google-java-format/issues/105",
+      "parentUuid": "f64f8794_171f14fc",
       "range": {
         "startLine": 54,
         "startChar": 0,

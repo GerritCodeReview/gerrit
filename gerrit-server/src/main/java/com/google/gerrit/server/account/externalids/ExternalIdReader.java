@@ -74,6 +74,19 @@ public class ExternalIdReader {
     return NoteMap.newEmptyMap();
   }
 
+  public static ExternalId parse(ExternalId.Key key, RevWalk rw, ObjectId rev)
+      throws IOException, ConfigInvalidException {
+    NoteMap noteMap = readNoteMap(rw, rev);
+    ObjectId noteId = key.sha1();
+    if (!noteMap.contains(noteId)) {
+      return null;
+    }
+
+    byte[] raw =
+        rw.getObjectReader().open(noteMap.get(noteId), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
+    return ExternalId.parse(noteId.name(), raw);
+  }
+
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private boolean failOnLoad = false;
@@ -176,19 +189,6 @@ public class ExternalIdReader {
         RevWalk rw = new RevWalk(repo)) {
       return parse(key, rw, rev);
     }
-  }
-
-  private static ExternalId parse(ExternalId.Key key, RevWalk rw, ObjectId rev)
-      throws IOException, ConfigInvalidException {
-    NoteMap noteMap = readNoteMap(rw, rev);
-    ObjectId noteId = key.sha1();
-    if (!noteMap.contains(noteId)) {
-      return null;
-    }
-
-    byte[] raw =
-        rw.getObjectReader().open(noteMap.get(noteId), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
-    return ExternalId.parse(noteId.name(), raw);
   }
 
   private void checkReadEnabled() throws IOException {

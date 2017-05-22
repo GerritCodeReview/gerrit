@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f86618cb_bef7fd4b",
+        "filename": "WORKSPACE",
+        "patchSetId": 10
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-22T09:12:07Z",
+      "side": 1,
+      "message": "Why would anyone want to copy and paste the URL?\n\nAnd it won\u0027t get as far as the SHA1 check if one only replaces the version in one place; it\u0027ll 404 on the download.\n\nNot a big deal though; if you prefer it like this I\u0027m fine with it.",
+      "parentUuid": "7d010d43_9466b1f7",
+      "range": {
+        "startLine": 1078,
+        "startChar": 93,
+        "endLine": 1078,
+        "endChar": 96
+      },
+      "revId": "41d697177836763b193128ffd568c3e8ba0a48ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2db6d93_9357be55",
         "filename": "tools/check-format.sh",
         "patchSetId": 10

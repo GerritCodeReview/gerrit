@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "88683ab0_de6cd6d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-22T23:59:51Z",
+      "side": 1,
+      "message": "I was not intending to address that feature request with this patch, no.",
+      "parentUuid": "958a7112_298b31e5",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb1c49f5_9cf40128",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
         "patchSetId": 1
@@ -173,6 +197,24 @@
     },
     {
       "key": {
+        "uuid": "63dc2532_650bbaad",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-22T23:59:51Z",
+      "side": 1,
+      "message": "Good point. Will refactor.",
+      "parentUuid": "d687edaf_f37b2910",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76259ebe_0058fd01",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
         "patchSetId": 1
@@ -220,6 +262,24 @@
       "side": 1,
       "message": "Behavior is an external dependency, just like gr-rest-api-endpoint.\nStubbing it outside of element would increase test coverage, which is the whole point of integration testing.\nAlso, looks like you could drop this stub if you setup change in a way that this method will return true - that would be ideal.",
       "parentUuid": "a07f9642_f6bca9e4",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b57b9bc_24f2e5f5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-22T23:59:51Z",
+      "side": 1,
+      "message": "I don\u0027t understand what you\u0027re referring to with the latter point. As to the former point, I suppose you\u0027re right... It would still ultimately be the same reference that is stubbed though, so I still think it\u0027s fundamentally the same thing.",
+      "parentUuid": "a4798ad4_9722af80",
       "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -367,6 +427,24 @@
     },
     {
       "key": {
+        "uuid": "793544c9_97d000c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-22T23:59:51Z",
+      "side": 1,
+      "message": "Yes, but the order does not matter. The above three lines just need to happen before testing starts.",
+      "parentUuid": "9e247604_0c552c4a",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d00da57_d794db57",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
         "patchSetId": 1
@@ -417,6 +495,24 @@
       "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b93f005b_6a83dc73",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-22T23:59:51Z",
+      "side": 1,
+      "message": "Yes, it is, but that is not what this test checks. It just checks to see if the send function is called in the proper circumstances.",
+      "parentUuid": "6e3d5b87_7962b9d6",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "958a7112_298b31e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-22T22:40:59Z",
+      "side": 1,
+      "message": "Hm, so adding \"foo@google.com bar@google.com\" would break, and that\u0027s WAI?",
+      "parentUuid": "fe90cffd_8644d1ad",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb1c49f5_9cf40128",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
         "patchSetId": 1
@@ -131,6 +155,24 @@
     },
     {
       "key": {
+        "uuid": "d687edaf_f37b2910",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-22T22:40:59Z",
+      "side": 1,
+      "message": "It looks like your integration test is already testing exactly that, unless I\u0027m awfully wrong.\n\nIt would make maintenance easier if there\u0027d be one test testing one flow. In this case, if gr-account-entry internals are changed, multiple tests fail, even if the interface is intact.",
+      "parentUuid": "1ade817b_c111a322",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76259ebe_0058fd01",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
         "patchSetId": 1
@@ -160,6 +202,24 @@
       "side": 1,
       "message": "Why? Isn\u0027t there no fundamental difference?",
       "parentUuid": "76259ebe_0058fd01",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4798ad4_9722af80",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-22T22:40:59Z",
+      "side": 1,
+      "message": "Behavior is an external dependency, just like gr-rest-api-endpoint.\nStubbing it outside of element would increase test coverage, which is the whole point of integration testing.\nAlso, looks like you could drop this stub if you setup change in a way that this method will return true - that would be ideal.",
+      "parentUuid": "a07f9642_f6bca9e4",
       "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -236,6 +296,24 @@
     },
     {
       "key": {
+        "uuid": "e263a463_5640c74d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-22T22:40:59Z",
+      "side": 1,
+      "message": "Please add a comment, describing which side-effect you\u0027re suppressing and why.",
+      "parentUuid": "e2fa2d03_ac983242",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bdf494f3_4852f246",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
         "patchSetId": 1
@@ -271,6 +349,24 @@
     },
     {
       "key": {
+        "uuid": "9e247604_0c552c4a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-22T22:40:59Z",
+      "side": 1,
+      "message": "Am I right that flush is required regardless of two lines above?",
+      "parentUuid": "b8754dd2_74871b9e",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d00da57_d794db57",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
         "patchSetId": 1
@@ -303,6 +399,24 @@
       "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e3d5b87_7962b9d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-22T22:40:59Z",
+      "side": 1,
+      "message": "Isn\u0027t text that was entered in CC field sent to the server?",
+      "parentUuid": "7f1697cd_d2eaf33d",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

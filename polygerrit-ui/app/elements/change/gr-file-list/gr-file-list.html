@@ -36,6 +36,7 @@ limitations under the License.
         display: block;
       }
       .row {
+        border-top: 1px solid #eee;
         display: flex;
         padding: .1em .25em;
       }
@@ -334,8 +335,10 @@ limitations under the License.
         </template>
       </template>
     </div>
-    <div class$="row totalChanges [[_computeExpandInlineClass(_userPrefs)]]">
-      <div class="total-stats" hidden$="[[_hideChangeTotals]]">
+    <div
+        class$="row totalChanges [[_computeExpandInlineClass(_userPrefs)]]"
+        hidden$="[[_hideChangeTotals]]">
+      <div class="total-stats">
         <span
             class="added"
             tabindex="0"
@@ -350,8 +353,10 @@ limitations under the License.
         </span>
       </div>
     </div>
-    <div class$="row totalChanges [[_computeExpandInlineClass(_userPrefs)]]">
-      <div class="total-stats" hidden$="[[_hideBinaryChangeTotals]]">
+    <div
+        class$="row totalChanges [[_computeExpandInlineClass(_userPrefs)]]"
+        hidden$="[[_hideBinaryChangeTotals]]">
+      <div class="total-stats">
         <span class="added" aria-label="Total lines added">
           [[_formatBytes(_patchChange.size_delta_inserted)]]
           [[_formatPercentage(_patchChange.total_size,

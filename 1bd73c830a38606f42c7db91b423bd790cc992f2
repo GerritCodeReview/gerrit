@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fe90cffd_8644d1ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-22T22:16:13Z",
+      "side": 1,
+      "message": "This is not supported, and I don\u0027t plan to allow for that -- at least not right now.",
+      "parentUuid": "0232d9df_84b05a71",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb1c49f5_9cf40128",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
         "patchSetId": 1
@@ -89,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "1ade817b_c111a322",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-22T22:16:13Z",
+      "side": 1,
+      "message": "This is a good point, but I chose to use these functions on purpose. We have very few integration tests, and we\u0027ve been burned by tests that stub too much in the past. Do you think that\u0027s wise, or should I change it?",
+      "parentUuid": "e3d38fbe_0fbfdb17",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76259ebe_0058fd01",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
         "patchSetId": 1
@@ -100,6 +142,24 @@
       "writtenOn": "2017-05-22T21:51:46Z",
       "side": 1,
       "message": "Can this be stubbed on the behavior instead?",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a07f9642_f6bca9e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-22T22:16:13Z",
+      "side": 1,
+      "message": "Why? Isn\u0027t there no fundamental difference?",
+      "parentUuid": "76259ebe_0058fd01",
       "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -123,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "e85e646d_96db71ce",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-22T22:16:13Z",
+      "side": 1,
+      "message": "That would cause the code to proceed a lot further than is necessary for this test, and would require a lot more stubbing. I don\u0027t think that\u0027s necessary to accomplish this test.",
+      "parentUuid": "30a55c81_71e6fb60",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "636664c9_b4404861",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
         "patchSetId": 1
@@ -137,6 +215,24 @@
       "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2fa2d03_ac983242",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-22T22:16:13Z",
+      "side": 1,
+      "message": "Yes, otherwise the function is called (and it ought to not be).",
+      "parentUuid": "636664c9_b4404861",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "b8754dd2_74871b9e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-22T22:16:13Z",
+      "side": 1,
+      "message": "Without a flush, the element itself may not be rendered, in which case the next line returns undefined and the test crashes.",
+      "parentUuid": "bdf494f3_4852f246",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d00da57_d794db57",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
         "patchSetId": 1
@@ -171,6 +285,24 @@
       "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f1697cd_d2eaf33d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-22T22:16:13Z",
+      "side": 1,
+      "message": "Since send itself is stubbed, the payload is pretty arbitrary and does not need to be validated.",
+      "parentUuid": "5d00da57_d794db57",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -221,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "a484a92e_f0695fd9",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-22T22:16:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f68e2a25_c3e5e4d2",
+      "range": {
+        "startLine": 529,
+        "startChar": 35,
+        "endLine": 529,
+        "endChar": 39
+      },
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2132d19_b96f6de4",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1
@@ -241,6 +397,30 @@
       "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e07d88e_589378a8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-22T22:16:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2132d19_b96f6de4",
+      "range": {
+        "startLine": 540,
+        "startChar": 10,
+        "endLine": 540,
+        "endChar": 43
+      },
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

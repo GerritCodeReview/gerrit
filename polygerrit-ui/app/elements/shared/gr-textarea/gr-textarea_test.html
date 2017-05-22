@@ -82,15 +82,15 @@ limitations under the License.
 
     test('emoji selector opens when a colon is typed & the textarea has focus',
         () => {
-      MockInteractions.focus(element.$.textarea);
-      flushAsynchronousOperations();
-      element.text = ':';
-      element.text = ':t';
-      assert.isTrue(!element.$.emojiSuggestions.hidden);
-      assert.equal(element._colonIndex, 0);
-      assert.isFalse(element._hideAutocomplete);
-      assert.equal(element._currentSearchString, 't');
-    });
+          MockInteractions.focus(element.$.textarea);
+          flushAsynchronousOperations();
+          element.text = ':';
+          element.text = ':t';
+          assert.isTrue(!element.$.emojiSuggestions.hidden);
+          assert.equal(element._colonIndex, 0);
+          assert.isFalse(element._hideAutocomplete);
+          assert.equal(element._currentSearchString, 't');
+        });
 
     test('emoji selector closes when text changes before the colon', () => {
       const resetStub = sandbox.stub(element, '_resetEmojiDropdown');

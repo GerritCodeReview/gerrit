@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-account-info</title>
+
+<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../gr-account-info.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-account-info></gr-account-info>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-account-info tests', () => {
+    let element;
+    let account;
+    let config;
+    let sandbox;
+
+    function valueOf(title) {
+      const sections = Polymer.dom(element.root).querySelectorAll('section');
+      let titleEl;
+      for (let i = 0; i < sections.length; i++) {
+        titleEl = sections[i].querySelector('.title');
+        if (titleEl.textContent === title) {
+          return sections[i].querySelector('.value');
+        }
+      }
+    }
+
+    setup(done => {
+      sandbox = sinon.sandbox.create();
+      account = {
+        _account_id: 123,
+        name: 'user name',
+        email: 'user@email',
+        username: 'user username',
+        registered: '2000-01-01 00:00:00.000000000',
+      };
+      config = {auth: {editable_account_fields: []}};
+
+      stub('gr-rest-api-interface', {
+        getAccount() { return Promise.resolve(account); },
+        getConfig() { return Promise.resolve(config); },
+        getPreferences() {
+          return Promise.resolve({time_format: 'HHMM_12'});
+        },
+      });
+      element = fixture('basic');
+      // Allow the element to render.
+      element.loadData().then(() => { flush(done); });
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('basic account info render', () => {
+      assert.isFalse(element._loading);
+
+      assert.equal(valueOf('ID').textContent, account._account_id);
+      assert.equal(valueOf('Email').textContent, account.email);
+      assert.equal(valueOf('Username').textContent, account.username);
+    });
+
+    test('user name render (immutable)', () => {
+      const section = element.$.nameSection;
+      const displaySpan = section.querySelectorAll('.value')[0];
+      const inputSpan = section.querySelectorAll('.value')[1];
+
+      assert.isFalse(element.mutable);
+      assert.isFalse(displaySpan.hasAttribute('hidden'));
+      assert.equal(displaySpan.textContent, account.name);
+      assert.isTrue(inputSpan.hasAttribute('hidden'));
+    });
+
+    test('user name render (mutable)', () => {
+      element.set('_serverConfig',
+          {auth: {editable_account_fields: ['FULL_NAME']}});
+
+      const section = element.$.nameSection;
+      const displaySpan = section.querySelectorAll('.value')[0];
+      const inputSpan = section.querySelectorAll('.value')[1];
+
+      assert.isTrue(element.mutable);
+      assert.isTrue(displaySpan.hasAttribute('hidden'));
+      assert.equal(element.$.nameInput.bindValue, account.name);
+      assert.isFalse(inputSpan.hasAttribute('hidden'));
+    });
+
+    suite('account info edit', () => {
+      let nameChangedSpy;
+      let statusChangedSpy;
+      let nameStub;
+      let statusStub;
+
+      setup(() => {
+        nameChangedSpy = sandbox.spy(element, '_nameChanged');
+        statusChangedSpy = sandbox.spy(element, '_statusChanged');
+        element.set('_serverConfig',
+          {auth: {editable_account_fields: ['FULL_NAME']}});
+
+        nameStub = sandbox.stub(element.$.restAPI, 'setAccountName', name =>
+          Promise.resolve());
+        statusStub = sandbox.stub(element.$.restAPI, 'setAccountStatus',
+            status => Promise.resolve());
+      });
+
+      test('name', done => {
+        assert.isTrue(element.mutable);
+        assert.isFalse(element.hasUnsavedChanges);
+
+        element.set('_account.name', 'new name');
+
+        assert.isTrue(nameChangedSpy.called);
+        assert.isFalse(statusChangedSpy.called);
+        assert.isTrue(element.hasUnsavedChanges);
+
+        MockInteractions.pressAndReleaseKeyOn(element.$.nameInput, 13);
+
+        assert.isTrue(nameStub.called);
+        assert.isFalse(statusStub.called);
+        nameStub.lastCall.returnValue.then(() => {
+          assert.equal(nameStub.lastCall.args[0], 'new name');
+          done();
+        });
+      });
+
+      test('status', done => {
+        assert.isTrue(element.mutable);
+        assert.isFalse(element.hasUnsavedChanges);
+
+        element.set('_account.status', 'new status');
+
+        assert.isFalse(nameChangedSpy.called);
+        assert.isTrue(statusChangedSpy.called);
+        assert.isTrue(element.hasUnsavedChanges);
+
+        element.save().then(() => {
+          assert.isTrue(statusStub.called);
+          assert.isFalse(nameStub.called);
+          statusStub.lastCall.returnValue.then(() => {
+            assert.equal(statusStub.lastCall.args[0], 'new status');
+            done();
+          });
+        });
+      });
+    });
+
+    suite('edit name and status', () => {
+      let nameChangedSpy;
+      let statusChangedSpy;
+      let nameStub;
+      let statusStub;
+
+      setup(() => {
+        nameChangedSpy = sandbox.spy(element, '_nameChanged');
+        statusChangedSpy = sandbox.spy(element, '_statusChanged');
+        element.set('_serverConfig',
+          {auth: {editable_account_fields: ['FULL_NAME']}});
+
+        nameStub = sandbox.stub(element.$.restAPI, 'setAccountName', name =>
+          Promise.resolve());
+        statusStub = sandbox.stub(element.$.restAPI, 'setAccountStatus',
+            status => Promise.resolve());
+      });
+
+      test('set name and status', done => {
+        assert.isTrue(element.mutable);
+        assert.isFalse(element.hasUnsavedChanges);
+
+        element.set('_account.name', 'new name');
+
+        assert.isTrue(nameChangedSpy.called);
+
+        element.set('_account.status', 'new status');
+
+        assert.isTrue(statusChangedSpy.called);
+
+        assert.isTrue(element.hasUnsavedChanges);
+
+        element.save().then(() => {
+          assert.isTrue(statusStub.called);
+          assert.isTrue(nameStub.called);
+
+          assert.equal(nameStub.lastCall.args[0], 'new name');
+
+          assert.equal(statusStub.lastCall.args[0], 'new status');
+
+          done();
+        });
+      });
+    });
+
+    suite('set status but read name', () => {
+      let statusChangedSpy;
+      let statusStub;
+
+      setup(() => {
+        statusChangedSpy = sandbox.spy(element, '_statusChanged');
+        element.set('_serverConfig',
+          {auth: {editable_account_fields: []}});
+
+        statusStub = sandbox.stub(element.$.restAPI, 'setAccountStatus',
+            status => Promise.resolve());
+      });
+
+      test('read full name but set status', done => {
+        const section = element.$.nameSection;
+        const displaySpan = section.querySelectorAll('.value')[0];
+        const inputSpan = section.querySelectorAll('.value')[1];
+
+        assert.isFalse(element.mutable);
+
+        assert.isFalse(element.hasUnsavedChanges);
+
+        assert.isFalse(displaySpan.hasAttribute('hidden'));
+        assert.equal(displaySpan.textContent, account.name);
+        assert.isTrue(inputSpan.hasAttribute('hidden'));
+
+        element.set('_account.status', 'new status');
+
+        assert.isTrue(statusChangedSpy.called);
+
+        assert.isTrue(element.hasUnsavedChanges);
+
+        element.save().then(() => {
+          assert.isTrue(statusStub.called);
+          statusStub.lastCall.returnValue.then(() => {
+            assert.equal(statusStub.lastCall.args[0], 'new status');
+            done();
+          });
+        });
+      });
+    });
+  });
+</script>

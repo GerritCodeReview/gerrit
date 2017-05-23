@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-app</title>
+
+<script src="../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../gr-app.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-app id="app"></gr-app>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-app tests', () => {
+    let sandbox;
+    let element;
+
+    setup(done => {
+      sandbox = sinon.sandbox.create();
+      stub('gr-reporting', {
+        appStarted: sandbox.stub(),
+      });
+      stub('gr-account-dropdown', {
+        _getTopContent: sinon.stub(),
+      });
+      stub('gr-rest-api-interface', {
+        getAccount() { return Promise.resolve({}); },
+        getAccountCapabilities() { return Promise.resolve({}); },
+        getConfig() {
+          return Promise.resolve({
+            gerrit: {web_uis: ['GWT', 'POLYGERRIT']},
+            plugin: {js_resource_paths: []},
+          });
+        },
+        getPreferences() { return Promise.resolve({my: []}); },
+        getVersion() { return Promise.resolve(42); },
+        probePath() { return Promise.resolve(42); },
+      });
+
+      element = fixture('basic');
+      flush(done);
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('reporting', () => {
+      assert.isTrue(element.$.reporting.appStarted.calledOnce);
+    });
+
+    test('location change updates gwt footer', done => {
+      element._path = '/test/path';
+      flush(() => {
+        const gwtLink = element.$$('#gwtLink');
+        assert.equal(gwtLink.href, 'http://' + location.host +
+            element.getBaseUrl() + '/?polygerrit=0#/test/path');
+        done();
+      });
+    });
+
+    test('_handleLocationChange handles hashes', done => {
+      const curLocation = {
+        pathname: '/c/1/1/testfile.txt',
+        hash: '#2',
+        host: location.host,
+      };
+      sandbox.stub(element, '_handleSearchPageChange');
+      element._handleLocationChange({detail: curLocation});
+
+      flush(() => {
+        const gwtLink = element.$$('#gwtLink');
+        assert.equal(
+            gwtLink.href,
+            'http://' + location.host + element.getBaseUrl() +
+            '/?polygerrit=0#/c/1/1/testfile.txt@2'
+        );
+        done();
+      });
+    });
+
+    test('passes config to gr-plugin-host', done => {
+      element.$.restAPI.getConfig.lastCall.returnValue.then(config => {
+        const pluginConfig = config.plugin;
+        assert.deepEqual(element.$.plugins.config, pluginConfig);
+        done();
+      });
+    });
+  });
+</script>

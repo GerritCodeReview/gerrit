@@ -71,24 +71,30 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
       throws RestApiException, UpdateException, OrmException, PermissionBackendException {
     req.permissions().database(dbProvider).check(ChangePermission.ABANDON);
 
+    NotifyHandling notify = input.notify == null ? defaultNotify(req.getControl()) : input.notify;
     Change change =
         abandon(
             updateFactory,
             req.getControl(),
             input.message,
-            input.notify,
+            notify,
             notifyUtil.resolveAccounts(input.notifyDetails));
     return json.noOptions().format(change);
   }
 
+  private NotifyHandling defaultNotify(ChangeControl control) {
+    return control.getNotes().hasReviewStarted() ? NotifyHandling.ALL : NotifyHandling.OWNER;
+  }
+
   public Change abandon(BatchUpdate.Factory updateFactory, ChangeControl control)
       throws RestApiException, UpdateException {
-    return abandon(updateFactory, control, "", NotifyHandling.ALL, ImmutableListMultimap.of());
+    return abandon(updateFactory, control, "", defaultNotify(control), ImmutableListMultimap.of());
   }
 
   public Change abandon(BatchUpdate.Factory updateFactory, ChangeControl control, String msgTxt)
       throws RestApiException, UpdateException {
-    return abandon(updateFactory, control, msgTxt, NotifyHandling.ALL, ImmutableListMultimap.of());
+    return abandon(
+        updateFactory, control, msgTxt, defaultNotify(control), ImmutableListMultimap.of());
   }
 
   public Change abandon(

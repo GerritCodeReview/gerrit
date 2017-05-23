@@ -1091,6 +1091,19 @@ the error message is contained in the response body.
   change is merged
 ----
 
+.Notifications
+
+An email will be sent using the "abandon" template. The notify handling is ALL.
+Notifications are suppressed on WIP changes that have never started review.
+
+[options="header",cols="1,1"]
+|=============================
+|WIP State|notify=ALL
+|Ready for review|owner, reviewers, CCs, stars, ABANDONED_CHANGES watchers
+|Work in progress|not sent
+|Reviewable WIP  |owner, reviewers, CCs, stars, ABANDONED_CHANGES watchers
+|=============================
+
 [[restore-change]]
 === Restore Change
 --

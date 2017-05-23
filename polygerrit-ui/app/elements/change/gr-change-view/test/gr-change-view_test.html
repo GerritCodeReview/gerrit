@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-change-view</title>
+
+<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../../bower_components/page/page.js"></script>
+
+<link rel="import" href="../../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../gr-change-view.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-change-view></gr-change-view>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-change-view tests', () => {
+    let element;
+    let sandbox;
+    let showStub;
+    const TEST_SCROLL_TOP_PX = 100;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      showStub = sandbox.stub(page, 'show');
+      stub('gr-rest-api-interface', {
+        getConfig() { return Promise.resolve({}); },
+        getAccount() { return Promise.resolve(null); },
+      });
+      element = fixture('basic');
+    });
+
+    teardown(done => {
+      flush(() => {
+        sandbox.restore();
+        done();
+      });
+    });
+
+    suite('keyboard shortcuts', () => {
+      test('S should toggle the CL star', () => {
+        const starStub = sandbox.stub(element.$.changeStar, 'toggleStar');
+        MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');
+        assert(starStub.called);
+      });
+
+      test('U should navigate to / if no backPage set', () => {
+        MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
+        assert(showStub.lastCall.calledWithExactly('/'));
+      });
+
+      test('U should navigate to backPage if set', () => {
+        element.backPage = '/dashboard/self';
+        MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
+        assert(showStub.lastCall.calledWithExactly('/dashboard/self'));
+      });
+
+      test('A fires an error event when not logged in', done => {
+        sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(false));
+        const loggedInErrorSpy = sandbox.spy();
+        element.addEventListener('show-auth-required', loggedInErrorSpy);
+        MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+        flush(() => {
+          assert.isFalse(element.$.replyOverlay.opened);
+          assert.isTrue(loggedInErrorSpy.called);
+          done();
+        });
+      });
+
+      test('shift A does not open reply overlay', done => {
+        sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+        MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
+        flush(() => {
+          assert.isFalse(element.$.replyOverlay.opened);
+          done();
+        });
+      });
+
+      test('A toggles overlay when logged in', done => {
+        sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+        sandbox.stub(element.$.replyDialog, 'fetchIsLatestKnown')
+            .returns(Promise.resolve(true));
+        element._change = {labels: {}};
+        MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+        flush(() => {
+          assert.isTrue(element.$.replyOverlay.opened);
+          element.$.replyOverlay.close();
+          assert.isFalse(element.$.replyOverlay.opened);
+          done();
+        });
+      });
+
+      test('X should expand all messages', () => {
+        const handleExpand =
+            sandbox.stub(element.$.messageList, 'handleExpandCollapse');
+        MockInteractions.pressAndReleaseKeyOn(element, 88, null, 'x');
+        assert(handleExpand.calledWith(true));
+      });
+
+      test('Z should collapse all messages', () => {
+        const handleExpand =
+            sandbox.stub(element.$.messageList, 'handleExpandCollapse');
+        MockInteractions.pressAndReleaseKeyOn(element, 90, null, 'z');
+        assert(handleExpand.calledWith(false));
+      });
+
+      test('shift + R should fetch and navigate to the latest patch set',
+          done => {
+            element._changeNum = '42';
+            element._patchRange = {
+              basePatchNum: 'PARENT',
+              patchNum: 1,
+            };
+            element._change = {
+              change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+              _number: 42,
+              revisions: {
+                rev1: {_number: 1},
+              },
+              current_revision: 'rev1',
+              status: 'NEW',
+              labels: {},
+              actions: {},
+            };
+
+            sandbox.stub(element.$.actions, 'reload');
+
+            showStub.restore();
+            showStub = sandbox.stub(page, 'show', arg => {
+              assert.equal(arg, '/c/42');
+              done();
+            });
+
+            MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
+          });
+
+      test('d should open download overlay', () => {
+        const stub = sandbox.stub(element.$.downloadOverlay, 'open');
+        MockInteractions.pressAndReleaseKeyOn(element, 68, null, 'd');
+        assert.isTrue(stub.called);
+      });
+
+      test(', should open diff preferences', () => {
+        const stub = sandbox.stub(element.$.fileList.$.diffPreferences, 'open');
+        MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
+        assert.isTrue(stub.called);
+      });
+    });
+
+    test('Diff preferences hidden when no prefs or logged out', () => {
+      element._loggedIn = false;
+      flushAsynchronousOperations();
+      assert.isTrue(element.$.diffPrefsContainer.hidden);
+
+      element._loggedIn = true;
+      flushAsynchronousOperations();
+      assert.isTrue(element.$.diffPrefsContainer.hidden);
+
+      element._loggedIn = false;
+      element._diffPrefs = {font_size: '12'};
+      flushAsynchronousOperations();
+      assert.isTrue(element.$.diffPrefsContainer.hidden);
+
+      element._loggedIn = true;
+      flushAsynchronousOperations();
+      assert.isFalse(element.$.diffPrefsContainer.hidden);
+    });
+
+    test('prefsButton opens gr-diff-preferences', () => {
+      const handlePrefsTapSpy = sandbox.spy(element, '_handlePrefsTap');
+      const overlayOpenStub = sandbox.stub(element.$.fileList,
+          'openDiffPrefs');
+      const prefsButton = Polymer.dom(element.root).querySelectorAll(
+          '.prefsButton')[0];
+
+      MockInteractions.tap(prefsButton);
+
+      assert.isTrue(handlePrefsTapSpy.called);
+      assert.isTrue(overlayOpenStub.called);
+    });
+
+    test('_computeDescriptionReadOnly', () => {
+      assert.equal(element._computeDescriptionReadOnly(false,
+          {owner: {_account_id: 1}}, {_account_id: 1}), true);
+      assert.equal(element._computeDescriptionReadOnly(true,
+          {owner: {_account_id: 0}}, {_account_id: 1}), true);
+      assert.equal(element._computeDescriptionReadOnly(true,
+          {owner: {_account_id: 1}}, {_account_id: 1}), false);
+    });
+
+    test('_computeDescriptionPlaceholder', () => {
+      assert.equal(element._computeDescriptionPlaceholder(true),
+          'No patch set description');
+      assert.equal(element._computeDescriptionPlaceholder(false),
+          'Add a patch set description');
+    });
+
+    test('_computePatchSetDisabled', () => {
+      let basePatchNum = 'PARENT';
+      let patchNum = 1;
+      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
+          false);
+      basePatchNum = 1;
+      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
+          true);
+      patchNum = 2;
+      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
+          false);
+    });
+
+    test('_prepareCommitMsgForLinkify', () => {
+      let commitMessage = 'R=test@google.com';
+      let result = element._prepareCommitMsgForLinkify(commitMessage);
+      assert.equal(result, 'R=\u200Btest@google.com');
+
+      commitMessage = 'R=test@google.com\nR=test@google.com';
+      result = element._prepareCommitMsgForLinkify(commitMessage);
+      assert.equal(result, 'R=\u200Btest@google.com\nR=\u200Btest@google.com');
+    }),
+
+    test('_computePatchSetCommentsString', () => {
+      // Test string with unresolved comments.
+      comments = {
+        foo: 'foo comments',
+        bar: 'bar comments',
+        xyz: 'xyz comments',
+      };
+      sandbox.stub(element.$.fileList, 'getCommentsForPath', (c, p, f) => {
+        if (f == 'foo') {
+          return ['comment1', 'comment2'];
+        } else if (f == 'bar') {
+          return ['comment1'];
+        } else {
+          return [];
+        }
+      });
+      sandbox.stub(element.$.fileList, 'computeUnresolvedNum', (c, d, p, f) => {
+        if (f == 'foo') {
+          return 0;
+        } else if (f == 'bar') {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      assert.equal(element._computePatchSetCommentsString(comments, 1),
+          '(3 comments, 1 unresolved)');
+
+      // Test string with no unresolved comments.
+      delete comments['bar'];
+      assert.equal(element._computePatchSetCommentsString(comments, 1),
+          '(2 comments)');
+
+      // Test string with no comments.
+      delete comments['foo'];
+      assert.equal(element._computePatchSetCommentsString(comments, 1), '');
+    });
+
+    test('_handleDescriptionChanged', () => {
+      const putDescStub = sandbox.stub(element.$.restAPI, 'setDescription')
+          .returns(Promise.resolve({ok: true}));
+      sandbox.stub(element, '_computeDescriptionReadOnly');
+
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._selectedPatchNum = '1';
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1, description: 'test', commit: {commit: 'rev1'}},
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        actions: {},
+        owner: {_account_id: 1},
+      };
+      element._account = {_account_id: 1};
+      element._loggedIn = true;
+
+      flushAsynchronousOperations();
+      const label = element.$.descriptionLabel;
+      assert.equal(label.value, 'test');
+      label.editing = true;
+      label._inputText = 'test2';
+      label._save();
+      flushAsynchronousOperations();
+      assert.isTrue(putDescStub.called);
+      assert.equal(putDescStub.args[0][2], 'test2');
+    });
+
+    test('_updateRebaseAction', () => {
+      const currentRevisionActions = {
+        cherrypick: {
+          enabled: true,
+          label: 'Cherry Pick',
+          method: 'POST',
+          title: 'cherrypick',
+        },
+        rebase: {
+          enabled: true,
+          label: 'Rebase',
+          method: 'POST',
+          title: 'Rebase onto tip of branch or parent change',
+        },
+      };
+
+      // Rebase enabled should always end up true.
+      // When rebase is enabled initially, rebaseOnCurrent should be set to
+      // true.
+      assert.equal(element._updateRebaseAction(currentRevisionActions),
+          currentRevisionActions);
+
+      assert.isTrue(currentRevisionActions.rebase.enabled);
+      assert.isTrue(currentRevisionActions.rebase.rebaseOnCurrent);
+
+      delete currentRevisionActions.rebase.enabled;
+
+      // When rebase is not enabled initially, rebaseOnCurrent should be set to
+      // false.
+      assert.equal(element._updateRebaseAction(currentRevisionActions),
+          currentRevisionActions);
+
+      assert.isTrue(currentRevisionActions.rebase.enabled);
+      assert.isFalse(currentRevisionActions.rebase.rebaseOnCurrent);
+    });
+
+    test('_reload is called when an approved label is removed', () => {
+      const vote = {_account_id: 1, name: 'bojack', value: 1};
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev2: {_number: 2},
+          rev1: {_number: 1},
+          rev13: {_number: 13},
+          rev3: {_number: 3},
+        },
+        current_revision: 'rev3',
+        status: 'NEW',
+        labels: {
+          test: {
+            all: [vote],
+            default_value: 0,
+            values: [],
+            approved: {},
+          },
+        },
+      };
+      flushAsynchronousOperations();
+      const reloadStub = sandbox.stub(element, '_reload');
+      element.splice('_change.labels.test.all', 0, 1);
+      assert.isFalse(reloadStub.called);
+      element._change.labels.test.all.push(vote);
+      element._change.labels.test.all.push(vote);
+      element._change.labels.test.approved = vote;
+      flushAsynchronousOperations();
+      element.splice('_change.labels.test.all', 0, 2);
+      assert.isTrue(reloadStub.called);
+      assert.isTrue(reloadStub.calledOnce);
+    });
+
+    test('reply button has updated count when there are drafts', () => {
+      const getLabel = element._computeReplyButtonLabel;
+
+      assert.equal(getLabel(null, false), 'Reply');
+      assert.equal(getLabel(null, true), 'Start review');
+
+      const changeRecord = {base: null};
+      assert.equal(getLabel(changeRecord, false), 'Reply');
+
+      changeRecord.base = {};
+      assert.equal(getLabel(changeRecord, false), 'Reply');
+
+      changeRecord.base = {
+        'file1.txt': [{}],
+        'file2.txt': [{}, {}],
+      };
+      assert.equal(getLabel(changeRecord, false), 'Reply (3)');
+    });
+
+    test('start review button when owner of WIP change', () => {
+      assert.equal(
+          element._computeReplyButtonLabel(null, true),
+          'Start review');
+    });
+
+    test('comment events properly update diff drafts', () => {
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 2,
+      };
+      const draft = {
+        __draft: true,
+        id: 'id1',
+        path: '/foo/bar.txt',
+        text: 'hello',
+      };
+      element._handleCommentSave({target: {comment: draft}});
+      draft.patch_set = 2;
+      assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft]});
+      draft.patch_set = null;
+      draft.text = 'hello, there';
+      element._handleCommentSave({target: {comment: draft}});
+      draft.patch_set = 2;
+      assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft]});
+      const draft2 = {
+        __draft: true,
+        id: 'id2',
+        path: '/foo/bar.txt',
+        text: 'hola',
+      };
+      element._handleCommentSave({target: {comment: draft2}});
+      draft2.patch_set = 2;
+      assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft, draft2]});
+      draft.patch_set = null;
+      element._handleCommentDiscard({target: {comment: draft}});
+      draft.patch_set = 2;
+      assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft2]});
+      element._handleCommentDiscard({target: {comment: draft2}});
+      assert.deepEqual(element._diffDrafts, {});
+    });
+
+    test('change num change', () => {
+      element._changeNum = null;
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 2,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        labels: {},
+      };
+      element.viewState.changeNum = null;
+      element.viewState.diffMode = 'UNIFIED';
+      assert.equal(element.viewState.numFilesShown, 200);
+      assert.equal(element._numFilesShown, 200);
+      element._numFilesShown = 150;
+      flushAsynchronousOperations();
+      assert.equal(element.viewState.diffMode, 'UNIFIED');
+      assert.equal(element.viewState.numFilesShown, 150);
+
+      element._changeNum = '1';
+      element.params = {changeNum: '1'};
+      element._change.newProp = '1';
+      flushAsynchronousOperations();
+      assert.equal(element.viewState.diffMode, 'UNIFIED');
+      assert.equal(element.viewState.changeNum, '1');
+
+      element._changeNum = '2';
+      element.params = {changeNum: '2'};
+      element._change.newProp = '2';
+      flushAsynchronousOperations();
+      assert.isNull(element.viewState.diffMode);
+      assert.equal(element.viewState.changeNum, '2');
+      assert.equal(element.viewState.numFilesShown, 200);
+      assert.equal(element._numFilesShown, 200);
+    });
+
+    test('patch num change', done => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 2,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev2: {_number: 2},
+          rev1: {_number: 1},
+          rev13: {_number: 13},
+          rev3: {_number: 3},
+        },
+        current_revision: 'rev3',
+        status: 'NEW',
+        labels: {},
+      };
+      element.viewState.diffMode = 'UNIFIED';
+      flushAsynchronousOperations();
+
+      const selectEl = element.$$('.patchInfo-header select');
+      assert.ok(selectEl);
+      const optionEls = Polymer.dom(element.root).querySelectorAll(
+          '.patchInfo-header option');
+      assert.equal(optionEls.length, 4);
+      const select = element.$$('.patchInfo-header #patchSetSelect').bindValue;
+      assert.notEqual(select, 1);
+      assert.equal(select, 2);
+      assert.notEqual(select, 3);
+      assert.equal(optionEls[3].value, 13);
+
+      let numEvents = 0;
+      selectEl.addEventListener('change', e => {
+        assert.equal(element.viewState.diffMode, 'UNIFIED');
+        numEvents++;
+        if (numEvents == 1) {
+          assert(showStub.lastCall.calledWithExactly('/c/42/1'),
+              'Should navigate to /c/42/1');
+          selectEl.value = '3';
+          element.fire('change', {}, {node: selectEl});
+        } else if (numEvents == 2) {
+          assert(showStub.lastCall.calledWithExactly('/c/42/3'),
+              'Should navigate to /c/42/3');
+          done();
+        }
+      });
+      selectEl.value = '1';
+      element.fire('change', {}, {node: selectEl});
+    });
+
+    test('patch num change with missing current_revision', done => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 2,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev2: {_number: 2},
+          rev1: {_number: 1},
+          rev13: {_number: 13},
+          rev3: {_number: 3},
+        },
+        status: 'NEW',
+        labels: {},
+      };
+      flushAsynchronousOperations();
+      const selectEl = element.$$('.patchInfo-header select');
+      assert.ok(selectEl);
+      const optionEls = Polymer.dom(element.root).querySelectorAll(
+          '.patchInfo-header option');
+      assert.equal(optionEls.length, 4);
+      assert.notEqual(
+          element.$$('.patchInfo-header #patchSetSelect').bindValue, 1);
+      assert.equal(
+          element.$$('.patchInfo-header #patchSetSelect').bindValue, 2);
+      assert.notEqual(
+          element.$$('.patchInfo-header #patchSetSelect').bindValue, 3);
+      assert.equal(optionEls[3].value, 13);
+
+      let numEvents = 0;
+      selectEl.addEventListener('change', e => {
+        numEvents++;
+        if (numEvents == 1) {
+          assert(showStub.lastCall.calledWithExactly('/c/42/1'),
+              'Should navigate to /c/42/1');
+          selectEl.value = '3';
+          element.fire('change', {}, {node: selectEl});
+        } else if (numEvents == 2) {
+          assert(showStub.lastCall.calledWithExactly('/c/42/3'),
+              'Should navigate to /c/42/3');
+          done();
+        }
+      });
+      selectEl.value = '1';
+      element.fire('change', {}, {node: selectEl});
+    });
+
+    test('don’t reload entire page when patchRange changes', () => {
+      const reloadStub = sandbox.stub(element, '_reload',
+          () => { return Promise.resolve(); });
+      const reloadPatchDependentStub = sandbox.stub(element,
+          '_reloadPatchNumDependentResources',
+          () => { return Promise.resolve(); });
+      const relatedClearSpy = sandbox.spy(element.$.relatedChanges, 'clear');
+
+      const value = {
+        view: 'gr-change-view',
+        patchNum: '1',
+      };
+      element._paramsChanged(value);
+      assert.isTrue(reloadStub.calledOnce);
+      assert.isTrue(relatedClearSpy.calledOnce);
+
+      element._initialLoadComplete = true;
+
+      value.basePatchNum = '1';
+      value.patchNum = '2';
+      element._paramsChanged(value);
+      assert.isFalse(reloadStub.calledTwice);
+      assert.isTrue(reloadPatchDependentStub.calledOnce);
+      assert.isTrue(relatedClearSpy.calledOnce);
+    });
+
+    test('reload entire page when patchRange doesnt change', () => {
+      const reloadStub = sandbox.stub(element, '_reload',
+          () => { return Promise.resolve(); });
+
+      const value = {
+        view: 'gr-change-view',
+      };
+      element._paramsChanged(value);
+      assert.isTrue(reloadStub.calledOnce);
+      element._initialLoadComplete = true;
+      element._paramsChanged(value);
+      assert.isTrue(reloadStub.calledTwice);
+    });
+
+    test('include base patch when not parent', () => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: '2',
+        patchNum: '3',
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev2: {_number: 2},
+          rev1: {_number: 1},
+          rev13: {_number: 13},
+          rev3: {_number: 3},
+        },
+        status: 'NEW',
+        labels: {},
+      };
+
+      element._changePatchNum(13);
+      assert(showStub.lastCall.calledWithExactly('/c/42/2..13'));
+
+      element._patchRange.basePatchNum = 'PARENT';
+
+      element._changePatchNum(3);
+      assert(showStub.lastCall.calledWithExactly('/c/42/3'));
+    });
+
+    test('related changes are updated and new patch selected after rebase',
+        done => {
+          element._changeNum = '42';
+          sandbox.stub(element, 'computeLatestPatchNum', () => {
+            return 1;
+          });
+          sandbox.stub(element, '_reload',
+              () => { return Promise.resolve(); });
+          const e = {detail: {action: 'rebase'}};
+          element._handleReloadChange(e).then(() => {
+            assert.isTrue(showStub.lastCall.calledWithExactly('/c/42'));
+            done();
+          });
+        });
+
+    test('related changes are not updated after other action', done => {
+      sandbox.stub(element, '_reload', () => { return Promise.resolve(); });
+      sandbox.stub(element, '_updateSelected');
+      sandbox.stub(element.$.relatedChanges, 'reload');
+      const e = {detail: {action: 'abandon'}};
+      element._handleReloadChange(e).then(() => {
+        assert.isFalse(showStub.called);
+        done();
+      });
+    });
+
+    test('change status new', () => {
+      element._changeNum = '1';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+      };
+      const status = element._computeChangeStatus(element._change, '1');
+      assert.equal(status, '');
+    });
+
+    test('change status draft', () => {
+      element._changeNum = '1';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+        },
+        current_revision: 'rev1',
+        status: 'DRAFT',
+        labels: {},
+      };
+      const status = element._computeChangeStatus(element._change, '1');
+      assert.equal(status, 'Draft');
+    });
+
+    test('change status conflict', () => {
+      element._changeNum = '1';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+        },
+        current_revision: 'rev1',
+        mergeable: false,
+        status: 'NEW',
+        labels: {},
+      };
+      const status = element._computeChangeStatus(element._change, '1');
+      assert.equal(status, 'Merge Conflict');
+    });
+
+    test('change status private', () => {
+      element._changeNum = '1';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        is_private: true,
+      };
+      const status = element._privateChanges(element._change);
+      assert.equal(status, ' (Private)');
+    });
+
+    test('change status without private', () => {
+      element._changeNum = '1';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        is_private: false,
+      };
+      const status = element._privateChanges(element._change);
+      assert.equal(status, '');
+    });
+
+    test('change status merged', () => {
+      element._changeNum = '1';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+        },
+        current_revision: 'rev1',
+        status: element.ChangeStatus.MERGED,
+        labels: {},
+      };
+      const status = element._computeChangeStatus(element._change, '1');
+      assert.equal(status, 'Merged');
+    });
+
+    test('revision status draft', () => {
+      element._changeNum = '1';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+          rev2: {
+            _number: 2,
+            draft: true,
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+      };
+      const status = element._computeChangeStatus(element._change, '2');
+      assert.equal(status, 'Draft');
+    });
+
+    test('_computeMergedCommitInfo', () => {
+      const dummyRevs = {
+        1: {commit: {commit: 1}},
+        2: {commit: {}},
+      };
+      assert.deepEqual(element._computeMergedCommitInfo(0, dummyRevs), {});
+      assert.deepEqual(element._computeMergedCommitInfo(1, dummyRevs),
+          dummyRevs[1].commit);
+
+      // Regression test for issue 5337.
+      const commit = element._computeMergedCommitInfo(2, dummyRevs);
+      assert.notDeepEqual(commit, dummyRevs[2]);
+      assert.deepEqual(commit, {commit: 2});
+    });
+
+    test('get latest revision', () => {
+      let change = {
+        revisions: {
+          rev1: {_number: 1},
+          rev3: {_number: 3},
+        },
+        current_revision: 'rev3',
+      };
+      assert.equal(element._getLatestRevisionSHA(change), 'rev3');
+      change = {
+        revisions: {
+          rev1: {_number: 1},
+        },
+      };
+      assert.equal(element._getLatestRevisionSHA(change), 'rev1');
+    });
+
+    test('show commit message edit button', () => {
+      const _change = {
+        status: element.ChangeStatus.MERGED,
+      };
+      assert.isTrue(element._computeHideEditCommitMessage(false, false, {}));
+      assert.isTrue(element._computeHideEditCommitMessage(true, true, {}));
+      assert.isTrue(element._computeHideEditCommitMessage(false, true, {}));
+      assert.isFalse(element._computeHideEditCommitMessage(true, false, {}));
+      assert.isTrue(element._computeHideEditCommitMessage(true, false,
+          _change));
+    });
+
+    test('_computeChangeIdCommitMessageError', () => {
+      let commitMessage =
+        'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483';
+      let change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483'};
+      assert.equal(
+          element._computeChangeIdCommitMessageError(commitMessage, change),
+          null);
+
+      change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484'};
+      assert.equal(
+          element._computeChangeIdCommitMessageError(commitMessage, change),
+          'mismatch');
+
+      commitMessage = 'This is the greatest change.';
+      assert.equal(
+          element._computeChangeIdCommitMessageError(commitMessage, change),
+          'missing');
+    });
+
+    test('multiple change Ids in commit message picks last', () => {
+      const commitMessage = [
+        'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282484',
+        'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483',
+      ].join('\n');
+      let change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483'};
+      assert.equal(
+          element._computeChangeIdCommitMessageError(commitMessage, change),
+          null);
+      change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484'};
+      assert.equal(
+          element._computeChangeIdCommitMessageError(commitMessage, change),
+          'mismatch');
+    });
+
+    test('does not count change Id that starts mid line', () => {
+      const commitMessage = [
+        'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282484',
+        'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483',
+      ].join(' and ');
+      let change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484'};
+      assert.equal(
+          element._computeChangeIdCommitMessageError(commitMessage, change),
+          null);
+      change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483'};
+      assert.equal(
+          element._computeChangeIdCommitMessageError(commitMessage, change),
+          'mismatch');
+    });
+
+    test('_computeTitleAttributeWarning', () => {
+      let changeIdCommitMessageError = 'missing';
+      assert.equal(
+          element._computeTitleAttributeWarning(changeIdCommitMessageError),
+          'No Change-Id in commit message');
+
+      changeIdCommitMessageError = 'mismatch';
+      assert.equal(
+          element._computeTitleAttributeWarning(changeIdCommitMessageError),
+          'Change-Id mismatch');
+    });
+
+    test('_computeChangeIdClass', () => {
+      let changeIdCommitMessageError = 'missing';
+      assert.equal(
+          element._computeChangeIdClass(changeIdCommitMessageError), '');
+
+      changeIdCommitMessageError = 'mismatch';
+      assert.equal(
+          element._computeChangeIdClass(changeIdCommitMessageError), 'warning');
+    });
+
+    test('topic is coalesced to null', done => {
+      sandbox.stub(element, '_changeChanged');
+      sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
+        return Promise.resolve({
+          id: '123456789',
+          labels: {},
+          current_revision: 'foo',
+          revisions: {foo: {commit: {}}},
+        });
+      });
+
+      element._getChangeDetail().then(() => {
+        assert.isNull(element._change.topic);
+        done();
+      });
+    });
+
+    test('commit sha is populated from getChangeDetail', done => {
+      sandbox.stub(element, '_changeChanged');
+      sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
+        return Promise.resolve({
+          id: '123456789',
+          labels: {},
+          current_revision: 'foo',
+          revisions: {foo: {commit: {}}},
+        });
+      });
+
+      element._getChangeDetail().then(() => {
+        assert.equal('foo', element._commitInfo.commit);
+        done();
+      });
+    });
+
+    test('reply dialog focus can be controlled', () => {
+      const FocusTarget = element.$.replyDialog.FocusTarget;
+      const openStub = sandbox.stub(element, '_openReplyDialog');
+
+      const e = {detail: {}};
+      element._handleShowReplyDialog(e);
+      assert(openStub.lastCall.calledWithExactly(FocusTarget.REVIEWERS),
+          '_openReplyDialog should have been passed REVIEWERS');
+
+      e.detail.value = {ccsOnly: true};
+      element._handleShowReplyDialog(e);
+      assert(openStub.lastCall.calledWithExactly(FocusTarget.CCS),
+          '_openReplyDialog should have been passed CCS');
+    });
+
+    test('class is applied to file list on old patch set', () => {
+      const allPatchSets = [{num: 1}, {num: 2}, {num: 4}];
+      assert.equal(element._computePatchInfoClass('1', allPatchSets),
+          'patchInfo--oldPatchSet');
+      assert.equal(element._computePatchInfoClass('2', allPatchSets),
+          'patchInfo--oldPatchSet');
+      assert.equal(element._computePatchInfoClass('4', allPatchSets), '');
+    });
+
+    test('getUrlParameter functionality', () => {
+      const locationStub = sandbox.stub(element, '_getLocationSearch');
+
+      locationStub.returns('?test');
+      assert.equal(element._getUrlParameter('test'), 'test');
+      locationStub.returns('?test2=12&test=3');
+      assert.equal(element._getUrlParameter('test'), 'test');
+      locationStub.returns('');
+      assert.isNull(element._getUrlParameter('test'));
+      locationStub.returns('?');
+      assert.isNull(element._getUrlParameter('test'));
+      locationStub.returns('?test2');
+      assert.isNull(element._getUrlParameter('test'));
+    });
+
+    test('revert dialog opened with revert param', done => {
+      sandbox.stub(element.$.restAPI, 'getLoggedIn', () => {
+        return Promise.resolve(true);
+      });
+      sandbox.stub(Gerrit, 'awaitPluginsLoaded', () => {
+        return Promise.resolve();
+      });
+
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 2,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+        },
+        current_revision: 'rev1',
+        status: element.ChangeStatus.MERGED,
+        labels: {},
+        actions: {},
+      };
+
+      sandbox.stub(element, '_getUrlParameter',
+          param => {
+            assert.equal(param, 'revert');
+            return param;
+          });
+
+      sandbox.stub(element.$.actions, 'showRevertDialog',
+          done);
+
+      element._maybeShowRevertDialog();
+      assert.isTrue(Gerrit.awaitPluginsLoaded.called);
+    });
+
+    suite('scroll related tests', () => {
+      test('document scrolling calls function to set scroll height', done => {
+        const originalHeight = document.body.scrollHeight;
+        const scrollStub = sandbox.stub(element, '_handleScroll',
+            () => {
+              assert.isTrue(scrollStub.called);
+              document.body.style.height = originalHeight + 'px';
+              scrollStub.restore();
+              done();
+            });
+        document.body.style.height = '10000px';
+        element._handleScroll();
+      });
+
+      test('scrollTop is set correctly', () => {
+        element.viewState = {scrollTop: TEST_SCROLL_TOP_PX};
+
+        sandbox.stub(element, '_reload', () => {
+          // When element is reloaded, ensure that the history
+          // state has the scrollTop set earlier. This will then
+          // be reset.
+          assert.isTrue(element.viewState.scrollTop == TEST_SCROLL_TOP_PX);
+          return Promise.resolve({});
+        });
+
+        // simulate reloading component, which is done when route
+        // changes to match a regex of change view type.
+        element._paramsChanged({view: 'gr-change-view'});
+      });
+
+      test('scrollTop is reset when new change is loaded', () => {
+        element._resetFileListViewState();
+        assert.equal(element.viewState.scrollTop, 0);
+      });
+    });
+
+    suite('reply dialog tests', () => {
+      setup(() => {
+        sandbox.stub(element.$.replyDialog, '_draftChanged');
+        sandbox.stub(element.$.replyDialog, 'fetchIsLatestKnown',
+            () => { return Promise.resolve(true); });
+        element._change = {labels: {}};
+      });
+
+      test('reply from comment adds quote text', () => {
+        const e = {detail: {message: {message: 'quote text'}}};
+        element._handleMessageReply(e);
+        assert.equal(element.$.replyDialog.draft, '> quote text\n\n');
+        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+      });
+
+      test('reply from comment replaces quote text', () => {
+        element.$.replyDialog.draft = '> old quote text\n\n some draft text';
+        element.$.replyDialog.quote = '> old quote text\n\n';
+        const e = {detail: {message: {message: 'quote text'}}};
+        element._handleMessageReply(e);
+        assert.equal(element.$.replyDialog.draft, '> quote text\n\n');
+        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+      });
+
+      test('reply from same comment preserves quote text', () => {
+        element.$.replyDialog.draft = '> quote text\n\n some draft text';
+        element.$.replyDialog.quote = '> quote text\n\n';
+        const e = {detail: {message: {message: 'quote text'}}};
+        element._handleMessageReply(e);
+        assert.equal(element.$.replyDialog.draft,
+            '> quote text\n\n some draft text');
+        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+      });
+
+      test('reply from top of page contains previous draft', () => {
+        const div = document.createElement('div');
+        element.$.replyDialog.draft = '> quote text\n\n some draft text';
+        element.$.replyDialog.quote = '> quote text\n\n';
+        const e = {target: div, preventDefault: sandbox.spy()};
+        element._handleReplyTap(e);
+        assert.equal(element.$.replyDialog.draft,
+            '> quote text\n\n some draft text');
+        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+      });
+    });
+
+    test('reply button is disabled until server config is loaded', () => {
+      assert.isTrue(element._replyDisabled);
+      element.serverConfig = {};
+      assert.isFalse(element._replyDisabled);
+    });
+
+    suite('commit message expand/collapse', () => {
+      setup(() => {
+        sandbox.stub(element, 'fetchIsLatestKnown',
+            () => { return Promise.resolve(false); });
+      });
+
+      test('commitCollapseToggle hidden for short commit message', () => {
+        element._latestCommitMessage = '';
+        assert.isTrue(element.$.commitCollapseToggle.hasAttribute('hidden'));
+      });
+
+      test('commitCollapseToggle shown for long commit message', () => {
+        element._latestCommitMessage = _.times(31, String).join('\n');
+        assert.isFalse(element.$.commitCollapseToggle.hasAttribute('hidden'));
+      });
+
+      test('commitCollapseToggle functions', () => {
+        element._latestCommitMessage = _.times(31, String).join('\n');
+        assert.isTrue(element._commitCollapsed);
+        assert.isTrue(
+            element.$.commitMessage.classList.contains('collapsed'));
+        MockInteractions.tap(element.$.commitCollapseToggleButton);
+        assert.isFalse(element._commitCollapsed);
+        assert.isFalse(
+            element.$.commitMessage.classList.contains('collapsed'));
+      });
+    });
+
+    suite('related changes expand/collapse', () => {
+      let updateHeightSpy;
+      setup(() => {
+        updateHeightSpy = sandbox.spy(element, '_updateRelatedChangeMaxHeight');
+      });
+
+      test('relatedChangesToggle shown height greater than changeInfo height',
+          () => {
+            assert.isTrue(element.$.relatedChangesToggle.hasAttribute('hidden'));
+            sandbox.stub(element, '_getOffsetHeight', () => 50);
+            sandbox.stub(element, '_getScrollHeight', () => 60);
+            sandbox.stub(window, 'matchMedia', () => ({matches: true}));
+            element._relatedChangesLoading = false;
+            assert.isFalse(element.$.relatedChangesToggle.hasAttribute('hidden'));
+            assert.equal(updateHeightSpy.callCount, 1);
+          });
+
+      test('relatedChangesToggle hidden height less than changeInfo height',
+          () => {
+            assert.isTrue(element.$.relatedChangesToggle.hasAttribute('hidden'));
+            sandbox.stub(element, '_getOffsetHeight', () => 50);
+            sandbox.stub(element, '_getScrollHeight', () => 40);
+            sandbox.stub(window, 'matchMedia', () => ({matches: true}));
+            element._relatedChangesLoading = false;
+            assert.isTrue(element.$.relatedChangesToggle.hasAttribute('hidden'));
+            assert.equal(updateHeightSpy.callCount, 1);
+          });
+
+      test('relatedChangesToggle functions', () => {
+        sandbox.stub(element, '_getOffsetHeight', () => 50);
+        sandbox.stub(window, 'matchMedia', () => ({matches: false}));
+        element._relatedChangesLoading = false;
+        assert.isTrue(element._relatedChangesCollapsed);
+        assert.isTrue(
+            element.$.relatedChanges.classList.contains('collapsed'));
+        MockInteractions.tap(element.$.relatedChangesToggleButton);
+        assert.isFalse(element._relatedChangesCollapsed);
+        assert.isFalse(
+            element.$.relatedChanges.classList.contains('collapsed'));
+      });
+
+      test('_updateRelatedChangeMaxHeight without commit toggle', () => {
+        sandbox.stub(element, '_getOffsetHeight', () => 50);
+        sandbox.stub(element, '_getLineHeight', () => 12);
+        sandbox.stub(window, 'matchMedia', () => ({matches: false}));
+
+        // 50 (existing height) - 24 (extra height) = 26 (adjusted height).
+        // 50 (existing height)  % 12 (line height) = 2 (remainder).
+        // 26 (adjusted height) - 2 (remainder) = 24 (max height to set).
+
+        element._updateRelatedChangeMaxHeight();
+        assert.equal(element.customStyle['--relation-chain-max-height'],
+            '24px');
+        assert.equal(element.customStyle['--related-change-btn-top-padding'],
+            undefined);
+      });
+
+      test('_updateRelatedChangeMaxHeight with commit toggle', () => {
+        element._latestCommitMessage = _.times(31, String).join('\n');
+        sandbox.stub(element, '_getOffsetHeight', () => 50);
+        sandbox.stub(element, '_getLineHeight', () => 12);
+        sandbox.stub(window, 'matchMedia', () => ({matches: false}));
+
+        // 50 (existing height) % 12 (line height) = 2 (remainder).
+        // 50 (existing height)  - 2 (remainder) = 48 (max height to set).
+
+        element._updateRelatedChangeMaxHeight();
+        assert.equal(element.customStyle['--relation-chain-max-height'],
+            '48px');
+        assert.equal(element.customStyle['--related-change-btn-top-padding'],
+            '2px');
+      });
+
+      test('_updateRelatedChangeMaxHeight in small screen mode', () => {
+        element._latestCommitMessage = _.times(31, String).join('\n');
+        sandbox.stub(element, '_getOffsetHeight', () => 50);
+        sandbox.stub(element, '_getLineHeight', () => 12);
+        sandbox.stub(window, 'matchMedia', () => ({matches: true}));
+
+        element._updateRelatedChangeMaxHeight();
+        assert.equal(element.customStyle['--relation-chain-max-height'],
+            '400px');
+      });
+
+      test('_updateRelatedChangeMaxHeight in medium screen mode', () => {
+        element._latestCommitMessage = _.times(31, String).join('\n');
+        sandbox.stub(element, '_getOffsetHeight', () => 50);
+        sandbox.stub(element, '_getLineHeight', () => 12);
+        sandbox.stub(window, 'matchMedia', () => {
+          if (window.matchMedia.lastCall.args[0] === '(max-width: 60em)') {
+            return {matches: true};
+          } else {
+            return {matches: false};
+          }
+        });
+
+        element._updateRelatedChangeMaxHeight();
+        assert.equal(element.customStyle['--relation-chain-max-height'],
+            '100px');
+      });
+
+
+      suite('update checks', () => {
+        setup(() => {
+          sandbox.spy(element, '_startUpdateCheckTimer');
+          sandbox.stub(element, 'async', f => {
+            // Only fire the async callback one time.
+            if (element.async.callCount > 1) { return; }
+            f.call(element);
+          });
+        });
+
+        test('_startUpdateCheckTimer negative delay', () => {
+          sandbox.stub(element, 'fetchIsLatestKnown');
+
+          element.serverConfig = {change: {update_delay: -1}};
+
+          assert.isTrue(element._startUpdateCheckTimer.called);
+          assert.isFalse(element.fetchIsLatestKnown.called);
+        });
+
+        test('_startUpdateCheckTimer up-to-date', () => {
+          sandbox.stub(element, 'fetchIsLatestKnown',
+              () => { return Promise.resolve(true); });
+
+          element.serverConfig = {change: {update_delay: 12345}};
+
+          assert.isTrue(element._startUpdateCheckTimer.called);
+          assert.isTrue(element.fetchIsLatestKnown.called);
+          assert.equal(element.async.lastCall.args[1], 12345 * 1000);
+        });
+
+        test('_startUpdateCheckTimer out-of-date shows an alert', done => {
+          sandbox.stub(element, 'fetchIsLatestKnown',
+              () => { return Promise.resolve(false); });
+          element.addEventListener('show-alert', () => {
+            done();
+          });
+          element.serverConfig = {change: {update_delay: 12345}};
+        });
+      });
+
+      test('canStartReview computation', () => {
+        const account1 = {_account_id: 1};
+        const account2 = {_account_id: 2};
+        const change = {
+          owner: {_account_id: 1},
+        };
+        assert.isFalse(element._computeCanStartReview(true, change, account1));
+        change.work_in_progress = false;
+        assert.isFalse(element._computeCanStartReview(true, change, account1));
+        change.work_in_progress = true;
+        assert.isTrue(element._computeCanStartReview(true, change, account1));
+        assert.isFalse(element._computeCanStartReview(false, change, account1));
+        assert.isFalse(element._computeCanStartReview(true, change, account2));
+      });
+
+      test('header class computation', () => {
+        assert.equal(element._computeHeaderClass({}), 'header');
+        assert.equal(element._computeHeaderClass({work_in_progress: true}),
+            'header wip');
+      });
+    });
+  });
+</script>

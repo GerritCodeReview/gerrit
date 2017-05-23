@@ -71,6 +71,7 @@ limitations under the License.
 
     test('emoji selector is not open with the textarea lacks focus', () => {
       element.$.textarea.selectionStart = 1;
+      element.$.textarea.selectionEnd = 1;
       element.text = ':';
       assert.isFalse(!element.$.emojiSuggestions.hidden);
     });
@@ -78,6 +79,7 @@ limitations under the License.
     test('emoji selector is not open when a general text is entered', () => {
       MockInteractions.focus(element.$.textarea);
       element.$.textarea.selectionStart = 9;
+      element.$.textarea.selectionEnd = 9;
       element.text = 'some text';
       assert.isFalse(!element.$.emojiSuggestions.hidden);
     });
@@ -88,9 +90,12 @@ limitations under the License.
           // Needed for Safari tests. selectionStart is not updated when text is
           // updated.
           element.$.textarea.selectionStart = 1;
+          element.$.textarea.selectionEnd = 1;
           element.text = ':';
           element.$.textarea.selectionStart = 2;
+          element.$.textarea.selectionEnd = 2;
           element.text = ':t';
+          flushAsynchronousOperations();
           assert.isFalse(element.$.emojiSuggestions.hidden);
           assert.equal(element._colonIndex, 0);
           assert.isFalse(element._hideAutocomplete);
@@ -102,10 +107,13 @@ limitations under the License.
       MockInteractions.focus(element.$.textarea);
       flushAsynchronousOperations();
       element.$.textarea.selectionStart = 10;
+      element.$.textarea.selectionEnd = 10;
       element.text = 'test test ';
       element.$.textarea.selectionStart = 12;
+      element.$.textarea.selectionEnd = 12;
       element.text = 'test test :';
       element.$.textarea.selectionStart = 15;
+      element.$.textarea.selectionEnd = 15;
       element.text = 'test test :smi';
 
       assert.equal(element._currentSearchString, 'smi');
@@ -149,6 +157,7 @@ limitations under the License.
 
     test('_handleEmojiSelect', () => {
       element.$.textarea.selectionStart = 16;
+      element.$.textarea.selectionEnd = 16;
       element.text = 'test test :tears';
       element._colonIndex = 10;
       const selectedItem = {dataset: {value: '😂'}};
@@ -159,6 +168,7 @@ limitations under the License.
 
     test('_getPositionOfCursor', () => {
       element.$.textarea.selectionStart = 4;
+      element.$.textarea.selectionEnd = 4;
       element.text = 'test';
       element._getPositionOfCursor();
       assert.deepEqual(element.$.hiddenText.innerHTML, element.text +
@@ -189,8 +199,10 @@ limitations under the License.
         MockInteractions.focus(element.$.textarea);
         flushAsynchronousOperations();
         element.$.textarea.selectionStart = 1;
+        element.$.textarea.selectionEnd = 1;
         element.text = ':';
-        element.$.textarea.selectionStart = 2;
+        element.$.textarea.selectionStart = 1;
+        element.$.textarea.selectionEnd = 1;
         element.text = ':1';
       }
 

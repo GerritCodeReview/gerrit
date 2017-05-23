@@ -475,7 +475,9 @@
 
     _handleCommentDelete() {
       Polymer.dom(Gerrit.getRootElement()).appendChild(this.$.overlay);
-      this.$.overlay.open();
+      this.async(() => {
+        this.$.overlay.open();
+      }, 1);
     },
 
     _handleCancelDeleteComment() {

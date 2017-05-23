@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbaaa34a_506d35f0",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-23T20:40:27Z",
+      "side": 1,
+      "message": "Also, what is the actual problem here? This line means -1 shouldn\u0027t block submission.",
+      "revId": "f273de2256649faf5dddda079be6f63f8d0de70f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

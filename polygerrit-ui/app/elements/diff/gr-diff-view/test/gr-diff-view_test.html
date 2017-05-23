@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-diff-view</title>
+
+<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../../bower_components/page/page.js"></script>
+<script src="../../../../scripts/util.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-diff-view.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-diff-view></gr-diff-view>
+  </template>
+</test-fixture>
+
+<test-fixture id="blank">
+  <template>
+    <div></div>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-diff-view tests', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+
+      stub('gr-rest-api-interface', {
+        getLoggedIn() { return Promise.resolve(false); },
+        getProjectConfig() { return Promise.resolve({}); },
+        getDiffChangeDetail() { return Promise.resolve(null); },
+        getChangeFiles() { return Promise.resolve({}); },
+        saveFileReviewed() { return Promise.resolve(); },
+      });
+      element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('toggle left diff with a hotkey', () => {
+      const toggleLeftDiffStub = sandbox.stub(element.$.diff, 'toggleLeftDiff');
+      MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
+      assert.isTrue(toggleLeftDiffStub.calledOnce);
+    });
+
+    test('keyboard shortcuts', () => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '10',
+      };
+      element._change = {
+        revisions: {
+          a: {_number: 10},
+        },
+      };
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+      element.changeViewState.selectedFileIndex = 1;
+
+      const showStub = sandbox.stub(page, 'show');
+      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
+      assert(showStub.lastCall.calledWithExactly('/c/42/'),
+          'Should navigate to /c/42/');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
+      assert(showStub.lastCall.calledWithExactly('/c/42/10/wheatley.md'),
+          'Should navigate to /c/42/10/wheatley.md');
+      element._path = 'wheatley.md';
+      assert.equal(element.changeViewState.selectedFileIndex, 2);
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(showStub.lastCall.calledWithExactly('/c/42/10/glados.txt'),
+          'Should navigate to /c/42/10/glados.txt');
+      element._path = 'glados.txt';
+      assert.equal(element.changeViewState.selectedFileIndex, 1);
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(showStub.lastCall.calledWithExactly('/c/42/10/chell.go'),
+          'Should navigate to /c/42/10/chell.go');
+      element._path = 'chell.go';
+      assert.equal(element.changeViewState.selectedFileIndex, 0);
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(showStub.lastCall.calledWithExactly('/c/42/'),
+          'Should navigate to /c/42/');
+      assert.equal(element.changeViewState.selectedFileIndex, 0);
+
+      const showPrefsStub =
+          sandbox.stub(element.$.diffPreferences.$.prefsOverlay, 'open',
+              () => Promise.resolve());
+
+      MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
+      assert(showPrefsStub.calledOnce);
+
+      let scrollStub = sandbox.stub(element.$.cursor, 'moveToNextChunk');
+      MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+      assert(scrollStub.calledOnce);
+
+      scrollStub = sandbox.stub(element.$.cursor, 'moveToPreviousChunk');
+      MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
+      assert(scrollStub.calledOnce);
+
+      scrollStub = sandbox.stub(element.$.cursor, 'moveToNextCommentThread');
+      MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
+      assert(scrollStub.calledOnce);
+
+      scrollStub = sandbox.stub(element.$.cursor,
+          'moveToPreviousCommentThread');
+      MockInteractions.pressAndReleaseKeyOn(element, 80, 'shift', 'p');
+      assert(scrollStub.calledOnce);
+
+      const computeContainerClassStub = sandbox.stub(element.$.diff,
+          '_computeContainerClass');
+      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+      assert(computeContainerClassStub.lastCall.calledWithExactly(
+          false, 'SIDE_BY_SIDE', true));
+
+      MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'esc');
+      assert(computeContainerClassStub.lastCall.calledWithExactly(
+          false, 'SIDE_BY_SIDE', false));
+    });
+
+    test('keyboard shortcuts with patch range', () => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: '5',
+        patchNum: '10',
+      };
+      element._change = {
+        revisions: {
+          a: {_number: 10},
+        },
+      };
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+
+      const showStub = sandbox.stub(page, 'show');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
+          'only work when the user is logged in.');
+      assert.isNull(window.sessionStorage.getItem(
+          'changeView.showReplyDialog'));
+
+      element._loggedIn = true;
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      assert.isTrue(element.changeViewState.showReplyDialog);
+
+      assert(showStub.lastCall.calledWithExactly('/c/42/5..10'),
+          'Should navigate to /c/42/5..10');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
+      assert(showStub.lastCall.calledWithExactly('/c/42/5..10'),
+          'Should navigate to /c/42/5..10');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
+      assert(showStub.lastCall.calledWithExactly('/c/42/5..10/wheatley.md'),
+          'Should navigate to /c/42/5..10/wheatley.md');
+      element._path = 'wheatley.md';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(showStub.lastCall.calledWithExactly('/c/42/5..10/glados.txt'),
+          'Should navigate to /c/42/5..10/glados.txt');
+      element._path = 'glados.txt';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(showStub.lastCall.calledWithExactly('/c/42/5..10/chell.go'),
+          'Should navigate to /c/42/5..10/chell.go');
+      element._path = 'chell.go';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(showStub.lastCall.calledWithExactly('/c/42/5..10'),
+          'Should navigate to /c/42/5..10');
+    });
+
+    test('keyboard shortcuts with old patch number', () => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '1',
+      };
+      element._change = {
+        revisions: {
+          a: {_number: 1},
+          b: {_number: 2},
+        },
+      };
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+
+      const showStub = sandbox.stub(page, 'show');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
+          'only work when the user is logged in.');
+      assert.isNull(window.sessionStorage.getItem(
+          'changeView.showReplyDialog'));
+
+      element._loggedIn = true;
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      assert.isTrue(element.changeViewState.showReplyDialog);
+
+      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
+          'Should navigate to /c/42/1');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
+      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
+          'Should navigate to /c/42/1');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
+      assert(showStub.lastCall.calledWithExactly('/c/42/1/wheatley.md'),
+          'Should navigate to /c/42/1/wheatley.md');
+      element._path = 'wheatley.md';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(showStub.lastCall.calledWithExactly('/c/42/1/glados.txt'),
+          'Should navigate to /c/42/1/glados.txt');
+      element._path = 'glados.txt';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(showStub.lastCall.calledWithExactly('/c/42/1/chell.go'),
+          'Should navigate to /c/42/1/chell.go');
+      element._path = 'chell.go';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
+          'Should navigate to /c/42/1');
+    });
+
+    test('Diff preferences hidden when no prefs or logged out', () => {
+      element._loggedIn = false;
+      flushAsynchronousOperations();
+      assert.isTrue(element.$.diffPrefsContainer.hidden);
+
+      element._loggedIn = true;
+      flushAsynchronousOperations();
+      assert.isTrue(element.$.diffPrefsContainer.hidden);
+
+      element._loggedIn = false;
+      element._prefs = {font_size: '12'};
+      flushAsynchronousOperations();
+      assert.isTrue(element.$.diffPrefsContainer.hidden);
+
+      element._loggedIn = true;
+      flushAsynchronousOperations();
+      assert.isFalse(element.$.diffPrefsContainer.hidden);
+    });
+
+    test('prefsButton opens gr-diff-preferences', () => {
+      const handlePrefsTapSpy = sandbox.spy(element, '_handlePrefsTap');
+      const overlayOpenStub = sandbox.stub(element.$.diffPreferences,
+          'open');
+      const prefsButton =
+          Polymer.dom(element.root).querySelector('.prefsButton');
+
+      MockInteractions.tap(prefsButton);
+
+      assert.isTrue(handlePrefsTapSpy.called);
+      assert.isTrue(overlayOpenStub.called);
+    });
+
+    test('go up to change via kb without change loaded', () => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '1',
+      };
+
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+
+      const showStub = sandbox.stub(page, 'show');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
+          'only work when the user is logged in.');
+      assert.isNull(window.sessionStorage.getItem(
+          'changeView.showReplyDialog'));
+
+      element._loggedIn = true;
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      assert.isTrue(element.changeViewState.showReplyDialog);
+
+      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
+          'Should navigate to /c/42/1');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
+      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
+          'Should navigate to /c/42/1');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
+      assert(showStub.lastCall.calledWithExactly('/c/42/1/wheatley.md'),
+          'Should navigate to /c/42/1/wheatley.md');
+      element._path = 'wheatley.md';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(showStub.lastCall.calledWithExactly('/c/42/1/glados.txt'),
+          'Should navigate to /c/42/1/glados.txt');
+      element._path = 'glados.txt';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(showStub.lastCall.calledWithExactly('/c/42/1/chell.go'),
+          'Should navigate to /c/42/1/chell.go');
+      element._path = 'chell.go';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
+          'Should navigate to /c/42/1');
+    });
+
+    test('jump to file dropdown', () => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '10',
+      };
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+      flushAsynchronousOperations();
+      const linkEls =
+          Polymer.dom(element.root).querySelectorAll('.dropdown-content > a');
+      assert.equal(linkEls.length, 3);
+      assert.isFalse(linkEls[0].hasAttribute('selected'));
+      assert.isTrue(linkEls[1].hasAttribute('selected'));
+      assert.isFalse(linkEls[2].hasAttribute('selected'));
+      assert.equal(linkEls[0].getAttribute('data-key-nav'), '[');
+      assert.equal(linkEls[1].getAttribute('data-key-nav'), '');
+      assert.equal(linkEls[2].getAttribute('data-key-nav'), ']');
+      assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/chell.go');
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/10/glados.txt');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/wheatley.md');
+
+      assert.equal(element._computeFileDisplayName('/foo/bar/baz'),
+          '/foo/bar/baz');
+      assert.equal(element._computeFileDisplayName('/COMMIT_MSG'),
+          'Commit message');
+      assert.equal(element._computeFileDisplayName('/MERGE_LIST'),
+          'Merge list');
+    });
+
+    test('jump to file dropdown with patch range', () => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: '5',
+        patchNum: '10',
+      };
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+      flushAsynchronousOperations();
+      const linkEls =
+          Polymer.dom(element.root).querySelectorAll('.dropdown-content > a');
+      assert.equal(linkEls.length, 3);
+      assert.isFalse(linkEls[0].hasAttribute('selected'));
+      assert.isTrue(linkEls[1].hasAttribute('selected'));
+      assert.isFalse(linkEls[2].hasAttribute('selected'));
+      assert.equal(linkEls[0].getAttribute('data-key-nav'), '[');
+      assert.equal(linkEls[1].getAttribute('data-key-nav'), '');
+      assert.equal(linkEls[2].getAttribute('data-key-nav'), ']');
+      assert.equal(linkEls[0].getAttribute('href'), '/c/42/5..10/chell.go');
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10/glados.txt');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/5..10/wheatley.md');
+    });
+
+    test('prev/up/next links', () => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '10',
+      };
+      element._change = {
+        revisions: {
+          a: {_number: 10},
+        },
+      };
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+      flushAsynchronousOperations();
+      const linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
+      assert.equal(linkEls.length, 3);
+      assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/chell.go');
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/wheatley.md');
+      element._path = 'wheatley.md';
+      flushAsynchronousOperations();
+      assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/glados.txt');
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/');
+      assert.isFalse(linkEls[2].hasAttribute('href'));
+      element._path = 'chell.go';
+      flushAsynchronousOperations();
+      assert.isFalse(linkEls[0].hasAttribute('href'));
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/glados.txt');
+      element._path = 'not_a_real_file';
+      flushAsynchronousOperations();
+      assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/wheatley.md');
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/chell.go');
+    });
+
+    test('download link', () => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '10',
+      };
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+      flushAsynchronousOperations();
+      assert.equal(element.$$('.downloadLink').getAttribute('href'),
+          '/changes/42/revisions/10/patch?zip&path=glados.txt');
+    });
+
+    test('prev/up/next links with patch range', () => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: '5',
+        patchNum: '10',
+      };
+      element._change = {
+        revisions: {
+          a: {_number: 5},
+          b: {_number: 10},
+        },
+      };
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+      flushAsynchronousOperations();
+      const linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
+      assert.equal(linkEls.length, 3);
+      assert.equal(linkEls[0].getAttribute('href'), '/c/42/5..10/chell.go');
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/5..10/wheatley.md');
+      element._path = 'wheatley.md';
+      flushAsynchronousOperations();
+      assert.equal(linkEls[0].getAttribute('href'), '/c/42/5..10/glados.txt');
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10');
+      assert.isFalse(linkEls[2].hasAttribute('href'));
+      element._path = 'chell.go';
+      flushAsynchronousOperations();
+      assert.isFalse(linkEls[0].hasAttribute('href'));
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/5..10/glados.txt');
+    });
+
+    test('file review status', done => {
+      element._loggedIn = true;
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: '1',
+        patchNum: '2',
+      };
+      element._fileList = ['/COMMIT_MSG'];
+      element._path = '/COMMIT_MSG';
+      const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
+          () => Promise.resolve());
+
+      flush(() => {
+        const commitMsg = Polymer.dom(element.root).querySelector(
+            'input[type="checkbox"]');
+
+        assert.isTrue(commitMsg.checked);
+        MockInteractions.tap(commitMsg);
+        assert.isFalse(commitMsg.checked);
+        assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(false));
+
+        MockInteractions.tap(commitMsg);
+        assert.isTrue(commitMsg.checked);
+        assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(true));
+
+        done();
+      });
+    });
+
+    test('diff mode selector correctly toggles the diff', () => {
+      const select = element.$.modeSelect;
+      const diffDisplay = element.$.diff;
+      element._userPrefs = {default_diff_view: 'SIDE_BY_SIDE'};
+
+      // The mode selected in the view state reflects the selected option.
+      assert.equal(element._getDiffViewMode(), select.value);
+
+      // The mode selected in the view state reflects the view rednered in the
+      // diff.
+      assert.equal(select.value, diffDisplay.viewMode);
+
+      // We will simulate a user change of the selected mode.
+      const newMode = 'UNIFIED_DIFF';
+      // Set the actual value of the select, and simulate the change event.
+      select.value = newMode;
+      element.fire('change', {}, {node: select});
+
+      // Make sure the handler was called and the state is still coherent.
+      assert.equal(element._getDiffViewMode(), newMode);
+      assert.equal(element._getDiffViewMode(), select.value);
+      assert.equal(element._getDiffViewMode(), diffDisplay.viewMode);
+    });
+
+    test('diff mode selector initializes from preferences', () => {
+      let resolvePrefs;
+      const prefsPromise = new Promise(resolve => {
+        resolvePrefs = resolve;
+      });
+      sandbox.stub(element.$.restAPI, 'getPreferences', () => prefsPromise);
+
+      // Attach a new gr-diff-view so we can intercept the preferences fetch.
+      const view = document.createElement('gr-diff-view');
+      const select = view.$.modeSelect;
+      fixture('blank').appendChild(view);
+      flushAsynchronousOperations();
+
+      // At this point the diff mode doesn't yet have the user's preference.
+      assert.equal(select.value, 'SIDE_BY_SIDE');
+
+      // Receive the overriding preference.
+      resolvePrefs({default_diff_view: 'UNIFIED'});
+      flushAsynchronousOperations();
+      assert.equal(select.value, 'SIDE_BY_SIDE');
+    });
+
+    test('_loadHash', () => {
+      assert.isNotOk(element.$.cursor.initialLineNumber);
+
+      // Ignores invalid hashes:
+      element._loadHash('not valid');
+      assert.isNotOk(element.$.cursor.initialLineNumber);
+
+      // Revision hash:
+      element._loadHash('234');
+      assert.equal(element.$.cursor.initialLineNumber, 234);
+      assert.equal(element.$.cursor.side, 'right');
+
+      // Base hash:
+      element._loadHash('b345');
+      assert.equal(element.$.cursor.initialLineNumber, 345);
+      assert.equal(element.$.cursor.side, 'left');
+
+      // GWT-style base hash:
+      element._loadHash('a123');
+      assert.equal(element.$.cursor.initialLineNumber, 123);
+      assert.equal(element.$.cursor.side, 'left');
+    });
+
+    test('_shortenPath with long path should add ellipsis', () => {
+      let path = 'level1/level2/level3/level4/file.js';
+      let shortenedPath = util.truncatePath(path);
+      // The expected path is truncated with an ellipsis.
+      const expectedPath = '\u2026/file.js';
+      assert.equal(shortenedPath, expectedPath);
+
+      path = 'level2/file.js';
+      shortenedPath = util.truncatePath(path);
+      assert.equal(shortenedPath, expectedPath);
+    });
+
+    test('_shortenPath with short path should not add ellipsis', () => {
+      const path = 'file.js';
+      const expectedPath = 'file.js';
+      const shortenedPath = util.truncatePath(path);
+      assert.equal(shortenedPath, expectedPath);
+    });
+
+    test('_onLineSelected', () => {
+      const replaceStateStub = sandbox.stub(history, 'replaceState');
+      const moveStub = sandbox.stub(element.$.cursor, 'moveToLineNumber');
+
+      const e = {};
+      const detail = {number: 123, side: 'right'};
+
+      element._onLineSelected(e, detail);
+
+      assert.isTrue(moveStub.called);
+      assert.equal(moveStub.lastCall.args[0], detail.number);
+      assert.equal(moveStub.lastCall.args[1], detail.side);
+
+      assert.isTrue(replaceStateStub.called);
+    });
+
+    test('_getDiffURL encodes special characters', () => {
+      const changeNum = 123;
+      const patchRange = {basePatchNum: 123, patchNum: 456};
+      const path = 'c++/cpp.cpp';
+      assert.equal(element._getDiffURL(changeNum, patchRange, path),
+          '/c/123/123..456/c%252B%252B/cpp.cpp');
+    });
+
+    test('_getDiffViewMode', () => {
+      // No user prefs or change view state set.
+      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+
+      // User prefs but no change view state set.
+      element._userPrefs = {default_diff_view: 'UNIFIED_DIFF'};
+      assert.equal(element._getDiffViewMode(), 'UNIFIED_DIFF');
+
+      // User prefs and change view state set.
+      element.changeViewState = {diffMode: 'SIDE_BY_SIDE'};
+      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+    });
+
+    suite('_loadCommentMap', () => {
+      test('empty', done => {
+        stub('gr-rest-api-interface', {
+          getDiffRobotComments() { return Promise.resolve({}); },
+          getDiffComments() { return Promise.resolve({}); },
+        });
+        element._loadCommentMap().then(map => {
+          assert.equal(Object.keys(map).length, 0);
+          done();
+        });
+      });
+
+      test('paths in patch range', done => {
+        stub('gr-rest-api-interface', {
+          getDiffRobotComments() { return Promise.resolve({}); },
+          getDiffComments() {
+            return Promise.resolve({
+              'path/to/file/one.cpp': [{patch_set: 3, message: 'lorem'}],
+              'path-to/file/two.py': [{patch_set: 5, message: 'ipsum'}],
+            });
+          },
+        });
+        element._changeNum = '42';
+        element._patchRange = {
+          basePatchNum: '3',
+          patchNum: '5',
+        };
+        element._loadCommentMap().then(map => {
+          assert.deepEqual(Object.keys(map),
+              ['path/to/file/one.cpp', 'path-to/file/two.py']);
+          done();
+        });
+      });
+
+      test('empty for paths outside patch range', done => {
+        stub('gr-rest-api-interface', {
+          getDiffRobotComments() { return Promise.resolve({}); },
+          getDiffComments() {
+            return Promise.resolve({
+              'path/to/file/one.cpp': [{patch_set: 'PARENT', message: 'lorem'}],
+              'path-to/file/two.py': [{patch_set: 2, message: 'ipsum'}],
+            });
+          },
+        });
+        element._changeNum = '42';
+        element._patchRange = {
+          basePatchNum: '3',
+          patchNum: '5',
+        };
+        element._loadCommentMap().then(map => {
+          assert.equal(Object.keys(map).length, 0);
+          done();
+        });
+      });
+    });
+
+    suite('_computeCommentSkips', () => {
+      test('empty file list', () => {
+        const commentMap = {
+          'path/one.jpg': true,
+          'path/three.wav': true,
+        };
+        const path = 'path/two.m4v';
+        const fileList = [];
+        const result = element._computeCommentSkips(commentMap, fileList, path);
+        assert.isNull(result.previous);
+        assert.isNull(result.next);
+      });
+
+      test('finds skips', () => {
+        const fileList = ['path/one.jpg', 'path/two.m4v', 'path/three.wav'];
+        let path = fileList[1];
+        const commentMap = {};
+        commentMap[fileList[0]] = true;
+        commentMap[fileList[1]] = false;
+        commentMap[fileList[2]] = true;
+
+        let result = element._computeCommentSkips(commentMap, fileList, path);
+        assert.equal(result.previous, fileList[0]);
+        assert.equal(result.next, fileList[2]);
+
+        commentMap[fileList[1]] = true;
+
+        result = element._computeCommentSkips(commentMap, fileList, path);
+        assert.equal(result.previous, fileList[0]);
+        assert.equal(result.next, fileList[2]);
+
+        path = fileList[0];
+
+        result = element._computeCommentSkips(commentMap, fileList, path);
+        assert.isNull(result.previous);
+        assert.equal(result.next, fileList[1]);
+
+        path = fileList[2];
+
+        result = element._computeCommentSkips(commentMap, fileList, path);
+        assert.equal(result.previous, fileList[1]);
+        assert.isNull(result.next);
+      });
+    });
+  });
+</script>

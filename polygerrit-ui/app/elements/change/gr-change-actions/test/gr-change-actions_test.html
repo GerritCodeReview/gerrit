@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-change-actions</title>
+
+<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../../scripts/util.js"></script>
+
+<link rel="import" href="../../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../gr-change-actions.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-change-actions></gr-change-actions>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-change-actions tests', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      stub('gr-rest-api-interface', {
+        getChangeRevisionActions() {
+          return Promise.resolve({
+            '/': {
+              method: 'DELETE',
+              label: 'Delete',
+              title: 'Delete draft revision 2',
+              enabled: true,
+            },
+            'cherrypick': {
+              method: 'POST',
+              label: 'Cherry Pick',
+              title: 'Cherry pick change to a different branch',
+              enabled: true,
+            },
+            'rebase': {
+              method: 'POST',
+              label: 'Rebase',
+              title: 'Rebase onto tip of branch or parent change',
+              enabled: true,
+            },
+            'submit': {
+              method: 'POST',
+              label: 'Submit',
+              title: 'Submit patch set 2 into master',
+              enabled: true,
+            },
+          });
+        },
+        send(method, url, payload) {
+          if (method !== 'POST') { return Promise.reject('bad method'); }
+
+          if (url === '/changes/42/revisions/2/submit') {
+            return Promise.resolve({
+              ok: true,
+              text() { return Promise.resolve(')]}\'\n{}'); },
+            });
+          } else if (url === '/changes/42/revisions/2/rebase') {
+            return Promise.resolve({
+              ok: true,
+              text() { return Promise.resolve(')]}\'\n{}'); },
+            });
+          }
+
+          return Promise.reject('bad url');
+        },
+      });
+
+      element = fixture('basic');
+      element.change = {};
+      element.changeNum = '42';
+      element.patchNum = '2';
+      element.actions = {
+        '/': {
+          method: 'DELETE',
+          label: 'Delete',
+          title: 'Delete draft change 42',
+          enabled: true,
+        },
+      };
+      sandbox = sinon.sandbox.create();
+
+      return element.reload();
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('_shouldHideActions', () => {
+      assert.isTrue(element._shouldHideActions(undefined, true));
+      assert.isTrue(element._shouldHideActions({base: {}}, false));
+      assert.isFalse(element._shouldHideActions({base: ['test']}, false));
+    });
+
+    test('hide revision action', done => {
+      flush(() => {
+        const buttonEl = element.$$('[data-action-key="submit"]');
+        assert.isOk(buttonEl);
+        assert.throws(element.setActionHidden.bind(element, 'invalid type'));
+        element.setActionHidden(element.ActionType.REVISION,
+            element.RevisionActions.SUBMIT, true);
+        assert.lengthOf(element._hiddenActions, 1);
+        element.setActionHidden(element.ActionType.REVISION,
+            element.RevisionActions.SUBMIT, true);
+        assert.lengthOf(element._hiddenActions, 1);
+        flush(() => {
+          const buttonEl = element.$$('[data-action-key="submit"]');
+          assert.isNotOk(buttonEl);
+
+          element.setActionHidden(element.ActionType.REVISION,
+              element.RevisionActions.SUBMIT, false);
+          flush(() => {
+            const buttonEl = element.$$('[data-action-key="submit"]');
+            assert.isOk(buttonEl);
+            assert.isFalse(buttonEl.hasAttribute('hidden'));
+            done();
+          });
+        });
+      });
+    });
+
+    test('hide menu action', done => {
+      flush(() => {
+        const buttonEl =
+            element.$.moreActions.$$('span[data-id="delete-revision"]');
+        assert.isOk(buttonEl);
+        assert.throws(element.setActionHidden.bind(element, 'invalid type'));
+        element.setActionHidden(element.ActionType.CHANGE,
+            element.ChangeActions.DELETE, true);
+        assert.lengthOf(element._hiddenActions, 1);
+        element.setActionHidden(element.ActionType.CHANGE,
+            element.ChangeActions.DELETE, true);
+        assert.lengthOf(element._hiddenActions, 1);
+        flush(() => {
+          const buttonEl =
+              element.$.moreActions.$$('span[data-id="delete-revision"]');
+          assert.isNotOk(buttonEl);
+
+          element.setActionHidden(element.ActionType.CHANGE,
+              element.RevisionActions.DELETE, false);
+          flush(() => {
+            const buttonEl =
+                element.$.moreActions.$$('span[data-id="delete-revision"]');
+            assert.isOk(buttonEl);
+            done();
+          });
+        });
+      });
+    });
+
+    test('buttons exist', done => {
+      element._loading = false;
+      flush(() => {
+        const buttonEls = Polymer.dom(element.root)
+            .querySelectorAll('gr-button');
+        const menuItems = element.$.moreActions.items;
+        assert.equal(buttonEls.length + menuItems.length, 7);
+        assert.isFalse(element.hidden);
+        done();
+      });
+    });
+
+    test('delete buttons have explicit labels', done => {
+      flush(() => {
+        const deleteItems = element.$.moreActions.items.filter(item => {
+          return item.id.startsWith('delete');
+        });
+        assert.equal(deleteItems.length, 2);
+        assert.notEqual(deleteItems[0].name, deleteItems[1].name);
+        assert.isTrue(
+            deleteItems[0].name === 'Delete Revision' ||
+            deleteItems[0].name === 'Delete Change'
+        );
+        assert.isTrue(
+            deleteItems[1].name === 'Delete Revision' ||
+            deleteItems[1].name === 'Delete Change'
+        );
+        done();
+      });
+    });
+
+    test('get revision object from change', () => {
+      const revObj = {_number: 2, foo: 'bar'};
+      const change = {
+        revisions: {
+          rev1: {_number: 1},
+          rev2: revObj,
+        },
+      };
+      assert.deepEqual(element._getRevision(change, '2'), revObj);
+    });
+
+    test('_actionComparator sort order', () => {
+      const actions = [
+        {label: '123', __type: 'change', __key: 'review'},
+        {label: 'abc-ro', __type: 'revision'},
+        {label: 'abc', __type: 'change'},
+        {label: 'def', __type: 'change'},
+        {label: 'def-p', __type: 'change', __primary: true},
+      ];
+
+      const result = actions.slice();
+      result.reverse();
+      result.sort(element._actionComparator.bind(element));
+      assert.deepEqual(result, actions);
+    });
+
+    test('submit change', done => {
+      sandbox.stub(element, 'fetchIsLatestKnown',
+          () => { return Promise.resolve(true); });
+      element.change = {
+        revisions: {
+          rev1: {_number: 1},
+          rev2: {_number: 2},
+        },
+      };
+      element.patchNum = '2';
+
+      flush(() => {
+        const submitButton = element.$$('gr-button[data-action-key="submit"]');
+        assert.ok(submitButton);
+        MockInteractions.tap(submitButton);
+
+        // Upon success it should fire the reload-change event.
+        element.addEventListener('reload-change', () => {
+          done();
+        });
+      });
+    });
+
+    test('submit change with plugin hook', done => {
+      sandbox.stub(element, '_canSubmitChange',
+          () => { return false; });
+      const fireActionStub = sandbox.stub(element, '_fireAction');
+      flush(() => {
+        const submitButton = element.$$('gr-button[data-action-key="submit"]');
+        assert.ok(submitButton);
+        MockInteractions.tap(submitButton);
+        assert.equal(fireActionStub.callCount, 0);
+
+        done();
+      });
+    });
+
+    test('chain state', () => {
+      assert.equal(element._hasKnownChainState, false);
+      element.hasParent = true;
+      assert.equal(element._hasKnownChainState, true);
+      element.hasParent = false;
+    });
+
+    test('_calculateDisabled', () => {
+      let hasKnownChainState = false;
+      const action = {__key: 'rebase', enabled: true};
+      assert.equal(
+          element._calculateDisabled(action, hasKnownChainState), true);
+
+      action.__key = 'delete';
+      assert.equal(
+          element._calculateDisabled(action, hasKnownChainState), false);
+
+      action.__key = 'rebase';
+      hasKnownChainState = true;
+      assert.equal(
+          element._calculateDisabled(action, hasKnownChainState), false);
+
+      action.enabled = false;
+      assert.equal(
+          element._calculateDisabled(action, hasKnownChainState), true);
+    });
+
+    test('rebase change', done => {
+      const fireActionStub = sandbox.stub(element, '_fireAction');
+      flush(() => {
+        const rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
+        MockInteractions.tap(rebaseButton);
+        const rebaseAction = {
+          __key: 'rebase',
+          __type: 'revision',
+          __primary: false,
+          enabled: true,
+          label: 'Rebase',
+          method: 'POST',
+          title: 'Rebase onto tip of branch or parent change',
+        };
+        // rebase on other
+        element.$.confirmRebase.base = '1234';
+        element._handleRebaseConfirm();
+        assert.deepEqual(fireActionStub.lastCall.args,
+          ['/rebase', rebaseAction, true, {base: '1234'}]);
+
+        // rebase on parent
+        element.$.confirmRebase.base = null;
+        element._handleRebaseConfirm();
+        assert.deepEqual(fireActionStub.lastCall.args,
+          ['/rebase', rebaseAction, true, {base: null}]);
+
+        // rebase on tip
+        element.$.confirmRebase.base = '';
+        element._handleRebaseConfirm();
+        assert.deepEqual(fireActionStub.lastCall.args,
+          ['/rebase', rebaseAction, true, {base: ''}]);
+
+        done();
+      });
+    });
+
+    test('two dialogs are not shown at the same time', done => {
+      element._hasKnownChainState = true;
+      flush(() => {
+        const rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
+        assert.ok(rebaseButton);
+        MockInteractions.tap(rebaseButton);
+        flushAsynchronousOperations();
+        assert.isFalse(element.$.confirmRebase.hidden);
+
+        element._handleCherrypickTap();
+        flushAsynchronousOperations();
+        assert.isTrue(element.$.confirmRebase.hidden);
+        assert.isFalse(element.$.confirmCherrypick.hidden);
+        done();
+      });
+    });
+
+    suite('cherry-pick', () => {
+      let fireActionStub;
+
+      setup(() => {
+        fireActionStub = sandbox.stub(element, '_fireAction');
+        sandbox.stub(window, 'alert');
+      });
+
+      test('works', () => {
+        element._handleCherrypickTap();
+        const action = {
+          __key: 'cherrypick',
+          __type: 'revision',
+          __primary: false,
+          enabled: true,
+          label: 'Cherry Pick',
+          method: 'POST',
+          title: 'Cherry pick change to a different branch',
+        };
+
+        element._handleCherrypickConfirm();
+        assert.equal(fireActionStub.callCount, 0);
+
+        element.$.confirmCherrypick.branch = 'master';
+        element._handleCherrypickConfirm();
+        assert.equal(fireActionStub.callCount, 0);  // Still needs a message.
+
+        // Add attributes that are used to determine the message.
+        element.$.confirmCherrypick.commitMessage = 'foo message';
+        element.$.confirmCherrypick.changeStatus = 'OPEN';
+        element.$.confirmCherrypick.commitNum = '123';
+
+        element._handleCherrypickConfirm();
+
+        assert.equal(element.$.confirmCherrypick.$.messageInput.value,
+            'foo message');
+
+        assert.deepEqual(fireActionStub.lastCall.args, [
+          '/cherrypick', action, true, {
+            destination: 'master',
+            message: 'foo message',
+          },
+        ]);
+      });
+
+      test('branch name cleared when re-open cherrypick', () => {
+        const emptyBranchName = '';
+        element.$.confirmCherrypick.branch = 'master';
+
+        element._handleCherrypickTap();
+        assert.equal(element.$.confirmCherrypick.branch, emptyBranchName);
+      });
+    });
+
+    test('custom actions', done => {
+      // Add a button with the same key as a server-based one to ensure
+      // collisions are taken care of.
+      const key = element.addActionButton(element.ActionType.REVISION, 'Bork!');
+      element.addEventListener(key + '-tap', e => {
+        assert.equal(e.detail.node.getAttribute('data-action-key'), key);
+        element.removeActionButton(key);
+        flush(() => {
+          assert.notOk(element.$$('[data-action-key="' + key + '"]'));
+          done();
+        });
+      });
+      flush(() => {
+        MockInteractions.tap(element.$$('[data-action-key="' + key + '"]'));
+      });
+    });
+
+    test('_setLoadingOnButtonWithKey top-level', () => {
+      const key = 'rebase';
+      const type = 'revision';
+      const cleanup = element._setLoadingOnButtonWithKey(type, key);
+      assert.equal(element._actionLoadingMessage, 'Rebasing...');
+
+      const button = element.$$('[data-action-key="' + key + '"]');
+      assert.isTrue(button.hasAttribute('loading'));
+      assert.isTrue(button.disabled);
+
+      assert.isOk(cleanup);
+      assert.isFunction(cleanup);
+      cleanup();
+
+      assert.isFalse(button.hasAttribute('loading'));
+      assert.isFalse(button.disabled);
+      assert.isNotOk(element._actionLoadingMessage);
+    });
+
+    test('_setLoadingOnButtonWithKey overflow menu', () => {
+      const key = 'cherrypick';
+      const type = 'revision';
+      const cleanup = element._setLoadingOnButtonWithKey(type, key);
+      assert.equal(element._actionLoadingMessage, 'Cherry-Picking...');
+      assert.include(element._disabledMenuActions, 'cherrypick');
+      assert.isFunction(cleanup);
+
+      cleanup();
+
+      assert.notOk(element._actionLoadingMessage);
+      assert.notInclude(element._disabledMenuActions, 'cherrypick');
+    });
+
+    suite('revert change', () => {
+      let alertStub;
+      let fireActionStub;
+
+      setup(() => {
+        fireActionStub = sandbox.stub(element, '_fireAction');
+        alertStub = sandbox.stub(window, 'alert');
+        element.actions = {
+          revert: {
+            method: 'POST',
+            label: 'Revert',
+            title: 'Revert the change',
+            enabled: true,
+          },
+        };
+        return element.reload();
+      });
+
+      test('revert change with plugin hook', done => {
+        element.change = {
+          current_revision: 'abc1234',
+        };
+        const newRevertMsg = 'Modified revert msg';
+        sandbox.stub(element, '_modifyRevertMsg',
+            () => { return newRevertMsg; });
+        sandbox.stub(element.$.confirmRevertDialog, 'populateRevertMessage',
+            () => { return 'original msg'; });
+        flush(() => {
+          const revertButton =
+              element.$$('gr-button[data-action-key="revert"]');
+          MockInteractions.tap(revertButton);
+
+          assert.equal(element.$.confirmRevertDialog.message, newRevertMsg);
+          done();
+        });
+      });
+
+      test('works', () => {
+        element.change = {
+          current_revision: 'abc1234',
+        };
+        sandbox.stub(element.$.confirmRevertDialog, 'populateRevertMessage',
+            () => { return 'original msg'; });
+        const revertButton = element.$$('gr-button[data-action-key="revert"]');
+        MockInteractions.tap(revertButton);
+
+        element.$.confirmRevertDialog.message = 'foo message';
+        element._handleRevertDialogConfirm();
+        assert.notOk(alertStub.called);
+
+        const action = {
+          __key: 'revert',
+          __type: 'change',
+          __primary: false,
+          enabled: true,
+          label: 'Revert',
+          method: 'POST',
+          title: 'Revert the change',
+        };
+        assert.deepEqual(fireActionStub.lastCall.args, [
+          '/revert', action, false, {
+            message: 'foo message',
+          }]);
+      });
+    });
+
+    suite('mark change private', () => {
+      setup(() => {
+        const privateAction = {
+          __key: 'private',
+          __type: 'change',
+          __primary: false,
+          method: 'POST',
+          label: 'Mark private',
+          title: 'Working...',
+          enabled: true,
+        };
+
+        element.actions = {
+          private: privateAction,
+        };
+
+        element.change.is_private = false;
+
+        element.changeNum = '2';
+        element.patchNum = '2';
+
+        return element.reload();
+      });
+
+      test('make sure the mark private change button is not outside of the ' +
+           'overflow menu', done => {
+        flush(() => {
+          assert.isNotOk(element.$$('[data-action-key="private"]'));
+          done();
+        });
+      });
+
+      test('private change', done => {
+        flush(() => {
+          assert.isOk(
+              element.$.moreActions.$$('span[data-id="private-change"]'));
+          element.setActionOverflow('change', 'private', false);
+          flushAsynchronousOperations();
+          assert.isOk(element.$$('[data-action-key="private"]'));
+          assert.isNotOk(
+              element.$.moreActions.$$('span[data-id="private-change"]'));
+          done();
+        });
+      });
+    });
+
+    suite('unmark private change', () => {
+      setup(() => {
+        const unmarkPrivateAction = {
+          __key: 'private.delete',
+          __type: 'change',
+          __primary: false,
+          method: 'POST',
+          label: 'Unmark private',
+          title: 'Working...',
+          enabled: true,
+        };
+
+        element.actions = {
+          'private.delete': unmarkPrivateAction,
+        };
+
+        element.change.is_private = true;
+
+        element.changeNum = '2';
+        element.patchNum = '2';
+
+        return element.reload();
+      });
+
+      test('make sure the unmark private change button is not outside of the ' +
+           'overflow menu', done => {
+        flush(() => {
+          assert.isNotOk(element.$$('[data-action-key="private.delete"]'));
+          done();
+        });
+      });
+
+      test('unmark the private change', done => {
+        flush(() => {
+          assert.isOk(
+              element.$.moreActions.$$('span[data-id="private.delete-change"]')
+          );
+          element.setActionOverflow('change', 'private.delete', false);
+          flushAsynchronousOperations();
+          assert.isOk(element.$$('[data-action-key="private.delete"]'));
+          assert.isNotOk(
+              element.$.moreActions.$$('span[data-id="private.delete-change"]')
+          );
+          done();
+        });
+      });
+    });
+
+    suite('delete change', () => {
+      let fireActionStub;
+      let deleteAction;
+
+      setup(() => {
+        fireActionStub = sandbox.stub(element, '_fireAction');
+        element.change = {
+          current_revision: 'abc1234',
+        };
+        deleteAction = {
+          method: 'DELETE',
+          label: 'Delete Change',
+          title: 'Delete change X_X',
+          enabled: true,
+        };
+        element.actions = {
+          '/': deleteAction,
+        };
+      });
+
+      test('does not delete on action', () => {
+        element._handleDeleteTap();
+        assert.isFalse(fireActionStub.called);
+      });
+
+      test('shows confirm dialog', () => {
+        element._handleDeleteTap();
+        assert.isFalse(element.$$('#confirmDeleteDialog').hidden);
+        MockInteractions.tap(
+            element.$$('#confirmDeleteDialog').$$('gr-button[primary]'));
+        flushAsynchronousOperations();
+        assert.isTrue(fireActionStub.calledWith('/', deleteAction, false));
+      });
+
+      test('hides delete confirm on cancel', () => {
+        element._handleDeleteTap();
+        MockInteractions.tap(
+            element.$$('#confirmDeleteDialog').$$('gr-button:not([primary])'));
+        flushAsynchronousOperations();
+        assert.isTrue(element.$$('#confirmDeleteDialog').hidden);
+        assert.isFalse(fireActionStub.called);
+      });
+    });
+
+    suite('ignore change', () => {
+      setup(done => {
+        sandbox.stub(element, '_fireAction');
+
+        const IgnoreAction = {
+          __key: 'ignore',
+          __type: 'change',
+          __primary: false,
+          method: 'PUT',
+          label: 'Ignore',
+          title: 'Working...',
+          enabled: true,
+        };
+
+        element.actions = {
+          ignore: IgnoreAction,
+        };
+
+        element.changeNum = '2';
+        element.patchNum = '2';
+
+        element.reload().then(() => {flush(done);});
+      });
+
+      test('make sure the ignore button is not outside of the overflow menu',
+          () => {
+            assert.isNotOk(element.$$('[data-action-key="ignore"]'));
+          });
+
+      test('ignoring change', () => {
+        assert.isOk(element.$.moreActions.$$('span[data-id="ignore-change"]'));
+        element.setActionOverflow('change', 'ignore', false);
+        flushAsynchronousOperations();
+        assert.isOk(element.$$('[data-action-key="ignore"]'));
+        assert.isNotOk(
+            element.$.moreActions.$$('span[data-id="ignore-change"]'));
+      });
+    });
+
+    suite('unignore change', () => {
+      setup(done => {
+        sandbox.stub(element, '_fireAction');
+
+        const UnignoreAction = {
+          __key: 'unignore',
+          __type: 'change',
+          __primary: false,
+          method: 'PUT',
+          label: 'Unignore',
+          title: 'Working...',
+          enabled: true,
+        };
+
+        element.actions = {
+          unignore: UnignoreAction,
+        };
+
+        element.changeNum = '2';
+        element.patchNum = '2';
+
+        element.reload().then(() => {flush(done);});
+      });
+
+
+      test('unignore button is not outside of the overflow menu', () => {
+        assert.isNotOk(element.$$('[data-action-key="unignore"]'));
+      });
+
+      test('unignoring change', () => {
+        assert.isOk(
+            element.$.moreActions.$$('span[data-id="unignore-change"]'));
+        element.setActionOverflow('change', 'unignore', false);
+        flushAsynchronousOperations();
+        assert.isOk(element.$$('[data-action-key="unignore"]'));
+        assert.isNotOk(
+            element.$.moreActions.$$('span[data-id="unignore-change"]'));
+      });
+    });
+
+    suite('mute change', () => {
+      setup(done => {
+        sandbox.stub(element, '_fireAction');
+
+        const MuteAction = {
+          __key: 'mute',
+          __type: 'change',
+          __primary: false,
+          method: 'PUT',
+          label: 'Mute',
+          title: 'Working...',
+          enabled: true,
+        };
+
+        element.actions = {
+          mute: MuteAction,
+        };
+
+        element.changeNum = '2';
+        element.patchNum = '2';
+
+        element.reload().then(() => {flush(done);});
+      });
+
+      test('make sure the mute button is not outside of the overflow menu',
+          () => {
+            assert.isNotOk(element.$$('[data-action-key="mute"]'));
+          });
+
+      test('muting change', () => {
+        assert.isOk(element.$.moreActions.$$('span[data-id="mute-change"]'));
+        element.setActionOverflow('change', 'mute', false);
+        flushAsynchronousOperations();
+        assert.isOk(element.$$('[data-action-key="mute"]'));
+        assert.isNotOk(
+            element.$.moreActions.$$('span[data-id="mute-change"]'));
+      });
+    });
+
+    suite('unmute change', () => {
+      setup(done => {
+        sandbox.stub(element, '_fireAction');
+
+        const UnmuteAction = {
+          __key: 'unmute',
+          __type: 'change',
+          __primary: false,
+          method: 'PUT',
+          label: 'Unmute',
+          title: 'Working...',
+          enabled: true,
+        };
+
+        element.actions = {
+          unmute: UnmuteAction,
+        };
+
+        element.changeNum = '2';
+        element.patchNum = '2';
+
+        element.reload().then(() => {flush(done);});
+      });
+
+
+      test('unmute button not outside of the overflow menu', () => {
+        assert.isNotOk(element.$$('[data-action-key="unmute"]'));
+      });
+
+      test('unmuting change', () => {
+        assert.isOk(
+            element.$.moreActions.$$('span[data-id="unmute-change"]'));
+        element.setActionOverflow('change', 'unmute', false);
+        flushAsynchronousOperations();
+        assert.isOk(element.$$('[data-action-key="unmute"]'));
+        assert.isNotOk(
+            element.$.moreActions.$$('span[data-id="unmute-change"]'));
+      });
+    });
+
+    suite('quick approve', () => {
+      setup(() => {
+        element.change = {
+          current_revision: 'abc1234',
+        };
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            foo: {
+              values: {
+                '-1': '',
+                ' 0': '',
+                '+1': '',
+              },
+            },
+          },
+          permitted_labels: {
+            foo: ['-1', ' 0', '+1'],
+          },
+        };
+        flushAsynchronousOperations();
+      });
+
+      test('added when can approve', () => {
+        const approveButton =
+            element.$$('gr-button[data-action-key=\'review\']');
+        assert.isNotNull(approveButton);
+      });
+
+      test('is first in list of actions', () => {
+        const approveButton = element.$$('gr-button');
+        assert.equal(approveButton.getAttribute('data-label'), 'foo+1');
+      });
+
+      test('not added when already approved', () => {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            foo: {
+              approved: {},
+              values: {},
+            },
+          },
+          permitted_labels: {
+            foo: [' 0', '+1'],
+          },
+        };
+        flushAsynchronousOperations();
+        const approveButton =
+            element.$$('gr-button[data-action-key=\'review\']');
+        assert.isNull(approveButton);
+      });
+
+      test('not added when label not permitted', () => {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            foo: {values: {}},
+          },
+          permitted_labels: {
+            bar: [],
+          },
+        };
+        flushAsynchronousOperations();
+        const approveButton =
+            element.$$('gr-button[data-action-key=\'review\']');
+        assert.isNull(approveButton);
+      });
+
+      test('approves when tapped', () => {
+        const fireActionStub = sandbox.stub(element, '_fireAction');
+        MockInteractions.tap(
+            element.$$('gr-button[data-action-key=\'review\']'));
+        flushAsynchronousOperations();
+        assert.isTrue(fireActionStub.called);
+        assert.isTrue(fireActionStub.calledWith('/review'));
+        const payload = fireActionStub.lastCall.args[3];
+        assert.deepEqual(payload.labels, {foo: '+1'});
+      });
+
+      test('not added when multiple labels are required', () => {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            foo: {values: {}},
+            bar: {values: {}},
+          },
+          permitted_labels: {
+            foo: [' 0', '+1'],
+            bar: [' 0', '+1', '+2'],
+          },
+        };
+        flushAsynchronousOperations();
+        const approveButton =
+            element.$$('gr-button[data-action-key=\'review\']');
+        assert.isNull(approveButton);
+      });
+
+      test('button label for missing approval', () => {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            foo: {
+              values: {
+                ' 0': '',
+                '+1': '',
+              },
+            },
+            bar: {approved: {}, values: {}},
+          },
+          permitted_labels: {
+            foo: [' 0', '+1'],
+            bar: [' 0', '+1', '+2'],
+          },
+        };
+        flushAsynchronousOperations();
+        const approveButton =
+            element.$$('gr-button[data-action-key=\'review\']');
+        assert.equal(approveButton.getAttribute('data-label'), 'foo+1');
+      });
+
+      test('no quick approve if score is not maximal for a label', () => {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            bar: {
+              value: 1,
+              values: {
+                ' 0': '',
+                '+1': '',
+                '+2': '',
+              },
+            },
+          },
+          permitted_labels: {
+            bar: [' 0', '+1'],
+          },
+        };
+        flushAsynchronousOperations();
+        const approveButton =
+            element.$$('gr-button[data-action-key=\'review\']');
+        assert.isNull(approveButton);
+      });
+
+      test('approving label with a non-max score', () => {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            bar: {
+              value: 1,
+              values: {
+                ' 0': '',
+                '+1': '',
+                '+2': '',
+              },
+            },
+          },
+          permitted_labels: {
+            bar: [' 0', '+1', '+2'],
+          },
+        };
+        flushAsynchronousOperations();
+        const approveButton =
+            element.$$('gr-button[data-action-key=\'review\']');
+        assert.equal(approveButton.getAttribute('data-label'), 'bar+2');
+      });
+    });
+
+    test('adds download revision action', () => {
+      const handler = sandbox.stub();
+      element.addEventListener('download-tap', handler);
+      assert.ok(element.revisionActions.download);
+      element._handleDownloadTap();
+      flushAsynchronousOperations();
+
+      assert.isTrue(handler.called);
+    });
+
+    suite('setActionOverflow', () => {
+      test('move action from overflow', () => {
+        assert.isNotOk(element.$$('[data-action-key="cherrypick"]'));
+        assert.strictEqual(
+            element.$.moreActions.items[0].id, 'cherrypick-revision');
+        element.setActionOverflow('revision', 'cherrypick', false);
+        flushAsynchronousOperations();
+        assert.isOk(element.$$('[data-action-key="cherrypick"]'));
+        assert.notEqual(
+            element.$.moreActions.items[0].id, 'cherrypick-revision');
+      });
+
+      test('move action to overflow', () => {
+        assert.isOk(element.$$('[data-action-key="submit"]'));
+        element.setActionOverflow('revision', 'submit', true);
+        flushAsynchronousOperations();
+        assert.isNotOk(element.$$('[data-action-key="submit"]'));
+        assert.strictEqual(
+            element.$.moreActions.items[4].id, 'submit-revision');
+      });
+    });
+  });
+</script>

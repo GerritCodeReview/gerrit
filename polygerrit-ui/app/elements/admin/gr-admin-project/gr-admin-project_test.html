@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-admin-project</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+
+<link rel="import" href="gr-admin-project.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-admin-project></gr-admin-project>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-admin-project tests', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      stub('gr-rest-api-interface', {
+        getLoggedIn() { return Promise.resolve(false); },
+        getProjectConfig() {
+          return {
+            description: 'Access inherited by all other projects.',
+            use_contributor_agreements: {
+              value: false,
+              configured_value: 'FALSE',
+            },
+            use_content_merge: {
+              value: true,
+              configured_value: 'TRUE',
+            },
+            use_signed_off_by: {
+              value: false,
+              configured_value: 'FALSE',
+            },
+            create_new_change_for_all_not_in_target: {
+              value: false,
+              configured_value: 'INHERIT',
+            },
+            require_change_id: {
+              value: true,
+              configured_value: 'TRUE',
+            },
+            reject_implicit_merges: {
+              configured_value: 'INHERIT',
+            },
+            enable_reviewer_by_email: {
+              configured_value: 'INHERIT',
+            },
+            max_object_size_limit: {},
+            submit_type: 'MERGE_IF_NECESSARY',
+            actions: {},
+            commentlinks: {},
+            extension_panel_names: {},
+          };
+        },
+      });
+      element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('loading displays before project config is loaded', () => {
+      assert.isFalse(element.$.loading.hidden);
+      assert.isTrue(element.$.form.hidden);
+    });
+
+    test('form defaults to read only', () => {
+      assert.isTrue(element._readOnly);
+    });
+
+    test('form defaults to read only', () => {
+      assert.isTrue(element._readOnly);
+    });
+  });
+</script>

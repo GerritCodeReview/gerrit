@@ -70,6 +70,103 @@
       "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca86857_3705582e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-23T14:25:35Z",
+      "side": 1,
+      "message": "Optional: firstNonNull(patchListEntry.getOldName(), patchListEntry.getNewName())",
+      "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f216cf76_7527afc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-23T14:25:35Z",
+      "side": 1,
+      "message": "Optional: firstNonNull",
+      "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2cd51cac_56d40cbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-23T14:25:35Z",
+      "side": 1,
+      "message": "This change adds a call to rw.isMergedInto, which has the non-obvious side effect of resetting the walk. Please add Javadoc to this method mentioning this fact.\n\nI don\u0027t believe the current callers care, so you don\u0027t have to do anything other than documenting the behavior. But we\u0027ve been bitten by this enough (for example https://gerrit-review.googlesource.com/79250) that I want to get in the habit of documenting it.",
+      "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "238e08c0_1596a9ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-23T14:25:35Z",
+      "side": 1,
+      "message": "This is not a strictly correct description. You\u0027re just checking whether two arbitrary commits don\u0027t share the same parent and aren\u0027t merged into one another. If we\u0027re just talking about arbitrary commits, this can happen without there being a \"rebase in between\".\n\nCurrently we only ever call into PatchListLoader when A/B are either patch sets of the same change, or a patch set and its base, so your description is consistent with the current usage. But I wouldn\u0027t guarantee that that will be the case forever; for example, one of the proposals in issue 5456 involved comparing a revert-of-revert against the base of the original change.\n\nDo you think it\u0027s safe to apply the same edits-due-to-rebase logic when comparing two arbitrary commits that are not patch sets of the same change?",
+      "range": {
+        "startLine": 218,
+        "startChar": 9,
+        "endLine": 218,
+        "endChar": 46
+      },
+      "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e79743f1_0f52bc3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-23T14:25:35Z",
+      "side": 1,
+      "message": "I\u0027m just being paranoid, but can we benchmark this in some common cases?\n\nSay we have:\n\n X1--X2--A\n  \\--B\n\nA naive implementation of isMergedInto(A, B) would walk all the way from A to the root of the repo looking for B. That may be too much walking on a repo the size of Chrome.\n\nFortunately I\u0027m pretty sure isMergedInto is not that dumb, and it knows how to reasonbly quickly compute that the merge base of A and B is X1. But like I said, I\u0027m being paranoid.\n\n(There\u0027s still some linear behavior if X2 is actually a string of 1000 commits, which can happen if you rebase a very old change. But I feel like the practical upper bound of the length of X2 is still much less than the upper bound of the total repo history.)",
+      "range": {
+        "startLine": 231,
+        "startChar": 0,
+        "endLine": 232,
+        "endChar": 51
+      },
+      "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

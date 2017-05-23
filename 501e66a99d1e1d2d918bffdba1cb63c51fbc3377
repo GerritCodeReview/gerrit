@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "8c266303_1b14194a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-23T14:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba0bd99b_6f1137a4",
+      "range": {
+        "startLine": 349,
+        "startChar": 23,
+        "endLine": 349,
+        "endChar": 60
+      },
+      "revId": "501e66a99d1e1d2d918bffdba1cb63c51fbc3377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16f56871_8b6fba3a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 21

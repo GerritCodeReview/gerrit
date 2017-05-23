@@ -848,6 +848,30 @@
     },
     {
       "key": {
+        "uuid": "897a662b_f22085f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DeleteCommentRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-23T08:17:52Z",
+      "side": 1,
+      "message": "I thought that the rewriteCommit() method used only the keys of the deleted comments but I missed that the revId is also necessary. Probably better to leave it as it is.",
+      "parentUuid": "fb70f428_5571b505",
+      "range": {
+        "startLine": 129,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 36
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "274a3bd1_e51ea87d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DeleteCommentRewriter.java",
         "patchSetId": 2
@@ -883,6 +907,30 @@
       "side": 1,
       "message": "Currently, I have no idea how to test the positive path.  But I can have a try in the later change.",
       "parentUuid": "274a3bd1_e51ea87d",
+      "range": {
+        "startLine": 229,
+        "startChar": 6,
+        "endLine": 233,
+        "endChar": 7
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c450634_409b8b68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DeleteCommentRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-23T08:17:52Z",
+      "side": 1,
+      "message": "Maybe it is possible to create a RevisionNoteMap manually (or read one and modify it) and then create a custom commit on the NoteDb branch.",
+      "parentUuid": "e9fe36e3_9480096d",
       "range": {
         "startLine": 229,
         "startChar": 6,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d3fe6ed_6c42442d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-05-23T14:16:00Z",
+      "side": 1,
+      "message": "This feels arbitrary.  Is LFS installed by default in Gerrit?  If not, then this feels inappropriate to impose on all users.  LFS users should be able to edit this file on their own.",
+      "range": {
+        "startLine": 12,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "0c0ae48f14949e3b2c3564f8a5028cc4879dd0ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

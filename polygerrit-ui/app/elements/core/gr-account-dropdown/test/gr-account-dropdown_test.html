@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-account-dropdown</title>
+
+<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../gr-account-dropdown.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-account-dropdown></gr-account-dropdown>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-account-dropdown tests', () => {
+    let element;
+
+    setup(() => {
+      stub('gr-rest-api-interface', {
+        getConfig() { return Promise.resolve({}); },
+      });
+      element = fixture('basic');
+    });
+
+    test('account information', () => {
+      element.account = {name: 'John Doe', email: 'john@doe.com'};
+      assert.deepEqual(element.topContent,
+          [{text: 'John Doe', bold: true}, {text: 'john@doe.com'}]);
+    });
+
+    test('test for account without a name', () => {
+      element.account = {id: '0001'};
+      assert.deepEqual(element.topContent,
+          [{text: 'Anonymous', bold: true}, {text: ''}]);
+    });
+
+    test('test for account without a name but using config', () => {
+      element._anonymousName = 'WikiGerrit';
+      element.account = {id: '0001'};
+      assert.deepEqual(element.topContent,
+          [{text: 'WikiGerrit', bold: true}, {text: ''}]);
+    });
+
+    test('test for account name as an email', () => {
+      element._anonymousName = 'WikiGerrit';
+      element.account = {email: 'john@doe.com'};
+      assert.deepEqual(element.topContent,
+          [{text: 'john@doe.com', bold: true}, {text: 'john@doe.com'}]);
+    });
+
+    test('switch account', () => {
+      // No switch account link.
+      assert.equal(element._getLinks(null).length, 2);
+
+      // Unparameterized switch account link.
+      let links = element._getLinks('/switch-account');
+      assert.equal(links.length, 3);
+      assert.deepEqual(links[1],
+          {name: 'Switch account', url: '/switch-account'});
+
+      // Parameterized switch account link.
+      links = element._getLinks('/switch-account${path}', '/c/123');
+      assert.equal(links.length, 3);
+      assert.deepEqual(links[1],
+          {name: 'Switch account', url: '/switch-account/c/123'});
+    });
+
+    test('_interpolateUrl', () => {
+      const replacements = {
+        foo: 'bar',
+        test: 'TEST',
+      };
+      const interpolate = function(url) {
+        return element._interpolateUrl(url, replacements);
+      };
+
+      assert.equal(interpolate('test'), 'test');
+      assert.equal(interpolate('${test}'), 'TEST');
+      assert.equal(
+          interpolate('${}, ${test}, ${TEST}, ${foo}'),
+          '${}, TEST, , bar');
+    });
+  });
+</script>

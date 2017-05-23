@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-diff-cursor</title>
+
+<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../../scripts/util.js"></script>
+
+<link rel="import" href="../../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../../gr-diff/gr-diff.html">
+<link rel="import" href="../gr-diff-cursor.html">
+<link rel="import" href="../../../shared/gr-rest-api-interface/mock-diff-response_test.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <mock-diff-response></mock-diff-response>
+    <gr-diff></gr-diff>
+    <gr-diff-cursor></gr-diff-cursor>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-diff-cursor tests', () => {
+    let sandbox;
+    let cursorElement;
+    let diffElement;
+    let mockDiffResponse;
+
+    setup(done => {
+      sandbox = sinon.sandbox.create();
+
+      stub('gr-rest-api-interface', {
+        getLoggedIn() { return Promise.resolve(false); },
+      });
+
+      const fixtureElems = fixture('basic');
+      mockDiffResponse = fixtureElems[0];
+      diffElement = fixtureElems[1];
+      cursorElement = fixtureElems[2];
+
+      // Register the diff with the cursor.
+      cursorElement.push('diffs', diffElement);
+
+      diffElement.$.restAPI.getDiffPreferences().then(prefs => {
+        diffElement.prefs = prefs;
+      });
+
+      sandbox.stub(diffElement, '_getDiff', () => {
+        return Promise.resolve(mockDiffResponse.diffResponse);
+      });
+
+      sandbox.stub(diffElement, '_getDiffComments', () => {
+        return Promise.resolve({baseComments: [], comments: []});
+      });
+
+      sandbox.stub(diffElement, '_getDiffDrafts', () => {
+        return Promise.resolve({baseComments: [], comments: []});
+      });
+
+      sandbox.stub(diffElement, '_getDiffRobotComments', () => {
+        return Promise.resolve({baseComments: [], comments: []});
+      });
+
+      const setupDone = () => {
+        cursorElement.moveToFirstChunk();
+        diffElement.removeEventListener('render', setupDone);
+        done();
+      };
+      diffElement.addEventListener('render', setupDone);
+
+      diffElement.reload();
+    });
+
+    teardown(() => sandbox.restore());
+
+    test('diff cursor functionality (side-by-side)', () => {
+      // The cursor has been initialized to the first delta.
+      assert.isOk(cursorElement.diffRow);
+
+      const firstDeltaRow = diffElement.$$('.section.delta .diff-row');
+      assert.equal(cursorElement.diffRow, firstDeltaRow);
+
+      cursorElement.moveDown();
+
+      assert.notEqual(cursorElement.diffRow, firstDeltaRow);
+      assert.equal(cursorElement.diffRow, firstDeltaRow.nextSibling);
+
+      cursorElement.moveUp();
+
+      assert.notEqual(cursorElement.diffRow, firstDeltaRow.nextSibling);
+      assert.equal(cursorElement.diffRow, firstDeltaRow);
+    });
+
+    test('cursor scroll behavior', () => {
+      cursorElement._handleDiffRenderStart();
+      assert.equal(cursorElement._scrollBehavior, 'keep-visible');
+
+      cursorElement._handleWindowScroll();
+      assert.equal(cursorElement._scrollBehavior, 'never');
+
+      cursorElement.handleDiffUpdate();
+      assert.equal(cursorElement._scrollBehavior, 'keep-visible');
+    });
+
+    suite('unified diff', () => {
+      setup(done => {
+        // We must allow the diff to re-render after setting the viewMode.
+        const renderHandler = function() {
+          diffElement.removeEventListener('render', renderHandler);
+          cursorElement.reInitCursor();
+          done();
+        };
+        diffElement.addEventListener('render', renderHandler);
+        diffElement.viewMode = 'UNIFIED_DIFF';
+      });
+
+      test('diff cursor functionality (unified)', () => {
+        // The cursor has been initialized to the first delta.
+        assert.isOk(cursorElement.diffRow);
+
+        let firstDeltaRow = diffElement.$$('.section.delta .diff-row');
+        assert.equal(cursorElement.diffRow, firstDeltaRow);
+
+        firstDeltaRow = diffElement.$$('.section.delta .diff-row');
+        assert.equal(cursorElement.diffRow, firstDeltaRow);
+
+        cursorElement.moveDown();
+
+        assert.notEqual(cursorElement.diffRow, firstDeltaRow);
+        assert.equal(cursorElement.diffRow, firstDeltaRow.nextSibling);
+
+        cursorElement.moveUp();
+
+        assert.notEqual(cursorElement.diffRow, firstDeltaRow.nextSibling);
+        assert.equal(cursorElement.diffRow, firstDeltaRow);
+      });
+    });
+
+    test('cursor side functionality', () => {
+      // The side only applies to side-by-side mode, which should be the default
+      // mode.
+      assert.equal(diffElement.viewMode, 'SIDE_BY_SIDE');
+
+      const firstDeltaSection = diffElement.$$('.section.delta');
+      const firstDeltaRow = firstDeltaSection.querySelector('.diff-row');
+
+      // Because the first delta in this diff is on the right, it should be set
+      // to the right side.
+      assert.equal(cursorElement.side, 'right');
+      assert.equal(cursorElement.diffRow, firstDeltaRow);
+      const firstIndex = cursorElement.$.cursorManager.index;
+
+      // Move the side to the left. Because this delta only has a right side, we
+      // should be moved up to the previous line where there is content on the
+      // right. The previous row is part of the previous section.
+      cursorElement.moveLeft();
+
+      assert.equal(cursorElement.side, 'left');
+      assert.notEqual(cursorElement.diffRow, firstDeltaRow);
+      assert.equal(cursorElement.$.cursorManager.index, firstIndex - 1);
+      assert.equal(cursorElement.diffRow.parentElement,
+          firstDeltaSection.previousSibling);
+
+      // If we move down, we should skip everything in the first delta because
+      // we are on the left side and the first delta has no content on the left.
+      cursorElement.moveDown();
+
+      assert.equal(cursorElement.side, 'left');
+      assert.notEqual(cursorElement.diffRow, firstDeltaRow);
+      assert.isTrue(cursorElement.$.cursorManager.index > firstIndex);
+      assert.equal(cursorElement.diffRow.parentElement,
+          firstDeltaSection.nextSibling);
+    });
+
+    test('chunk skip functionality', () => {
+      const chunks = Polymer.dom(diffElement.root).querySelectorAll(
+          '.section.delta');
+      const indexOfChunk = function(chunk) {
+        return Array.prototype.indexOf.call(chunks, chunk);
+      };
+
+      // We should be initialized to the first chunk. Since this chunk only has
+      // content on the right side, our side should be right.
+      let currentIndex = indexOfChunk(cursorElement.diffRow.parentElement);
+      assert.equal(currentIndex, 0);
+      assert.equal(cursorElement.side, 'right');
+
+      // Move to the next chunk.
+      cursorElement.moveToNextChunk();
+
+      // Since this chunk only has content on the left side. we should have been
+      // automatically mvoed over.
+      const previousIndex = currentIndex;
+      currentIndex = indexOfChunk(cursorElement.diffRow.parentElement);
+      assert.equal(currentIndex, previousIndex + 1);
+      assert.equal(cursorElement.side, 'left');
+    });
+
+    test('initialLineNumber disabled', done => {
+      const moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber');
+      const moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk');
+
+      diffElement.addEventListener('render', () => {
+        assert.isFalse(moveToNumStub.called);
+        assert.isTrue(moveToChunkStub.called);
+        done();
+      });
+
+      diffElement.reload();
+    });
+
+    test('initialLineNumber enabled', done => {
+      const moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber');
+      const moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk');
+
+      diffElement.addEventListener('render', () => {
+        assert.isFalse(moveToChunkStub.called);
+        assert.isTrue(moveToNumStub.called);
+        assert.equal(moveToNumStub.lastCall.args[0], 10);
+        assert.equal(moveToNumStub.lastCall.args[1], 'right');
+        done();
+      });
+
+      cursorElement.initialLineNumber = 10;
+      cursorElement.side = 'right';
+
+      diffElement.reload();
+    });
+
+    test('getAddress', () => {
+      // It should initialize to the first chunk: line 5 of the revision.
+      assert.equal(cursorElement.getAddress(), '5');
+
+      // Revision line 4 is up.
+      cursorElement.moveUp();
+      assert.equal(cursorElement.getAddress(), '4');
+
+      // Base line 4 is left.
+      cursorElement.moveLeft();
+      assert.equal(cursorElement.getAddress(), 'b4');
+
+      // Moving to the next chunk takes it back to the start.
+      cursorElement.moveToNextChunk();
+      assert.equal(cursorElement.getAddress(), '5');
+
+      // The following chunk is a removal starting on line 10 of the base.
+      cursorElement.moveToNextChunk();
+      assert.equal(cursorElement.getAddress(), 'b10');
+
+      // Should be an empty string if there is no selection.
+      cursorElement.$.cursorManager.unsetCursor();
+      assert.equal(cursorElement.getAddress(), '');
+    });
+
+    test('_findRowByNumberAndFile', () => {
+      // Get the first ab row after the first chunk.
+      const row = Polymer.dom(diffElement.root).querySelectorAll('tr')[8];
+
+      // It should be line 8 on the right, but line 5 on the left.
+      assert.equal(cursorElement._findRowByNumberAndFile(8, 'right'), row);
+      assert.equal(cursorElement._findRowByNumberAndFile(5, 'left'), row);
+    });
+
+    test('expand context updates stops', done => {
+      sandbox.spy(cursorElement, 'handleDiffUpdate');
+      MockInteractions.tap(diffElement.$$('.showContext'));
+      flush(() => {
+        assert.isTrue(cursorElement.handleDiffUpdate.called);
+        done();
+      });
+    });
+  });
+</script>

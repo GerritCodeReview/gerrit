@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-main-header</title>
+
+<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../gr-main-header.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-main-header></gr-main-header>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-main-header tests', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      stub('gr-rest-api-interface', {
+        getConfig() { return Promise.resolve({}); },
+        probePath(path) { return Promise.resolve(false); },
+      });
+      stub('gr-main-header', {
+        _loadAccount() {},
+      });
+      element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('fix my menu item', () => {
+      assert.deepEqual([
+        {url: '#/q/owner:self+is:draft'},
+        {url: 'https://awesometown.com/#hashyhash'},
+        {url: 'url', target: '_blank'},
+      ].map(element._fixMyMenuItem), [
+        {url: '/q/owner:self+is:draft'},
+        {url: 'https://awesometown.com/#hashyhash'},
+        {url: 'url'},
+      ]);
+    });
+
+    test('filter unsupported urls', () => {
+      assert.deepEqual([
+        {url: '/q/owner:self+is:draft'},
+        {url: '/c/331788/'},
+        {url: '/groups/self'},
+        {url: 'https://awesometown.com/#hashyhash'},
+      ].filter(element._isSupportedLink), [
+        {url: '/q/owner:self+is:draft'},
+        {url: '/c/331788/'},
+        {url: 'https://awesometown.com/#hashyhash'},
+      ]);
+    });
+
+    test('_loadAccountCapabilities admin', done => {
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
+        return Promise.resolve({
+          createGroup: true,
+          createProject: true,
+          viewPlugins: true,
+        });
+      });
+      element._loadAccountCapabilities().then(() => {
+        assert.equal(element._adminLinks.length, 5);
+        done();
+      });
+    });
+
+    test('_loadAccountCapabilities non admin', done => {
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
+        return Promise.resolve({});
+      });
+      element._loadAccountCapabilities().then(() => {
+        assert.equal(element._adminLinks.length, 2);
+        done();
+      });
+    });
+
+    test('user links', () => {
+      const defaultLinks = [{
+        title: 'Faves',
+        links: [{
+          name: 'Pinterest',
+          url: 'https://pinterest.com',
+        }],
+      }];
+      const userLinks = [{
+        name: 'Facebook',
+        url: 'https://facebook.com',
+      }];
+      const adminLinks = [{
+        url: '/admin/groups',
+        name: 'Groups',
+      }];
+
+      assert.deepEqual(
+          element._computeLinks(defaultLinks, [], []), defaultLinks);
+      assert.deepEqual(
+          element._computeLinks(defaultLinks, userLinks, adminLinks),
+          defaultLinks.concat({
+            title: 'Your',
+            links: userLinks,
+          }, {
+            title: 'Admin',
+            links: adminLinks,
+          }));
+    });
+
+    test('documentation links', () => {
+      const docLinks = [
+        {
+          name: 'Table of Contents',
+          url: '/index.html',
+        },
+      ];
+
+      assert.deepEqual(element._getDocLinks(null, docLinks), []);
+      assert.deepEqual(element._getDocLinks('', docLinks), []);
+      assert.deepEqual(element._getDocLinks('base', null), []);
+      assert.deepEqual(element._getDocLinks('base', []), []);
+
+      assert.deepEqual(element._getDocLinks('base', docLinks), [{
+        name: 'Table of Contents',
+        target: '_blank',
+        url: 'base/index.html',
+      }]);
+
+      assert.deepEqual(element._getDocLinks('base/', docLinks), [{
+        name: 'Table of Contents',
+        target: '_blank',
+        url: 'base/index.html',
+      }]);
+    });
+  });
+</script>

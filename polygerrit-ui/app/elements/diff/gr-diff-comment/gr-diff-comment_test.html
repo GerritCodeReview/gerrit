@@ -269,12 +269,14 @@ limitations under the License.
       assert.isTrue(element.$$('.action.delete')
           .classList.contains('showDeleteButtons'));
       MockInteractions.tap(element.$$('.action.delete'));
-      element.$.overlay.open.lastCall.returnValue.then(() => {
-        element.$.confirmDeleteComment.message = 'removal reason';
-        element._handleConfirmDeleteComment();
-        assert.isTrue(element.$.restAPI.deleteComment.calledWith(
-            42, 0xDEADBEEF, 'baf0414d_60047215', 'removal reason'));
-        done();
+      flush(() => {
+        element.$.overlay.open.lastCall.returnValue.then(() => {
+          element.$.confirmDeleteComment.message = 'removal reason';
+          element._handleConfirmDeleteComment();
+          assert.isTrue(element.$.restAPI.deleteComment.calledWith(
+              42, 0xDEADBEEF, 'baf0414d_60047215', 'removal reason'));
+          done();
+        });
       });
     });
   });

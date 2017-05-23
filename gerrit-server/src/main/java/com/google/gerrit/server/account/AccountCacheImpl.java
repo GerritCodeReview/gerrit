@@ -22,6 +22,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -57,14 +59,14 @@ public class AccountCacheImpl implements AccountCache {
   private static final String BYID_NAME = "accounts";
   private static final String BYUSER_NAME = "accounts_byname";
 
-  public static Module module() {
+  public static Module module(boolean useReviewdb) {
     return new CacheModule() {
       @Override
       protected void configure() {
         cache(BYID_NAME, Account.Id.class, AccountState.class).loader(ByIdLoader.class);
 
         cache(BYUSER_NAME, String.class, new TypeLiteral<Optional<Account.Id>>() {})
-            .loader(ByNameLoader.class);
+            .loader(useReviewdb ? ByNameReviewDbLoader.class : ByNameLoader.class);
 
         bind(AccountCacheImpl.class);
         bind(AccountCache.class).to(AccountCacheImpl.class);
@@ -206,6 +208,25 @@ public class AccountCacheImpl implements AccountCache {
 
       return new AccountState(
           account, internalGroups, externalIds, watchConfig.get().getProjectWatches(who));
+    }
+  }
+
+  static class ByNameReviewDbLoader extends CacheLoader<String, Optional<Account.Id>> {
+    private final Provider<ReviewDb> dbProvider;
+
+    @Inject
+    public ByNameReviewDbLoader(Provider<ReviewDb> dbProvider) {
+      this.dbProvider = dbProvider;
+    }
+
+    @Override
+    public Optional<Id> load(String username) throws Exception {
+      try (ReviewDb db = dbProvider.get()) {
+        return Optional.ofNullable(
+                db.accountExternalIds()
+                    .get(new AccountExternalId.Key(SCHEME_USERNAME + ":" + username)))
+            .map(AccountExternalId::getAccountId);
+      }
     }
   }
 

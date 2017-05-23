@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "56bc835a_b187d948",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-23T08:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6379b09b_df142db2",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "73ef44bb363285bc2a1fb1e2deb7a27e9f2c52de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ae0f6b6_8e0480db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-23T08:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "213ceff6_5bad92ee",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "73ef44bb363285bc2a1fb1e2deb7a27e9f2c52de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e9e4a524_6a914db1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c8282528_072d459f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-23T08:26:18Z",
+      "side": 1,
+      "message": "OK. Let me do this in a later change.",
+      "parentUuid": "e9e4a524_6a914db1",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 26
+      },
+      "revId": "73ef44bb363285bc2a1fb1e2deb7a27e9f2c52de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db703e9c_7e62e894",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2017-05-23T08:17:52Z",
       "side": 1,
       "message": "Remove this word.",
+      "range": {
+        "startLine": 26,
+        "startChar": 3,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "73ef44bb363285bc2a1fb1e2deb7a27e9f2c52de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f175fe48_6dd30bda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-23T08:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db703e9c_7e62e894",
       "range": {
         "startLine": 26,
         "startChar": 3,

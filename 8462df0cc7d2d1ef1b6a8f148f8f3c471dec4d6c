@@ -943,6 +943,30 @@
     },
     {
       "key": {
+        "uuid": "bb97c89f_9bcd8074",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DeleteCommentRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-23T08:26:18Z",
+      "side": 1,
+      "message": "If we can create custom commits on the NoteDb branch. Then it should be possible.",
+      "parentUuid": "6c450634_409b8b68",
+      "range": {
+        "startLine": 229,
+        "startChar": 6,
+        "endLine": 233,
+        "endChar": 7
+      },
+      "revId": "8462df0cc7d2d1ef1b6a8f148f8f3c471dec4d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8c73f3_e97a15f1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
         "patchSetId": 2

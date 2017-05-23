@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-error-manager</title>
+
+<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../gr-error-manager.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-error-manager></gr-error-manager>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-error-manager tests', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      stub('gr-rest-api-interface', {
+        getLoggedIn() { return Promise.resolve(true); },
+      });
+      element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('does not show auth error on 403 by default', done => {
+      const showAuthErrorStub = sandbox.stub(element, '_showAuthErrorAlert');
+      const responseText = Promise.resolve('server says no.');
+      element.fire('server-error',
+          {response: {status: 403, text() { return responseText; }}}
+      );
+      Promise.all([
+        element.$.restAPI.getLoggedIn.lastCall.returnValue,
+        responseText,
+      ]).then(() => {
+        assert.isFalse(showAuthErrorStub.calledOnce);
+        done();
+      });
+    });
+
+    test('shows auth error on 403 and Authentication required', done => {
+      const showAuthErrorStub = sandbox.stub(element, '_showAuthErrorAlert');
+      const responseText = Promise.resolve('Authentication required\n');
+      element.fire('server-error',
+          {response: {status: 403, text() { return responseText; }}}
+      );
+      Promise.all([
+        element.$.restAPI.getLoggedIn.lastCall.returnValue,
+        responseText,
+      ]).then(() => {
+        assert.isTrue(showAuthErrorStub.calledOnce);
+        done();
+      });
+    });
+
+    test('show logged in error', () => {
+      sandbox.stub(element, '_showAuthErrorAlert');
+      element.fire('show-auth-required');
+      assert.isTrue(element._showAuthErrorAlert.calledWithExactly(
+          'Log in is required to perform that action.', 'Log in.'));
+    });
+
+    test('show normal server error', done => {
+      const showAlertStub = sandbox.stub(element, '_showAlert');
+      const textSpy = sandbox.spy(() => { return Promise.resolve('ZOMG'); });
+      element.fire('server-error', {response: {status: 500, text: textSpy}});
+
+      assert.isTrue(textSpy.called);
+      Promise.all([
+        element.$.restAPI.getLoggedIn.lastCall.returnValue,
+        textSpy.lastCall.returnValue,
+      ]).then(() => {
+        assert.isTrue(showAlertStub.calledOnce);
+        assert.isTrue(showAlertStub.lastCall.calledWithExactly(
+            'Server error: ZOMG'));
+        done();
+      });
+    });
+
+    test('suppress TOO_MANY_FILES error', done => {
+      const showAlertStub = sandbox.stub(element, '_showAlert');
+      const textSpy = sandbox.spy(() => {
+        return Promise.resolve('too many files to find conflicts');
+      });
+      element.fire('server-error', {response: {status: 500, text: textSpy}});
+
+      assert.isTrue(textSpy.called);
+      Promise.all([
+        element.$.restAPI.getLoggedIn.lastCall.returnValue,
+        textSpy.lastCall.returnValue,
+      ]).then(() => {
+        assert.isFalse(showAlertStub.called);
+        done();
+      });
+    });
+
+    test('show network error', done => {
+      const consoleErrorStub = sandbox.stub(console, 'error');
+      const showAlertStub = sandbox.stub(element, '_showAlert');
+      element.fire('network-error', {error: new Error('ZOMG')});
+      flush(() => {
+        assert.isTrue(showAlertStub.calledOnce);
+        assert.isTrue(showAlertStub.lastCall.calledWithExactly(
+            'Server unavailable'));
+        assert.isTrue(consoleErrorStub.calledOnce);
+        assert.isTrue(consoleErrorStub.lastCall.calledWithExactly('ZOMG'));
+        done();
+      });
+    });
+
+    test('show auth refresh toast', done => {
+      const refreshStub = sandbox.stub(element.$.restAPI, 'checkCredentials',
+          () => { return Promise.resolve(true); });
+      const toastSpy = sandbox.spy(element, '_createToastAlert');
+      const windowOpen = sandbox.stub(window, 'open');
+      const responseText = Promise.resolve('Authentication required\n');
+      element.fire('server-error',
+          {response: {status: 403, text() { return responseText; }}}
+      );
+      Promise.all([
+        element.$.restAPI.getLoggedIn.lastCall.returnValue,
+        responseText,
+      ]).then(() => {
+        assert.isTrue(toastSpy.called);
+        let toast = toastSpy.lastCall.returnValue;
+        assert.isOk(toast);
+        assert.include(
+            Polymer.dom(toast.root).textContent, 'Auth error');
+        assert.include(
+            Polymer.dom(toast.root).textContent, 'Refresh credentials.');
+
+        assert.isFalse(windowOpen.called);
+        MockInteractions.tap(toast.$$('gr-button.action'));
+        assert.isTrue(windowOpen.called);
+
+        // @see Issue 5822: noopener breaks closeAfterLogin
+        assert.equal(windowOpen.lastCall.args[2].indexOf('noopener=yes'),
+            -1);
+
+        const hideToastSpy = sandbox.spy(toast, 'hide');
+
+        element._handleWindowFocus();
+        assert.isTrue(refreshStub.called);
+        element.flushDebouncer('checkLoggedIn');
+        flush(() => {
+          assert.isTrue(refreshStub.called);
+          assert.isTrue(hideToastSpy.called);
+
+          assert.notStrictEqual(toastSpy.lastCall.returnValue, toast);
+          toast = toastSpy.lastCall.returnValue;
+          assert.isOk(toast);
+          assert.include(
+              Polymer.dom(toast.root).textContent, 'Credentials refreshed');
+          done();
+        });
+      });
+    });
+
+    test('show alert', () => {
+      const alertObj = {message: 'foo'};
+      sandbox.stub(element, '_showAlert');
+      element.fire('show-alert', alertObj);
+      assert.isTrue(element._showAlert.calledOnce);
+      assert.equal(element._showAlert.lastCall.args[0], 'foo');
+      assert.isNotOk(element._showAlert.lastCall.args[1]);
+      assert.isNotOk(element._showAlert.lastCall.args[2]);
+    });
+
+    test('checks stale credentials on visibility change', () => {
+      const refreshStub = sandbox.stub(element.$.restAPI,
+          'checkCredentials');
+      sandbox.stub(Date, 'now').returns(999999);
+      element._lastCredentialCheck = 0;
+      element._handleVisibilityChange();
+
+      // Since there is no known account, it should not test credentials.
+      assert.isFalse(refreshStub.called);
+      assert.equal(element._lastCredentialCheck, 0);
+
+      element.knownAccountId = 123;
+      element._handleVisibilityChange();
+
+      // Should test credentials, since there is a known account.
+      assert.isTrue(refreshStub.called);
+      assert.equal(element._lastCredentialCheck, 999999);
+    });
+
+    test('refresh loop continues on credential fail', done => {
+      const accountPromise = Promise.resolve(null);
+      sandbox.stub(element.$.restAPI, 'checkCredentials')
+          .returns(accountPromise);
+      const requestCheckStub = sandbox.stub(element, '_requestCheckLoggedIn');
+      const handleRefreshStub = sandbox.stub(element,
+          '_handleCredentialRefreshed');
+      const reloadStub = sandbox.stub(element, '_reloadPage');
+
+      element._refreshingCredentials = true;
+      element._checkSignedIn();
+
+      accountPromise.then(() => {
+        assert.isTrue(requestCheckStub.called);
+        assert.isFalse(handleRefreshStub.called);
+        assert.isFalse(reloadStub.called);
+        done();
+      });
+    });
+
+    test('refreshes with same credentials', done => {
+      const accountPromise = Promise.resolve({_account_id: 1234});
+      sandbox.stub(element.$.restAPI, 'checkCredentials')
+          .returns(accountPromise);
+      const requestCheckStub = sandbox.stub(element, '_requestCheckLoggedIn');
+      const handleRefreshStub = sandbox.stub(element,
+          '_handleCredentialRefreshed');
+      const reloadStub = sandbox.stub(element, '_reloadPage');
+
+      element.knownAccountId = 1234;
+      element._refreshingCredentials = true;
+      element._checkSignedIn();
+
+      accountPromise.then(() => {
+        assert.isFalse(requestCheckStub.called);
+        assert.isTrue(handleRefreshStub.called);
+        assert.isFalse(reloadStub.called);
+        done();
+      });
+    });
+
+    test('reloads when refreshed credentials differ', done => {
+      const accountPromise = Promise.resolve({_account_id: 1234});
+      sandbox.stub(element.$.restAPI, 'checkCredentials')
+          .returns(accountPromise);
+      const requestCheckStub = sandbox.stub(element, '_requestCheckLoggedIn');
+      const handleRefreshStub = sandbox.stub(element,
+          '_handleCredentialRefreshed');
+      const reloadStub = sandbox.stub(element, '_reloadPage');
+
+      element.knownAccountId = 4321; // Different from 1234
+      element._refreshingCredentials = true;
+      element._checkSignedIn();
+
+      accountPromise.then(() => {
+        assert.isFalse(requestCheckStub.called);
+        assert.isFalse(handleRefreshStub.called);
+        assert.isTrue(reloadStub.called);
+        done();
+      });
+    });
+
+    test('dismissOnNavigation respected', () => {
+      const asyncStub = sandbox.stub(element, 'async');
+      const hideSpy = sandbox.spy(element, '_hideAlert');
+      // No async call when dismissOnNavigation supplied.
+      element._showAlert('test', null, null, true);
+      assert.isFalse(asyncStub.called);
+
+      // When page nav happens, clear alert.
+      document.dispatchEvent(new CustomEvent('location-change'));
+      assert.isTrue(hideSpy.called);
+
+      // When timeout is not supplied, use HIDE_ALERT_TIMEOUT_MS.
+      element._showAlert('test');
+      assert.isTrue(asyncStub.called);
+    });
+  });
+</script>

@@ -64,7 +64,7 @@ public abstract class AbstractVersionManager implements LifecycleListener {
     reindexers = Maps.newHashMapWithExpectedSize(defs.size());
     onlineUpgrade = cfg.getBoolean("index", null, "onlineUpgrade", true);
     runReindexMsg =
-        "No index versions ready; run java -jar "
+        "No index versions for index '%s' ready; run java -jar "
             + sitePaths.gerrit_war.toAbsolutePath()
             + " reindex";
   }
@@ -142,7 +142,7 @@ public abstract class AbstractVersionManager implements LifecycleListener {
       }
     }
     if (search == null) {
-      throw new ProvisionException(runReindexMsg);
+      throw new ProvisionException(String.format(runReindexMsg, def.getName()));
     }
 
     IndexFactory<K, V, I> factory = def.getIndexFactory();

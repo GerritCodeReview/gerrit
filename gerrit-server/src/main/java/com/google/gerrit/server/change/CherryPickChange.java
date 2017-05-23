@@ -18,7 +18,8 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.CherryPickInput;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -80,6 +81,7 @@ public class CherryPickChange {
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final PatchSetUtil psUtil;
+  private final NotifyUtil notifyUtil;
 
   @Inject
   CherryPickChange(
@@ -93,7 +95,8 @@ public class CherryPickChange {
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
       ChangeMessagesUtil changeMessagesUtil,
-      PatchSetUtil psUtil) {
+      PatchSetUtil psUtil,
+      NotifyUtil notifyUtil) {
     this.db = db;
     this.seq = seq;
     this.queryProvider = queryProvider;
@@ -105,16 +108,16 @@ public class CherryPickChange {
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeMessagesUtil = changeMessagesUtil;
     this.psUtil = psUtil;
+    this.notifyUtil = notifyUtil;
   }
 
   public Change.Id cherryPick(
       BatchUpdate.Factory batchUpdateFactory,
       Change change,
       PatchSet patch,
-      String message,
+      CherryPickInput input,
       String ref,
-      RefControl refControl,
-      int parent)
+      RefControl refControl)
       throws OrmException, IOException, InvalidChangeOperationException, IntegrationException,
           UpdateException, RestApiException {
     return cherryPick(
@@ -125,10 +128,9 @@ public class CherryPickChange {
         change.getTopic(),
         change.getProject(),
         ObjectId.fromString(patch.getRevision().get()),
-        message,
+        input,
         ref,
-        refControl,
-        parent);
+        refControl);
   }
 
   public Change.Id cherryPick(
@@ -139,10 +141,9 @@ public class CherryPickChange {
       @Nullable String sourceChangeTopic,
       Project.NameKey project,
       ObjectId sourceCommit,
-      String message,
+      CherryPickInput input,
       String targetRef,
-      RefControl targetRefControl,
-      int parent)
+      RefControl targetRefControl)
       throws OrmException, IOException, InvalidChangeOperationException, IntegrationException,
           UpdateException, RestApiException {
 
@@ -170,12 +171,12 @@ public class CherryPickChange {
 
       CodeReviewCommit commitToCherryPick = revWalk.parseCommit(sourceCommit);
 
-      if (parent <= 0 || parent > commitToCherryPick.getParentCount()) {
+      if (input.parent <= 0 || input.parent > commitToCherryPick.getParentCount()) {
         throw new InvalidChangeOperationException(
             String.format(
                 "Cherry Pick: Parent %s does not exist. Please specify a parent in"
                     + " range [1, %s].",
-                parent, commitToCherryPick.getParentCount()));
+                input.parent, commitToCherryPick.getParentCount()));
       }
 
       Timestamp now = TimeUtil.nowTs();
@@ -187,8 +188,8 @@ public class CherryPickChange {
               mergeTip,
               commitToCherryPick.getAuthorIdent(),
               committerIdent,
-              message);
-      String commitMessage = ChangeIdUtil.insertId(message, computedChangeId).trim() + '\n';
+              input.message);
+      String commitMessage = ChangeIdUtil.insertId(input.message, computedChangeId).trim() + '\n';
 
       CodeReviewCommit cherryPickCommit;
       try {
@@ -204,7 +205,7 @@ public class CherryPickChange {
                     committerIdent,
                     commitMessage,
                     revWalk,
-                    parent - 1,
+                    input.parent - 1,
                     false);
 
         Change.Key changeKey;
@@ -234,7 +235,7 @@ public class CherryPickChange {
             // will be added as a new patch set.
             ChangeControl destCtl =
                 targetRefControl.getProjectControl().controlFor(destChanges.get(0).notes());
-            result = insertPatchSet(bu, git, destCtl, cherryPickCommit);
+            result = insertPatchSet(bu, git, destCtl, cherryPickCommit, input);
           } else {
             // Change key not found on destination branch. We can create a new
             // change.
@@ -249,7 +250,8 @@ public class CherryPickChange {
                     targetRefControl.getRefName(),
                     newTopic,
                     sourceBranch,
-                    sourceCommit);
+                    sourceCommit,
+                    input);
 
             if (sourceChangeId != null && sourcePatchId != null) {
               bu.addOp(
@@ -268,20 +270,23 @@ public class CherryPickChange {
   }
 
   private Change.Id insertPatchSet(
-      BatchUpdate bu, Repository git, ChangeControl destCtl, CodeReviewCommit cherryPickCommit)
-      throws IOException, OrmException {
+      BatchUpdate bu,
+      Repository git,
+      ChangeControl destCtl,
+      CodeReviewCommit cherryPickCommit,
+      CherryPickInput input)
+      throws IOException, OrmException, BadRequestException {
     Change destChange = destCtl.getChange();
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
-    PatchSetInserter inserter = patchSetInserterFactory.create(destCtl, psId, cherryPickCommit);
-    PatchSet.Id newPatchSetId = inserter.getPatchSetId();
     PatchSet current = psUtil.current(db.get(), destCtl.getNotes());
 
-    bu.addOp(
-        destChange.getId(),
-        inserter
-            .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
-            .setDraft(current.isDraft())
-            .setNotify(NotifyHandling.NONE));
+    PatchSetInserter inserter = patchSetInserterFactory.create(destCtl, psId, cherryPickCommit);
+    inserter
+        .setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".")
+        .setDraft(current.isDraft())
+        .setNotify(input.notify)
+        .setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
+    bu.addOp(destChange.getId(), inserter);
     return destChange.getId();
   }
 
@@ -291,12 +296,15 @@ public class CherryPickChange {
       String refName,
       String topic,
       Branch.NameKey sourceBranch,
-      ObjectId sourceCommit)
-      throws OrmException, IOException {
+      ObjectId sourceCommit,
+      CherryPickInput input)
+      throws OrmException, IOException, BadRequestException {
     Change.Id changeId = new Change.Id(seq.nextChangeId());
     ChangeInserter ins =
         changeInserterFactory.create(changeId, cherryPickCommit, refName).setTopic(topic);
-    ins.setMessage(messageForDestinationChange(ins.getPatchSetId(), sourceBranch, sourceCommit));
+    ins.setMessage(messageForDestinationChange(ins.getPatchSetId(), sourceBranch, sourceCommit))
+        .setNotify(input.notify)
+        .setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
     bu.insertChange(ins);
     return changeId;
   }

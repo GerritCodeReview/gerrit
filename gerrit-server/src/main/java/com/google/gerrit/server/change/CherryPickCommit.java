@@ -59,9 +59,11 @@ public class CherryPickCommit
   public ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, CommitResource rsrc, CherryPickInput input)
       throws OrmException, IOException, UpdateException, RestApiException {
+    RevCommit commit = rsrc.getCommit();
     String message = Strings.nullToEmpty(input.message).trim();
+    input.message = message.isEmpty() ? commit.getFullMessage() : message;
     String destination = Strings.nullToEmpty(input.destination).trim();
-    int parent = input.parent == null ? 1 : input.parent;
+    input.parent = input.parent == null ? 1 : input.parent;
 
     if (destination.isEmpty()) {
       throw new BadRequestException("destination must be non-empty");
@@ -73,7 +75,6 @@ public class CherryPickCommit
       throw new AuthException(capable.getMessage());
     }
 
-    RevCommit commit = rsrc.getCommit();
     String refName = RefNames.fullName(destination);
     RefControl refControl = projectControl.controlForRef(refName);
     if (!refControl.canUpload()) {
@@ -84,17 +85,7 @@ public class CherryPickCommit
     try {
       Change.Id cherryPickedChangeId =
           cherryPickChange.cherryPick(
-              updateFactory,
-              null,
-              null,
-              null,
-              null,
-              project,
-              commit,
-              message.isEmpty() ? commit.getFullMessage() : message,
-              refName,
-              refControl,
-              parent);
+              updateFactory, null, null, null, null, project, commit, input, refName, refControl);
       return json.noOptions().format(project, cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());

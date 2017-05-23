@@ -14,8 +14,13 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import java.util.Map;
+
 public class CherryPickInput {
   public String message;
   public String destination;
   public Integer parent;
+
+  public NotifyHandling notify = NotifyHandling.NONE;
+  public Map<RecipientType, NotifyInfo> notifyDetails;
 }

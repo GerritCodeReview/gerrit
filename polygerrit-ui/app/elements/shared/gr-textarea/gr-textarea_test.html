@@ -70,12 +70,14 @@ limitations under the License.
     });
 
     test('emoji selector is not open with the textarea lacks focus', () => {
+      element.$.textarea.selectionStart = 1;
       element.text = ':';
       assert.isFalse(!element.$.emojiSuggestions.hidden);
     });
 
     test('emoji selector is not open when a general text is entered', () => {
       MockInteractions.focus(element.$.textarea);
+      element.$.textarea.selectionStart = 9;
       element.text = 'some text';
       assert.isFalse(!element.$.emojiSuggestions.hidden);
     });
@@ -83,10 +85,13 @@ limitations under the License.
     test('emoji selector opens when a colon is typed & the textarea has focus',
         () => {
           MockInteractions.focus(element.$.textarea);
-          flushAsynchronousOperations();
+          // Needed for Safari tests. selectionStart is not updated when text is
+          // updated.
+          element.$.textarea.selectionStart = 1;
           element.text = ':';
+          element.$.textarea.selectionStart = 2;
           element.text = ':t';
-          assert.isTrue(!element.$.emojiSuggestions.hidden);
+          assert.isFalse(element.$.emojiSuggestions.hidden);
           assert.equal(element._colonIndex, 0);
           assert.isFalse(element._hideAutocomplete);
           assert.equal(element._currentSearchString, 't');
@@ -96,8 +101,11 @@ limitations under the License.
       const resetStub = sandbox.stub(element, '_resetEmojiDropdown');
       MockInteractions.focus(element.$.textarea);
       flushAsynchronousOperations();
+      element.$.textarea.selectionStart = 10;
       element.text = 'test test ';
+      element.$.textarea.selectionStart = 12;
       element.text = 'test test :';
+      element.$.textarea.selectionStart = 15;
       element.text = 'test test :smi';
 
       assert.equal(element._currentSearchString, 'smi');
@@ -140,6 +148,7 @@ limitations under the License.
     });
 
     test('_handleEmojiSelect', () => {
+      element.$.textarea.selectionStart = 16;
       element.text = 'test test :tears';
       element._colonIndex = 10;
       const selectedItem = {dataset: {value: '😂'}};
@@ -149,6 +158,7 @@ limitations under the License.
     });
 
     test('_getPositionOfCursor', () => {
+      element.$.textarea.selectionStart = 4;
       element.text = 'test';
       element._getPositionOfCursor();
       assert.deepEqual(element.$.hiddenText.innerHTML, element.text +
@@ -178,7 +188,9 @@ limitations under the License.
       function setupDropdown() {
         MockInteractions.focus(element.$.textarea);
         flushAsynchronousOperations();
+        element.$.textarea.selectionStart = 1;
         element.text = ':';
+        element.$.textarea.selectionStart = 2;
         element.text = ':1';
       }
 

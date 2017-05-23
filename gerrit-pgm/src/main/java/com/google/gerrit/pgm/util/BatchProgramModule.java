@@ -150,7 +150,7 @@ public class BatchProgramModule extends FactoryModule {
     install(new NoteDbModule(cfg));
     install(new PrologModule());
     install(AccountByEmailCacheImpl.module());
-    install(AccountCacheImpl.module());
+    install(AccountCacheImpl.module(false));
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());
     install(ProjectCacheImpl.module());

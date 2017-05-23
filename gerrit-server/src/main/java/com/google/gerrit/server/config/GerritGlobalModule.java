@@ -213,7 +213,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(Sequences.class);
     install(authModule);
     install(AccountByEmailCacheImpl.module());
-    install(AccountCacheImpl.module());
+    install(AccountCacheImpl.module(true));
     install(BatchUpdate.module());
     install(ChangeKindCacheImpl.module());
     install(ConflictsCacheImpl.module());

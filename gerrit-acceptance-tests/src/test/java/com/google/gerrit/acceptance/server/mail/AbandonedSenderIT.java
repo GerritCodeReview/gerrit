@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.server.mail;
 
+import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.extensions.api.changes.NotifyHandling.ALL;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.NONE;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER_REVIEWERS;
@@ -169,15 +171,37 @@ public class AbandonedSenderIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void abandonWipChange() throws Exception {
+  public void abandonWipChangeInNoteDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageWipChange(ABANDONED_CHANGES);
     abandon(sc.changeId, sc.owner);
-    // TODO(logan): This should behave like notify=OWNER in the future.
+    assertThat(sender).notSent();
+  }
+
+  @Test
+  public void abandonWipChangeInReviewDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isFalse();
+    StagedChange sc = stageWipChange(ABANDONED_CHANGES);
+    abandon(sc.changeId, sc.owner);
     assertThat(sender)
         .sent("abandon", sc)
         .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail)
+        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
+        .cc(sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(ABANDONED_CHANGES);
+  }
+
+  @Test
+  public void abandonWipChangeNotifyAll() throws Exception {
+    StagedChange sc = stageWipChange(ABANDONED_CHANGES);
+    abandon(sc.changeId, sc.owner, ALL);
+    assertThat(sender)
+        .sent("abandon", sc)
+        .notTo(sc.owner)
+        .cc(sc.reviewer, sc.ccer)
+        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
         .cc(sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ABANDONED_CHANGES);

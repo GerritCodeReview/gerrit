@@ -19,6 +19,6 @@ import java.util.Map;
 
 public class AbandonInput {
   @DefaultInput public String message;
-  public NotifyHandling notify = NotifyHandling.ALL;
+  public NotifyHandling notify;
   public Map<RecipientType, NotifyInfo> notifyDetails;
 }

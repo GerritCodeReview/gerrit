@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "3923f282_4f4636cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-23T18:20:24Z",
+      "side": 1,
+      "message": "I\u0027d rather wait for the feature request, personally. I\u0027d much prefer encouraging users to get into the \u0027submit\u0027 type workflow for these ccs/reviewers. This doesn\u0027t seem to be critical functionality for now.",
+      "parentUuid": "a77a436f_fa47148e",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb1c49f5_9cf40128",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
         "patchSetId": 1
@@ -346,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "76abb03d_a084d698",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-23T18:20:24Z",
+      "side": 1,
+      "message": "Ah, I see what you\u0027re saying now.\n\nI think that would require a level of adding stubs and mock change objects far larger than what I intended for this test suite. I\u0027d rather leave this test as is, as it mostly aims to ensure that the entry properly talks to the reply dialog and that the further actions from there are correct. I\u0027ll leave the full integration test, including rest api and behavior actions, to someone else in the future.",
+      "parentUuid": "24ba9cb2_e90dcba7",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30a55c81_71e6fb60",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
         "patchSetId": 1
@@ -541,6 +583,24 @@
     },
     {
       "key": {
+        "uuid": "ab600e27_e54f9eb0",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-23T18:20:24Z",
+      "side": 1,
+      "message": "Oh, this can actually be removed because of the flush at the end of setup that already exists. I copied most of that code and didn\u0027t notice it was there. Thanks!",
+      "parentUuid": "170aa36a_17008dd2",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d00da57_d794db57",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
         "patchSetId": 1
@@ -627,6 +687,24 @@
       "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5a428f7_012f3564",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-23T18:20:24Z",
+      "side": 1,
+      "message": "See my comment above. My intention in adding this test was not at all to validate the entire flow of the application from text input to rest api action, it was just to ensure that the pieces I touched with this code play well together. Rather than putting a low-ish level integration test in the normal test suite, I opted to make this one.\n\nI think an actual integration test like what you\u0027re proposing with the comments in this file is more work than should be done for this bug.",
+      "parentUuid": "7034c501_a2503f88",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

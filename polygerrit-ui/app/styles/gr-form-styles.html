@@ -13,43 +13,58 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<dom-module id="gr-settings-styles">
+<dom-module id="gr-form-styles">
   <template>
     <style>
-      .gr-settings-styles fieldset {
+      .gr-form-styles h1 {
+        margin-bottom: .1em;
+      }
+      .gr-form-styles fieldset {
         border: none;
         margin: 0 0 2em 2em;
       }
-      .gr-settings-styles section {
+      .gr-form-styles.full-width fieldset {
+        margin: 0 0 2em 0;
+      }
+      .gr-form-styles section {
         margin-bottom: .5em;
       }
-      .gr-settings-styles .title,
-      .gr-settings-styles .value {
+      .gr-form-styles .title,
+      .gr-form-styles .value {
         display: inline-block;
         vertical-align: top;
       }
-      .gr-settings-styles .title {
+      .gr-form-styles .title {
         color: #666;
         font-weight: bold;
         padding-right: .5em;
         width: 11em;
       }
-      .gr-settings-styles input {
+      .gr-form-styles.full-width .title {
+        color: #666;
+        font-weight: bold;
+        padding-right: .5em;
+        width: 22em;
+      }
+      .gr-form-styles input {
         font-size: 1em;
       }
-      .gr-settings-styles th {
+      .gr-form-styles iron-autogrow-textarea {
+        font-size: 1em;
+      }
+      .gr-form-styles th {
         color: #666;
         text-align: left;
       }
-      .gr-settings-styles tbody tr:nth-child(even) {
+      .gr-form-styles tbody tr:nth-child(even) {
         background-color: #f4f4f4;
       }
       @media only screen and (max-width: 40em) {
-        .gr-settings-styles section {
+        .gr-form-styles section {
           margin-bottom: 1em;
         }
-        .gr-settings-styles .title,
-        .gr-settings-styles .value {
+        .gr-form-styles .title,
+        .gr-form-styles .value {
           display: block;
         }
       }

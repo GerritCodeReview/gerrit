@@ -497,7 +497,7 @@ references.
 
 Deletion of references is also possible if `Push` with the force option
 is granted, however that includes the permission to fast-forward and
-force-update references to exiting and new commits. Being able to push
+force-update references to existing and new commits. Being able to push
 references for new commits is bad if bypassing of code review must be
 prevented.
 

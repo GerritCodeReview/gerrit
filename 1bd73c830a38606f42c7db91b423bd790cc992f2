@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "a77a436f_fa47148e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-23T16:15:33Z",
+      "side": 1,
+      "message": "Should a follow-up bug be filed, perhaps? Or should we wait for users to request this?\nAlso, probably worth adding to the change description. Or to the tracking bug.",
+      "parentUuid": "88683ab0_de6cd6d0",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fb1c49f5_9cf40128",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
         "patchSetId": 1
@@ -304,6 +328,24 @@
     },
     {
       "key": {
+        "uuid": "24ba9cb2_e90dcba7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-23T16:15:33Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t understand what you\u0027re referring to with the latter point.\n\nSorry, I wasn\u0027t clear enough.\nfetchIsLatestKnown() returns true if no newer patch sets are available. That, in turn, is determined from change.revisions returned by restAPI.getChangeDetail. Therefore, it might be possible to stub restAPI.getChangeDetail to return a change that will always make fetchIsLatestKnown() to return true.\n\n\u003e It would still ultimately be the same reference that is stubbed\n\nI agree that final result is the same.\nBut with the method being stubbed on behavior, test coverage is increased. Such test will fail if, for example, gr-reply-dialog fails to apply behavior correctly.",
+      "parentUuid": "6b57b9bc_24f2e5f5",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30a55c81_71e6fb60",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
         "patchSetId": 1
@@ -481,6 +523,24 @@
     },
     {
       "key": {
+        "uuid": "170aa36a_17008dd2",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-23T16:15:33Z",
+      "side": 1,
+      "message": "\u003e flush is required\n\nIf flush is required to the test to be started, it probably should be moved into setup.\nWould adding flush(done); to the end of the setup make flushAsynchronousOperations() here unnecessary?",
+      "parentUuid": "793544c9_97d000c7",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d00da57_d794db57",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
         "patchSetId": 1
@@ -549,6 +609,24 @@
       "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7034c501_a2503f88",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-23T16:15:33Z",
+      "side": 1,
+      "message": "Yes, it does.\nHowever, since it\u0027s an integration test, it is valuable to check the data makes complete cycle - from the point of being entered into text input to the point it\u0027s sent to the server.",
+      "parentUuid": "b93f005b_6a83dc73",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

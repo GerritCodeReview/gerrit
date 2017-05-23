@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a59cc879_1f9e100b",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-23T16:15:33Z",
+      "side": 1,
+      "message": "I suppose, we\u0027re using Closure compiler\u0027s annotations - type should be enclosed in curlys:\nhttps://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler#return-type-description",
+      "revId": "644f1a313f301e54b340842365e52110dd5d22d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de2cf2bb_790cdc31",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-23T16:15:33Z",
+      "side": 1,
+      "message": "Great!\nIdeally though those should be three different tests - not critical, so up to you.",
+      "revId": "644f1a313f301e54b340842365e52110dd5d22d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

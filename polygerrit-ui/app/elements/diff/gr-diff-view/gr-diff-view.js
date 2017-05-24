@@ -289,16 +289,14 @@
     },
 
     _handleLeftBracketKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this._navToFile(this._path, this._fileList, -1);
     },
 
     _handleRightBracketKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this._navToFile(this._path, this._fileList, 1);

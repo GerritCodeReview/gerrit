@@ -406,6 +406,24 @@
     },
     {
       "key": {
+        "uuid": "54e36ea9_1ba6a786",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-24T22:13:38Z",
+      "side": 1,
+      "message": "I\u0027d have to mock out a larger change object than the one I have here, stub some more things, and add more asserts, yes. As this is a P1 launch bug, I don\u0027t know that this recommendation should block the change\u0027s submission.",
+      "parentUuid": "6a1ffc16_ec15c125",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30a55c81_71e6fb60",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
         "patchSetId": 1

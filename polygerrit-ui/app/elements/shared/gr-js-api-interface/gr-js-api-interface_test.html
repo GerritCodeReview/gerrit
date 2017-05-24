@@ -36,6 +36,8 @@ limitations under the License.
     let plugin;
     let errorStub;
     let sandbox;
+    let getResponseObjectStub;
+    let sendStub;
 
     const throwErrFn = function() {
       throw Error('Unfortunately, this handler has stopped');
@@ -43,9 +45,15 @@ limitations under the License.
 
     setup(() => {
       sandbox = sinon.sandbox.create();
+      getResponseObjectStub = sandbox.stub().returns(Promise.resolve());
+      sendStub = sandbox.stub().returns(Promise.resolve());
       stub('gr-rest-api-interface', {
         getAccount() {
           return Promise.resolve({name: 'Judy Hopps'});
+        },
+        getResponseObject: getResponseObjectStub,
+        send(...args) {
+          return sendStub(...args);
         },
       });
       element = fixture('basic');
@@ -65,6 +73,27 @@ limitations under the License.
       assert.equal(plugin.url(), 'http://test.com/plugins/testplugin/');
       assert.equal(plugin.url('/static/test.js'),
           'http://test.com/plugins/testplugin/static/test.js');
+    });
+
+    test('get', done => {
+      const response = {foo: 'foo'};
+      getResponseObjectStub.returns(Promise.resolve(response));
+      plugin.get('/url', r => {
+        assert.isTrue(sendStub.calledWithExactly('GET', '/url'));
+        assert.strictEqual(r, response);
+        done();
+      });
+    });
+
+    test('post', done => {
+      const payload = {foo: 'foo'};
+      const response = {bar: 'bar'};
+      getResponseObjectStub.returns(Promise.resolve(response));
+      plugin.post('/url', payload, r => {
+        assert.isTrue(sendStub.calledWithExactly('POST', '/url', payload));
+        assert.strictEqual(r, response);
+        done();
+      });
     });
 
     test('history event', done => {

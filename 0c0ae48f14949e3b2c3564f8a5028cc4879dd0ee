@@ -22,6 +22,30 @@
       "revId": "0c0ae48f14949e3b2c3564f8a5028cc4879dd0ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "827b270a_ceba7a84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2017-05-24T12:28:51Z",
+      "side": 1,
+      "message": "Yes, this is arbitrary. But I think there is no negative impact on the users that do not use LFS. Correct me if I\u0027m wrong but while the change will set the value for those users a little bit too high, there will be no other consequences.\nIs there any negative impact of this change?",
+      "parentUuid": "2d3fe6ed_6c42442d",
+      "range": {
+        "startLine": 12,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "0c0ae48f14949e3b2c3564f8a5028cc4879dd0ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

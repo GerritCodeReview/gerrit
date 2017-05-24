@@ -388,6 +388,24 @@
     },
     {
       "key": {
+        "uuid": "6a1ffc16_ec15c125",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-24T21:29:05Z",
+      "side": 1,
+      "message": "\u003e  I\u0027ll leave the full integration test, including rest api and behavior actions, to someone else in the future.\n\nDoesn\u0027t this boil down to just a few stubs more?",
+      "parentUuid": "76abb03d_a084d698",
+      "revId": "1bd73c830a38606f42c7db91b423bd790cc992f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30a55c81_71e6fb60",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
         "patchSetId": 1

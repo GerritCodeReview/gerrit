@@ -29,7 +29,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 
-<link rel="import" href="../../../styles/gr-settings-styles.html">
+<link rel="import" href="../../../styles/gr-form-styles.html">
 
 <dom-module id="gr-settings-view">
   <template>
@@ -41,9 +41,6 @@ limitations under the License.
       main {
         margin: 2em auto;
         max-width: 46em;
-      }
-      h1 {
-        margin-bottom: .1em;
       }
       h2.edited:after {
         color: #444;
@@ -91,7 +88,7 @@ limitations under the License.
         }
       }
     </style>
-    <style include="gr-settings-styles"></style>
+    <style include="gr-form-styles"></style>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]" hidden>
       <nav id="settingsNav">
@@ -110,7 +107,7 @@ limitations under the License.
           <li><a href="#Groups">Groups</a></li>
         </ul>
       </nav>
-      <main class="gr-settings-styles">
+      <main class="gr-form-styles">
         <h1>User Settings</h1>
         <h2
             id="Profile"

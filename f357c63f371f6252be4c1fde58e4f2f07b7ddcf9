@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "673769bb_81beafd3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-24T21:12:55Z",
+      "side": 1,
+      "message": "Could use a string template here.",
+      "range": {
+        "startLine": 207,
+        "startChar": 32,
+        "endLine": 207,
+        "endChar": 75
+      },
+      "revId": "f357c63f371f6252be4c1fde58e4f2f07b7ddcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a444e81b_f1a43de6",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-24T21:12:55Z",
+      "side": 1,
+      "message": "Could this fit on the prior line?",
+      "range": {
+        "startLine": 39,
+        "startChar": 10,
+        "endLine": 39,
+        "endChar": 28
+      },
+      "revId": "f357c63f371f6252be4c1fde58e4f2f07b7ddcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "239b4f2b_0cfeef3f",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-24T21:12:55Z",
+      "side": 1,
+      "message": "Could this fit on the prior line?",
+      "range": {
+        "startLine": 38,
+        "startChar": 10,
+        "endLine": 38,
+        "endChar": 28
+      },
+      "revId": "f357c63f371f6252be4c1fde58e4f2f07b7ddcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d225ca3a_ccdeb0fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-24T21:12:55Z",
+      "side": 1,
+      "message": "Have you considered refactoring this to an ES6 class?",
+      "revId": "f357c63f371f6252be4c1fde58e4f2f07b7ddcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8f2b322_c0d36123",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-24T21:12:55Z",
+      "side": 1,
+      "message": "Will this not return an array?",
+      "range": {
+        "startLine": 213,
+        "startChar": 8,
+        "endLine": 215,
+        "endChar": 62
+      },
+      "revId": "f357c63f371f6252be4c1fde58e4f2f07b7ddcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

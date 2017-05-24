@@ -70,6 +70,30 @@
       "revId": "0c0ae48f14949e3b2c3564f8a5028cc4879dd0ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9af50c0c_9b6fb4f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2017-05-24T15:43:53Z",
+      "side": 1,
+      "message": "I understand this. My question is what are the consequences of setting this value too high. I assume there is no consequences. My reasoning is that the previous setting was safe in the sense that Gerrit never uses more file descriptors that 2 times of packedGitOpenFiles if LFS is not used. So, even if we allow Gerrit to open more files, it will not have any impact on anything. It just gives Gerrit a potential possibility to open more files, which is never executed, am I right?\nOTOH not increasing the value is obviously wrong as this will impact installations where LFS is enabled. An alternative approach here would be \nto adjust this setting in a more sophisticated way (based on LFS detection). Do you think it is worth an effort?",
+      "parentUuid": "d02a6b2a_fa74b35e",
+      "range": {
+        "startLine": 12,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "0c0ae48f14949e3b2c3564f8a5028cc4879dd0ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

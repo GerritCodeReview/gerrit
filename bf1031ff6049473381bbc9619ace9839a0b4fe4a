@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1dc2449_f9403fab",
+        "filename": "contrib/checkpatch2gerrit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-05-24T20:42:16Z",
+      "side": 1,
+      "message": "Can we get them from .netrc?",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 75
+      },
+      "revId": "bf1031ff6049473381bbc9619ace9839a0b4fe4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b33dc0c8_c81055ed",
+        "filename": "contrib/cpplint2gerrit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-05-24T20:42:16Z",
+      "side": 1,
+      "message": "AMD Inc?",
+      "revId": "bf1031ff6049473381bbc9619ace9839a0b4fe4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a682c96_69274ad8",
+        "filename": "contrib/cpplint2gerrit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-05-24T20:42:16Z",
+      "side": 1,
+      "message": "Why is commented out?",
+      "revId": "bf1031ff6049473381bbc9619ace9839a0b4fe4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3531894_b14805e3",
+        "filename": "contrib/cpplint2gerrit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-05-24T20:42:16Z",
+      "side": 1,
+      "message": "it isn\u0027t very secure at all to have username and password from the CLI. Why not using the .netrc?",
+      "revId": "bf1031ff6049473381bbc9619ace9839a0b4fe4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

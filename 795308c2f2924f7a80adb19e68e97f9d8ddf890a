@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "947f04cf_26ad8deb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-24T16:54:54Z",
+      "side": 1,
+      "message": "This should be readChanges(); enabled() is also true if we are only writing to NoteDb.",
+      "range": {
+        "startLine": 592,
+        "startChar": 33,
+        "endLine": 592,
+        "endChar": 42
+      },
+      "revId": "795308c2f2924f7a80adb19e68e97f9d8ddf890a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db889806_65e5810b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-24T16:54:54Z",
+      "side": 1,
+      "message": "readChanges",
+      "range": {
+        "startLine": 603,
+        "startChar": 33,
+        "endLine": 603,
+        "endChar": 40
+      },
+      "revId": "795308c2f2924f7a80adb19e68e97f9d8ddf890a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "302bb331_48314ede",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-24T16:54:54Z",
+      "side": 1,
+      "message": "readChanges",
+      "range": {
+        "startLine": 615,
+        "startChar": 33,
+        "endLine": 615,
+        "endChar": 40
+      },
+      "revId": "795308c2f2924f7a80adb19e68e97f9d8ddf890a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1a8041c_9dcb6308",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-24T16:54:54Z",
+      "side": 1,
+      "message": "readChanges",
+      "range": {
+        "startLine": 626,
+        "startChar": 33,
+        "endLine": 626,
+        "endChar": 40
+      },
+      "revId": "795308c2f2924f7a80adb19e68e97f9d8ddf890a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

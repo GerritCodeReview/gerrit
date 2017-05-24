@@ -74,10 +74,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.FooterLine;
 
 /**
@@ -324,8 +326,34 @@ public class ChangeField {
     return SchemaUtil.getPersonParts(cd.getAuthor());
   }
 
+  public static Set<String> getAuthorNameAndEmail(ChangeData cd) throws OrmException, IOException {
+    return getNameAndEmail(cd.getAuthor());
+  }
+
   public static Set<String> getCommitterParts(ChangeData cd) throws OrmException, IOException {
     return SchemaUtil.getPersonParts(cd.getCommitter());
+  }
+
+  public static Set<String> getCommitterNameAndEmail(ChangeData cd)
+      throws OrmException, IOException {
+    return getNameAndEmail(cd.getCommitter());
+  }
+
+  private static Set<String> getNameAndEmail(PersonIdent person) {
+    if (person == null) {
+      return ImmutableSet.of();
+    }
+
+    String name = person.getName().toLowerCase(Locale.US);
+    String email = person.getEmailAddress().toLowerCase(Locale.US);
+
+    StringBuilder nameEmailBuilder = new StringBuilder();
+    PersonIdent.appendSanitized(nameEmailBuilder, name);
+    nameEmailBuilder.append(" <");
+    PersonIdent.appendSanitized(nameEmailBuilder, email);
+    nameEmailBuilder.append('>');
+
+    return ImmutableSet.of(name, email, nameEmailBuilder.toString());
   }
 
   /**
@@ -335,12 +363,22 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> AUTHOR =
       fullText(ChangeQueryBuilder.FIELD_AUTHOR).buildRepeatable(ChangeField::getAuthorParts);
 
+  /** The exact name, email address and NameEmail of the author. */
+  public static final FieldDef<ChangeData, Iterable<String>> EXACT_AUTHOR =
+      exact(ChangeQueryBuilder.FIELD_EXACTAUTHOR)
+          .buildRepeatable(ChangeField::getAuthorNameAndEmail);
+
   /**
    * The exact email address, or any part of the committer name or email address, in the current
    * patch set.
    */
   public static final FieldDef<ChangeData, Iterable<String>> COMMITTER =
       fullText(ChangeQueryBuilder.FIELD_COMMITTER).buildRepeatable(ChangeField::getCommitterParts);
+
+  /** The exact name, email address, and NameEmail of the committer. */
+  public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMITTER =
+      exact(ChangeQueryBuilder.FIELD_EXACTCOMMITTER)
+          .buildRepeatable(ChangeField::getCommitterNameAndEmail);
 
   public static final ProtobufCodec<Change> CHANGE_CODEC = CodecFactory.encoder(Change.class);
 

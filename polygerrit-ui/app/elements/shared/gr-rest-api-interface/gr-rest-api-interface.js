@@ -192,6 +192,16 @@
           '/projects/' + encodeURIComponent(project) + '/config');
     },
 
+    getProjectAccess(project) {
+      return this._fetchSharedCacheURL(
+          '/access/?project=' + encodeURIComponent(project));
+    },
+
+    saveProjectConfig(project, config, opt_errFn, opt_ctx) {
+      return this.send('PUT', `/projects/${project}/config`, config, opt_errFn,
+          opt_ctx);
+    },
+
     getVersion() {
       return this._fetchSharedCacheURL('/config/server/version');
     },

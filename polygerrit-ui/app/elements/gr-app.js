@@ -49,6 +49,7 @@
       _showDiffView: Boolean,
       _showSettingsView: Boolean,
       _showProjectListView: Boolean,
+      _showAdminProject: Boolean,
       _showAdminView: Boolean,
       _showCLAView: Boolean,
       _viewState: Object,
@@ -129,6 +130,7 @@
       this.set('_showDiffView', view === 'gr-diff-view');
       this.set('_showSettingsView', view === 'gr-settings-view');
       this.set('_showProjectListView', view === 'gr-admin-project-list');
+      this.set('_showAdminProject', view === 'gr-admin-project');
       this.set('_showAdminView', view === 'gr-admin-view');
       this.set('_showCLAView', view === 'gr-cla-view');
       if (this.params.justRegistered) {

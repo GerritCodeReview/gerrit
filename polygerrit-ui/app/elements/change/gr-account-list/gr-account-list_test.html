@@ -175,6 +175,30 @@ limitations under the License.
       assert.isFalse(element._computeRemovable(newAccount));
     });
 
+    test('submitEntryText', () => {
+      element.allowAnyInput = true;
+      flushAsynchronousOperations();
+
+      const getTextStub = sandbox.stub(element.$.entry, 'getText');
+      getTextStub.onFirstCall().returns('');
+      getTextStub.onSecondCall().returns('test');
+      getTextStub.onThirdCall().returns('test@test');
+
+      // When entry is empty, return true.
+      const clearStub = sandbox.stub(element.$.entry, 'clear');
+      assert.isTrue(element.submitEntryText());
+      assert.isFalse(clearStub.called);
+
+      // When entry is invalid, return false.
+      assert.isFalse(element.submitEntryText());
+      assert.isFalse(clearStub.called);
+
+      // When entry is valid, return true and clear text.
+      assert.isTrue(element.submitEntryText());
+      assert.isTrue(clearStub.called);
+      assert.equal(element.additions()[0].account.email, 'test@test');
+    });
+
     test('additions returns sanitized new accounts and groups', () => {
       assert.equal(element.additions().length, 0);
 

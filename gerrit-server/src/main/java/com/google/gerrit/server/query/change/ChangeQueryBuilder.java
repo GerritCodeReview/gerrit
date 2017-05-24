@@ -86,6 +86,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -1000,7 +1001,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       throws QueryParseException, OrmException {
     Predicate<ChangeData> byState =
         reviewerByState(who, ReviewerStateInternal.REVIEWER, forDefaultField);
-    if (byState == Predicate.<ChangeData>any()) {
+    if (Objects.equals(byState, Predicate.<ChangeData>any())) {
       return Predicate.any();
     }
     if (args.getSchema().hasField(ChangeField.WIP)) {
@@ -1180,7 +1181,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(11);
     try {
       Predicate<ChangeData> p = ownerDefaultField(query);
-      if (p != Predicate.<ChangeData>any()) {
+      if (!Objects.equals(p, Predicate.<ChangeData>any())) {
         predicates.add(p);
       }
     } catch (OrmException | QueryParseException e) {
@@ -1188,7 +1189,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
     try {
       Predicate<ChangeData> p = reviewerDefaultField(query);
-      if (p != Predicate.<ChangeData>any()) {
+      if (!Objects.equals(p, Predicate.<ChangeData>any())) {
         predicates.add(p);
       }
     } catch (OrmException | QueryParseException e) {

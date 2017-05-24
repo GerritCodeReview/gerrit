@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3233ea33_ef7a26e1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-24T20:48:17Z",
+      "side": 1,
+      "message": "Wait, isn\u0027t event.target a DOM Node?\nhttps://developer.mozilla.org/en-US/docs/Web/API/Event/target",
+      "range": {
+        "startLine": 401,
+        "startChar": 10,
+        "endLine": 401,
+        "endChar": 18
+      },
+      "revId": "84a9ba7db8ff4ae35843adb16fc87b5f033aba43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

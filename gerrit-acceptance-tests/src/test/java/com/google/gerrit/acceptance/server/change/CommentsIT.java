@@ -63,6 +63,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -893,6 +894,58 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(getRevisionComments(changeId, ps2)).hasSize(3);
     assertThat(getRevisionComments(changeId, ps3)).hasSize(1);
     assertThat(getRevisionComments(changeId, ps4)).hasSize(3);
+  }
+
+  @Test
+  public void deleteOneCommentMultipleTimes() throws Exception {
+    PushOneCommit.Result result = createChange();
+    Change.Id id = result.getChange().getId();
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput c1 = newComment(FILE_NAME, "comment 1");
+    CommentInput c2 = newComment(FILE_NAME, "comment 2");
+    CommentInput c3 = newComment(FILE_NAME, "comment 3");
+    addComments(changeId, ps1, c1);
+    addComments(changeId, ps1, c2);
+    addComments(changeId, ps1, c3);
+
+    List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(changeId);
+    assertThat(commentsBeforeDelete).hasSize(3);
+    Optional<CommentInfo> targetComment =
+        commentsBeforeDelete.stream().filter(c -> c.message.equals("comment 2")).findFirst();
+    assertThat(targetComment.isPresent()).isTrue();
+
+    String uuid = targetComment.get().id;
+
+    setApiUser(admin);
+    for (int i = 0; i < 3; i++) {
+      List<RevCommit> commitsBeforeDelete = new ArrayList<>();
+      if (notesMigration.commitChangeWrites()) {
+        commitsBeforeDelete = getCommits(id);
+      }
+
+      CommentInfo oldComment = gApi.changes().id(changeId).revision(1).comment(uuid).get();
+
+      DeleteCommentInput input = new DeleteCommentInput("delete comment 2: " + i);
+      CommentInfo updatedComment =
+          gApi.changes().id(changeId).revision(1).comment(uuid).delete(input);
+
+      String expectedMsg =
+          String.format("Comment removed by: %s; Reason: %s", admin.fullName, input.reason);
+      assertThat(updatedComment.message).isEqualTo(expectedMsg);
+      oldComment.message = expectedMsg;
+      assertThat(updatedComment).isEqualTo(oldComment);
+
+      if (notesMigration.commitChangeWrites()) {
+        assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
+      }
+      assertThat(getChangeSortedComments(changeId)).hasSize(3);
+    }
+
+    CommentInput c4 = newComment(FILE_NAME, "comment 4");
+    addComments(changeId, ps1, c4);
+    assertThat(getChangeSortedComments(changeId)).hasSize(4);
   }
 
   private List<CommentInfo> getChangeSortedComments(String changeId) throws Exception {

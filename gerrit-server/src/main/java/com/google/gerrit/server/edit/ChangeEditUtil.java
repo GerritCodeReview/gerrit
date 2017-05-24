@@ -231,7 +231,7 @@ public class ChangeEditUtil {
                         IOException.class.getName(),
                         edit.getRefName(),
                         RefUpdate.Result.LOCK_FAILURE.name()))) {
-          throw new ResourceConflictException("edit ref was updated");
+          throw new ResourceConflictException("edit is already published");
         }
       }
 

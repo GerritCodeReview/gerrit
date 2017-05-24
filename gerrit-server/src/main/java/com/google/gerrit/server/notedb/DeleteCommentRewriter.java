@@ -94,10 +94,9 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
     revWalk.sort(RevSort.REVERSE);
 
     ObjectReader reader = revWalk.getObjectReader();
-    ObjectId newTip = revWalk.next(); // The first commit will not be rewritten.
+    RevCommit newTipCommit = revWalk.next(); // The first commit will not be rewritten.
     Map<String, Comment> parentComments =
-        getPublishedComments(
-            noteUtil, changeId, reader, NoteMap.read(reader, revWalk.parseCommit(newTip)));
+        getPublishedComments(noteUtil, changeId, reader, NoteMap.read(reader, newTipCommit));
 
     boolean rewrite = false;
     RevCommit originalCommit;
@@ -111,25 +110,20 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
 
       if (!rewrite) {
         parentComments = currComments;
-        newTip = originalCommit;
+        newTipCommit = originalCommit;
         continue;
       }
 
       List<Comment> putInComments = getPutInComments(parentComments, currComments);
       List<Comment> deletedComments = getDeletedComments(parentComments, currComments);
-      newTip =
-          rewriteCommit(
-              originalCommit,
-              NoteMap.read(reader, revWalk.parseCommit(newTip)),
-              newTip,
-              inserter,
-              reader,
-              putInComments,
-              deletedComments);
+      newTipCommit =
+          revWalk.parseCommit(
+              rewriteCommit(
+                  originalCommit, newTipCommit, inserter, reader, putInComments, deletedComments));
       parentComments = currComments;
     }
 
-    return newTip;
+    return newTipCommit;
   }
 
   /**
@@ -191,8 +185,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
    * Rewrites one commit.
    *
    * @param originalCommit the original commit to be rewritten.
-   * @param parentNoteMap the {@code NoteMap} of the new commit's parent.
-   * @param parentId the {@code ObjectId} of the new commit's parent.
+   * @param parentCommit the parent of the new commit.
    * @param inserter the {@code ObjectInserter} for the rewrite process.
    * @param reader the {@code ObjectReader} for the rewrite process.
    * @param putInComments the comments put in by this commit.
@@ -203,15 +196,15 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
    */
   private ObjectId rewriteCommit(
       RevCommit originalCommit,
-      NoteMap parentNoteMap,
-      ObjectId parentId,
+      RevCommit parentCommit,
       ObjectInserter inserter,
       ObjectReader reader,
       List<Comment> putInComments,
       List<Comment> deletedComments)
       throws IOException, ConfigInvalidException {
     RevisionNoteMap<ChangeRevisionNote> revNotesMap =
-        RevisionNoteMap.parse(noteUtil, changeId, reader, parentNoteMap, PUBLISHED);
+        RevisionNoteMap.parse(
+            noteUtil, changeId, reader, NoteMap.read(reader, parentCommit), PUBLISHED);
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(revNotesMap);
 
     for (Comment c : putInComments) {
@@ -234,7 +227,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
     }
 
     CommitBuilder cb = new CommitBuilder();
-    cb.setParentId(parentId);
+    cb.setParentId(parentCommit);
     cb.setTreeId(revNotesMap.noteMap.writeTree(inserter));
     cb.setMessage(originalCommit.getFullMessage());
     cb.setCommitter(originalCommit.getCommitterIdent());

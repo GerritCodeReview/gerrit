@@ -122,6 +122,14 @@
       });
     });
 
+    // Matches /admin/projects/<project>
+    page(/^\/admin\/projects\/(.+)$/, loadUser, data => {
+      app.params = {
+        view: 'gr-admin-project',
+        project: data.params[0],
+      };
+    });
+
     page('/admin/(.*)', loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {

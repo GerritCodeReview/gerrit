@@ -46,6 +46,30 @@
       "revId": "0c0ae48f14949e3b2c3564f8a5028cc4879dd0ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d02a6b2a_fa74b35e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-05-24T14:31:01Z",
+      "side": 1,
+      "message": "\u003e change will set the value for those users a little bit too high\n\nThat is the consequence.  I wouldn\u0027t call a 50% increase from what is likely a large number to start with (since it is typically increasing it from the standard per user limit in the first place) to be \"a bit too high\".  On our servers, this would be 4096.  I\u0027m guessing for some others that would be much higher even.",
+      "parentUuid": "827b270a_ceba7a84",
+      "range": {
+        "startLine": 12,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "0c0ae48f14949e3b2c3564f8a5028cc4879dd0ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

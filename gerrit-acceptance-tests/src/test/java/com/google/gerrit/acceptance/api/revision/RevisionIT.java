@@ -38,12 +38,16 @@ import com.google.common.collect.Iterators;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.NotifyInfo;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
@@ -70,6 +74,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.change.GetRevisionActions;
@@ -620,6 +625,47 @@ public class RevisionIT extends AbstractDaemonTest {
     exception.expectMessage(
         "Cherry Pick: Parent 3 does not exist. Please specify a parent in range [1, 2].");
     gApi.changes().id(mergeChangeResult.getChangeId()).current().cherryPick(cherryPickInput);
+  }
+
+  @Test
+  public void cherryPickNotify() throws Exception {
+    createBranch(new NameKey(project, "branch-1"));
+    createBranch(new NameKey(project, "branch-2"));
+    createBranch(new NameKey(project, "branch-3"));
+
+    // Creates a change for 'admin'.
+    PushOneCommit.Result result = createChange();
+    String changeId = project.get() + "~master~" + result.getChangeId();
+
+    // 'user' cherry-picks the change to a new branch, the source change's author/committer('admin')
+    // will be added as a reviewer of the newly created change.
+    setApiUser(user);
+    CherryPickInput input = new CherryPickInput();
+    input.message = "it goes to a new branch";
+
+    // Enable the notification. 'admin' as a reviewer should be notified.
+    input.destination = "branch-1";
+    input.notify = NotifyHandling.ALL;
+    sender.clear();
+    gApi.changes().id(changeId).current().cherryPick(input);
+    assertNotifyCc(admin);
+
+    // Disable the notification. 'admin' as a reviewer should not be notified any more.
+    input.destination = "branch-2";
+    input.notify = NotifyHandling.NONE;
+    sender.clear();
+    gApi.changes().id(changeId).current().cherryPick(input);
+    assertThat(sender.getMessages()).hasSize(0);
+
+    // Disable the notification. The user provided in the 'notifyDetails' should still be notified.
+    TestAccount userToNotify = accounts.user2();
+    input.destination = "branch-3";
+    input.notify = NotifyHandling.NONE;
+    input.notifyDetails =
+        ImmutableMap.of(RecipientType.TO, new NotifyInfo(ImmutableList.of(userToNotify.email)));
+    sender.clear();
+    gApi.changes().id(changeId).current().cherryPick(input);
+    assertNotifyTo(userToNotify);
   }
 
   @Test

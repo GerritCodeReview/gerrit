@@ -5689,6 +5689,14 @@ The `CherryPickInput` entity contains information for cherry-picking a change to
 |`destination`      ||Destination branch
 |`parent`           |optional, defaults to 1|
 Number of the parent relative to which the cherry-pick should be considered.
+|`notify`           |optional|
+Notify handling that defines to whom email notifications should be sent
+after the cherry-pick. +
+Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
+If not set, the default is `NONE`.
+|`notify_details`   |optional|
+Additional information about whom to notify about the update as a map
+of recipient type to link:#notify-info[NotifyInfo] entity.
 |===========================
 
 [[comment-info]]

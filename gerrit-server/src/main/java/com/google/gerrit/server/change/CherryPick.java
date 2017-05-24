@@ -66,7 +66,7 @@ public class CherryPick
       BatchUpdate.Factory updateFactory, RevisionResource revision, CherryPickInput input)
       throws OrmException, IOException, UpdateException, RestApiException {
     final ChangeControl control = revision.getControl();
-    int parent = input.parent == null ? 1 : input.parent;
+    input.parent = input.parent == null ? 1 : input.parent;
 
     if (input.message == null || input.message.trim().isEmpty()) {
       throw new BadRequestException("message must be non-empty");
@@ -100,10 +100,9 @@ public class CherryPick
               updateFactory,
               revision.getChange(),
               revision.getPatchSet(),
-              input.message,
+              input,
               refName,
-              refControl,
-              parent);
+              refControl);
       return json.noOptions().format(revision.getProject(), cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());

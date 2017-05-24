@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "50dcd4c3_fc2d264a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-24T23:14:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "673769bb_81beafd3",
+      "range": {
+        "startLine": 207,
+        "startChar": 32,
+        "endLine": 207,
+        "endChar": 75
+      },
+      "revId": "f357c63f371f6252be4c1fde58e4f2f07b7ddcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a444e81b_f1a43de6",
         "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
         "patchSetId": 10
@@ -45,6 +69,30 @@
       "revId": "f357c63f371f6252be4c1fde58e4f2f07b7ddcf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cb62bad_6f5df3b9",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-24T23:14:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a444e81b_f1a43de6",
+      "range": {
+        "startLine": 39,
+        "startChar": 10,
+        "endLine": 39,
+        "endChar": 28
+      },
+      "revId": "f357c63f371f6252be4c1fde58e4f2f07b7ddcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "11ba1e8f_4616b327",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-24T23:14:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "239b4f2b_0cfeef3f",
+      "range": {
+        "startLine": 38,
+        "startChar": 10,
+        "endLine": 38,
+        "endChar": 28
+      },
+      "revId": "f357c63f371f6252be4c1fde58e4f2f07b7ddcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d225ca3a_ccdeb0fa",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.js",
         "patchSetId": 10
@@ -85,6 +157,24 @@
       "revId": "f357c63f371f6252be4c1fde58e4f2f07b7ddcf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a09b33b4_d6a95587",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-24T23:14:56Z",
+      "side": 1,
+      "message": "Yes. Also, it should be relocated into /plugins.\nIt probably makes sense to do that once GrChangeReplyInterfaceOld is removed.",
+      "parentUuid": "d225ca3a_ccdeb0fa",
+      "revId": "f357c63f371f6252be4c1fde58e4f2f07b7ddcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -108,6 +198,30 @@
       "revId": "f357c63f371f6252be4c1fde58e4f2f07b7ddcf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "502985e3_eeac9962",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-24T23:14:56Z",
+      "side": 1,
+      "message": "Good point - leftovers from various refactroings.",
+      "parentUuid": "c8f2b322_c0d36123",
+      "range": {
+        "startLine": 213,
+        "startChar": 8,
+        "endLine": 215,
+        "endChar": 62
+      },
+      "revId": "f357c63f371f6252be4c1fde58e4f2f07b7ddcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

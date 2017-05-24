@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.strategy;
 
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -108,7 +109,7 @@ public class SubmitDryRun {
             repo,
             rw,
             mergeUtilFactory.create(getProject(destBranch)),
-            new MergeSorter(rw, alreadyAccepted, canMerge));
+            new MergeSorter(rw, alreadyAccepted, canMerge, ImmutableSet.of(toMergeCommit)));
 
     switch (submitType) {
       case CHERRY_PICK:

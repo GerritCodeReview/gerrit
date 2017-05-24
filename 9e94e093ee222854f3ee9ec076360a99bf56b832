@@ -147,6 +147,30 @@
     },
     {
       "key": {
+        "uuid": "f3e4d3fa_4cbc98ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-24T15:55:30Z",
+      "side": 1,
+      "message": "\u003e This is not a strictly correct description. You\u0027re just checking whether two arbitrary commits don\u0027t share the same parent and aren\u0027t merged into one another. If we\u0027re just talking about arbitrary commits, this can happen without there being a \"rebase in between\".\n\nTrue. I didn\u0027t know whether we wanted to officially support arbitrary commits (and didn\u0027t want to spend time on it unnecessarily). That\u0027s why I concentrated on supporting only the necessary use case and decided that the result for the other cases would be officially undefined.\n\n\u003e Currently we only ever call into PatchListLoader when A/B are either patch sets of the same change, or a patch set and its base, so your description is consistent with the current usage. But I wouldn\u0027t guarantee that that will be the case forever; for example, one of the proposals in issue 5456 involved comparing a revert-of-revert against the base of the original change.\n\nNice to know that there might be another use case for this feature.\n\n\u003e Do you think it\u0027s safe to apply the same edits-due-to-rebase logic when comparing two arbitrary commits that are not patch sets of the same change?\n\nIn general, I think it would be safe to apply the same logic when comparing two arbitrary commits. The result might not always be helpful as the current logic can only identify hunks which don\u0027t overlap with real differences between the two commits. Most of the time, that shouldn\u0027t be an issue, though (and we might decide to provide finer grained marking).\n\nHowever, there is one case which is currently not working properly: If one of the commits is an ancestor of the other commit. This case is filtered by arePatchSetCommitsWithRebaseInBetween() at the moment. If we wanted, we could support it.\n\nIf we have those commits:\n\n C1 -- C2 -- C3 -- C4 -- C5\n\nand want to mark the \u0027due-to-rebase\u0027 diffs between C2 and C5, we shouldn\u0027t determine the diffs between the parents C1 and C4. Instead, we would need to determine the diffs between C2 and C4.\nIn addition, we would remove the RevWalk#isMergedInto check from arePatchSetCommitsWithRebaseInBetween(). However, we would need a way to determine if we have hit this case to execute this different computation. So, we probably would still need the call to RevWalk#isMergedInto. Can you think of another, cheaper way?\n\nThis change wouldn\u0027t require a lot of effort to implement but another aspect would require some adjustments: At the moment, I\u0027m using arePatchSetCommitsWithRebaseInBetween() and the contained check for ancestry to stop the diff calculating recursion. Another easy (and faster) way to stop the recursion would be to add a boolean flag to PatchListKey which indicates whether the \u0027due-to-rebase\u0027 diffs should be calculated.\n\nWhat do you think? Should I generalize the implementation to work for any commits (and hence use the flag in PatchListKey)?\nIf so, should I use another name for the \u0027due-to-rebase\u0027 hunks and methods (throughout the backend, the REST API, and PolyGerrit) which is more appropriate? Any suggestions?",
+      "parentUuid": "238e08c0_1596a9ba",
+      "range": {
+        "startLine": 218,
+        "startChar": 9,
+        "endLine": 218,
+        "endChar": 46
+      },
+      "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e79743f1_0f52bc3d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 2
@@ -158,6 +182,30 @@
       "writtenOn": "2017-05-23T14:25:35Z",
       "side": 1,
       "message": "I\u0027m just being paranoid, but can we benchmark this in some common cases?\n\nSay we have:\n\n X1--X2--A\n  \\--B\n\nA naive implementation of isMergedInto(A, B) would walk all the way from A to the root of the repo looking for B. That may be too much walking on a repo the size of Chrome.\n\nFortunately I\u0027m pretty sure isMergedInto is not that dumb, and it knows how to reasonbly quickly compute that the merge base of A and B is X1. But like I said, I\u0027m being paranoid.\n\n(There\u0027s still some linear behavior if X2 is actually a string of 1000 commits, which can happen if you rebase a very old change. But I feel like the practical upper bound of the length of X2 is still much less than the upper bound of the total repo history.)",
+      "range": {
+        "startLine": 231,
+        "startChar": 0,
+        "endLine": 232,
+        "endChar": 51
+      },
+      "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31a4dde1_81dcb597",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-24T15:55:30Z",
+      "side": 1,
+      "message": "I did some benchmarks with JMH. \n\nTime was measured for the total of the following operations:\n1) Creating a RevWalk.\n2) Looking up the the two compared commits by their ObjectId via RevWalk#lookupCommit.\n3) Calling RevWalk#isMergedInto.\n\nFirst setup:\n\n C1 -- \u003c4998 other commits\u003e -- C4999 -- C5000\n                                    \\-- B\n\n(C5000, B): 0.018 ± 0.001 ms (with JVM warmup, many iterations), 0.895 ± 0.026 ms (cold start, few iterations)\n(C1, B): 938.993 ± 13.660 ms (with JVM warmup, many iterations), 1133.173 ± 64.594 ms (cold start, few iterations)\n\nSecond setup:\n\n C1 -- \u003c4997 other commits\u003e -- C4998 -- C4999 -- C5000\n                                    \\-- B\n\n(C5000, B): 0.021 ± 0.001 ms (with JVM warmup, many iterations), 0.893 ± 0.014 ms (cold start, few iterations)\n\nThird setup:\n\n C1 -- \u003c4999 other commits\u003e -- C5000\n   \\-- B\n\n(C5000, B): 937.104 ± 9.272 ms (with JVM warmup, many iterations), 1164.610 ± 57.166 (cold start, few iterations)\n\nApparently, RevWalk#isMergedInto is smart enough to not walk the entire history for isMergedInto(C5000, B).\n\nAre there other cases I should benchmark?\n\nMay we rely on the timestamps of the commits and hence only compute RevWalk#isMergedInto once between olderCommit and newerCommit?",
+      "parentUuid": "e79743f1_0f52bc3d",
       "range": {
         "startLine": 231,
         "startChar": 0,

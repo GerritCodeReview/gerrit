@@ -24,6 +24,14 @@
     GWT_PLUGIN_STUB[name] = warnNotSupported.bind(null, name);
   }
 
+  let _restAPI;
+  const getRestAPI = () => {
+    if (!_restAPI) {
+      _restAPI = document.createElement('gr-rest-api-interface');
+    }
+    return _restAPI;
+  };
+
   const API_VERSION = '0.1';
 
   // GWT JSNI uses $wnd to refer to window.
@@ -76,6 +84,20 @@
   Plugin.prototype.url = function(opt_path) {
     return this._url.origin + '/plugins/' + this._name + (opt_path || '/');
   };
+
+  Plugin.prototype._send = function(method, url, callback, opt_payload) {
+    return getRestAPI().send(method, url, opt_payload)
+        .then(getRestAPI().getResponseObject)
+        .then(callback);
+  };
+
+  Plugin.prototype.get = function(url, callback) {
+    return this._send('GET', url, callback);
+  },
+
+  Plugin.prototype.post = function(url, payload, callback) {
+    return this._send('POST', url, callback, payload);
+  },
 
   Plugin.prototype.changeActions = function() {
     return new GrChangeActionsInterface(Plugin._sharedAPIElement.getElement(

@@ -46,6 +46,30 @@
       "revId": "193ceae14aba73079f1cde10ea075b0c53b19732",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "773e3c49_e1387e08",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-25T18:22:07Z",
+      "side": 1,
+      "message": "There is a lot of overhead that is not needed there. you can add your own \u0027_handleKeydown\u0027 function in gr-admin-project-list",
+      "parentUuid": "f094e825_eb36db90",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 111,
+        "endChar": 53
+      },
+      "revId": "193ceae14aba73079f1cde10ea075b0c53b19732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

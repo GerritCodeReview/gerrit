@@ -70,6 +70,30 @@
       "revId": "193ceae14aba73079f1cde10ea075b0c53b19732",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12058764_63e74f21",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-25T20:35:58Z",
+      "side": 1,
+      "message": "oh i see. I will introduce a new gr-search file since im finding it hard getting to work without using methods like \u003cmy-name\u003e\u003c/my-name\u003e",
+      "parentUuid": "773e3c49_e1387e08",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 111,
+        "endChar": 53
+      },
+      "revId": "193ceae14aba73079f1cde10ea075b0c53b19732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

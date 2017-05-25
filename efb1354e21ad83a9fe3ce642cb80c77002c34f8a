@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b7a74ce_6948f892",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-25T17:54:12Z",
+      "side": 1,
+      "message": "Maybe here this could be a function for label-scores? :)",
+      "range": {
+        "startLine": 210,
+        "startChar": 6,
+        "endLine": 211,
+        "endChar": 72
+      },
+      "revId": "efb1354e21ad83a9fe3ce642cb80c77002c34f8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef22f6af_69763080",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-25T17:54:12Z",
+      "side": 1,
+      "message": "looks like this may fail lint, \u003e 80ch",
+      "range": {
+        "startLine": 63,
+        "startChar": 81,
+        "endLine": 63,
+        "endChar": 0
+      },
+      "revId": "efb1354e21ad83a9fe3ce642cb80c77002c34f8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cccd6dfc_f8d0479b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-25T17:54:12Z",
+      "side": 1,
+      "message": "could you maybe add a little more explanation about the deprecated vs. new stuff?",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 5
+      },
+      "revId": "efb1354e21ad83a9fe3ce642cb80c77002c34f8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4724265d_ce3f21ba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-25T17:54:12Z",
+      "side": 1,
+      "message": "Generally, I think I could benefit from some JSdocs here, as the return types and functionality aren\u0027t immediately clear to me.",
+      "revId": "efb1354e21ad83a9fe3ce642cb80c77002c34f8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f590ab62_9687efbe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-25T17:54:12Z",
+      "side": 1,
+      "message": "Is type a boolean? I would have expected it to be a string? if it is a boolean, maybe rename to hasType?",
+      "range": {
+        "startLine": 207,
+        "startChar": 10,
+        "endLine": 207,
+        "endChar": 49
+      },
+      "revId": "efb1354e21ad83a9fe3ce642cb80c77002c34f8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1345697_f1582d8f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-25T17:54:12Z",
+      "side": 1,
+      "message": "I assume \u0027modeules\u0027 is a typo",
+      "range": {
+        "startLine": 218,
+        "startChar": 10,
+        "endLine": 218,
+        "endChar": 22
+      },
+      "revId": "efb1354e21ad83a9fe3ce642cb80c77002c34f8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4f044f2_7eb482fb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-25T17:54:12Z",
+      "side": 1,
+      "message": "here also",
+      "range": {
+        "startLine": 229,
+        "startChar": 10,
+        "endLine": 229,
+        "endChar": 22
+      },
+      "revId": "efb1354e21ad83a9fe3ce642cb80c77002c34f8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

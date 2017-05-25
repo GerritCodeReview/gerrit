@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "99f58bfb_8c179d32",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-25T21:46:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a05d5f4_50fd646f",
+      "range": {
+        "startLine": 229,
+        "startChar": 8,
+        "endLine": 229,
+        "endChar": 42
+      },
+      "revId": "fc0cc0cf1910c7f031715e4c7275c90e78c0abd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f77f7dcb_bfe4b229",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0a472af0_dc8ad514",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-25T21:46:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77f7dcb_bfe4b229",
+      "range": {
+        "startLine": 231,
+        "startChar": 6,
+        "endLine": 231,
+        "endChar": 23
+      },
+      "revId": "fc0cc0cf1910c7f031715e4c7275c90e78c0abd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d02ed40_e8df3544",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.html",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2017-05-25T21:38:25Z",
       "side": 1,
       "message": "Neat thing you may not have known -- shorthand for a one line function that returns a thing looks like this:\n\n  sandbox.stub(element, \u0027_getScrollTop\u0027, () \u003d\u003e 100);\n\nTotally non-blocking though.\n\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+      "range": {
+        "startLine": 187,
+        "startChar": 45,
+        "endLine": 189,
+        "endChar": 8
+      },
+      "revId": "fc0cc0cf1910c7f031715e4c7275c90e78c0abd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be572c0a_11986add",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-25T21:46:24Z",
+      "side": 1,
+      "message": "nice.",
+      "parentUuid": "6d02ed40_e8df3544",
       "range": {
         "startLine": 187,
         "startChar": 45,

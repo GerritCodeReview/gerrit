@@ -70,6 +70,30 @@
       "revId": "65780a01864ff404ec7e4c3b53922b7e55af480e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a59bb30e_cf427197",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-25T20:20:17Z",
+      "side": 1,
+      "message": "Thanks a lot!",
+      "parentUuid": "a969c527_b4bfd98b",
+      "range": {
+        "startLine": 233,
+        "startChar": 8,
+        "endLine": 233,
+        "endChar": 65
+      },
+      "revId": "65780a01864ff404ec7e4c3b53922b7e55af480e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -21,7 +21,7 @@ limitations under the License.
 <script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
 
-<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="keyboard-shortcut-behavior.html">
 
 <test-fixture id="basic">
@@ -69,7 +69,7 @@ limitations under the License.
     test('doesn’t block kb shortcuts for non-whitelisted els', done => {
       const divEl = document.createElement('div');
       element.appendChild(divEl);
-      element._handleKey = function(e) {
+      element._handleKey = e => {
         assert.isFalse(element.shouldSuppressKeyboardShortcut(e));
         done();
       };
@@ -79,7 +79,7 @@ limitations under the License.
     test('blocks kb shortcuts for input els', done => {
       const inputEl = document.createElement('input');
       element.appendChild(inputEl);
-      element._handleKey = function(e) {
+      element._handleKey = e => {
         assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
         done();
       };
@@ -89,7 +89,7 @@ limitations under the License.
     test('blocks kb shortcuts for textarea els', done => {
       const textareaEl = document.createElement('textarea');
       element.appendChild(textareaEl);
-      element._handleKey = function(e) {
+      element._handleKey = e => {
         assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
         done();
       };
@@ -100,7 +100,7 @@ limitations under the License.
       const divEl = document.createElement('div');
       const element = overlay.querySelector('test-element');
       element.appendChild(divEl);
-      element._handleKey = function(e) {
+      element._handleKey = e => {
         assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
         done();
       };
@@ -109,7 +109,7 @@ limitations under the License.
 
     test('modifierPressed returns accurate values', () => {
       const spy = sandbox.spy(element, 'modifierPressed');
-      element._handleKey = function(e) {
+      element._handleKey = e => {
         element.modifierPressed(e);
       };
       MockInteractions.keyDownOn(element, 75, 'shift', 'k');
@@ -130,7 +130,7 @@ limitations under the License.
 
     test('isModifierPressed returns accurate value', () => {
       const spy = sandbox.spy(element, 'isModifierPressed');
-      element._handleKey = function(e) {
+      element._handleKey = e => {
         element.isModifierPressed(e, 'shiftKey');
       };
       MockInteractions.keyDownOn(element, 75, 'shift', 'k');

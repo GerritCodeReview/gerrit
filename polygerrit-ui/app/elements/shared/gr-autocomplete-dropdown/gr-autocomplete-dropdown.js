@@ -30,6 +30,7 @@
      */
 
     properties: {
+      index: Number,
       moveToRoot: Boolean,
       fixedPosition: Boolean,
       suggestions: {

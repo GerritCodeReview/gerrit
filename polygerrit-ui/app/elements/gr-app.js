@@ -48,6 +48,7 @@
       _showChangeView: Boolean,
       _showDiffView: Boolean,
       _showSettingsView: Boolean,
+      _showProjectListView: Boolean,
       _showAdminView: Boolean,
       _showCLAView: Boolean,
       _viewState: Object,

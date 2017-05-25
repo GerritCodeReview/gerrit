@@ -55,5 +55,8 @@
   },
   "plugins": [
     "html"
-  ]
+  ],
+  "settings": {
+    "html/report-bad-indent": "error"
+  }
 }

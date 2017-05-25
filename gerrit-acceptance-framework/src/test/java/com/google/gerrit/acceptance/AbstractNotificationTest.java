@@ -303,12 +303,12 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       }
     }
 
-    TestAccount testAccount(String name) throws Exception {
+    public TestAccount testAccount(String name) throws Exception {
       name = withUniqueSuffix(name);
       return accounts.create(name, name + "@example.com", name);
     }
 
-    TestAccount testAccount(String name, String groupName) throws Exception {
+    public TestAccount testAccount(String name, String groupName) throws Exception {
       name = withUniqueSuffix(name);
       return accounts.create(name, name + "@example.com", name, groupName);
     }

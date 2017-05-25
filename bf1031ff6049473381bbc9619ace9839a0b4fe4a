@@ -145,6 +145,24 @@
       "revId": "bf1031ff6049473381bbc9619ace9839a0b4fe4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef023144_759ad669",
+        "filename": "contrib/cpplint2gerrit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-25T07:09:53Z",
+      "side": 1,
+      "message": "you might want to look into using the python requests library instead of urllib2.  it provides utilities for getting credentials out of netrc.\n\nyou might also want to look into pygerrit2 which wraps around python requests and handles the gerrit-specific authentication stuff.  have a look at the abandon_stale.py script for usage example.",
+      "parentUuid": "2edf35df_257ba762",
+      "revId": "bf1031ff6049473381bbc9619ace9839a0b4fe4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

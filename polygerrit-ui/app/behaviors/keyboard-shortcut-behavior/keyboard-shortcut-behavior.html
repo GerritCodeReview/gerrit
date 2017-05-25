@@ -20,24 +20,25 @@ limitations under the License.
 (function(window) {
   'use strict';
 
+  // Must be declared outside behavior implementation to be accessed inside
+  // behavior functions.
   const getKeyboardEvent = function(e) {
-    return Polymer.dom(e.detail ? e.detail.keyboardEvent : e);
+    e = Polymer.dom(e.detail ? e.detail.keyboardEvent : e);
+
+      // When e is a keyboardEvent, e.event is not null.
+      if (e.event) { e = e.event; }
+      return e;
   };
 
   /** @polymerBehavior KeyboardShortcutBehaviorImpl */
   const KeyboardShortcutBehaviorImpl = {
     modifierPressed(e) {
       e = getKeyboardEvent(e);
-      // When e is a keyboardEvent, e.event is not null.
-      if (e.event) { e = e.event; }
       return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
     },
 
     isModifierPressed(e, modifier) {
-      e = getKeyboardEvent(e);
-      // When e is a keyboardEvent, e.event is not null.
-      if (e.event) { e = e.event; }
-      return e[modifier];
+      return getKeyboardEvent(e)[modifier];
     },
 
     shouldSuppressKeyboardShortcut(e) {
@@ -49,6 +50,11 @@ limitations under the License.
         if (e.path[i].tagName === 'GR-OVERLAY') { return true; }
       }
       return false;
+    },
+
+    // Alias for getKeyboardEvent.
+    getKeyboardEvent(e) {
+      return getKeyboardEvent(e);
     },
   };
 

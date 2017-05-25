@@ -22,6 +22,30 @@
       "revId": "193ceae14aba73079f1cde10ea075b0c53b19732",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f094e825_eb36db90",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-25T18:20:12Z",
+      "side": 1,
+      "message": "Oh, yep. But it would be easier to keep using this as it uses keydown and other things useful here.\n\nSee https://github.com/GerritCodeReview/gerrit/blob/86563dfff63b41fd73fb87334e71fcf1c7def579/polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html#L37",
+      "parentUuid": "cf39c586_539aedd9",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 111,
+        "endChar": 53
+      },
+      "revId": "193ceae14aba73079f1cde10ea075b0c53b19732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

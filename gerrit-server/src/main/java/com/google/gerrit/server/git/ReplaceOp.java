@@ -442,8 +442,7 @@ public class ReplaceOp implements BatchUpdateOp {
       }
     }
 
-    NotifyHandling notify =
-        magicBranch != null && magicBranch.notify != null ? magicBranch.notify : NotifyHandling.ALL;
+    NotifyHandling notify = magicBranch != null ? magicBranch.getNotify(notes) : NotifyHandling.ALL;
 
     if (shouldPublishComments()) {
       emailCommentsFactory
@@ -488,7 +487,7 @@ public class ReplaceOp implements BatchUpdateOp {
         cm.setPatchSet(newPatchSet, info);
         cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
         if (magicBranch != null) {
-          cm.setNotify(magicBranch.notify);
+          cm.setNotify(magicBranch.getNotify(notes));
           cm.setAccountsToNotify(magicBranch.getAccountsToNotify());
         }
         cm.addReviewers(recipients.getReviewers());

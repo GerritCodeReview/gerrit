@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf39c586_539aedd9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-25T18:11:20Z",
+      "side": 1,
+      "message": "I don\u0027t think we need an autocomplete here, because we are not going to use any suggested options. We can probably just use an iron-input instead.",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 111,
+        "endChar": 53
+      },
+      "revId": "193ceae14aba73079f1cde10ea075b0c53b19732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

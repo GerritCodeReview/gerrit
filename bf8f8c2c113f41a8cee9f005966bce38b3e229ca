@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1206d148_0b05561e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 114
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-25T17:13:31Z",
+      "side": 1,
+      "message": "can we change this to this._projectsPerPage - 1 ?",
+      "range": {
+        "startLine": 119,
+        "startChar": 28,
+        "endLine": 119,
+        "endChar": 31
+      },
+      "revId": "bf8f8c2c113f41a8cee9f005966bce38b3e229ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "556aaa98_f764c899",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html",
+        "patchSetId": 114
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-25T17:13:31Z",
+      "side": 1,
+      "message": "Is there a reason this is 27 and not 26? the next button should be visible at 26 shouldn\u0027t it?",
+      "range": {
+        "startLine": 123,
+        "startChar": 10,
+        "endLine": 123,
+        "endChar": 51
+      },
+      "revId": "bf8f8c2c113f41a8cee9f005966bce38b3e229ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

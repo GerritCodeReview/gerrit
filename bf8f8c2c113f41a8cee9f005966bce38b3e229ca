@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "fb7aa6c9_589c9df0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 114
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-25T17:50:18Z",
+      "side": 1,
+      "message": "Hmm still fails. Passes if i do 26 here without doing it as a function.",
+      "parentUuid": "e8805147_8a9f8127",
+      "range": {
+        "startLine": 119,
+        "startChar": 28,
+        "endLine": 119,
+        "endChar": 31
+      },
+      "revId": "bf8f8c2c113f41a8cee9f005966bce38b3e229ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "556aaa98_f764c899",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html",
         "patchSetId": 114

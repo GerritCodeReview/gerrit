@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0cf12ae3_20911e54",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-25T21:54:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c831dc7b_cf84b599",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 3
+      },
+      "revId": "25d2277c104d528ea9f9bb73177e6fab1ef5114f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6f4b128_e4cb07d7",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f232920d_b9afaa44",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-25T21:54:38Z",
+      "side": 1,
+      "message": "Actually...",
+      "parentUuid": "a6f4b128_e4cb07d7",
+      "range": {
+        "startLine": 89,
+        "startChar": 51,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "25d2277c104d528ea9f9bb73177e6fab1ef5114f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d975381_a7da3985",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "25d2277c104d528ea9f9bb73177e6fab1ef5114f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3eefe46_65e26616",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-25T21:54:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1d975381_a7da3985",
+      "range": {
+        "startLine": 95,
+        "startChar": 61,
+        "endLine": 97,
+        "endChar": 5
+      },
+      "revId": "25d2277c104d528ea9f9bb73177e6fab1ef5114f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

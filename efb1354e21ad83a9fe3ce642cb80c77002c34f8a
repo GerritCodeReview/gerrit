@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "c8f99759_52d69e85",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-25T18:22:17Z",
+      "side": 1,
+      "message": "\u003e80ch.",
+      "revId": "efb1354e21ad83a9fe3ce642cb80c77002c34f8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef22f6af_69763080",
         "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style_test.html",
         "patchSetId": 12
@@ -68,6 +85,70 @@
       "revId": "efb1354e21ad83a9fe3ce642cb80c77002c34f8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3265976_45643cff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-25T18:22:17Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m curious about this too. Does this jsdoc actually do anything? Or is it just a label for devs that happen to look at the source?",
+      "parentUuid": "cccd6dfc_f8d0479b",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 5
+      },
+      "revId": "efb1354e21ad83a9fe3ce642cb80c77002c34f8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90ec65e1_6548dd16",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-25T18:22:17Z",
+      "side": 1,
+      "message": "I think it would be smart to write this as an ES6 class -- that way, when we move to delete the old interface, nobody has to relearn and then refactor this code. If this is urgent then this can be non-blocking, though.",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 6
+      },
+      "revId": "efb1354e21ad83a9fe3ce642cb80c77002c34f8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4def590_ce21af95",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-25T18:22:17Z",
+      "side": 1,
+      "message": "Is it at all feasible to refactor this to an es6 class soon? Definitely not blocking, but I\u0027d like to know if this is on the roadmap for plugin development at all.",
+      "revId": "efb1354e21ad83a9fe3ce642cb80c77002c34f8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

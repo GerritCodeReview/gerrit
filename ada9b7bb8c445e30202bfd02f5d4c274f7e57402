@@ -22,6 +22,30 @@
       "revId": "ada9b7bb8c445e30202bfd02f5d4c274f7e57402",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a72bff75_302217ab",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html",
+        "patchSetId": 108
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-25T06:59:41Z",
+      "side": 1,
+      "message": "I need to probably increase the detection to 26 projects so that it dosent show the arrow at 25 projects.",
+      "parentUuid": "6acf7de5_52396aa2",
+      "range": {
+        "startLine": 121,
+        "startChar": 10,
+        "endLine": 122,
+        "endChar": 68
+      },
+      "revId": "ada9b7bb8c445e30202bfd02f5d4c274f7e57402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -96,6 +96,24 @@
     },
     {
       "key": {
+        "uuid": "2840d38e_df70141a",
+        "filename": "contrib/cpplint2gerrit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-05-25T07:14:26Z",
+      "side": 1,
+      "message": "I see, however, I found a bit problematic to understand how to manage the maintenance of the copyright notice moving forward. If you provide initial a tool under contrib (Company A) and then is edited by many other companies (Company B, C and D), shall we add all the companies in the contribution notice?\n\nI believe we did not define that policy in the Documentation/dev-contributing.txt where we simply say \"Ensure a standard copyright header is included\".\n\nI see under /contrib as well files without any copyright header :-O",
+      "parentUuid": "e88bc251_265899d4",
+      "revId": "bf1031ff6049473381bbc9619ace9839a0b4fe4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a682c96_69274ad8",
         "filename": "contrib/cpplint2gerrit.py",
         "patchSetId": 1

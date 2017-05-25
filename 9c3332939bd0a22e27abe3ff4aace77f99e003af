@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1c654a9_c6841223",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-05-25T09:35:48Z",
+      "side": 1,
+      "message": "wrong regex is used - GitOverHttpModule should register auth filter for LFS url when there is no \u0027a\u0027 prefix - see lines 56 and 57 - they cannot register for the same regexps (both starting with \u0027a\u0027) therefore line 56 has to register for URL starting with \u0027^(?:(?!/a/))\u0027 - not \u0027/a/\u0027",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 73
+      },
+      "revId": "9c3332939bd0a22e27abe3ff4aace77f99e003af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

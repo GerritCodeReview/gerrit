@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "6011b6d6_06bd8e53",
+        "filename": "contrib/cpplint2gerrit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-05-25T06:06:20Z",
+      "side": 1,
+      "message": "Gerrit is developed by many contributors from many companies, however it\u0027s contributions are under the AOSP license (Android). Can you include the standard Copyritght notice?",
+      "parentUuid": "1182f698_5482f450",
+      "revId": "bf1031ff6049473381bbc9619ace9839a0b4fe4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a682c96_69274ad8",
         "filename": "contrib/cpplint2gerrit.py",
         "patchSetId": 1

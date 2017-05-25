@@ -206,6 +206,10 @@
           10);
     },
 
+    _getScrollTop() {
+      return document.body.scrollTop;
+    },
+
     /**
      * This positions the dropdown to be just below the cursor position. It is
      * calculated by having a hidden element with the same width and styling of
@@ -219,7 +223,12 @@
       const caratPosition = this._getPositionOfCursor();
       const fontSize = this._getFontSize();
 
-      const top = caratPosition.top + fontSize + VERTICAL_OFFSET + 'px';
+      let top = caratPosition.top + fontSize + VERTICAL_OFFSET;
+
+      if (!this.fixedPositionDropdown) {
+        top = top + this._getScrollTop();;
+      }
+      top = top + 'px';
       const left = caratPosition.left + 'px';
       this.$.emojiSuggestions.setPosition(top, left);
     },

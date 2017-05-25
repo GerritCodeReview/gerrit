@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "3a8f6bdc_4df64cb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-25T20:11:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd28484_eb1b519e",
+      "range": {
+        "startLine": 87,
+        "startChar": 13,
+        "endLine": 87,
+        "endChar": 50
+      },
+      "revId": "caab0c01940abeb8a4b92fb75f0a52f68128562f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c607690_de766101",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2017-05-18T07:32:07Z",
       "side": 1,
       "message": "Was this changed intentionally?  IIRC it only works without the space.",
+      "range": {
+        "startLine": 259,
+        "startChar": 8,
+        "endLine": 259,
+        "endChar": 25
+      },
+      "revId": "caab0c01940abeb8a4b92fb75f0a52f68128562f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70c1da43_c53b0ea1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-25T20:11:35Z",
+      "side": 1,
+      "message": "Ugh, this is our internal google-java-format drift. I wonder if they know about this issue.",
+      "parentUuid": "5c607690_de766101",
       "range": {
         "startLine": 259,
         "startChar": 8,
@@ -140,6 +188,30 @@
       "revId": "caab0c01940abeb8a4b92fb75f0a52f68128562f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed1ee190_c5785b19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-05-25T20:11:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0142e367_c763e623",
+      "range": {
+        "startLine": 252,
+        "startChar": 4,
+        "endLine": 252,
+        "endChar": 49
+      },
+      "revId": "caab0c01940abeb8a4b92fb75f0a52f68128562f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "e88bc251_265899d4",
+        "filename": "contrib/cpplint2gerrit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-25T07:06:06Z",
+      "side": 1,
+      "message": "Files under /contrib may have the copyright of the company/person that provided it.\n\nIf you do git grep Copyright in that folder you\u0027ll see several already.",
+      "parentUuid": "6011b6d6_06bd8e53",
+      "revId": "bf1031ff6049473381bbc9619ace9839a0b4fe4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a682c96_69274ad8",
         "filename": "contrib/cpplint2gerrit.py",
         "patchSetId": 1

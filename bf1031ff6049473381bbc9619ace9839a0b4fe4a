@@ -114,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "26f55105_d5be2b50",
+        "filename": "contrib/cpplint2gerrit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2017-05-25T17:00:37Z",
+      "side": 1,
+      "message": "IANAL but I thought the contributor agreement everyone has to sign before being able to push to the server solves this problem.  And I thought for most open source projects the authors always retain the copyright.  It is the act of licensing under and open source license that makes it open source.  I remember the CLA mentioning granting of license but not re-assigning of ownership.",
+      "parentUuid": "2840d38e_df70141a",
+      "revId": "bf1031ff6049473381bbc9619ace9839a0b4fe4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a682c96_69274ad8",
         "filename": "contrib/cpplint2gerrit.py",
         "patchSetId": 1
@@ -125,6 +143,24 @@
       "writtenOn": "2017-05-24T20:42:16Z",
       "side": 1,
       "message": "Why is commented out?",
+      "revId": "bf1031ff6049473381bbc9619ace9839a0b4fe4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb3377a3_df80764b",
+        "filename": "contrib/cpplint2gerrit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2017-05-25T17:00:37Z",
+      "side": 1,
+      "message": "This was put in before I put in the gitblame/diff to only inline comments on lines touched by the change in question.  I will remove it.",
+      "parentUuid": "4a682c96_69274ad8",
       "revId": "bf1031ff6049473381bbc9619ace9839a0b4fe4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -178,6 +214,24 @@
       "side": 1,
       "message": "you might want to look into using the python requests library instead of urllib2.  it provides utilities for getting credentials out of netrc.\n\nyou might also want to look into pygerrit2 which wraps around python requests and handles the gerrit-specific authentication stuff.  have a look at the abandon_stale.py script for usage example.",
       "parentUuid": "2edf35df_257ba762",
+      "revId": "bf1031ff6049473381bbc9619ace9839a0b4fe4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b27ac36_dd73ccaa",
+        "filename": "contrib/cpplint2gerrit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2017-05-25T17:00:37Z",
+      "side": 1,
+      "message": "I saw the requests library but it was not part of the python standard library (last I checked anyway) and I want to simplify the deployment of this script.  (we have some pretty old environment/distro and would like to avoid extra dependencies that may not be available on that platform.)  I didn\u0027t use pygerrit2 for similar reason.\n\nLooks like there\u0027s a netrc support from the standard library though so I will probably use that.",
+      "parentUuid": "ef023144_759ad669",
       "revId": "bf1031ff6049473381bbc9619ace9839a0b4fe4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

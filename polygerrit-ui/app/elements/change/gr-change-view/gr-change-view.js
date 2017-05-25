@@ -396,7 +396,11 @@
     },
 
     _handleReplyOverlayOpen(e) {
+      // This is needed so that focus is not set on the reply overlay
+      // when the suggestion overaly from gr-autogrow-textarea opens.
+      // if (e.target.id === 'replyOverlay') {
       this.$.replyDialog.focus();
+      // }
     },
 
     _handleReplySent(e) {

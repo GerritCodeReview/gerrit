@@ -22,6 +22,30 @@
       "revId": "65780a01864ff404ec7e4c3b53922b7e55af480e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b676b6b1_e305d753",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-05-25T17:02:46Z",
+      "side": 1,
+      "message": "Yes!\nBetter way probably would be to add a method that puts cursor at the end of line - essentially move this  method into gr-textarea.\n\n\"people don\u0027t need drills, they need holes in walls\". So in this case gr-comment doesn\u0027t really need native text area, it just needs to put cursor at the end.",
+      "parentUuid": "1ebb4eec_084ec6d5",
+      "range": {
+        "startLine": 233,
+        "startChar": 8,
+        "endLine": 233,
+        "endChar": 65
+      },
+      "revId": "65780a01864ff404ec7e4c3b53922b7e55af480e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

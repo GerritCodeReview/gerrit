@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6acf7de5_52396aa2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html",
+        "patchSetId": 108
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-25T04:49:55Z",
+      "side": 1,
+      "message": "Is it true that in this case, there are 25 items on the first page, and an arrow which leads to a blank page?",
+      "range": {
+        "startLine": 121,
+        "startChar": 10,
+        "endLine": 122,
+        "endChar": 68
+      },
+      "revId": "ada9b7bb8c445e30202bfd02f5d4c274f7e57402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

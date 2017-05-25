@@ -71,7 +71,7 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
     pushTo(sc, "refs/for/master", other);
     assertThat(sender)
         .sent("newpatchset", sc)
-        .notTo(sc.owner)
+        .notTo(sc.owner) // TODO(logan): This email shouldn't come from the owner.
         .to(sc.reviewer, other)
         .to(sc.reviewerByEmail)
         .cc(sc.ccer)
@@ -87,7 +87,7 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
     pushTo(sc, "refs/for/master", other);
     assertThat(sender)
         .sent("newpatchset", sc)
-        .notTo(sc.owner)
+        .notTo(sc.owner) // TODO(logan): This email shouldn't come from the owner.
         .to(sc.reviewer, sc.ccer, other)
         .notTo(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
@@ -129,6 +129,7 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
     pushTo(sc, "refs/for/master%notify=OWNER_REVIEWERS", other);
     assertThat(sender)
         .sent("newpatchset", sc)
+        // TODO(logan): This email shouldn't come from the owner.
         .notTo(sc.owner, sc.starrer, other)
         .to(sc.reviewer)
         .to(sc.reviewerByEmail)
@@ -147,7 +148,7 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .to(sc.reviewer, sc.ccer)
         .notTo(sc.starrer, other)
-        .notTo(sc.owner) // TODO(logan): Why?
+        .notTo(sc.owner) // TODO(logan): This email shouldn't come from the owner.
         .notTo(sc.reviewerByEmail, sc.ccerByEmail)
         .notTo(NEW_PATCHSETS);
   }
@@ -183,67 +184,27 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void newPatchSetByOtherOnReviewableChangeNotifyOwnerInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void newPatchSetByOtherOnReviewableChangeNotifyOwner() throws Exception {
     StagedChange sc = stageReviewableChange(NEW_PATCHSETS);
     pushTo(sc, "refs/for/master%notify=OWNER", other);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .notTo(sc.owner, sc.starrer, other)
-        .to(sc.reviewer) // TODO(logan): Why?
-        .cc(sc.ccer) // TODO(logan): Why?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(NEW_PATCHSETS);
+    assertThat(sender).notSent();
   }
 
   @Test
-  public void newPatchSetByOtherOnReviewableChangeNotifyOwnerInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange(NEW_PATCHSETS);
-    pushTo(sc, "refs/for/master%notify=OWNER", other);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.reviewer, sc.ccer) // TODO(logan): Why?
-        .notTo(sc.owner, sc.starrer, other)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(NEW_PATCHSETS);
-  }
-
-  @Test
-  public void newPatchSetByOtherOnReviewableChangeOwnerSelfCcNotifyOwnerInNoteDb()
-      throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void newPatchSetByOtherOnReviewableChangeOwnerSelfCcNotifyOwner() throws Exception {
     StagedChange sc = stageReviewableChange(NEW_PATCHSETS);
     pushTo(sc, "refs/for/master%notify=OWNER", other, EmailStrategy.CC_ON_OWN_COMMENTS);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.owner)
-        .to(sc.reviewer) // TODO(logan): Why?
-        .cc(sc.ccer) // TODO(logan): Why?
-        .notTo(sc.starrer, other)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(NEW_PATCHSETS);
-  }
-
-  @Test
-  public void newPatchSetByOtherOnReviewableChangeOwnerSelfCcNotifyOwnerInReviewDb()
-      throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange(NEW_PATCHSETS);
-    pushTo(sc, "refs/for/master%notify=OWNER", other, EmailStrategy.CC_ON_OWN_COMMENTS);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.owner)
-        .to(sc.reviewer, sc.ccer) // TODO(logan): Why?
-        .notTo(sc.starrer, other)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(NEW_PATCHSETS);
+    // TODO(logan): This email shouldn't come from the owner, and that's why
+    // no email is currently sent (owner isn't CCing self).
+    assertThat(sender).notSent();
   }
 
   @Test
   public void newPatchSetByOtherOnReviewableChangeNotifyNone() throws Exception {
     StagedChange sc = stageReviewableChange(NEW_PATCHSETS);
     pushTo(sc, "refs/for/master%notify=NONE", other);
+    // TODO(logan): This email shouldn't come from the owner, and that's why
+    // no email is currently sent (owner isn't CCing self).
     assertThat(sender).notSent();
   }
 
@@ -255,67 +216,17 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void newPatchSetByOwnerOnReviewableChangeToWipInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void newPatchSetByOwnerOnReviewableChangeToWip() throws Exception {
     StagedChange sc = stageReviewableChange(NEW_PATCHSETS);
     pushTo(sc, "refs/for/master%wip", sc.owner);
-    // TODO(logan): This shouldn't notify.
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .notTo(sc.owner)
-        .to(sc.reviewer)
-        .to(sc.reviewerByEmail)
-        .cc(sc.ccer)
-        .cc(sc.ccerByEmail)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS);
+    assertThat(sender).notSent();
   }
 
   @Test
-  public void newPatchSetByOwnerOnReviewableChangeToWipInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange(NEW_PATCHSETS);
-    pushTo(sc, "refs/for/master%wip", sc.owner);
-    // TODO(logan): This shouldn't notify.
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .notTo(sc.owner)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .to(sc.reviewer, sc.ccer)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS);
-  }
-
-  @Test
-  public void newPatchSetOnWipChangeInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void newPatchSetOnWipChange() throws Exception {
     StagedChange sc = stageWipChange(NEW_PATCHSETS);
     pushTo(sc, "refs/for/master%wip", sc.owner);
-    // TODO(logan): This shouldn't notify.
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .notTo(sc.owner)
-        .to(sc.reviewer)
-        .to(sc.reviewerByEmail)
-        .cc(sc.ccer)
-        .cc(sc.ccerByEmail)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS);
-  }
-
-  @Test
-  public void newPatchSetOnWipChangeInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageWipChange(NEW_PATCHSETS);
-    pushTo(sc, "refs/for/master%wip", sc.owner);
-    // TODO(logan): This shouldn't notify.
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .notTo(sc.owner)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .to(sc.reviewer, sc.ccer)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS);
+    assertThat(sender).notSent();
   }
 
   @Test
@@ -379,35 +290,121 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void newPatchSetOnReviewableWipChangeInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void newPatchSetOnReviewableWipChange() throws Exception {
     StagedChange sc = stageReviewableWipChange(NEW_PATCHSETS);
     pushTo(sc, "refs/for/master%wip", sc.owner);
-    // TODO(logan): This shouldn't notify.
+    assertThat(sender).notSent();
+  }
+
+  @Test
+  public void newPatchSetOnReviewableChangeAddingReviewerInNoteDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageReviewableChange(NEW_PATCHSETS);
+    TestAccount newReviewer = sc.testAccount("newReviewer");
+    pushTo(sc, "refs/for/master%r=" + newReviewer.username, sc.owner);
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .notTo(sc.owner)
+        .to(sc.reviewer, newReviewer)
+        .cc(sc.ccer)
+        .to(sc.reviewerByEmail)
+        .cc(sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(NEW_PATCHSETS);
+    assertThat(sender).notSent();
+  }
+
+  @Test
+  public void newPatchSetOnReviewableChangeAddingReviewerInReviewDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isFalse();
+    StagedChange sc = stageReviewableChange(NEW_PATCHSETS);
+    TestAccount newReviewer = sc.testAccount("newReviewer");
+    pushTo(sc, "refs/for/master%r=" + newReviewer.username, sc.owner);
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .notTo(sc.owner)
+        .to(sc.reviewer, sc.ccer, newReviewer)
+        .to(sc.reviewerByEmail)
+        .cc(sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(NEW_PATCHSETS);
+    assertThat(sender).notSent();
+  }
+
+  @Test
+  public void newPatchSetOnWipChangeAddingReviewer() throws Exception {
+    StagedChange sc = stageWipChange(NEW_PATCHSETS);
+    TestAccount newReviewer = sc.testAccount("newReviewer");
+    pushTo(sc, "refs/for/master%r=" + newReviewer.username, sc.owner);
+    assertThat(sender).notSent();
+  }
+
+  @Test
+  public void newPatchSetOnWipChangeAddingReviewerNotifyAllInNoteDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageWipChange(NEW_PATCHSETS);
+    TestAccount newReviewer = sc.testAccount("newReviewer");
+    pushTo(sc, "refs/for/master%notify=ALL,r=" + newReviewer.username, sc.owner);
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .notTo(sc.owner)
+        .to(sc.reviewer, newReviewer)
+        .cc(sc.ccer)
+        .to(sc.reviewerByEmail)
+        .cc(sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(NEW_PATCHSETS);
+    assertThat(sender).notSent();
+  }
+
+  @Test
+  public void newPatchSetOnWipChangeAddingReviewerNotifyAllInReviewDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isFalse();
+    StagedChange sc = stageWipChange(NEW_PATCHSETS);
+    TestAccount newReviewer = sc.testAccount("newReviewer");
+    pushTo(sc, "refs/for/master%notify=ALL,r=" + newReviewer.username, sc.owner);
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .notTo(sc.owner)
+        .to(sc.reviewer, sc.ccer, newReviewer)
+        .to(sc.reviewerByEmail)
+        .cc(sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(NEW_PATCHSETS);
+    assertThat(sender).notSent();
+  }
+
+  @Test
+  public void newPatchSetOnWipChangeSettingReadyInNoteDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageWipChange(NEW_PATCHSETS);
+    pushTo(sc, "refs/for/master%ready", sc.owner);
     assertThat(sender)
         .sent("newpatchset", sc)
         .notTo(sc.owner)
         .to(sc.reviewer)
-        .to(sc.reviewerByEmail)
         .cc(sc.ccer)
+        .to(sc.reviewerByEmail)
         .cc(sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS);
+    assertThat(sender).notSent();
   }
 
   @Test
-  public void newPatchSetOnReviewableWipChangeInReviewDb() throws Exception {
+  public void newPatchSetOnWipChangeSettingReadyInReviewDb() throws Exception {
     assume().that(notesMigration.readChanges()).isFalse();
     StagedChange sc = stageWipChange(NEW_PATCHSETS);
-    pushTo(sc, "refs/for/master%wip", sc.owner);
-    // TODO(logan): This shouldn't notify.
+    pushTo(sc, "refs/for/master%ready", sc.owner);
     assertThat(sender)
         .sent("newpatchset", sc)
         .notTo(sc.owner)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
         .to(sc.reviewer, sc.ccer)
+        .to(sc.reviewerByEmail)
+        .cc(sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS);
+    assertThat(sender).notSent();
   }
 
   private void pushTo(StagedChange sc, String ref, TestAccount by) throws Exception {

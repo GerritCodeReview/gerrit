@@ -35,11 +35,7 @@ public class CreateChangeSenderIT extends AbstractNotificationTest {
   @Test
   public void createWipChange() throws Exception {
     StagedPreChange spc = stagePreChange("refs/for/master%wip", NEW_CHANGES, NEW_PATCHSETS);
-    assertThat(sender)
-        .sent("newchange", spc)
-        .notTo(spc.owner)
-        .to(spc.watchingProjectOwner)
-        .bcc(NEW_CHANGES, NEW_PATCHSETS);
+    assertThat(sender).notSent();
   }
 
   @Test

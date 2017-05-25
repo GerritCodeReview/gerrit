@@ -1265,7 +1265,7 @@ public class ReceiveCommits {
               + "should be sent. Allowed values are NONE, OWNER, "
               + "OWNER_REVIEWERS, ALL. If not set, the default is ALL."
     )
-    NotifyHandling notify = NotifyHandling.ALL;
+    private NotifyHandling notify;
 
     @Option(name = "--notify-to", metaVar = "USER", usage = "user that should be notified")
     List<Account.Id> tos = new ArrayList<>();
@@ -1421,6 +1421,26 @@ public class ReceiveCommits {
         topic = Strings.emptyToNull(ref.substring(split + 1));
       }
       return ref.substring(0, split);
+    }
+
+    public NotifyHandling getNotify() {
+      if (notify != null) {
+        return notify;
+      }
+      if (workInProgress) {
+        return NotifyHandling.OWNER;
+      }
+      return NotifyHandling.ALL;
+    }
+
+    public NotifyHandling getNotify(ChangeNotes notes) {
+      if (notify != null) {
+        return notify;
+      }
+      if (workInProgress || (!ready && notes.getChange().isWorkInProgress())) {
+        return NotifyHandling.OWNER;
+      }
+      return NotifyHandling.ALL;
     }
   }
 
@@ -2183,7 +2203,7 @@ public class ReceiveCommits {
                 .setExtraCC(recipients.getCcOnly())
                 .setApprovals(approvals)
                 .setMessage(msg.toString())
-                .setNotify(magicBranch.notify)
+                .setNotify(magicBranch.getNotify())
                 .setAccountsToNotify(magicBranch.getAccountsToNotify())
                 .setRequestScopePropagator(requestScopePropagator)
                 .setSendMail(true)

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "acbefd86_ad45102d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-25T22:32:25Z",
+      "side": 1,
+      "message": "Does this still work in shadow dom?",
+      "range": {
+        "startLine": 401,
+        "startChar": 10,
+        "endLine": 401,
+        "endChar": 21
+      },
+      "revId": "cb063468294d35aec5c8ad008214061a6e6adebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

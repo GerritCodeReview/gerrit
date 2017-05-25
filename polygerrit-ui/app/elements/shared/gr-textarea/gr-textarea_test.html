@@ -181,9 +181,12 @@ limitations under the License.
       sandbox.stub(element, '_getPositionOfCursor', () => {
         return {top: 100, left: 30};
       });
-      sandbox.stub(element, '_getFontSize', () => {
-        return 12;
-      });
+      sandbox.stub(element, '_getFontSize', () => 12);
+      sandbox.stub(element, '_getScrollTop', () => 100);
+      element._updateSelectorPosition();
+      assert.isTrue(setPositionSpy.lastCall.calledWithExactly('219px', '30px'));
+
+      element.fixedPositionDropdown = true;
       element._updateSelectorPosition();
       assert.isTrue(setPositionSpy.lastCall.calledWithExactly('119px', '30px'));
     });

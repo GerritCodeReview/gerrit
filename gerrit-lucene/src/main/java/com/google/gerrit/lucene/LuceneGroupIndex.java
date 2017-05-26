@@ -80,7 +80,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Acc
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
       return new RAMDirectory();
     }
-    Path indexDir = LuceneVersionManager.getDir(sitePaths, GROUPS + "_", schema);
+    Path indexDir = LuceneVersionManager.getDir(sitePaths, GROUPS, schema);
     return FSDirectory.open(indexDir);
   }
 

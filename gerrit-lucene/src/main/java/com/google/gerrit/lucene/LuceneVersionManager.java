@@ -49,7 +49,7 @@ public class LuceneVersionManager extends AbstractVersionManager implements Life
   }
 
   static Path getDir(SitePaths sitePaths, String prefix, Schema<?> schema) {
-    return sitePaths.index_dir.resolve(String.format("%s%04d", prefix, schema.getVersion()));
+    return sitePaths.index_dir.resolve(String.format("%s_%04d", prefix, schema.getVersion()));
   }
 
   @Inject
@@ -74,7 +74,7 @@ public class LuceneVersionManager extends AbstractVersionManager implements Life
     TreeMap<Integer, AbstractVersionManager.Version<V>> versions = new TreeMap<>();
     for (Schema<V> schema : def.getSchemas().values()) {
       // This part is Lucene-specific.
-      Path p = getDir(sitePaths, def.getName() + "_", schema);
+      Path p = getDir(sitePaths, def.getName(), schema);
       boolean isDir = Files.isDirectory(p);
       if (Files.exists(p) && !isDir) {
         log.warn("Not a directory: %s", p.toAbsolutePath());

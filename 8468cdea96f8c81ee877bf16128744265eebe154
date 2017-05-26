@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "90b2962a_37c9d9ca",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-26T16:22:57Z",
+      "side": 1,
+      "message": "So, it looks like the best approach for now is when you make the api request, make it for one more (offset + 1).  That way, you can check if the length is less than that, it is the last page.",
+      "parentUuid": "426de43b_8fffb3f7",
+      "range": {
+        "startLine": 121,
+        "startChar": 5,
+        "endLine": 123,
+        "endChar": 7
+      },
+      "revId": "8468cdea96f8c81ee877bf16128744265eebe154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a151616_6218b704",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html",
         "patchSetId": 3

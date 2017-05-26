@@ -22,6 +22,30 @@
       "revId": "2ea7f19aa8542d4f3e7a2d0b47b5cd6131f54a5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47dbb6d4_f0de04be",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-26T17:58:16Z",
+      "side": 1,
+      "message": "Well it does, but it pushes the project name to the left more which looks ugly and then the web links to the right. I can remove this if you want.",
+      "parentUuid": "efdb2118_d376a602",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 7
+      },
+      "revId": "2ea7f19aa8542d4f3e7a2d0b47b5cd6131f54a5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

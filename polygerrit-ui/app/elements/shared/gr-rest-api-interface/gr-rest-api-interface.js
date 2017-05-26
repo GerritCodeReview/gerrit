@@ -562,7 +562,7 @@
     getProjects(projectsPerPage, opt_offset) {
       const offset = opt_offset || 0;
       return this._fetchSharedCacheURL(
-          `/projects/?d&n=${projectsPerPage}&S=${offset}`
+          `/projects/?d&n=${projectsPerPage + 1}&S=${offset}`
       );
     },
 

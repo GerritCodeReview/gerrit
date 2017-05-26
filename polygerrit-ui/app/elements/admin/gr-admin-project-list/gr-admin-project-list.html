@@ -76,7 +76,7 @@ limitations under the License.
         <th class="repositoryBrowser topHeader">Repository Browser</th>
         <th class="readOnly topHeader">Read only</th>
       </tr>
-      <template is="dom-repeat" items="[[_projects]]">
+      <template is="dom-repeat" items="[[_shownProjects]]">
         <tr class="project-table">
           <td class="name">
             <a href$="[[_getUrl(item.id)]]">[[item.name]]</a>

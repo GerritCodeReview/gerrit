@@ -33,6 +33,15 @@
 
       _projects: Array,
 
+      /**
+       * Because  we request one more than the projectsPerPage, _shownProjects
+       * maybe one less than _projects.
+       * */
+      _shownProjects: {
+        type: Array,
+        computed: '_computeShownProjects(_projects)',
+      },
+
       _projectsPerPage: {
         type: Number,
         value: 25,
@@ -110,6 +119,10 @@
         href += ',' + newOffset;
       }
       return href;
+    },
+
+    _computeShownProjects(projects) {
+      return projects.slice(0, 25);
     },
 
     _hidePrevArrow(offset) {

@@ -19,6 +19,7 @@ import com.google.gerrit.server.mail.send.AbandonedSender;
 import com.google.gerrit.server.mail.send.CommentSender;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
+import com.google.gerrit.server.mail.send.ReadyForReviewSender;
 import com.google.gerrit.server.mail.send.RestoredSender;
 import com.google.gerrit.server.mail.send.RevertedSender;
 
@@ -29,6 +30,7 @@ public class EmailModule extends FactoryModule {
     factory(CommentSender.Factory.class);
     factory(DeleteReviewerSender.Factory.class);
     factory(DeleteVoteSender.Factory.class);
+    factory(ReadyForReviewSender.Factory.class);
     factory(RestoredSender.Factory.class);
     factory(RevertedSender.Factory.class);
   }

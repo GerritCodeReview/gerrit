@@ -108,7 +108,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   static final String UPDATED_SORT_FIELD = sortFieldName(ChangeField.UPDATED);
   static final String ID_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID);
 
-  private static final String CHANGES_PREFIX = "changes_";
+  private static final String CHANGES = "changes";
   private static final String CHANGES_OPEN = "open";
   private static final String CHANGES_CLOSED = "closed";
   private static final String ADDED_FIELD = ChangeField.ADDED.getName();
@@ -178,7 +178,7 @@ public class LuceneChangeIndex implements ChangeIndex {
           new ChangeSubIndex(
               schema, sitePaths, new RAMDirectory(), "ramClosed", closedConfig, searcherFactory);
     } else {
-      Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES_PREFIX, schema);
+      Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES, schema);
       openIndex =
           new ChangeSubIndex(
               schema, sitePaths, dir.resolve(CHANGES_OPEN), openConfig, searcherFactory);

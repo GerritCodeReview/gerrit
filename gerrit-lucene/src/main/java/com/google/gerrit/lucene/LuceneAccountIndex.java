@@ -81,7 +81,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
       return new RAMDirectory();
     }
-    Path indexDir = LuceneVersionManager.getDir(sitePaths, ACCOUNTS + "_", schema);
+    Path indexDir = LuceneVersionManager.getDir(sitePaths, ACCOUNTS, schema);
     return FSDirectory.open(indexDir);
   }
 

@@ -18,13 +18,19 @@ import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.mail.send.ReadyForReviewSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.Context;
 import com.google.gwtorm.server.OrmException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /* Set work in progress or ready for review state on a change */
 public class WorkInProgressOp implements BatchUpdateOp {
+  private static final Logger log = LoggerFactory.getLogger(WorkInProgressOp.class);
+
   public static class Input {
     String message;
 
@@ -36,18 +42,26 @@ public class WorkInProgressOp implements BatchUpdateOp {
   }
 
   private final ChangeMessagesUtil cmUtil;
+  private final ReadyForReviewSender.Factory readyForReviewSenderFactory;
   private final boolean workInProgress;
   private final Input in;
+  private Change change;
+  private ChangeMessage cmsg;
 
-  WorkInProgressOp(ChangeMessagesUtil cmUtil, boolean workInProgress, Input in) {
+  WorkInProgressOp(
+      ChangeMessagesUtil cmUtil,
+      ReadyForReviewSender.Factory readyForReviewSenderFactory,
+      boolean workInProgress,
+      Input in) {
     this.cmUtil = cmUtil;
+    this.readyForReviewSenderFactory = readyForReviewSenderFactory;
     this.workInProgress = workInProgress;
     this.in = in;
   }
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws OrmException {
-    Change change = ctx.getChange();
+    change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     change.setWorkInProgress(workInProgress);
     change.setLastUpdatedOn(ctx.getWhen());
@@ -67,7 +81,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
       buf.append(m);
     }
 
-    ChangeMessage cmsg =
+    cmsg =
         ChangeMessagesUtil.newMessage(
             ctx,
             buf.toString(),
@@ -76,5 +90,22 @@ public class WorkInProgressOp implements BatchUpdateOp {
                 : ChangeMessagesUtil.TAG_SET_READY);
 
     cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
+  }
+
+  @Override
+  public void postUpdate(Context ctx) throws Exception {
+    if (workInProgress) {
+      return;
+    }
+
+    try {
+      ReadyForReviewSender cm =
+          readyForReviewSenderFactory.create(ctx.getProject(), change.getId());
+      cm.setFrom(ctx.getAccount().getId());
+      cm.setChangeMessage(cmsg.getMessage(), cmsg.getWrittenOn());
+      cm.send();
+    } catch (Exception e) {
+      log.error("Cannot send email for ready for review");
+    }
   }
 }

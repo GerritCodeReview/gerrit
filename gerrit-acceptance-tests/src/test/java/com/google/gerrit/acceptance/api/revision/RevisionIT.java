@@ -94,6 +94,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -669,6 +671,68 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickToChangeRevision() throws Exception {
+    ObjectId initialHead = getRemoteHead();
+    PushOneCommit.Result srcChange = createChange();
+    testRepo.reset(initialHead);
+
+    createBranch(new NameKey(project, "foo"));
+
+    PushOneCommit.Result dstChange = createChange(testRepo, "foo", SUBJECT, "b.txt", "b", "t");
+    dstChange.assertOkStatus();
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = "foo";
+    input.base = dstChange.getCommit().name();
+    input.message = srcChange.getCommit().getFullMessage();
+    ChangeInfo changeInfo =
+        gApi.changes().id(srcChange.getChangeId()).current().cherryPick(input).get();
+    assertCherryPickResult(changeInfo, input, srcChange.getChangeId());
+  }
+
+  @Test
+  public void cherryPickToNonVisibleChangeFails() throws Exception {
+    TestRepository<InMemoryRepository> userTestRepo = cloneProject(project, user);
+    PushOneCommit.Result change1 =
+        pushFactory
+            .create(db, user.getIdent(), userTestRepo, SUBJECT, "b.txt", "b")
+            .to("refs/for/master");
+    change1.assertOkStatus();
+
+    setApiUser(admin);
+    PushOneCommit.Result change2 = createChange();
+    gApi.changes().id(change2.getChangeId()).setPrivate(true, null);
+
+    setApiUser(user);
+    CherryPickInput input = new CherryPickInput();
+    input.destination = "master";
+    input.base = change2.getCommit().name();
+    input.message = change1.getCommit().getFullMessage();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("Invalid commit " + input.base);
+    gApi.changes().id(change1.getChangeId()).current().cherryPick(input);
+  }
+
+  @Test
+  public void cherryPickToAbandonedChangeFails() throws Exception {
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+    gApi.changes().id(change2.getChangeId()).abandon();
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = "master";
+    input.base = change2.getCommit().name();
+    input.message = change1.getCommit().getFullMessage();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage(
+        String.format(
+            "Change %s is %s", change2.getChange().getId().get(), ChangeStatus.ABANDONED));
+    gApi.changes().id(change1.getChangeId()).current().cherryPick(input);
+  }
+
+  @Test
   public void canRebase() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");
@@ -1082,6 +1146,16 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(message.message).isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
     assertThat(getReviewers(c.reviewers.get(REVIEWER)))
         .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+  }
+
+  private void assertCherryPickResult(
+      ChangeInfo changeInfo, CherryPickInput input, String srcChangeId) throws Exception {
+    assertThat(changeInfo.changeId).isEqualTo(srcChangeId);
+    assertThat(changeInfo.revisions.keySet()).containsExactly(changeInfo.currentRevision);
+    RevisionInfo revisionInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    assertThat(revisionInfo.commit.message).isEqualTo(input.message);
+    assertThat(revisionInfo.commit.parents).hasSize(1);
+    assertThat(revisionInfo.commit.parents.get(0).commit).isEqualTo(input.base);
   }
 
   private PushOneCommit.Result updateChange(PushOneCommit.Result r, String content)

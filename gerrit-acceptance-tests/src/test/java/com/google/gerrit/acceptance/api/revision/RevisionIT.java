@@ -94,6 +94,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -666,6 +668,106 @@ public class RevisionIT extends AbstractDaemonTest {
     sender.clear();
     gApi.changes().id(changeId).current().cherryPick(input);
     assertNotifyTo(userToNotify);
+  }
+
+  @Test
+  public void cherryPickToMergedCommit() throws Exception {
+    // Create two merged commits on 'master'.
+    PushOneCommit.Result change1 = createChange();
+    merge(change1);
+    PushOneCommit.Result change2 = createChange();
+    merge(change2);
+
+    createBranch(new NameKey(project, "foo"));
+
+    TestRepository<InMemoryRepository> userTestRepo = cloneProject(project, user);
+    PushOneCommit.Result change3 =
+        pushFactory
+            .create(db, user.getIdent(), userTestRepo, SUBJECT, "b.txt", "b")
+            .to("refs/for/foo");
+    change3.assertOkStatus();
+
+    // Cherry-pick 'change3' to 'master' and base it on merged 'change1'.
+    CherryPickInput input = new CherryPickInput();
+    input.destination = "master";
+    input.base = change1.getCommit().name();
+    input.message = change3.getCommit().getFullMessage();
+
+    cherryPick(input, change3.getChangeId());
+  }
+
+  @Test
+  public void cherryPickToChange() throws Exception {
+    // Create 'change1' on 'master' branch.
+    PushOneCommit.Result change1 = createChange();
+
+    createBranch(new NameKey(project, "foo"));
+
+    // Create 'change2' on 'foo' branch.
+    TestRepository<InMemoryRepository> userTestRepo = cloneProject(project, user);
+    PushOneCommit.Result change2 =
+        pushFactory
+            .create(db, user.getIdent(), userTestRepo, SUBJECT, "b.txt", "b")
+            .to("refs/for/foo");
+    change2.assertOkStatus();
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = "foo";
+    input.base = change2.getCommit().name();
+    input.message = change1.getCommit().getFullMessage();
+
+    cherryPick(input, change1.getChangeId());
+  }
+
+  private void cherryPick(CherryPickInput input, String srcChangeId) throws Exception {
+    ChangeInfo changeInfo = gApi.changes().id(srcChangeId).current().cherryPick(input).get();
+
+    assertThat(changeInfo.changeId).isEqualTo(srcChangeId);
+    assertThat(changeInfo.revisions.keySet()).containsExactly(changeInfo.currentRevision);
+    RevisionInfo revisionInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    assertThat(revisionInfo.commit.message).isEqualTo(input.message);
+    assertThat(revisionInfo.commit.parents).hasSize(1);
+    assertThat(revisionInfo.commit.parents.get(0).commit).isEqualTo(input.base);
+  }
+
+  @Test
+  public void cherryPickToNonVisibleChangeFails() throws Exception {
+    TestRepository<InMemoryRepository> userTestRepo = cloneProject(project, user);
+    PushOneCommit.Result change1 =
+        pushFactory
+            .create(db, user.getIdent(), userTestRepo, SUBJECT, "b.txt", "b")
+            .to("refs/for/master");
+    change1.assertOkStatus();
+
+    setApiUser(admin);
+    PushOneCommit.Result change2 = createChange();
+    gApi.changes().id(change2.getChangeId()).setPrivate(true, null);
+
+    setApiUser(user);
+    CherryPickInput input = new CherryPickInput();
+    input.destination = "master";
+    input.base = change2.getCommit().name();
+    input.message = change1.getCommit().getFullMessage();
+
+    exception.expect(ResourceNotFoundException.class);
+    gApi.changes().id(change1.getChangeId()).current().cherryPick(input);
+  }
+
+  @Test
+  public void cherryPickToAbandonedChangeFails() throws Exception {
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+    gApi.changes().id(change2.getChangeId()).abandon();
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = "master";
+    input.base = change2.getCommit().name();
+    input.message = change1.getCommit().getFullMessage();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage(
+        String.format("change %s is not open", change2.getChange().getId().get()));
+    gApi.changes().id(change1.getChangeId()).current().cherryPick(input);
   }
 
   @Test

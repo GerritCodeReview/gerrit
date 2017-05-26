@@ -34,7 +34,7 @@ limitations under the License.
 <link rel="import" href="./settings/gr-cla-view/gr-cla-view.html">
 <link rel="import" href="./settings/gr-registration-dialog/gr-registration-dialog.html">
 <link rel="import" href="./settings/gr-settings-view/gr-settings-view.html">
-<link rel="import" href="./shared/gr-header/gr-header.html">
+<link rel="import" href="./shared/gr-fixed-panel/gr-fixed-panel.html">
 <link rel="import" href="./shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="./shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
@@ -48,7 +48,7 @@ limitations under the License.
         min-height: 100%;
         flex-direction: column;
       }
-      gr-header {
+      gr-fixed-panel {
         /**
          * This one should be greater that the z-index in gr-diff-view
          * because gr-main-header contains overlay.
@@ -101,10 +101,10 @@ limitations under the License.
         color: #b71c1c;
       }
     </style>
-    <gr-header>
+    <gr-fixed-panel>
       <gr-main-header id="mainHeader" search-query="{{params.query}}">
       </gr-main-header>
-    </gr-header>
+    </gr-fixed-panel>
     <main>
       <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
         <gr-change-list-view
@@ -153,23 +153,26 @@ limitations under the License.
         <div class="errorMoreInfo">[[_lastError.moreInfo]]</div>
       </div>
     </main>
-    <footer role="contentinfo">
-      <div>
-        Powered by <a href="https://www.gerritcodereview.com/" rel="noopener"
-        target="_blank">Gerrit Code Review</a>
-        ([[_version]])
-      </div>
-      <div>
-        <a class="feedback"
-            href="https://bugs.chromium.org/p/gerrit/issues/entry?template=PolyGerrit%20Issue"
-            rel="noopener" target="_blank">Send feedback</a>
-        <template is="dom-if" if="[[_computeShowGwtUiLink(_serverConfig)]]">
-          |
-          <a id="gwtLink" href$="[[computeGwtUrl(_path)]]" rel="external">Old UI</a>
-        </template>
-        | Press &ldquo;?&rdquo; for keyboard shortcuts
-      </div>
-    </footer>
+    <gr-fixed-panel
+        ready-for-measure="false">
+      <footer r="contentinfo">
+        <div>
+          Powered by <a href="https://www.gerritcodereview.com/" rel="noopener"
+          target="_blank">Gerrit Code Review</a>
+          ([[_version]])
+        </div>
+        <div>
+          <a class="feedback"
+              href="https://bugs.chromium.org/p/gerrit/issues/entry?template=PolyGerrit%20Issue"
+              rel="noopener" target="_blank">Send feedback</a>
+          <template is="dom-if" if="[[_computeShowGwtUiLink(_serverConfig)]]">
+            |
+            <a id="gwtLink" href$="[[computeGwtUrl(_path)]]" rel="external">Old UI</a>
+          </template>
+          | Press &ldquo;?&rdquo; for keyboard shortcuts
+        </div>
+      </footer>
+    </gr-fixed-panel>
     <gr-overlay id="keyboardShortcuts" with-backdrop>
       <gr-keyboard-shortcuts-dialog
           view="[[params.view]]"

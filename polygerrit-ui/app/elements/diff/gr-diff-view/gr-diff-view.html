@@ -21,7 +21,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-header/gr-header.html">
+<link rel="import" href="../../shared/gr-fixed-panel/gr-fixed-panel.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../gr-diff-cursor/gr-diff-cursor.html">
@@ -38,7 +38,7 @@ limitations under the License.
       gr-diff {
         border: none;
       }
-      gr-header {
+      gr-fixed-panel {
         background-color: #fff;
         border-bottom: 1px #eee solid;
         z-index: 1;
@@ -185,7 +185,7 @@ limitations under the License.
         }
       }
     </style>
-    <gr-header
+    <gr-fixed-panel
         keep-on-scroll
         ready-for-measure="[[!_loading]]">
       <header>
@@ -285,7 +285,7 @@ limitations under the License.
           </span>
         </div>
       </div>
-    </gr-header>
+    </gr-fixed-panel>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden hidden$="[[_loading]]">
       <gr-diff-preferences

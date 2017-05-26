@@ -339,7 +339,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     input.message = "it goes to foo branch";
     gApi.projects().name(project.get()).branch(input.destination).create(new BranchInput());
 
-    RevCommit revCommit = createNewCommitWithoutChangeId();
+    RevCommit revCommit = createNewCommitWithoutChangeId("refs/heads/master");
     ChangeInfo changeInfo =
         gApi.projects().name(project.get()).commit(revCommit.getName()).cherryPick(input).get();
 
@@ -383,16 +383,37 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(revInfo.commit.message).isEqualTo(input.message + "\n");
   }
 
-  private RevCommit createNewCommitWithoutChangeId() throws Exception {
+  @Test
+  public void cherryPickToCommitWithoutChangeId() throws Exception {
+    RevCommit revCommit = createNewCommitWithoutChangeId("refs/heads/foo");
+
+    PushOneCommit.Result srcChange = createChange("subject", "b.txt", "b");
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = "foo";
+    input.base = revCommit.name();
+    input.message = srcChange.getCommit().getFullMessage();
+    ChangeInfo changeInfo =
+        gApi.changes().id(srcChange.getChangeId()).current().cherryPick(input).get();
+
+    assertThat(changeInfo.changeId).isEqualTo(srcChange.getChangeId());
+    assertThat(changeInfo.revisions.keySet()).containsExactly(changeInfo.currentRevision);
+    RevisionInfo revisionInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    assertThat(revisionInfo.commit.message).isEqualTo(input.message);
+    assertThat(revisionInfo.commit.parents).hasSize(1);
+    assertThat(revisionInfo.commit.parents.get(0).commit).isEqualTo(input.base);
+  }
+
+  private RevCommit createNewCommitWithoutChangeId(String branch) throws Exception {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk walk = new RevWalk(repo)) {
-      Ref ref = repo.exactRef("refs/heads/master");
+      Ref ref = repo.exactRef(branch);
       RevCommit tip = null;
       if (ref != null) {
         tip = walk.parseCommit(ref.getObjectId());
       }
       TestRepository<?> testSrcRepo = new TestRepository<>(repo);
-      TestRepository<?>.BranchBuilder builder = testSrcRepo.branch("refs/heads/master");
+      TestRepository<?>.BranchBuilder builder = testSrcRepo.branch(branch);
       RevCommit revCommit =
           tip == null
               ? builder.commit().message("commit 1").add("a.txt", "content").create()

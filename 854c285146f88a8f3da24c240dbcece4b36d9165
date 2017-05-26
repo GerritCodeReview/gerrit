@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40b2f4a9_8a8cadb1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-26T21:20:18Z",
+      "side": 1,
+      "message": "This filter call does nothing, and can just be deleted.",
+      "range": {
+        "startLine": 105,
+        "startChar": 6,
+        "endLine": 106,
+        "endChar": 18
+      },
+      "revId": "854c285146f88a8f3da24c240dbcece4b36d9165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

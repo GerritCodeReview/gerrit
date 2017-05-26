@@ -64,9 +64,6 @@
     },
 
     _handleResize() {
-      if (this._headerFloating) {
-        this._unfloatHeader();
-      }
       this.debounce('resize', () => {
         this._maybeFloatHeader();
         this._handleScrollDebounced();

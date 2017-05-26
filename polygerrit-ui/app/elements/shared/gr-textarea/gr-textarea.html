@@ -38,8 +38,11 @@ limitations under the License.
         background-color: var(--background-color, none);
         width: 100%;
       }
+      /*This is needed to not add a scroll bar on the side of gr-textarea
+      since there is 2px of padding in iron-autogrow-textarea for the
+      native textarea*/
       iron-autogrow-textarea {
-        padding: 0;
+        padding: 2px;
       }
       #textarea.noBorder {
         border: none;

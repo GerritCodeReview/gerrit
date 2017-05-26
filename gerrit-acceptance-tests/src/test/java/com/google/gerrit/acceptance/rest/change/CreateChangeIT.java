@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
@@ -27,7 +26,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
@@ -59,11 +57,9 @@ import com.google.gerrit.testutil.TestTimeUtil;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -340,7 +336,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     input.message = "it goes to foo branch";
     gApi.projects().name(project.get()).branch(input.destination).create(new BranchInput());
 
-    RevCommit revCommit = createNewCommitWithoutChangeId();
+    RevCommit revCommit = createNewCommitWithoutChangeId("refs/heads/master", "a.txt", "content");
     ChangeInfo changeInfo =
         gApi.projects().name(project.get()).commit(revCommit.getName()).cherryPick(input).get();
 
@@ -382,25 +378,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
     RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
     assertThat(revInfo).isNotNull();
     assertThat(revInfo.commit.message).isEqualTo(input.message + "\n");
-  }
-
-  private RevCommit createNewCommitWithoutChangeId() throws Exception {
-    try (Repository repo = repoManager.openRepository(project);
-        RevWalk walk = new RevWalk(repo)) {
-      Ref ref = repo.exactRef("refs/heads/master");
-      RevCommit tip = null;
-      if (ref != null) {
-        tip = walk.parseCommit(ref.getObjectId());
-      }
-      TestRepository<?> testSrcRepo = new TestRepository<>(repo);
-      TestRepository<?>.BranchBuilder builder = testSrcRepo.branch("refs/heads/master");
-      RevCommit revCommit =
-          tip == null
-              ? builder.commit().message("commit 1").add("a.txt", "content").create()
-              : builder.commit().parent(tip).message("commit 1").add("a.txt", "content").create();
-      assertThat(GitUtil.getChangeId(testSrcRepo, revCommit)).isEmpty();
-      return revCommit;
-    }
   }
 
   private ChangeInput newChangeInput(ChangeStatus status) {

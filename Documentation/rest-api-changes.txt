@@ -5688,6 +5688,9 @@ The `CherryPickInput` entity contains information for cherry-picking a change to
 |Field Name         ||Description
 |`message`          ||Commit message for the cherry-picked change
 |`destination`      ||Destination branch
+|`base`             |optional|
+40-hex digit SHA-1 of the commit which will be the parent commit of the newly created change.
+If set, it must be a merged commit or a change revision on the destination branch.
 |`parent`           |optional, defaults to 1|
 Number of the parent relative to which the cherry-pick should be considered.
 |`notify`           |optional|

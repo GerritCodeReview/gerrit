@@ -85,7 +85,7 @@ public class CherryPickCommit
     try {
       Change.Id cherryPickedChangeId =
           cherryPickChange.cherryPick(
-              updateFactory, null, null, null, null, project, commit, input, refName, refControl);
+              updateFactory, null, null, null, null, project, commit, input, refControl);
       return json.noOptions().format(project, cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());

@@ -1255,4 +1255,24 @@ public abstract class AbstractDaemonTest {
     String res = new String(os.toByteArray(), UTF_8);
     assertThat(res).isEqualTo(expectedContent);
   }
+
+  protected RevCommit createNewCommitWithoutChangeId(String branch, String file, String content)
+      throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk walk = new RevWalk(repo)) {
+      Ref ref = repo.exactRef(branch);
+      RevCommit tip = null;
+      if (ref != null) {
+        tip = walk.parseCommit(ref.getObjectId());
+      }
+      TestRepository<?> testSrcRepo = new TestRepository<>(repo);
+      TestRepository<?>.BranchBuilder builder = testSrcRepo.branch(branch);
+      RevCommit revCommit =
+          tip == null
+              ? builder.commit().message("commit 1").add(file, content).create()
+              : builder.commit().parent(tip).message("commit 1").add(file, content).create();
+      assertThat(GitUtil.getChangeId(testSrcRepo, revCommit).isPresent()).isFalse();
+      return revCommit;
+    }
+  }
 }

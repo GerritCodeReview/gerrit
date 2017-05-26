@@ -1320,5 +1320,19 @@ limitations under the License.
             'header wip');
       });
     });
+
+    test('_maybeScrollToMessage', () => {
+      const scrollStub = sandbox.stub(element.$.messageList, 'scrollToMessage');
+
+      element._maybeScrollToMessage('');
+      assert.isFalse(scrollStub.called);
+
+      element._maybeScrollToMessage('message');
+      assert.isFalse(scrollStub.called);
+
+      element._maybeScrollToMessage('#message-TEST');
+      assert.isTrue(scrollStub.called);
+      assert.equal(scrollStub.lastCall.args[0], 'TEST');
+    });
   });
 </script>

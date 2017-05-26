@@ -64,6 +64,8 @@
     close() {
       if (this.moveToRoot) {
         Gerrit.getRootElement().removeChild(this);
+      } else {
+        this.hidden = true;
       }
     },
 
@@ -134,7 +136,9 @@
 
     _handleEscape() {
       this._fireClose();
-      this.close();
+      if (!this.hidden) {
+        this.close();
+      }
     },
 
     _handleTapItem(e) {

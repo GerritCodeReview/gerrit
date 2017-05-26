@@ -70,6 +70,30 @@
       "revId": "2ea7f19aa8542d4f3e7a2d0b47b5cd6131f54a5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b37fe54d_f154b1d6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-26T18:05:17Z",
+      "side": 1,
+      "message": "Yep, tested with the simulator (iphone) and saw it look a lot better then before. I also tested on safari.",
+      "parentUuid": "5e397527_0ea7f777",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 7
+      },
+      "revId": "2ea7f19aa8542d4f3e7a2d0b47b5cd6131f54a5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

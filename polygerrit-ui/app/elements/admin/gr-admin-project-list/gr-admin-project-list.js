@@ -118,7 +118,7 @@
 
     _hideNextArrow(loading, projects) {
       let lastPage = false;
-      if (projects.length < this._projectsPerPage + 1) {
+      if (projects.length < this._projectsPerPage) {
         lastPage = true;
       }
       return loading || lastPage || !projects || !projects.length;

@@ -118,7 +118,7 @@ limitations under the License.
       test('test next button', done => {
         flush(() => {
           let loading;
-          assert.isTrue(element._hideNextArrow(loading, projects));
+          assert.isFalse(element._hideNextArrow(loading, projects));
           projects = _.times(1, projectGenerator);
           assert.isTrue(element._hideNextArrow(loading, projects));
           projects = _.times(26, projectGenerator);

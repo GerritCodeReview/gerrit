@@ -481,7 +481,7 @@
             document.documentElement.scrollTop =
                 document.body.scrollTop = this.viewState.scrollTop;
           } else {
-            this._maybeScrollToMessage();
+            this._maybeScrollToMessage(window.location.hash);
           }
         }, 1);
       });
@@ -513,10 +513,9 @@
       this.viewState.numFilesShown = numFilesShown;
     },
 
-    _maybeScrollToMessage() {
+    _maybeScrollToMessage(hash) {
       const msgPrefix = '#message-';
-      const hash = window.location.hash;
-      if (hash.startsWith(msgPrefix) === 0) {
+      if (hash.startsWith(msgPrefix)) {
         this.$.messageList.scrollToMessage(hash.substr(msgPrefix.length));
       }
     },

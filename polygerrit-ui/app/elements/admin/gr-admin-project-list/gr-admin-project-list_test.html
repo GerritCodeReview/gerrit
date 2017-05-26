@@ -56,7 +56,7 @@ limitations under the License.
 
     suite('list with projects', () => {
       setup(done => {
-        projects = _.times(30, projectGenerator);
+        projects = _.times(26, projectGenerator);
 
         stub('gr-rest-api-interface', {
           getProjects(num, offset) {
@@ -99,6 +99,10 @@ limitations under the License.
           assert.isFalse(element._hidePrevArrow(offset));
         });
       });
+
+      test('_shownProjects', () => {
+        assert.equal(element._shownProjects.length, 25);
+      });
     });
 
     suite('test with less then 25 projects', () => {
@@ -125,6 +129,10 @@ limitations under the License.
           assert.isFalse(element._hideNextArrow(loading, projects));
           done();
         });
+      });
+
+      test('_shownProjects', () => {
+        assert.equal(element._shownProjects.length, 25);
       });
     });
   });

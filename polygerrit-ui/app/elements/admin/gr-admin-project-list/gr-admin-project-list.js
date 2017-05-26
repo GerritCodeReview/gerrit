@@ -97,16 +97,13 @@
           this.encodeURL(item, false);
     },
 
-    _isProjectWebLink(link) {
-      return link.name === 'gitiles' || link.name === 'gitweb';
-    },
 
     _computeWeblink(project) {
       if (!project.web_links) {
         return '';
       }
       const webLinks = project.web_links.filter(
-          l => !this._isProjectWebLink(l));
+          l => l);
       return webLinks.length ? webLinks : null;
     },
 

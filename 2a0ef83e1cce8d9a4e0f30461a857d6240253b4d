@@ -16,6 +16,40 @@
       "revId": "2a0ef83e1cce8d9a4e0f30461a857d6240253b4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f79a3f7_855c34dc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-26T11:17:47Z",
+      "side": 0,
+      "message": "Comment removed by: Changcheng Xiao",
+      "revId": "2a0ef83e1cce8d9a4e0f30461a857d6240253b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b43c4e8_2b0f8cb7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-26T11:17:47Z",
+      "side": 0,
+      "message": "Comment removed by: Changcheng Xiao",
+      "revId": "2a0ef83e1cce8d9a4e0f30461a857d6240253b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

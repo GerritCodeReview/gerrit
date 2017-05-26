@@ -41,6 +41,7 @@ limitations under the License.
     setup(() => {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
+      element.readyForMeasure = true;
     });
 
     teardown(() => {
@@ -81,12 +82,12 @@ limitations under the License.
 
       test('scrolls header along with document', () => {
         emulateScrollY(20);
-        assert.equal(getHeaderTop(), '-10px');
+        assert.equal(getHeaderTop(), '-12px');
       });
 
       test('does not stick to the top by default', () => {
         emulateScrollY(150);
-        assert.equal(getHeaderTop(), '-140px');
+        assert.equal(getHeaderTop(), '-100px');
       });
 
       test('sticks to the top if enabled', () => {

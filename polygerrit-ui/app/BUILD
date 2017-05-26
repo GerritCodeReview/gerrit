@@ -189,7 +189,7 @@ sh_test(
     srcs = ["polylint_test.sh"],
     data = [
         ":pg_code",
-        ":bower_components",
+        "//polygerrit-ui:polygerrit_components.bower_components.zip",
     ],
     # Should not run sandboxed.
     tags = [

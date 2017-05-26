@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1f9b0ce_347e0d7d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-26T21:49:12Z",
+      "side": 1,
+      "message": "The style here differs a bit from settings: the sections under the headers are not indented with a left padding/margin. Is that intended?",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 11
+      },
+      "revId": "7773a517e0e19416abb1490056a6fd0178bf36ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf0bf1ab_94707863",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-26T21:49:12Z",
+      "side": 1,
+      "message": "Nit: this text can be wrapped. Same for a few title SPANs below.",
+      "range": {
+        "startLine": 93,
+        "startChar": 34,
+        "endLine": 93,
+        "endChar": 95
+      },
+      "revId": "7773a517e0e19416abb1490056a6fd0178bf36ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1695f384_9c5f0294",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-26T21:49:12Z",
+      "side": 1,
+      "message": "Nit: Indent one more level.",
+      "range": {
+        "startLine": 155,
+        "startChar": 18,
+        "endLine": 158,
+        "endChar": 45
+      },
+      "revId": "7773a517e0e19416abb1490056a6fd0178bf36ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "430c66ea_1f2bd1cc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-26T21:49:12Z",
+      "side": 1,
+      "message": "Nit: Indent one more level.",
+      "range": {
+        "startLine": 170,
+        "startChar": 18,
+        "endLine": 173,
+        "endChar": 45
+      },
+      "revId": "7773a517e0e19416abb1490056a6fd0178bf36ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b74b08c_7b5b8dbe",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-26T21:49:12Z",
+      "side": 1,
+      "message": "Unlike settings, the [Save] button is always enabled (rather than enabled only after a change is made with a little * on the header). Would that be a reasonable feature here?\n\nMaybe this is an embellishment, but it might also be nice to make this form work similarly to the settings forms. Just curious.",
+      "range": {
+        "startLine": 185,
+        "startChar": 14,
+        "endLine": 185,
+        "endChar": 39
+      },
+      "revId": "7773a517e0e19416abb1490056a6fd0178bf36ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

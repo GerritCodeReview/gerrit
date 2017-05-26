@@ -69,12 +69,14 @@ limitations under the License.
 
     test('escape key', () => {
       const listener = sandbox.spy();
+      element.hidden = false;
       element.addEventListener('dropdown-closed', listener);
       const closeSpy = sandbox.spy(element, 'close');
       MockInteractions.pressAndReleaseKeyOn(element, 27);
       flushAsynchronousOperations();
       assert.isTrue(listener.called);
       assert.isTrue(closeSpy.called);
+      assert.isTrue(element.hidden);
     });
 
     test('tab key', () => {

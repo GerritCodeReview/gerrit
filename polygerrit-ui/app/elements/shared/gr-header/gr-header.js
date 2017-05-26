@@ -117,6 +117,10 @@
       if (rect.height === 0 && rect.width === 0) {
         return; // Not ready for measurement yet.
       }
+      const isVisible = (rect.top >= 0) && (rect.bottom <= window.innerHeight);
+      if (!isVisible) {
+        return;
+      }
       const top = document.body.scrollTop + rect.top;
       this._topInitial = top;
       this._topLast = top;

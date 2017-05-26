@@ -46,6 +46,30 @@
       "revId": "2ea7f19aa8542d4f3e7a2d0b47b5cd6131f54a5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e397527_0ea7f777",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-26T18:03:33Z",
+      "side": 1,
+      "message": "My main concern is variable (narrower) screen sizes. Have you played around with resizing the screen and seeing if that still looks decent? We probably even want to do something like the change list which changes to a different (responsive) layout when mobile size. Though we can probably add that later.",
+      "parentUuid": "47dbb6d4_f0de04be",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 7
+      },
+      "revId": "2ea7f19aa8542d4f3e7a2d0b47b5cd6131f54a5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

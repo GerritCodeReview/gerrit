@@ -289,16 +289,18 @@
     },
 
     _handleLeftBracketKey(e) {
+      // Check for meta key to avoid overriding native chrome shortcut.
       if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
+          this.getKeyboardEvent(e).metaKey) { return; }
 
       e.preventDefault();
       this._navToFile(this._path, this._fileList, -1);
     },
 
     _handleRightBracketKey(e) {
+      // Check for meta key to avoid overriding native chrome shortcut.
       if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
+          this.getKeyboardEvent(e).metaKey) { return; }
 
       e.preventDefault();
       this._navToFile(this._path, this._fileList, 1);

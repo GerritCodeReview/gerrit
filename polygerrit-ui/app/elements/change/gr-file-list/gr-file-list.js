@@ -516,14 +516,18 @@
     },
 
     _handleLeftBracketKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      // Check for meta key to avoid overriding native chrome shortcut.
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.getKeyboardEvent(e).metaKey) { return; }
 
       e.preventDefault();
       this._openSelectedFile(this._files.length - 1);
     },
 
     _handleRightBracketKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      // Check for meta key to avoid overriding native chrome shortcut.
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.getKeyboardEvent(e).metaKey) { return; }
 
       e.preventDefault();
       this._openSelectedFile(0);

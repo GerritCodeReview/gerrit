@@ -94,7 +94,7 @@
 
     _getUrl(item) {
       return this.getBaseUrl() + '/admin/projects/' +
-          this.encodeURL(item, false);
+          this.encodeURL(item, true);
     },
 
 

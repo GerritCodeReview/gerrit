@@ -93,8 +93,7 @@
     },
 
     _getUrl(item) {
-      return this.getBaseUrl() + '/admin/projects/' +
-          this.encodeURL(item, false);
+      return `${this.getBaseUrl()}/admin/projects/${this.encodeURL(item, true)}`;
     },
 
 

@@ -35,51 +35,51 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
   @Test
   public void setAssigneeOnReviewableChange() throws Exception {
     StagedChange sc = stageReviewableChange();
-    assign(sc, sc.owner, assignee);
+    assign(sc, sc.owner, sc.assignee);
     assertThat(sender)
         .sent("setassignee", sc)
         .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer)
         .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
         .cc(sc.ccerByEmail) // TODO(logan): This is probably not intended!
-        .to(assignee);
+        .to(sc.assignee);
   }
 
   @Test
   public void setAssigneeOnReviewableChangeByOwnerCcingSelf() throws Exception {
     StagedChange sc = stageReviewableChange();
-    assign(sc, sc.owner, assignee, CC_ON_OWN_COMMENTS);
+    assign(sc, sc.owner, sc.assignee, CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("setassignee", sc)
         .notTo(sc.reviewer, sc.ccer, sc.starrer)
         .cc(sc.owner)
         .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
         .cc(sc.ccerByEmail) // TODO(logan): This is probably not intended!
-        .to(assignee);
+        .to(sc.assignee);
   }
 
   @Test
   public void setAssigneeOnReviewableChangeByAdmin() throws Exception {
     StagedChange sc = stageReviewableChange();
-    assign(sc, admin, assignee);
+    assign(sc, admin, sc.assignee);
     assertThat(sender)
         .sent("setassignee", sc)
         .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer, admin)
         .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
         .cc(sc.ccerByEmail) // TODO(logan): This is probably not intended!
-        .to(assignee);
+        .to(sc.assignee);
   }
 
   @Test
   public void setAssigneeOnReviewableChangeByAdminCcingSelf() throws Exception {
     StagedChange sc = stageReviewableChange();
-    assign(sc, admin, assignee, CC_ON_OWN_COMMENTS);
+    assign(sc, admin, sc.assignee, CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("setassignee", sc)
         .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer)
         .cc(admin)
         .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
         .cc(sc.ccerByEmail) // TODO(logan): This is probably not intended!
-        .to(assignee);
+        .to(sc.assignee);
   }
 
   @Test
@@ -89,7 +89,7 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assign(sc, sc.owner, sc.owner);
     assertThat(sender)
         .sent("setassignee", sc)
-        .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer, assignee)
+        .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer, sc.assignee)
         .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
         .cc(sc.ccerByEmail); // TODO(logan): This is probably not intended!
   }
@@ -108,25 +108,25 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     TestAccount other = accountCreator.create("other", "other@example.com", "other");
     assign(sc, sc.owner, other);
     sender.clear();
-    assign(sc, sc.owner, assignee);
+    assign(sc, sc.owner, sc.assignee);
     assertThat(sender)
         .sent("setassignee", sc)
         .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer, other)
         .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
         .cc(sc.ccerByEmail) // TODO(logan): This is probably not intended!
-        .to(assignee);
+        .to(sc.assignee);
   }
 
   @Test
   public void changeAssigneeToSelfOnReviewableChangeInNoteDb() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageReviewableChange();
-    assign(sc, sc.owner, assignee);
+    assign(sc, sc.owner, sc.assignee);
     sender.clear();
     assign(sc, sc.owner, sc.owner);
     assertThat(sender)
         .sent("setassignee", sc)
-        .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer, assignee)
+        .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer, sc.assignee)
         .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
         .cc(sc.ccerByEmail); // TODO(logan): This is probably not intended!
   }
@@ -135,7 +135,7 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
   public void changeAssigneeToSelfOnReviewableChangeInReviewDb() throws Exception {
     assume().that(notesMigration.readChanges()).isFalse();
     StagedChange sc = stageReviewableChange();
-    assign(sc, sc.owner, assignee);
+    assign(sc, sc.owner, sc.assignee);
     sender.clear();
     assign(sc, sc.owner, sc.owner);
     assertThat(sender).notSent();
@@ -144,25 +144,25 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
   @Test
   public void setAssigneeOnReviewableWipChange() throws Exception {
     StagedChange sc = stageReviewableWipChange();
-    assign(sc, sc.owner, assignee);
+    assign(sc, sc.owner, sc.assignee);
     assertThat(sender)
         .sent("setassignee", sc)
         .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer)
         .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
         .cc(sc.ccerByEmail) // TODO(logan): This is probably not intended!
-        .to(assignee);
+        .to(sc.assignee);
   }
 
   @Test
   public void setAssigneeOnWipChange() throws Exception {
     StagedChange sc = stageWipChange();
-    assign(sc, sc.owner, assignee);
+    assign(sc, sc.owner, sc.assignee);
     assertThat(sender)
         .sent("setassignee", sc)
         .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer)
         .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
         .cc(sc.ccerByEmail) // TODO(logan): This is probably not intended!
-        .to(assignee);
+        .to(sc.assignee);
   }
 
   private void assign(StagedChange sc, TestAccount by, TestAccount to) throws Exception {

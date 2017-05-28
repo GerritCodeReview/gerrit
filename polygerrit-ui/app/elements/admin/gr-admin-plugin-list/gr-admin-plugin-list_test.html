@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-admin-plugin-list</title>
+
+<script src="../../../bower_components/page/page.js"></script>
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-admin-plugin-list.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-admin-plugin-list></gr-admin-plugin-list>
+  </template>
+</test-fixture>
+
+<script>
+  let counter = 0;
+  const pluginGenerator = () => {
+    return {
+      id: `test${++counter}`,
+      index_url: `plugins/test${++counter}/`,
+      version: '3.0-SNAPSHOT',
+      disabled: false,
+    };
+  };
+
+  suite('gr-admin-plugin-list tests', () => {
+    let element;
+    let plugins;
+    let sandbox;
+    let value;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    suite('list with plugins', () => {
+      setup(done => {
+        plugins = _.times(30, pluginGenerator);
+
+        stub('gr-rest-api-interface', {
+          getPlugins() {
+            return Promise.resolve(plugins);
+          },
+        });
+
+        element._paramsChanged(value).then(() => { flush(done); });
+      });
+
+      test('test for a test plugin in the list', done => {
+        flush(() => {
+          assert.equal(element._plugins[2].id, 'test3');
+          assert.equal(element._plugins[2].index_url, 'plugins/test3/');
+          assert.equal(element._plugins[2].version, '3.0-SNAPSHOT');
+          assert.equal(element._plugins[2].disabled, false);
+          done();
+        });
+      });
+    });
+  });
+</script>

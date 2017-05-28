@@ -84,7 +84,9 @@ class InitSshd implements InitStep {
         && (!exists(site.ssh_rsa)
             || !exists(site.ssh_dsa)
             || !exists(site.ssh_ed25519)
-            || !exists(site.ssh_ecdsa))) {
+            || !exists(site.ssh_ecdsa_256)
+            || !exists(site.ssh_ecdsa_384)
+            || !exists(site.ssh_ecdsa_521))) {
       System.err.print("Generating SSH host key ...");
       System.err.flush();
 
@@ -160,8 +162,8 @@ class InitSshd implements InitStep {
         }
       }
 
-      if (!exists(site.ssh_ecdsa)) {
-        System.err.print(" ecdsa...");
+      if (!exists(site.ssh_ecdsa_256)) {
+        System.err.print(" ecdsa 256...");
         System.err.flush();
         try {
           new ProcessBuilder(
@@ -169,12 +171,70 @@ class InitSshd implements InitStep {
                   "-q" /* quiet */,
                   "-t",
                   "ecdsa",
+                  "-b",
+                  "256",
                   "-P",
                   emptyPassphraseArg,
                   "-C",
                   comment,
                   "-f",
-                  site.ssh_ecdsa.toAbsolutePath().toString())
+                  site.ssh_ecdsa_256.toAbsolutePath().toString())
+              .redirectError(Redirect.INHERIT)
+              .redirectOutput(Redirect.INHERIT)
+              .start()
+              .waitFor();
+        } catch (Exception e) {
+          // continue since older hosts won't be able to generate ecdsa keys.
+          System.err.print(" Failed to generate ecdsa key, continuing...");
+          System.err.flush();
+        }
+      }
+
+      if (!exists(site.ssh_ecdsa_384)) {
+        System.err.print(" ecdsa 384...");
+        System.err.flush();
+        try {
+          new ProcessBuilder(
+                  "ssh-keygen",
+                  "-q" /* quiet */,
+                  "-t",
+                  "ecdsa",
+                  "-b",
+                  "384",
+                  "-P",
+                  emptyPassphraseArg,
+                  "-C",
+                  comment,
+                  "-f",
+                  site.ssh_ecdsa_384.toAbsolutePath().toString())
+              .redirectError(Redirect.INHERIT)
+              .redirectOutput(Redirect.INHERIT)
+              .start()
+              .waitFor();
+        } catch (Exception e) {
+          // continue since older hosts won't be able to generate ecdsa keys.
+          System.err.print(" Failed to generate ecdsa key, continuing...");
+          System.err.flush();
+        }
+      }
+
+      if (!exists(site.ssh_ecdsa_521)) {
+        System.err.print(" ecdsa 521...");
+        System.err.flush();
+        try {
+          new ProcessBuilder(
+                  "ssh-keygen",
+                  "-q" /* quiet */,
+                  "-t",
+                  "ecdsa",
+                  "-b",
+                  "521",
+                  "-P",
+                  emptyPassphraseArg,
+                  "-C",
+                  comment,
+                  "-f",
+                  site.ssh_ecdsa_521.toAbsolutePath().toString())
               .redirectError(Redirect.INHERIT)
               .redirectOutput(Redirect.INHERIT)
               .start()

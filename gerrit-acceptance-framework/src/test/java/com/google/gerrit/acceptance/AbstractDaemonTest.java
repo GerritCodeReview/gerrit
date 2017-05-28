@@ -234,6 +234,7 @@ public abstract class AbstractDaemonTest {
   protected TestAccount user;
   protected TestRepository<InMemoryRepository> testRepo;
   protected String resourcePrefix;
+  protected Description description;
 
   @Inject private ChangeIndexCollection changeIndexes;
   @Inject private EventRecorder.Factory eventRecorderFactory;
@@ -306,6 +307,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void beforeTest(Description description) throws Exception {
+    this.description = description;
     GerritServer.Description classDesc =
         GerritServer.Description.forTestClass(description, configName);
     GerritServer.Description methodDesc =

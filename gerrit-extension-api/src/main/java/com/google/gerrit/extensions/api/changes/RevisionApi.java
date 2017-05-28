@@ -37,7 +37,7 @@ public interface RevisionApi {
 
   void description(String description) throws RestApiException;
 
-  void review(ReviewInput in) throws RestApiException;
+  ReviewResult review(ReviewInput in) throws RestApiException;
 
   void submit() throws RestApiException;
 
@@ -159,7 +159,7 @@ public interface RevisionApi {
     }
 
     @Override
-    public void review(ReviewInput in) {
+    public ReviewResult review(ReviewInput in) {
       throw new NotImplementedException();
     }
 

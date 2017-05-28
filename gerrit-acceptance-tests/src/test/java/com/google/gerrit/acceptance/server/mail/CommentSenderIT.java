@@ -27,7 +27,6 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import org.junit.Test;
 
@@ -35,8 +34,7 @@ public class CommentSenderIT extends AbstractNotificationTest {
   @Test
   public void commentOnReviewableChangeByOwner() throws Exception {
     StagedChange sc = stageReviewableChange(ALL_COMMENTS);
-    setApiUser(sc.owner);
-    review(sc.changeId, ENABLED);
+    review(sc.owner, sc.changeId, ENABLED);
     assertThat(sender)
         .sent("comment", sc)
         .notTo(sc.owner)
@@ -50,8 +48,7 @@ public class CommentSenderIT extends AbstractNotificationTest {
   @Test
   public void commentOnReviewableChangeByReviewer() throws Exception {
     StagedChange sc = stageReviewableChange(ALL_COMMENTS);
-    setApiUser(sc.reviewer);
-    review(sc.changeId, ENABLED);
+    review(sc.reviewer, sc.changeId, ENABLED);
     assertThat(sender)
         .sent("comment", sc)
         .notTo(sc.reviewer)
@@ -66,8 +63,7 @@ public class CommentSenderIT extends AbstractNotificationTest {
   @Test
   public void commentOnReviewableChangeByOwnerCcingSelf() throws Exception {
     StagedChange sc = stageReviewableChange(ALL_COMMENTS);
-    setApiUser(sc.owner);
-    review(sc.changeId, CC_ON_OWN_COMMENTS);
+    review(sc.owner, sc.changeId, CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("comment", sc)
         .to(sc.owner)
@@ -81,8 +77,7 @@ public class CommentSenderIT extends AbstractNotificationTest {
   @Test
   public void commentOnReviewableChangeByReviewerCcingSelf() throws Exception {
     StagedChange sc = stageReviewableChange(ALL_COMMENTS);
-    setApiUser(sc.reviewer);
-    review(sc.changeId, CC_ON_OWN_COMMENTS);
+    review(sc.reviewer, sc.changeId, CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("comment", sc)
         .to(sc.owner)
@@ -97,8 +92,7 @@ public class CommentSenderIT extends AbstractNotificationTest {
   public void commentOnReviewableChangeByOther() throws Exception {
     TestAccount other = accounts.create("other", "other@example.com", "other");
     StagedChange sc = stageReviewableChange(ALL_COMMENTS);
-    setApiUser(other);
-    review(sc.changeId, ENABLED);
+    review(other, sc.changeId, ENABLED);
     assertThat(sender)
         .sent("comment", sc)
         .notTo(other)
@@ -114,8 +108,7 @@ public class CommentSenderIT extends AbstractNotificationTest {
   public void commentOnReviewableChangeByOtherCcingSelf() throws Exception {
     TestAccount other = accounts.create("other", "other@example.com", "other");
     StagedChange sc = stageReviewableChange(ALL_COMMENTS);
-    setApiUser(other);
-    review(sc.changeId, CC_ON_OWN_COMMENTS);
+    review(other, sc.changeId, CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("comment", sc)
         .to(sc.owner)
@@ -129,7 +122,7 @@ public class CommentSenderIT extends AbstractNotificationTest {
   @Test
   public void commentOnReviewableChangeByOwnerNotifyOwnerReviewers() throws Exception {
     StagedChange sc = stageReviewableChange(ALL_COMMENTS);
-    review(sc.changeId, ENABLED, OWNER_REVIEWERS);
+    review(sc.owner, sc.changeId, ENABLED, OWNER_REVIEWERS);
     assertThat(sender)
         .sent("comment", sc)
         .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
@@ -142,7 +135,7 @@ public class CommentSenderIT extends AbstractNotificationTest {
   @Test
   public void commentOnReviewableChangeByOwnerNotifyOwner() throws Exception {
     StagedChange sc = stageReviewableChange(ALL_COMMENTS);
-    review(sc.changeId, ENABLED, OWNER);
+    review(sc.owner, sc.changeId, ENABLED, OWNER);
     assertThat(sender).notSent();
   }
 
@@ -150,14 +143,14 @@ public class CommentSenderIT extends AbstractNotificationTest {
   public void commentOnReviewableChangeByOwnerCcingSelfNotifyOwner() throws Exception {
     StagedChange sc = stageReviewableChange(ALL_COMMENTS);
     setEmailStrategy(sc.owner, CC_ON_OWN_COMMENTS);
-    review(sc.changeId, ENABLED, OWNER);
+    review(sc.owner, sc.changeId, ENABLED, OWNER);
     assertThat(sender).notSent(); // TODO(logan): Why not send to owner?
   }
 
   @Test
   public void commentOnReviewableChangeByOwnerNotifyNone() throws Exception {
     StagedChange sc = stageReviewableChange(ALL_COMMENTS);
-    review(sc.changeId, ENABLED, NONE);
+    review(sc.owner, sc.changeId, ENABLED, NONE);
     assertThat(sender).notSent();
   }
 
@@ -165,28 +158,28 @@ public class CommentSenderIT extends AbstractNotificationTest {
   public void commentOnReviewableChangeByOwnerCcingSelfNotifyNone() throws Exception {
     StagedChange sc = stageReviewableChange(ALL_COMMENTS);
     setEmailStrategy(sc.owner, CC_ON_OWN_COMMENTS);
-    review(sc.changeId, ENABLED, NONE);
+    review(sc.owner, sc.changeId, ENABLED, NONE);
     assertThat(sender).notSent(); // TODO(logan): Why not send to owner?
   }
 
   @Test
   public void commentOnWipChangeByOwner() throws Exception {
     StagedChange sc = stageWipChange(ALL_COMMENTS);
-    review(sc.changeId, ENABLED);
+    review(sc.owner, sc.changeId, ENABLED);
     assertThat(sender).notSent();
   }
 
   @Test
   public void commentOnWipChangeByOwnerCcingSelf() throws Exception {
     StagedChange sc = stageWipChange(ALL_COMMENTS);
-    review(sc.changeId, CC_ON_OWN_COMMENTS);
+    review(sc.owner, sc.changeId, CC_ON_OWN_COMMENTS);
     assertThat(sender).notSent();
   }
 
   @Test
   public void commentOnWipChangeByOwnerNotifyAll() throws Exception {
     StagedChange sc = stageWipChange(ALL_COMMENTS);
-    review(sc.changeId, ENABLED, ALL);
+    review(sc.owner, sc.changeId, ENABLED, ALL);
     assertThat(sender)
         .sent("comment", sc)
         .notTo(sc.owner)
@@ -200,19 +193,19 @@ public class CommentSenderIT extends AbstractNotificationTest {
   @Test
   public void commentOnReviewableWipChangeByOwner() throws Exception {
     StagedChange sc = stageReviewableWipChange(ALL_COMMENTS);
-    review(sc.changeId, ENABLED);
+    review(sc.owner, sc.changeId, ENABLED);
     assertThat(sender).notSent();
   }
 
-  private void review(String changeId, EmailStrategy strategy) throws Exception {
-    review(changeId, strategy, null);
+  private void review(TestAccount account, String changeId, EmailStrategy strategy)
+      throws Exception {
+    review(account, changeId, strategy, null);
   }
 
-  private void review(String changeId, EmailStrategy strategy, @Nullable NotifyHandling notify)
+  private void review(
+      TestAccount account, String changeId, EmailStrategy strategy, @Nullable NotifyHandling notify)
       throws Exception {
-    GeneralPreferencesInfo prefs = gApi.accounts().self().getPreferences();
-    prefs.emailStrategy = strategy;
-    gApi.accounts().self().setPreferences(prefs);
+    setEmailStrategy(account, strategy);
     ReviewInput in = ReviewInput.recommend();
     in.notify = notify;
     gApi.changes().id(changeId).revision("current").review(in);

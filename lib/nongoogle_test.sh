@@ -25,6 +25,7 @@ flogger
 flogger-google-extensions
 flogger-log4j-backend
 flogger-system-backend
+google-java-format
 gson
 guava
 guava-testlib

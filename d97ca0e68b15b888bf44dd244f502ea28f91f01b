@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93bfdebb_9d1fb1e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-28T23:18:55Z",
+      "side": 1,
+      "message": "Add a bit more context about why this is needed, or what issue it fixes.",
+      "revId": "d97ca0e68b15b888bf44dd244f502ea28f91f01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1baccc2a_949b6c1e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-28T23:18:55Z",
+      "side": 1,
+      "message": "ecdsa 256",
+      "range": {
+        "startLine": 188,
+        "startChar": 48,
+        "endLine": 188,
+        "endChar": 53
+      },
+      "revId": "d97ca0e68b15b888bf44dd244f502ea28f91f01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1faf5dca_c03eded8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-28T23:18:55Z",
+      "side": 1,
+      "message": "ecdsa 384",
+      "range": {
+        "startLine": 216,
+        "startChar": 48,
+        "endLine": 216,
+        "endChar": 53
+      },
+      "revId": "d97ca0e68b15b888bf44dd244f502ea28f91f01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bf66c17_7b096623",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-28T23:18:55Z",
+      "side": 1,
+      "message": "ecdsa 521",
+      "range": {
+        "startLine": 244,
+        "startChar": 48,
+        "endLine": 244,
+        "endChar": 53
+      },
+      "revId": "d97ca0e68b15b888bf44dd244f502ea28f91f01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df564b82_823a4fc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-28T23:18:55Z",
+      "side": 1,
+      "message": "What will happen on sites that already have the \"ssh_host_ecdsa_key\" file?",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 62
+      },
+      "revId": "d97ca0e68b15b888bf44dd244f502ea28f91f01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -182,6 +182,18 @@
       };
     });
 
+    page(/^\/admin\/plugins(\/)?$/, loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          app.params = {
+            view: 'gr-admin-plugin-list',
+          };
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
     page('/admin/(.*)', loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {

@@ -160,7 +160,19 @@ and contentious discussions about trivial issues like whitespace.
 You may download and run `google-java-format` on your own, or you may
 run `./tools/setup_gjf.sh` to download a local copy and set up a
 wrapper script. If you run your own copy, please use the same version,
-as there may be slight differences between versions.
+as there may be slight differences between versions. Another option is
+to use `google-java-format` exposed in Bazel build, using:
+
+====
+  bazel run --run_under="cd $PWD &&" tools:gjf -- -help
+====
+
+For example, to check and fix java format for all java files in the
+last commit, this command can be run:
+
+====
+  tools/run_gjf.sh
+====
 
 [[code-rules]]
 == Code Rules

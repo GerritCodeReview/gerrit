@@ -16,11 +16,13 @@
 
 set -eu
 
-GJF_VERSION=$(grep -o "^VERSION=.*$" tools/setup_gjf.sh | grep -o "[0-9][0-9]*\.[0-9][0-9]*")
-GJF=$(find 'tools/format' -regex '.*/google-java-format-[0-9][0-9]*\.[0-9][0-9]*')
-if [ ! -f "$GJF" ]; then
-  ./setup_gjf.sh
-  GJF=$(find 'tools/format' -regex '.*/google-java-format-[0-9][0-9]*\.[0-9][0-9]*')
+bazel_bin=$(which bazelisk 2>/dev/null)
+if [[ -z "$bazel_bin" ]]; then
+    echo "Warning: bazelisk is not installed; falling back to bazel."
+    bazel_bin=bazel
 fi
+
+GJF=`${bazel_bin} run --run_under=echo //tools:gjf 2>/dev/null`
+
 echo 'Running google-java-format check...'
-git show --diff-filter=AM --name-only --pretty="" HEAD | grep java$ | xargs $GJF -r
+git show --diff-filter=AM --name-only --pretty="" HEAD | grep java$ | xargs ${GJF} -r

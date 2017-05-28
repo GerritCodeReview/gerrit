@@ -515,6 +515,12 @@
       );
     },
 
+    getPlugins() {
+      return this._fetchSharedCacheURL(
+          '/plugins/?all'
+      );
+    },
+
     getSuggestedGroups(inputVal, opt_n, opt_errFn, opt_ctx) {
       const params = {s: inputVal};
       if (opt_n) { params.n = opt_n; }

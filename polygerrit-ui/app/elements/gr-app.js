@@ -141,6 +141,7 @@
       this.set('_showGroupListView', view === 'gr-admin-group-list');
       this.set('_showProjectListView', view === 'gr-admin-project-list');
       this.set('_showAdminProject', view === 'gr-admin-project');
+      this.set('_showPluginListView', view === 'gr-admin-plugin-list');
       this.set('_showAdminView', view === 'gr-admin-view');
       this.set('_showCLAView', view === 'gr-cla-view');
       if (this.params.justRegistered) {

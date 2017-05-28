@@ -182,6 +182,45 @@
       };
     });
 
+    page(/^\/admin\/plugins(\/)?$/, loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          app.params = {
+            view: 'gr-admin-plugin-list',
+          };
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
+    page('/admin/plugins/q/filter::filter,:offset', loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          app.params = {
+            view: 'gr-admin-plugin-list',
+            offset: data.params.offset,
+            filter: data.params.filter,
+          };
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
+    page('/admin/plugins/q/filter::filter', loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          app.params = {
+            view: 'gr-admin-plugin-list',
+            filter: data.params.filter || null,
+          };
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
     page('/admin/(.*)', loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {

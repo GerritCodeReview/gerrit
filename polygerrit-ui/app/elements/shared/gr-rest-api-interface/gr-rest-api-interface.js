@@ -497,6 +497,13 @@
       });
     },
 
+    getGroups(groupsPerPage, opt_offset) {
+      const offset = opt_offset || 0;
+      return this._fetchSharedCacheURL(
+          `/groups/?n=${groupsPerPage + 1}&S=${offset}`
+      );
+    },
+
     getProjects(filter, projectsPerPage, opt_offset) {
       const offset = opt_offset || 0;
       filter = filter ? '&m=' + filter : '';

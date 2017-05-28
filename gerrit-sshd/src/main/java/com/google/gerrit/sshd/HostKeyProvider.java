@@ -40,7 +40,9 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
     Path objKey = site.ssh_key;
     Path rsaKey = site.ssh_rsa;
     Path dsaKey = site.ssh_dsa;
-    Path ecdsaKey = site.ssh_ecdsa;
+    Path ecdsaKey_256 = site.ssh_ecdsa_256;
+    Path ecdsaKey_384 = site.ssh_ecdsa_384;
+    Path ecdsaKey_521 = site.ssh_ecdsa_521;
     Path ed25519Key = site.ssh_ed25519;
 
     final List<File> stdKeys = new ArrayList<>(4);
@@ -50,8 +52,14 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
     if (Files.exists(dsaKey)) {
       stdKeys.add(dsaKey.toAbsolutePath().toFile());
     }
-    if (Files.exists(ecdsaKey)) {
-      stdKeys.add(ecdsaKey.toAbsolutePath().toFile());
+    if (Files.exists(ecdsaKey_256)) {
+      stdKeys.add(ecdsaKey_256.toAbsolutePath().toFile());
+    }
+    if (Files.exists(ecdsaKey_384)) {
+      stdKeys.add(ecdsaKey_384.toAbsolutePath().toFile());
+    }
+    if (Files.exists(ecdsaKey_521)) {
+      stdKeys.add(ecdsaKey_521.toAbsolutePath().toFile());
     }
     if (Files.exists(ed25519Key)) {
       stdKeys.add(ed25519Key.toAbsolutePath().toFile());

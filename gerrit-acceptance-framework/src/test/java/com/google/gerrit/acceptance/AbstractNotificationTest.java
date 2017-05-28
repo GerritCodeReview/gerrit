@@ -24,9 +24,9 @@ import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
@@ -38,11 +38,15 @@ import com.google.gerrit.server.mail.send.EmailHeader;
 import com.google.gerrit.server.mail.send.EmailHeader.AddressList;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.junit.TestRepository;
+import org.junit.After;
 import org.junit.Before;
 
 public abstract class AbstractNotificationTest extends AbstractDaemonTest {
@@ -69,6 +73,14 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
   }
 
   protected void setEmailStrategy(TestAccount account, EmailStrategy strategy) throws Exception {
+    setEmailStrategy(account, strategy, true);
+  }
+
+  protected void setEmailStrategy(TestAccount account, EmailStrategy strategy, boolean record)
+      throws Exception {
+    if (record) {
+      accountsModifyingEmailStrategy.add(account);
+    }
     setApiUser(account);
     GeneralPreferencesInfo prefs = gApi.accounts().self().getPreferences();
     prefs.emailStrategy = strategy;
@@ -241,6 +253,20 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     }
   }
 
+  private static final Map<String, StagedUsers> stagedUsers = new HashMap<>();
+
+  // TestAccount doesn't implement hashCode/equals, so this set is according
+  // to object identity. That's fine for our purposes.
+  private Set<TestAccount> accountsModifyingEmailStrategy = new HashSet<>();
+
+  @After
+  public void resetEmailStrategies() throws Exception {
+    for (TestAccount account : accountsModifyingEmailStrategy) {
+      setEmailStrategy(account, EmailStrategy.ENABLED, false);
+    }
+    accountsModifyingEmailStrategy.clear();
+  }
+
   protected class StagedUsers {
     public final TestAccount owner;
     public final TestAccount author;
@@ -248,6 +274,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     public final TestAccount reviewer;
     public final TestAccount ccer;
     public final TestAccount starrer;
+    public final TestAccount assignee;
     public final TestAccount watchingProjectOwner;
     public final String reviewerByEmail = "reviewerByEmail@example.com";
     public final String ccerByEmail = "ccByEmail@example.com";
@@ -255,31 +282,59 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     private final Map<String, TestAccount> accountsByEmail = new HashMap<>();
     boolean supportReviewersByEmail;
 
-    StagedUsers(List<NotifyType> watches) throws Exception {
-      owner = testAccount("owner");
-      reviewer = testAccount("reviewer");
-      author = testAccount("author");
-      uploader = testAccount("uploader");
-      ccer = testAccount("ccer");
-      starrer = testAccount("starrer");
+    private String usersCacheKey() {
+      return description.getClassName();
+    }
 
-      watchingProjectOwner = testAccount("watchingProjectOwner", "Administrators");
-      setApiUser(watchingProjectOwner);
-      watch(project.get(), pwi -> pwi.notifyNewChanges = true);
+    private TestAccount evictAndCopy(TestAccount account) throws IOException {
+      accountCache.evict(account.id);
+      return account;
+    }
 
-      for (NotifyType watch : watches) {
-        TestAccount watcher = testAccount(watch.toString());
-        setApiUser(watcher);
-        watch(
-            project.get(),
-            pwi -> {
-              pwi.notifyAllComments = watch.equals(NotifyType.ALL_COMMENTS);
-              pwi.notifyAbandonedChanges = watch.equals(NotifyType.ABANDONED_CHANGES);
-              pwi.notifyNewChanges = watch.equals(NotifyType.NEW_CHANGES);
-              pwi.notifyNewPatchSets = watch.equals(NotifyType.NEW_PATCHSETS);
-              pwi.notifySubmittedChanges = watch.equals(NotifyType.SUBMITTED_CHANGES);
-            });
-        watchers.put(watch, watcher);
+    public StagedUsers(List<NotifyType> watches) throws Exception {
+      synchronized (stagedUsers) {
+        if (stagedUsers.containsKey(usersCacheKey())) {
+          StagedUsers existing = stagedUsers.get(usersCacheKey());
+          owner = evictAndCopy(existing.owner);
+          author = evictAndCopy(existing.author);
+          uploader = evictAndCopy(existing.uploader);
+          reviewer = evictAndCopy(existing.reviewer);
+          ccer = evictAndCopy(existing.ccer);
+          starrer = evictAndCopy(existing.starrer);
+          assignee = evictAndCopy(existing.assignee);
+          watchingProjectOwner = evictAndCopy(existing.watchingProjectOwner);
+          watchers.putAll(existing.watchers);
+          return;
+        }
+
+        owner = testAccount("owner");
+        reviewer = testAccount("reviewer");
+        author = testAccount("author");
+        uploader = testAccount("uploader");
+        ccer = testAccount("ccer");
+        starrer = testAccount("starrer");
+        assignee = testAccount("assignee");
+
+        watchingProjectOwner = testAccount("watchingProjectOwner", "Administrators");
+        setApiUser(watchingProjectOwner);
+        watch(allProjects.get(), pwi -> pwi.notifyNewChanges = true);
+
+        for (NotifyType watch : watches) {
+          TestAccount watcher = testAccount(watch.toString());
+          setApiUser(watcher);
+          watch(
+              allProjects.get(),
+              pwi -> {
+                pwi.notifyAllComments = watch.equals(NotifyType.ALL_COMMENTS);
+                pwi.notifyAbandonedChanges = watch.equals(NotifyType.ABANDONED_CHANGES);
+                pwi.notifyNewChanges = watch.equals(NotifyType.NEW_CHANGES);
+                pwi.notifyNewPatchSets = watch.equals(NotifyType.NEW_PATCHSETS);
+                pwi.notifySubmittedChanges = watch.equals(NotifyType.SUBMITTED_CHANGES);
+              });
+          watchers.put(watch, watcher);
+        }
+
+        stagedUsers.put(usersCacheKey(), this);
       }
     }
 
@@ -316,25 +371,23 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     }
 
     protected void addReviewers(PushOneCommit.Result r) throws Exception {
-      AddReviewerInput in = new AddReviewerInput();
-      in.reviewer = reviewer.email;
-      gApi.changes().id(r.getChangeId()).addReviewer(in);
-
-      in.reviewer = ccer.email;
-      in.state = ReviewerState.CC;
-      gApi.changes().id(r.getChangeId()).addReviewer(in);
-
-      in.reviewer = reviewerByEmail;
-      in.state = ReviewerState.REVIEWER;
-      AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(in);
-      if (result.reviewers == null || result.reviewers.isEmpty()) {
+      ReviewInput in =
+          ReviewInput.noScore()
+              .reviewer(reviewer.email)
+              .reviewer(reviewerByEmail)
+              .reviewer(ccer.email, ReviewerState.CC, false)
+              .reviewer(ccerByEmail, ReviewerState.CC, false);
+      ReviewResult result = gApi.changes().id(r.getChangeId()).revision("current").review(in);
+      supportReviewersByEmail = true;
+      if (result.reviewers.values().stream().anyMatch(v -> v.error != null)) {
         supportReviewersByEmail = false;
-      } else {
-        supportReviewersByEmail = true;
-        in.reviewer = ccerByEmail;
-        in.state = ReviewerState.CC;
-        gApi.changes().id(r.getChangeId()).addReviewer(in);
+        in =
+            ReviewInput.noScore()
+                .reviewer(reviewer.email)
+                .reviewer(ccer.email, ReviewerState.CC, false);
+        result = gApi.changes().id(r.getChangeId()).revision("current").review(in);
       }
+      Truth.assertThat(result.reviewers.values().stream().allMatch(v -> v.error == null)).isTrue();
     }
   }
 
@@ -362,6 +415,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       if (pushOptions != null) {
         ref = ref + '%' + Joiner.on(',').join(pushOptions);
       }
+      setApiUser(owner);
       repo = cloneProject(project, owner);
       PushOneCommit push = pushFactory.create(db, owner.getIdent(), repo);
       result = push.to(ref);
@@ -381,7 +435,6 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
   }
 
   protected class StagedChange extends StagedPreChange {
-
     StagedChange(String ref, List<NotifyType> watches) throws Exception {
       super(ref, watches);
 

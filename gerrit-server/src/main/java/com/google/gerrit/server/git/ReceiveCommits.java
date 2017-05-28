@@ -60,6 +60,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -1358,8 +1359,12 @@ public class ReceiveCommits {
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
       this.labelTypes = labelTypes;
       this.notesMigration = notesMigration;
+      GeneralPreferencesInfo prefs = user.getAccount().getGeneralPreferencesInfo();
       this.defaultPublishComments =
-          firstNonNull(user.getAccount().getGeneralPreferencesInfo().publishCommentsOnPush, false);
+          prefs != null
+              ? firstNonNull(
+                  user.getAccount().getGeneralPreferencesInfo().publishCommentsOnPush, false)
+              : false;
     }
 
     MailRecipients getMailRecipients() {

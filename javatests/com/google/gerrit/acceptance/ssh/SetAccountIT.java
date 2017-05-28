@@ -64,7 +64,8 @@ public class SetAccountIT extends AbstractDaemonTest {
     assertThat(extIdKeys.contains("username:user3")).isTrue();
     assertThat(extIdKeys.contains("mailto:user3@example.com")).isTrue();
     adminSshSession.exec(
-        "gerrit set-account --delete-external-id username:user3 --delete-external-id mailto:user3@example.com user3");
+        "gerrit set-account --delete-external-id username:user3 --delete-external-id"
+            + " mailto:user3@example.com user3");
     adminSshSession.assertSuccess();
     extIdKeys = getExternalIdKeys(testAccount);
     assertThat(extIdKeys.contains("username:user3")).isFalse();

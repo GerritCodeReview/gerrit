@@ -42,8 +42,12 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
 
   @Override
   public Response<String> apply(ProjectResource resource, DescriptionInput input)
-      throws AuthException, ResourceConflictException, ResourceNotFoundException, IOException,
-          PermissionBackendException, BadRequestException {
+      throws AuthException,
+          ResourceConflictException,
+          ResourceNotFoundException,
+          IOException,
+          PermissionBackendException,
+          BadRequestException {
     if (input == null) {
       input = new DescriptionInput(); // Delete would set description to null.
     }

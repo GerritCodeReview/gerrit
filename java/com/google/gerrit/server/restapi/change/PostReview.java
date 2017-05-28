@@ -211,14 +211,22 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   @Override
   public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input)
-      throws RestApiException, UpdateException, IOException, PermissionBackendException,
-          ConfigInvalidException, PatchListNotAvailableException {
+      throws RestApiException,
+          UpdateException,
+          IOException,
+          PermissionBackendException,
+          ConfigInvalidException,
+          PatchListNotAvailableException {
     return apply(revision, input, TimeUtil.now());
   }
 
   public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input, Instant ts)
-      throws RestApiException, UpdateException, IOException, PermissionBackendException,
-          ConfigInvalidException, PatchListNotAvailableException {
+      throws RestApiException,
+          UpdateException,
+          IOException,
+          PermissionBackendException,
+          ConfigInvalidException,
+          PatchListNotAvailableException {
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
     if (revision.getEdit().isPresent()) {
@@ -536,8 +544,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, LabelTypes labelTypes, ReviewInput in)
-      throws BadRequestException, AuthException, UnprocessableEntityException,
-          ResourceConflictException, PermissionBackendException, IOException,
+      throws BadRequestException,
+          AuthException,
+          UnprocessableEntityException,
+          ResourceConflictException,
+          PermissionBackendException,
+          IOException,
           ConfigInvalidException {
     logger.atFine().log("request is executed on behalf of %s", in.onBehalfOf);
 

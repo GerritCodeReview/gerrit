@@ -90,7 +90,10 @@ public class SuggestBranchReviewers extends SuggestReviewers
 
   @Override
   public Response<List<SuggestedReviewerInfo>> apply(BranchResource rsrc)
-      throws AuthException, BadRequestException, IOException, ConfigInvalidException,
+      throws AuthException,
+          BadRequestException,
+          IOException,
+          ConfigInvalidException,
           PermissionBackendException {
     if (!self.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");

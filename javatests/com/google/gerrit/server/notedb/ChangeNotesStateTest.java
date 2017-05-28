@@ -250,8 +250,7 @@ public class ChangeNotesStateTest {
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
             .setColumns(
-                colsProto
-                    .toBuilder()
+                colsProto.toBuilder()
                     .setOriginalSubject("The first patch set")
                     .setHasOriginalSubject(true))
             .build());

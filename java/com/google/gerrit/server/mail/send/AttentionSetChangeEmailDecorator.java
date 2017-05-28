@@ -26,8 +26,10 @@ public interface AttentionSetChangeEmailDecorator extends ChangeEmailDecorator {
 
   /** User who is being added/removed from attention set. */
   public void setAttentionSetUser(Account.Id attentionSetUser);
+
   /** Cause of the change in attention set. */
   public void setReason(String reason);
+
   /** Whether the user is being added or removed. */
   public void setAttentionSetChange(AttentionSetChange attentionSetChange);
 }

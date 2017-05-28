@@ -159,7 +159,8 @@ public abstract class HtmlParserTest extends AbstractParserTest {
   @Test
   public void commentsSpanningMultipleBlocks() {
     String htmlMessage =
-        "This is a very long test comment. <div><br></div><div>Now this is a new paragraph yay.</div>";
+        "This is a very long test comment. <div><br></div><div>Now this is a new paragraph"
+            + " yay.</div>";
     String txtMessage = "This is a very long test comment.\n\nNow this is a new paragraph yay.";
     MailMessage.Builder b = newMailMessageBuilder();
     b.htmlContent(newHtmlBody(htmlMessage, null, null, htmlMessage, htmlMessage, null, null));

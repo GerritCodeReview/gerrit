@@ -24,6 +24,7 @@ public abstract class RawMailMessage {
   public abstract String raw();
 
   public abstract int[] rawChars();
+
   // Parsed representation for asserting the expected parser output
   public abstract MailMessage expectedMailMessage();
 }

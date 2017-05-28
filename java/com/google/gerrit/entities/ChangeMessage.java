@@ -69,7 +69,8 @@ public final class ChangeMessage {
 
   public static ChangeMessage create(
       final ChangeMessage.Key k, @Nullable Account.Id a, Instant wo, @Nullable PatchSet.Id psid) {
-    return create(k, a, wo, psid, /*messageTemplate=*/ null, /*realAuthor=*/ null, /*tag=*/ null);
+    return create(
+        k, a, wo, psid, /* messageTemplate= */ null, /* realAuthor= */ null, /* tag= */ null);
   }
 
   public static ChangeMessage create(

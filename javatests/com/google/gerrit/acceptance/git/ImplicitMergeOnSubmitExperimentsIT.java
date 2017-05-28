@@ -121,7 +121,7 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
       })
   public void alwaysRejectOnMerge_rejectImplicitMergeFalse_rejectImplicitMergeOnSubmit()
       throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
+    setRejectImplicitMerges(/* reject= */ false);
     assertThatImplicitMergeSubmitRejected();
   }
 
@@ -135,7 +135,7 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
       })
   public void alwaysRejectOnMerge_rejectImplicitMergeFalse_canSubmitExplicitMerge()
       throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
+    setRejectImplicitMerges(/* reject= */ false);
     assertThatExcplicitMergeSubmitAllowed();
   }
 
@@ -149,7 +149,7 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
       })
   public void alwaysRejectOnMerge_rejectImplicitMergeTrue_rejectImplicitMergeOnSubmit()
       throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
+    setRejectImplicitMerges(/* reject= */ true);
     assertThatImplicitMergeSubmitRejected();
   }
 
@@ -163,7 +163,7 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
       })
   public void alwaysRejectOnMerge_rejectImplicitMergeTrue_canSubmitExplicitMerge()
       throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
+    setRejectImplicitMerges(/* reject= */ true);
     assertThatExcplicitMergeSubmitAllowed();
   }
 
@@ -175,7 +175,7 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
         "GerritBackendFeature__reject_implicit_merges_on_merge",
       })
   public void rejectOnMerge_rejectImplicitMergeFalse_canSubmitImplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
+    setRejectImplicitMerges(/* reject= */ false);
     assertThatImplicitMergeSubmitAllowed();
   }
 
@@ -187,7 +187,7 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
         "GerritBackendFeature__reject_implicit_merges_on_merge",
       })
   public void rejectOnMerge_rejectImplicitMergeFalse_canSubmitExplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
+    setRejectImplicitMerges(/* reject= */ false);
     assertThatExcplicitMergeSubmitAllowed();
   }
 
@@ -199,7 +199,7 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
         "GerritBackendFeature__reject_implicit_merges_on_merge",
       })
   public void rejectOnMerge_rejectImplicitMergeTrue_rejectImplicitMergeOnSubmit() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
+    setRejectImplicitMerges(/* reject= */ true);
     assertThatImplicitMergeSubmitRejected();
   }
 
@@ -211,7 +211,7 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
         "GerritBackendFeature__reject_implicit_merges_on_merge",
       })
   public void rejectOnMerge_rejectImplicitMergeTrue_canSubmitExplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
+    setRejectImplicitMerges(/* reject= */ true);
     assertThatExcplicitMergeSubmitAllowed();
   }
 
@@ -222,7 +222,7 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
         "GerritBackendFeature__check_implicit_merges_on_merge",
       })
   public void checkOnly_rejectImplicitMergeFalse_canSubmitImplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
+    setRejectImplicitMerges(/* reject= */ false);
     assertThatImplicitMergeSubmitAllowed();
   }
 
@@ -233,7 +233,7 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
         "GerritBackendFeature__check_implicit_merges_on_merge",
       })
   public void checkOnly_rejectImplicitMergeFalse_canSubmitExplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
+    setRejectImplicitMerges(/* reject= */ false);
     assertThatExcplicitMergeSubmitAllowed();
   }
 
@@ -244,7 +244,7 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
         "GerritBackendFeature__check_implicit_merges_on_merge",
       })
   public void checkOnly_rejectImplicitMergeTrue_canSubmitImplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
+    setRejectImplicitMerges(/* reject= */ true);
     assertThatImplicitMergeSubmitAllowed();
   }
 
@@ -255,31 +255,31 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
         "GerritBackendFeature__check_implicit_merges_on_merge",
       })
   public void checkOnly_rejectImplicitMergeTrue_canSubmitExplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
+    setRejectImplicitMerges(/* reject= */ true);
     assertThatExcplicitMergeSubmitAllowed();
   }
 
   @Test
   public void noExperiments_rejectImplicitMergeFalse_canSubmitImplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
+    setRejectImplicitMerges(/* reject= */ false);
     assertThatImplicitMergeSubmitAllowed();
   }
 
   @Test
   public void noExperiments_rejectImplicitMergeFalse_canSubmitExplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
+    setRejectImplicitMerges(/* reject= */ false);
     assertThatExcplicitMergeSubmitAllowed();
   }
 
   @Test
   public void noExperiments_rejectImplicitMergeTrue_canSubmitImplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
+    setRejectImplicitMerges(/* reject= */ true);
     assertThatImplicitMergeSubmitAllowed();
   }
 
   @Test
   public void noExperiments_rejectImplicitMergeTrue_canSubmitExplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
+    setRejectImplicitMerges(/* reject= */ true);
     assertThatExcplicitMergeSubmitAllowed();
   }
 

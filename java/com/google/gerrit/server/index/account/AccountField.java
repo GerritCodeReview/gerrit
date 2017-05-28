@@ -128,6 +128,7 @@ public class AccountField {
 
   public static final IndexedField<AccountState, String>.SearchSpec ACTIVE_FIELD_SPEC =
       ACTIVE_FIELD.exact("inactive");
+
   /**
    * All emails (preferred email + secondary emails). Use this field only if the current user is
    * allowed to see secondary emails (requires the 'Modify Account' capability).

@@ -52,6 +52,7 @@ public class ReadyForReviewSenderIT extends AbstractNotificationTest {
   @Test
   public void setReadyOnReviewableWipChange() throws Exception {
     StagedChange sc = stageReviewableWipChange(ALL_COMMENTS);
+    setEmailStrategy(sc.owner, EmailStrategy.ENABLED);
     gApi.changes().id(sc.changeId).setReadyForReview();
     assertThat(sender)
         .sent("newchange", sc)

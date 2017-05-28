@@ -108,6 +108,20 @@
       });
     });
 
+    // Matches /admin/groups[,<offset>][/].
+    page(/^\/admin\/groups(,(\d+))?(\/)?$/, loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          app.params = {
+            view: 'gr-admin-group-list',
+            offset: data.params[1] || 0,
+          };
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
     // Matches /admin/projects[,<offset>][/].
     page(/^\/admin\/projects(,(\d+))?(\/)?$/, loadUser, data => {
       app.params = {

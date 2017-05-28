@@ -5,13 +5,13 @@ GERRIT = "GERRIT:"
 NPM_VERSIONS = {
     "bower": "1.8.0",
     "crisper": "2.0.2",
-    "vulcanize": "1.14.8",
+    "polymer-bundler": "2.0.1",
 }
 
 NPM_SHA1S = {
     "bower": "55dbebef0ad9155382d9e9d3e497c1372345b44a",
     "crisper": "7183c58cea33632fb036c91cefd1b43e390d22a2",
-    "vulcanize": "679107f251c19ab7539529b1e3fdd40829e6fc63",
+    "polymer-bundler": "c5b8e78fffe0c789b9d123cd999ad7cdad6bb50d",
 }
 
 def _npm_tarball(name):
@@ -318,7 +318,7 @@ def _vulcanize_impl(ctx):
     execution_requirements = {"local": "1"},
   )
   ctx.action(
-    mnemonic = "Vulcanize",
+    mnemonic = "bundler",
     inputs = [ctx.file._run_npm, ctx.file.app,
               ctx.file._vulcanize_archive
     ] + list(zips) + ctx.files.srcs,
@@ -364,7 +364,7 @@ _vulcanize_rule = rule(
             allow_single_file = True,
         ),
         "_vulcanize_archive": attr.label(
-            default = Label("@vulcanize//:%s" % _npm_tarball("vulcanize")),
+            default = Label("@polymer-bundler//:%s" % _npm_tarball("polymer-bundler")),
             allow_single_file = True,
         ),
         "_crisper_archive": attr.label(

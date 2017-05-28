@@ -78,6 +78,7 @@ public class PatchListEntry {
   private final int deletions;
   private final long size;
   private final long sizeDelta;
+
   // Note: When adding new fields, the serialVersionUID in PatchListKey must be
   // incremented so that entries from the cache are automatically invalidated.
 

@@ -1215,8 +1215,12 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   private RobotCommentInfo getRobotCommentFromServer(PatchSet.Id patchsetId, String uuid)
       throws RestApiException {
-    return gApi.changes().id(patchsetId.changeId().toString())
-        .revision(patchsetId.getId().toString()).robotCommentsAsList().stream()
+    return gApi
+        .changes()
+        .id(patchsetId.changeId().toString())
+        .revision(patchsetId.getId().toString())
+        .robotCommentsAsList()
+        .stream()
         .filter(comment -> comment.id.equals(uuid))
         .findAny()
         .orElseThrow(

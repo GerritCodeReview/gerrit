@@ -105,8 +105,10 @@ public interface ReceivePackRefCache {
 
     // Collections lazily populated during processing.
     private Map<String, Ref> allRefs;
+
     /** Contains only patch set refs. */
     private ListMultimap<Change.Id, Ref> refsByChange;
+
     /** Contains all refs. */
     private ListMultimap<ObjectId, Ref> refsByObjectId;
 

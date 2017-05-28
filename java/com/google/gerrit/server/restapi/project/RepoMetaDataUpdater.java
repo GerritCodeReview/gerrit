@@ -125,7 +125,10 @@ public class RepoMetaDataUpdater {
   @MustBeClosed
   public ConfigChangeCreator configChangeCreator(
       Project.NameKey projectName, @Nullable String message, String defaultMessage)
-      throws PermissionBackendException, AuthException, ResourceConflictException, IOException,
+      throws PermissionBackendException,
+          AuthException,
+          ResourceConflictException,
+          IOException,
           ConfigInvalidException {
     message = validateMessage(message, defaultMessage);
     PermissionBackend.ForProject forProject =

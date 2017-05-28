@@ -45,7 +45,10 @@ public class PostSubmitRequirementsReview
 
   @Override
   public Response<ChangeInfo> apply(ProjectResource rsrc, BatchSubmitRequirementInput input)
-      throws PermissionBackendException, IOException, ConfigInvalidException, UpdateException,
+      throws PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
+          UpdateException,
           RestApiException {
     try (ConfigChangeCreator creator =
         repoMetaDataUpdater.configChangeCreator(

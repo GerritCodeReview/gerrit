@@ -175,7 +175,8 @@ public class ModifiedFilesLoader {
     } catch (IOException e) {
       throw new DiffNotAvailableException(
           String.format(
-              "Failed to get files that have been modified between commit %s and commit %s in project %s",
+              "Failed to get files that have been modified between commit %s and commit %s in"
+                  + " project %s",
               baseCommit.name(), newCommit.name(), project),
           e);
     }

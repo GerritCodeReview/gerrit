@@ -172,7 +172,7 @@ public class RebaseChain
               && !revRsrc.getPatchSet().uploader().equals(revRsrc.getAccountId())) {
             rebaseAsUser =
                 userFactory.runAs(
-                    /*remotePeer= */ null, revRsrc.getPatchSet().uploader(), revRsrc.getUser());
+                    /* remotePeer= */ null, revRsrc.getPatchSet().uploader(), revRsrc.getUser());
             rebaseUtil.checkCanRebaseOnBehalfOf(revRsrc, input);
             revRsrc.permissions().check(ChangePermission.REBASE_ON_BEHALF_OF_UPLOADER);
             anyRebaseOnBehalfOfUploader = true;

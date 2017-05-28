@@ -38,6 +38,9 @@ public interface AuthBackend {
    * @throws AuthException when any other error occurs.
    */
   AuthUser authenticate(AuthRequest req)
-      throws MissingCredentialsException, InvalidCredentialsException, UnknownUserException,
-          UserNotAllowedException, AuthException;
+      throws MissingCredentialsException,
+          InvalidCredentialsException,
+          UnknownUserException,
+          UserNotAllowedException,
+          AuthException;
 }

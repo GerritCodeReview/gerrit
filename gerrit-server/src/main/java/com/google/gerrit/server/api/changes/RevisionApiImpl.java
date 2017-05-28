@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.RevisionReviewerApi;
 import com.google.gerrit.extensions.api.changes.RobotCommentApi;
@@ -211,9 +212,9 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
-  public void review(ReviewInput in) throws RestApiException {
+  public ReviewResult review(ReviewInput in) throws RestApiException {
     try {
-      review.apply(revision, in);
+      return review.apply(revision, in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot post review", e);
     }

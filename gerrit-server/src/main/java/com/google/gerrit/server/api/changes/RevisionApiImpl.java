@@ -228,8 +228,6 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public void submit(SubmitInput in) throws RestApiException {
     try {
-      // TODO(dborowitz): Convert to RetryingRestModifyHandler. Requires converting MergeOp to a
-      // Factory that takes BatchUpdate.Factory. (Enough Factories yet?)
       submit.apply(revision, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot submit change", e);
@@ -244,8 +242,6 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public BinaryResult submitPreview(String format) throws RestApiException {
     try {
-      // TODO(dborowitz): Convert to RetryingRestModifyHandler. Requires converting MergeOp to a
-      // Factory that takes BatchUpdate.Factory.
       submitPreview.setFormat(format);
       return submitPreview.apply(revision);
     } catch (Exception e) {

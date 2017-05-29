@@ -669,6 +669,45 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickMergeStrategy() throws Exception {
+    RevCommit initialCommit = getHead(repo());
+    PushOneCommit.Result change1 = createChange(SUBJECT, "a.txt", "a1");
+    testRepo.reset(initialCommit);
+
+    Map<String, String> files = ImmutableMap.of("a.txt", "a2");
+    PushOneCommit.Result result =
+        pushFactory.create(db, admin.getIdent(), testRepo, SUBJECT, files).to("refs/for/master");
+    merge(result);
+
+    // Create three branches. Each of them should contain file 'a.txt' with content 'a2'.
+    createBranch(new NameKey(project, "branch-1"));
+    createBranch(new NameKey(project, "branch-2"));
+    createBranch(new NameKey(project, "branch-3"));
+
+    CherryPickInput input = new CherryPickInput();
+    input.message = "it goes to a new branch";
+
+    // Set the merge strategy as 'OURS'.
+    input.destination = "branch-1";
+    input.strategy = "ours";
+    ChangeApi cherry = gApi.changes().id(change1.getChangeId()).current().cherryPick(input);
+    assertThat(cherry.current().file("a.txt").content().asString()).isEqualTo("a1");
+
+    // Set the merge strategy as 'THEIRS'.
+    input.destination = "branch-2";
+    input.strategy = "theirs";
+    cherry = gApi.changes().id(change1.getChangeId()).current().cherryPick(input);
+    assertThat(cherry.current().file("a.txt").content().asString()).isEqualTo("a2");
+
+    // Use the default merge strategy (ThreeWayMerger).
+    input.destination = "branch-3";
+    input.strategy = null;
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("Cherry pick failed: merge conflict");
+    gApi.changes().id(change1.getChangeId()).current().cherryPick(input);
+  }
+
+  @Test
   public void canRebase() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");

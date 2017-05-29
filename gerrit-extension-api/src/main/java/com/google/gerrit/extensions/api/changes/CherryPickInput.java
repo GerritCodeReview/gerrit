@@ -21,6 +21,13 @@ public class CherryPickInput {
   public String destination;
   public Integer parent;
 
+  /**
+   * {@code strategy} name of the cherry-pick merge strategy.
+   *
+   * @see org.eclipse.jgit.merge.MergeStrategy
+   */
+  public String strategy;
+
   public NotifyHandling notify = NotifyHandling.NONE;
   public Map<RecipientType, NotifyInfo> notifyDetails;
 }

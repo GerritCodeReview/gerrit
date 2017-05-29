@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "61fdf587_a9359580",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-29T13:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "055a9101_f19fe226",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "d1dc48aeed4d6221b77b571ce3d2857dfed19e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "02216872_221cc22c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-29T13:28:51Z",
       "side": 1,
       "message": "optional: The use of Truth8#assertThat and OptionalSubject#isPresent generates a nicer error message.",
+      "range": {
+        "startLine": 917,
+        "startChar": 4,
+        "endLine": 917,
+        "endChar": 51
+      },
+      "revId": "d1dc48aeed4d6221b77b571ce3d2857dfed19e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24bb6d01_c3804269",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-29T13:59:45Z",
+      "side": 1,
+      "message": "Nice to know.",
+      "parentUuid": "02216872_221cc22c",
       "range": {
         "startLine": 917,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e7cc0f68_9ef4dd76",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-29T13:59:45Z",
+      "side": 1,
+      "message": "Changed. We can use a \u0027number\u0027 to find a patch set. But it\u0027s more clear to use \u0027ps1\u0027 here.",
+      "parentUuid": "bdb2d346_af660b24",
+      "range": {
+        "startLine": 928,
+        "startChar": 68,
+        "endLine": 928,
+        "endChar": 69
+      },
+      "revId": "d1dc48aeed4d6221b77b571ce3d2857dfed19e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6611d471_7a1053bc",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2017-05-29T13:28:51Z",
       "side": 1,
       "message": "optional: Mention in the message that \u0027i\u0027 refers to an iteration.",
+      "range": {
+        "startLine": 930,
+        "startChar": 56,
+        "endLine": 930,
+        "endChar": 80
+      },
+      "revId": "d1dc48aeed4d6221b77b571ce3d2857dfed19e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7ed91bf_f929ec42",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-29T13:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6611d471_7a1053bc",
       "range": {
         "startLine": 930,
         "startChar": 56,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "3af6b5a2_6742f467",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-29T13:59:45Z",
+      "side": 1,
+      "message": "Yeah. We can check only after the last deletion. :)",
+      "parentUuid": "82d54655_e70ecf00",
+      "range": {
+        "startLine": 934,
+        "startChar": 6,
+        "endLine": 943,
+        "endChar": 63
+      },
+      "revId": "d1dc48aeed4d6221b77b571ce3d2857dfed19e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d91bcd87_117b8ced",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1
@@ -128,6 +248,30 @@
       "writtenOn": "2017-05-29T13:28:51Z",
       "side": 1,
       "message": "I don\u0027t think that this part is necessary within this test. The test should only be about deleting the same comment multiple times.",
+      "range": {
+        "startLine": 946,
+        "startChar": 4,
+        "endLine": 948,
+        "endChar": 61
+      },
+      "revId": "d1dc48aeed4d6221b77b571ce3d2857dfed19e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "816fd3a7_193853a2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-29T13:59:45Z",
+      "side": 1,
+      "message": "I\u0027m not sure about this. We can remove it as it\u0027s been covered by another test.",
+      "parentUuid": "d91bcd87_117b8ced",
       "range": {
         "startLine": 946,
         "startChar": 4,

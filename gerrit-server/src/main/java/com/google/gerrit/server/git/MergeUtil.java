@@ -229,16 +229,31 @@ public class MergeUtil {
       String commitMsg,
       CodeReviewRevWalk rw,
       int parentIndex,
+      String strategy,
       boolean ignoreIdenticalTree)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException,
-          MergeIdenticalTreeException, MergeConflictException {
+      throws IOException, MergeIdenticalTreeException, MergeConflictException {
+    Merger merger;
+    strategy = Strings.nullToEmpty(strategy);
+    if (strategy.isEmpty()
+        || strategy.equals(MergeStrategy.RECURSIVE.getName())
+        || strategy.equals(MergeStrategy.RESOLVE.getName())
+        || strategy.equals(MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.getName())) {
+      ThreeWayMerger m =
+          strategy.isEmpty()
+              // Choose the merge strategy based on the project setting.
+              ? newThreeWayMerger(inserter, repoConfig)
+              : newThreeWayMerger(inserter, repoConfig, strategy);
+      m.setBase(originalCommit.getParent(parentIndex));
+      merger = m;
+    } else {
+      merger = newMerger(inserter, repoConfig, strategy);
+    }
 
-    final ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
-
-    m.setBase(originalCommit.getParent(parentIndex));
-    if (m.merge(mergeTip, originalCommit)) {
-      ObjectId tree = m.getResultTreeId();
-      if (tree.equals(mergeTip.getTree()) && !ignoreIdenticalTree) {
+    if (merger.merge(originalCommit, mergeTip)) {
+      ObjectId tree = merger.getResultTreeId();
+      if (tree.equals(mergeTip.getTree())
+          && !ignoreIdenticalTree
+          && !strategy.equals(MergeStrategy.THEIRS.getName())) {
         throw new MergeIdenticalTreeException("identical tree");
       }
 

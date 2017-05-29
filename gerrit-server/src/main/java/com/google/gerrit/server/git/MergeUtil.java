@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -229,16 +230,21 @@ public class MergeUtil {
       String commitMsg,
       CodeReviewRevWalk rw,
       int parentIndex,
+      String strategy,
       boolean ignoreIdenticalTree)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException,
-          MergeIdenticalTreeException, MergeConflictException {
+      throws IOException, MergeIdenticalTreeException, MergeConflictException {
+    String mergeStrategy =
+        MoreObjects.firstNonNull(Strings.emptyToNull(strategy), mergeStrategyName());
+    Merger merger = newMerger(inserter, repoConfig, mergeStrategy);
+    if (merger instanceof ThreeWayMerger) {
+      ((ThreeWayMerger) merger).setBase(originalCommit.getParent(parentIndex));
+    }
 
-    final ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
-
-    m.setBase(originalCommit.getParent(parentIndex));
-    if (m.merge(mergeTip, originalCommit)) {
-      ObjectId tree = m.getResultTreeId();
-      if (tree.equals(mergeTip.getTree()) && !ignoreIdenticalTree) {
+    if (merger.merge(originalCommit, mergeTip)) {
+      ObjectId tree = merger.getResultTreeId();
+      if (tree.equals(mergeTip.getTree())
+          && !ignoreIdenticalTree
+          && !mergeStrategy.equals(MergeStrategy.THEIRS.getName())) {
         throw new MergeIdenticalTreeException("identical tree");
       }
 

@@ -791,6 +791,62 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickWithOursAsMergeStrategy() throws Exception {
+    RevCommit initialCommit = getHead(repo());
+    PushOneCommit.Result change1 = createChange(SUBJECT, FILE_NAME, "a1");
+    testRepo.reset(initialCommit);
+
+    merge(createChange(SUBJECT, FILE_NAME, "a2"));
+    createBranch(new NameKey(project, "foo"));
+
+    // Set the merge strategy as 'ours', which will simply use the tree of the source commit.
+    CherryPickInput input = new CherryPickInput();
+    input.message = "it goes to a new branch";
+    input.destination = "foo";
+    input.strategy = "ours";
+    ChangeApi cherry = gApi.changes().id(change1.getChangeId()).current().cherryPick(input);
+    assertThat(cherry.current().file(FILE_NAME).content().asString()).isEqualTo("a1");
+  }
+
+  @Test
+  public void cherryPickWithTheirsAsMergeStrategy() throws Exception {
+    RevCommit initialCommit = getHead(repo());
+    PushOneCommit.Result change1 = createChange(SUBJECT, FILE_NAME, "a1");
+    testRepo.reset(initialCommit);
+
+    merge(createChange(SUBJECT, FILE_NAME, "a2"));
+    createBranch(new NameKey(project, "foo"));
+
+    // Set the merge strategy as 'theirs', which will simply use the tree of the tip commit on the
+    // destination branch.
+    CherryPickInput input = new CherryPickInput();
+    input.message = "it goes to a new branch";
+    input.destination = "foo";
+    input.strategy = "theirs";
+    ChangeApi cherry = gApi.changes().id(change1.getChangeId()).current().cherryPick(input);
+    assertThat(cherry.current().file(FILE_NAME).content().asString()).isEqualTo("a2");
+  }
+
+  @Test
+  public void cherryPickWithDefaultMergeStrategy() throws Exception {
+    RevCommit initialCommit = getHead(repo());
+    PushOneCommit.Result change1 = createChange(SUBJECT, FILE_NAME, "a1");
+    testRepo.reset(initialCommit);
+
+    merge(createChange(SUBJECT, FILE_NAME, "a2"));
+    createBranch(new NameKey(project, "foo"));
+
+    // Use the default merge strategy (ThreeWayMerger).
+    CherryPickInput input = new CherryPickInput();
+    input.message = "it goes to a new branch";
+    input.destination = "foo";
+    input.strategy = null;
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("Cherry pick failed: merge conflict");
+    gApi.changes().id(change1.getChangeId()).current().cherryPick(input);
+  }
+
+  @Test
   public void canRebase() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");

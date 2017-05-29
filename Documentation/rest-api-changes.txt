@@ -5693,6 +5693,9 @@ The `CherryPickInput` entity contains information for cherry-picking a change to
 If set, it must be a merged commit or a change revision on the destination branch.
 |`parent`           |optional, defaults to 1|
 Number of the parent relative to which the cherry-pick should be considered.
+|`strategy`         |optional|
+The strategy of the cherry-pick merge. Allowed values are `recursive`, `resolve`,
+`simple-two-way-in-core`, `ours` and `theirs`. If not set, the project setting will be used.
 |`notify`           |optional|
 Notify handling that defines to whom email notifications should be sent
 after the cherry-pick. +

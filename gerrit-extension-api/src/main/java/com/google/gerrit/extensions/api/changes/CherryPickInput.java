@@ -24,6 +24,13 @@ public class CherryPickInput {
   public String base;
   public Integer parent;
 
+  /**
+   * The name of the strategy {@link org.eclipse.jgit.merge.MergeStrategy} which will be used for
+   * merging. Allowed values are `recursive`, `resolve`, `simple-two-way-in-core`, `ours` and
+   * `theirs`. If not set, the project setting will be used.
+   */
+  public String strategy;
+
   public NotifyHandling notify = NotifyHandling.NONE;
   public Map<RecipientType, NotifyInfo> notifyDetails;
 }

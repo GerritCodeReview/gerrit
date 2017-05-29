@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.common.TimeUtil.nowTs;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.NOTE_DB;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
@@ -63,7 +64,7 @@ public class NoteDbChangeStateTest extends GerritBaseTests {
     assertThat(state.getChangeId()).isEqualTo(new Change.Id(1));
     assertThat(state.getChangeMetaId()).isEqualTo(SHA1);
     assertThat(state.getDraftIds()).isEmpty();
-    assertThat(state.getReadOnlyUntil().isPresent()).isFalse();
+    assertThat(state.getReadOnlyUntil()).isEmpty();
     assertThat(state.toString()).isEqualTo(SHA1.name());
 
     state = parse(new Change.Id(1), "R," + SHA1.name());
@@ -71,7 +72,7 @@ public class NoteDbChangeStateTest extends GerritBaseTests {
     assertThat(state.getChangeId()).isEqualTo(new Change.Id(1));
     assertThat(state.getChangeMetaId()).isEqualTo(SHA1);
     assertThat(state.getDraftIds()).isEmpty();
-    assertThat(state.getReadOnlyUntil().isPresent()).isFalse();
+    assertThat(state.getReadOnlyUntil()).isEmpty();
     assertThat(state.toString()).isEqualTo(SHA1.name());
   }
 
@@ -87,7 +88,7 @@ public class NoteDbChangeStateTest extends GerritBaseTests {
         .containsExactly(
             new Account.Id(1001), SHA3,
             new Account.Id(2003), SHA2);
-    assertThat(state.getReadOnlyUntil().isPresent()).isFalse();
+    assertThat(state.getReadOnlyUntil()).isEmpty();
     assertThat(state.toString()).isEqualTo(expected);
 
     state = parse(new Change.Id(1), "R," + str);
@@ -98,7 +99,7 @@ public class NoteDbChangeStateTest extends GerritBaseTests {
         .containsExactly(
             new Account.Id(1001), SHA3,
             new Account.Id(2003), SHA2);
-    assertThat(state.getReadOnlyUntil().isPresent()).isFalse();
+    assertThat(state.getReadOnlyUntil()).isEmpty();
     assertThat(state.toString()).isEqualTo(expected);
   }
 
@@ -117,7 +118,7 @@ public class NoteDbChangeStateTest extends GerritBaseTests {
     state = parse(new Change.Id(1), str);
     assertThat(state.getPrimaryStorage()).isEqualTo(NOTE_DB);
     assertThat(state.getChangeId()).isEqualTo(new Change.Id(1));
-    assertThat(state.getRefState().isPresent()).isFalse();
+    assertThat(state.getRefState()).isEmpty();
     assertThat(state.getReadOnlyUntil().get()).isEqualTo(ts);
     assertThat(state.toString()).isEqualTo(str);
   }
@@ -194,8 +195,8 @@ public class NoteDbChangeStateTest extends GerritBaseTests {
   public void parseNoteDbPrimary() {
     NoteDbChangeState state = parse(new Change.Id(1), "N");
     assertThat(state.getPrimaryStorage()).isEqualTo(NOTE_DB);
-    assertThat(state.getRefState().isPresent()).isFalse();
-    assertThat(state.getReadOnlyUntil().isPresent()).isFalse();
+    assertThat(state.getRefState()).isEmpty();
+    assertThat(state.getReadOnlyUntil()).isEmpty();
   }
 
   @Test(expected = IllegalArgumentException.class)

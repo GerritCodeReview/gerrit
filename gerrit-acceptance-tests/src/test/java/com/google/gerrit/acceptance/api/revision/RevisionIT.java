@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.revision;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
@@ -228,7 +229,7 @@ public class RevisionIT extends AbstractDaemonTest {
             .stream()
             .filter(a -> a._accountId == user.id.get())
             .findFirst();
-    assertThat(crUser.isPresent()).isTrue();
+    assertThat(crUser).isPresent();
     assertThat(crUser.get().value).isEqualTo(0);
 
     revision(r).submit();

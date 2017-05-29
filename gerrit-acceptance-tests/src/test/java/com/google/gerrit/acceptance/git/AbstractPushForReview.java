@@ -1070,7 +1070,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   private void testPushWithoutChangeId() throws Exception {
     RevCommit c = createCommit(testRepo, "Message without Change-Id");
-    assertThat(GitUtil.getChangeId(testRepo, c).isPresent()).isFalse();
+    assertThat(GitUtil.getChangeId(testRepo, c)).isEmpty();
     pushForReviewRejected(testRepo, "missing Change-Id in commit message footer");
 
     ProjectConfig config = projectCache.checkedGet(project).getConfig();

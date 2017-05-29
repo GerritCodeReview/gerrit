@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
@@ -397,7 +398,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
           tip == null
               ? builder.commit().message("commit 1").add("a.txt", "content").create()
               : builder.commit().parent(tip).message("commit 1").add("a.txt", "content").create();
-      assertThat(GitUtil.getChangeId(testSrcRepo, revCommit).isPresent()).isFalse();
+      assertThat(GitUtil.getChangeId(testSrcRepo, revCommit)).isEmpty();
       return revCommit;
     }
   }

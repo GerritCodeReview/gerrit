@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.formatTime;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
@@ -274,7 +275,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
               .stream()
               .filter(x -> x instanceof OrmRuntimeException)
               .findFirst();
-      assertThat(oe.isPresent()).named("OrmRuntimeException in causal chain of " + e).isTrue();
+      assertThat(oe).named("OrmRuntimeException in causal chain of " + e).isPresent();
       assertThat(oe.get().getMessage()).contains("read-only");
     }
     assertThat(gApi.changes().id(id.get()).get().topic).isNull();

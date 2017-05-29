@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f28a809f_3ecf4af5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-29T14:33:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5dbefc5_9a979b52",
+      "range": {
+        "startLine": 23,
+        "startChar": 64,
+        "endLine": 23,
+        "endChar": 66
+      },
+      "revId": "546062092bb0bd1c28d3030021a52dcb0d171e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c22eeaf3_ee7f675b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "30b31030_5e021b04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-29T14:33:12Z",
+      "side": 1,
+      "message": "I would not expect it to be logged. The other cases where we provide invalid projects aren\u0027t logged either. It might be too spammy if we log every request where a user provides an invalid projects name as this can easily occur (e.g. through a typo).",
+      "parentUuid": "c22eeaf3_ee7f675b",
+      "range": {
+        "startLine": 97,
+        "startChar": 8,
+        "endLine": 97,
+        "endChar": 46
+      },
+      "revId": "546062092bb0bd1c28d3030021a52dcb0d171e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8cb3995_038ee5f5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
         "patchSetId": 2
@@ -59,6 +107,24 @@
       "writtenOn": "2017-05-29T13:36:55Z",
       "side": 1,
       "message": "unrelated formatting change",
+      "revId": "546062092bb0bd1c28d3030021a52dcb0d171e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de9f8f18_9fd2b00f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-29T14:33:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8cb3995_038ee5f5",
       "revId": "546062092bb0bd1c28d3030021a52dcb0d171e1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

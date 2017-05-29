@@ -177,5 +177,4 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
       assertThat(repo.exactRef("refs/heads/master").getObjectId()).isEqualTo(tip);
     }
   }
-
 }

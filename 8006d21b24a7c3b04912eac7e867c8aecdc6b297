@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73952353_1542cb5b",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-29T00:52:11Z",
+      "side": 1,
+      "message": "When building the API I get this warning:\n\n javadoc: warning - Error fetching URL: http://download.eclipse.org/jgit/site/4.8.0.201705170830-rc1/apidocs/\n\ncan you publish the javadocs?",
+      "revId": "8006d21b24a7c3b04912eac7e867c8aecdc6b297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

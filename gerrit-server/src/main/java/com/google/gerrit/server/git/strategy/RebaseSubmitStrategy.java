@@ -150,6 +150,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
                   cherryPickCmtMsg,
                   args.rw,
                   0,
+                  null,
                   true);
         } catch (MergeConflictException mce) {
           // Unlike in Cherry-pick case, this should never happen.

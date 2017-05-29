@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "43c48b27_af0991de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-29T14:40:08Z",
+      "side": 1,
+      "message": "I agree if IllegalArgumentException is only thrown in this case, but can it have another cause that we want to see in the logs?",
+      "parentUuid": "30b31030_5e021b04",
+      "range": {
+        "startLine": 97,
+        "startChar": 8,
+        "endLine": 97,
+        "endChar": 46
+      },
+      "revId": "546062092bb0bd1c28d3030021a52dcb0d171e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8cb3995_038ee5f5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
         "patchSetId": 2

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "436c170c_3e6a7c69",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1024,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-29T07:37:08Z",
+      "side": 0,
+      "message": "IIRC we use the one off the google bucket because it\u0027s repackaged in some way.",
+      "range": {
+        "startLine": 1024,
+        "startChar": 4,
+        "endLine": 1024,
+        "endChar": 24
+      },
+      "revId": "d7a4075cb9b02262d0304fe8b79e4d7137a1999f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -93,6 +93,30 @@
       "revId": "1bae57b4cf6ba430aebaf572bb7ca737aaa1272b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77ef7d22_d9f1b828",
+        "filename": "tools/check-format.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-29T06:10:03Z",
+      "side": 1,
+      "message": "I added --dry-run option upstream: [1] and released patched gjf version in my fork repository and used it in this CL: [2].\n\n* [1] https://github.com/google/google-java-format/pull/154\n* [2] https://gerrit-review.googlesource.com/108188",
+      "parentUuid": "f64f8794_171f14fc",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 46
+      },
+      "revId": "1bae57b4cf6ba430aebaf572bb7ca737aaa1272b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

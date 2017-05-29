@@ -110,16 +110,10 @@
 
     // Matches /admin/projects[,<offset>][/].
     page(/^\/admin\/projects(,(\d+))?(\/)?$/, loadUser, data => {
-      restAPI.getLoggedIn().then(loggedIn => {
-        if (loggedIn) {
-          app.params = {
-            view: 'gr-admin-project-list',
-            offset: data.params[1] || 0,
-          };
-        } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
-        }
-      });
+      app.params = {
+        view: 'gr-admin-project-list',
+        offset: data.params[1] || 0,
+      };
     });
 
     page('/admin/(.*)', loadUser, data => {

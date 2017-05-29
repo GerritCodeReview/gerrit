@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77cd81f9_5606541f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-29T21:16:12Z",
+      "side": 1,
+      "message": "I would also like to see eslint and polylint checks are moving into this category.",
+      "revId": "51c46ab5774db1e8e02900356f83b589aee9ef36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d18b3da_f45c3178",
+        "filename": "project.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-29T21:16:12Z",
+      "side": 1,
+      "message": "Would we like to restrict on branches, stable-2.14 and master? If it\u0027s staying like this, it would apply on stable-2.13 as well, where gjf wasn\u0027t used.",
+      "revId": "51c46ab5774db1e8e02900356f83b589aee9ef36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "fcfd419a_726b2602",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-29T09:43:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64a39bf8_d9ed77a6",
+      "revId": "ad5565f30b1cfdd69caafa6cde3d31ee49605e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6caad4_fabe5a92",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
         "patchSetId": 1
@@ -43,6 +61,30 @@
     },
     {
       "key": {
+        "uuid": "bdc0c86d_0fde2cc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-29T09:43:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb6caad4_fabe5a92",
+      "range": {
+        "startLine": 403,
+        "startChar": 48,
+        "endLine": 403,
+        "endChar": 56
+      },
+      "revId": "ad5565f30b1cfdd69caafa6cde3d31ee49605e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad8dffc0_f967c835",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetCommit.java",
         "patchSetId": 1
@@ -54,6 +96,30 @@
       "writtenOn": "2017-05-19T08:46:21Z",
       "side": 1,
       "message": "Is there a way to combine this @Option annotation with the setter method?",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 27
+      },
+      "revId": "ad5565f30b1cfdd69caafa6cde3d31ee49605e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ed55cb9_00798d94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-29T09:43:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad8dffc0_f967c835",
       "range": {
         "startLine": 36,
         "startChar": 2,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c2d3368_79d6ef8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-05-29T11:47:56Z",
+      "side": 1,
+      "message": "nit: Are we really fixing ErrorProne itself? ;-) Please change it to something like \"Fix some issues reported by ErrorProne for ChangeQueryBuilder\" or \"Fix some ErrorProne issues in ChangeQueryBuilder\".",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "dad51d27a8ca1a15955d5d715bea0c1921aed292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

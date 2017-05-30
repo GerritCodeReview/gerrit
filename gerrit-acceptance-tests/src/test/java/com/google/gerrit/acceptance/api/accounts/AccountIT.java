@@ -52,6 +52,10 @@ import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccountsInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
@@ -90,6 +94,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -976,6 +981,41 @@ public class AccountIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("modify account not permitted");
     gApi.accounts().id(admin.username).index();
+  }
+
+  @Test
+  @Sandboxed
+  public void checkConsistency() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    resetCurrentApiUser();
+
+    // Create an account with a preferred email.
+    String username = name("foo");
+    String email = username + "@example.com";
+    TestAccount account = accounts.create(username, email, "Foo Bar");
+
+    ConsistencyCheckInput input = new ConsistencyCheckInput();
+    input.checkAccounts = new CheckAccountsInput();
+    ConsistencyCheckInfo checkInfo = gApi.config().server().checkConsistency(input);
+    assertThat(checkInfo.checkAccountsResult.problems).isEmpty();
+
+    Set<ConsistencyProblemInfo> expectedProblems = new HashSet<>();
+
+    // Delete the external ID for the preferred email. This makes the account inconsistent since it
+    // now doesn't have an external ID for its preferred email.
+    externalIdsUpdate.delete(ExternalId.createEmail(account.getId(), email));
+    expectedProblems.add(
+        new ConsistencyProblemInfo(
+            ConsistencyProblemInfo.Status.ERROR,
+            "Account '"
+                + account.getId().get()
+                + "' has no external ID for its preferred email '"
+                + email
+                + "'"));
+
+    checkInfo = gApi.config().server().checkConsistency(input);
+    assertThat(checkInfo.checkAccountsResult.problems).hasSize(expectedProblems.size());
+    assertThat(checkInfo.checkAccountsResult.problems).containsExactlyElementsIn(expectedProblems);
   }
 
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {

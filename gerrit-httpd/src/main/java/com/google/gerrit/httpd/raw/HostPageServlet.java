@@ -133,6 +133,7 @@ public class HostPageServlet extends HttpServlet {
     String src = "gerrit_ui/gerrit_ui.nocache.js";
     try (InputStream in = servletContext.getResourceAsStream("/" + src)) {
       if (in != null) {
+        @SuppressWarnings("deprecation")
         Hasher md = Hashing.md5().newHasher();
         byte[] buf = new byte[1024];
         int n;

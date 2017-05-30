@@ -312,7 +312,9 @@ public abstract class ResourceServlet extends HttpServlet {
       this.lastModified = checkNotNull(lastModified, "lastModified");
       this.contentType = checkNotNull(contentType, "contentType");
       this.raw = checkNotNull(raw, "raw");
-      this.etag = Hashing.md5().hashBytes(raw).toString();
+      @SuppressWarnings("deprecation")
+      String h = Hashing.md5().hashBytes(raw).toString();
+      this.etag = h;
     }
 
     boolean isStale(Path p, ResourceServlet rs) throws IOException {

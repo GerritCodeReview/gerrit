@@ -740,12 +740,14 @@ public class PostReview
     }
 
     public static CommentSetEntry create(Comment comment) {
+      @SuppressWarnings("deprecation")
+      HashCode h = Hashing.sha1().hashString(comment.message, UTF_8);
       return create(
           comment.key.filename,
           comment.key.patchSetId,
           comment.lineNbr,
           Side.fromShort(comment.side),
-          Hashing.sha1().hashString(comment.message, UTF_8),
+          h,
           comment.range);
     }
 

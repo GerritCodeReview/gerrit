@@ -47,6 +47,7 @@ public class RequestId {
   private final String str;
 
   private RequestId(String resourceId) {
+    @SuppressWarnings("deprecation")
     Hasher h = Hashing.sha1().newHasher();
     h.putLong(Thread.currentThread().getId()).putUnencodedChars(MACHINE_ID);
     str =

@@ -30,6 +30,7 @@ class SubmitAction {
       final Change.Id changeId = changeInfo.legacyId();
       ChangeApi.submit(
           changeId.get(),
+          changeInfo.project(),
           revisionInfo.name(),
           new GerritCallback<SubmitInfo>() {
             @Override
@@ -48,7 +49,7 @@ class SubmitAction {
             }
 
             private void redisplay() {
-              Gerrit.display(PageLinks.toChange(changeId));
+              Gerrit.display(PageLinks.toChange(changeInfo.projectNameKey(), changeId));
             }
           });
     }

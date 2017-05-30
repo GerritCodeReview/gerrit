@@ -15,7 +15,9 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -23,6 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 
 class AddFileAction {
+  private final Project.NameKey project;
   private final Change.Id changeId;
   private final RevisionInfo revision;
   private final ChangeScreen.Style style;
@@ -33,11 +36,13 @@ class AddFileAction {
   private PopupPanel popup;
 
   AddFileAction(
+      @Nullable Project.NameKey project,
       Change.Id changeId,
       RevisionInfo revision,
       ChangeScreen.Style style,
       Widget addButton,
       FileTable files) {
+    this.project = project;
     this.changeId = changeId;
     this.revision = revision;
     this.style = style;
@@ -53,7 +58,7 @@ class AddFileAction {
 
     files.unregisterKeys();
     if (addBox == null) {
-      addBox = new AddFileBox(changeId, revision, files);
+      addBox = new AddFileBox(project, changeId, revision, files);
     }
     addBox.clearPath();
 

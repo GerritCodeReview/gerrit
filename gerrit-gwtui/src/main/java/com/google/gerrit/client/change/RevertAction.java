@@ -20,15 +20,21 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.TextAreaActionDialog;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 class RevertAction {
   static void call(
-      final Button b, final Change.Id id, final String revision, final String commitSubject) {
+      final Button b,
+      final Change.Id id,
+      @Nullable final Project.NameKey project,
+      final String revision,
+      final String commitSubject) {
     // TODO Replace ActionDialog with a nicer looking display.
     b.setEnabled(false);
     new TextAreaActionDialog(Util.C.revertChangeTitle(), Util.C.headingRevertMessage()) {
@@ -41,13 +47,14 @@ class RevertAction {
       public void onSend() {
         ChangeApi.revert(
             id.get(),
+            Project.NameKey.asStringOrNull(project),
             getMessageText(),
             new GerritCallback<ChangeInfo>() {
               @Override
               public void onSuccess(ChangeInfo result) {
                 sent = true;
                 hide();
-                Gerrit.display(PageLinks.toChange(result.legacyId()));
+                Gerrit.display(PageLinks.toChange(result.projectNameKey(), result.legacyId()));
               }
 
               @Override

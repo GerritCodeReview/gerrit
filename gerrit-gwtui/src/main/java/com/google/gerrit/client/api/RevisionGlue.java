@@ -25,7 +25,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class RevisionGlue {
   public static void onAction(
       ChangeInfo change, RevisionInfo revision, ActionInfo action, ActionButton button) {
-    RestApi api = ChangeApi.revision(change.legacyId().get(), revision.name()).view(action.id());
+    RestApi api =
+        ChangeApi.revision(change.legacyId().get(), change.project(), revision.name())
+            .view(action.id());
 
     JavaScriptObject f = get(action.id());
     if (f != null) {

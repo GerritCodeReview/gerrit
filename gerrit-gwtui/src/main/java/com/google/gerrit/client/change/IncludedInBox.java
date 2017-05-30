@@ -16,7 +16,9 @@ package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.info.ChangeInfo.IncludedInInfo;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Document;
@@ -42,6 +44,7 @@ class IncludedInBox extends Composite {
     String includedInElement();
   }
 
+  private final Project.NameKey project;
   private final Change.Id changeId;
   private boolean loaded;
 
@@ -50,7 +53,8 @@ class IncludedInBox extends Composite {
   @UiField Element branches;
   @UiField Element tags;
 
-  IncludedInBox(Change.Id changeId) {
+  IncludedInBox(@Nullable Project.NameKey project, Change.Id changeId) {
+    this.project = project;
     this.changeId = changeId;
     initWidget(uiBinder.createAndBindUi(this));
   }
@@ -60,6 +64,7 @@ class IncludedInBox extends Composite {
     if (!loaded) {
       ChangeApi.includedIn(
           changeId.get(),
+          project == null ? null : project.get(),
           new AsyncCallback<IncludedInInfo>() {
             @Override
             public void onSuccess(IncludedInInfo r) {

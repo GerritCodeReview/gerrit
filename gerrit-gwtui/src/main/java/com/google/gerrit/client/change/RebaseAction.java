@@ -21,6 +21,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.RebaseDialog;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -28,7 +29,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 class RebaseAction {
   static void call(
       final Button b,
-      final String project,
+      final Project.NameKey project,
       final String branch,
       final Change.Id id,
       final String revision,
@@ -40,6 +41,7 @@ class RebaseAction {
       public void onSend() {
         ChangeApi.rebase(
             id.get(),
+            project.get(),
             revision,
             getBase(),
             new GerritCallback<ChangeInfo>() {
@@ -47,7 +49,7 @@ class RebaseAction {
               public void onSuccess(ChangeInfo result) {
                 sent = true;
                 hide();
-                Gerrit.display(PageLinks.toChange(id));
+                Gerrit.display(PageLinks.toChange(project, id));
               }
 
               @Override

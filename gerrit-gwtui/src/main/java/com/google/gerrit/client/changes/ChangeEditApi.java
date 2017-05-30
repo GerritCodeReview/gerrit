@@ -20,81 +20,110 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.HttpCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /** REST API helpers to remotely edit a change. */
 public class ChangeEditApi {
   /** Get file (or commit message) contents. */
-  public static void get(PatchSet.Id id, String path, boolean base, HttpCallback<NativeString> cb) {
+  public static void get(
+      @Nullable Project.NameKey project,
+      PatchSet.Id id,
+      String path,
+      boolean base,
+      HttpCallback<NativeString> cb) {
     RestApi api;
     if (id.get() != 0) {
       // Read from a published revision, when change edit doesn't
       // exist for the caller, or is not currently active.
-      api = ChangeApi.revision(id).view("files").id(path).view("content");
+      api =
+          ChangeApi.revision(id, Project.NameKey.asStringOrNull(project))
+              .view("files")
+              .id(path)
+              .view("content");
     } else if (Patch.COMMIT_MSG.equals(path)) {
-      api = editMessage(id.getParentKey().get()).addParameter("base", base);
+      api =
+          editMessage(id.getParentKey().get(), Project.NameKey.asStringOrNull(project))
+              .addParameter("base", base);
     } else {
-      api = editFile(id.getParentKey().get(), path).addParameter("base", base);
+      api =
+          editFile(id.getParentKey().get(), Project.NameKey.asStringOrNull(project), path)
+              .addParameter("base", base);
     }
     api.get(cb);
   }
 
   /** Get file (or commit message) contents of the edit. */
-  public static void get(PatchSet.Id id, String path, HttpCallback<NativeString> cb) {
-    get(id, path, false, cb);
+  public static void get(
+      @Nullable Project.NameKey project,
+      PatchSet.Id id,
+      String path,
+      HttpCallback<NativeString> cb) {
+    get(project, id, path, false, cb);
   }
 
   /** Get meta info for change edit. */
-  public static void getMeta(PatchSet.Id id, String path, AsyncCallback<EditFileInfo> cb) {
+  public static void getMeta(
+      PatchSet.Id id, @Nullable String project, String path, AsyncCallback<EditFileInfo> cb) {
     if (id.get() != 0) {
       throw new IllegalStateException("only supported for edits");
     }
-    editFile(id.getParentKey().get(), path).view("meta").get(cb);
+    editFile(id.getParentKey().get(), project, path).view("meta").get(cb);
   }
 
   /** Put message into a change edit. */
-  public static void putMessage(int id, String m, GerritCallback<VoidResult> cb) {
-    editMessage(id).put(m, cb);
+  public static void putMessage(
+      int id, @Nullable String project, String m, GerritCallback<VoidResult> cb) {
+    editMessage(id, project).put(m, cb);
   }
 
   /** Put contents into a file or commit message in a change edit. */
-  public static void put(int id, String path, String content, GerritCallback<VoidResult> cb) {
+  public static void put(
+      int id,
+      @Nullable String project,
+      String path,
+      String content,
+      GerritCallback<VoidResult> cb) {
     if (Patch.COMMIT_MSG.equals(path)) {
-      putMessage(id, content, cb);
+      putMessage(id, project, content, cb);
     } else {
-      editFile(id, path).put(content, cb);
+      editFile(id, project, path).put(content, cb);
     }
   }
 
   /** Delete a file in the pending edit. */
-  public static void delete(int id, String path, AsyncCallback<VoidResult> cb) {
-    editFile(id, path).delete(cb);
+  public static void delete(
+      int id, @Nullable String project, String path, AsyncCallback<VoidResult> cb) {
+    editFile(id, project, path).delete(cb);
   }
 
   /** Rename a file in the pending edit. */
-  public static void rename(int id, String path, String newPath, AsyncCallback<VoidResult> cb) {
+  public static void rename(
+      int id, @Nullable String project, String path, String newPath, AsyncCallback<VoidResult> cb) {
     Input in = Input.create();
     in.oldPath(path);
     in.newPath(newPath);
-    ChangeApi.edit(id).post(in, cb);
+    ChangeApi.edit(id, project).post(in, cb);
   }
 
   /** Restore (undo delete/modify) a file in the pending edit. */
-  public static void restore(int id, String path, AsyncCallback<VoidResult> cb) {
+  public static void restore(
+      int id, @Nullable String project, String path, AsyncCallback<VoidResult> cb) {
     Input in = Input.create();
     in.restorePath(path);
-    ChangeApi.edit(id).post(in, cb);
+    ChangeApi.edit(id, project).post(in, cb);
   }
 
-  private static RestApi editMessage(int id) {
-    return ChangeApi.change(id).view("edit:message");
+  private static RestApi editMessage(int id, @Nullable String project) {
+    return ChangeApi.change(id, project).view("edit:message");
   }
 
-  private static RestApi editFile(int id, String path) {
-    return ChangeApi.edit(id).id(path);
+  private static RestApi editFile(int id, @Nullable String project, String path) {
+    return ChangeApi.edit(id, project).id(path);
   }
 
   private static class Input extends JavaScriptObject {

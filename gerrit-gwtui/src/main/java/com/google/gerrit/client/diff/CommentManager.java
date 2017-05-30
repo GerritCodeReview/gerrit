@@ -21,8 +21,10 @@ import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +41,7 @@ import net.codemirror.lib.TextMarker.FromTo;
 
 /** Tracks comment widgets for {@link DiffScreen}. */
 abstract class CommentManager {
+  private final Project.NameKey project;
   private final DiffObject base;
   private final PatchSet.Id revision;
   private final String path;
@@ -54,12 +57,14 @@ abstract class CommentManager {
 
   CommentManager(
       DiffScreen host,
+      @Nullable Project.NameKey project,
       DiffObject base,
       PatchSet.Id revision,
       String path,
       CommentLinkProcessor clp,
       boolean open) {
     this.host = host;
+    this.project = project;
     this.base = base;
     this.revision = revision;
     this.path = path;
@@ -232,7 +237,12 @@ abstract class CommentManager {
     CommentGroup group = group(side, cmLinePlusOne);
     DraftBox box =
         new DraftBox(
-            group, getCommentLinkProcessor(), getPatchSetIdFromSide(side), info, isExpandAll());
+            group,
+            getCommentLinkProcessor(),
+            project,
+            getPatchSetIdFromSide(side),
+            info,
+            isExpandAll());
 
     if (info.inReplyTo() != null) {
       PublishedBox r = getPublished().get(info.inReplyTo());
@@ -350,6 +360,7 @@ abstract class CommentManager {
             new PublishedBox(
                 group,
                 getCommentLinkProcessor(),
+                project,
                 getPatchSetIdFromSide(side),
                 info,
                 side,

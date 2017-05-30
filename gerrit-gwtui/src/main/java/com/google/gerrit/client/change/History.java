@@ -20,7 +20,9 @@ import com.google.gerrit.client.info.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -35,6 +37,7 @@ class History extends FlowPanel {
   private CommentLinkProcessor clp;
   private ReplyAction replyAction;
   private Change.Id changeId;
+  private Project.NameKey project;
 
   private final Map<Integer, List<CommentInfo>> byAuthor = new HashMap<>();
 
@@ -42,6 +45,7 @@ class History extends FlowPanel {
     this.clp = clp;
     this.replyAction = ra;
     this.changeId = id;
+    this.project = info.projectNameKey();
 
     JsArray<MessageInfo> messages = info.messages();
     if (messages != null) {
@@ -78,6 +82,11 @@ class History extends FlowPanel {
 
   Change.Id getChangeId() {
     return changeId;
+  }
+
+  @Nullable
+  Project.NameKey getProject() {
+    return project;
   }
 
   void replyTo(MessageInfo info) {

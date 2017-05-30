@@ -41,11 +41,13 @@ import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.extensions.client.Theme;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
@@ -99,6 +101,7 @@ public class EditScreen extends Screen {
     String hideBase();
   }
 
+  private final Project.NameKey projectKey;
   private final PatchSet.Id revision;
   private final String path;
   private final int startLine;
@@ -129,7 +132,8 @@ public class EditScreen extends Screen {
   private HandlerRegistration closeHandler;
   private int generation;
 
-  public EditScreen(Patch.Key patch, int startLine) {
+  public EditScreen(@Nullable Project.NameKey projectKey, Patch.Key patch, int startLine) {
+    this.projectKey = projectKey;
     this.revision = patch.getParentKey();
     this.path = patch.get();
     this.startLine = startLine - 1;
@@ -188,6 +192,7 @@ public class EditScreen extends Screen {
 
     ChangeApi.detail(
         revision.getParentKey().get(),
+        Project.NameKey.asStringOrNull(projectKey),
         group1.add(
             new AsyncCallback<ChangeInfo>() {
               @Override
@@ -203,6 +208,7 @@ public class EditScreen extends Screen {
     if (revision.get() == 0) {
       ChangeEditApi.getMeta(
           revision,
+          Project.NameKey.asStringOrNull(projectKey),
           path,
           group1.add(
               new AsyncCallback<EditFileInfo>() {
@@ -217,6 +223,7 @@ public class EditScreen extends Screen {
 
       if (prefs.showBase()) {
         ChangeEditApi.get(
+            projectKey,
             revision,
             path,
             true /* base */,
@@ -237,7 +244,7 @@ public class EditScreen extends Screen {
     } else {
       // TODO(davido): We probably want to create dedicated GET EditScreenMeta
       // REST endpoint. Abuse GET diff for now, as it retrieves links we need.
-      DiffApi.diff(revision, path)
+      DiffApi.diff(revision, Project.NameKey.asStringOrNull(projectKey), path)
           .webLinksOnly()
           .get(
               group1.addFinal(
@@ -253,6 +260,7 @@ public class EditScreen extends Screen {
     }
 
     ChangeEditApi.get(
+        projectKey,
         revision,
         path,
         group2.add(
@@ -427,6 +435,7 @@ public class EditScreen extends Screen {
     if (shouldShow) {
       if (baseContent == null) {
         ChangeEditApi.get(
+            projectKey,
             revision,
             path,
             true /* base */,
@@ -529,7 +538,7 @@ public class EditScreen extends Screen {
   }
 
   private void upToChange() {
-    Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
+    Gerrit.display(PageLinks.toChangeInEditMode(projectKey, revision.getParentKey()));
   }
 
   private void initEditor() {
@@ -600,14 +609,14 @@ public class EditScreen extends Screen {
     InlineHyperlink sbs = new InlineHyperlink();
     sbs.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.sideBySideDiff()));
     sbs.setTargetHistoryToken(
-        Dispatcher.toPatch("sidebyside", null, new Patch.Key(revision, path)));
+        Dispatcher.toPatch(projectKey, "sidebyside", null, new Patch.Key(revision, path)));
     sbs.setTitle(PatchUtil.C.sideBySideDiff());
     linkPanel.add(sbs);
 
     InlineHyperlink unified = new InlineHyperlink();
     unified.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.unifiedDiff()));
     unified.setTargetHistoryToken(
-        Dispatcher.toPatch("unified", null, new Patch.Key(revision, path)));
+        Dispatcher.toPatch(projectKey, "unified", null, new Patch.Key(revision, path)));
     unified.setTitle(PatchUtil.C.unifiedDiff());
     linkPanel.add(unified);
   }
@@ -651,6 +660,7 @@ public class EditScreen extends Screen {
         final int g = cmEdit.changeGeneration(false);
         ChangeEditApi.put(
             revision.getParentKey().get(),
+            Project.NameKey.asStringOrNull(projectKey),
             path,
             text,
             new GerritCallback<VoidResult>() {

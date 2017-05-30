@@ -26,7 +26,9 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -52,6 +54,7 @@ class PublishedBox extends CommentBox {
   }
 
   private final PatchSet.Id psId;
+  private final Project.NameKey project;
   private final CommentInfo comment;
   private final DisplaySide displaySide;
   private DraftBox replyBox;
@@ -73,6 +76,7 @@ class PublishedBox extends CommentBox {
   PublishedBox(
       CommentGroup group,
       CommentLinkProcessor clp,
+      @Nullable Project.NameKey project,
       PatchSet.Id psId,
       CommentInfo info,
       DisplaySide displaySide,
@@ -80,6 +84,7 @@ class PublishedBox extends CommentBox {
     super(group, info.range());
 
     this.psId = psId;
+    this.project = project;
     this.comment = info;
     this.displaySide = displaySide;
 
@@ -195,6 +200,7 @@ class PublishedBox extends CommentBox {
       input.message(PatchUtil.C.cannedReplyDone());
       CommentApi.createDraft(
           psId,
+          Project.NameKey.asStringOrNull(project),
           input,
           new GerritCallback<CommentInfo>() {
             @Override
@@ -213,7 +219,7 @@ class PublishedBox extends CommentBox {
   @UiHandler("fix")
   void onFix(ClickEvent e) {
     e.stopPropagation();
-    String t = Dispatcher.toEditScreen(psId, comment.path(), comment.line());
+    String t = Dispatcher.toEditScreen(project, psId, comment.path(), comment.line());
     if (!Gerrit.isSignedIn()) {
       Gerrit.doSignIn(t);
     } else {

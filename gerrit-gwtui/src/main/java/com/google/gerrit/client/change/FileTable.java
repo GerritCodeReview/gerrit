@@ -41,6 +41,7 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
@@ -199,6 +200,7 @@ public class FileTable extends FlowPanel {
 
   private DiffObject base;
   private PatchSet.Id curr;
+  private Project.NameKey project;
   private MyTable table;
   private boolean register;
   private JsArrayString reviewed;
@@ -217,12 +219,14 @@ public class FileTable extends FlowPanel {
   public void set(
       DiffObject base,
       PatchSet.Id curr,
+      Project.NameKey project,
       ChangeScreen.Style style,
       Widget replyButton,
       Mode mode,
       boolean editExists) {
     this.base = base;
     this.curr = curr;
+    this.project = project;
     this.style = style;
     this.replyButton = replyButton;
     this.mode = mode;
@@ -318,10 +322,10 @@ public class FileTable extends FlowPanel {
 
   private String url(FileInfo info) {
     return info.binary()
-        ? Dispatcher.toUnified(base, curr, info.path())
+        ? Dispatcher.toUnified(project, base, curr, info.path())
         : mode == Mode.REVIEW
-            ? Dispatcher.toPatch(base, curr, info.path())
-            : Dispatcher.toEditScreen(curr, info.path());
+            ? Dispatcher.toPatch(project, base, curr, info.path())
+            : Dispatcher.toEditScreen(project, curr, info.path());
   }
 
   private final class MyTable extends NavigationTable<FileInfo> {
@@ -365,11 +369,12 @@ public class FileTable extends FlowPanel {
       String path = list.get(idx).path();
       ChangeEditApi.delete(
           curr.getParentKey().get(),
+          Project.NameKey.asStringOrNull(project),
           path,
           new AsyncCallback<VoidResult>() {
             @Override
             public void onSuccess(VoidResult result) {
-              Gerrit.display(PageLinks.toChangeInEditMode(curr.getParentKey()));
+              Gerrit.display(PageLinks.toChangeInEditMode(project, curr.getParentKey()));
             }
 
             @Override
@@ -381,11 +386,12 @@ public class FileTable extends FlowPanel {
       String path = list.get(idx).path();
       ChangeEditApi.restore(
           curr.getParentKey().get(),
+          Project.NameKey.asStringOrNull(project),
           path,
           new AsyncCallback<VoidResult>() {
             @Override
             public void onSuccess(VoidResult result) {
-              Gerrit.display(PageLinks.toChangeInEditMode(curr.getParentKey()));
+              Gerrit.display(PageLinks.toChangeInEditMode(project, curr.getParentKey()));
             }
 
             @Override
@@ -398,7 +404,11 @@ public class FileTable extends FlowPanel {
     }
 
     private void setReviewed(FileInfo info, boolean r) {
-      RestApi api = ChangeApi.revision(curr).view("files").id(info.path()).view("reviewed");
+      RestApi api =
+          ChangeApi.revision(curr, Project.NameKey.asStringOrNull(project))
+              .view("files")
+              .id(info.path())
+              .view("reviewed");
       if (r) {
         api.put(CallbackGroup.<ReviewInfo>emptyCallback());
       } else {

@@ -19,24 +19,30 @@ import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.CommentRange;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Cookies;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class LocalComments {
+  private final Project.NameKey project;
   private final Change.Id changeId;
   private final PatchSet.Id psId;
   private final StorageBackend storage;
 
   private static class InlineComment {
+    final Project.NameKey project;
     final PatchSet.Id psId;
     final CommentInfo commentInfo;
 
-    InlineComment(PatchSet.Id psId, CommentInfo commentInfo) {
+    InlineComment(@Nullable Project.NameKey project, PatchSet.Id psId, CommentInfo commentInfo) {
+      this.project = project;
       this.psId = psId;
       this.commentInfo = commentInfo;
     }
@@ -87,13 +93,15 @@ public class LocalComments {
     }
   }
 
-  public LocalComments(Change.Id changeId) {
+  public LocalComments(@Nullable Project.NameKey project, Change.Id changeId) {
+    this.project = project;
     this.changeId = changeId;
     this.psId = null;
     this.storage = new StorageBackend();
   }
 
-  public LocalComments(PatchSet.Id psId) {
+  public LocalComments(@Nullable Project.NameKey project, PatchSet.Id psId) {
+    this.project = project;
     this.changeId = psId.getParentKey();
     this.psId = psId;
     this.storage = new StorageBackend();
@@ -120,6 +128,12 @@ public class LocalComments {
   }
 
   private String getReplyCommentName() {
+    if (project != null) {
+      return "savedReplyComment-"
+          + project.get()
+          + PageLinks.PROJECT_CHANGE_DELIMITER
+          + changeId.toString();
+    }
     return "savedReplyComment-" + changeId.toString();
   }
 
@@ -131,6 +145,7 @@ public class LocalComments {
         if (input.commentInfo.id() == null) {
           CommentApi.createDraft(
               input.psId,
+              Project.NameKey.asStringOrNull(input.project),
               input.commentInfo,
               new GerritCallback<CommentInfo>() {
                 @Override
@@ -141,6 +156,7 @@ public class LocalComments {
         } else {
           CommentApi.updateDraft(
               input.psId,
+              Project.NameKey.asStringOrNull(input.project),
               input.commentInfo.id(),
               input.commentInfo,
               new GerritCallback<CommentInfo>() {
@@ -201,8 +217,8 @@ public class LocalComments {
     if (key.startsWith("patchReply-") || key.startsWith("patchCommentEdit-")) {
       offset = 2;
     }
-    Change.Id changeId = new Change.Id(Integer.parseInt(elements[offset + 0]));
-    PatchSet.Id psId = new PatchSet.Id(changeId, Integer.parseInt(elements[offset + 1]));
+    ChangeIdParser.Result id = ChangeIdParser.parse(elements[offset + 0]);
+    PatchSet.Id psId = new PatchSet.Id(id.changeId, Integer.parseInt(elements[offset + 1]));
     path = atob(elements[offset + 2]);
     side = (Side.PARENT.toString().equals(elements[offset + 3])) ? Side.PARENT : Side.REVISION;
     range = null;
@@ -227,7 +243,7 @@ public class LocalComments {
     } else if (key.startsWith("patchCommentEdit-")) {
       info.id(elements[1]);
     }
-    InlineComment inlineComment = new InlineComment(psId, info);
+    InlineComment inlineComment = new InlineComment(id.project, psId, info);
     return inlineComment;
   }
 
@@ -240,6 +256,9 @@ public class LocalComments {
       result = "patchCommentEdit-" + comment.id() + "-";
     } else if (comment.inReplyTo() != null) {
       result = "patchReply-" + comment.inReplyTo() + "-";
+    }
+    if (project != null) {
+      result += project.get() + PageLinks.PROJECT_CHANGE_DELIMITER;
     }
     result +=
         changeId + "-" + psId.getId() + "-" + btoa(comment.path()) + "-" + comment.side() + "-";

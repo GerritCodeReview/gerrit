@@ -21,6 +21,7 @@ import com.google.gerrit.client.info.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -31,6 +32,7 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 
 class ReplyAction {
   private final PatchSet.Id psId;
+  private final Project.NameKey project;
   private final String revision;
   private final boolean hasDraftComments;
   private final ChangeScreen.Style style;
@@ -53,6 +55,7 @@ class ReplyAction {
       Widget replyButton,
       Widget quickApproveButton) {
     this.psId = new PatchSet.Id(info.legacyId(), info.revisions().get(revision)._number());
+    this.project = info.projectNameKey();
     this.revision = revision;
     this.hasDraftComments = hasDraftComments;
     this.style = style;
@@ -90,7 +93,7 @@ class ReplyAction {
     }
 
     if (replyBox == null) {
-      replyBox = new ReplyBox(clp, psId, revision, allLabels, permittedLabels);
+      replyBox = new ReplyBox(clp, project, psId, revision, allLabels, permittedLabels);
       allLabels = null;
       permittedLabels = null;
     }

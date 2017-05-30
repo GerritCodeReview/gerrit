@@ -173,14 +173,14 @@ class Message extends Composite {
     TreeMap<String, List<CommentInfo>> m = byPath(list);
     List<CommentInfo> l = m.remove(Patch.COMMIT_MSG);
     if (l != null) {
-      comments.add(new FileComments(clp, ps, Util.C.commitMessage(), l));
+      comments.add(new FileComments(clp, history.getProject(), ps, Util.C.commitMessage(), l));
     }
     l = m.remove(Patch.MERGE_LIST);
     if (l != null) {
-      comments.add(new FileComments(clp, ps, Util.C.mergeList(), l));
+      comments.add(new FileComments(clp, history.getProject(), ps, Util.C.mergeList(), l));
     }
     for (Map.Entry<String, List<CommentInfo>> e : m.entrySet()) {
-      comments.add(new FileComments(clp, ps, e.getKey(), e.getValue()));
+      comments.add(new FileComments(clp, history.getProject(), ps, e.getKey(), e.getValue()));
     }
   }
 

@@ -22,6 +22,7 @@ import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -78,7 +79,7 @@ class Actions extends Composite {
   private Change.Id changeId;
   private ChangeInfo changeInfo;
   private String revision;
-  private String project;
+  private Project.NameKey project;
   private String topic;
   private String subject;
   private String message;
@@ -99,7 +100,7 @@ class Actions extends Composite {
     RevisionInfo revInfo = info.revision(revision);
     CommitInfo commit = revInfo.commit();
     changeId = info.legacyId();
-    project = info.project();
+    project = info.projectNameKey();
     topic = info.topic();
     subject = commit.subject();
     message = commit.message();
@@ -181,7 +182,8 @@ class Actions extends Composite {
   @UiHandler("followUp")
   void onFollowUp(@SuppressWarnings("unused") ClickEvent e) {
     if (followUpAction == null) {
-      followUpAction = new FollowUpAction(followUp, project, branch, topic, key);
+      followUpAction =
+          new FollowUpAction(followUp, Project.NameKey.asStringOrNull(project), branch, topic, key);
     }
     followUpAction.show();
   }
@@ -189,7 +191,7 @@ class Actions extends Composite {
   @UiHandler("abandon")
   void onAbandon(@SuppressWarnings("unused") ClickEvent e) {
     if (abandonAction == null) {
-      abandonAction = new AbandonAction(abandon, changeId);
+      abandonAction = new AbandonAction(abandon, project, changeId);
     }
     abandonAction.show();
   }
@@ -197,24 +199,24 @@ class Actions extends Composite {
   @UiHandler("deleteChange")
   void onDeleteChange(@SuppressWarnings("unused") ClickEvent e) {
     if (Window.confirm(Resources.C.deleteChange())) {
-      ChangeActions.delete(changeId, deleteChange);
+      ChangeActions.delete(project, changeId, deleteChange);
     }
   }
 
   @UiHandler("markPrivate")
   void onMarkPrivate(@SuppressWarnings("unused") ClickEvent e) {
-    ChangeActions.markPrivate(changeId, markPrivate);
+    ChangeActions.markPrivate(project, changeId, markPrivate);
   }
 
   @UiHandler("unmarkPrivate")
   void onUnmarkPrivate(@SuppressWarnings("unused") ClickEvent e) {
-    ChangeActions.unmarkPrivate(changeId, unmarkPrivate);
+    ChangeActions.unmarkPrivate(project, changeId, unmarkPrivate);
   }
 
   @UiHandler("restore")
   void onRestore(@SuppressWarnings("unused") ClickEvent e) {
     if (restoreAction == null) {
-      restoreAction = new RestoreAction(restore, changeId);
+      restoreAction = new RestoreAction(restore, project, changeId);
     }
     restoreAction.show();
   }
@@ -237,7 +239,7 @@ class Actions extends Composite {
 
   @UiHandler("revert")
   void onRevert(@SuppressWarnings("unused") ClickEvent e) {
-    RevertAction.call(revert, changeId, revision, subject);
+    RevertAction.call(revert, changeId, project, revision, subject);
   }
 
   private static void a2b(NativeMap<ActionInfo> actions, String a, Button b) {

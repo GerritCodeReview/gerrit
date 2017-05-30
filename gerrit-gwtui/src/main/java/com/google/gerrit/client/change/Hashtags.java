@@ -21,6 +21,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
@@ -73,7 +74,8 @@ public class Hashtags extends Composite {
     if (hashtags != null) {
       final ChangeScreen screen = ChangeScreen.get(event);
       final PatchSet.Id psId = screen.getPatchSetId();
-      ChangeApi.hashtags(psId.getParentKey().get())
+      final Project.NameKey project = null;
+      ChangeApi.hashtags(Project.NameKey.asStringOrNull(project), psId.getParentKey().get())
           .post(
               PostInput.create(null, hashtags),
               new GerritCallback<JavaScriptObject>() {
@@ -107,6 +109,7 @@ public class Hashtags extends Composite {
 
   private ChangeScreen.Style style;
   private Change.Id changeId;
+  private Project.NameKey project;
 
   public Hashtags() {
 
@@ -141,6 +144,7 @@ public class Hashtags extends Composite {
 
   void set(ChangeInfo info, String revision) {
     psId = new PatchSet.Id(info.legacyId(), info.revisions().get(revision)._number());
+    project = info.projectNameKey();
 
     canEdit = info.hasActions() && info.actions().containsKey("hashtags");
     this.changeId = info.legacyId();
@@ -219,13 +223,14 @@ public class Hashtags extends Composite {
   }
 
   private void addHashtag(final String hashtags) {
-    ChangeApi.hashtags(changeId.get())
+    ChangeApi.hashtags(Project.NameKey.asStringOrNull(project), changeId.get())
         .post(
             PostInput.create(hashtags, null),
             new GerritCallback<JsArrayString>() {
               @Override
               public void onSuccess(JsArrayString result) {
-                Gerrit.display(PageLinks.toChange(psId.getParentKey(), String.valueOf(psId.get())));
+                Gerrit.display(
+                    PageLinks.toChange(project, psId.getParentKey(), String.valueOf(psId.get())));
               }
 
               @Override

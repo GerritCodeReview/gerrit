@@ -17,41 +17,50 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 
 public class ChangeActions {
 
-  static void publish(Change.Id id, String revision, Button... draftButtons) {
-    ChangeApi.publish(id.get(), revision, cs(id, draftButtons));
+  static void publish(
+      @Nullable Project.NameKey project, Change.Id id, String revision, Button... draftButtons) {
+    ChangeApi.publish(
+        Project.NameKey.asStringOrNull(project), id.get(), revision, cs(project, id, draftButtons));
   }
 
-  static void delete(Change.Id id, String revision, Button... draftButtons) {
-    ChangeApi.deleteRevision(id.get(), revision, cs(id, draftButtons));
+  static void delete(
+      @Nullable Project.NameKey project, Change.Id id, String revision, Button... draftButtons) {
+    ChangeApi.deleteRevision(
+        Project.NameKey.asStringOrNull(project), id.get(), revision, cs(project, id, draftButtons));
   }
 
-  static void delete(Change.Id id, Button... draftButtons) {
-    ChangeApi.deleteChange(id.get(), mine(draftButtons));
+  static void delete(@Nullable Project.NameKey project, Change.Id id, Button... draftButtons) {
+    ChangeApi.deleteChange(Project.NameKey.asStringOrNull(project), id.get(), mine(draftButtons));
   }
 
-  static void markPrivate(Change.Id id, Button... draftButtons) {
-    ChangeApi.markPrivate(id.get(), cs(id, draftButtons));
+  static void markPrivate(@Nullable Project.NameKey project, Change.Id id, Button... draftButtons) {
+    ChangeApi.markPrivate(
+        Project.NameKey.asStringOrNull(project), id.get(), cs(project, id, draftButtons));
   }
 
-  static void unmarkPrivate(Change.Id id, Button... draftButtons) {
-    ChangeApi.unmarkPrivate(id.get(), cs(id, draftButtons));
+  static void unmarkPrivate(
+      @Nullable Project.NameKey project, Change.Id id, Button... draftButtons) {
+    ChangeApi.unmarkPrivate(
+        Project.NameKey.asStringOrNull(project), id.get(), cs(project, id, draftButtons));
   }
 
   public static GerritCallback<JavaScriptObject> cs(
-      final Change.Id id, final Button... draftButtons) {
+      @Nullable Project.NameKey project, final Change.Id id, final Button... draftButtons) {
     setEnabled(false, draftButtons);
     return new GerritCallback<JavaScriptObject>() {
       @Override
       public void onSuccess(JavaScriptObject result) {
-        Gerrit.display(PageLinks.toChange(id));
+        Gerrit.display(PageLinks.toChange(project, id));
       }
 
       @Override
@@ -59,7 +68,7 @@ public class ChangeActions {
         setEnabled(true, draftButtons);
         if (SubmitFailureDialog.isConflict(err)) {
           new SubmitFailureDialog(err.getMessage()).center();
-          Gerrit.display(PageLinks.toChange(id));
+          Gerrit.display(PageLinks.toChange(project, id));
         } else {
           super.onFailure(err);
         }

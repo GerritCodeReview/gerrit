@@ -29,7 +29,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 class DefaultActions {
   static void invoke(ChangeInfo change, ActionInfo action, RestApi api) {
-    invoke(action, api, callback(PageLinks.toChange(change.legacyId())));
+    invoke(action, api, callback(PageLinks.toChange(change.projectNameKey(), change.legacyId())));
   }
 
   static void invoke(Project.NameKey project, ActionInfo action, RestApi api) {

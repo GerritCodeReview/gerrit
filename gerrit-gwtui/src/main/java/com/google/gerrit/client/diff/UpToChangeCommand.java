@@ -16,21 +16,25 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.PatchUtil;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 class UpToChangeCommand extends KeyCommand {
   private final PatchSet.Id revision;
+  private final Project.NameKey project;
 
-  UpToChangeCommand(PatchSet.Id revision, int mask, int key) {
+  UpToChangeCommand(@Nullable Project.NameKey project, PatchSet.Id revision, int mask, int key) {
     super(mask, key, PatchUtil.C.upToChange());
     this.revision = revision;
+    this.project = project;
   }
 
   @Override
   public void onKeyPress(final KeyPressEvent event) {
-    Gerrit.display(PageLinks.toChange(revision.getParentKey(), revision.getId()));
+    Gerrit.display(PageLinks.toChange(project, revision.getParentKey(), revision.getId()));
   }
 }

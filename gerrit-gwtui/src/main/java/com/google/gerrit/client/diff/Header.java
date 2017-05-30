@@ -32,11 +32,13 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
@@ -90,6 +92,7 @@ public class Header extends Composite {
   @UiField Image preferences;
 
   private final KeyCommandSet keys;
+  private final Project.NameKey projectKey;
   private final DiffObject base;
   private final PatchSet.Id patchSetId;
   private final String path;
@@ -104,6 +107,7 @@ public class Header extends Composite {
 
   Header(
       KeyCommandSet keys,
+      @Nullable Project.NameKey project,
       DiffObject base,
       DiffObject patchSetId,
       String path,
@@ -111,6 +115,7 @@ public class Header extends Composite {
       DiffPreferences prefs) {
     initWidget(uiBinder.createAndBindUi(this));
     this.keys = keys;
+    this.projectKey = project;
     this.base = base;
     this.patchSetId = patchSetId.asPatchSetId();
     this.path = path;
@@ -123,6 +128,7 @@ public class Header extends Composite {
     SafeHtml.setInnerHTML(filePath, formatPath(path));
     up.setTargetHistoryToken(
         PageLinks.toChange(
+            project,
             patchSetId.asPatchSetId().getParentKey(),
             base.asString(),
             patchSetId.asPatchSetId().getId()));
@@ -158,6 +164,7 @@ public class Header extends Composite {
   @Override
   protected void onLoad() {
     DiffApi.list(
+        Project.NameKey.asStringOrNull(projectKey),
         patchSetId,
         base.asPatchSetId(),
         new GerritCallback<NativeMap<FileInfo>>() {
@@ -172,7 +179,7 @@ public class Header extends Composite {
         });
 
     if (Gerrit.isSignedIn()) {
-      ChangeApi.revision(patchSetId)
+      ChangeApi.revision(Project.NameKey.asStringOrNull(projectKey), patchSetId)
           .view("files")
           .addParameterTrue("reviewed")
           .get(
@@ -242,7 +249,10 @@ public class Header extends Composite {
   }
 
   private RestApi reviewed() {
-    return ChangeApi.revision(patchSetId).view("files").id(path).view("reviewed");
+    return ChangeApi.revision(Project.NameKey.asStringOrNull(projectKey), patchSetId)
+        .view("files")
+        .id(path)
+        .view("reviewed");
   }
 
   @UiHandler("preferences")
@@ -252,8 +262,8 @@ public class Header extends Composite {
 
   private String url(FileInfo info) {
     return diffScreenType == DiffView.UNIFIED_DIFF
-        ? Dispatcher.toUnified(base, patchSetId, info.path())
-        : Dispatcher.toSideBySide(base, patchSetId, info.path());
+        ? Dispatcher.toUnified(projectKey, base, patchSetId, info.path())
+        : Dispatcher.toSideBySide(projectKey, base, patchSetId, info.path());
   }
 
   private KeyCommand setupNav(InlineHyperlink link, char key, String help, FileInfo info) {
@@ -279,7 +289,7 @@ public class Header extends Composite {
       return k;
     }
     link.getElement().getStyle().setVisibility(Visibility.HIDDEN);
-    keys.add(new UpToChangeCommand(patchSetId, 0, key));
+    keys.add(new UpToChangeCommand(projectKey, patchSetId, 0, key));
     return null;
   }
 

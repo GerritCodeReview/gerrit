@@ -24,8 +24,10 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
@@ -67,8 +69,13 @@ public class Unified extends DiffScreen {
   private boolean autoHideDiffTableHeader;
 
   public Unified(
-      DiffObject base, DiffObject revision, String path, DisplaySide startSide, int startLine) {
-    super(base, revision, path, startSide, startLine, DiffView.UNIFIED_DIFF);
+      @Nullable Project.NameKey project,
+      DiffObject base,
+      DiffObject revision,
+      String path,
+      DisplaySide startSide,
+      int startLine) {
+    super(project, base, revision, path, startSide, startLine, DiffView.UNIFIED_DIFF);
 
     diffTable = new UnifiedTable(this, base, revision, path);
     add(uiBinder.createAndBindUi(this));
@@ -84,6 +91,7 @@ public class Unified extends DiffScreen {
         commentManager =
             new UnifiedCommentManager(
                 Unified.this,
+                getProject(),
                 base,
                 revision,
                 path,
@@ -202,7 +210,8 @@ public class Unified extends DiffScreen {
     InlineHyperlink toSideBySideDiffLink = new InlineHyperlink();
     toSideBySideDiffLink.setHTML(
         new ImageResourceRenderer().render(Gerrit.RESOURCES.sideBySideDiff()));
-    toSideBySideDiffLink.setTargetHistoryToken(Dispatcher.toSideBySide(base, revision, path));
+    toSideBySideDiffLink.setTargetHistoryToken(
+        Dispatcher.toSideBySide(getProject(), base, revision, path));
     toSideBySideDiffLink.setTitle(PatchUtil.C.sideBySideDiff());
     return Collections.singletonList(toSideBySideDiffLink);
   }

@@ -18,7 +18,9 @@ import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
@@ -28,17 +30,21 @@ import java.util.List;
 
 class PathSuggestOracle extends HighlightSuggestOracle {
 
+  private final Project.NameKey project;
   private final Change.Id changeId;
   private final RevisionInfo revision;
 
-  PathSuggestOracle(Change.Id changeId, RevisionInfo revision) {
+  PathSuggestOracle(@Nullable Project.NameKey project, Change.Id changeId, RevisionInfo revision) {
+    this.project = project;
     this.changeId = changeId;
     this.revision = revision;
   }
 
   @Override
   protected void onRequestSuggestions(final Request req, final Callback cb) {
-    RestApi api = ChangeApi.revision(changeId.get(), revision.name()).view("files");
+    RestApi api =
+        ChangeApi.revision(Project.NameKey.asStringOrNull(project), changeId.get(), revision.name())
+            .view("files");
     if (req.getQuery() != null) {
       api.addParameter("q", req.getQuery() == null ? "" : req.getQuery());
     }

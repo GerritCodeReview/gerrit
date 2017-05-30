@@ -26,9 +26,11 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -61,17 +63,24 @@ class PatchSetSelectBox extends Composite {
   @UiField HTMLPanel linkPanel;
   @UiField BoxStyle style;
 
+  private final Project.NameKey project;
+  private final Change.Id changeId;
+
   private DiffScreen parent;
   private DisplaySide side;
   private boolean sideA;
   private String path;
-  private Change.Id changeId;
   private PatchSet.Id revision;
   private DiffObject idActive;
   private PatchSetSelectBox other;
 
   PatchSetSelectBox(
-      DiffScreen parent, DisplaySide side, Change.Id changeId, DiffObject diffObject, String path) {
+      DiffScreen parent,
+      DisplaySide side,
+      @Nullable Project.NameKey project,
+      Change.Id changeId,
+      DiffObject diffObject,
+      String path) {
     initWidget(uiBinder.createAndBindUi(this));
     icon.setTitle(PatchUtil.C.addFileCommentToolTip());
     icon.addStyleName(Gerrit.RESOURCES.css().link());
@@ -79,6 +88,7 @@ class PatchSetSelectBox extends Composite {
     this.parent = parent;
     this.side = side;
     this.sideA = side == DisplaySide.A;
+    this.project = project;
     this.changeId = changeId;
     this.revision = diffObject.asPatchSetId();
     this.idActive = diffObject;
@@ -158,7 +168,7 @@ class PatchSetSelectBox extends Composite {
               if (cm.extras().getBlameInfo() != null) {
                 cm.extras().toggleAnnotation();
               } else {
-                ChangeApi.blame(rev, path, isBase)
+                ChangeApi.blame(Project.NameKey.asStringOrNull(project), rev, path, isBase)
                     .get(
                         new GerritCallback<JsArray<BlameInfo>>() {
 
@@ -180,7 +190,7 @@ class PatchSetSelectBox extends Composite {
     Anchor anchor =
         new Anchor(
             new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()),
-            "#" + Dispatcher.toEditScreen(id, path));
+            "#" + Dispatcher.toEditScreen(project, id, path));
     anchor.setTitle(PatchUtil.C.edit());
     return anchor;
   }
@@ -207,8 +217,8 @@ class PatchSetSelectBox extends Composite {
     return new InlineHyperlink(
         label,
         parent.isSideBySide()
-            ? Dispatcher.toSideBySide(diffBase, revision.asPatchSetId(), path)
-            : Dispatcher.toUnified(diffBase, revision.asPatchSetId(), path));
+            ? Dispatcher.toSideBySide(project, diffBase, revision.asPatchSetId(), path)
+            : Dispatcher.toUnified(project, diffBase, revision.asPatchSetId(), path));
   }
 
   private Anchor createDownloadLink() {

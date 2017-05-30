@@ -15,7 +15,9 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.info.ChangeInfo.EditInfo;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -23,6 +25,7 @@ class PatchSetsAction extends RightSidePopdownAction {
   private final PatchSetsBox revisionBox;
 
   PatchSetsAction(
+      @Nullable Project.NameKey project,
       Change.Id changeId,
       String revision,
       EditInfo edit,
@@ -30,7 +33,7 @@ class PatchSetsAction extends RightSidePopdownAction {
       UIObject relativeTo,
       Widget downloadButton) {
     super(style, relativeTo, downloadButton);
-    this.revisionBox = new PatchSetsBox(changeId, revision, edit);
+    this.revisionBox = new PatchSetsBox(project, changeId, revision, edit);
   }
 
   @Override

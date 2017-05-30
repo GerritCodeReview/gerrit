@@ -22,6 +22,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtorm.client.KeyUtil;
 
 public class PageLinks {
+  public static final String PROJECT_CHANGE_DELIMITER = "/+/";
+
   public static final String SETTINGS = "/settings/";
   public static final String SETTINGS_PREFERENCES = "/settings/preferences";
   public static final String SETTINGS_DIFF_PREFERENCES = "/settings/diff-preferences";
@@ -51,20 +53,21 @@ public class PageLinks {
   public static final String MY_GROUPS = "/groups/self";
   public static final String DOCUMENTATION = "/Documentation/";
 
-  public static String toChangeInEditMode(Change.Id c) {
-    return "/c/" + c + ",edit/";
+  public static String toChangeInEditMode(@Nullable Project.NameKey project, Change.Id c) {
+    return toChangeNoSlash(project, c) + ",edit/";
   }
 
-  public static String toChange(final Change.Id c) {
-    return "/c/" + c + "/";
+  public static String toChange(@Nullable Project.NameKey project, Change.Id c, String p) {
+    return toChange(project, c) + p;
   }
 
-  public static String toChange(Change.Id c, String p) {
-    return "/c/" + c + "/" + p;
+  public static String toChange(@Nullable Project.NameKey project, Change.Id c) {
+    return toChangeNoSlash(project, c) + "/";
   }
 
-  public static String toChange(Change.Id c, String b, String p) {
-    String u = "/c/" + c + "/";
+  public static String toChange(
+      @Nullable Project.NameKey project, Change.Id c, String b, String p) {
+    String u = toChange(project, c);
     if (b != null) {
       u += b + "..";
     }
@@ -164,6 +167,13 @@ public class PageLinks {
       default:
         return "status:open";
     }
+  }
+
+  private static String toChangeNoSlash(@Nullable Project.NameKey project, Change.Id c) {
+    if (project != null) {
+      return "/c/" + project.get() + PageLinks.PROJECT_CHANGE_DELIMITER + c;
+    }
+    return "/c/" + c;
   }
 
   public static String op(String op, int value) {

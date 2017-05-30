@@ -57,12 +57,14 @@ import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.UserActivityMonitor;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
@@ -159,6 +161,7 @@ public class ChangeScreen extends Screen {
   }
 
   private final Change.Id changeId;
+  private Project.NameKey project;
   private DiffObject base;
   private String revision;
   private ChangeInfo changeInfo;
@@ -255,17 +258,24 @@ public class ChangeScreen extends Screen {
 
   public ChangeScreen(
       Change.Id changeId,
+      Project.NameKey project,
       DiffObject base,
       String revision,
       boolean openReplyBox,
       FileTable.Mode mode) {
     this.changeId = changeId;
+    this.project = project;
     this.base = base;
     this.revision = normalize(revision);
     this.openReplyBox = openReplyBox;
     this.fileTableMode = mode;
-    this.lc = new LocalComments(changeId);
+    this.lc = new LocalComments(project, changeId);
     add(uiBinder.createAndBindUi(this));
+  }
+
+  @Nullable
+  public Project.NameKey getProject() {
+    return project;
   }
 
   PatchSet.Id getPatchSetId() {
@@ -291,6 +301,7 @@ public class ChangeScreen extends Screen {
                 public void onFailure(Throwable caught) {}
               }));
       ChangeApi.editWithFiles(
+          Project.NameKey.asStringOrNull(project),
           changeId.get(),
           group.add(
               new AsyncCallback<EditInfo>() {
@@ -310,6 +321,15 @@ public class ChangeScreen extends Screen {
               @Override
               public void onSuccess(final ChangeInfo info) {
                 info.init();
+                if (project == null) {
+                  // Update Project when the first API call succeeded if it wasn't already present.
+                  // This is the case when the user used a URL that doesn't include the project.
+                  // Setting it here will rewrite the URL token to include the project (visible to
+                  // the user) and all future API calls made from the change screen will use
+                  // project~changeId to identify the change.
+                  project = info.projectNameKey();
+                }
+
                 initCurrentRevision(info);
                 final RevisionInfo rev = info.revision(revision);
                 CallbackGroup group = new CallbackGroup();
@@ -434,7 +454,7 @@ public class ChangeScreen extends Screen {
   }
 
   void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
-    RestApi call = ChangeApi.detail(changeId.get());
+    RestApi call = ChangeApi.detail(Project.NameKey.asStringOrNull(project), changeId.get());
     EnumSet<ListChangesOption> opts =
         EnumSet.of(ListChangesOption.ALL_REVISIONS, ListChangesOption.CHANGE_ACTIONS);
     if (enableSignedPush()) {
@@ -448,7 +468,8 @@ public class ChangeScreen extends Screen {
   }
 
   void loadRevisionInfo() {
-    RestApi call = ChangeApi.actions(changeId.get(), revision);
+    RestApi call =
+        ChangeApi.actions(Project.NameKey.asStringOrNull(project), changeId.get(), revision);
     call.background();
     call.get(
         new GerritCallback<NativeMap<ActionInfo>>() {
@@ -527,7 +548,8 @@ public class ChangeScreen extends Screen {
 
   private void initIncludedInAction(ChangeInfo info) {
     if (info.status() == Status.MERGED) {
-      includedInAction = new IncludedInAction(info.legacyId(), style, headerLine, includedIn);
+      includedInAction =
+          new IncludedInAction(project, info.legacyId(), style, headerLine, includedIn);
       includedIn.setVisible(true);
     }
   }
@@ -567,7 +589,8 @@ public class ChangeScreen extends Screen {
     patchSetsText.setInnerText(Resources.M.patchSets(currentlyViewedPatchSet, currentPatchSet));
     updatePatchSetsTextStyle(isPatchSetCurrent);
     patchSetsAction =
-        new PatchSetsAction(info.legacyId(), revision, edit, style, headerLine, patchSets);
+        new PatchSetsAction(
+            info.projectNameKey(), info.legacyId(), revision, edit, style, headerLine, patchSets);
 
     RevisionInfo revInfo = info.revision(revision);
     if (revInfo.draft()) {
@@ -623,11 +646,11 @@ public class ChangeScreen extends Screen {
           renameFile.setVisible(!editMode.isVisible());
           reviewMode.setVisible(!editMode.isVisible());
           addFileAction =
-              new AddFileAction(changeId, info.revision(revision), style, addFile, files);
+              new AddFileAction(project, changeId, info.revision(revision), style, addFile, files);
           deleteFileAction =
-              new DeleteFileAction(changeId, info.revision(revision), style, addFile);
+              new DeleteFileAction(project, changeId, info.revision(revision), style, addFile);
           renameFileAction =
-              new RenameFileAction(changeId, info.revision(revision), style, addFile);
+              new RenameFileAction(project, changeId, info.revision(revision), style, addFile);
         } else {
           editMode.setVisible(false);
           addFile.setVisible(false);
@@ -661,30 +684,30 @@ public class ChangeScreen extends Screen {
 
   @UiHandler("publishEdit")
   void onPublishEdit(@SuppressWarnings("unused") ClickEvent e) {
-    EditActions.publishEdit(changeId, publishEdit, rebaseEdit, deleteEdit);
+    EditActions.publishEdit(project, changeId, publishEdit, rebaseEdit, deleteEdit);
   }
 
   @UiHandler("rebaseEdit")
   void onRebaseEdit(@SuppressWarnings("unused") ClickEvent e) {
-    EditActions.rebaseEdit(changeId, publishEdit, rebaseEdit, deleteEdit);
+    EditActions.rebaseEdit(project, changeId, publishEdit, rebaseEdit, deleteEdit);
   }
 
   @UiHandler("deleteEdit")
   void onDeleteEdit(@SuppressWarnings("unused") ClickEvent e) {
     if (Window.confirm(Resources.C.deleteChangeEdit())) {
-      EditActions.deleteEdit(changeId, publishEdit, rebaseEdit, deleteEdit);
+      EditActions.deleteEdit(project, changeId, publishEdit, rebaseEdit, deleteEdit);
     }
   }
 
   @UiHandler("publish")
   void onPublish(@SuppressWarnings("unused") ClickEvent e) {
-    ChangeActions.publish(changeId, revision, publish, deleteRevision);
+    ChangeActions.publish(project, changeId, revision, publish, deleteRevision);
   }
 
   @UiHandler("deleteRevision")
   void onDeleteRevision(@SuppressWarnings("unused") ClickEvent e) {
     if (Window.confirm(Resources.C.deleteDraftRevision())) {
-      ChangeActions.delete(changeId, revision, publish, deleteRevision);
+      ChangeActions.delete(project, changeId, revision, publish, deleteRevision);
     }
   }
 
@@ -704,7 +727,7 @@ public class ChangeScreen extends Screen {
         new KeyCommand(0, 'R', Util.C.keyReloadChange()) {
           @Override
           public void onKeyPress(KeyPressEvent event) {
-            Gerrit.display(PageLinks.toChange(changeId));
+            Gerrit.display(PageLinks.toChange(project, changeId));
           }
         });
     keysNavigation.add(
@@ -814,21 +837,12 @@ public class ChangeScreen extends Screen {
   }
 
   private void scrollToPath(String token) {
-    int s = token.indexOf('/');
-    try {
-      String c = token.substring(0, s);
-      int editIndex = c.indexOf(",edit");
-      if (editIndex > 0) {
-        c = c.substring(0, editIndex);
-      }
-      if (s < 0 || !changeId.equals(Change.Id.parse(c))) {
-        return; // Unrelated URL, do not scroll.
-      }
-    } catch (IllegalArgumentException e) {
-      return;
+    ChangeIdParser.Result result = ChangeIdParser.parse(token);
+    if (!changeId.equals(result.changeId)) {
+      return; // Unrelated URL, do not scroll.
     }
 
-    s = token.indexOf('/', s + 1);
+    int s = token.indexOf('/', result.identifierLength() + 1);
     if (s < 0) {
       return; // URL does not name a file.
     }
@@ -873,7 +887,7 @@ public class ChangeScreen extends Screen {
   @UiHandler("permalink")
   void onReload(ClickEvent e) {
     e.preventDefault();
-    Gerrit.display(PageLinks.toChange(changeId));
+    Gerrit.display(PageLinks.toChange(project, changeId));
   }
 
   private void onReply() {
@@ -1056,7 +1070,12 @@ public class ChangeScreen extends Screen {
   }
 
   private void updateToken(ChangeInfo info, DiffObject base, RevisionInfo rev) {
-    StringBuilder token = new StringBuilder("/c/").append(info._number()).append("/");
+    StringBuilder token = new StringBuilder("/c/");
+    if (project != null) {
+      token.append(project.get());
+      token.append(PageLinks.PROJECT_CHANGE_DELIMITER);
+    }
+    token.append(info._number()).append("/");
     if (base.asString() != null) {
       token.append(base.asString()).append("..");
     }
@@ -1090,7 +1109,7 @@ public class ChangeScreen extends Screen {
     loadFileList(base, baseRev, rev, myLastReply, group, comments, drafts);
 
     if (Gerrit.isSignedIn() && fileTableMode == FileTable.Mode.REVIEW) {
-      ChangeApi.revision(changeId.get(), rev.name())
+      ChangeApi.revision(Project.NameKey.asStringOrNull(project), changeId.get(), rev.name())
           .view("files")
           .addParameterTrue("reviewed")
           .get(
@@ -1116,6 +1135,7 @@ public class ChangeScreen extends Screen {
       final List<NativeMap<JsArray<CommentInfo>>> comments,
       final List<NativeMap<JsArray<CommentInfo>>> drafts) {
     DiffApi.list(
+        Project.NameKey.asStringOrNull(project),
         changeId.get(),
         rev.name(),
         baseRev,
@@ -1126,6 +1146,7 @@ public class ChangeScreen extends Screen {
                 files.set(
                     base,
                     new PatchSet.Id(changeId, rev._number()),
+                    project,
                     style,
                     reply,
                     fileTableMode,
@@ -1149,7 +1170,7 @@ public class ChangeScreen extends Screen {
     final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
     // TODO(dborowitz): Could eliminate this call by adding an option to include
     // inline comments in the change detail.
-    ChangeApi.comments(changeId.get())
+    ChangeApi.comments(Project.NameKey.asStringOrNull(project), changeId.get())
         .get(
             group.add(
                 new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
@@ -1188,7 +1209,7 @@ public class ChangeScreen extends Screen {
   private List<NativeMap<JsArray<CommentInfo>>> loadDrafts(RevisionInfo rev, CallbackGroup group) {
     final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
     if (Gerrit.isSignedIn()) {
-      ChangeApi.revision(changeId.get(), rev.name())
+      ChangeApi.revision(Project.NameKey.asStringOrNull(project), changeId.get(), rev.name())
           .view("drafts")
           .get(
               group.add(
@@ -1213,6 +1234,7 @@ public class ChangeScreen extends Screen {
     }
 
     ChangeApi.commitWithLinks(
+        Project.NameKey.asStringOrNull(project),
         changeId.get(),
         rev.name(),
         group.add(
@@ -1578,7 +1600,7 @@ public class ChangeScreen extends Screen {
           new UpdateAvailableBar() {
             @Override
             void onShow() {
-              Gerrit.display(PageLinks.toChange(changeId));
+              Gerrit.display(PageLinks.toChange(project, changeId));
             }
 
             @Override

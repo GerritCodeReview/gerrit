@@ -26,6 +26,7 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.RemoteSuggestBox;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -62,6 +63,7 @@ public class Assignee extends Composite {
 
   private AssigneeSuggestOracle assigneeSuggestOracle;
   private Change.Id changeId;
+  private Project.NameKey project;
   private boolean canEdit;
   private AccountInfo currentAssignee;
 
@@ -98,6 +100,7 @@ public class Assignee extends Composite {
 
   void set(ChangeInfo info) {
     this.changeId = info.legacyId();
+    this.project = info.projectNameKey();
     this.canEdit = info.hasActions() && info.actions().containsKey("assignee");
     setAssignee(info.assignee());
     editAssigneeIcon.setVisible(canEdit);
@@ -143,6 +146,7 @@ public class Assignee extends Composite {
   private void editAssignee(final String assignee) {
     if (assignee.trim().isEmpty()) {
       ChangeApi.deleteAssignee(
+          Project.NameKey.asStringOrNull(project),
           changeId.get(),
           new GerritCallback<AccountInfo>() {
             @Override
@@ -166,6 +170,7 @@ public class Assignee extends Composite {
           });
     } else {
       ChangeApi.setAssignee(
+          Project.NameKey.asStringOrNull(project),
           changeId.get(),
           assignee,
           new GerritCallback<AccountInfo>() {

@@ -258,6 +258,10 @@ public class RestApi {
     return idRaw(URL.encodePathSegment(id));
   }
 
+  public RestApi id(String project, int id) {
+    return idRaw(URL.encodePathSegment(project) + "~" + id);
+  }
+
   public RestApi id(int id) {
     return idRaw(Integer.toString(id));
   }

@@ -18,8 +18,10 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.ui.RemoteSuggestBox;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -40,6 +42,7 @@ class AddFileBox extends Composite {
 
   private static final Binder uiBinder = GWT.create(Binder.class);
 
+  private final Project.NameKey project;
   private final Change.Id changeId;
   private final RevisionInfo revision;
   private final FileTable fileTable;
@@ -50,12 +53,17 @@ class AddFileBox extends Composite {
   @UiField(provided = true)
   RemoteSuggestBox path;
 
-  AddFileBox(Change.Id changeId, RevisionInfo revision, FileTable files) {
+  AddFileBox(
+      @Nullable Project.NameKey project,
+      Change.Id changeId,
+      RevisionInfo revision,
+      FileTable files) {
+    this.project = project;
     this.changeId = changeId;
     this.revision = revision;
     this.fileTable = files;
 
-    path = new RemoteSuggestBox(new PathSuggestOracle(changeId, revision));
+    path = new RemoteSuggestBox(new PathSuggestOracle(project, changeId, revision));
     path.addSelectionHandler(
         new SelectionHandler<String>() {
           @Override
@@ -90,7 +98,8 @@ class AddFileBox extends Composite {
 
   private void open(String path) {
     hide();
-    Gerrit.display(Dispatcher.toEditScreen(new PatchSet.Id(changeId, revision._number()), path));
+    Gerrit.display(
+        Dispatcher.toEditScreen(project, new PatchSet.Id(changeId, revision._number()), path));
   }
 
   @UiHandler("cancel")

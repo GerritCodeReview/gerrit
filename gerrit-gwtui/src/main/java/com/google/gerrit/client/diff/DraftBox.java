@@ -22,7 +22,9 @@ import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
@@ -63,6 +65,7 @@ class DraftBox extends CommentBox {
 
   private final CommentLinkProcessor linkProcessor;
   private final PatchSet.Id psId;
+  private final Project.NameKey project;
   private final boolean expandAll;
   private CommentInfo comment;
   private PublishedBox replyToBox;
@@ -90,6 +93,7 @@ class DraftBox extends CommentBox {
   DraftBox(
       CommentGroup group,
       CommentLinkProcessor clp,
+      @Nullable Project.NameKey pj,
       PatchSet.Id id,
       CommentInfo info,
       boolean expandAllComments) {
@@ -97,6 +101,7 @@ class DraftBox extends CommentBox {
 
     linkProcessor = clp;
     psId = id;
+    project = pj;
     expandAll = expandAllComments;
     initWidget(uiBinder.createAndBindUi(this));
 
@@ -295,7 +300,7 @@ class DraftBox extends CommentBox {
     enableEdit(false);
 
     pendingGroup = group;
-    final LocalComments lc = new LocalComments(psId);
+    final LocalComments lc = new LocalComments(project, psId);
     GerritCallback<CommentInfo> cb =
         new GerritCallback<CommentInfo>() {
           @Override
@@ -323,9 +328,10 @@ class DraftBox extends CommentBox {
           }
         };
     if (input.id() == null) {
-      CommentApi.createDraft(psId, input, group.add(cb));
+      CommentApi.createDraft(Project.NameKey.asStringOrNull(project), psId, input, group.add(cb));
     } else {
-      CommentApi.updateDraft(psId, input.id(), input, group.add(cb));
+      CommentApi.updateDraft(
+          Project.NameKey.asStringOrNull(project), psId, input.id(), input, group.add(cb));
     }
     CodeMirror cm = getCm();
     cm.vim().handleKey("<Esc>");
@@ -364,6 +370,7 @@ class DraftBox extends CommentBox {
       setEdit(false);
       pendingGroup = new CallbackGroup();
       CommentApi.deleteDraft(
+          Project.NameKey.asStringOrNull(project),
           psId,
           comment.id(),
           pendingGroup.addFinal(

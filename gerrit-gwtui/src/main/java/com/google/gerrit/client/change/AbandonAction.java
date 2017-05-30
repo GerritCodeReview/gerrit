@@ -18,27 +18,32 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.ui.Button;
 
 class AbandonAction extends ActionMessageBox {
+  private final Project.NameKey project;
   private final Change.Id id;
 
-  AbandonAction(Button b, Change.Id id) {
+  AbandonAction(Button b, @Nullable Project.NameKey project, Change.Id id) {
     super(b);
+    this.project = project;
     this.id = id;
   }
 
   @Override
   void send(String message) {
     ChangeApi.abandon(
+        project == null ? null : project.get(),
         id.get(),
         message,
         new GerritCallback<ChangeInfo>() {
           @Override
           public void onSuccess(ChangeInfo result) {
-            Gerrit.display(PageLinks.toChange(id));
+            Gerrit.display(PageLinks.toChange(project, id));
             hide();
           }
         });

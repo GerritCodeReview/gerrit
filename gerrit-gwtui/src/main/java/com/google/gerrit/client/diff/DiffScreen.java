@@ -39,12 +39,14 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
@@ -94,6 +96,7 @@ abstract class DiffScreen extends Screen {
     }
   }
 
+  private final Project.NameKey project;
   private final Change.Id changeId;
   final DiffObject base;
   final PatchSet.Id revision;
@@ -122,12 +125,14 @@ abstract class DiffScreen extends Screen {
   Header header;
 
   DiffScreen(
+      @Nullable Project.NameKey project,
       DiffObject base,
       DiffObject revision,
       String path,
       DisplaySide startSide,
       int startLine,
       DiffView diffScreenType) {
+    this.project = project;
     this.base = base;
     this.revision = revision.asPatchSetId();
     this.changeId = revision.asPatchSetId().getParentKey();
@@ -138,7 +143,7 @@ abstract class DiffScreen extends Screen {
     prefs = DiffPreferences.create(Gerrit.getDiffPreferences());
     handlers = new ArrayList<>(6);
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    header = new Header(keysNavigation, base, revision, path, diffScreenType, prefs);
+    header = new Header(keysNavigation, project, base, revision, path, diffScreenType, prefs);
     skipManager = new SkipManager(this);
   }
 
@@ -171,7 +176,7 @@ abstract class DiffScreen extends Screen {
               public void onFailure(Throwable caught) {}
             }));
 
-    DiffApi.diff(revision, path)
+    DiffApi.diff(Project.NameKey.asStringOrNull(project), revision, path)
         .base(base.asPatchSetId())
         .wholeFile()
         .intraline(prefs.intralineDifference())
@@ -200,6 +205,7 @@ abstract class DiffScreen extends Screen {
 
     if (Gerrit.isSignedIn()) {
       ChangeApi.edit(
+          project == null ? null : project.get(),
           changeId.get(),
           group2.add(
               new AsyncCallback<EditInfo>() {
@@ -213,12 +219,12 @@ abstract class DiffScreen extends Screen {
               }));
     }
 
-    final CommentsCollections comments = new CommentsCollections(base, revision, path);
+    final CommentsCollections comments = new CommentsCollections(project, base, revision, path);
     comments.load(group2);
 
     countParents(group2);
 
-    RestApi call = ChangeApi.detail(changeId.get());
+    RestApi call = ChangeApi.detail(project == null ? null : project.get(), changeId.get());
     ChangeList.addOptions(call, EnumSet.of(ListChangesOption.ALL_REVISIONS));
     call.get(
         group2.add(
@@ -259,7 +265,7 @@ abstract class DiffScreen extends Screen {
   }
 
   private void countParents(CallbackGroup cbg) {
-    ChangeApi.revision(changeId.get(), revision.getId())
+    ChangeApi.revision(project == null ? null : project.get(), changeId.get(), revision.getId())
         .view("commit")
         .get(
             cbg.add(
@@ -443,7 +449,7 @@ abstract class DiffScreen extends Screen {
   public void registerKeys() {
     super.registerKeys();
 
-    keysNavigation.add(new UpToChangeCommand(revision, 0, 'u'));
+    keysNavigation.add(new UpToChangeCommand(project, revision, 0, 'u'));
     keysNavigation.add(
         new NoOpKeyCommand(0, 'j', PatchUtil.C.lineNext()),
         new NoOpKeyCommand(0, 'k', PatchUtil.C.linePrev()));
@@ -511,6 +517,11 @@ abstract class DiffScreen extends Screen {
     } else {
       keysComment = null;
     }
+  }
+
+  @Nullable
+  public Project.NameKey getProject() {
+    return project;
   }
 
   void registerHandlers() {
@@ -632,7 +643,7 @@ abstract class DiffScreen extends Screen {
       if (Patch.COMMIT_MSG.equals(path)) {
         line = adjustCommitMessageLine(line);
       }
-      String token = Dispatcher.toEditScreen(revision, path, line);
+      String token = Dispatcher.toEditScreen(project, revision, path, line);
       if (!Gerrit.isSignedIn()) {
         Gerrit.doSignIn(token);
       } else {
@@ -712,8 +723,8 @@ abstract class DiffScreen extends Screen {
             public void onSuccess(Void result) {
               String rev = String.valueOf(revision.get());
               Gerrit.display(
-                  PageLinks.toChange(changeId, base.asString(), rev),
-                  new ChangeScreen(changeId, base, rev, openReplyBox, FileTable.Mode.REVIEW));
+                  PageLinks.toChange(project, changeId, base.asString(), rev),
+                  new ChangeScreen(changeId, null, base, rev, openReplyBox, FileTable.Mode.REVIEW));
             }
           });
     };
@@ -808,7 +819,7 @@ abstract class DiffScreen extends Screen {
   void prefetchNextFile() {
     String nextPath = header.getNextPath();
     if (nextPath != null) {
-      DiffApi.diff(revision, nextPath)
+      DiffApi.diff(Project.NameKey.asStringOrNull(project), revision, nextPath)
           .base(base.asPatchSetId())
           .wholeFile()
           .intraline(prefs.intralineDifference())
@@ -831,7 +842,7 @@ abstract class DiffScreen extends Screen {
 
   void reloadDiffInfo() {
     int id = ++reloadVersionId;
-    DiffApi.diff(revision, path)
+    DiffApi.diff(Project.NameKey.asStringOrNull(project), revision, path)
         .base(base.asPatchSetId())
         .wholeFile()
         .intraline(prefs.intralineDifference())

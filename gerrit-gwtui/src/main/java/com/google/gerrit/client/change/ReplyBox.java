@@ -31,10 +31,12 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
@@ -92,6 +94,7 @@ public class ReplyBox extends Composite {
   }
 
   private final CommentLinkProcessor clp;
+  private final Project.NameKey project;
   private final PatchSet.Id psId;
   private final String revision;
   private ReviewInput in = ReviewInput.create();
@@ -109,14 +112,16 @@ public class ReplyBox extends Composite {
 
   ReplyBox(
       CommentLinkProcessor clp,
+      @Nullable Project.NameKey project,
       PatchSet.Id psId,
       String revision,
       NativeMap<LabelInfo> all,
       NativeMap<JsArrayString> permitted) {
     this.clp = clp;
+    this.project = project;
     this.psId = psId;
     this.revision = revision;
-    this.lc = new LocalComments(psId.getParentKey());
+    this.lc = new LocalComments(project, psId.getParentKey());
     initWidget(uiBinder.createAndBindUi(this));
 
     List<String> names = new ArrayList<>(permitted.keySet());
@@ -160,7 +165,7 @@ public class ReplyBox extends Composite {
       message.setText(lc.getReplyComment());
       lc.removeReplyComment();
     }
-    ChangeApi.drafts(psId.getParentKey().get())
+    ChangeApi.drafts(Project.NameKey.asStringOrNull(project), psId.getParentKey().get())
         .get(
             new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
               @Override
@@ -218,7 +223,7 @@ public class ReplyBox extends Composite {
     // e.g. a draft was modified in another tab since we last looked it up.
     in.drafts(DraftHandling.PUBLISH_ALL_REVISIONS);
     in.prePost();
-    ChangeApi.revision(psId.getParentKey().get(), revision)
+    ChangeApi.revision(Project.NameKey.asStringOrNull(project), psId.getParentKey().get(), revision)
         .view("review")
         .post(
             in,
@@ -425,12 +430,14 @@ public class ReplyBox extends Composite {
     JsArray<CommentInfo> l = m.get(Patch.COMMIT_MSG);
     if (l != null) {
       comments.add(
-          new FileComments(clp, psId, Util.C.commitMessage(), copyPath(Patch.COMMIT_MSG, l)));
+          new FileComments(
+              clp, project, psId, Util.C.commitMessage(), copyPath(Patch.COMMIT_MSG, l)));
     }
     l = m.get(Patch.MERGE_LIST);
     if (l != null) {
       comments.add(
-          new FileComments(clp, psId, Util.C.commitMessage(), copyPath(Patch.MERGE_LIST, l)));
+          new FileComments(
+              clp, project, psId, Util.C.commitMessage(), copyPath(Patch.MERGE_LIST, l)));
     }
 
     List<String> paths = new ArrayList<>(m.keySet());
@@ -438,7 +445,7 @@ public class ReplyBox extends Composite {
 
     for (String path : paths) {
       if (!Patch.isMagic(path)) {
-        comments.add(new FileComments(clp, psId, path, copyPath(path, m.get(path))));
+        comments.add(new FileComments(clp, project, psId, path, copyPath(path, m.get(path))));
       }
     }
 

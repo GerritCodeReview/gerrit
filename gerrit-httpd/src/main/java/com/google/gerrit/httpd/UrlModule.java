@@ -182,7 +182,10 @@ class UrlModule extends ServletModule {
                 idString = idString.substring(0, idString.length() - 1);
               }
               Change.Id id = Change.Id.parse(idString);
-              toGerrit(PageLinks.toChange(id), req, rsp);
+              // User accessed Gerrit with /1234, so we have no project yet.
+              // TODO Replace with a preflight request to obtain project before we deprecate the
+              // numeric change id
+              toGerrit(PageLinks.toChange(null, id), req, rsp);
             } catch (IllegalArgumentException err) {
               rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
             }

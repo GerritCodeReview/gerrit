@@ -287,7 +287,7 @@ public class ProjectAccessScreen extends ProjectScreen {
             commitMessage.setText("");
             error.clear();
             if (changeId != null) {
-              Gerrit.display(PageLinks.toChange(changeId));
+              Gerrit.display(PageLinks.toChange(getProjectKey(), changeId));
             } else {
               displayReadOnly(access);
             }

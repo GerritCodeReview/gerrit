@@ -22,10 +22,16 @@ import java.util.Objects;
 public class PluginPermission implements GlobalOrPluginPermission {
   private final String pluginName;
   private final String capability;
+  private final boolean fallBackToAdmin;
 
   public PluginPermission(String pluginName, String capability) {
+    this(pluginName, capability, true);
+  }
+
+  public PluginPermission(String pluginName, String capability, boolean fallBackToAdmin) {
     this.pluginName = checkNotNull(pluginName, "pluginName");
     this.capability = checkNotNull(capability, "capability");
+    this.fallBackToAdmin = fallBackToAdmin;
   }
 
   public String pluginName() {
@@ -34,6 +40,10 @@ public class PluginPermission implements GlobalOrPluginPermission {
 
   public String capability() {
     return capability;
+  }
+
+  public boolean fallBackToAdmin() {
+    return fallBackToAdmin;
   }
 
   @Override

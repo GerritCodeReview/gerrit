@@ -52,6 +52,24 @@
       "revId": "5049597eb7fc7d59e62b79b2965b800474f9a3e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad9cc34_8cc1b2e0",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-30T21:39:35Z",
+      "side": 1,
+      "message": "+1 for creating a generic test boilerplate setup.",
+      "parentUuid": "fd5902cc_172df08f",
+      "revId": "5049597eb7fc7d59e62b79b2965b800474f9a3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

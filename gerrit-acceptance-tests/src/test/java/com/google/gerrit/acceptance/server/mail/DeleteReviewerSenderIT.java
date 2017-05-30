@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.server.mail;
 
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.account.WatchConfig.NotifyType.ALL_COMMENTS;
 
 import com.google.gerrit.acceptance.AbstractNotificationTest;
@@ -175,31 +176,14 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
   public void deleteReviewerFromReviewableWipChange() throws Exception {
     StagedChange sc = stageReviewableWipChange();
     removeReviewer(sc, extraReviewer);
-    assertThat(sender)
-        .sent("deleteReviewer", sc)
-        .notTo(sc.owner)
-        .to(extraReviewer)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
-        .cc(extraCcer, sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
-        .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+    assertThat(sender).notSent();
   }
 
   @Test
   public void deleteReviewerFromWipChange() throws Exception {
     StagedChange sc = stageWipChange();
     removeReviewer(sc, extraReviewer);
-    // TODO(logan): This should behave like notify=OWNER
-    assertThat(sender)
-        .sent("deleteReviewer", sc)
-        .notTo(sc.owner)
-        .to(extraReviewer)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
-        .cc(extraCcer, sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
-        .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+    assertThat(sender).notSent();
   }
 
   @Test
@@ -215,6 +199,41 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
         .cc(sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
+  }
+
+  @Test
+  public void deleteReviewerWithApprovalFromWipChange() throws Exception {
+    StagedChange sc = stageWipChange();
+    setApiUser(extraReviewer);
+    gApi.changes().id(sc.changeId).revision("current").review(ReviewInput.recommend());
+    sender.clear();
+    setApiUser(sc.owner);
+    removeReviewer(sc, extraReviewer);
+    assertThat(sender)
+        .sent("deleteReviewer", sc)
+        .to(extraReviewer)
+        .notTo(sc.owner, sc.ccer, sc.starrer, extraCcer)
+        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
+        .notTo(ALL_COMMENTS);
+  }
+
+  @Test
+  public void deleteReviewerWithApprovalFromWipChangeNotifyOwner() throws Exception {
+    StagedChange sc = stageWipChange();
+    setApiUser(extraReviewer);
+    gApi.changes().id(sc.changeId).revision("current").review(ReviewInput.recommend());
+    sender.clear();
+    setApiUser(sc.owner);
+    removeReviewer(sc, extraReviewer, NotifyHandling.OWNER);
+    assertThat(sender).sent("deleteReviewer", sc).to(extraReviewer);
+  }
+
+  @Test
+  public void deleteReviewerByEmailFromWipChangeInNoteDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageWipChange();
+    gApi.changes().id(sc.changeId).reviewer(sc.reviewerByEmail).remove();
+    assertThat(sender).notSent();
   }
 
   private interface Stager {

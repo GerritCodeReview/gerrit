@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "59118b2e_d189e1b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-30T21:30:49Z",
+      "side": 1,
+      "message": "Great. That\u0027s the kind of information that belongs in commit messages.",
+      "parentUuid": "45c1fee7_3fe38101",
+      "revId": "f0fe6efc3ce88257fd0172f91a96dd55a210d2bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b47e4945_bd490dd2",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
         "patchSetId": 5
@@ -81,6 +99,30 @@
       "revId": "f0fe6efc3ce88257fd0172f91a96dd55a210d2bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ab8d70c_5fc28e19",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-30T21:30:49Z",
+      "side": 1,
+      "message": "Yes, but you\u0027re also not calling a function here.\n\n      return `${this.getBaseUrl()}/admin/projects/${this.encodeURL(item, true)}`;\n\nI\u0027m wrong though, that works out to 80ch. So no worries.",
+      "parentUuid": "f3451db4_9ecdad3d",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 37
+      },
+      "revId": "f0fe6efc3ce88257fd0172f91a96dd55a210d2bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "2d8adc2cffbbeeb10576a72b4c44fea0197ba4dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "229e4afa_d50bb613",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-30T18:07:12Z",
+      "side": 1,
+      "message": "Oh so like\n\n \u003ctr\u003e\u003ctd class\u003d\"loading\" hidden$\u003d\"[[!_loading]]\" hidden\u003eLoading...\u003c/td\u003e\u003c/tr\u003e",
+      "parentUuid": "f4d0d329_a2983a22",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 89
+      },
+      "revId": "2d8adc2cffbbeeb10576a72b4c44fea0197ba4dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

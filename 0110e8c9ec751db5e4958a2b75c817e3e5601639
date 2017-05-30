@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "49563d50_e9ad871e",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 27
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-30T21:30:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6f59b003_4fde9ffc",
+      "range": {
+        "startLine": 125,
+        "startChar": 10,
+        "endLine": 127,
+        "endChar": 51
+      },
+      "revId": "0110e8c9ec751db5e4958a2b75c817e3e5601639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9140ef09_ac5a61d1",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 27
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-30T21:25:53Z",
       "side": 1,
       "message": "Period at the end of the comment.",
+      "range": {
+        "startLine": 175,
+        "startChar": 6,
+        "endLine": 175,
+        "endChar": 58
+      },
+      "revId": "0110e8c9ec751db5e4958a2b75c817e3e5601639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f44c009_af44624b",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 27
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-30T21:30:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9140ef09_ac5a61d1",
       "range": {
         "startLine": 175,
         "startChar": 6,

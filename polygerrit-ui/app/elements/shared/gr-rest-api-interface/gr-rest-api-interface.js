@@ -368,8 +368,8 @@
       return window.innerWidth < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX;
     },
 
-    getChanges(changesPerPage, opt_query, opt_offset) {
-      const options = this.listChangesOptionsToHex(
+    getChanges(opt_changesPerPage, opt_query, opt_offset, opt_options) {
+      const options = opt_options || this.listChangesOptionsToHex(
           this.ListChangesOption.LABELS,
           this.ListChangesOption.DETAILED_ACCOUNTS
       );
@@ -378,31 +378,13 @@
         opt_offset = 0;
       }
       const params = {
-        n: changesPerPage,
         O: options,
         S: opt_offset || 0,
       };
+      if (opt_changesPerPage) { params.n = opt_changesPerPage; }
       if (opt_query && opt_query.length > 0) {
         params.q = opt_query;
       }
-      return this.fetchJSON('/changes/', null, null, params);
-    },
-
-    getDashboardChanges() {
-      const options = this.listChangesOptionsToHex(
-          this.ListChangesOption.LABELS,
-          this.ListChangesOption.DETAILED_ACCOUNTS,
-          this.ListChangesOption.REVIEWED
-      );
-      const params = {
-        O: options,
-        q: [
-          'is:open owner:self',
-          'is:open ((reviewer:self -owner:self -is:ignored) OR assignee:self)',
-          'is:closed (owner:self OR reviewer:self OR assignee:self) -age:4w ' +
-            'limit:10',
-        ],
-      };
       return this.fetchJSON('/changes/', null, null, params);
     },
 

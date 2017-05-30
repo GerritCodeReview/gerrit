@@ -35,11 +35,13 @@ limitations under the License.
   suite('gr-message tests', () => {
     let element;
 
-    setup(() => {
+    setup(done => {
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
+        getConfig() { return Promise.resolve({}); },
       });
       element = fixture('basic');
+      flush(done);
     });
 
     test('reply event', done => {
@@ -161,6 +163,36 @@ limitations under the License.
       assert.isOk(element._computeShowOnBehalfOf(message));
       delete message.updated_by;
       assert.isNotOk(element._computeShowOnBehalfOf(message));
+    });
+
+    ['Trybot-Ready', 'Tryjob-Request', 'Commit-Queue'].forEach(label => {
+      test(`${label} ignored for color voting`, () => {
+        element.message = {
+          author: {},
+          expanded: false,
+          message: `Patch Set 1: ${label}+1`,
+        };
+        assert.isNotOk(Polymer.dom(element.root).querySelector('.negativeVote'));
+        assert.isNotOk(Polymer.dom(element.root).querySelector('.positiveVote'));
+      });
+    });
+
+    test('negative vote', () => {
+      element.message = {
+        author: {},
+        expanded: false,
+        message: 'Patch Set 1: Verified+1 Code-Review-2 Trybot-Ready+1',
+      };
+      assert.isOk(Polymer.dom(element.root).querySelector('.negativeVote'));
+    });
+
+    test('positive vote', () => {
+      element.message = {
+        author: {},
+        expanded: false,
+        message: 'Patch Set 1: Verified-1 Code-Review+2 Trybot-Ready-1',
+      };
+      assert.isOk(Polymer.dom(element.root).querySelector('.positiveVote'));
     });
   });
 </script>

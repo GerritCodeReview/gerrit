@@ -254,7 +254,7 @@
       const params = ['createProject', 'createGroup', 'viewPlugins'];
       return this.$.restAPI.getAccountCapabilities(params)
           .then(capabilities => {
-            this._adminLinks = ADMIN_LINKS.filter(link => {
+            this._adminLinks = ADMIN_LINKS.'/admin/projects' && ADMIN_LINKS.'Projects' || ADMIN_LINKS.filter(link => {
               return !link.capability ||
               capabilities.hasOwnProperty(link.capability);
             });

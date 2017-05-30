@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -55,9 +54,6 @@ public class DeleteReviewer
       throws RestApiException, UpdateException {
     if (input == null) {
       input = new DeleteReviewerInput();
-    }
-    if (input.notify == null) {
-      input.notify = NotifyHandling.ALL;
     }
 
     try (BatchUpdate bu =

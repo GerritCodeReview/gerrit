@@ -34,6 +34,7 @@ limitations under the License.
 <link rel="import" href="./settings/gr-cla-view/gr-cla-view.html">
 <link rel="import" href="./settings/gr-registration-dialog/gr-registration-dialog.html">
 <link rel="import" href="./settings/gr-settings-view/gr-settings-view.html">
+<link rel="import" href="./shared/gr-header/gr-header.html">
 <link rel="import" href="./shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="./shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
@@ -46,6 +47,13 @@ limitations under the License.
         display: flex;
         min-height: 100%;
         flex-direction: column;
+      }
+      gr-header {
+        /**
+         * This one should be greater that the z-index in gr-diff-view
+         * because gr-main-header contains overlay.
+         */
+        z-index: 10;
       }
       gr-main-header,
       footer {
@@ -93,8 +101,10 @@ limitations under the License.
         color: #b71c1c;
       }
     </style>
-    <gr-main-header id="mainHeader" search-query="{{params.query}}">
-    </gr-main-header>
+    <gr-header>
+      <gr-main-header id="mainHeader" search-query="{{params.query}}">
+      </gr-main-header>
+    </gr-header>
     <main>
       <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
         <gr-change-list-view

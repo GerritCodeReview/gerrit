@@ -22,6 +22,30 @@
       "revId": "489de2f9a97de2606df5c7c4a7a2f34db7d24cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "942be571_926cb913",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-05-30T07:28:22Z",
+      "side": 1,
+      "message": "We have this check in #757.",
+      "parentUuid": "cd349529_fb79a47d",
+      "range": {
+        "startLine": 236,
+        "startChar": 4,
+        "endLine": 249,
+        "endChar": 5
+      },
+      "revId": "489de2f9a97de2606df5c7c4a7a2f34db7d24cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

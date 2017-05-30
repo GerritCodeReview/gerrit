@@ -21,7 +21,9 @@ import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
 import com.google.gerrit.client.diff.UnifiedChunkManager.LineRegionInfo;
 import com.google.gerrit.client.diff.UnifiedChunkManager.RegionType;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,12 +45,13 @@ class UnifiedCommentManager extends CommentManager {
 
   UnifiedCommentManager(
       Unified host,
+      @Nullable Project.NameKey project,
       DiffObject base,
       PatchSet.Id revision,
       String path,
       CommentLinkProcessor clp,
       boolean open) {
-    super(host, base, revision, path, clp, open);
+    super(host, project, base, revision, path, clp, open);
     mergedMap = new TreeMap<>();
     duplicates = new HashMap<>();
   }

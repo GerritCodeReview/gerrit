@@ -657,7 +657,7 @@ public class ProjectInfoScreen extends ProjectScreen {
         new ClickHandler() {
           @Override
           public void onClick(ClickEvent event) {
-            EditConfigAction.call(editConfig, getProjectKey().get());
+            EditConfigAction.call(editConfig, getProjectKey());
           }
         });
     return editConfig;

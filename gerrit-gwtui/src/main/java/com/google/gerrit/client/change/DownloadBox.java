@@ -78,7 +78,7 @@ class DownloadBox extends VerticalPanel {
   protected void onLoad() {
     if (fetch == null) {
       if (psId.get() == 0) {
-        ChangeApi.editWithCommands(change.legacyId().get())
+        ChangeApi.editWithCommands(change.project(), change.legacyId().get())
             .get(
                 new AsyncCallback<EditInfo>() {
                   @Override
@@ -91,7 +91,7 @@ class DownloadBox extends VerticalPanel {
                   public void onFailure(Throwable caught) {}
                 });
       } else {
-        RestApi call = ChangeApi.detail(change.legacyId().get());
+        RestApi call = ChangeApi.detail(change.project(), change.legacyId().get());
         ChangeList.addOptions(
             call,
             EnumSet.of(

@@ -140,8 +140,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   @Override
   protected void onOpenRow(int row) {
     final ChangeInfo c = getRowItem(row);
-    final Change.Id id = c.legacyId();
-    Gerrit.display(PageLinks.toChange(id));
+    Gerrit.display(PageLinks.toChange(c.projectNameKey(), c.legacyId()));
   }
 
   private void insertNoneRow(int row) {
@@ -475,7 +474,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
   private final class TableChangeLink extends ChangeLink {
     private TableChangeLink(String text, ChangeInfo c) {
-      super(text, c.legacyId());
+      super(c.projectNameKey(), c.legacyId(), text);
     }
 
     @Override

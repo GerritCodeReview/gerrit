@@ -29,6 +29,7 @@ class SubmitAction {
     if (ChangeGlue.onSubmitChange(changeInfo, revisionInfo)) {
       final Change.Id changeId = changeInfo.legacyId();
       ChangeApi.submit(
+          changeInfo.project(),
           changeId.get(),
           revisionInfo.name(),
           new GerritCallback<SubmitInfo>() {
@@ -48,7 +49,7 @@ class SubmitAction {
             }
 
             private void redisplay() {
-              Gerrit.display(PageLinks.toChange(changeId));
+              Gerrit.display(PageLinks.toChange(changeInfo.projectNameKey(), changeId));
             }
           });
     }

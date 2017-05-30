@@ -73,10 +73,20 @@ abstract class DiffTable extends Composite {
   DiffTable(DiffScreen parent, DiffObject base, DiffObject revision, String path) {
     patchSetSelectBoxA =
         new PatchSetSelectBox(
-            parent, DisplaySide.A, revision.asPatchSetId().getParentKey(), base, path);
+            parent,
+            DisplaySide.A,
+            parent.getProject(),
+            revision.asPatchSetId().getParentKey(),
+            base,
+            path);
     patchSetSelectBoxB =
         new PatchSetSelectBox(
-            parent, DisplaySide.B, revision.asPatchSetId().getParentKey(), revision, path);
+            parent,
+            DisplaySide.B,
+            parent.getProject(),
+            revision.asPatchSetId().getParentKey(),
+            revision,
+            path);
     PatchSetSelectBox.link(patchSetSelectBoxA, patchSetSelectBoxB);
 
     this.scrollbar = new Scrollbar(this);

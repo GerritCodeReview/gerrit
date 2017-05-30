@@ -198,7 +198,8 @@
 
     setLabelValue(label, value) {
       const selectorEl =
-          this.$.labelScores.$$('iron-selector[data-label="' + label + '"]');
+          this.$.labelScores.$$('gr-label-score-row[name="' + label + '"]')
+          .getIronSelector();
       // The selector may not be present if it’s not at the latest patch set.
       if (!selectorEl) { return; }
       const item = selectorEl.$$('gr-button[data-value="' + value + '"]');

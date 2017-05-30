@@ -34,12 +34,13 @@
       for (const label in this.permittedLabels) {
         if (!this.permittedLabels.hasOwnProperty(label)) { continue; }
 
-        const selectorEl = this.$$(`iron-selector[data-label="${label}"]`);
-        // The user may have not voted on this label.
-        if (!selectorEl || !selectorEl.selectedItem) { continue; }
+        const selectorEl = this.$$(`gr-label-score-row[name="${label}"]`);
+        if (!selectorEl) { continue; }
 
-        let selectedVal = selectorEl.selectedItem.getAttribute('data-value');
-        selectedVal = parseInt(selectedVal, 10);
+        // The user may have not voted on this label.
+        if (!selectorEl.selectedItem) { continue; }
+
+        const selectedVal = parseInt(selectorEl.selectedValue, 10);
 
         // Only send the selection if the user changed it.
         let prevVal = this._getVoteForAccount(this.change.labels, label,
@@ -96,46 +97,8 @@
       this._labelValues = values;
     },
 
-    _computeIndexOfLabelValue(labels, permittedLabels, label) {
-      if (!labels[label.name]) { return null; }
-      const labelValue = label.value;
-      const len = permittedLabels[label.name] != null ?
-          permittedLabels[label.name].length : 0;
-      for (let i = 0; i < len; i++) {
-        const val = parseInt(permittedLabels[label.name][i], 10);
-        if (val == labelValue) {
-          return i;
-        }
-      }
-      return null;
-    },
-
-    _computePermittedLabelValues(permittedLabels, label) {
-      return permittedLabels[label];
-    },
-
-    _computeBlankItems(permittedLabels, label, side) {
-      if (!permittedLabels[label]) { return []; }
-      const startPosition = this._labelValues[parseInt(
-          permittedLabels[label][0])];
-      if (side === 'start') {
-        return new Array(startPosition);
-      }
-      const endPosition = this._labelValues[parseInt(
-          permittedLabels[label][permittedLabels[label].length - 1])];
-      return new Array(Object.keys(this._labelValues).length - endPosition - 1);
-    },
-
-    _computeAnyPermittedLabelValues(permittedLabels, label) {
-      return permittedLabels.hasOwnProperty(label);
-    },
-
     _changeIsMerged(changeStatus) {
       return changeStatus === 'MERGED';
-    },
-
-    _computeLabelValueTitle(labels, label, value) {
-      return labels[label] && labels[label].values[value];
     },
   });
 })();

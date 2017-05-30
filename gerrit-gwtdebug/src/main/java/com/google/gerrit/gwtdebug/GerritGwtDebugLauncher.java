@@ -54,7 +54,7 @@ class GerritGwtDebugLauncher {
 
     Options options = new Options();
     if (!options.parseArgs(sdmLauncherOptions.toArray(new String[sdmLauncherOptions.size()]))) {
-      log.error("Failed to parse codeserver arguments");
+      log.error("Failed to create codeserver arguments");
       return 1;
     }
 

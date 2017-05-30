@@ -168,7 +168,7 @@ public class Gerrit implements EntryPoint {
    * <p>If the URL is not already pointing at this location, a new item will be added to the
    * browser's history when the screen is fully loaded and displayed on the UI.
    *
-   * @param token location to parse, load, and render.
+   * @param token location to create, load, and render.
    */
   public static void display(String token) {
     if (body.getView() == null || !body.getView().displayToken(token)) {

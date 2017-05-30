@@ -48,7 +48,7 @@ class CreateChangeAction {
               public void onSuccess(ChangeInfo result) {
                 sent = true;
                 hide();
-                Gerrit.display(PageLinks.toChange(result.legacyId()));
+                Gerrit.display(PageLinks.toChange(result.projectNameKey(), result.legacyId()));
               }
 
               @Override

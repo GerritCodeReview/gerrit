@@ -77,7 +77,7 @@ limitations under the License.
       <template is="dom-repeat" items="[[_shownProjects]]">
         <tr class="project-table">
           <td class="name">
-            <a href$="[[_getUrl(item.id)]]">[[item.name]]</a>
+            <a href$="[[_getUrl(item.name)]]">[[item.name]]</a>
           </td>
           <td class="description">[[item.description]]</td>
           <td class="repositoryBrowser">

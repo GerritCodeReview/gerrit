@@ -66,6 +66,10 @@ limitations under the License.
       .description {
         width: 70%;
       }
+      .loading {
+        color: #666;
+        padding: 1em var(--default-horizontal-margin);
+      }
     </style>
     <table id="projectList">
       <tr class="headerRow">
@@ -74,7 +78,8 @@ limitations under the License.
         <th class="repositoryBrowser topHeader">Repository Browser</th>
         <th class="readOnly topHeader">Read only</th>
       </tr>
-      <template is="dom-repeat" items="[[_shownProjects]]">
+      <tr class="loading" hidden$="[[!_loading]]" hidden><td>Loading...</td></tr>
+      <template is="dom-repeat" items="[[_shownProjects]]" hidden$="[[_loading]]" hidden>
         <tr class="project-table">
           <td class="name">
             <a href$="[[_getUrl(item.name)]]">[[item.name]]</a>

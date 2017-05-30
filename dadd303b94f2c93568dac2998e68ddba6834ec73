@@ -23,6 +23,30 @@
       "revId": "dadd303b94f2c93568dac2998e68ddba6834ec73",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7dd6089_d6d4873c",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-05-30T10:44:10Z",
+      "side": 1,
+      "message": "No, since the field names in ConsistencyCheckInfo are without the \"_info\" suffix.",
+      "parentUuid": "6ee86ad3_455b7a20",
+      "range": {
+        "startLine": 173,
+        "startChar": 5,
+        "endLine": 173,
+        "endChar": 38
+      },
+      "revId": "dadd303b94f2c93568dac2998e68ddba6834ec73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

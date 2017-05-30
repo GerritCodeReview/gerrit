@@ -161,10 +161,40 @@
       return event.type === 'REVIEWER_UPDATE';
     },
 
-    _computeClass(expanded, showAvatar) {
+    _isMessagePositive(message) {
+      if (!message.message) { return null; }
+      const line = message.message.split('\n', 1)[0];
+      const patchSetPrefix = /^Patch Set \d+: /;
+      if (!line.match(patchSetPrefix)) { return null;}
+      const scoresRaw = line.split(patchSetPrefix)[1];
+      if (!scoresRaw) { return null; }
+      const scores = scoresRaw.split(' ');
+      if (!scores.length) { return null; }
+      const {min, max} = scores
+            .map(s => s.match(/(.+)([+-\\ ]\d+)$/))
+            .filter(ms => ms && ms.length === 3)
+            .map(([, label, score]) => score)
+            .map(s => parseInt(s, 10))
+            .reduce(({min, max}, s) =>
+                    ({min: (s < min ? s : min), max: (s > max ? s : max)}),
+                    {min: 0, max: 0});
+      if (max - min === 0) {
+        return null;
+      } else {
+        return (max + min) > 0;
+      }
+    },
+
+    _computeClass(expanded, showAvatar, message) {
       const classes = [];
       classes.push(expanded ? 'expanded' : 'collapsed');
       classes.push(showAvatar ? 'showAvatar' : 'hideAvatar');
+      const maybePositive = this._isMessagePositive(message);
+      if (maybePositive === true) {
+        classes.push('positiveVote');
+      } else if (maybePositive === false) {
+        classes.push('negativeVote');
+      }
       return classes.join(' ');
     },
 

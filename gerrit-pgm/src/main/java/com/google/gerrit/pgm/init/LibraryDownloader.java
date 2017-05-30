@@ -280,6 +280,7 @@ class LibraryDownloader {
       System.err.flush();
       return;
     }
+    @SuppressWarnings("deprecation")
     Hasher h = Hashing.sha1().newHasher();
     try (InputStream in = Files.newInputStream(dst);
         OutputStream out = Funnels.asOutputStream(h)) {

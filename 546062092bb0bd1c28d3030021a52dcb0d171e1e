@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "0a2d08af_7e80e11e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-05-30T07:44:16Z",
+      "side": 1,
+      "message": "I\u0027ve added checks for that to be extra safe. Checking on the exception messages isn\u0027t super clean though, but I think it\u0027s better to more specific with what we drop and what we throw.",
+      "parentUuid": "43c48b27_af0991de",
+      "range": {
+        "startLine": 97,
+        "startChar": 8,
+        "endLine": 97,
+        "endChar": 46
+      },
+      "revId": "546062092bb0bd1c28d3030021a52dcb0d171e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8cb3995_038ee5f5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
         "patchSetId": 2

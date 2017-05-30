@@ -63,6 +63,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
 
   @Override
   public String getETag(RevisionResource rsrc) {
+    @SuppressWarnings("deprecation")
     Hasher h = Hashing.md5().newHasher();
     CurrentUser user = rsrc.getControl().getUser();
     try {

@@ -122,7 +122,8 @@ public class ConfigInfoCache {
       getImpl(name, cb);
       return;
     }
-    ChangeApi.change(id)
+    // TODO: This is basically useless now
+    ChangeApi.change(id, null)
         .get(
             new AsyncCallback<ChangeInfo>() {
               @Override

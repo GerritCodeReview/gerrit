@@ -23,6 +23,7 @@ import com.google.gerrit.client.info.ChangeInfo.IncludedInInfo;
 import com.google.gerrit.client.rpc.CallbackGroup.Callback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -31,10 +32,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 /** A collection of static methods which work on the Gerrit REST API for specific changes. */
 public class ChangeApi {
   /** Abandon the change, ending its review. */
-  public static void abandon(int id, String msg, AsyncCallback<ChangeInfo> cb) {
+  public static void abandon(
+      int id, @Nullable String project, String msg, AsyncCallback<ChangeInfo> cb) {
     MessageInput input = MessageInput.create();
     input.message(emptyToNull(msg));
-    call(id, "abandon").post(input, cb);
+    call(id, project, "abandon").post(input, cb);
   }
 
   /**
@@ -66,22 +68,25 @@ public class ChangeApi {
   }
 
   /** Restore a previously abandoned change to be open again. */
-  public static void restore(int id, String msg, AsyncCallback<ChangeInfo> cb) {
+  public static void restore(
+      int id, @Nullable String project, String msg, AsyncCallback<ChangeInfo> cb) {
     MessageInput input = MessageInput.create();
     input.message(emptyToNull(msg));
-    call(id, "restore").post(input, cb);
+    call(id, project, "restore").post(input, cb);
   }
 
   /** Create a new change that reverts the delta caused by this change. */
-  public static void revert(int id, String msg, AsyncCallback<ChangeInfo> cb) {
+  public static void revert(
+      int id, @Nullable String project, String msg, AsyncCallback<ChangeInfo> cb) {
     MessageInput input = MessageInput.create();
     input.message(emptyToNull(msg));
-    call(id, "revert").post(input, cb);
+    call(id, project, "revert").post(input, cb);
   }
 
   /** Update the topic of a change. */
-  public static void topic(int id, String topic, AsyncCallback<String> cb) {
-    RestApi call = call(id, "topic");
+  public static void topic(
+      int id, @Nullable String project, String topic, AsyncCallback<String> cb) {
+    RestApi call = call(id, project, "topic");
     topic = emptyToNull(topic);
     if (topic != null) {
       TopicInput input = TopicInput.create();
@@ -92,114 +97,121 @@ public class ChangeApi {
     }
   }
 
-  public static void detail(int id, AsyncCallback<ChangeInfo> cb) {
-    detail(id).get(cb);
+  public static void detail(int id, @Nullable String project, AsyncCallback<ChangeInfo> cb) {
+    detail(id, project).get(cb);
   }
 
-  public static RestApi detail(int id) {
-    return call(id, "detail");
+  public static RestApi detail(int id, @Nullable String project) {
+    return call(id, project, "detail");
   }
 
-  public static RestApi blame(PatchSet.Id id, String path, boolean base) {
-    return revision(id).view("files").id(path).view("blame").addParameter("base", base);
+  public static RestApi blame(PatchSet.Id id, @Nullable String project, String path, boolean base) {
+    return revision(id, project).view("files").id(path).view("blame").addParameter("base", base);
   }
 
-  public static RestApi actions(int id, String revision) {
+  public static RestApi actions(int id, @Nullable String project, String revision) {
     if (revision == null || revision.equals("")) {
       revision = "current";
     }
-    return call(id, revision, "actions");
+    return call(id, project, revision, "actions");
   }
 
-  public static void deleteAssignee(int id, AsyncCallback<AccountInfo> cb) {
-    change(id).view("assignee").delete(cb);
+  public static void deleteAssignee(
+      int id, @Nullable String project, AsyncCallback<AccountInfo> cb) {
+    change(id, project).view("assignee").delete(cb);
   }
 
-  public static void setAssignee(int id, String user, AsyncCallback<AccountInfo> cb) {
+  public static void setAssignee(
+      int id, @Nullable String project, String user, AsyncCallback<AccountInfo> cb) {
     AssigneeInput input = AssigneeInput.create();
     input.assignee(user);
-    change(id).view("assignee").put(input, cb);
+    change(id, project).view("assignee").put(input, cb);
   }
 
-  public static void markPrivate(int id, AsyncCallback<JavaScriptObject> cb) {
-    change(id).view("private").post(PrivateInput.create(), cb);
+  public static void markPrivate(
+      int id, @Nullable String project, AsyncCallback<JavaScriptObject> cb) {
+    change(id, project).view("private").post(PrivateInput.create(), cb);
   }
 
-  public static void unmarkPrivate(int id, AsyncCallback<JavaScriptObject> cb) {
-    change(id).view("private.delete").post(PrivateInput.create(), cb);
+  public static void unmarkPrivate(
+      int id, @Nullable String project, AsyncCallback<JavaScriptObject> cb) {
+    change(id, project).view("private.delete").post(PrivateInput.create(), cb);
   }
 
-  public static RestApi comments(int id) {
-    return call(id, "comments");
+  public static RestApi comments(int id, @Nullable String project) {
+    return call(id, project, "comments");
   }
 
-  public static RestApi drafts(int id) {
-    return call(id, "drafts");
+  public static RestApi drafts(int id, @Nullable String project) {
+    return call(id, project, "drafts");
   }
 
-  public static void edit(int id, AsyncCallback<EditInfo> cb) {
-    edit(id).get(cb);
+  public static void edit(int id, @Nullable String project, AsyncCallback<EditInfo> cb) {
+    edit(id, project).get(cb);
   }
 
-  public static void editWithFiles(int id, AsyncCallback<EditInfo> cb) {
-    edit(id).addParameterTrue("list").get(cb);
+  public static void editWithFiles(int id, @Nullable String project, AsyncCallback<EditInfo> cb) {
+    edit(id, project).addParameterTrue("list").get(cb);
   }
 
-  public static RestApi edit(int id) {
-    return change(id).view("edit");
+  public static RestApi edit(int id, @Nullable String project) {
+    return change(id, project).view("edit");
   }
 
-  public static RestApi editWithCommands(int id) {
-    return edit(id).addParameterTrue("download-commands");
+  public static RestApi editWithCommands(int id, @Nullable String project) {
+    return edit(id, project).addParameterTrue("download-commands");
   }
 
-  public static void includedIn(int id, AsyncCallback<IncludedInInfo> cb) {
-    call(id, "in").get(cb);
+  public static void includedIn(
+      int id, @Nullable String project, AsyncCallback<IncludedInInfo> cb) {
+    call(id, project, "in").get(cb);
   }
 
-  public static RestApi revision(int id, String revision) {
-    return change(id).view("revisions").id(revision);
+  public static RestApi revision(int id, @Nullable String project, String revision) {
+    return change(id, project).view("revisions").id(revision);
   }
 
-  public static RestApi revision(PatchSet.Id id) {
+  public static RestApi revision(PatchSet.Id id, @Nullable String project) {
     int cn = id.getParentKey().get();
     String revision = RevisionInfoCache.get(id);
     if (revision != null) {
-      return revision(cn, revision);
+      return revision(cn, project, revision);
     }
-    return change(cn).view("revisions").id(id.get());
+    return change(cn, project).view("revisions").id(id.get());
   }
 
-  public static RestApi reviewers(int id) {
-    return change(id).view("reviewers");
+  public static RestApi reviewers(int id, @Nullable String project) {
+    return change(id, project).view("reviewers");
   }
 
-  public static RestApi suggestReviewers(int id, String q, int n, boolean e) {
-    RestApi api = change(id).view("suggest_reviewers").addParameter("n", n).addParameter("e", e);
+  public static RestApi suggestReviewers(
+      int id, @Nullable String project, String q, int n, boolean e) {
+    RestApi api =
+        change(id, project).view("suggest_reviewers").addParameter("n", n).addParameter("e", e);
     if (q != null) {
       api.addParameter("q", q);
     }
     return api;
   }
 
-  public static RestApi vote(int id, int reviewer, String vote) {
-    return reviewer(id, reviewer).view("votes").id(vote);
+  public static RestApi vote(int id, @Nullable String project, int reviewer, String vote) {
+    return reviewer(id, project, reviewer).view("votes").id(vote);
   }
 
-  public static RestApi reviewer(int id, int reviewer) {
-    return change(id).view("reviewers").id(reviewer);
+  public static RestApi reviewer(int id, @Nullable String project, int reviewer) {
+    return change(id, project).view("reviewers").id(reviewer);
   }
 
-  public static RestApi reviewer(int id, String reviewer) {
-    return change(id).view("reviewers").id(reviewer);
+  public static RestApi reviewer(int id, @Nullable String project, String reviewer) {
+    return change(id, project).view("reviewers").id(reviewer);
   }
 
-  public static RestApi hashtags(int changeId) {
-    return change(changeId).view("hashtags");
+  public static RestApi hashtags(int changeId, @Nullable String project) {
+    return change(changeId, project).view("hashtags");
   }
 
-  public static RestApi hashtag(int changeId, String hashtag) {
-    return change(changeId).view("hashtags").id(hashtag);
+  public static RestApi hashtag(int changeId, @Nullable String project, String hashtag) {
+    return change(changeId, project).view("hashtags").id(hashtag);
   }
 
   /** Submit a specific revision of a change. */
@@ -213,56 +225,68 @@ public class ChangeApi {
 
   /** Edit commit message for specific revision of a change. */
   public static void message(
-      int id, String commit, String message, AsyncCallback<JavaScriptObject> cb) {
+      int id,
+      @Nullable String project,
+      String commit,
+      String message,
+      AsyncCallback<JavaScriptObject> cb) {
     CherryPickInput input = CherryPickInput.create();
     input.setMessage(message);
-    call(id, commit, "message").post(input, cb);
+    call(id, project, commit, "message").post(input, cb);
   }
 
   /** Submit a specific revision of a change. */
-  public static void submit(int id, String commit, AsyncCallback<SubmitInfo> cb) {
+  public static void submit(
+      int id, @Nullable String project, String commit, AsyncCallback<SubmitInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
-    call(id, commit, "submit").post(in, cb);
+    call(id, project, commit, "submit").post(in, cb);
   }
 
   /** Publish a specific revision of a draft change. */
-  public static void publish(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
+  public static void publish(
+      int id, @Nullable String project, String commit, AsyncCallback<JavaScriptObject> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
-    call(id, commit, "publish").post(in, cb);
+    call(id, project, commit, "publish").post(in, cb);
   }
 
   /** Delete a specific draft change. */
-  public static void deleteChange(int id, AsyncCallback<JavaScriptObject> cb) {
-    change(id).delete(cb);
+  public static void deleteChange(
+      int id, @Nullable String project, AsyncCallback<JavaScriptObject> cb) {
+    change(id, project).delete(cb);
   }
 
   /** Delete a specific draft patch set. */
-  public static void deleteRevision(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
-    revision(id, commit).delete(cb);
+  public static void deleteRevision(
+      int id, @Nullable String project, String commit, AsyncCallback<JavaScriptObject> cb) {
+    revision(id, project, commit).delete(cb);
   }
 
   /** Delete change edit. */
-  public static void deleteEdit(int id, AsyncCallback<JavaScriptObject> cb) {
-    edit(id).delete(cb);
+  public static void deleteEdit(
+      int id, @Nullable String project, AsyncCallback<JavaScriptObject> cb) {
+    edit(id, project).delete(cb);
   }
 
   /** Publish change edit. */
-  public static void publishEdit(int id, AsyncCallback<JavaScriptObject> cb) {
+  public static void publishEdit(
+      int id, @Nullable String project, AsyncCallback<JavaScriptObject> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
-    change(id).view("edit:publish").post(in, cb);
+    change(id, project).view("edit:publish").post(in, cb);
   }
 
   /** Rebase change edit on latest patch set. */
-  public static void rebaseEdit(int id, AsyncCallback<JavaScriptObject> cb) {
+  public static void rebaseEdit(
+      int id, @Nullable String project, AsyncCallback<JavaScriptObject> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
-    change(id).view("edit:rebase").post(in, cb);
+    change(id, project).view("edit:rebase").post(in, cb);
   }
 
   /** Rebase a revision onto the branch tip or another change. */
-  public static void rebase(int id, String commit, String base, AsyncCallback<ChangeInfo> cb) {
+  public static void rebase(
+      int id, @Nullable String project, String commit, String base, AsyncCallback<ChangeInfo> cb) {
     RebaseInput rebaseInput = RebaseInput.create();
     rebaseInput.setBase(base);
-    call(id, commit, "rebase").post(rebaseInput, cb);
+    call(id, project, commit, "rebase").post(rebaseInput, cb);
   }
 
   private static class MessageInput extends JavaScriptObject {
@@ -347,24 +371,28 @@ public class ChangeApi {
     protected RebaseInput() {}
   }
 
-  private static RestApi call(int id, String action) {
-    return change(id).view(action);
+  private static RestApi call(int id, @Nullable String project, String action) {
+    return change(id, project).view(action);
   }
 
-  private static RestApi call(int id, String commit, String action) {
-    return change(id).view("revisions").id(commit).view(action);
+  private static RestApi call(int id, @Nullable String project, String commit, String action) {
+    return change(id, project).view("revisions").id(commit).view(action);
   }
 
-  public static RestApi change(int id) {
-    // TODO Switch to triplet project~branch~id format in URI.
-    return new RestApi("/changes/").id(String.valueOf(id));
+  public static RestApi change(int id, @Nullable String project) {
+    if (project == null) {
+      return new RestApi("/changes/").id(String.valueOf(id));
+    } else {
+      return new RestApi("/changes/").id(id, project);
+    }
   }
 
   public static String emptyToNull(String str) {
     return str == null || str.isEmpty() ? null : str;
   }
 
-  public static void commitWithLinks(int changeId, String revision, Callback<CommitInfo> callback) {
-    revision(changeId, revision).view("commit").addParameterTrue("links").get(callback);
+  public static void commitWithLinks(
+      int changeId, @Nullable String project, String revision, Callback<CommitInfo> callback) {
+    revision(changeId, project, revision).view("commit").addParameterTrue("links").get(callback);
   }
 }

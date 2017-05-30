@@ -17,32 +17,37 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.ui.Button;
 
 public class EditActions {
 
-  static void deleteEdit(Change.Id id, Button... editButtons) {
-    ChangeApi.deleteEdit(id.get(), cs(id, editButtons));
+  static void deleteEdit(Change.Id id, @Nullable Project.NameKey project, Button... editButtons) {
+    ChangeApi.deleteEdit(
+        id.get(), Project.NameKey.asStringOrNull(project), cs(id, project, editButtons));
   }
 
-  static void publishEdit(Change.Id id, Button... editButtons) {
-    ChangeApi.publishEdit(id.get(), cs(id, editButtons));
+  static void publishEdit(Change.Id id, @Nullable Project.NameKey project, Button... editButtons) {
+    ChangeApi.publishEdit(
+        id.get(), Project.NameKey.asStringOrNull(project), cs(id, project, editButtons));
   }
 
-  static void rebaseEdit(Change.Id id, Button... editButtons) {
-    ChangeApi.rebaseEdit(id.get(), cs(id, editButtons));
+  static void rebaseEdit(Change.Id id, @Nullable Project.NameKey project, Button... editButtons) {
+    ChangeApi.rebaseEdit(
+        id.get(), Project.NameKey.asStringOrNull(project), cs(id, project, editButtons));
   }
 
   public static GerritCallback<JavaScriptObject> cs(
-      final Change.Id id, final Button... editButtons) {
+      final Change.Id id, @Nullable Project.NameKey project, final Button... editButtons) {
     setEnabled(false, editButtons);
     return new GerritCallback<JavaScriptObject>() {
       @Override
       public void onSuccess(JavaScriptObject result) {
-        Gerrit.display(PageLinks.toChange(id));
+        Gerrit.display(PageLinks.toChange(id, project));
       }
 
       @Override
@@ -50,7 +55,7 @@ public class EditActions {
         setEnabled(true, editButtons);
         if (SubmitFailureDialog.isConflict(err)) {
           new SubmitFailureDialog(err.getMessage()).center();
-          Gerrit.display(PageLinks.toChange(id));
+          Gerrit.display(PageLinks.toChange(id, project));
         } else {
           super.onFailure(err);
         }

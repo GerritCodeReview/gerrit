@@ -64,6 +64,10 @@ public final class Project {
       r.fromString(str);
       return r;
     }
+
+    public static String asStringOrNull(NameKey key) {
+      return key == null ? null : key.get();
+    }
   }
 
   protected NameKey name;

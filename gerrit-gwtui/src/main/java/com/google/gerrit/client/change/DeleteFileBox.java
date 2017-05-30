@@ -19,8 +19,10 @@ import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.changes.ChangeEditApi;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.ui.RemoteSuggestBox;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -43,6 +45,7 @@ class DeleteFileBox extends Composite {
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private final Change.Id changeId;
+  private final Project.NameKey project;
 
   @UiField Button delete;
   @UiField Button cancel;
@@ -50,10 +53,11 @@ class DeleteFileBox extends Composite {
   @UiField(provided = true)
   RemoteSuggestBox path;
 
-  DeleteFileBox(Change.Id changeId, RevisionInfo revision) {
+  DeleteFileBox(Change.Id changeId, @Nullable Project.NameKey project, RevisionInfo revision) {
     this.changeId = changeId;
+    this.project = project;
 
-    path = new RemoteSuggestBox(new PathSuggestOracle(changeId, revision));
+    path = new RemoteSuggestBox(new PathSuggestOracle(changeId, project, revision));
     path.addSelectionHandler(
         new SelectionHandler<String>() {
           @Override
@@ -89,11 +93,12 @@ class DeleteFileBox extends Composite {
     hide();
     ChangeEditApi.delete(
         changeId.get(),
+        Project.NameKey.asStringOrNull(project),
         path,
         new AsyncCallback<VoidResult>() {
           @Override
           public void onSuccess(VoidResult result) {
-            Gerrit.display(PageLinks.toChangeInEditMode(changeId));
+            Gerrit.display(PageLinks.toChangeInEditMode(changeId, project));
           }
 
           @Override

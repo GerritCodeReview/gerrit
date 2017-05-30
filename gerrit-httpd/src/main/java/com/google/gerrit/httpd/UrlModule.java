@@ -182,7 +182,8 @@ class UrlModule extends ServletModule {
                 idString = idString.substring(0, idString.length() - 1);
               }
               Change.Id id = Change.Id.parse(idString);
-              toGerrit(PageLinks.toChange(id), req, rsp);
+              // TODO(hiesel) Fixme
+              toGerrit(PageLinks.toChange(id, null), req, rsp);
             } catch (IllegalArgumentException err) {
               rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
             }

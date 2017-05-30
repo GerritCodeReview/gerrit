@@ -91,11 +91,24 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
       throw new PermissionBackendException("cannot extract permission");
     } else if (rc != null) {
       return Collections.singleton(
-          resolve(pluginName, rc.value(), rc.scope(), clazz, RequiresCapability.class));
+          resolve(
+              pluginName,
+              rc.value(),
+              rc.scope(),
+              rc.fallBackToAdmin(),
+              clazz,
+              RequiresCapability.class));
     } else if (rac != null) {
       Set<GlobalOrPluginPermission> r = new LinkedHashSet<>();
       for (String capability : rac.value()) {
-        r.add(resolve(pluginName, capability, rac.scope(), clazz, RequiresAnyCapability.class));
+        r.add(
+            resolve(
+                pluginName,
+                capability,
+                rac.scope(),
+                rac.fallBackToAdmin(),
+                clazz,
+                RequiresAnyCapability.class));
       }
       return Collections.unmodifiableSet(r);
     } else {
@@ -129,13 +142,14 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
       @Nullable String pluginName,
       String capability,
       CapabilityScope scope,
+      boolean fallBackToAdmin,
       Class<?> clazz,
       Class<?> annotationClass)
       throws PermissionBackendException {
     if (pluginName != null
         && !"gerrit".equals(pluginName)
         && (scope == CapabilityScope.PLUGIN || scope == CapabilityScope.CONTEXT)) {
-      return new PluginPermission(pluginName, capability);
+      return new PluginPermission(pluginName, capability, fallBackToAdmin);
     }
 
     if (scope == CapabilityScope.PLUGIN) {

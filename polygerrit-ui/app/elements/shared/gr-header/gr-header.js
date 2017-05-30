@@ -18,6 +18,7 @@
     is: 'gr-header',
 
     properties: {
+      enableFloat: Boolean,
       readyForMeasure: {
         type: Boolean,
         observer: '_maybeFloatHeader',
@@ -40,6 +41,7 @@
     },
 
     attached() {
+      this.enableFloat = this._isFloatEnabled();
       // Enable content measure unless blocked by param.
       this.async(() => {
         if (this.readyForMeasure !== false) {
@@ -124,6 +126,9 @@
     },
 
     _maybeFloatHeader() {
+      if (!this.enableFloat) {
+        return;
+      }
       if (!this.readyForMeasure) {
         return;
       }
@@ -145,6 +150,11 @@
       this.customStyle['--header-height'] = rect.height + 'px';
       this._headerFloating = true;
       this.updateStyles();
+    },
+
+    _isFloatEnabled() {
+      return window.location.host.indexOf('canary-') === 0 ||
+        window.location.search.indexOf('exp=1') !== -1;
     },
   });
 })();

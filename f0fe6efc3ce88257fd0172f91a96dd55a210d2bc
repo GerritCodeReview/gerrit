@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11c40a52_71f1e620",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-30T21:21:43Z",
+      "side": 1,
+      "message": "This commit message confuses me. It looks like you\u0027re changing the encoded item from the ID to the name... That\u0027s not what is described in the commit message.",
+      "revId": "f0fe6efc3ce88257fd0172f91a96dd55a210d2bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b47e4945_bd490dd2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-30T21:21:43Z",
+      "side": 1,
+      "message": "Looks like this could fit on one line with string templating.",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 37
+      },
+      "revId": "f0fe6efc3ce88257fd0172f91a96dd55a210d2bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

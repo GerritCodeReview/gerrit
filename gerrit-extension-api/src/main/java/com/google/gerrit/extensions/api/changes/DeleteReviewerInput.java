@@ -19,7 +19,7 @@ import java.util.Map;
 /** Input passed to {@code DELETE /changes/[id]/reviewers/[id]}. */
 public class DeleteReviewerInput {
   /** Who to send email notifications to after the reviewer is deleted. */
-  public NotifyHandling notify = NotifyHandling.ALL;
+  public NotifyHandling notify = null;
 
   public Map<RecipientType, NotifyInfo> notifyDetails;
 }

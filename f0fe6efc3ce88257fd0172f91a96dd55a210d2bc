@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "45c1fee7_3fe38101",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-30T21:28:17Z",
+      "side": 1,
+      "message": "It encodes the url and changes it from id to name.\n\nsince this.encodeURL(item, false); makes the url not have / in it instead it is in %. doing this.encodeURL(item, true); fixes that, but to make sure we change.id to .name since .id will not be encoded.",
+      "parentUuid": "11c40a52_71f1e620",
+      "revId": "f0fe6efc3ce88257fd0172f91a96dd55a210d2bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b47e4945_bd490dd2",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
         "patchSetId": 5

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -44,7 +45,7 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
   private final DeleteReviewerInput input;
 
   private ChangeMessage changeMessage;
-  private Change.Id changeId;
+  private Change change;
 
   @Inject
   DeleteReviewerByEmailOp(
@@ -60,12 +61,12 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws OrmException {
-    changeId = ctx.getChange().getId();
+    change = ctx.getChange();
     PatchSet.Id psId = ctx.getChange().currentPatchSetId();
     String msg = "Removed reviewer " + reviewer;
     changeMessage =
         new ChangeMessage(
-            new ChangeMessage.Key(changeId, ChangeUtil.messageUuid()),
+            new ChangeMessage.Key(change.getId(), ChangeUtil.messageUuid()),
             ctx.getAccountId(),
             ctx.getWhen(),
             psId);
@@ -78,11 +79,19 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) {
+    if (input.notify == null) {
+      if (change.isWorkInProgress()) {
+        input.notify = NotifyHandling.NONE;
+      } else {
+        input.notify = NotifyHandling.ALL;
+      }
+    }
     if (!NotifyUtil.shouldNotify(input.notify, input.notifyDetails)) {
       return;
     }
     try {
-      DeleteReviewerSender cm = deleteReviewerSenderFactory.create(ctx.getProject(), changeId);
+      DeleteReviewerSender cm =
+          deleteReviewerSenderFactory.create(ctx.getProject(), change.getId());
       cm.setFrom(ctx.getAccountId());
       cm.addReviewersByEmail(Collections.singleton(reviewer));
       cm.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
@@ -90,7 +99,7 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
       cm.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
       cm.send();
     } catch (Exception err) {
-      log.error("Cannot email update for change " + changeId, err);
+      log.error("Cannot email update for change " + change.getId(), err);
     }
   }
 }

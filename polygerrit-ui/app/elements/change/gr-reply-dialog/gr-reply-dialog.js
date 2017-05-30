@@ -198,22 +198,17 @@
 
     setLabelValue(label, value) {
       const selectorEl =
-          this.$.labelScores.$$(`iron-selector[data-label="${label}"]`);
-      // The selector may not be present if it’s not at the latest patch set.
+          this.$.labelScores.$$(`gr-label-score-row[name="${label}"]`);
       if (!selectorEl) { return; }
-      const item = selectorEl.$$(`gr-button[data-value="${value}"]`);
-      if (!item) { return; }
-      selectorEl.selectIndex(selectorEl.indexOf(item));
+      selectorEl.setSelectedValue(value);
     },
 
     getLabelValue(label) {
       const selectorEl =
-          this.$.labelScores.$$(`iron-selector[data-label="${label}"]`);
-      // The selector may not be present if it’s not at the latest patch set.
+          this.$.labelScores.$$(`gr-label-score-row[name="${label}"]`);
       if (!selectorEl) { return null; }
-      const item = selectorEl.querySelector('gr-button.iron-selected');
-      if (!item) { return null; }
-      return item.getAttribute('data-value');
+
+      return selectorEl.selectedValue;
     },
 
     _handleEscKey(e) {

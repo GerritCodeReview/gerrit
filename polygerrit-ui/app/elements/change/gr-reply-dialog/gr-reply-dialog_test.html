@@ -213,9 +213,8 @@ limitations under the License.
 
     test('getlabelValue returns value', done => {
       flush(() => {
-        MockInteractions.tap(element.$$('gr-label-scores').$$(
-            'iron-selector[data-label="Verified"] > ' +
-            'gr-button[data-value="-1"]'));
+        element.$$('gr-label-scores').$$(`gr-label-score-row[name="Verified"]`)
+            .setSelectedValue(-1);
         assert.equal('-1', element.getLabelValue('Verified'));
         done();
       });
@@ -223,9 +222,8 @@ limitations under the License.
 
     test('getlabelValue when no score is selected', done => {
       flush(() => {
-        MockInteractions.tap(element.$$('gr-label-scores').$$(
-            'iron-selector[data-label="Code-Review"] > ' +
-            'gr-button[data-value="-1"]'));
+        element.$$('gr-label-scores').$$(`gr-label-score-row[name="Code-Review"]`)
+            .setSelectedValue(-1);
         assert.isNull(element.getLabelValue('Verified'));
         done();
       });
@@ -517,57 +515,10 @@ limitations under the License.
         // The send button can be tapped before the others, causing the test to
         // fail.
 
-        MockInteractions.tap(element.$$('gr-label-scores').$$(
-            'iron-selector[data-label="Verified"] > ' +
-            'gr-button[data-value="-1"]'));
+        element.$$('gr-label-scores').$$(
+            'gr-label-score-row[name="Verified"]').setSelectedValue(-1);
         MockInteractions.tap(element.$$('.send'));
       });
-    });
-
-    test('do not display tooltips on touch devices', () => {
-      element._account = {_account_id: 1};
-      element.set(['change', 'labels', 'Verified', 'all'],
-          [{_account_id: 1, value: -1}]);
-      element.labels = {
-        'Verified': {
-          values: {
-            '-1': 'Fails',
-            ' 0': 'No score',
-            '+1': 'Verified',
-          },
-          default_value: 0,
-        },
-        'Code-Review': {
-          values: {
-            '-2': 'Do not submit',
-            '-1': 'I would prefer that you didn\'t submit this',
-            ' 0': 'No score',
-            '+1': 'Looks good to me, but someone else must approve',
-            '+2': 'Looks good to me, approved',
-          },
-          default_value: 0,
-        },
-      };
-
-      flushAsynchronousOperations();
-
-      const verifiedBtn = element.$$('gr-label-scores').$$(
-          'iron-selector[data-label="Verified"] > ' +
-          'gr-button[data-value="-1"]');
-
-      // On touch devices, tooltips should not be shown.
-      verifiedBtn._isTouchDevice = true;
-      verifiedBtn._handleShowTooltip();
-      assert.isNotOk(verifiedBtn._tooltip);
-      verifiedBtn._handleHideTooltip();
-      assert.isNotOk(verifiedBtn._tooltip);
-
-      // On other devices, tooltips should be shown.
-      verifiedBtn._isTouchDevice = false;
-      verifiedBtn._handleShowTooltip();
-      assert.isOk(verifiedBtn._tooltip);
-      verifiedBtn._handleHideTooltip();
-      assert.isNotOk(verifiedBtn._tooltip);
     });
 
     test('_processReviewerChange', () => {

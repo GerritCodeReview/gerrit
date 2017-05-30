@@ -26,66 +26,12 @@
     SEND_DIFF_DRAFT: 'sendDiffDraft',
   };
 
-  // Must be kept in sync with the ListChangesOption enum and protobuf.
-  const ListChangesOption = {
-    LABELS: 0,
-    DETAILED_LABELS: 8,
-
-    // Return information on the current patch set of the change.
-    CURRENT_REVISION: 1,
-    ALL_REVISIONS: 2,
-
-    // If revisions are included, parse the commit object.
-    CURRENT_COMMIT: 3,
-    ALL_COMMITS: 4,
-
-    // If a patch set is included, include the files of the patch set.
-    CURRENT_FILES: 5,
-    ALL_FILES: 6,
-
-    // If accounts are included, include detailed account info.
-    DETAILED_ACCOUNTS: 7,
-
-    // Include messages associated with the change.
-    MESSAGES: 9,
-
-    // Include allowed actions client could perform.
-    CURRENT_ACTIONS: 10,
-
-    // Set the reviewed boolean for the caller.
-    REVIEWED: 11,
-
-    // Include download commands for the caller.
-    DOWNLOAD_COMMANDS: 13,
-
-    // Include patch set weblinks.
-    WEB_LINKS: 14,
-
-    // Include consistency check results.
-    CHECK: 15,
-
-    // Include allowed change actions client could perform.
-    CHANGE_ACTIONS: 16,
-
-    // Include a copy of commit messages including review footers.
-    COMMIT_FOOTERS: 17,
-
-    // Include push certificate information along with any patch sets.
-    PUSH_CERTIFICATES: 18,
-
-    // Include change's reviewer updates.
-    REVIEWER_UPDATES: 19,
-
-    // Set the submittable boolean.
-    SUBMITTABLE: 20,
-  };
-
   Polymer({
     is: 'gr-rest-api-interface',
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
       Gerrit.PathListBehavior,
+      Gerrit.RESTClientBehavior,
     ],
 
     /**
@@ -423,9 +369,9 @@
     },
 
     getChanges(changesPerPage, opt_query, opt_offset) {
-      const options = this._listChangesOptionsToHex(
-          ListChangesOption.LABELS,
-          ListChangesOption.DETAILED_ACCOUNTS
+      const options = this.listChangesOptionsToHex(
+          this.ListChangesOption.LABELS,
+          this.ListChangesOption.DETAILED_ACCOUNTS
       );
       // Issue 4524: respect legacy token with max sortkey.
       if (opt_offset === 'n,z') {
@@ -443,10 +389,10 @@
     },
 
     getDashboardChanges() {
-      const options = this._listChangesOptionsToHex(
-          ListChangesOption.LABELS,
-          ListChangesOption.DETAILED_ACCOUNTS,
-          ListChangesOption.REVIEWED
+      const options = this.listChangesOptionsToHex(
+          this.ListChangesOption.LABELS,
+          this.ListChangesOption.DETAILED_ACCOUNTS,
+          this.ListChangesOption.REVIEWED
       );
       const params = {
         O: options,
@@ -461,18 +407,18 @@
     },
 
     getChangeActionURL(changeNum, opt_patchNum, endpoint) {
-      return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
+      return this.changeBaseURL(changeNum, opt_patchNum) + endpoint;
     },
 
     getChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
-      const options = this._listChangesOptionsToHex(
-          ListChangesOption.ALL_REVISIONS,
-          ListChangesOption.CHANGE_ACTIONS,
-          ListChangesOption.CURRENT_ACTIONS,
-          ListChangesOption.CURRENT_COMMIT,
-          ListChangesOption.DOWNLOAD_COMMANDS,
-          ListChangesOption.SUBMITTABLE,
-          ListChangesOption.WEB_LINKS
+      const options = this.listChangesOptionsToHex(
+          this.ListChangesOption.ALL_REVISIONS,
+          this.ListChangesOption.CHANGE_ACTIONS,
+          this.ListChangesOption.CURRENT_ACTIONS,
+          this.ListChangesOption.CURRENT_COMMIT,
+          this.ListChangesOption.DOWNLOAD_COMMANDS,
+          this.ListChangesOption.SUBMITTABLE,
+          this.ListChangesOption.WEB_LINKS
       );
       return this._getChangeDetail(
           changeNum, options, opt_errFn, opt_cancelCondition)
@@ -480,8 +426,8 @@
     },
 
     getDiffChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
-      const options = this._listChangesOptionsToHex(
-          ListChangesOption.ALL_REVISIONS
+      const options = this.listChangesOptionsToHex(
+          this.ListChangesOption.ALL_REVISIONS
       );
       return this._getChangeDetail(changeNum, options, opt_errFn,
           opt_cancelCondition);
@@ -620,9 +566,9 @@
     },
 
     getChangeConflicts(changeNum) {
-      const options = this._listChangesOptionsToHex(
-          ListChangesOption.CURRENT_REVISION,
-          ListChangesOption.CURRENT_COMMIT
+      const options = this.listChangesOptionsToHex(
+          this.ListChangesOption.CURRENT_REVISION,
+          this.ListChangesOption.CURRENT_COMMIT
       );
       const params = {
         O: options,
@@ -632,9 +578,9 @@
     },
 
     getChangeCherryPicks(project, changeID, changeNum) {
-      const options = this._listChangesOptionsToHex(
-          ListChangesOption.CURRENT_REVISION,
-          ListChangesOption.CURRENT_COMMIT
+      const options = this.listChangesOptionsToHex(
+          this.ListChangesOption.CURRENT_REVISION,
+          this.ListChangesOption.CURRENT_COMMIT
       );
       const query = [
         'project:' + project,
@@ -650,11 +596,11 @@
     },
 
     getChangesWithSameTopic(topic) {
-      const options = this._listChangesOptionsToHex(
-          ListChangesOption.LABELS,
-          ListChangesOption.CURRENT_REVISION,
-          ListChangesOption.CURRENT_COMMIT,
-          ListChangesOption.DETAILED_LABELS
+      const options = this.listChangesOptionsToHex(
+          this.ListChangesOption.LABELS,
+          this.ListChangesOption.CURRENT_REVISION,
+          this.ListChangesOption.CURRENT_COMMIT,
+          this.ListChangesOption.DETAILED_LABELS
       );
       const params = {
         O: options,
@@ -801,7 +747,7 @@
     },
 
     _getDiffFetchURL(changeNum, patchNum, path) {
-      return this._changeBaseURL(changeNum, patchNum) + '/files/' +
+      return this.changeBaseURL(changeNum, patchNum) + '/files/' +
           encodeURIComponent(path) + '/diff';
     },
 
@@ -899,7 +845,7 @@
     },
 
     _getDiffCommentsFetchURL(changeNum, endpoint, opt_patchNum) {
-      return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
+      return this.changeBaseURL(changeNum, opt_patchNum) + endpoint;
     },
 
     saveDiffDraft(changeNum, patchNum, draft) {
@@ -933,24 +879,6 @@
         this._pendingRequests[Requests.SEND_DIFF_DRAFT]--;
         return res;
       });
-    },
-
-    _changeBaseURL(changeNum, opt_patchNum) {
-      let v = '/changes/' + changeNum;
-      if (opt_patchNum) {
-        v += '/revisions/' + opt_patchNum;
-      }
-      return v;
-    },
-
-    // Derived from
-    // gerrit-extension-api/src/main/j/c/g/gerrit/extensions/client/ListChangesOption.java
-    _listChangesOptionsToHex(...args) {
-      let v = 0;
-      for (let i = 0; i < args.length; i++) {
-        v |= 1 << args[i];
-      }
-      return v.toString(16);
     },
 
     _getCookie(name) {
@@ -1134,7 +1062,7 @@
     },
 
     deleteComment(changeNum, patchNum, commentID, reason) {
-      const url = this._changeBaseURL(changeNum, patchNum) +
+      const url = this.changeBaseURL(changeNum, patchNum) +
           '/comments/' + commentID + '/delete';
       return this.send('POST', url, {reason}).then(response =>
         this.getResponseObject(response));

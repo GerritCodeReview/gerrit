@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e624fc52_ce6e2ed5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/PluginPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-30T06:56:58Z",
+      "side": 1,
+      "message": "this(pluginName, capability, true);",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 32
+      },
+      "revId": "2ba905678977d98697cf921128d5b30e4cb30e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

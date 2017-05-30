@@ -16,6 +16,24 @@
       "revId": "5049597eb7fc7d59e62b79b2965b800474f9a3e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35adb422_f95442a3",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-05-30T21:29:03Z",
+      "side": 1,
+      "message": "Yep.\nMoving them into test/index.html wouldn\u0027t help since wct spins up a new document for each test case.\n\nI could move this and the load of iron-test-helpers into a test/common-test-setup.html which would simplify tests overall.",
+      "parentUuid": "3d566d06_901ea950",
+      "revId": "5049597eb7fc7d59e62b79b2965b800474f9a3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

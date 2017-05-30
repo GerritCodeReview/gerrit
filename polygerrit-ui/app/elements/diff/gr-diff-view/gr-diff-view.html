@@ -285,13 +285,6 @@ limitations under the License.
           </span>
         </div>
       </div>
-    </gr-fixed-panel>
-    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
-    <div hidden hidden$="[[_loading]]">
-      <gr-diff-preferences
-          id="diffPreferences"
-          prefs="{{_prefs}}"
-          local-prefs="{{_localPrefs}}"></gr-diff-preferences>
       <div class="fileNav mobile">
         <a class="mobileNavLink"
            href$="[[_computeNavLinkURL(_path, _fileList, -1, 1)]]">&lt;</a>
@@ -300,6 +293,13 @@ limitations under the License.
         <a class="mobileNavLink"
             href$="[[_computeNavLinkURL(_path, _fileList, 1, 1)]]">&gt;</a>
       </div>
+    </gr-fixed-panel>
+    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+    <div hidden hidden$="[[_loading]]">
+      <gr-diff-preferences
+          id="diffPreferences"
+          prefs="{{_prefs}}"
+          local-prefs="{{_localPrefs}}"></gr-diff-preferences>
       <gr-diff
           id="diff"
           hidden

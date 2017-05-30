@@ -124,8 +124,14 @@ limitations under the License.
       .replyContainer {
         padding: .5em 0 1em;
       }
+      .positiveVote {
+        background-color: #d4ffd4;
+      }
+      .negativeVote {
+        background-color: #ffd4d4;
+      }
     </style>
-    <div class$="[[_computeClass(_expanded, showAvatar)]]">
+    <div class$="[[_computeClass(_expanded, showAvatar, message)]]">
       <gr-avatar account="[[author]]" image-size="100"></gr-avatar>
       <div class="contentContainer">
         <div class="author" on-tap="_handleAuthorTap">

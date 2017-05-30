@@ -18,6 +18,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -165,6 +166,13 @@ public class DeleteReviewerOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) {
+    if (input.notify == null) {
+      if (currChange.isWorkInProgress()) {
+        input.notify = oldApprovals.isEmpty() ? NotifyHandling.NONE : NotifyHandling.OWNER;
+      } else {
+        input.notify = NotifyHandling.ALL;
+      }
+    }
     if (NotifyUtil.shouldNotify(input.notify, input.notifyDetails)) {
       emailReviewers(ctx.getProject(), currChange, changeMessage);
     }

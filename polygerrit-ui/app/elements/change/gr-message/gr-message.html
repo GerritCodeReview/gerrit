@@ -36,6 +36,9 @@ limitations under the License.
       :host(.expanded) {
         cursor: auto;
       }
+      :host > div {
+        padding: 0 var(--default-horizontal-margin);
+      }
       gr-avatar {
         position: absolute;
         left: var(--default-horizontal-margin);
@@ -125,8 +128,14 @@ limitations under the License.
       .replyContainer {
         padding: .5em 0 1em;
       }
+      .positiveVote {
+        box-shadow: inset 7px 0 #d4ffd4;
+      }
+      .negativeVote {
+        box-shadow: inset 7px 0 #ffd4d4;
+      }
     </style>
-    <div class$="[[_computeClass(_expanded, showAvatar)]]">
+    <div class$="[[_computeClass(_expanded, showAvatar, message)]]">
       <gr-avatar account="[[author]]" image-size="100"></gr-avatar>
       <div class="contentContainer">
         <div class="author" on-tap="_handleAuthorTap">

@@ -18,7 +18,16 @@ import java.util.List;
 import java.util.Objects;
 
 public class ConsistencyCheckInfo {
+  public CheckAccountsResultInfo checkAccountsResult;
   public CheckAccountExternalIdsResultInfo checkAccountExternalIdsResult;
+
+  public static class CheckAccountsResultInfo {
+    public List<ConsistencyProblemInfo> problems;
+
+    public CheckAccountsResultInfo(List<ConsistencyProblemInfo> problems) {
+      this.problems = problems;
+    }
+  }
 
   public static class CheckAccountExternalIdsResultInfo {
     public List<ConsistencyProblemInfo> problems;

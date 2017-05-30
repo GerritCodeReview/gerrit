@@ -170,15 +170,13 @@ is returned that contains detected consistency problems.
 
   )]}'
   {
-    "results": {
-      "account_external_id_result": {
-        "problems": [
-          {
-            "status": "ERROR",
-            "message": "External ID \u0027uuid:ccb8d323-1361-45aa-8874-41987a660c46\u0027 belongs to account that doesn\u0027t exist: 1000012"
-          }
-        ]
-      }
+    "check_account_external_ids_result": {
+      "problems": [
+        {
+          "status": "ERROR",
+          "message": "External ID \u0027uuid:ccb8d323-1361-45aa-8874-41987a660c46\u0027 belongs to account that doesn\u0027t exist: 1000012"
+        }
+      ]
     }
   }
 ----

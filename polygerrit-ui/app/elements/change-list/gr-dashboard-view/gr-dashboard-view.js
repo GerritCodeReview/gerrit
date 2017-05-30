@@ -53,6 +53,27 @@
       },
     },
 
+    behaviors: [
+      Gerrit.RESTClientBehavior,
+    ],
+
+    get options() {
+      return this.listChangesOptionsToHex(
+          this.ListChangesOption.LABELS,
+          this.ListChangesOption.DETAILED_ACCOUNTS,
+          this.ListChangesOption.REVIEWED
+      );
+    },
+
+    get queries() {
+      return [
+        'is:open owner:self',
+        'is:open ((reviewer:self -owner:self -is:ignored) OR assignee:self)',
+        'is:closed (owner:self OR reviewer:self OR assignee:self) -age:4w ' +
+            'limit:10',
+      ];
+    },
+
     attached() {
       this.fire('title-change', {title: 'My Reviews'});
     },
@@ -62,7 +83,7 @@
      */
     _paramsChanged() {
       this._loading = true;
-      this._getDashboardChanges().then(results => {
+      this._getChanges().then(results => {
         this._results = results;
         this._loading = false;
       }).catch(err => {
@@ -71,8 +92,8 @@
       });
     },
 
-    _getDashboardChanges() {
-      return this.$.restAPI.getDashboardChanges();
+    _getChanges() {
+      return this.$.restAPI.getChanges(null, this.queries, null, this.options);
     },
   });
 })();

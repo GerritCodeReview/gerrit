@@ -21,8 +21,10 @@ import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,6 +43,7 @@ import net.codemirror.lib.TextMarker.FromTo;
 abstract class CommentManager {
   private final DiffObject base;
   private final PatchSet.Id revision;
+  private final Project.NameKey project;
   private final String path;
   private final CommentLinkProcessor commentLinkProcessor;
   final SortedMap<Integer, CommentGroup> sideA;
@@ -56,12 +59,14 @@ abstract class CommentManager {
       DiffScreen host,
       DiffObject base,
       PatchSet.Id revision,
+      @Nullable Project.NameKey project,
       String path,
       CommentLinkProcessor clp,
       boolean open) {
     this.host = host;
     this.base = base;
     this.revision = revision;
+    this.project = project;
     this.path = path;
     this.commentLinkProcessor = clp;
     this.open = open;
@@ -232,7 +237,12 @@ abstract class CommentManager {
     CommentGroup group = group(side, cmLinePlusOne);
     DraftBox box =
         new DraftBox(
-            group, getCommentLinkProcessor(), getPatchSetIdFromSide(side), info, isExpandAll());
+            group,
+            getCommentLinkProcessor(),
+            getPatchSetIdFromSide(side),
+            project,
+            info,
+            isExpandAll());
 
     if (info.inReplyTo() != null) {
       PublishedBox r = getPublished().get(info.inReplyTo());
@@ -351,6 +361,7 @@ abstract class CommentManager {
                 group,
                 getCommentLinkProcessor(),
                 getPatchSetIdFromSide(side),
+                project,
                 info,
                 side,
                 isOpen());

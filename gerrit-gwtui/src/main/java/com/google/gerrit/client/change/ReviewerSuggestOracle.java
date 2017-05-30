@@ -21,7 +21,9 @@ import com.google.gerrit.client.info.GroupBaseInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.AccountSuggestOracle;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
@@ -32,10 +34,16 @@ import java.util.List;
 /** REST API based suggestion Oracle for reviewers. */
 public class ReviewerSuggestOracle extends HighlightSuggestOracle {
   private Change.Id changeId;
+  private Project.NameKey project;
 
   @Override
   protected void onRequestSuggestions(final Request req, final Callback cb) {
-    ChangeApi.suggestReviewers(changeId.get(), req.getQuery(), req.getLimit(), false)
+    ChangeApi.suggestReviewers(
+            changeId.get(),
+            project == null ? null : project.get(),
+            req.getQuery(),
+            req.getLimit(),
+            false)
         .get(
             new GerritCallback<JsArray<SuggestReviewerInfo>>() {
               @Override
@@ -60,8 +68,9 @@ public class ReviewerSuggestOracle extends HighlightSuggestOracle {
     requestSuggestions(req, cb);
   }
 
-  public void setChange(Change.Id changeId) {
+  public void setChange(Change.Id changeId, @Nullable Project.NameKey project) {
     this.changeId = changeId;
+    this.project = project;
   }
 
   public static class RestReviewerSuggestion implements Suggestion {

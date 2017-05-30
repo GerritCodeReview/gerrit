@@ -27,8 +27,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class DiffApi {
   public static void list(
-      int id, String revision, RevisionInfo base, AsyncCallback<NativeMap<FileInfo>> cb) {
-    RestApi api = ChangeApi.revision(id, revision).view("files");
+      int id,
+      String project,
+      String revision,
+      RevisionInfo base,
+      AsyncCallback<NativeMap<FileInfo>> cb) {
+    RestApi api = ChangeApi.revision(id, project, revision).view("files");
     if (base != null) {
       if (base._number() < 0) {
         api.addParameter("parent", -base._number());
@@ -39,8 +43,9 @@ public class DiffApi {
     api.get(NativeMap.copyKeysIntoChildren("path", cb));
   }
 
-  public static void list(PatchSet.Id id, PatchSet.Id base, AsyncCallback<NativeMap<FileInfo>> cb) {
-    RestApi api = ChangeApi.revision(id).view("files");
+  public static void list(
+      PatchSet.Id id, PatchSet.Id base, String project, AsyncCallback<NativeMap<FileInfo>> cb) {
+    RestApi api = ChangeApi.revision(id, project).view("files");
     if (base != null) {
       if (base.get() < 0) {
         api.addParameter("parent", -base.get());
@@ -51,8 +56,8 @@ public class DiffApi {
     api.get(NativeMap.copyKeysIntoChildren("path", cb));
   }
 
-  public static DiffApi diff(PatchSet.Id id, String path) {
-    return new DiffApi(ChangeApi.revision(id).view("files").id(path).view("diff"));
+  public static DiffApi diff(PatchSet.Id id, String project, String path) {
+    return new DiffApi(ChangeApi.revision(id, project).view("files").id(path).view("diff"));
   }
 
   private final RestApi call;

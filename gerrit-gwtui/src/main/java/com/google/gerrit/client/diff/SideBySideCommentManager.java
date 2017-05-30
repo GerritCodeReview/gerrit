@@ -18,7 +18,9 @@ import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import java.util.Collection;
 import java.util.Map;
 import java.util.SortedMap;
@@ -31,10 +33,11 @@ class SideBySideCommentManager extends CommentManager {
       SideBySide host,
       DiffObject base,
       PatchSet.Id revision,
+      @Nullable Project.NameKey project,
       String path,
       CommentLinkProcessor clp,
       boolean open) {
-    super(host, base, revision, path, clp, open);
+    super(host, base, revision, project, path, clp, open);
   }
 
   @Override

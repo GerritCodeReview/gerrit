@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7a48a068_1747de31",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-30T23:13:23Z",
+      "side": 1,
+      "message": "It\u0027s constructing a new array with startPosition number of elements.",
+      "parentUuid": "32502716_0dc1e401",
+      "range": {
+        "startLine": 44,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 40
+      },
+      "revId": "8b84ac410d84a7b5c568f9e38bca495489c6c110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "46a22a15_e00fdec7",
         "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
         "patchSetId": 2
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "dae18873_e2c4a443",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-30T23:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d1d85ff_821049a9",
+      "range": {
+        "startLine": 58,
+        "startChar": 12,
+        "endLine": 58,
+        "endChar": 29
+      },
+      "revId": "8b84ac410d84a7b5c568f9e38bca495489c6c110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4bbd3e0_5416d935",
         "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
         "patchSetId": 2
@@ -91,6 +139,30 @@
       "revId": "8b84ac410d84a7b5c568f9e38bca495489c6c110",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46bd7394_74550a7e",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-30T23:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4bbd3e0_5416d935",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 0
+      },
+      "revId": "8b84ac410d84a7b5c568f9e38bca495489c6c110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

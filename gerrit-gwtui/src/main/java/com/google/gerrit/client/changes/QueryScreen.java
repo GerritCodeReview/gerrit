@@ -65,7 +65,7 @@ public class QueryScreen extends PagedSingleListScreen implements ChangeListScre
           if (result.length() == 1 && isSingleQuery(query)) {
             ChangeInfo c = result.get(0);
             Change.Id id = c.legacyId();
-            Gerrit.display(PageLinks.toChange(id));
+            Gerrit.display(PageLinks.toChange(c.projectNameKey(), id));
           } else {
             display(result);
             QueryScreen.this.display();

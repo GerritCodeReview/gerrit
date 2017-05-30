@@ -20,15 +20,17 @@ import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gwt.user.client.ui.Button;
 
 public class EditConfigAction {
-  static void call(Button b, String project) {
+
+  static void call(Button b, Project.NameKey project) {
     b.setEnabled(false);
 
     ChangeApi.createChange(
-        project,
+        project.get(),
         RefNames.REFS_CONFIG,
         null,
         AdminConstants.I.editConfigMessage(),
@@ -37,7 +39,8 @@ public class EditConfigAction {
           @Override
           public void onSuccess(ChangeInfo result) {
             Gerrit.display(
-                Dispatcher.toEditScreen(new PatchSet.Id(result.legacyId(), 1), "project.config"));
+                Dispatcher.toEditScreen(
+                    project, new PatchSet.Id(result.legacyId(), 1), "project.config"));
           }
 
           @Override

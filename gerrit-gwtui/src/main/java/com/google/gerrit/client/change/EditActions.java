@@ -19,29 +19,31 @@ import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.ui.Button;
 
 public class EditActions {
 
-  static void deleteEdit(Change.Id id, Button... editButtons) {
-    ChangeApi.deleteEdit(id.get(), cs(id, editButtons));
+  static void deleteEdit(Project.NameKey project, Change.Id id, Button... editButtons) {
+    ChangeApi.deleteEdit(project.get(), id.get(), cs(project, id, editButtons));
   }
 
-  static void publishEdit(Change.Id id, Button... editButtons) {
-    ChangeApi.publishEdit(id.get(), cs(id, editButtons));
+  static void publishEdit(Project.NameKey project, Change.Id id, Button... editButtons) {
+    ChangeApi.publishEdit(project.get(), id.get(), cs(project, id, editButtons));
   }
 
-  static void rebaseEdit(Change.Id id, Button... editButtons) {
-    ChangeApi.rebaseEdit(id.get(), cs(id, editButtons));
+  static void rebaseEdit(Project.NameKey project, Change.Id id, Button... editButtons) {
+    ChangeApi.rebaseEdit(project.get(), id.get(), cs(project, id, editButtons));
   }
 
-  public static GerritCallback<JavaScriptObject> cs(final Change.Id id, Button... editButtons) {
+  public static GerritCallback<JavaScriptObject> cs(
+      Project.NameKey project, final Change.Id id, Button... editButtons) {
     setEnabled(false, editButtons);
     return new GerritCallback<JavaScriptObject>() {
       @Override
       public void onSuccess(JavaScriptObject result) {
-        Gerrit.display(PageLinks.toChange(id));
+        Gerrit.display(PageLinks.toChange(project, id));
       }
 
       @Override
@@ -49,7 +51,7 @@ public class EditActions {
         setEnabled(true, editButtons);
         if (SubmitFailureDialog.isConflict(err)) {
           new SubmitFailureDialog(err.getMessage()).center();
-          Gerrit.display(PageLinks.toChange(id));
+          Gerrit.display(PageLinks.toChange(project, id));
         } else {
           super.onFailure(err);
         }

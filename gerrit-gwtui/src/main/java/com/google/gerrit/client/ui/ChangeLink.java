@@ -17,6 +17,7 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 
 public class ChangeLink extends InlineHyperlink {
@@ -26,8 +27,8 @@ public class ChangeLink extends InlineHyperlink {
 
   protected Change.Id cid;
 
-  public ChangeLink(String text, Change.Id c) {
-    super(text, PageLinks.toChange(c));
+  public ChangeLink(Project.NameKey project, Change.Id c, String text) {
+    super(text, PageLinks.toChange(project, c));
     getElement().setPropertyString("href", permalink(c));
     cid = c;
   }

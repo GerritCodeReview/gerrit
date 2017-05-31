@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f04ae659_4acf53c6",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-31T14:49:52Z",
+      "side": 1,
+      "message": "I\u0027d love suggestions on how to write these routes more efficiently, I was having trouble with recognizing a flexible query and still separating out the comma/number for pagination: \n\npossible routes:\n/admin/projects\n/admin/projects/\n/admin/projects,25\n/admin/projects/q/filter:test\n/admin/projects/q/filter:test,25",
+      "range": {
+        "startLine": 111,
+        "startChar": 3,
+        "endLine": 133,
+        "endChar": 6
+      },
+      "revId": "ff34359e0b9862aee80a71405d4bac8319054864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

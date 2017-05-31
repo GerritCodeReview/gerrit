@@ -282,5 +282,9 @@
       // Groups are not yet supported.
       return !linkObj.url.startsWith('/groups');
     },
+
+    _toggleMobileNav() {
+      this.$.links.classList.toggle('show');
+    },
   });
 })();

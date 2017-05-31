@@ -98,6 +98,11 @@ limitations under the License.
       .dropdown-trigger:hover .downArrow {
         border-top-color: #666;
       }
+      @media screen and (max-width: 50em) {
+        gr-button[link] {
+          padding: .5em 0;
+        }
+      }
     </style>
     <gr-button link="[[link]]" class="dropdown-trigger" id="trigger"
         on-tap="_showDropdownTapHandler">

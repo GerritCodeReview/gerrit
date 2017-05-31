@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13330e48_458610a5",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/gerrit.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-31T23:12:57Z",
+      "side": 1,
+      "message": "Need\u0027s ulimits. Not related to this change but wmf (wikimedia) upgraded to gerrit 2.13.8 with a systemd script and found that we were having problems due to the open file limit being reached. We traced it to systemd as init.d was working.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 26
+      },
+      "revId": "a4fbf06a4c21c5d3f2dd94e90be77aa0d1f34b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "f2f4ee165cecd8b4a52bd24b938074fba0ecc47d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a01a3426_1c0a7837",
+        "filename": "tools/eclipse/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-31T06:50:53Z",
+      "side": 1,
+      "message": "I can\u0027t think of any way to do it. I considered, to force every plugin instead to define dummy \u003cplugin\u003e__plugin_test_deps library if a plugin doesn\u0027t have any test deps. I rejected this idea.",
+      "parentUuid": "0f0fdf14_364847d6",
+      "range": {
+        "startLine": 54,
+        "startChar": 66,
+        "endLine": 54,
+        "endChar": 90
+      },
+      "revId": "f2f4ee165cecd8b4a52bd24b938074fba0ecc47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

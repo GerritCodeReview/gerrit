@@ -45,6 +45,30 @@
       "revId": "ff34359e0b9862aee80a71405d4bac8319054864",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b8a0377_d9708e1a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-31T15:19:56Z",
+      "side": 1,
+      "message": "It\u0027s probaly the limitation of page.js by looking at the docs, https://visionmedia.github.io/page.js/",
+      "parentUuid": "f04ae659_4acf53c6",
+      "range": {
+        "startLine": 111,
+        "startChar": 3,
+        "endLine": 133,
+        "endChar": 6
+      },
+      "revId": "ff34359e0b9862aee80a71405d4bac8319054864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

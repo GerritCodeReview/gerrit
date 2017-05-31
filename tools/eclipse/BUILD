@@ -4,6 +4,7 @@ load(
     "//tools/bzl:plugins.bzl",
     "CORE_PLUGINS",
     "CUSTOM_PLUGINS",
+    "CUSTOM_PLUGINS_TEST_DEPS",
 )
 
 TEST_DEPS = [
@@ -49,7 +50,8 @@ classpath_collector(
     name = "main_classpath_collect",
     testonly = 1,
     deps = LIBS + PGMLIBS + DEPS + TEST_DEPS +
-           ["//plugins/%s:%s__plugin" % (n, n) for n in CORE_PLUGINS + CUSTOM_PLUGINS],
+           ["//plugins/%s:%s__plugin" % (n, n) for n in CORE_PLUGINS + CUSTOM_PLUGINS] +
+           ["//plugins/%s:%s__plugin_test_deps" % (n, n) for n in CUSTOM_PLUGINS_TEST_DEPS],
 )
 
 classpath_collector(

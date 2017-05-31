@@ -18,10 +18,12 @@ import static com.google.gerrit.server.index.FieldDef.exact;
 import static com.google.gerrit.server.index.FieldDef.fullText;
 import static com.google.gerrit.server.index.FieldDef.integer;
 import static com.google.gerrit.server.index.FieldDef.prefix;
+import static com.google.gerrit.server.index.FieldDef.timestamp;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.SchemaUtil;
+import java.sql.Timestamp;
 
 /** Secondary index schemas for groups. */
 public class GroupField {
@@ -36,6 +38,9 @@ public class GroupField {
   /** Group owner UUID. */
   public static final FieldDef<AccountGroup, String> OWNER_UUID =
       exact("owner_uuid").build(g -> g.getOwnerGroupUUID().get());
+
+  public static final FieldDef<AccountGroup, Timestamp> CREATED_ON =
+      timestamp("created_on").build(AccountGroup::getCreatedOn);
 
   /** Group name. */
   public static final FieldDef<AccountGroup, String> NAME =

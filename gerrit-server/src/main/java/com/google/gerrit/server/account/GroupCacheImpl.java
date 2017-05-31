@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -167,7 +168,7 @@ public class GroupCacheImpl implements GroupCache {
 
   private static AccountGroup missing(AccountGroup.Id key) {
     AccountGroup.NameKey name = new AccountGroup.NameKey("Deleted Group" + key);
-    return new AccountGroup(name, key, null);
+    return new AccountGroup(name, key, null, TimeUtil.nowTs());
   }
 
   static class ByIdLoader extends CacheLoader<AccountGroup.Id, Optional<AccountGroup>> {

@@ -16,6 +16,7 @@ package com.google.gerrit.server.group;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
@@ -188,7 +189,8 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
         GroupUUID.make(
             createGroupArgs.getGroupName(),
             self.get().newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone()));
-    AccountGroup group = new AccountGroup(createGroupArgs.getGroup(), groupId, uuid);
+    AccountGroup group =
+        new AccountGroup(createGroupArgs.getGroup(), groupId, uuid, TimeUtil.nowTs());
     group.setVisibleToAll(createGroupArgs.visibleToAll);
     if (createGroupArgs.ownerGroupId != null) {
       AccountGroup ownerGroup = groupCache.get(createGroupArgs.ownerGroupId);

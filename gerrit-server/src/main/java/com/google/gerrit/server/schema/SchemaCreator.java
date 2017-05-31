@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
@@ -124,7 +125,8 @@ public class SchemaCreator {
     return new AccountGroup( //
         new AccountGroup.NameKey(name), //
         new AccountGroup.Id(c.nextAccountGroupId()), //
-        uuid);
+        uuid,
+        TimeUtil.nowTs());
   }
 
   private SystemConfig initSystemConfig(ReviewDb db) throws OrmException {

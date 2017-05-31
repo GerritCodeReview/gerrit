@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77c2c066_f6f98fec",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-31T22:57:39Z",
+      "side": 1,
+      "message": "Would need a change in Gitiles as well You could link the change via topic.\n\n* https://gerrit.googlesource.com/gitiles/+/master/WORKSPACE#106",
+      "revId": "cd35007c914677bef81683f64e8ea118940157bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

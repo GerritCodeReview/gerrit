@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5058b901_1606d5a8",
+        "filename": "project.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-31T20:31:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "022d816e_a53466bc",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 32
+      },
+      "revId": "dee7570da7ef1b42e053023b2bbdde2cc5021cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7be9f401_1da72dc7",
         "filename": "rules.pl",
         "patchSetId": 3
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "Or just have the CI give Code-Style +1 by default for any branch \u003c\u003d 2.13",
       "parentUuid": "80a2e931_a197f76a",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 49
+      },
+      "revId": "dee7570da7ef1b42e053023b2bbdde2cc5021cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "deaffd31_6a5de9f2",
+        "filename": "rules.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-31T20:31:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7be9f401_1da72dc7",
       "range": {
         "startLine": 21,
         "startChar": 0,

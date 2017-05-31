@@ -189,9 +189,9 @@ limitations under the License.
           {value: {ccsOnly: true}}));
     });
 
-    test('no show all reviewers button with 10 reviewers', () => {
+    test('no show all reviewers button with 5 reviewers', () => {
       const reviewers = [];
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 5; i++) {
         reviewers.push(
           {email: i+'reviewer@google.com', name: 'reviewer-' + i});
       }
@@ -207,8 +207,8 @@ limitations under the License.
       };
       flushAsynchronousOperations();
       assert.equal(element._hiddenReviewerCount, 0);
-      assert.equal(element._displayedReviewers.length, 10);
-      assert.equal(element._reviewers.length, 10);
+      assert.equal(element._displayedReviewers.length, 5);
+      assert.equal(element._reviewers.length, 5);
       assert.isTrue(element.$$('.hiddenReviewers').hidden);
     });
 
@@ -229,8 +229,8 @@ limitations under the License.
         },
       };
       flushAsynchronousOperations();
-      assert.equal(element._hiddenReviewerCount, 90);
-      assert.equal(element._displayedReviewers.length, 10);
+      assert.equal(element._hiddenReviewerCount, 95);
+      assert.equal(element._displayedReviewers.length, 5);
       assert.equal(element._reviewers.length, 100);
       assert.isFalse(element.$$('.hiddenReviewers').hidden);
 

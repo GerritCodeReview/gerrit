@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  const MAX_REVIEWERS_DISPLAYED = 10;
+  const MAX_REVIEWERS_DISPLAYED = 5;
 
   Polymer({
     is: 'gr-reviewer-list',

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ead8247b_8e4c3e7d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-31T19:45:03Z",
+      "side": 1,
+      "message": "Also needs a \n\npadding-top: 3em;\n\nif on small screen.",
+      "range": {
+        "startLine": 40,
+        "startChar": 8,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "8f50bfd0458d186fa796b198fe81ef97a0fd678d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb667db2_c2c37401",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
         "patchSetId": 3

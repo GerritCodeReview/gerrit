@@ -88,6 +88,9 @@
     },
 
     _computeLinkURL: function(link) {
+      if (typeof link.url === 'undefined') {
+        return '';
+      }
       if (link.target) {
         return link.url;
       }

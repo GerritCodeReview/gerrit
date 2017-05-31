@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "022d816e_a53466bc",
+        "filename": "project.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-05-31T14:12:58Z",
+      "side": 1,
+      "message": "Branch only takes effect if there are no Prolog rules.\n\nBecause we have a custom submit rule in Prolog, this is ignored.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 32
+      },
+      "revId": "dee7570da7ef1b42e053023b2bbdde2cc5021cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7be9f401_1da72dc7",
+        "filename": "rules.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-05-31T14:12:58Z",
+      "side": 1,
+      "message": "This isn\u0027t right.\n\nThe Code-Style label is dead code. It binds CS, which is unused in the predicate.\nCS must be in the argument list to be exported back to the caller, who must use CS.\n\nThis is also overriding the branch field in project.config. The Prolog predicate runs on all branches. As written, all branches require base to succeed. That means if we export CS from base than all branches must have Code-Style+1 to be submittable. However only 2 branches have the label configured, which means the older stable branches will require Code-Style but be unable to vote on Code-Style as the UI can\u0027t get the label definitions due to the branch filtering.\n\nYes, this is a mess. I don\u0027t know who added the ref pattern branch stuff to the label, but its created something of a nightmare of misconfiguration between the Prolog rules and the label configurations. And this is a classic example of how easy it is to get it misconfigured.\n\nI\u0027ve only lately started noticing how difficult the label definitions are against the permission code as I\u0027ve been porting to PermissionBackend. RefControl and ChangeControl are deeply tied to label definitions in ways they shouldn\u0027t be that is making it harder to hide RefControl and ChangeControl behind PermissionBackend. *sigh*",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 49
+      },
+      "revId": "dee7570da7ef1b42e053023b2bbdde2cc5021cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

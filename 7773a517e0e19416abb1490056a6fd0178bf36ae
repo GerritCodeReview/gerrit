@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c202bdd9_c50ba58a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-31T22:27:30Z",
+      "side": 1,
+      "message": "Yeah. My opinion is that we should have the indentation under the headers for consistency.\n\nEspecially if we end up with more sections eventually.",
+      "parentUuid": "2627e7af_d0a1277b",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 11
+      },
+      "revId": "7773a517e0e19416abb1490056a6fd0178bf36ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cf0bf1ab_94707863",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
         "patchSetId": 9

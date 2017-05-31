@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f0fdf14_364847d6",
+        "filename": "tools/eclipse/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-31T06:46:25Z",
+      "side": 1,
+      "message": "Why do we need a separate list for this?  I assume because not all plugins added to CUSTOM_PLUGINS will have test dependencies?\n\nIs there a way to instead detect if there are dependencies and conditionally add them?",
+      "range": {
+        "startLine": 54,
+        "startChar": 66,
+        "endLine": 54,
+        "endChar": 90
+      },
+      "revId": "f2f4ee165cecd8b4a52bd24b938074fba0ecc47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

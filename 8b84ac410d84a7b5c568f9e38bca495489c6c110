@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d1b764e8_ed8751b0",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-31T00:15:07Z",
+      "side": 1,
+      "message": "...whoops.",
+      "parentUuid": "7a48a068_1747de31",
+      "range": {
+        "startLine": 44,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 40
+      },
+      "revId": "8b84ac410d84a7b5c568f9e38bca495489c6c110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46a22a15_e00fdec7",
         "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
         "patchSetId": 2
@@ -69,6 +93,30 @@
       "revId": "8b84ac410d84a7b5c568f9e38bca495489c6c110",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e3a8d8b_d3d08f87",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-31T00:15:07Z",
+      "side": 1,
+      "message": "Brainfart",
+      "parentUuid": "46a22a15_e00fdec7",
+      "range": {
+        "startLine": 48,
+        "startChar": 13,
+        "endLine": 48,
+        "endChar": 79
+      },
+      "revId": "8b84ac410d84a7b5c568f9e38bca495489c6c110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

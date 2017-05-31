@@ -17,6 +17,7 @@ package com.google.gerrit.reviewdb.client;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.StringKey;
+import java.sql.Timestamp;
 
 /** Named group of one or more accounts, typically used for access controls. */
 public final class AccountGroup {
@@ -145,17 +146,22 @@ public final class AccountGroup {
   @Column(id = 10)
   protected UUID ownerGroupUUID;
 
+  @Column(id = 11)
+  protected Timestamp createdOn;
+
   protected AccountGroup() {}
 
   public AccountGroup(
-      final AccountGroup.NameKey newName,
-      final AccountGroup.Id newId,
-      final AccountGroup.UUID uuid) {
+      AccountGroup.NameKey newName,
+      AccountGroup.Id newId,
+      AccountGroup.UUID uuid,
+      Timestamp createdOn) {
     name = newName;
     groupId = newId;
     visibleToAll = false;
     groupUUID = uuid;
     ownerGroupUUID = groupUUID;
+    this.createdOn = createdOn;
   }
 
   public AccountGroup.Id getId() {
@@ -204,5 +210,13 @@ public final class AccountGroup {
 
   public void setGroupUUID(AccountGroup.UUID uuid) {
     groupUUID = uuid;
+  }
+
+  public Timestamp getCreatedOn() {
+    return createdOn;
+  }
+
+  public void setCreatedOn(Timestamp createdOn) {
+    this.createdOn = createdOn;
   }
 }

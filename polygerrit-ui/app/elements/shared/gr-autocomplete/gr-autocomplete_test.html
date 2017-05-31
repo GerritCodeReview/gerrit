@@ -320,5 +320,35 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isTrue(listener.called);
     });
+
+    suite('warnUncommitted', () => {
+      let inputClassList;
+      setup(() => {
+        inputClassList = element.$.input.classList;
+      });
+
+      test('enabled', () => {
+        element.warnUncommitted = true;
+        element.text = 'blah blah blah';
+        MockInteractions.blur(element.$.input);
+        assert.isTrue(inputClassList.contains('warnUncommitted'));
+        MockInteractions.focus(element.$.input);
+        assert.isFalse(inputClassList.contains('warnUncommitted'));
+      });
+
+      test('disabled', () => {
+        element.warnUncommitted = false;
+        element.text = 'blah blah blah';
+        MockInteractions.blur(element.$.input);
+        assert.isFalse(inputClassList.contains('warnUncommitted'));
+      });
+
+      test('no text', () => {
+        element.warnUncommitted = true;
+        element.text = '';
+        MockInteractions.blur(element.$.input);
+        assert.isFalse(inputClassList.contains('warnUncommitted'));
+      });
+    });
   });
 </script>

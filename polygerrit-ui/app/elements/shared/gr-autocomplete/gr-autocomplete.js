@@ -105,6 +105,15 @@
         value: false,
       },
 
+      /**
+       * When true and uncommitted text is left in the autocomplete input after
+       * blurring, the text will appear red.
+       */
+      warnUncommitted: {
+        type: Boolean,
+        value: false,
+      },
+
       _suggestions: {
         type: Array,
         value() { return []; },
@@ -174,6 +183,12 @@
     _onInputFocus() {
       this._focused = true;
       this._updateSuggestions();
+      this.$.input.classList.remove('warnUncommitted');
+    },
+
+    _onInputBlur() {
+      this.$.input.classList.toggle('warnUncommitted',
+          this.warnUncommitted && this.text.length);
     },
 
     _updateSuggestions() {

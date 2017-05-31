@@ -32,6 +32,9 @@ limitations under the License.
         border: none;
         outline: none;
       }
+      input.warnUncommitted {
+        color: red;
+      }
     </style>
     <input
         id="input"
@@ -42,6 +45,7 @@ limitations under the License.
         placeholder="[[placeholder]]"
         on-keydown="_handleKeydown"
         on-focus="_onInputFocus"
+        on-blur="_onInputBlur"
         autocomplete="off" />
     <!-- This container is needed for Safari and Firefox -->
     <div id="suggestionContainer">

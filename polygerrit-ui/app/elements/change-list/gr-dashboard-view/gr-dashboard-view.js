@@ -78,10 +78,6 @@
       );
     },
 
-    queries() {
-      return Object.values(this.sectionMetadata).map(section => section.query);
-    },
-
     attached() {
       this.fire('title-change', {title: 'My Reviews'});
     },
@@ -102,7 +98,10 @@
 
     _getChanges() {
       return this.$.restAPI.getChanges(
-          null, this.queries(), null, this.options);
+          null,
+          this.sectionMetadata.map(section => section.query),
+          null,
+          this.options);
     },
   });
 })();

@@ -117,6 +117,30 @@
       "revId": "dee7570da7ef1b42e053023b2bbdde2cc5021cb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3639823_168b069d",
+        "filename": "rules.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-05-31T15:48:20Z",
+      "side": 1,
+      "message": "Or just have the CI give Code-Style +1 by default for any branch \u003c\u003d 2.13",
+      "parentUuid": "80a2e931_a197f76a",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 49
+      },
+      "revId": "dee7570da7ef1b42e053023b2bbdde2cc5021cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

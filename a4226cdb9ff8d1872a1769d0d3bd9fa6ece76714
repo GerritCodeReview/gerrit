@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e509cc6_c762d1b2",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-31T23:39:46Z",
+      "side": 1,
+      "message": "This method is kind of a smell since it couples the element\u0027s interface to the internal implementation that uses iron-selector. However, it\u0027s only used to get the selected item.\n\nCan we instead just have a `getSelectedItem` method?",
+      "range": {
+        "startLine": 40,
+        "startChar": 31,
+        "endLine": 40,
+        "endChar": 47
+      },
+      "revId": "a4226cdb9ff8d1872a1769d0d3bd9fa6ece76714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -64,7 +65,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -346,7 +346,7 @@ public class CommentsUtil {
   public List<Comment> draftByChangeAuthor(ReviewDb db, ChangeNotes notes, Account.Id author)
       throws OrmException {
     if (!migration.readChanges()) {
-      return StreamSupport.stream(db.patchComments().draftByAuthor(author).spliterator(), false)
+      return Streams.stream(db.patchComments().draftByAuthor(author))
           .filter(c -> c.getPatchSetId().getParentKey().equals(notes.getChangeId()))
           .map(plc -> plc.asComment(serverId))
           .sorted(COMMENT_ORDER)

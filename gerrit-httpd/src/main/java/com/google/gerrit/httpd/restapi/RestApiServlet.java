@@ -53,6 +53,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Streams;
 import com.google.common.io.BaseEncoding;
 import com.google.common.io.CountingOutputStream;
 import com.google.common.math.IntMath;
@@ -143,7 +144,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
-import java.util.stream.StreamSupport;
 import java.util.zip.GZIPOutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -533,7 +533,7 @@ public class RestApiServlet extends HttpServlet {
     if (headers != null) {
       res.addHeader(VARY, ACCESS_CONTROL_REQUEST_HEADERS);
       String badHeader =
-          StreamSupport.stream(Splitter.on(',').trimResults().split(headers).spliterator(), false)
+          Streams.stream(Splitter.on(',').trimResults().split(headers))
               .filter(h -> !ALLOWED_CORS_REQUEST_HEADERS.contains(h))
               .findFirst()
               .orElse(null);

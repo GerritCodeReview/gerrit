@@ -643,5 +643,20 @@ limitations under the License.
           'POST', '/changes/foo/revisions/bar/comments/01234/delete',
           {reason: 'removal reason'}));
     });
+
+    test('getProjects', () => {
+      sandbox.stub(element, '_fetchSharedCacheURL');
+      element.getProjects('test', 25);
+      assert.isTrue(element._fetchSharedCacheURL.lastCall
+          .calledWithExactly('/projects/?d&n=26&S=0&m=test'));
+
+      element.getProjects(null, 25);
+      assert.isTrue(element._fetchSharedCacheURL.lastCall
+          .calledWithExactly('/projects/?d&n=26&S=0'));
+
+      element.getProjects('test', 25, 25);
+      assert.isTrue(element._fetchSharedCacheURL.lastCall
+          .calledWithExactly('/projects/?d&n=26&S=25&m=test'));
+    });
   });
 </script>

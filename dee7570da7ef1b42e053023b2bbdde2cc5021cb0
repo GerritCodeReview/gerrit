@@ -93,6 +93,30 @@
       "revId": "dee7570da7ef1b42e053023b2bbdde2cc5021cb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80a2e931_a197f76a",
+        "filename": "rules.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-05-31T15:28:55Z",
+      "side": 1,
+      "message": "Wait, wait, why we give up the Code-Style label that fast, if we can\u0027t easily filter branches? Let us rather give up branch filtering idea. stable-2.13 is almost ready and we do not expect there a lot activity/changes. Upload of commits to early branches is prohibited anyway (stable-2.6 and friends).\n\nI suggest to fix broken predicates regarding passing CS, pointed out by Shawn and forget about branch filtering and use CR, CS, LC, and VRFY for all changes/branches from now on.\n\nCandidates for Code-Style checks are:\n\n* Google buildifier (format BUILD files)\n* Google-java-format (format Java files)\n* jslint (format JavaScript files)\n* eslint\n* polylint\n* furtehr checks can be added later",
+      "parentUuid": "462bc38b_237d087a",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 49
+      },
+      "revId": "dee7570da7ef1b42e053023b2bbdde2cc5021cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -458,5 +458,17 @@ limitations under the License.
             items[i]._account_id === element.account._account_id);
       }
     });
+
+    test('_sectionHref', () => {
+      element.sectionMetadata = [
+        {query: 'is:open owner:self'},
+        {query: 'is:open ((reviewer:self -is:ignored) OR assignee:self)'},
+      ];
+
+      assert.equal(element._sectionHref(10), null);
+      assert.equal(element._sectionHref(0), '/q/is:open+owner:self');
+      assert.equal(element._sectionHref(1),
+          '/q/is:open+((reviewer:self+-is:ignored)+OR+assignee:self)');
+    });
   });
 </script>

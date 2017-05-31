@@ -14,7 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.html">
+<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
@@ -38,6 +40,13 @@ limitations under the License.
       .groupHeader {
         background-color: #eee;
         border-top: 1em solid #fff;
+      }
+      .groupHeader a {
+        color: #000;
+        text-decoration: none;
+      }
+      .groupHeader a:hover {
+        text-decoration: underline;
       }
       .headerRow + tr {
         border: none;
@@ -67,7 +76,10 @@ limitations under the License.
           <tr class="groupHeader">
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
-              [[_sectionTitle(sectionIndex)]]
+              <a
+                  href$="[[_sectionHref(sectionIndex)]]">
+                [[_sectionTitle(sectionIndex)]]
+              </a>
             </td>
           </tr>
         </template>

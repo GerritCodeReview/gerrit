@@ -89,9 +89,11 @@
     },
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
       Gerrit.ChangeTableBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.RESTClientBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
     keyBindings: {
@@ -171,6 +173,12 @@
     _sectionTitle(sectionIndex) {
       if (sectionIndex > this.sectionMetadata.length - 1) { return null; }
       return this.sectionMetadata[sectionIndex].name;
+    },
+
+    _sectionHref(sectionIndex) {
+      if (sectionIndex > this.sectionMetadata.length - 1) { return null; }
+      const query = this.sectionMetadata[sectionIndex].query;
+      return `${this.getBaseUrl()}/q/${this.encodeURL(query, true)}`;
     },
 
     _computeItemSelected(index, sectionIndex, selectedIndex) {

@@ -100,6 +100,9 @@ limitations under the License.
         background-color: #fff;
         box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
       }
+      .mobile {
+        display: none;
+      }
       @media screen and (max-width: 50em) {
         .bigTitle {
           font-size: 14px;
@@ -111,14 +114,80 @@ limitations under the License.
         .accountContainer {
           margin-left: .5em !important;
         }
+        nav {
+          flex-direction: column;
+        }
+        .desktop {
+          display: none;
+        }
+        .top {
+          align-items: center;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          margin-bottom: .5em;
+          margin-top: .5em;
+          width: 100%;
+
+        }
+        .mobile {
+          align-items: center;
+          display: flex;
+        }
+        .mobileTrigger {
+          margin-left: .5em;
+        }
+        .links {
+          display: none;
+        }
+        .links li {
+          margin-left: 0;
+        }
+        .links.show {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+        }
+        .accountContainer {
+          display: none;
+        }
+        gr-dropdown {
+          width: 100%;
+        }
+        gr-search-bar {
+          margin-left: 0;
+          width: 100%;
+        }
       }
     </style>
     <nav>
-      <a href$="[[_computeRelativeURL('/')]]" class="bigTitle"></a>
-      <ul class="links">
+      <div class="top">
+        <a href$="[[_computeRelativeURL('/')]]" class="bigTitle"></a>
+        <div class="mobile">
+          <gr-account-dropdown account="[[_account]]"></gr-account-dropdown>
+          <div class="mobileTrigger">
+            <gr-button on-tap="_toggleMobileNav">&#9776;</gr-button>
+          </div>
+        </div>
+      </div>
+      <ul id="links" class="links">
+        <li>
+          <gr-search-bar class="mobile" value="{{searchQuery}}" role="search"></gr-search-bar>
+        </li>
         <template is="dom-repeat" items="[[_links]]" as="linkGroup">
           <li>
           <gr-dropdown
+              class="mobile"
+              link
+              down-arrow
+              items = [[linkGroup.links]]
+              horizontal-align="right">
+            <span class="linksTitle" id="[[linkGroup.title]]">
+              [[linkGroup.title]]
+            </span>
+          </gr-dropdown>
+          <gr-dropdown
+              class="desktop"
               link
               down-arrow
               items = [[linkGroup.links]]

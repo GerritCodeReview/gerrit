@@ -116,5 +116,17 @@ limitations under the License.
       assert.isFalse(stub.called);
       assert.isFalse(tapped.called);
     });
+
+    test('dropdown toggle', () => {
+      const button = element.$.trigger;
+      assert.isFalse(element._opened);
+      assert.isFalse(element.$.dropdown.opened);
+      MockInteractions.tap(button);
+      assert.isTrue(element._opened);
+      assert.isTrue(element.$.dropdown.opened);
+      MockInteractions.tap(button);
+      assert.isFalse(element._opened);
+      assert.isFalse(element.$.dropdown.opened);
+    });
   });
 </script>

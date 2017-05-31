@@ -60,6 +60,10 @@
       },
 
       _hasAvatars: String,
+      _opened: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -70,17 +74,31 @@
       this.$.restAPI.getConfig().then(cfg => {
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
       });
+
+      // Try to approximate the media query.
+      if (window.innerWidth < 800) {
+        this.verticalOffset = 25;
+      }
     },
 
     _handleDropdownTap(e) {
       // async is needed so that that the click event is fired before the
       // dropdown closes (This was a bug for touch devices).
       this.async(() => {
+        this._opened = false;
         this.$.dropdown.close();
       }, 1);
     },
 
     _showDropdownTapHandler(e) {
+      // We can't use the opened attribute of the dropdown because it
+      // closes itself on outside tap, so it's already closed by this
+      // point. Instead, keep track of it ourselves.
+      if (this._opened) {
+        this._opened = false;
+        return this.$.dropdown.close();
+      }
+      this._opened = true;
       this.$.dropdown.open();
     },
 

@@ -364,6 +364,8 @@ The `branch` is independent from the branch scope defined in `access`
 parts in `project.config` file. That means from the UI a user can always
 assign permissions for that label on a branch, but this permission is then
 ignored if the label doesn't apply for that branch.
+Additionally, the `branch` modifier has no effect when the submit rule
+is customized in the rules.pl of the project or inherited from parent projects.
 
 [[label_example]]
 === Example

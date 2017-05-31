@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60a9b26f_092f35c8",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-05-31T11:11:59Z",
+      "side": 1,
+      "message": "Hold on ... did we forget to make it branch-specific?",
+      "revId": "509d48a92a6d71ab93bb3754d22086cf842778ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

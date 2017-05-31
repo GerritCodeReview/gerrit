@@ -46,6 +46,30 @@
       "revId": "f2f4ee165cecd8b4a52bd24b938074fba0ecc47d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe6a3ee2_afc87cf1",
+        "filename": "tools/eclipse/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-05-31T06:52:49Z",
+      "side": 1,
+      "message": "OK.  Let\u0027s leave it like this for now.  If it can be improved that can be done later.",
+      "parentUuid": "a01a3426_1c0a7837",
+      "range": {
+        "startLine": 54,
+        "startChar": 66,
+        "endLine": 54,
+        "endChar": 90
+      },
+      "revId": "f2f4ee165cecd8b4a52bd24b938074fba0ecc47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -75,7 +75,7 @@ limitations under the License.
       }
       .errorView {
         align-items: center;
-        display: flex;
+        display: none;
         flex-direction: column;
         justify-content: center;
         position: absolute;
@@ -83,6 +83,9 @@ limitations under the License.
         right: 0;
         bottom: 0;
         left: 0;
+      }
+      .errorView.show {
+        display: flex;
       }
       .errorEmoji {
         font-size: 2.6em;
@@ -147,7 +150,7 @@ limitations under the License.
       <template is="dom-if" if="[[_showCLAView]]" restamp="true">
         <gr-cla-view path="[[_path]]"></gr-cla-view>
       </template>
-      <div id="errorView" class="errorView" hidden>
+      <div id="errorView" class="errorView">
         <div class="errorEmoji">[[_lastError.emoji]]</div>
         <div class="errorText">[[_lastError.text]]</div>
         <div class="errorMoreInfo">[[_lastError.moreInfo]]</div>

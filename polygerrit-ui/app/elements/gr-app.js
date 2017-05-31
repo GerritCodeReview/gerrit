@@ -122,7 +122,7 @@
     },
 
     _viewChanged(view) {
-      this.$.errorView.hidden = true;
+      this.$.errorView.classList.remove('show');
       this.set('_showChangeListView', view === 'gr-change-list-view');
       this.set('_showDashboardView', view === 'gr-dashboard-view');
       this.set('_showChangeView', view === 'gr-change-view');
@@ -163,7 +163,7 @@
         this.set(showProp, false);
       }
 
-      this.$.errorView.hidden = false;
+      this.$.errorView.classList.add('show');
       const response = e.detail.response;
       const err = {text: [response.status, response.statusText].join(' ')};
       if (response.status === 404) {

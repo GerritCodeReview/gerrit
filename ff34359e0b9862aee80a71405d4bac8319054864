@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "c88ed1d9_a164221a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-31T19:27:24Z",
+      "side": 1,
+      "message": "That doesn\u0027t seem to work as is, are you suggesting writing a shared function?",
+      "parentUuid": "61cc63cc_712cf639",
+      "range": {
+        "startLine": 63,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 7
+      },
+      "revId": "ff34359e0b9862aee80a71405d4bac8319054864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f04ae659_4acf53c6",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 2
@@ -139,6 +163,30 @@
       "revId": "ff34359e0b9862aee80a71405d4bac8319054864",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f306477_9767e84d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-31T19:27:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9649080_684cf139",
+      "range": {
+        "startLine": 564,
+        "startChar": 6,
+        "endLine": 569,
+        "endChar": 0
+      },
+      "revId": "ff34359e0b9862aee80a71405d4bac8319054864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

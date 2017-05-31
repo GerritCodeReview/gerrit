@@ -238,8 +238,8 @@ limitations under the License.
       assert.ok(noChangesMsg);
     });
 
-    test('empty groups', () => {
-      element.groups = [[], []];
+    test('empty sections', () => {
+      element.sections = [[], []];
       flushAsynchronousOperations();
       const listItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
@@ -363,7 +363,7 @@ limitations under the License.
     });
   });
 
-  suite('gr-change-list groups', () => {
+  suite('gr-change-list sections', () => {
     let element;
 
     setup(() => {
@@ -372,7 +372,7 @@ limitations under the License.
 
     test('keyboard shortcuts', () => {
       element.selectedIndex = 0;
-      element.groups = [
+      element.sections = [
         [
           {_number: 0},
           {_number: 1},
@@ -389,7 +389,17 @@ limitations under the License.
           {_number: 8},
         ],
       ];
-      element.groupTitles = ['Group 1', 'Group 2', 'Group 3'];
+      element.sectionMetadata = [
+        {
+          name: 'Group 1',
+        },
+        {
+          name: 'Group 2',
+        },
+        {
+          name: 'Group 3',
+        },
+      ];
       flushAsynchronousOperations();
       const elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');

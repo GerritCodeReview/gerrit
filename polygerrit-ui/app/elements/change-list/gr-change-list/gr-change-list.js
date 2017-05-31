@@ -53,20 +53,20 @@
         observer: '_changesChanged',
       },
       /**
-       * ChangeInfo objects grouped into arrays. The groups and changes
+       * ChangeInfo objects grouped into arrays. The sections and changes
        * properties should not be used together.
        */
-      groups: {
+      sections: {
         type: Array,
         value() { return []; },
       },
-      groupTitles: {
+      sectionMetadata: {
         type: Array,
         value() { return []; },
       },
       labelNames: {
         type: Array,
-        computed: '_computeLabelNames(groups)',
+        computed: '_computeLabelNames(sections)',
       },
       selectedIndex: {
         type: Number,
@@ -142,16 +142,16 @@
           NUMBER_FIXED_COLUMNS;
     },
 
-    _computeLabelNames(groups) {
-      if (!groups) { return []; }
+    _computeLabelNames(sections) {
+      if (!sections) { return []; }
       let labels = [];
       const nonExistingLabel = function(item) {
         return !labels.includes(item);
       };
-      for (let i = 0; i < groups.length; i++) {
-        const group = groups[i];
-        for (let j = 0; j < group.length; j++) {
-          const change = group[j];
+      for (let i = 0; i < sections.length; i++) {
+        const section = sections[i];
+        for (let j = 0; j < section.length; j++) {
+          const change = section[j];
           if (!change.labels) { continue; }
           const currentLabels = Object.keys(change.labels);
           labels = labels.concat(currentLabels.filter(nonExistingLabel));
@@ -165,18 +165,18 @@
     },
 
     _changesChanged(changes) {
-      this.groups = changes ? [changes] : [];
+      this.sections = changes ? [changes] : [];
     },
 
-    _groupTitle(groupIndex) {
-      if (groupIndex > this.groupTitles.length - 1) { return null; }
-      return this.groupTitles[groupIndex];
+    _sectionTitle(sectionIndex) {
+      if (sectionIndex > this.sectionMetadata.length - 1) { return null; }
+      return this.sectionMetadata[sectionIndex].name;
     },
 
-    _computeItemSelected(index, groupIndex, selectedIndex) {
+    _computeItemSelected(index, sectionIndex, selectedIndex) {
       let idx = 0;
-      for (let i = 0; i < groupIndex; i++) {
-        idx += this.groups[i].length;
+      for (let i = 0; i < sectionIndex; i++) {
+        idx += this.sections[i].length;
       }
       idx += index;
       return idx == selectedIndex;
@@ -193,11 +193,11 @@
       return account._account_id === change.assignee._account_id;
     },
 
-    _getAggregateGroupsLen(groups) {
-      groups = groups || [];
+    _getAggregatesectionsLen(sections) {
+      sections = sections || [];
       let len = 0;
-      for (const group of this.groups) {
-        len += group.length;
+      for (const section of this.sections) {
+        len += section.length;
       }
       return len;
     },
@@ -207,7 +207,7 @@
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      const len = this._getAggregateGroupsLen(this.groups);
+      const len = this._getAggregatesectionsLen(this.sections);
       if (this.selectedIndex === len - 1) { return; }
       this.selectedIndex += 1;
     },

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2476579_71f9a53f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-05-31T17:18:31Z",
+      "side": 1,
+      "message": "if (!link.url) {",
+      "range": {
+        "startLine": 91,
+        "startChar": 6,
+        "endLine": 91,
+        "endChar": 44
+      },
+      "revId": "2c60b89e2b7aec6805ec01edcd254df094aa0994",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

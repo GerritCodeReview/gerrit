@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2627e7af_d0a1277b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-31T15:23:46Z",
+      "side": 1,
+      "message": "It was intended, as I felt the indentation didn\u0027t look good here, since there weren\u0027t many sections. Could easily switch back though if you feel otherwise.",
+      "parentUuid": "a1f9b0ce_347e0d7d",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 11
+      },
+      "revId": "7773a517e0e19416abb1490056a6fd0178bf36ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cf0bf1ab_94707863",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "7773a517e0e19416abb1490056a6fd0178bf36ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c001cf43_14127493",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-31T15:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf0bf1ab_94707863",
+      "range": {
+        "startLine": 93,
+        "startChar": 34,
+        "endLine": 93,
+        "endChar": 95
+      },
+      "revId": "7773a517e0e19416abb1490056a6fd0178bf36ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "347243a9_cfee0fd3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-31T15:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1695f384_9c5f0294",
+      "range": {
+        "startLine": 155,
+        "startChar": 18,
+        "endLine": 158,
+        "endChar": 45
+      },
+      "revId": "7773a517e0e19416abb1490056a6fd0178bf36ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "430c66ea_1f2bd1cc",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
         "patchSetId": 9
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "49536255_bc6fd280",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-31T15:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "430c66ea_1f2bd1cc",
+      "range": {
+        "startLine": 170,
+        "startChar": 18,
+        "endLine": 173,
+        "endChar": 45
+      },
+      "revId": "7773a517e0e19416abb1490056a6fd0178bf36ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b74b08c_7b5b8dbe",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
         "patchSetId": 9
@@ -105,6 +201,30 @@
       "writtenOn": "2017-05-26T21:49:12Z",
       "side": 1,
       "message": "Unlike settings, the [Save] button is always enabled (rather than enabled only after a change is made with a little * on the header). Would that be a reasonable feature here?\n\nMaybe this is an embellishment, but it might also be nice to make this form work similarly to the settings forms. Just curious.",
+      "range": {
+        "startLine": 185,
+        "startChar": 14,
+        "endLine": 185,
+        "endChar": 39
+      },
+      "revId": "7773a517e0e19416abb1490056a6fd0178bf36ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10125b3a_9ebaa0e2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-05-31T15:23:46Z",
+      "side": 1,
+      "message": "You\u0027re right, I had meant to come back to this but forgot to. done.",
+      "parentUuid": "5b74b08c_7b5b8dbe",
       "range": {
         "startLine": 185,
         "startChar": 14,

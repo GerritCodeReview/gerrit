@@ -52,7 +52,17 @@ limitations under the License.
   suite('gr-admin-project-list tests', () => {
     let element;
     let projects;
+    let sandbox;
     let value;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
 
     suite('list with projects', () => {
       setup(done => {
@@ -64,7 +74,6 @@ limitations under the License.
           },
         });
 
-        element = fixture('basic');
         element._paramsChanged(value).then(() => { flush(done); });
       });
 
@@ -115,7 +124,6 @@ limitations under the License.
           },
         });
 
-        element = fixture('basic');
         element._paramsChanged(value).then(() => { flush(done); });
       });
 
@@ -133,6 +141,56 @@ limitations under the License.
 
       test('_shownProjects', () => {
         assert.equal(element._shownProjects.length, 25);
+      });
+    });
+
+    suite('filter', () => {
+      test('_onValueChange', done => {
+        sandbox.stub(page, 'show', url => {
+          assert.equal(url, '/admin/projects/q/filter:test');
+          done();
+        });
+        const e = {target: {value: 'test'}};
+        element._onValueChange(e);
+      });
+
+      test('_paramsChanged', done => {
+        sandbox.stub(element.$.restAPI, 'getProjects', () => {
+          return Promise.resolve(projects);
+        });
+        const value = {
+          filter: 'test',
+          offset: 25,
+        };
+        element._paramsChanged(value).then(() => {
+          assert.isTrue(element.$.restAPI.getProjects.lastCall
+              .calledWithExactly('test', 25, 25));
+          done();
+        });
+      });
+
+      test('_computeNavLink', () => {
+        const offset = 25;
+        const projectsPerPage = 25;
+        const filter = 'test';
+
+        sandbox.stub(element, 'getBaseUrl', () => '');
+
+        assert.equal(
+            element._computeNavLink(offset, 1, projectsPerPage, filter),
+            '/admin/projects/q/filter:test,50');
+
+        assert.equal(
+            element._computeNavLink(offset, -1, projectsPerPage, filter),
+            '/admin/projects/q/filter:test');
+
+        assert.equal(
+            element._computeNavLink(offset, 1, projectsPerPage, null),
+            '/admin/projects,50');
+
+        assert.equal(
+            element._computeNavLink(offset, -1, projectsPerPage, null),
+            '/admin/projects');
       });
     });
   });

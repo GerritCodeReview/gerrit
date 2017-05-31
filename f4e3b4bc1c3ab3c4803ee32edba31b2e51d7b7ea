@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a60c2985_b66a7eb5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-31T18:41:01Z",
+      "side": 1,
+      "message": "Nit: this can just be QUERIES. We don\u0027t need the getter, really.",
+      "range": {
+        "startLine": 98,
+        "startChar": 45,
+        "endLine": 98,
+        "endChar": 57
+      },
+      "revId": "f4e3b4bc1c3ab3c4803ee32edba31b2e51d7b7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

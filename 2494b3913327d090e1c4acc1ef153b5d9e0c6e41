@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd30e85f_bc3dfd3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-31T18:04:43Z",
+      "side": 1,
+      "message": "Since this change doesn\u0027t actually modify the REST API, consider changing this to...\n\n from gr-rest-api-interface",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "2494b3913327d090e1c4acc1ef153b5d9e0c6e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce85f38e_3964fbe7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-05-31T18:04:43Z",
+      "side": 1,
+      "message": "Why not declare these as a constant at the top of the file?",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 6
+      },
+      "revId": "2494b3913327d090e1c4acc1ef153b5d9e0c6e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

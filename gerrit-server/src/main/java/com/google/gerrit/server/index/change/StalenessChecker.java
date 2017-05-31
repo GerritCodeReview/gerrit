@@ -28,6 +28,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -46,7 +47,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
-import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -275,7 +275,7 @@ public class StalenessChecker {
 
       // Quote everything except the '*'s, which become ".*".
       String regex =
-          StreamSupport.stream(Splitter.on('*').split(pattern).spliterator(), false)
+          Streams.stream(Splitter.on('*').split(pattern))
               .map(Pattern::quote)
               .collect(joining(".*", "^", "$"));
       return new AutoValue_StalenessChecker_RefStatePattern(

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ab814181_ad4e4949",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-31T19:29:22Z",
+      "side": 1,
+      "message": "Remove these two spaces please.",
+      "range": {
+        "startLine": 89,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 6
+      },
+      "revId": "ff34359e0b9862aee80a71405d4bac8319054864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31a30b2b_c064034d",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
         "patchSetId": 2

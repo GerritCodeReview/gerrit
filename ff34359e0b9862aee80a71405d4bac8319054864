@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "31a30b2b_c064034d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-05-31T15:19:17Z",
+      "side": 1,
+      "message": "Should that be true for encoding?",
+      "range": {
+        "startLine": 73,
+        "startChar": 14,
+        "endLine": 73,
+        "endChar": 51
+      },
+      "revId": "ff34359e0b9862aee80a71405d4bac8319054864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f04ae659_4acf53c6",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 2

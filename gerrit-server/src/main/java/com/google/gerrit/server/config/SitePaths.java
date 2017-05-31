@@ -57,7 +57,9 @@ public final class SitePaths {
   public final Path ssh_key;
   public final Path ssh_rsa;
   public final Path ssh_dsa;
-  public final Path ssh_ecdsa;
+  public final Path ssh_ecdsa_256;
+  public final Path ssh_ecdsa_384;
+  public final Path ssh_ecdsa_521;
   public final Path ssh_ed25519;
   public final Path peer_keys;
 
@@ -100,7 +102,9 @@ public final class SitePaths {
     ssh_key = etc_dir.resolve("ssh_host_key");
     ssh_rsa = etc_dir.resolve("ssh_host_rsa_key");
     ssh_dsa = etc_dir.resolve("ssh_host_dsa_key");
-    ssh_ecdsa = etc_dir.resolve("ssh_host_ecdsa_key");
+    ssh_ecdsa_256 = etc_dir.resolve("ssh_host_ecdsa_key");
+    ssh_ecdsa_384 = etc_dir.resolve("ssh_host_ecdsa_384_key");
+    ssh_ecdsa_521 = etc_dir.resolve("ssh_host_ecdsa_521_key");
     ssh_ed25519 = etc_dir.resolve("ssh_host_ed25519_key");
     peer_keys = etc_dir.resolve("peer_keys");
 

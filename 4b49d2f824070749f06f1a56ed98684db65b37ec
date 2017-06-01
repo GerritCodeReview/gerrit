@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d8345e14_906f10c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-01T10:30:00Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2a6ee3c5_3196f268",
+      "range": {
+        "startLine": 9,
+        "startChar": 68,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "4b49d2f824070749f06f1a56ed98684db65b37ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc753495_936209c8",
         "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/systemd/gerrit.service",
         "patchSetId": 3

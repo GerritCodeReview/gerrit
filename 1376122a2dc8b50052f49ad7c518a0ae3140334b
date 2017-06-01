@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a322a928_108b555a",
+        "filename": "rules.pl",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-01T11:57:07Z",
+      "side": 1,
+      "message": "I would prefer to keep this exception rule (for \u003c\u003d 2.13 branches) on top and not between two rules for the current branch(es). Move this whole predicate above the line 6?",
+      "revId": "1376122a2dc8b50052f49ad7c518a0ae3140334b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed817134_60085d10",
         "filename": "rules.pl",
         "patchSetId": 6

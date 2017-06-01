@@ -50,6 +50,7 @@
       _showSettingsView: Boolean,
       _showProjectListView: Boolean,
       _showAdminProject: Boolean,
+      _createProjectL Boolean,
       _showAdminView: Boolean,
       _showCLAView: Boolean,
       _viewState: Object,
@@ -141,6 +142,7 @@
       this.set('_showGroupListView', view === 'gr-admin-group-list');
       this.set('_showProjectListView', view === 'gr-admin-project-list');
       this.set('_showAdminProject', view === 'gr-admin-project');
+      this.set('_createProject', view === 'gr-admin-create-project');
       this.set('_showAdminView', view === 'gr-admin-view');
       this.set('_showCLAView', view === 'gr-cla-view');
       if (this.params.justRegistered) {

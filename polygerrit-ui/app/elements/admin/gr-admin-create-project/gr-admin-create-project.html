@@ -1,0 +1,112 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
+<link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../shared/gr-select/gr-select.html">
+
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-select/gr-select.html">
+<link rel="import" href="../../../styles/gr-form-styles.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+
+<dom-module id="gr-admin-create-project">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: inline-block;
+      }
+      #rightsInheritFromInput {
+        width: 100%;
+      }
+      main {
+        margin: 2em 1em;
+      }
+      gr-autocomplete {
+        border-radius: 2px 0 0 2px;
+        flex: 1;
+        outline: none;
+        -moz-appearance: textarea;
+        -webkit-appearance: textarea;
+        overflow: hidden;
+      }
+    </style>
+    <style include="gr-form-styles"></style>
+      <main class="gr-form-styles">
+        <h1 id="Title">
+          Create Project
+        </h1>
+        <a id="redirect" href$="[[_redirect(_projectConfig.name)]]"
+           hidden$="[[!_projectCreated]]" hidden></a>
+        <br>
+        <div id="form">
+          <fieldset>
+            <section>
+              <span class="title">Project name</span>
+              <iron-autogrow-textarea
+                  id="projectNameInput"
+                  autocomplete="on"
+                  bind-value="{{_projectConfig.name}}">
+              </iron-autogrow-textarea>
+            </section>
+            <section>
+              <span class="title">Rights inherit from</span>
+              <gr-autocomplete
+                  id="rightsInheritFromInput"
+                  text="{{_projectConfig.parent}}"
+                  query="[[_query]]"
+                  placeholder="Optional, defaults to 'All-Projects'">
+              </gr-autocomplete>
+            </section>
+            <section>
+              <span class="title">Create initial empty commit</span>
+              <span class="value">
+                <select
+                    id="initalCommit"
+                    is="gr-select"
+                    bind-value="{{_projectConfig.create_empty_commit}}">
+                  <option value="false">False</option>
+                  <option value="true">True</option>
+                </select>
+              </span>
+            </section>
+            <section>
+              <span class="title">Only serve as parent for other projects</span>
+              <span class="value">
+                <select
+                    id="parentProject"
+                    is="gr-select"
+                    bind-value="{{_projectConfig.permissions_only}}">
+                  <option value="false">False</option>
+                  <option value="true">True</option>
+                </select>
+              </span>
+            </section>
+          </fieldset>
+          <gr-button
+              id="submitBtn"
+              on-tap="_handleCreateProject"
+              disabled$="[[!_projectConfig.name]]">Save changes</gr-button>
+        </div>
+      </main>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-admin-create-project.js"></script>
+</dom-module>

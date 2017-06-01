@@ -68,6 +68,30 @@
       "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3579a5eb_4178ebc8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CherryPickInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-01T16:17:05Z",
+      "side": 1,
+      "message": "Comment removed by: Changcheng Xiao; Reason: remove the link",
+      "parentUuid": "8f176fb0_d8957ffe",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 16
+      },
+      "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

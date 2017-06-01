@@ -77,7 +77,6 @@ import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountManager;
@@ -213,7 +212,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(BlameCache.class).to(BlameCacheImpl.class);
     bind(Sequences.class);
     install(authModule);
-    install(AccountByEmailCacheImpl.module());
     install(AccountCacheImpl.module());
     install(BatchUpdate.module());
     install(ChangeKindCacheImpl.module());

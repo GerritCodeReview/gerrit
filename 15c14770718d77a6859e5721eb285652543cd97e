@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8445ad2f_413baf2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-01T11:59:11Z",
+      "side": 1,
+      "message": "For reverts please always explain the reason for the revert in the commit message.",
+      "revId": "15c14770718d77a6859e5721eb285652543cd97e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

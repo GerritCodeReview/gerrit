@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import static com.google.gerrit.extensions.api.lfs.LfsDefinitions.CONTENTTYPE_VND_GIT_LFS_JSON;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 
@@ -52,12 +53,6 @@ public class LfsPluginServlet extends HttpServlet
     implements StartPluginListener, ReloadPluginListener {
   private static final long serialVersionUID = 1L;
   private static final Logger log = LoggerFactory.getLogger(LfsPluginServlet.class);
-
-  public static final String LFS_REST = "(?:/p/|/)(.+)(?:/info/lfs/objects/batch)$";
-  public static final String URL_REGEX = "^(?:/a)?" + LFS_REST;
-
-  private static final String CONTENTTYPE_VND_GIT_LFS_JSON =
-      "application/vnd.git-lfs+json; charset=utf-8";
   private static final String MESSAGE_LFS_NOT_CONFIGURED =
       "{\"message\":\"No LFS plugin is configured to handle LFS requests.\"}";
 

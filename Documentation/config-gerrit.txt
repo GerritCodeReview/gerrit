@@ -2102,6 +2102,20 @@ By default false.
 +
 Path prefix for PolyGerrit's static resources if using a CDN.
 
+[[gerrit.ui]]gerrit.ui::
++
+Default UI when the user does not request a different preference via argument
+or cookie.
++
+* `GWT` for the old-style Google Web Toolkit-based interface.
+* `POLYGERRIT` for the new Polymer-based HTML5 Web interface.
++
+A sanity check during startup is performed that the value of
+gerrit.ui is an enabled UI.
++
+Defaults to GWT (if GWT is enabled) or POLYGERRIT (if POLYGERRIT is
+enabled and GWT is disabled)
+
 [[gitweb]]
 === Section gitweb
 

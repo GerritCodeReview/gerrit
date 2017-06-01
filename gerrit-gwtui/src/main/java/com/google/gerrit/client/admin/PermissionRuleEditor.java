@@ -111,6 +111,12 @@ public class PermissionRuleEditor extends Composite
       min = minList;
       max = maxList;
 
+      action.setAcceptableValues(
+          Arrays.asList(
+              PermissionRule.Action.ALLOW,
+              PermissionRule.Action.DENY,
+              PermissionRule.Action.BLOCK));
+
     } else {
       min = new RangeBox.Box();
       max = new RangeBox.Box();
@@ -144,15 +150,13 @@ public class PermissionRuleEditor extends Composite
     }
     force.setVisible(canForce);
     force.setEnabled(!readOnly);
+    action.getElement().setPropertyBoolean("disabled", readOnly);
 
     if (validRange != null) {
       min.setEnabled(!readOnly);
       max.setEnabled(!readOnly);
-      action.getElement().getStyle().setDisplay(Display.NONE);
-
     } else {
       rangeEditor.getStyle().setDisplay(Display.NONE);
-      action.getElement().setPropertyBoolean("disabled", readOnly);
     }
 
     if (readOnly) {

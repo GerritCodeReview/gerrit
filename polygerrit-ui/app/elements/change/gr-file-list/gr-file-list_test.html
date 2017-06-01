@@ -1222,5 +1222,24 @@ limitations under the License.
       element._openSelectedFile();
       assert.isTrue(showStub.called);
     });
+
+    test('_displayLine', () => {
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut', () => false);
+      sandbox.stub(element, 'modifierPressed', () => false);
+      element._showInlineDiffs = true;
+      const mockEvent = {preventDefault() {}};
+
+      element._displayLine = false;
+      element._handleDownKey(mockEvent);
+      assert.isTrue(element._displayLine);
+
+      element._displayLine = false;
+      element._handleUpKey(mockEvent);
+      assert.isTrue(element._displayLine);
+
+      element._displayLine = true;
+      element._handleEscKey(mockEvent);
+      assert.isFalse(element._displayLine);
+    });
   });
 </script>

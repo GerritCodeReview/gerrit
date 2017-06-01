@@ -110,6 +110,7 @@
         type: Array,
         value() { return []; },
       },
+      _displayLine: Boolean,
     },
 
     behaviors: [
@@ -138,6 +139,7 @@
       'n': '_handleNKey',
       'p': '_handlePKey',
       'shift+a': '_handleCapitalAKey',
+      'esc': '_handleEscKey',
     },
 
     reload() {
@@ -482,6 +484,7 @@
       e.preventDefault();
       if (this._showInlineDiffs) {
         this.$.diffCursor.moveDown();
+        this._displayLine = true;
       } else {
         this.$.fileCursor.next();
         this.selectedIndex = this.$.fileCursor.index;
@@ -496,6 +499,7 @@
       e.preventDefault();
       if (this._showInlineDiffs) {
         this.$.diffCursor.moveUp();
+        this._displayLine = true;
       } else {
         this.$.fileCursor.previous();
         this.selectedIndex = this.$.fileCursor.index;
@@ -894,6 +898,13 @@
           return diffElements[i];
         }
       }
+    },
+
+    _handleEscKey(e) {
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
+      e.preventDefault();
+      this._displayLine = false;
     },
   });
 })();

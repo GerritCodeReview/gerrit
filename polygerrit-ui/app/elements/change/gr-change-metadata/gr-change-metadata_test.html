@@ -123,14 +123,6 @@ limitations under the License.
       assert.isTrue(webLinks.hasAttribute('hidden'));
     });
 
-    test('weblinks hidden when only gitiles weblink', () => {
-      element.commitInfo = {web_links: [{name: 'gitiles', url: '#'}]};
-      flushAsynchronousOperations();
-      const webLinks = element.$.webLinks;
-      assert.isTrue(webLinks.hasAttribute('hidden'));
-      assert.equal(element._computeWebLinks(element.commitInfo), null);
-    });
-
     test('weblinks are visible when other weblinks', () => {
       element.commitInfo = {web_links: [{name: 'test', url: '#'}]};
       flushAsynchronousOperations();

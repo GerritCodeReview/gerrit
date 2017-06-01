@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
@@ -157,7 +156,6 @@ public class BatchProgramModule extends FactoryModule {
     install(new GroupModule());
     install(new NoteDbModule(cfg));
     install(new PrologModule());
-    install(AccountByEmailCacheImpl.module());
     install(AccountCacheImpl.module());
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());

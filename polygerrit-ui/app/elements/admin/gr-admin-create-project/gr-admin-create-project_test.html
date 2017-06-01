@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-admin-create-project</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-admin-create-project.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-admin-create-project></gr-admin-create-project>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-admin-create-project tests', () => {
+    let element;
+    let sandbox;
+    const PROJECT = 'test-project';
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      stub('gr-rest-api-interface', {
+        getLoggedIn() { return Promise.resolve(true); },
+      });
+      element = fixture('basic');
+      element._projectConfig = {
+        name: 'test-project',
+        create_empty_commit: true,
+        parent: 'All-Project',
+        permissions_only: false,
+      };
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('project created', done => {
+      const configInputObj = {
+        name: 'test-project',
+        create_empty_commit: true,
+        parent: 'All-Project',
+        permissions_only: false,
+      };
+
+      const saveStub = sandbox.stub(element.$.restAPI,
+          'createProject', () => {
+            return Promise.resolve({});
+          });
+
+      const button = element.$.submitBtn;
+
+      //flush(() => {
+        flushAsynchronousOperations();
+        element.$.projectNameInput.bindValue = configInputObj.name;
+        element.$.rightsInheritFromInput.bindValue = configInputObj.parent;
+        element.$.initalCommit.bindValue =
+            configInputObj.create_empty_commit;
+        element.$.parentProject.bindValue =
+            configInputObj.permissions_only;
+
+        assert.isFalse(button.hasAttribute('disabled'));
+
+        assert.deepEqual(element._projectConfig, configInputObj);
+
+        element._handleCreateProject().then(() => {
+          assert.isTrue(button.hasAttribute('disabled'));
+          assert.isTrue(saveStub.lastCall.calledWithExactly(PROJECT,
+              configInputObj));
+          done();
+        });
+        MockInteractions.tap(button);
+        done();
+     // });
+    });
+  });
+</script>

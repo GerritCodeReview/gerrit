@@ -43,9 +43,8 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
         .sent("deleteVote", sc)
         .notTo(voter)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -58,9 +57,8 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("deleteVote", sc)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(sc.reviewer, sc.ccer, voter)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -73,9 +71,8 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("deleteVote", sc)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(sc.reviewer, sc.ccer, voter)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -89,9 +86,8 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("deleteVote", sc)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(sc.reviewer, sc.ccer, admin, voter)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -104,9 +100,8 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
         .sent("deleteVote", sc)
         .notTo(voter)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .notTo(sc.starrer)
         .notTo(ALL_COMMENTS);
   }
@@ -119,9 +114,8 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("deleteVote", sc)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(sc.reviewer, sc.ccer, voter)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .notTo(sc.starrer)
         .notTo(ALL_COMMENTS);
   }
@@ -178,9 +172,8 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
         .sent("deleteVote", sc)
         .notTo(voter)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -193,9 +186,8 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
         .sent("deleteVote", sc)
         .notTo(voter)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }

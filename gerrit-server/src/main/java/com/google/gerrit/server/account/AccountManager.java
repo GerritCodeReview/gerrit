@@ -55,7 +55,6 @@ public class AccountManager {
   private final Accounts accounts;
   private final AccountsUpdate.Server accountsUpdateFactory;
   private final AccountCache byIdCache;
-  private final AccountByEmailCache byEmailCache;
   private final Realm realm;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeUserName.Factory changeUserNameFactory;
@@ -72,7 +71,6 @@ public class AccountManager {
       Accounts accounts,
       AccountsUpdate.Server accountsUpdateFactory,
       AccountCache byIdCache,
-      AccountByEmailCache byEmailCache,
       Realm accountMapper,
       IdentifiedUser.GenericFactory userFactory,
       ChangeUserName.Factory changeUserNameFactory,
@@ -85,7 +83,6 @@ public class AccountManager {
     this.accounts = accounts;
     this.accountsUpdateFactory = accountsUpdateFactory;
     this.byIdCache = byIdCache;
-    this.byEmailCache = byEmailCache;
     this.realm = accountMapper;
     this.userFactory = userFactory;
     this.changeUserNameFactory = changeUserNameFactory;
@@ -195,11 +192,6 @@ public class AccountManager {
     if (toUpdate != null) {
       accountsUpdateFactory.create().update(db, toUpdate);
     }
-
-    if (newEmail != null && !newEmail.equals(oldEmail)) {
-      byEmailCache.evict(oldEmail);
-      byEmailCache.evict(newEmail);
-    }
   }
 
   private Account load(Account toUpdate, Account.Id accountId, ReviewDb db) throws OrmException {
@@ -299,7 +291,6 @@ public class AccountManager {
       }
     }
 
-    byEmailCache.evict(account.getPreferredEmail());
     realm.onCreateAccount(who, account);
     return new AuthResult(newId, extId.key(), true);
   }
@@ -377,7 +368,6 @@ public class AccountManager {
             a.setPreferredEmail(who.getEmailAddress());
             accountsUpdateFactory.create().update(db, a);
           }
-          byEmailCache.evict(who.getEmailAddress());
         }
       }
 
@@ -442,7 +432,6 @@ public class AccountManager {
             a.setPreferredEmail(null);
             accountsUpdateFactory.create().update(db, a);
           }
-          byEmailCache.evict(who.getEmailAddress());
         }
 
       } else {

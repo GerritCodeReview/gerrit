@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -21,6 +22,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
@@ -38,15 +40,21 @@ import org.eclipse.jgit.lib.Repository;
 public class Accounts {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
+  private final ExternalIds externalIds;
 
   @Inject
-  Accounts(GitRepositoryManager repoManager, AllUsersName allUsersName) {
+  Accounts(GitRepositoryManager repoManager, AllUsersName allUsersName, ExternalIds externalIds) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+    this.externalIds = externalIds;
   }
 
   public Account get(ReviewDb db, Account.Id accountId) throws OrmException {
     return db.accounts().get(accountId);
+  }
+
+  public Set<Account.Id> byEmail(String email) throws IOException {
+    return externalIds.byEmail(email).stream().map(e -> e.accountId()).collect(toImmutableSet());
   }
 
   /**

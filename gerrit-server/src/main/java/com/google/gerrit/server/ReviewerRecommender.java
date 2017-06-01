@@ -44,6 +44,7 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -73,7 +74,7 @@ public class ReviewerRecommender {
       new double[] {
         BASE_REVIEWER_WEIGHT, BASE_OWNER_WEIGHT, BASE_COMMENT_WEIGHT,
       };
-  private static final long PLUGIN_QUERY_TIMEOUT = 500; //ms
+  private static final long PLUGIN_QUERY_TIMEOUT = 500; // ms
 
   private final ChangeQueryBuilder changeQueryBuilder;
   private final Config config;
@@ -108,7 +109,7 @@ public class ReviewerRecommender {
       SuggestReviewers suggestReviewers,
       ProjectControl projectControl,
       List<Account.Id> candidateList)
-      throws OrmException {
+      throws OrmException, IOException {
     String query = suggestReviewers.getQuery();
     double baseWeight = config.getInt("addReviewer", "baseWeight", 1);
 
@@ -196,7 +197,7 @@ public class ReviewerRecommender {
   }
 
   private Map<Account.Id, MutableDouble> baseRankingForEmptyQuery(double baseWeight)
-      throws OrmException {
+      throws OrmException, IOException {
     // Get the user's last 25 changes, check approvals
     try {
       List<ChangeData> result =
@@ -225,7 +226,7 @@ public class ReviewerRecommender {
 
   private Map<Account.Id, MutableDouble> baseRankingForCandidateList(
       List<Account.Id> candidates, ProjectControl projectControl, double baseWeight)
-      throws OrmException {
+      throws OrmException, IOException {
     // Get each reviewer's activity based on number of applied labels
     // (weighted 10d), number of comments (weighted 0.5d) and number of owned
     // changes (weighted 1d).

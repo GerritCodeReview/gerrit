@@ -396,6 +396,7 @@ public class MergeOp implements AutoCloseable {
    * @param submitInput parameters regarding the merge
    * @throws OrmException an error occurred reading or writing the database.
    * @throws RestApiException if an error occurred.
+   * @throws IOException an error occurred reading from NoteDb.
    */
   public void merge(
       ReviewDb db,
@@ -404,7 +405,7 @@ public class MergeOp implements AutoCloseable {
       boolean checkSubmitRules,
       SubmitInput submitInput,
       boolean dryrun)
-      throws OrmException, RestApiException {
+      throws OrmException, RestApiException, IOException {
     this.submitInput = submitInput;
     this.accountsToNotify = notifyUtil.resolveAccounts(submitInput.notifyDetails);
     this.dryrun = dryrun;

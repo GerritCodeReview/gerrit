@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc753495_936209c8",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/systemd/gerrit.service",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-01T09:51:36Z",
+      "side": 1,
+      "message": "Not sure what to set here. Downstream i set this on my change (it may change depending on review) but not sure what to set here for gerrit-review.",
+      "range": {
+        "startLine": 21,
+        "startChar": 12,
+        "endLine": 21,
+        "endChar": 17
+      },
+      "revId": "4b49d2f824070749f06f1a56ed98684db65b37ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

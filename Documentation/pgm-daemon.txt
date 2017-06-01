@@ -94,8 +94,6 @@ are recognized in a reasonable period of time:
 ----
 [cache "accounts"]
   maxAge = 5 min
-[cache "accounts_byemail"]
-  maxAge = 5 min
 [cache "diff"]
   maxAge = 5 min
 [cache "groups"]

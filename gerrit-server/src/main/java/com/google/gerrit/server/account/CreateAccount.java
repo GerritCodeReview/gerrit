@@ -71,7 +71,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   private final SshKeyCache sshKeyCache;
   private final AccountCache accountCache;
   private final AccountsUpdate.User accountsUpdate;
-  private final AccountByEmailCache byEmailCache;
   private final AccountLoader.Factory infoLoader;
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
   private final AuditService auditService;
@@ -90,7 +89,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       SshKeyCache sshKeyCache,
       AccountCache accountCache,
       AccountsUpdate.User accountsUpdate,
-      AccountByEmailCache byEmailCache,
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
       AuditService auditService,
@@ -106,7 +104,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     this.sshKeyCache = sshKeyCache;
     this.accountCache = accountCache;
     this.accountsUpdate = accountsUpdate;
-    this.byEmailCache = byEmailCache;
     this.infoLoader = infoLoader;
     this.externalIdCreators = externalIdCreators;
     this.auditService = auditService;
@@ -205,7 +202,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     }
 
     accountCache.evictByUsername(username);
-    byEmailCache.evict(input.email);
 
     AccountLoader loader = infoLoader.create(true);
     AccountInfo info = loader.get(id);

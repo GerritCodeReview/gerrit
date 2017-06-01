@@ -62,7 +62,6 @@ public class AccountManager {
   private final Accounts accounts;
   private final AccountsUpdate.Server accountsUpdateFactory;
   private final AccountCache byIdCache;
-  private final AccountByEmailCache byEmailCache;
   private final Realm realm;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeUserName.Factory changeUserNameFactory;
@@ -81,7 +80,6 @@ public class AccountManager {
       Accounts accounts,
       AccountsUpdate.Server accountsUpdateFactory,
       AccountCache byIdCache,
-      AccountByEmailCache byEmailCache,
       Realm accountMapper,
       IdentifiedUser.GenericFactory userFactory,
       ChangeUserName.Factory changeUserNameFactory,
@@ -95,7 +93,6 @@ public class AccountManager {
     this.accounts = accounts;
     this.accountsUpdateFactory = accountsUpdateFactory;
     this.byIdCache = byIdCache;
-    this.byEmailCache = byEmailCache;
     this.realm = accountMapper;
     this.userFactory = userFactory;
     this.changeUserNameFactory = changeUserNameFactory;
@@ -196,11 +193,6 @@ public class AccountManager {
         throw new OrmException("Account " + user.getAccountId() + " has been deleted");
       }
     }
-
-    if (newEmail != null && !newEmail.equals(oldEmail)) {
-      byEmailCache.evict(oldEmail);
-      byEmailCache.evict(newEmail);
-    }
   }
 
   private static boolean eq(String a, String b) {
@@ -295,7 +287,6 @@ public class AccountManager {
       }
     }
 
-    byEmailCache.evict(account.getPreferredEmail());
     realm.onCreateAccount(who, account);
     return new AuthResult(newId, extId.key(), true);
   }
@@ -378,7 +369,6 @@ public class AccountManager {
                       a.setPreferredEmail(who.getEmailAddress());
                     }
                   });
-          byEmailCache.evict(who.getEmailAddress());
         }
       }
 
@@ -476,7 +466,6 @@ public class AccountManager {
                     }
                   }
                 });
-        extIds.stream().forEach(e -> byEmailCache.evict(e.email()));
       }
     }
   }

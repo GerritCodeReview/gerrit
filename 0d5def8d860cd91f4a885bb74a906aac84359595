@@ -93,6 +93,29 @@
       "revId": "0d5def8d860cd91f4a885bb74a906aac84359595",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de4023b6_86799c72",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-01T05:50:31Z",
+      "side": 1,
+      "message": "if POLYGERRIT is enabled and GWT is disabled.",
+      "range": {
+        "startLine": 2116,
+        "startChar": 48,
+        "endLine": 2117,
+        "endChar": 27
+      },
+      "revId": "0d5def8d860cd91f4a885bb74a906aac84359595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

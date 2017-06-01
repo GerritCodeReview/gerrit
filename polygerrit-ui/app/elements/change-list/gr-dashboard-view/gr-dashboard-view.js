@@ -14,11 +14,21 @@
 (function() {
   'use strict';
 
-  const QUERIES = [
-    'is:open owner:self',
-    'is:open ((reviewer:self -owner:self -is:ignored) OR assignee:self)',
-    'is:closed (owner:self OR reviewer:self OR assignee:self) -age:4w ' +
-        'limit:10',
+  const DEFAULT_SECTIONS = [
+    {
+      name: 'Outgoing reviews',
+      query: 'is:open owner:self',
+    },
+    {
+      name: 'Incoming reviews',
+      query: 'is:open ((reviewer:self -owner:self -is:ignored) OR ' +
+          'assignee:self)',
+    },
+    {
+      name: 'Recently closed',
+      query: 'is:closed (owner:self OR reviewer:self OR assignee:self) ' +
+          '-age:4w limit:10',
+    },
   ];
 
   Polymer({
@@ -42,13 +52,9 @@
       },
 
       _results: Array,
-      _groupTitles: {
+      sectionMetadata: {
         type: Array,
-        value: [
-          'Outgoing reviews',
-          'Incoming reviews',
-          'Recently closed',
-        ],
+        value() { return DEFAULT_SECTIONS; },
       },
 
       /**
@@ -72,10 +78,6 @@
       );
     },
 
-    get queries() {
-      return QUERIES;
-    },
-
     attached() {
       this.fire('title-change', {title: 'My Reviews'});
     },
@@ -95,7 +97,11 @@
     },
 
     _getChanges() {
-      return this.$.restAPI.getChanges(null, this.queries, null, this.options);
+      return this.$.restAPI.getChanges(
+          null,
+          this.sectionMetadata.map(section => section.query),
+          null,
+          this.options);
     },
   });
 })();

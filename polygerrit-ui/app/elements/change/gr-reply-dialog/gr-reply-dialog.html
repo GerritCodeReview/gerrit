@@ -248,13 +248,13 @@ limitations under the License.
       <section>
         <gr-button
             primary
-            disabled="[[!_isState(knownLatestState, 'latest')]]"
+            disabled="[[_isState(knownLatestState, 'not-latest')]]"
             class="action send"
             on-tap="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
         </gr-button>
         <template is="dom-if" if="[[canBeStarted]]">
           <gr-button
-              disabled="[[!_isState(knownLatestState, 'latest')]]"
+              disabled="[[_isState(knownLatestState, 'not-latest')]]"
               class="action save"
               on-tap="_saveTapHandler">Save</gr-button>
         </template>

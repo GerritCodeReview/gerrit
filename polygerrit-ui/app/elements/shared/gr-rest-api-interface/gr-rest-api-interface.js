@@ -148,6 +148,14 @@
           opt_ctx);
     },
 
+    createProject(config, opt_errFn, opt_ctx) {
+      if (!config.name) {
+        return '';
+      }
+      return this.send('PUT', `/projects/${config.name}`, config, opt_errFn,
+          opt_ctx);
+    },
+
     getVersion() {
       return this._fetchSharedCacheURL('/config/server/version');
     },

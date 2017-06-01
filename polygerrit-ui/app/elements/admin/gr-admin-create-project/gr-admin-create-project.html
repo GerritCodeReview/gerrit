@@ -1,0 +1,120 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
+<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
+<link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-select/gr-select.html">
+<link rel="import" href="../../../styles/gr-form-styles.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+
+<dom-module id="gr-admin-create-project">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: inline-block;
+      }
+      .fieldsetRights {
+        display: flex;
+      }
+      main {
+        margin: 2em 1em;
+      }
+      gr-autocomplete {
+        background-color: white;
+        border: 1px solid;
+        border-radius: 2px 0 0 2px;
+        flex: 1;
+        font: inherit;
+        outline: none;
+        -moz-appearance: textarea;
+        -webkit-appearance: textarea;
+        overflow: hidden;
+      }
+    </style>
+    <style include="gr-form-styles"></style>
+      <main class="gr-form-styles">
+        <h1 id="Title">
+          Create Project
+        </h1>
+        <gr-overlay id="projectRegistered" with-backdrop hidden$="[[!_projectRegistered]]" hidden>
+          <h1 id="Title" hidden$="[[!_projectRegistered]]" hidden>
+            Project "[[_projectConfig.name]]" already exists, please try again with a different name.
+          </h1>
+        </gr-overlay>
+        <gr-overlay id="projectCreated" with-backdrop hidden$="[[!_projectCreated]]" hidden>
+          <h1 id="Title" hidden$="[[!_projectCreated]]" hidden>
+            Project "[[_projectConfig.name]]" has been created successfully.
+          </h1>
+        </gr-overlay>
+        <br>
+        <div id="form">
+          <h2 id="ProjectName">Project Name</h2>
+          <fieldset>
+            <iron-autogrow-textarea
+                id="projectNameInput"
+                class="projectName"
+                autocomplete="on"
+                placeholder="<Insert project name here>"
+                bind-value="{{_projectConfig.name}}"></iron-autogrow-textarea>
+          </fieldset>
+          <h2 id="RightsInheritFrom">Rights Inherit From</h2>
+          <fieldset class="fieldsetRights">
+            <gr-autocomplete
+                id="rightsInheritFromInput"
+                class="rightsInheritFrom"
+                text="{{_projectConfig.parent}}"
+                query="[[_query]]"
+                on-commit="_handleInputCommit"
+                placeholder="<optional, Defaults to All-Project>"
+                allowNonSuggestedValues
+                multi
+                tab-complete-without-commit></gr-autocomplete>
+          </fieldset>
+          <h2 id="InitialCommit">Create initial empty commit</h2>
+          <fieldset>
+            <iron-autogrow-textarea
+                id="InitalCommitInput"
+                class="initialCommit"
+                autocomplete="on"
+                placeholder="<optional, values are true or false, defaults to false>"
+                bind-value="{{_projectConfig.create_empty_commit}}">
+            </iron-autogrow-textarea>
+          </fieldset>
+          <h2 id="RightsInheritFrom">Only serve as parent for other projects</h2>
+          <fieldset>
+            <iron-autogrow-textarea
+                id="parentProjectInput"
+                class="parentProject"
+                autocomplete="on"
+                placeholder="<true or false>"
+                bind-value="{{_projectConfig.permissions_only}}">
+            </iron-autogrow-textarea>
+          </fieldset>
+          <gr-button
+              on-tap="_handleCreateProject">Save changes</gr-button>
+        </div>
+      </main>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-admin-create-project.js"></script>
+</dom-module>

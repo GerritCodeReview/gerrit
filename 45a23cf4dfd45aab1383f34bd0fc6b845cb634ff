@@ -34,6 +34,24 @@
       "revId": "45a23cf4dfd45aab1383f34bd0fc6b845cb634ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0714889d_ac12fb97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-01T14:10:42Z",
+      "side": 1,
+      "message": "Yikes. The line started with # and Git thought it is a comment.",
+      "parentUuid": "84d2e23a_0625f32a",
+      "revId": "45a23cf4dfd45aab1383f34bd0fc6b845cb634ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "e1894a59_f28065d8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2114,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-01T07:06:40Z",
+      "side": 1,
+      "message": "Yes, let\u0027s have that in a follow up.",
+      "parentUuid": "a0671764_72e7dee2",
+      "range": {
+        "startLine": 2114,
+        "startChar": 12,
+        "endLine": 2114,
+        "endChar": 26
+      },
+      "revId": "0d5def8d860cd91f4a885bb74a906aac84359595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de4023b6_86799c72",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1

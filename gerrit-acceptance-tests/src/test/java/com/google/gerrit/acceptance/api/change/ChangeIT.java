@@ -1821,6 +1821,17 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void wipChangeAlwaysReviewed() throws Exception {
+    PushOneCommit.Result r = createChange();
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+    gApi.changes().id(r.getChangeId()).setWorkInProgress();
+    setApiUser(user);
+    assertThat(get(r.getChangeId()).reviewed).isTrue();
+  }
+
+  @Test
   public void topic() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(gApi.changes().id(r.getChangeId()).topic()).isEqualTo("");

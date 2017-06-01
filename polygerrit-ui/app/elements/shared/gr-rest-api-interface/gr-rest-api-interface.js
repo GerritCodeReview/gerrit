@@ -148,6 +148,14 @@
           opt_ctx);
     },
 
+    createProject(config, opt_errFn, opt_ctx) {
+      if (!config.name) {
+        return '';
+      }
+      return this.send('PUT', `/projects/${config.name}`, config, opt_errFn,
+          opt_ctx);
+    },
+
     getVersion() {
       return this._fetchSharedCacheURL('/config/server/version');
     },
@@ -522,7 +530,11 @@
     },
 
     getSuggestedProjects(inputVal, opt_n, opt_errFn, opt_ctx) {
-      const params = {p: inputVal};
+      const params = {
+        m: inputVal,
+        n: 25,
+        type: 'ALL',
+      };
       if (opt_n) { params.n = opt_n; }
       return this.fetchJSON('/projects/', opt_errFn, opt_ctx, params);
     },

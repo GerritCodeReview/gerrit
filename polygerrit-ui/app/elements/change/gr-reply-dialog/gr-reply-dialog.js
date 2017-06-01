@@ -604,7 +604,7 @@
       if (!this.change) { return {}; }
       return {
         changeNum: this.change._number,
-        patchNum: this.patchNum,
+        patchNum: '@change',
         path: '@change',
       };
     },

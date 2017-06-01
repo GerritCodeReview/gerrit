@@ -354,7 +354,7 @@ limitations under the License.
     test('_getStorageLocation', () => {
       const actual = element._getStorageLocation();
       assert.equal(actual.changeNum, changeNum);
-      assert.equal(actual.patchNum, patchNum);
+      assert.equal(actual.patchNum, '@change');
       assert.equal(actual.path, '@change');
     });
 

@@ -75,6 +75,13 @@
       return window.scrollY;
     },
 
+    unfloat() {
+      this.$.header.style.top = '';
+      this._headerFloating = false;
+      this.customStyle['--header-height'] = '';
+      this.updateStyles();
+    },
+
     update() {
       this.debounce('update', () => {
         this._updateDebounced();
@@ -153,12 +160,6 @@
       if (this._isMeasured) {
         this._floatHeader();
       }
-    },
-
-    _unfloatHeader() {
-      this._headerFloating = false;
-      this.customStyle['--header-height'] = '';
-      this.updateStyles();
     },
 
     _floatHeader() {

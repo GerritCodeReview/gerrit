@@ -136,7 +136,8 @@
       if (this.params.justRegistered) {
         this.$.registration.open();
       }
-      this.$.footer.update();
+      this.$.header.unfloat();
+      this.$.footer.unfloat();
     },
 
     _loginTapHandler(e) {

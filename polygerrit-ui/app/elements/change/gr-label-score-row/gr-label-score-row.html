@@ -41,6 +41,15 @@ limitations under the License.
       .placeholder::before {
         content: ' ';
       }
+      .selectedValueText {
+        color: #666;
+        font-style: italic;
+        margin-bottom: .5em;
+        margin-left: calc(25% + .5em);
+      }
+      .selectedValueText.hidden {
+        display: none;
+      }
       iron-selector > gr-button:first-of-type {
         border-bottom-left-radius: 2px;
         border-top-left-radius: 2px;
@@ -65,6 +74,9 @@ limitations under the License.
           text-align: center;
           width: 100%;
         }
+        .selectedValueText {
+          display: none;
+        }
       }
     </style>
     <div class="labelContainer">
@@ -78,7 +90,8 @@ limitations under the License.
       <iron-selector
           attr-for-selected="value"
           selected="[[_computeLabelValue(labels, permittedLabels, label)]]"
-          hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
+          hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]"
+          on-selected-item-changed="_setSelectedValueText">
         <template is="dom-repeat"
             items="[[_computePermittedLabelValues(permittedLabels, label.name)]]"
             as="value">
@@ -96,6 +109,9 @@ limitations under the License.
           hidden$="[[_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
         You don't have permission to edit this label.
       </span>
+      <div class$="selectedValueText [[_computeHiddenClass(permittedLabels, label.name)]]">
+        <span id="selectedValueLabel">[[_selectedValueText]]</span>
+      </div>
     </div>
   </template>
   <script src="gr-label-score-row.js"></script>

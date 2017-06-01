@@ -18,7 +18,6 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.BanCommit;
 import com.google.gerrit.server.project.BanCommit.BanResultInfo;
 import com.google.gerrit.server.project.ProjectControl;
@@ -26,7 +25,6 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
@@ -77,7 +75,7 @@ public class BanCommitCommand extends SshCommand {
       printCommits(r.newlyBanned, "The following commits were banned");
       printCommits(r.alreadyBanned, "The following commits were already banned");
       printCommits(r.ignored, "The following ids do not represent commits and were ignored");
-    } catch (RestApiException | IOException e) {
+    } catch (Exception e) {
       throw die(e);
     }
   }

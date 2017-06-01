@@ -1,5 +1,5 @@
 <!--
-Copyright (C) 2015 The Android Open Source Project
+Copyright (C) 2017 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,23 +13,24 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
-<dom-module id="gr-avatar">
+<dom-module id="shared-styles">
   <template>
-    <style include="shared-styles"></style>
     <style>
+      ul,
+      input {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
       :host {
-        display: inline-block;
-        border-radius: 50%;
-        background-size: cover;
-        background-color: var(--background-color, #f1f2f3);
+        -webkit-text-size-adjust: none;
+        font-size: 13px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+        line-height: 1.4;
+      }
+      [hidden] {
+        display: none !important;
       }
     </style>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
-  <script src="gr-avatar.js"></script>
 </dom-module>

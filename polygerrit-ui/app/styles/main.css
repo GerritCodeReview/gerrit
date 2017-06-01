@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
 *,
 *::after,
 *::before {
@@ -21,6 +20,7 @@ limitations under the License.
   margin: 0;
   padding: 0;
 }
+
 html {
   -webkit-text-size-adjust: none;
 }
@@ -28,13 +28,4 @@ html,
 body {
   height: 100%;
   transition: none; /* Override the default Polymer fade-in. */
-}
-body {
-  /*
-   * IE has shoddy support for the font shorthand property.
-   * Work around this using font-size and font-family.
-   */
-  font-size: 13px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  line-height: 1.4;
 }

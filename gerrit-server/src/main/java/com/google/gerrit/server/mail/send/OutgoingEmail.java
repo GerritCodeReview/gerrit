@@ -436,30 +436,49 @@ public abstract class OutgoingEmail {
 
   /** Schedule this message for delivery to the listed accounts. */
   protected void add(final RecipientType rt, final Collection<Account.Id> list) {
+    add(rt, list, false);
+  }
+
+  /** Schedule this message for delivery to the listed accounts. */
+  protected void add(final RecipientType rt, final Collection<Account.Id> list, boolean override) {
     for (final Account.Id id : list) {
-      add(rt, id);
+      add(rt, id, override);
     }
   }
 
   /** Schedule this message for delivery to the listed address. */
   protected void addByEmail(final RecipientType rt, final Collection<Address> list) {
+    addByEmail(rt, list, false);
+  }
+
+  /** Schedule this message for delivery to the listed address. */
+  protected void addByEmail(
+      final RecipientType rt, final Collection<Address> list, boolean override) {
     for (final Address id : list) {
-      add(rt, id);
+      add(rt, id, override);
     }
   }
 
   protected void add(final RecipientType rt, final UserIdentity who) {
+    add(rt, who, false);
+  }
+
+  protected void add(final RecipientType rt, final UserIdentity who, boolean override) {
     if (who != null && who.getAccount() != null) {
-      add(rt, who.getAccount());
+      add(rt, who.getAccount(), override);
     }
   }
 
   /** Schedule delivery of this message to the given account. */
   protected void add(final RecipientType rt, final Account.Id to) {
+    add(rt, to, false);
+  }
+
+  protected void add(final RecipientType rt, final Account.Id to, boolean override) {
     try {
       if (!rcptTo.contains(to) && isVisibleTo(to)) {
         rcptTo.add(to);
-        add(rt, toAddress(to));
+        add(rt, toAddress(to), override);
       }
     } catch (OrmException e) {
       log.error("Error reading database for account: " + to, e);
@@ -477,12 +496,23 @@ public abstract class OutgoingEmail {
 
   /** Schedule delivery of this message to the given account. */
   protected void add(final RecipientType rt, final Address addr) {
+    add(rt, addr, false);
+  }
+
+  protected void add(final RecipientType rt, final Address addr, boolean override) {
     if (addr != null && addr.getEmail() != null && addr.getEmail().length() > 0) {
       if (!args.validator.isValid(addr.getEmail())) {
         log.warn("Not emailing " + addr.getEmail() + " (invalid email address)");
       } else if (!args.emailSender.canEmail(addr.getEmail())) {
         log.warn("Not emailing " + addr.getEmail() + " (prohibited by allowrcpt)");
-      } else if (smtpRcptTo.add(addr)) {
+      } else {
+        if (!smtpRcptTo.add(addr)) {
+          if (!override) {
+            return;
+          }
+          ((EmailHeader.AddressList) headers.get(HDR_TO)).remove(addr.getEmail());
+          ((EmailHeader.AddressList) headers.get(HDR_CC)).remove(addr.getEmail());
+        }
         switch (rt) {
           case TO:
             ((EmailHeader.AddressList) headers.get(HDR_TO)).add(addr);

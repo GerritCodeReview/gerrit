@@ -56,9 +56,8 @@ public class MergedSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("merged", sc)
         .notTo(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS, SUBMITTED_CHANGES);
   }
@@ -70,9 +69,8 @@ public class MergedSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("merged", sc)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS, SUBMITTED_CHANGES);
   }
@@ -85,9 +83,8 @@ public class MergedSenderIT extends AbstractNotificationTest {
         .sent("merged", sc)
         .notTo(sc.reviewer)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS, SUBMITTED_CHANGES);
   }
@@ -99,9 +96,8 @@ public class MergedSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("merged", sc)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS, SUBMITTED_CHANGES);
   }
@@ -113,9 +109,8 @@ public class MergedSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("merged", sc)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .notTo(sc.starrer)
         .notTo(ALL_COMMENTS, SUBMITTED_CHANGES);
   }

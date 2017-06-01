@@ -30,6 +30,7 @@
     is: 'gr-rest-api-interface',
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
       Gerrit.PathListBehavior,
       Gerrit.RESTClientBehavior,
     ],
@@ -389,7 +390,7 @@
     },
 
     getChangeActionURL(changeNum, opt_patchNum, endpoint) {
-      return this.changeBaseURL(changeNum, opt_patchNum) + endpoint;
+      return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
     },
 
     getChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
@@ -729,7 +730,7 @@
     },
 
     _getDiffFetchURL(changeNum, patchNum, path) {
-      return this.changeBaseURL(changeNum, patchNum) + '/files/' +
+      return this._changeBaseURL(changeNum, patchNum) + '/files/' +
           encodeURIComponent(path) + '/diff';
     },
 
@@ -827,7 +828,7 @@
     },
 
     _getDiffCommentsFetchURL(changeNum, endpoint, opt_patchNum) {
-      return this.changeBaseURL(changeNum, opt_patchNum) + endpoint;
+      return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
     },
 
     saveDiffDraft(changeNum, patchNum, draft) {
@@ -946,6 +947,14 @@
 
         return {baseImage, revisionImage};
       });
+    },
+
+    _changeBaseURL(changeNum, opt_patchNum) {
+      let v = '/changes/' + changeNum;
+      if (opt_patchNum) {
+        v += '/revisions/' + opt_patchNum;
+      }
+      return v;
     },
 
     setChangeTopic(changeNum, topic) {

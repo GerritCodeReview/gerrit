@@ -724,7 +724,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> label(String name) throws QueryParseException, OrmException {
+  public Predicate<ChangeData> label(String name)
+      throws QueryParseException, OrmException, IOException {
     Set<Account.Id> accounts = null;
     AccountGroup.UUID group = null;
 
@@ -838,7 +839,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> starredby(String who) throws QueryParseException, OrmException {
+  public Predicate<ChangeData> starredby(String who)
+      throws QueryParseException, OrmException, IOException {
     return starredby(parseAccount(who));
   }
 
@@ -855,7 +857,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> watchedby(String who) throws QueryParseException, OrmException {
+  public Predicate<ChangeData> watchedby(String who)
+      throws QueryParseException, OrmException, IOException {
     Set<Account.Id> m = parseAccount(who);
     List<IsWatchedByPredicate> p = Lists.newArrayListWithCapacity(m.size());
 
@@ -879,7 +882,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> draftby(String who) throws QueryParseException, OrmException {
+  public Predicate<ChangeData> draftby(String who)
+      throws QueryParseException, OrmException, IOException {
     Set<Account.Id> m = parseAccount(who);
     List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
@@ -897,7 +901,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> visibleto(String who) throws QueryParseException, OrmException {
+  public Predicate<ChangeData> visibleto(String who)
+      throws QueryParseException, OrmException, IOException {
     if (isSelf(who)) {
       return is_visible();
     }
@@ -934,12 +939,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> o(String who) throws QueryParseException, OrmException {
+  public Predicate<ChangeData> o(String who) throws QueryParseException, OrmException, IOException {
     return owner(who);
   }
 
   @Operator
-  public Predicate<ChangeData> owner(String who) throws QueryParseException, OrmException {
+  public Predicate<ChangeData> owner(String who)
+      throws QueryParseException, OrmException, IOException {
     return owner(parseAccount(who));
   }
 
@@ -952,7 +958,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   private Predicate<ChangeData> ownerDefaultField(String who)
-      throws QueryParseException, OrmException {
+      throws QueryParseException, OrmException, IOException {
     Set<Account.Id> accounts = parseAccount(who);
     if (accounts.size() > MAX_ACCOUNTS_PER_DEFAULT_FIELD) {
       return Predicate.any();
@@ -961,7 +967,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> assignee(String who) throws QueryParseException, OrmException {
+  public Predicate<ChangeData> assignee(String who)
+      throws QueryParseException, OrmException, IOException {
     return assignee(parseAccount(who));
   }
 
@@ -983,22 +990,23 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> r(String who) throws QueryParseException, OrmException {
+  public Predicate<ChangeData> r(String who) throws QueryParseException, OrmException, IOException {
     return reviewer(who);
   }
 
   @Operator
-  public Predicate<ChangeData> reviewer(String who) throws QueryParseException, OrmException {
+  public Predicate<ChangeData> reviewer(String who)
+      throws QueryParseException, OrmException, IOException {
     return reviewer(who, false);
   }
 
   private Predicate<ChangeData> reviewerDefaultField(String who)
-      throws QueryParseException, OrmException {
+      throws QueryParseException, OrmException, IOException {
     return reviewer(who, true);
   }
 
   private Predicate<ChangeData> reviewer(String who, boolean forDefaultField)
-      throws QueryParseException, OrmException {
+      throws QueryParseException, OrmException, IOException {
     Predicate<ChangeData> byState =
         reviewerByState(who, ReviewerStateInternal.REVIEWER, forDefaultField);
     if (Objects.equals(byState, Predicate.<ChangeData>any())) {
@@ -1012,7 +1020,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> cc(String who) throws QueryParseException, OrmException {
+  public Predicate<ChangeData> cc(String who)
+      throws QueryParseException, OrmException, IOException {
     return reviewerByState(who, ReviewerStateInternal.CC, false);
   }
 
@@ -1065,7 +1074,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> commentby(String who) throws QueryParseException, OrmException {
+  public Predicate<ChangeData> commentby(String who)
+      throws QueryParseException, OrmException, IOException {
     return commentby(parseAccount(who));
   }
 
@@ -1078,7 +1088,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> from(String who) throws QueryParseException, OrmException {
+  public Predicate<ChangeData> from(String who)
+      throws QueryParseException, OrmException, IOException {
     Set<Account.Id> ownerIds = parseAccount(who);
     return Predicate.or(owner(ownerIds), commentby(ownerIds));
   }
@@ -1102,7 +1113,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> reviewedby(String who) throws QueryParseException, OrmException {
+  public Predicate<ChangeData> reviewedby(String who)
+      throws QueryParseException, OrmException, IOException {
     return IsReviewedPredicate.create(parseAccount(who));
   }
 
@@ -1184,7 +1196,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       if (!Objects.equals(p, Predicate.<ChangeData>any())) {
         predicates.add(p);
       }
-    } catch (OrmException | QueryParseException e) {
+    } catch (OrmException | IOException | QueryParseException e) {
       // Skip.
     }
     try {
@@ -1192,13 +1204,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       if (!Objects.equals(p, Predicate.<ChangeData>any())) {
         predicates.add(p);
       }
-    } catch (OrmException | QueryParseException e) {
+    } catch (OrmException | IOException | QueryParseException e) {
       // Skip.
     }
     predicates.add(file(query));
     try {
       predicates.add(label(query));
-    } catch (OrmException | QueryParseException e) {
+    } catch (OrmException | IOException | QueryParseException e) {
       // Skip.
     }
     predicates.add(commit(query));
@@ -1237,7 +1249,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return Predicate.and(predicates);
   }
 
-  private Set<Account.Id> parseAccount(String who) throws QueryParseException, OrmException {
+  private Set<Account.Id> parseAccount(String who)
+      throws QueryParseException, OrmException, IOException {
     if (isSelf(who)) {
       return Collections.singleton(self());
     }
@@ -1283,7 +1296,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   public Predicate<ChangeData> reviewerByState(
       String who, ReviewerStateInternal state, boolean forDefaultField)
-      throws QueryParseException, OrmException {
+      throws QueryParseException, OrmException, IOException {
     Predicate<ChangeData> reviewerByEmailPredicate = null;
     if (args.index.getSchema().hasField(ChangeField.REVIEWER_BY_EMAIL)) {
       Address address = Address.tryParse(who);

@@ -71,7 +71,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   private final AccountCache accountCache;
   private final AccountsUpdate.User accountsUpdate;
   private final AccountIndexer indexer;
-  private final AccountByEmailCache byEmailCache;
   private final AccountLoader.Factory infoLoader;
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
   private final AuditService auditService;
@@ -90,7 +89,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       AccountCache accountCache,
       AccountsUpdate.User accountsUpdate,
       AccountIndexer indexer,
-      AccountByEmailCache byEmailCache,
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
       AuditService auditService,
@@ -106,7 +104,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     this.accountCache = accountCache;
     this.accountsUpdate = accountsUpdate;
     this.indexer = indexer;
-    this.byEmailCache = byEmailCache;
     this.infoLoader = infoLoader;
     this.externalIdCreators = externalIdCreators;
     this.auditService = auditService;
@@ -197,7 +194,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     }
 
     accountCache.evictByUsername(username);
-    byEmailCache.evict(input.email);
     indexer.index(id);
 
     AccountLoader loader = infoLoader.create(true);

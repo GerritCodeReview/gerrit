@@ -60,7 +60,6 @@ List caches available for flushing:
 ----
 	$ ssh -p 29418 review.example.com gerrit flush-caches --list
 	accounts
-	accounts_byemail
 	diff
 	groups
 	ldap_groups

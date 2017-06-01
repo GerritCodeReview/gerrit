@@ -30,6 +30,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.Collection;
 
 @Singleton
@@ -69,7 +70,7 @@ public class Reviewers implements ChildCollection<ChangeResource, ReviewerResour
 
   @Override
   public ReviewerResource parse(ChangeResource rsrc, IdString id)
-      throws OrmException, ResourceNotFoundException, AuthException {
+      throws OrmException, ResourceNotFoundException, AuthException, IOException {
     Address address = Address.tryParse(id.get());
 
     Account.Id accountId = null;

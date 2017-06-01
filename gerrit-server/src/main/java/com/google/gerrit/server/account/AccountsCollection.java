@@ -33,6 +33,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 
 @Singleton
 public class AccountsCollection
@@ -68,7 +69,7 @@ public class AccountsCollection
 
   @Override
   public AccountResource parse(TopLevelResource root, IdString id)
-      throws ResourceNotFoundException, AuthException, OrmException {
+      throws ResourceNotFoundException, AuthException, OrmException, IOException {
     IdentifiedUser user = parseId(id.get());
     if (user == null) {
       throw new ResourceNotFoundException(id);
@@ -89,7 +90,7 @@ public class AccountsCollection
    *     account is not visible to the calling user
    */
   public IdentifiedUser parse(String id)
-      throws AuthException, UnprocessableEntityException, OrmException {
+      throws AuthException, UnprocessableEntityException, OrmException, IOException {
     return parseOnBehalfOf(null, id);
   }
 
@@ -104,8 +105,9 @@ public class AccountsCollection
    * @throws AuthException thrown if 'self' is used as account ID and the current user is not
    *     authenticated
    * @throws OrmException
+   * @throws IOException
    */
-  public IdentifiedUser parseId(String id) throws AuthException, OrmException {
+  public IdentifiedUser parseId(String id) throws AuthException, OrmException, IOException {
     return parseIdOnBehalfOf(null, id);
   }
 
@@ -113,7 +115,7 @@ public class AccountsCollection
    * Like {@link #parse(String)}, but also sets the {@link CurrentUser#getRealUser()} on the result.
    */
   public IdentifiedUser parseOnBehalfOf(@Nullable CurrentUser caller, String id)
-      throws AuthException, UnprocessableEntityException, OrmException {
+      throws AuthException, UnprocessableEntityException, OrmException, IOException {
     IdentifiedUser user = parseIdOnBehalfOf(caller, id);
     if (user == null) {
       throw new UnprocessableEntityException(String.format("Account Not Found: %s", id));
@@ -124,7 +126,7 @@ public class AccountsCollection
   }
 
   private IdentifiedUser parseIdOnBehalfOf(@Nullable CurrentUser caller, String id)
-      throws AuthException, OrmException {
+      throws AuthException, OrmException, IOException {
     if (id.equals("self")) {
       CurrentUser user = self.get();
       if (user.isIdentifiedUser()) {

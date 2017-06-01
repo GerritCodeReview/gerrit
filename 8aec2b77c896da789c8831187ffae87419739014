@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a2a0aed_6c0c9a86",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-01T07:06:13Z",
+      "side": 1,
+      "message": "This is still not a bullet list.\n\nAlternatively we could say \"Valid values are `GWT` for... or `POLYGERRIT` for ...\"",
+      "range": {
+        "startLine": 2110,
+        "startChar": 0,
+        "endLine": 2111,
+        "endChar": 59
+      },
+      "revId": "8aec2b77c896da789c8831187ffae87419739014",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82c2ed97_d04fce30",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2116,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-01T07:06:13Z",
+      "side": 1,
+      "message": "\"Defaults to\"",
+      "range": {
+        "startLine": 2116,
+        "startChar": 0,
+        "endLine": 2116,
+        "endChar": 8
+      },
+      "revId": "8aec2b77c896da789c8831187ffae87419739014",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

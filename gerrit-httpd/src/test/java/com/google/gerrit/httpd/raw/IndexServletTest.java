@@ -21,6 +21,16 @@ import java.net.URISyntaxException;
 import org.junit.Test;
 
 public class IndexServletTest {
+  class TestIndexServlet extends IndexServlet {
+    TestIndexServlet(String canonicalURL, String cdnPath) throws URISyntaxException {
+      super(canonicalURL, cdnPath);
+    }
+
+    String getIndexSource() {
+      return new String(indexSource);
+    }
+  }
+
   @Test
   public void noPathAndNoCDN() throws URISyntaxException {
     SoyMapData data = IndexServlet.getTemplateData("http://example.com/", null);
@@ -51,5 +61,16 @@ public class IndexServletTest {
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("/gerrit");
     assertThat(data.getSingle("staticResourcePath").stringValue())
         .isEqualTo("http://my-cdn.com/foo/bar/");
+  }
+
+  @Test
+  public void renderTemplate() throws URISyntaxException {
+    String testCanonicalUrl = "foo-url";
+    String testCdnPath = "bar-cdn";
+    TestIndexServlet servlet = new TestIndexServlet(testCanonicalUrl, testCdnPath);
+    String output = servlet.getIndexSource();
+    assertThat(output).contains("<!DOCTYPE html>");
+    assertThat(output).contains("window.CANONICAL_PATH = '" + testCanonicalUrl);
+    assertThat(output).contains("<link rel=\"preload\" href=\"" + testCdnPath);
   }
 }

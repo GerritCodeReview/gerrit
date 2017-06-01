@@ -25,6 +25,98 @@
     },
     {
       "key": {
+        "uuid": "9397f8b2_ac350d20",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-01T14:38:14Z",
+      "side": 1,
+      "message": "optional: to keep consistent, I would add \u0027this.\u0027 to them, too.",
+      "range": {
+        "startLine": 159,
+        "startChar": 3,
+        "endLine": 163,
+        "endChar": 31
+      },
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d497606f_83272f24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/group/GroupField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-01T14:38:14Z",
+      "side": 1,
+      "message": "nit: add a simple comment as the other fields.",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 64
+      },
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae2542f2_2d61a1f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-01T14:38:14Z",
+      "side": 1,
+      "message": "nit: \u0027created_on\u0027.",
+      "range": {
+        "startLine": 33,
+        "startChar": 29,
+        "endLine": 33,
+        "endChar": 39
+      },
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20875855_37cb7791",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-01T14:38:14Z",
+      "side": 1,
+      "message": "We can do this in one map\n\".map(g -\u003e g.getKey().getAddedOn())\"",
+      "range": {
+        "startLine": 49,
+        "startChar": 14,
+        "endLine": 50,
+        "endChar": 35
+      },
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39c3e478_287740c3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_151.java",
         "patchSetId": 1
@@ -41,6 +133,29 @@
         "startChar": 10,
         "endLine": 53,
         "endChar": 97
+      },
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24ba8011_46e5afe2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-01T14:38:14Z",
+      "side": 1,
+      "message": "Is this the time we create Gerrit? I think it\u0027s good to have a comment to explain why it has this value.",
+      "range": {
+        "startLine": 53,
+        "startChar": 42,
+        "endLine": 53,
+        "endChar": 69
       },
       "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

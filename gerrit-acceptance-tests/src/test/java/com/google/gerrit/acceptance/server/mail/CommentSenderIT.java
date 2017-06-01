@@ -38,9 +38,8 @@ public class CommentSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("comment", sc)
         .notTo(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
         .cc(sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -53,9 +52,8 @@ public class CommentSenderIT extends AbstractNotificationTest {
         .sent("comment", sc)
         .notTo(sc.reviewer)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
         .cc(sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -67,9 +65,8 @@ public class CommentSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("comment", sc)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
         .cc(sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -81,9 +78,8 @@ public class CommentSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("comment", sc)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
         .cc(sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -97,9 +93,8 @@ public class CommentSenderIT extends AbstractNotificationTest {
         .sent("comment", sc)
         .notTo(other)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
         .cc(sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -112,9 +107,8 @@ public class CommentSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("comment", sc)
         .to(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
         .cc(sc.reviewer, sc.ccer, other)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -125,9 +119,8 @@ public class CommentSenderIT extends AbstractNotificationTest {
     review(sc.owner, sc.changeId, ENABLED, OWNER_REVIEWERS);
     assertThat(sender)
         .sent("comment", sc)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
         .cc(sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .notTo(sc.owner, sc.starrer)
         .notTo(ALL_COMMENTS);
   }
@@ -183,9 +176,8 @@ public class CommentSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("comment", sc)
         .notTo(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
         .cc(sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }

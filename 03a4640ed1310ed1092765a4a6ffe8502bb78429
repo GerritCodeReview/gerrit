@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2df6f7a7_10516bf7",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-01T21:50:19Z",
+      "side": 1,
+      "message": "Looks like only .labels are used - how about just passing labels instead?",
+      "revId": "03a4640ed1310ed1092765a4a6ffe8502bb78429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79916f96_2a9ed4f8",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-01T21:50:19Z",
+      "side": 1,
+      "message": "Iron-selector has selected property, so it can be used directly:\nhttps://www.webcomponents.org/element/PolymerElements/iron-selector/mixins/Polymer.IronSelectableBehavior#property-selected",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 52
+      },
+      "revId": "03a4640ed1310ed1092765a4a6ffe8502bb78429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7ed09b5_4cfe252f",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-01T21:50:19Z",
+      "side": 1,
+      "message": "Can we make it just \"value\"?",
+      "range": {
+        "startLine": 37,
+        "startChar": 45,
+        "endLine": 37,
+        "endChar": 55
+      },
+      "revId": "03a4640ed1310ed1092765a4a6ffe8502bb78429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30830d22_a615a2e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-01T21:50:19Z",
+      "side": 1,
+      "message": "iron-selector can select item by value with select() method",
+      "revId": "03a4640ed1310ed1092765a4a6ffe8502bb78429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5363ac9f_d4901cb3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-01T21:50:19Z",
+      "side": 1,
+      "message": "Please add a null check here, selectorEl can be null.",
+      "revId": "03a4640ed1310ed1092765a4a6ffe8502bb78429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -110,6 +110,7 @@ limitations under the License.
       assert.equal(element.selectedValue, -1);
       assert.equal(element.selectedItem
           .textContent.trim(), '-1');
+      assert.equal(element.$.selectedText.textContent.trim(), 'bad');
     });
 
     test('correct item is selected', () => {
@@ -118,6 +119,7 @@ limitations under the License.
       assert.equal(
           element.$$('iron-selector').selectedItem
               .textContent.trim(), '+1');
+      assert.equal(element.$.selectedText.textContent.trim(), 'good');
     });
 
     test('do not display tooltips on touch devices', () => {
@@ -190,6 +192,7 @@ limitations under the License.
       element.set('label', {name: 'Verified', value: 0});
       flushAsynchronousOperations();
       assert.equal(selector.selected, 0); // value 0
+      assert.equal(element.$.selectedText.textContent.trim(), 'good');
     });
 
     test('without permitted labels', () => {

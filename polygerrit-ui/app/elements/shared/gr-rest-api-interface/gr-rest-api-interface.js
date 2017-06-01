@@ -19,6 +19,7 @@
     UNIFIED: 'UNIFIED_DIFF',
   };
   const JSON_PREFIX = ')]}\'';
+  const MAX_PROJECT_RESULTS = 25;
   const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
   const PARENT_PATCH_NUM = 'PARENT';
 
@@ -145,6 +146,14 @@
 
     saveProjectConfig(project, config, opt_errFn, opt_ctx) {
       return this.send('PUT', `/projects/${project}/config`, config, opt_errFn,
+          opt_ctx);
+    },
+
+    createProject(config, opt_errFn, opt_ctx) {
+      if (!config.name) {
+        return '';
+      }
+      return this.send('PUT', `/projects/${config.name}`, config, opt_errFn,
           opt_ctx);
     },
 
@@ -522,7 +531,11 @@
     },
 
     getSuggestedProjects(inputVal, opt_n, opt_errFn, opt_ctx) {
-      const params = {p: inputVal};
+      const params = {
+        m: inputVal,
+        n: MAX_PROJECT_RESULTS,
+        type: 'ALL',
+      };
       if (opt_n) { params.n = opt_n; }
       return this.fetchJSON('/projects/', opt_errFn, opt_ctx, params);
     },

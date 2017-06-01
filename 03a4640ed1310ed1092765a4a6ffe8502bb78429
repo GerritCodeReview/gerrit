@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cc87d953_5766d660",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-01T23:49:37Z",
+      "side": 1,
+      "message": "Change is used for computed properties:\nhttps://gerrit-review.googlesource.com/c/108095/10/polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html#79",
+      "parentUuid": "2df6f7a7_10516bf7",
+      "revId": "03a4640ed1310ed1092765a4a6ffe8502bb78429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79916f96_2a9ed4f8",
         "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
         "patchSetId": 10
@@ -39,6 +57,30 @@
       "revId": "03a4640ed1310ed1092765a4a6ffe8502bb78429",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b724b1f_3e617b03",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-01T23:49:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79916f96_2a9ed4f8",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 52
+      },
+      "revId": "03a4640ed1310ed1092765a4a6ffe8502bb78429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "e17417d5_6e3202b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-01T23:49:37Z",
+      "side": 1,
+      "message": "refactored to use value (and attr-for-selected\u003d\"value\")",
+      "parentUuid": "f7ed09b5_4cfe252f",
+      "range": {
+        "startLine": 37,
+        "startChar": 45,
+        "endLine": 37,
+        "endChar": 55
+      },
+      "revId": "03a4640ed1310ed1092765a4a6ffe8502bb78429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30830d22_a615a2e7",
         "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
         "patchSetId": 10
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "f9929295_586d4717",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-01T23:49:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30830d22_a615a2e7",
+      "revId": "03a4640ed1310ed1092765a4a6ffe8502bb78429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5363ac9f_d4901cb3",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 10
@@ -96,6 +180,24 @@
       "revId": "03a4640ed1310ed1092765a4a6ffe8502bb78429",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2de73586_6a3d5523",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-01T23:49:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5363ac9f_d4901cb3",
+      "revId": "03a4640ed1310ed1092765a4a6ffe8502bb78429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

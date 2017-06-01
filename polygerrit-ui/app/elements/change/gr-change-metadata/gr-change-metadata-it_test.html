@@ -62,7 +62,7 @@ limitations under the License.
         _computeShowLabelStatus() { return true; },
         _computeShowReviewersByState() { return true; },
         ready() {
-          this.change = {labels: []};
+          this.change = {labels: [], status: 'NEW'};
           this.serverConfig = {};
         },
       });

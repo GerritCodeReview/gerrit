@@ -453,16 +453,16 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ReviewInput in = ReviewInput.approve();
     in.reviewer(user.email);
-    in.reviewer(accounts.user2().email, ReviewerState.CC, true);
+    in.reviewer(accountCreator.user2().email, ReviewerState.CC, true);
     // Add user as reviewer that will create the revert
-    in.reviewer(accounts.admin2().email);
+    in.reviewer(accountCreator.admin2().email);
 
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
 
     // expect both the original reviewers and CCs to be preserved
     // original owner should be added as reviewer, user requesting the revert (new owner) removed
-    setApiUser(accounts.admin2());
+    setApiUser(accountCreator.admin2());
     Map<ReviewerState, Collection<AccountInfo>> result =
         gApi.changes().id(r.getChangeId()).revert().get().reviewers;
     assertThat(result).containsKey(ReviewerState.REVIEWER);
@@ -473,11 +473,11 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(result).containsKey(ReviewerState.CC);
       List<Integer> ccs =
           result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
-      assertThat(ccs).containsExactly(accounts.user2().id.get());
+      assertThat(ccs).containsExactly(accountCreator.user2().id.get());
       assertThat(reviewers).containsExactly(user.id.get(), admin.id.get());
     } else {
       assertThat(reviewers)
-          .containsExactly(user.id.get(), admin.id.get(), accounts.user2().id.get());
+          .containsExactly(user.id.get(), admin.id.get(), accountCreator.user2().id.get());
     }
   }
 
@@ -1633,7 +1633,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.notify = NotifyHandling.NONE;
 
     // notify unrelated account as TO
-    TestAccount user2 = accounts.user2();
+    TestAccount user2 = accountCreator.user2();
     setApiUser(user);
     recommend(r.getChangeId());
     setApiUser(admin);

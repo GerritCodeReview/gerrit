@@ -350,7 +350,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     sender.clear();
 
     // watch project as user2
-    TestAccount user2 = accounts.create("user2", "user2@test.com", "User2");
+    TestAccount user2 = accountCreator.create("user2", "user2@test.com", "User2");
     setApiUser(user2);
     watch(watchedProject, null);
 
@@ -467,7 +467,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     sender.clear();
 
     // watch project as user2
-    TestAccount user2 = accounts.create("user2", "user2@test.com", "User2");
+    TestAccount user2 = accountCreator.create("user2", "user2@test.com", "User2");
     setApiUser(user2);
     watch(anyProject, null);
 
@@ -568,7 +568,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // watch project as user that can view all drafts
     TestAccount userThatCanViewDrafts =
-        accounts.create("user2", "user2@test.com", "User2", groupThatCanViewDrafts.name);
+        accountCreator.create("user2", "user2@test.com", "User2", groupThatCanViewDrafts.name);
     setApiUser(userThatCanViewDrafts);
     watch(watchedProject, null);
 
@@ -639,7 +639,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void deleteAllProjectWatchesIfWatchConfigIsTheOnlyFileInUserBranch() throws Exception {
     // Create account that has no files in its refs/users/ branch.
-    Account.Id id = accounts.create().id;
+    Account.Id id = accountCreator.create().id;
 
     // Add a project watch so that a watch.config file in the refs/users/ branch is created.
     Map<ProjectWatchKey, Set<NotifyType>> watches = new HashMap<>();
@@ -694,7 +694,8 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // watch project as user that can view all private change
     TestAccount userThatCanViewPrivateChanges =
-        accounts.create("user2", "user2@test.com", "User2", groupThatCanViewPrivateChanges.name);
+        accountCreator.create(
+            "user2", "user2@test.com", "User2", groupThatCanViewPrivateChanges.name);
     setApiUser(userThatCanViewPrivateChanges);
     watch(watchedProject, null);
 

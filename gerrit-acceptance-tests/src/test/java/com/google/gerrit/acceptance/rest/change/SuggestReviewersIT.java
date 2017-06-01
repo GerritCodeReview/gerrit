@@ -421,7 +421,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   private TestAccount user(String name, String fullName, String emailName, AccountGroup... groups)
       throws Exception {
     String[] groupNames = Arrays.stream(groups).map(AccountGroup::getName).toArray(String[]::new);
-    return accounts.create(name(name), name(emailName) + "@example.com", fullName, groupNames);
+    return accountCreator.create(
+        name(name), name(emailName) + "@example.com", fullName, groupNames);
   }
 
   private TestAccount user(String name, String fullName, AccountGroup... groups) throws Exception {

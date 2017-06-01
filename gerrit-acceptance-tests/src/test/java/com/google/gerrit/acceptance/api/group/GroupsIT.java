@@ -92,8 +92,8 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void addMultipleMembers() throws Exception {
     String g = createGroup("users");
-    TestAccount u1 = accounts.create("u1", "u1@example.com", "Full Name 1");
-    TestAccount u2 = accounts.create("u2", "u2@example.com", "Full Name 2");
+    TestAccount u1 = accountCreator.create("u1", "u1@example.com", "Full Name 1");
+    TestAccount u2 = accountCreator.create("u2", "u2@example.com", "Full Name 2");
     gApi.groups().id(g).addMembers(u1.username, u2.username);
     assertMembers(g, u1, u2);
   }
@@ -101,10 +101,10 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void addMembersWithAtSign() throws Exception {
     String g = createGroup("users");
-    TestAccount u10 = accounts.create("u10", "u10@example.com", "Full Name 10");
+    TestAccount u10 = accountCreator.create("u10", "u10@example.com", "Full Name 10");
     TestAccount u11_at =
-        accounts.create("u11@something", "u11@example.com", "Full Name 11 With At");
-    accounts.create("u11", "u11.another@example.com", "Full Name 11 Without At");
+        accountCreator.create("u11@something", "u11@example.com", "Full Name 11 With At");
+    accountCreator.create("u11", "u11.another@example.com", "Full Name 11 Without At");
     gApi.groups().id(g).addMembers(u10.username, u11_at.username);
     assertMembers(g, u10, u11_at);
   }
@@ -529,7 +529,7 @@ public class GroupsIT extends AbstractDaemonTest {
   // reindex is tested by {@link AbstractQueryGroupsTest#reindex}
   @Test
   public void reindexPermissions() throws Exception {
-    TestAccount groupOwner = accounts.user2();
+    TestAccount groupOwner = accountCreator.user2();
     GroupInput in = new GroupInput();
     in.name = name("group");
     in.members =
@@ -611,7 +611,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private String createAccount(String name, String group) throws Exception {
     name = name(name);
-    accounts.create(name, group);
+    accountCreator.create(name, group);
     return name;
   }
 }

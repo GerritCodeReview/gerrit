@@ -87,7 +87,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     anonRestSession = new RestSession(server, null);
-    admin2 = accounts.admin2();
+    admin2 = accountCreator.admin2();
     GroupInput gi = new GroupInput();
     gi.name = name("New-Group");
     gi.members = ImmutableList.of(user.id.toString());
@@ -322,7 +322,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Test
   public void voteOnBehalfOfInvisibleUserNotAllowed() throws Exception {
     allowCodeReviewOnBehalfOf();
-    setApiUser(accounts.user2());
+    setApiUser(accountCreator.user2());
     assertThat(accountControlFactory.get().canSee(user.id)).isFalse();
 
     PushOneCommit.Result r = createChange();
@@ -401,7 +401,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Test
   public void submitOnBehalfOfInvisibleUserNotAllowed() throws Exception {
     allowSubmitOnBehalfOf();
-    setApiUser(accounts.user2());
+    setApiUser(accountCreator.user2());
     assertThat(accountControlFactory.get().canSee(user.id)).isFalse();
 
     PushOneCommit.Result r = createChange();
@@ -502,7 +502,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     //   X-Gerrit-RunAs user (user2).
     allowRunAs();
     allowCodeReviewOnBehalfOf();
-    TestAccount user2 = accounts.user2();
+    TestAccount user2 = accountCreator.user2();
 
     PushOneCommit.Result r = createChange();
     ReviewInput in = new ReviewInput();
@@ -542,7 +542,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.message = "Message on behalf of";
     in.label("Code-Review", 1);
 
-    setApiUser(accounts.user2());
+    setApiUser(accountCreator.user2());
     gApi.changes().id(r.getChangeId()).revision(r.getPatchSetId().getId()).review(in);
 
     ChangeInfo info =
@@ -551,7 +551,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
     ChangeMessageInfo changeMessageInfo = Iterables.getLast(info.messages);
     assertThat(changeMessageInfo.realAuthor).isNotNull();
-    assertThat(changeMessageInfo.realAuthor._accountId).isEqualTo(accounts.user2().id.get());
+    assertThat(changeMessageInfo.realAuthor._accountId).isEqualTo(accountCreator.user2().id.get());
   }
 
   private void allowCodeReviewOnBehalfOf() throws Exception {

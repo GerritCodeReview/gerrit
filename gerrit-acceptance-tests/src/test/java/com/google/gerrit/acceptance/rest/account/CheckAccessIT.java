@@ -48,7 +48,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
     secretRefProject = createProject("secretRef");
     privilegedGroup = groupCache.get(new AccountGroup.NameKey(createGroup("privilegedGroup")));
 
-    privilegedUser = accounts.create("privilegedUser", "snowden@nsa.gov", "Ed Snowden");
+    privilegedUser = accountCreator.create("privilegedUser", "snowden@nsa.gov", "Ed Snowden");
     gApi.groups().id(privilegedGroup.getGroupUUID().get()).addMembers(privilegedUser.username);
 
     assertThat(gApi.groups().id(privilegedGroup.getGroupUUID().get()).members().get(0).email)

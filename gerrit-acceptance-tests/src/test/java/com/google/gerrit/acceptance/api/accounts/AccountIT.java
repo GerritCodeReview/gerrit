@@ -212,7 +212,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void create() throws Exception {
-    TestAccount foo = accounts.create("foo");
+    TestAccount foo = accountCreator.create("foo");
     AccountInfo info = gApi.accounts().id(foo.id.get()).get();
     assertThat(info.username).isEqualTo("foo");
     if (SshMode.useSsh()) {
@@ -391,7 +391,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void ignoreChange() throws Exception {
-    TestAccount user2 = accounts.user2();
+    TestAccount user2 = accountCreator.user2();
     accountIndexedCounter.clear();
 
     PushOneCommit.Result r = createChange();
@@ -500,7 +500,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void cannotAddNonConfirmedEmailWithoutModifyAccountPermission() throws Exception {
-    TestAccount account = accounts.create(name("user"));
+    TestAccount account = accountCreator.create(name("user"));
     EmailInput input = new EmailInput();
     input.email = "test@test.com";
     input.noConfirmation = true;
@@ -1061,7 +1061,7 @@ public class AccountIT extends AbstractDaemonTest {
     // Create an account with a preferred email.
     String username = name("foo");
     String email = username + "@example.com";
-    TestAccount account = accounts.create(username, email, "Foo Bar");
+    TestAccount account = accountCreator.create(username, email, "Foo Bar");
 
     ConsistencyCheckInput input = new ConsistencyCheckInput();
     input.checkAccounts = new CheckAccountsInput();

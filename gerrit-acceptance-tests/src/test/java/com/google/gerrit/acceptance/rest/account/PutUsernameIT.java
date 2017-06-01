@@ -27,7 +27,7 @@ public class PutUsernameIT extends AbstractDaemonTest {
     PutUsername.Input in = new PutUsername.Input();
     in.username = "myUsername";
     RestResponse r =
-        adminRestSession.put("/accounts/" + accounts.create().id.get() + "/username", in);
+        adminRestSession.put("/accounts/" + accountCreator.create().id.get() + "/username", in);
     r.assertOK();
     assertThat(newGson().fromJson(r.getReader(), String.class)).isEqualTo(in.username);
   }
@@ -37,7 +37,7 @@ public class PutUsernameIT extends AbstractDaemonTest {
     PutUsername.Input in = new PutUsername.Input();
     in.username = admin.username;
     adminRestSession
-        .put("/accounts/" + accounts.create().id.get() + "/username", in)
+        .put("/accounts/" + accountCreator.create().id.get() + "/username", in)
         .assertConflict();
   }
 

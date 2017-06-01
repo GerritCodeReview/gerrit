@@ -1599,7 +1599,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.notify = NotifyHandling.NONE;
 
     // notify unrelated account as TO
-    TestAccount user2 = accounts.user2();
+    TestAccount user2 = accountCreator.user2();
     setApiUser(user);
     recommend(r.getChangeId());
     setApiUser(admin);

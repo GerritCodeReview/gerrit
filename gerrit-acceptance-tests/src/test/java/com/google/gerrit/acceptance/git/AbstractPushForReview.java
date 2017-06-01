@@ -247,7 +247,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushForMasterWithNotify() throws Exception {
     // create a user that watches the project
-    TestAccount user3 = accounts.create("user3", "user3@example.com", "User3");
+    TestAccount user3 = accountCreator.create("user3", "user3@example.com", "User3");
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
     ProjectWatchInfo pwi = new ProjectWatchInfo();
     pwi.project = project.get();
@@ -257,7 +257,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     setApiUser(user3);
     gApi.accounts().self().setWatchedProjects(projectsToWatch);
 
-    TestAccount user2 = accounts.user2();
+    TestAccount user2 = accountCreator.user2();
     String pushSpec = "refs/for/master%reviewer=" + user.email + ",cc=" + user2.email;
 
     sender.clear();
@@ -326,7 +326,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertChange(Change.Status.NEW, topic);
 
     // cc several users
-    TestAccount user2 = accounts.create("another-user", "another.user@example.com", "Another User");
+    TestAccount user2 =
+        accountCreator.create("another-user", "another.user@example.com", "Another User");
     r =
         pushTo(
             "refs/for/master/"
@@ -364,7 +365,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertChange(Change.Status.NEW, topic, user);
 
     // add several reviewers
-    TestAccount user2 = accounts.create("another-user", "another.user@example.com", "Another User");
+    TestAccount user2 =
+        accountCreator.create("another-user", "another.user@example.com", "Another User");
     r =
         pushTo(
             "refs/for/master/"

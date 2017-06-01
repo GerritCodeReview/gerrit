@@ -25,7 +25,10 @@
       },
       permittedLabels: Object,
       labelValues: Object,
-      _selectedValueText: String,
+      _selectedValueText: {
+        type: String,
+        value: 'No value selected',
+      },
     },
 
     get selectedItem() {
@@ -74,8 +77,20 @@
       return null;
     },
 
+    _setSelectedValueText(e) {
+      // Needed because when the selected item changes, it first changes to
+      // nothing and then to the new item.
+      if (!e.target.selectedItem) { return; }
+      this._selectedValueText = e.target.selectedItem.getAttribute('title');
+    },
+
     _computeAnyPermittedLabelValues(permittedLabels, label) {
       return permittedLabels.hasOwnProperty(label);
+    },
+
+    _computeHiddenClass(permittedLabels, label) {
+      return !this._computeAnyPermittedLabelValues(permittedLabels, label) ?
+          'hidden' : '';
     },
 
     _computePermittedLabelValues(permittedLabels, label) {

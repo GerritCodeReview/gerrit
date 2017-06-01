@@ -110,6 +110,7 @@ limitations under the License.
       assert.equal(element.selectedValue, -1);
       assert.equal(element.selectedItem
           .textContent.trim(), '-1');
+      assert.equal(element.$.selectedValueLabel.textContent.trim(), 'bad');
     });
 
     test('correct item is selected', () => {
@@ -118,6 +119,7 @@ limitations under the License.
       assert.equal(
           element.$$('iron-selector').selectedItem
               .textContent.trim(), '+1');
+      assert.equal(element.$.selectedValueLabel.textContent.trim(), 'good');
     });
 
     test('do not display tooltips on touch devices', () => {
@@ -176,7 +178,7 @@ limitations under the License.
         },
         'Verified': {
           values: {
-            '0': 'No score',
+            ' 0': 'No score',
             '+1': 'good',
             '+2': 'excellent',
             '-1': 'bad',
@@ -185,11 +187,11 @@ limitations under the License.
           default_value: 0,
         },
       };
-      flushAsynchronousOperations();
       const selector = element.$$('iron-selector');
       element.set('label', {name: 'Verified', value: 0});
       flushAsynchronousOperations();
       assert.equal(selector.selected, 0); // value 0
+      assert.equal(element.$.selectedValueLabel.textContent.trim(), 'No score');
     });
 
     test('without permitted labels', () => {

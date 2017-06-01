@@ -140,6 +140,13 @@
       };
     });
 
+    // Matches /admin/create-project[/].
+    page(/^\/admin\/create-project(\/)?$/, loadUser, data => {
+      app.params = {
+        view: 'gr-admin-create-project',
+      };
+    });
+
     page('/admin/(.*)', loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {

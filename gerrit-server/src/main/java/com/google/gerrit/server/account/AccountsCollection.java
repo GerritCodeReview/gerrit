@@ -24,9 +24,11 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -43,6 +45,10 @@ public class AccountsCollection implements
   private final Provider<SuggestAccounts> list;
   private final DynamicMap<RestView<AccountResource>> views;
   private final CreateAccount.Factory createAccountFactory;
+  private final AuthType authType;
+  private final AccountResolver accountResolver;
+  private final AccountCache accountCache;
+  private final AccountManager accountManager;
 
   @Inject
   AccountsCollection(Provider<CurrentUser> self,
@@ -51,7 +57,11 @@ public class AccountsCollection implements
       IdentifiedUser.GenericFactory userFactory,
       Provider<SuggestAccounts> list,
       DynamicMap<RestView<AccountResource>> views,
-      CreateAccount.Factory createAccountFactory) {
+      CreateAccount.Factory createAccountFactory,
+      AuthConfig authConfig,
+      AccountResolver accountResolver,
+      AccountCache accountCache,
+      AccountManager accountManager) {
     this.self = self;
     this.resolver = resolver;
     this.accountControlFactory = accountControlFactory;
@@ -59,6 +69,10 @@ public class AccountsCollection implements
     this.list = list;
     this.views = views;
     this.createAccountFactory = createAccountFactory;
+    this.authType = authConfig.getAuthType();
+    this.accountResolver = accountResolver;
+    this.accountCache = accountCache;
+    this.accountManager = accountManager;
   }
 
   @Override
@@ -143,5 +157,45 @@ public class AccountsCollection implements
   @Override
   public CreateAccount create(TopLevelResource parent, IdString username) {
     return createAccountFactory.create(username.get());
+  }
+
+  public Account findAccount(String nameOrEmail) throws AuthException,
+  UnprocessableEntityException, OrmException {
+    try {
+      return this.parse(nameOrEmail).getAccount();
+    } catch (UnprocessableEntityException e) {
+      // might be because the account does not exist or because the account is
+      // not visible
+      switch (authType) {
+        case HTTP_LDAP:
+        case CLIENT_SSL_CERT_LDAP:
+        case LDAP:
+          if (accountResolver.find(nameOrEmail) == null) {
+            // account does not exist, try to create it
+            Account a = createAccountByLdap(nameOrEmail);
+            if (a != null) {
+              return a;
+            }
+          }
+          break;
+        default:
+      }
+      throw e;
+    }
+  }
+
+  private Account createAccountByLdap(String user) {
+    if (!user.matches(Account.USER_NAME_PATTERN)) {
+      return null;
+    }
+
+    try {
+      AuthRequest req = AuthRequest.forUser(user);
+      req.setSkipAuthentication(true);
+      return accountCache.get(accountManager.authenticate(req).getAccountId())
+          .getAccount();
+    } catch (AccountException e) {
+      return null;
+    }
   }
 }

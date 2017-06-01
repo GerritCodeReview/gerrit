@@ -80,10 +80,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   private final Provider<IdentifiedUser> self;
-  private final AccountManager accountManager;
-  private final AuthType authType;
   private final AccountsCollection accounts;
-  private final AccountResolver accountResolver;
   private final AccountCache accountCache;
   private final AccountLoader.Factory infoFactory;
   private final Provider<ReviewDb> db;
@@ -91,20 +88,14 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
   @Inject
   AddMembers(Provider<IdentifiedUser> self,
-      AccountManager accountManager,
-      AuthConfig authConfig,
       AccountsCollection accounts,
-      AccountResolver accountResolver,
       AccountCache accountCache,
       AccountLoader.Factory infoFactory,
       Provider<ReviewDb> db,
       AuditService auditService) {
     this.self = self;
-    this.accountManager = accountManager;
     this.auditService = auditService;
-    this.authType = authConfig.getAuthType();
     this.accounts = accounts;
-    this.accountResolver = accountResolver;
     this.accountCache = accountCache;
     this.infoFactory = infoFactory;
     this.db = db;
@@ -124,7 +115,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
     Set<Account.Id> newMemberIds = new HashSet<>();
     for (String nameOrEmail : input.members) {
-      Account a = findAccount(nameOrEmail);
+      Account a = accounts.findAccount(nameOrEmail);
       if (!a.isActive()) {
         throw new UnprocessableEntityException(String.format(
             "Account Inactive: %s", nameOrEmail));
@@ -138,31 +129,6 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
     addMembers(internalGroup.getId(), newMemberIds);
     return toAccountInfoList(newMemberIds);
-  }
-
-  private Account findAccount(String nameOrEmail) throws AuthException,
-      UnprocessableEntityException, OrmException {
-    try {
-      return accounts.parse(nameOrEmail).getAccount();
-    } catch (UnprocessableEntityException e) {
-      // might be because the account does not exist or because the account is
-      // not visible
-      switch (authType) {
-        case HTTP_LDAP:
-        case CLIENT_SSL_CERT_LDAP:
-        case LDAP:
-          if (accountResolver.find(nameOrEmail) == null) {
-            // account does not exist, try to create it
-            Account a = createAccountByLdap(nameOrEmail);
-            if (a != null) {
-              return a;
-            }
-          }
-          break;
-        default:
-      }
-      throw e;
-    }
   }
 
   public void addMembers(AccountGroup.Id groupId,
@@ -185,21 +151,6 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     db.get().accountGroupMembers().insert(newAccountGroupMembers.values());
     for (AccountGroupMember m : newAccountGroupMembers.values()) {
       accountCache.evict(m.getAccountId());
-    }
-  }
-
-  private Account createAccountByLdap(String user) {
-    if (!user.matches(Account.USER_NAME_PATTERN)) {
-      return null;
-    }
-
-    try {
-      AuthRequest req = AuthRequest.forUser(user);
-      req.setSkipAuthentication(true);
-      return accountCache.get(accountManager.authenticate(req).getAccountId())
-          .getAccount();
-    } catch (AccountException e) {
-      return null;
     }
   }
 

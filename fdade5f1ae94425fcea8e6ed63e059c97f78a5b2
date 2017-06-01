@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c43affe5_f376de20",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5691,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-01T16:13:17Z",
+      "side": 1,
+      "message": "hex digit",
+      "range": {
+        "startLine": 5691,
+        "startChar": 3,
+        "endLine": 5691,
+        "endChar": 11
+      },
+      "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f3dd815_953c5461",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-01T16:13:17Z",
+      "side": 1,
+      "message": "cherryPickWithBase",
+      "range": {
+        "startLine": 700,
+        "startChar": 14,
+        "endLine": 700,
+        "endChar": 32
+      },
+      "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f176fb0_d8957ffe",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CherryPickInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-01T16:13:17Z",
+      "side": 1,
+      "message": "http://cs.bazel.build/search?q\u003dr%3Agerrit+hexdigit\u0026num\u003d50",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 16
+      },
+      "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

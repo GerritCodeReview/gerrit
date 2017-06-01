@@ -714,12 +714,6 @@ database tables:
 If direct updates are made to any of these database tables, this
 cache should be flushed.
 
-cache `"accounts_byemail"`::
-+
-Caches account identities keyed by email address, which is scanned
-from the `account_external_ids` database table.  If updates are
-made to this table, this cache should be flushed.
-
 cache `"adv_bases"`::
 +
 Used only for push over smart HTTP when branch level access controls

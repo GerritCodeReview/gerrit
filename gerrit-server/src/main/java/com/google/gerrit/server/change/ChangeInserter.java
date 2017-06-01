@@ -118,6 +118,7 @@ public class ChangeInserter implements InsertChangeOp {
   private NotifyHandling notify = NotifyHandling.ALL;
   private ListMultimap<RecipientType, Account.Id> accountsToNotify = ImmutableListMultimap.of();
   private Set<Account.Id> reviewers;
+  private Set<Account.Id> ccs;
   private Set<Account.Id> extraCC;
   private Map<String, Short> approvals;
   private RequestScopePropagator requestScopePropagator;
@@ -168,6 +169,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.commitId = commitId.copy();
     this.refName = refName;
     this.reviewers = Collections.emptySet();
+    this.ccs = Collections.emptySet();
     this.extraCC = Collections.emptySet();
     this.approvals = Collections.emptyMap();
     this.fireRevisionCreated = true;
@@ -257,6 +259,11 @@ public class ChangeInserter implements InsertChangeOp {
 
   public ChangeInserter setReviewers(Set<Account.Id> reviewers) {
     this.reviewers = reviewers;
+    return this;
+  }
+
+  public ChangeInserter setCcs(Set<Account.Id> ccs) {
+    this.ccs = ccs;
     return this;
   }
 
@@ -420,6 +427,7 @@ public class ChangeInserter implements InsertChangeOp {
         Collections.<Account.Id>emptySet());
     approvalsUtil.addApprovalsForNewPatchSet(
         db, update, labelTypes, patchSet, ctx.getControl(), approvals);
+    approvalsUtil.addCcs(ctx.getNotes(), update, ccs);
     // Check if approvals are changing in with this update. If so, add current user to reviewers.
     // Note that this is done separately as addReviewers is filtering out the change owner as
     // reviewer which is needed in several other code paths.

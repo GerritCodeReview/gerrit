@@ -448,6 +448,37 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revertPreservesReviewersAndCcs() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    ReviewInput in = ReviewInput.approve();
+    in.reviewer(user.email);
+    in.reviewer(accounts.user2().email, ReviewerState.CC, true);
+
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    // expect both the original reviewers and CCs to be preserved
+    // original owner should be added as reviewer, user requesting the revert (new owner) removed
+    setApiUser(accounts.admin2());
+    Map<ReviewerState, Collection<AccountInfo>> result =
+        gApi.changes().id(r.getChangeId()).revert().get().reviewers;
+    assertThat(result.containsKey(ReviewerState.REVIEWER)).isTrue();
+    List<Integer> reviewers =
+        result.get(ReviewerState.REVIEWER).stream().map(a -> a._accountId).collect(toList());
+    assertThat(reviewers).containsAllOf(user.id.get(), admin.id.get());
+
+    if (notesMigration.readChanges()) {
+      assertThat(result.containsKey(ReviewerState.CC)).isTrue();
+      List<Integer> ccs =
+          result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
+      assertThat(ccs).containsExactly(accounts.user2().id.get());
+    } else {
+      assertThat(reviewers).contains(accounts.user2().id.get());
+    }
+  }
+
+  @Test
   @TestProjectInput(createEmptyCommit = false)
   public void revertInitialCommit() throws Exception {
     PushOneCommit.Result r = createChange();

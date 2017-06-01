@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bc08a53a_d6c0320d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-01T05:47:10Z",
+      "side": 1,
+      "message": "Yes, let me make it a real one.",
+      "parentUuid": "09851d4c_401367ac",
+      "range": {
+        "startLine": 2110,
+        "startChar": 0,
+        "endLine": 2111,
+        "endChar": 59
+      },
+      "revId": "0d5def8d860cd91f4a885bb74a906aac84359595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55c395dc_6b273eae",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-01T05:43:04Z",
       "side": 1,
       "message": "Link to the setting(s) that controls which UIs are enabled?",
+      "range": {
+        "startLine": 2114,
+        "startChar": 12,
+        "endLine": 2114,
+        "endChar": 26
+      },
+      "revId": "0d5def8d860cd91f4a885bb74a906aac84359595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0671764_72e7dee2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2114,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-01T05:47:10Z",
+      "side": 1,
+      "message": "Not sure that is documented either :-(\nFollow-up change? (one change \u003d one thing)",
+      "parentUuid": "55c395dc_6b273eae",
       "range": {
         "startLine": 2114,
         "startChar": 12,

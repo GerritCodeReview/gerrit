@@ -21,12 +21,13 @@ limitations under the License.
     <style>
       :host {
         display: block;
-        height: var(--header-height);
+        min-height: var(--header-height);
         position: relative;
       }
       header {
         background: inherit;
         border: inherit;
+        display: inline;
         height: inherit;
       }
       .floating {
@@ -37,9 +38,7 @@ limitations under the License.
       }
     </style>
     <header id="header" class$="[[_computeHeaderClass(_headerFloating)]]">
-      <div class="contentWrapper">
-        <content></content>
-      </div>
+      <content></content>
     </header>
   </template>
   <script src="gr-fixed-panel.js"></script>

@@ -20,7 +20,7 @@
     properties: {
       readyForMeasure: {
         type: Boolean,
-        observer: '_maybeFloatHeader',
+        observer: '_readyForMeasureObserver',
       },
       keepOnScroll: {
         type: Boolean,
@@ -37,22 +37,34 @@
         type: Boolean,
         value: false,
       },
+      _observer: {
+        type: Object,
+        value: null,
+      },
+      _webComponentsReady: Boolean,
     },
 
     attached() {
       // Enable content measure unless blocked by param.
-      this.async(() => {
-        if (this.readyForMeasure !== false) {
-          this.readyForMeasure = true;
-        }
-      }, 1);
-      this.listen(window, 'scroll', '_handleScroll');
-      this.listen(window, 'resize', '_handleResize');
+      if (this.readyForMeasure !== false) {
+        this.readyForMeasure = true;
+      }
+      this.listen(window, 'resize', 'update');
+      this.listen(window, 'scroll', '_updateOnScroll');
+      this._observer = new MutationObserver(this.update.bind(this));
+      this._observer.observe(this.$.header, {childList: true, subtree: true});
     },
 
     detached() {
-      this.unlisten(window, 'scroll', '_handleScroll');
-      this.unlisten(window, 'resize', '_handleResize');
+      this.unlisten(window, 'scroll', '_updateOnScroll');
+      this.unlisten(window, 'resize', 'update');
+      this._observer.disconnect();
+    },
+
+    _readyForMeasureObserver(readyForMeasure) {
+      if (readyForMeasure) {
+        this.update();
+      }
     },
 
     _computeHeaderClass(headerFloating) {
@@ -63,19 +75,25 @@
       return window.scrollY;
     },
 
-    _handleResize() {
-      this.debounce('resize', () => {
-        this._maybeFloatHeader();
-        this._handleScrollDebounced();
+    update() {
+      this.debounce('update', () => {
+        this._updateDebounced();
       }, 100);
     },
 
-    _handleScroll() {
-      this._maybeFloatHeader();
-      this.debounce('scroll', this._handleScrollDebounced);
+    _updateOnScroll() {
+      this.debounce('update', () => {
+        this._updateDebounced();
+      });
     },
 
-    _handleScrollDebounced() {
+    _updateDebounced() {
+      this._isMeasured = false;
+      this._maybeFloatHeader();
+      this._reposition();
+    },
+
+    _reposition() {
       if (!this._headerFloating) {
         return;
       }
@@ -114,38 +132,39 @@
       if (rect.height === 0 && rect.width === 0) {
         return; // Not ready for measurement yet.
       }
-      const isVisible = (rect.top >= 0) && (rect.bottom <= window.innerHeight);
-      if (!isVisible) {
-        return;
-      }
       const top = document.body.scrollTop + rect.top;
-      this._topInitial = top;
       this._topLast = top;
+      this._headerHeight = rect.height;
+      this._topInitial =
+        this.getBoundingClientRect().top + document.body.scrollTop;
       this._isMeasured = true;
     },
 
+    _isFloatingNeeded() {
+      return this.keepOnScroll ||
+        document.body.scrollWidth > document.body.clientWidth;
+    },
+
     _maybeFloatHeader() {
-      if (!this.readyForMeasure) {
+      if (!this._isFloatingNeeded()) {
         return;
       }
       this._measure();
-      if (!this._headerFloating && this._isMeasured) {
+      if (this._isMeasured) {
         this._floatHeader();
       }
     },
 
     _unfloatHeader() {
-      this.customStyle['--header-height'] = '';
       this._headerFloating = false;
+      this.customStyle['--header-height'] = '';
       this.updateStyles();
     },
 
     _floatHeader() {
-      const rect = this.$.header.getBoundingClientRect();
-      this._headerHeight = rect.height;
-      this.customStyle['--header-height'] = rect.height + 'px';
-      this._headerFloating = true;
+      this.customStyle['--header-height'] = this._headerHeight + 'px';
       this.updateStyles();
+      this._headerFloating = true;
     },
   });
 })();

@@ -52,32 +52,27 @@ limitations under the License.
       assert.equal(element.getBoundingClientRect().height, 100);
     });
 
-    test('scroll triggers _handleScroll', () => {
-      sandbox.stub(element, '_handleScroll');
+    test('scroll triggers _reposition', () => {
+      sandbox.stub(element, '_reposition');
       window.dispatchEvent(new CustomEvent('scroll'));
-      assert.isTrue(element._handleScroll.called);
+      element.flushDebouncer('update');
+      assert.isTrue(element._reposition.called);
     });
 
-    suite('_handleScroll', () => {
+    suite('_reposition', () => {
       const getHeaderTop = function() {
         return element.$.header.style.top;
       };
 
       const emulateScrollY = function(distance) {
         element._getScrollY.returns(distance);
-        element._handleScroll();
+        element._updateDebounced();
         element.flushDebouncer('scroll');
       };
 
       setup(() => {
         element._headerTopInitial = 10;
         sandbox.stub(element, '_getScrollY').returns(0);
-      });
-
-      test('is debounced', () => {
-        sandbox.stub(element, 'debounce');
-        element._handleScroll();
-        assert.isTrue(element.debounce.called);
       });
 
       test('scrolls header along with document', () => {

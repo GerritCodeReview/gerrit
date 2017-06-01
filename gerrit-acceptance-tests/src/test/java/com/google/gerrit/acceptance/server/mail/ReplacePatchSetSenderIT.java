@@ -43,9 +43,8 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .notTo(sc.owner)
         .to(sc.reviewer)
-        .to(sc.reviewerByEmail)
         .cc(sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS);
   }
@@ -73,9 +72,8 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .notTo(sc.owner)
         .to(sc.reviewer, other)
-        .to(sc.reviewerByEmail)
         .cc(sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS);
   }
@@ -102,9 +100,8 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newpatchset", sc)
         .to(sc.owner, sc.reviewer, other)
-        .to(sc.reviewerByEmail)
         .cc(sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS);
   }
@@ -131,9 +128,8 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .notTo(sc.owner, sc.starrer, other)
         .to(sc.reviewer)
-        .to(sc.reviewerByEmail)
         .cc(sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .notTo(NEW_PATCHSETS);
   }
 
@@ -162,9 +158,8 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .notTo(sc.starrer, other)
         .to(sc.owner, sc.reviewer)
-        .to(sc.reviewerByEmail)
         .cc(sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .notTo(NEW_PATCHSETS);
   }
 
@@ -234,9 +229,8 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .notTo(sc.owner)
         .to(sc.reviewer)
-        .to(sc.reviewerByEmail)
         .cc(sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS);
   }
@@ -264,9 +258,8 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .notTo(sc.owner)
         .to(sc.reviewer)
-        .to(sc.reviewerByEmail)
         .cc(sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS);
   }
@@ -303,8 +296,7 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
         .notTo(sc.owner)
         .to(sc.reviewer, newReviewer)
         .cc(sc.ccer)
-        .to(sc.reviewerByEmail)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS);
     assertThat(sender).notSent();
@@ -320,8 +312,7 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .notTo(sc.owner)
         .to(sc.reviewer, sc.ccer, newReviewer)
-        .to(sc.reviewerByEmail)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS);
     assertThat(sender).notSent();
@@ -346,8 +337,7 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
         .notTo(sc.owner)
         .to(sc.reviewer, newReviewer)
         .cc(sc.ccer)
-        .to(sc.reviewerByEmail)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS);
     assertThat(sender).notSent();
@@ -363,8 +353,7 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .notTo(sc.owner)
         .to(sc.reviewer, sc.ccer, newReviewer)
-        .to(sc.reviewerByEmail)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS);
     assertThat(sender).notSent();
@@ -380,8 +369,7 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
         .notTo(sc.owner)
         .to(sc.reviewer)
         .cc(sc.ccer)
-        .to(sc.reviewerByEmail)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS);
     assertThat(sender).notSent();
@@ -396,8 +384,7 @@ public class ReplacePatchSetSenderIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .notTo(sc.owner)
         .to(sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS);
     assertThat(sender).notSent();

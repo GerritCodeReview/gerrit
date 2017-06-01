@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "d6c02a95_d46c7049",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-01T17:16:06Z",
+      "side": 1,
+      "message": "Can this be private?\n\n _sectionMetadata",
+      "range": {
+        "startLine": 55,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 21
+      },
+      "revId": "4b0889e290c8221ac008db2414a5b8ae80a35ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a87b411_d28ee125",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-01T17:16:06Z",
+      "side": 1,
+      "message": "this.sectionMetadata is already an array. Why do you use Object.values here?",
+      "range": {
+        "startLine": 82,
+        "startChar": 13,
+        "endLine": 82,
+        "endChar": 48
+      },
+      "revId": "4b0889e290c8221ac008db2414a5b8ae80a35ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b4f6a4f4_5aac4095",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
         "patchSetId": 1
@@ -22,6 +68,29 @@
       "revId": "4b0889e290c8221ac008db2414a5b8ae80a35ad2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9064d3f4_25cb54a6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-01T17:16:06Z",
+      "side": 1,
+      "message": "What about just mapping the to the queries here?\n\nreturn this.$.restAPI.getChanges(\n    null, this.sectionMetadata.map(s \u003d\u003e s.query), null,  this.options);",
+      "range": {
+        "startLine": 105,
+        "startChar": 16,
+        "endLine": 105,
+        "endChar": 30
+      },
+      "revId": "4b0889e290c8221ac008db2414a5b8ae80a35ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -923,7 +923,10 @@
       return this.$.restAPI.getChangeDetail(this._changeNum,
           this._handleGetChangeDetailError.bind(this)).then(
           change => {
-                // Issue 4190: Coalesce missing topics to null.
+            if (!change) {
+              return '';
+            }
+            // Issue 4190: Coalesce missing topics to null.
             if (!change.topic) { change.topic = null; }
             if (!change.reviewer_updates) {
               change.reviewer_updates = null;

@@ -58,7 +58,6 @@ Intended for interactive use only.
                                   |   Mem   Disk   Space|         |Mem  Disk|
   --------------------------------+---------------------+---------+---------+
     accounts                      |  4096               |   3.4ms | 99%     |
-    accounts_byemail              |  1024               |   7.6ms | 98%     |
     accounts_byname               |  4096               |  11.3ms | 99%     |
     adv_bases                     |                     |         |         |
     changes                       |                     |  27.1ms |  0%     |

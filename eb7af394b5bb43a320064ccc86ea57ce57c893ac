@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "861b6538_22326fdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-01T12:15:38Z",
+      "side": 1,
+      "message": "I think we should also expose the creation date via the REST API (have a new field in GroupInfo). If you want, this can be done in a follow-up change.",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39c3e478_287740c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-01T12:15:38Z",
+      "side": 1,
+      "message": "Should this be a constant in this class?",
+      "range": {
+        "startLine": 53,
+        "startChar": 10,
+        "endLine": 53,
+        "endChar": 97
+      },
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e87d5596_ae24207a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-01T12:15:38Z",
+      "side": 1,
+      "message": "You also must write back the updated value to the database, don\u0027t you?\n\n  db.get().accountGroupMembers().update(...)",
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

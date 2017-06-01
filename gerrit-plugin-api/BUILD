@@ -43,6 +43,7 @@ EXPORTS = [
     "//lib:args4j",
     "//lib:blame-cache",
     "//lib:guava",
+    "//lib:guava-retrying",
     "//lib:gson",
     "//lib:gwtorm",
     "//lib:icu4j",

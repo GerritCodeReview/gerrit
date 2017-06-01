@@ -12,6 +12,16 @@ ExecStart=/usr/bin/java -Xmx1024m -jar ${GERRIT_HOME}/bin/gerrit.war daemon -d $
 User=gerritsrv
 SyslogIdentifier=GerritCodeReview
 StandardInput=socket
+# default gerrit ulimits set by the init.d script... your choice
+LimitCORE=0
+LimitDATA=infinity
+LimitFSIZE=infinity
+LimitRSS=infinity
+# NOFILE :  GERRIT_FDS, determined by "core.packedGitOpenFiles" in the script
+LimitNOFILE=65536
+LimitCPU=infinity
+LimitAS=infinity
+LimitLOCKS=infinity
 
 [Install]
 WantedBy=multi-user.target

@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -37,11 +38,16 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountsCollection;
+import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.change.ReviewerJson.PostResult;
 import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -89,6 +95,9 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final AccountCache accountCache;
   private final ReviewerJson json;
   private final ChangeIndexer indexer;
+  private final AuthType authType;
+  private final AccountResolver accountResolver;
+  private final AccountManager accountManager;
 
   @Inject
   PostReviewers(AccountsCollection accounts,
@@ -106,7 +115,10 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       ChangeHooks hooks,
       AccountCache accountCache,
       ReviewerJson json,
-      ChangeIndexer indexer) {
+      ChangeIndexer indexer,
+      AuthConfig authConfig,
+      AccountResolver accountResolver,
+      AccountManager accountManager) {
     this.accounts = accounts;
     this.reviewerFactory = reviewerFactory;
     this.approvalsUtil = approvalsUtil;
@@ -123,6 +135,9 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     this.accountCache = accountCache;
     this.json = json;
     this.indexer = indexer;
+    this.authType = authConfig.getAuthType();
+    this.accountResolver = accountResolver;
+    this.accountManager = accountManager;
   }
 
   @Override
@@ -134,7 +149,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     }
 
     try {
-      Account.Id accountId = accounts.parse(input.reviewer).getAccountId();
+      Account.Id accountId = findAccount(input.reviewer).getId();
       return putAccount(reviewerFactory.create(rsrc, accountId));
     } catch (UnprocessableEntityException e) {
       try {
@@ -144,6 +159,45 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
             ChangeMessages.get().reviewerNotFound,
             input.reviewer));
       }
+    }
+  }
+
+  private Account findAccount(String nameOrEmail) throws AuthException,
+  UnprocessableEntityException, OrmException {
+    try {
+      return accounts.parse(nameOrEmail).getAccount();
+    } catch (UnprocessableEntityException e) {
+      // might be because the account does not exist or because the account is
+      // not visible
+      switch (authType) {
+        case HTTP_LDAP:
+        case CLIENT_SSL_CERT_LDAP:
+        case LDAP:
+          if (accountResolver.find(nameOrEmail) == null) {
+            // account does not exist, try to create it
+            Account a = createAccountByLdap(nameOrEmail);
+            if (a != null) {
+              return a;
+            }
+          }
+          break;
+        default:
+      }
+      throw e;
+    }
+  }
+
+  private Account createAccountByLdap(String user) {
+    if (!user.matches(Account.USER_NAME_PATTERN)) {
+      return null;
+    }
+
+    try {
+      AuthRequest req = AuthRequest.forUser(user);
+      req.setSkipAuthentication(true);
+      return accountCache.get(accountManager.authenticate(req).getAccountId()).getAccount();
+    } catch (AccountException e) {
+      return null;
     }
   }
 

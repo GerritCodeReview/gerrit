@@ -46,9 +46,8 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
         .sent("deleteReviewer", sc)
         .notTo(sc.owner)
         .to(extraReviewer)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(extraCcer, sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -61,9 +60,8 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("deleteReviewer", sc)
         .to(sc.owner, extraReviewer)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(extraCcer, sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -76,9 +74,8 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("deleteReviewer", sc)
         .to(sc.owner, extraReviewer)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(extraCcer, sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -92,9 +89,8 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("deleteReviewer", sc)
         .to(sc.owner, extraReviewer)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(admin, extraCcer, sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -107,9 +103,8 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
         .sent("deleteReviewer", sc)
         .notTo(sc.owner)
         .to(extraCcer)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(extraReviewer, sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -122,9 +117,8 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
         .sent("deleteReviewer", sc)
         .notTo(sc.owner)
         .to(extraReviewer)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(extraCcer, sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .notTo(sc.starrer)
         .notTo(ALL_COMMENTS);
   }
@@ -193,9 +187,8 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
         .sent("deleteReviewer", sc)
         .notTo(sc.owner)
         .to(extraReviewer)
-        .to(sc.reviewerByEmail) // TODO(logan): This should probably be CC.
         .cc(extraCcer, sc.reviewer, sc.ccer)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }

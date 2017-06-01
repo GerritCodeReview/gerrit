@@ -31,8 +31,7 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("setassignee", sc)
         .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer)
-        .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
-        .cc(sc.ccerByEmail) // TODO(logan): This is probably not intended!
+        .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
         .to(sc.assignee);
   }
 
@@ -44,8 +43,7 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
         .sent("setassignee", sc)
         .notTo(sc.reviewer, sc.ccer, sc.starrer)
         .cc(sc.owner)
-        .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
-        .cc(sc.ccerByEmail) // TODO(logan): This is probably not intended!
+        .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
         .to(sc.assignee);
   }
 
@@ -56,8 +54,7 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("setassignee", sc)
         .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer, admin)
-        .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
-        .cc(sc.ccerByEmail) // TODO(logan): This is probably not intended!
+        .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
         .to(sc.assignee);
   }
 
@@ -69,8 +66,7 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
         .sent("setassignee", sc)
         .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer)
         .cc(admin)
-        .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
-        .cc(sc.ccerByEmail) // TODO(logan): This is probably not intended!
+        .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
         .to(sc.assignee);
   }
 
@@ -82,8 +78,7 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("setassignee", sc)
         .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer, sc.assignee)
-        .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
-        .cc(sc.ccerByEmail); // TODO(logan): This is probably not intended!
+        .cc(sc.reviewerByEmail, sc.ccerByEmail); // TODO(logan): This is probably not intended!
   }
 
   @Test
@@ -104,8 +99,7 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("setassignee", sc)
         .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer, other)
-        .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
-        .cc(sc.ccerByEmail) // TODO(logan): This is probably not intended!
+        .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
         .to(sc.assignee);
   }
 
@@ -119,8 +113,7 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("setassignee", sc)
         .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer, sc.assignee)
-        .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
-        .cc(sc.ccerByEmail); // TODO(logan): This is probably not intended!
+        .cc(sc.reviewerByEmail, sc.ccerByEmail); // TODO(logan): This is probably not intended!
   }
 
   @Test
@@ -140,8 +133,7 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("setassignee", sc)
         .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer)
-        .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
-        .cc(sc.ccerByEmail) // TODO(logan): This is probably not intended!
+        .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
         .to(sc.assignee);
   }
 
@@ -152,8 +144,7 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("setassignee", sc)
         .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer)
-        .to(sc.reviewerByEmail) // TODO(logan): This is probably not intended!
-        .cc(sc.ccerByEmail) // TODO(logan): This is probably not intended!
+        .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
         .to(sc.assignee);
   }
 

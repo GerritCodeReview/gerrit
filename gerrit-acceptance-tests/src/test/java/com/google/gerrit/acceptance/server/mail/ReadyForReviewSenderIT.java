@@ -29,8 +29,7 @@ public class ReadyForReviewSenderIT extends AbstractNotificationTest {
         .sent("newchange", sc)
         .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -43,8 +42,7 @@ public class ReadyForReviewSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", sc)
         .cc(sc.owner, sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -58,8 +56,7 @@ public class ReadyForReviewSenderIT extends AbstractNotificationTest {
         .sent("newchange", sc)
         .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail)
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }

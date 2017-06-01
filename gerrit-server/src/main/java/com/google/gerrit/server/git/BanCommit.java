@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
@@ -87,7 +86,7 @@ public class BanCommit {
 
   public BanCommitResult ban(
       ProjectControl projectControl, List<ObjectId> commitsToBan, String reason)
-      throws PermissionDeniedException, IOException, ConcurrentRefUpdateException {
+      throws PermissionDeniedException, LockFailureException, IOException {
     if (!projectControl.isOwner()) {
       throw new PermissionDeniedException("Not project owner: not permitted to ban commits");
     }

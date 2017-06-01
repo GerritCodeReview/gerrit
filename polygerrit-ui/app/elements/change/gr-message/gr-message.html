@@ -20,12 +20,13 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../../styles/shared-styles.html">
 
 <link rel="import" href="../gr-comment-list/gr-comment-list.html">
 
 <dom-module id="gr-message">
   <template>
-    <style>
+    <style include="shared-styles">
       :host {
         border-top: 1px solid #ddd;
         display: block;
@@ -45,7 +46,7 @@ limitations under the License.
         display: flex;
         white-space: nowrap;
       }
-      .showAvatar.expanded .contentContainer {
+      .contentContainer {
         margin-left: calc(var(--default-horizontal-margin) + 2.5em);
         padding: 10px 0;
       }

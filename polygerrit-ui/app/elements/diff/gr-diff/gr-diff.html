@@ -22,12 +22,13 @@ limitations under the License.
 <link rel="import" href="../gr-diff-highlight/gr-diff-highlight.html">
 <link rel="import" href="../gr-diff-selection/gr-diff-selection.html">
 <link rel="import" href="../gr-syntax-themes/gr-theme-default.html">
+<link rel="import" href="../../../styles/shared-styles.html">
 
 <script src="../../../scripts/hiddenscroll.js"></script>
 
 <dom-module id="gr-diff">
   <template>
-    <style>
+    <style include="shared-styles">
       :host {
         --light-remove-highlight-color: #fee;
         --dark-remove-highlight-color: rgba(255, 0, 0, 0.15);

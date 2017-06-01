@@ -189,6 +189,30 @@
       "revId": "dee7570da7ef1b42e053023b2bbdde2cc5021cb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abb21c1a_024a8b62",
+        "filename": "rules.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-01T12:04:45Z",
+      "side": 1,
+      "message": "\u003e This is also overriding the branch field in project.config. The\n \u003e Prolog predicate runs on all branches. As written, all branches\n \u003e require base to succeed. That means if we export CS from base than\n \u003e all branches must have Code-Style+1 to be submittable. However only\n \u003e 2 branches have the label configured, which means the older stable\n \u003e branches will require Code-Style but be unable to vote on\n \u003e Code-Style as the UI can\u0027t get the label definitions due to the\n \u003e branch filtering.\n \u003e \n \u003e Yes, this is a mess. I don\u0027t know who added the ref pattern branch\n \u003e stuff to the label, but its created something of a nightmare of\n\nIf the submit rule here would (post)process the result of gerrit:default_submit(Result)\ninstead of hardcoding the resulting set of labels, then the issue with CS label appearing\nin all branches would be automatically solved. Actually, we wouldn\u0027t have to touch the prolog code here at all.\n\nI know that we discussed (post)process of the default_submit vs. explicit list of labels in the submit_rule and that you don\u0027t like the usage of the default_submit because it makes the code less readable. But, in this \nparticular case it would work better, I think.",
+      "parentUuid": "7be9f401_1da72dc7",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 49
+      },
+      "revId": "dee7570da7ef1b42e053023b2bbdde2cc5021cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -30,7 +30,7 @@
       viewableToAll: true,
     },
     {
-      url: '/admin/create-project',
+      url: '/admin/projects/create-project',
       name: 'Create Project',
       capability: 'createProject',
     },

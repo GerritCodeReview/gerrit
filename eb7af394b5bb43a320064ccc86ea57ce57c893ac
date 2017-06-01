@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ad927aa5_e26255e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-01T15:35:54Z",
+      "side": 1,
+      "message": "Good idea. I\u0027ll create a follow-up change.",
+      "parentUuid": "861b6538_22326fdc",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9397f8b2_ac350d20",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGroup.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-01T14:38:14Z",
       "side": 1,
       "message": "optional: to keep consistent, I would add \u0027this.\u0027 to them, too.",
+      "range": {
+        "startLine": 159,
+        "startChar": 3,
+        "endLine": 163,
+        "endChar": 31
+      },
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bca18dd8_39608433",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-01T15:35:54Z",
+      "side": 1,
+      "message": "Someone else might be confused to find a \u0027this.\u0027 here even though it is not necessary. I would rather change the names so that \u0027this.\u0027 is necessary, or just keep it as it is.",
+      "parentUuid": "9397f8b2_ac350d20",
       "range": {
         "startLine": 159,
         "startChar": 3,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "22a71ee7_ce7c0714",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/group/GroupField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-01T15:35:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d497606f_83272f24",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 64
+      },
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae2542f2_2d61a1f6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_151.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "100946d0_c6d0d73e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-01T15:35:54Z",
+      "side": 1,
+      "message": "I deliberately chose not to use \u0027created_on\u0027. We use both \u0027createdOn\u0027 (for the Java field name) and \u0027created_on\u0027 (for the index) and I didn\u0027t want to give one of them the preference. As the whole expression is in quotes, there shouldn\u0027t be a misunderstanding which field this migration refers to.",
+      "parentUuid": "ae2542f2_2d61a1f6",
+      "range": {
+        "startLine": 33,
+        "startChar": 29,
+        "endLine": 33,
+        "endChar": 39
+      },
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20875855_37cb7791",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_151.java",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2017-06-01T14:38:14Z",
       "side": 1,
       "message": "We can do this in one map\n\".map(g -\u003e g.getKey().getAddedOn())\"",
+      "range": {
+        "startLine": 49,
+        "startChar": 14,
+        "endLine": 50,
+        "endChar": 35
+      },
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "798d6c5c_32c2816f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-01T15:35:54Z",
+      "side": 1,
+      "message": "Yes, we could but I prefer method references and hence two mappings.",
+      "parentUuid": "20875855_37cb7791",
       "range": {
         "startLine": 49,
         "startChar": 14,
@@ -163,6 +283,54 @@
     },
     {
       "key": {
+        "uuid": "8bbaf977_b9a9ef07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-01T15:35:54Z",
+      "side": 1,
+      "message": "It\u0027s the instant the change which introduced the audit was merged, which is the best approximation for the introduction of the audit we have. I tried to cover that detail by using the name \u0027auditAddedOn\u0027 for the variable (and mentioning it in the commit message). If possible, I would rather find a good name instead of adding a comment. In the next patch set, I will introduce a constant named \u0027AUDIT_CREATION_INSTANT\u0027. Could you please come up with a better name if you think that name is not expressive enough?",
+      "parentUuid": "24ba8011_46e5afe2",
+      "range": {
+        "startLine": 53,
+        "startChar": 42,
+        "endLine": 53,
+        "endChar": 69
+      },
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ed66330_e52751bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-01T15:35:54Z",
+      "side": 1,
+      "message": "As Timestamp is a mutable class, I wouldn\u0027t want to mark it a constant. Instead, I decided to define the Instant as constant and only convert it to (an own instance of) Timestamp when necessary.",
+      "parentUuid": "39c3e478_287740c3",
+      "range": {
+        "startLine": 53,
+        "startChar": 10,
+        "endLine": 53,
+        "endChar": 97
+      },
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e87d5596_ae24207a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_151.java",
         "patchSetId": 1
@@ -174,6 +342,24 @@
       "writtenOn": "2017-06-01T12:15:38Z",
       "side": 1,
       "message": "You also must write back the updated value to the database, don\u0027t you?\n\n  db.get().accountGroupMembers().update(...)",
+      "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1332312_2a394dde",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-01T15:35:54Z",
+      "side": 1,
+      "message": "Good point. I decided to add a test for this schema migration. After writing it, I\u0027m glad that I did because I introduced another error by iterating over the ResultSet twice.",
+      "parentUuid": "e87d5596_ae24207a",
       "revId": "eb7af394b5bb43a320064ccc86ea57ce57c893ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

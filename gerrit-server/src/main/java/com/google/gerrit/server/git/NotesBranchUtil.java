@@ -70,8 +70,8 @@ public class NotesBranchUtil {
 
   @Inject
   public NotesBranchUtil(
-      @GerritPersonIdent final PersonIdent gerritIdent,
-      final GitReferenceUpdated gitRefUpdated,
+      @GerritPersonIdent PersonIdent gerritIdent,
+      GitReferenceUpdated gitRefUpdated,
       @Assisted Project.NameKey project,
       @Assisted Repository db,
       @Assisted ObjectInserter inserter) {

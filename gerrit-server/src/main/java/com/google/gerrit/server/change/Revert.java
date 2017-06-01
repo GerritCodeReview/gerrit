@@ -37,10 +37,12 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.send.RevertedSender;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -206,11 +208,18 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
               .setTopic(changeToRevert.getTopic());
       ins.setMessage("Uploaded patch set 1.");
 
+      ReviewerSet reviewerSet = approvalsUtil.getReviewers(db.get(), ctl.getNotes());
+
       Set<Account.Id> reviewers = new HashSet<>();
       reviewers.add(changeToRevert.getOwner());
-      reviewers.addAll(approvalsUtil.getReviewers(db.get(), ctl.getNotes()).all());
+      reviewers.addAll(reviewerSet.byState(ReviewerStateInternal.REVIEWER));
       reviewers.remove(user.getAccountId());
       ins.setReviewers(reviewers);
+
+      Set<Account.Id> ccs = new HashSet<>();
+      ccs.addAll(reviewerSet.byState(ReviewerStateInternal.CC));
+      ccs.remove(user.getAccountId());
+      ins.setExtraCC(ccs);
 
       try (BatchUpdate bu = updateFactory.create(db.get(), project, user, now)) {
         bu.setRepository(git, revWalk, oi);

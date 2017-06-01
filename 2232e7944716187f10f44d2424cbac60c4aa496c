@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "397f1fc9_94f45d89",
+        "filename": "rules.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-01T08:50:37Z",
+      "side": 1,
+      "message": "This will apply for all branches not only stable-2.14 and master as agreed in the review of this change.\nDo you expect the CI voter to vote CS+1 for \u003c\u003d stable-2.13 (without actually running any code-style checks)?\nInstead of relying on CI, the submit rule could produce label(\u0027Code-Style\u0027, ok(Author)) when change branch \u003c\u003d 2.13.\n\nEven better would be if the submit rule actually removes the CS label when change branch \u003c\u003d 2.13 but this\nwould be quite hard to do because all submit_rule predicates, in this file, hardcode the set of resulting labels in their \"signature\" (first line).",
+      "revId": "2232e7944716187f10f44d2424cbac60c4aa496c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

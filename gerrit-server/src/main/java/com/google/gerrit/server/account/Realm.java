@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
+import java.io.IOException;
 import java.util.Set;
 
 public interface Realm {
@@ -43,5 +44,5 @@ public interface Realm {
    * where there is an {@link EmailExpander} configured that knows how to convert the accountName
    * into an email address, and then locate the user by that email address.
    */
-  Account.Id lookup(String accountName);
+  Account.Id lookup(String accountName) throws IOException;
 }

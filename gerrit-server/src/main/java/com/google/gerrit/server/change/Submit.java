@@ -485,7 +485,8 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
   }
 
   private IdentifiedUser onBehalfOf(RevisionResource rsrc, SubmitInput in)
-      throws AuthException, UnprocessableEntityException, OrmException, PermissionBackendException {
+      throws AuthException, UnprocessableEntityException, OrmException, PermissionBackendException,
+          IOException {
     PermissionBackend.ForChange perm = rsrc.permissions().database(dbProvider);
     perm.check(ChangePermission.SUBMIT);
     perm.check(ChangePermission.SUBMIT_AS);

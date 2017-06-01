@@ -120,7 +120,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
 
   private BinaryResult getBundles(
       BatchUpdate.Factory updateFactory, RevisionResource rsrc, ArchiveFormat f)
-      throws OrmException, RestApiException {
+      throws OrmException, RestApiException, IOException {
     ReviewDb db = dbProvider.get();
     ChangeControl control = rsrc.getControl();
     IdentifiedUser caller = control.getUser().asIdentifiedUser();

@@ -289,16 +289,6 @@ The entries in the map are sorted by cache name.
         "mem": 94
       }
     },
-    "accounts_byemail": {
-      "type": "MEM",
-      "entries": {
-        "mem": 4
-      },
-      "average_get": "771.8us",
-      "hit_ratio": {
-        "mem": 95
-      }
-    },
     "accounts_byname": {
       "type": "MEM",
       "entries": {
@@ -505,7 +495,6 @@ The cache names are lexicographically sorted.
   )]}'
   [
     "accounts",
-    "accounts_byemail",
     "accounts_byname",
     "adv_bases",
     "change_kind",

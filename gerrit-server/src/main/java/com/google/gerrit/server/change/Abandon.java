@@ -41,6 +41,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.Collection;
 
 @Singleton
@@ -68,7 +69,8 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource req, AbandonInput input)
-      throws RestApiException, UpdateException, OrmException, PermissionBackendException {
+      throws RestApiException, UpdateException, OrmException, PermissionBackendException,
+          IOException {
     req.permissions().database(dbProvider).check(ChangePermission.ABANDON);
 
     Change change =

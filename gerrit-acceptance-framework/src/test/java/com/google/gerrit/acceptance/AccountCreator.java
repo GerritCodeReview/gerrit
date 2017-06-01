@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.GroupCache;
@@ -58,7 +57,6 @@ public class AccountCreator {
   private final GroupCache groupCache;
   private final SshKeyCache sshKeyCache;
   private final AccountCache accountCache;
-  private final AccountByEmailCache byEmailCache;
   private final AccountIndexer indexer;
   private final ExternalIdsUpdate.Server externalIdsUpdate;
 
@@ -70,7 +68,6 @@ public class AccountCreator {
       GroupCache groupCache,
       SshKeyCache sshKeyCache,
       AccountCache accountCache,
-      AccountByEmailCache byEmailCache,
       AccountIndexer indexer,
       ExternalIdsUpdate.Server externalIdsUpdate) {
     accounts = new HashMap<>();
@@ -80,7 +77,6 @@ public class AccountCreator {
     this.groupCache = groupCache;
     this.sshKeyCache = sshKeyCache;
     this.accountCache = accountCache;
-    this.byEmailCache = byEmailCache;
     this.indexer = indexer;
     this.externalIdsUpdate = externalIdsUpdate;
   }
@@ -136,7 +132,6 @@ public class AccountCreator {
       if (username != null) {
         accountCache.evictByUsername(username);
       }
-      byEmailCache.evict(email);
 
       indexer.index(id);
 

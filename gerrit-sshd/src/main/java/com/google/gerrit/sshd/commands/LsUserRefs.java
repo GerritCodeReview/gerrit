@@ -89,7 +89,7 @@ public class LsUserRefs extends SshCommand {
     Account userAccount;
     try {
       userAccount = accountResolver.find(db, userName);
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       throw die(e);
     }
 

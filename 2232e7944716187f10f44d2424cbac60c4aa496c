@@ -16,6 +16,24 @@
       "revId": "2232e7944716187f10f44d2424cbac60c4aa496c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc0f971b_0fe9ae68",
+        "filename": "rules.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-01T11:25:14Z",
+      "side": 1,
+      "message": "\u003e Even better would be if the submit rule actually removes the CS\n \u003e label when change branch \u003c\u003d 2.13 but this\n \u003e would be quite hard to do because all submit_rule predicates, in\n \u003e this file, hardcode the set of resulting labels in their\n \u003e \"signature\" (first line).\n\nGood idea. I will try to add no code style detection logic.",
+      "parentUuid": "397f1fc9_94f45d89",
+      "revId": "2232e7944716187f10f44d2424cbac60c4aa496c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

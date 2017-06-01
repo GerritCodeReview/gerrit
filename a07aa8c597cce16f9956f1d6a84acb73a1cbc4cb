@@ -16,6 +16,24 @@
       "revId": "a07aa8c597cce16f9956f1d6a84acb73a1cbc4cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be5e4e3d_7419b4cd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-01T22:17:45Z",
+      "side": 1,
+      "message": "Good point. I moved the class to the input itself.",
+      "parentUuid": "b2f502ce_dcda6fd8",
+      "revId": "a07aa8c597cce16f9956f1d6a84acb73a1cbc4cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "f0232ae277617a86b8a126f243068874ede42c8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37fb7224_f493d917",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-06-01T21:33:39Z",
+      "side": 1,
+      "message": "Without it, ID data bindings will all be denied.",
+      "parentUuid": "91233c14_48470fe2",
+      "range": {
+        "startLine": 44,
+        "startChar": 41,
+        "endLine": 44,
+        "endChar": 80
+      },
+      "revId": "f0232ae277617a86b8a126f243068874ede42c8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

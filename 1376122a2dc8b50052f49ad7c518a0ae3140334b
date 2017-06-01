@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8f0ca4b3_43e08d93",
+        "filename": "rules.pl",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-01T12:00:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a322a928_108b555a",
+      "revId": "1376122a2dc8b50052f49ad7c518a0ae3140334b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed817134_60085d10",
         "filename": "rules.pl",
         "patchSetId": 6

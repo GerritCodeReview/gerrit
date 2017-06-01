@@ -118,7 +118,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
   @Test
   public void missingOwner() throws Exception {
-    TestAccount owner = accounts.create("missing");
+    TestAccount owner = accountCreator.create("missing");
     ChangeControl ctl = insertChange(owner);
     accountsUpdate.create().deleteByKey(db, owner.getId());
 

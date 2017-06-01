@@ -198,7 +198,7 @@ public abstract class AbstractDaemonTest {
   @Inject @GerritServerConfig protected Config cfg;
   @Inject protected AcceptanceTestRequestScope atrScope;
   @Inject protected AccountCache accountCache;
-  @Inject protected AccountCreator accounts;
+  @Inject protected AccountCreator accountCreator;
   @Inject protected AllProjectsName allProjects;
   @Inject protected BatchUpdate.Factory batchUpdateFactory;
   @Inject protected ChangeData.Factory changeDataFactory;
@@ -325,8 +325,8 @@ public abstract class AbstractDaemonTest {
     server.getTestInjector().injectMembers(this);
     Transport.register(inProcessProtocol);
     toClose = Collections.synchronizedList(new ArrayList<Repository>());
-    admin = accounts.admin();
-    user = accounts.user();
+    admin = accountCreator.admin();
+    user = accountCreator.user();
 
     // Evict cached user state in case tests modify it.
     accountCache.evict(admin.getId());
@@ -368,7 +368,7 @@ public abstract class AbstractDaemonTest {
 
   private TestAccount getCloneAsAccount(Description description) {
     TestProjectInput ann = description.getAnnotation(TestProjectInput.class);
-    return accounts.get(ann != null ? ann.cloneAs() : "admin");
+    return accountCreator.get(ann != null ? ann.cloneAs() : "admin");
   }
 
   private ProjectInput projectInput(Description description) {

@@ -34,6 +34,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WI
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_TYPE;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.stream.Collectors.joining;
 
@@ -52,6 +53,7 @@ import com.google.common.collect.Tables;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -164,6 +166,7 @@ class ChangeNotesParser {
   private Timestamp readOnlyUntil;
   private Boolean isPrivate;
   private Boolean workInProgress;
+  private SubmitType submittedType;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -250,7 +253,8 @@ class ChangeNotesParser {
         comments,
         readOnlyUntil,
         isPrivate,
-        workInProgress);
+        workInProgress,
+        submittedType);
   }
 
   private PatchSet.Id buildCurrentPatchSetId() {
@@ -400,6 +404,10 @@ class ChangeNotesParser {
 
     if (workInProgress == null) {
       parseWorkInProgress(commit);
+    }
+
+    if (submittedType == null) {
+      parseSubmittedType(commit);
     }
 
     if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
@@ -986,6 +994,19 @@ class ChangeNotesParser {
       return;
     }
     throw invalidFooter(FOOTER_WORK_IN_PROGRESS, raw);
+  }
+
+  private void parseSubmittedType(ChangeNotesCommit commit) throws ConfigInvalidException {
+    String raw = parseOneFooter(commit, FOOTER_SUBMITTED_TYPE);
+    if (raw == null) {
+      return;
+    }
+    SubmitType type = Enums.getIfPresent(SubmitType.class, raw.toUpperCase()).orNull();
+    if (type == null) {
+      throw invalidFooter(FOOTER_SUBMITTED_TYPE, raw);
+    }
+    submittedType = type;
+    return;
   }
 
   private void pruneReviewers() {

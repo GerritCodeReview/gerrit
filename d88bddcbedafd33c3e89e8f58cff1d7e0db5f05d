@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8204f1a7_f63eb6b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-02T22:43:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f436d64a_840814de",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 2
+      },
+      "revId": "d88bddcbedafd33c3e89e8f58cff1d7e0db5f05d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef9b2124_f92ca1f4",
         "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
         "patchSetId": 4
@@ -68,6 +92,30 @@
       "revId": "d88bddcbedafd33c3e89e8f58cff1d7e0db5f05d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76a9c6e9_99c3e303",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-02T22:43:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a52d589b_915870aa",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 8
+      },
+      "revId": "d88bddcbedafd33c3e89e8f58cff1d7e0db5f05d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +165,54 @@
     },
     {
       "key": {
+        "uuid": "0f3c4235_4acc4cab",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-02T22:43:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f25234ad_4b5c0722",
+      "range": {
+        "startLine": 110,
+        "startChar": 49,
+        "endLine": 110,
+        "endChar": 61
+      },
+      "revId": "d88bddcbedafd33c3e89e8f58cff1d7e0db5f05d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b31d2192_9711a3e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-02T22:43:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1faff583_09688fd6",
+      "range": {
+        "startLine": 110,
+        "startChar": 8,
+        "endLine": 110,
+        "endChar": 39
+      },
+      "revId": "d88bddcbedafd33c3e89e8f58cff1d7e0db5f05d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8405c318_31dc45c6",
         "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
         "patchSetId": 4
@@ -137,6 +233,30 @@
       "revId": "d88bddcbedafd33c3e89e8f58cff1d7e0db5f05d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab58de25_ced826bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-02T22:43:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8405c318_31dc45c6",
+      "range": {
+        "startLine": 83,
+        "startChar": 35,
+        "endLine": 83,
+        "endChar": 42
+      },
+      "revId": "d88bddcbedafd33c3e89e8f58cff1d7e0db5f05d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

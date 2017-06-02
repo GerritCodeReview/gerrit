@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55606a0b_cf21f14c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T15:50:09Z",
+      "side": 1,
+      "message": "This summary is not completely accurate. Both of them were copied before this change but their separation wasn\u0027t kept.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "7a54d58c7c1d094bcdb546be184116b7f6183f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee513d9e_e9b74ef4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T15:50:09Z",
+      "side": 1,
+      "message": "The test doesn\u0027t cover this. Should admin2 be added as a reviewer or cced person on the original change?",
+      "range": {
+        "startLine": 462,
+        "startChar": 51,
+        "endLine": 462,
+        "endChar": 97
+      },
+      "revId": "7a54d58c7c1d094bcdb546be184116b7f6183f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1cee3e2_23329118",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T15:50:09Z",
+      "side": 1,
+      "message": "Could be expressed as:\n\n assertThat(result).containsKey(ReviewerState.REVIEWER);",
+      "range": {
+        "startLine": 466,
+        "startChar": 4,
+        "endLine": 466,
+        "endChar": 68
+      },
+      "revId": "7a54d58c7c1d094bcdb546be184116b7f6183f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f22a81e2_3b414d93",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T15:50:09Z",
+      "side": 1,
+      "message": "This check is too lax when NoteDb is active. We wouldn\u0027t notice it if the cced persons were still contained in the reviewers.",
+      "range": {
+        "startLine": 469,
+        "startChar": 26,
+        "endLine": 469,
+        "endChar": 39
+      },
+      "revId": "7a54d58c7c1d094bcdb546be184116b7f6183f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42e20bf4_28f24cb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T15:50:09Z",
+      "side": 1,
+      "message": "How is this field different from \u0027extraCC\u0027?",
+      "range": {
+        "startLine": 121,
+        "startChar": 26,
+        "endLine": 121,
+        "endChar": 29
+      },
+      "revId": "7a54d58c7c1d094bcdb546be184116b7f6183f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5e12d83_ed07ef4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T15:50:09Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the cced persons get the email, too?",
+      "range": {
+        "startLine": 485,
+        "startChar": 16,
+        "endLine": 485,
+        "endChar": 43
+      },
+      "revId": "7a54d58c7c1d094bcdb546be184116b7f6183f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

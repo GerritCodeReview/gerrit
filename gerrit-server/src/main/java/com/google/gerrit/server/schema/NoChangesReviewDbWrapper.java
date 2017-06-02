@@ -17,8 +17,6 @@ package com.google.gerrit.server.schema;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.util.concurrent.CheckedFuture;
-import com.google.common.util.concurrent.Futures;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -27,6 +25,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ChangeAccess;
 import com.google.gerrit.reviewdb.server.ChangeMessageAccess;
+import com.google.gerrit.reviewdb.server.CheckedFuture;
+import com.google.gerrit.reviewdb.server.Futures;
 import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
 import com.google.gerrit.reviewdb.server.PatchSetAccess;
 import com.google.gerrit.reviewdb.server.PatchSetApprovalAccess;

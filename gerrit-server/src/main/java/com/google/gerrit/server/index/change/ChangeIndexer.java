@@ -19,7 +19,6 @@ import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.base.Function;
 import com.google.common.util.concurrent.Atomics;
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -27,6 +26,7 @@ import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.CheckedFuture;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -79,7 +79,8 @@ public class ChangeIndexer {
     // ExecutionException, so we can reuse the same mapper as for a single
     // future. Assume the actual contents of the exception are not useful to
     // callers. All exceptions are already logged by IndexTask.
-    return Futures.makeChecked(Futures.allAsList(futures), MAPPER);
+    return com.google.gerrit.reviewdb.server.Futures.makeChecked(
+        Futures.allAsList(futures), MAPPER);
   }
 
   private static final Function<Exception, IOException> MAPPER =
@@ -330,7 +331,8 @@ public class ChangeIndexer {
 
   private static <T> CheckedFuture<T, IOException> submit(
       Callable<T> task, ListeningExecutorService executor) {
-    return Futures.makeChecked(Futures.nonCancellationPropagating(executor.submit(task)), MAPPER);
+    return com.google.gerrit.reviewdb.server.Futures.makeChecked(
+        Futures.nonCancellationPropagating(executor.submit(task)), MAPPER);
   }
 
   private abstract class AbstractIndexTask<T> implements Callable<T> {

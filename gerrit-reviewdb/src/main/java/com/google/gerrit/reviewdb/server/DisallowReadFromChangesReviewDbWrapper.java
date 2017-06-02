@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb.server;
 
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;

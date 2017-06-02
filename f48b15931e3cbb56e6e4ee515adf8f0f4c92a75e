@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5778486_8e9009b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-02T10:47:41Z",
+      "side": 1,
+      "message": "I am not sure I understand this correctly: Are you saying the bug this fixes is when someone tries to add a username/group that solely consists of numbers like: 1234 as reviewer?\n\nIs this a viable use case? How did you run into this problem?",
+      "revId": "f48b15931e3cbb56e6e4ee515adf8f0f4c92a75e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0058e80a_cf4ab4af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-02T10:47:41Z",
+      "side": 1,
+      "message": "This should not be implemented here, instead, call methods to find accounts that are implemented elsewhere. (like it was before)",
+      "revId": "f48b15931e3cbb56e6e4ee515adf8f0f4c92a75e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

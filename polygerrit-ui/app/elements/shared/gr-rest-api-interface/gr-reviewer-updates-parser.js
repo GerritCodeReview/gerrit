@@ -202,7 +202,7 @@
       const messageDate = util.parseDate(message.date).getTime();
       const nextMessageDate = index === messages.length - 1 ? null :
           util.parseDate(messages[index + 1].date).getTime();
-      for(const update of updates) {
+      for (const update of updates) {
         const date = util.parseDate(update.date).getTime();
         if (date >= messageDate
             && (!nextMessageDate || date < nextMessageDate)) {

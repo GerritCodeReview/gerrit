@@ -1068,7 +1068,7 @@
       let numComments = 0;
       let numUnresolved = 0;
       for (const file in allComments) {
-        if(allComments.hasOwnProperty(file)) {
+        if (allComments.hasOwnProperty(file)) {
           numComments += this.$.fileList.getCommentsForPath(
               allComments, patchNum, file).length;
           numUnresolved += this.$.fileList.computeUnresolvedNum(

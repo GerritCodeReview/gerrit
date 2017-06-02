@@ -67,6 +67,8 @@ public abstract class ChangeNotesState {
         ImmutableList.of(),
         ReviewerSet.empty(),
         ReviewerByEmailSet.empty(),
+        ReviewerSet.empty(),
+        ReviewerByEmailSet.empty(),
         ImmutableList.of(),
         ImmutableList.of(),
         ImmutableList.of(),
@@ -100,6 +102,8 @@ public abstract class ChangeNotesState {
       ListMultimap<PatchSet.Id, PatchSetApproval> approvals,
       ReviewerSet reviewers,
       ReviewerByEmailSet reviewersByEmail,
+      ReviewerSet pendingReviewers,
+      ReviewerByEmailSet pendingReviewersByEmail,
       List<Account.Id> allPastReviewers,
       List<ReviewerStatusUpdate> reviewerUpdates,
       List<SubmitRecord> submitRecords,
@@ -138,6 +142,8 @@ public abstract class ChangeNotesState {
         ImmutableList.copyOf(approvals.entries()),
         reviewers,
         reviewersByEmail,
+        pendingReviewers,
+        pendingReviewersByEmail,
         ImmutableList.copyOf(allPastReviewers),
         ImmutableList.copyOf(reviewerUpdates),
         ImmutableList.copyOf(submitRecords),
@@ -223,6 +229,10 @@ public abstract class ChangeNotesState {
   abstract ReviewerSet reviewers();
 
   abstract ReviewerByEmailSet reviewersByEmail();
+
+  abstract ReviewerSet pendingReviewers();
+
+  abstract ReviewerByEmailSet pendingReviewersByEmail();
 
   abstract ImmutableList<Account.Id> allPastReviewers();
 

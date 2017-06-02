@@ -160,6 +160,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_OWNERIN = "ownerin";
   public static final String FIELD_PARENTPROJECT = "parentproject";
   public static final String FIELD_PATH = "path";
+  public static final String FIELD_PENDING_REVIEWER = "pendingreviewer";
+  public static final String FIELD_PENDING_REVIEWER_BY_EMAIL = "pendingreviewerbyemail";
   public static final String FIELD_PRIVATE = "private";
   public static final String FIELD_PROJECT = "project";
   public static final String FIELD_PROJECTS = "projects";
@@ -1038,6 +1040,33 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
+  public Predicate<ChangeData> pendingreviewer(String who)
+      throws QueryParseException, OrmException {
+    if (!args.getSchema().hasField(ChangeField.PENDING_REVIEWER)) {
+      throw new QueryParseException(
+          "'pendingreviewer' operator is not supported by change index version");
+    }
+    Predicate<ChangeData> byState = pendingReviewerByState(who, ReviewerStateInternal.REVIEWER);
+    if (Objects.equals(byState, Predicate.<ChangeData>any())) {
+      return Predicate.any();
+    }
+    return byState;
+  }
+
+  @Operator
+  public Predicate<ChangeData> pendingcc(String who) throws QueryParseException, OrmException {
+    if (!args.getSchema().hasField(ChangeField.PENDING_REVIEWER)) {
+      throw new QueryParseException(
+          "'pendingcc' operator is not supported by change index version");
+    }
+    Predicate<ChangeData> byState = pendingReviewerByState(who, ReviewerStateInternal.CC);
+    if (Objects.equals(byState, Predicate.<ChangeData>any())) {
+      return Predicate.any();
+    }
+    return byState;
+  }
+
+  @Operator
   public Predicate<ChangeData> reviewerin(String group) throws QueryParseException {
     GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend, group);
     if (g == null) {
@@ -1324,6 +1353,43 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
                     .map(id -> ReviewerPredicate.forState(args, id, state))
                     .collect(toList()));
       }
+    } catch (QueryParseException e) {
+      // Propagate this exception only if we can't use 'who' to query by email
+      if (reviewerByEmailPredicate == null) {
+        throw e;
+      }
+    }
+
+    if (reviewerPredicate != null && reviewerByEmailPredicate != null) {
+      return Predicate.or(reviewerPredicate, reviewerByEmailPredicate);
+    } else if (reviewerPredicate != null) {
+      return reviewerPredicate;
+    } else if (reviewerByEmailPredicate != null) {
+      return reviewerByEmailPredicate;
+    } else {
+      return Predicate.any();
+    }
+  }
+
+  public Predicate<ChangeData> pendingReviewerByState(String who, ReviewerStateInternal state)
+      throws QueryParseException, OrmException {
+    Predicate<ChangeData> reviewerByEmailPredicate = null;
+    if (args.index.getSchema().hasField(ChangeField.PENDING_REVIEWER_BY_EMAIL)) {
+      Address address = Address.tryParse(who);
+      if (address != null) {
+        reviewerByEmailPredicate = ReviewerByEmailPredicate.forPendingState(args, address, state);
+      }
+    }
+
+    Predicate<ChangeData> reviewerPredicate = null;
+    try {
+      Set<Account.Id> accounts = parseAccount(who);
+      reviewerPredicate =
+          Predicate.or(
+              accounts
+                  .stream()
+                  .map(id -> ReviewerPredicate.forPendingState(args, id, state))
+                  .collect(toList()));
     } catch (QueryParseException e) {
       // Propagate this exception only if we can't use 'who' to query by email
       if (reviewerByEmailPredicate == null) {

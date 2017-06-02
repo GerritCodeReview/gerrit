@@ -42,6 +42,7 @@ import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -166,6 +167,8 @@ class ChangeNotesParser {
   private Boolean workInProgress;
   private Boolean previousWorkInProgressFooter;
   private Boolean hasReviewStarted;
+  private ReviewerSet pendingReviewers;
+  private ReviewerByEmailSet pendingReviewersByEmail;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -182,6 +185,8 @@ class ChangeNotesParser {
     bufferedApprovals = new ArrayList<>();
     reviewers = HashBasedTable.create();
     reviewersByEmail = HashBasedTable.create();
+    pendingReviewers = ReviewerSet.empty();
+    pendingReviewersByEmail = ReviewerByEmailSet.empty();
     allPastReviewers = new ArrayList<>();
     reviewerUpdates = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
@@ -251,6 +256,8 @@ class ChangeNotesParser {
         buildApprovals(),
         ReviewerSet.fromTable(Tables.transpose(reviewers)),
         ReviewerByEmailSet.fromTable(Tables.transpose(reviewersByEmail)),
+        pendingReviewers,
+        pendingReviewersByEmail,
         allPastReviewers,
         buildReviewerUpdates(),
         submitRecords,
@@ -991,6 +998,11 @@ class ChangeNotesParser {
     } else if (Boolean.TRUE.toString().equalsIgnoreCase(raw)) {
       previousWorkInProgressFooter = true;
       if (workInProgress == null) {
+        // This indicates the start of the change's current WIP phase.
+        pendingReviewers =
+            ReviewerSet.fromTable(Tables.transpose(ImmutableTable.copyOf(reviewers)));
+        pendingReviewersByEmail =
+            ReviewerByEmailSet.fromTable(Tables.transpose(ImmutableTable.copyOf(reviewersByEmail)));
         workInProgress = true;
       }
       return;

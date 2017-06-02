@@ -515,6 +515,59 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void pendingReviewerAndCcBeforeSchema44() throws Exception {
+    assume().that(getSchemaVersion()).isLessThan(44);
+
+    assertMissingField(ChangeField.PENDING_REVIEWER);
+    assertMissingField(ChangeField.PENDING_REVIEWER_BY_EMAIL);
+    assertFailingQuery(
+        "pendingreviewer:" + userId.get(),
+        "'pendingreviewer' operator is not supported by change index version");
+  }
+
+  @Test
+  public void pendingReviewerAndCcInReviewDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isFalse();
+
+    Account.Id user1 = createAccount("user1");
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChangeWorkInProgress(repo));
+    assertQuery("pendingreviewer:" + user1.get());
+    assertQuery("pendingcc:" + user1.get());
+
+    ReviewInput in = ReviewInput.noScore().reviewer("user1", ReviewerState.CC, false);
+    gApi.changes().id(change1.getChangeId()).revision("current").review(in);
+    assertQuery("pendingreviewer:" + user1.get());
+    assertQuery("pendingcc:" + user1.get());
+  }
+
+  @Test
+  public void pendingReviewerAndCc() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    assume().that(getSchemaVersion()).isAtLeast(44);
+
+    Account.Id user1 = createAccount("user1");
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChangeWorkInProgress(repo));
+    assertQuery("pendingreviewer:" + user1.get());
+    assertQuery("pendingcc:" + user1.get());
+
+    ReviewInput in = ReviewInput.noScore().reviewer("user1", ReviewerState.CC, false);
+    gApi.changes().id(change1.getChangeId()).revision("current").review(in);
+    assertQuery("pendingreviewer:" + user1.get());
+    assertQuery("pendingcc:" + user1.get(), change1);
+
+    in = ReviewInput.noScore().reviewer("user1");
+    gApi.changes().id(change1.getChangeId()).revision("current").review(in);
+    assertQuery("pendingreviewer:" + user1.get(), change1);
+    assertQuery("pendingcc:" + user1.get());
+
+    gApi.changes().id(change1.getChangeId()).reviewer("user1").remove();
+    assertQuery("pendingreviewer:" + user1.get());
+    assertQuery("pendingcc:" + user1.get());
+  }
+
+  @Test
   public void byCommit() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo);

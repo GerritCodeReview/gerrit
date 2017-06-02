@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa0ec5ef_297d19b5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-02T21:59:50Z",
+      "side": 1,
+      "message": "Maybe move this into separate function, and return it?\nThis would decrease nesting.",
+      "revId": "d58967101c65155dcdb85a56110fe3effc74a316",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

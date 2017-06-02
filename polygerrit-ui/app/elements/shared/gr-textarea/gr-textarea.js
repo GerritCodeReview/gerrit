@@ -64,6 +64,7 @@
       text: {
         type: String,
         notify: true,
+        observer: '_handleTextChanged',
       },
       backgroundColor: {
         type: String,
@@ -315,6 +316,11 @@
       this.closeDropdown();
       this._colonIndex = null;
       this.$.textarea.textarea.focus();
+    },
+
+    _handleTextChanged(text) {
+      this.dispatchEvent(
+          new CustomEvent('value-changed', {detail: {value: text}}));
     },
   });
 })();

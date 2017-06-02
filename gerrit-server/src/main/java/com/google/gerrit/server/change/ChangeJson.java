@@ -449,6 +449,7 @@ public class ChangeJson {
       info.problems = result.problems();
       info.isPrivate = c.isPrivate() ? true : null;
       info.workInProgress = c.isWorkInProgress() ? true : null;
+      info.hasReviewStarted = c.hasReviewStarted();
       finish(info);
     } else {
       info = new ChangeInfo();
@@ -505,6 +506,7 @@ public class ChangeJson {
     }
     out.isPrivate = in.isPrivate() ? true : null;
     out.workInProgress = in.isWorkInProgress() ? true : null;
+    out.hasReviewStarted = in.hasReviewStarted();
     out.subject = in.getSubject();
     out.status = in.getStatus().asChangeStatus();
     out.owner = accountLoader.get(in.getOwner());

@@ -130,7 +130,8 @@ public abstract class ChangeNotesState {
             assignee,
             status,
             isPrivate,
-            workInProgress),
+            workInProgress,
+            hasReviewStarted),
         ImmutableSet.copyOf(pastAssignees),
         ImmutableSet.copyOf(hashtags),
         ImmutableList.copyOf(patchSets.entrySet()),
@@ -195,6 +196,9 @@ public abstract class ChangeNotesState {
 
     @Nullable
     abstract Boolean isWorkInProgress();
+
+    @Nullable
+    abstract Boolean hasReviewStarted();
   }
 
   // Only null if NoteDb is disabled.
@@ -241,7 +245,8 @@ public abstract class ChangeNotesState {
   @Nullable
   abstract Boolean isWorkInProgress();
 
-  abstract boolean hasReviewStarted();
+  @Nullable
+  abstract Boolean hasReviewStarted();
 
   Change newChange(Project.NameKey project) {
     ChangeColumns c = checkNotNull(columns(), "columns are required");
@@ -302,6 +307,7 @@ public abstract class ChangeNotesState {
     change.setAssignee(c.assignee());
     change.setPrivate(c.isPrivate() == null ? false : c.isPrivate());
     change.setWorkInProgress(c.isWorkInProgress() == null ? false : c.isWorkInProgress());
+    change.setReviewStarted(c.hasReviewStarted() == null ? false : c.hasReviewStarted());
 
     if (!patchSets().isEmpty()) {
       change.setCurrentPatchSet(c.currentPatchSetId(), c.subject(), c.originalSubject());

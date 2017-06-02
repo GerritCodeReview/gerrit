@@ -170,6 +170,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_STAR = "star";
   public static final String FIELD_STARBY = "starby";
   public static final String FIELD_STARREDBY = "starredby";
+  public static final String FIELD_STARTED = "started";
   public static final String FIELD_STATUS = "status";
   public static final String FIELD_SUBMISSIONID = "submissionid";
   public static final String FIELD_TR = "tr";
@@ -580,6 +581,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("reviewer".equalsIgnoreCase(value)) {
+      if (args.getSchema().hasField(ChangeField.STARTED)) {
+        return Predicate.and(
+            new BooleanPredicate(ChangeField.STARTED, args.fillArgs),
+            ReviewerPredicate.reviewer(args, self()));
+      }
       if (args.getSchema().hasField(ChangeField.WIP)) {
         return Predicate.and(
             Predicate.not(new BooleanPredicate(ChangeField.WIP, args.fillArgs)),
@@ -618,6 +624,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     if ("ignored".equalsIgnoreCase(value)) {
       return star("ignore");
+    }
+
+    if ("started".equalsIgnoreCase(value)) {
+      if (args.getSchema().hasField(ChangeField.STARTED)) {
+        return new BooleanPredicate(ChangeField.STARTED, args.fillArgs);
+      }
+      throw new QueryParseException(
+          "'is:started' operator is not supported by change index version");
     }
 
     if ("wip".equalsIgnoreCase(value)) {
@@ -1007,6 +1021,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         reviewerByState(who, ReviewerStateInternal.REVIEWER, forDefaultField);
     if (Objects.equals(byState, Predicate.<ChangeData>any())) {
       return Predicate.any();
+    }
+    if (args.getSchema().hasField(ChangeField.STARTED)) {
+      return Predicate.and(new BooleanPredicate(ChangeField.STARTED, args.fillArgs), byState);
     }
     if (args.getSchema().hasField(ChangeField.WIP)) {
       return Predicate.and(

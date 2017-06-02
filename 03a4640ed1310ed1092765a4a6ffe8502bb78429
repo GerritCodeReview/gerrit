@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "f166fecf_48b0923f",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-02T19:30:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "579e785c_29ea3962",
+      "revId": "03a4640ed1310ed1092765a4a6ffe8502bb78429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79916f96_2a9ed4f8",
         "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
         "patchSetId": 10

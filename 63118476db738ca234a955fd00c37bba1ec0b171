@@ -34,6 +34,29 @@
       "revId": "63118476db738ca234a955fd00c37bba1ec0b171",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e0d93e1_0d5b43f6",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-06-02T13:03:08Z",
+      "side": 1,
+      "message": "this check will never happen because this method is called in else case of \"if (desc.memory()){\"\n\neither we call buildPluginConfigs() before the if at line 162 or we move this check outside of this method",
+      "range": {
+        "startLine": 129,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 7
+      },
+      "revId": "63118476db738ca234a955fd00c37bba1ec0b171",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -58,6 +58,7 @@
         type: Boolean,
         value: true,
       },
+      project: Object,
       _projectConfig: Object,
       _readOnly: {
         type: Boolean,

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "579e785c_29ea3962",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-02T18:11:11Z",
+      "side": 1,
+      "message": "Right, and I\u0027m suggesting to pass change.labels instead of whole change object.",
+      "parentUuid": "cc87d953_5766d660",
+      "revId": "03a4640ed1310ed1092765a4a6ffe8502bb78429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "79916f96_2a9ed4f8",
         "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
         "patchSetId": 10

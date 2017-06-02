@@ -22,6 +22,30 @@
       "revId": "8a16e37238ed4f9395bcf9f869ec0ac51be1385a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c61db1c_424e9a4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-02T08:13:58Z",
+      "side": 1,
+      "message": "+1, they shouldn\u0027t appear in the first place, right?\n\nMaybe our index wasn\u0027t updated yet and this is why you see them?",
+      "parentUuid": "8142457b_3e78494b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "8a16e37238ed4f9395bcf9f869ec0ac51be1385a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

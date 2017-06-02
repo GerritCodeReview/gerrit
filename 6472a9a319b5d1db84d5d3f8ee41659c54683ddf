@@ -110,6 +110,24 @@
       "revId": "6472a9a319b5d1db84d5d3f8ee41659c54683ddf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc785fbd_a9781c56",
+        "filename": "polygerrit-ui/app/styles/css-reset.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-02T18:44:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2054373_a6151a42",
+      "revId": "6472a9a319b5d1db84d5d3f8ee41659c54683ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82580266_1deeaa82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-02T22:07:26Z",
+      "side": 1,
+      "message": "While this is good context, for the sake of cleanliness of the git-log, can these be moved into a top-level comment on the change?\n\nA reader of the commit message can still get to it by searching for the change-id.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 3
+      },
+      "revId": "0334168e00d40e41abcd032cf66e4bb91a99a405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c11ab69b_20293c04",
+        "filename": "polygerrit-ui/app/test/common-test-setup.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-02T22:07:26Z",
+      "side": 1,
+      "message": "This file should include a license comment.\n\nIs there a reason we do not also include...\n\n \u003cscript src\u003d\"../../../bower_components/web-component-tester/browser.js\"\u003e\u003c/script\u003e\n\n... in this file?",
+      "revId": "0334168e00d40e41abcd032cf66e4bb91a99a405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dde71c58_949fadc4",
+        "filename": "polygerrit-ui/app/test/common-test-setup.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-02T22:07:26Z",
+      "side": 1,
+      "message": "Nit: continuations of an element are indented with 4 spaces.",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 1
+      },
+      "revId": "0334168e00d40e41abcd032cf66e4bb91a99a405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

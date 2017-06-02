@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1496240941 +0200\nnonce APbwY4qgzWmdR3e7iyh6lbMNLdKwJZ2eYHxH4ocCbxaJCuZCcHzBp9f1g6k0dBiXRyTESJQK+C7Q\n\n0000000000000000000000000000000000000000 b4f07843ec562d0ef0ac9bd0f47107ea5a8b5ffd refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZLtMtAAoJEFG1/Zeg0O9RGEYIALcjDDQxMEdNvFtInFh4Cyv0\nJz78eD/nYJPmNTa+dkpVsbU/XwFsbYJMmMTUW1TRCyie9bGZoonJ6co06lQZWFX/\nF3qpRVB1clBmm/cEw9p2easvf6rhmVLj5HeCfFqTIDDlT8Djv1jTfhOjXK7ESJF/\nJ+anZqMS1D1PykKNNtZ7CaTPNk2rEukgXYr8YC6mAU25vK640KeV6w8+NuOS2Vnr\nb5yfRWr50K1zWx/b8O/mnv3xLrOCv4z5+SiDlwzrjqdRsuhPG9mRixtJ+Ybqzi0R\nuKy/ilZ/IUjtL+dAIgN2K1d21PWxxSObAAbby6X1FpB/vcsRec0rK+Uc4bmaD24\u003d\n\u003d4yCA\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "adb512c4_8aabdbed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-02T14:39:03Z",
+      "side": 1,
+      "message": "In NoteDb, will we actually care about update vs. upsert semantics?",
+      "revId": "a2f7ca34e278a65186b04748df71b65d8b767f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

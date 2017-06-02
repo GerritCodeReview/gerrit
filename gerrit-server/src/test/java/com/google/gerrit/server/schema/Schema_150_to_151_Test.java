@@ -132,7 +132,7 @@ public class Schema_150_to_151_Test {
     schema151.migrateData(db, new TestUpdateUI());
 
     AccountGroup group = db.accountGroups().get(groupId);
-    assertThat(group.getCreatedOn()).isEqualTo(Timestamp.from(Schema_151.AUDIT_CREATION_INSTANT));
+    assertThat(group.getCreatedOn()).isEqualTo(AccountGroup.auditCreationInstantTs());
   }
 
   private AccountGroup.Id createGroup(String name) throws Exception {

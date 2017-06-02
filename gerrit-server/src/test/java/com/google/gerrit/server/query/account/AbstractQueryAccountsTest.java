@@ -60,9 +60,7 @@ import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestName;
 
 @Ignore
 public abstract class AbstractQueryAccountsTest extends GerritServerTests {
@@ -72,8 +70,6 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     cfg.setInt("index", null, "maxPages", 10);
     return cfg;
   }
-
-  @Rule public final TestName testName = new TestName();
 
   @Inject protected AccountCache accountCache;
 
@@ -453,7 +449,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     if (name == null) {
       return null;
     }
-    String suffix = testName.getMethodName().toLowerCase();
+
+    String suffix = getSanitizedMethodName();
     if (name.contains("@")) {
       return name + "." + suffix;
     }

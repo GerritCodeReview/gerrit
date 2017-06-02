@@ -22,6 +22,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.FluentIterable;
@@ -77,8 +78,10 @@ import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -400,6 +403,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byPrivate() throws Exception {
+    if (getSchemaVersion() < 40) {
+      assertMissingField(ChangeField.PRIVATE);
+      assertFailingQuery(
+          "is:private", "'is:private' operator is not supported by change index version");
+      return;
+    }
+
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo), userId);
     Account.Id user2 =
@@ -424,6 +434,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byWip() throws Exception {
+    if (getSchemaVersion() < 42) {
+      assertMissingField(ChangeField.WIP);
+      assertFailingQuery("is:wip", "'is:wip' operator is not supported by change index version");
+      return;
+    }
+
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo), userId);
 
@@ -450,18 +466,26 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     rin.state = ReviewerState.REVIEWER;
     gApi.changes().id(change1.getId().get()).addReviewer(rin);
 
-    assertQuery("is:wip");
-    assertQuery("reviewer:" + user1, change1);
+    if (getSchemaVersion() >= 42) {
+      assertQuery("is:wip");
+      assertQuery("reviewer:" + user1, change1);
 
-    gApi.changes().id(change1.getChangeId()).setWorkInProgress();
+      gApi.changes().id(change1.getChangeId()).setWorkInProgress();
 
-    assertQuery("is:wip", change1);
-    assertQuery("reviewer:" + user1);
+      assertQuery("is:wip", change1);
+      assertQuery("reviewer:" + user1);
 
-    gApi.changes().id(change1.getChangeId()).setReadyForReview();
+      gApi.changes().id(change1.getChangeId()).setReadyForReview();
 
-    assertQuery("is:wip");
-    assertQuery("reviewer:" + user1, change1);
+      assertQuery("is:wip");
+      assertQuery("reviewer:" + user1, change1);
+    } else {
+      assertMissingField(ChangeField.WIP);
+      assertFailingQuery("is:wip", "'is:wip' operator is not supported by change index version");
+      assertQuery("reviewer:" + user1, change1);
+      gApi.changes().id(change1.getChangeId()).setWorkInProgress();
+      assertQuery("reviewer:" + user1, change1);
+    }
   }
 
   @Test
@@ -1685,12 +1709,25 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     rin.state = ReviewerState.CC;
     gApi.changes().id(change2.getId().get()).addReviewer(rin);
 
-    assertQuery("reviewer:\"" + userByEmailWithName + "\"", change1);
-    assertQuery("cc:\"" + userByEmailWithName + "\"", change2);
+    if (getSchemaVersion() >= 41) {
+      assertQuery("reviewer:\"" + userByEmailWithName + "\"", change1);
+      assertQuery("cc:\"" + userByEmailWithName + "\"", change2);
 
-    // Omitting the name:
-    assertQuery("reviewer:\"" + userByEmail + "\"", change1);
-    assertQuery("cc:\"" + userByEmail + "\"", change2);
+      // Omitting the name:
+      assertQuery("reviewer:\"" + userByEmail + "\"", change1);
+      assertQuery("cc:\"" + userByEmail + "\"", change2);
+    } else {
+      assertMissingField(ChangeField.REVIEWER_BY_EMAIL);
+
+      assertFailingQuery(
+          "reviewer:\"" + userByEmailWithName + "\"", "User " + userByEmailWithName + " not found");
+      assertFailingQuery(
+          "cc:\"" + userByEmailWithName + "\"", "User " + userByEmailWithName + " not found");
+
+      // Omitting the name:
+      assertFailingQuery("reviewer:\"" + userByEmail + "\"", "User " + userByEmail + " not found");
+      assertFailingQuery("cc:\"" + userByEmail + "\"", "User " + userByEmail + " not found");
+    }
   }
 
   @Test
@@ -1719,8 +1756,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     rin.state = ReviewerState.CC;
     gApi.changes().id(change2.getId().get()).addReviewer(rin);
 
-    assertQuery("reviewer:\"someone@example.com\"");
-    assertQuery("cc:\"someone@example.com\"");
+    if (getSchemaVersion() >= 41) {
+      assertQuery("reviewer:\"someone@example.com\"");
+      assertQuery("cc:\"someone@example.com\"");
+    } else {
+      assertMissingField(ChangeField.REVIEWER_BY_EMAIL);
+
+      String someoneEmail = "someone@example.com";
+      assertFailingQuery(
+          "reviewer:\"" + someoneEmail + "\"", "User " + someoneEmail + " not found");
+      assertFailingQuery("cc:\"" + someoneEmail + "\"", "User " + someoneEmail + " not found");
+    }
   }
 
   @Test
@@ -2264,5 +2310,28 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       accountCache.evict(id);
       return id;
     }
+  }
+
+  protected void assertMissingField(FieldDef<ChangeData, ?> field) {
+    assertThat(getSchema().hasField(field))
+        .named("schema %s has field %s", getSchemaVersion(), field.getName())
+        .isFalse();
+  }
+
+  protected void assertFailingQuery(String query, String expectedMessage) throws Exception {
+    try {
+      assertQuery(query);
+      fail("expected BadRequestException for query '" + query + "'");
+    } catch (BadRequestException e) {
+      assertThat(e.getMessage()).isEqualTo(expectedMessage);
+    }
+  }
+
+  protected int getSchemaVersion() {
+    return getSchema().getVersion();
+  }
+
+  protected Schema<ChangeData> getSchema() {
+    return indexes.getSearchIndex().getSchema();
   }
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.group;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -58,9 +59,7 @@ import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestName;
 
 @Ignore
 public abstract class AbstractQueryGroupsTest extends GerritServerTests {
@@ -70,8 +69,6 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     cfg.setInt("index", null, "maxPages", 10);
     return cfg;
   }
-
-  @Rule public final TestName testName = new TestName();
 
   @Inject protected AccountCache accountCache;
 
@@ -195,7 +192,9 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   @Test
   public void byInname() throws Exception {
-    String namePart = testName.getMethodName();
+    String namePart = getSanitizedMethodName();
+    namePart = CharMatcher.is('_').removeFrom(namePart);
+
     GroupInfo group1 = createGroup("group-" + namePart);
     GroupInfo group2 = createGroup("group-" + namePart + "-2");
     GroupInfo group3 = createGroup("group-" + namePart + "3");
@@ -441,6 +440,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     if (name == null) {
       return null;
     }
-    return name + "_" + testName.getMethodName().toLowerCase();
+
+    return name + "_" + getSanitizedMethodName();
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.testutil;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -48,10 +49,13 @@ import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.SendEmailExecutor;
 import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.server.index.SchemaDefinitions;
+import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.account.AllAccountsIndexer;
 import com.google.gerrit.server.index.change.AllChangesIndexer;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.group.AllGroupsIndexer;
+import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.GwtormChangeBundleReader;
@@ -259,14 +263,9 @@ public class InMemoryModule extends FactoryModule {
 
   private Module indexModule(String moduleClassName) {
     try {
-      Map<String, Integer> singleVersions = new HashMap<>();
-      int version = cfg.getInt("index", "lucene", "testVersion", -1);
-      if (version > 0) {
-        singleVersions.put(ChangeSchemaDefinitions.INSTANCE.getName(), version);
-      }
       Class<?> clazz = Class.forName(moduleClassName);
       Method m = clazz.getMethod("singleVersionWithExplicitVersions", Map.class, int.class);
-      return (Module) m.invoke(null, singleVersions, 0);
+      return (Module) m.invoke(null, getSingleSchemaVersions(), 0);
     } catch (ClassNotFoundException
         | SecurityException
         | NoSuchMethodException
@@ -277,6 +276,27 @@ public class InMemoryModule extends FactoryModule {
       ProvisionException pe = new ProvisionException(e.getMessage());
       pe.initCause(e);
       throw pe;
+    }
+  }
+
+  private Map<String, Integer> getSingleSchemaVersions() {
+    Map<String, Integer> singleVersions = new HashMap<>();
+    putSchemaVersion(singleVersions, AccountSchemaDefinitions.INSTANCE);
+    putSchemaVersion(singleVersions, ChangeSchemaDefinitions.INSTANCE);
+    putSchemaVersion(singleVersions, GroupSchemaDefinitions.INSTANCE);
+    return singleVersions;
+  }
+
+  private void putSchemaVersion(
+      Map<String, Integer> singleVersions, SchemaDefinitions<?> schemaDef) {
+    String schemaName = schemaDef.getName();
+    int version = cfg.getInt("index", "lucene", schemaName + "TestVersion", -1);
+    if (version > 0) {
+      checkState(
+          !singleVersions.containsKey(schemaName),
+          "version for schema %s was alreay set",
+          schemaName);
+      singleVersions.put(schemaName, version);
     }
   }
 }

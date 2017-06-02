@@ -19,7 +19,7 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
 <link rel="import" href="gr-tooltip.html">
 
 <script>void(0);</script>
@@ -42,8 +42,6 @@ limitations under the License.
       element.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' +
           ', sed do eiusmod tempor incididunt ut labore et dolore magna aliqua';
       element.maxWidth = '50px';
-      flushAsynchronousOperations();
-
       assert.equal(getComputedStyle(element).width, '50px');
     });
   });

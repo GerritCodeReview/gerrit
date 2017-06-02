@@ -157,7 +157,6 @@ sh_test(
     size = "large",
     srcs = ["wct_test.sh"],
     data = [
-        "test/common-test-setup.html",
         "test/index.html",
         ":pg_code.zip",
         ":test_components.zip",

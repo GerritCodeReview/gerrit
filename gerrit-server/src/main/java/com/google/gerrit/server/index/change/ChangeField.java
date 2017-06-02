@@ -195,6 +195,18 @@ public class ChangeField {
           .stored()
           .buildRepeatable(cd -> getReviewerByEmailFieldValues(cd.reviewersByEmail()));
 
+  /** Reviewer(s) modified during change's current WIP phase. */
+  public static final FieldDef<ChangeData, Iterable<String>> PENDING_REVIEWER =
+      exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER)
+          .stored()
+          .buildRepeatable(cd -> getReviewerFieldValues(cd.pendingReviewers()));
+
+  /** Reviewer(s) by email modified during change's current WIP phase. */
+  public static final FieldDef<ChangeData, Iterable<String>> PENDING_REVIEWER_BY_EMAIL =
+      exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER_BY_EMAIL)
+          .stored()
+          .buildRepeatable(cd -> getReviewerByEmailFieldValues(cd.pendingReviewersByEmail()));
+
   @VisibleForTesting
   static List<String> getReviewerFieldValues(ReviewerSet reviewers) {
     List<String> r = new ArrayList<>(reviewers.asTable().size() * 2);

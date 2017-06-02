@@ -27,16 +27,26 @@ class ReviewerByEmailPredicate extends ChangeIndexPredicate {
 
   static Predicate<ChangeData> forState(Arguments args, Address adr, ReviewerStateInternal state) {
     checkArgument(state != ReviewerStateInternal.REMOVED, "can't query by removed reviewer");
-    return create(args, new ReviewerByEmailPredicate(state, adr));
+    return create(args, new ReviewerByEmailPredicate(state, adr, false));
+  }
+
+  static Predicate<ChangeData> forPendingState(
+      Arguments args, Address adr, ReviewerStateInternal state) {
+    checkArgument(state != ReviewerStateInternal.REMOVED, "can't query by removed reviewer");
+    return create(args, new ReviewerByEmailPredicate(state, adr, true));
   }
 
   private final ReviewerStateInternal state;
   private final Address adr;
+  private final boolean pending;
 
-  private ReviewerByEmailPredicate(ReviewerStateInternal state, Address adr) {
-    super(ChangeField.REVIEWER_BY_EMAIL, ChangeField.getReviewerByEmailFieldValue(state, adr));
+  private ReviewerByEmailPredicate(ReviewerStateInternal state, Address adr, boolean pending) {
+    super(
+        pending ? ChangeField.PENDING_REVIEWER_BY_EMAIL : ChangeField.REVIEWER_BY_EMAIL,
+        ChangeField.getReviewerByEmailFieldValue(state, adr));
     this.state = state;
     this.adr = adr;
+    this.pending = pending;
   }
 
   Address getAddress() {
@@ -45,6 +55,9 @@ class ReviewerByEmailPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData cd) throws OrmException {
+    if (pending) {
+      return cd.pendingReviewersByEmail().asTable().get(state, adr) != null;
+    }
     return cd.reviewersByEmail().asTable().get(state, adr) != null;
   }
 

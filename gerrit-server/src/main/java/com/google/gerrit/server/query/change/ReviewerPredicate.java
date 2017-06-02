@@ -29,14 +29,20 @@ public class ReviewerPredicate extends ChangeIndexPredicate {
   protected static Predicate<ChangeData> forState(
       Arguments args, Account.Id id, ReviewerStateInternal state) {
     checkArgument(state != ReviewerStateInternal.REMOVED, "can't query by removed reviewer");
-    return create(args, new ReviewerPredicate(state, id));
+    return create(args, new ReviewerPredicate(state, id, false));
+  }
+
+  protected static Predicate<ChangeData> forPendingState(
+      Arguments args, Account.Id id, ReviewerStateInternal state) {
+    checkArgument(state != ReviewerStateInternal.REMOVED, "can't query by removed reviewer");
+    return create(args, new ReviewerPredicate(state, id, true));
   }
 
   protected static Predicate<ChangeData> reviewer(Arguments args, Account.Id id) {
     Predicate<ChangeData> p;
     if (args.notesMigration.readChanges()) {
       // With NoteDb, Reviewer/CC are clearly distinct states, so only choose reviewer.
-      p = new ReviewerPredicate(ReviewerStateInternal.REVIEWER, id);
+      p = new ReviewerPredicate(ReviewerStateInternal.REVIEWER, id, false);
     } else {
       // Without NoteDb, Reviewer/CC are a bit unpredictable; maintain the old behavior of matching
       // any reviewer state.
@@ -49,24 +55,28 @@ public class ReviewerPredicate extends ChangeIndexPredicate {
     // As noted above, CC is nebulous without NoteDb, but it certainly doesn't make sense to return
     // Reviewers for cc:foo. Most likely this will just not match anything, but let the index sort
     // it out.
-    return create(args, new ReviewerPredicate(ReviewerStateInternal.CC, id));
+    return create(args, new ReviewerPredicate(ReviewerStateInternal.CC, id, false));
   }
 
   protected static Predicate<ChangeData> anyReviewerState(Account.Id id) {
     return Predicate.or(
         Stream.of(ReviewerStateInternal.values())
             .filter(s -> s != ReviewerStateInternal.REMOVED)
-            .map(s -> new ReviewerPredicate(s, id))
+            .map(s -> new ReviewerPredicate(s, id, false))
             .collect(toList()));
   }
 
   protected final ReviewerStateInternal state;
   protected final Account.Id id;
+  protected final boolean pending;
 
-  private ReviewerPredicate(ReviewerStateInternal state, Account.Id id) {
-    super(ChangeField.REVIEWER, ChangeField.getReviewerFieldValue(state, id));
+  private ReviewerPredicate(ReviewerStateInternal state, Account.Id id, boolean pending) {
+    super(
+        pending ? ChangeField.PENDING_REVIEWER : ChangeField.REVIEWER,
+        ChangeField.getReviewerFieldValue(state, id));
     this.state = state;
     this.id = id;
+    this.pending = pending;
   }
 
   protected Account.Id getAccountId() {
@@ -75,6 +85,9 @@ public class ReviewerPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData cd) throws OrmException {
+    if (pending) {
+      return cd.pendingReviewers().asTable().get(state, id) != null;
+    }
     return cd.reviewers().asTable().get(state, id) != null;
   }
 

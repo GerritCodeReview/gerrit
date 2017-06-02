@@ -96,10 +96,37 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void getExternalIds() throws Exception {
     Collection<ExternalId> expectedIds = accountCache.get(user.getId()).getExternalIds();
-
     List<AccountExternalIdInfo> expectedIdInfos = toExternalIdInfos(expectedIds);
 
     RestResponse response = userRestSession.get("/accounts/self/external.ids");
+    response.assertOK();
+
+    List<AccountExternalIdInfo> results =
+        newGson()
+            .fromJson(
+                response.getReader(), new TypeToken<List<AccountExternalIdInfo>>() {}.getType());
+
+    Collections.sort(expectedIdInfos);
+    Collections.sort(results);
+    assertThat(results).containsExactlyElementsIn(expectedIdInfos);
+  }
+
+  @Test
+  public void getExternalIdsOfOtherUserNotAllowed() throws Exception {
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to get external IDs");
+    gApi.accounts().id(admin.id.get()).getExternalIds();
+  }
+
+  @Test
+  public void getExternalIdsOfOtherUserWithAccessDatabase() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
+    Collection<ExternalId> expectedIds = accountCache.get(admin.getId()).getExternalIds();
+    List<AccountExternalIdInfo> expectedIdInfos = toExternalIdInfos(expectedIds);
+
+    RestResponse response = userRestSession.get("/accounts/" + admin.id + "/external.ids");
     response.assertOK();
 
     List<AccountExternalIdInfo> results =
@@ -132,6 +159,46 @@ public class ExternalIdIT extends AbstractDaemonTest {
     RestResponse response = userRestSession.post("/accounts/self/external.ids:delete", toDelete);
     response.assertNoContent();
     List<AccountExternalIdInfo> results = gApi.accounts().self().getExternalIds();
+    // The external ID in WebSession will not be set for tests, resulting that
+    // "mailto:user@example.com" can be deleted while "username:user" can't.
+    assertThat(results).hasSize(1);
+    assertThat(results).containsExactlyElementsIn(expectedIds);
+  }
+
+  @Test
+  public void deleteExternalIdsOfOtherUserNotAllowed() throws Exception {
+    List<AccountExternalIdInfo> extIds = gApi.accounts().self().getExternalIds();
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to delete external IDs");
+    gApi.accounts()
+        .id(admin.id.get())
+        .deleteExternalIds(extIds.stream().map(e -> e.identity).collect(toList()));
+  }
+
+  @Test
+  public void deleteExternalIdsOfOtherUserWithAccessDatabase() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
+    List<AccountExternalIdInfo> externalIds = gApi.accounts().self().getExternalIds();
+
+    List<String> toDelete = new ArrayList<>();
+    List<AccountExternalIdInfo> expectedIds = new ArrayList<>();
+    for (AccountExternalIdInfo id : externalIds) {
+      if (id.canDelete != null && id.canDelete) {
+        toDelete.add(id.identity);
+        continue;
+      }
+      expectedIds.add(id);
+    }
+
+    assertThat(toDelete).hasSize(1);
+
+    setApiUser(user);
+    RestResponse response =
+        userRestSession.post("/accounts/" + admin.id + "/external.ids:delete", toDelete);
+    response.assertNoContent();
+    List<AccountExternalIdInfo> results = gApi.accounts().id(admin.id.get()).getExternalIds();
     // The external ID in WebSession will not be set for tests, resulting that
     // "mailto:user@example.com" can be deleted while "username:user" can't.
     assertThat(results).hasSize(1);

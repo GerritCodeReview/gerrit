@@ -51,7 +51,7 @@ public class GetExternalIds implements RestReadView<AccountResource> {
   @Override
   public List<AccountExternalIdInfo> apply(AccountResource resource)
       throws RestApiException, IOException, OrmException {
-    if (self.get() != resource.getUser()) {
+    if (self.get() != resource.getUser() && !self.get().getCapabilities().canAccessDatabase()) {
       throw new AuthException("not allowed to get external IDs");
     }
 

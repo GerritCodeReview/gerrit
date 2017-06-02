@@ -5539,7 +5539,7 @@ Whether the change has been link:#mute[muted] by the calling user.
 Only set if link:#reviewed[reviewed] is requested.
 |`submit_type`        |optional|
 The link:project-configuration.html#submit_type[submit type] of the change. +
-Not set for merged changes.
+May not be set for older merged changes.
 |`mergeable`          |optional|
 Whether the change is mergeable. +
 Not set for merged changes, or if the change has not yet been tested.

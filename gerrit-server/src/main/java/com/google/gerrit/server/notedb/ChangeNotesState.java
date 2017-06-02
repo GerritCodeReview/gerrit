@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -75,6 +76,7 @@ public abstract class ChangeNotesState {
         ImmutableListMultimap.of(),
         null,
         null,
+        null,
         null);
   }
 
@@ -107,7 +109,8 @@ public abstract class ChangeNotesState {
       ListMultimap<RevId, Comment> publishedComments,
       @Nullable Timestamp readOnlyUntil,
       @Nullable Boolean isPrivate,
-      @Nullable Boolean workInProgress) {
+      @Nullable Boolean workInProgress,
+      @Nullable SubmitType submittedType) {
     if (hashtags == null) {
       hashtags = ImmutableSet.of();
     }
@@ -128,7 +131,8 @@ public abstract class ChangeNotesState {
             assignee,
             status,
             isPrivate,
-            workInProgress),
+            workInProgress,
+            submittedType),
         ImmutableSet.copyOf(pastAssignees),
         ImmutableSet.copyOf(hashtags),
         ImmutableList.copyOf(patchSets.entrySet()),
@@ -143,7 +147,8 @@ public abstract class ChangeNotesState {
         ImmutableListMultimap.copyOf(publishedComments),
         readOnlyUntil,
         isPrivate,
-        workInProgress);
+        workInProgress,
+        submittedType);
   }
 
   /**
@@ -192,6 +197,9 @@ public abstract class ChangeNotesState {
 
     @Nullable
     abstract Boolean isWorkInProgress();
+
+    @Nullable
+    abstract SubmitType submittedType();
   }
 
   // Only null if NoteDb is disabled.
@@ -237,6 +245,9 @@ public abstract class ChangeNotesState {
 
   @Nullable
   abstract Boolean isWorkInProgress();
+
+  @Nullable
+  abstract SubmitType submittedType();
 
   Change newChange(Project.NameKey project) {
     ChangeColumns c = checkNotNull(columns(), "columns are required");
@@ -297,6 +308,7 @@ public abstract class ChangeNotesState {
     change.setAssignee(c.assignee());
     change.setPrivate(c.isPrivate() == null ? false : c.isPrivate());
     change.setWorkInProgress(c.isWorkInProgress() == null ? false : c.isWorkInProgress());
+    change.setSubmittedType(c.submittedType());
 
     if (!patchSets().isEmpty()) {
       change.setCurrentPatchSet(c.currentPatchSetId(), c.subject(), c.originalSubject());

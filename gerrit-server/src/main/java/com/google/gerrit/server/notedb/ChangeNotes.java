@@ -34,6 +34,7 @@ import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -588,6 +589,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return false;
     }
     return state.isWorkInProgress();
+  }
+
+  public SubmitType getSubmittedType() {
+    return state.submittedType();
   }
 
   @Override

@@ -17,6 +17,7 @@ package com.google.gerrit.reviewdb.client;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.RowVersion;
@@ -520,6 +521,13 @@ public final class Change {
   @Column(id = 21)
   protected boolean workInProgress;
 
+  /**
+   * What submit strategy was used. Only set if the status is MERGED.
+   * Also unset for old changes submitted before this field was added.
+   * */
+  @Column(id = 22, notNull = false)
+  protected SubmitType submittedType;
+
   /** @see com.google.gerrit.server.notedb.NoteDbChangeState */
   @Column(id = 101, notNull = false, length = Integer.MAX_VALUE)
   protected String noteDbState;
@@ -558,6 +566,7 @@ public final class Change {
     topic = other.topic;
     isPrivate = other.isPrivate;
     workInProgress = other.workInProgress;
+    submittedType = other.submittedType;
     noteDbState = other.noteDbState;
   }
 
@@ -718,6 +727,14 @@ public final class Change {
 
   public void setWorkInProgress(boolean workInProgress) {
     this.workInProgress = workInProgress;
+  }
+
+  public SubmitType getSubmittedType() {
+    return submittedType;
+  }
+
+  public void setSubmittedType(SubmitType type) {
+    this.submittedType = type;
   }
 
   public String getNoteDbState() {

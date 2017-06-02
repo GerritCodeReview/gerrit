@@ -28,6 +28,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -113,6 +114,7 @@ public class ChangeInserter implements InsertChangeOp {
   private String patchSetDescription;
   private boolean isPrivate;
   private boolean workInProgress;
+  private SubmitType submittedType;
   private List<String> groups = Collections.emptyList();
   private boolean validate = true;
   private NotifyHandling notify = NotifyHandling.ALL;
@@ -188,6 +190,7 @@ public class ChangeInserter implements InsertChangeOp {
     change.setTopic(topic);
     change.setPrivate(isPrivate);
     change.setWorkInProgress(workInProgress);
+    change.setSubmittedType(submittedType);
     return change;
   }
 
@@ -278,6 +281,11 @@ public class ChangeInserter implements InsertChangeOp {
 
   public ChangeInserter setWorkInProgress(boolean workInProgress) {
     this.workInProgress = workInProgress;
+    return this;
+  }
+
+  public ChangeInserter setSubmittedType(SubmitType submittedType) {
+    this.submittedType = submittedType;
     return this;
   }
 
@@ -380,6 +388,7 @@ public class ChangeInserter implements InsertChangeOp {
     update.setPsDescription(patchSetDescription);
     update.setPrivate(isPrivate);
     update.setWorkInProgress(workInProgress);
+    update.setSubmittedType(submittedType);
 
     boolean draft = status == Change.Status.DRAFT;
     List<String> newGroups = groups;

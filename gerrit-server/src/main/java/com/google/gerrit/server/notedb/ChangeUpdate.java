@@ -39,6 +39,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WI
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_TYPE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.sanitizeFooter;
 import static java.util.Comparator.comparing;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -51,6 +52,7 @@ import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -156,6 +158,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Timestamp readOnlyUntil;
   private Boolean isPrivate;
   private Boolean workInProgress;
+  private SubmitType submittedType;
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
@@ -341,10 +344,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     approvals.put(label, reviewer, Optional.empty());
   }
 
-  public void merge(RequestId submissionId, Iterable<SubmitRecord> submitRecords) {
+  public void merge(
+      RequestId submissionId, Iterable<SubmitRecord> submitRecords, SubmitType submitType) {
     this.status = Change.Status.MERGED;
     this.submissionId = submissionId.toStringForStorage();
     this.submitRecords = ImmutableList.copyOf(submitRecords);
+    this.submittedType = submitType;
     checkArgument(!this.submitRecords.isEmpty(), "no submit records specified at submit time");
   }
 
@@ -755,6 +760,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_WORK_IN_PROGRESS, workInProgress);
     }
 
+    if (submittedType != null) {
+      addFooter(msg, FOOTER_SUBMITTED_TYPE, submittedType.name().toLowerCase());
+    }
+
     cb.setMessage(msg.toString());
     try {
       ObjectId treeId = storeRevisionNotes(rw, ins, curr);
@@ -804,7 +813,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && !currentPatchSet
         && readOnlyUntil == null
         && isPrivate == null
-        && workInProgress == null;
+        && workInProgress == null
+        && submittedType == null;
   }
 
   ChangeDraftUpdate getDraftUpdate() {
@@ -834,6 +844,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setWorkInProgress(boolean workInProgress) {
     this.workInProgress = workInProgress;
+  }
+
+  public void setSubmittedType(SubmitType type) {
+    this.submittedType = type;
   }
 
   void setReadOnlyUntil(Timestamp readOnlyUntil) {

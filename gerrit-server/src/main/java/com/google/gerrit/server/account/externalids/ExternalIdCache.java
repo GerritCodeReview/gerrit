@@ -22,7 +22,7 @@ import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Caches external IDs of all accounts */
-interface ExternalIdCache {
+public interface ExternalIdCache {
   void onCreate(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId)
       throws IOException;
 

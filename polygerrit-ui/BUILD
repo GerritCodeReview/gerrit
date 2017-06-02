@@ -21,7 +21,6 @@ bower_component_bundle(
         "//lib/js:moment",
         "//lib/js:page",
         "//lib/js:polymer",
-        "//lib/js:polymer-resin",
         "//lib/js:promise-polyfill",
     ],
 )

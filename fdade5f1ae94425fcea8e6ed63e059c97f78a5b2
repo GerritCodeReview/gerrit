@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "25c0463f_6782b26a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T14:22:47Z",
+      "side": 1,
+      "message": "Why do we need another repository? Can\u0027t we simply use another branch on the repository which is already available inside the test?",
+      "range": {
+        "startLine": 683,
+        "startChar": 4,
+        "endLine": 683,
+        "endChar": 82
+      },
+      "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3f3dd815_953c5461",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 4
@@ -41,6 +64,52 @@
         "startChar": 14,
         "endLine": 700,
         "endChar": 32
+      },
+      "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "781caf5f_a4968d5a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T14:22:47Z",
+      "side": 1,
+      "message": "We place helper methods inside of test classes typically below all tests.",
+      "range": {
+        "startLine": 722,
+        "startChar": 15,
+        "endLine": 722,
+        "endChar": 25
+      },
+      "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b3530ec_7b471c60",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T14:22:47Z",
+      "side": 1,
+      "message": "I don\u0027t like that the cherry pick is in the same method as the assertions. That makes the tests harder to read especially since the name \u0027cherryPick\u0027 doesn\u0027t imply that assertions are executed? Could we move the line for the cherry pick to the tests and only keep the assertions in a helper method?",
+      "range": {
+        "startLine": 723,
+        "startChar": 4,
+        "endLine": 725,
+        "endChar": 59
       },
       "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -88,6 +157,144 @@
         "startChar": 8,
         "endLine": 23,
         "endChar": 16
+      },
+      "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4581ddcd_fa8ef5ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T14:22:47Z",
+      "side": 1,
+      "message": "I\u0027m wondering whether we could reuse RebaseUtil#parseBase or even Rebase#findBaseRev. Is the use case of this change different from the current API for rebases?",
+      "range": {
+        "startLine": 293,
+        "startChar": 20,
+        "endLine": 293,
+        "endChar": 33
+      },
+      "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27099ac4_572ba13a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T14:22:47Z",
+      "side": 1,
+      "message": "Never thrown.",
+      "range": {
+        "startLine": 295,
+        "startChar": 58,
+        "endLine": 295,
+        "endChar": 89
+      },
+      "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e798dc45_6446b9ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T14:22:47Z",
+      "side": 1,
+      "message": "Can\u0027t we use revWalk#parseCommit and rely on the visibility check for the patch set? I would do further visibility checks for the commit only if it doesn\u0027t represent a patch set of a change.",
+      "range": {
+        "startLine": 303,
+        "startChar": 8,
+        "endLine": 305,
+        "endChar": 25
+      },
+      "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff9899ad_cc9b5306",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T14:22:47Z",
+      "side": 1,
+      "message": "RevWalk#isMergedInto might be slow especially when the commit is not part of the branch [1]. Could we move this check below the logic regarding changes and adjust that logic to also work for merged changes? Thus, the operation might be faster for commits which represent changes.\n\n[1] https://gerrit-review.googlesource.com/c/105834/2/gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java#232",
+      "range": {
+        "startLine": 308,
+        "startChar": 4,
+        "endLine": 310,
+        "endChar": 5
+      },
+      "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca45e131_af2c216b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T14:22:47Z",
+      "side": 1,
+      "message": "Could be omitted.",
+      "range": {
+        "startLine": 322,
+        "startChar": 16,
+        "endLine": 322,
+        "endChar": 33
+      },
+      "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f383300d_eca9444a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T14:22:47Z",
+      "side": 1,
+      "message": "I don\u0027t think that Changes#id is the best way to find the change for a given commit. Would it be possible to use InternalChangeQuery#byBranchCommit or InternalChangeQuery#byCommit (depending on how byBranchCommit evaluates the branch)?",
+      "range": {
+        "startLine": 326,
+        "startChar": 4,
+        "endLine": 326,
+        "endChar": 55
       },
       "revId": "fdade5f1ae94425fcea8e6ed63e059c97f78a5b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

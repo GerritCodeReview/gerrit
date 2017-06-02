@@ -87,7 +87,13 @@
       filterReviewerSuggestion: {
         type: Function,
         value() {
-          return this._filterReviewerSuggestion.bind(this);
+          return this._filterReviewerSuggestionGenerator(false);
+        },
+      },
+      filterCCSuggestion: {
+        type: Function,
+        value() {
+          return this._filterReviewerSuggestionGenerator(true);
         },
       },
       permittedLabels: Object,
@@ -220,6 +226,24 @@
       if (splices && splices.indexSplices) {
         this._processReviewerChange(splices.indexSplices,
             ReviewerTypes.REVIEWER);
+        let key;
+        let index;
+        let account;
+        // Remove any accounts that already exist as a CC.
+        for (const splice of splices.indexSplices) {
+          for (const addedKey of splice.addedKeys) {
+            account = this.get(`_reviewers.${addedKey}`);
+            key = this._accountOrGroupKey(account);
+            index = this._ccs.findIndex(
+                account => this._accountOrGroupKey(account) === key);
+            if (index >= 0) {
+              this.splice('_ccs', index, 1);
+              const message = (account.name || account.email || key) +
+                  ' moved from CC to reviewer.';
+              this.fire('show-alert', {message});
+            }
+          }
+        }
       }
     },
 
@@ -489,25 +513,29 @@
       return entry.id || entry._account_id;
     },
 
-    _filterReviewerSuggestion(suggestion) {
-      let entry;
-      if (suggestion.account) {
-        entry = suggestion.account;
-      } else if (suggestion.group) {
-        entry = suggestion.group;
-      } else {
-        console.warn('received suggestion that was neither account nor group:',
-            suggestion);
-      }
-      if (entry._account_id === this._owner._account_id) {
-        return false;
-      }
+    _filterReviewerSuggestionGenerator(isCCs) {
+      return suggestion => {
+        let entry;
+        if (suggestion.account) {
+          entry = suggestion.account;
+        } else if (suggestion.group) {
+          entry = suggestion.group;
+        } else {
+          console.warn(
+              'received suggestion that was neither account nor group:',
+              suggestion);
+        }
+        if (entry._account_id === this._owner._account_id) {
+          return false;
+        }
 
-      const key = this._accountOrGroupKey(entry);
-      const finder = entry => this._accountOrGroupKey(entry) === key;
-
-      return this._reviewers.find(finder) === undefined &&
-          this._ccs.find(finder) === undefined;
+        const key = this._accountOrGroupKey(entry);
+        const finder = entry => this._accountOrGroupKey(entry) === key;
+        if (isCCs) {
+          return this._ccs.find(finder) === undefined;
+        }
+        return this._reviewers.find(finder) === undefined;
+      };
     },
 
     _getAccount() {

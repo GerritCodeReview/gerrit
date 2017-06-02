@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "84eecb90_95ee0d5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RefUpdateUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T08:27:06Z",
+      "side": 1,
+      "message": "optional: I am not completely convinced of this name. When I read it the first time, I thought that we have finally a class which bundles all operations relating to ref updates but then realized this class is only for some specialties relating to BatchRefUpdate. Do you intend to extend this class in the future to contain more operations relating to ref updates?",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "32552159d0d21c356e0bff59eaa4bcb97e7639c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ab98559_3482c64c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RefUpdateUtil.java",
         "patchSetId": 1
@@ -19,6 +42,29 @@
         "startChar": 5,
         "endLine": 31,
         "endChar": 14
+      },
+      "revId": "32552159d0d21c356e0bff59eaa4bcb97e7639c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b25b2aa_a725b967",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RefUpdateUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T08:27:06Z",
+      "side": 1,
+      "message": "optional: As LockFailureException is a subclass of IOException, listing this exception here doesn\u0027t add any additional value (compared to just mentioning it in the Javadoc description). We could omit it here as well as for the method below.",
+      "range": {
+        "startLine": 45,
+        "startChar": 13,
+        "endLine": 45,
+        "endChar": 33
       },
       "revId": "32552159d0d21c356e0bff59eaa4bcb97e7639c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

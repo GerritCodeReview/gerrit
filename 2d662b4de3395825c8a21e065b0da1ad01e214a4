@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3dbb31d7_8606d926",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/AllProjectsIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1044102
+      },
+      "writtenOn": "2017-06-02T22:11:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7ea1f896_134003cf",
+      "range": {
+        "startLine": 116,
+        "startChar": 3,
+        "endLine": 117,
+        "endChar": 80
+      },
+      "revId": "2d662b4de3395825c8a21e065b0da1ad01e214a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb9ef745_65d88b2c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectField.java",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "b52fe6c1_bd5015cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1044102
+      },
+      "writtenOn": "2017-06-02T22:11:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb9ef745_65d88b2c",
+      "revId": "2d662b4de3395825c8a21e065b0da1ad01e214a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91d03425_6bf667c3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectField.java",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2017-06-02T07:28:07Z",
       "side": 1,
       "message": "nit: this can be removed, since it\u0027s Gerrit code it should be clear that this is the Gerrit project name.",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 12
+      },
+      "revId": "2d662b4de3395825c8a21e065b0da1ad01e214a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "605bfb2e_8660fa2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1044102
+      },
+      "writtenOn": "2017-06-02T22:11:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91d03425_6bf667c3",
       "range": {
         "startLine": 25,
         "startChar": 6,

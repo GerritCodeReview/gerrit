@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ea1f896_134003cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/AllProjectsIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-02T07:28:07Z",
+      "side": 1,
+      "message": "yes",
+      "range": {
+        "startLine": 116,
+        "startChar": 3,
+        "endLine": 117,
+        "endChar": 80
+      },
+      "revId": "2d662b4de3395825c8a21e065b0da1ad01e214a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb9ef745_65d88b2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-02T07:28:07Z",
+      "side": 1,
+      "message": "I would add fields for description, parent project and name part. If we find that more fields are needed, we can still add them later.",
+      "revId": "2d662b4de3395825c8a21e065b0da1ad01e214a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91d03425_6bf667c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-02T07:28:07Z",
+      "side": 1,
+      "message": "nit: this can be removed, since it\u0027s Gerrit code it should be clear that this is the Gerrit project name.",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 12
+      },
+      "revId": "2d662b4de3395825c8a21e065b0da1ad01e214a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

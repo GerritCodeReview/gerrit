@@ -14,6 +14,8 @@
 (function() {
   'use strict';
 
+  const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
+
   Polymer({
     is: 'gr-admin-project-list',
 
@@ -51,6 +53,7 @@
         type: Boolean,
         value: true,
       },
+      _filter: String,
     },
 
     behaviors: [
@@ -63,8 +66,22 @@
       'previous-page': '_handlePreviousPage',
     },
 
+    _onValueChange(e) {
+      this.debounce('reload', () => {
+        if (e.target.value) {
+          return page.show('/admin/projects/q/filter:' +
+              this.encodeURL(e.target.value, false));
+        }
+        page.show('/admin/projects');
+      }, REQUEST_DEBOUNCE_INTERVAL_MS);
+    },
+
     _paramsChanged(value) {
       this._loading = true;
+
+      if (value) {
+        this._filter = value.filter || null;
+      }
 
       if (value && value.offset) {
         this._offset = value.offset;
@@ -72,7 +89,12 @@
         this._offset = 0;
       }
 
-      return this.$.restAPI.getProjects(this._projectsPerPage, this._offset)
+      return this._getProjects(this._filter, this._projectsPerPage,
+          this._offset);
+    },
+
+    _getProjects(filter, projectsPerPage, offset) {
+      return this.$.restAPI.getProjects(filter, projectsPerPage, offset)
           .then(projects => {
             if (!projects) {
               this._projects = [];
@@ -106,11 +128,14 @@
       return webLinks.length ? webLinks : null;
     },
 
-    _computeNavLink(offset, direction, projectsPerPage) {
+    _computeNavLink(offset, direction, projectsPerPage, filter) {
       // Offset could be a string when passed from the router.
       offset = +(offset || 0);
       const newOffset = Math.max(0, offset + (projectsPerPage * direction));
       let href = this.getBaseUrl() + '/admin/projects';
+      if (filter) {
+        href += '/q/filter:' + filter;
+      }
       if (newOffset > 0) {
         href += ',' + newOffset;
       }
@@ -131,18 +156,6 @@
         lastPage = true;
       }
       return loading || lastPage || !projects || !projects.length;
-    },
-
-    _handleNextPage() {
-      if (this.$.nextArrow.hidden) { return; }
-      page.show(this._computeNavLink(
-          this._offset, 1, this._projectsPerPage));
-    },
-
-    _handlePreviousPage() {
-      if (this.$.prevArrow.hidden) { return; }
-      page.show(this._computeNavLink(
-          this._offset, -1, this._projectsPerPage));
     },
   });
 })();

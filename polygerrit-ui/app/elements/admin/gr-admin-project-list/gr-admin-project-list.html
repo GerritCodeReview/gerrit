@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
@@ -34,6 +35,13 @@ limitations under the License.
       #projectList {
         border-collapse: collapse;
         width: 100%;
+      }
+      #filterContainer {
+        margin: 1em;
+      }
+      #projectFilter {
+        font-size: 1em;
+        max-width: 25em;
       }
       td {
         flex-shrink: 0;
@@ -71,6 +79,14 @@ limitations under the License.
         padding: 1em var(--default-horizontal-margin);
       }
     </style>
+    <div id="filterContainer">
+      <label>Filter:</label>
+      <input is="iron-input"
+          type="text"
+          id="projectFilter"
+          bind-value="{{_filter}}"
+          on-input="_onValueChange">
+    </div>
     <table id="projectList">
       <tr class="headerRow">
         <th class="name topHeader">Project Name</th>
@@ -99,10 +115,10 @@ limitations under the License.
     </table>
     <nav>
       <a id="prevArrow"
-          href$="[[_computeNavLink(_offset, -1, _projectsPerPage)]]"
+          href$="[[_computeNavLink(_offset, -1, _projectsPerPage, _filter)]]"
           hidden$="[[_hidePrevArrow(_offset)]]" hidden>&larr; Prev</a>
       <a id="nextArrow"
-          href$="[[_computeNavLink(_offset, 1, _projectsPerPage)]]"
+          href$="[[_computeNavLink(_offset, 1, _projectsPerPage, _filter)]]"
           hidden$="[[_hideNextArrow(_loading, _projects)]]" hidden>
         Next &rarr;</a>
     </nav>

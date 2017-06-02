@@ -33,6 +33,7 @@
       "ObjectExpression": 1,
       "SwitchCase": 1
     }],
+    "keyword-spacing": ["error", { "after": true, "before": true }],
     "max-len": [
       "error",
       80,

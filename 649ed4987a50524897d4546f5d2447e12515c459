@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "005c3b1f_c8131144",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-02T19:50:02Z",
+      "side": 1,
+      "message": "should something similar to l.232 happen here?",
+      "revId": "649ed4987a50524897d4546f5d2447e12515c459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

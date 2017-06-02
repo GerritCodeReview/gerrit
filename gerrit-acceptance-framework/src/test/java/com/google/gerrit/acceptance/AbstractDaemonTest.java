@@ -81,6 +81,7 @@ import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -195,6 +196,8 @@ public abstract class AbstractDaemonTest {
   @Inject @CanonicalWebUrl protected Provider<String> canonicalWebUrl;
 
   @Inject @GerritServerConfig protected Config cfg;
+
+  @Inject protected PluginConfigFactory pluginConfig;
 
   @Inject private InProcessProtocol inProcessProtocol;
 

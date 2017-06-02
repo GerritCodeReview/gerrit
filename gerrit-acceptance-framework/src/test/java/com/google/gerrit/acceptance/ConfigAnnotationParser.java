@@ -17,8 +17,11 @@ package com.google.gerrit.acceptance;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 
 class ConfigAnnotationParser {
@@ -40,6 +43,67 @@ class ConfigAnnotationParser {
     Config cfg = new Config(base);
     parseAnnotation(cfg, annotation);
     return cfg;
+  }
+
+  static class GlobalPluginConfigToGerritConfig implements GerritConfig {
+    private final GlobalPluginConfig delegate;
+
+    GlobalPluginConfigToGerritConfig(GlobalPluginConfig delegate) {
+      this.delegate = delegate;
+    }
+
+    @Override
+    public Class<? extends Annotation> annotationType() {
+      return delegate.annotationType();
+    }
+
+    @Override
+    public String name() {
+      return delegate.name();
+    }
+
+    @Override
+    public String value() {
+      return delegate.value();
+    }
+
+    @Override
+    public String[] values() {
+      return delegate.values();
+    }
+  }
+
+  static Map<String, Config> parse(GlobalPluginConfig annotation) {
+    if (annotation == null) {
+      return null;
+    }
+    Map<String, Config> result = new HashMap<>();
+    Config cfg = new Config();
+    parseAnnotation(cfg, new GlobalPluginConfigToGerritConfig(annotation));
+    result.put(annotation.pluginName(), cfg);
+    return result;
+  }
+
+  static Map<String, Config> parse(GlobalPluginConfigs annotation) {
+    if (annotation == null || annotation.value().length < 1) {
+      return null;
+    }
+
+    HashMap<String, Config> result = new HashMap<>();
+
+    for (GlobalPluginConfig c : annotation.value()) {
+      String pluginName = c.pluginName();
+      Config config;
+      if (result.containsKey(pluginName)) {
+        config = result.get(pluginName);
+      } else {
+        config = new Config();
+        result.put(pluginName, config);
+      }
+      parseAnnotation(config, new GlobalPluginConfigToGerritConfig(c));
+    }
+
+    return result;
   }
 
   private static void parseAnnotation(Config cfg, GerritConfig c) {

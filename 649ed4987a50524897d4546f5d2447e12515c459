@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c4be00f4_889c0b3c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-02T20:01:23Z",
+      "side": 1,
+      "message": "Also, there\u0027s no way for me to get autocomplete entries of reviewers in the cc field without backend modification.\n\nIt definitely pains me that this behavior isn\u0027t symmetric, but I talked with Wyatt about it and we came to the conclusion that we support this way first and revisit if the other direction becomes important.",
+      "parentUuid": "c6e047c1_683bc48a",
+      "revId": "649ed4987a50524897d4546f5d2447e12515c459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b20f435_ed845897",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 2
@@ -48,6 +66,24 @@
       "writtenOn": "2017-06-02T19:57:00Z",
       "side": 1,
       "message": "Can you add more elements, and also test a splice on _reviewers adding multiple elements?",
+      "revId": "649ed4987a50524897d4546f5d2447e12515c459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78bef4b8_cdd52156",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-02T20:01:23Z",
+      "side": 1,
+      "message": "Add more elements where?\n\nFor the latter point, I can definitely do that... I also don\u0027t see how that could possibly occur in the UI, though, so is it really necessary?",
+      "parentUuid": "0b20f435_ed845897",
       "revId": "649ed4987a50524897d4546f5d2447e12515c459",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -519,6 +519,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byAuthorExact() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.EXACT_AUTHOR)).isTrue();
     byAuthorOrCommitterExact("author:");
   }
 
@@ -529,6 +530,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byCommitterExact() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.EXACT_COMMITTER)).isTrue();
     byAuthorOrCommitterExact("committer:");
   }
 

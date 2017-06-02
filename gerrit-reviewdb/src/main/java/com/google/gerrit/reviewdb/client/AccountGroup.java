@@ -21,6 +21,18 @@ import java.sql.Timestamp;
 
 /** Named group of one or more accounts, typically used for access controls. */
 public final class AccountGroup {
+  /**
+   * Time when the audit subsystem was implemented, used as the default value for {@link #createdOn}
+   * when one couldn't be determined from the audit log.
+   */
+  // Can't use Instant here because GWT. This is verified against a readable time in the tests,
+  // which don't need to compile under GWT.
+  private static final long AUDIT_CREATION_INSTANT_MS = 1244489460000L;
+
+  public static Timestamp auditCreationInstantTs() {
+    return new Timestamp(AUDIT_CREATION_INSTANT_MS);
+  }
+
   /** Group name key */
   public static class NameKey extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
@@ -146,7 +158,7 @@ public final class AccountGroup {
   @Column(id = 10)
   protected UUID ownerGroupUUID;
 
-  @Column(id = 11)
+  @Column(id = 11, notNull = false)
   protected Timestamp createdOn;
 
   protected AccountGroup() {}
@@ -213,7 +225,7 @@ public final class AccountGroup {
   }
 
   public Timestamp getCreatedOn() {
-    return createdOn;
+    return createdOn != null ? createdOn : auditCreationInstantTs();
   }
 
   public void setCreatedOn(Timestamp createdOn) {

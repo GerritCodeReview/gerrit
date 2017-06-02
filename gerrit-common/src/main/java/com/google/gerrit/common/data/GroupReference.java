@@ -27,12 +27,6 @@ public class GroupReference implements Comparable<GroupReference> {
     return new GroupReference(group.getGroupUUID(), group.getName());
   }
 
-  public static GroupReference fromString(String ref) {
-    String name = ref.substring(ref.indexOf("[") + 1, ref.lastIndexOf("/")).trim();
-    String uuid = ref.substring(ref.lastIndexOf("/") + 1, ref.lastIndexOf("]")).trim();
-    return new GroupReference(new AccountGroup.UUID(uuid), name);
-  }
-
   protected String uuid;
   protected String name;
 
@@ -81,5 +75,9 @@ public class GroupReference implements Comparable<GroupReference> {
   @Override
   public String toString() {
     return "Group[" + getName() + " / " + getUUID() + "]";
+  }
+
+  public String toProjectConfigString() {
+    return "group " + getName();
   }
 }

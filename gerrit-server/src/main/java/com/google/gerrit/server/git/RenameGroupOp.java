@@ -119,6 +119,7 @@ public class RenameGroupOp extends DefaultQueueOp {
       md.getCommitBuilder().setAuthor(author);
       md.setMessage("Rename group " + oldName + " to " + newName + "\n");
       try {
+        config.renameGroup(oldName, uuid);
         config.commit(md);
         projectCache.evict(config.getProject());
         success = true;
@@ -135,6 +136,8 @@ public class RenameGroupOp extends DefaultQueueOp {
           Thread.sleep(25 /* milliseconds */);
         } catch (InterruptedException wakeUp) {
           continue;
+        } finally {
+          config.renameGroupDone();
         }
       }
     }

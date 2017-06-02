@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -59,6 +61,14 @@ public class GroupList extends TabFile {
 
   public GroupReference byUUID(AccountGroup.UUID uuid) {
     return byUUID.get(uuid);
+  }
+
+  public GroupReference byName(String name) {
+    if (Strings.isNullOrEmpty(name)) {
+      return null;
+    }
+    return byUUID.values().stream().filter(item -> name.equals(item.getName()))
+        .findFirst().orElse(null);
   }
 
   public GroupReference resolve(GroupReference group) {

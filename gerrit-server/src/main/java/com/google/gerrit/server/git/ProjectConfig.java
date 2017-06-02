@@ -182,6 +182,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private boolean checkReceivedObjects;
   private Set<String> sectionsWithUnknownPermissions;
   private boolean hasLegacyPermissions;
+  private AccountGroup.UUID groupRenameUuid;
+  private String groupRenameOldName;
 
   public static ProjectConfig read(MetaDataUpdate update)
       throws IOException, ConfigInvalidException {
@@ -940,17 +942,21 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       pluginConfigs.put(plugin, pluginConfig);
       for (String name : rc.getNames(PLUGIN, plugin)) {
         String value = rc.getString(PLUGIN, plugin, name);
-        if (value.startsWith("Group[")) {
-          GroupReference refFromString = GroupReference.fromString(value);
-          GroupReference ref = groupList.byUUID(refFromString.getUUID());
+        if (value.startsWith("group ")) {
+          String groupName = value.substring(6).trim();
+          GroupReference refFromValue = groupList.byName(groupName);
+          GroupReference ref = null;
+          if (refFromValue != null) {
+            ref = groupList.byUUID(refFromValue.getUUID());
+          }
           if (ref == null) {
-            ref = refFromString;
+            ref = new GroupReference(null, groupName);
             error(
                 new ValidationError(
                     PROJECT_CONFIG,
                     "group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));
           }
-          rc.setString(PLUGIN, plugin, name, ref.toString());
+          rc.setString(PLUGIN, plugin, name, ref.toProjectConfigString());
         }
         pluginConfig.setStringList(
             PLUGIN, plugin, name, Arrays.asList(rc.getStringList(PLUGIN, plugin, name)));
@@ -1343,6 +1349,16 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
+  public void renameGroup(String oldName, AccountGroup.UUID uuid){
+    groupRenameOldName = oldName;
+    groupRenameUuid=uuid;
+  }
+
+  public void renameGroupDone(){
+    groupRenameOldName = null;
+    groupRenameUuid=null;
+  }
+
   private void savePluginSections(Config rc, Set<AccountGroup.UUID> keepGroups) {
     List<String> existing = Lists.newArrayList(rc.getSubsections(PLUGIN));
     for (String name : existing) {
@@ -1354,11 +1370,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       Config pluginConfig = e.getValue();
       for (String name : pluginConfig.getNames(PLUGIN, plugin)) {
         String value = pluginConfig.getString(PLUGIN, plugin, name);
-        if (value.startsWith("Group[")) {
-          GroupReference ref = resolve(GroupReference.fromString(value));
-          if (ref.getUUID() != null) {
+        if (value.startsWith("group ") && groupRenameUuid != null) {
+          GroupReference ref = getGroup(groupRenameUuid);
+          String groupName = value.substring(6).trim();
+          if (!Strings.isNullOrEmpty(groupName) && ref.getUUID() != null
+              && groupName.equals(groupRenameOldName)) {
             keepGroups.add(ref.getUUID());
-            pluginConfig.setString(PLUGIN, plugin, name, ref.toString());
+            pluginConfig.setString(PLUGIN, plugin, name, ref.toProjectConfigString());
           }
         }
         rc.setStringList(

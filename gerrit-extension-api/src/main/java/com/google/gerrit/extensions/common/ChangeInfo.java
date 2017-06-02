@@ -47,6 +47,7 @@ public class ChangeInfo {
   public Integer unresolvedCommentCount;
   public Boolean isPrivate;
   public Boolean workInProgress;
+  public Boolean hasReviewStarted;
 
   public int _number;
 

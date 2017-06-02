@@ -360,6 +360,18 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void hasReviewStarted() throws Exception {
+    PushOneCommit.Result r = createWorkInProgressChange();
+    String changeId = r.getChangeId();
+    ChangeInfo info = gApi.changes().id(changeId).get();
+    assertThat(info.hasReviewStarted).isFalse();
+
+    gApi.changes().id(changeId).setReadyForReview();
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.hasReviewStarted).isTrue();
+  }
+
+  @Test
   public void toggleWorkInProgressState() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();

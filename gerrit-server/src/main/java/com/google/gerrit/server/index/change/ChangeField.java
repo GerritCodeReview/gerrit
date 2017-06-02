@@ -470,6 +470,11 @@ public class ChangeField {
   public static final FieldDef<ChangeData, String> WIP =
       exact(ChangeQueryBuilder.FIELD_WIP).build(cd -> cd.change().isWorkInProgress() ? "1" : "0");
 
+  /** Determines if this change has started review. */
+  public static final FieldDef<ChangeData, String> STARTED =
+      exact(ChangeQueryBuilder.FIELD_STARTED)
+          .build(cd -> cd.change().hasReviewStarted() ? "1" : "0");
+
   /** Users who have commented on this change. */
   public static final FieldDef<ChangeData, Iterable<Integer>> COMMENTBY =
       integer(ChangeQueryBuilder.FIELD_COMMENTBY)

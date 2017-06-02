@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6cbd2c12_ffbdcda6",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritPluginConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-06-02T14:39:21Z",
+      "side": 1,
+      "message": "In PluginConfigFactory, method to get the plugin own config file in called getGlobalPluginConfig, should we call the annotation GlobalPluginConfig?",
+      "range": {
+        "startLine": 25,
+        "startChar": 18,
+        "endLine": 25,
+        "endChar": 36
+      },
+      "revId": "98e718e21754a8d04f1eb7c192b9000d550b3e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37f01f86_1433d077",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-06-02T14:39:21Z",
+      "side": 1,
+      "message": "this check will never happen because this method is called in else case of \"if (desc.memory()){\"\n\neither we call buildPluginConfigs() before the if at line 162 or we move this check outside of this method",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 150,
+        "endChar": 7
+      },
+      "revId": "98e718e21754a8d04f1eb7c192b9000d550b3e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

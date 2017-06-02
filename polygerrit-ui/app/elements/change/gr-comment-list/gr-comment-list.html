@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
+<link rel="import" href="../../../styles/shared-styles.html">
 
 <!--
   The custom CSS property `--gr-formatted-text-prose-max-width` controls the max
@@ -26,7 +27,7 @@ limitations under the License.
 
 <dom-module id="gr-comment-list">
   <template>
-    <style>
+    <style include="shared-styles">
       :host {
         display: block;
         word-wrap: break-word;

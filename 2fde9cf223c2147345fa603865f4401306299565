@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77e29945_62cf0d2f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-02T20:28:56Z",
+      "side": 1,
+      "message": "Optional: now that this returns a function, it may be a little confusing. Can we add a JSDoc comment that encodes the parameter and return types of this method and the function it returns?",
+      "revId": "2fde9cf223c2147345fa603865f4401306299565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

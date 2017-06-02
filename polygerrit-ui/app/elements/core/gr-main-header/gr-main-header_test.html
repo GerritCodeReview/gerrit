@@ -118,16 +118,25 @@ limitations under the License.
         url: '/admin/groups',
         name: 'Groups',
       }];
+      const defaultAdminLink = {
+        title: 'More',
+        links: [{
+          url: '/admin/projects',
+          name: 'Projects',
+          viewableToAll: true,
+        }],
+      };
 
-      assert.deepEqual(
-          element._computeLinks(defaultLinks, [], []), defaultLinks);
+      // When no admin links are passed, it should use the default.
+      assert.deepEqual(element._computeLinks(defaultLinks, [], []),
+          defaultLinks.concat(defaultAdminLink));
       assert.deepEqual(
           element._computeLinks(defaultLinks, userLinks, adminLinks),
           defaultLinks.concat({
             title: 'Your',
             links: userLinks,
           }, {
-            title: 'Admin',
+            title: 'More',
             links: adminLinks,
           }));
     });

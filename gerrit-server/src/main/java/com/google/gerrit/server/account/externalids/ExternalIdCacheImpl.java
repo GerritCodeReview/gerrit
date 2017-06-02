@@ -237,6 +237,24 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     }
   }
 
+  @Override
+  public Set<ExternalId> byUsername(String username) throws IOException {
+    try {
+      return extIdsByAccount
+          .get(externalIdReader.readRevision())
+          .values()
+          .stream()
+          .filter(
+              e ->
+                  (e.key().scheme().equals(ExternalId.SCHEME_USERNAME)
+                          || e.key().scheme().equals(ExternalId.SCHEME_GERRIT))
+                      && e.key().id().equals(username))
+          .collect(toSet());
+    } catch (ExecutionException e) {
+      throw new IOException("Cannot list external ids by username", e);
+    }
+  }
+
   private void updateCache(
       ObjectId oldNotesRev,
       ObjectId newNotesRev,

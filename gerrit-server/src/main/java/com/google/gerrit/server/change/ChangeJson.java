@@ -497,6 +497,8 @@ public class ChangeJson {
       if (has(SUBMITTABLE)) {
         out.submittable = submittable(cd);
       }
+    } else {
+      out.submitType = in.getSubmittedType();
     }
     Optional<ChangedLines> changedLines = cd.changedLines();
     if (changedLines.isPresent()) {

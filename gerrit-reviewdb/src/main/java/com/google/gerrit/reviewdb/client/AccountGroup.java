@@ -14,13 +14,26 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.StringKey;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneOffset;
 
 /** Named group of one or more accounts, typically used for access controls. */
 public final class AccountGroup {
+  /**
+   * Time when the audit subsystem was implemented, used as the default value for {@link #createdOn}
+   * when one couldn't be determined from the audit log.
+   */
+  public static final Instant AUDIT_CREATION_INSTANT =
+      LocalDateTime.of(2009, Month.JUNE, 8, 19, 31).toInstant(ZoneOffset.UTC);
+
   /** Group name key */
   public static class NameKey extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
@@ -146,7 +159,7 @@ public final class AccountGroup {
   @Column(id = 10)
   protected UUID ownerGroupUUID;
 
-  @Column(id = 11)
+  @Column(id = 11, notNull = false)
   protected Timestamp createdOn;
 
   protected AccountGroup() {}
@@ -213,7 +226,13 @@ public final class AccountGroup {
   }
 
   public Timestamp getCreatedOn() {
-    return createdOn;
+    if (createdOn != null) {
+      return createdOn;
+    }
+    // Same idea as Timestamp#from(Instant), which doesn't exist in our current GWT version.
+    Timestamp ts = new Timestamp(SECONDS.toMillis(AUDIT_CREATION_INSTANT.getEpochSecond()));
+    ts.setNanos(AUDIT_CREATION_INSTANT.getNano());
+    return ts;
   }
 
   public void setCreatedOn(Timestamp createdOn) {

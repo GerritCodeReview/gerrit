@@ -17,6 +17,24 @@
       "revId": "a2f7ca34e278a65186b04748df71b65d8b767f0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "962ec970_bdeaff12",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-02T14:43:44Z",
+      "side": 1,
+      "message": "Why not? If the caller intents to update an existing account and this account is missing we want to fail. It\u0027s no problem the keep this semantic with NoteDb. If we think it\u0027s not worth to make this distinction, we can remove this later. At least while we still write to ReviewDb, we should keep it.",
+      "parentUuid": "adb512c4_8aabdbed",
+      "revId": "a2f7ca34e278a65186b04748df71b65d8b767f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

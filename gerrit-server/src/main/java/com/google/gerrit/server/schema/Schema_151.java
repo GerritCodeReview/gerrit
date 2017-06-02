@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
@@ -25,20 +24,12 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.ZoneOffset;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 /** A schema which adds the 'created on' field to groups. */
 public class Schema_151 extends SchemaVersion {
-  @VisibleForTesting
-  static final Instant AUDIT_CREATION_INSTANT =
-      LocalDateTime.of(2009, Month.JUNE, 8, 19, 31).toInstant(ZoneOffset.UTC);
-
   @Inject
   protected Schema_151(Provider<Schema_150> prior) {
     super(prior);
@@ -56,7 +47,7 @@ public class Schema_151 extends SchemaVersion {
               .map(Key::getAddedOn)
               .min(Comparator.naturalOrder());
       Timestamp createdOn =
-          firstTimeMentioned.orElseGet(() -> Timestamp.from(AUDIT_CREATION_INSTANT));
+          firstTimeMentioned.orElseGet(() -> Timestamp.from(AccountGroup.AUDIT_CREATION_INSTANT));
 
       accountGroup.setCreatedOn(createdOn);
     }

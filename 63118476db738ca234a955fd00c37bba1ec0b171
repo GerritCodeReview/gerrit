@@ -16,6 +16,24 @@
       "revId": "63118476db738ca234a955fd00c37bba1ec0b171",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96aee075_c942d237",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritPluginConfigs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-02T08:16:09Z",
+      "side": 1,
+      "message": "I know; if we submit this on stable-2.13 it\u0027ll need to be reworked on merge up to stable-2.14.",
+      "parentUuid": "6fe50571_8ec41a3d",
+      "revId": "63118476db738ca234a955fd00c37bba1ec0b171",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

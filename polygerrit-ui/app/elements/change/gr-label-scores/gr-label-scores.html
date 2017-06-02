@@ -15,97 +15,30 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../bower_components/iron-selector/iron-selector.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-label-score-row/gr-label-score-row.html">
 
 <dom-module id="gr-label-scores">
   <template>
     <style>
-      .labelContainer {
-        margin-bottom: .5em;
-      }
-      .labelContainer:last-child {
-        margin-bottom: 0;
-      }
-      .labelName {
-        display: inline-block;
-        margin-right: .5em;
-        min-width: 7em;
-        text-align: right;
-        white-space: nowrap;
-        width: 25%;
-      }
-      .labelMessage {
-        color: #666;
-      }
       .mergedMessage {
         font-style: italic;
         text-align: center;
         width: 100%;
       }
-      .placeholder::before {
-        content: ' ';
-      }
-      iron-selector > gr-button:first-of-type {
-        border-bottom-left-radius: 2px;
-        border-top-left-radius: 2px;
-      }
-      iron-selector > gr-button:last-of-type {
-        border-bottom-right-radius: 2px;
-        border-top-right-radius: 2px;
-      }
-      iron-selector > gr-button.iron-selected {
-        background-color: #ddd;
-      }
-      gr-button {
-        min-width: 40px;
-      }
-      .placeholder {
-        display: inline-block;
-        width: 40px;
-      }
       @media only screen and (max-width: 25em) {
         :host {
           text-align: center;
         }
-        .labelName {
-          margin: 0;
-          text-align: center;
-          width: 100%;
-        }
       }
     </style>
     <template is="dom-repeat" items="[[_labels]]" as="label">
-      <div class="labelContainer">
-        <span class="labelName">[[label.name]]</span>
-        <span id="spaces[[index]]"></span>
-        <template is="dom-repeat"
-            items="[[_computeBlankItems(permittedLabels, label.name, 'start')]]"
-            as="value">
-          <span class="placeholder" data-label$="[[label.name]]"></span>
-        </template>
-        <iron-selector data-label$="[[label.name]]"
-            selected="[[_computeIndexOfLabelValue(change.labels, permittedLabels, label)]]"
-            hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
-          <template is="dom-repeat"
-              items="[[_computePermittedLabelValues(permittedLabels, label.name)]]"
-              as="value">
-            <gr-button has-tooltip data-value$="[[value]]"
-              title$="[[_computeLabelValueTitle(change.labels, label.name, value)]]">
-            [[value]]</gr-button>
-          </template>
-        </iron-selector>
-        <template is="dom-repeat"
-            items="[[_computeBlankItems(permittedLabels, label.name, 'end')]]"
-            as="value">
-          <span class="placeholder" data-label$="[[label.name]]"></span>
-        </template>
-        <span class="labelMessage"
-            hidden$="[[_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
-          You don't have permission to edit this label.
-        </span>
-      </div>
+      <gr-label-score-row
+          label="[[label]]"
+          name="[[label.name]]"
+          labels="[[change.labels]]"
+          permitted-labels="[[permittedLabels]]"
+          label-values="[[_labelValues]]"></gr-label-score-row>
     </template>
     <div class="mergedMessage"
         hidden$="[[!_changeIsMerged(change.status)]]">

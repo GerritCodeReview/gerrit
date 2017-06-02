@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1496353458 -0400\nnonce APbwY4qnMh8CmoYqGi6Zc3rVICUKqONgRV0q/j75s6ihTWuieGFo/6cUwU7/Fvu6vh0fxyxNQPzB\n\n0000000000000000000000000000000000000000 839acec6365bcb135a02798341ebb7ec9b50019d refs/for/master%topic\u003dretry-reviewnotes,r\u003dhiesel@google.com,r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZMIqyAAoJEF/XxZqaEoiMAkwQALNQB+lHwsvmoMjEUNuj8aci\nt+G6eVE/v02rXa/7npw38Z1GRKbk/YEMfZlZ9qchUjZp/rJ9CNA3O8YeunBwDWNE\nztIlI+6/NZBJ8S+Ge6at+Dj8luIDD/n4IGH5mOJRQA1Ths3dInCB9Jr0FOL1GDWP\nXSCkKXwGakY/F6RClHQw/+Mj3jsHD0gzyQg6Y7mIMg75nk21yawGHvq/bLgUtGde\nVEis4nzf4Jw6/aJChd7M+qT/EosE01s6cE8cxI3AuQPdzvn/LjBmmMhcSV/8Rlna\n44l4CQD/WRE/Dg0p/fagdwGZFx0Nfsw2mUD8XZRe23h73FJRvddr9aN1MwyTfjUf\n6DNCZm73bMLMFHreRFEbMrOqE4AQuhSQ6JX5beSJf524QA6buHegON+69YWFST1D\nlOh1fDhgq+BC9bGDOBuHel6Vzk6JSNwZaSUbB/XRrIq1iZ/WTPPrQqhJ2PpKwEyg\nYbwHEv7c8Y8CsTFeIVumtyQMr6CqE5nnwemPmBBF3gEPMN0Pb8+iA1wkxr/XjtDZ\npSJA9rcPICBjx/1h2sDlyujFWMuRhJ+4e8jwmReggE8jLwoCMVisakoxOSTuLaWV\nM08na7rTgJzj7Gkp1LYAHZyRfqDZCpE1KuD6LY2xmXJOMn0pdaEnetdkbPlEjLgw\nghVyFg53JaHfYqvYY4P4\n\u003dZLid\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b3e8ed2_d8b95863",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T10:45:07Z",
+      "side": 1,
+      "message": "optional: Please see my previous remark [1].\n\n[1] https://gerrit-review.googlesource.com/c/108613/1/gerrit-server/src/main/java/com/google/gerrit/server/update/RefUpdateUtil.java#45",
+      "range": {
+        "startLine": 96,
+        "startChar": 13,
+        "endLine": 96,
+        "endChar": 33
+      },
+      "revId": "839acec6365bcb135a02798341ebb7ec9b50019d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25ce6880_725f650f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T10:45:07Z",
+      "side": 1,
+      "message": "Contrary to the previous implementation, we now add the blobs for the noteContent and the commits for the new NoteMap again on a retry. Maybe we should mention this in the commit message as currently the commit message sounds as if the switch to RetryHelper is only an improvement.",
+      "range": {
+        "startLine": 145,
+        "startChar": 21,
+        "endLine": 145,
+        "endChar": 33
+      },
+      "revId": "839acec6365bcb135a02798341ebb7ec9b50019d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed6ec800_4f3ee9a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/BanCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-02T10:45:07Z",
+      "side": 1,
+      "message": "Can\u0027t we use the RetryingRestModifyView instead?",
+      "range": {
+        "startLine": 62,
+        "startChar": 11,
+        "endLine": 63,
+        "endChar": 26
+      },
+      "revId": "839acec6365bcb135a02798341ebb7ec9b50019d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

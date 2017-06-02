@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cdcadf3e_77c92570",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-02T18:27:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "03f34b4d_564cc086",
+      "range": {
+        "startLine": 64,
+        "startChar": 10,
+        "endLine": 64,
+        "endChar": 52
+      },
+      "revId": "6472a9a319b5d1db84d5d3f8ee41659c54683ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3f078e_5767efd2",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "6472a9a319b5d1db84d5d3f8ee41659c54683ddf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b73f28ed_9b1daf2d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-02T18:27:46Z",
+      "side": 1,
+      "message": "tl;dr: in the test, Strategy section actually was hidden, but used standard behavior for which display had a precedence.\n\nSo Becky actually fixed it, and the test broke.",
+      "parentUuid": "9a3f078e_5767efd2",
+      "range": {
+        "startLine": 84,
+        "startChar": 10,
+        "endLine": 84,
+        "endChar": 72
+      },
+      "revId": "6472a9a319b5d1db84d5d3f8ee41659c54683ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

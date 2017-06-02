@@ -16,6 +16,41 @@
       "revId": "649ed4987a50524897d4546f5d2447e12515c459",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6e047c1_683bc48a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-02T19:57:00Z",
+      "side": 1,
+      "message": "I don\u0027t think a reviewer can be moved to CC if they\u0027ve voted, so that might be misleading to the user (and confusing either way).",
+      "parentUuid": "005c3b1f_c8131144",
+      "revId": "649ed4987a50524897d4546f5d2447e12515c459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b20f435_ed845897",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-02T19:57:00Z",
+      "side": 1,
+      "message": "Can you add more elements, and also test a splice on _reviewers adding multiple elements?",
+      "revId": "649ed4987a50524897d4546f5d2447e12515c459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

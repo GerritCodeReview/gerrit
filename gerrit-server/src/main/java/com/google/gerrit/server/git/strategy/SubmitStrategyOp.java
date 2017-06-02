@@ -470,6 +470,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     ReviewDb db = ctx.getDb();
     logDebug("Setting change {} merged", c.getId());
     c.setStatus(Change.Status.MERGED);
+    c.setSubmittedType(args.submitType);
     c.setSubmissionId(args.submissionId.toStringForStorage());
 
     // TODO(dborowitz): We need to be able to change the author of the message,

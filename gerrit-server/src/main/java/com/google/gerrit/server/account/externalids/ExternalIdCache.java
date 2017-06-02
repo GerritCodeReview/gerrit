@@ -77,6 +77,8 @@ public interface ExternalIdCache {
 
   Set<ExternalId> byEmail(String email) throws IOException;
 
+  Set<ExternalId> byUsername(String username) throws IOException;
+
   default void onCreate(ObjectId oldNotesRev, ObjectId newNotesRev, ExternalId extId)
       throws IOException {
     onCreate(oldNotesRev, newNotesRev, Collections.singleton(extId));

@@ -92,4 +92,9 @@ public class DisabledExternalIdCache implements ExternalIdCache {
   public Set<ExternalId> byEmail(String email) throws IOException {
     throw new UnsupportedOperationException();
   }
+
+  @Override
+  public Set<ExternalId> byUsername(String username) throws IOException {
+    throw new UnsupportedOperationException();
+  }
 }

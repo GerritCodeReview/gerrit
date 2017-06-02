@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1496309829 +0200\nnonce APbwY4oRFGlAbPavw2Y3/w0KGzwFtEKpqfrSmTENbzMDhOm3J0026UKYqrwfGWGglF3VlXELnaJM\n\n0000000000000000000000000000000000000000 4744ad88966318ddb5583057d4e9f11196af5da0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZL+BFAAoJEFG1/Zeg0O9RtXgH/2GY45x/51krFcDqEe3Cg8yn\nbHGCgdqJBrJr285ZE8FvdGQc4nhKqzfvS6Wh/5fCc3umw6+H86AogSw0mcoUcnZY\nYFAR7k9JbYJkhkH7+dW1TdzE4vWc0D4CPfO50zuGWsfwfiknS5r5rUcHqdJ5jLQx\nHla13UKCASO1gW9Z9rU0NtiXthCWzqV6jCCtxVpIdaZlo2vbTOe7LcnU/slxV0I/\nobfFN73a/lVnRF59Qg0ufIymlHyPQ+8DNPXJxx+xk6XF0HJ533+2Fy2avrWTdRZH\nAID26LAsGa0GnW00IL8XE4IVBZPyoESOny0infZnJniwN7ee43k2BQC8Pfaun5Y\u003d\n\u003dXhNf\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c5cc127_5be48470",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-02T14:36:49Z",
+      "side": 1,
+      "message": ".filter(e -\u003e !Strings.isNullOrEmpty(e.email()))\n .collect(toImmutableSetMultimap(ExternalId::email, e -\u003e e))",
+      "range": {
+        "startLine": 291,
+        "startChar": 56,
+        "endLine": 291,
+        "endChar": 0
+      },
+      "revId": "c4b9570e366e899c8d59bf4094c210ca34160ce4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

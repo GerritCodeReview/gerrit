@@ -19,6 +19,7 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.CodedEnum;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,6 +30,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
 
@@ -54,24 +56,26 @@ public class IntraLineDiff implements Serializable {
   }
 
   private transient Status status;
-  private transient List<Edit> edits;
+  private transient ImmutableList<Edit> edits;
 
   IntraLineDiff(Status status) {
     this.status = status;
-    this.edits = Collections.emptyList();
+    this.edits = ImmutableList.of();
   }
 
   IntraLineDiff(List<Edit> edits) {
     this.status = Status.EDIT_LIST;
-    this.edits = Collections.unmodifiableList(edits);
+    this.edits = ImmutableList.copyOf(edits);
   }
 
   public Status getStatus() {
     return status;
   }
 
-  public List<Edit> getEdits() {
-    return edits;
+  public ImmutableList<Edit> getEdits() {
+    // Edits are mutable objects. As we serialize IntraLineDiff asynchronously in H2CacheImpl, we
+    // must ensure that its state isn't modified until it was properly stored in the cache.
+    return deepCopyEdits(edits);
   }
 
   private void writeObject(final ObjectOutputStream out) throws IOException {
@@ -108,7 +112,25 @@ public class IntraLineDiff implements Serializable {
         editArray[i] = new ReplaceEdit(editArray[i], toList(inner));
       }
     }
-    edits = toList(editArray);
+    edits = ImmutableList.copyOf(editArray);
+  }
+
+  private static ImmutableList<Edit> deepCopyEdits(List<Edit> edits) {
+    return edits.stream().map(IntraLineDiff::copy).collect(ImmutableList.toImmutableList());
+  }
+
+  private static Edit copy(Edit edit) {
+    if (edit instanceof ReplaceEdit) {
+      return copy((ReplaceEdit) edit);
+    }
+    return new Edit(edit.getBeginA(), edit.getEndA(), edit.getBeginB(), edit.getEndB());
+  }
+
+  private static ReplaceEdit copy(ReplaceEdit edit) {
+    List<Edit> internalEdits =
+        edit.getInternalEdits().stream().map(IntraLineDiff::copy).collect(Collectors.toList());
+    return new ReplaceEdit(
+        edit.getBeginA(), edit.getEndA(), edit.getBeginB(), edit.getEndB(), internalEdits);
   }
 
   private static void writeEdit(OutputStream out, Edit e) throws IOException {

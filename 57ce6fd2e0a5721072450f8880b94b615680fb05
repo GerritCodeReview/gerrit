@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1496423634 -0400\nnonce APbwY4qwXo6BT1F+bfi8Zi8fENeZn8utZHUcKfwkPCw2KbiBP+UjR9CgiPOm0PWr/g+q344Q3o7q\n\n0000000000000000000000000000000000000000 57ce6fd2e0a5721072450f8880b94b615680fb05 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZMZzSAAoJEF/XxZqaEoiM4uIP/iQz0bA5SxISokG4Era1MgLw\nGRMLaKp3rxxhB1sWvvRW1OTDR/VRt2XDcvP1OgWY+iaGJKnvdlcWtJ8k259iPw1f\nRKd0eX8vWfd8DwmcKEtaOoLoqNF1zJXaNPxEwmXtxsoq8Y3JoJOTBo7/2LV41Bb4\noiOprgQjcheYTv5bDXEZpn3J63WvskqAJY7Sj8Dkt957fNXq1YXlbizJmQUXPPdH\nOsW1QPumME8kf41xNPMd9cMyE2L2LJaT+odic4Wc44JoYkIfgbyxGYdUIU1vU4L9\ndxskf2ZjgciTsggf+H/ACr7i60dmlt9/FpxvPGZmqfQ30B1ONWgfMCTlfMralWVr\n+QnCHDIw4jBIHLSVotih2yZ8CidP0BOMKKaLn7bC3R5PxD1tMJkSOLv0ODsJIQvR\nlgOVZMrFUjn8XS4PMVR32WEmVPoGjsYilcTdeYUXtw86pOABLYO8LmnoP95/fF/n\n44ROwfp8mNISgx4btundsMaKXo3IVOEwevLqesjvSxUWIl8/Hpcx88/sAH+KA95E\nBtkF7ea/x547TkJkQOqeoRIjffWkd6eJ2O4ioM4EyAlA2D7BPpCWLvmV98QP3Aca\nuVUZVOWN1b/7tEPMPYoPVHEHk7KQslZXGMDWB+Qf+ZpvaWXYQENc+pbKi+u32orn\nms2GB4I2WAhIK2c7XfI7\n\u003dn+mK\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "381f1ddc_fa61a7d7",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-02T17:17:27Z",
+      "side": 1,
+      "message": "Fucking GWT. The standard library emulation in the version of GWT we\u0027re using doesn\u0027t contain this method. Compiles fine in Eclipse...",
+      "range": {
+        "startLine": 227,
+        "startChar": 43,
+        "endLine": 227,
+        "endChar": 81
+      },
+      "revId": "57ce6fd2e0a5721072450f8880b94b615680fb05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

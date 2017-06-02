@@ -47,6 +47,8 @@ import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
@@ -65,7 +67,9 @@ public class GerritServer {
           !has(NoHttpd.class, testDesc.getTestClass()),
           has(Sandboxed.class, testDesc.getTestClass()),
           null, // @GerritConfig is only valid on methods.
-          null); // @GerritConfigs is only valid on methods.
+          null, // @GerritConfigs is only valid on methods.
+          null, // @GerritPluginConfig is only valid on methods.
+          null);// @GerritPluginConfigs is only valid on methods.
 
     }
 
@@ -79,7 +83,9 @@ public class GerritServer {
           testDesc.getAnnotation(Sandboxed.class) != null ||
               has(Sandboxed.class, testDesc.getTestClass()),
           testDesc.getAnnotation(GerritConfig.class),
-          testDesc.getAnnotation(GerritConfigs.class));
+          testDesc.getAnnotation(GerritConfigs.class),
+          testDesc.getAnnotation(GerritPluginConfig.class),
+          testDesc.getAnnotation(GerritPluginConfigs.class));
     }
 
     private static boolean has(
@@ -98,6 +104,8 @@ public class GerritServer {
     abstract boolean sandboxed();
     @Nullable abstract GerritConfig config();
     @Nullable abstract GerritConfigs configs();
+    @Nullable abstract GerritPluginConfig pluginConfig();
+    @Nullable abstract GerritPluginConfigs pluginConfigs();
 
     private Config buildConfig(Config baseConfig) {
       if (configs() != null && config() != null) {
@@ -111,6 +119,23 @@ public class GerritServer {
       } else {
         return baseConfig;
       }
+    }
+
+    private Map<String, Config> buildPluginConfigs() {
+      if (pluginConfigs() != null && pluginConfig() != null) {
+        throw new IllegalStateException(
+            "Use either @GerritPluginConfig or @GerritPluginConfigs not both");
+      }
+      if ((pluginConfigs() != null || pluginConfig() != null) && memory()) {
+        throw new IllegalStateException(
+            "Must use @UseLocalDisk with @GerritPluginConfig(s)");
+      }
+      if (pluginConfigs() != null) {
+        return ConfigAnnotationParser.parse(pluginConfigs());
+      } else if (pluginConfig() != null) {
+        return ConfigAnnotationParser.parse(pluginConfig());
+      }
+      return new HashMap<>();
     }
   }
 
@@ -150,7 +175,7 @@ public class GerritServer {
           new InMemoryTestingDatabaseModule(cfg)));
       daemon.start();
     } else {
-      site = initSite(cfg);
+      site = initSite(cfg, desc.buildPluginConfigs());
       daemonService = Executors.newSingleThreadExecutor();
       daemonService.submit(new Callable<Void>() {
         @Override
@@ -173,7 +198,8 @@ public class GerritServer {
     return new GerritServer(desc, i, daemon, daemonService);
   }
 
-  private static File initSite(Config base) throws Exception {
+  private static File initSite(Config base, Map<String, Config> pluginConfigs)
+      throws Exception {
     File tmp = TempFileUtil.createTempDirectory();
     Init init = new Init();
     int rc = init.main(new String[] {
@@ -190,6 +216,16 @@ public class GerritServer {
     cfg.merge(base);
     mergeTestConfig(cfg);
     cfg.save();
+
+    for (String pluginName: pluginConfigs.keySet()) {
+      MergeableFileBasedConfig pluginCfg = new MergeableFileBasedConfig(
+          new File(new File(tmp, "etc"), pluginName + ".config"),
+          FS.DETECTED);
+      pluginCfg.load();
+      pluginCfg.merge(pluginConfigs.get(pluginName));
+      pluginCfg.save();
+    }
+
     return tmp;
   }
 

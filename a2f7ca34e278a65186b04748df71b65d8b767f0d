@@ -53,6 +53,24 @@
       "revId": "a2f7ca34e278a65186b04748df71b65d8b767f0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a338040f_2fd4ea81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-02T15:01:11Z",
+      "side": 1,
+      "message": "I can have a closer look, but since callers so far used update and upsert I assumed they care. Also this change is just refactoring and hence shouldn\u0027t change the behaviour, so I would rather change this in another change if we think we should.",
+      "parentUuid": "92311b7d_4e05b058",
+      "revId": "a2f7ca34e278a65186b04748df71b65d8b767f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -32,7 +32,9 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<AccountGroup> {
           GroupField.DESCRIPTION,
           GroupField.IS_VISIBLE_TO_ALL);
 
-  static final Schema<AccountGroup> V2 = schema(V1);
+  @Deprecated static final Schema<AccountGroup> V2 = schema(V1);
+
+  static final Schema<AccountGroup> V3 = schema(V2, GroupField.CREATED_ON);
 
   public static final GroupSchemaDefinitions INSTANCE = new GroupSchemaDefinitions();
 

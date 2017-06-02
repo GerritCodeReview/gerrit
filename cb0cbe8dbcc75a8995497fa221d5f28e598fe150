@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b4141829_9202d89e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-02T23:14:09Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2b52c2a3_cf90a90b",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 11
+      },
+      "revId": "cb0cbe8dbcc75a8995497fa221d5f28e598fe150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1d7ae7e6_3bf86b4e",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.html",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-02T23:08:09Z",
       "side": 1,
       "message": "should be group-table",
+      "range": {
+        "startLine": 32,
+        "startChar": 9,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "cb0cbe8dbcc75a8995497fa221d5f28e598fe150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29302506_38f689a4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-02T23:14:09Z",
+      "side": 1,
+      "message": "Ah, woops. Thanks, done.",
+      "parentUuid": "1d7ae7e6_3bf86b4e",
       "range": {
         "startLine": 32,
         "startChar": 9,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c49ec592_b3cc094b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-02T23:14:09Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "79e45bc8_de01dbe6",
+      "range": {
+        "startLine": 40,
+        "startChar": 9,
+        "endLine": 40,
+        "endChar": 14
+      },
+      "revId": "cb0cbe8dbcc75a8995497fa221d5f28e598fe150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6c6ac8c_7fa50e90",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list_test.html",
         "patchSetId": 13
@@ -82,6 +154,30 @@
       "writtenOn": "2017-06-02T23:08:09Z",
       "side": 1,
       "message": "_projects doesn\u0027t exist, does it? How are these passing?",
+      "range": {
+        "startLine": 84,
+        "startChar": 9,
+        "endLine": 85,
+        "endChar": 75
+      },
+      "revId": "cb0cbe8dbcc75a8995497fa221d5f28e598fe150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b12ca97_e1838824",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-02T23:14:09Z",
+      "side": 1,
+      "message": "Oh, not sure. And woops. Thanks, done.",
+      "parentUuid": "c6c6ac8c_7fa50e90",
       "range": {
         "startLine": 84,
         "startChar": 9,

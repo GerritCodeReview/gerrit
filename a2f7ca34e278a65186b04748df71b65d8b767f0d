@@ -35,6 +35,24 @@
       "revId": "a2f7ca34e278a65186b04748df71b65d8b767f0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92311b7d_4e05b058",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-02T14:47:11Z",
+      "side": 1,
+      "message": "You get the throw-if-nonexisting semantics for free if you use gwtorm, but with NoteDb it\u0027s extra work to implement them. So I\u0027m asking whether it\u0027s worth that extra work.\n\n\u003e If the caller intents to update an existing account and this account is missing we want to fail.\n\nSure. But looking at the actual list of callers, are there any callers who _actually_ care?",
+      "parentUuid": "962ec970_bdeaff12",
+      "revId": "a2f7ca34e278a65186b04748df71b65d8b767f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

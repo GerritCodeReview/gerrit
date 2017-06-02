@@ -325,7 +325,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     LabelNormalizer.Result normalized = approve(ctx, origPsUpdate);
 
     ChangeUpdate newPsUpdate = ctx.getUpdate(newPsId);
-    newPsUpdate.merge(args.submissionId, records);
+    newPsUpdate.merge(args.submissionId, records, args.submitType);
     // If the submit strategy created a new revision (rebase, cherry-pick), copy
     // approvals as well.
     if (!newPsId.equals(oldPsId)) {
@@ -470,6 +470,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     ReviewDb db = ctx.getDb();
     logDebug("Setting change {} merged", c.getId());
     c.setStatus(Change.Status.MERGED);
+    c.setSubmittedType(args.submitType);
     c.setSubmissionId(args.submissionId.toStringForStorage());
 
     // TODO(dborowitz): We need to be able to change the author of the message,

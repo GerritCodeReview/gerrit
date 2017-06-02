@@ -520,6 +520,10 @@ public final class Change {
   @Column(id = 21)
   protected boolean workInProgress;
 
+  /** Whether the change has started review. */
+  @Column(id = 22)
+  protected boolean reviewStarted;
+
   /** @see com.google.gerrit.server.notedb.NoteDbChangeState */
   @Column(id = 101, notNull = false, length = Integer.MAX_VALUE)
   protected String noteDbState;
@@ -558,6 +562,7 @@ public final class Change {
     topic = other.topic;
     isPrivate = other.isPrivate;
     workInProgress = other.workInProgress;
+    reviewStarted = other.reviewStarted;
     noteDbState = other.noteDbState;
   }
 
@@ -718,6 +723,14 @@ public final class Change {
 
   public void setWorkInProgress(boolean workInProgress) {
     this.workInProgress = workInProgress;
+  }
+
+  public boolean hasReviewStarted() {
+    return reviewStarted;
+  }
+
+  public void setReviewStarted(boolean reviewStarted) {
+    this.reviewStarted = reviewStarted;
   }
 
   public String getNoteDbState() {

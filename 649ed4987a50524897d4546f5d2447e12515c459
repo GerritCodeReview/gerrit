@@ -87,6 +87,24 @@
       "revId": "649ed4987a50524897d4546f5d2447e12515c459",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaa90c03_45f2d592",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-02T20:08:55Z",
+      "side": 1,
+      "message": "(Done)\n\nThe reason I ask -- in what scenario do we expect that to happen?\n\nI\u0027m all for code that doesn\u0027t break even when weird things happen, don\u0027t get me wrong, but while I was implementing this feature I initially considered throwing some kind of error in that case. I figure we\u0027d want to know how somebody did that in the first place.",
+      "parentUuid": "78bef4b8_cdd52156",
+      "revId": "649ed4987a50524897d4546f5d2447e12515c459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

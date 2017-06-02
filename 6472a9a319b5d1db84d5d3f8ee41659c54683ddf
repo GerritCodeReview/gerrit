@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03f34b4d_564cc086",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-02T00:59:34Z",
+      "side": 1,
+      "message": "See line 84",
+      "range": {
+        "startLine": 64,
+        "startChar": 10,
+        "endLine": 64,
+        "endChar": 52
+      },
+      "revId": "6472a9a319b5d1db84d5d3f8ee41659c54683ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a3f078e_5767efd2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-02T00:59:34Z",
+      "side": 1,
+      "message": "Note: this was failing for section.strategy. It actually looked to me like it should have been failing before too, because it should have been hidden without a change.status property\n\nwould compute as hidden if this returns true: \n\n_computeHideStrategy(change) {\n    return !this.changeIsOpen(change.status);\n},\n\nchangeIsOpen(status) {\n      return status \u003d\u003d\u003d this.ChangeStatus.NEW ||\n          status \u003d\u003d\u003d this.ChangeStatus.DRAFT;\n    },",
+      "range": {
+        "startLine": 84,
+        "startChar": 10,
+        "endLine": 84,
+        "endChar": 72
+      },
+      "revId": "6472a9a319b5d1db84d5d3f8ee41659c54683ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

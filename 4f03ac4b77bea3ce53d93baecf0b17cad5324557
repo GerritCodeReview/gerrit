@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c0a217d2_24a5a9ba",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 4562,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "51fd1b0e_1bb2768a",
+      "range": {
+        "startLine": 4562,
+        "startChar": 15,
+        "endLine": 4562,
+        "endChar": 17
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2c604dd_55006e09",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 14
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-03T01:44:29Z",
       "side": 1,
       "message": "UI",
+      "range": {
+        "startLine": 4564,
+        "startChar": 59,
+        "endLine": 4564,
+        "endChar": 61
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a021406_2b4c1c2f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 4564,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d2c604dd_55006e09",
       "range": {
         "startLine": 4564,
         "startChar": 59,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e69b7c1b_e19bfb7a",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "I doint think there\u0027s a list. Though i can list some missing features.",
+      "parentUuid": "40b43dbd_e1a07a7b",
+      "range": {
+        "startLine": 3,
+        "startChar": 9,
+        "endLine": 3,
+        "endChar": 37
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f1fd9f9_91153133",
         "filename": "Documentation/dev-polygerrit.txt",
         "patchSetId": 14
@@ -82,6 +154,30 @@
       "writtenOn": "2017-06-03T01:44:29Z",
       "side": 1,
       "message": "both GWT and PolyGerrit",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591efacb_2e816da1",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2f1fd9f9_91153133",
       "range": {
         "startLine": 7,
         "startChar": 11,
@@ -140,6 +236,54 @@
     },
     {
       "key": {
+        "uuid": "a3ea2550_d52ba73d",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3bf83e97_6dd3cdd6",
+      "range": {
+        "startLine": 9,
+        "startChar": 23,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7b407db_83a8b126",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "35437dea_46ee4e2b",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9ca844b_0d36df45",
         "filename": "Documentation/dev-polygerrit.txt",
         "patchSetId": 14
@@ -174,6 +318,54 @@
       "writtenOn": "2017-06-03T01:44:29Z",
       "side": 1,
       "message": "remove this",
+      "range": {
+        "startLine": 16,
+        "startChar": 32,
+        "endLine": 16,
+        "endChar": 56
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab478c1b_c005110c",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f9ca844b_0d36df45",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 32
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdef1dfe_d462d747",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "12b04f24_7e1fc420",
       "range": {
         "startLine": 16,
         "startChar": 32,
@@ -278,6 +470,102 @@
     },
     {
       "key": {
+        "uuid": "c1b8044a_fc7f57f0",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "587025ee_19c7ce35",
+      "range": {
+        "startLine": 23,
+        "startChar": 14,
+        "endLine": 23,
+        "endChar": 24
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4946786_56b1019c",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "cf76d515_8d3a1bd3",
+      "range": {
+        "startLine": 23,
+        "startChar": 44,
+        "endLine": 23,
+        "endChar": 57
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78374251_6091a964",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3c0d07c6_0600b64d",
+      "range": {
+        "startLine": 23,
+        "startChar": 25,
+        "endLine": 23,
+        "endChar": 27
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1babab89_4abbc615",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "aef75a4e_dc1eb0a8",
+      "range": {
+        "startLine": 23,
+        "startChar": 65,
+        "endLine": 23,
+        "endChar": 68
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ecb0e47_58cc1a4d",
         "filename": "Documentation/dev-polygerrit.txt",
         "patchSetId": 14
@@ -312,6 +600,54 @@
       "writtenOn": "2017-06-03T01:44:29Z",
       "side": 1,
       "message": "make this a separate paragraph, maybe indented so it shows as preformatted.",
+      "range": {
+        "startLine": 24,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 48
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0f46ed9_64475bf7",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3ecb0e47_58cc1a4d",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 7
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4e7655b_03462e56",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4119818d_b323a2fe",
       "range": {
         "startLine": 24,
         "startChar": 8,
@@ -416,6 +752,102 @@
     },
     {
       "key": {
+        "uuid": "7718a4ff_a7fe8696",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1fd2a368_3b23b1a0",
+      "range": {
+        "startLine": 25,
+        "startChar": 20,
+        "endLine": 25,
+        "endChar": 24
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67041084_05252d18",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "de3c12ec_16a5528a",
+      "range": {
+        "startLine": 25,
+        "startChar": 25,
+        "endLine": 25,
+        "endChar": 26
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5588ee7a_2c895043",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "785bf2f2_9d1d43be",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63a47ea6_c1988769",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8d1d8611_ef194439",
+      "range": {
+        "startLine": 25,
+        "startChar": 3,
+        "endLine": 25,
+        "endChar": 10
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1136ea_cd8fbeb7",
         "filename": "Documentation/dev-polygerrit.txt",
         "patchSetId": 14
@@ -427,6 +859,30 @@
       "writtenOn": "2017-06-03T01:44:29Z",
       "side": 1,
       "message": "Make this a hyperlink",
+      "range": {
+        "startLine": 28,
+        "startChar": 37,
+        "endLine": 28,
+        "endChar": 43
+      },
+      "revId": "4f03ac4b77bea3ce53d93baecf0b17cad5324557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22f86d25_299e9b70",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-03T14:00:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7a1136ea_cd8fbeb7",
       "range": {
         "startLine": 28,
         "startChar": 37,

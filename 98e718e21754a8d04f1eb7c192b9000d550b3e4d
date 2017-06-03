@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "d0a1cce3_383b06da",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritPluginConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-03T01:34:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cbd2c12_ffbdcda6",
+      "range": {
+        "startLine": 25,
+        "startChar": 18,
+        "endLine": 25,
+        "endChar": 36
+      },
+      "revId": "98e718e21754a8d04f1eb7c192b9000d550b3e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a920eee_bb6a5bb3",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritPluginConfig.java",
         "patchSetId": 1
@@ -59,6 +83,24 @@
       "writtenOn": "2017-06-02T20:59:03Z",
       "side": 1,
       "message": "This is section name? What about subsection support. For example:\n\n  [threadpool \"index\"]\n    threads \u003d 2",
+      "revId": "98e718e21754a8d04f1eb7c192b9000d550b3e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98ec474b_789ba1ab",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritPluginConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-03T01:34:41Z",
+      "side": 1,
+      "message": "Ack.  Will address in a later PS.",
+      "parentUuid": "9a920eee_bb6a5bb3",
       "revId": "98e718e21754a8d04f1eb7c192b9000d550b3e4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -93,6 +135,30 @@
       "writtenOn": "2017-06-02T14:39:21Z",
       "side": 1,
       "message": "this check will never happen because this method is called in else case of \"if (desc.memory()){\"\n\neither we call buildPluginConfigs() before the if at line 162 or we move this check outside of this method",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 150,
+        "endChar": 7
+      },
+      "revId": "98e718e21754a8d04f1eb7c192b9000d550b3e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd9e249a_9bac0be1",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-03T01:34:41Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "37f01f86_1433d077",
       "range": {
         "startLine": 148,
         "startChar": 6,

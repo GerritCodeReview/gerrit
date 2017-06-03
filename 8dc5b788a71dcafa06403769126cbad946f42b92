@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bca8259_42c1f1a3",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-03T00:19:30Z",
+      "side": 1,
+      "message": "Should we change the name of this enum, and the variables derived from it? I have a hunch that the temporary \"More\" solution will end up being the one we go with permanently.... But it may make sense to wait longer. Up to you!",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 19
+      },
+      "revId": "8dc5b788a71dcafa06403769126cbad946f42b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3e96a85_ed7cde27",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-03T00:19:30Z",
+      "side": 1,
+      "message": "Could one-line this to...\n\n    adminLinks \u003d ADMIN_LINKS.filter(link \u003d\u003e link.viewableToAll);",
+      "range": {
+        "startLine": 183,
+        "startChar": 8,
+        "endLine": 185,
+        "endChar": 11
+      },
+      "revId": "8dc5b788a71dcafa06403769126cbad946f42b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "982fa943_6c4bfccf",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-03T00:19:30Z",
+      "side": 1,
+      "message": "Nit: Can we move this after \"Documentation\"? Feels weird to me to have \"More\"... and then have more stuff after that.",
+      "range": {
+        "startLine": 187,
+        "startChar": 6,
+        "endLine": 190,
+        "endChar": 9
+      },
+      "revId": "8dc5b788a71dcafa06403769126cbad946f42b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "584e88aa_893aabe5",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-03T00:19:30Z",
+      "side": 1,
+      "message": "Stray code?",
+      "revId": "8dc5b788a71dcafa06403769126cbad946f42b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f46ada02_8999bee8",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-03T00:19:30Z",
+      "side": 1,
+      "message": "Sp?",
+      "range": {
+        "startLine": 131,
+        "startChar": 44,
+        "endLine": 131,
+        "endChar": 49
+      },
+      "revId": "8dc5b788a71dcafa06403769126cbad946f42b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2a14bb7_0b726b5d",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-03T00:19:30Z",
+      "side": 1,
+      "message": "This indentation is kinda awk. How about...\n\n      assert.deepEqual(element._computeLinks(defaultLinks, [], []),\n          defaultLinks.concat(defaultAdminLink));\n\n...or...\n\n      assert.deepEqual(\n          element._computeLinks(defaultLinks, [], []),\n          defaultLinks.concat(defaultAdminLink));",
+      "range": {
+        "startLine": 132,
+        "startChar": 6,
+        "endLine": 134,
+        "endChar": 41
+      },
+      "revId": "8dc5b788a71dcafa06403769126cbad946f42b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

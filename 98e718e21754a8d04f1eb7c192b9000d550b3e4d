@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "af5ad299_0510a9c0",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritPluginConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-03T06:14:24Z",
+      "side": 1,
+      "message": "The parsing of name() is reused from the existing GerritConfig annotation, and it turns out that subsection is already supported but not clearly documented or tested.\n\nI added another commit below this one that adds Javadoc and extends the tests.\n\nLater I\u0027ll also extend that test class to include coverage of the new annotations.",
+      "parentUuid": "98ec474b_789ba1ab",
+      "revId": "98e718e21754a8d04f1eb7c192b9000d550b3e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f7435907_c44ff155",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritPluginConfigs.java",
         "patchSetId": 1

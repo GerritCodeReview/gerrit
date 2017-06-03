@@ -14,9 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
 
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
@@ -30,16 +32,123 @@ limitations under the License.
       main {
         margin: 2em 1em;
       }
-
+      ul {
+        list-style: none;
+        margin-bottom: .5em;
+      }
+      li {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+      }
+      li gr-button {
+        margin-right: 1em;
+      }
+      label,
+      input {
+        display: block;
+      }
+      label {
+        font-weight: bold;
+      }
+      input {
+        font-family: var(--monospace-font-family);
+        font-size: inherit;
+      }
+      li[selected] gr-button {
+        color: #000;
+        font-weight: bold;
+        text-decoration: none;
+      }
+      .commands {
+        display: flex;
+        justify-content: space-between;
+      }
+      .download-commands {
+        border-bottom: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+        padding: .5em;
+      }
       h1.edited:after {
         color: #444;
         content: ' *';
+      }
+      .command {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: .5em;
+        width: 60em;
+      }
+      .command label {
+        flex: 0 0 100%;
+      }
+      .copyCommand {
+        flex-grow: 1;
+        margin-right: .3em;
+      }
+      .title {
+        text-align: center;
+        flex: 1;
+      }
+      .divSchema {
+        float: right;
+      }
+      .commands {
+        padding-top: 1em;
+        padding-left: 1em;
+        margin-bottom: 2.5em;
       }
     </style>
     <style include="gr-form-styles"></style>
       <main class="gr-form-styles read-only">
         <h1 id="Title" class$="[[_computeHeaderClass(_configChanged)]]">
           [[project]]</h1>
+        <header class="commands">
+          <ul hidden$="[[!_schemes.length]]" hidden>
+            <template is="dom-repeat"
+                items="[[_computeCommands(project, _serverConfig, _selectedScheme)]]"
+                as="command">
+                <li selected$="[[_computeCommandSelected(command.title, _selectedCommand)]]">
+                  <gr-button link data-command$="[[command.title]]" on-tap="_handleCommandTap">
+                    [[command.title]]
+                  </gr-button>
+                </li>
+            </template>
+            |
+            <ul class="divSchema">
+              <li selected$="[[_computeSchemeSelected(scheme, _selectedScheme)]]">
+                <gr-button link data-scheme$="[[scheme]]" on-tap="_handleSchemeTap">
+                  [[scheme]]
+                </gr-button>
+              </li>
+              <template is="dom-repeat" items="[[_schemes]]" as="scheme">
+                <li selected$="[[_computeSchemeSelected(scheme, _selectedScheme)]]">
+                  <gr-button link data-scheme$="[[scheme]]" on-tap="_handleSchemeTap">
+                    [[scheme]]
+                  </gr-button>
+                </li>
+              </template>
+            </ul>
+          </ul>
+        </header>
+        <main class="download-commands" hidden$="[[!_schemes.length]]" hidden>
+          <template is="dom-repeat"
+              items="[[_computeCommandsSelect(project, _serverConfig, _selectedScheme, _selectedCommand)]]"
+              as="command">
+            <div class="command">
+              <label>[[command.title]]</label>
+              <input is="iron-input"
+                  class="copyCommand"
+                  type="text"
+                  bind-value="[[command.command]]"
+                  on-tap="_handleInputTap"
+                  readonly>
+              <gr-button class="copyToClipboard" on-tap="_copyToClipboard">
+                copy
+              </gr-button>
+            </div>
+          </template>
+        </main>
         <div id="loading" hidden$="[[!_loading]]" hidden>Loading...</div>
         <div id="form" hidden$="[[_loading]]" hidden>
           <h2 id="Description">Description</h2>

@@ -99,34 +99,43 @@ limitations under the License.
 
     test('form defaults to read only when not logged in', done => {
       element.project = PROJECT;
-      element._loadProject().then(() => {
-        assert.isTrue(element._readOnly);
+      flush(() => {
+        element._loadProject().then(() => {
+          assert.isTrue(element._readOnly);
+          done();
+        });
         done();
       });
     });
 
     test('form defaults to read only when logged in and not admin', done => {
       element.project = PROJECT;
-      sandbox.stub(element, '_getLoggedIn', () => {
-        return Promise.resolve(true);
-      });
-      sandbox.stub(element.$.restAPI, 'getProjectAccess', () => {
-        return Promise.resolve({'test-project': {}});
-      });
-      element._loadProject().then(() => {
-        assert.isTrue(element._readOnly);
+      flush(() => {
+        sandbox.stub(element, '_getLoggedIn', () => {
+          return Promise.resolve(true);
+        });
+        sandbox.stub(element.$.restAPI, 'getProjectAccess', () => {
+          return Promise.resolve({'test-project': {}});
+        });
+        element._loadProject().then(() => {
+          assert.isTrue(element._readOnly);
+          done();
+        });
         done();
       });
     });
 
     test('all form elements are disabled when not admin', done => {
       element.project = PROJECT;
-      element._loadProject().then(() => {
-        flushAsynchronousOperations();
-        const formFields = getFormFields();
-        for (const field of formFields) {
-          assert.isTrue(field.hasAttribute('disabled'));
-        }
+      flush(() => {
+        element._loadProject().then(() => {
+          flushAsynchronousOperations();
+          const formFields = getFormFields();
+          for (const field of formFields) {
+            assert.isTrue(field.hasAttribute('disabled'));
+          }
+          done();
+        });
         done();
       });
     });
@@ -176,20 +185,26 @@ limitations under the License.
       });
 
       test('all form elements are enabled', done => {
-        element._loadProject().then(() => {
-          flushAsynchronousOperations();
-          const formFields = getFormFields();
-          for (const field of formFields) {
-            assert.isFalse(field.hasAttribute('disabled'));
-          }
-          assert.isFalse(element._loading);
+        flush(() => {
+          element._loadProject().then(() => {
+            flushAsynchronousOperations();
+            const formFields = getFormFields();
+            for (const field of formFields) {
+              assert.isFalse(field.hasAttribute('disabled'));
+            }
+            assert.isFalse(element._loading);
+            done();
+          });
           done();
         });
       });
 
       test('state gets set correctly', done => {
-        element._loadProject().then(() => {
-          assert.equal(element._projectConfig.state, 'ACTIVE');
+        flush(() => {
+          element._loadProject().then(() => {
+            assert.equal(element._projectConfig.state, 'ACTIVE');
+            done();
+          });
           done();
         });
       });
@@ -215,41 +230,44 @@ limitations under the License.
 
         const button = Polymer.dom(element.root).querySelector('gr-button');
 
-        element._loadProject().then(() => {
-          assert.isTrue(button.hasAttribute('disabled'));
-          assert.isFalse(element.$.Title.classList.contains('edited'));
-          element.$.descriptionInput.bindValue = configInputObj.description;
-          element.$.stateSelect.bindValue = configInputObj.state;
-          element.$.submitTypeSelect.bindValue = configInputObj.submit_type;
-          element.$.contentMergeSelect.bindValue =
-              configInputObj.use_content_merge;
-          element.$.newChangeSelect.bindValue =
-              configInputObj.create_new_change_for_all_not_in_target;
-          element.$.requireChangeIdSelect.bindValue =
-              configInputObj.require_change_id;
-          element.$.rejectImplicitMergesSelect.bindValue =
-              configInputObj.reject_implicit_merges;
-          element.$.maxGitObjSizeInput.bindValue =
-              configInputObj.max_object_size_limit;
-          element.$.contributorAgreementSelect.bindValue =
-              configInputObj.use_contributor_agreements;
-          element.$.useSignedOffBySelect.bindValue =
-              configInputObj.use_signed_off_by;
-
-          assert.isFalse(button.hasAttribute('disabled'));
-          assert.isTrue(element.$.Title.classList.contains('edited'));
-
-          const formattedObj =
-              element._formatProjectConfigForSave(element._projectConfig);
-          assert.deepEqual(formattedObj, configInputObj);
-
-          element._handleSaveProjectConfig().then(() => {
+        flush(() => {
+          element._loadProject().then(() => {
             assert.isTrue(button.hasAttribute('disabled'));
             assert.isFalse(element.$.Title.classList.contains('edited'));
-            assert.isTrue(saveStub.lastCall.calledWithExactly(PROJECT,
-                configInputObj));
-            done();
+            element.$.descriptionInput.bindValue = configInputObj.description;
+            element.$.stateSelect.bindValue = configInputObj.state;
+            element.$.submitTypeSelect.bindValue = configInputObj.submit_type;
+            element.$.contentMergeSelect.bindValue =
+                configInputObj.use_content_merge;
+            element.$.newChangeSelect.bindValue =
+                configInputObj.create_new_change_for_all_not_in_target;
+            element.$.requireChangeIdSelect.bindValue =
+                configInputObj.require_change_id;
+            element.$.rejectImplicitMergesSelect.bindValue =
+                configInputObj.reject_implicit_merges;
+            element.$.maxGitObjSizeInput.bindValue =
+                configInputObj.max_object_size_limit;
+            element.$.contributorAgreementSelect.bindValue =
+                configInputObj.use_contributor_agreements;
+            element.$.useSignedOffBySelect.bindValue =
+                configInputObj.use_signed_off_by;
+
+            assert.isFalse(button.hasAttribute('disabled'));
+            assert.isTrue(element.$.Title.classList.contains('edited'));
+
+            const formattedObj =
+                element._formatProjectConfigForSave(element._projectConfig);
+            assert.deepEqual(formattedObj, configInputObj);
+
+            element._handleSaveProjectConfig().then(() => {
+              assert.isTrue(button.hasAttribute('disabled'));
+              assert.isFalse(element.$.Title.classList.contains('edited'));
+              assert.isTrue(saveStub.lastCall.calledWithExactly(PROJECT,
+                  configInputObj));
+              done();
+            });
           });
+          done();
         });
       });
     });

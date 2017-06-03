@@ -74,7 +74,28 @@
           return Object.values(SUBMIT_TYPES);
         },
       },
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+        observer: '_loggedInChanged',
+      },
+      _schemes: {
+        type: Array,
+        value() { return []; },
+        computed: '_computeSchemes(_serverConfig)',
+        observer: '_schemesChanged',
+      },
+      _selectedCommand: {
+        type: String,
+        value: 'Clone',
+      },
+      _selectedScheme: String,
+      _serverConfig: Object,
     },
+
+    behaviors: [
+      Gerrit.RESTClientBehavior,
+    ],
 
     observers: [
       '_handleConfigChanged(_projectConfig.*)',
@@ -99,6 +120,10 @@
         }
       }));
 
+      promises.push(this.$.restAPI.getConfig().then(config => {
+        this._serverConfig = config;
+      }));
+
       promises.push(this.$.restAPI.getProjectConfig(this.project).then(
           config => {
             this._projectConfig = config;
@@ -109,6 +134,114 @@
           }));
 
       return Promise.all(promises);
+    },
+
+    focus() {
+      if (this._schemes.length) {
+        this.$$('.copyToClipboard').focus();
+      }
+    },
+
+    _loggedInChanged(_loggedIn) {
+      if (!_loggedIn) { return; }
+      this.$.restAPI.getPreferences().then(prefs => {
+        if (prefs.download_scheme) {
+          // Note (issue 5180): normalize the download scheme with lower-case.
+          this._selectedScheme = prefs.download_scheme.toLowerCase();
+        }
+      });
+    },
+
+    _computeCommands(project, _serverConfig, _selectedScheme) {
+      let commandObj;
+      if (_serverConfig.download.schemes.hasOwnProperty(_selectedScheme)) {
+        commandObj =
+            _serverConfig.download.schemes[_selectedScheme].clone_commands;
+      }
+
+      const commands = [];
+      for (const title in commandObj) {
+        if (!commandObj.hasOwnProperty(title)) { continue; }
+        commands.push({
+          title,
+          command: commandObj[title]
+              .replace('${project}', project)
+              .replace('${project-base-name}', project),
+        });
+      }
+      return commands;
+    },
+
+    _computeCommandsSelect(
+        project, _serverConfig, _selectedScheme, _selectedCommand) {
+      let commandObj;
+      if (_serverConfig.download.schemes.hasOwnProperty(_selectedScheme)) {
+        commandObj =
+            _serverConfig.download.schemes[_selectedScheme].clone_commands;
+      }
+
+      const commands = [];
+      if (!commandObj.hasOwnProperty(_selectedCommand)) {
+        _selectedCommand = 'Clone';
+      }
+      commands.push({
+        _selectedCommand,
+        command: commandObj[_selectedCommand]
+            .replace('${project}', project)
+            .replace('${project-base-name}', project),
+      });
+      return commands;
+    },
+
+    _computeSchemes(_serverConfig) {
+      const fetch = _serverConfig.download.schemes;
+      if (fetch) {
+        return Object.keys(fetch).sort();
+      }
+      return [];
+    },
+
+    _computeSchemeSelected(scheme, selectedScheme) {
+      return scheme === selectedScheme;
+    },
+
+    _computeCommandSelected(scheme, selectedCommand) {
+      return scheme === selectedCommand;
+    },
+
+    _handleSchemeTap(e) {
+      e.preventDefault();
+      const el = Polymer.dom(e).rootTarget;
+      this._selectedScheme = el.getAttribute('data-scheme');
+      if (this._loggedIn) {
+        this.$.restAPI.savePreferences({download_scheme: this._selectedScheme});
+      }
+    },
+
+    _handleCommandTap(e) {
+      e.preventDefault();
+      const el = Polymer.dom(e).rootTarget;
+      this._selectedCommand = el.getAttribute('data-command');
+    },
+
+    _handleInputTap(e) {
+      e.preventDefault();
+      Polymer.dom(e).rootTarget.select();
+    },
+
+    _schemesChanged(schemes) {
+      if (schemes.length === 0) { return; }
+      if (!schemes.includes(this._selectedScheme)) {
+        this._selectedScheme = schemes.sort()[0];
+      }
+    },
+
+    _copyToClipboard(e) {
+      e.target.parentElement.querySelector('.copyCommand').select();
+      document.execCommand('copy');
+      getSelection().removeAllRanges();
+      e.target.textContent = 'done';
+      setTimeout(() => { e.target.textContent = 'copy'; }, 1000);
     },
 
     _formatBooleanSelect(item) {

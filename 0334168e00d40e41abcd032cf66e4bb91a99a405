@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2e78a9e3_35ffa7dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-06-03T02:47:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82580266_1deeaa82",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 3
+      },
+      "revId": "0334168e00d40e41abcd032cf66e4bb91a99a405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c11ab69b_20293c04",
         "filename": "polygerrit-ui/app/test/common-test-setup.html",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "0334168e00d40e41abcd032cf66e4bb91a99a405",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "280f5c76_e30a742b",
+        "filename": "polygerrit-ui/app/test/common-test-setup.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-06-03T02:47:38Z",
+      "side": 1,
+      "message": "\u003e This file should include a license comment.\n\nDone\n\n\u003e Is there a reason we do not also include...\n\u003e \n\u003e  \u003cscript src\u003d\"../../../bower_components/web-component-tester/browser.js\"\u003e\u003c/script\u003e\n\u003e \n\u003e ... in this file?\n\nIt\u0027d be really nice to be able to.  I played around with that\nfor OCL, but unfortunately no.\n\nbrowser.js uses document.write internally.\nhttps://github.com/Polymer/web-component-tester/blob/v6.0.0/browser.js#L1301-L1310\n\nhttps://www.w3.org/TR/html-imports/#additions-to-document-write says\n\u003e Additions to document.write() method\n\u003e *  Add following step as the first step of the definition:\n\u003e      Throws an InvalidStateError exception if the Document is an import.\n\nso browser.js cannot be loaded by an HTML import.\n\n\nWe also can\u0027t load webcomponents-lite here since that loads\nthe polyfills that backport HTML imports to most browsers.\nhttps://github.com/webcomponents/webcomponentsjs says\n\u003e A suite of polyfills supporting the Web Components specs:\n\u003e *  HTML Imports: a way to include and reuse HTML documents via\n\u003e    other HTML documents",
+      "parentUuid": "c11ab69b_20293c04",
+      "revId": "0334168e00d40e41abcd032cf66e4bb91a99a405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "0334168e00d40e41abcd032cf66e4bb91a99a405",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9446a57c_f207d3c4",
+        "filename": "polygerrit-ui/app/test/common-test-setup.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-06-03T02:47:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dde71c58_949fadc4",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 1
+      },
+      "revId": "0334168e00d40e41abcd032cf66e4bb91a99a405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

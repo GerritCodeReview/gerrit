@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "95c8becb_b030adaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-03T01:37:43Z",
+      "side": 1,
+      "message": "I thought not, but it seems there are still both GerritConfig and GerritConfigs, with the former having an @Repeatable annotation.\n\nI\u0027ve done these new ones in the same way.",
+      "parentUuid": "83a232d1_b7f4b713",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "98e718e21754a8d04f1eb7c192b9000d550b3e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6cbd2c12_ffbdcda6",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritPluginConfig.java",
         "patchSetId": 1

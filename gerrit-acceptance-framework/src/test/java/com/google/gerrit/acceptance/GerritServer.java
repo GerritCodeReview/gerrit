@@ -115,10 +115,13 @@ public class GerritServer {
     @Nullable
     abstract GerritConfigs configs();
 
-    private Config buildConfig(Config baseConfig) {
+    private void checkValidAnnotations() {
       if (configs() != null && config() != null) {
         throw new IllegalStateException("Use either @GerritConfigs or @GerritConfig not both");
       }
+    }
+
+    private Config buildConfig(Config baseConfig) {
       if (configs() != null) {
         return ConfigAnnotationParser.parse(baseConfig, configs());
       } else if (config() != null) {
@@ -131,6 +134,7 @@ public class GerritServer {
 
   /** Returns fully started Gerrit server */
   static GerritServer start(Description desc, Config baseConfig) throws Exception {
+    desc.checkValidAnnotations();
     Config cfg = desc.buildConfig(baseConfig);
     Logger.getLogger("com.google.gerrit").setLevel(Level.DEBUG);
     final CyclicBarrier serverStarted = new CyclicBarrier(2);

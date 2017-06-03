@@ -25,6 +25,13 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Repeatable(GerritConfigs.class)
 public @interface GerritConfig {
+  /**
+   * Setting name in the form {@code "section.name"} or {@code "section.subsection.name"} where
+   * {@code section}, {@code subsection} and {@code name} correspond to the parameters of the same
+   * names in JGit's {@code Config#getString} method.
+   *
+   * @see org.eclipse.jgit.lib.Config#getString(String, String, String)
+   */
   String name();
 
   String value() default "";

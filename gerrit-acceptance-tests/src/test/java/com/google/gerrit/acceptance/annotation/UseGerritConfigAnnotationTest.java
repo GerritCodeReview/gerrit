@@ -66,4 +66,16 @@ public class UseGerritConfigAnnotationTest extends AbstractDaemonTest {
         .asList()
         .containsExactly("value-1", "value-2");
   }
+
+  @Test
+  @GerritConfig(
+    name = "section.name",
+    value = "value-1",
+    values = {"value-2", "value-3"}
+  )
+  public void valueHasPrecedenceOverValues() {
+    assertThat(cfg.getStringList("section", null, "name"))
+        .asList()
+        .containsExactly("value-1");
+  }
 }

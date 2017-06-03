@@ -34,7 +34,13 @@ public @interface GerritConfig {
    */
   String name();
 
+  /**
+   * Single value. Takes precedence over values specified in {@code values}.
+   */
   String value() default "";
 
+  /**
+   * Multiple values (list). Ignored if {@code value} is specified.
+   */
   String[] values() default "";
 }

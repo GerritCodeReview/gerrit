@@ -77,6 +77,15 @@
       '?': '_showKeyboardShortcuts',
     },
 
+    created() {
+      // If shadow dom cookie is set, reload the page using shadow dom.
+      if (util.getCookie('USE_SHADOW_DOM') === 'true') {
+        if (!window.location.href.includes('?dom=shadow')) {
+          window.location.href = window.location.href + '?dom=shadow';
+        }
+      }
+    },
+
     ready() {
       this.$.router.start();
 

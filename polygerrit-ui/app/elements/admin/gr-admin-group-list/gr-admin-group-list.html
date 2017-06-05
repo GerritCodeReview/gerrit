@@ -18,97 +18,38 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
-<link rel="import" href="../../../styles/gr-form-styles.html">
+<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-admin-group-list">
   <template>
-    <style include="shared-styles">
-      :host {
-        display: flex;
-        flex-direction: column;
-      }
-      tr.group-table {
-        border-bottom: 1px solid #eee;
-      }
-      #groupList {
-        border-collapse: collapse;
-        width: 100%;
-      }
-      #filterContainer {
-        margin: 1em;
-      }
-      #groupFilter {
-        font-size: 1em;
-        max-width: 25em;
-      }
-      td {
-        flex-shrink: 0;
-        padding: .3em .5em;
-      }
-      th {
-        background-color: #ddd;
-        border-bottom: 1px solid #eee;
-        font-weight: bold;
-        padding: .3em .5em;
-        text-align: left;
-      }
-      a {
-        color: var(--default-text-color);
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
-      nav {
-        padding: .5em 0;
-        text-align: center;
-      }
-      nav a {
-        display: inline-block;
-      }
-      nav a:first-of-type {
-        margin-right: .5em;
-      }
-      .description {
-        width: 70%;
-      }
-    </style>
-    <div id="filterContainer">
-      <label>Filter:</label>
-      <input is="iron-input"
-          type="text"
-          id="groupFilter"
-          bind-value="{{_filter}}"
-          on-input="_onValueChange">
-    </div>
-    <table id="groupList">
-      <tr class="headerRow">
-        <th class="name topHeader">Group Name</th>
-        <th class="description topHeader">Group Description</th>
-        <th class="visibleToAll topHeader">Visible To All</th>
-      </tr>
-      <template is="dom-repeat" items="[[_shownGroups]]">
-        <tr class="group-table">
-          <td class="name">
-            <a href$="[[_getUrl(item.group_id)]]">[[item.name]]</a>
-          </td>
-          <td class="description">[[item.description]]</td>
-          <td class="visibleToAll">[[_visibleToAll(item)]]</td>
+    <style include="shared-styles"></style>
+    <gr-list-view
+        filter="[[_filter]]"
+        items="[[_groups]]"
+        items-per-page="[[_groupsPerPage]]"
+        loading="[[_loading]]"
+        offset="[[_offset]]"
+        path="/admin/groups">
+      <table id="list">
+        <tr class="headerRow">
+          <th class="name topHeader">Group Name</th>
+          <th class="description topHeader">Group Description</th>
+          <th class="visibleToAll topHeader">Visible To All</th>
         </tr>
-      </template>
-    </table>
-    <nav>
-      <a id="prevArrow"
-          href$="[[_computeNavLink(_offset, -1, _groupsPerPage)]]"
-          hidden$="[[_hidePrevArrow(_offset)]]" hidden>&larr; Prev</a>
-      <a id="nextArrow"
-          href$="[[_computeNavLink(_offset, 1, _groupsPerPage)]]"
-          hidden$="[[_hideNextArrow(_loading, _groups)]]" hidden>
-        Next &rarr;</a>
-    </nav>
+        <template is="dom-repeat" items="[[_shownGroups]]">
+          <tr class="table">
+            <td class="name">
+              <a href$="[[_getUrl(item.group_id)]]">[[item.name]]</a>
+            </td>
+            <td class="description">[[item.description]]</td>
+            <td class="visibleToAll">[[_visibleToAll(item)]]</td>
+          </tr>
+        </template>
+      </table>
+    </gr-list-view>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-admin-group-list.js"></script>

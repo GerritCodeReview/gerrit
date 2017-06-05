@@ -387,7 +387,8 @@
       }
       if (section === FocusTarget.BODY) {
         const textarea = this.$.textarea;
-        textarea.async(textarea.textarea.focus.bind(textarea.textarea));
+        textarea.async(textarea.getNativeTextarea()
+            .focus.bind(textarea.getNativeTextarea()));
       } else if (section === FocusTarget.REVIEWERS) {
         const reviewerEntry = this.$.reviewers.focusStart;
         reviewerEntry.async(reviewerEntry.focus);
@@ -561,6 +562,7 @@
 
     cancel() {
       this.fire('cancel', null, {bubbles: false});
+      this.$.textarea.closeDropdown();
       this._purgeReviewersPendingRemove(true);
       this._rebuildReviewerArrays(this.change.reviewers, this._owner,
           this.serverConfig);

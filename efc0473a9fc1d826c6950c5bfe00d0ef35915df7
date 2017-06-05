@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73d253e0_a743b9b6",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/ConfigAnnotationParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-06-05T11:45:56Z",
+      "side": 1,
+      "message": "is the name right?\n\nshould \"GlobalPluginConfig\" be in the name?",
+      "range": {
+        "startLine": 48,
+        "startChar": 15,
+        "endLine": 48,
+        "endChar": 47
+      },
+      "revId": "efc0473a9fc1d826c6950c5bfe00d0ef35915df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbd93df8_9c7b9299",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-06-05T11:45:56Z",
+      "side": 1,
+      "message": "GlobalPluginConfig",
+      "range": {
+        "startLine": 75,
+        "startChar": 20,
+        "endLine": 75,
+        "endChar": 38
+      },
+      "revId": "efc0473a9fc1d826c6950c5bfe00d0ef35915df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87411768_d97c3922",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-06-05T11:45:56Z",
+      "side": 1,
+      "message": "GlobalPluginConfigs",
+      "range": {
+        "startLine": 76,
+        "startChar": 21,
+        "endLine": 76,
+        "endChar": 40
+      },
+      "revId": "efc0473a9fc1d826c6950c5bfe00d0ef35915df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -57,7 +57,7 @@ limitations under the License.
             value: 1,
             all: [{
               _account_id: 123,
-              value: '+1',
+              value: 1,
             }],
           },
           'Verified': {
@@ -72,7 +72,7 @@ limitations under the License.
             value: 1,
             all: [{
               _account_id: 123,
-              value: '+1',
+              value: 1,
             }],
           },
         },
@@ -118,8 +118,9 @@ limitations under the License.
 
     test('_getVoteForAccount', () => {
       const labelName = 'Code-Review';
-      assert.equal(element._getVoteForAccount(element.change.labels, labelName,
-          element.account), '+1');
+      assert.strictEqual(element._getVoteForAccount(
+          element.change.labels, labelName, element.account),
+          '+1');
     });
 
     test('_computeColumns', () => {
@@ -132,6 +133,7 @@ limitations under the License.
         '2': 4,
       });
     });
+
     test('changes in label score are reflected in _labels', () => {
       element.change = {
         _number: '123',
@@ -164,9 +166,9 @@ limitations under the License.
       ]);
       element.set(['change', 'labels', 'Verified', 'all'],
          [{_account_id: 123, value: 1}]);
-      assert.deepEqual(element._labels [
+      assert.deepEqual(element._labels, [
           {name: 'Code-Review', value: null},
-          {name: 'Verified', value: 1}
+          {name: 'Verified', value: '+1'},
       ]);
     });
   });

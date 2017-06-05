@@ -55,12 +55,22 @@
       return labels;
     },
 
+    _getStringLabelValue(labels, labelName, numberValue) {
+      for (const k in labels[labelName].values) {
+        if (parseInt(k, 10) === numberValue) {
+          return k;
+        }
+      }
+      return numberValue;
+    },
+
     _getVoteForAccount(labels, labelName, account) {
       const votes = labels[labelName];
       if (votes.all && votes.all.length > 0) {
         for (let i = 0; i < votes.all.length; i++) {
           if (votes.all[i]._account_id == account._account_id) {
-            return votes.all[i].value;
+            return this._getStringLabelValue(
+                labels, labelName, votes.all[i].value);
           }
         }
       }

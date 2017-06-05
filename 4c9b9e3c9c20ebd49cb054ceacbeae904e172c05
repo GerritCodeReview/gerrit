@@ -34,6 +34,24 @@
       "revId": "4c9b9e3c9c20ebd49cb054ceacbeae904e172c05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "736987a3_ed301775",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-05T23:16:13Z",
+      "side": 1,
+      "message": "I think we\u0027d ought to make the doc externally facing, no? No reason not to.",
+      "parentUuid": "b796590b_d51f6b04",
+      "revId": "4c9b9e3c9c20ebd49cb054ceacbeae904e172c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

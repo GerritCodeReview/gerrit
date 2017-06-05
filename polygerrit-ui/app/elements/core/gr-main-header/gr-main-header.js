@@ -27,6 +27,7 @@
     {
       url: '/admin/projects',
       name: 'Projects',
+      viewableToAll: true,
     },
     {
       url: '/admin/create-project',
@@ -178,11 +179,8 @@
           links: userLinks,
         });
       }
-      if (adminLinks && adminLinks.length > 0) {
-        links.push({
-          title: 'Admin',
-          links: adminLinks,
-        });
+      if (!adminLinks || !adminLinks.length) {
+        adminLinks = ADMIN_LINKS.filter(link => link.viewableToAll);
       }
       const docLinks = this._getDocLinks(docBaseUrl, DOCUMENTATION_LINKS);
       if (docLinks.length) {
@@ -191,6 +189,10 @@
           links: docLinks,
         });
       }
+      links.push({
+        title: 'More',
+        links: adminLinks,
+      });
       return links;
     },
 
@@ -212,7 +214,7 @@
     },
 
     _loadAccount() {
-      this.$.restAPI.getAccount().then(account => {
+      return this.$.restAPI.getAccount().then(account => {
         this._account = account;
         this.$.accountContainer.classList.toggle('loggedIn', account != null);
         this.$.accountContainer.classList.toggle('loggedOut', account == null);

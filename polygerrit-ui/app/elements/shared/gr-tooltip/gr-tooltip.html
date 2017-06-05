@@ -28,10 +28,12 @@ limitations under the License.
         box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
         color: #fff;
         font-size: .75rem;
-        padding: .5em .85em;
         position: absolute;
         z-index: 1000;
         max-width: var(--tooltip-max-width);
+      }
+      :host .tooltip {
+        padding: .5em .85em;
       }
       .arrow {
         border-left: var(--gr-tooltip-arrow-size) solid transparent;
@@ -45,8 +47,10 @@ limitations under the License.
         width: 0;
       }
     </style>
-    [[text]]
-    <i class="arrow"></i>
+    <div class="tooltip">
+      [[text]]
+      <i class="arrow"></i>
+    </div>
   </template>
   <script src="gr-tooltip.js"></script>
 </dom-module>

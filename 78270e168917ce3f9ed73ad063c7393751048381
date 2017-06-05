@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "421b8b72_cc5dea50",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-05T19:56:20Z",
+      "side": 1,
+      "message": "Out of order imports.",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 25,
+        "endChar": 35
+      },
+      "revId": "78270e168917ce3f9ed73ad063c7393751048381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e4c29ce_3b218136",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-05T19:56:20Z",
+      "side": 1,
+      "message": "Out of order imports.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 61
+      },
+      "revId": "78270e168917ce3f9ed73ad063c7393751048381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

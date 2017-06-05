@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b9f98f27_885ae445",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1031428
+      },
+      "writtenOn": "2017-06-05T15:01:44Z",
+      "side": 1,
+      "message": "My ldap use username that solely consists of number,like 555013513,000785798 ,etc.",
+      "parentUuid": "d5778486_8e9009b5",
+      "revId": "f48b15931e3cbb56e6e4ee515adf8f0f4c92a75e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0058e80a_cf4ab4af",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-02T10:47:41Z",
       "side": 1,
       "message": "This should not be implemented here, instead, call methods to find accounts that are implemented elsewhere. (like it was before)",
+      "revId": "f48b15931e3cbb56e6e4ee515adf8f0f4c92a75e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd27adee_b6051b27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1031428
+      },
+      "writtenOn": "2017-06-05T15:01:44Z",
+      "side": 1,
+      "message": "Thanks for your review.It is the same as the code of \u0027gerrit-server/src/main/java/com/google/gerrit/server/group/AddMembers.java\u0027 that adds username to the group.I use the same code to let you know easily, and I know they are repeated.According to what you said, they both should not be implemented here, I think that will modify too much,so I didn\u0027t do so.",
+      "parentUuid": "0058e80a_cf4ab4af",
       "revId": "f48b15931e3cbb56e6e4ee515adf8f0f4c92a75e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

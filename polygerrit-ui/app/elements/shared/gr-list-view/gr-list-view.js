@@ -22,7 +22,10 @@
     properties: {
       items: Array,
       itemsPerPage: Number,
-      filter: String,
+      _filter: {
+        type: String,
+        observer: '_filterChanged',
+      },
       offset: Number,
       loading: Boolean,
       path: String,
@@ -38,11 +41,11 @@
       'previous-page': '_handlePreviousPage',
     },
 
-    _onValueChange(e) {
+    _filterChanged(filter) {
       this.debounce('reload', () => {
-        if (e.target.value) {
+        if (filter) {
           return page.show(`${this.path}/q/filter:` +
-              this.encodeURL(e.target.value, false));
+              this.encodeURL(filter, false));
         }
         page.show(this.path);
       }, REQUEST_DEBOUNCE_INTERVAL_MS);

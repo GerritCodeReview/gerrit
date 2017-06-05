@@ -14,8 +14,6 @@
 (function() {
   'use strict';
 
-  const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
-
   Polymer({
     is: 'gr-admin-group-list',
 
@@ -66,16 +64,6 @@
       'previous-page': '_handlePreviousPage',
     },
 
-    _onValueChange(e) {
-      this.debounce('reload', () => {
-        if (e.target.value) {
-          return page.show('/admin/groups/q/filter:' +
-              this.encodeURL(e.target.value, false));
-        }
-        page.show('/admin/groups');
-      }, REQUEST_DEBOUNCE_INTERVAL_MS);
-    },
-
     _paramsChanged(value) {
       this._loading = true;
 
@@ -118,34 +106,8 @@
           this.encodeURL(item, true);
     },
 
-    _computeNavLink(offset, direction, groupsPerPage, filter) {
-      // Offset could be a string when passed from the router.
-      offset = +(offset || 0);
-      const newOffset = Math.max(0, offset + (groupsPerPage * direction));
-      let href = this.getBaseUrl() + '/admin/groups';
-      if (filter) {
-        href += '/q/filter:' + filter;
-      }
-      if (newOffset > 0) {
-        href += ',' + newOffset;
-      }
-      return href;
-    },
-
     _computeShownGroups(groups) {
       return groups.slice(0, 25);
-    },
-
-    _hidePrevArrow(offset) {
-      return offset === 0;
-    },
-
-    _hideNextArrow(loading, groups) {
-      let lastPage = false;
-      if (groups.length < this._groupsPerPage + 1) {
-        lastPage = true;
-      }
-      return loading || lastPage || !groups || !groups.length;
     },
   });
 })();

@@ -84,31 +84,6 @@ limitations under the License.
         });
       });
 
-      test('test next button', done => {
-        flush(() => {
-          let loading;
-          assert.isFalse(element._hideNextArrow(loading, projects));
-          loading = true;
-          assert.isTrue(element._hideNextArrow(loading, projects));
-          loading = false;
-          assert.isFalse(element._hideNextArrow(loading, projects));
-          element._projects = [];
-          assert.isTrue(element._hideNextArrow(loading, element._projects));
-          projects = _.times(4, projectGenerator);
-          assert.isTrue(element._hideNextArrow(loading, projects));
-          done();
-        });
-      });
-
-      test('test for prev button', () => {
-        flush(() => {
-          let offset = 0;
-          assert.isTrue(element._hidePrevArrow(offset));
-          offset = 5;
-          assert.isFalse(element._hidePrevArrow(offset));
-        });
-      });
-
       test('_shownProjects', () => {
         assert.equal(element._shownProjects.length, 25);
       });
@@ -127,33 +102,12 @@ limitations under the License.
         element._paramsChanged(value).then(() => { flush(done); });
       });
 
-      test('test next button', done => {
-        flush(() => {
-          let loading;
-          assert.isTrue(element._hideNextArrow(loading, projects));
-          projects = _.times(1, projectGenerator);
-          assert.isTrue(element._hideNextArrow(loading, projects));
-          projects = _.times(26, projectGenerator);
-          assert.isFalse(element._hideNextArrow(loading, projects));
-          done();
-        });
-      });
-
       test('_shownProjects', () => {
         assert.equal(element._shownProjects.length, 25);
       });
     });
 
     suite('filter', () => {
-      test('_onValueChange', done => {
-        sandbox.stub(page, 'show', url => {
-          assert.equal(url, '/admin/projects/q/filter:test');
-          done();
-        });
-        const e = {target: {value: 'test'}};
-        element._onValueChange(e);
-      });
-
       test('_paramsChanged', done => {
         sandbox.stub(element.$.restAPI, 'getProjects', () => {
           return Promise.resolve(projects);
@@ -167,30 +121,6 @@ limitations under the License.
               .calledWithExactly('test', 25, 25));
           done();
         });
-      });
-
-      test('_computeNavLink', () => {
-        const offset = 25;
-        const projectsPerPage = 25;
-        const filter = 'test';
-
-        sandbox.stub(element, 'getBaseUrl', () => '');
-
-        assert.equal(
-            element._computeNavLink(offset, 1, projectsPerPage, filter),
-            '/admin/projects/q/filter:test,50');
-
-        assert.equal(
-            element._computeNavLink(offset, -1, projectsPerPage, filter),
-            '/admin/projects/q/filter:test');
-
-        assert.equal(
-            element._computeNavLink(offset, 1, projectsPerPage, null),
-            '/admin/projects,50');
-
-        assert.equal(
-            element._computeNavLink(offset, -1, projectsPerPage, null),
-            '/admin/projects');
       });
     });
   });

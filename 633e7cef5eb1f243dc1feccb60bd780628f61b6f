@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d8a97ca_cf8fe2fe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-05T23:00:32Z",
+      "side": 1,
+      "message": "Nit: remove blank line.",
+      "revId": "633e7cef5eb1f243dc1feccb60bd780628f61b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34ed9b2d_00a4df6f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-05T23:00:32Z",
+      "side": 1,
+      "message": "Is this used?",
+      "revId": "633e7cef5eb1f243dc1feccb60bd780628f61b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

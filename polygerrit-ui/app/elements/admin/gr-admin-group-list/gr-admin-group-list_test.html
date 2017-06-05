@@ -87,31 +87,6 @@ limitations under the License.
         });
       });
 
-      test('test next button', done => {
-        flush(() => {
-          let loading;
-          assert.isFalse(element._hideNextArrow(loading, groups));
-          loading = true;
-          assert.isTrue(element._hideNextArrow(loading, groups));
-          loading = false;
-          assert.isFalse(element._hideNextArrow(loading, groups));
-          element._groups = [];
-          assert.isTrue(element._hideNextArrow(loading, element._groups));
-          groups = _.times(4, groupGenerator);
-          assert.isTrue(element._hideNextArrow(loading, groups));
-          done();
-        });
-      });
-
-      test('test for prev button', () => {
-        flush(() => {
-          let offset = 0;
-          assert.isTrue(element._hidePrevArrow(offset));
-          offset = 5;
-          assert.isFalse(element._hidePrevArrow(offset));
-        });
-      });
-
       test('_shownGroups', () => {
         assert.equal(element._shownGroups.length, 25);
       });
@@ -130,33 +105,12 @@ limitations under the License.
         element._paramsChanged(value).then(() => { flush(done); });
       });
 
-      test('test next button', done => {
-        flush(() => {
-          let loading;
-          assert.isTrue(element._hideNextArrow(loading, groups));
-          groups = _.times(1, groupGenerator);
-          assert.isTrue(element._hideNextArrow(loading, groups));
-          groups = _.times(26, groupGenerator);
-          assert.isFalse(element._hideNextArrow(loading, groups));
-          done();
-        });
-      });
-
       test('_shownGroups', () => {
         assert.equal(element._shownGroups.length, 25);
       });
     });
 
     suite('filter', () => {
-      test('_onValueChange', done => {
-        sandbox.stub(page, 'show', url => {
-          assert.equal(url, '/admin/groups/q/filter:test');
-          done();
-        });
-        const e = {target: {value: 'test'}};
-        element._onValueChange(e);
-      });
-
       test('_paramsChanged', done => {
         sandbox.stub(element.$.restAPI, 'getGroups', () => {
           return Promise.resolve(groups);
@@ -170,30 +124,6 @@ limitations under the License.
               .calledWithExactly('test', 25, 25));
           done();
         });
-      });
-
-      test('_computeNavLink', () => {
-        const offset = 25;
-        const groupsPerPage = 25;
-        const filter = 'test';
-
-        sandbox.stub(element, 'getBaseUrl', () => '');
-
-        assert.equal(
-            element._computeNavLink(offset, 1, groupsPerPage, filter),
-            '/admin/groups/q/filter:test,50');
-
-        assert.equal(
-            element._computeNavLink(offset, -1, groupsPerPage, filter),
-            '/admin/groups/q/filter:test');
-
-        assert.equal(
-            element._computeNavLink(offset, 1, groupsPerPage, null),
-            '/admin/groups,50');
-
-        assert.equal(
-            element._computeNavLink(offset, -1, groupsPerPage, null),
-            '/admin/groups');
       });
     });
   });

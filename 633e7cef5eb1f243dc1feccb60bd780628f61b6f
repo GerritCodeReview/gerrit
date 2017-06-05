@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "95702c44_fdd952d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-05T23:24:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d8a97ca_cf8fe2fe",
+      "revId": "633e7cef5eb1f243dc1feccb60bd780628f61b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34ed9b2d_00a4df6f",
         "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.html",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "633e7cef5eb1f243dc1feccb60bd780628f61b6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28163814_fe2278e7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-05T23:24:52Z",
+      "side": 1,
+      "message": "nope, you\u0027re right, it\u0027s all done in the parent element.",
+      "parentUuid": "34ed9b2d_00a4df6f",
+      "revId": "633e7cef5eb1f243dc1feccb60bd780628f61b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

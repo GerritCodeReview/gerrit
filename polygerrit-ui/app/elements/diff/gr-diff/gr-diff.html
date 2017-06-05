@@ -35,10 +35,10 @@ limitations under the License.
         --light-add-highlight-color: #efe;
         --dark-add-highlight-color: rgba(0, 255, 0, 0.15);
       }
-      :host.no-left .sideBySide ::content .left,
-      :host.no-left .sideBySide ::content .left + td,
-      :host.no-left .sideBySide ::content .right:not([data-value]),
-      :host.no-left .sideBySide ::content .right:not([data-value]) + td {
+      :host(.no-left) .sideBySide ::content .left,
+      :host(.no-left) .sideBySide ::content .left + td,
+      :host(.no-left) .sideBySide ::content .right:not([data-value]),
+      :host(.no-left) .sideBySide ::content .right:not([data-value]) + td {
         display: none;
       }
       .diffContainer {

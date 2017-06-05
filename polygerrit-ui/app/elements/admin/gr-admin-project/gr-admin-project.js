@@ -48,6 +48,7 @@
 
     properties: {
       params: Object,
+      project: String,
 
       _configChanged: {
         type: Boolean,

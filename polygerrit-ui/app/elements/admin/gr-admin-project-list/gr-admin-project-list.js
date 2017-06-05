@@ -14,8 +14,6 @@
 (function() {
   'use strict';
 
-  const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
-
   Polymer({
     is: 'gr-admin-project-list',
 
@@ -61,21 +59,6 @@
       Gerrit.URLEncodingBehavior,
     ],
 
-    listeners: {
-      'next-page': '_handleNextPage',
-      'previous-page': '_handlePreviousPage',
-    },
-
-    _onValueChange(e) {
-      this.debounce('reload', () => {
-        if (e.target.value) {
-          return page.show('/admin/projects/q/filter:' +
-              this.encodeURL(e.target.value, false));
-        }
-        page.show('/admin/projects');
-      }, REQUEST_DEBOUNCE_INTERVAL_MS);
-    },
-
     _paramsChanged(value) {
       this._loading = true;
 
@@ -119,7 +102,6 @@
           this.encodeURL(item, true);
     },
 
-
     _computeWeblink(project) {
       if (!project.web_links) {
         return '';
@@ -128,34 +110,8 @@
       return webLinks.length ? webLinks : null;
     },
 
-    _computeNavLink(offset, direction, projectsPerPage, filter) {
-      // Offset could be a string when passed from the router.
-      offset = +(offset || 0);
-      const newOffset = Math.max(0, offset + (projectsPerPage * direction));
-      let href = this.getBaseUrl() + '/admin/projects';
-      if (filter) {
-        href += '/q/filter:' + filter;
-      }
-      if (newOffset > 0) {
-        href += ',' + newOffset;
-      }
-      return href;
-    },
-
     _computeShownProjects(projects) {
       return projects.slice(0, 25);
-    },
-
-    _hidePrevArrow(offset) {
-      return offset === 0;
-    },
-
-    _hideNextArrow(loading, projects) {
-      let lastPage = false;
-      if (projects.length < this._projectsPerPage + 1) {
-        lastPage = true;
-      }
-      return loading || lastPage || !projects || !projects.length;
     },
   });
 })();

@@ -128,9 +128,8 @@ limitations under the License.
           this._showTabs = !!prefs.show_tabs;
           this._showTrailingWhitespace = !!prefs.show_whitespace_errors;
 
-          // Stop the processor (if it's running).
-          this.$.processor.cancel();
-          this.$.syntaxLayer.cancel();
+          // Stop the processor and syntax layer (if they're running).
+          this.cancel();
 
           this._builder = this._getDiffBuilder(this.diff, comments, prefs);
 
@@ -243,6 +242,11 @@ limitations under the License.
           sectionEl.parentNode.removeChild(sectionEl);
 
           this.async(() => this.fire('render-content'), 1);
+        },
+
+        cancel() {
+          this.$.processor.cancel();
+          this.$.syntaxLayer.cancel();
         },
 
         _getDiffBuilder(diff, comments, prefs) {

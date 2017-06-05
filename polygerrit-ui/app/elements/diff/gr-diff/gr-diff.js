@@ -123,6 +123,7 @@
     },
 
     reload() {
+      this.$.diffBuilder.cancel();
       this._clearDiffContent();
 
       const promises = [];

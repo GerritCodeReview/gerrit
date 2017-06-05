@@ -855,6 +855,14 @@ limitations under the License.
         };
         element.render({left: [], right: []}, prefs);
       });
+
+      test('cancel', () => {
+        const processorCancelStub = sandbox.stub(element.$.processor, 'cancel');
+        const syntaxCancelStub = sandbox.stub(element.$.syntaxLayer, 'cancel');
+        element.cancel();
+        assert.isTrue(processorCancelStub.called);
+        assert.isTrue(syntaxCancelStub.called);
+      });
     });
 
     suite('mock-diff', () => {

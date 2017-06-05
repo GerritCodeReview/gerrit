@@ -47,6 +47,19 @@ limitations under the License.
       sandbox.restore();
     });
 
+    test('reload cancels before network resolves', () => {
+      element = fixture('basic');
+      const cancelStub = sandbox.stub(element.$.diffBuilder, 'cancel');
+
+      // Stub the network calls into requests that never resolve.
+      sandbox.stub(element, '_getDiff', () => new Promise(() => {}));
+      sandbox.stub(element, '_getDiffCommentsAndDrafts',
+          () => new Promise(() => {}));
+
+      element.reload();
+      assert.isTrue(cancelStub.called);
+    });
+
     suite('not logged in', () => {
       setup(() => {
         stub('gr-rest-api-interface', {

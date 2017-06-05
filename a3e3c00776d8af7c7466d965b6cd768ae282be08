@@ -22,6 +22,30 @@
       "revId": "a3e3c00776d8af7c7466d965b6cd768ae282be08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28b2754b_a3c1a20b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-05T23:38:15Z",
+      "side": 1,
+      "message": "At the moment, endpoint depends on \u0027value-changed\u0027 event, originally fired by iron-autogrow-textarea.\nThanks for checking!",
+      "parentUuid": "1a962457_e9f2a925",
+      "range": {
+        "startLine": 197,
+        "startChar": 6,
+        "endLine": 212,
+        "endChar": 32
+      },
+      "revId": "a3e3c00776d8af7c7466d965b6cd768ae282be08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

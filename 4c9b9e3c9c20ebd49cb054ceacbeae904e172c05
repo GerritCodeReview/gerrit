@@ -52,6 +52,24 @@
       "revId": "4c9b9e3c9c20ebd49cb054ceacbeae904e172c05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "735ba1d3_bad338c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-05T23:22:49Z",
+      "side": 1,
+      "message": "Well it\u0027s not possible with the google account, let\u0027s talk about that later.",
+      "parentUuid": "736987a3_ed301775",
+      "revId": "4c9b9e3c9c20ebd49cb054ceacbeae904e172c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

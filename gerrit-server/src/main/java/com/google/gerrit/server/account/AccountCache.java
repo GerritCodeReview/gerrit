@@ -19,8 +19,25 @@ import java.io.IOException;
 
 /** Caches important (but small) account state to avoid database hits. */
 public interface AccountCache {
+  /**
+   * Returns an {@code AccountState} instance for the given account ID. If not cached yet the
+   * account is loaded. Returns an empty {@code AccountState} instance to represent a missing
+   * account.
+   *
+   * @param accountId ID of the account that should be retrieved
+   * @return {@code AccountState} instance for the given account ID, if no account with this ID
+   *     exists an empty {@code AccountState} instance is returned to represent the missing account
+   */
   AccountState get(Account.Id accountId);
 
+  /**
+   * Returns an {@code AccountState} instance for the given account ID if it is present in the
+   * cache.
+   *
+   * @param accountId ID of the account that should be retrieved
+   * @return {@code AccountState} instance for the given account ID if it is present in the cache,
+   *     otherwise {@code null}
+   */
   AccountState getIfPresent(Account.Id accountId);
 
   AccountState getByUsername(String username);

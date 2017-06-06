@@ -14,14 +14,33 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import java.io.IOException;
 
 /** Caches important (but small) account state to avoid database hits. */
 public interface AccountCache {
+  /**
+   * Returns an {@code AccountState} instance for the given account ID. If not cached yet the
+   * account is loaded. Returns an empty {@code AccountState} instance to represent a missing
+   * account.
+   *
+   * @param accountId ID of the account that should be retrieved
+   * @return {@code AccountState} instance for the given account ID, if no account with this ID
+   *     exists an empty {@code AccountState} instance is returned to represent the missing account
+   */
   AccountState get(Account.Id accountId);
 
-  AccountState getIfPresent(Account.Id accountId);
+  /**
+   * Returns an {@code AccountState} instance for the given account ID. If not cached yet the
+   * account is loaded. Returns {@code null} if the account is missing.
+   *
+   * @param accountId ID of the account that should be retrieved
+   * @return {@code AccountState} instance for the given account ID, if no account with this ID
+   *     exists {@code null} is returned
+   */
+  @Nullable
+  AccountState getOrNull(Account.Id accountId);
 
   AccountState getByUsername(String username);
 

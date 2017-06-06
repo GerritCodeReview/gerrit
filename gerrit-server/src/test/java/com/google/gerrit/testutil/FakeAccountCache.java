@@ -15,6 +15,7 @@
 package com.google.gerrit.testutil;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
@@ -34,7 +35,7 @@ public class FakeAccountCache implements AccountCache {
 
   @Override
   public synchronized AccountState get(Account.Id accountId) {
-    AccountState state = getIfPresent(accountId);
+    AccountState state = byId.get(accountId);
     if (state != null) {
       return state;
     }
@@ -42,7 +43,8 @@ public class FakeAccountCache implements AccountCache {
   }
 
   @Override
-  public synchronized AccountState getIfPresent(Account.Id accountId) {
+  @Nullable
+  public synchronized AccountState getOrNull(Account.Id accountId) {
     return byId.get(accountId);
   }
 

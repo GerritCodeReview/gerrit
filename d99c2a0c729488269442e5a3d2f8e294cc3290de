@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a672c22_b9cb35a0",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-06T18:31:14Z",
+      "side": 1,
+      "message": "Nit: unnecessary finals.\n\nI think we also don\u0027t use CONSTANT_CASE for intra-method constants.",
+      "revId": "d99c2a0c729488269442e5a3d2f8e294cc3290de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "472d8301_6301bc32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2017-06-06T14:26:13Z",
+      "side": 1,
+      "message": "to start with, it seems to describe a state (previous or new?) rather than the change itself.",
+      "parentUuid": "55606a0b_cf21f14c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "7a54d58c7c1d094bcdb546be184116b7f6183f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee513d9e_e9b74ef4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1

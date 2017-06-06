@@ -64,8 +64,13 @@ public class AccountIndexerImpl implements AccountIndexer {
 
   @Override
   public void index(Account.Id id) throws IOException {
-    for (Index<?, AccountState> i : getWriteIndexes()) {
-      i.replace(byIdCache.get(id));
+    for (Index<Account.Id, AccountState> i : getWriteIndexes()) {
+      AccountState accountState = byIdCache.getOrNull(id);
+      if (accountState != null) {
+        i.replace(accountState);
+      } else {
+        i.delete(id);
+      }
     }
     fireAccountIndexedEvent(id.get());
   }

@@ -172,8 +172,6 @@ public class AccountIT extends AbstractDaemonTest {
       externalIdsUpdate.delete(getExternalIds(user));
       externalIdsUpdate.insert(savedExternalIds);
     }
-    accountCache.evict(admin.getId());
-    accountCache.evict(user.getId());
   }
 
   @After
@@ -213,9 +211,10 @@ public class AccountIT extends AbstractDaemonTest {
     AccountInfo info = gApi.accounts().id(foo.id.get()).get();
     assertThat(info.username).isEqualTo("foo");
     if (SshMode.useSsh()) {
-      accountIndexedCounter.assertReindexOf(foo, 2); // account creation + adding SSH keys
+      accountIndexedCounter.assertReindexOf(
+          foo, 3); // account creation + external ID creation + adding SSH keys
     } else {
-      accountIndexedCounter.assertReindexOf(foo, 1); // account creation
+      accountIndexedCounter.assertReindexOf(foo, 2); // account creation + external ID creation
     }
 
     // check user branch
@@ -534,7 +533,6 @@ public class AccountIT extends AbstractDaemonTest {
             ExternalId.createWithEmail(ExternalId.Key.parse(extId1), admin.id, email),
             ExternalId.createWithEmail(ExternalId.Key.parse(extId2), admin.id, email));
     externalIdsUpdateFactory.create().insert(extIds);
-    accountCache.evict(admin.id);
     accountIndexedCounter.assertReindexOf(admin);
     assertThat(
             gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
@@ -589,7 +587,6 @@ public class AccountIT extends AbstractDaemonTest {
     externalIdsUpdateFactory
         .create()
         .insert(ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id, email));
-    accountCache.evict(admin.id);
     assertEmail(byEmailCache.get(email), admin);
 
     // wrong case doesn't match
@@ -831,7 +828,6 @@ public class AccountIT extends AbstractDaemonTest {
     // Both users have a matching external ID for this key.
     addExternalIdEmail(admin, "test5@example.com");
     externalIdsUpdate.insert(ExternalId.create("foo", "myId", user.getId()));
-    accountCache.evict(user.getId());
     accountIndexedCounter.assertReindexOf(user);
 
     TestKey key = validKeyWithSecondUserId();
@@ -1073,8 +1069,6 @@ public class AccountIT extends AbstractDaemonTest {
     checkNotNull(email);
     externalIdsUpdate.insert(
         ExternalId.createWithEmail(name("test"), email, account.getId(), email));
-    // Clear saved AccountState and ExternalIds.
-    accountCache.evict(account.getId());
     accountIndexedCounter.assertReindexOf(account);
     setApiUser(account);
   }

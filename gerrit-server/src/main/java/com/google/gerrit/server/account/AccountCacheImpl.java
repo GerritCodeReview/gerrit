@@ -19,6 +19,7 @@ import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -62,7 +63,8 @@ public class AccountCacheImpl implements AccountCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(BYID_NAME, Account.Id.class, AccountState.class).loader(ByIdLoader.class);
+        cache(BYID_NAME, Account.Id.class, new TypeLiteral<Optional<AccountState>>() {})
+            .loader(ByIdLoader.class);
 
         cache(BYUSER_NAME, String.class, new TypeLiteral<Optional<Account.Id>>() {})
             .loader(useReviewdb ? ByNameReviewDbLoader.class : ByNameLoader.class);
@@ -73,13 +75,13 @@ public class AccountCacheImpl implements AccountCache {
     };
   }
 
-  private final LoadingCache<Account.Id, AccountState> byId;
+  private final LoadingCache<Account.Id, Optional<AccountState>> byId;
   private final LoadingCache<String, Optional<Account.Id>> byName;
   private final Provider<AccountIndexer> indexer;
 
   @Inject
   AccountCacheImpl(
-      @Named(BYID_NAME) LoadingCache<Account.Id, AccountState> byId,
+      @Named(BYID_NAME) LoadingCache<Account.Id, Optional<AccountState>> byId,
       @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername,
       Provider<AccountIndexer> indexer) {
     this.byId = byId;
@@ -90,7 +92,7 @@ public class AccountCacheImpl implements AccountCache {
   @Override
   public AccountState get(Account.Id accountId) {
     try {
-      return byId.get(accountId);
+      return byId.get(accountId).orElse(missing(accountId));
     } catch (ExecutionException e) {
       log.warn("Cannot load AccountState for " + accountId, e);
       return missing(accountId);
@@ -98,15 +100,27 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   @Override
+  @Nullable
+  public AccountState getOrNull(Account.Id accountId) {
+    try {
+      return byId.get(accountId).orElse(null);
+    } catch (ExecutionException e) {
+      log.warn("Cannot load AccountState for " + accountId, e);
+      return null;
+    }
+  }
+
+  @Override
   public AccountState getIfPresent(Account.Id accountId) {
-    return byId.getIfPresent(accountId);
+    Optional<AccountState> state = byId.getIfPresent(accountId);
+    return state != null ? state.orElse(missing(accountId)) : null;
   }
 
   @Override
   public AccountState getByUsername(String username) {
     try {
       Optional<Account.Id> id = byName.get(username);
-      return id != null && id.isPresent() ? byId.get(id.get()) : null;
+      return id != null && id.isPresent() ? getOrNull(id.get()) : null;
     } catch (ExecutionException e) {
       log.warn("Cannot load AccountState for " + username, e);
       return null;
@@ -144,7 +158,7 @@ public class AccountCacheImpl implements AccountCache {
         account, anon, Collections.emptySet(), new HashMap<ProjectWatchKey, Set<NotifyType>>());
   }
 
-  static class ByIdLoader extends CacheLoader<Account.Id, AccountState> {
+  static class ByIdLoader extends CacheLoader<Account.Id, Optional<AccountState>> {
     private final SchemaFactory<ReviewDb> schema;
     private final GroupCache groupCache;
     private final GeneralPreferencesLoader loader;
@@ -166,23 +180,25 @@ public class AccountCacheImpl implements AccountCache {
     }
 
     @Override
-    public AccountState load(Account.Id key) throws Exception {
+    public Optional<AccountState> load(Account.Id key) throws Exception {
       try (ReviewDb db = schema.open()) {
-        final AccountState state = load(db, key);
-        String user = state.getUserName();
+        Optional<AccountState> state = load(db, key);
+        if (!state.isPresent()) {
+          return state;
+        }
+        String user = state.get().getUserName();
         if (user != null) {
-          byName.put(user, Optional.of(state.getAccount().getId()));
+          byName.put(user, Optional.of(state.get().getAccount().getId()));
         }
         return state;
       }
     }
 
-    private AccountState load(final ReviewDb db, final Account.Id who)
+    private Optional<AccountState> load(final ReviewDb db, final Account.Id who)
         throws OrmException, IOException, ConfigInvalidException {
       Account account = db.accounts().get(who);
       if (account == null) {
-        // Account no longer exists? They are anonymous.
-        return missing(who);
+        return Optional.empty();
       }
 
       Set<ExternalId> externalIds =
@@ -205,8 +221,9 @@ public class AccountCacheImpl implements AccountCache {
         account.setGeneralPreferences(GeneralPreferencesInfo.defaults());
       }
 
-      return new AccountState(
-          account, internalGroups, externalIds, watchConfig.get().getProjectWatches(who));
+      return Optional.of(
+          new AccountState(
+              account, internalGroups, externalIds, watchConfig.get().getProjectWatches(who)));
     }
   }
 

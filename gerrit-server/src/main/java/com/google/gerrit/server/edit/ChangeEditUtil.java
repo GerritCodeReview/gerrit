@@ -226,8 +226,6 @@ public class ChangeEditUtil {
             });
         bu.execute();
       }
-
-      indexer.index(db.get(), inserter.getChange());
     }
   }
 

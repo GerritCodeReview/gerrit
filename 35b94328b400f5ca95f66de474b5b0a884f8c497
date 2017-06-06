@@ -46,6 +46,30 @@
       "revId": "35b94328b400f5ca95f66de474b5b0a884f8c497",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb4c5c6b_10b4de71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-06T07:16:43Z",
+      "side": 1,
+      "message": "Can this be reverted now after our discussion on [1]?\n\n[1] https://gerrit-review.googlesource.com/#/c/108811/3//COMMIT_MSG",
+      "parentUuid": "6b1efdcc_5a897594",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "35b94328b400f5ca95f66de474b5b0a884f8c497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

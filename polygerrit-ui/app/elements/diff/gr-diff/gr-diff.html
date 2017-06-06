@@ -77,6 +77,9 @@ limitations under the License.
         font-family: var(--font-family);
         font-style: italic;
       }
+      .diff-row {
+        outline: none;
+      }
       .diff-row.target-row.target-side-left .lineNum.left,
       .diff-row.target-row.target-side-right .lineNum.right,
       .diff-row.target-row.unified .lineNum {
@@ -135,12 +138,22 @@ limitations under the License.
       .content.add {
         background-color: var(--light-add-highlight-color);
       }
+      .content.add:before {
+        color: transparent;
+        content: 'added';
+        position: absolute;
+      }
       .content.remove .intraline,
       .delta.total .content.remove {
         background-color: var(--dark-remove-highlight-color);
       }
       .content.remove {
         background-color: var(--light-remove-highlight-color);
+      }
+      .content.remove:before {
+        color: transparent;
+        content: 'removed';
+        position: absolute;
       }
       .content .contentText:after {
         /* Newline, to ensure all lines are one line-height tall. */
@@ -210,7 +223,10 @@ limitations under the License.
               is-image-diff="[[isImageDiff]]"
               base-image="[[_baseImage]]"
               revision-image="[[_revisionImage]]">
-            <table id="diffTable" class$="[[_diffTableClass]]"></table>
+            <table
+                id="diffTable"
+                class$="[[_diffTableClass]]"
+                role="presentation"></table>
           </gr-diff-builder>
         </gr-diff-highlight>
       </gr-diff-selection>

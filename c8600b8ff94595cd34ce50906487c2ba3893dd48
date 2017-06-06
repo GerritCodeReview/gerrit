@@ -22,6 +22,30 @@
       "revId": "c8600b8ff94595cd34ce50906487c2ba3893dd48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee84b355_ce64ce0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-06T07:06:58Z",
+      "side": 1,
+      "message": "1. Not feasible because that cache isn\u0027t getting the data from NoteDB but from the Lucene index, which isn\u0027t necessarily up-to-date when you register a new user. Indexing is asynchronous :-(\n\n2. Again for the same reason of 1.\n\n3. Yes, that is more feasible.\n\nWill go for option 3. then :-)",
+      "parentUuid": "05dbecef_e1652cb1",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "c8600b8ff94595cd34ce50906487c2ba3893dd48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

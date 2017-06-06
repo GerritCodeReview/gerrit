@@ -31,7 +31,7 @@ public class AccountPredicates {
     return QueryBuilder.find(p, AccountPredicate.class, AccountField.ACTIVE.getName()) != null;
   }
 
-  static Predicate<AccountState> defaultPredicate(String query) {
+  public static Predicate<AccountState> defaultPredicate(String query) {
     // Adapt the capacity of this list when adding more default predicates.
     List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(3);
     Integer id = Ints.tryParse(query);
@@ -50,28 +50,28 @@ public class AccountPredicates {
         AccountField.ID, AccountQueryBuilder.FIELD_ACCOUNT, accountId.toString());
   }
 
-  static Predicate<AccountState> email(String email) {
+  public static Predicate<AccountState> email(String email) {
     return new AccountPredicate(
         AccountField.EMAIL, AccountQueryBuilder.FIELD_EMAIL, email.toLowerCase());
   }
 
-  static Predicate<AccountState> preferredEmail(String email) {
+  public static Predicate<AccountState> preferredEmail(String email) {
     return new AccountPredicate(
         AccountField.PREFERRED_EMAIL,
         AccountQueryBuilder.FIELD_PREFERRED_EMAIL,
         email.toLowerCase());
   }
 
-  static Predicate<AccountState> equalsName(String name) {
+  public static Predicate<AccountState> equalsName(String name) {
     return new AccountPredicate(
         AccountField.NAME_PART, AccountQueryBuilder.FIELD_NAME, name.toLowerCase());
   }
 
-  static Predicate<AccountState> externalId(String externalId) {
+  public static Predicate<AccountState> externalId(String externalId) {
     return new AccountPredicate(AccountField.EXTERNAL_ID, externalId);
   }
 
-  static Predicate<AccountState> fullName(String fullName) {
+  public static Predicate<AccountState> fullName(String fullName) {
     return new AccountPredicate(AccountField.FULL_NAME, fullName);
   }
 
@@ -79,16 +79,16 @@ public class AccountPredicates {
     return new AccountPredicate(AccountField.ACTIVE, "1");
   }
 
-  static Predicate<AccountState> isInactive() {
+  public static Predicate<AccountState> isInactive() {
     return new AccountPredicate(AccountField.ACTIVE, "0");
   }
 
-  static Predicate<AccountState> username(String username) {
+  public static Predicate<AccountState> username(String username) {
     return new AccountPredicate(
         AccountField.USERNAME, AccountQueryBuilder.FIELD_USERNAME, username.toLowerCase());
   }
 
-  static Predicate<AccountState> watchedProject(Project.NameKey project) {
+  public static Predicate<AccountState> watchedProject(Project.NameKey project) {
     return new AccountPredicate(AccountField.WATCHED_PROJECT, project.get());
   }
 

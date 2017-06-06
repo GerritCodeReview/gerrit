@@ -46,6 +46,30 @@
       "revId": "c8600b8ff94595cd34ce50906487c2ba3893dd48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71914a2f_8205b8bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-06T07:12:25Z",
+      "side": 1,
+      "message": "Nice that option 3 works for you. Are you sure that indexing is asynchronous when a new user is registered?",
+      "parentUuid": "ee84b355_ce64ce0e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "c8600b8ff94595cd34ce50906487c2ba3893dd48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc0ab6f0_5c2b6ae7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-06T06:48:48Z",
+      "side": 1,
+      "message": "Is this really needed? This was supposed to stay an implementation detail of the externalids package. Why isn\u0027t it sufficient for plugins to use the ExternalIds and ExternalIdsUpdate classes as all of Gerrit does?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "35b94328b400f5ca95f66de474b5b0a884f8c497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

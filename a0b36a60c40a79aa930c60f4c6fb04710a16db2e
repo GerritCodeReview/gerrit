@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf62f82d_0d38f37f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-06T15:15:48Z",
+      "side": 1,
+      "message": "Please format all Java files with google-java-format, see https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#style",
+      "revId": "a0b36a60c40a79aa930c60f4c6fb04710a16db2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9742c489_54b1d4fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-06T15:15:48Z",
+      "side": 1,
+      "message": "Not strictly necessary, but soon, we will probably want a repeatable field with the names of all ancestors, in order to support queries for \"all changes that descend from project foo\". Fortunately you can get this pretty easily from ProjectState#parents, so I might just suggest doing it now.",
+      "revId": "a0b36a60c40a79aa930c60f4c6fb04710a16db2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8df11a53_f206c046",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectSchemaDefinitions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-06T15:15:48Z",
+      "side": 1,
+      "message": "You probably want to list all currently existing fields in this schema.",
+      "revId": "a0b36a60c40a79aa930c60f4c6fb04710a16db2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -41,6 +41,10 @@
       'previous-page': '_handlePreviousPage',
     },
 
+    detached() {
+      this.cancelDebouncer('reload');
+    },
+
     _filterChanged(filter) {
       this.debounce('reload', () => {
         if (filter) {

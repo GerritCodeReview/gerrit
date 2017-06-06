@@ -671,6 +671,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     ExternalIdsUpdate update =
         new ExternalIdsUpdate(
             repoManager,
+            accountCache,
             allUsers,
             metricMaker,
             externalIds,
@@ -706,6 +707,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     ExternalIdsUpdate update =
         new ExternalIdsUpdate(
             repoManager,
+            accountCache,
             allUsers,
             metricMaker,
             externalIds,

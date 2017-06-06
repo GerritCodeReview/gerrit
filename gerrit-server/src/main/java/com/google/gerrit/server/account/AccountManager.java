@@ -380,13 +380,10 @@ public class AccountManager {
           if (a.getPreferredEmail() == null) {
             a.setPreferredEmail(who.getEmailAddress());
             accountsUpdateFactory.create().update(db, a);
+            byIdCache.evict(to);
           }
-        }
-
-        if (who.getEmailAddress() != null) {
           byEmailCache.evict(who.getEmailAddress());
         }
-        byIdCache.evict(to);
       }
 
       return new AuthResult(to, who.getExternalIdKey(), false);
@@ -420,7 +417,6 @@ public class AccountManager {
                 .isPresent())) {
       externalIdsUpdateFactory.create().delete(filteredExtIdsByScheme);
     }
-    byIdCache.evict(to);
     return link(to, who);
   }
 
@@ -450,9 +446,9 @@ public class AccountManager {
               && a.getPreferredEmail().equals(who.getEmailAddress())) {
             a.setPreferredEmail(null);
             accountsUpdateFactory.create().update(db, a);
+            byIdCache.evict(from);
           }
           byEmailCache.evict(who.getEmailAddress());
-          byIdCache.evict(from);
         }
 
       } else {

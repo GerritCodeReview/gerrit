@@ -59,7 +59,6 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
 
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
-  private final AccountCache accountCache;
   private final ExternalIds externalIds;
   private final ExternalIdsUpdate.User externalIdsUpdate;
 
@@ -67,12 +66,10 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
   PutHttpPassword(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
-      AccountCache accountCache,
       ExternalIds externalIds,
       ExternalIdsUpdate.User externalIdsUpdate) {
     this.self = self;
     this.permissionBackend = permissionBackend;
-    this.accountCache = accountCache;
     this.externalIds = externalIds;
     this.externalIdsUpdate = externalIdsUpdate;
   }
@@ -117,7 +114,6 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
     ExternalId newExtId =
         ExternalId.createWithPassword(extId.key(), extId.accountId(), extId.email(), newPassword);
     externalIdsUpdate.create().upsert(newExtId);
-    accountCache.evict(user.getAccountId());
 
     return Strings.isNullOrEmpty(newPassword) ? Response.<String>none() : Response.ok(newPassword);
   }

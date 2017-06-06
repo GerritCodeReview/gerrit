@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d75b88c4_775d6e81",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5694,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-06T07:13:21Z",
+      "side": 1,
+      "message": "I think we should use this form just like \u0027MergeInput\u0027?\nAnd MergeStrategy is not an enum. :(\n\nhttps://github.com/eclipse/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeStrategy.java",
+      "parentUuid": "21006a9b_00c22a0d",
+      "revId": "4c605db2e418b66cf75f83acbd8cd43c6425fe2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "97318ce4_e27235be",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CherryPickInput.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-02T08:24:22Z",
       "side": 1,
       "message": "That will only be true if you upper case the names :)",
+      "revId": "4c605db2e418b66cf75f83acbd8cd43c6425fe2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f617482_6a37fd08",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CherryPickInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-06T07:13:21Z",
+      "side": 1,
+      "message": "In JGit, they use lowercase for these names. See\n\nhttps://github.com/eclipse/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeStrategy.java\n\nSee also MergeInput.",
+      "parentUuid": "97318ce4_e27235be",
       "revId": "4c605db2e418b66cf75f83acbd8cd43c6425fe2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "0c445b28_b81a353b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-06T07:13:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "745e8a5a_e6278b19",
+      "range": {
+        "startLine": 236,
+        "startChar": 4,
+        "endLine": 236,
+        "endChar": 52
+      },
+      "revId": "4c605db2e418b66cf75f83acbd8cd43c6425fe2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdd439c3_f51491b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 2
@@ -70,6 +130,24 @@
       "writtenOn": "2017-06-02T08:24:22Z",
       "side": 1,
       "message": "This can go away then :)",
+      "revId": "4c605db2e418b66cf75f83acbd8cd43c6425fe2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17170cc3_2c3ca4b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-06T07:13:21Z",
+      "side": 1,
+      "message": "What do you mean here?",
+      "parentUuid": "cdd439c3_f51491b2",
       "revId": "4c605db2e418b66cf75f83acbd8cd43c6425fe2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -90,6 +168,24 @@
       "revId": "4c605db2e418b66cf75f83acbd8cd43c6425fe2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98e63606_5169f1c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-06T07:13:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0155146e_a70304b1",
+      "revId": "4c605db2e418b66cf75f83acbd8cd43c6425fe2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

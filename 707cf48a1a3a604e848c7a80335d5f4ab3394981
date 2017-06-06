@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c5ce0f8_eef3bb88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-06T10:28:17Z",
+      "side": 1,
+      "message": "Use the abbreviated change Id so it gets hyperlinked.\n\n I13f2d6ab94",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "707cf48a1a3a604e848c7a80335d5f4ab3394981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

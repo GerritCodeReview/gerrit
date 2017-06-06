@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "794f7698_d6ac27ab",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/test/plugin.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-06T00:06:55Z",
+      "side": 1,
+      "message": "Add a header comment to this file.",
+      "revId": "a239ee1cf53466c471680e2ba338cddc655bcd15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

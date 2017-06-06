@@ -35,7 +35,7 @@ public class FakeAccountCache implements AccountCache {
 
   @Override
   public synchronized AccountState get(Account.Id accountId) {
-    AccountState state = getIfPresent(accountId);
+    AccountState state = byId.get(accountId);
     if (state != null) {
       return state;
     }
@@ -45,11 +45,6 @@ public class FakeAccountCache implements AccountCache {
   @Override
   @Nullable
   public synchronized AccountState getOrNull(Account.Id accountId) {
-    return byId.get(accountId);
-  }
-
-  @Override
-  public synchronized AccountState getIfPresent(Account.Id accountId) {
     return byId.get(accountId);
   }
 

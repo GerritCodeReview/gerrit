@@ -42,16 +42,6 @@ public interface AccountCache {
   @Nullable
   AccountState getOrNull(Account.Id accountId);
 
-  /**
-   * Returns an {@code AccountState} instance for the given account ID if it is present in the
-   * cache.
-   *
-   * @param accountId ID of the account that should be retrieved
-   * @return {@code AccountState} instance for the given account ID if it is present in the cache,
-   *     otherwise {@code null}
-   */
-  AccountState getIfPresent(Account.Id accountId);
-
   AccountState getByUsername(String username);
 
   void evict(Account.Id accountId) throws IOException;

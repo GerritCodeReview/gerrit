@@ -111,12 +111,6 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   @Override
-  public AccountState getIfPresent(Account.Id accountId) {
-    Optional<AccountState> state = byId.getIfPresent(accountId);
-    return state != null ? state.orElse(missing(accountId)) : null;
-  }
-
-  @Override
   public AccountState getByUsername(String username) {
     try {
       Optional<Account.Id> id = byName.get(username);

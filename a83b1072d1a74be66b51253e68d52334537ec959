@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1496742763 +0200\nnonce AH5c86BFl5I9Mi3yqgkAORW3wBc0V3CpVug6UZOff8lftZms+lpmqboUK8mx7tOvd8mWqNgMm+65\n\n0000000000000000000000000000000000000000 a83b1072d1a74be66b51253e68d52334537ec959 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZNntrAAoJEFG1/Zeg0O9R2gAIAJnujtAMl0S/0c6e4+AdH61G\nZNV/yVxXaTdYMKIKxQohL8e3Fa8cyu+80OfD5419WkM7rurle3NyfnteNh5jNsM3\nAjRCRFwX5Ln3IspA3J96uk29LvFBjjaOwoV5Rgn84m0PlGJHk3dlTGwXXlfqA+ma\neA4G0m8WKstIQi9snMMNkuqwsg7xCD9387fd6bJsc9C137AumPJiPjSkoXWxA6J7\nyP7zLvzwebWEqFbGao8ciG2xE8RAOYGBOazi78ScbzAKTST9c/FaaeK4BTGiqmSu\nSyPHURMTJ2lM7+X56/GuefqtgOJ2Xsk7ol6UtzKJJMwioApVRChSicNKXI7uAWw\u003d\n\u003dnHNN\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b57109c7_82978a6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountPredicates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-06T14:59:02Z",
+      "side": 1,
+      "message": "better isNotActive() to highlight the fact that is the negative of isActive(). \"Inactive\" literally means not doing so much physical activity.\n\nBut this change was more for making it just public: possibly a follow-up?",
+      "range": {
+        "startLine": 82,
+        "startChar": 40,
+        "endLine": 82,
+        "endChar": 50
+      },
+      "revId": "a83b1072d1a74be66b51253e68d52334537ec959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

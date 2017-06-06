@@ -70,6 +70,30 @@
       "revId": "c8600b8ff94595cd34ce50906487c2ba3893dd48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25ba8584_a788197b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-06T07:34:44Z",
+      "side": 1,
+      "message": "Option 3. *almost* works for me because it isn\u0027t cached at the moment. Need to see what would be the load against the repo, if that is acceptable or not.\n\nWith regards to indexing, it was synchronous in the past but has changed after that. I have clearly reproduced the problem myself where a user could not register on OAuth because it was about to be created twice, as the external id wasn\u0027t found.\n\nI will hold the external id caching optimisation fix until I will clearly see the performance issue in production :-)",
+      "parentUuid": "71914a2f_8205b8bc",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "c8600b8ff94595cd34ce50906487c2ba3893dd48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

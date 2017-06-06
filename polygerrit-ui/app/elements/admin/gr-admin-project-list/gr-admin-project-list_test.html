@@ -59,6 +59,7 @@ limitations under the License.
     });
 
     teardown(() => {
+      element.$.listView.cancelDebouncer('reload');
       sandbox.restore();
     });
 

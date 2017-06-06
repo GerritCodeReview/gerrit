@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7e5cec39_ceb9edc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-06T17:51:58Z",
+      "side": 1,
+      "message": "Mention that this may also return a non-null but empty state?",
+      "revId": "734f8a3b1424c041465b19e62c6a7fa5c9c1c866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bcdc86a0_6ff399b6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCache.java",
         "patchSetId": 1

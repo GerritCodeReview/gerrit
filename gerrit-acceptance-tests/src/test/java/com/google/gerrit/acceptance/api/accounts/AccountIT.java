@@ -140,8 +140,6 @@ public class AccountIT extends AbstractDaemonTest {
       externalIdsUpdate.delete(db, getExternalIds(user));
       externalIdsUpdate.insert(db, savedExternalIds);
     }
-    accountCache.evict(admin.getId());
-    accountCache.evict(user.getId());
   }
 
   @After
@@ -455,7 +453,6 @@ public class AccountIT extends AbstractDaemonTest {
             ExternalId.createWithEmail(ExternalId.Key.parse(extId1), admin.id, email),
             ExternalId.createWithEmail(ExternalId.Key.parse(extId2), admin.id, email));
     externalIdsUpdateFactory.create().insert(db, extIds);
-    accountCache.evict(admin.id);
     assertThat(
             gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
         .containsAllOf(extId1, extId2);
@@ -506,7 +503,6 @@ public class AccountIT extends AbstractDaemonTest {
     externalIdsUpdateFactory
         .create()
         .insert(db, ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id, email));
-    accountCache.evict(admin.id);
     assertEmail(byEmailCache.get(email), admin);
 
     // wrong case doesn't match
@@ -714,7 +710,6 @@ public class AccountIT extends AbstractDaemonTest {
     // Both users have a matching external ID for this key.
     addExternalIdEmail(admin, "test5@example.com");
     externalIdsUpdate.insert(db, ExternalId.create("foo", "myId", user.getId()));
-    accountCache.evict(user.getId());
 
     TestKey key = validKeyWithSecondUserId();
     addGpgKey(key.getPublicKeyArmored());
@@ -940,8 +935,6 @@ public class AccountIT extends AbstractDaemonTest {
     checkNotNull(email);
     externalIdsUpdate.insert(
         db, ExternalId.createWithEmail(name("test"), email, account.getId(), email));
-    // Clear saved AccountState and ExternalIds.
-    accountCache.evict(account.getId());
     setApiUser(account);
   }
 

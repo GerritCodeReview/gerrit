@@ -44,7 +44,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.ExternalId;
@@ -89,7 +88,6 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   private final Provider<PublicKeyStore> storeProvider;
   private final GerritPublicKeyChecker.Factory checkerFactory;
   private final AddKeySender.Factory addKeyFactory;
-  private final AccountCache accountCache;
   private final Provider<InternalAccountQuery> accountQueryProvider;
   private final ExternalIdsUpdate.User externalIdsUpdateFactory;
 
@@ -101,7 +99,6 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       Provider<PublicKeyStore> storeProvider,
       GerritPublicKeyChecker.Factory checkerFactory,
       AddKeySender.Factory addKeyFactory,
-      AccountCache accountCache,
       Provider<InternalAccountQuery> accountQueryProvider,
       ExternalIdsUpdate.User externalIdsUpdateFactory) {
     this.serverIdent = serverIdent;
@@ -110,7 +107,6 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
     this.storeProvider = storeProvider;
     this.checkerFactory = checkerFactory;
     this.addKeyFactory = addKeyFactory;
-    this.accountCache = accountCache;
     this.accountQueryProvider = accountQueryProvider;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
   }
@@ -148,7 +144,6 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       externalIdsUpdateFactory
           .create()
           .replace(db.get(), rsrc.getUser().getAccountId(), extIdKeysToRemove, newExtIds);
-      accountCache.evict(rsrc.getUser().getAccountId());
       return toJson(newKeys, toRemove, store, rsrc.getUser());
     }
   }

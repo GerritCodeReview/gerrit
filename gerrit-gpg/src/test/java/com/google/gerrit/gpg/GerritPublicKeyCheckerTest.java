@@ -407,7 +407,6 @@ public class GerritPublicKeyCheckerTest {
     assertThat(store.save(cb)).isAnyOf(NEW, FAST_FORWARD, FORCED);
 
     externalIdsUpdateFactory.create().insert(db, newExtIds);
-    accountCache.evict(user.getAccountId());
   }
 
   private TestKey add(TestKey k, IdentifiedUser user) throws Exception {

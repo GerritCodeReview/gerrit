@@ -120,7 +120,6 @@ public class ChangeUserName implements Callable<VoidResult> {
       accountCache.evictByUsername(extId.key().id());
     }
 
-    accountCache.evict(user.getAccountId());
     accountCache.evictByUsername(newUsername);
     sshKeyCache.evict(newUsername);
     return VoidResult.INSTANCE;

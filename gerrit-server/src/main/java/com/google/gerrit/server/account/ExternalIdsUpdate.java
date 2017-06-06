@@ -84,6 +84,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * </pre>
  *
  * For NoteDb each method call results in one commit on refs/meta/external-ids branch.
+ *
+ * <p>On updating external IDs this class takes care to evict affected accounts from the account
+ * cache and thus triggers reindex for them.
  */
 public class ExternalIdsUpdate {
   private static final String COMMIT_MSG = "Update external IDs";
@@ -97,22 +100,25 @@ public class ExternalIdsUpdate {
   @Singleton
   public static class Server {
     private final GitRepositoryManager repoManager;
+    private final AccountCache accountCache;
     private final AllUsersName allUsersName;
     private final Provider<PersonIdent> serverIdent;
 
     @Inject
     public Server(
         GitRepositoryManager repoManager,
+        AccountCache accountCache,
         AllUsersName allUsersName,
         @GerritPersonIdent Provider<PersonIdent> serverIdent) {
       this.repoManager = repoManager;
+      this.accountCache = accountCache;
       this.allUsersName = allUsersName;
       this.serverIdent = serverIdent;
     }
 
     public ExternalIdsUpdate create() {
       PersonIdent i = serverIdent.get();
-      return new ExternalIdsUpdate(repoManager, allUsersName, i, i);
+      return new ExternalIdsUpdate(repoManager, accountCache, allUsersName, i, i);
     }
   }
 
@@ -125,6 +131,7 @@ public class ExternalIdsUpdate {
   @Singleton
   public static class User {
     private final GitRepositoryManager repoManager;
+    private final AccountCache accountCache;
     private final AllUsersName allUsersName;
     private final Provider<PersonIdent> serverIdent;
     private final Provider<IdentifiedUser> identifiedUser;
@@ -132,10 +139,12 @@ public class ExternalIdsUpdate {
     @Inject
     public User(
         GitRepositoryManager repoManager,
+        AccountCache accountCache,
         AllUsersName allUsersName,
         @GerritPersonIdent Provider<PersonIdent> serverIdent,
         Provider<IdentifiedUser> identifiedUser) {
       this.repoManager = repoManager;
+      this.accountCache = accountCache;
       this.allUsersName = allUsersName;
       this.serverIdent = serverIdent;
       this.identifiedUser = identifiedUser;
@@ -144,7 +153,7 @@ public class ExternalIdsUpdate {
     public ExternalIdsUpdate create() {
       PersonIdent i = serverIdent.get();
       return new ExternalIdsUpdate(
-          repoManager, allUsersName, createPersonIdent(i, identifiedUser.get()), i);
+          repoManager, accountCache, allUsersName, createPersonIdent(i, identifiedUser.get()), i);
     }
 
     private PersonIdent createPersonIdent(PersonIdent ident, IdentifiedUser user) {
@@ -166,6 +175,7 @@ public class ExternalIdsUpdate {
   private static final Retryer<Void> RETRYER = retryerBuilder().build();
 
   private final GitRepositoryManager repoManager;
+  private final AccountCache accountCache;
   private final AllUsersName allUsersName;
   private final PersonIdent committerIdent;
   private final PersonIdent authorIdent;
@@ -174,21 +184,31 @@ public class ExternalIdsUpdate {
 
   private ExternalIdsUpdate(
       GitRepositoryManager repoManager,
+      AccountCache accountCache,
       AllUsersName allUsersName,
       PersonIdent committerIdent,
       PersonIdent authorIdent) {
-    this(repoManager, allUsersName, committerIdent, authorIdent, Runnables.doNothing(), RETRYER);
+    this(
+        repoManager,
+        accountCache,
+        allUsersName,
+        committerIdent,
+        authorIdent,
+        Runnables.doNothing(),
+        RETRYER);
   }
 
   @VisibleForTesting
   public ExternalIdsUpdate(
       GitRepositoryManager repoManager,
+      AccountCache accountCache,
       AllUsersName allUsersName,
       PersonIdent committerIdent,
       PersonIdent authorIdent,
       Runnable afterReadRevision,
       Retryer<Void> retryer) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
+    this.accountCache = accountCache;
     this.allUsersName = checkNotNull(allUsersName, "allUsersName");
     this.committerIdent = checkNotNull(committerIdent, "committerIdent");
     this.authorIdent = checkNotNull(authorIdent, "authorIdent");
@@ -222,6 +242,7 @@ public class ExternalIdsUpdate {
             insert(o.rw(), o.ins(), o.noteMap(), extId);
           }
         });
+    evictAccounts(extIds);
   }
 
   /**
@@ -249,6 +270,7 @@ public class ExternalIdsUpdate {
             upsert(o.rw(), o.ins(), o.noteMap(), extId);
           }
         });
+    evictAccounts(extIds);
   }
 
   /**
@@ -279,6 +301,7 @@ public class ExternalIdsUpdate {
             remove(o.rw(), o.noteMap(), extId);
           }
         });
+    evictAccounts(extIds);
   }
 
   /**
@@ -308,6 +331,7 @@ public class ExternalIdsUpdate {
             remove(o.rw(), o.noteMap(), accountId, extIdKey);
           }
         });
+    accountCache.evict(accountId);
   }
 
   /** Deletes all external IDs of the specified account. */
@@ -348,6 +372,7 @@ public class ExternalIdsUpdate {
             insert(o.rw(), o.ins(), o.noteMap(), extId);
           }
         });
+    accountCache.evict(accountId);
   }
 
   /**
@@ -585,6 +610,12 @@ public class ExternalIdsUpdate {
 
   private static ObjectId emptyTree(ObjectInserter ins) throws IOException {
     return ins.insert(OBJ_TREE, new byte[] {});
+  }
+
+  private void evictAccounts(Collection<ExternalId> extIds) throws IOException {
+    for (Account.Id id : extIds.stream().map(ExternalId::accountId).collect(toSet())) {
+      accountCache.evict(id);
+    }
   }
 
   private static interface MyConsumer<T> {

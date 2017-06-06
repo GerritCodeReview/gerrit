@@ -16,9 +16,11 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -29,15 +31,18 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -392,16 +397,52 @@ public class PushOneCommit {
     public void assertChange(
         Change.Status expectedStatus, String expectedTopic, TestAccount... expectedReviewers)
         throws OrmException {
+      assertChange(
+          expectedStatus,
+          expectedTopic,
+          false,
+          Arrays.asList(expectedReviewers),
+          ImmutableList.of());
+    }
+
+    /**
+     * Asserts if the newly created change has all desired attributes.
+     *
+     * @param expectedStatus {@code Change.Status} to be expected.
+     * @param expectedTopic topic to be expected.
+     * @param legacyCcs determines if CCs are interpreted as reviewers which is the case for
+     *     ReviewDb.
+     * @param expectedReviewers list of reviewers to be expected.
+     * @param expectedCcs list of CCs to be expected.
+     * @throws OrmException
+     */
+    public void assertChange(
+        Change.Status expectedStatus,
+        String expectedTopic,
+        boolean legacyCcs,
+        List<TestAccount> expectedReviewers,
+        List<TestAccount> expectedCcs)
+        throws OrmException {
       Change c = getChange().change();
       assertThat(c.getSubject()).isEqualTo(resSubj);
       assertThat(c.getStatus()).isEqualTo(expectedStatus);
       assertThat(Strings.emptyToNull(c.getTopic())).isEqualTo(expectedTopic);
-      assertReviewers(c, expectedReviewers);
+      if (legacyCcs) {
+        assertReviewers(
+            c,
+            ReviewerStateInternal.REVIEWER,
+            Stream.concat(expectedReviewers.stream(), expectedCcs.stream()).collect(toList()));
+      } else {
+        assertReviewers(c, ReviewerStateInternal.REVIEWER, expectedReviewers);
+        assertReviewers(c, ReviewerStateInternal.CC, expectedCcs);
+      }
     }
 
-    private void assertReviewers(Change c, TestAccount... expectedReviewers) throws OrmException {
+    private void assertReviewers(
+        Change c, ReviewerStateInternal state, List<TestAccount> expectedReviewers)
+        throws OrmException {
       Iterable<Account.Id> actualIds =
-          approvalsUtil.getReviewers(db, notesFactory.createChecked(db, c)).all();
+          approvalsUtil.getReviewers(db, notesFactory.createChecked(db, c)).byState(state);
       assertThat(actualIds)
           .containsExactlyElementsIn(Sets.newHashSet(TestAccount.ids(expectedReviewers)));
     }

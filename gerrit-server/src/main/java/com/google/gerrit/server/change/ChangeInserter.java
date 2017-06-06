@@ -51,6 +51,7 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -68,6 +69,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -100,6 +102,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
+  private final NotesMigration migration;
 
   private final Change.Id changeId;
   private final PatchSet.Id psId;
@@ -147,6 +150,7 @@ public class ChangeInserter implements InsertChangeOp {
       CommitValidators.Factory commitValidatorsFactory,
       CommentAdded commentAdded,
       RevisionCreated revisionCreated,
+      NotesMigration migration,
       @Assisted Change.Id changeId,
       @Assisted ObjectId commitId,
       @Assisted String refName) {
@@ -162,6 +166,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.revisionCreated = revisionCreated;
     this.commentAdded = commentAdded;
+    this.migration = migration;
 
     this.changeId = changeId;
     this.psId = new PatchSet.Id(changeId, INITIAL_PATCH_SET_ID);
@@ -408,6 +413,13 @@ public class ChangeInserter implements InsertChangeOp {
      */
     update.fixStatus(change.getStatus());
 
+    Set<Account.Id> reviewersToAdd = new HashSet<>(reviewers);
+    if (migration.readChanges()) {
+      approvalsUtil.addCcs(ctx.getNotes(), update, extraCC);
+    } else {
+      reviewersToAdd.addAll(extraCC);
+    }
+
     LabelTypes labelTypes = ctl.getProjectControl().getLabelTypes();
     approvalsUtil.addReviewers(
         db,
@@ -416,7 +428,7 @@ public class ChangeInserter implements InsertChangeOp {
         change,
         patchSet,
         patchSetInfo,
-        filterOnChangeVisibility(db, ctx.getNotes(), reviewers),
+        filterOnChangeVisibility(db, ctx.getNotes(), reviewersToAdd),
         Collections.<Account.Id>emptySet());
     approvalsUtil.addApprovalsForNewPatchSet(
         db, update, labelTypes, patchSet, ctx.getControl(), approvals);

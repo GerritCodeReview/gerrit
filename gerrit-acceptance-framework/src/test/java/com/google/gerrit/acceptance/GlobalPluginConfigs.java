@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,30 +17,11 @@ package com.google.gerrit.acceptance;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 @Target({METHOD})
 @Retention(RUNTIME)
-@Repeatable(GerritConfigs.class)
-public @interface GerritConfig {
-  /**
-   * Setting name in the form {@code "section.name"} or {@code "section.subsection.name"} where
-   * {@code section}, {@code subsection} and {@code name} correspond to the parameters of the same
-   * names in JGit's {@code Config#getString} method.
-   *
-   * @see org.eclipse.jgit.lib.Config#getString(String, String, String)
-   */
-  String name();
-
-  /**
-   * Single value. Takes precedence over values specified in {@code values}.
-   */
-  String value() default "";
-
-  /**
-   * Multiple values (list). Ignored if {@code value} is specified.
-   */
-  String[] values() default "";
+public @interface GlobalPluginConfigs {
+  GlobalPluginConfig[] value();
 }

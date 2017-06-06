@@ -22,25 +22,60 @@ import org.junit.Test;
 
 public class UseGerritConfigAnnotationTest extends AbstractDaemonTest {
   @Test
-  @GerritConfig(name = "x.y", value = "z")
+  @GerritConfig(name = "section.name", value = "value")
   public void testOne() {
-    assertThat(cfg.getString("x", null, "y")).isEqualTo("z");
+    assertThat(cfg.getString("section", null, "name")).isEqualTo("value");
   }
 
   @Test
-  @GerritConfig(name = "x.y", value = "z")
-  @GerritConfig(name = "a.b", value = "c")
+  @GerritConfig(name = "section.subsection.name", value = "value")
+  public void testOneWithSubsection() {
+    assertThat(cfg.getString("section", "subsection", "name")).isEqualTo("value");
+  }
+
+  @Test
+  @GerritConfig(name = "section.name", value = "value")
+  @GerritConfig(name = "section1.name", value = "value1")
+  @GerritConfig(name = "section.subsection.name", value = "value")
+  @GerritConfig(name = "section.subsection1.name", value = "value1")
   public void testMultiple() {
-    assertThat(cfg.getString("x", null, "y")).isEqualTo("z");
-    assertThat(cfg.getString("a", null, "b")).isEqualTo("c");
+    assertThat(cfg.getString("section", null, "name")).isEqualTo("value");
+    assertThat(cfg.getString("section1", null, "name")).isEqualTo("value1");
+    assertThat(cfg.getString("section", "subsection", "name")).isEqualTo("value");
+    assertThat(cfg.getString("section", "subsection1", "name")).isEqualTo("value1");
   }
 
   @Test
   @GerritConfig(
-    name = "x.y",
-    values = {"a", "b"}
+    name = "section.name",
+    values = {"value-1", "value-2"}
   )
   public void testList() {
-    assertThat(cfg.getStringList("x", null, "y")).asList().containsExactly("a", "b");
+    assertThat(cfg.getStringList("section", null, "name"))
+        .asList()
+        .containsExactly("value-1", "value-2");
+  }
+
+  @Test
+  @GerritConfig(
+    name = "section.subsection.name",
+    values = {"value-1", "value-2"}
+  )
+  public void testListWithSubsection() {
+    assertThat(cfg.getStringList("section", "subsection", "name"))
+        .asList()
+        .containsExactly("value-1", "value-2");
+  }
+
+  @Test
+  @GerritConfig(
+    name = "section.name",
+    value = "value-1",
+    values = {"value-2", "value-3"}
+  )
+  public void valueHasPrecedenceOverValues() {
+    assertThat(cfg.getStringList("section", null, "name"))
+        .asList()
+        .containsExactly("value-1");
   }
 }

@@ -44,6 +44,8 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
@@ -68,7 +70,9 @@ public class GerritServer {
           has(Sandboxed.class, testDesc.getTestClass()),
           has(UseSsh.class, testDesc.getTestClass()),
           null, // @GerritConfig is only valid on methods.
-          null); // @GerritConfigs is only valid on methods.
+          null, // @GerritConfigs is only valid on methods.
+          null, // @GlobalPluginConfig is only valid on methods.
+          null); // @GlobalPluginConfigs is only valid on methods.
     }
 
     static Description forTestMethod(org.junit.runner.Description testDesc, String configName) {
@@ -83,7 +87,9 @@ public class GerritServer {
           testDesc.getAnnotation(UseSsh.class) != null
               || has(UseSsh.class, testDesc.getTestClass()),
           testDesc.getAnnotation(GerritConfig.class),
-          testDesc.getAnnotation(GerritConfigs.class));
+          testDesc.getAnnotation(GerritConfigs.class),
+          testDesc.getAnnotation(GlobalPluginConfig.class),
+          testDesc.getAnnotation(GlobalPluginConfigs.class));
     }
 
     private static boolean has(Class<? extends Annotation> annotation, Class<?> clazz) {
@@ -114,10 +120,26 @@ public class GerritServer {
     @Nullable
     abstract GerritConfigs configs();
 
-    private Config buildConfig(Config baseConfig) {
+    @Nullable
+    abstract GlobalPluginConfig pluginConfig();
+
+    @Nullable
+    abstract GlobalPluginConfigs pluginConfigs();
+
+    private void checkValidAnnotations() {
       if (configs() != null && config() != null) {
         throw new IllegalStateException("Use either @GerritConfigs or @GerritConfig not both");
       }
+      if (pluginConfigs() != null && pluginConfig() != null) {
+        throw new IllegalStateException(
+            "Use either @GlobalPluginConfig or @GlobalPluginConfigs not both");
+      }
+      if ((pluginConfigs() != null || pluginConfig() != null) && memory()) {
+        throw new IllegalStateException("Must use @UseLocalDisk with @GlobalPluginConfig(s)");
+      }
+    }
+
+    private Config buildConfig(Config baseConfig) {
       if (configs() != null) {
         return ConfigAnnotationParser.parse(baseConfig, configs());
       } else if (config() != null) {
@@ -126,10 +148,20 @@ public class GerritServer {
         return baseConfig;
       }
     }
+
+    private Map<String, Config> buildPluginConfigs() {
+      if (pluginConfigs() != null) {
+        return ConfigAnnotationParser.parse(pluginConfigs());
+      } else if (pluginConfig() != null) {
+        return ConfigAnnotationParser.parse(pluginConfig());
+      }
+      return new HashMap<>();
+    }
   }
 
   /** Returns fully started Gerrit server */
   static GerritServer start(Description desc, Config baseConfig) throws Exception {
+    desc.checkValidAnnotations();
     Config cfg = desc.buildConfig(baseConfig);
     Logger.getLogger("com.google.gerrit").setLevel(Level.DEBUG);
     CyclicBarrier serverStarted = new CyclicBarrier(2);
@@ -164,7 +196,7 @@ public class GerritServer {
           ImmutableList.<Module>of(new InMemoryTestingDatabaseModule(cfg)));
       daemon.start();
     } else {
-      site = initSite(cfg);
+      site = initSite(cfg, desc.buildPluginConfigs());
       daemonService = Executors.newSingleThreadExecutor();
       @SuppressWarnings("unused")
       Future<?> possiblyIgnoredError =
@@ -189,7 +221,7 @@ public class GerritServer {
     return new GerritServer(desc, i, daemon, daemonService);
   }
 
-  private static File initSite(Config base) throws Exception {
+  private static File initSite(Config base, Map<String, Config> pluginConfigs) throws Exception {
     File tmp = TempFileUtil.createTempDirectory();
     Init init = new Init();
     int rc =
@@ -207,6 +239,16 @@ public class GerritServer {
     cfg.merge(base);
     mergeTestConfig(cfg);
     cfg.save();
+
+    for (String pluginName : pluginConfigs.keySet()) {
+      MergeableFileBasedConfig pluginCfg =
+          new MergeableFileBasedConfig(
+              new File(new File(tmp, "etc"), pluginName + ".config"), FS.DETECTED);
+      pluginCfg.load();
+      pluginCfg.merge(pluginConfigs.get(pluginName));
+      pluginCfg.save();
+    }
+
     return tmp;
   }
 

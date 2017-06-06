@@ -66,6 +66,7 @@
     row.classList.add('diff-row', 'side-by-side');
     row.setAttribute('left-type', leftLine.type);
     row.setAttribute('right-type', rightLine.type);
+    row.tabIndex = -1;
 
     this._appendPair(section, row, leftLine, leftLine.beforeNumber,
         GrDiffBuilder.Side.LEFT);

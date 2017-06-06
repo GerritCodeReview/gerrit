@@ -69,7 +69,7 @@
       const len = permittedLabels[label.name] != null ?
           permittedLabels[label.name].length : 0;
       for (let i = 0; i < len; i++) {
-        const val = parseInt(permittedLabels[label.name][i], 10);
+        const val = permittedLabels[label.name][i];
         if (val === labelValue) {
           return val;
         }

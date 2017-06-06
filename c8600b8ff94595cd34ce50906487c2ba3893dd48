@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05dbecef_e1652cb1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-06T06:59:39Z",
+      "side": 1,
+      "message": "I wouldn\u0027t like to see this being implemented in the ExternalIdCache.\n\nSearching accounts by username is already supported in 3 ways:\n1. via AccountCache.getByUsername(String)\n2. via the account index by querying the USERNAME field (just add a method to InternalAccountQuery)\n3. via ExternalIds.get(ExternalId.Key.create(ExternalId.SCHEME_USERNAME, username) (this parses the one external ID from NoteDb)\n\nBy username only includes the USERNAME scheme and not the GERRIT scheme. We should keep it like this to stay consistent with the current usage of term \"username\".\n\nIf you want to lookup an account by USERNAME or GERRIT scheme you should use:\nExternalIds.get(ExternalId.Key.create(ExternalId.SCHEME_USERNAME, username) + ExternalIds.get(ExternalId.Key.create(ExternalId.GERRIT, username).",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "c8600b8ff94595cd34ce50906487c2ba3893dd48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

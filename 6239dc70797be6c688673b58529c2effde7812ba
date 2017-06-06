@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3f1b6d7_922fcd12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2017-06-06T14:34:47Z",
+      "side": 1,
+      "message": "this uses too much jargon for me to be confident what it actually means, so let me ask: who exactly is (not) notified (any more)? specifically, does the deleted user still get a mail?",
+      "revId": "6239dc70797be6c688673b58529c2effde7812ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

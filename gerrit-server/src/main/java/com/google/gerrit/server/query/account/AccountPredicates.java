@@ -79,7 +79,7 @@ public class AccountPredicates {
     return new AccountPredicate(AccountField.ACTIVE, "1");
   }
 
-  public static Predicate<AccountState> isInactive() {
+  public static Predicate<AccountState> isNotActive() {
     return new AccountPredicate(AccountField.ACTIVE, "0");
   }
 

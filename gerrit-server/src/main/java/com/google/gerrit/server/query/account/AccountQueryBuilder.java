@@ -91,7 +91,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
       return AccountPredicates.isActive();
     }
     if ("inactive".equalsIgnoreCase(value)) {
-      return AccountPredicates.isInactive();
+      return AccountPredicates.isNotActive();
     }
     throw error("Invalid query");
   }

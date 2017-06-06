@@ -211,20 +211,21 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   static class ByNameReviewDbLoader extends CacheLoader<String, Optional<Account.Id>> {
-    private final Provider<ReviewDb> dbProvider;
+    private final SchemaFactory<ReviewDb> dbProvider;
 
     @Inject
-    public ByNameReviewDbLoader(Provider<ReviewDb> dbProvider) {
+    public ByNameReviewDbLoader(SchemaFactory<ReviewDb> dbProvider) {
       this.dbProvider = dbProvider;
     }
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
-      ReviewDb db = dbProvider.get();
-      return Optional.ofNullable(
-              db.accountExternalIds()
-                  .get(new AccountExternalId.Key(SCHEME_USERNAME + ":" + username)))
-          .map(AccountExternalId::getAccountId);
+      try (ReviewDb db = dbProvider.open()) {
+        return Optional.ofNullable(
+                db.accountExternalIds()
+                    .get(new AccountExternalId.Key(SCHEME_USERNAME + ":" + username)))
+            .map(AccountExternalId::getAccountId);
+      }
     }
   }
 

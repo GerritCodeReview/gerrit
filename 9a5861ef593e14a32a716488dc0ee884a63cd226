@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0bf9c54_ddddf446",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/DeleteReviewerInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:32:21Z",
+      "side": 1,
+      "message": "Strictly speaking this requires a change to rest-api-changes.txt, since it says the default is ALL.\n\nI gotta say though, I am not super excited about documenting the exact semantics of default notify settings for WIP changes in every input type in rest-api-changes.txt. Part of me wants to use some ridiculously hedged wording like \"usually defaults to ALL, but may differ in certain circumstances\". OTOH, it also feels weird to not document the *actual* semantics anywhere. What do you think?",
+      "revId": "9a5861ef593e14a32a716488dc0ee884a63cd226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

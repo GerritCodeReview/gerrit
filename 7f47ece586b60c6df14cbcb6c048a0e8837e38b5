@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "44002ba9_5fe84fed",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-07T11:38:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d61c781a_f5a2043a",
+      "range": {
+        "startLine": 46,
+        "startChar": 50,
+        "endLine": 46,
+        "endChar": 56
+      },
+      "revId": "7f47ece586b60c6df14cbcb6c048a0e8837e38b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4635126a_936e7755",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2017-06-07T11:05:24Z",
       "side": 1,
       "message": "Inline this to a single statement?\n\n PushOneCommit.Result r \u003d pushFactory.create(db, admin.getIdent(), allUsersRepo).to(userRef);",
+      "range": {
+        "startLine": 760,
+        "startChar": 4,
+        "endLine": 761,
+        "endChar": 32
+      },
+      "revId": "7f47ece586b60c6df14cbcb6c048a0e8837e38b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d846819_7eb0f5ca",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-07T11:38:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4635126a_936e7755",
       "range": {
         "startLine": 760,
         "startChar": 4,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "12333609_8cf67440",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-07T11:38:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb92b280_47f07670",
+      "range": {
+        "startLine": 779,
+        "startChar": 4,
+        "endLine": 780,
+        "endChar": 38
+      },
+      "revId": "7f47ece586b60c6df14cbcb6c048a0e8837e38b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa9b412f_0babda98",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 2
@@ -95,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "d792b48e_878f2bcd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-07T11:38:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa9b412f_0babda98",
+      "range": {
+        "startLine": 798,
+        "startChar": 4,
+        "endLine": 799,
+        "endChar": 58
+      },
+      "revId": "7f47ece586b60c6df14cbcb6c048a0e8837e38b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af1ae641_ea5c87bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
         "patchSetId": 2
@@ -106,6 +202,30 @@
       "writtenOn": "2017-06-07T11:05:24Z",
       "side": 1,
       "message": "else if?",
+      "range": {
+        "startLine": 126,
+        "startChar": 8,
+        "endLine": 126,
+        "endChar": 10
+      },
+      "revId": "7f47ece586b60c6df14cbcb6c048a0e8837e38b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40eac851_04be1ac8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-07T11:38:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af1ae641_ea5c87bc",
       "range": {
         "startLine": 126,
         "startChar": 8,

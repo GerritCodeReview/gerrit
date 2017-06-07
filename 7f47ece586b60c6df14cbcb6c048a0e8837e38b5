@@ -1,4 +1,120 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1496828748 +0200\nnonce AH5c86AJGKAfvvQdfhwmPy0XcatFYm6tnfLXfSbt5LZqIC5WhCTunFg3kMUggIII2LZXdbRzQUWh\n\n0000000000000000000000000000000000000000 eec7f3930c78cc672a31a5cd25e5cde1be85468b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZN8tMAAoJEFG1/Zeg0O9RDMgH/RKwU9m+fAXfbxSESzovnBHk\n9LiWE7MOyAkTx6FwXmpI7znmqWZTZSeML48oo2T1Fzf6gzMt3DxE4VFSS7A73agA\nb3HZH5tIUgvDddKMnAJ+qerZXiyIFTVIYKat+vWYdh4nJerRzE6ut+ykl4wb7dyt\nshHxLwU5I9X78HKRySFso2kZxcLZ473zEnXUkQqYICLcymUL4VxpjFfJpSrGqNoh\n9VjddRp29IFzdk6VuB1so54F54ReJrADOKOa2o5h/i4RTBwuPLrXvvZFbYxkshlx\nC6UaxEQ3JTcZtuzbEoCd9UxvFDYBefbuC4HfLuTFALszatiSmSZD4nDg4Tyo49Q\u003d\n\u003dwQCh\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d61c781a_f5a2043a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-07T11:05:24Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to be explicitly imported.",
+      "range": {
+        "startLine": 46,
+        "startChar": 50,
+        "endLine": 46,
+        "endChar": 56
+      },
+      "revId": "7f47ece586b60c6df14cbcb6c048a0e8837e38b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4635126a_936e7755",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-07T11:05:24Z",
+      "side": 1,
+      "message": "Inline this to a single statement?\n\n PushOneCommit.Result r \u003d pushFactory.create(db, admin.getIdent(), allUsersRepo).to(userRef);",
+      "range": {
+        "startLine": 760,
+        "startChar": 4,
+        "endLine": 761,
+        "endChar": 32
+      },
+      "revId": "7f47ece586b60c6df14cbcb6c048a0e8837e38b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb92b280_47f07670",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-07T11:05:24Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 779,
+        "startChar": 4,
+        "endLine": 780,
+        "endChar": 38
+      },
+      "revId": "7f47ece586b60c6df14cbcb6c048a0e8837e38b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa9b412f_0babda98",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-07T11:05:24Z",
+      "side": 1,
+      "message": "And here",
+      "range": {
+        "startLine": 798,
+        "startChar": 4,
+        "endLine": 799,
+        "endChar": 58
+      },
+      "revId": "7f47ece586b60c6df14cbcb6c048a0e8837e38b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af1ae641_ea5c87bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-07T11:05:24Z",
+      "side": 1,
+      "message": "else if?",
+      "range": {
+        "startLine": 126,
+        "startChar": 8,
+        "endLine": 126,
+        "endChar": 10
+      },
+      "revId": "7f47ece586b60c6df14cbcb6c048a0e8837e38b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

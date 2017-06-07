@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04e3c0ec_bbacdaf5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-07T14:22:19Z",
+      "side": 1,
+      "message": "optional: This could be simplified to\n\n new HashSet\u003c\u003e(reviewerSet.byState(ReviewerStateInternal.CC))\n\nwhich would be shorter and also result in a better choice for initial capacity of the hash set.",
+      "range": {
+        "startLine": 219,
+        "startChar": 28,
+        "endLine": 220,
+        "endChar": 64
+      },
+      "revId": "33b4068e937e3d03f48063b1ece7573779e03e76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

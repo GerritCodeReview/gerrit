@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5e18b5f4_6e7e85df",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-07T20:15:54Z",
+      "side": 1,
+      "message": "I wanted to be able to remove the snowflaking noise when I name the FakeEmailSenderSubject, to make the failures more readable. I can better document that purpose, or just modify name to incorporate this concept. Do you have a preference?",
+      "parentUuid": "b5054619_1c13d8fd",
+      "revId": "5fa70e24e2d4a4001672f2d1f5c24e5cce1e2a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e2aac6a8_7043ab3e",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
         "patchSetId": 15
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "e3e43387_e19d8063",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-07T20:15:54Z",
+      "side": 1,
+      "message": "I had considered adding a method to assert that all recipients have been matched by .to/.cc/.bcc, but your idea here is more straightforward. Would you be open to having that implemented in a followup change?",
+      "parentUuid": "e2aac6a8_7043ab3e",
+      "revId": "5fa70e24e2d4a4001672f2d1f5c24e5cce1e2a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f96d8021_86fdbd9e",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
         "patchSetId": 15
@@ -47,6 +83,24 @@
       "writtenOn": "2017-06-07T19:50:59Z",
       "side": 1,
       "message": "ISTM the approach of one unique per NotifyType makes your tests unable to detect a certain class of bugs. Specifically, a bug might cause a single account to be mentioned twice in the recipient list if the account is both an explicit recipient and also an implicit recipient via a watch. Since these accounts have names that are just the watch type, they will never appear anywhere else, so you would not be able to tell if this bug exists.\n\nYou could avoid this limitation by taking a Multimap\u003cString, NotifyType\u003e instead of a List\u003cNotifyType\u003e. Though honestly, the chance/severity of this bug might not on its own justify making that change.\n\nThat said, I think there may *also* be a readability improvement in test methods if you take a Multimap\u003cString, NotifyType\u003e instead. Specifically, a line like:\n\n StagedChange sc \u003d stageReviewableChange(ABANDONED_CHANGES);\n\ndoesn\u0027t scream to me \"create a user named \u0027ABANDONED_CHANGES\u0027 and set up a watch for them\"; in fact the first time I saw that in an actual test, I had to come back here to the implementation to see what it actually means.\n\nSimilarly:\n\n assertThat(sender).bcc(ABANDONED_CHANGES);\n\nis a bit of a head-scratcher at first glance.\n\nIf it were instead:\n\n stageReviewableChange(ImmutableListMultimap.of(\"watcher1\", ABANDONED_CHANGES));\n assertThat(sender).bcc(\"watcher1\");\n\nthen maybe that would be clearer.\n\n(Or you could come up with some more clever builder DSL thing, but at some point the readability returns are diminishing.)",
+      "revId": "5fa70e24e2d4a4001672f2d1f5c24e5cce1e2a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1377f378_baaf1df0",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-07T20:15:54Z",
+      "side": 1,
+      "message": "Maybe the easiest thing to do is remove that variadic argument altogether. I don\u0027t think I have any reason not to have those watchers exist across all watch types for every test. I\u0027ll see if I can incorporate that into this change and merge it all the way to the tip.",
+      "parentUuid": "f96d8021_86fdbd9e",
       "revId": "5fa70e24e2d4a4001672f2d1f5c24e5cce1e2a62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

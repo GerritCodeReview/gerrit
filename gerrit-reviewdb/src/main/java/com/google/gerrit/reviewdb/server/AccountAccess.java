@@ -28,9 +28,6 @@ public interface AccountAccess extends Access<Account, Account.Id> {
   @PrimaryKey("accountId")
   Account get(Account.Id key) throws OrmException;
 
-  @Query("WHERE preferredEmail = ? LIMIT 2")
-  ResultSet<Account> byPreferredEmail(String email) throws OrmException;
-
   @Query("ORDER BY accountId")
   ResultSet<Account> all() throws OrmException;
 }

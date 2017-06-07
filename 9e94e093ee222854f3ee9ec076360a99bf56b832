@@ -171,6 +171,30 @@
     },
     {
       "key": {
+        "uuid": "568d1699_342ba7be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T17:00:28Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s important to support this case now, and focus on the 99% case that improves reviewer productivity.\n\nI do think it would be worth explicitly mentioning your assumption (A and B are two patch sets of the same change) and sketching what would need to change if we want to support something more general.",
+      "parentUuid": "f3e4d3fa_4cbc98ce",
+      "range": {
+        "startLine": 218,
+        "startChar": 9,
+        "endLine": 218,
+        "endChar": 46
+      },
+      "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e79743f1_0f52bc3d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 2
@@ -215,6 +239,30 @@
       "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9db21f8c_9e2c2046",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T17:00:28Z",
+      "side": 1,
+      "message": "\u003e Are there other cases I should benchmark?\n\nNo, I think this is great, thanks.\n\n\u003e May we rely on the timestamps of the commits and hence only compute RevWalk#isMergedInto once between olderCommit and newerCommit?\n\nNo, don\u0027t rely on timestamps, call it twice.",
+      "parentUuid": "31a4dde1_81dcb597",
+      "range": {
+        "startLine": 231,
+        "startChar": 0,
+        "endLine": 232,
+        "endChar": 51
+      },
+      "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

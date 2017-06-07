@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89dda74b_ea41b9bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:37:25Z",
+      "side": 1,
+      "message": "Please add to ChangeNotesCache.Weigher.\n\n(Yeah we are probably missing other fields, but that\u0027s not a reason to increase the skew.)",
+      "revId": "3927836653883bae132c4ed9d231c1a2e6bb1121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "8fd0ab9c323cd3203a7e81360b5be85373514593",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd811f16_ecd58e0b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/DeleteReviewerSenderIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-07T20:23:21Z",
+      "side": 1,
+      "message": "I work out some of these issues in https://gerrit-review.googlesource.com/c/108233/, where I commit more strongly to reusing accounts across test methods. When I put together the final consolidation commit, I\u0027ll be accounting for all these non-StagedUsers accounts and making sure they are managed in a consistent fashion that isn\u0027t flaky.\n\nGenerally the only per-account state that impacts tested behavior across tests is the preferred email strategy (which I resorted to resetting between tests).",
+      "parentUuid": "66b9b73c_81b9b83c",
+      "revId": "8fd0ab9c323cd3203a7e81360b5be85373514593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

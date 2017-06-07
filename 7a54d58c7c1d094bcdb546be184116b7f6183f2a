@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8bc854c1_5e0c0055",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-07T09:04:15Z",
+      "side": 1,
+      "message": "Done. Oswald, I wasn\u0027t completely sure what you mean. Does the new commit message solve your concern?",
+      "parentUuid": "472d8301_6301bc32",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "7a54d58c7c1d094bcdb546be184116b7f6183f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee513d9e_e9b74ef4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -69,6 +93,30 @@
       "revId": "7a54d58c7c1d094bcdb546be184116b7f6183f2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da58e905_bd79ffd5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-07T09:04:15Z",
+      "side": 1,
+      "message": "Done. I\u0027ve added admin2 as reviewer.",
+      "parentUuid": "ee513d9e_e9b74ef4",
+      "range": {
+        "startLine": 462,
+        "startChar": 51,
+        "endLine": 462,
+        "endChar": 97
+      },
+      "revId": "7a54d58c7c1d094bcdb546be184116b7f6183f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "32658e8f_79df73c9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-07T09:04:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1cee3e2_23329118",
+      "range": {
+        "startLine": 466,
+        "startChar": 4,
+        "endLine": 466,
+        "endChar": 68
+      },
+      "revId": "7a54d58c7c1d094bcdb546be184116b7f6183f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f22a81e2_3b414d93",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -115,6 +187,30 @@
       "revId": "7a54d58c7c1d094bcdb546be184116b7f6183f2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af1930a3_be53b50f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-07T09:04:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f22a81e2_3b414d93",
+      "range": {
+        "startLine": 469,
+        "startChar": 26,
+        "endLine": 469,
+        "endChar": 39
+      },
+      "revId": "7a54d58c7c1d094bcdb546be184116b7f6183f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -165,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "65a5e9a0_8c28aa1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-07T09:04:15Z",
+      "side": 1,
+      "message": "Extra CC is similar to notify, it\u0027s just for sending email notifications and not persisted. CCs are the regular CCs we know from a change, they are persisted.\n\nHaving said that I dug a little deeper and found that the fact that extra CCs aren\u0027t persisted is a bug, because it is only used once (when creating a change from a commit). When CCs are added there I see no reason they should receive an email, but not be persisted on the change.\n\nResolved in https://gerrit-review.googlesource.com/c/109212/",
+      "parentUuid": "42e20bf4_28f24cb9",
+      "range": {
+        "startLine": 121,
+        "startChar": 26,
+        "endLine": 121,
+        "endChar": 29
+      },
+      "revId": "7a54d58c7c1d094bcdb546be184116b7f6183f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5e12d83_ed07ef4c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 1
@@ -176,6 +296,30 @@
       "writtenOn": "2017-06-02T15:50:09Z",
       "side": 1,
       "message": "Shouldn\u0027t the cced persons get the email, too?",
+      "range": {
+        "startLine": 485,
+        "startChar": 16,
+        "endLine": 485,
+        "endChar": 43
+      },
+      "revId": "7a54d58c7c1d094bcdb546be184116b7f6183f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c16a1c69_3dc9ad3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-07T09:04:15Z",
+      "side": 1,
+      "message": "I went with extraCC now which were included here before.",
+      "parentUuid": "a5e12d83_ed07ef4c",
       "range": {
         "startLine": 485,
         "startChar": 16,

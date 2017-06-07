@@ -65,6 +65,54 @@
     },
     {
       "key": {
+        "uuid": "a8e59caa_1be540b4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-07T16:52:15Z",
+      "side": 1,
+      "message": "For me, yes! I\u0027m testing with the native macOS screenreader, though, so if you hear something different I should definitely address that.",
+      "parentUuid": "574d7aaa_16ed7fcf",
+      "range": {
+        "startLine": 390,
+        "startChar": 22,
+        "endLine": 390,
+        "endChar": 34
+      },
+      "revId": "40ea3ade990729999f3f0d46b7c3160b8a7f10c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4d7ac4e_32f17146",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-07T16:52:15Z",
+      "side": 1,
+      "message": "`$number $status` is meant to mirror the way default labeling works for unchanged lines, which sound like \"383 opt_class) { 383 opt_class) {\" when read by the screen reader.\n\nI hadn\u0027t considered that we may want to reformat how all the lines were read, since that wasnt the original filing issue. Do you think we ought to visit that in this change?",
+      "parentUuid": "4bd2d12b_81edcfe0",
+      "range": {
+        "startLine": 390,
+        "startChar": 37,
+        "endLine": 390,
+        "endChar": 54
+      },
+      "revId": "40ea3ade990729999f3f0d46b7c3160b8a7f10c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57237a0e_ee6c9f29",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 2
@@ -100,6 +148,30 @@
       "side": 1,
       "message": "Comment removed by: Logan Hanks",
       "parentUuid": "57237a0e_ee6c9f29",
+      "range": {
+        "startLine": 80,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 7
+      },
+      "revId": "40ea3ade990729999f3f0d46b7c3160b8a7f10c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fd8a79d_23970930",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-07T16:52:15Z",
+      "side": 1,
+      "message": "It removes the native focus outline from the row, as we indicate focus by other means.",
+      "parentUuid": "19f8047c_23612ebd",
       "range": {
         "startLine": 80,
         "startChar": 6,

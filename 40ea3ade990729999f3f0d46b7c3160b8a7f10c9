@@ -113,6 +113,30 @@
     },
     {
       "key": {
+        "uuid": "8127d5f1_84264ed7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-07T16:54:14Z",
+      "side": 1,
+      "message": "Maybe give it a try in Chrome Vox also, but SGTM.",
+      "parentUuid": "a8e59caa_1be540b4",
+      "range": {
+        "startLine": 390,
+        "startChar": 22,
+        "endLine": 390,
+        "endChar": 34
+      },
+      "revId": "40ea3ade990729999f3f0d46b7c3160b8a7f10c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "57237a0e_ee6c9f29",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 2

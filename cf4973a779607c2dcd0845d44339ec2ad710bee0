@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e90abf1b_71f4c174",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/AddReviewerSenderIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:05:26Z",
+      "side": 1,
+      "message": "This structure has the downside that failure messages and stack traces will not tell you which scenario failed. Less seriously, it also means a failure in the first scenario prevents the second scenario from running.\n\nAt a minimum, I would add a .named() to each of your asserts to ensure we know which one is failing.\n\nTaking this a bit further...in my ideal world there would be 2x the number of test methods, so it is crystal clear from the test log what is failing. This would be a nice place to use JUnit\u0027s Parameterized or Theories runners, but I don\u0027t think we can combine those with ConfigSuite (as all AbstractDaemonTests use). In theory you could abuse ConfigSuite to write a config option to tell you which Adder impl to use:\n\nstatic enum AdderType {\n  SINGLY(singly()),\n  BATCH(batch());\n\n  final Adder adder;\n\n  private AdderType(Adder adder) {\n    this.adder \u003d adder;\n  }\n}\n\n@ConfigSuite.Default\npublic static Config addSingly() {\n  Config cfg \u003d new Config()\n  cfg.setEnum(\"gerrit\", \"test\", \"adder\", AdderType.SINGLY);\n  return cfg;\n}\n\n@ConfigSuite.Config\npublic static Config addBatch() {\n  Config cfg \u003d new Config()\n  cfg.setString(\"gerrit\", \"test\", \"adder\", AdderType.BATCH);\n  return cfg;\n}\n\nprivate Adder adder;\n\n@Before\npublic void setUp() {\n  adder \u003d cfg.getEnum(\"gerrit\", \"test\", \"adder\").adder;\n}\n\net voilà, you get 2x the test methods for free. But that seems a little gross and possibly overkill. (If you don\u0027t hate it, though, by all means, you may use it :)\n\nAnother option is just to manually write 2x the methods, and have the \"real\" test impl be a named method instead of a lambda. Which is boilerplatey in a different way.\n\nBut like I said, the only thing I will insist on is some way to tell which scenario is failing, 2x the test methods is just a nice-to-have.",
+      "revId": "cf4973a779607c2dcd0845d44339ec2ad710bee0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

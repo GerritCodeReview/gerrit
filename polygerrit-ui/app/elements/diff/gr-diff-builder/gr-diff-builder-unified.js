@@ -67,6 +67,7 @@
     lineEl.classList.add('right');
     row.appendChild(lineEl);
     row.classList.add('diff-row', 'unified');
+    row.tabIndex = -1;
 
     const action = this._createContextControl(section, line);
     if (action) {

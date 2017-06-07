@@ -385,6 +385,13 @@
     if (opt_class) {
       td.classList.add(opt_class);
     }
+
+    if (line.type === GrDiffLine.Type.REMOVE) {
+      td.setAttribute('aria-label', `${number} removed`);
+    } else if (line.type === GrDiffLine.Type.ADD) {
+      td.setAttribute('aria-label', `${number} added`);
+    }
+
     if (line.type === GrDiffLine.Type.BLANK) {
       return td;
     } else if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {

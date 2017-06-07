@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "29ef26ee_eee6882d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1044102
+      },
+      "writtenOn": "2017-06-07T18:24:37Z",
+      "side": 1,
+      "message": "I followed the recommended settings here: https://review.gerrithub.io/Documentation/dev-intellij.html. Does that not capture all the formatting issues? Is there a command that formats all the code in stead of running adhoc \"code-\u003erefactor\" on a certain line? Sorry still new to Gerrit :)",
+      "parentUuid": "bf62f82d_0d38f37f",
+      "revId": "a0b36a60c40a79aa930c60f4c6fb04710a16db2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9742c489_54b1d4fb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectField.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "44a5c973_4a17792c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1044102
+      },
+      "writtenOn": "2017-06-07T18:24:37Z",
+      "side": 1,
+      "message": "Added ANCESTOR_NAMES. Is exact match the desired behavior? Also, shall we do any special handling for All-Projects and All-users? Does PARENT_NAME still deserve its own field when we now have ANCESTOR_NAMES?",
+      "parentUuid": "9742c489_54b1d4fb",
+      "revId": "a0b36a60c40a79aa930c60f4c6fb04710a16db2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8df11a53_f206c046",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectSchemaDefinitions.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2017-06-06T15:15:48Z",
       "side": 1,
       "message": "You probably want to list all currently existing fields in this schema.",
+      "revId": "a0b36a60c40a79aa930c60f4c6fb04710a16db2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61f36ff9_a2ede28c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectSchemaDefinitions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1044102
+      },
+      "writtenOn": "2017-06-07T18:24:37Z",
+      "side": 1,
+      "message": "Good catch, added.",
+      "parentUuid": "8df11a53_f206c046",
       "revId": "a0b36a60c40a79aa930c60f4c6fb04710a16db2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

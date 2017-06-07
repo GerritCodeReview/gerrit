@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "030a8e3b_b603beeb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/ReplacePatchSetSenderIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:11:08Z",
+      "side": 1,
+      "message": "Same comment as before, this account is shared between tests.",
+      "revId": "7d59bd5af56b5a9cc84c9d64018e9345cac089b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

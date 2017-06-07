@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1496820051 +0200\nnonce AH5c86BhL7VEhbeKuoFSWO0dXvsoWFjQYXzgXdqsKfkozj8379C42QMMMyqasGfkNvCZmAipE5zk\n\n0000000000000000000000000000000000000000 7cb54b1c3d4bfacabe2557befcf04df0d73ca704 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZN6lTAAoJEFG1/Zeg0O9R5cMIAIBbPC4K7ostVBJX8g/MMguX\nAFEuNITt7QVq2QDvm4hHP8hVjKk9rzi5MId40z0TaXxqaTfFVguDMwaPpR5rC1P4\ns1piwQfj57Pvgu3hnTqp9Cu6D18IiDvTq+/XhDok70j0tw7A0Y3Gd+sfoC9LND1F\n2ED/GSsLL0MLu2GspSddkplxnOvGELkIEmrOsXTbyFQPZPg1z7Y4T/iDKzV7Bfvd\ned6m5MGh1pcDTXmOGbplN8WZMIrQvZQn/7lHOCCJonbbwtbN2mxIHOb+aPvl7nWN\nDgtJb/5lJ3MFwo15iFV7fqfaGUxsxlZpXT3AqWIYnHtt3/TOtytuoWDLdmEyAhY\u003d\n\u003dp56I\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f73ae04_b4791512",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-07T07:37:53Z",
+      "side": 1,
+      "message": "convenient",
+      "range": {
+        "startLine": 13,
+        "startChar": 34,
+        "endLine": 13,
+        "endChar": 44
+      },
+      "revId": "7cb54b1c3d4bfacabe2557befcf04df0d73ca704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01453413_a7d10331",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-07T07:37:53Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 604,
+        "startChar": 63,
+        "endLine": 604,
+        "endChar": 66
+      },
+      "revId": "7cb54b1c3d4bfacabe2557befcf04df0d73ca704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

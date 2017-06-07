@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "6be14eb7_966394eb",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:46:00Z",
+      "side": 1,
+      "message": "Please document in rest-api-changes.txt",
+      "revId": "3927836653883bae132c4ed9d231c1a2e6bb1121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "89dda74b_ea41b9bf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesState.java",
         "patchSetId": 3

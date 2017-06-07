@@ -226,8 +226,7 @@ public class PostReview
     }
 
     if (input.notify == null) {
-      input.notify =
-          revision.getChange().isWorkInProgress() ? NotifyHandling.OWNER : NotifyHandling.ALL;
+      input.notify = defaultNotify(revision.getChange(), input);
     }
 
     ListMultimap<RecipientType, Account.Id> accountsToNotify =
@@ -325,6 +324,22 @@ public class PostReview
     }
 
     return Response.ok(output);
+  }
+
+  private NotifyHandling defaultNotify(Change c, ReviewInput in) {
+    if (!c.isWorkInProgress()) {
+      return NotifyHandling.ALL;
+    }
+    if (in.tag != null) {
+      // Treat the presence of tag as indicator of a "bot".
+      return NotifyHandling.OWNER;
+    }
+    if (!c.hasReviewStarted()) {
+      // If review hasn't started we want to minimize recipients, even on
+      // "human" comments.
+      return NotifyHandling.OWNER;
+    }
+    return NotifyHandling.ALL;
   }
 
   private void emailReviewers(

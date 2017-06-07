@@ -6,14 +6,6 @@ delimiter #
 --
 
 -- *********************************************************************
--- AccountAccess
---    covers:             byPreferredEmail
-CREATE INDEX accounts_byPreferredEmail
-ON accounts (preferred_email)
-#
-
-
--- *********************************************************************
 -- AccountGroupMemberAccess
 --    @PrimaryKey covers: byAccount
 CREATE INDEX account_group_members_byGroup

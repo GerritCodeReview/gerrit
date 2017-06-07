@@ -27,11 +27,6 @@
       change: Object,
       patchNum: String,
       config: Object,
-      loggedIn: {
-        type: Boolean,
-        value: false,
-        observer: '_loggedInChanged',
-      },
 
       _schemes: {
         type: Array,
@@ -52,7 +47,7 @@
 
     focus() {
       if (this._schemes.length) {
-        this.$$('.copyToClipboard').focus();
+        this.$.downloadCommands.focusOnCopy();
       } else {
         this.$.download.focus();
       }
@@ -64,16 +59,6 @@
         start: this.$.closeButton,
         end: links[links.length - 1],
       };
-    },
-
-    _loggedInChanged(loggedIn) {
-      if (!loggedIn) { return; }
-      this.$.restAPI.getPreferences().then(prefs => {
-        if (prefs.download_scheme) {
-          // Note (issue 5180): normalize the download scheme with lower-case.
-          this._selectedScheme = prefs.download_scheme.toLowerCase();
-        }
-      });
     },
 
     _computeDownloadCommands(change, patchNum, _selectedScheme) {
@@ -143,24 +128,6 @@
       return Object.keys(revisions).length;
     },
 
-    _computeSchemeSelected(scheme, selectedScheme) {
-      return scheme === selectedScheme;
-    },
-
-    _handleSchemeTap(e) {
-      e.preventDefault();
-      const el = Polymer.dom(e).rootTarget;
-      this._selectedScheme = el.getAttribute('data-scheme');
-      if (this.loggedIn) {
-        this.$.restAPI.savePreferences({download_scheme: this._selectedScheme});
-      }
-    },
-
-    _handleInputTap(e) {
-      e.preventDefault();
-      Polymer.dom(e).rootTarget.select();
-    },
-
     _handleCloseTap(e) {
       e.preventDefault();
       this.fire('close', null, {bubbles: false});
@@ -171,14 +138,6 @@
       if (!schemes.includes(this._selectedScheme)) {
         this._selectedScheme = schemes.sort()[0];
       }
-    },
-
-    _copyToClipboard(e) {
-      e.target.parentElement.querySelector('.copyCommand').select();
-      document.execCommand('copy');
-      getSelection().removeAllRanges();
-      e.target.textContent = 'done';
-      setTimeout(() => { e.target.textContent = 'copy'; }, 1000);
     },
   });
 })();

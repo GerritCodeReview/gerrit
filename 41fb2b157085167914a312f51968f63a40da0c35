@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6925b59e_ea3ca1fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:53:34Z",
+      "side": 1,
+      "message": "Can you explain a little more the use case for why we want to be able to search by pending reviewers?",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "41fb2b157085167914a312f51968f63a40da0c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c772ae48_4d442a99",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:53:34Z",
+      "side": 1,
+      "message": "Please document in rest-api-changes.txt",
+      "revId": "41fb2b157085167914a312f51968f63a40da0c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "983729a6_c8a9d408",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:53:34Z",
+      "side": 1,
+      "message": "You can\u0027t add fields to a schema after it\u0027s been created. Either make V45 or squash this with the change that adds this schema.",
+      "revId": "41fb2b157085167914a312f51968f63a40da0c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64c394d6_a8643a76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:53:34Z",
+      "side": 1,
+      "message": "Won\u0027t these remain set when the change exits WIP? Does it still make sense to have \"pending reviewers\" at that point?\n\nI think we also want tests in ChangeNotesTest for this and related cases.",
+      "revId": "41fb2b157085167914a312f51968f63a40da0c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b209dcdb_d2e8e91d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:53:34Z",
+      "side": 1,
+      "message": "Please add to Weigher",
+      "revId": "41fb2b157085167914a312f51968f63a40da0c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1402480_3a0be734",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:53:34Z",
+      "side": 1,
+      "message": "This should really share code with reviewerByState. Can you pass in ReviewerByEmailPredicate::for{,Pending}State as an arg to a common method?",
+      "revId": "41fb2b157085167914a312f51968f63a40da0c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

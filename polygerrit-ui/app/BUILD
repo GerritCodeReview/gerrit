@@ -14,17 +14,19 @@ load(
 
 vulcanize(
     name = "gr-app",
-    srcs = glob(
-        [
-            "**/*.html",
-            "**/*.js",
-        ],
-        exclude = [
-            "bower_components/**",
-            "index.html",
-            "test/**",
-            "**/*_test.html",
-        ],
+    srcs = (
+        glob(
+            [
+                "**/*.html",
+                "**/*.js",
+            ],
+            exclude = [
+                "bower_components/**",
+                "index.html",
+                "test/**",
+                "**/*_test.html",
+            ],
+        )
     ),
     app = "elements/gr-app.html",
     deps = ["//polygerrit-ui:polygerrit_components.bower_components"],

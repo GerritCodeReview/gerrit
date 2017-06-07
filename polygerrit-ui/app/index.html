@@ -29,6 +29,14 @@ SourceCodePro fonts are used in styles/fonts.css
 <link rel="stylesheet" href="/styles/fonts.css">
 <link rel="stylesheet" href="/styles/main.css">
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<!--
+  - Content between webcomponents-lite and the load of the main app element
+  - run before polymer-resin is installed so may have security consequences.
+  - Contact your local security engineer if you have any questions, and
+  - CC them on any changes that load content before gr-app.html.
+  -
+  - github.com/Polymer/polymer-resin/blob/master/getting-started.md#integrating
+  -->
 <link rel="preload" href="/elements/gr-app.js" as="script" crossorigin="anonymous">
 <link rel="import" href="/elements/gr-app.html">
 

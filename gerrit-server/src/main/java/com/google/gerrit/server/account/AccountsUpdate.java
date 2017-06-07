@@ -49,26 +49,32 @@ public class AccountsUpdate {
    *
    * <p>The Gerrit server identity will be used as author and committer for all commits that update
    * the accounts.
+   *
+   * <p>On updating accounts this class takes care to evict them from the account cache and thus
+   * triggers reindex for them.
    */
   @Singleton
   public static class Server {
     private final GitRepositoryManager repoManager;
+    private final AccountCache accountCache;
     private final AllUsersName allUsersName;
     private final Provider<PersonIdent> serverIdent;
 
     @Inject
     public Server(
         GitRepositoryManager repoManager,
+        AccountCache accountCache,
         AllUsersName allUsersName,
         @GerritPersonIdent Provider<PersonIdent> serverIdent) {
       this.repoManager = repoManager;
+      this.accountCache = accountCache;
       this.allUsersName = allUsersName;
       this.serverIdent = serverIdent;
     }
 
     public AccountsUpdate create() {
       PersonIdent i = serverIdent.get();
-      return new AccountsUpdate(repoManager, allUsersName, i, i);
+      return new AccountsUpdate(repoManager, accountCache, allUsersName, i, i);
     }
   }
 
@@ -81,6 +87,7 @@ public class AccountsUpdate {
   @Singleton
   public static class User {
     private final GitRepositoryManager repoManager;
+    private final AccountCache accountCache;
     private final AllUsersName allUsersName;
     private final Provider<PersonIdent> serverIdent;
     private final Provider<IdentifiedUser> identifiedUser;
@@ -88,10 +95,12 @@ public class AccountsUpdate {
     @Inject
     public User(
         GitRepositoryManager repoManager,
+        AccountCache accountCache,
         AllUsersName allUsersName,
         @GerritPersonIdent Provider<PersonIdent> serverIdent,
         Provider<IdentifiedUser> identifiedUser) {
       this.repoManager = repoManager;
+      this.accountCache = accountCache;
       this.allUsersName = allUsersName;
       this.serverIdent = serverIdent;
       this.identifiedUser = identifiedUser;
@@ -100,7 +109,7 @@ public class AccountsUpdate {
     public AccountsUpdate create() {
       PersonIdent i = serverIdent.get();
       return new AccountsUpdate(
-          repoManager, allUsersName, createPersonIdent(i, identifiedUser.get()), i);
+          repoManager, accountCache, allUsersName, createPersonIdent(i, identifiedUser.get()), i);
     }
 
     private PersonIdent createPersonIdent(PersonIdent ident, IdentifiedUser user) {
@@ -109,16 +118,19 @@ public class AccountsUpdate {
   }
 
   private final GitRepositoryManager repoManager;
+  private final AccountCache accountCache;
   private final AllUsersName allUsersName;
   private final PersonIdent committerIdent;
   private final PersonIdent authorIdent;
 
   private AccountsUpdate(
       GitRepositoryManager repoManager,
+      AccountCache accountCache,
       AllUsersName allUsersName,
       PersonIdent committerIdent,
       PersonIdent authorIdent) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
+    this.accountCache = checkNotNull(accountCache, "accountCache");
     this.allUsersName = checkNotNull(allUsersName, "allUsersName");
     this.committerIdent = checkNotNull(committerIdent, "committerIdent");
     this.authorIdent = checkNotNull(authorIdent, "authorIdent");
@@ -133,6 +145,7 @@ public class AccountsUpdate {
   public void insert(ReviewDb db, Account account) throws OrmException, IOException {
     db.accounts().insert(ImmutableSet.of(account));
     createUserBranch(account);
+    accountCache.evict(account.getId());
   }
 
   /**
@@ -143,18 +156,21 @@ public class AccountsUpdate {
   public void upsert(ReviewDb db, Account account) throws OrmException, IOException {
     db.accounts().upsert(ImmutableSet.of(account));
     createUserBranchIfNeeded(account);
+    accountCache.evict(account.getId());
   }
 
   /** Deletes the account. */
   public void delete(ReviewDb db, Account account) throws OrmException, IOException {
     db.accounts().delete(ImmutableSet.of(account));
     deleteUserBranch(account.getId());
+    accountCache.evict(account.getId());
   }
 
   /** Deletes the account. */
   public void deleteByKey(ReviewDb db, Account.Id accountId) throws OrmException, IOException {
     db.accounts().deleteKeys(ImmutableSet.of(accountId));
     deleteUserBranch(accountId);
+    accountCache.evict(accountId);
   }
 
   private void createUserBranch(Account account) throws IOException {

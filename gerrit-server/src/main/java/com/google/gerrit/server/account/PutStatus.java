@@ -50,20 +50,17 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
   private final Provider<ReviewDb> dbProvider;
   private final PermissionBackend permissionBackend;
   private final AccountsUpdate.Server accountsUpdate;
-  private final AccountCache byIdCache;
 
   @Inject
   PutStatus(
       Provider<CurrentUser> self,
       Provider<ReviewDb> dbProvider,
       PermissionBackend permissionBackend,
-      AccountsUpdate.Server accountsUpdate,
-      AccountCache byIdCache) {
+      AccountsUpdate.Server accountsUpdate) {
     this.self = self;
     this.dbProvider = dbProvider;
     this.permissionBackend = permissionBackend;
     this.accountsUpdate = accountsUpdate;
-    this.byIdCache = byIdCache;
   }
 
   @Override
@@ -93,7 +90,6 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
     if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    byIdCache.evict(account.getId());
     return Strings.isNullOrEmpty(account.getStatus())
         ? Response.none()
         : Response.ok(account.getStatus());

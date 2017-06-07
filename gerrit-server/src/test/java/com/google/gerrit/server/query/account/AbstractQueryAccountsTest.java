@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts.QueryRequest;
@@ -386,7 +387,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     String newName = "Test User";
     Account account = accounts.get(db, new Account.Id(user1._accountId));
     account.setFullName(newName);
-    accountsUpdate.create().update(db, account);
+    db.accounts().update(ImmutableSet.of(account));
 
     assertQuery("name:" + quote(user1.name), user1);
     assertQuery("name:" + quote(newName));
@@ -473,7 +474,6 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       a.setPreferredEmail(email);
       a.setActive(active);
       accountsUpdate.create().update(db, a);
-      accountCache.evict(id);
       return id;
     }
   }

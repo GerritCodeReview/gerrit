@@ -200,9 +200,6 @@ public class AccountManager {
       byEmailCache.evict(oldEmail);
       byEmailCache.evict(newEmail);
     }
-    if (toUpdate != null) {
-      byIdCache.evict(toUpdate.getId());
-    }
   }
 
   private Account load(Account toUpdate, Account.Id accountId, ReviewDb db) throws OrmException {
@@ -303,7 +300,6 @@ public class AccountManager {
     }
 
     byEmailCache.evict(account.getPreferredEmail());
-    byIdCache.evict(account.getId());
     realm.onCreateAccount(who, account);
     return new AuthResult(newId, extId.key(), true);
   }
@@ -380,7 +376,6 @@ public class AccountManager {
           if (a.getPreferredEmail() == null) {
             a.setPreferredEmail(who.getEmailAddress());
             accountsUpdateFactory.create().update(db, a);
-            byIdCache.evict(to);
           }
           byEmailCache.evict(who.getEmailAddress());
         }
@@ -446,7 +441,6 @@ public class AccountManager {
               && a.getPreferredEmail().equals(who.getEmailAddress())) {
             a.setPreferredEmail(null);
             accountsUpdateFactory.create().update(db, a);
-            byIdCache.evict(from);
           }
           byEmailCache.evict(who.getEmailAddress());
         }

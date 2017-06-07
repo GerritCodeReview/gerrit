@@ -36,7 +36,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -54,7 +53,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -76,8 +74,6 @@ public class GerritPublicKeyCheckerTest {
   @Inject private Accounts accounts;
 
   @Inject private AccountsUpdate.Server accountsUpdate;
-
-  @Inject private AccountCache accountCache;
 
   @Inject private AccountManager accountManager;
 
@@ -156,8 +152,7 @@ public class GerritPublicKeyCheckerTest {
     return userFactory.create(id);
   }
 
-  private IdentifiedUser reloadUser() throws IOException {
-    accountCache.evict(userId);
+  private IdentifiedUser reloadUser() {
     user = userFactory.create(userId);
     return user;
   }

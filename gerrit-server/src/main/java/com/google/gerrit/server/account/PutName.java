@@ -47,7 +47,6 @@ public class PutName implements RestModifyView<AccountResource, Input> {
   private final PermissionBackend permissionBackend;
   private final Provider<ReviewDb> dbProvider;
   private final AccountsUpdate.Server accountsUpdate;
-  private final AccountCache byIdCache;
 
   @Inject
   PutName(
@@ -55,14 +54,12 @@ public class PutName implements RestModifyView<AccountResource, Input> {
       Realm realm,
       PermissionBackend permissionBackend,
       Provider<ReviewDb> dbProvider,
-      AccountsUpdate.Server accountsUpdate,
-      AccountCache byIdCache) {
+      AccountsUpdate.Server accountsUpdate) {
     this.self = self;
     this.realm = realm;
     this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
     this.accountsUpdate = accountsUpdate;
-    this.byIdCache = byIdCache;
   }
 
   @Override
@@ -93,7 +90,6 @@ public class PutName implements RestModifyView<AccountResource, Input> {
     if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    byIdCache.evict(account.getId());
     return Strings.isNullOrEmpty(account.getFullName())
         ? Response.none()
         : Response.ok(account.getFullName());

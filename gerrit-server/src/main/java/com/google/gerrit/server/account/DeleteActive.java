@@ -39,18 +39,15 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
 
   private final Provider<ReviewDb> dbProvider;
   private final AccountsUpdate.Server accountsUpdate;
-  private final AccountCache byIdCache;
   private final Provider<IdentifiedUser> self;
 
   @Inject
   DeleteActive(
       Provider<ReviewDb> dbProvider,
       AccountsUpdate.Server accountsUpdate,
-      AccountCache byIdCache,
       Provider<IdentifiedUser> self) {
     this.dbProvider = dbProvider;
     this.accountsUpdate = accountsUpdate;
-    this.byIdCache = byIdCache;
     this.self = self;
   }
 
@@ -81,7 +78,6 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
     if (alreadyInactive.get()) {
       throw new ResourceConflictException("account not active");
     }
-    byIdCache.evict(account.getId());
     return Response.none();
   }
 }

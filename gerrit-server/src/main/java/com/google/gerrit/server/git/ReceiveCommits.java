@@ -82,7 +82,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -314,7 +313,6 @@ public class ReceiveCommits {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final RefOperationValidators.Factory refValidatorsFactory;
   private final TagCache tagCache;
-  private final AccountCache accountCache;
   private final ChangeInserter.Factory changeInserterFactory;
   private final RequestScopePropagator requestScopePropagator;
   private final SshInfo sshInfo;
@@ -386,7 +384,6 @@ public class ReceiveCommits {
       PatchSetUtil psUtil,
       ProjectCache projectCache,
       TagCache tagCache,
-      AccountCache accountCache,
       @Nullable SearchingChangeCacheImpl changeCache,
       ChangeInserter.Factory changeInserterFactory,
       CommitValidators.Factory commitValidatorsFactory,
@@ -428,7 +425,6 @@ public class ReceiveCommits {
     this.projectCache = projectCache;
     this.canonicalWebUrl = canonicalWebUrl;
     this.tagCache = tagCache;
-    this.accountCache = accountCache;
     this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.refValidatorsFactory = refValidatorsFactory;
@@ -2750,7 +2746,6 @@ public class ReceiveCommits {
               a.setFullName(c.getCommitterIdent().getName());
               accountsUpdate.create().update(db, a);
               user.getAccount().setFullName(a.getFullName());
-              accountCache.evict(a.getId());
             }
           } catch (OrmException e) {
             logWarn("Cannot default full_name", e);

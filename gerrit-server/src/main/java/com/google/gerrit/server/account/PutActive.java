@@ -36,14 +36,11 @@ public class PutActive implements RestModifyView<AccountResource, Input> {
 
   private final Provider<ReviewDb> dbProvider;
   private final AccountsUpdate.Server accountsUpdate;
-  private final AccountCache byIdCache;
 
   @Inject
-  PutActive(
-      Provider<ReviewDb> dbProvider, AccountsUpdate.Server accountsUpdate, AccountCache byIdCache) {
+  PutActive(Provider<ReviewDb> dbProvider, AccountsUpdate.Server accountsUpdate) {
     this.dbProvider = dbProvider;
     this.accountsUpdate = accountsUpdate;
-    this.byIdCache = byIdCache;
   }
 
   @Override
@@ -66,7 +63,6 @@ public class PutActive implements RestModifyView<AccountResource, Input> {
     if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    byIdCache.evict(account.getId());
     return alreadyActive.get() ? Response.ok("") : Response.created("");
   }
 }

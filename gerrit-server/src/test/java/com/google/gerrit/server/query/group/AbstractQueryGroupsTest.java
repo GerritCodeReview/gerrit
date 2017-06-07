@@ -324,7 +324,6 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
       a.setPreferredEmail(email);
       a.setActive(active);
       accountsUpdate.create().update(db, a);
-      accountCache.evict(id);
       return id;
     }
   }

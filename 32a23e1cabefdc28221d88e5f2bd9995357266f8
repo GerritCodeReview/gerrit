@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f2b80fc_932ad7d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-07T19:46:16Z",
+      "side": 1,
+      "message": "Nit: remove the period at the end of the first line of the commit message.",
+      "range": {
+        "startLine": 7,
+        "startChar": 62,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "32a23e1cabefdc28221d88e5f2bd9995357266f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48f28be8_7388a92b",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-07T19:46:16Z",
+      "side": 1,
+      "message": "Why do we load the debug version of the script?",
+      "range": {
+        "startLine": 30,
+        "startChar": 69,
+        "endLine": 30,
+        "endChar": 74
+      },
+      "revId": "32a23e1cabefdc28221d88e5f2bd9995357266f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "997e3d8f_bfd51763",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-07T19:46:16Z",
+      "side": 1,
+      "message": "Isn\u0027t polymer-resin already included here by virtue of the bower_components dependency on l.36 below?",
+      "revId": "32a23e1cabefdc28221d88e5f2bd9995357266f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5ab3b8b_4c5bfeaf",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-07T19:46:16Z",
+      "side": 1,
+      "message": "Nit: indent the content of the script.",
+      "revId": "32a23e1cabefdc28221d88e5f2bd9995357266f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

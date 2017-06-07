@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58cd578f_8acfaf4f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/ReplacePatchSetSenderIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:17:37Z",
+      "side": 1,
+      "message": "If I have a WIP change, and you push a new patch set of my WIP change, I feel like I might want to get notified about that. Am I missing something? (Is that not what this test is about?)",
+      "revId": "fb6a6b0e6df07c54d29753f9b63c2a20fe2701ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2412870d_f658d933",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1264,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:17:37Z",
+      "side": 1,
+      "message": "Should this be private now to force all callers to go through getNotify()?",
+      "revId": "fb6a6b0e6df07c54d29753f9b63c2a20fe2701ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "564644ea_f451dc84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ReplacePatchSetSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:17:37Z",
+      "side": 1,
+      "message": "Nit: with enums we generally just use \u003d\u003d.",
+      "revId": "fb6a6b0e6df07c54d29753f9b63c2a20fe2701ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

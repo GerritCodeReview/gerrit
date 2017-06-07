@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -214,8 +215,9 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
 
   private AuthResult byPreferredEmail(final String email) {
     try (ReviewDb db = schema.open()) {
-      List<Account> matches = db.accounts().byPreferredEmail(email).toList();
-      return matches.size() == 1 ? auth(matches.get(0)) : null;
+      Optional<Account> match =
+          accountQuery.byPreferredEmail(email).stream().map(AccountState::getAccount).findFirst();
+      return match.isPresent() ? auth(match.get()) : null;
     } catch (OrmException e) {
       getServletContext().log("cannot query database", e);
       return null;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43c1da66_309a8bf4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/AbandonedSenderIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T19:50:11Z",
+      "side": 1,
+      "message": "I would expect at least one of these tests to also set up some other kind of watch, and assert that the non-ABANDONED_CHANGES watcher is not notified.",
+      "range": {
+        "startLine": 42,
+        "startChar": 44,
+        "endLine": 42,
+        "endChar": 61
+      },
+      "revId": "b5b44b776f4697a05a0251bdd88cf31338d83ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

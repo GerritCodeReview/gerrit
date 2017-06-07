@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b4913fc_e897c206",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/PushOneCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-07T14:06:30Z",
+      "side": 1,
+      "message": "Would it be possible to directly query TestNotesMigration#readChanges here instead of passing it as a flag?",
+      "range": {
+        "startLine": 422,
+        "startChar": 8,
+        "endLine": 422,
+        "endChar": 25
+      },
+      "revId": "28fd791b28567954392c9eddea8559ce2b7e65b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a21fb15c_7f503cbc",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/PushOneCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-07T14:06:30Z",
+      "side": 1,
+      "message": "Because of this change, TestAccount#ids(TestAccount...) isn\u0027t used anymore. I wonder whether we should remove that method.",
+      "range": {
+        "startLine": 442,
+        "startChar": 47,
+        "endLine": 442,
+        "endChar": 64
+      },
+      "revId": "28fd791b28567954392c9eddea8559ce2b7e65b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15e9b9c9_de6d5061",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-07T14:06:30Z",
+      "side": 1,
+      "message": "On the reviewers, we additionally call filterOnChangeVisibility(). Don\u0027t we need to filter according to change visibility for CCs as well?",
+      "range": {
+        "startLine": 418,
+        "startChar": 51,
+        "endLine": 418,
+        "endChar": 58
+      },
+      "revId": "28fd791b28567954392c9eddea8559ce2b7e65b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

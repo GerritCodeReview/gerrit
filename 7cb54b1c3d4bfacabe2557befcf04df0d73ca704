@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "d6f08a8f_aa6e097d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-07T08:05:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f73ae04_b4791512",
+      "range": {
+        "startLine": 13,
+        "startChar": 34,
+        "endLine": 13,
+        "endChar": 44
+      },
+      "revId": "7cb54b1c3d4bfacabe2557befcf04df0d73ca704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01453413_a7d10331",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdsUpdate.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2017-06-07T07:37:53Z",
       "side": 1,
       "message": "remove this",
+      "range": {
+        "startLine": 604,
+        "startChar": 63,
+        "endLine": 604,
+        "endChar": 66
+      },
+      "revId": "7cb54b1c3d4bfacabe2557befcf04df0d73ca704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6d596b0_4cf3306a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-07T08:05:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01453413_a7d10331",
       "range": {
         "startLine": 604,
         "startChar": 63,

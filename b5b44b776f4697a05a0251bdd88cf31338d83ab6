@@ -22,6 +22,30 @@
       "revId": "b5b44b776f4697a05a0251bdd88cf31338d83ab6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "823199cc_3811df30",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/AbandonedSenderIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-07T20:01:16Z",
+      "side": 1,
+      "message": "I was thinking of modifying all assertions on sender to include a final \".andNoOneElse()\" sort of assertion. I can have StagedUsers create an account watching all watch types. I can add that as a new change at the end of this topic (before the test class consolidation change).",
+      "parentUuid": "43c1da66_309a8bf4",
+      "range": {
+        "startLine": 42,
+        "startChar": 44,
+        "endLine": 42,
+        "endChar": 61
+      },
+      "revId": "b5b44b776f4697a05a0251bdd88cf31338d83ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

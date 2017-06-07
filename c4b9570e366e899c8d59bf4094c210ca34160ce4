@@ -23,6 +23,30 @@
       "revId": "c4b9570e366e899c8d59bf4094c210ca34160ce4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25ef213b_53725083",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-07T15:52:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c5cc127_5be48470",
+      "range": {
+        "startLine": 291,
+        "startChar": 56,
+        "endLine": 291,
+        "endChar": 0
+      },
+      "revId": "c4b9570e366e899c8d59bf4094c210ca34160ce4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

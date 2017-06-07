@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66b9b73c_81b9b83c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/DeleteReviewerSenderIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:09:08Z",
+      "side": 1,
+      "message": "FYI these names are not unique in the server and therefore shared between test methods. I think this doesn\u0027t matter because your test framework sets preferences and stuff just-in-time. But might be safer/clearer if there are unique accounts.\n\nOTOH you mentioned that creating accounts is slow, though, so maybe this is ok.",
+      "revId": "8fd0ab9c323cd3203a7e81360b5be85373514593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "6e784551_a3c9deff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1044402
+      },
+      "writtenOn": "2017-06-07T07:46:17Z",
+      "side": 1,
+      "message": "Comment removed by: Logan Hanks",
+      "revId": "40ea3ade990729999f3f0d46b7c3160b8a7f10c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "57237a0e_ee6c9f29",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 2
@@ -22,6 +39,30 @@
       "revId": "40ea3ade990729999f3f0d46b7c3160b8a7f10c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19f8047c_23612ebd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1044402
+      },
+      "writtenOn": "2017-06-07T07:46:17Z",
+      "side": 1,
+      "message": "Comment removed by: Logan Hanks",
+      "parentUuid": "57237a0e_ee6c9f29",
+      "range": {
+        "startLine": 80,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 7
+      },
+      "revId": "40ea3ade990729999f3f0d46b7c3160b8a7f10c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

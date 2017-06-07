@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9f7c4de3_f7dd7657",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5694,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-07T06:56:36Z",
+      "side": 1,
+      "message": "Ah sorry, I was wrong here. It looked like an enum from the code in which case we could have simplified things a bit. Apologies for the churn.",
+      "parentUuid": "d75b88c4_775d6e81",
+      "revId": "4c605db2e418b66cf75f83acbd8cd43c6425fe2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "97318ce4_e27235be",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CherryPickInput.java",
         "patchSetId": 2

@@ -17,6 +17,24 @@
       "revId": "3ea63124f3ef6714665b783cba8ecdf5d559dab3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54dbefbb_eed0a00b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdsUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-07T18:41:56Z",
+      "side": 1,
+      "message": "Unfortunately this doesn\u0027t work because then the IOException that AccountCache#evict may throw is unhandled.",
+      "parentUuid": "6c360415_fc69b479",
+      "revId": "3ea63124f3ef6714665b783cba8ecdf5d559dab3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

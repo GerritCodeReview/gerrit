@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8fb9cdc_a37fdcae",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/RevertedSenderIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-07T20:11:54Z",
+      "side": 1,
+      "message": "Nit: pretty sure this should go on the same line as the rest of the statement, even if it\u0027s followed by a comment (here and below).",
+      "revId": "3190c9d730810c65efad21c55aa314a822c30c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

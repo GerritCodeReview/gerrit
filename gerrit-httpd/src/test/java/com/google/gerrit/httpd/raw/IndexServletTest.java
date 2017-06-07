@@ -22,6 +22,8 @@ import org.junit.Test;
 
 public class IndexServletTest {
   class TestIndexServlet extends IndexServlet {
+    private static final long serialVersionUID = 1L;
+
     TestIndexServlet(String canonicalURL, String cdnPath) throws URISyntaxException {
       super(canonicalURL, cdnPath);
     }

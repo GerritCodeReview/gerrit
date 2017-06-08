@@ -34,7 +34,7 @@ public class MetadataParserTest {
     b.dateReceived(new DateTime());
     b.subject("");
 
-    b.addAdditionalHeader(toHeaderWithDelimiter(MetadataName.CHANGE_ID) + "cid");
+    b.addAdditionalHeader(toHeaderWithDelimiter(MetadataName.CHANGE_NUMBER) + "123");
     b.addAdditionalHeader(toHeaderWithDelimiter(MetadataName.PATCH_SET) + "1");
     b.addAdditionalHeader(toHeaderWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment");
     b.addAdditionalHeader(
@@ -45,7 +45,7 @@ public class MetadataParserTest {
 
     MailMetadata meta = MetadataParser.parse(b.build());
     assertThat(meta.author).isEqualTo(author.getEmail());
-    assertThat(meta.changeId).isEqualTo("cid");
+    assertThat(meta.changeNumber).isEqualTo(123);
     assertThat(meta.patchSet).isEqualTo(1);
     assertThat(meta.messageType).isEqualTo("comment");
     assertThat(meta.timestamp.getTime())
@@ -62,7 +62,7 @@ public class MetadataParserTest {
     b.subject("");
 
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(toFooterWithDelimiter(MetadataName.CHANGE_ID) + "cid\r\n");
+    stringBuilder.append(toFooterWithDelimiter(MetadataName.CHANGE_NUMBER) + "123\r\n");
     stringBuilder.append("> " + toFooterWithDelimiter(MetadataName.PATCH_SET) + "1\n");
     stringBuilder.append(toFooterWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment\n");
     stringBuilder.append(
@@ -74,7 +74,7 @@ public class MetadataParserTest {
 
     MailMetadata meta = MetadataParser.parse(b.build());
     assertThat(meta.author).isEqualTo(author.getEmail());
-    assertThat(meta.changeId).isEqualTo("cid");
+    assertThat(meta.changeNumber).isEqualTo(123);
     assertThat(meta.patchSet).isEqualTo(1);
     assertThat(meta.messageType).isEqualTo("comment");
     assertThat(meta.timestamp.getTime())
@@ -92,7 +92,7 @@ public class MetadataParserTest {
 
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(
-        "<div id\"someid\">" + toFooterWithDelimiter(MetadataName.CHANGE_ID) + "cid</div>");
+        "<div id\"someid\">" + toFooterWithDelimiter(MetadataName.CHANGE_NUMBER) + "123</div>");
     stringBuilder.append("<div>" + toFooterWithDelimiter(MetadataName.PATCH_SET) + "1</div>");
     stringBuilder.append(
         "<div>" + toFooterWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment</div>");
@@ -108,7 +108,7 @@ public class MetadataParserTest {
 
     MailMetadata meta = MetadataParser.parse(b.build());
     assertThat(meta.author).isEqualTo(author.getEmail());
-    assertThat(meta.changeId).isEqualTo("cid");
+    assertThat(meta.changeNumber).isEqualTo(123);
     assertThat(meta.patchSet).isEqualTo(1);
     assertThat(meta.messageType).isEqualTo("comment");
     assertThat(meta.timestamp.getTime())

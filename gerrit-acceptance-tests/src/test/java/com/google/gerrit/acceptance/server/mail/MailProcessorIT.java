@@ -51,7 +51,7 @@ public class MailProcessorIT extends AbstractMailIT {
             null,
             null,
             null);
-    b.textContent(txt + textFooterForChange(changeId, ts));
+    b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     mailProcessor.process(b.build());
 
@@ -79,7 +79,7 @@ public class MailProcessorIT extends AbstractMailIT {
             "Some Inline Comment",
             null,
             null);
-    b.textContent(txt + textFooterForChange(changeId, ts));
+    b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     mailProcessor.process(b.build());
 
@@ -115,7 +115,7 @@ public class MailProcessorIT extends AbstractMailIT {
             null,
             "Some Comment on File 1",
             null);
-    b.textContent(txt + textFooterForChange(changeId, ts));
+    b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     mailProcessor.process(b.build());
 
@@ -152,7 +152,7 @@ public class MailProcessorIT extends AbstractMailIT {
             "Some Inline Comment",
             null,
             null);
-    b.textContent(txt + textFooterForChange(changeId, ts));
+    b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     mailProcessor.process(b.build());
     comments = gApi.changes().id(changeId).current().commentsAsList();
@@ -183,7 +183,7 @@ public class MailProcessorIT extends AbstractMailIT {
             "Some Inline Comment",
             null,
             null);
-    b.textContent(txt + textFooterForChange(changeId, ts));
+    b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     // Set account state to inactive
     gApi.accounts().id("user").setActive(false);
@@ -219,7 +219,7 @@ public class MailProcessorIT extends AbstractMailIT {
     MailMessage.Builder b =
         messageBuilderWithDefaultFields()
             .from(user.emailAddress)
-            .textContent(txt + textFooterForChange(changeId, ts));
+            .textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     sender.clear();
     mailProcessor.process(b.build());

@@ -19,14 +19,14 @@ import java.sql.Timestamp;
 
 /** MailMetadata represents metadata parsed from inbound email. */
 public class MailMetadata {
-  public String changeId;
+  public Integer changeNumber;
   public Integer patchSet;
   public String author; // Author of the email
   public Timestamp timestamp;
   public String messageType; // we expect comment here
 
   public boolean hasRequiredFields() {
-    return changeId != null
+    return changeNumber != null
         && patchSet != null
         && author != null
         && timestamp != null
@@ -36,7 +36,7 @@ public class MailMetadata {
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
-        .add("Change-Id", changeId)
+        .add("Change-Number", changeNumber)
         .add("Patch-Set", patchSet)
         .add("Author", author)
         .add("Timestamp", timestamp)

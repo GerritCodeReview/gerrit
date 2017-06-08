@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,12 +40,12 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
     deleteVote(sc, voter);
     assertThat(sender)
         .sent("deleteVote", sc)
-        .notTo(voter)
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
@@ -60,7 +59,8 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, voter)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
@@ -74,7 +74,8 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, voter)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
@@ -89,7 +90,8 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, admin, voter)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
@@ -98,12 +100,10 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
     deleteVote(sc, voter, NotifyHandling.OWNER_REVIEWERS);
     assertThat(sender)
         .sent("deleteVote", sc)
-        .notTo(voter)
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(sc.starrer)
-        .notTo(ALL_COMMENTS);
+        .noOneElse();
   }
 
   @Test
@@ -116,22 +116,14 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer, voter)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(sc.starrer)
-        .notTo(ALL_COMMENTS);
+        .noOneElse();
   }
 
   @Test
   public void deleteVoteFromReviewableChangeNotifyOwner() throws Exception {
     StagedChange sc = stageReviewableChange();
     deleteVote(sc, voter, NotifyHandling.OWNER);
-    assertThat(sender)
-        .sent("deleteVote", sc)
-        .notTo(voter)
-        .to(sc.owner)
-        .notTo(sc.reviewer, sc.ccer)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(sc.starrer)
-        .notTo(ALL_COMMENTS);
+    assertThat(sender).sent("deleteVote", sc).to(sc.owner).noOneElse();
   }
 
   @Test
@@ -139,14 +131,7 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
     StagedChange sc = stageReviewableChange();
     selfCc();
     deleteVote(sc, voter, NotifyHandling.OWNER);
-    assertThat(sender)
-        .sent("deleteVote", sc)
-        .to(sc.owner)
-        .cc(voter)
-        .notTo(sc.reviewer, sc.ccer)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(sc.starrer)
-        .notTo(ALL_COMMENTS);
+    assertThat(sender).sent("deleteVote", sc).to(sc.owner).cc(voter).noOneElse();
   }
 
   @Test
@@ -170,12 +155,12 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
     deleteVote(sc, voter);
     assertThat(sender)
         .sent("deleteVote", sc)
-        .notTo(voter)
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
@@ -184,35 +169,35 @@ public class DeleteVoteSenderIT extends AbstractNotificationTest {
     deleteVote(sc, voter);
     assertThat(sender)
         .sent("deleteVote", sc)
-        .notTo(voter)
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   private interface Stager {
-    StagedChange stage(NotifyType... watches) throws Exception;
+    StagedChange stage() throws Exception;
   }
 
   private StagedChange stageChange(Stager stager) throws Exception {
-    StagedChange sc = stager.stage(ALL_COMMENTS);
+    StagedChange sc = stager.stage();
     setApiUser(voter);
     gApi.changes().id(sc.changeId).revision("current").review(ReviewInput.recommend());
     return sc;
   }
 
-  private StagedChange stageReviewableChange() throws Exception {
-    return stageChange(this::stageReviewableChange);
+  protected StagedChange stageReviewableChange() throws Exception {
+    return stageChange(() -> super.stageReviewableChange());
   }
 
-  private StagedChange stageReviewableWipChange() throws Exception {
-    return stageChange(this::stageReviewableWipChange);
+  protected StagedChange stageReviewableWipChange() throws Exception {
+    return stageChange(() -> super.stageReviewableWipChange());
   }
 
-  private StagedChange stageWipChange() throws Exception {
-    return stageChange(this::stageWipChange);
+  protected StagedChange stageWipChange() throws Exception {
+    return stageChange(() -> super.stageWipChange());
   }
 
   private void deleteVote(StagedChange sc, TestAccount account) throws Exception {

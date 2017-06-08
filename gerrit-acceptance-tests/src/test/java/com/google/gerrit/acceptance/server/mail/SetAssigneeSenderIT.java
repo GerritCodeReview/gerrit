@@ -30,9 +30,9 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assign(sc, sc.owner, sc.assignee);
     assertThat(sender)
         .sent("setassignee", sc)
-        .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
-        .to(sc.assignee);
+        .to(sc.assignee)
+        .noOneElse();
   }
 
   @Test
@@ -41,10 +41,10 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assign(sc, sc.owner, sc.assignee, CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("setassignee", sc)
-        .notTo(sc.reviewer, sc.ccer, sc.starrer)
         .cc(sc.owner)
         .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
-        .to(sc.assignee);
+        .to(sc.assignee)
+        .noOneElse();
   }
 
   @Test
@@ -53,9 +53,9 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assign(sc, admin, sc.assignee);
     assertThat(sender)
         .sent("setassignee", sc)
-        .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer, admin)
         .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
-        .to(sc.assignee);
+        .to(sc.assignee)
+        .noOneElse();
   }
 
   @Test
@@ -64,10 +64,10 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assign(sc, admin, sc.assignee, CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("setassignee", sc)
-        .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer)
         .cc(admin)
         .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
-        .to(sc.assignee);
+        .to(sc.assignee)
+        .noOneElse();
   }
 
   @Test
@@ -77,8 +77,8 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assign(sc, sc.owner, sc.owner);
     assertThat(sender)
         .sent("setassignee", sc)
-        .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer, sc.assignee)
-        .cc(sc.reviewerByEmail, sc.ccerByEmail); // TODO(logan): This is probably not intended!
+        .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
+        .noOneElse();
   }
 
   @Test
@@ -98,9 +98,9 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assign(sc, sc.owner, sc.assignee);
     assertThat(sender)
         .sent("setassignee", sc)
-        .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer, other)
         .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
-        .to(sc.assignee);
+        .to(sc.assignee)
+        .noOneElse();
   }
 
   @Test
@@ -112,8 +112,8 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assign(sc, sc.owner, sc.owner);
     assertThat(sender)
         .sent("setassignee", sc)
-        .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer, sc.assignee)
-        .cc(sc.reviewerByEmail, sc.ccerByEmail); // TODO(logan): This is probably not intended!
+        .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
+        .noOneElse();
   }
 
   @Test
@@ -132,9 +132,9 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assign(sc, sc.owner, sc.assignee);
     assertThat(sender)
         .sent("setassignee", sc)
-        .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
-        .to(sc.assignee);
+        .to(sc.assignee)
+        .noOneElse();
   }
 
   @Test
@@ -143,9 +143,9 @@ public class SetAssigneeSenderIT extends AbstractNotificationTest {
     assign(sc, sc.owner, sc.assignee);
     assertThat(sender)
         .sent("setassignee", sc)
-        .notTo(sc.owner, sc.reviewer, sc.ccer, sc.starrer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
-        .to(sc.assignee);
+        .to(sc.assignee)
+        .noOneElse();
   }
 
   private void assign(StagedChange sc, TestAccount by, TestAccount to) throws Exception {

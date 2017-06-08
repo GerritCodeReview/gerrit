@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc0dfb75_be3e25c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-08T18:03:31Z",
+      "side": 0,
+      "message": "Using carrots like this in the test encoded that the links were *not* encoded. ¯\\_(ツ)_/¯",
+      "range": {
+        "startLine": 64,
+        "startChar": 27,
+        "endLine": 64,
+        "endChar": 35
+      },
+      "revId": "5fdede208bec0897a45d8d491220259a237f60ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

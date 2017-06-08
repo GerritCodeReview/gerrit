@@ -460,36 +460,62 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void excludeWipChangeFromReviewersDashboards() throws Exception {
+  public void excludeWipChangeFromReviewersDashboardsBeforeSchema42() throws Exception {
+    assume().that(getSchemaVersion()).isLessThan(42);
+
+    assertMissingField(ChangeField.WIP);
+    assertFailingQuery("is:wip", "'is:wip' operator is not supported by change index version");
+
     Account.Id user1 = createAccount("user1");
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChange(repo), userId);
+    Change change1 = insert(repo, newChangeWorkInProgress(repo), userId);
+    assertQuery("reviewer:" + user1, change1);
+    gApi.changes().id(change1.getChangeId()).setWorkInProgress();
+    assertQuery("reviewer:" + user1, change1);
+  }
 
-    AddReviewerInput rin = new AddReviewerInput();
-    rin.reviewer = user1.toString();
-    rin.state = ReviewerState.REVIEWER;
-    gApi.changes().id(change1.getId().get()).addReviewer(rin);
+  @Test
+  public void excludeWipChangeFromReviewersDashboards() throws Exception {
+    assume().that(getSchemaVersion()).isAtLeast(42);
 
-    if (getSchemaVersion() >= 42) {
-      assertQuery("is:wip");
-      assertQuery("reviewer:" + user1, change1);
+    Account.Id user1 = createAccount("user1");
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChangeWorkInProgress(repo), userId);
 
-      gApi.changes().id(change1.getChangeId()).setWorkInProgress();
+    assertQuery("is:wip", change1);
+    assertQuery("reviewer:" + user1);
 
-      assertQuery("is:wip", change1);
-      assertQuery("reviewer:" + user1);
+    gApi.changes().id(change1.getChangeId()).setReadyForReview();
+    assertQuery("is:wip");
+    assertQuery("reviewer:" + user1);
 
-      gApi.changes().id(change1.getChangeId()).setReadyForReview();
+    gApi.changes().id(change1.getChangeId()).setWorkInProgress();
+    assertQuery("is:wip", change1);
+    assertQuery("reviewer:" + user1);
+  }
 
-      assertQuery("is:wip");
-      assertQuery("reviewer:" + user1, change1);
-    } else {
-      assertMissingField(ChangeField.WIP);
-      assertFailingQuery("is:wip", "'is:wip' operator is not supported by change index version");
-      assertQuery("reviewer:" + user1, change1);
-      gApi.changes().id(change1.getChangeId()).setWorkInProgress();
-      assertQuery("reviewer:" + user1, change1);
-    }
+  @Test
+  public void byStartedBeforeSchema44() throws Exception {
+    assume().that(getSchemaVersion()).isLessThan(44);
+    assertMissingField(ChangeField.STARTED);
+    assertFailingQuery(
+        "is:started", "'is:started' operator is not supported by change index version");
+  }
+
+  @Test
+  public void byStarted() throws Exception {
+    assume().that(getSchemaVersion()).isAtLeast(44);
+
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChangeWorkInProgress(repo));
+
+    assertQuery("is:started");
+
+    gApi.changes().id(change1.getChangeId()).setReadyForReview();
+    assertQuery("is:started", change1);
+
+    gApi.changes().id(change1.getChangeId()).setWorkInProgress();
+    assertQuery("is:started", change1);
   }
 
   @Test
@@ -732,11 +758,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byLabel() throws Exception {
     accountManager.authenticate(AuthRequest.forUser("anotheruser"));
     TestRepository<Repo> repo = createProject("repo");
-    ChangeInserter ins = newChange(repo, null, null, null, null);
-    ChangeInserter ins2 = newChange(repo, null, null, null, null);
-    ChangeInserter ins3 = newChange(repo, null, null, null, null);
-    ChangeInserter ins4 = newChange(repo, null, null, null, null);
-    ChangeInserter ins5 = newChange(repo, null, null, null, null);
+    ChangeInserter ins = newChange(repo, null, null, null, null, false);
+    ChangeInserter ins2 = newChange(repo, null, null, null, null, false);
+    ChangeInserter ins3 = newChange(repo, null, null, null, null, false);
+    ChangeInserter ins4 = newChange(repo, null, null, null, null, false);
+    ChangeInserter ins5 = newChange(repo, null, null, null, null, false);
 
     Change reviewMinus2Change = insert(repo, ins);
     gApi.changes().id(reviewMinus2Change.getId().get()).current().review(ReviewInput.reject());
@@ -816,7 +842,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byLabelNotOwner() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    ChangeInserter ins = newChange(repo, null, null, null, null);
+    ChangeInserter ins = newChange(repo, null, null, null, null, false);
     Account.Id user1 = createAccount("user1");
 
     Change reviewPlus1Change = insert(repo, ins);
@@ -2098,27 +2124,31 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
-    return newChange(repo, null, null, null, null);
+    return newChange(repo, null, null, null, null, false);
   }
 
   protected ChangeInserter newChangeForCommit(TestRepository<Repo> repo, RevCommit commit)
       throws Exception {
-    return newChange(repo, commit, null, null, null);
+    return newChange(repo, commit, null, null, null, false);
   }
 
   protected ChangeInserter newChangeForBranch(TestRepository<Repo> repo, String branch)
       throws Exception {
-    return newChange(repo, null, branch, null, null);
+    return newChange(repo, null, branch, null, null, false);
   }
 
   protected ChangeInserter newChangeWithStatus(TestRepository<Repo> repo, Change.Status status)
       throws Exception {
-    return newChange(repo, null, null, status, null);
+    return newChange(repo, null, null, status, null, false);
   }
 
   protected ChangeInserter newChangeWithTopic(TestRepository<Repo> repo, String topic)
       throws Exception {
-    return newChange(repo, null, null, null, topic);
+    return newChange(repo, null, null, null, topic, false);
+  }
+
+  protected ChangeInserter newChangeWorkInProgress(TestRepository<Repo> repo) throws Exception {
+    return newChange(repo, null, null, null, null, true);
   }
 
   protected ChangeInserter newChange(
@@ -2126,7 +2156,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       @Nullable RevCommit commit,
       @Nullable String branch,
       @Nullable Change.Status status,
-      @Nullable String topic)
+      @Nullable String topic,
+      boolean workInProgress)
       throws Exception {
     if (commit == null) {
       commit = repo.parseBody(repo.commit().message("message").create());
@@ -2143,7 +2174,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .create(id, commit, branch)
             .setValidate(false)
             .setStatus(status)
-            .setTopic(topic);
+            .setTopic(topic)
+            .setWorkInProgress(workInProgress);
     return ins;
   }
 

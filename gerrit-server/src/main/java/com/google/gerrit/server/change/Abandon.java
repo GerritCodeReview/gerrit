@@ -83,7 +83,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
   }
 
   private NotifyHandling defaultNotify(ChangeControl control) {
-    return control.getNotes().hasReviewStarted() ? NotifyHandling.ALL : NotifyHandling.OWNER;
+    return control.getChange().hasReviewStarted() ? NotifyHandling.ALL : NotifyHandling.OWNER;
   }
 
   public Change abandon(BatchUpdate.Factory updateFactory, ChangeControl control)

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance.server.mail;
 
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.ALL;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.NONE;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER;
@@ -165,25 +164,10 @@ public class AbandonedSenderIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void abandonWipChangeInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void abandonWipChange() throws Exception {
     StagedChange sc = stageWipChange(ABANDONED_CHANGES);
     abandon(sc.changeId, sc.owner);
     assertThat(sender).notSent();
-  }
-
-  @Test
-  public void abandonWipChangeInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageWipChange(ABANDONED_CHANGES);
-    abandon(sc.changeId, sc.owner);
-    assertThat(sender)
-        .sent("abandon", sc)
-        .notTo(sc.owner)
-        .cc(sc.reviewer, sc.ccer)
-        .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .bcc(sc.starrer)
-        .bcc(ABANDONED_CHANGES);
   }
 
   @Test

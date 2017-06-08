@@ -67,6 +67,8 @@ public abstract class ChangeNotesState {
         ImmutableList.of(),
         ReviewerSet.empty(),
         ReviewerByEmailSet.empty(),
+        ReviewerSet.empty(),
+        ReviewerByEmailSet.empty(),
         ImmutableList.of(),
         ImmutableList.of(),
         ImmutableList.of(),
@@ -100,6 +102,8 @@ public abstract class ChangeNotesState {
       ListMultimap<PatchSet.Id, PatchSetApproval> approvals,
       ReviewerSet reviewers,
       ReviewerByEmailSet reviewersByEmail,
+      ReviewerSet pendingReviewers,
+      ReviewerByEmailSet pendingReviewersByEmail,
       List<Account.Id> allPastReviewers,
       List<ReviewerStatusUpdate> reviewerUpdates,
       List<SubmitRecord> submitRecords,
@@ -130,13 +134,16 @@ public abstract class ChangeNotesState {
             assignee,
             status,
             isPrivate,
-            workInProgress),
+            workInProgress,
+            hasReviewStarted),
         ImmutableSet.copyOf(pastAssignees),
         ImmutableSet.copyOf(hashtags),
         ImmutableList.copyOf(patchSets.entrySet()),
         ImmutableList.copyOf(approvals.entries()),
         reviewers,
         reviewersByEmail,
+        pendingReviewers,
+        pendingReviewersByEmail,
         ImmutableList.copyOf(allPastReviewers),
         ImmutableList.copyOf(reviewerUpdates),
         ImmutableList.copyOf(submitRecords),
@@ -195,6 +202,9 @@ public abstract class ChangeNotesState {
 
     @Nullable
     abstract Boolean isWorkInProgress();
+
+    @Nullable
+    abstract Boolean hasReviewStarted();
   }
 
   // Only null if NoteDb is disabled.
@@ -220,6 +230,10 @@ public abstract class ChangeNotesState {
 
   abstract ReviewerByEmailSet reviewersByEmail();
 
+  abstract ReviewerSet pendingReviewers();
+
+  abstract ReviewerByEmailSet pendingReviewersByEmail();
+
   abstract ImmutableList<Account.Id> allPastReviewers();
 
   abstract ImmutableList<ReviewerStatusUpdate> reviewerUpdates();
@@ -241,7 +255,8 @@ public abstract class ChangeNotesState {
   @Nullable
   abstract Boolean isWorkInProgress();
 
-  abstract boolean hasReviewStarted();
+  @Nullable
+  abstract Boolean hasReviewStarted();
 
   Change newChange(Project.NameKey project) {
     ChangeColumns c = checkNotNull(columns(), "columns are required");
@@ -302,6 +317,7 @@ public abstract class ChangeNotesState {
     change.setAssignee(c.assignee());
     change.setPrivate(c.isPrivate() == null ? false : c.isPrivate());
     change.setWorkInProgress(c.isWorkInProgress() == null ? false : c.isWorkInProgress());
+    change.setReviewStarted(c.hasReviewStarted() == null ? false : c.hasReviewStarted());
 
     if (!patchSets().isEmpty()) {
       change.setCurrentPatchSet(c.currentPatchSetId(), c.subject(), c.originalSubject());

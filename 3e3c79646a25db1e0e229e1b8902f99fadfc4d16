@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8d11611_1927ac4c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-08T16:55:27Z",
+      "side": 1,
+      "message": "To increase test coverage, fixture should contain actual diff.",
+      "revId": "3e3c79646a25db1e0e229e1b8902f99fadfc4d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

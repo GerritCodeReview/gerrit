@@ -16,6 +16,24 @@
       "revId": "3e3c79646a25db1e0e229e1b8902f99fadfc4d16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62219f3f_b2c44bc3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T17:10:36Z",
+      "side": 1,
+      "message": "...does it not?\n\nDo you mean a fully rendered diff? I don\u0027t think we have that anywhere in this file. I can abandon this and do that, though. Or would putting this suite as a descendant suite of one of the suites higher in the file that has a pretty extensive setup be enough?",
+      "parentUuid": "b8d11611_1927ac4c",
+      "revId": "3e3c79646a25db1e0e229e1b8902f99fadfc4d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

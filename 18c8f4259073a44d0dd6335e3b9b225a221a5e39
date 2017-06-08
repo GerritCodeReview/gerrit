@@ -331,6 +331,30 @@
     },
     {
       "key": {
+        "uuid": "bfb0a245_b189388a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T15:19:20Z",
+      "side": 1,
+      "message": "Why do you think that the test is clearer like this? In my opinion, using an extra repository complicates the setup as a reader can\u0027t be sure that the test isn\u0027t just passing because of that special setup. If I saw that this test is very similar to the previous one (which is working) with an additional line setting the base change to private, I would immediately know that the private flag makes the difference.\n\nIf you\u0027re convinced that the test is easier to understand like this, you can leave it as it is.",
+      "parentUuid": "880d4f4a_89c8d735",
+      "range": {
+        "startLine": 694,
+        "startChar": 14,
+        "endLine": 694,
+        "endChar": 47
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "92817cbf_9cf70b0d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 6

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5a18f05_e9b5e2c0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T15:19:20Z",
+      "side": 1,
+      "message": "I am not a fan of testing too much in one test. Best practices for (unit) tests recommend to write minimal tests which cover only one behavior/effect. In my opinion, this test should be split up into two tests, one with an open change and another one with a merged change.",
+      "range": {
+        "startLine": 683,
+        "startChar": 14,
+        "endLine": 683,
+        "endChar": 40
+      },
+      "revId": "103b59ffec46651a1e84e2b14469a09db92e8c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5add9654_9280dab4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T15:19:20Z",
+      "side": 1,
+      "message": "Unused import.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 56
+      },
+      "revId": "103b59ffec46651a1e84e2b14469a09db92e8c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5d4a699_f1411b22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T15:19:20Z",
+      "side": 1,
+      "message": "Base\n\nThe other error messages start with a capital letter.",
+      "range": {
+        "startLine": 286,
+        "startChar": 51,
+        "endLine": 286,
+        "endChar": 55
+      },
+      "revId": "103b59ffec46651a1e84e2b14469a09db92e8c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

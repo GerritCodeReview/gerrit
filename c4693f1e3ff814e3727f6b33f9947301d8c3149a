@@ -22,6 +22,30 @@
       "revId": "c4693f1e3ff814e3727f6b33f9947301d8c3149a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e70b631a_44f68776",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T17:37:36Z",
+      "side": 0,
+      "message": "IIRC, we had the whole discussion yesterday about removing the enter key from keyBindings entirely \"for a11y reasons\". Is that not correct?",
+      "parentUuid": "fcf83a7e_9a396360",
+      "range": {
+        "startLine": 138,
+        "startChar": 6,
+        "endLine": 138,
+        "endChar": 35
+      },
+      "revId": "c4693f1e3ff814e3727f6b33f9947301d8c3149a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "b4d56412cebbef0cb335a0ecbe6d9e3cc3767f09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea6d3c76_59fbeff2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T23:41:37Z",
+      "side": 1,
+      "message": "it\u0027s getting passed by the parent. Though I suppose for the sake of making it completely self-contained it may make sense. Thoughts?",
+      "parentUuid": "50cbdb5b_98dca049",
+      "revId": "b4d56412cebbef0cb335a0ecbe6d9e3cc3767f09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -23,15 +23,18 @@ limitations under the License.
       sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form,
       label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article,
       aside, canvas, details, embed, figure, figcaption, footer, header, hgroup,
-      menu, nav, output, ruby, section, summary, time, mark, audio, video {
+      main, menu, nav, output, ruby, section, summary, time, mark, audio, video {
         border: 0;
+        box-sizing: border-box;
         font-size: 100%;
         font: inherit;
         margin: 0;
         padding: 0;
         vertical-align: baseline;
       }
-      input {
+      input,
+      iron-autogrow-textarea {
+        box-sizing: border-box;
         margin: 0;
         padding: 0;
       }
@@ -53,7 +56,6 @@ limitations under the License.
         border-collapse: collapse;
         border-spacing: 0;
       }
-
       /* Other Shared Styles*/
       h1 {
         font-size: 2em;

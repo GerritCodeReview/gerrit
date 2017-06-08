@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6fc626e_f034bf25",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T20:29:05Z",
+      "side": 1,
+      "message": "Can this be a single line now?",
+      "range": {
+        "startLine": 50,
+        "startChar": 8,
+        "endLine": 51,
+        "endChar": 26
+      },
+      "revId": "1e785892047a2cf1559ecd4f1065cca16ab6d600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e06e6cf_88c0b90a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T20:29:05Z",
+      "side": 1,
+      "message": "Does this need to be here?",
+      "range": {
+        "startLine": 56,
+        "startChar": 13,
+        "endLine": 56,
+        "endChar": 21
+      },
+      "revId": "1e785892047a2cf1559ecd4f1065cca16ab6d600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b57baa03_2569adb8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T20:29:05Z",
+      "side": 1,
+      "message": "I see you aren\u0027t using strict equality here. Any reason?",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 7
+      },
+      "revId": "1e785892047a2cf1559ecd4f1065cca16ab6d600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

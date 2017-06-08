@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
@@ -316,7 +315,7 @@ limitations under the License.
               change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
           <a
               aria-label$="[[_computeChangePermalinkAriaLabel(_change._number)]]"
-              href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><!--
+              href$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a><!--
        --><template is="dom-if" if="[[_changeStatus]]"><!--
          --> (<!--
          --><span
@@ -471,7 +470,7 @@ limitations under the License.
                 commit-info="[[_commitInfo]]"></gr-commit-info>
             <span class="latestPatchContainer">
               /
-              <a href$="[[getBaseUrl()]]/c/[[_change._number]]">Go to latest patch set</a>
+              <a href$="[[_computeChangeUrl(_change)]]">Go to latest patch set</a>
             </span>
             <span class="downloadContainer desktop">
               /
@@ -553,5 +552,6 @@ limitations under the License.
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
+  <script src="../../../scripts/routing.js"></script>
   <script src="gr-change-view.js"></script>
 </dom-module>

@@ -1,0 +1,395 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31fe3ebf_5e2c58dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "If the base commit represents",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03eb28b6_454803be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "must be either",
+      "range": {
+        "startLine": 13,
+        "startChar": 26,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "581a6921_643ea231",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": ", the",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c44bbdff_8f520520",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "Alternatively, the base commit can",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 21
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad6dbf90_49966746",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 5692,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "If set, it must",
+      "range": {
+        "startLine": 5691,
+        "startChar": 94,
+        "endLine": 5692,
+        "endChar": 5
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19fa5dbd_428b5d90",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "I think we should also have a test which cherry picks a patch set on a merged change.",
+      "range": {
+        "startLine": 674,
+        "startChar": 14,
+        "endLine": 674,
+        "endChar": 40
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5d05b75_c2e98898",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "Can\u0027t this test use similar code as the test cherryPickToChangeRevision() except that dstChange is set to private?",
+      "range": {
+        "startLine": 694,
+        "startChar": 14,
+        "endLine": 694,
+        "endChar": 47
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92817cbf_9cf70b0d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1151,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "Could be static.",
+      "range": {
+        "startLine": 1151,
+        "startChar": 15,
+        "endLine": 1151,
+        "endChar": 37
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dde5eaf_40e9c23a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "Why are some tests for the same REST endpoint in CreateChangeIT and other tests in RevisionIT? If someone only looked at RevisionIT, they might think that a test which cherry picks a patch set on top of a commit which isn\u0027t a change is missing.",
+      "range": {
+        "startLine": 387,
+        "startChar": 14,
+        "endLine": 387,
+        "endChar": 47
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2691f206_0c7eec0e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "What exactly is the intention of this test? As so many assertions are present, it\u0027s hard to see what should really be tested. Is the test about the Change-Id? Should the test ensure that specifying a commit which doesn\u0027t represent the patch set of a change is possible? Please limit the assertions to those which are necessary to reflect the intention of this test.",
+      "range": {
+        "startLine": 399,
+        "startChar": 4,
+        "endLine": 404,
+        "endChar": 80
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1aa017e9_e99da09f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "If \u0027base\u0027 doesn\u0027t represent a SHA-1, an InvalidObjectIdException will be thrown. That exception is a RuntimeException and hence will result in an internal server error. Shouldn\u0027t the REST endpoint provide a better error message if one of the inputs isn\u0027t well-formed?",
+      "range": {
+        "startLine": 280,
+        "startChar": 47,
+        "endLine": 280,
+        "endChar": 72
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2ad2d0c_933f6784",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 287,
+        "startChar": 27,
+        "endLine": 287,
+        "endChar": 35
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42bff9a8_190093b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "If the commit existed but wasn\u0027t part of the specified branch, this exception would be thrown but might be confusing for a user. What about an error message like \u0027Commit %s does not exist on branch %s\u0027?",
+      "range": {
+        "startLine": 290,
+        "startChar": 36,
+        "endLine": 290,
+        "endChar": 60
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7cc57cf_3f5be83e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "UnprocessableEntityException might be a better type.",
+      "range": {
+        "startLine": 290,
+        "startChar": 16,
+        "endLine": 290,
+        "endChar": 35
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b13f8901_b5e94137",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 298,
+        "startChar": 25,
+        "endLine": 298,
+        "endChar": 38
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5822de63_8f1b8c1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "I think we typically use ResourceConflictException for this situation.",
+      "range": {
+        "startLine": 302,
+        "startChar": 14,
+        "endLine": 302,
+        "endChar": 33
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7759df08_6958a155",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-08T12:23:40Z",
+      "side": 1,
+      "message": "Insert \u0027Base\u0027 to make clear to which change the error message is referring.",
+      "range": {
+        "startLine": 303,
+        "startChar": 23,
+        "endLine": 303,
+        "endChar": 29
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

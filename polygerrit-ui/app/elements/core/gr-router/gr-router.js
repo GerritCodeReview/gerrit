@@ -37,6 +37,46 @@
     getReporting().timeEnd('WebComponentsReady');
   });
 
+  function encode(s) {
+    return window.Gerrit.URLEncodingBehavior.encodeURL(s, false);
+  }
+
+  function generateUrl(params) {
+    const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
+    let url = '';
+
+    if (params.view === Gerrit.Routing.View.PROJECT) {
+      url = '/q/project:' + encode(params.id);
+    } else if (params.view === Gerrit.Routing.View.SEARCH) {
+      const operators = [];
+      if (params.project) {
+        operators.push('project:' + encode(params.project));
+      }
+      if (params.branch) {
+        operators.push('branch:' + encode(params.branch));
+      }
+      if (params.topic) {
+        operators.push('topic:"' + encode(params.topic) + '"');
+      }
+      if (params.statuses) {
+        if (params.statuses.length === 1) {
+          operators.push('status:' + encode(params.statuses[0]));
+        } else if (params.statuses.length > 1) {
+          operators.push(
+            '(' + params.statuses.map(s => `status:${encode(s)}`).join(' OR ') +
+            ')');
+        }
+      }
+      url = '/q/' + operators.join('+');
+    } else if (params.view === Gerrit.Routing.View.CHANGE) {
+      url = '/c/' + params.id;
+    } else {
+      throw new Error('Can\'t generate');
+    }
+
+    return base + url;
+  }
+
   function startRouter() {
     const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
     if (base) {
@@ -45,6 +85,8 @@
 
     const restAPI = document.createElement('gr-rest-api-interface');
     const reporting = getReporting();
+
+    Gerrit.Routing.setup(url => { page.show(url); }, generateUrl);
 
     // Middleware
     page((ctx, next) => {

@@ -16,6 +16,24 @@
       "revId": "31822af80b67d5ba68f220e84c8b03ab96b40149",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92aef6d1_1edeab56",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T19:25:14Z",
+      "side": 1,
+      "message": "I don\u0027t believe you can use anything else, because it\u0027s based on computed heights (_getOffsetHeight), which are returned in px. Ideally, would not use px since that\u0027s why the approximation has to occur in EXTRA_HEIGHT.",
+      "parentUuid": "48663790_98af639c",
+      "revId": "31822af80b67d5ba68f220e84c8b03ab96b40149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

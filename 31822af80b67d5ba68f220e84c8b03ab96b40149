@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "1ea3a11c_ad77320e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T19:55:29Z",
+      "side": 1,
+      "message": "height",
+      "range": {
+        "startLine": 11,
+        "startChar": 24,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "31822af80b67d5ba68f220e84c8b03ab96b40149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61808ce3_151b0f42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T19:55:29Z",
+      "side": 1,
+      "message": "changes.",
+      "range": {
+        "startLine": 15,
+        "startChar": 24,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "31822af80b67d5ba68f220e84c8b03ab96b40149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "112a7252_e4337385",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T19:55:29Z",
+      "side": 1,
+      "message": "No indent",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "31822af80b67d5ba68f220e84c8b03ab96b40149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "48663790_98af639c",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1
@@ -31,6 +100,70 @@
       "side": 1,
       "message": "I don\u0027t believe you can use anything else, because it\u0027s based on computed heights (_getOffsetHeight), which are returned in px. Ideally, would not use px since that\u0027s why the approximation has to occur in EXTRA_HEIGHT.",
       "parentUuid": "48663790_98af639c",
+      "revId": "31822af80b67d5ba68f220e84c8b03ab96b40149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86b7eb59_4f8b0ead",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T19:55:29Z",
+      "side": 1,
+      "message": "Hmm. Yeah we use this trick elsewhere in the app too, like for collapsing the commit message. I foresee us running into issues when people use displays with varying zoom level, but I suppose we can cross that bridge when we get to it.",
+      "parentUuid": "92aef6d1_1edeab56",
+      "revId": "31822af80b67d5ba68f220e84c8b03ab96b40149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5e12f50_6516b294",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T19:55:29Z",
+      "side": 1,
+      "message": "// bottom margin.",
+      "range": {
+        "startLine": 1199,
+        "startChar": 9,
+        "endLine": 1199,
+        "endChar": 22
+      },
+      "revId": "31822af80b67d5ba68f220e84c8b03ab96b40149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c09fd16_92919c3e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1245,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T19:55:29Z",
+      "side": 1,
+      "message": "height.",
+      "range": {
+        "startLine": 1245,
+        "startChar": 65,
+        "endLine": 1245,
+        "endChar": 72
+      },
       "revId": "31822af80b67d5ba68f220e84c8b03ab96b40149",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

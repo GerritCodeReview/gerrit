@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16c2b40f_2c529bce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T16:53:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "563ad265_0cce0f05",
+      "range": {
+        "startLine": 39,
+        "startChar": 7,
+        "endLine": 39,
+        "endChar": 14
+      },
+      "revId": "47729806f9a334761829126ae386be2c30591f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ccec83f_ab761788",
         "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
         "patchSetId": 8
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "08a748e0_148d846c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T16:53:22Z",
+      "side": 1,
+      "message": "Ok, for now I\u0027ll add an option that can hide the input element. We may want to revisit this later (the cbn-copy-clipboard element can just display text that when you click on it copies). I\u0027m not sure how we\u0027ll want to use it exactly, and if necessary, we could replace this element or use that instead if future applications make less sense with this.",
+      "parentUuid": "11a11add_7cfc7567",
+      "range": {
+        "startLine": 46,
+        "startChar": 8,
+        "endLine": 51,
+        "endChar": 21
+      },
+      "revId": "47729806f9a334761829126ae386be2c30591f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6f22000_c539f1d9",
         "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
         "patchSetId": 8
@@ -116,6 +164,30 @@
       "revId": "47729806f9a334761829126ae386be2c30591f3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c83c1ae_d33984ed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T16:53:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6f22000_c539f1d9",
+      "range": {
+        "startLine": 52,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 1
+      },
+      "revId": "47729806f9a334761829126ae386be2c30591f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -142,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "aa794e9f_ab305884",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T16:53:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19e4be34_6a1773e0",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "47729806f9a334761829126ae386be2c30591f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51a0333c_c72c6fad",
         "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
         "patchSetId": 8
@@ -162,6 +258,30 @@
       "revId": "47729806f9a334761829126ae386be2c30591f3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6198420_4d063fa8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T16:53:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51a0333c_c72c6fad",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 18
+      },
+      "revId": "47729806f9a334761829126ae386be2c30591f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -223,6 +343,48 @@
     },
     {
       "key": {
+        "uuid": "4182f24a_3364efcf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T16:53:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbc0cad1_ec63cdf4",
+      "revId": "47729806f9a334761829126ae386be2c30591f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02091f3e_f6224b94",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T16:53:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a4c4068_45092ab0",
+      "range": {
+        "startLine": 39,
+        "startChar": 59,
+        "endLine": 39,
+        "endChar": 63
+      },
+      "revId": "47729806f9a334761829126ae386be2c30591f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b663ec5_f3a558e0",
         "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard_test.html",
         "patchSetId": 8
@@ -237,6 +399,24 @@
       "revId": "47729806f9a334761829126ae386be2c30591f3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42d90e65_cfb0de64",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T16:53:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b663ec5_f3a558e0",
+      "revId": "47729806f9a334761829126ae386be2c30591f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

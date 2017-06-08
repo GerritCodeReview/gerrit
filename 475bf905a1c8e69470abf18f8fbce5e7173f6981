@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00ba0b45_691d222a",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-08T23:21:05Z",
+      "side": 1,
+      "message": "Yessss! Thank you! Do more of this!",
+      "revId": "475bf905a1c8e69470abf18f8fbce5e7173f6981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

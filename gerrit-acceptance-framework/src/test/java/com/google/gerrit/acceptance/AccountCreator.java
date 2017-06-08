@@ -119,6 +119,7 @@ public class AccountCreator {
           checkArgument(g != null, "group not found: %s", n);
           AccountGroupMember m = new AccountGroupMember(new AccountGroupMember.Key(id, g.getId()));
           db.accountGroupMembers().insert(Collections.singleton(m));
+          accountCache.evict(id);
         }
       }
 

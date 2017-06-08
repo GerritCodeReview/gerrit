@@ -39,11 +39,13 @@ import com.google.gerrit.server.mail.send.EmailHeader.AddressList;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.After;
@@ -92,6 +94,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     private Message message;
     private StagedUsers users;
     private Map<RecipientType, List<String>> recipients = new HashMap<>();
+    private Set<String> accountedFor = new HashSet<>();
 
     FakeEmailSenderSubject(FailureStrategy failureStrategy, FakeEmailSender target) {
       super(failureStrategy, target);
@@ -131,6 +134,11 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
       // Return a named subject that displays a human-readable table of
       // recipients.
+      return named(recipientMapToString(recipients, e -> users.emailToName(e)));
+    }
+
+    private static String recipientMapToString(
+        Map<RecipientType, List<String>> recipients, Function<String, String> emailToName) {
       StringBuilder buf = new StringBuilder();
       buf.append('[');
       for (RecipientType type : ImmutableList.of(TO, CC, BCC)) {
@@ -140,12 +148,12 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
         String delim = " ";
         for (String r : recipients.get(type)) {
           buf.append(delim);
-          buf.append(users.emailToName(r));
+          buf.append(emailToName.apply(r));
           delim = ", ";
         }
       }
       buf.append("\n]");
-      return named(buf.toString());
+      return buf.toString();
     }
 
     List<String> parseAddresses(Message msg, String headerName) {
@@ -189,6 +197,35 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
             expected ? "notifies" : "doesn't notify",
             "]\n" + type + ": " + users.emailToName(email) + "\n]");
       }
+      if (expected) {
+        accountedFor.add(email);
+      }
+    }
+
+    public FakeEmailSenderSubject noOneElse() {
+      for (Map.Entry<NotifyType, TestAccount> watchEntry : users.watchers.entrySet()) {
+        if (!accountedFor.contains(watchEntry.getValue().email)) {
+          notTo(watchEntry.getKey());
+        }
+      }
+
+      Map<RecipientType, List<String>> unaccountedFor = new HashMap<>();
+      boolean ok = true;
+      for (Map.Entry<RecipientType, List<String>> entry : recipients.entrySet()) {
+        unaccountedFor.put(entry.getKey(), new ArrayList<>());
+        for (String address : entry.getValue()) {
+          if (!accountedFor.contains(address)) {
+            unaccountedFor.get(entry.getKey()).add(address);
+            ok = false;
+          }
+        }
+      }
+      if (!ok) {
+        fail(
+            "was fully tested, missing assertions for: "
+                + recipientMapToString(unaccountedFor, e -> users.emailToName(e)));
+      }
+      return this;
     }
 
     public FakeEmailSenderSubject notTo(String... emails) {
@@ -291,7 +328,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       return account;
     }
 
-    public StagedUsers(List<NotifyType> watches) throws Exception {
+    public StagedUsers() throws Exception {
       synchronized (stagedUsers) {
         if (stagedUsers.containsKey(usersCacheKey())) {
           StagedUsers existing = stagedUsers.get(usersCacheKey());
@@ -319,7 +356,10 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
         setApiUser(watchingProjectOwner);
         watch(allProjects.get(), pwi -> pwi.notifyNewChanges = true);
 
-        for (NotifyType watch : watches) {
+        for (NotifyType watch : NotifyType.values()) {
+          if (watch == NotifyType.ALL) {
+            continue;
+          }
           TestAccount watcher = testAccount(watch.toString());
           setApiUser(watcher);
           watch(
@@ -400,14 +440,13 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     protected final PushOneCommit.Result result;
     public final String changeId;
 
-    StagedPreChange(String ref, List<NotifyType> watches) throws Exception {
-      this(ref, null, watches);
+    StagedPreChange(String ref) throws Exception {
+      this(ref, null);
     }
 
-    StagedPreChange(
-        String ref, @Nullable PushOptionGenerator pushOptionGenerator, List<NotifyType> watches)
+    StagedPreChange(String ref, @Nullable PushOptionGenerator pushOptionGenerator)
         throws Exception {
-      super(watches);
+      super();
       List<String> pushOptions = null;
       if (pushOptionGenerator != null) {
         pushOptions = pushOptionGenerator.pushOptions(this);
@@ -424,19 +463,18 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     }
   }
 
-  protected StagedPreChange stagePreChange(String ref, NotifyType... watches) throws Exception {
-    return new StagedPreChange(ref, ImmutableList.copyOf(watches));
+  protected StagedPreChange stagePreChange(String ref) throws Exception {
+    return new StagedPreChange(ref);
   }
 
   protected StagedPreChange stagePreChange(
-      String ref, @Nullable PushOptionGenerator pushOptionGenerator, NotifyType... watches)
-      throws Exception {
-    return new StagedPreChange(ref, pushOptionGenerator, ImmutableList.copyOf(watches));
+      String ref, @Nullable PushOptionGenerator pushOptionGenerator) throws Exception {
+    return new StagedPreChange(ref, pushOptionGenerator);
   }
 
   protected class StagedChange extends StagedPreChange {
-    StagedChange(String ref, List<NotifyType> watches) throws Exception {
-      super(ref, watches);
+    StagedChange(String ref) throws Exception {
+      super(ref);
 
       setApiUser(starrer);
       gApi.accounts().self().starChange(result.getChangeId());
@@ -447,39 +485,39 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     }
   }
 
-  protected StagedChange stageReviewableChange(NotifyType... watches) throws Exception {
-    return new StagedChange("refs/for/master", ImmutableList.copyOf(watches));
+  protected StagedChange stageReviewableChange() throws Exception {
+    return new StagedChange("refs/for/master");
   }
 
-  protected StagedChange stageWipChange(NotifyType... watches) throws Exception {
-    return new StagedChange("refs/for/master%wip", ImmutableList.copyOf(watches));
+  protected StagedChange stageWipChange() throws Exception {
+    return new StagedChange("refs/for/master%wip");
   }
 
-  protected StagedChange stageReviewableWipChange(NotifyType... watches) throws Exception {
-    StagedChange sc = stageReviewableChange(watches);
+  protected StagedChange stageReviewableWipChange() throws Exception {
+    StagedChange sc = stageReviewableChange();
     setApiUser(sc.owner);
     gApi.changes().id(sc.changeId).setWorkInProgress();
     return sc;
   }
 
-  protected StagedChange stageAbandonedReviewableChange(NotifyType... watches) throws Exception {
-    StagedChange sc = stageReviewableChange(watches);
+  protected StagedChange stageAbandonedReviewableChange() throws Exception {
+    StagedChange sc = stageReviewableChange();
     setApiUser(sc.owner);
     gApi.changes().id(sc.changeId).abandon();
     sender.clear();
     return sc;
   }
 
-  protected StagedChange stageAbandonedReviewableWipChange(NotifyType... watches) throws Exception {
-    StagedChange sc = stageReviewableWipChange(watches);
+  protected StagedChange stageAbandonedReviewableWipChange() throws Exception {
+    StagedChange sc = stageReviewableWipChange();
     setApiUser(sc.owner);
     gApi.changes().id(sc.changeId).abandon();
     sender.clear();
     return sc;
   }
 
-  protected StagedChange stageAbandonedWipChange(NotifyType... watches) throws Exception {
-    StagedChange sc = stageWipChange(watches);
+  protected StagedChange stageAbandonedWipChange() throws Exception {
+    StagedChange sc = stageWipChange();
     setApiUser(sc.owner);
     gApi.changes().id(sc.changeId).abandon();
     sender.clear();

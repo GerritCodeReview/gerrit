@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
-import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
 import org.junit.Before;
@@ -51,20 +50,20 @@ public class MergedSenderIT extends AbstractNotificationTest {
 
   @Test
   public void mergeByOwner() throws Exception {
-    StagedChange sc = stageChange(ALL_COMMENTS, SUBMITTED_CHANGES);
+    StagedChange sc = stageChange();
     merge(sc.changeId, sc.owner);
     assertThat(sender)
         .sent("merged", sc)
-        .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS, SUBMITTED_CHANGES);
+        .bcc(ALL_COMMENTS, SUBMITTED_CHANGES)
+        .noOneElse();
   }
 
   @Test
   public void mergeByOwnerCcingSelf() throws Exception {
-    StagedChange sc = stageChange(ALL_COMMENTS, SUBMITTED_CHANGES);
+    StagedChange sc = stageChange();
     merge(sc.changeId, sc.owner, EmailStrategy.CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("merged", sc)
@@ -72,26 +71,27 @@ public class MergedSenderIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS, SUBMITTED_CHANGES);
+        .bcc(ALL_COMMENTS, SUBMITTED_CHANGES)
+        .noOneElse();
   }
 
   @Test
   public void mergeByReviewer() throws Exception {
-    StagedChange sc = stageChange(ALL_COMMENTS, SUBMITTED_CHANGES);
+    StagedChange sc = stageChange();
     merge(sc.changeId, sc.reviewer);
     assertThat(sender)
         .sent("merged", sc)
-        .notTo(sc.reviewer)
         .to(sc.owner)
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS, SUBMITTED_CHANGES);
+        .bcc(ALL_COMMENTS, SUBMITTED_CHANGES)
+        .noOneElse();
   }
 
   @Test
   public void mergeByReviewerCcingSelf() throws Exception {
-    StagedChange sc = stageChange(ALL_COMMENTS, SUBMITTED_CHANGES);
+    StagedChange sc = stageChange();
     merge(sc.changeId, sc.reviewer, EmailStrategy.CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("merged", sc)
@@ -99,56 +99,47 @@ public class MergedSenderIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS, SUBMITTED_CHANGES);
+        .bcc(ALL_COMMENTS, SUBMITTED_CHANGES)
+        .noOneElse();
   }
 
   @Test
   public void mergeByOtherNotifyOwnerReviewers() throws Exception {
-    StagedChange sc = stageChange(ALL_COMMENTS, SUBMITTED_CHANGES);
+    StagedChange sc = stageChange();
     merge(sc.changeId, other, OWNER_REVIEWERS);
     assertThat(sender)
         .sent("merged", sc)
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(sc.starrer)
-        .notTo(ALL_COMMENTS, SUBMITTED_CHANGES);
+        .noOneElse();
   }
 
   @Test
   public void mergeByOtherNotifyOwner() throws Exception {
-    StagedChange sc = stageChange(ALL_COMMENTS, SUBMITTED_CHANGES);
+    StagedChange sc = stageChange();
     merge(sc.changeId, other, OWNER);
-    assertThat(sender)
-        .sent("merged", sc)
-        .notTo(sc.reviewer, sc.ccer, sc.starrer, other)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(ALL_COMMENTS, SUBMITTED_CHANGES);
+    assertThat(sender).sent("merged", sc).to(sc.owner).noOneElse();
   }
 
   @Test
   public void mergeByOtherCcingSelfNotifyOwner() throws Exception {
-    StagedChange sc = stageChange(ALL_COMMENTS, SUBMITTED_CHANGES);
+    StagedChange sc = stageChange();
     setEmailStrategy(other, EmailStrategy.CC_ON_OWN_COMMENTS);
     merge(sc.changeId, other, OWNER);
-    assertThat(sender)
-        .sent("merged", sc)
-        .to(sc.owner)
-        .notTo(sc.reviewer, sc.ccer, sc.starrer, other)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(ALL_COMMENTS, SUBMITTED_CHANGES);
+    assertThat(sender).sent("merged", sc).to(sc.owner).noOneElse();
   }
 
   @Test
   public void mergeByOtherNotifyNone() throws Exception {
-    StagedChange sc = stageChange(ALL_COMMENTS, SUBMITTED_CHANGES);
+    StagedChange sc = stageChange();
     merge(sc.changeId, other, NONE);
     assertThat(sender).notSent();
   }
 
   @Test
   public void mergeByOtherCcingSelfNotifyNone() throws Exception {
-    StagedChange sc = stageChange(ALL_COMMENTS, SUBMITTED_CHANGES);
+    StagedChange sc = stageChange();
     setEmailStrategy(other, EmailStrategy.CC_ON_OWN_COMMENTS);
     merge(sc.changeId, other, NONE);
     assertThat(sender).notSent();
@@ -179,8 +170,8 @@ public class MergedSenderIT extends AbstractNotificationTest {
     gApi.changes().id(changeId).revision("current").submit(in);
   }
 
-  private StagedChange stageChange(WatchConfig.NotifyType... watches) throws Exception {
-    StagedChange sc = stageReviewableChange(watches);
+  private StagedChange stageChange() throws Exception {
+    StagedChange sc = stageReviewableChange();
     setApiUser(sc.reviewer);
     gApi.changes().id(sc.changeId).revision("current").review(ReviewInput.approve());
     sender.clear();

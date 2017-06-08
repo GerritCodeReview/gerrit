@@ -81,7 +81,7 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
               .to(reviewer)
               .cc(sc.reviewer, sc.ccer)
               .cc(sc.reviewerByEmail, sc.ccerByEmail)
-              .notTo(sc.owner, sc.starrer);
+              .noOneElse();
         });
   }
 
@@ -99,7 +99,7 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
               .to(reviewer)
               .cc(sc.reviewer)
               .cc(sc.reviewerByEmail, sc.ccerByEmail)
-              .notTo(sc.owner, sc.starrer);
+              .noOneElse();
         });
   }
 
@@ -117,7 +117,7 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
               .to(reviewer)
               .cc(sc.owner, sc.reviewer)
               .cc(sc.reviewerByEmail, sc.ccerByEmail)
-              .notTo(sc.starrer);
+              .noOneElse();
         });
   }
 
@@ -136,7 +136,7 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
               .to(reviewer)
               .cc(sc.owner, sc.reviewer)
               .cc(sc.reviewerByEmail, sc.ccerByEmail)
-              .notTo(sc.starrer, other);
+              .noOneElse();
         });
   }
 
@@ -155,7 +155,7 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
               .to(reviewer)
               .cc(sc.owner, sc.reviewer, other)
               .cc(sc.reviewerByEmail, sc.ccerByEmail)
-              .notTo(sc.starrer);
+              .noOneElse();
         });
   }
 
@@ -185,7 +185,7 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
               .to(email)
               .cc(sc.reviewer)
               .cc(sc.reviewerByEmail, sc.ccerByEmail)
-              .notTo(sc.owner, sc.starrer);
+              .noOneElse();
         });
   }
 
@@ -225,7 +225,7 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
               .to(reviewer)
               .cc(sc.reviewer)
               .cc(sc.reviewerByEmail, sc.ccerByEmail)
-              .notTo(sc.owner, sc.starrer);
+              .noOneElse();
         });
   }
 
@@ -242,7 +242,7 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
               .to(reviewer)
               .cc(sc.reviewer, sc.ccer)
               .cc(sc.reviewerByEmail, sc.ccerByEmail)
-              .notTo(sc.owner, sc.starrer);
+              .noOneElse();
         });
   }
 
@@ -260,7 +260,7 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
               .to(reviewer)
               .cc(sc.reviewer)
               .cc(sc.reviewerByEmail, sc.ccerByEmail)
-              .notTo(sc.owner, sc.starrer);
+              .noOneElse();
         });
   }
 

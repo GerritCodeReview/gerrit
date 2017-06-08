@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50cbdb5b_98dca049",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-08T23:19:28Z",
+      "side": 1,
+      "message": "loggedIn isn\u0027t requested by this element? Why?",
+      "revId": "b4d56412cebbef0cb335a0ecbe6d9e3cc3767f09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

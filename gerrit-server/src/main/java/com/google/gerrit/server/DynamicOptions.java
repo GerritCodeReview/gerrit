@@ -197,20 +197,18 @@ public class DynamicOptions {
     }
 
     if (className != null) {
-      List<Module> modules = new ArrayList<>();
       try {
+        List<Module> modules = new ArrayList<>();
+        Injector modulesInjector = injector;
         if (dynamicBean instanceof ModulesClassNamesProvider) {
+          modulesInjector = injector.createChildInjector();
           for (String moduleName :
               ((ModulesClassNamesProvider) dynamicBean).getModulesClassNames()) {
-            try {
-              Class<?> moduleClass = loader.loadClass(moduleName);
-              modules.add((Module) moduleClass.getConstructor().newInstance());
-            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-              // Don't fail the command because of bad option
-            }
+            Class<Module> mClass = (Class<Module>) loader.loadClass(moduleName);
+            modules.add(modulesInjector.getInstance(mClass));
           }
         }
-        return injector.createChildInjector(modules).getInstance(
+        return modulesInjector.createChildInjector(modules).getInstance(
             (Class<DynamicOptions.DynamicBean>) loader.loadClass(className));
       } catch (ClassNotFoundException e) {
         throw new RuntimeException(e);

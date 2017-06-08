@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ccec83f_ab761788",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-08T00:06:55Z",
+      "side": 1,
+      "message": "This seems to depend on having the clipboard content visible in the UI. If we were to use, for example, the cbn-copy-clipboard library, we can avoid this restriction. Is there a reason not to use this library?",
+      "range": {
+        "startLine": 46,
+        "startChar": 8,
+        "endLine": 51,
+        "endChar": 21
+      },
+      "revId": "47729806f9a334761829126ae386be2c30591f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6f22000_c539f1d9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-08T00:06:55Z",
+      "side": 1,
+      "message": "Nit: put these attributes on their own lines to avoid 80 character limit?.",
+      "range": {
+        "startLine": 52,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 1
+      },
+      "revId": "47729806f9a334761829126ae386be2c30591f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a4c4068_45092ab0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-08T00:06:55Z",
+      "side": 1,
+      "message": "Make this a constant.",
+      "range": {
+        "startLine": 39,
+        "startChar": 59,
+        "endLine": 39,
+        "endChar": 63
+      },
+      "revId": "47729806f9a334761829126ae386be2c30591f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92fcfd17_bf4a8bd5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-08T00:06:55Z",
+      "side": 1,
+      "message": "This can use async...\n\n this.async(() \u003d\u003e { e.target.textContent \u003d \u0027copy\u0027; }, 1000);",
+      "revId": "47729806f9a334761829126ae386be2c30591f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

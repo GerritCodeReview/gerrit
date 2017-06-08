@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f20864a0_64008b77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-08T20:13:00Z",
+      "side": 1,
+      "message": "I went for it because it seemed straightforward and potentially useful, but I realize now the use case I had in mind could be satisfied by is:started, so never mind. I\u0027ll just remove the query-side changes from the squashed commit that adds is:started. If we decide later on we actually do want these new operators, this patch should be easy to revive.",
+      "parentUuid": "6925b59e_ea3ca1fb",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "41fb2b157085167914a312f51968f63a40da0c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c772ae48_4d442a99",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "41fb2b157085167914a312f51968f63a40da0c35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dcd7f49_92ba1274",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-08T20:13:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c772ae48_4d442a99",
+      "revId": "41fb2b157085167914a312f51968f63a40da0c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "bd2a40d8_6ea3a09b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-08T20:13:00Z",
+      "side": 1,
+      "message": "Will resolve by squashing.",
+      "parentUuid": "983729a6_c8a9d408",
+      "revId": "41fb2b157085167914a312f51968f63a40da0c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64c394d6_a8643a76",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 3
@@ -73,6 +133,24 @@
       "revId": "41fb2b157085167914a312f51968f63a40da0c35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dc43da1_4f46bb20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-08T20:13:00Z",
+      "side": 1,
+      "message": "Added commentary to explain in squashed commit, and added tests.",
+      "parentUuid": "64c394d6_a8643a76",
+      "revId": "41fb2b157085167914a312f51968f63a40da0c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "bb785250_6cf911f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-08T20:13:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b209dcdb_d2e8e91d",
+      "revId": "41fb2b157085167914a312f51968f63a40da0c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1402480_3a0be734",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 3
@@ -107,6 +203,24 @@
       "revId": "41fb2b157085167914a312f51968f63a40da0c35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4e5e57f_8e8f25eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-08T20:13:00Z",
+      "side": 1,
+      "message": "Rolled back.",
+      "parentUuid": "a1402480_3a0be734",
+      "revId": "41fb2b157085167914a312f51968f63a40da0c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

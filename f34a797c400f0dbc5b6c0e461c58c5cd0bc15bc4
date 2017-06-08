@@ -93,6 +93,30 @@
       "revId": "f34a797c400f0dbc5b6c0e461c58c5cd0bc15bc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "921d371e_07723892",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T18:51:19Z",
+      "side": 1,
+      "message": "Fair enough. It\u0027s indisputably more space efficient, though.",
+      "parentUuid": "f4347c93_aced60eb",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 31
+      },
+      "revId": "f34a797c400f0dbc5b6c0e461c58c5cd0bc15bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

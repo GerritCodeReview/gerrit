@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.ReviewerState;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,21 +39,21 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
 
   @Test
   public void deleteReviewerFromReviewableChange() throws Exception {
-    StagedChange sc = stageReviewableChange();
+    StagedChange sc = stageReviewableChangeWithExtraReviewer();
     removeReviewer(sc, extraReviewer);
     assertThat(sender)
         .sent("deleteReviewer", sc)
-        .notTo(sc.owner)
         .to(extraReviewer)
         .cc(extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
   public void deleteReviewerFromReviewableChangeByOwnerCcingSelf() throws Exception {
-    StagedChange sc = stageReviewableChange();
+    StagedChange sc = stageReviewableChangeWithExtraReviewer();
     setEmailStrategy(sc.owner, EmailStrategy.CC_ON_OWN_COMMENTS);
     removeReviewer(sc, extraReviewer);
     assertThat(sender)
@@ -63,12 +62,13 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
         .cc(extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
   public void deleteReviewerFromReviewableChangeByAdmin() throws Exception {
-    StagedChange sc = stageReviewableChange();
+    StagedChange sc = stageReviewableChangeWithExtraReviewer();
     setApiUser(admin);
     removeReviewer(sc, extraReviewer);
     assertThat(sender)
@@ -77,12 +77,13 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
         .cc(extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
   public void deleteReviewerFromReviewableChangeByAdminCcingSelf() throws Exception {
-    StagedChange sc = stageReviewableChange();
+    StagedChange sc = stageReviewableChangeWithExtraReviewer();
     setEmailStrategy(admin, EmailStrategy.CC_ON_OWN_COMMENTS);
     setApiUser(admin);
     removeReviewer(sc, extraReviewer);
@@ -92,74 +93,61 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
         .cc(admin, extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
   public void deleteCcerFromReviewableChange() throws Exception {
-    StagedChange sc = stageReviewableChange();
+    StagedChange sc = stageReviewableChangeWithExtraReviewer();
     removeReviewer(sc, extraCcer);
     assertThat(sender)
         .sent("deleteReviewer", sc)
-        .notTo(sc.owner)
         .to(extraCcer)
         .cc(extraReviewer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
   public void deleteReviewerFromReviewableChangeNotifyOwnerReviewers() throws Exception {
-    StagedChange sc = stageReviewableChange();
+    StagedChange sc = stageReviewableChangeWithExtraReviewer();
     removeReviewer(sc, extraReviewer, NotifyHandling.OWNER_REVIEWERS);
     assertThat(sender)
         .sent("deleteReviewer", sc)
-        .notTo(sc.owner)
         .to(extraReviewer)
         .cc(extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(sc.starrer)
-        .notTo(ALL_COMMENTS);
+        .noOneElse();
   }
 
   @Test
   public void deleteReviewerFromReviewableChangeNotifyOwner() throws Exception {
-    StagedChange sc = stageReviewableChange();
+    StagedChange sc = stageReviewableChangeWithExtraReviewer();
     removeReviewer(sc, extraReviewer, NotifyHandling.OWNER);
-    assertThat(sender)
-        .sent("deleteReviewer", sc)
-        .to(extraReviewer)
-        .notTo(extraCcer, sc.owner, sc.reviewer, sc.ccer)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(sc.starrer)
-        .notTo(ALL_COMMENTS);
+    assertThat(sender).sent("deleteReviewer", sc).to(extraReviewer).noOneElse();
   }
 
   @Test
   public void deleteReviewerFromReviewableChangeByOwnerCcingSelfNotifyOwner() throws Exception {
-    StagedChange sc = stageReviewableChange();
+    StagedChange sc = stageReviewableChangeWithExtraReviewer();
     setEmailStrategy(sc.owner, EmailStrategy.CC_ON_OWN_COMMENTS);
     removeReviewer(sc, extraReviewer, NotifyHandling.OWNER);
-    assertThat(sender)
-        .sent("deleteReviewer", sc)
-        .to(sc.owner, extraReviewer)
-        .notTo(extraCcer, sc.reviewer, sc.ccer)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(sc.starrer)
-        .notTo(ALL_COMMENTS);
+    assertThat(sender).sent("deleteReviewer", sc).to(sc.owner, extraReviewer).noOneElse();
   }
 
   @Test
   public void deleteReviewerFromReviewableChangeNotifyNone() throws Exception {
-    StagedChange sc = stageReviewableChange();
+    StagedChange sc = stageReviewableChangeWithExtraReviewer();
     removeReviewer(sc, extraReviewer, NotifyHandling.NONE);
     assertThat(sender).notSent();
   }
 
   @Test
   public void deleteReviewerFromReviewableChangeByOwnerCcingSelfNotifyNone() throws Exception {
-    StagedChange sc = stageReviewableChange();
+    StagedChange sc = stageReviewableChangeWithExtraReviewer();
     setEmailStrategy(sc.owner, EmailStrategy.CC_ON_OWN_COMMENTS);
     removeReviewer(sc, extraReviewer, NotifyHandling.NONE);
     assertThat(sender).notSent();
@@ -167,46 +155,41 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
 
   @Test
   public void deleteReviewerFromReviewableWipChange() throws Exception {
-    StagedChange sc = stageReviewableWipChange();
+    StagedChange sc = stageReviewableWipChangeWithExtraReviewer();
     removeReviewer(sc, extraReviewer);
     assertThat(sender).notSent();
   }
 
   @Test
   public void deleteReviewerFromWipChange() throws Exception {
-    StagedChange sc = stageWipChange();
+    StagedChange sc = stageWipChangeWithExtraReviewer();
     removeReviewer(sc, extraReviewer);
     assertThat(sender).notSent();
   }
 
   @Test
   public void deleteReviewerFromWipChangeNotifyAll() throws Exception {
-    StagedChange sc = stageWipChange();
+    StagedChange sc = stageWipChangeWithExtraReviewer();
     removeReviewer(sc, extraReviewer, NotifyHandling.ALL);
     assertThat(sender)
         .sent("deleteReviewer", sc)
-        .notTo(sc.owner)
         .to(extraReviewer)
         .cc(extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
   public void deleteReviewerWithApprovalFromWipChange() throws Exception {
-    StagedChange sc = stageWipChange();
+    StagedChange sc = stageWipChangeWithExtraReviewer();
     setApiUser(extraReviewer);
     gApi.changes().id(sc.changeId).revision("current").review(ReviewInput.recommend());
     sender.clear();
     setApiUser(sc.owner);
     removeReviewer(sc, extraReviewer);
-    assertThat(sender)
-        .sent("deleteReviewer", sc)
-        .to(extraReviewer)
-        .notTo(sc.owner, sc.ccer, sc.starrer, extraCcer)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(ALL_COMMENTS);
+    assertThat(sender).sent("deleteReviewer", sc).to(extraReviewer).noOneElse();
   }
 
   @Test
@@ -223,17 +206,17 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
   @Test
   public void deleteReviewerByEmailFromWipChangeInNoteDb() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
-    StagedChange sc = stageWipChange();
+    StagedChange sc = stageWipChangeWithExtraReviewer();
     gApi.changes().id(sc.changeId).reviewer(sc.reviewerByEmail).remove();
     assertThat(sender).notSent();
   }
 
   private interface Stager {
-    StagedChange stage(NotifyType... watches) throws Exception;
+    StagedChange stage() throws Exception;
   }
 
-  private StagedChange stageChange(Stager stager) throws Exception {
-    StagedChange sc = stager.stage(ALL_COMMENTS);
+  private StagedChange stageChangeWithExtraReviewer(Stager stager) throws Exception {
+    StagedChange sc = stager.stage();
     ReviewInput in =
         ReviewInput.noScore()
             .reviewer(extraReviewer.email)
@@ -242,16 +225,16 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
     return sc;
   }
 
-  private StagedChange stageReviewableChange() throws Exception {
-    return stageChange(this::stageReviewableChange);
+  private StagedChange stageReviewableChangeWithExtraReviewer() throws Exception {
+    return stageChangeWithExtraReviewer(this::stageReviewableChange);
   }
 
-  private StagedChange stageReviewableWipChange() throws Exception {
-    return stageChange(this::stageReviewableWipChange);
+  private StagedChange stageReviewableWipChangeWithExtraReviewer() throws Exception {
+    return stageChangeWithExtraReviewer(this::stageReviewableWipChange);
   }
 
-  private StagedChange stageWipChange() throws Exception {
-    return stageChange(this::stageWipChange);
+  private StagedChange stageWipChangeWithExtraReviewer() throws Exception {
+    return stageChangeWithExtraReviewer(this::stageWipChange);
   }
 
   private void removeReviewer(StagedChange sc, TestAccount account) throws Exception {

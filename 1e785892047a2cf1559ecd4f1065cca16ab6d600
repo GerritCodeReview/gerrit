@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8d1d6805_ab6899dd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T20:41:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6fc626e_f034bf25",
+      "range": {
+        "startLine": 50,
+        "startChar": 8,
+        "endLine": 51,
+        "endChar": 26
+      },
+      "revId": "1e785892047a2cf1559ecd4f1065cca16ab6d600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e06e6cf_88c0b90a",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-08T20:29:05Z",
       "side": 1,
       "message": "Does this need to be here?",
+      "range": {
+        "startLine": 56,
+        "startChar": 13,
+        "endLine": 56,
+        "endChar": 21
+      },
+      "revId": "1e785892047a2cf1559ecd4f1065cca16ab6d600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25927ae4_959a08a9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T20:41:15Z",
+      "side": 1,
+      "message": "It is here for consistent styling across sections. I thought about wrapping in a div with a class, but felt this was easier.",
+      "parentUuid": "9e06e6cf_88c0b90a",
       "range": {
         "startLine": 56,
         "startChar": 13,
@@ -68,6 +116,30 @@
       "revId": "1e785892047a2cf1559ecd4f1065cca16ab6d600",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c70464d_7f1481b0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T20:41:15Z",
+      "side": 1,
+      "message": "nope, done.",
+      "parentUuid": "b57baa03_2569adb8",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 7
+      },
+      "revId": "1e785892047a2cf1559ecd4f1065cca16ab6d600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

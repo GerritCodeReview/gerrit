@@ -135,7 +135,7 @@
       'c': '_handleCKey',
       '[': '_handleLeftBracketKey',
       ']': '_handleRightBracketKey',
-      'o enter': '_handleEnterKey',
+      'o': '_handleOKey',
       'n': '_handleNKey',
       'p': '_handlePKey',
       'shift+a': '_handleCapitalAKey',
@@ -537,13 +537,9 @@
       this._openSelectedFile(0);
     },
 
-    _handleEnterKey(e) {
+    _handleOKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
-
-      // Use native handling if an anchor is selected. @see Issue 5754
-      if (e.detail && e.detail.keyboardEvent && e.detail.keyboardEvent.target &&
-          e.detail.keyboardEvent.target.tagName === 'A') { return; }
 
       e.preventDefault();
       if (this._showInlineDiffs) {

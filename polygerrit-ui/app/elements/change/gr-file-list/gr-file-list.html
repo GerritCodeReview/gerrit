@@ -246,7 +246,7 @@ limitations under the License.
           as="file"
           initial-count="[[fileListIncrement]]"
           target-framerate="1">
-        <div class="file-row row" data-path$="[[file.__path]]">
+        <div class="file-row row" data-path$="[[file.__path]]" tabindex="-1">
           <div class="reviewed" hidden$="[[!_loggedIn]]" hidden>
             <input type="checkbox" checked="[[file.isReviewed]]"
                 class="reviewed" aria-label="Reviewed checkbox">
@@ -401,6 +401,7 @@ limitations under the License.
     <gr-cursor-manager
         id="fileCursor"
         scroll-behavior="keep-visible"
+        focus-on-move
         cursor-target-class="selected"></gr-cursor-manager>
     <gr-reporting id="reporting"></gr-reporting>
   </template>

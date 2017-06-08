@@ -16,6 +16,24 @@
       "revId": "3190c9d730810c65efad21c55aa314a822c30c8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaa04d3c_9e3f7caf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/RevertedSenderIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-08T21:25:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8fb9cdc_a37fdcae",
+      "revId": "3190c9d730810c65efad21c55aa314a822c30c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bc803801_f7cef74e",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T19:23:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "377bbab4_2fadfdff",
+      "range": {
+        "startLine": 137,
+        "startChar": 26,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "e5db05cf74ad87b6ed7d80f0a47f231918642321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1cdb307_1f20b8a6",
         "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog_test.html",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "e5db05cf74ad87b6ed7d80f0a47f231918642321",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea3c53dc_71f32002",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T19:23:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1cdb307_1f20b8a6",
+      "range": {
+        "startLine": 168,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 0
+      },
+      "revId": "e5db05cf74ad87b6ed7d80f0a47f231918642321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

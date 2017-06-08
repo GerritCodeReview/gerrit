@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4ff2a8b_b2b2c6bf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T21:47:32Z",
+      "side": 1,
+      "message": "Capitalize?",
+      "range": {
+        "startLine": 58,
+        "startChar": 10,
+        "endLine": 58,
+        "endChar": 14
+      },
+      "revId": "f817c08816b78fac57eab728c8b5ac355718b38e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46dbefa4_68c1fe84",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T21:47:32Z",
+      "side": 1,
+      "message": "Template string here? Why?",
+      "revId": "f817c08816b78fac57eab728c8b5ac355718b38e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aca56b1b_7838d036",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T21:47:32Z",
+      "side": 1,
+      "message": "Sandbox?",
+      "range": {
+        "startLine": 50,
+        "startChar": 27,
+        "endLine": 50,
+        "endChar": 32
+      },
+      "revId": "f817c08816b78fac57eab728c8b5ac355718b38e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

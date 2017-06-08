@@ -37,7 +37,11 @@
     getReporting().timeEnd('WebComponentsReady');
   });
 
-  function startRouter() {
+  function encode(s) {
+    return window.Gerrit.URLEncodingBehavior.encodeURL(s, false);
+  }
+
+  function startRouter(generateUrl) {
     const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
     if (base) {
       page.base(base);
@@ -45,6 +49,8 @@
 
     const restAPI = document.createElement('gr-rest-api-interface');
     const reporting = getReporting();
+
+    Gerrit.Nav.setup(url => { page.show(url); }, generateUrl);
 
     // Middleware
     page((ctx, next) => {
@@ -324,7 +330,44 @@
     is: 'gr-router',
     start() {
       if (!app) { return; }
-      startRouter();
+      startRouter(this._generateUrl);
+    },
+
+    _generateUrl(params) {
+      const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
+      let url = '';
+
+      if (params.view === Gerrit.Nav.View.SEARCH) {
+        const operators = [];
+        if (params.owner) {
+          operators.push('owner:' + encode(params.owner));
+        }
+        if (params.project) {
+          operators.push('project:' + encode(params.project));
+        }
+        if (params.branch) {
+          operators.push('branch:' + encode(params.branch));
+        }
+        if (params.topic) {
+          operators.push('topic:"' + encode(params.topic) + '"');
+        }
+        if (params.statuses) {
+          if (params.statuses.length === 1) {
+            operators.push('status:' + encode(params.statuses[0]));
+          } else if (params.statuses.length > 1) {
+            operators.push(
+              '(' + params.statuses.map(s => `status:${encode(s)}`).join(' OR ') +
+              ')');
+          }
+        }
+        url = '/q/' + operators.join('+');
+      } else if (params.view === Gerrit.Nav.View.CHANGE) {
+        url = '/c/' + params.id;
+      } else {
+        throw new Error('Can\'t generate');
+      }
+
+      return base + url;
     },
   });
 })();

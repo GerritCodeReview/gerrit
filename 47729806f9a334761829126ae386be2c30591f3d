@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "78c18cce_107078c8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T00:12:18Z",
+      "side": 1,
+      "message": "I suppose that we could. However, behind the scenes, all cbn-copy-clipboard is doing is creating a throw-away textarea. If we sometimes *do* want to display it, it may make sense to just have an option of this input being styled to be hidden.\n\nhttps://github.com/CBN-IT/cbn-copy-clipboard/blob/master/cbn-copy-clipboard-behavior.html#L22",
+      "parentUuid": "0ccec83f_ab761788",
+      "range": {
+        "startLine": 46,
+        "startChar": 8,
+        "endLine": 51,
+        "endChar": 21
+      },
+      "revId": "47729806f9a334761829126ae386be2c30591f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6f22000_c539f1d9",
         "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
         "patchSetId": 8

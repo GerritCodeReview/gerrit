@@ -323,10 +323,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String topic = "my/topic";
     PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%cc=" + user.email);
     r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, topic);
+    r.assertChange(
+        Change.Status.NEW,
+        topic,
+        ImmutableList.of(),
+        ImmutableList.of(user));
 
     // cc several users
-    TestAccount user2 = accounts.create("another-user", "another.user@example.com", "Another User");
     r =
         pushTo(
             "refs/for/master/"
@@ -336,9 +339,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
                 + ",cc="
                 + user.email
                 + ",cc="
-                + user2.email);
+                + accounts.user2().email);
     r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, topic);
+    // Check that admin isn't CC'd as they own the change
+    r.assertChange(
+        Change.Status.NEW,
+        topic,
+        ImmutableList.of(),
+        ImmutableList.of(user, accounts.user2()));
 
     // cc non-existing user
     String nonExistingEmail = "non.existing@example.com";

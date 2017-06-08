@@ -32,10 +32,6 @@ public class TestAccount {
     return accounts.stream().map(a -> a.id).collect(toList());
   }
 
-  public static List<Account.Id> ids(TestAccount... accounts) {
-    return ids(Arrays.asList(accounts));
-  }
-
   public static List<String> names(List<TestAccount> accounts) {
     return accounts.stream().map(a -> a.fullName).collect(toList());
   }

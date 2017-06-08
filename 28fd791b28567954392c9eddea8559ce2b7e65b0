@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d24c2bc2_4c8bc74f",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/PushOneCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-08T12:45:03Z",
+      "side": 1,
+      "message": "Done.\n\nI was kind of on the fence with this and didn\u0027t do it initially since this class wasn\u0027t aware of TestNotesMigration and passing that in seemed less favorable compared to a boolean that expressed what is triggered. I was reluctant to adding TestNotesMigration to this class for all the constructors it has, but it seems just fine.",
+      "parentUuid": "6b4913fc_e897c206",
+      "range": {
+        "startLine": 422,
+        "startChar": 8,
+        "endLine": 422,
+        "endChar": 25
+      },
+      "revId": "28fd791b28567954392c9eddea8559ce2b7e65b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a21fb15c_7f503cbc",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/PushOneCommit.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-07T14:06:30Z",
       "side": 1,
       "message": "Because of this change, TestAccount#ids(TestAccount...) isn\u0027t used anymore. I wonder whether we should remove that method.",
+      "range": {
+        "startLine": 442,
+        "startChar": 47,
+        "endLine": 442,
+        "endChar": 64
+      },
+      "revId": "28fd791b28567954392c9eddea8559ce2b7e65b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ed01ed6_86dac4d4",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/PushOneCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-08T12:45:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a21fb15c_7f503cbc",
       "range": {
         "startLine": 442,
         "startChar": 47,
@@ -68,6 +116,30 @@
       "revId": "28fd791b28567954392c9eddea8559ce2b7e65b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aac4840c_76a6fb97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-08T12:45:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15e9b9c9_de6d5061",
+      "range": {
+        "startLine": 418,
+        "startChar": 51,
+        "endLine": 418,
+        "endChar": 58
+      },
+      "revId": "28fd791b28567954392c9eddea8559ce2b7e65b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

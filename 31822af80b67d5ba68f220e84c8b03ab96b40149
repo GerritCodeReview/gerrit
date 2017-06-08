@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48663790_98af639c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T19:21:50Z",
+      "side": 1,
+      "message": "Curious... Are px the best unit for this? Would some relative unit work better, or just as well?",
+      "revId": "31822af80b67d5ba68f220e84c8b03ab96b40149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

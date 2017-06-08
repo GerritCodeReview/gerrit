@@ -238,7 +238,9 @@ public class CapabilityControl {
     if (perm instanceof GlobalPermission) {
       return can((GlobalPermission) perm);
     } else if (perm instanceof PluginPermission) {
-      return canPerform(perm.permissionName()) || isAdmin_DoNotUse();
+      PluginPermission pluginPermission = (PluginPermission) perm;
+      return canPerform(pluginPermission.permissionName())
+          || (pluginPermission.fallBackToAdmin() && isAdmin_DoNotUse());
     }
     throw new PermissionBackendException(perm + " unsupported");
   }

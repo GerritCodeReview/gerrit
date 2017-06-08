@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "273199d9_b6baed83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-08T12:21:30Z",
+      "side": 1,
+      "message": "Usually we do:\n\n  git merge --log\n\nso that the commit message includes the list of commits that are merged in.",
+      "revId": "407d2ecc89cb83cddbbc0543a191b5a6787b003b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "51119fc1b1ff085c22699cdfdaa2ab781fd53468",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71fa55f6_9219020a",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-08T21:45:25Z",
+      "side": 1,
+      "message": "\u003e What will this be used for?\n\nThis will be used to provide PolyGerrit version info in addition to the Gerrit version in cases they might differ. For example, it can be a PolyGerrit build number if the PG frontend is built separately from the server.\n\n\u003e That wont work, i doint see this being added to the other file that defines soy variables.\n\nBecause the versionInfo is defined as an optional parameter (using `@param?` instead of `@param`) it does not need to be defined by IndexServlet.java.\n\nWe may want to update the `canonicalPath` to work this way too, since it\u0027s a bit more convenient.",
+      "parentUuid": "65a2951b_e7aeacf6",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 67
+      },
+      "revId": "51119fc1b1ff085c22699cdfdaa2ab781fd53468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

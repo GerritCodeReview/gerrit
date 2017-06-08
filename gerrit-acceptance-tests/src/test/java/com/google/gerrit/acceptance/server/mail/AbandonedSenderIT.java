@@ -41,20 +41,20 @@ public class AbandonedSenderIT extends AbstractNotificationTest {
 
   @Test
   public void abandonReviewableChangeByOwner() throws Exception {
-    StagedChange sc = stageReviewableChange(ABANDONED_CHANGES);
+    StagedChange sc = stageReviewableChange();
     abandon(sc.changeId, sc.owner);
     assertThat(sender)
         .sent("abandon", sc)
-        .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ABANDONED_CHANGES);
+        .bcc(ABANDONED_CHANGES)
+        .noOneElse();
   }
 
   @Test
   public void abandonReviewableChangeByOwnerCcingSelf() throws Exception {
-    StagedChange sc = stageReviewableChange(ABANDONED_CHANGES);
+    StagedChange sc = stageReviewableChange();
     abandon(sc.changeId, sc.owner, CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("abandon", sc)
@@ -62,27 +62,28 @@ public class AbandonedSenderIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ABANDONED_CHANGES);
+        .bcc(ABANDONED_CHANGES)
+        .noOneElse();
   }
 
   @Test
   public void abandonReviewableChangeByOther() throws Exception {
-    StagedChange sc = stageReviewableChange(ABANDONED_CHANGES);
+    StagedChange sc = stageReviewableChange();
     TestAccount other = accountCreator.create("other", "other@example.com", "other");
     abandon(sc.changeId, other);
     assertThat(sender)
         .sent("abandon", sc)
-        .notTo(other)
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ABANDONED_CHANGES);
+        .bcc(ABANDONED_CHANGES)
+        .noOneElse();
   }
 
   @Test
   public void abandonReviewableChangeByOtherCcingSelf() throws Exception {
-    StagedChange sc = stageReviewableChange(ABANDONED_CHANGES);
+    StagedChange sc = stageReviewableChange();
     TestAccount other = accountCreator.create("other", "other@example.com", "other");
     abandon(sc.changeId, other, CC_ON_OWN_COMMENTS);
     assertThat(sender)
@@ -91,31 +92,31 @@ public class AbandonedSenderIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, other)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ABANDONED_CHANGES);
+        .bcc(ABANDONED_CHANGES)
+        .noOneElse();
   }
 
   @Test
   public void abandonReviewableChangeNotifyOwnersReviewers() throws Exception {
-    StagedChange sc = stageReviewableChange(ABANDONED_CHANGES);
+    StagedChange sc = stageReviewableChange();
     abandon(sc.changeId, sc.owner, OWNER_REVIEWERS);
     assertThat(sender)
         .sent("abandon", sc)
-        .notTo(sc.owner, sc.starrer)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(ABANDONED_CHANGES);
+        .noOneElse();
   }
 
   @Test
   public void abandonReviewableChangeNotifyOwner() throws Exception {
-    StagedChange sc = stageReviewableChange(ABANDONED_CHANGES);
+    StagedChange sc = stageReviewableChange();
     abandon(sc.changeId, sc.owner, OWNER);
     assertThat(sender).notSent();
   }
 
   @Test
   public void abandonReviewableChangeNotifyOwnerCcingSelf() throws Exception {
-    StagedChange sc = stageReviewableChange(ABANDONED_CHANGES);
+    StagedChange sc = stageReviewableChange();
     abandon(sc.changeId, sc.owner, CC_ON_OWN_COMMENTS, OWNER);
     // Self-CC applies *after* need for sending notification is determined.
     // Since there are no recipients before including the user taking action,
@@ -125,63 +126,57 @@ public class AbandonedSenderIT extends AbstractNotificationTest {
 
   @Test
   public void abandonReviewableChangeByOtherCcingSelfNotifyOwner() throws Exception {
-    StagedChange sc = stageReviewableChange(ABANDONED_CHANGES);
+    StagedChange sc = stageReviewableChange();
     TestAccount other = accountCreator.create("other", "other@example.com", "other");
     abandon(sc.changeId, other, CC_ON_OWN_COMMENTS, OWNER);
-    assertThat(sender)
-        .sent("abandon", sc)
-        .to(sc.owner)
-        .cc(other)
-        .notTo(sc.reviewer, sc.ccer, sc.starrer)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(ABANDONED_CHANGES);
+    assertThat(sender).sent("abandon", sc).to(sc.owner).cc(other).noOneElse();
   }
 
   @Test
   public void abandonReviewableChangeNotifyNone() throws Exception {
-    StagedChange sc = stageReviewableChange(ABANDONED_CHANGES);
+    StagedChange sc = stageReviewableChange();
     abandon(sc.changeId, sc.owner, NONE);
     assertThat(sender).notSent();
   }
 
   @Test
   public void abandonReviewableChangeNotifyNoneCcingSelf() throws Exception {
-    StagedChange sc = stageReviewableChange(ABANDONED_CHANGES);
+    StagedChange sc = stageReviewableChange();
     abandon(sc.changeId, sc.owner, CC_ON_OWN_COMMENTS, NONE);
     assertThat(sender).notSent();
   }
 
   @Test
   public void abandonReviewableWipChange() throws Exception {
-    StagedChange sc = stageReviewableWipChange(ABANDONED_CHANGES);
+    StagedChange sc = stageReviewableWipChange();
     abandon(sc.changeId, sc.owner);
     assertThat(sender)
         .sent("abandon", sc)
-        .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ABANDONED_CHANGES);
+        .bcc(ABANDONED_CHANGES)
+        .noOneElse();
   }
 
   @Test
   public void abandonWipChange() throws Exception {
-    StagedChange sc = stageWipChange(ABANDONED_CHANGES);
+    StagedChange sc = stageWipChange();
     abandon(sc.changeId, sc.owner);
     assertThat(sender).notSent();
   }
 
   @Test
   public void abandonWipChangeNotifyAll() throws Exception {
-    StagedChange sc = stageWipChange(ABANDONED_CHANGES);
+    StagedChange sc = stageWipChange();
     abandon(sc.changeId, sc.owner, ALL);
     assertThat(sender)
         .sent("abandon", sc)
-        .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ABANDONED_CHANGES);
+        .bcc(ABANDONED_CHANGES)
+        .noOneElse();
   }
 
   private void abandon(String changeId, TestAccount by) throws Exception {

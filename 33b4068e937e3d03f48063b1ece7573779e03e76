@@ -22,6 +22,30 @@
       "revId": "33b4068e937e3d03f48063b1ece7573779e03e76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "499b71e7_2c12ee8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-08T12:47:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04e3c0ec_bbacdaf5",
+      "range": {
+        "startLine": 219,
+        "startChar": 28,
+        "endLine": 220,
+        "endChar": 64
+      },
+      "revId": "33b4068e937e3d03f48063b1ece7573779e03e76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "ff784b22_e83ab585",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-08T20:44:21Z",
+      "side": 1,
+      "message": "¯\\_(ツ)_/¯\n\nMay be better for a11y, too.",
+      "parentUuid": "25927ae4_959a08a9",
+      "range": {
+        "startLine": 56,
+        "startChar": 13,
+        "endLine": 56,
+        "endChar": 21
+      },
+      "revId": "1e785892047a2cf1559ecd4f1065cca16ab6d600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b57baa03_2569adb8",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project_test.html",
         "patchSetId": 6

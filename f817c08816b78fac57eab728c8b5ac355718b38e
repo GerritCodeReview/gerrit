@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f8dbed78_fd1da12c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T21:54:06Z",
+      "side": 1,
+      "message": "http://imgur.com/a/XPe5y not sure",
+      "parentUuid": "f4ff2a8b_b2b2c6bf",
+      "range": {
+        "startLine": 58,
+        "startChar": 10,
+        "endLine": 58,
+        "endChar": 14
+      },
+      "revId": "f817c08816b78fac57eab728c8b5ac355718b38e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "46dbefa4_68c1fe84",
         "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard_test.html",
         "patchSetId": 12
@@ -39,6 +63,24 @@
       "revId": "f817c08816b78fac57eab728c8b5ac355718b38e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88b3eb13_1c03b976",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T21:54:06Z",
+      "side": 1,
+      "message": "It allows for easy multiline strings.",
+      "parentUuid": "46dbefa4_68c1fe84",
+      "revId": "f817c08816b78fac57eab728c8b5ac355718b38e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "f817c08816b78fac57eab728c8b5ac355718b38e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e63be161_8b732e21",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T21:54:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aca56b1b_7838d036",
+      "range": {
+        "startLine": 50,
+        "startChar": 27,
+        "endLine": 50,
+        "endChar": 32
+      },
+      "revId": "f817c08816b78fac57eab728c8b5ac355718b38e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

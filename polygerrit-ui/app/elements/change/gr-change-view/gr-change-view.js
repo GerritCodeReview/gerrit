@@ -183,7 +183,6 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,
@@ -625,8 +624,8 @@
       page.show(this.changePath(this._changeNum) + '/' + patchExpr);
     },
 
-    _computeChangePermalink(changeNum) {
-      return this.getBaseUrl() + '/' + changeNum;
+    _computeChangeUrl(change) {
+      return Gerrit.Nav.getUrlForChange(change);
     },
 
     _computeChangeStatus(change, patchNum) {
@@ -1277,8 +1276,7 @@
                   action: 'Reload',
                   callback: function() {
                     // Load the current change without any patch range.
-                    location.href = this.getBaseUrl() + '/c/' +
-                        this._change._number;
+                    Gerrit.Nav.navigateToChange(this._change);
                   }.bind(this),
                 });
               }

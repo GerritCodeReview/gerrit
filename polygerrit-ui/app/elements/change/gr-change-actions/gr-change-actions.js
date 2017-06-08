@@ -842,9 +842,8 @@
                     'uploaded to this change.',
                 action: 'Reload',
                 callback: () => {
-                    // Load the current change without any patch range.
-                  location.href = `${this.getBaseUrl()}/c/${
-                      this.change._number}`;
+                  // Load the current change without any patch range.
+                  Gerrit.Nav.navigateToChange(this.change);
                 },
               });
               cleanupFn();

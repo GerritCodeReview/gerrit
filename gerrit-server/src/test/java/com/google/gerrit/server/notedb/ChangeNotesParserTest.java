@@ -456,6 +456,27 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void pendingReviewers() throws Exception {
+    // Change created in WIP.
+    RevCommit commit = writeCommit("Update WIP change\n" + "\n" + "Patch-set: 1\n", true);
+    ChangeNotesState state = newParser(commit).parseAll();
+    assertThat(state.pendingReviewers().all()).isEmpty();
+    assertThat(state.pendingReviewersByEmail().all()).isEmpty();
+
+    // Reviewers added while in WIP.
+    commit =
+        writeCommit(
+            "Add reviewers\n"
+                + "\n"
+                + "Patch-set: 1\n"
+                + "Reviewer: Change Owner "
+                + "<1@gerrit>\n",
+            true);
+    state = newParser(commit).parseAll();
+    assertThat(state.pendingReviewers().byState(ReviewerStateInternal.REVIEWER)).isNotEmpty();
+  }
+
+  @Test
   public void caseInsensitiveFooters() throws Exception {
     assertParseSucceeds(
         "Update change\n"

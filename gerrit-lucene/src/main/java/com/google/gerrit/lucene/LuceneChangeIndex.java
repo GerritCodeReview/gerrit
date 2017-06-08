@@ -117,6 +117,9 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String DELETED_FIELD = ChangeField.DELETED.getName();
   private static final String MERGEABLE_FIELD = ChangeField.MERGEABLE.getName();
   private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
+  private static final String PENDING_REVIEWER_FIELD = ChangeField.PENDING_REVIEWER.getName();
+  private static final String PENDING_REVIEWER_BY_EMAIL_FIELD =
+      ChangeField.PENDING_REVIEWER_BY_EMAIL.getName();
   private static final String REF_STATE_FIELD = ChangeField.REF_STATE.getName();
   private static final String REF_STATE_PATTERN_FIELD = ChangeField.REF_STATE_PATTERN.getName();
   private static final String REVIEWEDBY_FIELD = ChangeField.REVIEWEDBY.getName();
@@ -463,6 +466,12 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (fields.contains(REVIEWER_BY_EMAIL_FIELD)) {
       decodeReviewersByEmail(doc, cd);
     }
+    if (fields.contains(PENDING_REVIEWER_FIELD)) {
+      decodePendingReviewers(doc, cd);
+    }
+    if (fields.contains(PENDING_REVIEWER_BY_EMAIL_FIELD)) {
+      decodePendingReviewersByEmail(doc, cd);
+    }
     decodeSubmitRecords(
         doc, SUBMIT_RECORD_STRICT_FIELD, ChangeField.SUBMIT_RULE_OPTIONS_STRICT, cd);
     decodeSubmitRecords(
@@ -563,6 +572,21 @@ public class LuceneChangeIndex implements ChangeIndex {
     cd.setReviewersByEmail(
         ChangeField.parseReviewerByEmailFieldValues(
             FluentIterable.from(doc.get(REVIEWER_BY_EMAIL_FIELD))
+                .transform(IndexableField::stringValue)));
+  }
+
+  private void decodePendingReviewers(ListMultimap<String, IndexableField> doc, ChangeData cd) {
+    cd.setPendingReviewers(
+        ChangeField.parseReviewerFieldValues(
+            FluentIterable.from(doc.get(PENDING_REVIEWER_FIELD))
+                .transform(IndexableField::stringValue)));
+  }
+
+  private void decodePendingReviewersByEmail(
+      ListMultimap<String, IndexableField> doc, ChangeData cd) {
+    cd.setPendingReviewersByEmail(
+        ChangeField.parseReviewerByEmailFieldValues(
+            FluentIterable.from(doc.get(PENDING_REVIEWER_BY_EMAIL_FIELD))
                 .transform(IndexableField::stringValue)));
   }
 

@@ -213,6 +213,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change c = TestChanges.newChange(project, user.getId(), seq.nextChangeId());
     c.setCreatedOn(ts);
     c.setLastUpdatedOn(ts);
+    c.setReviewStarted(true);
     PatchSet ps =
         TestChanges.newPatchSet(
             c.currentPatchSetId(), "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef", user.getId());

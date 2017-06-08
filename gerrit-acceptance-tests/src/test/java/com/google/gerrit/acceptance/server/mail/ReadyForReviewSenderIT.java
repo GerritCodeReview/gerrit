@@ -23,20 +23,20 @@ import org.junit.Test;
 public class ReadyForReviewSenderIT extends AbstractNotificationTest {
   @Test
   public void setReadyOnWipChange() throws Exception {
-    StagedChange sc = stageWipChange(ALL_COMMENTS);
+    StagedChange sc = stageWipChange();
     gApi.changes().id(sc.changeId).setReadyForReview();
     assertThat(sender)
         .sent("newchange", sc)
-        .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
   public void setReadyOnWipChangeCcingSelf() throws Exception {
-    StagedChange sc = stageReviewableWipChange(ALL_COMMENTS);
+    StagedChange sc = stageReviewableWipChange();
     setEmailStrategy(sc.owner, EmailStrategy.CC_ON_OWN_COMMENTS);
     gApi.changes().id(sc.changeId).setReadyForReview();
     assertThat(sender)
@@ -44,26 +44,27 @@ public class ReadyForReviewSenderIT extends AbstractNotificationTest {
         .cc(sc.owner, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
   public void setReadyOnReviewableWipChange() throws Exception {
-    StagedChange sc = stageReviewableWipChange(ALL_COMMENTS);
+    StagedChange sc = stageReviewableWipChange();
     setEmailStrategy(sc.owner, EmailStrategy.ENABLED);
     gApi.changes().id(sc.changeId).setReadyForReview();
     assertThat(sender)
         .sent("newchange", sc)
-        .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
   public void setWipOnReviewableChange() throws Exception {
-    StagedChange sc = stageReviewableChange(ALL_COMMENTS);
+    StagedChange sc = stageReviewableChange();
     gApi.changes().id(sc.changeId).setWorkInProgress();
     assertThat(sender).notSent();
   }

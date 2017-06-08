@@ -24,47 +24,46 @@ import org.junit.Test;
 public class CreateChangeSenderIT extends AbstractNotificationTest {
   @Test
   public void createReviewableChange() throws Exception {
-    StagedPreChange spc = stagePreChange("refs/for/master", NEW_CHANGES, NEW_PATCHSETS);
+    StagedPreChange spc = stagePreChange("refs/for/master");
     assertThat(sender)
         .sent("newchange", spc)
-        .notTo(spc.owner)
         .to(spc.watchingProjectOwner)
-        .bcc(NEW_CHANGES, NEW_PATCHSETS);
+        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .noOneElse();
   }
 
   @Test
   public void createWipChange() throws Exception {
-    StagedPreChange spc = stagePreChange("refs/for/master%wip", NEW_CHANGES, NEW_PATCHSETS);
+    StagedPreChange spc = stagePreChange("refs/for/master%wip");
     assertThat(sender).notSent();
   }
 
   @Test
   public void createReviewableChangeWithNotifyOwnerReviewers() throws Exception {
-    stagePreChange("refs/for/master%notify=OWNER_REVIEWERS", NEW_CHANGES, NEW_PATCHSETS);
+    stagePreChange("refs/for/master%notify=OWNER_REVIEWERS");
     assertThat(sender).notSent();
   }
 
   @Test
   public void createReviewableChangeWithNotifyOwner() throws Exception {
-    stagePreChange("refs/for/master%notify=OWNER", NEW_CHANGES, NEW_PATCHSETS);
+    stagePreChange("refs/for/master%notify=OWNER");
     assertThat(sender).notSent();
   }
 
   @Test
   public void createReviewableChangeWithNotifyNone() throws Exception {
-    stagePreChange("refs/for/master%notify=OWNER", NEW_CHANGES, NEW_PATCHSETS);
+    stagePreChange("refs/for/master%notify=OWNER");
     assertThat(sender).notSent();
   }
 
   @Test
   public void createWipChangeWithNotifyAll() throws Exception {
-    StagedPreChange spc =
-        stagePreChange("refs/for/master%wip,notify=ALL", NEW_CHANGES, NEW_PATCHSETS);
+    StagedPreChange spc = stagePreChange("refs/for/master%wip,notify=ALL");
     assertThat(sender)
         .sent("newchange", spc)
-        .notTo(spc.owner)
         .to(spc.watchingProjectOwner)
-        .bcc(NEW_CHANGES, NEW_PATCHSETS);
+        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .noOneElse();
   }
 
   @Test
@@ -73,14 +72,12 @@ public class CreateChangeSenderIT extends AbstractNotificationTest {
     StagedPreChange spc =
         stagePreChange(
             "refs/for/master",
-            users -> ImmutableList.of("r=" + users.reviewer.username, "cc=" + users.ccer.username),
-            NEW_CHANGES,
-            NEW_PATCHSETS);
+            users -> ImmutableList.of("r=" + users.reviewer.username, "cc=" + users.ccer.username));
     assertThat(sender)
         .sent("newchange", spc)
-        .notTo(spc.owner)
         .to(spc.reviewer, spc.watchingProjectOwner)
         .cc(spc.ccer)
-        .bcc(NEW_CHANGES, NEW_PATCHSETS);
+        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .noOneElse();
   }
 }

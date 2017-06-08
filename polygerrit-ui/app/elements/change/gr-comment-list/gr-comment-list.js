@@ -23,6 +23,7 @@
     behaviors: [
       Gerrit.BaseUrlBehavior,
       Gerrit.PathListBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
     properties: {
@@ -38,7 +39,8 @@
     },
 
     _computeFileDiffURL(file, changeNum, patchNum) {
-      return `${this.getBaseUrl()}/c/${changeNum}/${patchNum}/${file}`;
+      return this.getBaseUrl() + '/c/' + changeNum + '/' + patchNum + '/' +
+          this.encodeURL(file);
     },
 
     _computeFileDisplayName(path) {

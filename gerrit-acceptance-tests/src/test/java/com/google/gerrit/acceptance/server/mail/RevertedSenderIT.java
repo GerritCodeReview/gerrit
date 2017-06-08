@@ -17,6 +17,8 @@ package com.google.gerrit.acceptance.server.mail;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
 import static com.google.gerrit.server.account.WatchConfig.NotifyType.ALL_COMMENTS;
+import static com.google.gerrit.server.account.WatchConfig.NotifyType.NEW_CHANGES;
+import static com.google.gerrit.server.account.WatchConfig.NotifyType.NEW_PATCHSETS;
 
 import com.google.gerrit.acceptance.AbstractNotificationTest;
 import com.google.gerrit.acceptance.TestAccount;
@@ -40,19 +42,16 @@ public class RevertedSenderIT extends AbstractNotificationTest {
     revert(sc, sc.owner);
     assertThat(sender)
         .sent("newchange", sc)
-        .notTo(sc.owner)
-        .to(sc.reviewer, sc.ccer)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .notTo(ALL_COMMENTS); // TODO(logan): Why not?
+        .to(sc.reviewer, sc.ccer, sc.watchingProjectOwner, admin)
+        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
 
     assertThat(sender)
         .sent("revert", sc)
         .notTo(sc.owner)
-        .cc(sc.reviewer, sc.ccer)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .bcc(ALL_COMMENTS);
+        .cc(sc.reviewer, sc.ccer, admin)
+        .bcc(ALL_COMMENTS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
   }
 
   @Test
@@ -62,20 +61,16 @@ public class RevertedSenderIT extends AbstractNotificationTest {
     revert(sc, sc.owner);
     assertThat(sender)
         .sent("newchange", sc)
-        .notTo(sc.owner)
-        .to(sc.reviewer)
+        .to(sc.reviewer, sc.watchingProjectOwner, admin)
         .cc(sc.ccer)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .notTo(ALL_COMMENTS); // TODO(logan): Why not?
+        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
 
     assertThat(sender)
         .sent("revert", sc)
-        .notTo(sc.owner)
-        .cc(sc.reviewer, sc.ccer)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .bcc(ALL_COMMENTS);
+        .cc(sc.reviewer, sc.ccer, admin)
+        .bcc(ALL_COMMENTS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
   }
 
   @Test
@@ -85,19 +80,17 @@ public class RevertedSenderIT extends AbstractNotificationTest {
     revert(sc, sc.owner, CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("newchange", sc)
-        .to(sc.reviewer, sc.ccer)
+        .to(sc.reviewer, sc.ccer, sc.watchingProjectOwner, admin)
         .cc(sc.owner)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .notTo(ALL_COMMENTS); // TODO(logan): Why not?
+        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
 
     assertThat(sender)
         .sent("revert", sc)
         .to(sc.owner)
-        .cc(sc.reviewer, sc.ccer)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .bcc(ALL_COMMENTS);
+        .cc(sc.reviewer, sc.ccer, admin)
+        .bcc(ALL_COMMENTS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
   }
 
   @Test
@@ -107,19 +100,17 @@ public class RevertedSenderIT extends AbstractNotificationTest {
     revert(sc, sc.owner, CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("newchange", sc)
-        .to(sc.reviewer)
+        .to(sc.reviewer, sc.watchingProjectOwner, admin)
         .cc(sc.owner, sc.ccer)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .notTo(ALL_COMMENTS); // TODO(logan): Why not?
+        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
 
     assertThat(sender)
         .sent("revert", sc)
         .to(sc.owner)
-        .cc(sc.reviewer, sc.ccer)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .bcc(ALL_COMMENTS);
+        .cc(sc.reviewer, sc.ccer, admin)
+        .bcc(ALL_COMMENTS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
   }
 
   @Test
@@ -129,18 +120,15 @@ public class RevertedSenderIT extends AbstractNotificationTest {
     revert(sc, other);
     assertThat(sender)
         .sent("newchange", sc)
-        .to(sc.owner, sc.reviewer, sc.ccer)
-        .notTo(other)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .notTo(ALL_COMMENTS); // TODO(logan): Why not?
+        .to(sc.owner, sc.reviewer, sc.ccer, sc.watchingProjectOwner, admin)
+        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
 
     assertThat(sender)
         .sent("revert", sc)
-        .cc(sc.owner, sc.reviewer, sc.ccer)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .bcc(ALL_COMMENTS);
+        .cc(sc.owner, sc.reviewer, sc.ccer, admin)
+        .bcc(ALL_COMMENTS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
   }
 
   @Test
@@ -150,19 +138,16 @@ public class RevertedSenderIT extends AbstractNotificationTest {
     revert(sc, other);
     assertThat(sender)
         .sent("newchange", sc)
-        .to(sc.owner, sc.reviewer)
+        .to(sc.owner, sc.reviewer, sc.watchingProjectOwner, admin)
         .cc(sc.ccer)
-        .notTo(other)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .notTo(ALL_COMMENTS); // TODO(logan): Why not?
+        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
 
     assertThat(sender)
         .sent("revert", sc)
-        .cc(sc.owner, sc.reviewer, sc.ccer)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .bcc(ALL_COMMENTS);
+        .cc(sc.owner, sc.reviewer, sc.ccer, admin)
+        .bcc(ALL_COMMENTS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
   }
 
   @Test
@@ -172,19 +157,17 @@ public class RevertedSenderIT extends AbstractNotificationTest {
     revert(sc, other, CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("newchange", sc)
-        .to(sc.owner, sc.reviewer, sc.ccer)
+        .to(sc.owner, sc.reviewer, sc.ccer, sc.watchingProjectOwner, admin)
         .cc(other)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .notTo(ALL_COMMENTS); // TODO(logan): Why not?
+        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
 
     assertThat(sender)
         .sent("revert", sc)
         .to(other)
-        .cc(sc.owner, sc.reviewer, sc.ccer)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .bcc(ALL_COMMENTS);
+        .cc(sc.owner, sc.reviewer, sc.ccer, admin)
+        .bcc(ALL_COMMENTS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
   }
 
   @Test
@@ -194,23 +177,21 @@ public class RevertedSenderIT extends AbstractNotificationTest {
     revert(sc, other, CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("newchange", sc)
-        .to(sc.owner, sc.reviewer)
+        .to(sc.owner, sc.reviewer, sc.watchingProjectOwner, admin)
         .cc(sc.ccer, other)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .notTo(ALL_COMMENTS); // TODO(logan): Why not?
+        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
 
     assertThat(sender)
         .sent("revert", sc)
         .to(other)
-        .cc(sc.owner, sc.reviewer, sc.ccer)
-        .notTo(sc.starrer) // TODO(logan): Why not?
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): Why not?
-        .bcc(ALL_COMMENTS);
+        .cc(sc.owner, sc.reviewer, sc.ccer, admin)
+        .bcc(ALL_COMMENTS)
+        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
   }
 
   private StagedChange stageChange() throws Exception {
-    StagedChange sc = stageReviewableChange(ALL_COMMENTS);
+    StagedChange sc = stageReviewableChange();
     setApiUser(admin);
     gApi.changes().id(sc.changeId).revision("current").review(ReviewInput.approve());
     gApi.changes().id(sc.changeId).revision("current").submit();

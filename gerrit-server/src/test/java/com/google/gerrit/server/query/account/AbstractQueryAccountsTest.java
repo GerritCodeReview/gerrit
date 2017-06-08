@@ -18,7 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts.QueryRequest;
@@ -37,6 +37,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -53,7 +55,6 @@ import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
@@ -70,6 +71,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     cfg.setInt("index", null, "maxPages", 10);
     return cfg;
   }
+
+  @Inject protected Accounts accounts;
+
+  @Inject protected AccountsUpdate.Server accountsUpdate;
 
   @Inject protected AccountCache accountCache;
 
@@ -380,9 +385,9 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
     // update account in the database so that account index is stale
     String newName = "Test User";
-    Account account = db.accounts().get(new Account.Id(user1._accountId));
+    Account account = accounts.get(db, new Account.Id(user1._accountId));
     account.setFullName(newName);
-    db.accounts().update(Collections.singleton(account));
+    db.accounts().update(ImmutableSet.of(account));
 
     assertQuery("name:" + quote(user1.name), user1);
     assertQuery("name:" + quote(newName));
@@ -464,12 +469,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       if (email != null) {
         accountManager.link(id, AuthRequest.forEmail(email));
       }
-      Account a = db.accounts().get(id);
+      Account a = accounts.get(db, id);
       a.setFullName(fullName);
       a.setPreferredEmail(email);
       a.setActive(active);
-      db.accounts().update(ImmutableList.of(a));
-      accountCache.evict(id);
+      accountsUpdate.create().update(db, a);
       return id;
     }
   }

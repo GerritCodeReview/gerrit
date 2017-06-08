@@ -70,6 +70,8 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
@@ -147,7 +149,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     return cfg;
   }
 
+  @Inject protected Accounts accounts;
   @Inject protected AccountCache accountCache;
+  @Inject protected AccountsUpdate.Server accountsUpdate;
   @Inject protected AccountManager accountManager;
   @Inject protected AllUsersName allUsersName;
   @Inject protected BatchUpdate.Factory updateFactory;
@@ -204,11 +208,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     db = schemaFactory.open();
 
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
-    Account userAccount = db.accounts().get(userId);
+    Account userAccount = accounts.get(db, userId);
     String email = "user@example.com";
     externalIdsUpdate.create().insert(ExternalId.createEmail(userId, email));
     userAccount.setPreferredEmail(email);
-    db.accounts().update(ImmutableList.of(userAccount));
+    accountsUpdate.create().update(db, userAccount);
     user = userFactory.create(userId);
     requestContext.setContext(newRequestContext(userAccount.getId()));
   }
@@ -2304,12 +2308,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       if (email != null) {
         accountManager.link(id, AuthRequest.forEmail(email));
       }
-      Account a = db.accounts().get(id);
+      Account a = accounts.get(db, id);
       a.setFullName(fullName);
       a.setPreferredEmail(email);
       a.setActive(active);
-      db.accounts().update(ImmutableList.of(a));
-      accountCache.evict(id);
+      accountsUpdate.create().update(db, a);
       return id;
     }
   }

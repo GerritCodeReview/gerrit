@@ -52,6 +52,7 @@ public class AccountManager {
   private static final Logger log = LoggerFactory.getLogger(AccountManager.class);
 
   private final SchemaFactory<ReviewDb> schema;
+  private final Accounts accounts;
   private final AccountsUpdate.Server accountsUpdateFactory;
   private final AccountCache byIdCache;
   private final AccountByEmailCache byEmailCache;
@@ -68,6 +69,7 @@ public class AccountManager {
   @Inject
   AccountManager(
       SchemaFactory<ReviewDb> schema,
+      Accounts accounts,
       AccountsUpdate.Server accountsUpdateFactory,
       AccountCache byIdCache,
       AccountByEmailCache byEmailCache,
@@ -80,6 +82,7 @@ public class AccountManager {
       ExternalIds externalIds,
       ExternalIdsUpdate.Server externalIdsUpdateFactory) {
     this.schema = schema;
+    this.accounts = accounts;
     this.accountsUpdateFactory = accountsUpdateFactory;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
@@ -190,21 +193,18 @@ public class AccountManager {
     }
 
     if (toUpdate != null) {
-      db.accounts().update(Collections.singleton(toUpdate));
+      accountsUpdateFactory.create().update(db, toUpdate);
     }
 
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       byEmailCache.evict(oldEmail);
       byEmailCache.evict(newEmail);
     }
-    if (toUpdate != null) {
-      byIdCache.evict(toUpdate.getId());
-    }
   }
 
   private Account load(Account toUpdate, Account.Id accountId, ReviewDb db) throws OrmException {
     if (toUpdate == null) {
-      toUpdate = db.accounts().get(accountId);
+      toUpdate = accounts.get(db, accountId);
       if (toUpdate == null) {
         throw new OrmException("Account " + accountId + " has been deleted");
       }
@@ -226,8 +226,7 @@ public class AccountManager {
     account.setFullName(who.getDisplayName());
     account.setPreferredEmail(extId.email());
 
-    boolean isFirstAccount =
-        awaitsFirstAccountCheck.getAndSet(false) && db.accounts().anyAccounts().toList().isEmpty();
+    boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
 
     try {
       AccountsUpdate accountsUpdate = accountsUpdateFactory.create();
@@ -301,7 +300,6 @@ public class AccountManager {
     }
 
     byEmailCache.evict(account.getPreferredEmail());
-    byIdCache.evict(account.getId());
     realm.onCreateAccount(who, account);
     return new AuthResult(newId, extId.key(), true);
   }
@@ -374,17 +372,13 @@ public class AccountManager {
             .insert(ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
 
         if (who.getEmailAddress() != null) {
-          Account a = db.accounts().get(to);
+          Account a = accounts.get(db, to);
           if (a.getPreferredEmail() == null) {
             a.setPreferredEmail(who.getEmailAddress());
-            db.accounts().update(Collections.singleton(a));
+            accountsUpdateFactory.create().update(db, a);
           }
-        }
-
-        if (who.getEmailAddress() != null) {
           byEmailCache.evict(who.getEmailAddress());
         }
-        byIdCache.evict(to);
       }
 
       return new AuthResult(to, who.getExternalIdKey(), false);
@@ -418,7 +412,6 @@ public class AccountManager {
                 .isPresent())) {
       externalIdsUpdateFactory.create().delete(filteredExtIdsByScheme);
     }
-    byIdCache.evict(to);
     return link(to, who);
   }
 
@@ -443,14 +436,13 @@ public class AccountManager {
         externalIdsUpdateFactory.create().delete(extId);
 
         if (who.getEmailAddress() != null) {
-          Account a = db.accounts().get(from);
+          Account a = accounts.get(db, from);
           if (a.getPreferredEmail() != null
               && a.getPreferredEmail().equals(who.getEmailAddress())) {
             a.setPreferredEmail(null);
-            db.accounts().update(Collections.singleton(a));
+            accountsUpdateFactory.create().update(db, a);
           }
           byEmailCache.evict(who.getEmailAddress());
-          byIdCache.evict(from);
         }
 
       } else {

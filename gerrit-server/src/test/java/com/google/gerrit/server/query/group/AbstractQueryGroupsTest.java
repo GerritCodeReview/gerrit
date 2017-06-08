@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.groups.Groups.QueryRequest;
@@ -34,6 +33,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -69,6 +70,10 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     cfg.setInt("index", null, "maxPages", 10);
     return cfg;
   }
+
+  @Inject protected Accounts accounts;
+
+  @Inject protected AccountsUpdate.Server accountsUpdate;
 
   @Inject protected AccountCache accountCache;
 
@@ -314,12 +319,11 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
       if (email != null) {
         accountManager.link(id, AuthRequest.forEmail(email));
       }
-      Account a = db.accounts().get(id);
+      Account a = accounts.get(db, id);
       a.setFullName(fullName);
       a.setPreferredEmail(email);
       a.setActive(active);
-      db.accounts().update(ImmutableList.of(a));
-      accountCache.evict(id);
+      accountsUpdate.create().update(db, a);
       return id;
     }
   }

@@ -28,7 +28,6 @@ import com.google.gerrit.server.account.PutStatus.Input;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -50,18 +49,18 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
   private final PermissionBackend permissionBackend;
-  private final AccountCache byIdCache;
+  private final AccountsUpdate.Server accountsUpdate;
 
   @Inject
   PutStatus(
       Provider<CurrentUser> self,
       Provider<ReviewDb> dbProvider,
       PermissionBackend permissionBackend,
-      AccountCache byIdCache) {
+      AccountsUpdate.Server accountsUpdate) {
     this.self = self;
     this.dbProvider = dbProvider;
     this.permissionBackend = permissionBackend;
-    this.byIdCache = byIdCache;
+    this.accountsUpdate = accountsUpdate;
   }
 
   @Override
@@ -81,23 +80,18 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
     }
 
     String newStatus = input.status;
-    Account a =
-        dbProvider
-            .get()
-            .accounts()
+    Account account =
+        accountsUpdate
+            .create()
             .atomicUpdate(
+                dbProvider.get(),
                 user.getAccountId(),
-                new AtomicUpdate<Account>() {
-                  @Override
-                  public Account update(Account a) {
-                    a.setStatus(Strings.nullToEmpty(newStatus));
-                    return a;
-                  }
-                });
-    if (a == null) {
+                a -> a.setStatus(Strings.nullToEmpty(newStatus)));
+    if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    byIdCache.evict(a.getId());
-    return Strings.isNullOrEmpty(a.getStatus()) ? Response.none() : Response.ok(a.getStatus());
+    return Strings.isNullOrEmpty(account.getStatus())
+        ? Response.none()
+        : Response.ok(account.getStatus());
   }
 }

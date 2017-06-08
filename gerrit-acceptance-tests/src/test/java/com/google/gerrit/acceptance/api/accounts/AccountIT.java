@@ -172,8 +172,6 @@ public class AccountIT extends AbstractDaemonTest {
       externalIdsUpdate.delete(getExternalIds(user));
       externalIdsUpdate.insert(savedExternalIds);
     }
-    accountCache.evict(admin.getId());
-    accountCache.evict(user.getId());
   }
 
   @After
@@ -213,9 +211,10 @@ public class AccountIT extends AbstractDaemonTest {
     AccountInfo info = gApi.accounts().id(foo.id.get()).get();
     assertThat(info.username).isEqualTo("foo");
     if (SshMode.useSsh()) {
-      accountIndexedCounter.assertReindexOf(foo, 2); // account creation + adding SSH keys
+      accountIndexedCounter.assertReindexOf(
+          foo, 3); // account creation + external ID creation + adding SSH keys
     } else {
-      accountIndexedCounter.assertReindexOf(foo, 1); // account creation
+      accountIndexedCounter.assertReindexOf(foo, 2); // account creation + external ID creation
     }
 
     // check user branch
@@ -534,7 +533,6 @@ public class AccountIT extends AbstractDaemonTest {
             ExternalId.createWithEmail(ExternalId.Key.parse(extId1), admin.id, email),
             ExternalId.createWithEmail(ExternalId.Key.parse(extId2), admin.id, email));
     externalIdsUpdateFactory.create().insert(extIds);
-    accountCache.evict(admin.id);
     accountIndexedCounter.assertReindexOf(admin);
     assertThat(
             gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
@@ -589,7 +587,6 @@ public class AccountIT extends AbstractDaemonTest {
     externalIdsUpdateFactory
         .create()
         .insert(ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id, email));
-    accountCache.evict(admin.id);
     assertEmail(byEmailCache.get(email), admin);
 
     // wrong case doesn't match
@@ -750,6 +747,79 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   @Sandboxed
+  public void cannotCreateUserBranch() throws Exception {
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
+
+    String userRef = RefNames.refsUsers(new Account.Id(db.nextAccountId()));
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), allUsersRepo).to(userRef);
+    r.assertErrorStatus();
+    assertThat(r.getMessage()).contains("Not allowed to create user branch.");
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(userRef)).isNull();
+    }
+  }
+
+  @Test
+  @Sandboxed
+  public void createUserBranchWithAccessDatabaseCapability() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
+
+    String userRef = RefNames.refsUsers(new Account.Id(db.nextAccountId()));
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    pushFactory.create(db, admin.getIdent(), allUsersRepo).to(userRef).assertOkStatus();
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(userRef)).isNotNull();
+    }
+  }
+
+  @Test
+  @Sandboxed
+  public void cannotCreateNonUserBranchUnderRefsUsersWithAccessDatabaseCapability()
+      throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
+    grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
+
+    String userRef = RefNames.REFS_USERS + "foo";
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), allUsersRepo).to(userRef);
+    r.assertErrorStatus();
+    assertThat(r.getMessage()).contains("Not allowed to create non-user branch under refs/users/.");
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(userRef)).isNull();
+    }
+  }
+
+  @Test
+  @Sandboxed
+  public void createDefaultUserBranch() throws Exception {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(RefNames.REFS_USERS_DEFAULT)).isNull();
+    }
+
+    grant(allUsers, RefNames.REFS_USERS_DEFAULT, Permission.CREATE);
+    grant(allUsers, RefNames.REFS_USERS_DEFAULT, Permission.PUSH);
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    pushFactory
+        .create(db, admin.getIdent(), allUsersRepo)
+        .to(RefNames.REFS_USERS_DEFAULT)
+        .assertOkStatus();
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(RefNames.REFS_USERS_DEFAULT)).isNotNull();
+    }
+  }
+
+  @Test
+  @Sandboxed
   public void cannotDeleteUserBranch() throws Exception {
     grant(
         allUsers,
@@ -831,7 +901,6 @@ public class AccountIT extends AbstractDaemonTest {
     // Both users have a matching external ID for this key.
     addExternalIdEmail(admin, "test5@example.com");
     externalIdsUpdate.insert(ExternalId.create("foo", "myId", user.getId()));
-    accountCache.evict(user.getId());
     accountIndexedCounter.assertReindexOf(user);
 
     TestKey key = validKeyWithSecondUserId();
@@ -1073,8 +1142,6 @@ public class AccountIT extends AbstractDaemonTest {
     checkNotNull(email);
     externalIdsUpdate.insert(
         ExternalId.createWithEmail(name("test"), email, account.getId(), email));
-    // Clear saved AccountState and ExternalIds.
-    accountCache.evict(account.getId());
     accountIndexedCounter.assertReindexOf(account);
     setApiUser(account);
   }

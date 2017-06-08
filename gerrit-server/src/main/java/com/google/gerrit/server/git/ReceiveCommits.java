@@ -82,8 +82,9 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -299,6 +300,8 @@ public class ReceiveCommits {
   private final Sequences seq;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory notesFactory;
+  private final Accounts accounts;
+  private final AccountsUpdate.Server accountsUpdate;
   private final AccountResolver accountResolver;
   private final PermissionBackend permissionBackend;
   private final PermissionBackend.ForProject permissions;
@@ -310,7 +313,6 @@ public class ReceiveCommits {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final RefOperationValidators.Factory refValidatorsFactory;
   private final TagCache tagCache;
-  private final AccountCache accountCache;
   private final ChangeInserter.Factory changeInserterFactory;
   private final RequestScopePropagator requestScopePropagator;
   private final SshInfo sshInfo;
@@ -373,6 +375,8 @@ public class ReceiveCommits {
       Sequences seq,
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory notesFactory,
+      Accounts accounts,
+      AccountsUpdate.Server accountsUpdate,
       AccountResolver accountResolver,
       PermissionBackend permissionBackend,
       CmdLineParser.Factory optionParserFactory,
@@ -380,7 +384,6 @@ public class ReceiveCommits {
       PatchSetUtil psUtil,
       ProjectCache projectCache,
       TagCache tagCache,
-      AccountCache accountCache,
       @Nullable SearchingChangeCacheImpl changeCache,
       ChangeInserter.Factory changeInserterFactory,
       CommitValidators.Factory commitValidatorsFactory,
@@ -412,6 +415,8 @@ public class ReceiveCommits {
     this.seq = seq;
     this.queryProvider = queryProvider;
     this.notesFactory = notesFactory;
+    this.accounts = accounts;
+    this.accountsUpdate = accountsUpdate;
     this.accountResolver = accountResolver;
     this.permissionBackend = permissionBackend;
     this.optionParserFactory = optionParserFactory;
@@ -420,7 +425,6 @@ public class ReceiveCommits {
     this.projectCache = projectCache;
     this.canonicalWebUrl = canonicalWebUrl;
     this.tagCache = tagCache;
-    this.accountCache = accountCache;
     this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.refValidatorsFactory = refValidatorsFactory;
@@ -1334,7 +1338,7 @@ public class ReceiveCommits {
       if (!hashtag.isEmpty()) {
         hashtags.add(hashtag);
       }
-      //TODO(dpursehouse): validate hashtags
+      // TODO(dpursehouse): validate hashtags
     }
 
     MagicBranchInput(
@@ -2737,12 +2741,11 @@ public class ReceiveCommits {
 
         if (defaultName && user.hasEmailAddress(c.getCommitterIdent().getEmailAddress())) {
           try {
-            Account a = db.accounts().get(user.getAccountId());
+            Account a = accounts.get(db, user.getAccountId());
             if (a != null && Strings.isNullOrEmpty(a.getFullName())) {
               a.setFullName(c.getCommitterIdent().getName());
-              db.accounts().update(Collections.singleton(a));
+              accountsUpdate.create().update(db, a);
               user.getAccount().setFullName(a.getFullName());
-              accountCache.evict(a.getId());
             }
           } catch (OrmException e) {
             logWarn("Cannot default full_name", e);

@@ -36,8 +36,9 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
@@ -52,7 +53,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -71,7 +71,9 @@ import org.junit.Test;
 
 /** Unit tests for {@link GerritPublicKeyChecker}. */
 public class GerritPublicKeyCheckerTest {
-  @Inject private AccountCache accountCache;
+  @Inject private Accounts accounts;
+
+  @Inject private AccountsUpdate.Server accountsUpdate;
 
   @Inject private AccountManager accountManager;
 
@@ -115,10 +117,10 @@ public class GerritPublicKeyCheckerTest {
     db = schemaFactory.open();
     schemaCreator.create(db);
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
-    Account userAccount = db.accounts().get(userId);
+    Account userAccount = accounts.get(db, userId);
     // Note: does not match any key in TestKeys.
     userAccount.setPreferredEmail("user@example.com");
-    db.accounts().update(ImmutableList.of(userAccount));
+    accountsUpdate.create().update(db, userAccount);
     user = reloadUser();
 
     requestContext.setContext(
@@ -150,8 +152,7 @@ public class GerritPublicKeyCheckerTest {
     return userFactory.create(id);
   }
 
-  private IdentifiedUser reloadUser() throws IOException {
-    accountCache.evict(userId);
+  private IdentifiedUser reloadUser() {
     user = userFactory.create(userId);
     return user;
   }
@@ -407,7 +408,6 @@ public class GerritPublicKeyCheckerTest {
     assertThat(store.save(cb)).isAnyOf(NEW, FAST_FORWARD, FORCED);
 
     externalIdsUpdateFactory.create().insert(newExtIds);
-    accountCache.evict(user.getAccountId());
   }
 
   private TestKey add(TestKey k, IdentifiedUser user) throws Exception {

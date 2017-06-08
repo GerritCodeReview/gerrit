@@ -17,6 +17,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
@@ -68,7 +69,7 @@ public class RefOperationValidators {
     List<ValidationMessage> messages = new ArrayList<>();
     boolean withException = false;
     List<RefOperationValidationListener> listeners = new ArrayList<>();
-    listeners.add(new DisallowDeletionOfUserBranches(allUsersName));
+    listeners.add(new DisallowCreationAndDeletionOfUserBranches(allUsersName));
     refOperationValidationListeners.forEach(l -> listeners.add(l));
     try {
       for (RefOperationValidationListener listener : listeners) {
@@ -104,10 +105,11 @@ public class RefOperationValidators {
     }
   }
 
-  private static class DisallowDeletionOfUserBranches implements RefOperationValidationListener {
+  private static class DisallowCreationAndDeletionOfUserBranches
+      implements RefOperationValidationListener {
     private final AllUsersName allUsersName;
 
-    DisallowDeletionOfUserBranches(AllUsersName allUsersName) {
+    DisallowCreationAndDeletionOfUserBranches(AllUsersName allUsersName) {
       this.allUsersName = allUsersName;
     }
 
@@ -116,10 +118,20 @@ public class RefOperationValidators {
         throws ValidationException {
       if (refEvent.project.getNameKey().equals(allUsersName)
           && (refEvent.command.getRefName().startsWith(RefNames.REFS_USERS)
-              && !refEvent.command.getRefName().equals(RefNames.REFS_USERS_DEFAULT))
-          && refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {
-        if (!refEvent.user.getCapabilities().canAccessDatabase()) {
-          throw new ValidationException("Not allowed to delete user branch.");
+              && !refEvent.command.getRefName().equals(RefNames.REFS_USERS_DEFAULT))) {
+        if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {
+          if (!refEvent.user.getCapabilities().canAccessDatabase()) {
+            throw new ValidationException("Not allowed to create user branch.");
+          }
+          if (Account.Id.fromRef(refEvent.command.getRefName()) == null) {
+            throw new ValidationException(
+                String.format(
+                    "Not allowed to create non-user branch under %s.", RefNames.REFS_USERS));
+          }
+        } else if (refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {
+          if (!refEvent.user.getCapabilities().canAccessDatabase()) {
+            throw new ValidationException("Not allowed to delete user branch.");
+          }
         }
       }
       return ImmutableList.of();

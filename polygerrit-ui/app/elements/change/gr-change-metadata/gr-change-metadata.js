@@ -51,9 +51,7 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
       Gerrit.RESTClientBehavior,
-      Gerrit.URLEncodingBehavior,
     ],
 
     observers: [
@@ -252,27 +250,17 @@
     },
 
     _computeProjectURL(project) {
-      return this.getBaseUrl() + '/q/project:' +
-        this.encodeURL(project, false);
+      return Gerrit.Nav.getUrlForProject(project);
     },
 
     _computeBranchURL(project, branch) {
-      let status;
-      if (this.change.status == this.ChangeStatus.NEW) {
-        status = 'open';
-      } else {
-        status = this.change.status.toLowerCase();
-      }
-      return this.getBaseUrl() + '/q/project:' +
-        this.encodeURL(project, false) +
-          ' branch:' + this.encodeURL(branch, false) +
-              ' status:' + this.encodeURL(status, false);
+      return Gerrit.Nav.getUrlForBranch(branch, project,
+          this.change.status == this.ChangeStatus.NEW ? 'open' :
+              this.change.status.toLowerCase());
     },
 
     _computeTopicURL(topic) {
-      return this.getBaseUrl() + '/q/topic:' +
-          this.encodeURL('"' + topic + '"', false) +
-            '+(status:open OR status:merged)';
+      return Gerrit.Nav.getUrlForTopic(topic);
     },
 
     _handleTopicRemoved() {

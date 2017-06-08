@@ -1,0 +1,157 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<script>
+  (function(window) {
+    'use strict';
+
+    // Navigation parameters object format:
+    //
+    // Each object has a `view` property with a value from Gerrit.Nav.View. The
+    // remaining properties depend on the value used for view.
+    //
+    //  - Gerrit.Nav.View.CHANGE:
+    //    - `id`, required, String: the numeric ID of the change.
+    //
+    // - Gerrit.Nav.View.SEARCH:
+    //    - `owner`, optional, String: the owner name.
+    //    - `project`, optional, String: the project name.
+    //    - `branch`, optional, String: the branch name.
+    //    - `topic`, optional, String: the topic name.
+    //    - `statuses`, optional, Array<String>: the list of change statuses to
+    //        search for. If more than one is provided, the search will OR them
+    //        together.
+
+    window.Gerrit = window.Gerrit || {};
+
+    // Prevent redefinition.
+    if (window.Gerrit.hasOwnProperty('Nav')) { return; }
+
+    const uninitialized = () => {
+      console.warn('Use of uninitialized routing');
+    };
+
+    window.Gerrit.Nav = {
+
+      View: {
+        CHANGE: 'change',
+        SEARCH: 'search',
+      },
+
+      /** @type {Function} */
+      _navigate: uninitialized,
+
+      /** @type {Function} */
+      _generateUrl: uninitialized,
+
+      /** @type {Boolean} */
+      _isInitialized: false,
+
+      /**
+       * Setup router implementation.
+       * @param {Function} handleNavigate
+       * @param {Function} generateUrl
+       */
+      setup(navigate, generateUrl) {
+        this._navigate = navigate;
+        this._generateUrl = generateUrl;
+        this._isInitialized = true;
+      },
+
+      destroy() {
+        this._navigate = uninitialized;
+        this._generateUrl = uninitialized;
+        this._isInitialized = false;
+      },
+
+      /**
+       * Generate a URL for the given route parameters.
+       * @param {Object} params
+       * @return {String}
+       */
+      _getUrlFor(params) {
+        return this._generateUrl(params);
+      },
+
+      /**
+       * @param {String} project The name of the project.
+       * @return {String}
+       */
+      getUrlForProject(project) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.SEARCH,
+          project,
+        });
+      },
+
+      /**
+       * @param {String} branch The name of the branch.
+       * @param {String} project The name of the project.
+       * @param {String} status The status to search.
+       * @return {String}
+       */
+      getUrlForBranch(branch, project, status) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.SEARCH,
+          branch,
+          project,
+          statuses: [status],
+        });
+      },
+
+      /**
+       * @param {String} topic The name of the topic.
+       * @return {String}
+       */
+      getUrlForTopic(topic) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.SEARCH,
+          topic,
+          statuses: ['open', 'merged'],
+        });
+      },
+
+      /**
+       * @param {Object} change The change object.
+       * @return {String}
+       */
+      getUrlForChange(change) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.CHANGE,
+          id: change._number,
+        });
+      },
+
+      /**
+       * @param {Object} change The change object.
+       * @return {String}
+       */
+      navigateToChange(change) {
+        this._navigate(this.getUrlForChange(change));
+      },
+
+      /**
+       * @param {String} owner The name of the owner.
+       * @return {String}
+       */
+      getUrlForOwner(owner) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.SEARCH,
+          owner,
+        });
+      },
+    };
+  })(window);
+</script>

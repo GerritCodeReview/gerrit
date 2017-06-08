@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2b846ab_62aa71bb",
+        "filename": "polygerrit-ui/app/embed/change-diff-views.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-08T16:51:31Z",
+      "side": 1,
+      "message": "Not a big deal, but both gr-change-view and gr-diff-view import Polymer in this way. This line should, then, be unnecessary.\n\nBy the same token, our index template does not directly import Polymer.",
+      "revId": "805545aa14b03e11ff84fbc914caf897e50c3599",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

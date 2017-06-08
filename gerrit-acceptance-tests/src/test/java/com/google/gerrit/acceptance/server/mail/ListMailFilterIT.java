@@ -113,7 +113,7 @@ public class ListMailFilterIT extends AbstractMailIT {
             null,
             null,
             null);
-    b.textContent(txt + textFooterForChange(changeId, ts));
+    b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     mailProcessor.process(b.build());
     return changeInfo;

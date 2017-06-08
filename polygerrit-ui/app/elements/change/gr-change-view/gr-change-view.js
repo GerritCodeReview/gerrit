@@ -1196,9 +1196,8 @@
      */
     _updateRelatedChangeMaxHeight() {
       // Takes into account approximate height for the expand button and
-      // bottom margin
-      const extraHeight = 24;
-      let maxExistingHeight;
+      // bottom margin.
+      const EXTRA_HEIGHT = 30;
       let newHeight;
       const hasCommitToggle =
           !this._computeCommitToggleHidden(this._latestCommitMessage);
@@ -1216,7 +1215,7 @@
         // Note: extraHeight is to take into account margin/padding.
         const medRelatedHeight = Math.max(
             this._getOffsetHeight(this.$.mainChangeInfo) -
-            this._getOffsetHeight(this.$.commitMessage) - 2 * extraHeight,
+            this._getOffsetHeight(this.$.commitMessage) - 2 * EXTRA_HEIGHT,
             MINIMUM_RELATED_MAX_HEIGHT);
         newHeight = medRelatedHeight;
       } else {
@@ -1224,29 +1223,30 @@
           // Make sure the content is lined up if both areas have buttons. If
           // the commit message is not collapsed, instead use the change info
           // height.
-          maxExistingHeight = this._getOffsetHeight(this.$.commitMessage);
+          newHeight = this._getOffsetHeight(this.$.commitMessage);
         } else {
-          maxExistingHeight = this._getOffsetHeight(this.$.mainChangeInfo) -
-              extraHeight;
-        }
-        // Get the line height of related changes, and convert it to the nearest
-        // integer.
-        const lineHeight = this._getLineHeight(this.$.relatedChanges);
-
-        // Figure out a new height that is divisible by the rounded line height.
-        const remainder = maxExistingHeight % lineHeight;
-        newHeight = maxExistingHeight - remainder;
-
-        // Update the max-height of the relation chain to this new height;
-        if (hasCommitToggle) {
-          this.customStyle['--related-change-btn-top-padding'] =
-            remainder + 'px';
+          newHeight = this._getOffsetHeight(this.$.commitAndRelated) -
+              EXTRA_HEIGHT;
         }
       }
       if (this.$.relatedChanges.hidden) {
         this.customStyle['--commit-message-max-width'] = 'none';
       }
+      // Get the line height of related changes, and convert it to the nearest
+      // integer.
+      const lineHeight = this._getLineHeight(this.$.relatedChanges);
+
+      // Figure out a new height that is divisible by the rounded line height.
+      const remainder = newHeight % lineHeight;
+      newHeight = newHeight - remainder;
+
       this.customStyle['--relation-chain-max-height'] = newHeight + 'px';
+
+      // Update the max-height of the relation chain to this new height.
+      if (hasCommitToggle) {
+        this.customStyle['--related-change-btn-top-padding'] =
+          remainder + 'px';
+      }
       this.updateStyles();
     },
 

@@ -16,6 +16,24 @@
       "revId": "f690622c3ab4ab3fee6f4c8321ea6864aaa1d989",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a79b370b_8440bdac",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-08T23:26:10Z",
+      "side": 1,
+      "message": "I suppose could be if we want the emoji dropdown in here. Wasn\u0027t sure if that was wanted for this field. Can definitely do that if we decide to, but better in a separate change. (this was already here before).",
+      "parentUuid": "89ff6e34_6843c676",
+      "revId": "f690622c3ab4ab3fee6f4c8321ea6864aaa1d989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -107,6 +107,48 @@
     },
     {
       "key": {
+        "uuid": "a0c6eacf_75d801e5",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-06-08T13:43:47Z",
+      "side": 1,
+      "message": "You were right.  That exclude of bower_components/** applies to the local dump, and vulcanize unpacks its dependencies so there\u0027s no need to add it to srcs.  I backed out all changes to this BUILD file.",
+      "parentUuid": "ca0e7d7b_3e6a225a",
+      "revId": "32a23e1cabefdc28221d88e5f2bd9995357266f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86d6edd0_0a1a4599",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-06-08T13:43:47Z",
+      "side": 1,
+      "message": "Moving this thread to gr-app.html.",
+      "parentUuid": "4e25bbff_53d90e65",
+      "range": {
+        "startLine": 30,
+        "startChar": 69,
+        "endLine": 30,
+        "endChar": 74
+      },
+      "revId": "32a23e1cabefdc28221d88e5f2bd9995357266f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5ab3b8b_4c5bfeaf",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 2

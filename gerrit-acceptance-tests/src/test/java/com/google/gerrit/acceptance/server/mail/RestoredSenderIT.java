@@ -33,60 +33,60 @@ public class RestoredSenderIT extends AbstractNotificationTest {
 
   @Test
   public void restoreReviewableChange() throws Exception {
-    StagedChange sc = stageAbandonedReviewableChange(ALL_COMMENTS);
+    StagedChange sc = stageAbandonedReviewableChange();
     restore(sc.changeId, sc.owner);
     assertThat(sender)
         .sent("restore", sc)
-        .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
   public void restoreReviewableWipChange() throws Exception {
-    StagedChange sc = stageAbandonedReviewableWipChange(ALL_COMMENTS);
+    StagedChange sc = stageAbandonedReviewableWipChange();
     restore(sc.changeId, sc.owner);
     assertThat(sender)
         .sent("restore", sc)
-        .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
   public void restoreWipChange() throws Exception {
-    StagedChange sc = stageAbandonedWipChange(ALL_COMMENTS);
+    StagedChange sc = stageAbandonedWipChange();
     restore(sc.changeId, sc.owner);
     assertThat(sender)
         .sent("restore", sc)
-        .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
   public void restoreReviewableChangeByAdmin() throws Exception {
-    StagedChange sc = stageAbandonedReviewableChange(ALL_COMMENTS);
+    StagedChange sc = stageAbandonedReviewableChange();
     restore(sc.changeId, admin);
     assertThat(sender)
         .sent("restore", sc)
-        .notTo(admin)
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
   public void restoreReviewableChangeByOwnerCcingSelf() throws Exception {
-    StagedChange sc = stageAbandonedReviewableChange(ALL_COMMENTS);
+    StagedChange sc = stageAbandonedReviewableChange();
     restore(sc.changeId, sc.owner, CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("restore", sc)
@@ -94,12 +94,13 @@ public class RestoredSenderIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
   public void restoreReviewableChangeByAdminCcingSelf() throws Exception {
-    StagedChange sc = stageAbandonedReviewableChange(ALL_COMMENTS);
+    StagedChange sc = stageAbandonedReviewableChange();
     restore(sc.changeId, admin, CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("restore", sc)
@@ -107,7 +108,8 @@ public class RestoredSenderIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, admin)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   private void restore(String changeId, TestAccount by) throws Exception {

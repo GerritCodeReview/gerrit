@@ -74,8 +74,6 @@ public class UseGerritConfigAnnotationTest extends AbstractDaemonTest {
     values = {"value-2", "value-3"}
   )
   public void valueHasPrecedenceOverValues() {
-    assertThat(cfg.getStringList("section", null, "name"))
-        .asList()
-        .containsExactly("value-1");
+    assertThat(cfg.getStringList("section", null, "name")).asList().containsExactly("value-1");
   }
 }

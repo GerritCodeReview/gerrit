@@ -25,23 +25,15 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Repeatable(GlobalPluginConfigs.class)
 public @interface GlobalPluginConfig {
-  /**
-   * Name of the plugin, corresponding to {@code $site/etc/@pluginName.comfig}.
-   */
+  /** Name of the plugin, corresponding to {@code $site/etc/@pluginName.comfig}. */
   String pluginName();
 
-  /**
-   * @see GerritConfig#name()
-   */
+  /** @see GerritConfig#name() */
   String name();
 
-  /**
-   * @see GerritConfig#value()
-   */
+  /** @see GerritConfig#value() */
   String value() default "";
 
-  /**
-   * @see GerritConfig#values()
-   */
+  /** @see GerritConfig#values() */
   String[] values() default "";
 }

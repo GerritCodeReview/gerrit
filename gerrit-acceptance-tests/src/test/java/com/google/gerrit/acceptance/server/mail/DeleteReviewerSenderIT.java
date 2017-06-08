@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.ReviewerState;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,12 +43,12 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
     removeReviewer(sc, extraReviewer);
     assertThat(sender)
         .sent("deleteReviewer", sc)
-        .notTo(sc.owner)
         .to(extraReviewer)
         .cc(extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
@@ -63,7 +62,8 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
         .cc(extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
@@ -77,7 +77,8 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
         .cc(extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
@@ -92,7 +93,8 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
         .cc(admin, extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
@@ -101,12 +103,12 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
     removeReviewer(sc, extraCcer);
     assertThat(sender)
         .sent("deleteReviewer", sc)
-        .notTo(sc.owner)
         .to(extraCcer)
         .cc(extraReviewer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
@@ -115,12 +117,10 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
     removeReviewer(sc, extraReviewer, NotifyHandling.OWNER_REVIEWERS);
     assertThat(sender)
         .sent("deleteReviewer", sc)
-        .notTo(sc.owner)
         .to(extraReviewer)
         .cc(extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(sc.starrer)
-        .notTo(ALL_COMMENTS);
+        .noOneElse();
   }
 
   @Test
@@ -130,10 +130,7 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("deleteReviewer", sc)
         .to(extraReviewer)
-        .notTo(extraCcer, sc.owner, sc.reviewer, sc.ccer)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(sc.starrer)
-        .notTo(ALL_COMMENTS);
+        .noOneElse();
   }
 
   @Test
@@ -144,10 +141,7 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("deleteReviewer", sc)
         .to(sc.owner, extraReviewer)
-        .notTo(extraCcer, sc.reviewer, sc.ccer)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(sc.starrer)
-        .notTo(ALL_COMMENTS);
+        .noOneElse();
   }
 
   @Test
@@ -185,12 +179,12 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
     removeReviewer(sc, extraReviewer, NotifyHandling.ALL);
     assertThat(sender)
         .sent("deleteReviewer", sc)
-        .notTo(sc.owner)
         .to(extraReviewer)
         .cc(extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS);
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
   }
 
   @Test
@@ -204,9 +198,7 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("deleteReviewer", sc)
         .to(extraReviewer)
-        .notTo(sc.owner, sc.ccer, sc.starrer, extraCcer)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
-        .notTo(ALL_COMMENTS);
+        .noOneElse();
   }
 
   @Test
@@ -218,11 +210,11 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
   }
 
   private interface Stager {
-    StagedChange stage(NotifyType... watches) throws Exception;
+    StagedChange stage() throws Exception;
   }
 
   private StagedChange stageChange(Stager stager) throws Exception {
-    StagedChange sc = stager.stage(ALL_COMMENTS);
+    StagedChange sc = stager.stage();
     ReviewInput in =
         ReviewInput.noScore()
             .reviewer(extraReviewer.email)
@@ -231,16 +223,19 @@ public class DeleteReviewerSenderIT extends AbstractNotificationTest {
     return sc;
   }
 
-  private StagedChange stageReviewableChange() throws Exception {
-    return stageChange(this::stageReviewableChange);
+  @Override
+  protected StagedChange stageReviewableChange() throws Exception {
+    return stageChange(() -> super.stageReviewableChange());
   }
 
-  private StagedChange stageReviewableWipChange() throws Exception {
-    return stageChange(this::stageReviewableWipChange);
+  @Override
+  protected StagedChange stageReviewableWipChange() throws Exception {
+    return stageChange(() -> super.stageReviewableWipChange());
   }
 
-  private StagedChange stageWipChange() throws Exception {
-    return stageChange(this::stageWipChange);
+  @Override
+  protected StagedChange stageWipChange() throws Exception {
+    return stageChange(() -> super.stageWipChange());
   }
 
   private void removeReviewer(StagedChange sc, TestAccount account) throws Exception {

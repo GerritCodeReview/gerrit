@@ -50,6 +50,9 @@ public class WorkInProgressOp implements BatchUpdateOp {
     Change change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     change.setWorkInProgress(workInProgress);
+    if (!workInProgress) {
+      change.setReviewStarted(true);
+    }
     change.setLastUpdatedOn(ctx.getWhen());
     update.setWorkInProgress(workInProgress);
     addMessage(ctx, update);

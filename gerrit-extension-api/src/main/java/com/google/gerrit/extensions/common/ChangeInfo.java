@@ -47,6 +47,7 @@ public class ChangeInfo {
   public Integer unresolvedCommentCount;
   public Boolean isPrivate;
   public Boolean workInProgress;
+  public Boolean hasReviewStarted;
 
   public int _number;
 
@@ -57,6 +58,7 @@ public class ChangeInfo {
   public Map<String, Collection<String>> permittedLabels;
   public Collection<AccountInfo> removableReviewers;
   public Map<ReviewerState, Collection<AccountInfo>> reviewers;
+  public Map<ReviewerState, Collection<AccountInfo>> pendingReviewers;
   public Collection<ReviewerUpdateInfo> reviewerUpdates;
   public Collection<ChangeMessageInfo> messages;
 

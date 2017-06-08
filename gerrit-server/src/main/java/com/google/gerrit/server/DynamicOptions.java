@@ -20,18 +20,14 @@ import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Helper class to define and parse options from plugins on ssh and RestAPI commands. */
 public class DynamicOptions {
-  private static final Logger log = LoggerFactory.getLogger(DynamicOptions.class);
   /**
    * To provide additional options, bind a DynamicBean. For example:
    *
@@ -200,24 +196,18 @@ public class DynamicOptions {
     }
 
     if (className != null) {
-      List<Module> modules = new ArrayList<>();
       try {
+        List<Module> modules = new ArrayList<>();
+        Injector modulesInjector = injector;
         if (dynamicBean instanceof ModulesClassNamesProvider) {
+          modulesInjector = injector.createChildInjector();
           for (String moduleName :
               ((ModulesClassNamesProvider) dynamicBean).getModulesClassNames()) {
-            try {
-              Class<?> moduleClass = loader.loadClass(moduleName);
-              modules.add((Module) moduleClass.getConstructor().newInstance());
-            } catch (NoSuchMethodException
-                | InstantiationException
-                | IllegalAccessException
-                | InvocationTargetException e) {
-              // Don't fail the command because of bad option
-              log.error("ERROR loading/instantiating module " + moduleName, e);
-            }
+            Class<Module> mClass = (Class<Module>) loader.loadClass(moduleName);
+            modules.add(modulesInjector.getInstance(mClass));
           }
         }
-        return injector
+        return modulesInjector
             .createChildInjector(modules)
             .getInstance((Class<DynamicOptions.DynamicBean>) loader.loadClass(className));
       } catch (ClassNotFoundException e) {

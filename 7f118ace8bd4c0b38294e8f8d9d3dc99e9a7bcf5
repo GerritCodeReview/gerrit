@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09a108d5_53aea8a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-08T13:07:21Z",
+      "side": 1,
+      "message": "Nit: Use the singular, ancestor_name.\n\nThink of repeatable fields like repeated fields in a proto:\n\n ancestor_name: \"Public-Projects\"\n ancestor_name: \"All-Projects\"\n\nEach repeated field value is labeled by the field name; it would make less sense if each of those lines said \"ancestor_names\".\n\n(Of course the names are arbitrary, this is just a convention :)",
+      "range": {
+        "startLine": 45,
+        "startChar": 13,
+        "endLine": 45,
+        "endChar": 27
+      },
+      "revId": "7f118ace8bd4c0b38294e8f8d9d3dc99e9a7bcf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

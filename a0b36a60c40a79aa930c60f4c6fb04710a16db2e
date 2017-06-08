@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "70553d28_e96c938e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-08T13:07:21Z",
+      "side": 1,
+      "message": "\u003e https://review.gerrithub.io/Documentation/dev-intellij.html\n\nIn general you should trust the documentation served at gerrit-review.googlesource.com in preference to random docs from the internet, as those docs are guaranteed to match the live server version.\n\n\u003e Does that not capture all the formatting issues?\n\nWell, it mentions how to use the google-java-format plugin, so in theory those instructions should be enough.\n\nBut what you have in this patch set does not match the output of running the standalone google-java-format tool, so either you didn\u0027t run \"Code -\u003e Reformat with google-java-format\", or there is a bug in the plugin that we should report to the plugin authors.\n\n\u003e Is there a command that formats all the code\n\nYes, the link I shared before has instructions for running a command line tool. If you want to run it over all files in the current commit, you can do something like:\n\n git diff --name-only --relative \u0027HEAD^\u0027 | grep java | xargs ./tools/format/google-java-format -i",
+      "parentUuid": "29ef26ee_eee6882d",
+      "revId": "a0b36a60c40a79aa930c60f4c6fb04710a16db2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9742c489_54b1d4fb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectField.java",
         "patchSetId": 4
@@ -69,6 +87,24 @@
       "revId": "a0b36a60c40a79aa930c60f4c6fb04710a16db2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe5e3000_bf30b1a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-08T13:07:21Z",
+      "side": 1,
+      "message": "What you have now is correct, and yes we want to keep both.\n\nSpecifically, I want to be able to implement this REST API handler using the project index:\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#list-child-projects\n\nFor recursive\u003dfalse, we would use \"parent_name:theproject\". For recursive\u003dtrue, we would use \"ancestor_name:theproject\".",
+      "parentUuid": "44a5c973_4a17792c",
+      "revId": "a0b36a60c40a79aa930c60f4c6fb04710a16db2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -355,6 +355,30 @@
     },
     {
       "key": {
+        "uuid": "1296f425_18108d29",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-08T16:08:44Z",
+      "side": 1,
+      "message": "I modify the test, and there are three tests share the same code. I\u0027m not sure if it\u0027s the way you expect. Could you have a check?",
+      "parentUuid": "bfb0a245_b189388a",
+      "range": {
+        "startLine": 694,
+        "startChar": 14,
+        "endLine": 694,
+        "endChar": 47
+      },
+      "revId": "18c8f4259073a44d0dd6335e3b9b225a221a5e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "92817cbf_9cf70b0d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 6

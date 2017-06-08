@@ -36,6 +36,7 @@ limitations under the License.
     let element;
     let sandbox;
     const PROJECT = 'test-project';
+    const SCHEMES = {http: {}, repo: {}, ssh: {}};
 
     function getFormFields() {
       const selects = Polymer.dom(element.root).querySelectorAll('select');
@@ -80,6 +81,9 @@ limitations under the License.
             submit_type: 'MERGE_IF_NECESSARY',
           });
         },
+        getConfig() {
+          return Promise.resolve({download: {}});
+        },
       });
       element = fixture('basic');
     });
@@ -89,8 +93,26 @@ limitations under the License.
     });
 
     test('loading displays before project config is loaded', () => {
-      assert.isFalse(element.$.loading.hidden);
-      assert.isTrue(element.$.form.hidden);
+      assert.isTrue(element.$.loading.classList.contains('loading'));
+      assert.isFalse(getComputedStyle(element.$.loading).display === 'none');
+      assert.isTrue(element.$.loadedContent.classList.contains('loading'));
+      assert.isTrue(getComputedStyle(element.$.loadedContent)
+          .display === 'none');
+    });
+
+    test('download commands visibility', () => {
+      element._loading = false;
+      flushAsynchronousOperations();
+      assert.isTrue(element.$.downloadContent.classList
+          .contains('hideDownload'));
+      assert.isTrue(getComputedStyle(element.$.downloadContent)
+          .display == 'none');
+      element._schemesObj = SCHEMES;
+      flushAsynchronousOperations();
+      assert.isFalse(element.$.downloadContent.classList
+          .contains('hideDownload'));
+      assert.isFalse(getComputedStyle(element.$.downloadContent)
+          .display == 'none');
     });
 
     test('form defaults to read only', () => {
@@ -237,7 +259,7 @@ limitations under the License.
               configInputObj.use_signed_off_by;
 
           assert.isFalse(button.hasAttribute('disabled'));
-          assert.isTrue(element.$.Title.classList.contains('edited'));
+          assert.isTrue(element.$.configurations.classList.contains('edited'));
 
           const formattedObj =
               element._formatProjectConfigForSave(element._projectConfig);

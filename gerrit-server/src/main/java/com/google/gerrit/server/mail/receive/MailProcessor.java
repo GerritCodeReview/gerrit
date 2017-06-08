@@ -169,12 +169,12 @@ public class MailProcessor {
 
     try (ManualRequestContext ctx = oneOffRequestContext.openAs(account)) {
       List<ChangeData> changeDataList =
-          queryProvider.get().byKey(Change.Key.parse(metadata.changeId));
+          queryProvider.get().byLegacyChangeId(new Change.Id(metadata.changeNumber));
       if (changeDataList.size() != 1) {
         log.error(
             String.format(
                 "Message %s references unique change %s, but there are %d matching changes in the index. Will delete message.",
-                message.id(), metadata.changeId, changeDataList.size()));
+                message.id(), metadata.changeNumber, changeDataList.size()));
         return;
       }
       ChangeData cd = changeDataList.get(0);

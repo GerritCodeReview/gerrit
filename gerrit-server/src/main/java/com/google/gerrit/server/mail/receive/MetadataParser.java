@@ -38,9 +38,9 @@ public class MetadataParser {
 
     // Check email headers for X-Gerrit-<Name>
     for (String header : m.additionalHeaders()) {
-      if (header.startsWith(toHeaderWithDelimiter(MetadataName.CHANGE_ID))) {
-        metadata.changeId =
-            header.substring(toHeaderWithDelimiter(MetadataName.CHANGE_ID).length());
+      if (header.startsWith(toHeaderWithDelimiter(MetadataName.CHANGE_NUMBER))) {
+        String num = header.substring(toHeaderWithDelimiter(MetadataName.CHANGE_NUMBER).length());
+        metadata.changeNumber = Ints.tryParse(num);
       } else if (header.startsWith(toHeaderWithDelimiter(MetadataName.PATCH_SET))) {
         String ps = header.substring(toHeaderWithDelimiter(MetadataName.PATCH_SET).length());
         metadata.patchSet = Ints.tryParse(ps);
@@ -84,8 +84,9 @@ public class MetadataParser {
 
   private static void extractFooters(String[] lines, MailMetadata metadata, MailMessage m) {
     for (String line : lines) {
-      if (metadata.changeId == null && line.contains(MetadataName.CHANGE_ID)) {
-        metadata.changeId = extractFooter(toFooterWithDelimiter(MetadataName.CHANGE_ID), line);
+      if (metadata.changeNumber == null && line.contains(MetadataName.CHANGE_NUMBER)) {
+        metadata.changeNumber =
+            Ints.tryParse(extractFooter(toFooterWithDelimiter(MetadataName.CHANGE_NUMBER), line));
       } else if (metadata.patchSet == null && line.contains(MetadataName.PATCH_SET)) {
         metadata.patchSet =
             Ints.tryParse(extractFooter(toFooterWithDelimiter(MetadataName.PATCH_SET), line));

@@ -344,6 +344,18 @@ category in the issue tracker and try to assign easy hack projects to it. If in
 doubt, do not hesitate to ask on the developer
 link:https://groups.google.com/forum/#!forum/repo-discuss[mailing list].
 
+=== Upgrading Libraries
+
+Gerrit's library dependencies should only be upgraded if the new version contains
+something we need in Gerrit. This includes new features, API changes as well as bug
+or security fixes.
+An exception to this rule is that right after a new Gerrit release was branched
+off, all libraries should be upgraded to the latest version to prevent Gerrit
+from falling behind. Doing those upgrades should conclude at the latest two
+months after the branch was cut. This should happen on the master branch to ensure
+that they are vetted long enough before they go into a release and we can be sure
+that the update doesn't introduce a regression.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

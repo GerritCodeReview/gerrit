@@ -43,7 +43,12 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 
-/** Updates accounts. */
+/**
+ * Updates accounts.
+ *
+ * <p>On updating accounts this class takes care to evict them from the account cache and thus
+ * triggers reindex for them.
+ */
 @Singleton
 public class AccountsUpdate {
   /**
@@ -51,9 +56,6 @@ public class AccountsUpdate {
    *
    * <p>The Gerrit server identity will be used as author and committer for all commits that update
    * the accounts.
-   *
-   * <p>On updating accounts this class takes care to evict them from the account cache and thus
-   * triggers reindex for them.
    */
   @Singleton
   public static class Server {

@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1496999440 +0200\nnonce AH5c86CkDsJg23Hy/bu+7T8oyYJr3yTx4q1YVMz0W+ucVIoKdAocUGAQRO6KkBW/2Sxf1eggSjrA\n\n0000000000000000000000000000000000000000 01f08f2552d1187f6778239fca288dc264aae7bf refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZOmYQAAoJEFG1/Zeg0O9RKwYIAKE1hWNPrTp+51hAflBa6eSE\n1B92ao7NfP0VGw8G3YyBEch5T5IK7zKDKNtCh0C2PyiFmerZJqJq+A8kw2/+jWae\n1gx9PpsyAYc41BjqchwHSIcbAf1Zd3xoFTCLCIeD78Lt6ex/Abuxz36eEbeW4uVR\n0yzPvCYunMk05xlt9WUs53CJma/vh//1m2tmcFkQbjRdZBohBUGdSm5aA6I2hHrf\nk3ENu0jfC4d1g0MlAwlpWFFybZmN4z1ry0xrHrHsJW84UIOP6wKLbhEQWBWOOsFS\nhR1cqqAB6nfd6e01kXZ5AMWX4+Vtj5neu8838ObU3fruKhYkzXJXMLu63WDrYV4\u003d\n\u003dwysr\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee9ef674_094cee3b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 994,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-09T09:24:13Z",
+      "side": 1,
+      "message": "in to",
+      "range": {
+        "startLine": 994,
+        "startChar": 33,
+        "endLine": 994,
+        "endChar": 40
+      },
+      "revId": "01f08f2552d1187f6778239fca288dc264aae7bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba816c67_a43c7c77",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-09T09:24:13Z",
+      "side": 1,
+      "message": "enclose in backticks?",
+      "range": {
+        "startLine": 996,
+        "startChar": 0,
+        "endLine": 996,
+        "endChar": 18
+      },
+      "revId": "01f08f2552d1187f6778239fca288dc264aae7bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

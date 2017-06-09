@@ -77,10 +77,10 @@
     },
 
     _getProjects(filter, projectsPerPage, offset) {
+      this._projects = [];
       return this.$.restAPI.getProjects(filter, projectsPerPage, offset)
           .then(projects => {
             if (!projects) {
-              this._projects = [];
               return;
             }
             this._projects = Object.keys(projects)
@@ -91,6 +91,10 @@
              });
             this._loading = false;
           });
+    },
+
+    _computeLoadingClass(loading) {
+      return loading ? 'loading' : '';
     },
 
     _readOnly(item) {

@@ -141,6 +141,30 @@
       "revId": "afc7e587900027f08e76c323039d5d0106964783",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a98bc50_19acfe7a",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-06-09T18:54:44Z",
+      "side": 1,
+      "message": "Almost.\n\nsecurity.polymer_resin.ReportHandler is a value-less name that can be used in /** @type {...} */ annotations.  See the @typedef bit.\n\nIt is just a convenient handle to hang the documentation from.\n\nIf you want access to the default report handler, I can expose that as security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER.",
+      "parentUuid": "20c24484_fb62f1a0",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 68
+      },
+      "revId": "afc7e587900027f08e76c323039d5d0106964783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

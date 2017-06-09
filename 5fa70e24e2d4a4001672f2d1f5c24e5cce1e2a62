@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7fb296fd_35105849",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-09T13:05:46Z",
+      "side": 1,
+      "message": "I don\u0027t follow what you mean by \"remove the snowflaking noise\".",
+      "parentUuid": "5e18b5f4_6e7e85df",
+      "revId": "5fa70e24e2d4a4001672f2d1f5c24e5cce1e2a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e2aac6a8_7043ab3e",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
         "patchSetId": 15
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "This is resolved in https://gerrit-review.googlesource.com/c/109251/.\n\nI considered a number of different approaches that I can discuss in that change if you want. I went with having a .noOneElse() at the end of all assertion chains. Alternatively I could do something like your example above, but it has a similar problem (what if you leave out one of the *Exactly assertions?), and dealing with the three different data types for referring to recipients is a complicating factor.",
       "parentUuid": "e3e43387_e19d8063",
+      "revId": "5fa70e24e2d4a4001672f2d1f5c24e5cce1e2a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce3a1aab_e47d1b15",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-09T13:05:46Z",
+      "side": 1,
+      "message": "Thanks, that solution looks good.",
+      "parentUuid": "d1792fdf_737e73cc",
       "revId": "5fa70e24e2d4a4001672f2d1f5c24e5cce1e2a62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

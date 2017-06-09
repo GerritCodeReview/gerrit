@@ -70,6 +70,30 @@
       "revId": "afc7e587900027f08e76c323039d5d0106964783",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22fdd825_900f6121",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-09T17:05:20Z",
+      "side": 1,
+      "message": "Thanks for explaining. That sounds like we\u0027d definitely want those logs. \n\nPerhaps this functionality should be guarded by something like a \"verbose\" configuration option, rather than being a debug build, since we want it in a non-debug environment.",
+      "parentUuid": "2a641967_a31824c1",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "afc7e587900027f08e76c323039d5d0106964783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

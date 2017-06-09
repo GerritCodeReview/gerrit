@@ -34,6 +34,24 @@
       "revId": "f690622c3ab4ab3fee6f4c8321ea6864aaa1d989",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef5396a4_6ff0feaa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-09T21:52:00Z",
+      "side": 1,
+      "message": "No worries, I\u0027m just aiming to reduce number of elements in the app.\nClearly shouldn\u0027t block this change.",
+      "parentUuid": "a79b370b_8440bdac",
+      "revId": "f690622c3ab4ab3fee6f4c8321ea6864aaa1d989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

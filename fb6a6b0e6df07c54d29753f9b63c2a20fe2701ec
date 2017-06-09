@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "781f97f3_c8294e84",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/ReplacePatchSetSenderIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-09T01:24:23Z",
+      "side": 1,
+      "message": "When the ReplacePatchSetSender is constructed by ReplaceOp, it sets the from address to the change owner (even though the owner didn\u0027t take this action). Currently, if you don\u0027t CC yourself on emails you send, then you aren\u0027t getting emailed when someone else uploads a patch set to your change.",
+      "parentUuid": "58cd578f_8acfaf4f",
+      "revId": "fb6a6b0e6df07c54d29753f9b63c2a20fe2701ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2412870d_f658d933",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "29af43d1_1cf200f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1264,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-09T01:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2412870d_f658d933",
+      "revId": "fb6a6b0e6df07c54d29753f9b63c2a20fe2701ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "564644ea_f451dc84",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ReplacePatchSetSender.java",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "fb6a6b0e6df07c54d29753f9b63c2a20fe2701ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4df9c2b3_c01ca096",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ReplacePatchSetSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-09T01:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "564644ea_f451dc84",
+      "revId": "fb6a6b0e6df07c54d29753f9b63c2a20fe2701ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

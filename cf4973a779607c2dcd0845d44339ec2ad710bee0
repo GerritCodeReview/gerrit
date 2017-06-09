@@ -16,6 +16,24 @@
       "revId": "cf4973a779607c2dcd0845d44339ec2ad710bee0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e0221a6_a1780c75",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/AddReviewerSenderIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-09T01:18:23Z",
+      "side": 1,
+      "message": "I spent a good bit of time looking into what you\u0027ve suggested, before resorting to forAll. I talked about it with jrn and he made a similar suggestion to yours, but I don\u0027t want to double up every test method across all these integration tests when I combine them into a single class. So for now I\u0027ve just unrolled these manually. We can explore more clever approaches later.",
+      "parentUuid": "e90abf1b_71f4c174",
+      "revId": "cf4973a779607c2dcd0845d44339ec2ad710bee0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

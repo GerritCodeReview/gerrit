@@ -989,6 +989,15 @@ is logged and the server will continue normal startup.
 If not specified (default), only the groups listed by All-Projects
 may use the administrateServer capability.
 
+[[capability.makeFirstUserAdmin]]capability.makeFirstUserAdmin::
++
+Whether the first user that logs in into the Gerrit server should
+automatically be added to the administrator group and hence get the
+administrateServer capability assigned. This is useful to bootstrap the
+authentication database.
++
+Default is true.
+
 
 [[change]]
 === Section change

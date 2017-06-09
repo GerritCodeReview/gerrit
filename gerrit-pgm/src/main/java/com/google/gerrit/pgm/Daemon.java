@@ -353,6 +353,13 @@ public class Daemon extends SiteProgram {
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new LogFileCompressor.Module());
 
+    // Plugin module needs to be inserted *before* the index module
+    // otherwise any on-line reindexing will happen without the proper
+    // plugins loaded (e.g. group backends, custom Prolog predicates) and
+    // the associated rules results would be invalid and will poison the
+    // Prolog predicates cache.
+    modules.add(new PluginRestApiModule());
+
     // Index module shutdown must happen before work queue shutdown, otherwise
     // work queue can get stuck waiting on index futures that will never return.
     modules.add(createIndexModule());
@@ -378,7 +385,6 @@ public class Daemon extends SiteProgram {
       modules.add(new SmtpEmailSender.Module());
     }
     modules.add(new SignedTokenEmailTokenVerifier.Module());
-    modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
     modules.add(new StartupChecks.Module());

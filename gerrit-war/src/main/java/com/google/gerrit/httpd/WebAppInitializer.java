@@ -321,7 +321,14 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
+
+    // Plugin module needs to be inserted *before* the index module
+    // otherwise any on-line reindexing will happen without the proper
+    // plugins loaded (e.g. group backends, custom Prolog predicates) and
+    // the associated rules results would be invalid and will poison the
+    // Prolog predicates cache.
     modules.add(new PluginRestApiModule());
+
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
     modules.add(new StartupChecks.Module());

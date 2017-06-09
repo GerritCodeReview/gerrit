@@ -30,7 +30,11 @@
        * Offset of currently visible query results.
        */
       _offset: Number,
-
+      _path: {
+        type: String,
+        readOnly: true,
+        value: '/admin/projects/',
+      },
       _projects: Array,
 
       /**
@@ -39,7 +43,7 @@
        * */
       _shownProjects: {
         type: Array,
-        computed: '_computeShownProjects(_projects)',
+        computed: 'computeShownItems(_projects)',
       },
 
       _projectsPerPage: {
@@ -55,22 +59,13 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.URLEncodingBehavior,
+      Gerrit.ListViewBehavior,
     ],
 
-    _paramsChanged(value) {
+    _paramsChanged(params) {
       this._loading = true;
-
-      if (value) {
-        this._filter = value.filter || null;
-      }
-
-      if (value && value.offset) {
-        this._offset = value.offset;
-      } else {
-        this._offset = 0;
-      }
+      this._filter = this.getFilterValue(params);
+      this._offset = this.getOffsetValue(params);
 
       return this._getProjects(this._filter, this._projectsPerPage,
           this._offset);
@@ -93,17 +88,8 @@
           });
     },
 
-    _computeLoadingClass(loading) {
-      return loading ? 'loading' : '';
-    },
-
     _readOnly(item) {
       return item.state === 'READ_ONLY' ? 'Y' : 'N';
-    },
-
-    _getUrl(item) {
-      return this.getBaseUrl() + '/admin/projects/' +
-          this.encodeURL(item, true);
     },
 
     _computeWeblink(project) {
@@ -112,10 +98,6 @@
       }
       const webLinks = project.web_links;
       return webLinks.length ? webLinks : null;
-    },
-
-    _computeShownProjects(projects) {
-      return projects.slice(0, 25);
     },
   });
 })();

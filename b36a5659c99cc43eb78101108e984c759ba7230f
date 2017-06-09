@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1dbcd9b_703cc50c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-09T13:20:40Z",
+      "side": 1,
+      "message": "Thanks, this description makes sense now, but the difference is still quite subtle. I hope this doesn\u0027t cause too much confusion with users, because I don\u0027t look forward to having to try to explain this to people in an understandable way.\n\nOnce we\u0027ve wrapped up the implementation, we should consider trying to write some sort of reference for who gets emails on which actions. Maybe some set of tables where the rows are actions, the columns are people, and a separate table for WIP changes.",
+      "revId": "b36a5659c99cc43eb78101108e984c759ba7230f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

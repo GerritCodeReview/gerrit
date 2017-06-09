@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1496997162 +0200\nnonce AH5c86CY9PuSufweChCmqMfa4HHDXxOGPZOhv9f/pDSi9G4GhvGlqmxVjEcYj0M92pagxOk+zpCb\n\n0000000000000000000000000000000000000000 d704facd596f4367397c11d6a5e75bf362b39c24 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZOl0qAAoJEFG1/Zeg0O9RiIgIALKkHH7jKgo074Ob/NC9nniQ\nDdvhrfQRGVEaJidff5fbqdG4wdK09jKhOfHM9yRbviy8ooNCPrvS9KWOp2TSqnA8\nq3YSEiD45bn/yi68hFFLn0jAqt/sMpnN2S/v2TqK7DVM+/xOfaKxlJDfgbCHUbsj\nQPXnYU2zzEV7eLZn9qr21dJmxebtBB80LEZyU++hYSzoouL8Jqp/TLGwOr/m7fud\ni2gntsdz9S+ySoNHDsKDQu6sr5PD0qesrRW1aMHwKArETNa/MdBJ6saeWOjOzRma\nR5FIE3pNG+M61zs8NVz37LVDqJA9XctYBX/z+PS+4ZL/j/96SOMMS5iFyopU0U4\u003d\n\u003dzcix\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c10fae9f_4754b0c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-09T09:15:03Z",
+      "side": 1,
+      "message": "\u0027will not perform reindexing for the updated accounts\u0027 or \u0027will not reindex updated accounts\u0027?",
+      "range": {
+        "startLine": 86,
+        "startChar": 25,
+        "endLine": 86,
+        "endChar": 53
+      },
+      "revId": "d704facd596f4367397c11d6a5e75bf362b39c24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1168968_74729ed2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-09T09:15:03Z",
+      "side": 1,
+      "message": "This is contradictory to what was stated above.",
+      "range": {
+        "startLine": 92,
+        "startChar": 54,
+        "endLine": 92,
+        "endChar": 87
+      },
+      "revId": "d704facd596f4367397c11d6a5e75bf362b39c24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

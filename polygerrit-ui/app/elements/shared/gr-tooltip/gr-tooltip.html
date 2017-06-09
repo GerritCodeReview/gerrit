@@ -47,7 +47,11 @@ limitations under the License.
         width: 0;
       }
     </style>
-    <div class="tooltip">
+    <div
+        class="tooltip"
+        role="tooltip"
+        aria-live="assertive"
+        aria-label$="[[text]]">
       [[text]]
       <i class="arrow"></i>
     </div>

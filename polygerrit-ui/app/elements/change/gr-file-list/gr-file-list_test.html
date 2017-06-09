@@ -331,9 +331,7 @@ limitations under the License.
         const showStub = sandbox.stub(page, 'show');
         assert.equal(element.$.fileCursor.index, 2);
         assert.equal(element.selectedIndex, 2);
-        MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
-        assert(showStub.lastCall.calledWith('/c/42/2/myfile.txt'),
-            'Should navigate to /c/42/2/myfile.txt');
+
         // k with a modifier should not move the cursor.
         MockInteractions.pressAndReleaseKeyOn(element, 75, 'shift', 'k');
         assert.equal(element.$.fileCursor.index, 2);
@@ -384,7 +382,7 @@ limitations under the License.
         }
       });
 
-      suite('_handleEnterKey', () => {
+      suite('_handleOKey', () => {
         let interact;
 
         setup(() => {
@@ -402,7 +400,7 @@ limitations under the License.
 
             const e = new CustomEvent('fake-keyboard-event', opt_payload);
             sinon.stub(e, 'preventDefault');
-            element._handleEnterKey(e);
+            element._handleOKey(e);
             assert.isTrue(e.preventDefault.called);
             const result = {};
             if (openCursorStub.called) {
@@ -439,14 +437,6 @@ limitations under the License.
           assert.deepEqual(interact(), {opened_selected: true});
           element._userPrefs.expand_inline_diffs = true;
           assert.deepEqual(interact(), {expanded: true});
-        });
-
-        test('noop when anchor focused', () => {
-          const e = new CustomEvent('fake-keyboard-event',
-              {detail: {keyboardEvent: {target: document.createElement('a')}}});
-          sinon.stub(e, 'preventDefault');
-          element._handleEnterKey(e);
-          assert.isFalse(e.preventDefault.called);
         });
       });
     });
@@ -1242,4 +1232,6 @@ limitations under the License.
       assert.isFalse(element._displayLine);
     });
   });
+
+  a11ySuite('basic');
 </script>

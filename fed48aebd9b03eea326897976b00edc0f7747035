@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcdd0d77_c7ef286d",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-09T13:27:07Z",
+      "side": 1,
+      "message": "Nit: NotifyType.values()",
+      "range": {
+        "startLine": 376,
+        "startChar": 32,
+        "endLine": 376,
+        "endChar": 63
+      },
+      "revId": "fed48aebd9b03eea326897976b00edc0f7747035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d4298ce_a86d55b7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/DeleteReviewerSenderIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-09T13:27:07Z",
+      "side": 1,
+      "message": "Huh, is \"super::stageReviewableChange\" not valid syntax?",
+      "revId": "fed48aebd9b03eea326897976b00edc0f7747035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

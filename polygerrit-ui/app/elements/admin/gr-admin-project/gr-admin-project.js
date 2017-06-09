@@ -58,6 +58,11 @@
         type: Boolean,
         value: true,
       },
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+        observer: '_loggedInChanged',
+      },
       _projectConfig: Object,
       _readOnly: {
         type: Boolean,
@@ -75,12 +80,23 @@
           return Object.values(SUBMIT_TYPES);
         },
       },
+      _schemes: {
+        type: Array,
+        value() { return []; },
+        computed: '_computeSchemes(_schemesObj)',
+        observer: '_schemesChanged',
+      },
+      _selectedCommand: {
+        type: String,
+        value: 'Clone',
+      },
+      _selectedScheme: String,
+      _schemesObj: Object,
     },
 
     observers: [
       '_handleConfigChanged(_projectConfig.*)',
     ],
-
 
     attached() {
       this._loadProject();
@@ -109,7 +125,29 @@
             this._loading = false;
           }));
 
+      promises.push(this.$.restAPI.getConfig().then(config => {
+        this._schemesObj = config.download.schemes;
+      }));
+
       return Promise.all(promises);
+    },
+
+    _computeLoadingClass(loading) {
+      return loading ? 'loading' : '';
+    },
+
+    _computeDownloadClass(schemes) {
+      return !schemes || !schemes.length ? 'hideDownload' : '';
+    },
+
+    _loggedInChanged(_loggedIn) {
+      if (!_loggedIn) { return; }
+      this.$.restAPI.getPreferences().then(prefs => {
+        if (prefs.download_scheme) {
+          // Note (issue 5180): normalize the download scheme with lower-case.
+          this._selectedScheme = prefs.download_scheme.toLowerCase();
+        }
+      });
     },
 
     _formatBooleanSelect(item) {
@@ -173,6 +211,35 @@
 
     _computeHeaderClass(configChanged) {
       return configChanged ? 'edited' : '';
+    },
+
+    _computeSchemes(schemesObj) {
+      return Object.keys(schemesObj);
+    },
+
+    _schemesChanged(schemes) {
+      if (schemes.length === 0) { return; }
+      if (!schemes.includes(this._selectedScheme)) {
+        this._selectedScheme = schemes.sort()[0];
+      }
+    },
+
+    _computeCommands(project, schemesObj, _selectedScheme) {
+      const commands = [];
+      let commandObj;
+      if (schemesObj.hasOwnProperty(_selectedScheme)) {
+        commandObj = schemesObj[_selectedScheme].clone_commands;
+      }
+      for (const title in commandObj) {
+        if (!commandObj.hasOwnProperty(title)) { continue; }
+        commands.push({
+          title,
+          command: commandObj[title]
+              .replace('${project}', project)
+              .replace('${project-base-name}', project),
+        });
+      }
+      return commands;
     },
   });
 })();

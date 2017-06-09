@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fab073e4_6f3688ef",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PageLinks.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-09T12:29:48Z",
+      "side": 1,
+      "message": "On server side we always define these parameters in the opposite order, first project than change ID. I think this order makes more sense, because we first go to the project and then find the change in it. But I see how it\u0027s a lot of work to change all these client-side methods now :(",
+      "range": {
+        "startLine": 56,
+        "startChar": 42,
+        "endLine": 56,
+        "endChar": 88
+      },
+      "revId": "d9a40a4c4894eea919916b0ee120cd89b241b7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0867e784_cdecd509",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-09T12:29:48Z",
+      "side": 1,
+      "message": "nit: keep the usage of \u0027final\u0027 consistent, either add it here or remove it from the other args (same below)",
+      "revId": "d9a40a4c4894eea919916b0ee120cd89b241b7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a001f4_6b7e87b2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeIdParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-09T12:29:48Z",
+      "side": 1,
+      "message": "parsed?",
+      "range": {
+        "startLine": 38,
+        "startChar": 69,
+        "endLine": 38,
+        "endChar": 75
+      },
+      "revId": "d9a40a4c4894eea919916b0ee120cd89b241b7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bb80a44_a7c8a277",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeIdParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-09T12:29:48Z",
+      "side": 1,
+      "message": "Should this be the other way around:\n1. Try parsing /c/project/+/numericChangeId where token is project/+/numericChangeId\n2. Try parsing /c/numericChangeId/path where token is numericChangeId/path\n\nOtherwise you may misinterpret a project named \u0027123\u0027 as a change ID if you have /c/123/+/567\n\nYou can even have a project that is named \u0027123,edit\u0027 ;-)\n\nMaybe add tests for those cases?",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 78
+      },
+      "revId": "d9a40a4c4894eea919916b0ee120cd89b241b7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebcb0a73_adf91a82",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeIdParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-09T12:29:48Z",
+      "side": 1,
+      "message": "maybeChangeId",
+      "range": {
+        "startLine": 72,
+        "startChar": 11,
+        "endLine": 72,
+        "endChar": 24
+      },
+      "revId": "d9a40a4c4894eea919916b0ee120cd89b241b7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31ccadd_8ab8d9ac",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-09T12:29:48Z",
+      "side": 1,
+      "message": "I think this should be removed. If I understand this correctly replyCommentName is a unique ID to store local comments for a change. For change X it should be always the same string no matter if the change was accessed with numeric change ID only or with project + numeric change ID in the URL.",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 5
+      },
+      "revId": "d9a40a4c4894eea919916b0ee120cd89b241b7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4882276a_b3f3b5f7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-09T12:29:48Z",
+      "side": 1,
+      "message": "Use Project.NameKey.asStringOrNull(project)",
+      "range": {
+        "startLine": 171,
+        "startChar": 37,
+        "endLine": 171,
+        "endChar": 75
+      },
+      "revId": "d9a40a4c4894eea919916b0ee120cd89b241b7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2b8dd1d_320be46d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfoCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-09T12:29:48Z",
+      "side": 1,
+      "message": "Should this TODO stay?",
+      "revId": "d9a40a4c4894eea919916b0ee120cd89b241b7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d3c216a_244c37a2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-09T12:29:48Z",
+      "side": 1,
+      "message": "Should this TODO stay?",
+      "revId": "d9a40a4c4894eea919916b0ee120cd89b241b7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -26,7 +26,7 @@
     SEND_DIFF_DRAFT: 'sendDiffDraft',
   };
 
-  const auth = new GrGerritAuth();
+  let auth = null;
 
   Polymer({
     is: 'gr-rest-api-interface',
@@ -61,6 +61,10 @@
         type: Object,
         value: {},  // Intentional to share the object across instances.
       },
+    },
+
+    created() {
+      auth = window.USE_GAPI_AUTH ? new GrGapiAuth() : new GrGerritAuth();
     },
 
     fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params) {

@@ -94,6 +94,30 @@
       "revId": "afc7e587900027f08e76c323039d5d0106964783",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "353a6118_7fc0b3c8",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-06-09T17:29:28Z",
+      "side": 1,
+      "message": "We can always use the non-debug build and explicitly install a report handler : https://github.com/Polymer/polymer-resin/blob/master/polymer-resin.js#L74-L87\n\nYou get the default report handler if you don\u0027t specify one AND goog.DEBUG is true.\n\nThe report handlers also allow report aggregation a la\nhttps://github.com/Polymer/polymer-resin/blob/master/getting-started.md#migrating-an-app-or-element-to-work-with-polymer-resin",
+      "parentUuid": "22fdd825_900f6121",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "afc7e587900027f08e76c323039d5d0106964783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
